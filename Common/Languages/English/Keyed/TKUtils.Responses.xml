@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<LanguageData>
+  <TKUtils.Responses.Format>@{VIEWER} → {MESSAGE}</TKUtils.Responses.Format>
+
+  <TKUtils.Responses.NoResearch>The research "{RESEARCH}" does not exist!</TKUtils.Responses.NoResearch>
+  <TKUtils.Responses.NoResearchQuery>You can look up the status of research projects using this command.  Simply type !research {name}</TKUtils.Responses.NoResearchQuery>
+  <TKUtils.Responses.NoFactions>No visible factions could be found!</TKUtils.Responses.NoFactions>
+  <TKUtils.Responses.NoPawn>You are not in this colony!</TKUtils.Responses.NoPawn>
+  <TKUtils.Responses.NoCapacity>The pawn capacity "{CAPACITY}" does not exist!</TKUtils.Responses.NoCapacity>
+  <TKUtils.Responses.RaceCapacityError>The race {RACE} cannot have capacity {CAPACITY}!</TKUtils.Responses.RaceCapacityError>
+  <TKUtils.Responses.CapacityAffectedBy>Affected by</TKUtils.Responses.CapacityAffectedBy>
+  <TKUtils.Responses.CapacityUnaffected>Healthy</TKUtils.Responses.CapacityUnaffected>
+  <TKUtils.Responses.UnsupportedRace>The race {RACE} is not supported by this command!</TKUtils.Responses.UnsupportedRace>
+  <TKUtils.Responses.NoNeeds>This pawn does not have any needs.</TKUtils.Responses.NoNeeds>
+  <TKUtils.Responses.NoWork>This pawn cannot do work.</TKUtils.Responses.NoWork>
+  <TKUtils.Responses.GearWord>Gear</TKUtils.Responses.GearWord>
+  <TKUtils.Responses.ArmorWord>Armor</TKUtils.Responses.ArmorWord>
+  <TKUtils.Responses.EquipmentWord>Equipment</TKUtils.Responses.EquipmentWord>
+  <TKUtils.Responses.ApparelWord>Apparel</TKUtils.Responses.ApparelWord>
+  <TKUtils.Responses.BodyWord>Body</TKUtils.Responses.BodyWord>
+  <TKUtils.Responses.BleedingWord>Bleeding</TKUtils.Responses.BleedingWord>
+  <TKUtils.Responses.NoTrait>You can add a trait to your pawn using this command.  Simply type {SYNTAX}</TKUtils.Responses.NoTrait>
+  <TKUtils.Responses.TraitLimitReached>Your pawn cannot have more than {LIMIT} traits!</TKUtils.Responses.TraitLimitReached>
+  <TKUtils.Responses.NoTraitFound>The trait {TRAIT} could not be found!</TKUtils.Responses.NoTraitFound>
+  <TKUtils.Responses.TraitConflict>The trait {TRAIT} conflicts with trait {CONFLICT}!</TKUtils.Responses.TraitConflict>
+  <TKUtils.Responses.TraitAdded>Added trait {TRAIT} to pawn.</TKUtils.Responses.TraitAdded>
+  <TKUtils.Responses.HasTrait>You already have trait {TRAIT}, or a similar one of this type.</TKUtils.Responses.HasTrait>
+
+  <TKUtils.Letters.MassRevival.Title>Mass Revival</TKUtils.Letters.MassRevival.Title>
+  <TKUtils.Letters.MassRevival.Description>Previously deceased pawns have been granted another chance at life.  They may be experiencing side effects.</TKUtils.Letters.MassRevival.Description>
+  <TKUtils.Letters.Trait.Title>Trait</TKUtils.Letters.Trait.Title>
+  <TKUtils.Letters.Trait.Description>{VIEWER} purchased trait {TRAIT}</TKUtils.Letters.Trait.Description>
+</LanguageData>

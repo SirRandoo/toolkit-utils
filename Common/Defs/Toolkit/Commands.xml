@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+  <!-- Shortcuts -->
+  <TwitchToolkit.Command>
+    <defName>ReviveAllShortcut</defName>
+    <label>revive all</label>
+    <command>reviveall</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+  </TwitchToolkit.Command>
+
+  <TwitchToolkit.Command>
+    <defName>ReviveMeShortcut</defName>
+    <label>revive me</label>
+    <command>reviveme</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+  </TwitchToolkit.Command>
+
+  <TwitchToolkit.Command>
+    <defName>HealMeShortcut</defName>
+    <label>heal me</label>
+    <command>healme</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+  </TwitchToolkit.Command>
+
+  <!-- Pawn Commands -->
+  <TwitchToolkit.Command>
+    <defName>MyPawnHealth</defName>
+    <label>viewer health</label>
+    <command>mypawnhealth</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnHealthCommand</commandDriver>
+  </TwitchToolkit.Command>
+
+  <TwitchToolkit.Command>
+    <defName>MyPawnNeeds</defName>
+    <label>viewer needs</label>
+    <command>mypawnneeds</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnNeedsCommand</commandDriver>
+  </TwitchToolkit.Command>
+
+  <TwitchToolkit.Command>
+    <defName>MyPawnGear</defName>
+    <label>viewer gear</label>
+    <command>mypawngear</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnGearCommand</commandDriver>
+  </TwitchToolkit.Command>
+
+  <TwitchToolkit.Command>
+    <defName>MyPawnBody</defName>
+    <label>viewer body</label>
+    <command>mypawnbody</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnBodyCommand</commandDriver>
+  </TwitchToolkit.Command>
+
+  <TwitchToolkit.Command>
+    <defName>MyPawnWork</defName>
+    <label>viewer work</label>
+    <command>mypawnwork</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnWorkCommand</commandDriver>
+  </TwitchToolkit.Command>
+
+  <!-- Colony Commands -->
+  <TwitchToolkit.Command>
+    <defName>Factions</defName>
+    <label>factions</label>
+    <command>factions</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.FactionsCommand</commandDriver>
+  </TwitchToolkit.Command>
+
+  <TwitchToolkit.Command>
+    <defName>Research</defName>
+    <label>research</label>
+    <command>research</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.ResearchCommand</commandDriver>
+  </TwitchToolkit.Command>
+</Defs>
