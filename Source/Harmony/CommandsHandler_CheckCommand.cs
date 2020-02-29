@@ -110,7 +110,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         Channel = msg.Channel,
                         Cmd = msg.Cmd,
                         Host = msg.Host,
-                        Message = $"!{command.command}" + message.Substring(command.command.Length).Trim(),
+                        Message = $"!{command.command}" + " " + string.Join(" ", segments.Skip(1)),
                         Parameters = msg.Parameters,
                         User = msg.User,
                         Whisper = msg.Whisper
@@ -132,7 +132,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     Channel = msg.Channel,
                     Cmd = msg.Cmd,
                     Host = msg.Host,
-                    Message = $"!" + segments.Take(1).FirstOrDefault().ToLowerInvariant() + " " + string.Join(",", segments.Skip(1)),
+                    Message = $"!" + segments.Take(1).FirstOrDefault().ToLowerInvariant() + " " + string.Join(" ", segments.Skip(1)),
                     Parameters = msg.Parameters,
                     User = msg.User,
                     Whisper = msg.Whisper
