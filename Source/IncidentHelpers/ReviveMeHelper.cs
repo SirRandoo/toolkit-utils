@@ -2,7 +2,7 @@
 
 using RimWorld;
 
-using SirRandoo.ToolkitUtils.Commands;
+using SirRandoo.ToolkitUtils.Utils;
 
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;

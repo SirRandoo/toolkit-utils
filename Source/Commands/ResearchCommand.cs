@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 
+using SirRandoo.ToolkitUtils.Utils;
+
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 

@@ -3,6 +3,8 @@ using System.Text;
 
 using RimWorld;
 
+using SirRandoo.ToolkitUtils.Utils;
+
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 
@@ -35,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             var builder = new StringBuilder("TKUtils.Responses.GearWord".Translate());
             builder.Append(":");
 
-            if(Settings.TempInGear)
+            if(TKSettings.TempInGear)
             {
                 var tempMin = StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMin, applyPostProcess: true);
                 var tempMax = StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMax, applyPostProcess: true);
@@ -45,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 builder.Append($"Max: {GenText.ToStringTemperature(tempMax, format: "F1")}");
             }
 
-            if(Settings.ShowArmor)
+            if(TKSettings.ShowArmor)
             {
                 builder.Append($" | {"TKUtils.Responses.ArmorWord".Translate()}: ");
                 var sharp = Mathf.Round(CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp) * 100f);
@@ -57,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 if(heat > 0) builder.Append($"🔥 {heat}%");
             }
 
-            if(Settings.ShowWeapon)
+            if(TKSettings.ShowWeapon)
             {
                 var e = pawn.equipment;
                 if(e != null && e.AllEquipmentListForReading?.Count > 0)
@@ -72,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            if(Settings.ShowApparel)
+            if(TKSettings.ShowApparel)
             {
                 var a = pawn.apparel;
                 if(a != null && a.WornApparelCount > 0)

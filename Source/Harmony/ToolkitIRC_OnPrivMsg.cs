@@ -6,6 +6,7 @@ using TwitchToolkit.IRC;
 using TwitchToolkit.PawnQueue;
 
 using Verse;
+using SirRandoo.ToolkitUtils;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
@@ -15,7 +16,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [HarmonyPostfix]
         public static void OnPrivMsg(IRCMessage message)
         {
-            if(!Settings.Linker) return;
+            if(!TKSettings.Linker) return;
 
             var component = Current.Game.GetComponent<GameComponentPawns>();
 

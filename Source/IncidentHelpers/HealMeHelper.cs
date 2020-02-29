@@ -3,7 +3,7 @@ using System.Linq;
 
 using RimWorld;
 
-using SirRandoo.ToolkitUtils.Commands;
+using SirRandoo.ToolkitUtils.Utils;
 
 using TwitchToolkit;
 using TwitchToolkit.Store;

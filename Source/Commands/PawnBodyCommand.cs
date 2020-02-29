@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Text;
 
+using SirRandoo.ToolkitUtils.Utils;
+
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 
@@ -47,15 +49,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                         var count = group.Where(i => i.Bleeding).Count();
                         var total = group.Count();
 
-                        t += group.First().LabelCap;
-
                         if(total != 1) t += $" x{total.ToString()}";
-                        if(count > 0) t += $" x{"TKUtils.Responses.BleedingWord".Translate()}{count}";
+                        if(count > 0) t += $" {"TKUtils.Responses.BleedingWord".Translate()}x{count}";
 
-                        chunks.Add(t);
+                        chunks.Add(group.First().LabelCap);
                     }
 
-                    segments.Add(string.Join(", ", chunks));
+                    segments.Add(t + string.Join(", ", chunks));
                 }
 
                 SendMessage(

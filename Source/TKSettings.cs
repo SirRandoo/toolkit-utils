@@ -4,9 +4,12 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    public class Settings : ModSettings
+    public class TKSettings : ModSettings
     {
+        public static bool Commands = true;
         public static bool Linker = true;
+        public static string Prefix = "!";
+        public static bool RichText = true;
         public static bool ShowApparel = false;
         public static bool ShowArmor = true;
         public static bool ShowSurgeries = true;
@@ -22,15 +25,32 @@ namespace SirRandoo.ToolkitUtils
 
             listing.BeginScrollView(inRect, ref ScrollPos, ref view);
 
+            listing.Label("TKUtils.Groups.CommandTweaks.Label".Translate());
+            listing.GapLine();
+
+            listing.CheckboxLabeled("TKUtils.CommandTweaks.RichText.Label".Translate(), ref RichText);
+            listing.CheckboxLabeled("TKUtils.CommandTweaks.Label".Translate(), ref Commands);
+
+            if(Commands)
+            {
+                Prefix = listing.TextEntryLabeled("TKUtils.CommandTweaks.CommandPrefix.Label".Translate(), Prefix);
+
+                if(Prefix.StartsWith(" ") || Prefix.StartsWith("/") || Prefix.StartsWith("."))
+                {
+                    Prefix = "!";
+                    Log.Message($"WARN {TKUtils.ID} :: User attempted to use a reserved character in their command prefix!  Reseting...");
+                }
+            }
+            listing.Gap(24);
+
             listing.Label("TKUtils.Groups.PawnCommands.Label".Translate());
             listing.GapLine();
 
-            listing.CheckboxLabeled("TKUtils.PawnCommands.Health.ShowSurgeries.Label".Translate(), ref ShowSurgeries);
+            listing.CheckboxLabeled("TKUtils.PawnCommands.Body.TempInGear.Label".Translate(), ref TempInGear);
+            listing.CheckboxLabeled("TKUtils.PawnCommands.Gear.ShowApparel.Label".Translate(), ref ShowApparel);
             listing.CheckboxLabeled("TKUtils.PawnCommands.Gear.ShowArmor.Label".Translate(), ref ShowArmor);
             listing.CheckboxLabeled("TKUtils.PawnCommands.Gear.ShowWeapon.Label".Translate(), ref ShowWeapon);
-            listing.CheckboxLabeled("TKUtils.PawnCommands.Gear.ShowApparel.Label".Translate(), ref ShowApparel);
-            listing.CheckboxLabeled("TKUtils.PawnCommands.Body.TempInGear.Label".Translate(), ref TempInGear);
-            listing.CheckboxLabeled("TKUtils.PawnCommands.Relations.OnlyViewers.Label".Translate(), ref ViewerRelations);
+            listing.CheckboxLabeled("TKUtils.PawnCommands.Health.ShowSurgeries.Label".Translate(), ref ShowSurgeries);
             listing.Gap(24);
 
             listing.Label("TKUtils.Groups.Experimental.Label".Translate());
@@ -43,11 +63,14 @@ namespace SirRandoo.ToolkitUtils
 
         public override void ExposeData()
         {
+            Scribe_Values.Look(ref Prefix, "prefix", "!");
+            Scribe_Values.Look(ref Commands, "commands", true);
+            Scribe_Values.Look(ref RichText, "richText", true);
+
             Scribe_Values.Look(ref ShowSurgeries, "surgeries", true);
             Scribe_Values.Look(ref ShowArmor, "armor", true);
             Scribe_Values.Look(ref ShowApparel, "apparel", false);
             Scribe_Values.Look(ref TempInGear, "tempInGear", false);
-            Scribe_Values.Look(ref ViewerRelations, "viewerRelations", true);
 
             Scribe_Values.Look(ref Linker, "linker", true);
         }

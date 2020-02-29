@@ -4,6 +4,8 @@ using System.Text;
 
 using RimWorld;
 
+using SirRandoo.ToolkitUtils.Utils;
+
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 
@@ -225,7 +227,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if(source.Any()) builder.Append(string.Join(", ", segments));
 
-            if(Settings.ShowSurgeries)
+            if(TKSettings.ShowSurgeries)
             {
                 var surgeries = pawn.health.surgeryBills;
 

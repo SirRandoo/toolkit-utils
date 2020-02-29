@@ -1,25 +1,30 @@
 ﻿using System.Linq;
 
+using SirRandoo.ToolkitUtils.Utils;
+
 using TwitchToolkit;
 using TwitchToolkit.IRC;
-
-using UnityEngine;
 
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    public class PawnNeedsCommand : CommandBase
+    public class FactionsCommand : CommandBase
     {
         public override void RunCommand(IRCMessage message)
         {
             if(!CommandsHandler.AllowCommand(message)) return;
 
-            var pawn = GetPawn(message.User);
+            var filteredFactions = Current.Game.World.factionManager.AllFactionsVisible
+                .Where(f => !Current.Game.World.factionManager.OfAncients.Equals(f))
+                .Where(f => !Current.Game.World.factionManager.OfMechanoids.Equals(f))
+                .Where(f => !Current.Game.World.factionManager.OfInsects.Equals(f))
+                .Where(f => !Current.Game.World.factionManager.OfAncientsHostile.Equals(f))
+                .Where(f => !Current.Game.World.factionManager.OfPlayer.Equals(f));
 
-            if(pawn.needs != null)
+            if(filteredFactions.Any())
             {
-                var segments = pawn.needs.AllNeeds.Select(n => $"{n.LabelCap}: {Mathf.Round(Mathf.Clamp(n.CurLevelPercentage * 100f, 0f, 100f))}%").ToList();
+                var segments = filteredFactions.Select(f => $"{f.GetCallLabel()}: {f.PlayerGoodwill.ToStringWithSign()}");
 
                 SendMessage(
                     "TKUtils.Responses.Format".Translate(
@@ -34,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 SendMessage(
                     "TKUtils.Responses.Format".Translate(
                         NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named("TKUtils.Responses.NoNeeds".Translate(), "MESSAGE")
+                        NamedArgumentUtility.Named("TKUtils.Responses.NoFactions".Translate(), "MESSAGE")
                     ),
                     message
                 );

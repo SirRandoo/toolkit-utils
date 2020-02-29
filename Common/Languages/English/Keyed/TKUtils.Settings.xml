@@ -2,8 +2,14 @@
 
 <LanguageData>
   <!-- Groups -->
-  <TKUtils.Groups.PawnCommands.Label>Pawn Commands</TKUtils.Groups.PawnCommands.Label>
+  <TKUtils.Groups.CommandTweaks.Label>Command Tweaks</TKUtils.Groups.CommandTweaks.Label>
   <TKUtils.Groups.Experimental.Label>Experimental</TKUtils.Groups.Experimental.Label>
+  <TKUtils.Groups.PawnCommands.Label>Pawn Commands</TKUtils.Groups.PawnCommands.Label>
+
+  <!-- Command Tweaks -->
+  <TKUtils.CommandTweaks.Label>Override Toolkit's command handler.</TKUtils.CommandTweaks.Label>
+  <TKUtils.CommandTweaks.CommandPrefix.Label>Custom command prefix</TKUtils.CommandTweaks.CommandPrefix.Label>
+  <TKUtils.CommandTweaks.RichText.Label>Strip HTML tags from some content, like colored traits.</TKUtils.CommandTweaks.RichText.Label>
 
   <!-- Pawn Commands -->
   <TKUtils.PawnCommands.Health.ShowSurgeries.Label>Include queued surgeries in the health command.</TKUtils.PawnCommands.Health.ShowSurgeries.Label>
@@ -11,7 +17,6 @@
   <TKUtils.PawnCommands.Gear.ShowWeapon.Label>Include weapon in the gear command.</TKUtils.PawnCommands.Gear.ShowWeapon.Label>
   <TKUtils.PawnCommands.Gear.ShowApparel.Label>Include apparel in the gear command.</TKUtils.PawnCommands.Gear.ShowApparel.Label>
   <TKUtils.PawnCommands.Body.TempInGear.Label>Include temperature tolerances in the gear command instead.</TKUtils.PawnCommands.Body.TempInGear.Label>
-  <TKUtils.PawnCommands.Relations.OnlyViewers.Label>Only show viewer relationships in the relationship command.</TKUtils.PawnCommands.Relations.OnlyViewers.Label>
 
   <!-- Experimental -->
   <TKUtils.Experimental.Linker.Label>Periodically ensure viewers aren't disconnected from their pawns.</TKUtils.Experimental.Linker.Label>

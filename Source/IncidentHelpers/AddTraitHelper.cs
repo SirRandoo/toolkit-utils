@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 
-using HtmlAgilityPack;
-
 using RimWorld;
 
-using SirRandoo.ToolkitUtils.Commands;
+using SirRandoo.ToolkitUtils.Utils;
 
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -202,12 +200,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if(input.Equals(label)) return true;
 
-            if(trait.label.Contains('<') || trait.label.Contains('>'))
+            if(TKSettings.RichText && RichTextUnparser.IsRichText(label) && RichTextUnparser.StripTags(input).Equals(input))
             {
-                var doc = new HtmlDocument();
-                doc.LoadHtml(trait.label);
-
-                if(doc.DocumentNode.InnerText.Equals(input)) return true;
+                return true;
             }
 
             return false;

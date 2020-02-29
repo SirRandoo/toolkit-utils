@@ -8,7 +8,7 @@ using TwitchToolkit.PawnQueue;
 
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Utils
 {
     public class CommandBase : CommandDriver
     {
