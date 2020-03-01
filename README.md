@@ -45,3 +45,6 @@ A collection of commands for TwitchToolkit.
 - Pawn Relinker
   - Ensures active viewer's pawns are linked to them.
   - *This feature is considered experimental, and may be removed at any moment.*
+- !installedmods
+  - The command now pulls from a pregenerated cache at start up.
+  - Can be configured to include mod versions
