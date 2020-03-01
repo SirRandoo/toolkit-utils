@@ -15,6 +15,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool ShowSurgeries = true;
         public static bool ShowWeapon = true;
         public static bool TempInGear = false;
+        public static bool VersionedModList = false;
         public static bool ViewerRelations = true;
         private static Vector2 ScrollPos = Vector2.zero;
 
@@ -28,6 +29,7 @@ namespace SirRandoo.ToolkitUtils
             listing.Label("TKUtils.Groups.CommandTweaks.Label".Translate());
             listing.GapLine();
 
+            listing.CheckboxLabeled("TKUtils.CommandTweaks.VersionedModList.Label".Translate(), ref VersionedModList);
             listing.CheckboxLabeled("TKUtils.CommandTweaks.RichText.Label".Translate(), ref RichText);
             listing.CheckboxLabeled("TKUtils.CommandTweaks.Label".Translate(), ref Commands);
 

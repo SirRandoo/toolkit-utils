@@ -26,6 +26,8 @@
   <TKUtils.Responses.TraitConflict>The trait {TRAIT} conflicts with trait {CONFLICT}!</TKUtils.Responses.TraitConflict>
   <TKUtils.Responses.TraitAdded>Added trait {TRAIT} to pawn.</TKUtils.Responses.TraitAdded>
   <TKUtils.Responses.HasTrait>You already have trait {TRAIT}, or a similar one of this type.</TKUtils.Responses.HasTrait>
+  <TKUtils.Responses.ModListFormat>[Toolkit v{VERSION}] Mods: {MODS}</TKUtils.Responses.ModListFormat>
+  <TKUtils.Responses.ModListedFormat>{NAME} (v{VERSION})</TKUtils.Responses.ModListedFormat>
 
   <TKUtils.Letters.MassRevival.Title>Mass Revival</TKUtils.Letters.MassRevival.Title>
   <TKUtils.Letters.MassRevival.Description>Previously deceased pawns have been granted another chance at life.  They may be experiencing side effects.</TKUtils.Letters.MassRevival.Description>

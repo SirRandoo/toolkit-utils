@@ -10,6 +10,7 @@
   <TKUtils.CommandTweaks.Label>Override Toolkit's command handler.</TKUtils.CommandTweaks.Label>
   <TKUtils.CommandTweaks.CommandPrefix.Label>Custom command prefix</TKUtils.CommandTweaks.CommandPrefix.Label>
   <TKUtils.CommandTweaks.RichText.Label>Strip HTML tags from some content, like colored traits.</TKUtils.CommandTweaks.RichText.Label>
+  <TKUtils.CommandTweaks.VersionedModList.Label>Include mod versions in the installed mods command.</TKUtils.CommandTweaks.VersionedModList.Label>
 
   <!-- Pawn Commands -->
   <TKUtils.PawnCommands.Health.ShowSurgeries.Label>Include queued surgeries in the health command.</TKUtils.PawnCommands.Health.ShowSurgeries.Label>

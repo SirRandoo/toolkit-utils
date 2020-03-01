@@ -110,7 +110,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         Channel = msg.Channel,
                         Cmd = msg.Cmd,
                         Host = msg.Host,
-                        Message = $"!{command.command}" + " " + string.Join(" ", segments.Skip(1)),
+                        Message = ($"!{command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim(),
                         Parameters = msg.Parameters,
                         User = msg.User,
                         Whisper = msg.Whisper
@@ -132,13 +132,13 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     Channel = msg.Channel,
                     Cmd = msg.Cmd,
                     Host = msg.Host,
-                    Message = $"!" + segments.Take(1).FirstOrDefault().ToLowerInvariant() + " " + string.Join(" ", segments.Skip(1)),
+                    Message = ($"!" + segments.Take(1).FirstOrDefault().ToLowerInvariant() + " " + string.Join(" ", segments.Skip(1))).Trim(),
                     Parameters = msg.Parameters,
                     User = msg.User,
                     Whisper = msg.Whisper
                 };
 
-                Log($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands");
+                Log($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check");
 
                 foreach(var tInterface in twitchInterfaces)
                 {

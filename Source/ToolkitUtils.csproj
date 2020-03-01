@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\FactionsCommand.cs" />
+    <Compile Include="Commands\InstalledModsDriver.cs" />
     <Compile Include="Commands\PawnBodyCommand.cs" />
     <Compile Include="Commands\PawnGearCommand.cs" />
     <Compile Include="Commands\PawnHealthCommand.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Harmony\ViewerUpdater_ParseCommand.cs" />
     <Compile Include="IncidentHelpers\AddTraitHelper.cs" />
     <Compile Include="IncidentHelpers\HealMeHelper.cs" />
+    <Compile Include="IncidentHelpers\MilitaryAidHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveAllHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveMeHelper.cs" />
     <Compile Include="TKSettings.cs" />
@@ -112,6 +114,12 @@
     </Content>
     <Content Include="..\Common\Patches\IncidentHelpers\AddTraitPatch.xml">
       <Link>Patches\AddTraitPatch.xml</Link>
+    </Content>
+    <Content Include="..\Common\Patches\IncidentHelpers\MilitaryAidPatch.xml">
+      <Link>Patches\MilitaryAidPatch.xml</Link>
+    </Content>
+    <Content Include="..\Common\Patches\InstalledModsPatch.xml">
+      <Link>Patches\InstalledModsPatch.xml</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
