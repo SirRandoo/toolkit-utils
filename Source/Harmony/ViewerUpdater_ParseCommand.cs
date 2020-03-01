@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using HarmonyLib;
 
@@ -15,34 +16,41 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [HarmonyPostfix]
         public static void ParseCommand(IRCMessage msg)
         {
-            var badges = msg.Parameters
-                .Where(p => p.Key.Equals("badges"))
-                .FirstOrDefault();
-
-            if(badges.Key.Equals("badges") && !badges.Value.NullOrEmpty())
+            try
             {
-                var viewer = Viewers.GetViewer(msg.User);
-                var value = badges.Value;
+                var badges = msg.Parameters
+                    .Where(p => p.Key.Equals("badges"))
+                    .FirstOrDefault();
 
-                foreach(var type in value.Split(','))
+                if(badges.Key.Equals("badges") && !badges.Value.NullOrEmpty())
                 {
-                    var pair = type.Split('/');
-                    var badge = pair.FirstOrDefault();
-                    var version = pair.LastOrDefault();
+                    var viewer = Viewers.GetViewer(msg.User);
+                    var value = badges.Value;
 
-                    if(badge.Equals("vip"))
+                    foreach(var type in value.Split(','))
                     {
-                        viewer.vip = true;
-                    }
-                    else if(badge.Equals("founder"))
-                    {
-                        viewer.subscriber = true;
-                    }
-                    else if(badge.Equals("moderator") || badge.Equals("broadcaster") || badge.Equals("admin") || badge.Equals("staff") || badge.Equals("global_mod"))
-                    {
-                        viewer.mod = true;
+                        var pair = type.Split('/');
+                        var badge = pair.FirstOrDefault();
+                        var version = pair.LastOrDefault();
+
+                        if(badge.Equals("vip"))
+                        {
+                            viewer.vip = true;
+                        }
+                        else if(badge.Equals("founder"))
+                        {
+                            viewer.subscriber = true;
+                        }
+                        else if(badge.Equals("moderator") || badge.Equals("broadcaster") || badge.Equals("admin") || badge.Equals("staff") || badge.Equals("global_mod"))
+                        {
+                            viewer.mod = true;
+                        }
                     }
                 }
+            }
+            catch(Exception e)
+            {
+                Log.Error($"Founder patch failed with exception: {e.Message}\n{e.StackTrace}");
             }
         }
     }

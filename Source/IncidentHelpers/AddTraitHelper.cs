@@ -156,15 +156,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             Viewer.TakeViewerCoins(storeIncident.cost);
             Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-            CommandBase.SendMessage(
-                "TKUtils.Responses.Format".Translate(
-                    Viewer.username.Named("VIEWER"),
-                    "TKUtils.Responses.TraitAdded".Translate(
-                        trait.Label.Named("TRAIT")
-                    ).Named("MESSAGE")
-                ),
-                separateChannel
-            );
+            if(ToolkitSettings.PurchaseConfirmations)
+            {
+                CommandBase.SendMessage(
+                    "TKUtils.Responses.Format".Translate(
+                        Viewer.username.Named("VIEWER"),
+                        "TKUtils.Responses.TraitAdded".Translate(
+                            trait.Label.Named("TRAIT")
+                        ).Named("MESSAGE")
+                    ),
+                    separateChannel
+                );
+            }
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.Letters.Trait.Title".Translate(),
