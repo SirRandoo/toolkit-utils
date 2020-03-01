@@ -13,8 +13,8 @@
 
   <TwitchToolkit.Incidents.StoreIncidentVariables>
     <defName>ReviveMe</defName>
-    <label>revive</label>
-    <abbreviation>revive</abbreviation>
+    <label>reviveme</label>
+    <abbreviation>reviveme</abbreviation>
     <cost>2833</cost>
     <eventCap>2</eventCap>
     <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.ReviveMeHelper</incidentHelper>
@@ -23,8 +23,8 @@
 
   <TwitchToolkit.Incidents.StoreIncidentVariables>
     <defName>HealMe</defName>
-    <label>heal</label>
-    <abbreviation>heal</abbreviation>
+    <label>healme</label>
+    <abbreviation>healme</abbreviation>
     <cost>2167</cost>
     <eventCap>2</eventCap>
     <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.HealMeHelper</incidentHelper>

@@ -131,11 +131,15 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             if(toHeal != null)
             {
                 Cure(toHeal);
+
+                NotifySuccess(toHeal.LabelCap);
             }
 
             if(toRestore != null)
             {
                 pawn.health.RestorePart(toRestore);
+
+                NotifySuccess(toRestore.LabelCap);
             }
         }
 
@@ -318,6 +322,29 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
             return hediff_Injury;
+        }
+
+        private void NotifySuccess(string target)
+        {
+            CommandBase.SendMessage(
+                "TKUtils.Responses.Format".Translate(
+                    Viewer.username.Named("VIEWER"),
+                    "TKUtils.Responses.HealMeFormat".Translate(
+                        target.Named("TARGET")
+                    ).Named("MESSAGE")
+                ),
+                separateChannel
+            );
+
+            Current.Game.letterStack.ReceiveLetter(
+                "TKUtils.Letters.Heal.Title".Translate(),
+                "TKUtils.Letters.Heal.Description".Translate(
+                    Viewer.username.Named("VIEWER"),
+                    target.Named("TARGET")
+                ),
+                LetterDefOf.PositiveEvent,
+                new LookTargets(CommandBase.GetPawn(Viewer.username))
+            );
         }
     }
 }

@@ -3,7 +3,6 @@
 <LanguageData>
   <!-- Groups -->
   <TKUtils.Groups.CommandTweaks.Label>Command Tweaks</TKUtils.Groups.CommandTweaks.Label>
-  <TKUtils.Groups.Experimental.Label>Experimental</TKUtils.Groups.Experimental.Label>
   <TKUtils.Groups.PawnCommands.Label>Pawn Commands</TKUtils.Groups.PawnCommands.Label>
 
   <!-- Command Tweaks -->
@@ -18,7 +17,4 @@
   <TKUtils.PawnCommands.Gear.ShowWeapon.Label>Include weapon in the gear command.</TKUtils.PawnCommands.Gear.ShowWeapon.Label>
   <TKUtils.PawnCommands.Gear.ShowApparel.Label>Include apparel in the gear command.</TKUtils.PawnCommands.Gear.ShowApparel.Label>
   <TKUtils.PawnCommands.Body.TempInGear.Label>Include temperature tolerances in the gear command instead.</TKUtils.PawnCommands.Body.TempInGear.Label>
-
-  <!-- Experimental -->
-  <TKUtils.Experimental.Linker.Label>Periodically ensure viewers aren't disconnected from their pawns.</TKUtils.Experimental.Linker.Label>
 </LanguageData>

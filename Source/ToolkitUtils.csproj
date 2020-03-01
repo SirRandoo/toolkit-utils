@@ -72,13 +72,13 @@
     <Compile Include="Commands\FactionsCommand.cs" />
     <Compile Include="Commands\InstalledModsDriver.cs" />
     <Compile Include="Commands\PawnBodyCommand.cs" />
+    <Compile Include="Commands\PawnFixCommand.cs" />
     <Compile Include="Commands\PawnGearCommand.cs" />
     <Compile Include="Commands\PawnHealthCommand.cs" />
     <Compile Include="Commands\PawnNeedsCommand.cs" />
     <Compile Include="Commands\PawnWorkCommand.cs" />
     <Compile Include="Commands\ResearchCommand.cs" />
     <Compile Include="Harmony\CommandsHandler_CheckCommand.cs" />
-    <Compile Include="Harmony\ToolkitIRC_OnPrivMsg.cs" />
     <Compile Include="Harmony\ViewerUpdater_ParseCommand.cs" />
     <Compile Include="IncidentHelpers\AddTraitHelper.cs" />
     <Compile Include="IncidentHelpers\HealMeHelper.cs" />

@@ -5,8 +5,6 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 
-using UnityEngine;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -23,8 +21,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 SendMessage(
                     "TKUtils.Responses.Format".Translate(
-                        NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named("TKUtils.Responses.NoResearchQuery".Translate(), "MESSAGE")
+                        message.User.Named("VIEWER"),
+                        "TKUtils.Responses.NoResearchQuery".Translate().Named("MESSAGE")
                     ),
                     message
                 );
@@ -36,11 +34,31 @@ namespace SirRandoo.ToolkitUtils.Commands
             if(result.Any())
             {
                 var r = result.First();
+                var response = "TKUtils.Responses.Format".Translate(
+                    message.User.Named("VIEWER"),
+                    "TKUtils.Responses.ResearchFormat".Translate(
+                        r.LabelCap.Named("RESEARCH"),
+                        string.Format("{0:P2}", r.ProgressPercent).Named("PERCENT")
+                    ).Named("MESSAGE")
+                );
+
+                if(r.prerequisites != null)
+                {
+                    var deps = r.prerequisites.Where(p => !p.IsFinished);
+
+                    if(deps.Any())
+                    {
+                        response += " | ";
+                        response += "TKUtils.Responses.ResearchPrerequisitesFormat".Translate(
+                            string.Join(", ", deps).Named("PREREQUISITES")
+                        );
+                    }
+                }
 
                 SendMessage(
                     "TKUtils.Responses.Format".Translate(
-                        NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named($"{r.LabelCap}: {Mathf.Clamp(r.ProgressPercent, 0f, 100f) * 100f}%", "MESSAGE")
+                        message.User.Named("VIEWER"),
+                        response.Named("MESSAGE")
                     ),
                     message
                 );
@@ -49,13 +67,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 SendMessage(
                     "TKUtils.Responses.Format".Translate(
-                        NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named(
-                            "TKUtils.Responses.NoResearch".Translate(
-                                NamedArgumentUtility.Named(query, "RESEARCH")
-                            ),
-                            "MESSAGE"
-                        )
+                        message.User.Named("VIEWER"),
+                        "TKUtils.Responses.NoResearch".Translate(
+                            query.Named("RESEARCH")
+                        ),
+                        "MESSAGE"
                     ),
                     message
                 );

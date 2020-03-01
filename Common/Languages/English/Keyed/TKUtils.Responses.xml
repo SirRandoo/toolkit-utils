@@ -3,6 +3,8 @@
 <LanguageData>
   <TKUtils.Responses.Format>@{VIEWER} → {MESSAGE}</TKUtils.Responses.Format>
 
+  <TKUtils.Responses.ResearchFormat>Research "{RESEARCH}" is at {PERCENT}.</TKUtils.Responses.ResearchFormat>
+  <TKUtils.Responses.ResearchPrerequisitesFormat>Missing prerequisites: {PREREQUISITES}</TKUtils.Responses.ResearchPrerequisitesFormat>
   <TKUtils.Responses.NoResearch>The research "{RESEARCH}" does not exist!</TKUtils.Responses.NoResearch>
   <TKUtils.Responses.NoResearchQuery>You can look up the status of research projects using this command.  Simply type !research {name}</TKUtils.Responses.NoResearchQuery>
   <TKUtils.Responses.NoFactions>No visible factions could be found!</TKUtils.Responses.NoFactions>
@@ -28,9 +30,14 @@
   <TKUtils.Responses.HasTrait>You already have trait {TRAIT}, or a similar one of this type.</TKUtils.Responses.HasTrait>
   <TKUtils.Responses.ModListFormat>[Toolkit v{VERSION}] Mods: {MODS}</TKUtils.Responses.ModListFormat>
   <TKUtils.Responses.ModListedFormat>{NAME} (v{VERSION})</TKUtils.Responses.ModListedFormat>
+  <TKUtils.Responses.HealMeFormat>Your pawn recovered from "{TARGET}".</TKUtils.Responses.HealMeFormat>
+  <TKUtils.Responses.PawnRelinked>Your pawn has been successfully relinked!</TKUtils.Responses.PawnRelinked>
+  <TKUtils.Responses.PawnLinked>Your pawn is already linked!</TKUtils.Responses.PawnLinked>
 
   <TKUtils.Letters.MassRevival.Title>Mass Revival</TKUtils.Letters.MassRevival.Title>
   <TKUtils.Letters.MassRevival.Description>Previously deceased pawns have been granted another chance at life.  They may be experiencing side effects.</TKUtils.Letters.MassRevival.Description>
   <TKUtils.Letters.Trait.Title>Trait</TKUtils.Letters.Trait.Title>
-  <TKUtils.Letters.Trait.Description>{VIEWER} purchased trait {TRAIT}</TKUtils.Letters.Trait.Description>
+  <TKUtils.Letters.Trait.Description>{VIEWER} purchased trait {TRAIT}.</TKUtils.Letters.Trait.Description>
+  <TKUtils.Letters.Heal.Title>Heal</TKUtils.Letters.Heal.Title>
+  <TKUtils.Letters.Heal.Description>{VIEWER} recovered from {TARGET}.</TKUtils.Letters.Heal.Description>
 </LanguageData>

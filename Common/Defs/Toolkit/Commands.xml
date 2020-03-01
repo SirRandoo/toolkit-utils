@@ -67,6 +67,14 @@
     <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnWorkCommand</commandDriver>
   </TwitchToolkit.Command>
 
+  <TwitchToolkit.Command>
+    <defName>FixMyPawn</defName>
+    <label>fix viewer pawn</label>
+    <command>fixmypawn</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixCommand</commandDriver>
+  </TwitchToolkit.Command>
+
   <!-- Colony Commands -->
   <TwitchToolkit.Command>
     <defName>Factions</defName>

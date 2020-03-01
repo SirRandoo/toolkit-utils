@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using HarmonyLib;
 
@@ -116,8 +117,21 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         Whisper = msg.Whisper
                     };
 
+                    if(command.commandDriver.Name.Equals("Buy") && !command.command.EqualsIgnoreCase("levelskill") && !command.command.EqualsIgnoreCase("buy"))
+                    {
+                        payload.Message = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
+                    }
+
                     Log($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
-                    command.RunCommand(payload);
+
+                    try
+                    {
+                        command.RunCommand(payload);
+                    }
+                    catch(Exception e)
+                    {
+                        Log($"Command \"{command.command}\" failed with exception: {e.Message}\n{e.StackTrace}");
+                    }
                 }
             }
 
@@ -142,7 +156,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 foreach(var tInterface in twitchInterfaces)
                 {
-                    tInterface.ParseCommand(payload);
+                    try
+                    {
+                        tInterface.ParseCommand(payload);
+                    }
+                    catch(Exception e)
+                    {
+                        Log($"Twitch interface \"{tInterface.GetType().FullName}\" failed with exception: {e.Message}\n{e.StackTrace}");
+                    }
                 }
             }
 

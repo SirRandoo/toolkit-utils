@@ -7,7 +7,6 @@ namespace SirRandoo.ToolkitUtils
     public class TKSettings : ModSettings
     {
         public static bool Commands = true;
-        public static bool Linker = true;
         public static string Prefix = "!";
         public static bool RichText = true;
         public static bool ShowApparel = false;
@@ -55,11 +54,6 @@ namespace SirRandoo.ToolkitUtils
             listing.CheckboxLabeled("TKUtils.PawnCommands.Health.ShowSurgeries.Label".Translate(), ref ShowSurgeries);
             listing.Gap(24);
 
-            listing.Label("TKUtils.Groups.Experimental.Label".Translate());
-            listing.GapLine();
-
-            listing.CheckboxLabeled("TKUtils.Experimental.Linker.Label".Translate(), ref Linker);
-
             listing.EndScrollView(ref view);
         }
 
@@ -73,8 +67,6 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref ShowArmor, "armor", true);
             Scribe_Values.Look(ref ShowApparel, "apparel", false);
             Scribe_Values.Look(ref TempInGear, "tempInGear", false);
-
-            Scribe_Values.Look(ref Linker, "linker", true);
         }
     }
 }

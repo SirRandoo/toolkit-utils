@@ -18,12 +18,16 @@ A collection of commands for TwitchToolkit.
   - Shows information about a viewer's pawn's current work priorities.
 - !mypawngear
   - Shows information about a viewer's pawn's current gear, armor rating, and optionally temperature tolerance.
+- !fixmypawn
+  - Attempts to relink a viewer's pawn.
+  - Useful in cases where a mod nukes pawn instances.
 
 
 ### Colony Commands
 
 - !research {project}
   - Shows the percentage towards a specified research.
+  - If a research contains unfinished prerequisites, they will be appended to the response.
 - !factions
   - Shows a list of visible factions, and their current goodwill towards the colony.
 
@@ -42,9 +46,12 @@ A collection of commands for TwitchToolkit.
 
 - !buy trait
   - The trait event now ignores sexuality traits, like bisexuality, when determining how many total traits a viewer's pawn currently has.
-- Pawn Relinker
-  - Ensures active viewer's pawns are linked to them.
-  - *This feature is considered experimental, and may be removed at any moment.*
 - !installedmods
   - The command now pulls from a pregenerated cache at start up.
   - Can be configured to include mod versions
+- Command parser
+  - Automatically captures & logs errors from any command the parser invokes.
+  - Allows you to change the prefix the bot will look for.
+- Founders support
+  - Includes a patch to support the new `founders` badge.
+  - This does **not** mean founders will be able to have special settings.
