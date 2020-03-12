@@ -2,8 +2,11 @@
 using System.Linq;
 using System.Text;
 
+using rim_twitch;
+
+using TwitchLib.Client.Models;
+
 using TwitchToolkit;
-using TwitchToolkit.IRC;
 using TwitchToolkit.PawnQueue;
 
 using Verse;
@@ -75,22 +78,24 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void Log(string message) => Verse.Log.Message($"{TKUtils.ID} :: {message}");
 
-        public static void SendCommandMessage(string viewer, string message, bool separateRoom)
+        public static void SendCommandMessage(string viewer, string message)
         {
             SendMessage(
                 "TKUtils.Formats.CommandBase".Translate(
                     viewer.Named("VIEWER"),
                     message.Named("MESSAGE")
-                ),
-                separateRoom
+                )
             );
         }
 
-        public static void SendCommandMessage(string message, IRCMessage ircMessage) => SendCommandMessage(ircMessage.User, message, CommandsHandler.SendToChatroom(ircMessage));
+        public static void SendCommandMessage(string message, ChatMessage ircMessage) => SendCommandMessage(ircMessage.Username, message);
 
-        public static void SendMessage(string message, bool separateRoom)
+        public static void SendMessage(string message)
         {
-            if(message.NullOrEmpty()) return;
+            if(message.NullOrEmpty())
+            {
+                return;
+            }
 
             var words = message.Split(new char[] { ' ' }, System.StringSplitOptions.None);
             var builder = new StringBuilder();
@@ -123,12 +128,12 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 foreach(var m in messages)
                 {
-                    Toolkit.client.SendMessage(m.Trim(), separateRoom);
+                    MessageQueue.messageQueue.Enqueue(m.Trim());
                 }
             }
         }
 
-        public static void SendMessage(string message, IRCMessage ircMessage) => SendMessage(message, CommandsHandler.SendToChatroom(ircMessage));
+        public static void SendMessage(string message, ChatMessage ircMessage) => SendMessage(message);
 
         public static void Warn(string message) => Verse.Log.Message($"WARN {TKUtils.ID} :: {message}");
     }

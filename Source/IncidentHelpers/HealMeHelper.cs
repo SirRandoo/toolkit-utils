@@ -30,8 +30,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    separateChannel
+                    "TKUtils.Responses.NoPawn".Translate()
                 );
                 return false;
             }
@@ -156,8 +155,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     Viewer.username,
                     "TKUtils.Responses.HealMe.Healed".Translate(
                         target.Named("TARGET")
-                    ),
-                    separateChannel
+                    )
                 );
             }
 

@@ -29,8 +29,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    separateChannel
+                    "TKUtils.Responses.NoPawn".Translate()
                 );
                 return false;
             }

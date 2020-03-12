@@ -3,10 +3,13 @@ using System.Linq;
 
 using HarmonyLib;
 
+using rim_twitch;
+
 using SirRandoo.ToolkitUtils.Utils;
 
+using TwitchLib.Client.Models;
+
 using TwitchToolkit;
-using TwitchToolkit.IRC;
 
 using Verse;
 
@@ -16,7 +19,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     public static class CommandsHandler_CheckCommand
     {
         [HarmonyPrefix]
-        public static bool CheckCommand(IRCMessage msg)
+        public static bool CheckCommand(ChatMessage msg)
         {
             try
             {
@@ -25,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     return true;
                 }
 
-                var viewer = Viewers.GetViewer(msg.User);
+                var viewer = Viewers.GetViewer(msg.Username);
                 viewer.last_seen = DateTime.Now;
 
                 if(viewer.IsBanned)
@@ -97,7 +100,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                             runnable = false;
                         }
 
-                        if(command.requiresAdmin && !msg.User.EqualsIgnoreCase(ToolkitSettings.Channel))
+                        if(command.requiresAdmin && !msg.Username.EqualsIgnoreCase(ToolkitSettings.Channel))
                         {
                             runnable = false;
                         }
@@ -110,22 +113,40 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         if(runnable)
                         {
                             // Fix up the message for Toolkit
-                            var payload = new IRCMessage
-                            {
-                                Args = msg.Args,
-                                Channel = msg.Channel,
-                                Cmd = msg.Cmd,
-                                Host = msg.Host,
-                                Message = ($"!{command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim(),
-                                Parameters = msg.Parameters,
-                                User = msg.User,
-                                Whisper = msg.Whisper
-                            };
+                            var t = ($"!{command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
 
                             if(command.commandDriver.Name.Equals("Buy") && !command.command.EqualsIgnoreCase("buy"))
                             {
-                                payload.Message = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
+                                t = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
                             }
+
+                            var payload = new ChatMessage(
+                                msg.BotUsername,
+                                msg.UserId,
+                                msg.Username,
+                                msg.DisplayName,
+                                msg.ColorHex,
+                                msg.Color,
+                                msg.EmoteSet,
+                                ($"!{command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim(),
+                                msg.UserType,
+                                msg.Channel,
+                                msg.Id,
+                                msg.IsSubscriber,
+                                msg.SubscribedMonthCount,
+                                msg.RoomId,
+                                msg.IsTurbo,
+                                msg.IsModerator,
+                                msg.IsMe,
+                                msg.IsBroadcaster,
+                                msg.Noisy,
+                                msg.RawIrcMessage,
+                                msg.EmoteReplacedMessage,
+                                msg.Badges,
+                                msg.CheerBadge,
+                                msg.Bits,
+                                msg.BitsInDollars
+                            );
 
                             CommandBase.Log($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
 
@@ -156,17 +177,33 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 if(twitchInterfaces != null)
                 {
                     // hard-coded pawn commands....
-                    var payload = new IRCMessage
-                    {
-                        Args = msg.Args,
-                        Channel = msg.Channel,
-                        Cmd = msg.Cmd,
-                        Host = msg.Host,
-                        Message = ($"!" + segments.Take(1).FirstOrDefault().ToLowerInvariant() + " " + string.Join(" ", segments.Skip(1))).Trim(),
-                        Parameters = msg.Parameters,
-                        User = msg.User,
-                        Whisper = msg.Whisper
-                    };
+                    var payload = new ChatMessage(
+                        msg.BotUsername,
+                        msg.UserId,
+                        msg.Username,
+                        msg.DisplayName,
+                        msg.ColorHex,
+                        msg.Color,
+                        msg.EmoteSet,
+                        ($"!" + segments.Take(1).FirstOrDefault().ToLowerInvariant() + " " + string.Join(" ", segments.Skip(1))).Trim(),
+                        msg.UserType,
+                        msg.Channel,
+                        msg.Id,
+                        msg.IsSubscriber,
+                        msg.SubscribedMonthCount,
+                        msg.RoomId,
+                        msg.IsTurbo,
+                        msg.IsModerator,
+                        msg.IsMe,
+                        msg.IsBroadcaster,
+                        msg.Noisy,
+                        msg.RawIrcMessage,
+                        msg.EmoteReplacedMessage,
+                        msg.Badges,
+                        msg.CheerBadge,
+                        msg.Bits,
+                        msg.BitsInDollars
+                    );
 
                     CommandBase.Log($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check");
 

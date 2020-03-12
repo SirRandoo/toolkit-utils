@@ -43,8 +43,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    separateChannel
+                    "TKUtils.Responses.NoPawn".Translate()
                 );
                 return false;
             }
@@ -55,8 +54,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
-                    "TKUtils.Responses.RemoveTrait.None".Translate(),
-                    separateChannel
+                    "TKUtils.Responses.RemoveTrait.None".Translate()
                 );
                 return false;
             }
@@ -69,8 +67,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     viewer.username,
                     "TKUtils.Responses.TraitQueryInvalid".Translate(
                         query.Named("QUERY")
-                    ),
-                    separateChannel
+                    )
                 );
                 return false;
             }
@@ -83,8 +80,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     viewer.username,
                     "TKUtils.Responses.RemoveTrait.Missing".Translate(
                         query.Named("QUERY")
-                    ),
-                    separateChannel
+                    )
                 );
                 return false;
             }
@@ -120,8 +116,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     Viewer.username,
                     "TKUtils.Responses.RemoveTrait.Removed".Translate(
                         trait.LabelCap.Named("TRAIT")
-                    ),
-                    separateChannel
+                    )
                 );
             }
 

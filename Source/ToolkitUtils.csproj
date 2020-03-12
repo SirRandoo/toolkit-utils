@@ -33,9 +33,14 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\v1.1\Assemblies\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="rim-twitch">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2019162052\v1.1\Assemblies\rim-twitch.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -46,8 +51,24 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TwitchLib.Client">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2019162052\v1.1\Assemblies\TwitchLib.Client.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TwitchLib.Client.Enums">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2019162052\v1.1\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TwitchLib.Client.Models">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2019162052\v1.1\Assemblies\TwitchLib.Client.Models.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TwitchLib.Communication">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2019162052\v1.1\Assemblies\TwitchLib.Communication.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="TwitchToolkit">
-      <HintPath>..\..\..\..\..\workshop\content\294100\1718525787\v1.1\Assemblies\TwitchToolkit.dll</HintPath>
+      <HintPath>..\..\..\..\..\workshop\content\294100\2019162052\v1.1\Assemblies\TwitchToolkit.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
@@ -79,7 +100,6 @@
     <Compile Include="Commands\PawnWorkCommand.cs" />
     <Compile Include="Commands\ResearchCommand.cs" />
     <Compile Include="Harmony\CommandsHandler_CheckCommand.cs" />
-    <Compile Include="Harmony\ViewerUpdater_ParseCommand.cs" />
     <Compile Include="IncidentHelpers\AddTraitHelper.cs" />
     <Compile Include="IncidentHelpers\HealAllHelper.cs" />
     <Compile Include="IncidentHelpers\HealMeHelper.cs" />

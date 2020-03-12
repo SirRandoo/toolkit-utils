@@ -5,8 +5,9 @@ using RimWorld;
 
 using SirRandoo.ToolkitUtils.Utils;
 
+using TwitchLib.Client.Models;
+
 using TwitchToolkit;
-using TwitchToolkit.IRC;
 
 using UnityEngine;
 
@@ -16,11 +17,14 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnGearCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ChatMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message)) return;
+            if(!CommandsHandler.AllowCommand(message))
+            {
+                return;
+            }
 
-            var pawn = GetPawnDestructive(message.User);
+            var pawn = GetPawnDestructive(message.Username);
 
             if(pawn == null)
             {

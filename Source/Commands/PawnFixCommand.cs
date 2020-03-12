@@ -1,6 +1,8 @@
 ﻿using SirRandoo.ToolkitUtils.Utils;
 
-using TwitchToolkit.IRC;
+using TwitchLib.Client.Models;
+
+using TwitchToolkit;
 
 using Verse;
 
@@ -8,9 +10,14 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnFixCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ChatMessage message)
         {
-            var pawn = GetPawnDestructive(message.User);
+            if(!CommandsHandler.AllowCommand(message))
+            {
+                return;
+            }
+
+            var pawn = GetPawnDestructive(message.Username);
 
             if(pawn == null)
             {

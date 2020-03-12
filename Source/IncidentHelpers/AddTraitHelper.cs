@@ -45,8 +45,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    separateChannel
+                    "TKUtils.Responses.NoPawn".Translate()
                 );
                 return false;
             }
@@ -66,8 +65,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                         viewer.username,
                         "TKUtils.Responses.BuyTrait.LimitReached".Translate(
                             maxTraits.Named("LIMIT")
-                        ),
-                        separateChannel
+                        )
                     );
                     return false;
                 }
@@ -79,8 +77,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     viewer.username,
                     "TKUtils.Responses.TraitQueryInvalid".Translate(
                         trait.Named("QUERY")
-                    ),
-                    separateChannel
+                    )
                 );
                 return false;
             }
@@ -97,8 +94,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                         "TKUtils.Responses.BuyTrait.Conflicts".Translate(
                             t.LabelCap.Named("TRAIT"),
                             traitDef.defName.Named("REQUESTED")
-                        ),
-                        separateChannel
+                        )
                     );
                     return false;
                 }
@@ -110,8 +106,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     viewer.username,
                     "TKUtils.Responses.BuyTrait.Duplicate".Translate(
                         traitObj.Label.Named("TRAIT")
-                    ),
-                    separateChannel
+                    )
                 );
                 return false;
             }
@@ -146,8 +141,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     Viewer.username,
                     "TKUtils.Responses.BuyTrait.Added".Translate(
                         trait.Label.Named("TRAIT")
-                    ),
-                    separateChannel
+                    )
                 );
             }
 

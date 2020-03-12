@@ -3,8 +3,9 @@ using System.Linq;
 
 using SirRandoo.ToolkitUtils.Utils;
 
+using TwitchLib.Client.Models;
+
 using TwitchToolkit;
-using TwitchToolkit.IRC;
 
 using Verse;
 
@@ -12,9 +13,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class ResearchCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ChatMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message)) return;
+            if(!CommandsHandler.AllowCommand(message))
+            {
+                return;
+            }
 
             var query = message.Message.Split(' ').Skip(1).FirstOrDefault();
             ResearchProjectDef target;
