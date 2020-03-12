@@ -55,6 +55,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
                 else
                 {
+                    Viewer.TakeViewerCoins(storeIncident.cost);
+                    Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
                     pawn.ClearAllReservations(true);
                     ResurrectionUtility.ResurrectWithSideEffects(pawn);
                     PawnTracker.pawnsToRevive.Remove(pawn);

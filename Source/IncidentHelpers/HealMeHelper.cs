@@ -137,12 +137,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 HealHelper.Cure(toHeal);
 
+                Viewer.TakeViewerCoins(storeIncident.cost);
+                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
                 NotifySuccess(toHeal.LabelCap);
             }
 
             if(toRestore != null)
             {
                 pawn.health.RestorePart(toRestore);
+
+                Viewer.TakeViewerCoins(storeIncident.cost);
+                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
                 NotifySuccess(toRestore.LabelCap);
             }
