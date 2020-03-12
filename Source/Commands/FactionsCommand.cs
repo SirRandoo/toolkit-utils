@@ -26,23 +26,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 var segments = filteredFactions.Select(f => $"{f.GetCallLabel()}: {f.PlayerGoodwill.ToStringWithSign()}");
 
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named(string.Join(", ", segments), "MESSAGE")
-                    ),
+                SendCommandMessage(
+                    string.Join("TKUtils.Misc.Separators.Inner".Translate(), segments),
                     message
                 );
             }
             else
             {
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named("TKUtils.Responses.NoFactions".Translate(), "MESSAGE")
-                    ),
-                    message
-                );
+                SendCommandMessage("TKUtils.Responses.NoFactions".Translate(), message);
             }
         }
     }

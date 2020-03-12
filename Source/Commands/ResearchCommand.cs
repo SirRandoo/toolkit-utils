@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using SirRandoo.ToolkitUtils.Utils;
 
@@ -15,67 +16,83 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if(!CommandsHandler.AllowCommand(message)) return;
 
-            var query = message.Message.Substring(message.Message.IndexOf(' ') + 1);
+            var query = message.Message.Split(' ').Skip(1).FirstOrDefault();
+            ResearchProjectDef target;
 
             if(query.NullOrEmpty())
             {
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        message.User.Named("VIEWER"),
-                        "TKUtils.Responses.NoResearchQuery".Translate().Named("MESSAGE")
-                    ),
-                    message
-                );
-            }
-
-            var result = DefDatabase<ResearchProjectDef>.AllDefsListForReading
-                .Where(p => p.defName.EqualsIgnoreCase(query) || p.label.EqualsIgnoreCase(query));
-
-            if(result.Any())
-            {
-                var r = result.First();
-                var response = "TKUtils.Responses.Format".Translate(
-                    message.User.Named("VIEWER"),
-                    "TKUtils.Responses.ResearchFormat".Translate(
-                        r.LabelCap.Named("RESEARCH"),
-                        string.Format("{0:P2}", r.ProgressPercent).Named("PERCENT")
-                    ).Named("MESSAGE")
-                );
-
-                if(r.prerequisites != null)
-                {
-                    var deps = r.prerequisites.Where(p => !p.IsFinished);
-
-                    if(deps.Any())
-                    {
-                        response += " | ";
-                        response += "TKUtils.Responses.ResearchPrerequisitesFormat".Translate(
-                            string.Join(", ", deps).Named("PREREQUISITES")
-                        );
-                    }
-                }
-
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        message.User.Named("VIEWER"),
-                        response.Named("MESSAGE")
-                    ),
-                    message
-                );
+                target = Current.Game.researchManager.currentProj;
             }
             else
             {
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        message.User.Named("VIEWER"),
-                        "TKUtils.Responses.NoResearch".Translate(
-                            query.Named("RESEARCH")
+                target = DefDatabase<ResearchProjectDef>
+                    .AllDefsListForReading
+                    .Where(p => p.defName.EqualsIgnoreCase(query) || p.label.EqualsIgnoreCase(query))
+                    .FirstOrDefault();
+            }
+
+            if(target == null)
+            {
+                if(!query.NullOrEmpty())
+                {
+                    SendCommandMessage(
+                        "TKUtils.Formats.Research.Base".Translate(
+                            "TKUtils.Responses.Research.QueryInvalid".Translate(
+                                query.Named("PROJECT")
+                            ).Named("TEXT")
                         ),
-                        "MESSAGE"
-                    ),
-                    message
+                        message
+                    );
+                }
+                else
+                {
+                    SendCommandMessage(
+                        "TKUtils.Responses.Research.None".Translate(),
+                        message
+                    );
+                }
+                return;
+            }
+
+            var segments = new List<string>(){
+                "TKUtils.Formats.Research.Current".Translate(
+                    target.LabelCap.Named("PROJECT"),
+                    string.Format(
+                        "{0:P2}",
+                        target.ProgressPercent
+                    ).Named("PERCENT")
+                )
+            };
+
+            if(target.prerequisites != null && !target.PrerequisitesCompleted)
+            {
+                segments.Add(
+                    "TKUtils.Formats.Research.Prerequisites".Translate(
+                        string.Join(
+                            "TKUtils.Misc.Separators.Inner".Translate(),
+                            target.prerequisites
+                                .Where(p => !p.IsFinished)
+                                .Select(p => "TKUtils.Formats.Research.Current".Translate(
+                                    p.LabelCap.Named("PROJECT"),
+                                    string.Format(
+                                        "{0:P2}",
+                                        p.ProgressPercent
+                                    ).Named("PERCENT")
+                                ))
+                        ).Named("PREREQUISITES")
+                    )
                 );
             }
+
+            SendCommandMessage(
+                "TKUtils.Formats.Research.Base".Translate(
+                    string.Join(
+                        "TKUtils.Misc.Separators.Upper".Translate(),
+                        segments
+                    ).Named("TEXT")
+                ),
+                message
+            );
         }
     }
 }

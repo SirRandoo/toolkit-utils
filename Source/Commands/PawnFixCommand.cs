@@ -1,7 +1,6 @@
 ﻿using SirRandoo.ToolkitUtils.Utils;
 
 using TwitchToolkit.IRC;
-using TwitchToolkit.PawnQueue;
 
 using Verse;
 
@@ -11,35 +10,19 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(IRCMessage message)
         {
-            var pawn = GetPawn(message.User);
+            var pawn = GetPawnDestructive(message.User);
 
             if(pawn == null)
             {
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        message.User.Named("VIEWER"),
-                        "TKUtils.Responses.NoPawn".Translate().Named("MESSAGE")
-                    ),
-                    false
+                SendCommandMessage(
+                    "TKUtils.Responses.NoPawn".Translate(),
+                    message
                 );
 
                 return;
             }
 
-            var component = Current.Game.GetComponent<GameComponentPawns>();
-
-            if(component != null)
-            {
-                component.pawnHistory[message.User] = pawn;
-
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        message.User.Named("VIEWER"),
-                        "TKUtils.Responses.PawnRelinked".Translate().Named("MESSAGE")
-                    ),
-                    false
-                );
-            }
+            SendCommandMessage("TKUtils.Responses.PawnFix.Relinked".Translate(), message);
         }
     }
 }

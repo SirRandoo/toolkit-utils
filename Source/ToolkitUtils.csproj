@@ -32,8 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\Assemblies\0Harmony.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\v1.1\Assemblies\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -72,6 +71,7 @@
     <Compile Include="Commands\FactionsCommand.cs" />
     <Compile Include="Commands\InstalledModsDriver.cs" />
     <Compile Include="Commands\PawnBodyCommand.cs" />
+    <Compile Include="Commands\PawnFixAllCommand.cs" />
     <Compile Include="Commands\PawnFixCommand.cs" />
     <Compile Include="Commands\PawnGearCommand.cs" />
     <Compile Include="Commands\PawnHealthCommand.cs" />
@@ -81,8 +81,9 @@
     <Compile Include="Harmony\CommandsHandler_CheckCommand.cs" />
     <Compile Include="Harmony\ViewerUpdater_ParseCommand.cs" />
     <Compile Include="IncidentHelpers\AddTraitHelper.cs" />
+    <Compile Include="IncidentHelpers\HealAllHelper.cs" />
     <Compile Include="IncidentHelpers\HealMeHelper.cs" />
-    <Compile Include="IncidentHelpers\MilitaryAidHelper.cs" />
+    <Compile Include="IncidentHelpers\RemoveTraitHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveAllHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveMeHelper.cs" />
     <Compile Include="TKSettings.cs" />
@@ -91,7 +92,9 @@
     <Compile Include="ToolkitWindow.cs" />
     <Compile Include="Utils\CommandBase.cs" />
     <Compile Include="Utils\CommandParser.cs" />
+    <Compile Include="Utils\HealHelper.cs" />
     <Compile Include="Utils\RichTextUnparser.cs" />
+    <Compile Include="Utils\TraitHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\About\About.xml">
@@ -114,9 +117,6 @@
     </Content>
     <Content Include="..\Common\Patches\IncidentHelpers\AddTraitPatch.xml">
       <Link>Patches\AddTraitPatch.xml</Link>
-    </Content>
-    <Content Include="..\Common\Patches\IncidentHelpers\MilitaryAidPatch.xml">
-      <Link>Patches\MilitaryAidPatch.xml</Link>
     </Content>
     <Content Include="..\Common\Patches\InstalledModsPatch.xml">
       <Link>Patches\InstalledModsPatch.xml</Link>

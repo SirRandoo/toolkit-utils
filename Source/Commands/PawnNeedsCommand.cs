@@ -5,8 +5,6 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 
-using UnityEngine;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -17,27 +15,28 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if(!CommandsHandler.AllowCommand(message)) return;
 
-            var pawn = GetPawn(message.User);
+            var pawn = GetPawnDestructive(message.User);
 
             if(pawn.needs != null)
             {
-                var segments = pawn.needs.AllNeeds.Select(n => $"{n.LabelCap}: {Mathf.Round(Mathf.Clamp(n.CurLevelPercentage * 100f, 0f, 100f))}%").ToList();
-
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named(string.Join(", ", segments), "MESSAGE")
+                SendCommandMessage(
+                    "TKUtils.Formats.PawnNeeds.Base".Translate(
+                        string.Join(
+                            "TKUtils.Misc.Separators.Inner".Translate(),
+                            pawn.needs.AllNeeds
+                                .Select(n => "TKUtils.Formats.PawnNeeds.Need".Translate(
+                                    n.LabelCap.Named("NEED"),
+                                    string.Format("{0:P2}", n.CurLevelPercentage).Named("PERCENT")
+                                ))
+                        ).Named("NEEDS")
                     ),
                     message
                 );
             }
             else
             {
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named("TKUtils.Responses.NoNeeds".Translate(), "MESSAGE")
-                    ),
+                SendCommandMessage(
+                    "TKUtils.Responses.PawnNeeds.None".Translate(),
                     message
                 );
             }

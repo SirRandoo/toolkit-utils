@@ -1,6 +1,6 @@
-﻿# Toolkit Utils
+﻿# ToolkitUtils
 
-A collection of commands for TwitchToolkit.
+A collection of tweaks and commands for TwitchToolkit.
 
 
 
@@ -21,6 +21,9 @@ A collection of commands for TwitchToolkit.
 - !fixmypawn
   - Attempts to relink a viewer's pawn.
   - Useful in cases where a mod nukes pawn instances.
+- !fixallpawns
+  - Attempts to relink all pawns to their viewers.
+  - Useful in cases where a mod nukes pawn instances.
 
 
 ### Colony Commands
@@ -36,9 +39,9 @@ A collection of commands for TwitchToolkit.
 
 - !buy reviveall
   - Revives every dead colonist.
-- !buy revive
+- !buy reviveme
   - Revives the viewer's pawn.
-- !buy heal
+- !buy healme
   - Emulates a healer mech serum, but cuts out the streamer having to tell a viewer's pawn to use it.
 
 

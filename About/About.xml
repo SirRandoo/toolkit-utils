@@ -3,7 +3,7 @@
 <ModMetaData>
   <name>ToolkitUtils</name>
   <author>SirRandoo</author>
-  <description>A collection of toolkit commands.</description>
+  <description>A collection of command and tweaks for TwitchToolkit.</description>
 
   <packageId>sirrandoo.tku</packageId>
   <supportedVersions>
@@ -23,4 +23,8 @@
       <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
     </li>
   </modDependencies>
+
+  <loadAfter>
+    <li>hodl.twitchtoolkit</li>
+  </loadAfter>
 </ModMetaData>

@@ -5,7 +5,7 @@
     <defName>ReviveAll</defName>
     <label>revive all</label>
     <abbreviation>reviveall</abbreviation>
-    <cost>8000</cost>
+    <cost>22664</cost>
     <eventCap>2</eventCap>
     <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.ReviveAllHelper</incidentHelper>
     <karmaType>Good</karmaType>
@@ -20,6 +20,16 @@
     <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.ReviveMeHelper</incidentHelper>
     <karmaType>Good</karmaType>
   </TwitchToolkit.Incidents.StoreIncidentVariables>
+
+  <TwitchToolkit.Incidents.StoreIncidentSimple>
+    <defName>HealAll</defName>
+    <label>heal all</label>
+    <abbreviation>healall</abbreviation>
+    <cost>17336</cost>
+    <eventCap>2</eventCap>
+    <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.HealAllHelper</incidentHelper>
+    <karmaType>Good</karmaType>
+  </TwitchToolkit.Incidents.StoreIncidentSimple>
 
   <TwitchToolkit.Incidents.StoreIncidentVariables>
     <defName>HealMe</defName>

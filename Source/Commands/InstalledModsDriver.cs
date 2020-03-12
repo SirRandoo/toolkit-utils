@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 using SirRandoo.ToolkitUtils.Utils;
 
@@ -12,15 +11,22 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class InstalledModsDriver : CommandBase
     {
-        public static string GetModListString() => string.Join(", ", TKUtils.GetModListUnversioned());
+        public static string GetModListString()
+        {
+            return string.Join(
+                "TKUtils.Misc.Separators.Inner".Translate(),
+                TKUtils.GetModListUnversioned().Select(m => TryFavoriteMod(m))
+            );
+        }
 
         public static string GetModListStringVersioned()
         {
-            return string.Join(", ",
+            return string.Join(
+                "TKUtils.Misc.Separators.Inner".Translate(),
                 TKUtils.GetModListVersioned().Select(m =>
                 {
-                    return "TKUtils.Responses.ModListedFormat".Translate(
-                        m.Key.Named("NAME"),
+                    return "TKUtils.Formats.ModList.Mod".Translate(
+                        TryFavoriteMod(m.Key).Named("NAME"),
                         m.Value.Named("VERSION")
                     );
                 })
@@ -29,24 +35,31 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         public override void RunCommand(IRCMessage message)
         {
-            Log.Message($"{TKUtils.ID} :: Preparing mod list....");
+            Log("Preparing mod list...");
 
-            try
+            SendCommandMessage(
+                "TKUtils.Formats.ModList.Base".Translate(
+                    Toolkit.Mod.Version.Named("VERSION"),
+                    (TKSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).Named("MODS")
+                ),
+                message
+            );
+        }
+
+        private static string TryFavoriteMod(string mod)
+        {
+            if(mod.EqualsIgnoreCase(TKUtils.ID))
             {
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        message.User.Named("VIEWER"),
-                        "TKUtils.Responses.ModListFormat".Translate(
-                            Toolkit.Mod.Version.Named("VERSION"),
-                            (TKSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).Named("MODS")
-                        ).Named("MESSAGE")
-                    ),
-                    CommandsHandler.SendToChatroom(message)
+                return GetTranslatedEmoji(
+                    "TKUtils.Misc.Decorators.Favorite",
+                    "TKUtils.Misc.Decorators.Favorite.Text"
+                ).Translate(
+                    mod.Named("DECORATING")
                 );
             }
-            catch(Exception e)
+            else
             {
-                Log.Message($"{TKUtils.ID} :: Message prep failed with exception: {e.Message}\n{e.StackTrace}");
+                return mod;
             }
         }
     }

@@ -4,6 +4,8 @@ using System.Linq;
 
 using RimWorld;
 
+using SirRandoo.ToolkitUtils.Utils;
+
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 
@@ -43,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     Pawn val;
                     if(pawn.SpawnedParentOrMe != pawn.Corpse && (val = (pawn.SpawnedParentOrMe as Pawn)) != null && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var val2, null))
                     {
-                        Log.Error($"Submit this bug to ToolkitUtils' issue tracker: Could not drop {pawn} at { val.Position} from {val}");
+                        CommandBase.Error($"Submit this bug to ToolkitUtils' issue tracker: Could not drop {pawn} at { val.Position} from {val}");
                     }
                     else
                     {
@@ -55,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
                 catch(Exception ex)
                 {
-                    Log.Error("Submit this bug to ToolkitUtils' issue tracker: " + ex.Message);
+                    CommandBase.Error("Submit this bug to ToolkitUtils' issue tracker: " + ex.Message);
                 }
             }
 

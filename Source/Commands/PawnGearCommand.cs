@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using RimWorld;
 
@@ -20,79 +20,20 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if(!CommandsHandler.AllowCommand(message)) return;
 
-            var pawn = GetPawn(message.User);
+            var pawn = GetPawnDestructive(message.User);
 
             if(pawn == null)
             {
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named("TKUtils.Responses.NoPawn".Translate(), "MESSAGE")
-                    ),
+                SendCommandMessage(
+                    "TKUtils.Responses.NoPawn".Translate(),
                     message
                 );
                 return;
             }
 
-            var builder = new StringBuilder("TKUtils.Responses.GearWord".Translate());
-            builder.Append(":");
-
-            if(TKSettings.TempInGear)
-            {
-                var tempMin = StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMin, applyPostProcess: true);
-                var tempMax = StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMax, applyPostProcess: true);
-
-                builder.Append("🌡 ");
-                builder.Append($"Min: {GenText.ToStringTemperature(tempMin, format: "F1")}, ");
-                builder.Append($"Max: {GenText.ToStringTemperature(tempMax, format: "F1")}");
-            }
-
-            if(TKSettings.ShowArmor)
-            {
-                builder.Append($" | {"TKUtils.Responses.ArmorWord".Translate()}: ");
-                var sharp = Mathf.Round(CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp) * 100f);
-                var blunt = Mathf.Round(CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp) * 100f);
-                var heat = Mathf.Round(CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp) * 100f);
-
-                if(sharp > 0) builder.Append($"🔪 {sharp}%, ");
-                if(blunt > 0) builder.Append($"🍳 {blunt}%, ");
-                if(heat > 0) builder.Append($"🔥 {heat}%");
-            }
-
-            if(TKSettings.ShowWeapon)
-            {
-                var e = pawn.equipment;
-                if(e != null && e.AllEquipmentListForReading?.Count > 0)
-                {
-                    builder.Append($" | {"TKUtils.Responses.EquipmentWord".Translate()}: ");
-                    builder.Append(
-                        string.Join(
-                            ", ",
-                            e.AllEquipmentListForReading.Select(i => i.LabelCap)
-                        )
-                    );
-                }
-            }
-
-            if(TKSettings.ShowApparel)
-            {
-                var a = pawn.apparel;
-                if(a != null && a.WornApparelCount > 0)
-                {
-                    builder.Append($" | {"TKUtils.Responses.ApparelWord".Translate()}: ");
-                    builder.Append(
-                        string.Join(
-                            ", ",
-                            pawn.apparel.WornApparel.Select(i => i.LabelCap)
-                        )
-                    );
-                }
-            }
-
-            SendMessage(
-                "TKUtils.Responses.Format".Translate(
-                    NamedArgumentUtility.Named(message.User, "VIEWER"),
-                    NamedArgumentUtility.Named(builder.ToString(), "MESSAGE")
+            SendCommandMessage(
+                "TKUtils.Formats.PawnGear.Base".Translate(
+                    GetPawnGear(pawn).Named("COMPOSITE")
                 ),
                 message
             );
@@ -125,6 +66,109 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             return Mathf.Clamp(rating * 2f, 0f, 2f);
+        }
+
+        private TaggedString GetPawnGear(Pawn pawn)
+        {
+            var parts = new List<string>();
+
+            if(TKSettings.TempInGear)
+            {
+                var tempMin = GenText.ToStringTemperature(StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMin, applyPostProcess: true));
+                var tempMax = GenText.ToStringTemperature(StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMax, applyPostProcess: true));
+
+                parts.Add(
+                    "TKUtils.Formats.PawnGear.Temperature".Translate(
+                        tempMin.Named("MINIMUM"),
+                        tempMax.Named("MAXIMUM"),
+                        GetTemperatureDisplay().Named("DISPLAY")
+                    )
+                );
+            }
+
+            if(TKSettings.ShowArmor)
+            {
+                var sharp = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
+                var blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
+                var heat = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
+
+                parts.Add(
+                    "TKUtils.Formats.PawnGear.Armor".Translate(
+                        string.Join(
+                            "TKUtils.Misc.Separators.Inner".Translate(),
+                            new string[]
+                            {
+                                GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Sharp").Translate(
+                                    string.Format("{0:P2}", sharp).Named("SHARP")
+                                ),
+                                GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Blunt").Translate(
+                                    string.Format("{0:P2}", blunt).Named("BLUNT")
+                                ),
+                                GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Heat").Translate(
+                                    string.Format("{0:P2}", heat).Named("HEAT")
+                                )
+                            }
+                        ).Named("STATS")
+                    )
+                );
+            }
+
+            if(TKSettings.ShowWeapon)
+            {
+                var e = pawn.equipment;
+
+                if(e != null && e.AllEquipmentListForReading?.Count > 0)
+                {
+                    parts.Add(
+                        "TKUtils.Formats.PawnGear.Equipment".Translate(
+                            string.Join(
+                                "TKUtils.Misc.Separators.Inner".Translate(),
+                                e.AllEquipmentListForReading.Select(i => i.LabelCap)
+                            ).Named("EQUIPMENT")
+                        )
+                    );
+                }
+            }
+
+            if(TKSettings.ShowApparel)
+            {
+                var a = pawn.apparel;
+
+                if(a != null && a.WornApparelCount > 0)
+                {
+                    parts.Add(
+                        "TKUtils.Formats.PawnGear.Apparel".Translate(
+                            string.Join(
+                                "TKUtils.Misc.Separators.Inner".Translate(),
+                                a.WornApparel.Select(i => i.LabelCap)
+                            ).Named("APPAREL")
+                        )
+                    );
+                }
+            }
+
+            return string.Join(
+                "TKUtils.Misc.Separators.Upper".Translate(),
+                parts
+            );
+        }
+
+        private TaggedString GetTemperatureDisplay()
+        {
+            switch(Prefs.TemperatureMode)
+            {
+                case TemperatureDisplayMode.Fahrenheit:
+                    return "TKUtils.Misc.Temperature.Fahrenheit".Translate();
+
+                case TemperatureDisplayMode.Kelvin:
+                    return "TKUtils.Misc.Temperature.Kelvin".Translate();
+
+                case TemperatureDisplayMode.Celsius:
+                    return "TKUtils.Misc.Temperature.Celsius".Translate();
+
+                default:
+                    return "[U]";
+            }
         }
     }
 }

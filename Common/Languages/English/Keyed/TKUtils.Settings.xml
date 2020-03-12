@@ -10,6 +10,8 @@
   <TKUtils.CommandTweaks.CommandPrefix.Label>Custom command prefix</TKUtils.CommandTweaks.CommandPrefix.Label>
   <TKUtils.CommandTweaks.RichText.Label>Strip HTML tags from some content, like colored traits.</TKUtils.CommandTweaks.RichText.Label>
   <TKUtils.CommandTweaks.VersionedModList.Label>Include mod versions in the installed mods command.</TKUtils.CommandTweaks.VersionedModList.Label>
+  <TKUtils.CommandTweaks.Emojis.Label>Prefer emoticons over text whenever possible.</TKUtils.CommandTweaks.Emojis.Label>
+  <TKUtils.CommandTweaks.DecorateUtils.Label>Add a star next to ToolkitUtils in the mod list.</TKUtils.CommandTweaks.DecorateUtils.Label>
 
   <!-- Pawn Commands -->
   <TKUtils.PawnCommands.Health.ShowSurgeries.Label>Include queued surgeries in the health command.</TKUtils.PawnCommands.Health.ShowSurgeries.Label>
@@ -17,4 +19,5 @@
   <TKUtils.PawnCommands.Gear.ShowWeapon.Label>Include weapon in the gear command.</TKUtils.PawnCommands.Gear.ShowWeapon.Label>
   <TKUtils.PawnCommands.Gear.ShowApparel.Label>Include apparel in the gear command.</TKUtils.PawnCommands.Gear.ShowApparel.Label>
   <TKUtils.PawnCommands.Body.TempInGear.Label>Include temperature tolerances in the gear command instead.</TKUtils.PawnCommands.Body.TempInGear.Label>
+  <TKUtils.PawnCommands.Traits.Sexuality.Label>Sexuality traits can bypass the trait limit.</TKUtils.PawnCommands.Traits.Sexuality.Label>
 </LanguageData>

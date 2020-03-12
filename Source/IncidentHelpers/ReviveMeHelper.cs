@@ -23,15 +23,22 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             Viewer = viewer;
             this.separateChannel = separateChannel;
 
-            var pawn = CommandBase.GetPawn(viewer.username);
+            var pawn = CommandBase.GetPawnDestructive(viewer.username);
 
             if(pawn == null)
             {
-                CommandBase.SendMessage("TKUtils.Responses.NoPawn".Translate(), separateChannel);
+                CommandBase.SendCommandMessage(
+                    viewer.username,
+                    "TKUtils.Responses.NoPawn".Translate(),
+                    separateChannel
+                );
                 return false;
             }
 
-            if(PawnTracker.pawnsToRevive.Contains(pawn)) return false;
+            if(PawnTracker.pawnsToRevive.Contains(pawn))
+            {
+                return false;
+            }
 
             this.pawn = pawn;
             return true;
@@ -44,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 Pawn val;
                 if(pawn.SpawnedParentOrMe != pawn.Corpse && (val = (pawn.SpawnedParentOrMe as Pawn)) != null && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var val2, null))
                 {
-                    Log.Error($"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position} from {val}", false);
+                    CommandBase.Error($"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position} from {val}");
                 }
                 else
                 {
@@ -56,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
             catch(Exception ex)
             {
-                Log.Error("Submit this bug to ToolkitUtils issue tracker: " + ex.Message, false);
+                CommandBase.Error("Submit this bug to ToolkitUtils issue tracker: " + ex.Message);
             }
         }
     }

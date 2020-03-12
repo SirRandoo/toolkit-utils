@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
@@ -98,6 +101,36 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             return cache;
+        }
+
+        public static bool TryParseBool(string input, bool defaultValue = true)
+        {
+            if(input.EqualsIgnoreCase("yes") || input.EqualsIgnoreCase("true") || input.EqualsIgnoreCase("y") || input.Equals("1") || input.Equals("+"))
+            {
+                return true;
+            }
+
+            if(input.EqualsIgnoreCase("no") || input.EqualsIgnoreCase("false") || input.EqualsIgnoreCase("n") || input.Equals("0") || input.Equals("-"))
+            {
+                return false;
+            }
+
+            if(input.Equals("👍") || input.Equals("✔️") || input.Equals("☑️") || input.Equals("✅") || input.Equals("🆗"))
+            {
+                return true;
+            }
+
+            if(input.Equals("👎") || input.Equals("🛑") || input.Equals("🚫") || input.Equals("⛔") || input.Equals("⏹️") || input.Equals("⏏️") || input.Equals("❌") || input.Equals("❎"))
+            {
+                return false;
+            }
+
+            if(input.Equals("🎲"))
+            {
+                return new Random().Next(1) == 1;
+            }
+
+            return defaultValue;
         }
     }
 }

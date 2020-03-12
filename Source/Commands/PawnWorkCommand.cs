@@ -15,20 +15,24 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if(!CommandsHandler.AllowCommand(message)) return;
 
-            var pawn = GetPawn(message.User);
+            var pawn = GetPawnDestructive(message.User);
 
             if(pawn.workSettings != null && pawn.workSettings.EverWork)
             {
-                var segments = pawn.workSettings.WorkGiversInOrderNormal?
-                    .Select(w => $"{w.def.defName.CapitalizeFirst()}: {pawn.workSettings.GetPriority(w.def.workType)}")
-                    .ToList();
+                var segments = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder
+                    .Select(w => "TKUtils.Formats.PawnWork.Work".Translate(
+                        w.ToString().Named("NAME"),
+                        pawn.workSettings.GetPriority(w).Named("VALUE")
+                    )).ToArray();
 
                 if(segments != null)
                 {
-                    SendMessage(
-                        "TKUtils.Responses.Format".Translate(
-                            NamedArgumentUtility.Named(message.User, "VIEWER"),
-                            NamedArgumentUtility.Named(string.Join(", ", segments), "MESSAGE")
+                    SendCommandMessage(
+                        "TKUtils.Formats.PawnWork.Base".Translate(
+                            string.Join(
+                                "TKUtils.Misc.Separators.Inner".Translate(),
+                                segments
+                            ).Named("PRIORITIES")
                         ),
                         message
                     );
@@ -36,11 +40,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
             else
             {
-                SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        NamedArgumentUtility.Named(message.User, "VIEWER"),
-                        NamedArgumentUtility.Named("TKUtils.Responses.NoWork".Translate(), "MESSAGE")
-                    ),
+                SendCommandMessage(
+                    "TKUtils.Responses.PawnWork.None".Translate(),
                     message
                 );
             }

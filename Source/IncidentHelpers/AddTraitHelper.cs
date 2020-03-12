@@ -7,12 +7,13 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.IncidentHelpers.Traits;
+using TwitchToolkit.Store;
 
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
-    public class AddTraitHelper : AddTrait
+    public class AddTraitHelper : IncidentHelperVariables
     {
         private BuyableTrait buyableTrait;
         private Pawn pawn;
@@ -23,56 +24,48 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            this.separateChannel = separateChannel;
-            Viewer = viewer;
-
-            var segments = message.Split(' ');
-
-            if(segments.Length < 3)
+            if(viewer == null)
             {
-                CommandBase.SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        viewer.username.Named("VIEWER"),
-                        "TKUtils.Responses.NoTrait".Translate(storeIncident.syntax.Named("SYNTAX")).Named("MESSAGE")
-                    ).Replace("!Buy", "!buy"),
-                    separateChannel
-                );
                 return false;
             }
 
-            var pawn = CommandBase.GetPawn(viewer.username);
+            Viewer = viewer;
+            this.separateChannel = separateChannel;
+
+            var trait = CommandParser.Parse(message, prefix: TKSettings.Prefix).Skip(2).FirstOrDefault();
+
+            if(trait.NullOrEmpty())
+            {
+                return false;
+            }
+
+            var pawn = CommandBase.GetPawnDestructive(viewer.username);
 
             if(pawn == null)
             {
-                CommandBase.SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        viewer.username.Named("VIEWER"),
-                        "TKUtils.Responses.NoPawn".Translate().Named("MESSAGE")
-                    ),
+                CommandBase.SendCommandMessage(
+                    viewer.username,
+                    "TKUtils.Responses.NoPawn".Translate(),
                     separateChannel
                 );
                 return false;
             }
 
-            var input = segments[2].ToLower();
-            var buyable = AllTraits.buyableTraits.Where(t => MultiCompare(t, input)).FirstOrDefault();
-
+            var buyable = AllTraits.buyableTraits.Where(t => TraitHelper.MultiCompare(t, trait)).FirstOrDefault();
             var maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
             var traits = pawn.story.traits.allTraits;
 
             if(traits != null)
             {
-                var tally = traits.Where(t => !IsSpecialTrait(t)).Count();
-                var flag = buyable == null ? false : IsSpecialTrait(buyable.def);
-
-                //Log.Message($"TKUtils :: Flag:{flag},Tally:{tally},Max:{maxTraits}");
+                var tally = traits.Where(t => !TraitHelper.IsSpecialTrait(t)).Count();
+                var flag = buyable == null ? false : TraitHelper.IsSpecialTrait(buyable.def);
 
                 if(tally >= maxTraits && !flag)
                 {
-                    CommandBase.SendMessage(
-                        "TKUtils.Responses.Format".Translate(
-                            viewer.username.Named("VIEWER"),
-                            "TKUtils.Responses.TraitLimitReached".Translate(maxTraits.Named("LIMIT")).Named("MESSAGE")
+                    CommandBase.SendCommandMessage(
+                        viewer.username,
+                        "TKUtils.Responses.BuyTrait.LimitReached".Translate(
+                            maxTraits.Named("LIMIT")
                         ),
                         separateChannel
                     );
@@ -82,57 +75,48 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if(buyable == null)
             {
-                CommandBase.SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        viewer.username.Named("VIEWER"),
-                        "TKUtils.Responses.NoTraitFound".Translate(
-                            input.Named("TRAIT")
-                        ).Named("MESSAGE")
+                CommandBase.SendCommandMessage(
+                    viewer.username,
+                    "TKUtils.Responses.TraitQueryInvalid".Translate(
+                        trait.Named("QUERY")
                     ),
                     separateChannel
                 );
-
                 return false;
             }
 
             var traitDef = buyable.def;
-            var trait = new Trait(traitDef, degree: buyable.degree, forced: false);
+            var traitObj = new Trait(traitDef, degree: buyable.degree, forced: false);
 
             foreach(var t in pawn.story.traits.allTraits)
             {
-                if(t.def.ConflictsWith(trait) || traitDef.ConflictsWith(t))
+                if(t.def.ConflictsWith(traitObj) || traitDef.ConflictsWith(t))
                 {
-                    CommandBase.SendMessage(
-                        "TKUtils.Responses.Format".Translate(
-                            viewer.username.Named("VIEWER"),
-                            "TKUtils.Responses.TraitConflict".Translate(
-                                traitDef.defName.Named("TRAIT"),
-                                t.LabelCap.Named("CONFLICT")
-                            ).Named("MESSAGE")
+                    CommandBase.SendCommandMessage(
+                        viewer.username,
+                        "TKUtils.Responses.BuyTrait.Conflicts".Translate(
+                            t.LabelCap.Named("TRAIT"),
+                            traitDef.defName.Named("REQUESTED")
                         ),
                         separateChannel
                     );
-
                     return false;
                 }
             }
 
-            if(traits != null && traits.Find(s => s.def.defName == trait.def.defName) != null)
+            if(traits != null && traits.Find(s => s.def.defName == traitObj.def.defName) != null)
             {
-                CommandBase.SendMessage(
-                    "TKUtils.Responses.HasTrait".Translate(
-                        viewer.username.Named("VIEWER"),
-                        "TKUtils.Responses.HasTrait".Translate(
-                            trait.Label.Named("TRAIT")
-                        ).Named("MESSAGE")
+                CommandBase.SendCommandMessage(
+                    viewer.username,
+                    "TKUtils.Responses.BuyTrait.Duplicate".Translate(
+                        traitObj.Label.Named("TRAIT")
                     ),
                     separateChannel
                 );
-
                 return false;
             }
 
-            this.trait = trait;
+            this.trait = traitObj;
             this.traitDef = traitDef;
             this.buyableTrait = buyable;
             this.pawn = pawn;
@@ -158,12 +142,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if(ToolkitSettings.PurchaseConfirmations)
             {
-                CommandBase.SendMessage(
-                    "TKUtils.Responses.Format".Translate(
-                        Viewer.username.Named("VIEWER"),
-                        "TKUtils.Responses.TraitAdded".Translate(
-                            trait.Label.Named("TRAIT")
-                        ).Named("MESSAGE")
+                CommandBase.SendCommandMessage(
+                    Viewer.username,
+                    "TKUtils.Responses.BuyTrait.Added".Translate(
+                        trait.Label.Named("TRAIT")
                     ),
                     separateChannel
                 );
@@ -179,36 +161,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 new LookTargets(pawn),
                 null
             );
-        }
-
-        private bool IsSpecialTrait(Trait trait)
-        {
-            if(trait.def.Equals(TraitDefOf.Gay)) return true;
-            if(trait.def.Equals(TraitDefOf.Bisexual)) return true;
-
-            return false;
-        }
-
-        private bool IsSpecialTrait(TraitDef trait)
-        {
-            if(trait.Equals(TraitDefOf.Gay)) return true;
-            if(trait.Equals(TraitDefOf.Bisexual)) return true;
-
-            return false;
-        }
-
-        private bool MultiCompare(BuyableTrait trait, string input)
-        {
-            var label = trait.label;
-
-            if(input.Equals(label)) return true;
-
-            if(TKSettings.RichText && RichTextUnparser.IsRichText(label) && RichTextUnparser.StripTags(input).Equals(input))
-            {
-                return true;
-            }
-
-            return false;
         }
     }
 }

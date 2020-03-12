@@ -75,6 +75,15 @@
     <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixCommand</commandDriver>
   </TwitchToolkit.Command>
 
+  <TwitchToolkit.Command>
+    <defName>FixAllPawns</defName>
+    <label>fix all pawns</label>
+    <command>fixallpawns</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixAllCommand</commandDriver>
+    <requiresMod>true</requiresMod>
+  </TwitchToolkit.Command>
+
   <!-- Colony Commands -->
   <TwitchToolkit.Command>
     <defName>Factions</defName>

@@ -3,6 +3,8 @@ using System.Linq;
 
 using HarmonyLib;
 
+using SirRandoo.ToolkitUtils.Utils;
+
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 
@@ -50,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
             catch(Exception e)
             {
-                Log.Error($"Founder patch failed with exception: {e.Message}\n{e.StackTrace}");
+                CommandBase.Error($"Founder patch failed with exception: {e.Message}\n{e.StackTrace}");
             }
         }
     }
