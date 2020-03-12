@@ -143,6 +143,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 pawn.health.RestorePart(toRestore);
 
+                Viewer.TakeViewerCoins(storeIncident.cost);
+                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
                 NotifySuccess(toRestore.LabelCap);
             }
         }

@@ -57,6 +57,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     pawn.ClearAllReservations(true);
                     ResurrectionUtility.ResurrectWithSideEffects(pawn);
                     PawnTracker.pawnsToRevive.Remove(pawn);
+
+                    Viewer.TakeViewerCoins(storeIncident.cost);
+                    Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
                     Find.LetterStack.ReceiveLetter("Pawn Revived", $"{pawn.Name} has been revived but is experiencing some side effects.", LetterDefOf.PositiveEvent, new LookTargets(pawn), null);
                 }
             }

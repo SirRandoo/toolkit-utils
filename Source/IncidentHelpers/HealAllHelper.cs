@@ -52,6 +52,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 part.First.health.RestorePart(part.Second);
             }
 
+            Viewer.TakeViewerCoins(storeIncident.cost);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.Letters.MassHeal.Title".Translate(),
                 "TKUtils.Letters.MassHeal.Description".Translate(),
