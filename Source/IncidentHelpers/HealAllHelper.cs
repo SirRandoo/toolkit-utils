@@ -14,8 +14,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
     public class HealAllHelper : IncidentHelper
     {
-        private List<Hediff> healQueue;
-        private List<Pair<Pawn, BodyPartRecord>> restoreQueue;
+        private List<Hediff> healQueue = new List<Hediff>();
+        private List<Pair<Pawn, BodyPartRecord>> restoreQueue = new List<Pair<Pawn, BodyPartRecord>>();
 
         public override bool IsPossible()
         {
@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            return healQueue.Any() || restoreQueue.Any();
+            return healQueue.Any(i => i != null) || restoreQueue.Any(i => i != null);
         }
 
         public override void TryExecute()
