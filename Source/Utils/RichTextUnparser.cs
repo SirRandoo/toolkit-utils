@@ -36,29 +36,41 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             while(IsRichText(container))
             {
+                var nameEnd = false;
                 var inTag = false;
                 var tagContent = "";
+                var tag = "";
 
                 foreach(var c in container)
                 {
-                    if(c.Equals('<'))
+                    if(c.Equals('<') && tagContent == "")
                     {
                         inTag = true;
+                    }
+                    else if(c.Equals(' ') && inTag)
+                    {
+                        nameEnd = true;
+                        tagContent += c;
+                    }
+                    else if(c.Equals('>'))
+                    {
+                        inTag = false;
                     }
                     else if(inTag)
                     {
                         tagContent += c;
-                    }
-                    else if(c.Equals('/'))
-                    {
-                        inTag = false;
+
+                        if(!nameEnd)
+                        {
+                            tag += c;
+                        }
                     }
                 }
 
                 if(!tagContent.NullOrEmpty())
                 {
                     container = container.Replace($"<{tagContent}>", "");
-                    container = container.Replace($"</{tagContent}>", "");
+                    container = container.Replace($"</{tag}>", "");
                 }
 
                 i++;
@@ -68,7 +80,6 @@ namespace SirRandoo.ToolkitUtils.Utils
                 // than 10 tags is questionable.
                 if((container.Contains("<") || container.Contains(">")) && i > expectedTags)
                 {
-                    Log.Message($"<color=red>WARN {TKUtils.ID} :: Attempted to unrichify string \"{input}\", but exceeded {expectedTags} attempts.</color>");
                     return container;
                 }
             }
