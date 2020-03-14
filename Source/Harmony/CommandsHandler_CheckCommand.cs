@@ -3,9 +3,9 @@ using System.Linq;
 
 using HarmonyLib;
 
-using rim_twitch;
-
 using SirRandoo.ToolkitUtils.Utils;
+
+using ToolkitCore;
 
 using TwitchLib.Client.Models;
 
