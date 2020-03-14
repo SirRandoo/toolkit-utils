@@ -80,37 +80,37 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if(pawn.MentalStateDef != null)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.None").Translate();
+                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.None").Translate();
             }
 
             var breakThresholdExtreme = pawn.mindState.mentalBreaker.BreakThresholdExtreme;
 
             if(pawn.needs.mood.CurLevel < breakThresholdExtreme)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Extreme").Translate();
+                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Extreme").Translate();
             }
 
             if(pawn.needs.mood.CurLevel < breakThresholdExtreme + 0.05f)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Upset").Translate();
+                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Upset").Translate();
             }
 
             if(pawn.needs.mood.CurLevel < pawn.mindState.mentalBreaker.BreakThresholdMinor)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Stressed").Translate();
+                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Stressed").Translate();
             }
 
             if(pawn.needs.mood.CurLevel < 0.65f)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Bad");
+                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Bad");
             }
 
             if(pawn.needs.mood.CurLevel < 0.9f)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Neutral").Translate();
+                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Neutral").Translate();
             }
 
-            return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Happy").Translate();
+            return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Happy").Translate();
         }
 
         private string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
