@@ -16,7 +16,10 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message)) return;
+            if(!CommandsHandler.AllowCommand(message))
+            {
+                return;
+            }
 
             var pawn = GetPawnDestructive(message.User);
 

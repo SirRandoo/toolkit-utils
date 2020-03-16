@@ -43,15 +43,21 @@ namespace SirRandoo.ToolkitUtils
         {
             if(ModListCache == null || ModListCache.Any())
             {
-                ModListCache = LoadedModManager.ModHandles
-                    .Select(m =>
-                    {
-                        return new KeyValuePair<string, string>(
-                            m.Content.Name,
-                            m.GetType().Module.Assembly.GetName().Version.ToString()
-                        );
-                    })
-                    .ToArray();
+                var container = new List<KeyValuePair<string, string>>();
+
+                foreach(var handle in LoadedModManager.ModHandles)
+                {
+                    var version = handle.GetType().Module.Assembly.GetName().Version.ToString();
+
+                    container.Add(
+                        new KeyValuePair<string, string>(
+                            handle.Content.Name,
+                            version
+                        )
+                    );
+                }
+
+                ModListCache = container.ToArray();
             }
 
             return ModListCache;

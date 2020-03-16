@@ -14,7 +14,10 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         private const int MESSAGE_LIMIT = 500;
 
-        public static void Error(string message) => Verse.Log.Error($"ERROR {TKUtils.ID} :: {message}");
+        public static void Error(string message)
+        {
+            Verse.Log.Error($"ERROR {TKUtils.ID} :: {message}");
+        }
 
         public static Pawn FindPawn(string username)
         {
@@ -90,7 +93,10 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void SendMessage(string message, bool separateRoom)
         {
-            if(message.NullOrEmpty()) return;
+            if(message.NullOrEmpty())
+            {
+                return;
+            }
 
             var words = message.Split(new char[] { ' ' }, System.StringSplitOptions.None);
             var builder = new StringBuilder();
@@ -128,8 +134,14 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
         }
 
-        public static void SendMessage(string message, IRCMessage ircMessage) => SendMessage(message, CommandsHandler.SendToChatroom(ircMessage));
+        public static void SendMessage(string message, IRCMessage ircMessage)
+        {
+            SendMessage(message, CommandsHandler.SendToChatroom(ircMessage));
+        }
 
-        public static void Warn(string message) => Verse.Log.Message($"WARN {TKUtils.ID} :: {message}");
+        public static void Warn(string message)
+        {
+            Verse.Log.Message($"WARN {TKUtils.ID} :: {message}");
+        }
     }
 }

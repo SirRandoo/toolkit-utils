@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 
 using SirRandoo.ToolkitUtils.Utils;
 
@@ -13,21 +13,33 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message)) return;
+            if(!CommandsHandler.AllowCommand(message))
+            {
+                return;
+            }
 
             var pawn = GetPawnDestructive(message.User);
 
             if(pawn.needs != null)
             {
+                var needs = pawn.needs.AllNeeds;
+                var container = new List<string>();
+
+                foreach(var need in needs)
+                {
+                    container.Add(
+                        "TKUtils.Formats.PawnNeeds.Need".Translate(
+                            need.LabelCap.Named("NEED"),
+                            GenText.ToStringPercent(need.CurLevelPercentage).Named("PERCENT")
+                        )
+                    );
+                }
+
                 SendCommandMessage(
                     "TKUtils.Formats.PawnNeeds.Base".Translate(
                         string.Join(
                             "TKUtils.Misc.Separators.Inner".Translate(),
-                            pawn.needs.AllNeeds
-                                .Select(n => "TKUtils.Formats.PawnNeeds.Need".Translate(
-                                    n.LabelCap.Named("NEED"),
-                                    string.Format("{0:P2}", n.CurLevelPercentage).Named("PERCENT")
-                                ))
+                            container
                         ).Named("NEEDS")
                     ),
                     message

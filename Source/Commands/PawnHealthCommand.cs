@@ -16,7 +16,10 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message)) return;
+            if(!CommandsHandler.AllowCommand(message))
+            {
+                return;
+            }
 
             var pawn = GetPawnDestructive(message.User);
 
@@ -124,8 +127,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 "TKUtils.Formats.PawnHealth.Capacity".Translate(
                     capacity.LabelCap.Named("CAPACITY"),
-                    string.Format(
-                        "{0:P2}",
+                    GenText.ToStringPercent(
                         PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
                     ).Named("PERCENT")
                 )
@@ -192,10 +194,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             var segments = new List<string>()
             {
                 "TKUtils.Formats.PawnHealth.Summary".Translate(
-                    string.Format(
-                        "{0:P2}",
-                        pawn.health.summaryHealth.SummaryHealthPercent
-                    ).Named("PERCENT")
+                    GenText.ToStringPercent(pawn.health.summaryHealth.SummaryHealthPercent).Named("PERCENT")
                 )
             };
 
@@ -255,16 +254,28 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if(source.Any())
             {
+                var capacities = new List<string>();
+                source = source.OrderBy(d => d.listOrder);
+
+                foreach(var capacity in source)
+                {
+                    if(!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
+                    {
+                        continue;
+                    }
+
+                    capacities.Add(
+                        "TKUtils.Formats.PawnHealth.Capacity".Translate(
+                            capacity.GetLabelFor(pawn).CapitalizeFirst().Named("CAPACITY"),
+                            HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First.Named("PERCENT")
+                        )
+                    );
+                }
+
                 segments.Add(
                     string.Join(
-                        "TKUtils.Misc.Separators.Inner".Translate(),
-                        source.OrderBy(d => d.listOrder)
-                            .Where(d => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, d))
-                            .Select(d => "TKUtils.Formats.PawnHealth.Capacity".Translate(
-                                d.GetLabelFor(pawn).CapitalizeFirst().Named("CAPACITY"),
-                                HealthCardUtility.GetEfficiencyLabel(pawn, d).First.Named("PERCENT")
-                            )
-                        )
+                        "TKUtils.Misc.SEparators.Inner".Translate(),
+                        capacities
                     )
                 );
             }
@@ -275,11 +286,18 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if(surgeries != null && surgeries.Count > 0)
                 {
+                    var queued = new List<string>();
+
+                    foreach(var item in surgeries.Bills)
+                    {
+                        queued.Add(item.LabelCap);
+                    }
+
                     segments.Add(
                         "TKUtils.Formats.PawnHealth.Surgeries".Translate(
                             string.Join(
                                 "TKUtils.Misc.Separators.Inner".Translate(),
-                                surgeries.Bills.Select(s => s.LabelCap)
+                                queued
                             ).Named("SURGERIES")
                         )
                     );
