@@ -11,6 +11,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool Commands = true;
         public static bool DecorateUtils = false;
         public static bool Emojis = true;
+        public static bool FilterWorkPriorities = false;
         public static string Prefix = "!";
         public static bool RichText = true;
         public static bool Sexuality = true;
@@ -18,6 +19,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool ShowArmor = true;
         public static bool ShowSurgeries = true;
         public static bool ShowWeapon = true;
+        public static bool SortWorkPriorities = false;
         public static bool TempInGear = false;
         public static bool VersionedModList = false;
         private static Vector2 ScrollPos = Vector2.zero;
@@ -59,6 +61,8 @@ namespace SirRandoo.ToolkitUtils
             listing.CheckboxLabeled("TKUtils.PawnCommands.Gear.ShowArmor.Label".Translate(), ref ShowArmor);
             listing.CheckboxLabeled("TKUtils.PawnCommands.Gear.ShowWeapon.Label".Translate(), ref ShowWeapon);
             listing.CheckboxLabeled("TKUtils.PawnCommands.Health.ShowSurgeries.Label".Translate(), ref ShowSurgeries);
+            listing.CheckboxLabeled("TKUtils.PawnCommands.Work.Sort.Label".Translate(), ref SortWorkPriorities);
+            listing.CheckboxLabeled("TKUtils.PawnCommands.Work.Filter.Label".Translate(), ref FilterWorkPriorities);
             listing.Gap(24);
 
             listing.EndScrollView(ref view);
@@ -78,6 +82,8 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref ShowApparel, "apparel", false);
             Scribe_Values.Look(ref TempInGear, "tempInGear", false);
             Scribe_Values.Look(ref Sexuality, "sexuality", true);
+            Scribe_Values.Look(ref SortWorkPriorities, "sortWork", false);
+            Scribe_Values.Look(ref FilterWorkPriorities, "filterWork", false);
         }
     }
 }
