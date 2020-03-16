@@ -103,13 +103,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                             new string[]
                             {
                                 GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Sharp").Translate(
-                                    string.Format("{0:P2}", sharp).Named("SHARP")
+                                    GenText.ToStringPercent(sharp).Named("SHARP")
                                 ),
                                 GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Blunt").Translate(
-                                    string.Format("{0:P2}", blunt).Named("BLUNT")
+                                    GenText.ToStringPercent(blunt).Named("BLUNT")
                                 ),
                                 GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Heat").Translate(
-                                    string.Format("{0:P2}", heat).Named("HEAT")
+                                    GenText.ToStringPercent(heat).Named("HEAT")
                                 )
                             }
                         ).Named("STATS")
@@ -123,11 +123,19 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if(e != null && e.AllEquipmentListForReading?.Count > 0)
                 {
+                    var equip = e.AllEquipmentListForReading;
+                    var container = new List<string>();
+
+                    foreach(var eq in equip)
+                    {
+                        container.Add(eq.LabelCap);
+                    }
+
                     parts.Add(
                         "TKUtils.Formats.PawnGear.Equipment".Translate(
                             string.Join(
                                 "TKUtils.Misc.Separators.Inner".Translate(),
-                                e.AllEquipmentListForReading.Select(i => i.LabelCap)
+                                equip
                             ).Named("EQUIPMENT")
                         )
                     );
@@ -140,11 +148,19 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if(a != null && a.WornApparelCount > 0)
                 {
+                    var container = new List<string>();
+                    var apparel = a.WornApparel;
+
+                    foreach(var item in apparel)
+                    {
+                        container.Add(item.LabelCap);
+                    }
+
                     parts.Add(
                         "TKUtils.Formats.PawnGear.Apparel".Translate(
                             string.Join(
                                 "TKUtils.Misc.Separators.Inner".Translate(),
-                                a.WornApparel.Select(i => i.LabelCap)
+                                container
                             ).Named("APPAREL")
                         )
                     );

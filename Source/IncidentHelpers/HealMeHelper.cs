@@ -136,6 +136,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 HealHelper.Cure(toHeal);
 
+                Viewer.TakeViewerCoins(storeIncident.cost);
+                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
                 NotifySuccess(toHeal.LabelCap);
             }
 

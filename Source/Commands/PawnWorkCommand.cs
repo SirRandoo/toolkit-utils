@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using SirRandoo.ToolkitUtils.Utils;
 
@@ -23,19 +24,43 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if(pawn.workSettings != null && pawn.workSettings.EverWork)
             {
-                var segments = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder
-                    .Select(w => "TKUtils.Formats.PawnWork.Work".Translate(
-                        w.ToString().Named("NAME"),
-                        pawn.workSettings.GetPriority(w).Named("VALUE")
-                    )).ToArray();
+                var container = new List<string>();
+                var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder;
 
-                if(segments != null)
+                if(TKSettings.SortWorkPriorities)
+                {
+                    priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
+                        .ThenBy(p => p.naturalPriority)
+                        .Reverse();
+                }
+
+                foreach(var priority in priorities)
+                {
+                    var p = pawn.workSettings.GetPriority(priority);
+
+                    if(TKSettings.FilterWorkPriorities)
+                    {
+                        if(p <= 0)
+                        {
+                            continue;
+                        }
+                    }
+
+                    container.Add(
+                        "TKUtils.Formats.PawnWork.Work".Translate(
+                            priority.ToString().Named("NAME"),
+                            p.Named("VALUE")
+                        )
+                    );
+                }
+
+                if(container.Count > 0)
                 {
                     SendCommandMessage(
                         "TKUtils.Formats.PawnWork.Base".Translate(
                             string.Join(
                                 "TKUtils.Misc.Separators.Inner".Translate(),
-                                segments
+                                container
                             ).Named("PRIORITIES")
                         ),
                         message

@@ -20,4 +20,6 @@
   <TKUtils.PawnCommands.Gear.ShowApparel.Label>Include apparel in the gear command.</TKUtils.PawnCommands.Gear.ShowApparel.Label>
   <TKUtils.PawnCommands.Body.TempInGear.Label>Include temperature tolerances in the gear command instead.</TKUtils.PawnCommands.Body.TempInGear.Label>
   <TKUtils.PawnCommands.Traits.Sexuality.Label>Sexuality traits can bypass the trait limit.</TKUtils.PawnCommands.Traits.Sexuality.Label>
+  <TKUtils.PawnCommands.Work.Sort.Label>Sort work priorities by the order a pawn would do them.</TKUtils.PawnCommands.Work.Sort.Label>
+  <TKUtils.PawnCommands.Work.Filter.Label>Filter out disabled work priorities.</TKUtils.PawnCommands.Work.Filter.Label>
 </LanguageData>

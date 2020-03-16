@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 
 using SirRandoo.ToolkitUtils.Utils;
 
@@ -14,23 +14,38 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public static string GetModListString()
         {
+            var container = new List<string>();
+            var unversioned = TKUtils.GetModListUnversioned();
+
+            foreach(var mod in unversioned)
+            {
+                container.Add(TryFavoriteMod(mod));
+            }
+
             return string.Join(
                 "TKUtils.Misc.Separators.Inner".Translate(),
-                TKUtils.GetModListUnversioned().Select(m => TryFavoriteMod(m))
+                container
             );
         }
 
         public static string GetModListStringVersioned()
         {
+            var container = new List<string>();
+            var versioned = TKUtils.GetModListVersioned();
+
+            foreach(var mod in versioned)
+            {
+                container.Add(
+                    "TKUtils.Formats.ModList.Mod".Translate(
+                        TryFavoriteMod(mod.Key).Named("NAME"),
+                        mod.Value.Named("VERSION")
+                    )
+                );
+            }
+
             return string.Join(
                 "TKUtils.Misc.Separators.Inner".Translate(),
-                TKUtils.GetModListVersioned().Select(m =>
-                {
-                    return "TKUtils.Formats.ModList.Mod".Translate(
-                        TryFavoriteMod(m.Key).Named("NAME"),
-                        m.Value.Named("VERSION")
-                    );
-                })
+                container
             );
         }
 
