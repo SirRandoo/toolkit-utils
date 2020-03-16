@@ -26,6 +26,14 @@
     <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
   </TwitchToolkit.Command>
 
+  <TwitchToolkit.Command>
+    <defName>HealAllShortcut</defName>
+    <label>healall</label>
+    <command>healall</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+  </TwitchToolkit.Command>
+
   <!-- Pawn Commands -->
   <TwitchToolkit.Command>
     <defName>MyPawnHealth</defName>
