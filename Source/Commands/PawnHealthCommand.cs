@@ -274,7 +274,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 segments.Add(
                     string.Join(
-                        "TKUtils.Misc.SEparators.Inner".Translate(),
+                        "TKUtils.Misc.Separators.Inner".Translate(),
                         capacities
                     )
                 );
