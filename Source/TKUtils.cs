@@ -47,6 +47,11 @@ namespace SirRandoo.ToolkitUtils
 
                 foreach(var handle in LoadedModManager.ModHandles)
                 {
+                    if(container.Any(i => i.Key.Equals(handle.Content.Name)))
+                    {
+                        continue;
+                    }
+
                     var version = handle.GetType().Module.Assembly.GetName().Version.ToString();
 
                     container.Add(
