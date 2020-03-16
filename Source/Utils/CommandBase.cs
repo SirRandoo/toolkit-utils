@@ -17,10 +17,7 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         private const int MESSAGE_LIMIT = 500;
 
-        public static void Error(string message)
-        {
-            Verse.Log.Error($"ERROR {TKUtils.ID} :: {message}");
-        }
+        public static void Error(string message) => Verse.Log.Error($"ERROR {TKUtils.ID} :: {message}");
 
         public static Pawn FindPawn(string username)
         {
@@ -136,18 +133,8 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
         }
 
-<<<<<<< HEAD
         public static void SendMessage(string message, ChatMessage ircMessage) => SendMessage(message);
-=======
-        public static void SendMessage(string message, IRCMessage ircMessage)
-        {
-            SendMessage(message, CommandsHandler.SendToChatroom(ircMessage));
-        }
->>>>>>> cd62ab800fd9bb2a1046201238cc2082fe54899b
 
-        public static void Warn(string message)
-        {
-            Verse.Log.Message($"WARN {TKUtils.ID} :: {message}");
-        }
+        public static void Warn(string message) => Verse.Log.Message($"WARN {TKUtils.ID} :: {message}");
     }
 }
