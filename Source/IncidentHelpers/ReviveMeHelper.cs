@@ -15,15 +15,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
     public class ReviveMeHelper : IncidentHelperVariables
     {
         private Pawn pawn;
-        private bool separateChannel;
         public override Viewer Viewer { get; set; }
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             Viewer = viewer;
-            this.separateChannel = separateChannel;
 
-            var pawn = CommandBase.GetPawnDestructive(viewer.username);
+            var pawn = CommandBase.GetOrFindPawn(viewer.username);
 
             if(pawn == null)
             {
@@ -51,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 Pawn val;
                 if(pawn.SpawnedParentOrMe != pawn.Corpse && (val = (pawn.SpawnedParentOrMe as Pawn)) != null && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var val2, null))
                 {
-                    CommandBase.Error($"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position} from {val}");
+                    Logger.Warn($"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position} from {val}");
                 }
                 else
                 {
@@ -66,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
             catch(Exception ex)
             {
-                CommandBase.Error("Submit this bug to ToolkitUtils issue tracker: " + ex.Message);
+                Logger.Error("Could not execute reviveme", ex);
             }
         }
     }

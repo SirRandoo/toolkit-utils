@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var pawn = CommandBase.GetPawnDestructive(viewer.username);
+            var pawn = CommandBase.GetOrFindPawn(viewer.username);
 
             if(pawn == null)
             {

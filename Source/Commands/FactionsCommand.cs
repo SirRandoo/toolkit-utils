@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if(filteredFactions.Any())
             {
-                var segments = filteredFactions.Select(f => $"{f.GetCallLabel()}: {f.PlayerGoodwill.ToStringWithSign()}");
+                var segments = filteredFactions.Select(f => $"{f.GetCallLabel()}: {f.PlayerGoodwill.ToStringWithSign()}").ToArray();
 
                 SendCommandMessage(
                     string.Join("TKUtils.Misc.Separators.Inner".Translate(), segments),

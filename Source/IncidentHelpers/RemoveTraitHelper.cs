@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            pawn = CommandBase.GetPawnDestructive(viewer.username);
+            pawn = CommandBase.GetOrFindPawn(viewer.username);
 
             if(pawn == null)
             {
@@ -107,7 +107,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 foreach(var gain in data.skillGains)
                 {
                     var skill = pawn.skills.GetSkill(gain.Key);
-                    skill.Level = skill.Level - gain.Value;
+                    skill.Level -= gain.Value;
                 }
             }
 

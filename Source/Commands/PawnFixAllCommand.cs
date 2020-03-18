@@ -18,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             foreach(var viewer in Viewers.All)
             {
-                GetPawnDestructive(viewer.username);
+                GetOrFindPawn(viewer.username);
             }
 
             SendCommandMessage(

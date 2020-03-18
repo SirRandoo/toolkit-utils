@@ -1,6 +1,4 @@
-﻿using SirRandoo.ToolkitUtils.Utils;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 using Verse;
 
@@ -47,7 +45,7 @@ namespace SirRandoo.ToolkitUtils
                 if(Prefix.StartsWith(" ") || Prefix.StartsWith("/") || Prefix.StartsWith("."))
                 {
                     Prefix = "!";
-                    CommandBase.Warn($"User attempted to use a reserved character in their command prefix!  Reseting...");
+                    Logger.Warn($"User attempted to use a reserved character in their command prefix!  Reseting...");
                 }
             }
             listing.Gap(24);

@@ -16,6 +16,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnGearCommand : CommandBase
     {
+        private static bool IsTemperatureCustom = false;
+        private static bool TemperatureCheck = true;
+
         public override void RunCommand(IRCMessage message)
         {
             if(!CommandsHandler.AllowCommand(message))
@@ -23,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var pawn = GetPawnDestructive(message.User);
+            var pawn = GetOrFindPawn(message.User);
 
             if(pawn == null)
             {
@@ -79,12 +82,31 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 var tempMin = GenText.ToStringTemperature(StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMin, applyPostProcess: true));
                 var tempMax = GenText.ToStringTemperature(StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMax, applyPostProcess: true));
+                TaggedString display;
+
+                if(IsTemperatureCustom)
+                {
+                    display = TaggedString.Empty;
+                }
+                else
+                {
+                    display = GetTemperatureDisplay();
+
+                    if(TemperatureCheck && display.RawText.Contains("["))
+                    {
+                        Logger.Info("Custom temperature display detected; omitting temperature scale from now on.");
+                        IsTemperatureCustom = true;
+                        TemperatureCheck = false;
+
+                        display = TaggedString.Empty;
+                    }
+                }
 
                 parts.Add(
                     "TKUtils.Formats.PawnGear.Temperature".Translate(
                         tempMin.Named("MINIMUM"),
                         tempMax.Named("MAXIMUM"),
-                        GetTemperatureDisplay().Named("DISPLAY")
+                        display.Named("DISPLAY")
                     )
                 );
             }
@@ -94,23 +116,40 @@ namespace SirRandoo.ToolkitUtils.Commands
                 var sharp = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
                 var blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
                 var heat = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
+                var stats = new List<string>();
+
+                if(sharp > 0)
+                {
+                    stats.Add(
+                        GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Sharp").Translate(
+                            GenText.ToStringPercent(sharp).Named("SHARP")
+                        )
+                    );
+                }
+
+                if(blunt > 0)
+                {
+                    stats.Add(
+                        GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Blunt").Translate(
+                            GenText.ToStringPercent(blunt).Named("BLUNT")
+                        )
+                    );
+                }
+
+                if(heat > 0)
+                {
+                    stats.Add(
+                        GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Heat").Translate(
+                            GenText.ToStringPercent(heat).Named("HEAT")
+                        )
+                    );
+                }
 
                 parts.Add(
                     "TKUtils.Formats.PawnGear.Armor".Translate(
                         string.Join(
                             "TKUtils.Misc.Separators.Inner".Translate(),
-                            new string[]
-                            {
-                                GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Sharp").Translate(
-                                    GenText.ToStringPercent(sharp).Named("SHARP")
-                                ),
-                                GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Blunt").Translate(
-                                    GenText.ToStringPercent(blunt).Named("BLUNT")
-                                ),
-                                GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Heat").Translate(
-                                    GenText.ToStringPercent(heat).Named("HEAT")
-                                )
-                            }
+                            stats.ToArray()
                         ).Named("STATS")
                     )
                 );
@@ -134,7 +173,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         "TKUtils.Formats.PawnGear.Equipment".Translate(
                             string.Join(
                                 "TKUtils.Misc.Separators.Inner".Translate(),
-                                equip
+                                container.ToArray()
                             ).Named("EQUIPMENT")
                         )
                     );
@@ -159,7 +198,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         "TKUtils.Formats.PawnGear.Apparel".Translate(
                             string.Join(
                                 "TKUtils.Misc.Separators.Inner".Translate(),
-                                container
+                                container.ToArray()
                             ).Named("APPAREL")
                         )
                     );
@@ -168,7 +207,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             return string.Join(
                 "TKUtils.Misc.Separators.Upper".Translate(),
-                parts
+                parts.ToArray()
             );
         }
 
@@ -186,7 +225,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     return "TKUtils.Misc.Temperature.Celsius".Translate();
 
                 default:
-                    return "[U]";
+                    return "?";
             }
         }
     }

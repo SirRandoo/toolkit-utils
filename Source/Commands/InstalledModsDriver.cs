@@ -11,7 +11,23 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class InstalledModsDriver : CommandBase
     {
-        public static string GetModListString()
+        public override void RunCommand(IRCMessage message)
+        {
+            if(!CommandsHandler.AllowCommand(message))
+            {
+                return;
+            }
+
+            SendCommandMessage(
+                "TKUtils.Formats.ModList.Base".Translate(
+                    Toolkit.Mod.Version.Named("VERSION"),
+                    (TKSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).Named("MODS")
+                ),
+                message
+            );
+        }
+
+        private static string GetModListString()
         {
             var container = new List<string>();
             var unversioned = TKUtils.GetModListUnversioned();
@@ -27,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
         }
 
-        public static string GetModListStringVersioned()
+        private static string GetModListStringVersioned()
         {
             var container = new List<string>();
             var versioned = TKUtils.GetModListVersioned();
@@ -36,8 +52,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 container.Add(
                     "TKUtils.Formats.ModList.Mod".Translate(
-                        TryFavoriteMod(mod.Key).Named("NAME"),
-                        mod.Value.Named("VERSION")
+                        TryFavoriteMod(mod.Item1).Named("NAME"),
+                        mod.Item2.Named("VERSION")
                     )
                 );
             }
@@ -45,24 +61,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             return string.Join(
                 "TKUtils.Misc.Separators.Inner".Translate(),
                 container
-            );
-        }
-
-        public override void RunCommand(IRCMessage message)
-        {
-            if(!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            Log("Preparing mod list...");
-
-            SendCommandMessage(
-                "TKUtils.Formats.ModList.Base".Translate(
-                    Toolkit.Mod.Version.Named("VERSION"),
-                    (TKSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).Named("MODS")
-                ),
-                message
             );
         }
 

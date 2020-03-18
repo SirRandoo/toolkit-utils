@@ -127,7 +127,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                                 payload.Message = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
                             }
 
-                            CommandBase.Log($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
+                            Logger.Info($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
 
                             if(unemoji)
                             {
@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                             }
                             catch(Exception e)
                             {
-                                CommandBase.Error($"Command \"{command.command}\" failed with exception: {e.Message}\n{e.StackTrace}");
+                                Logger.Error($"Command \"{command.command}\" failed", e);
                             }
 
                             if(unemoji)
@@ -168,7 +168,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         Whisper = msg.Whisper
                     };
 
-                    CommandBase.Log($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check");
+                    Logger.Info($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check");
 
                     if(unemoji)
                     {
@@ -183,7 +183,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         }
                         catch(Exception e)
                         {
-                            CommandBase.Error($"Twitch interface \"{tInterface.GetType().FullName}\" failed with exception: {e.Message}\n{e.StackTrace}");
+                            Logger.Error($"Twitch interface \"{tInterface.GetType().FullName}\" failed", e);
                         }
                     }
 
@@ -195,7 +195,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
             catch(Exception e)
             {
-                CommandBase.Error($"Command parser failed with exception: {e.Message}\n{e.StackTrace}");
+                Logger.Error($"Command parser failed", e);
             }
 
             return false;

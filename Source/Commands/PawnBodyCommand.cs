@@ -14,6 +14,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnBodyCommand : CommandBase
     {
+        private static bool IsTemperatureCustom = false;
+        private static bool TemperatureCheck = true;
+
         public override void RunCommand(IRCMessage message)
         {
             if(!CommandsHandler.AllowCommand(message))
@@ -21,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var pawn = GetPawnDestructive(message.User);
+            var pawn = GetOrFindPawn(message.User);
 
             if(pawn == null)
             {
@@ -55,51 +58,70 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 var tempMin = GenText.ToStringTemperature(StatExtension.GetStatValue(target, StatDefOf.ComfyTemperatureMin, applyPostProcess: true));
                 var tempMax = GenText.ToStringTemperature(StatExtension.GetStatValue(target, StatDefOf.ComfyTemperatureMax, applyPostProcess: true));
+                TaggedString display;
+
+                if(IsTemperatureCustom)
+                {
+                    display = TaggedString.Empty;
+                }
+                else
+                {
+                    display = GetTemperatureDisplay();
+
+                    if(TemperatureCheck && display.RawText.Contains("["))
+                    {
+                        Logger.Info("Custom temperature display detected; omitting temperature scale from now on.");
+                        IsTemperatureCustom = true;
+                        TemperatureCheck = false;
+
+                        display = TaggedString.Empty;
+                    }
+                }
 
                 parts.Add(
                     "TKUtils.Formats.PawnGear.Temperature".Translate(
                         tempMin.Named("MINIMUM"),
                         tempMax.Named("MAXIMUM"),
-                        GetTemperatureDisplay().Named("DISPLAY")
+                        display.Named("DISPLAY")
                     )
                 );
             }
             foreach(var item in hediffsGrouped)
             {
+                var bodyPart = item.Key?.LabelCap ?? "WholeBody".Translate();
                 var bits = new List<string>();
 
                 foreach(var group in item.GroupBy(h => h.UIGroupKey))
                 {
-                    var bleeding = "";
-                    var amount = "";
+                    var display = group.First().LabelCap;
                     var count = group.Where(i => i.Bleeding).Count();
                     var total = group.Count();
 
                     if(total != 1)
                     {
-                        amount = $" x{total.ToString()}";
+                        display += $" x{total.ToString()}";
                     }
 
                     if(count > 0)
                     {
-                        bleeding += GetTranslatedEmoji("TKUtils.Formats.PawnBody.Bleeding").Translate();
+                        display = GetTranslatedEmoji("TKUtils.Formats.PawnBody.Bleeding").Translate() + display;
                     }
 
-                    bits.Add($"{bleeding}{group.First().LabelCap}{amount}");
+                    bits.Add(display);
                 }
 
                 parts.Add(
                     "TKUtils.Formats.PawnBody.Affliction".Translate(
-                        (item.Key != null ? item.Key.LabelCap : "WholeBody".Translate().ToString()).Named("PART"),
+                        bodyPart.Named("PART"),
                         string.Join(
                             "TKUtils.Misc.Separators.Inner".Translate(),
-                            bits
+                            bits.ToArray()
                         ).Named("HEDIFFS")
                     )
                 );
             }
 
-            return string.Join("TKUtils.Misc.Separators.Upper".Translate(), parts);
+            return string.Join("TKUtils.Misc.Separators.Upper".Translate(), parts.ToArray());
         }
 
         private TaggedString GetTemperatureDisplay()
@@ -116,7 +138,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     return "TKUtils.Misc.Temperature.Celsius".Translate();
 
                 default:
-                    return "[U]";
+                    return "?";
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -16,12 +17,11 @@ namespace SirRandoo.ToolkitUtils
         static TKUtils_Static()
         {
             TKUtils.Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
-
             TKUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            Log.Message($"{TKUtils.ID} :: Building mod list cache...");
+            Logger.Info("Building mod list cache...");
             TKUtils.ModListCache = TKUtils.GetModListVersioned();
-            Log.Message($"{TKUtils.ID} :: Built mod list cache ({TKUtils.ModListCache.Length} mods loaded)");
+            Logger.Info($"Built mod list cache ({TKUtils.ModListCache.Length} mods loaded)");
         }
     }
 
@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils
     {
         public const string ID = "ToolkitUtils";
         internal static HarmonyLib.Harmony Harmony;
-        internal static KeyValuePair<string, string>[] ModListCache;
+        internal static Tuple<string, string>[] ModListCache;
 
         public TKUtils(ModContentPack content) : base(content)
         {
@@ -37,17 +37,17 @@ namespace SirRandoo.ToolkitUtils
             Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(ToolkitWindow)));
         }
 
-        public static string[] GetModListUnversioned() => GetModListVersioned().Select(m => m.Key).ToArray();
+        public static string[] GetModListUnversioned() => GetModListVersioned().Select(m => m.Item1).ToArray();
 
-        public static KeyValuePair<string, string>[] GetModListVersioned()
+        public static Tuple<string, string>[] GetModListVersioned()
         {
-            if(ModListCache == null || ModListCache.Any())
+            if(ModListCache == null || !ModListCache.Any())
             {
-                var container = new List<KeyValuePair<string, string>>();
+                var container = new List<Tuple<string, string>>();
 
                 foreach(var handle in LoadedModManager.ModHandles)
                 {
-                    if(container.Any(i => i.Key.Equals(handle.Content.Name)))
+                    if(container.Any(i => i.Item1.Equals(handle.Content.Name)))
                     {
                         continue;
                     }
@@ -55,10 +55,7 @@ namespace SirRandoo.ToolkitUtils
                     var version = handle.GetType().Module.Assembly.GetName().Version.ToString();
 
                     container.Add(
-                        new KeyValuePair<string, string>(
-                            handle.Content.Name,
-                            version
-                        )
+                        new Tuple<string, string>(handle.Content.Name, version)
                     );
                 }
 

@@ -19,7 +19,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var pawn = GetPawnDestructive(message.User);
+            var pawn = GetOrFindPawn(message.User);
 
             if(pawn.workSettings != null && pawn.workSettings.EverWork)
             {
