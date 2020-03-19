@@ -16,14 +16,13 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private static readonly List<Tuple<string, Type>> registry = new List<Tuple<string, Type>>
         {
-            new Tuple<string, Type>("Banned", typeof(BannedConstraint)),
+            //new Tuple<string, Type>("Banned", typeof(BannedConstraint)),
             new Tuple<string, Type>("Coin", typeof(CoinConstraint)),
             new Tuple<string, Type>("Karma", typeof(KarmaConstraint)),
-            new Tuple<string, Type>("Mod", typeof(ModConstraint)),
+            //new Tuple<string, Type>("Mod", typeof(ModConstraint)),
             new Tuple<string, Type>( "Name", typeof(NameConstraint)),
-            new Tuple<string, Type>("Subscriber", typeof(SubscriberConstraint)),
-            new Tuple<string, Type>("Time", typeof(TimeConstraint)),
-            new Tuple<string, Type>("Vip", typeof(VipConstraint))
+            //new Tuple<string, Type>("Subscriber", typeof(SubscriberConstraint)),
+            //new Tuple<string, Type>("Vip", typeof(VipConstraint))
         };
 
         private List<ConstraintBase> constraints;
