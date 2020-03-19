@@ -122,7 +122,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                                 Whisper = msg.Whisper
                             };
 
-                            if(command.commandDriver.Name.Equals("Buy") && !command.command.EqualsIgnoreCase("buy"))
+                            if(command.commandDriver.Name.Equals("Buy") && !command.defName.EqualsIgnoreCase("buy"))
                             {
                                 payload.Message = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
                             }
