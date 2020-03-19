@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             Viewer = viewer;
             this.separateChannel = separateChannel;
 
-            var query = CommandParser.Parse(message).Skip(2).FirstOrDefault();
+            var query = CommandParser.Parse(message, prefix: TKSettings.Prefix).Skip(2).FirstOrDefault();
 
             if(query.NullOrEmpty())
             {
