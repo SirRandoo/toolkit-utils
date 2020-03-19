@@ -102,6 +102,17 @@
   <!-- HealMe Translations -->
   <TKUtils.Responses.HealMe.Healed>Your pawn has recovered from {TARGET}.</TKUtils.Responses.HealMe.Healed>
 
+  <!-- Buy Pawn Translations -->
+  <TKUtils.Responses.Buy.HasPawn>You're already in this colony!</TKUtils.Responses.Buy.HasPawn>
+  <TKUtils.Responses.Buy.NoMap>No suitable map could be found.</TKUtils.Responses.Buy.NoMap>
+  <TKUtils.Responses.Buy.OnlyHuman>You can only purchase humanoids!</TKUtils.Responses.Buy.OnlyHuman>
+  <TKUtils.Responses.Buy.NoRace>No race by the name of "{QUERY}" could be found.</TKUtils.Responses.Buy.NoRace>
+  <TKUtils.Responses.Buy.Joined.Title>Viewer joins</TKUtils.Responses.Buy.Joined.Title>
+  <TKUtils.Responses.Buy.Joined.Text>A new pawn has been purchased by {VIEWER}, let's welcome them to the colony.</TKUtils.Responses.Buy.Joined.Text>
+  <TKUtils.Responses.Buy.PurchaseMessage>You've purchased a colonist and have now joined the colony.</TKUtils.Responses.Buy.PurchaseMessage>
+
+  <TKUtils.Formats.Lookup.Base>Results for "{QUERY}": {RESULTS}</TKUtils.Formats.Lookup.Base>
+
   <!-- Misc Translations -->
   <TKUtils.Misc.Temperature.Fahrenheit>℉</TKUtils.Misc.Temperature.Fahrenheit>
   <TKUtils.Misc.Temperature.Celsius>℃</TKUtils.Misc.Temperature.Celsius>

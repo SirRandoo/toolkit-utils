@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Commands\FactionsCommand.cs" />
     <Compile Include="Commands\InstalledModsDriver.cs" />
+    <Compile Include="Commands\LookupCommand.cs" />
     <Compile Include="Commands\PawnBodyCommand.cs" />
     <Compile Include="Commands\PawnFixAllCommand.cs" />
     <Compile Include="Commands\PawnFixCommand.cs" />
@@ -80,22 +81,37 @@
     <Compile Include="Commands\PawnWorkCommand.cs" />
     <Compile Include="Commands\ResearchCommand.cs" />
     <Compile Include="Harmony\CommandsHandler_CheckCommand.cs" />
+    <Compile Include="Harmony\Store_Lookup__ParseCommand.cs" />
     <Compile Include="Harmony\ViewerUpdater_ParseCommand.cs" />
+    <Compile Include="Harmony\Window_Viewers__DoWindowContents.cs" />
     <Compile Include="IncidentHelpers\AddTraitHelper.cs" />
+    <Compile Include="IncidentHelpers\BuyPawnHelper.cs" />
     <Compile Include="IncidentHelpers\HealAllHelper.cs" />
     <Compile Include="IncidentHelpers\HealMeHelper.cs" />
     <Compile Include="IncidentHelpers\RemoveTraitHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveAllHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveMeHelper.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="TKSettings.cs" />
     <Compile Include="TKUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToolkitWindow.cs" />
     <Compile Include="Utils\CommandBase.cs" />
     <Compile Include="Utils\CommandParser.cs" />
+    <Compile Include="Utils\Constraints\BannedConstraint.cs" />
+    <Compile Include="Utils\Constraints\CoinConstraint.cs" />
+    <Compile Include="Utils\Constraints\KarmaConstraint.cs" />
+    <Compile Include="Utils\Constraints\ModConstraint.cs" />
+    <Compile Include="Utils\Constraints\NameConstraint.cs" />
+    <Compile Include="Utils\Constraints\SubscriberConstraint.cs" />
+    <Compile Include="Utils\Constraints\TimeConstraint.cs" />
+    <Compile Include="Utils\Constraints\ComparableConstraint.cs" />
+    <Compile Include="Utils\Constraints\ConstraintBase.cs" />
+    <Compile Include="Utils\Constraints\VipConstraint.cs" />
     <Compile Include="Utils\HealHelper.cs" />
     <Compile Include="Utils\RichTextUnparser.cs" />
     <Compile Include="Utils\TraitHelper.cs" />
+    <Compile Include="Windows\Dialog_PurgeViewers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\About\About.xml">
@@ -121,6 +137,15 @@
     </Content>
     <Content Include="..\Common\Patches\InstalledModsPatch.xml">
       <Link>Patches\InstalledModsPatch.xml</Link>
+    </Content>
+    <Content Include="..\Common\Patches\IncidentHelpers\RemoveTraitPatch.xml">
+      <Link>Patches\RemoveTraitPatch.xml</Link>
+    </Content>
+    <Content Include="..\Common\Languages\English\Keyed\TKUtils.Windows.xml">
+      <Link>Languages\English\Keyed\TKUtils.Windows.xml</Link>
+    </Content>
+    <Content Include="..\Common\Patches\IncidentHelpers\BuyPawnPatch.xml">
+      <Link>Patches\BuyPawnPatch.xml</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

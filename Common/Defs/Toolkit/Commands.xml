@@ -108,4 +108,13 @@
     <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
     <commandDriver>SirRandoo.ToolkitUtils.Commands.ResearchCommand</commandDriver>
   </TwitchToolkit.Command>
+
+  <!-- General Commands -->
+  <TwitchToolkit.Command>
+    <defName>Lookup</defName>
+    <label>lookup</label>
+    <command>lookup</command>
+    <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    <commandDriver>SirRandoo.ToolkitUtils.Commands.LookupCommand</commandDriver>
+  </TwitchToolkit.Command>
 </Defs>
