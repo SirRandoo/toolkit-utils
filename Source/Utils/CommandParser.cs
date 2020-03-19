@@ -22,6 +22,12 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach(var c in input)
             {
+                if(escaped && !c.Equals('"'))
+                {
+                    escaped = false;
+                    segment += '\\';
+                }
+
                 if(c.Equals(' ') && !quoted)
                 {
                     cache.Add(segment);

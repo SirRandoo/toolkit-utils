@@ -74,7 +74,13 @@ namespace SirRandoo.ToolkitUtils.Utils
             return text;
         }
 
+<<<<<<< HEAD
+        public static void Log(string message) => Verse.Log.Message($"{TKUtils.ID} :: {message}");
+
         public static void SendCommandMessage(string viewer, string message)
+=======
+        public static void SendCommandMessage(string viewer, string message, bool separateRoom)
+>>>>>>> 9059f1c050bac3b0e9424140d099a473f1bd12f0
         {
             SendMessage(
                 "TKUtils.Formats.CommandBase".Translate(
@@ -84,10 +90,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             );
         }
 
-        public static void SendCommandMessage(string message, ChatMessage ircMessage)
-        {
-            SendCommandMessage(ircMessage.Username, message);
-        }
+        public static void SendCommandMessage(string message, ChatMessage ircMessage) => SendCommandMessage(ircMessage.Username, message);
 
         public static void SendMessage(string message)
         {
@@ -132,9 +135,15 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
         }
 
-        public static void SendMessage(string message, ChatMessage ircMessage)
+<<<<<<< HEAD
+        public static void SendMessage(string message, ChatMessage ircMessage) => SendMessage(message);
+
+        public static void Warn(string message) => Verse.Log.Message($"WARN {TKUtils.ID} :: {message}");
+=======
+        public static void SendMessage(string message, IRCMessage ircMessage)
         {
-            SendMessage(message);
+            SendMessage(message, CommandsHandler.SendToChatroom(ircMessage));
         }
+>>>>>>> 9059f1c050bac3b0e9424140d099a473f1bd12f0
     }
 }

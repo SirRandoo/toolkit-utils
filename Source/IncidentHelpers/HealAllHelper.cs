@@ -5,6 +5,7 @@ using RimWorld;
 
 using SirRandoo.ToolkitUtils.Utils;
 
+using TwitchToolkit;
 using TwitchToolkit.Store;
 
 using Verse;

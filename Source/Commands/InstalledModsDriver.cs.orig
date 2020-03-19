@@ -12,24 +12,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class InstalledModsDriver : CommandBase
     {
-        public override void RunCommand(ChatMessage message)
+        public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            SendCommandMessage(
-                "TKUtils.Formats.ModList.Base".Translate(
-                    Toolkit.Mod.Version.Named("VERSION"),
-                    (TKSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).Named("MODS")
-                ),
-                message
-            );
-        }
-
-        private static string GetModListString()
-        {
+<<<<<<< HEAD
             var container = new List<string>();
             var unversioned = TKUtils.GetModListUnversioned();
 
@@ -41,13 +26,66 @@ namespace SirRandoo.ToolkitUtils.Commands
             return string.Join(
                 "TKUtils.Misc.Separators.Inner".Translate(),
                 container
+=======
+            if(!CommandsHandler.AllowCommand(message))
+            {
+                return;
+            }
+
+            SendCommandMessage(
+                "TKUtils.Formats.ModList.Base".Translate(
+                    Toolkit.Mod.Version.Named("VERSION"),
+                    (TKSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).Named("MODS")
+                ),
+                message
+>>>>>>> 9059f1c050bac3b0e9424140d099a473f1bd12f0
             );
         }
 
+        private static string GetModListString()
+        {
+            var container = new List<string>();
+<<<<<<< HEAD
+            var versioned = TKUtils.GetModListVersioned();
+
+            foreach(var mod in versioned)
+            {
+                container.Add(
+                    "TKUtils.Formats.ModList.Mod".Translate(
+                        TryFavoriteMod(mod.Key).Named("NAME"),
+                        mod.Value.Named("VERSION")
+                    )
+                );
+=======
+            var unversioned = TKUtils.GetModListUnversioned();
+
+            foreach(var mod in unversioned)
+            {
+                container.Add(TryFavoriteMod(mod));
+>>>>>>> 9059f1c050bac3b0e9424140d099a473f1bd12f0
+            }
+
+            return string.Join(
+                "TKUtils.Misc.Separators.Inner".Translate(),
+                container
+            );
+        }
+
+<<<<<<< HEAD
+        public override void RunCommand(ChatMessage message)
+        {
+            if(!CommandsHandler.AllowCommand(message))
+            {
+                return;
+            }
+
+            Log("Preparing mod list...");
+=======
         private static string GetModListStringVersioned()
         {
             var container = new List<string>();
             var versioned = TKUtils.GetModListVersioned();
+>>>>>>> 9059f1c050bac3b0e9424140d099a473f1bd12f0
 
             foreach(var mod in versioned)
             {

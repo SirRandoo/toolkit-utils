@@ -120,6 +120,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                                 t = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
                             }
 
+<<<<<<< HEAD
                             var payload = new ChatMessage(
                                 msg.BotUsername,
                                 msg.UserId,
@@ -148,7 +149,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
                                 msg.BitsInDollars
                             );
 
+                            CommandBase.Log($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
+=======
                             Logger.Info($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
+>>>>>>> 9059f1c050bac3b0e9424140d099a473f1bd12f0
 
                             if(unemoji)
                             {
