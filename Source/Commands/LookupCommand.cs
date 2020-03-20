@@ -175,6 +175,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                     return false;
                 }).Select(i => GenText.CapitalizeFirst(i.abbreviation.Replace(" ", "").ToLower()))
                 .ToArray();
+
+            Notify__LookupComplete(query, results);
         }
 
         private void PerformItemLookup(string query)
