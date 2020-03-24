@@ -404,3 +404,6 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /ToolkitUtils.sln.DotSettings
+/.idea/.idea.ToolkitUtils/.idea/.gitignore
+/.idea/.gitignore
+/.idea/.idea.ToolkitUtils/
