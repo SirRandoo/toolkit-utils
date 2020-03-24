@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils
 
         public static Tuple<string, string>[] GetModListVersioned()
         {
-            if (ModListCache?.Any() ?? true)
+            if (ModListCache?.Any() ?? false)
             {
                 Logger.Debug("Something requested the mod list; we'll use the cached list.");
                 return ModListCache;
