@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 string.Join(
                     ", ".Translate(),
-                    pawn.story.AllBackstories.Select(b => b.title).ToArray()
+                    pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray()
                 )
             };
 
@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     .Select(t => t.LabelTranslated().CapitalizeFirst())
                     .ToArray();
 
-                parts.Add($"{"IncapableOf".Translate().RawText} {string.Join(", ", filteredTags)}");
+                parts.Add($"{"IncapableOf".Translate().RawText}: {string.Join(", ", filteredTags)}");
             }
 
             parts.Add(
