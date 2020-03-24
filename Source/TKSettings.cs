@@ -127,9 +127,15 @@ namespace SirRandoo.ToolkitUtils
                 line.height
             );
             
-            Widgets.Label(labelRect, "TKUtils.SettingGroups.General.LookupLimit".Translate());
+            Widgets.Label(labelRect, "TKUtils.SettingGroups.General.LookupLimit.Label".Translate());
             Widgets.TextFieldNumeric(entryRect, ref LookupLimit, ref buffer);
-            
+
+            if (Mouse.IsOver(line))
+            {
+                Widgets.DrawHighlightIfMouseover(line);
+                TooltipHandler.TipRegion(line, "TKUtils.SettingGroups.General.LookupLimit.Tooltip".Translate());
+            }
+
             listing.End();
         }
 
@@ -160,8 +166,14 @@ namespace SirRandoo.ToolkitUtils
                     line.height
                 );
 
-                Widgets.Label(labelRect, "TKUtils.SettingGroups.CommandTweaks.Prefix".Translate());
+                Widgets.Label(labelRect, "TKUtils.SettingGroups.CommandTweaks.Prefix.Label".Translate());
                 Prefix = Widgets.TextField(entryRect, Prefix);
+
+                if (Mouse.IsOver(line))
+                {
+                    Widgets.DrawHighlightIfMouseover(line);
+                    TooltipHandler.TipRegion(line, "TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip".Translate());
+                }
 
                 if (Prefix.StartsWith(" "))
                 {

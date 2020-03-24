@@ -24,7 +24,8 @@
     <TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>By default, Toolkit looks messages that start with a command.  This allows viewers to add flair to commands, like !balloon for !bal.  This tweak forces users to use commands as defined, and allows the mod's shortcut commands to function.</TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>
     <TKUtils.SettingGroups.CommandTweaks.Unrichify.Label>Unrichify data from RimWorld and viewers.</TKUtils.SettingGroups.CommandTweaks.Unrichify.Label>
     <TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>By default, Toolkit checks for exact matches on things like traits, including html tags.  This tweak filters out html tags when checking for matches so you'll never have to write out tags.</TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>
-    <TKUtils.SettingGroups.CommandTweaks.Prefix>Custom command prefix</TKUtils.SettingGroups.CommandTweaks.Prefix>
+    <TKUtils.SettingGroups.CommandTweaks.Prefix.Label>Custom command prefix</TKUtils.SettingGroups.CommandTweaks.Prefix.Label>
+    <TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip>A string all commands must start with before they'll be recognized and processed by the mod.  This can be anything, including a sentence, but you should keep it short and simple.</TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip>
 
     <!-- General -->
     <TKUtils.SettingGroups.General>General</TKUtils.SettingGroups.General>
@@ -38,5 +39,6 @@
     <TKUtils.SettingGroups.General.Sexuality.Tooltip>If enabled, sexuality traits will be allows to bypass Toolkit's trait limit.</TKUtils.SettingGroups.General.Sexuality.Tooltip>
     <TKUtils.SettingGroups.General.Race.Label>Allow viewers to specify their pawn's race when buying.</TKUtils.SettingGroups.General.Race.Label>
     <TKUtils.SettingGroups.General.Race.Tooltip>If enabled, viewers will be able to specify their pawn's race when buying a pawn (!buy pawn) with --race={race}.</TKUtils.SettingGroups.General.Race.Tooltip>
-    <TKUtils.SettingGroups.General.LookupLimit>Maximum number of results in the lookup command.</TKUtils.SettingGroups.General.LookupLimit>
+    <TKUtils.SettingGroups.General.LookupLimit.Label>Maximum number of results in the lookup command.</TKUtils.SettingGroups.General.LookupLimit.Label>
+    <TKUtils.SettingGroups.General.LookupLimit.Tooltip>The maximum number of results that will be displayed in the lookup command (!lookup).  A higher value may create walls of text.</TKUtils.SettingGroups.General.LookupLimit.Tooltip>
 </LanguageData>
