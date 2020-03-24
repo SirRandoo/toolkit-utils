@@ -29,14 +29,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             PerformLookup(segments.FirstOrDefault(), segments.Skip(1).FirstOrDefault());
         }
 
-        private void Notify__LookupComplete(string query, IReadOnlyCollection<string> results, int limit = 10)
+        private void Notify__LookupComplete(string query, IReadOnlyCollection<string> results)
         {
-            if (limit < 0 || results.Count <= 0)
+            if (results.Count <= 0)
             {
                 return;
             }
 
-            var formatted = string.Join(", ", results.Take(limit));
+            var formatted = string.Join(", ", results.Take(TkSettings.LookupLimit));
 
             msg.Reply("TKUtils.Formats.Lookup".Translate(query, formatted));
         }
