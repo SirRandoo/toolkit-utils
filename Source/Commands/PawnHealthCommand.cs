@@ -1,13 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.IRC;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -16,14 +12,14 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
 
             var pawn = GetOrFindPawn(message.User);
 
-            if(pawn == null)
+            if (pawn == null)
             {
                 SendCommandMessage(
                     "TKUtils.Responses.NoPawn".Translate(),
@@ -34,13 +30,16 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var segment = message.Message.Split(' ').Skip(1).FirstOrDefault();
 
-            if(segment.NullOrEmpty())
+            if (segment.NullOrEmpty())
             {
                 SendCommandMessage(HealthReport(pawn), message);
                 return;
             }
 
-            var cap = DefDatabase<PawnCapacityDef>.AllDefsListForReading.Where(d => d.defName.EqualsIgnoreCase(segment));
+            var cap = DefDatabase<PawnCapacityDef>.AllDefsListForReading.Where(
+                    d => d.defName.EqualsIgnoreCase(segment)
+                )
+                .ToArray();
 
             if(cap.Any())
             {
@@ -60,9 +59,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private string GetFriendlyHealthState(PawnHealthState state)
+        private static string GetHealthStateFriendly(PawnHealthState state)
         {
-            switch(state)
+            switch (state)
             {
                 case PawnHealthState.Down:
                     return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Downed").Translate();
@@ -71,7 +70,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Dead").Translate();
 
                 default:
-                    return $"[{Gen.ToStringSafe(state)}]";
+                    return string.Empty;
             }
         }
 
@@ -110,9 +109,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 : "😊".AltText("Mood_Happy".Translate());
         }
 
-        private string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
+        private static string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
         {
-            if(!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
+            if (!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
             {
                 return "TKUtils.Responses.PawnHealth.Capacity.Race".Translate(
                     Find.ActiveLanguageWorker.Pluralize(pawn.kindDef.race.defName).Named("RACE"),
@@ -131,37 +130,37 @@ namespace SirRandoo.ToolkitUtils.Commands
                 )
             };
 
-            if(impactors.Any())
+            if (impactors.Any())
             {
                 var parts = new List<string>();
 
-                foreach(var i in impactors)
+                foreach (var i in impactors)
                 {
-                    if(i is PawnCapacityUtility.CapacityImpactorHediff)
+                    if (i is PawnCapacityUtility.CapacityImpactorHediff)
                     {
                         parts.Add(i.Readable(pawn));
                     }
                 }
 
-                foreach(var i in impactors)
+                foreach (var i in impactors)
                 {
-                    if(i is PawnCapacityUtility.CapacityImpactorBodyPartHealth)
+                    if (i is PawnCapacityUtility.CapacityImpactorBodyPartHealth)
                     {
                         parts.Add(i.Readable(pawn));
                     }
                 }
 
-                foreach(var i in impactors)
+                foreach (var i in impactors)
                 {
-                    if(i is PawnCapacityUtility.CapacityImpactorCapacity)
+                    if (i is PawnCapacityUtility.CapacityImpactorCapacity)
                     {
                         parts.Add(i.Readable(pawn));
                     }
                 }
 
-                foreach(var i in impactors)
+                foreach (var i in impactors)
                 {
-                    if(i is PawnCapacityUtility.CapacityImpactorPain)
+                    if (i is PawnCapacityUtility.CapacityImpactorPain)
                     {
                         parts.Add(i.Readable(pawn));
                     }
@@ -187,7 +186,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
         }
 
-        private string HealthReport(Pawn pawn)
+        private static string HealthReport(Pawn pawn)
         {
             var segments = new List<string>()
             {
@@ -196,7 +195,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 )
             };
 
-            if(pawn.health.State != PawnHealthState.Mobile)
+            if (pawn.health.State != PawnHealthState.Mobile)
             {
                 segments[0] += " " + GetFriendlyHealthState(pawn.health.State);
             }
@@ -205,7 +204,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 segments[0] += " " + GetFriendlyMoodState(pawn);
             }
 
-            if(pawn.health.hediffSet.BleedRateTotal > 0.01f)
+            if (pawn.health.hediffSet.BleedRateTotal > 0.01f)
             {
                 var ticks = HealthUtility.TicksUntilDeathDueToBloodLoss(pawn);
 
@@ -226,22 +225,22 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            IEnumerable<PawnCapacityDef> source;
-            if(pawn.def.race.Humanlike)
+            List<PawnCapacityDef> source;
+            if (pawn.def.race.Humanlike)
             {
-                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnHumanlikes);
+                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnHumanlikes).ToList();
             }
-            else if(pawn.def.race.Animal)
+            else if (pawn.def.race.Animal)
             {
-                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnAnimals);
+                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnAnimals).ToList();
             }
-            else if(pawn.def.race.IsMechanoid)
+            else if (pawn.def.race.IsMechanoid)
             {
-                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnMechanoids);
+                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnMechanoids).ToList();
             }
             else
             {
-                source = new List<PawnCapacityDef>();
+                source = new List<PawnCapacityDef>().ToList();
 
                 segments.Add(
                     "TKUtils.Responses.UnsupportedRace".Translate(
@@ -250,10 +249,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
             }
 
-            if(source.Any())
+            if (source.Any())
             {
-                var capacities = new List<string>();
-                source = source.OrderBy(d => d.listOrder);
+                source = source.OrderBy(d => d.listOrder).ToList();
 
                 foreach(var capacity in source)
                 {
@@ -278,7 +276,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
             }
 
-            if(TKSettings.ShowSurgeries)
+            if (!TkSettings.ShowSurgeries)
             {
                 var surgeries = pawn.health.surgeryBills;
 

@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-
 using TwitchToolkit.IRC;
 using TwitchToolkit.Store;
 

@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LanguageData>
-  <!-- Toolkit's Viewer_Dialog Translations -->
-  <TKUtils.Windows.Purge.Button.Label>Purge</TKUtils.Windows.Purge.Button.Label>
-
-  <!-- Purge Viewers Dialog Translations -->
-  <TKUtils.Windows.Purge.ComparisonTypes.Greater>&gt;</TKUtils.Windows.Purge.ComparisonTypes.Greater>
-  <TKUtils.Windows.Purge.ComparisonTypes.Equal>=</TKUtils.Windows.Purge.ComparisonTypes.Equal>
-  <TKUtils.Windows.Purge.ComparisonTypes.Less>&lt;</TKUtils.Windows.Purge.ComparisonTypes.Less>
-  <TKUtils.Windows.Purge.ComparisonTypes.LessEqual>&lt;=</TKUtils.Windows.Purge.ComparisonTypes.LessEqual>
-  <TKUtils.Windows.Purge.ComparisonTypes.GreaterEqual>&gt;=</TKUtils.Windows.Purge.ComparisonTypes.GreaterEqual>
-  <TKUtils.Windows.Purge.TimeScales.Hours>Hours</TKUtils.Windows.Purge.TimeScales.Hours>
-  <TKUtils.Windows.Purge.TimeScales.Days>Days</TKUtils.Windows.Purge.TimeScales.Days>
-  <TKUtils.Windows.Purge.TimeScales.Months>Months</TKUtils.Windows.Purge.TimeScales.Months>
-  <TKUtils.Windows.Purge.TimeScales.Years>Years</TKUtils.Windows.Purge.TimeScales.Years>
-  <TKUtils.Windows.Purge.NameComparisonTypes.Is>is</TKUtils.Windows.Purge.NameComparisonTypes.Is>
-  <TKUtils.Windows.Purge.NameComparisonTypes.Not>is not</TKUtils.Windows.Purge.NameComparisonTypes.Not>
-
-  <TKUtils.Windows.Purge.Buttons.Remove>Remove</TKUtils.Windows.Purge.Buttons.Remove>
-  <TKUtils.Windows.Purge.Buttons.Add>Add Constraint</TKUtils.Windows.Purge.Buttons.Add>
-  <TKUtils.Windows.Purge.Buttons.TestAffected>View Affected</TKUtils.Windows.Purge.Buttons.TestAffected>
-  <TKUtils.Windows.Purge.Buttons.Execute>Purge Viewers</TKUtils.Windows.Purge.Buttons.Execute>
-  <TKUtils.Windows.Purge.Buttons.Back>Back</TKUtils.Windows.Purge.Buttons.Back>
-  <TKUtils.Windows.Purge.Buttons.ExemptViewer>Exempt</TKUtils.Windows.Purge.Buttons.ExemptViewer>
-  <TKUtils.Windows.Purge.Buttons.ClearConstraints>Clear Constraints</TKUtils.Windows.Purge.Buttons.ClearConstraints>
-  <TKUtils.Windows.Purge.Buttons.Confirm>Confirm</TKUtils.Windows.Purge.Buttons.Confirm>
-  <TKUtils.Windows.Purge.Headers.Affected>{COUNT} viewers affected</TKUtils.Windows.Purge.Headers.Affected>
-
-  <!-- Constraints Translations -->
-  <TKUtils.Windows.Purge.Constraints.Coins>Coins</TKUtils.Windows.Purge.Constraints.Coins>
-  <TKUtils.Windows.Purge.Constraints.Time>Time</TKUtils.Windows.Purge.Constraints.Time>
-  <TKUtils.Windows.Purge.Constraints.Karma>Karma</TKUtils.Windows.Purge.Constraints.Karma>
-  <TKUtils.Windows.Purge.Constraints.Banned>Is banned</TKUtils.Windows.Purge.Constraints.Banned>
-  <TKUtils.Windows.Purge.Constraints.Vip>Not vip</TKUtils.Windows.Purge.Constraints.Vip>
-  <TKUtils.Windows.Purge.Constraints.Sub>Not subbed</TKUtils.Windows.Purge.Constraints.Sub>
-  <TKUtils.Windows.Purge.Constraints.Mod>Not modded</TKUtils.Windows.Purge.Constraints.Mod>
-  <TKUtils.Windows.Purge.Constraints.Name>Username</TKUtils.Windows.Purge.Constraints.Name>
+    <!-- Toolkit's Viewer_Dialog Translations -->
+    <TKUtils.Windows.Purge.Button.Label>Purge</TKUtils.Windows.Purge.Button.Label>
+    
+    <!-- Purge Viewers Dialog Translations -->
+    <TKUtils.Windows.Purge.ComparisonTypes.Greater>&gt;</TKUtils.Windows.Purge.ComparisonTypes.Greater>
+    <TKUtils.Windows.Purge.ComparisonTypes.Equal>=</TKUtils.Windows.Purge.ComparisonTypes.Equal>
+    <TKUtils.Windows.Purge.ComparisonTypes.Less>&lt;</TKUtils.Windows.Purge.ComparisonTypes.Less>
+    <TKUtils.Windows.Purge.ComparisonTypes.LessEqual>&lt;=</TKUtils.Windows.Purge.ComparisonTypes.LessEqual>
+    <TKUtils.Windows.Purge.ComparisonTypes.GreaterEqual>&gt;=</TKUtils.Windows.Purge.ComparisonTypes.GreaterEqual>
+    <TKUtils.Windows.Purge.TimeScales.Hours>Hours</TKUtils.Windows.Purge.TimeScales.Hours>
+    <TKUtils.Windows.Purge.TimeScales.Days>Days</TKUtils.Windows.Purge.TimeScales.Days>
+    <TKUtils.Windows.Purge.TimeScales.Months>Months</TKUtils.Windows.Purge.TimeScales.Months>
+    <TKUtils.Windows.Purge.TimeScales.Years>Years</TKUtils.Windows.Purge.TimeScales.Years>
+    <TKUtils.Windows.Purge.NameComparisonTypes.Is>is</TKUtils.Windows.Purge.NameComparisonTypes.Is>
+    <TKUtils.Windows.Purge.NameComparisonTypes.Not>is not</TKUtils.Windows.Purge.NameComparisonTypes.Not>
+    
+    <TKUtils.Windows.Purge.Buttons.Remove>Remove</TKUtils.Windows.Purge.Buttons.Remove>
+    <TKUtils.Windows.Purge.Buttons.Add>Add Constraint</TKUtils.Windows.Purge.Buttons.Add>
+    <TKUtils.Windows.Purge.Buttons.TestAffected>View Affected</TKUtils.Windows.Purge.Buttons.TestAffected>
+    <TKUtils.Windows.Purge.Buttons.Execute>Purge Viewers</TKUtils.Windows.Purge.Buttons.Execute>
+    <TKUtils.Windows.Purge.Buttons.Back>Back</TKUtils.Windows.Purge.Buttons.Back>
+    <TKUtils.Windows.Purge.Buttons.ExemptViewer>Exempt</TKUtils.Windows.Purge.Buttons.ExemptViewer>
+    <TKUtils.Windows.Purge.Buttons.ClearConstraints>Clear Constraints</TKUtils.Windows.Purge.Buttons.ClearConstraints>
+    <TKUtils.Windows.Purge.Buttons.Confirm>Confirm</TKUtils.Windows.Purge.Buttons.Confirm>
+    <TKUtils.Windows.Purge.Headers.Affected>{COUNT} viewers affected</TKUtils.Windows.Purge.Headers.Affected>
+    
+    <!-- Constraints Translations -->
+    <TKUtils.Windows.Purge.Constraints.Coins>Coins</TKUtils.Windows.Purge.Constraints.Coins>
+    <TKUtils.Windows.Purge.Constraints.Time>Time</TKUtils.Windows.Purge.Constraints.Time>
+    <TKUtils.Windows.Purge.Constraints.Karma>Karma</TKUtils.Windows.Purge.Constraints.Karma>
+    <TKUtils.Windows.Purge.Constraints.Banned>Is banned</TKUtils.Windows.Purge.Constraints.Banned>
+    <TKUtils.Windows.Purge.Constraints.Vip>Not vip</TKUtils.Windows.Purge.Constraints.Vip>
+    <TKUtils.Windows.Purge.Constraints.Sub>Not subbed</TKUtils.Windows.Purge.Constraints.Sub>
+    <TKUtils.Windows.Purge.Constraints.Mod>Not modded</TKUtils.Windows.Purge.Constraints.Mod>
+    <TKUtils.Windows.Purge.Constraints.Name>Username</TKUtils.Windows.Purge.Constraints.Name>
 </LanguageData>

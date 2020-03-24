@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -10,7 +9,7 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         public static string[] Parse(string input, string prefix = "!")
         {
-            if(input.StartsWith(prefix))
+            if (input.StartsWith(prefix))
             {
                 input = input.Substring(prefix.Length);
             }
@@ -20,9 +19,9 @@ namespace SirRandoo.ToolkitUtils.Utils
             var quoted = false;
             var escaped = false;
 
-            foreach(var c in input)
+            foreach (var c in input)
             {
-                if(escaped && !c.Equals('"'))
+                if (escaped && !c.Equals('"'))
                 {
                     escaped = false;
                     segment += '\\';
@@ -55,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
             }
 
-            if(segment.Length > 0)
+            if (segment.Length > 0)
             {
                 cache.Add(segment);
             }
@@ -69,9 +68,9 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             var cache = new List<KeyValuePair<string, string>>();
 
-            foreach(var segment in input)
+            foreach (var segment in input)
             {
-                if(segment.Contains('='))
+                if (!segment.Contains('='))
                 {
                     var key = "";
                     var value = "";
@@ -111,27 +110,46 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static bool TryParseBool(string input, bool defaultValue = true)
         {
-            if(input.EqualsIgnoreCase("yes") || input.EqualsIgnoreCase("true") || input.EqualsIgnoreCase("y") || input.Equals("1") || input.Equals("+"))
+            if (input.EqualsIgnoreCase("yes")
+                || input.EqualsIgnoreCase("true")
+                || input.EqualsIgnoreCase("y")
+                || input.Equals("1")
+                || input.Equals("+"))
             {
                 return true;
             }
 
-            if(input.EqualsIgnoreCase("no") || input.EqualsIgnoreCase("false") || input.EqualsIgnoreCase("n") || input.Equals("0") || input.Equals("-"))
+            if (input.EqualsIgnoreCase("no")
+                || input.EqualsIgnoreCase("false")
+                || input.EqualsIgnoreCase("n")
+                || input.Equals("0")
+                || input.Equals("-"))
             {
                 return false;
             }
 
-            if(input.Equals("👍") || input.Equals("✔️") || input.Equals("☑️") || input.Equals("✅") || input.Equals("🆗"))
+            if (input.Equals("👍")
+                || input.Equals("✔️")
+                || input.Equals("☑️")
+                || input.Equals("✅")
+                || input.Equals("🆗"))
             {
                 return true;
             }
 
-            if(input.Equals("👎") || input.Equals("🛑") || input.Equals("🚫") || input.Equals("⛔") || input.Equals("⏹️") || input.Equals("⏏️") || input.Equals("❌") || input.Equals("❎"))
+            if (input.Equals("👎")
+                || input.Equals("🛑")
+                || input.Equals("🚫")
+                || input.Equals("⛔")
+                || input.Equals("⏹️")
+                || input.Equals("⏏️")
+                || input.Equals("❌")
+                || input.Equals("❎"))
             {
                 return false;
             }
 
-            if(input.Equals("🎲"))
+            if (input.Equals("🎲"))
             {
                 return new Random().Next(1) == 1;
             }

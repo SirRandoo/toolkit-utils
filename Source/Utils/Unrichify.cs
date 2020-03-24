@@ -1,7 +1,5 @@
 using System.Linq;
-
 using UnityEngine;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -26,14 +24,14 @@ namespace SirRandoo.ToolkitUtils.Utils
                 input.Count(ch => ch.Equals('>'))
             );
 
-            while(IsRichText(container))
+            while (IsRichText(container))
             {
                 var nameEnd = false;
                 var inTag = false;
                 var tagContent = "";
                 var tag = "";
 
-                foreach(var c in container)
+                foreach (var c in container)
                 {
                     if(c.Equals('<') && tagContent == "")
                     {
@@ -59,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     }
                 }
 
-                if(!tagContent.NullOrEmpty())
+                if (!tagContent.NullOrEmpty())
                 {
                     container = container.Replace($"<{tagContent}>", "");
                     container = container.Replace($"</{tag}>", "");
@@ -70,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 // While this may not catch everything, this should help prevent infinite loops. For
                 // the types of content this method will be used for, any strings that contain more
                 // than 10 tags is questionable.
-                if((container.Contains("<") || container.Contains(">")) && i > expectedTags)
+                if ((container.Contains("<") || container.Contains(">")) && i > expectedTags)
                 {
                     return container;
                 }

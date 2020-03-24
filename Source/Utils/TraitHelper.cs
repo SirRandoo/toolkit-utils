@@ -1,7 +1,5 @@
-using RimWorld;
-
+﻿using RimWorld;
 using TwitchToolkit.IncidentHelpers.Traits;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -15,29 +13,25 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return false;
             }
 
+            return trait.def.Equals(TraitDefOf.Gay)
+                   || trait.def.Equals(TraitDefOf.Bisexual)
+                   || trait.def.Equals(TraitDefOf.Asexual);
+        }
+
         public static bool IsSpecialTrait(TraitDef trait)
         {
-            if(trait.Equals(TraitDefOf.Gay)) return true;
-            if(trait.Equals(TraitDefOf.Bisexual)) return true;
-
-            return false;
+            return trait.Equals(TraitDefOf.Gay)
+                   || trait.Equals(TraitDefOf.Bisexual)
+                   || trait.Equals(TraitDefOf.Asexual);
         }
 
         public static bool MultiCompare(BuyableTrait trait, string input)
         {
             var label = trait.label;
 
-            if(input.Equals(label)) return true;
-
-            if(TKSettings.RichText)
+            if (input.ToToolkit().EqualsIgnoreCase(label.ToToolkit()))
             {
-                label = RichTextUnparser.IsRichText(label) ? RichTextUnparser.StripTags(label) : label;
-                input = RichTextUnparser.IsRichText(input) ? RichTextUnparser.StripTags(input) : input;
-
-                if(label.EqualsIgnoreCase(input))
-                {
-                    return true;
-                }
+                return true;
             }
 
             if (!TkSettings.RichText)

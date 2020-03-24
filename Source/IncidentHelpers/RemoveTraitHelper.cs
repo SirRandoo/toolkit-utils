@@ -1,13 +1,10 @@
 using System.Linq;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
+using TwitchToolkit.Commands.ViewerCommands;
 using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Store;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
@@ -21,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            if(viewer == null)
+            if (viewer == null)
             {
                 return false;
             }
@@ -30,14 +27,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             var query = CommandParser.Parse(message, TkSettings.Prefix).Skip(2).FirstOrDefault();
 
-            if(query.NullOrEmpty())
+            if (query.NullOrEmpty())
             {
                 return false;
             }
 
             pawn = CommandBase.GetOrFindPawn(viewer.username);
 
-            if(pawn == null)
+            if (pawn == null)
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
@@ -49,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             var traits = pawn.story.traits.allTraits;
 
-            if(traits != null && traits.Count <= 0)
+            if (traits?.Count <= 0)
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
@@ -75,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             var target = traits?.FirstOrDefault(t => TraitHelper.MultiCompare(traitQuery, t.Label));
 
-            if(target == null)
+            if (target == null)
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
@@ -94,15 +91,17 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override void TryExecute()
         {
-            if(pawn == null) return;
-            if(trait == null) return;
+            if (pawn == null || trait == null)
+            {
+                return;
+            }
 
             pawn.story.traits.allTraits.Remove(trait);
             var data = trait.def.DataAtDegree(buyable.degree);
 
-            if(data != null && data.skillGains != null)
+            if (data?.skillGains != null)
             {
-                foreach(var gain in data.skillGains)
+                foreach (var gain in data.skillGains)
                 {
                     var skill = pawn.skills.GetSkill(gain.Key);
                     skill.Level -= gain.Value;
@@ -112,7 +111,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             Viewer.TakeViewerCoins(storeIncident.cost);
             Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-            if(ToolkitSettings.PurchaseConfirmations)
+            if (ToolkitSettings.PurchaseConfirmations)
             {
                 CommandBase.SendCommandMessage(
                     Viewer.username,
@@ -130,8 +129,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     trait.LabelCap.Named("TRAIT")
                 ),
                 LetterDefOf.PositiveEvent,
-                new LookTargets(pawn),
-                null
+                new LookTargets(pawn)
             );
         }
     }

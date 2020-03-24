@@ -1,13 +1,9 @@
 using System;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
@@ -47,22 +43,26 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             try
             {
                 Pawn val;
-                if(pawn.SpawnedParentOrMe != pawn.Corpse && (val = (pawn.SpawnedParentOrMe as Pawn)) != null && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var val2, null))
+                if (pawn.SpawnedParentOrMe != pawn.Corpse
+                    && (val = pawn.SpawnedParentOrMe as Pawn) != null
+                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var _))
                 {
-                    Logger.Warn($"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position} from {val}");
+                    Logger.Warn(
+                        $"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position} from {val}"
+                    );
                 }
                 else
                 {
                     Viewer.TakeViewerCoins(storeIncident.cost);
                     Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-                    pawn.ClearAllReservations(true);
+                    pawn.ClearAllReservations();
                     ResurrectionUtility.ResurrectWithSideEffects(pawn);
                     PawnTracker.pawnsToRevive.Remove(pawn);
                     Find.LetterStack.ReceiveLetter("Pawn Revived", $"{pawn.Name} has been revived but is experiencing some side effects.", LetterDefOf.PositiveEvent, new LookTargets(pawn), null);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error("Could not execute reviveme", ex);
             }

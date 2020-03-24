@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.IRC;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -14,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
@@ -22,7 +19,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             var query = message.Message.Split(' ').Skip(1).FirstOrDefault();
             ResearchProjectDef target;
 
-            if(query.NullOrEmpty())
+            if (query.NullOrEmpty())
             {
                 target = Current.Game.researchManager.currentProj;
             }
@@ -30,11 +27,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 target = DefDatabase<ResearchProjectDef>
                     .AllDefsListForReading
-                    .Where(p => p.defName.EqualsIgnoreCase(query) || p.label.EqualsIgnoreCase(query))
-                    .FirstOrDefault();
+                    .FirstOrDefault(p => p.defName.EqualsIgnoreCase(query) || p.label.EqualsIgnoreCase(query));
             }
 
-            if(target == null)
+            if (target == null)
             {
                 if(!query.NullOrEmpty())
                 {
@@ -64,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 )
             };
 
-            if(target.prerequisites != null && !target.PrerequisitesCompleted)
+            if (target.prerequisites != null && !target.PrerequisitesCompleted)
             {
                 var container = new List<string>();
                 var prerequisites = target.prerequisites;

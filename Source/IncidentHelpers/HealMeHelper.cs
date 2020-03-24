@@ -1,12 +1,8 @@
 using System.Linq;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.Store;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
@@ -24,7 +20,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             pawn = CommandBase.GetPawn(viewer.username);
 
-            if(pawn == null)
+            if (pawn == null)
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
@@ -35,21 +31,23 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             var hediff = HealHelper.FindLifeThreateningHediff(pawn);
-            if(hediff != null)
+            if (hediff != null)
             {
                 toHeal = hediff;
                 return true;
             }
-            if(HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 2500)
+
+            if (HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 2500)
             {
                 var hediff2 = HealHelper.FindMostBleedingHediff(pawn);
-                if(hediff2 != null)
+                if (hediff2 != null)
                 {
                     toHeal = hediff2;
                     return true;
                 }
             }
-            if(pawn.health.hediffSet.GetBrain() != null)
+
+            if (pawn.health.hediffSet.GetBrain() != null)
             {
                 var hediffInjury = HealHelper.FindPermanentInjury(
                     pawn,
@@ -61,8 +59,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     return true;
                 }
             }
+
             var bodyPartRecord = HealHelper.FindBiggestMissingBodyPart(pawn, HealHelper.HandCoverageAbsWithChildren);
-            if(bodyPartRecord != null)
+            if (bodyPartRecord != null)
             {
                 toRestore = bodyPartRecord;
                 return true;
@@ -79,25 +78,29 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 toHeal = hediffInjury2;
                 return true;
             }
+
             var hediff3 = HealHelper.FindImmunizableHediffWhichCanKill(pawn);
-            if(hediff3 != null)
+            if (hediff3 != null)
             {
                 toHeal = hediff3;
                 return true;
             }
-            var hediff4 = HealHelper.FindNonInjuryMiscBadHediff(pawn, onlyIfCanKill: true);
-            if(hediff4 != null)
+
+            var hediff4 = HealHelper.FindNonInjuryMiscBadHediff(pawn, true);
+            if (hediff4 != null)
             {
                 toHeal = hediff4;
                 return true;
             }
-            var hediff5 = HealHelper.FindNonInjuryMiscBadHediff(pawn, onlyIfCanKill: false);
-            if(hediff5 != null)
+
+            var hediff5 = HealHelper.FindNonInjuryMiscBadHediff(pawn, false);
+            if (hediff5 != null)
             {
                 toHeal = hediff5;
                 return true;
             }
-            if(pawn.health.hediffSet.GetBrain() != null)
+
+            if (pawn.health.hediffSet.GetBrain() != null)
             {
                 var hediffInjury3 = HealHelper.FindInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()));
                 if (hediffInjury3 != null)
@@ -106,8 +109,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     return true;
                 }
             }
+
             var bodyPartRecord2 = HealHelper.FindBiggestMissingBodyPart(pawn);
-            if(bodyPartRecord2 != null)
+            if (bodyPartRecord2 != null)
             {
                 toRestore = bodyPartRecord2;
                 return true;
@@ -138,7 +142,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override void TryExecute()
         {
-            if(toHeal != null)
+            if (toHeal != null)
             {
                 HealHelper.Cure(toHeal);
 
@@ -148,7 +152,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 NotifySuccess(toHeal.LabelCap);
             }
 
-            if(toRestore != null)
+            if (toRestore == null)
             {
                 pawn.health.RestorePart(toRestore);
 
@@ -161,7 +165,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         private void NotifySuccess(string target)
         {
-            if(ToolkitSettings.PurchaseConfirmations)
+            if (ToolkitSettings.PurchaseConfirmations)
             {
                 CommandBase.SendCommandMessage(
                     Viewer.username,

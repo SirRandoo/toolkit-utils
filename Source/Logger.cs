@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Verse;
 
@@ -8,7 +8,7 @@ namespace SirRandoo.ToolkitUtils
     {
         public static void Debug(string message)
         {
-            if(Prefs.DevMode)
+            if (Prefs.DevMode)
             {
                 Log("DEBUG", message);
             }
@@ -24,21 +24,18 @@ namespace SirRandoo.ToolkitUtils
             Log("INFO", message);
         }
 
-        public static void Log(string level, string message, string color = null)
+        private static void Log(string level, string message, string color = null)
         {
-            if(color.NullOrEmpty())
-            {
-                Verse.Log.Message($"{level.ToUpper()} {TKUtils.ID} :: {message}");
-            }
-            else
-            {
-                Verse.Log.Message($"<color=\"{color}\">{level.ToUpper()} {TKUtils.ID} :: {message}</color>");
-            }
+            Verse.Log.Message(
+                color.NullOrEmpty()
+                    ? $"{level.ToUpper()} {TkUtils.Id} :: {message}"
+                    : $"<color=\"{color}\">{level.ToUpper()} {TkUtils.Id} :: {message}</color>"
+            );
         }
 
         public static void Warn(string message)
         {
-            Log("WARN", message, color: "#ff8080");
+            Log("WARN", message, "#ff8080");
         }
     }
 }

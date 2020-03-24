@@ -1,15 +1,11 @@
 using System;
 using System.Linq;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers;
 using TwitchToolkit.PawnQueue;
 using TwitchToolkit.Store;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
@@ -24,12 +20,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            if(!Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, storeIncident.cost))
+            if (!Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, storeIncident.cost))
             {
                 return false;
             }
 
-            if(CommandBase.GetOrFindPawn(viewer.username) != null)
+            if (CommandBase.GetOrFindPawn(viewer.username) != null)
             {
                 CommandBase.SendCommandMessage(viewer.username, "TKUtils.Responses.Buy.HasPawn".Translate(), separateChannel);
                 return false;
@@ -60,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             var segments = CommandParser.Parse(message).Skip(2).ToArray();
 
-            if(segments.Length > 0)
+            if (segments.Length <= 0)
             {
                 var keyed = CommandParser.ParseKeyed(segments);
                 var race = keyed.Where(i => i.Key.EqualsIgnoreCase("--race"))
@@ -111,7 +107,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 VariablesHelpers.SendPurchaseMessage("TKUtils.Responses.Buy.PurchaseMessage".Translate());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.Error("Could not execute buy pawn", e);
             }

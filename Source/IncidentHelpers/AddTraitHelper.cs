@@ -1,14 +1,10 @@
 using System.Linq;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Store;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
@@ -55,12 +51,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             var maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
             var traits = viewerPawn.story.traits.allTraits;
 
-            if(traits != null)
+            if (traits != null)
             {
                 var tally = traits.Where(t => !TraitHelper.IsSpecialTrait(t)).Count();
                 var flag = buyable == null ? false : TraitHelper.IsSpecialTrait(buyable.def);
 
-                if(tally >= maxTraits && !flag)
+                if (tally >= maxTraits && !flag)
                 {
                     CommandBase.SendCommandMessage(
                         viewer.username,
@@ -73,7 +69,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            if(buyable == null)
+            if (buyable == null)
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
@@ -106,7 +102,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            if(traits != null && traits.Find(s => s.def.defName == traitObj.def.defName) != null)
+            if (traits?.Find(s => s.def.defName == traitObj.def.defName) != null)
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
@@ -130,19 +126,20 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             pawn.story.traits.GainTrait(trait);
             var val = traitDef.DataAtDegree(buyableTrait.degree);
-            if(val != null && val.skillGains != null)
+            if (val?.skillGains != null)
             {
-                foreach(var skillGain in val.skillGains)
+                foreach (var skillGain in val.skillGains)
                 {
                     var skill = pawn.skills.GetSkill(skillGain.Key);
                     int level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
                     skill.Level = level;
                 }
             }
+
             Viewer.TakeViewerCoins(storeIncident.cost);
             Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-            if(ToolkitSettings.PurchaseConfirmations)
+            if (ToolkitSettings.PurchaseConfirmations)
             {
                 CommandBase.SendCommandMessage(
                     Viewer.username,
@@ -160,8 +157,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     trait.LabelCap.Named("TRAIT")
                 ),
                 LetterDefOf.PositiveEvent,
-                new LookTargets(pawn),
-                null
+                new LookTargets(pawn)
             );
         }
     }

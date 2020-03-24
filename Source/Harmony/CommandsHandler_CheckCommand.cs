@@ -1,10 +1,7 @@
 using System;
 using System.Linq;
-
 using HarmonyLib;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 
@@ -29,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 var viewer = Viewers.GetViewer(msg.User);
                 viewer.last_seen = DateTime.Now;
 
-                if(viewer.IsBanned)
+                if (viewer.IsBanned)
                 {
                     return false;
                 }
@@ -42,17 +39,17 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 IRCMessage payload;
                 if (message.Substring(0, TkSettings.Prefix.Length).EqualsIgnoreCase(TkSettings.Prefix))
                 {
-                    if(!segments.Any())
+                    if (!segments.Any())
                     {
                         return false;
                     }
 
-                    if(segments.First().StartsWith("/w"))
+                    if (segments.First().StartsWith("/w"))
                     {
                         segments = segments.Skip(1).ToArray();
                     }
 
-                    if(unemoji)
+                    if (unemoji)
                     {
                         segments = segments
                             .Where(i => !i.EqualsIgnoreCase("--text"))
@@ -62,14 +59,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     var commands = DefDatabase<Command>.AllDefsListForReading.ToList();
                     Command command = null;
 
-                    foreach(var def in commands)
+                    foreach (var def in commands)
                     {
-                        if(def.command.Contains(" "))
+                        if (def.command.Contains(" "))
                         {
-                            var spaces = def.command.Count(c => c.Equals(" "));
+                            var spaces = def.command.Count(c => c.Equals(' '));
                             var joined = string.Join(" ", segments.Take(spaces));
 
-                            if(def.command.EqualsIgnoreCase(joined))
+                            if (!def.command.EqualsIgnoreCase(joined))
                             {
                                 command = def;
                                 break;
@@ -99,17 +96,17 @@ namespace SirRandoo.ToolkitUtils.Harmony
                             runnable = false;
                         }
 
-                        if(command.requiresAdmin && !msg.User.EqualsIgnoreCase(ToolkitSettings.Channel))
+                        if (command.requiresAdmin && !msg.User.EqualsIgnoreCase(ToolkitSettings.Channel))
                         {
                             runnable = false;
                         }
 
-                        if(command.shouldBeInSeparateRoom && !CommandsHandler.AllowCommand(msg))
+                        if (command.shouldBeInSeparateRoom && !CommandsHandler.AllowCommand(msg))
                         {
                             runnable = false;
                         }
-
-                        if(runnable)
+                        
+                        if (runnable)
                         {
                             // Fix up the message for Toolkit
                             payload = new IRCMessage
@@ -124,14 +121,15 @@ namespace SirRandoo.ToolkitUtils.Harmony
                                 Whisper = msg.Whisper
                             };
 
-                            if(command.commandDriver.Name.Equals("Buy") && !command.defName.EqualsIgnoreCase("buy"))
+                            if (command.commandDriver.Name.Equals("Buy") && !command.defName.EqualsIgnoreCase("buy"))
                             {
-                                payload.Message = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
+                                payload.Message = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1)))
+                                    .Trim();
                             }
 
                             Logger.Info($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
 
-                            if(unemoji)
+                            if (unemoji)
                             {
                                 TkSettings.Emojis = false;
                             }
@@ -140,12 +138,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
                             {
                                 command.RunCommand(payload);
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 Logger.Error($"Command \"{command.command}\" failed", e);
                             }
 
-                            if(unemoji)
+                            if (unemoji)
                             {
                                 TkSettings.Emojis = emojiCache;
                             }
@@ -170,12 +168,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         Whisper = msg.Whisper
                     };
 
-                    Logger.Info($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check");
+                Logger.Info(
+                    $"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check"
+                );
 
-                    if(unemoji)
-                    {
-                        TKSettings.Emojis = false;
-                    }
+                if (unemoji)
+                {
+                    TkSettings.Emojis = false;
+                }
 
                     foreach(var tInterface in twitchInterfaces)
                     {
@@ -189,13 +189,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         }
                     }
 
-                    if(unemoji)
-                    {
-                        TKSettings.Emojis = emojiCache;
-                    }
+                if (unemoji)
+                {
+                    TkSettings.Emojis = emojiCache;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.Error($"Command parser failed", e);
             }

@@ -1,8 +1,6 @@
-﻿using SirRandoo.ToolkitUtils.Utils;
-
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -11,7 +9,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }

@@ -1,34 +1,26 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.IRC;
-
 using UnityEngine;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnGearCommand : CommandBase
     {
-        private static bool IsTemperatureCustom = false;
-        private static bool TemperatureCheck = true;
-
         public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
 
             var pawn = GetOrFindPawn(message.User);
 
-            if(pawn == null)
+            if (pawn == null)
             {
                 SendCommandMessage(
                     "TKUtils.Responses.NoPawn".Translate(),
@@ -45,27 +37,22 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
         }
 
-        private float CalculateArmorRating(Pawn pawn, StatDef stat)
+        private static float CalculateArmorRating(Pawn pawn, StatDef stat)
         {
             var rating = 0f;
-            var value = Mathf.Clamp01(StatExtension.GetStatValue(pawn, stat, applyPostProcess: true) / 2f);
+            var value = Mathf.Clamp01(pawn.GetStatValue(stat) / 2f);
             var parts = pawn.RaceProps.body.AllParts;
             var apparel = pawn.apparel?.WornApparel;
 
-            foreach(var part in parts)
+            foreach (var part in parts)
             {
                 var cache = 1f - value;
 
-                if(apparel != null && apparel.Any())
+                if (apparel != null && apparel.Any())
                 {
-                    foreach(var a in apparel)
-                    {
-                        if(a.def.apparel.CoversBodyPart(part))
-                        {
-                            float v = Mathf.Clamp01(StatExtension.GetStatValue(a, stat, applyPostProcess: true) / 2f);
-                            cache *= 1f - v;
-                        }
-                    }
+                    cache = apparel.Where(a => a.def.apparel.CoversBodyPart(part))
+                        .Select(a => Mathf.Clamp01(a.GetStatValue(stat) / 2f))
+                        .Aggregate(cache, (current, v) => current * (1f - v));
                 }
 
                 rating += part.coverageAbs * (1f - cache);
@@ -74,23 +61,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             return Mathf.Clamp(rating * 2f, 0f, 2f);
         }
 
-        private TaggedString GetPawnGear(Pawn pawn)
+        private static TaggedString GetPawnGear(Pawn pawn)
         {
             var parts = new List<string>();
 
             if (TkSettings.TempInGear)
             {
-                var tempMin = GenText.ToStringTemperature(StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMin, applyPostProcess: true));
-                var tempMax = GenText.ToStringTemperature(StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMax, applyPostProcess: true));
-                TaggedString display;
-
-                if(IsTemperatureCustom)
-                {
-                    display = TaggedString.Empty;
-                }
-                else
-                {
-                    display = GetTemperatureDisplay();
+                var tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
+                var tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
                     if(TemperatureCheck && display.RawText.Contains("["))
                     {
@@ -109,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 var heat = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
                 var stats = new List<string>();
 
-                if(sharp > 0)
+                if (sharp > 0)
                 {
                     stats.Add(
                         GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Sharp").Translate(
@@ -118,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     );
                 }
 
-                if(blunt > 0)
+                if (blunt > 0)
                 {
                     stats.Add(
                         GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Blunt").Translate(
@@ -127,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     );
                 }
 
-                if(heat > 0)
+                if (heat > 0)
                 {
                     stats.Add(
                         GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Heat").Translate(
@@ -150,10 +128,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 var e = pawn.equipment;
 
-                if(e != null && e.AllEquipmentListForReading?.Count > 0)
+                if (e != null && e.AllEquipmentListForReading?.Count > 0)
                 {
-                    var equip = e.AllEquipmentListForReading;
-                    var container = new List<string>();
+                    var equip = e.AllEquipmentListForReading.Select(eq => eq.LabelCap);
 
                     foreach(var eq in equip)
                     {

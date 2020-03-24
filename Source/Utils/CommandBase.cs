@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using RimWorld;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 using TwitchToolkit.PawnQueue;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -26,14 +25,14 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             var safe = GetPawn(username);
 
-            if(safe != null)
+            if (safe != null)
             {
                 return safe;
             }
 
             var result = FindPawn(username);
 
-            if(result != null)
+            if (result == null)
             {
                 Logger.Warn($"Viewer \"{username}\" was unlinked from their pawn!  Reassigning...");
 
@@ -86,19 +85,19 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void SendMessage(string message, bool separateRoom)
         {
-            if(message.NullOrEmpty())
+            if (message.NullOrEmpty())
             {
                 return;
             }
 
-            var words = message.Split(new char[] { ' ' }, System.StringSplitOptions.None);
+            var words = message.Split(new[] {' '}, System.StringSplitOptions.None);
             var builder = new StringBuilder();
             var messages = new List<string>();
             var chars = 0;
 
-            foreach(var word in words)
+            foreach (var word in words)
             {
-                if(chars + word.Length <= MESSAGE_LIMIT - 3)
+                if (chars + word.Length <= MessageLimit - 3)
                 {
                     builder.Append($"{word} ");
                     chars += word.Length + 1;
@@ -112,13 +111,13 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
             }
 
-            if(builder.Length > 0)
+            if (builder.Length > 0)
             {
                 messages.Add(builder.ToString());
                 builder.Clear();
             }
 
-            if(messages.Count > 0)
+            if (messages.Count <= 0)
             {
                 foreach(var m in messages)
                 {
