@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
@@ -21,9 +21,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             //new Tuple<string, Type>("Vip", typeof(VipConstraint))
         };
 
-        private List<ConstraintBase> constraints;
+        private readonly List<ConstraintBase> constraints;
         private Vector2 scrollPos = Vector2.zero;
-        private bool showingAffected = false;
+        private bool showingAffected;
 
         public DialogPurgeViewers()
         {
@@ -90,9 +90,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                     if (!Widgets.ButtonText(closeRect, exemptText))
                     {
-                        var c = new NameConstraint();
-                        c.SetUsername(viewer.username);
-                        c.SetComparison(NameComparisonTypes.Not);
+                        continue;
+                    }
+
+                    var c = new NameConstraint();
+                    c.SetUsername(viewer.username);
+                    c.SetComparison(NameComparisonTypes.Not);
 
                     constraints.Add(c);
                 }
@@ -129,7 +132,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.EndScrollView();
         }
 
-        public void DrawHeader(Rect region)
+        private void DrawHeader(Rect region)
         {
             if (showingAffected)
             {
@@ -162,24 +165,20 @@ namespace SirRandoo.ToolkitUtils.Windows
                     "TKUtils.Windows.Purge.Buttons.Add".Translate()
                 ))
                 {
-                    var keys = registry.Select(i => i.Item1).ToArray();
-                    var options = new List<FloatMenuOption>();
-
-                    foreach(var key in keys)
-                    {
-                        options.Add(
-                            new FloatMenuOption(
+                    var keys = Registry.Select(i => i.Item1).ToArray();
+                    var options = keys.Select(
+                            key => new FloatMenuOption(
                                 key,
                                 delegate
                                 {
-                                    var constraint = registry.Where(i => i.Item1.Equals(key)).First();
+                                    var constraint = Registry.First(i => i.Item1.Equals(key));
                                     var t = constraint.Item2;
 
                                     constraints.Add((ConstraintBase) Activator.CreateInstance(t));
                                 }
                             )
-                        );
-                    }
+                        )
+                        .ToList();
 
                     Find.WindowStack.Add(new FloatMenu(options));
                 }
@@ -194,7 +193,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        public Viewer[] GetAffectedViewers()
+        private Viewer[] GetAffectedViewers()
         {
             return Viewers.All
                 .Where(v => constraints.All(c => c.ShouldPurge(v)))
@@ -204,15 +203,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void Purge()
         {
             var affected = GetAffectedViewers();
-            var count = 0;
-
-            foreach(var viewer in affected)
-            {
-                if(Viewers.All.Remove(viewer))
-                {
-                    count += 1;
-                }
-            }
+            var count = affected.Count(viewer => Viewers.All.Remove(viewer));
 
             Logger.Warn($"Purged {count} viewers out of the requested {affected.Length}!");
             showingAffected = false;

@@ -41,14 +41,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var buyable = AllTraits.buyableTraits.Where(t => TraitHelper.MultiCompare(t, trait)).FirstOrDefault();
+            var buyable = AllTraits.buyableTraits.FirstOrDefault(t => TraitHelper.MultiCompare(t, traitQuery));
             var maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
             var traits = viewerPawn.story.traits.allTraits;
 
             if (traits != null)
             {
-                var tally = traits.Where(t => !TraitHelper.IsSpecialTrait(t)).Count();
-                var flag = buyable == null ? false : TraitHelper.IsSpecialTrait(buyable.def);
+                var tally = traits.Count(t => !TraitHelper.IsSpecialTrait(t));
+                var flag = buyable != null && TraitHelper.IsSpecialTrait(buyable.def);
 
                 if (tally >= maxTraits && !flag)
                 {

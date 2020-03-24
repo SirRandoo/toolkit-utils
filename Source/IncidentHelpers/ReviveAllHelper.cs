@@ -62,8 +62,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!wasAnyRevived)
             {
-                Viewer.TakeViewerCoins(storeIncident.cost);
-                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+                return;
+            }
+
+            Viewer.TakeViewerCoins(storeIncident.cost);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.Letters.MassRevival.Title".Translate(),

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -41,41 +41,26 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var segments = new List<string>(){
-                "TKUtils.Formats.Research.Current".Translate(
-                    target.LabelCap.Named("PROJECT"),
-                    GenText.ToStringPercent(target.ProgressPercent).Named("PERCENT")
-                )
+            var segments = new List<string>
+            {
+                "TKUtils.Formats.KeyValue".Translate(target.LabelCap, target.ProgressPercent.ToStringPercent())
             };
 
             if (target.prerequisites != null && !target.PrerequisitesCompleted)
             {
-                var container = new List<string>();
                 var prerequisites = target.prerequisites;
 
-                foreach(var prerequisite in prerequisites)
-                {
-                    if(prerequisite.IsFinished)
-                    {
-                        continue;
-                    }
-
-                    container.Add(
-                        "TKUtils.Formats.Research.Current".Translate(
-                            prerequisite.LabelCap.Named("PROJECT"),
-                            GenText.ToStringPercent(prerequisite.ProgressPercent).Named("PERCENT")
+                var container = prerequisites.Where(prerequisite => !prerequisite.IsFinished)
+                    .Select(
+                        prerequisite => "TKUtils.Formats.KeyValue".Translate(
+                            prerequisite.LabelCap,
+                            prerequisite.ProgressPercent.ToStringPercent()
                         )
-                    );
-                }
-
-                segments.Add(
-                    "TKUtils.Formats.Research.Prerequisites".Translate(
-                        string.Join(
-                            "TKUtils.Misc.Separators.Inner".Translate(),
-                            container
-                        ).Named("PREREQUISITES")
                     )
-                );
+                    .Select(dummy => (string) dummy)
+                    .ToArray();
+
+                segments.Add($"{"ResearchPrerequisites".Translate().RawText}: {string.Join(", ", container)}");
             }
 
             message.Reply(string.Join("⎮", segments).WithHeader("Research".Translate()));

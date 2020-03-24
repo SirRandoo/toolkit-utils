@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RimWorld;
@@ -13,10 +13,9 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         private const int MessageLimit = 500;
 
-        public static Pawn FindPawn(string username)
+        private static Pawn FindPawn(string username)
         {
-            return Find.ColonistBar.Entries
-                .Where(c => ((NameTriple) c.pawn.Name).Nick.EqualsIgnoreCase(username))
+            return Find.ColonistBar.Entries.Where(c => ((NameTriple) c.pawn.Name).Nick.EqualsIgnoreCase(username))
                 .Select(c => c.pawn)
                 .FirstOrDefault();
         }
@@ -34,13 +33,15 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (result == null)
             {
-                Logger.Warn($"Viewer \"{username}\" was unlinked from their pawn!  Reassigning...");
-
-                var component = Current.Game.GetComponent<GameComponentPawns>();
-
-                component.pawnHistory[username] = result;
-                component.viewerNameQueue.Remove(username);
+                return null;
             }
+
+            Logger.Warn($"Viewer \"{username}\" was unlinked from their pawn!  Reassigning...");
+
+            var component = Current.Game.GetComponent<GameComponentPawns>();
+
+            component.pawnHistory[username] = result;
+            component.viewerNameQueue.Remove(username);
 
             return result;
         }
@@ -52,38 +53,10 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .Where(k => k.EqualsIgnoreCase(username))
                 .Select(p => component.pawnHistory[p]);
 
-            return query.Any() ? query.First() : null;
+            return query.FirstOrDefault();
         }
 
-        public static string GetTranslatedEmoji(string emoji, string text = null)
-        {
-            if(text == null)
-            {
-                text = $"{emoji}.Text";
-            }
-
-            if(TKSettings.Emojis)
-            {
-                return emoji;
-            }
-
-            return text;
-        }
-
-        public static void SendCommandMessage(string viewer, string message, bool separateRoom)
-        {
-            SendMessage(
-                "TKUtils.Formats.CommandBase".Translate(
-                    viewer.Named("VIEWER"),
-                    message.Named("MESSAGE")
-                ),
-                separateRoom
-            );
-        }
-
-        public static void SendCommandMessage(string message, IRCMessage ircMessage) => SendCommandMessage(ircMessage.User, message, CommandsHandler.SendToChatroom(ircMessage));
-
-        public static void SendMessage(string message, bool separateRoom)
+        internal static void SendMessage(string message)
         {
             if (message.NullOrEmpty())
             {

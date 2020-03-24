@@ -142,12 +142,17 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!TkSettings.ShowApparel)
             {
-                var a = pawn.apparel;
+                return string.Join("⎮", parts.ToArray());
+            }
 
-                if(a != null && a.WornApparelCount > 0)
-                {
-                    var container = new List<string>();
-                    var apparel = a.WornApparel;
+            var a = pawn.apparel;
+
+            if (a == null || a.WornApparelCount <= 0)
+            {
+                return string.Join("⎮", parts.ToArray());
+            }
+
+            var apparel = a.WornApparel;
 
                     foreach(var item in apparel)
                     {

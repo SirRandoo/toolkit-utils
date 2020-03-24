@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -33,26 +33,31 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 foreach (var c in container)
                 {
-                    if(c.Equals('<') && tagContent == "")
+                    switch (c)
                     {
-                        inTag = true;
-                    }
-                    else if(c.Equals(' ') && inTag)
-                    {
-                        nameEnd = true;
-                        tagContent += c;
-                    }
-                    else if(c.Equals('>'))
-                    {
-                        inTag = false;
-                    }
-                    else if(inTag)
-                    {
-                        tagContent += c;
-
-                        if(!nameEnd)
+                        case '<' when tagContent == "":
+                            inTag = true;
+                            break;
+                        case ' ' when inTag:
+                            nameEnd = true;
+                            tagContent += c;
+                            break;
+                        case '>':
+                            inTag = false;
+                            break;
+                        default:
                         {
-                            tag += c;
+                            if (inTag)
+                            {
+                                tagContent += c;
+
+                                if (!nameEnd)
+                                {
+                                    tag += c;
+                                }
+                            }
+
+                            break;
                         }
                     }
                 }

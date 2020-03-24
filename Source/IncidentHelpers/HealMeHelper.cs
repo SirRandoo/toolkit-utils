@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -150,13 +150,15 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (toRestore == null)
             {
-                pawn.health.RestorePart(toRestore);
-
-                Viewer.TakeViewerCoins(storeIncident.cost);
-                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
-
-                NotifySuccess(toRestore.LabelCap);
+                return;
             }
+
+            pawn.health.RestorePart(toRestore);
+
+            Viewer.TakeViewerCoins(storeIncident.cost);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
+            NotifySuccess(toRestore.LabelCap);
         }
 
         private void NotifySuccess(string target)
@@ -168,10 +170,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.Letters.Heal.Title".Translate(),
-                "TKUtils.Letters.Heal.Description".Translate(
-                    Viewer.username.Named("VIEWER"),
-                    target.Named("TARGET")
-                ),
+                "TKUtils.Letters.Heal.Description".Translate(Viewer.username, target),
                 LetterDefOf.PositiveEvent,
                 new LookTargets(CommandBase.GetPawn(Viewer.username))
             );

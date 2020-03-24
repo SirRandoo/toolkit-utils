@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -27,30 +27,25 @@ namespace SirRandoo.ToolkitUtils.Utils
                     segment += '\\';
                 }
 
-                if(c.Equals(' ') && !quoted)
+                switch (c)
                 {
-                    cache.Add(segment);
-                    segment = "";
-                }
-                else if(c.Equals('"'))
-                {
-                    if(!escaped)
-                    {
+                    case ' ' when !quoted:
+                        cache.Add(segment);
+                        segment = "";
+                        break;
+                    case '"' when !escaped:
                         quoted = !quoted;
-                    }
-                    else
-                    {
+                        break;
+                    case '"':
                         segment += c;
                         escaped = false;
-                    }
-                }
-                else if(c.Equals('\\'))
-                {
-                    escaped = true;
-                }
-                else
-                {
-                    segment += c;
+                        break;
+                    case '\\':
+                        escaped = true;
+                        break;
+                    default:
+                        segment += c;
+                        break;
                 }
             }
 
@@ -62,9 +57,12 @@ namespace SirRandoo.ToolkitUtils.Utils
             return cache.ToArray();
         }
 
-        public static List<KeyValuePair<string, string>> ParseKeyed(string input, string prefix = "!") => ParseKeyed(Parse(input, prefix: prefix));
+        public static List<KeyValuePair<string, string>> ParseKeyed(string input, string prefix = "!")
+        {
+            return ParseKeyed(Parse(input, prefix));
+        }
 
-        public static List<KeyValuePair<string, string>> ParseKeyed(string[] input)
+        public static List<KeyValuePair<string, string>> ParseKeyed(IEnumerable<string> input)
         {
             var cache = new List<KeyValuePair<string, string>>();
 
@@ -72,25 +70,27 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 if (!segment.Contains('='))
                 {
-                    var key = "";
-                    var value = "";
-                    var sep = false;
-                    var escaped = false;
+                    continue;
+                }
 
-                    foreach(var c in segment)
+                var key = "";
+                var value = "";
+                var sep = false;
+                var escaped = false;
+
+                foreach (var c in segment)
+                {
+                    switch (c)
                     {
-                        if(c.Equals('=') && !escaped)
-                        {
-                            escaped = false;
+                        case '=' when !escaped:
                             sep = true;
-                        }
-                        else if(c.Equals('\\'))
-                        {
+                            break;
+                        case '\\':
                             escaped = true;
-                        }
-                        else
+                            break;
+                        default:
                         {
-                            if(!sep)
+                            if (!sep)
                             {
                                 key += c;
                             }
@@ -98,11 +98,13 @@ namespace SirRandoo.ToolkitUtils.Utils
                             {
                                 value += c;
                             }
+
+                            break;
                         }
                     }
-
-                    cache.Add(new KeyValuePair<string, string>(key, value));
                 }
+
+                cache.Add(new KeyValuePair<string, string>(key, value));
             }
 
             return cache;

@@ -176,10 +176,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static string HealthReport(Pawn pawn)
         {
-            var segments = new List<string>()
+            var segments = new List<string>
             {
                 "TKUtils.Formats.PawnHealth.Summary".Translate(
-                    GenText.ToStringPercent(pawn.health.summaryHealth.SummaryHealthPercent).Named("PERCENT")
+                    pawn.health.summaryHealth.SummaryHealthPercent.ToStringPercent()
                 )
             };
 
@@ -241,41 +241,30 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 source = source.OrderBy(d => d.listOrder).ToList();
 
-                foreach(var capacity in source)
-                {
-                    if(!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
-                    {
-                        continue;
-                    }
-
-                    capacities.Add(
-                        "TKUtils.Formats.PawnHealth.Capacity".Translate(
-                            capacity.GetLabelFor(pawn).CapitalizeFirst().Named("CAPACITY"),
-                            HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First.Named("PERCENT")
+                var capacities = source
+                    .Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
+                    .Select(
+                        capacity => "TKUtils.Formats.KeyValue".Translate(
+                            capacity.GetLabelFor(pawn).CapitalizeFirst(),
+                            HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First
                         )
-                    );
-                }
-
-                segments.Add(
-                    string.Join(
-                        "TKUtils.Misc.Separators.Inner".Translate(),
-                        capacities
                     )
-                );
+                    .Select(dummy => (string) dummy)
+                    .ToArray();
+
+                segments.Add(string.Join(", ", capacities));
             }
 
             if (!TkSettings.ShowSurgeries)
             {
                 var surgeries = pawn.health.surgeryBills;
 
-                if(surgeries != null && surgeries.Count > 0)
-                {
-                    var queued = new List<string>();
+            if (surgeries == null || surgeries.Count <= 0)
+            {
+                return string.Join("⎮", segments);
+            }
 
-                    foreach(var item in surgeries.Bills)
-                    {
-                        queued.Add(item.LabelCap);
-                    }
+            var queued = surgeries.Bills.Select(item => item.LabelCap).ToArray();
 
                     segments.Add(
                         "TKUtils.Formats.PawnHealth.Surgeries".Translate(
@@ -288,10 +277,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            return string.Join(
-                "TKUtils.Misc.Separators.Upper".Translate(),
-                segments
-            );
+            return string.Join("⎮", segments.ToArray());
         }
     }
 }

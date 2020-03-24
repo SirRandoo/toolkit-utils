@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Linq;
 using HarmonyLib;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
-
+using TwitchToolkit.Store;
 using Verse;
 using Command = TwitchToolkit.Command;
 
@@ -21,6 +21,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 if (!TkSettings.Commands)
                 {
                     return true;
+                }
+
+                if (msg?.Message == null)
+                {
+                    return false;
                 }
 
                 var viewer = Viewers.GetViewer(msg.User);
@@ -68,30 +73,29 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                             if (!def.command.EqualsIgnoreCase(joined))
                             {
-                                command = def;
-                                break;
+                                continue;
                             }
+
+                            command = def;
+                            break;
                         }
-                        else
+
+                        if (!def.command.EqualsIgnoreCase(segments.Take(1).First()))
                         {
-                            if(def.command.EqualsIgnoreCase(segments.Take(1).First()))
-                            {
-                                command = def;
-                                break;
-                            }
+                            continue;
                         }
+
+                        command = def;
+                        break;
                     }
-
-                    if(command != null)
+                    
+                    if (command != null)
                     {
-                        var runnable = true;
+                        var runnable = command.enabled;
 
-                        if(!command.enabled)
-                        {
-                            runnable = false;
-                        }
-
-                        if(command.requiresMod && !viewer.mod && !viewer.username.EqualsIgnoreCase(ToolkitSettings.Channel))
+                        if (command.requiresMod
+                            && !viewer.mod
+                            && !viewer.username.EqualsIgnoreCase(ToolkitSettings.Channel))
                         {
                             runnable = false;
                         }
@@ -153,20 +157,21 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 var twitchInterfaces = Current.Game.components.OfType<TwitchInterfaceBase>().ToList();
 
-                if(twitchInterfaces != null)
+                // hard-coded pawn commands....
+                payload = new IRCMessage
                 {
-                    // hard-coded pawn commands....
-                    var payload = new IRCMessage
-                    {
-                        Args = msg.Args,
-                        Channel = msg.Channel,
-                        Cmd = msg.Cmd,
-                        Host = msg.Host,
-                        Message = ($"!" + segments.Take(1).FirstOrDefault().ToLowerInvariant() + " " + string.Join(" ", segments.Skip(1))).Trim(),
-                        Parameters = msg.Parameters,
-                        User = msg.User,
-                        Whisper = msg.Whisper
-                    };
+                    Args = msg.Args,
+                    Channel = msg.Channel,
+                    Cmd = msg.Cmd,
+                    Host = msg.Host,
+                    Message = ("!"
+                               + segments.Take(1).FirstOrDefault()?.ToLowerInvariant()
+                               + " "
+                               + string.Join(" ", segments.Skip(1))).Trim(),
+                    Parameters = msg.Parameters,
+                    User = msg.User,
+                    Whisper = msg.Whisper
+                };
 
                 Logger.Info(
                     $"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check"
@@ -177,17 +182,17 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     TkSettings.Emojis = false;
                 }
 
-                    foreach(var tInterface in twitchInterfaces)
+                foreach (var tInterface in twitchInterfaces)
+                {
+                    try
                     {
-                        try
-                        {
-                            tInterface.ParseCommand(payload);
-                        }
-                        catch(Exception e)
-                        {
-                            Logger.Error($"Twitch interface \"{tInterface.GetType().FullName}\" failed", e);
-                        }
+                        tInterface.ParseCommand(payload);
                     }
+                    catch (Exception e)
+                    {
+                        Logger.Error($"Twitch interface \"{tInterface.GetType().FullName}\" failed", e);
+                    }
+                }
 
                 if (unemoji)
                 {
@@ -196,7 +201,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
             catch (Exception e)
             {
-                Logger.Error($"Command parser failed", e);
+                Logger.Error("Command parser failed", e);
             }
 
             return false;

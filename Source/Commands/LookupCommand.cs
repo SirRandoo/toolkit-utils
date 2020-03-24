@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -45,12 +45,13 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             var results = DefDatabase<PawnKindDef>.AllDefsListForReading
                 .Where(i => i.RaceProps.Animal)
-                .Where(i =>
-                {
-                    if(i.LabelCap.RawText.Contains(query))
+                .Where(
+                    i =>
                     {
-                        return true;
-                    }
+                        if (i.LabelCap.RawText.Contains(query))
+                        {
+                            return true;
+                        }
 
                         if (i.LabelCap.RawText.EqualsIgnoreCase(query))
                         {
@@ -135,10 +136,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                             return true;
                         }
 
-                    if(t.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
+                        if (t.EqualsIgnoreCase(query))
+                        {
+                            return true;
+                        }
 
                         return i.defName.ToLower().Contains(query) || i.defName.EqualsIgnoreCase(query);
                     }

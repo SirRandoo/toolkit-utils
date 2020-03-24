@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
@@ -26,56 +26,21 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static string GetModListString()
         {
-            var container = new List<string>();
-            var unversioned = TKUtils.GetModListUnversioned();
-
-            foreach(var mod in unversioned)
-            {
-                container.Add(TryFavoriteMod(mod));
-            }
-
-            return string.Join(
-                "TKUtils.Misc.Separators.Inner".Translate(),
-                container
-            );
+            return string.Join(", ",TkUtils.GetModListUnversioned().Select(TryFavoriteMod).ToArray());
         }
 
         private static string GetModListStringVersioned()
         {
-            var container = new List<string>();
-            var versioned = TKUtils.GetModListVersioned();
+            var list = TkUtils.GetModListVersioned();
 
-            foreach(var mod in versioned)
-            {
-                container.Add(
-                    "TKUtils.Formats.ModList.Mod".Translate(
-                        TryFavoriteMod(mod.Item1).Named("NAME"),
-                        mod.Item2.Named("VERSION")
-                    )
-                );
-            }
-
-            return string.Join(
-                "TKUtils.Misc.Separators.Inner".Translate(),
-                container
-            );
+            return string.Join(", ", list.Select(m => $"{TryFavoriteMod(m.Item1)} (v{m.Item2})").ToArray());
         }
 
         private static string TryFavoriteMod(string mod)
         {
-            if(mod.EqualsIgnoreCase(TKUtils.ID))
-            {
-                return GetTranslatedEmoji(
-                    "TKUtils.Misc.Decorators.Favorite",
-                    "TKUtils.Misc.Decorators.Favorite.Text"
-                ).Translate(
-                    mod.Named("DECORATING")
-                );
-            }
-            else
-            {
-                return mod;
-            }
+            return !TkSettings.DecorateUtils || !mod.EqualsIgnoreCase(TkUtils.Id)
+                ? mod
+                : $"{"★".AltText("*")}{mod}";
         }
     }
 }

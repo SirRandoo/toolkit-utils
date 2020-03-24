@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -28,17 +28,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 var result = GetPawnHealable(pawn);
 
-                if(result is Hediff)
+                switch (result)
                 {
-                    healQueue.Add((Hediff) result);
-                }
-                else if(result is BodyPartRecord)
-                {
-                    restoreQueue.Add(new Pair<Pawn, BodyPartRecord>(pawn, (BodyPartRecord) result));
+                    case Hediff hediff:
+                        healQueue.Add(hediff);
+                        break;
+                    case BodyPartRecord record:
+                        restoreQueue.Add(new Pair<Pawn, BodyPartRecord>(pawn, record));
+                        break;
                 }
             }
 
-            return healQueue.Any(i => i != null) || restoreQueue.Any(i => i != null);
+            return healQueue.Any(i => i != null) || restoreQueue.Any(i => i.Second != null);
         }
 
         public override void TryExecute()
@@ -63,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             );
         }
 
-        private object GetPawnHealable(Pawn pawn)
+        private static object GetPawnHealable(Pawn pawn)
         {
             var hediff = HealHelper.FindLifeThreateningHediff(pawn);
             if (hediff != null)
