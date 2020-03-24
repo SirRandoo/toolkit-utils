@@ -1,25 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
-  <!-- Groups -->
-  <TKUtils.Groups.CommandTweaks.Label>Command Tweaks</TKUtils.Groups.CommandTweaks.Label>
-  <TKUtils.Groups.PawnCommands.Label>Pawn Commands</TKUtils.Groups.PawnCommands.Label>
+    <!-- Pawn Commands -->
+    <TKUtils.SettingGroups.PawnCommands>Pawn Commands</TKUtils.SettingGroups.PawnCommands>
+    <TKUtils.SettingGroups.PawnCommands.TempInGear.Label>Show temperature information in the pawn gear command.</TKUtils.SettingGroups.PawnCommands.TempInGear.Label>
+    <TKUtils.SettingGroups.PawnCommands.TempInGear.Tooltip>Includes a pawn's temperature tolerance range in the pawn gear command (!mypawngear).  Enabling this removes temperature information from !mypawnbody.</TKUtils.SettingGroups.PawnCommands.TempInGear.Tooltip>
+    <TKUtils.SettingGroups.PawnCommands.ShowApparel.Label>Show currently equipped apparel in the pawn gear command.</TKUtils.SettingGroups.PawnCommands.ShowApparel.Label>
+    <TKUtils.SettingGroups.PawnCommands.ShowApparel.Tooltip>Includes apparel a pawn is currently wearing with in the pawn gear command (!mypawngear).</TKUtils.SettingGroups.PawnCommands.ShowApparel.Tooltip>
+    <TKUtils.SettingGroups.PawnCommands.ShowArmor.Label>Show armor values in the pawn gear command.</TKUtils.SettingGroups.PawnCommands.ShowArmor.Label>
+    <TKUtils.SettingGroups.PawnCommands.ShowArmor.Tooltip>Includes armor protection values in the pawn gear command (!mypawngear).</TKUtils.SettingGroups.PawnCommands.ShowArmor.Tooltip>
+    <TKUtils.SettingGroups.PawnCommands.ShowWeapon.Label>Show currently equipped weapon in the pawn gear command.</TKUtils.SettingGroups.PawnCommands.ShowWeapon.Label>
+    <TKUtils.SettingGroups.PawnCommands.ShowWeapon.Tooltip>Includes the weapon a pawn is currently equipped with in the pawn gear command (!mypawngear).</TKUtils.SettingGroups.PawnCommands.ShowWeapon.Tooltip>
+    <TKUtils.SettingGroups.PawnCommands.ShowSurgeries.Label>Show queued surgeries in the pawn health command.</TKUtils.SettingGroups.PawnCommands.ShowSurgeries.Label>
+    <TKUtils.SettingGroups.PawnCommands.ShowSurgeries.Tooltip>Includes currently queued surgeries in the pawn health command (!mypawnhealth).</TKUtils.SettingGroups.PawnCommands.ShowSurgeries.Tooltip>
+    <TKUtils.SettingGroups.PawnCommands.SortWork.Label>Sort work priorities in the pawn work command.</TKUtils.SettingGroups.PawnCommands.SortWork.Label>
+    <TKUtils.SettingGroups.PawnCommands.SortWork.Tooltip>If enabled, work priorities will be sorted like the Work tab in the pawn work command (!mypawnwork).  This means work will be displayed as the Work tab from left to right.</TKUtils.SettingGroups.PawnCommands.SortWork.Tooltip>
+    <TKUtils.SettingGroups.PawnCommands.FilterWork.Label>Filter work priorities in the pawn work command.</TKUtils.SettingGroups.PawnCommands.FilterWork.Label>
+    <TKUtils.SettingGroups.PawnCommands.FilterWork.Tooltip>If enabled, disabled work priorities will be removed from the pawn work command's output. (!mypawnwork).  This means work priorities a pawn is incapable of doing, or is not assigned to, will be omitted from the command's response.</TKUtils.SettingGroups.PawnCommands.FilterWork.Tooltip>
 
-  <!-- Command Tweaks -->
-  <TKUtils.CommandTweaks.Label>Override Toolkit's command handler.</TKUtils.CommandTweaks.Label>
-  <TKUtils.CommandTweaks.CommandPrefix.Label>Custom command prefix</TKUtils.CommandTweaks.CommandPrefix.Label>
-  <TKUtils.CommandTweaks.RichText.Label>Strip HTML tags from some content, like colored traits.</TKUtils.CommandTweaks.RichText.Label>
-  <TKUtils.CommandTweaks.VersionedModList.Label>Include mod versions in the installed mods command.</TKUtils.CommandTweaks.VersionedModList.Label>
-  <TKUtils.CommandTweaks.Emojis.Label>Prefer emoticons over text whenever possible.</TKUtils.CommandTweaks.Emojis.Label>
-  <TKUtils.CommandTweaks.DecorateUtils.Label>Add a star next to ToolkitUtils in the mod list.</TKUtils.CommandTweaks.DecorateUtils.Label>
+    <!-- Command Tweaks -->
+    <TKUtils.SettingGroups.CommandTweaks>Command Tweaks</TKUtils.SettingGroups.CommandTweaks>
+    <TKUtils.SettingGroups.CommandTweaks.Parser.Label>Override Toolkit's command handler.</TKUtils.SettingGroups.CommandTweaks.Parser.Label>
+    <TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>By default, Toolkit looks messages that start with a command.  This allows viewers to add flair to commands, like !balloon for !bal.  This tweak forces users to use commands as defined, and allows the mod's shortcut commands to function.</TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>
+    <TKUtils.SettingGroups.CommandTweaks.Unrichify.Label>Unrichify data from RimWorld and viewers.</TKUtils.SettingGroups.CommandTweaks.Unrichify.Label>
+    <TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>By default, Toolkit checks for exact matches on things like traits, including html tags.  This tweak filters out html tags when checking for matches so you'll never have to write out tags.</TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>
+    <TKUtils.SettingGroups.CommandTweaks.Prefix>Custom command prefix</TKUtils.SettingGroups.CommandTweaks.Prefix>
 
-  <!-- Pawn Commands -->
-  <TKUtils.PawnCommands.Health.ShowSurgeries.Label>Include queued surgeries in the health command.</TKUtils.PawnCommands.Health.ShowSurgeries.Label>
-  <TKUtils.PawnCommands.Gear.ShowArmor.Label>Include armor values in the gear command.</TKUtils.PawnCommands.Gear.ShowArmor.Label>
-  <TKUtils.PawnCommands.Gear.ShowWeapon.Label>Include weapon in the gear command.</TKUtils.PawnCommands.Gear.ShowWeapon.Label>
-  <TKUtils.PawnCommands.Gear.ShowApparel.Label>Include apparel in the gear command.</TKUtils.PawnCommands.Gear.ShowApparel.Label>
-  <TKUtils.PawnCommands.Body.TempInGear.Label>Include temperature tolerances in the gear command instead.</TKUtils.PawnCommands.Body.TempInGear.Label>
-  <TKUtils.PawnCommands.Traits.Sexuality.Label>Sexuality traits can bypass the trait limit.</TKUtils.PawnCommands.Traits.Sexuality.Label>
-  <TKUtils.PawnCommands.Work.Sort.Label>Sort work priorities by the order a pawn would do them.</TKUtils.PawnCommands.Work.Sort.Label>
-  <TKUtils.PawnCommands.Work.Filter.Label>Filter out disabled work priorities.</TKUtils.PawnCommands.Work.Filter.Label>
+    <!-- General -->
+    <TKUtils.SettingGroups.General>General</TKUtils.SettingGroups.General>
+    <TKUtils.SettingGroups.General.VersionedModList.Label>Include mod versions in the mod list command.</TKUtils.SettingGroups.General.VersionedModList.Label>
+    <TKUtils.SettingGroups.General.VersionedModList.Tooltip>By default, the mod list command (!installedmods) only outputs mod names.  This tweaks allows you to include mod versions along side the names.</TKUtils.SettingGroups.General.VersionedModList.Tooltip>
+    <TKUtils.SettingGroups.General.Emojis.Label>Use emoticons in some commands.</TKUtils.SettingGroups.General.Emojis.Label>
+    <TKUtils.SettingGroups.General.Emojis.Tooltip>Allows Utils to use emoticons over text in some commands, like !mypawnhealth.  If this is disabled, emoticons will be subsituted with text.</TKUtils.SettingGroups.General.Emojis.Tooltip>
+    <TKUtils.SettingGroups.General.DecorateUtils.Label>Add a star next to Utils in the mod list.</TKUtils.SettingGroups.General.DecorateUtils.Label>
+    <TKUtils.SettingGroups.General.DecorateUtils.Tooltip>because why not?</TKUtils.SettingGroups.General.DecorateUtils.Tooltip>
+    <TKUtils.SettingGroups.General.Sexuality.Label>Allow sexuality traits to bypass the trait limit.</TKUtils.SettingGroups.General.Sexuality.Label>
+    <TKUtils.SettingGroups.General.Sexuality.Tooltip>If enabled, sexuality traits will be allows to bypass Toolkit's trait limit.</TKUtils.SettingGroups.General.Sexuality.Tooltip>
+    <TKUtils.SettingGroups.General.Race.Label>Allow viewers to specify their pawn's race when buying.</TKUtils.SettingGroups.General.Race.Label>
+    <TKUtils.SettingGroups.General.Race.Tooltip>If enabled, viewers will be able to specify their pawn's race when buying a pawn (!buy pawn) with --race={race}.</TKUtils.SettingGroups.General.Race.Tooltip>
+    <TKUtils.SettingGroups.General.LookupLimit>Maximum number of results in the lookup command.</TKUtils.SettingGroups.General.LookupLimit>
 </LanguageData>
