@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-
+using System;
+using System.Linq;
 using UnityEngine;
-
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Constraints
+namespace SirRandoo.ToolkitUtils.Utils
 {
     public enum ComparisonTypes
     {
-        Greater,
-        Equal,
-        Less,
-        GreaterEqual,
-        LessEqual
+        Greater, Equal, Less,
+        GreaterEqual, LessEqual
     }
 
     public class ComparableConstraint : ConstraintBase
     {
         protected ComparisonTypes Strategy = ComparisonTypes.Equal;
 
-        protected static TaggedString GetStrategyString(string root, ComparisonTypes strategy)
+        private static TaggedString GetStrategyString(string root, ComparisonTypes strategy)
         {
             return $"{root}.{Enum.GetName(typeof(ComparisonTypes), strategy)}".Translate();
         }
@@ -29,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Constraints
         {
             var text = GetStrategyString("TKUtils.Windows.Purge.ComparisonTypes", Strategy);
 
-            if(!text.NullOrEmpty() && Widgets.ButtonText(canvas, text))
+            if (text.NullOrEmpty() || !Widgets.ButtonText(canvas, text))
             {
                 var names = Enum.GetNames(typeof(ComparisonTypes));
                 var options = new List<FloatMenuOption>();

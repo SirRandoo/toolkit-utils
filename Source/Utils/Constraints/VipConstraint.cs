@@ -1,10 +1,8 @@
 ﻿using TwitchToolkit;
-
 using UnityEngine;
-
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Constraints
+namespace SirRandoo.ToolkitUtils.Utils
 {
     public class VipConstraint : ConstraintBase
     {
