@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 using SirRandoo.ToolkitUtils.Utils;
 
@@ -18,26 +18,22 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var filteredFactions = Current.Game.World.factionManager.AllFactionsVisible
-                .Where(f => !Current.Game.World.factionManager.OfAncients.Equals(f))
-                .Where(f => !Current.Game.World.factionManager.OfMechanoids.Equals(f))
-                .Where(f => !Current.Game.World.factionManager.OfInsects.Equals(f))
-                .Where(f => !Current.Game.World.factionManager.OfAncientsHostile.Equals(f))
-                .Where(f => !Current.Game.World.factionManager.OfPlayer.Equals(f));
+            var factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.ToList();
 
-            if(filteredFactions.Any())
+            if (!factions.Any())
             {
                 var segments = filteredFactions.Select(f => $"{f.GetCallLabel()}: {f.PlayerGoodwill.ToStringWithSign()}").ToArray();
 
-                SendCommandMessage(
-                    string.Join("TKUtils.Misc.Separators.Inner".Translate(), segments),
-                    message
-                );
-            }
-            else
-            {
-                SendCommandMessage("TKUtils.Responses.NoFactions".Translate(), message);
-            }
+            message.Reply(
+                string.Join(
+                    ", ",
+                    factions.Select(f => "TKUtils.Formats.KeyValue".Translate(
+                            f.GetCallLabel(),
+                            f.PlayerGoodwill.ToStringWithSign()
+                        ).ToString()
+                    ).ToArray()
+                )
+            );
         }
     }
 }

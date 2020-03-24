@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using RimWorld;
@@ -20,7 +20,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         private IntVec3 loc;
         private Map map;
         private IncidentParms paramz;
-        private bool separateChannel;
         public override Viewer Viewer { get; set; }
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
@@ -36,21 +35,25 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            this.separateChannel = separateChannel;
             Viewer = viewer;
 
-            var map = Helper.AnyPlayerMap;
+            var anyPlayerMap = Helper.AnyPlayerMap;
 
-            if(map == null)
+            if (anyPlayerMap == null)
             {
                 CommandBase.SendCommandMessage(viewer.username, "TKUtils.Responses.Buy.NoMap".Translate(), separateChannel);
                 return false;
             }
 
-            paramz = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, map);
-            this.map = map;
+            paramz = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, anyPlayerMap);
+            map = anyPlayerMap;
 
-            if(!CellFinder.TryFindRandomEdgeCellWith(p => map.reachability.CanReachColony(p) && !GridsUtility.Fogged(p, map), map, CellFinder.EdgeRoadChance_Neutral, out loc))
+            if (!CellFinder.TryFindRandomEdgeCellWith(
+                p => anyPlayerMap.reachability.CanReachColony(p) && !p.Fogged(anyPlayerMap),
+                anyPlayerMap,
+                CellFinder.EdgeRoadChance_Neutral,
+                out loc
+            ))
             {
                 return false;
             }
@@ -75,14 +78,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                         return false;
                     }
 
-                    this.kindDef = raceDef;
-                }
-                else
-                {
-                    CommandBase.SendCommandMessage(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(race.Named("QUERY")), separateChannel);
-                    return false;
-                }
-            }
+            kindDef = raceDef;
 
             return true;
         }
@@ -91,7 +87,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             try
             {
-                var request = new PawnGenerationRequest(kindDef, Faction.OfPlayer, tile: map.Tile, allowFood: false, mustBeCapableOfViolence: true);
+                var request = new PawnGenerationRequest(
+                    kindDef,
+                    Faction.OfPlayer,
+                    tile: map.Tile,
+                    allowFood: false,
+                    mustBeCapableOfViolence: true
+                );
                 var pawn = PawnGenerator.GeneratePawn(request);
                 var name = pawn.Name as NameTriple;
 

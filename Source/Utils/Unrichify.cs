@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 using UnityEngine;
 
@@ -8,21 +8,13 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public static class RichTextUnparser
     {
-        private static readonly string[] supportedTags = new[] { "b", "i", "size", "color", "material", "quad" };
+        private static readonly string[] SupportedTags = {"b", "i", "size", "color", "material", "quad"};
 
         public static bool IsRichText(string input)
         {
             var lowered = input.ToLowerInvariant();
 
-            foreach(var tag in supportedTags)
-            {
-                if(lowered.Contains($"<{tag}") && lowered.Contains($"</{tag}>"))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return SupportedTags.Any(tag => lowered.Contains($"<{tag}") && lowered.Contains($"</{tag}>"));
         }
 
         public static string StripTags(string input)

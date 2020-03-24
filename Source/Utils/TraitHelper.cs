@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 
 using TwitchToolkit.IncidentHelpers.Traits;
 
@@ -10,12 +10,10 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         public static bool IsSpecialTrait(Trait trait)
         {
-            if(!TKSettings.Sexuality) return false;
-            if(trait.def.Equals(TraitDefOf.Gay)) return true;
-            if(trait.def.Equals(TraitDefOf.Bisexual)) return true;
-
-            return false;
-        }
+            if (!TkSettings.Sexuality)
+            {
+                return false;
+            }
 
         public static bool IsSpecialTrait(TraitDef trait)
         {
@@ -42,7 +40,20 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
             }
 
-            return false;
+            if (!TkSettings.RichText)
+            {
+                return false;
+            }
+
+            label = Unrichify.IsRichText(label) ? Unrichify.StripTags(label) : label;
+            input = Unrichify.IsRichText(input) ? Unrichify.StripTags(input) : input;
+
+            return label.ToToolkit().EqualsIgnoreCase(input.ToToolkit());
+        }
+
+        public static string ToToolkit(this string t)
+        {
+            return t.Replace(" ", "").ToLower();
         }
     }
 }

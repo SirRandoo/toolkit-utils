@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 using RimWorld;
 
@@ -32,16 +32,16 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             Viewer = viewer;
             this.separateChannel = separateChannel;
 
-            var trait = CommandParser.Parse(message, prefix: TKSettings.Prefix).Skip(2).FirstOrDefault();
+            var traitQuery = CommandParser.Parse(message, TkSettings.Prefix).Skip(2).FirstOrDefault();
 
-            if(trait.NullOrEmpty())
+            if (traitQuery.NullOrEmpty())
             {
                 return false;
             }
 
-            var pawn = CommandBase.GetOrFindPawn(viewer.username);
+            var viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
 
-            if(pawn == null)
+            if (viewerPawn == null)
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
@@ -53,7 +53,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             var buyable = AllTraits.buyableTraits.Where(t => TraitHelper.MultiCompare(t, trait)).FirstOrDefault();
             var maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
-            var traits = pawn.story.traits.allTraits;
+            var traits = viewerPawn.story.traits.allTraits;
 
             if(traits != null)
             {
@@ -85,10 +85,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var traitDef = buyable.def;
-            var traitObj = new Trait(traitDef, degree: buyable.degree, forced: false);
+            var buyableDef = buyable.def;
+            var traitObj = new Trait(buyableDef, buyable.degree);
 
-            foreach(var t in pawn.story.traits.allTraits)
+            foreach (var t in viewerPawn.story.traits.allTraits.Where(
+                t => t.def.ConflictsWith(traitObj) || buyableDef.ConflictsWith(t)
+            ))
             {
                 if(t.def.ConflictsWith(traitObj) || traitDef.ConflictsWith(t))
                 {
@@ -116,12 +118,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            this.trait = traitObj;
-            this.traitDef = traitDef;
-            this.buyableTrait = buyable;
-            this.pawn = pawn;
+            trait = traitObj;
+            traitDef = buyableDef;
+            buyableTrait = buyable;
+            pawn = viewerPawn;
 
-            return trait != null && traitDef != null && buyableTrait != null;
+            return traitQuery != null && buyableDef != null && buyableTrait != null;
         }
 
         public override void TryExecute()

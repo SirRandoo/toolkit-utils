@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using RimWorld;
@@ -78,7 +78,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             var parts = new List<string>();
 
-            if(TKSettings.TempInGear)
+            if (TkSettings.TempInGear)
             {
                 var tempMin = GenText.ToStringTemperature(StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMin, applyPostProcess: true));
                 var tempMax = GenText.ToStringTemperature(StatExtension.GetStatValue(pawn, StatDefOf.ComfyTemperatureMax, applyPostProcess: true));
@@ -102,16 +102,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     }
                 }
 
-                parts.Add(
-                    "TKUtils.Formats.PawnGear.Temperature".Translate(
-                        tempMin.Named("MINIMUM"),
-                        tempMax.Named("MAXIMUM"),
-                        display.Named("DISPLAY")
-                    )
-                );
-            }
-
-            if(TKSettings.ShowArmor)
+            if (TkSettings.ShowArmor)
             {
                 var sharp = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
                 var blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
@@ -155,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
             }
 
-            if(TKSettings.ShowWeapon)
+            if (TkSettings.ShowWeapon)
             {
                 var e = pawn.equipment;
 
@@ -180,7 +171,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            if(TKSettings.ShowApparel)
+            if (!TkSettings.ShowApparel)
             {
                 var a = pawn.apparel;
 

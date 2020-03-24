@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using RimWorld;
@@ -14,9 +14,6 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnBodyCommand : CommandBase
     {
-        private static bool IsTemperatureCustom = false;
-        private static bool TemperatureCheck = true;
-
         public override void RunCommand(IRCMessage message)
         {
             if(!CommandsHandler.AllowCommand(message))

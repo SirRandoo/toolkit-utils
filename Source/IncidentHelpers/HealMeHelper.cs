@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 using RimWorld;
 
@@ -14,7 +14,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
     public class HealMeHelper : IncidentHelperVariables
     {
         private Pawn pawn;
-        private bool separateChannel;
         private Hediff toHeal;
         private BodyPartRecord toRestore;
         public override Viewer Viewer { get; set; }
@@ -22,7 +21,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             Viewer = viewer;
-            this.separateChannel = separateChannel;
 
             pawn = CommandBase.GetPawn(viewer.username);
 
@@ -53,10 +51,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
             if(pawn.health.hediffSet.GetBrain() != null)
             {
-                var hediff_Injury = HealHelper.FindPermanentInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()));
-                if(hediff_Injury != null)
+                var hediffInjury = HealHelper.FindPermanentInjury(
+                    pawn,
+                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain())
+                );
+                if (hediffInjury != null)
                 {
-                    toHeal = hediff_Injury;
+                    toHeal = hediffInjury;
                     return true;
                 }
             }
@@ -66,15 +67,16 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 toRestore = bodyPartRecord;
                 return true;
             }
-            var hediff_Injury2 = HealHelper.FindPermanentInjury(
+
+            var hediffInjury2 = HealHelper.FindPermanentInjury(
                 pawn,
                 pawn.health.hediffSet.GetNotMissingParts()
                     .Where(p => p.def == BodyPartDefOf.Eye)
             );
 
-            if(hediff_Injury2 != null)
+            if (hediffInjury2 != null)
             {
-                toHeal = hediff_Injury2;
+                toHeal = hediffInjury2;
                 return true;
             }
             var hediff3 = HealHelper.FindImmunizableHediffWhichCanKill(pawn);
@@ -97,10 +99,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
             if(pawn.health.hediffSet.GetBrain() != null)
             {
-                var hediff_Injury3 = HealHelper.FindInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()));
-                if(hediff_Injury3 != null)
+                var hediffInjury3 = HealHelper.FindInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()));
+                if (hediffInjury3 != null)
                 {
-                    toHeal = hediff_Injury3;
+                    toHeal = hediffInjury3;
                     return true;
                 }
             }
@@ -110,22 +112,25 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 toRestore = bodyPartRecord2;
                 return true;
             }
-            var hediff_Addiction = HealHelper.FindAddiction(pawn);
-            if(hediff_Addiction != null)
+
+            var hediffAddiction = HealHelper.FindAddiction(pawn);
+            if (hediffAddiction != null)
             {
-                toHeal = hediff_Addiction;
+                toHeal = hediffAddiction;
                 return true;
             }
-            var hediff_Injury4 = HealHelper.FindPermanentInjury(pawn);
-            if(hediff_Injury4 != null)
+
+            var hediffInjury4 = HealHelper.FindPermanentInjury(pawn);
+            if (hediffInjury4 != null)
             {
-                toHeal = hediff_Injury4;
+                toHeal = hediffInjury4;
                 return true;
             }
-            var hediff_Injury5 = HealHelper.FindInjury(pawn);
-            if(hediff_Injury5 != null)
+
+            var hediffInjury5 = HealHelper.FindInjury(pawn);
+            if (hediffInjury5 != null)
             {
-                toHeal = hediff_Injury5;
+                toHeal = hediffInjury5;
             }
 
             return toHeal != null || toRestore != null;

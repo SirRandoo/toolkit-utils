@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using SirRandoo.ToolkitUtils.Utils;
@@ -26,24 +26,24 @@ namespace SirRandoo.ToolkitUtils.Commands
                 var container = new List<string>();
                 var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder;
 
-                if(TKSettings.SortWorkPriorities)
-                {
-                    priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
-                        .ThenBy(p => p.naturalPriority)
-                        .Reverse();
-                }
+            if (TkSettings.SortWorkPriorities)
+            {
+                priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
+                    .ThenBy(p => p.naturalPriority)
+                    .Reverse();
+            }
 
                 foreach(var priority in priorities)
                 {
                     var p = pawn.workSettings.GetPriority(priority);
 
-                    if(TKSettings.FilterWorkPriorities)
+                if (TkSettings.FilterWorkPriorities)
+                {
+                    if (p <= 0)
                     {
-                        if(p <= 0)
-                        {
-                            continue;
-                        }
+                        continue;
                     }
+                }
 
                     container.Add(
                         "TKUtils.Formats.PawnWork.Work".Translate(

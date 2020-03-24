@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using Verse;
 
@@ -8,6 +8,9 @@ namespace SirRandoo.ToolkitUtils
     {
         public ToolkitWindow(Mod mod) : base(mod) => this.Mod = mod;
 
-        public override void DoWindowContents(Rect inRect) => this.Mod.GetSettings<TKSettings>().DoWindowContents(inRect);
+        public override void DoWindowContents(Rect inRect)
+        {
+            TkSettings.DoWindowContents(inRect);
+        }
     }
 }

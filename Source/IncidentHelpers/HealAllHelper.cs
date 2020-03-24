@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using RimWorld;
@@ -14,14 +14,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
     public class HealAllHelper : IncidentHelper
     {
-        private List<Hediff> healQueue = new List<Hediff>();
-        private List<Pair<Pawn, BodyPartRecord>> restoreQueue = new List<Pair<Pawn, BodyPartRecord>>();
+        private readonly List<Hediff> healQueue = new List<Hediff>();
+        private readonly List<Pair<Pawn, BodyPartRecord>> restoreQueue = new List<Pair<Pawn, BodyPartRecord>>();
 
         public override bool IsPossible()
         {
-            foreach(var pawn in Find.ColonistBar.Entries.Select(e => e.pawn))
+            var entries = Find.ColonistBar.Entries;
+
+            foreach (var e in entries)
             {
-                if(pawn.health.Dead)
+                var pawn = e.pawn;
+
+                if (pawn.health.Dead)
                 {
                     continue;
                 }

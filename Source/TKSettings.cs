@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    public class TKSettings : ModSettings
+    public class TkSettings : ModSettings
     {
         public static bool Commands = true;
         public static bool DecorateUtils = false;

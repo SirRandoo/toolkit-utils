@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -12,7 +12,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class CommandBase : CommandDriver
     {
-        private const int MESSAGE_LIMIT = 500;
+        private const int MessageLimit = 500;
 
         public static Pawn FindPawn(string username)
         {

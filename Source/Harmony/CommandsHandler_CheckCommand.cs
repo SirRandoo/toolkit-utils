@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using HarmonyLib;
@@ -9,6 +9,7 @@ using TwitchToolkit;
 using TwitchToolkit.IRC;
 
 using Verse;
+using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
@@ -20,7 +21,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             try
             {
-                if(!TKSettings.Commands || msg == null || msg.Message == null)
+                if (!TkSettings.Commands)
                 {
                     return true;
                 }
@@ -34,11 +35,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 }
 
                 var message = msg.Message;
-                var segments = CommandParser.Parse(message, TKSettings.Prefix);
+                var segments = CommandParser.Parse(message, TkSettings.Prefix);
                 var unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"));
-                var emojiCache = TKSettings.Emojis;
+                var emojiCache = TkSettings.Emojis;
 
-                if(message.Substring(0, TKSettings.Prefix.Length).EqualsIgnoreCase(TKSettings.Prefix))
+                IRCMessage payload;
+                if (message.Substring(0, TkSettings.Prefix.Length).EqualsIgnoreCase(TkSettings.Prefix))
                 {
                     if(!segments.Any())
                     {
@@ -57,8 +59,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
                             .ToArray();
                     }
 
-                    var commands = DefDatabase<TwitchToolkit.Command>.AllDefsListForReading.ToList();
-                    TwitchToolkit.Command command = null;
+                    var commands = DefDatabase<Command>.AllDefsListForReading.ToList();
+                    Command command = null;
 
                     foreach(var def in commands)
                     {
@@ -110,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         if(runnable)
                         {
                             // Fix up the message for Toolkit
-                            var payload = new IRCMessage
+                            payload = new IRCMessage
                             {
                                 Args = msg.Args,
                                 Channel = msg.Channel,
@@ -131,7 +133,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                             if(unemoji)
                             {
-                                TKSettings.Emojis = false;
+                                TkSettings.Emojis = false;
                             }
 
                             try
@@ -145,7 +147,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                             if(unemoji)
                             {
-                                TKSettings.Emojis = emojiCache;
+                                TkSettings.Emojis = emojiCache;
                             }
                         }
                     }

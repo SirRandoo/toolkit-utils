@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,28 +12,28 @@ using Verse;
 namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
-    public static class TKUtils_Static
+    public static class TkUtilsStatic
     {
-        static TKUtils_Static()
+        static TkUtilsStatic()
         {
-            TKUtils.Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
-            TKUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            TkUtils.Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
+            TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             Logger.Info("Building mod list cache...");
-            TKUtils.ModListCache = TKUtils.GetModListVersioned();
-            Logger.Info($"Built mod list cache ({TKUtils.ModListCache.Length} mods loaded)");
+            TkUtils.ModListCache = TkUtils.GetModListVersioned();
+            Logger.Info($"Built mod list cache ({TkUtils.ModListCache.Length} mods loaded)");
         }
     }
 
-    public class TKUtils : Mod
+    public class TkUtils : Mod
     {
-        public const string ID = "ToolkitUtils";
+        public const string Id = "ToolkitUtils";
         internal static HarmonyLib.Harmony Harmony;
         internal static Tuple<string, string>[] ModListCache;
 
-        public TKUtils(ModContentPack content) : base(content)
+        public TkUtils(ModContentPack content) : base(content)
         {
-            GetSettings<TKSettings>();
+            GetSettings<TkSettings>();
             Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(ToolkitWindow)));
         }
 
@@ -65,8 +65,11 @@ namespace SirRandoo.ToolkitUtils
             return ModListCache;
         }
 
-        public override void DoSettingsWindowContents(Rect inRect) => GetSettings<TKSettings>().DoWindowContents(inRect);
+        public override void DoSettingsWindowContents(Rect inRect)
+        {
+            TkSettings.DoWindowContents(inRect);
+        }
 
-        public override string SettingsCategory() => ID;
+        public override string SettingsCategory() => Id;
     }
 }

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 
 using SirRandoo.ToolkitUtils.Windows;
 
@@ -22,7 +22,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if(Widgets.ButtonText(canvas, "TKUtils.Windows.Purge.Button.Label".Translate()))
             {
-                Find.WindowStack.Add(new Dialog_PurgeViewers());
+                Find.WindowStack.Add(new DialogPurgeViewers());
             }
         }
     }

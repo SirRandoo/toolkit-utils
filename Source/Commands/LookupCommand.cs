@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 using RimWorld;
 
@@ -16,8 +16,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class LookupCommand : CommandBase
     {
-        private bool separateChannel;
-        private string viewer;
+        private IRCMessage msg;
 
         public override void RunCommand(IRCMessage message)
         {
@@ -26,8 +25,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            viewer = message.User;
-            separateChannel = CommandsHandler.SendToChatroom(message);
+            msg = message;
 
             var segments = CommandParser.Parse(message.Message, prefix: TKSettings.Prefix).Skip(1).ToArray();
 

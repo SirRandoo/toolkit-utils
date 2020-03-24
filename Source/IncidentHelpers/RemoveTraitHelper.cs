@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 using RimWorld;
 
@@ -16,7 +16,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
     {
         private BuyableTrait buyable;
         private Pawn pawn;
-        private bool separateChannel;
         private Trait trait;
         public override Viewer Viewer { get; set; }
 
@@ -28,9 +27,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Viewer = viewer;
-            this.separateChannel = separateChannel;
 
-            var query = CommandParser.Parse(message, prefix: TKSettings.Prefix).Skip(2).FirstOrDefault();
+            var query = CommandParser.Parse(message, TkSettings.Prefix).Skip(2).FirstOrDefault();
 
             if(query.NullOrEmpty())
             {
@@ -61,9 +59,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var buyable = AllTraits.buyableTraits.Where(t => TraitHelper.MultiCompare(t, query)).FirstOrDefault();
+            var traitQuery = AllTraits.buyableTraits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
 
-            if(buyable == null)
+            if (traitQuery == null)
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
@@ -75,7 +73,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var target = traits.Where(t => TraitHelper.MultiCompare(buyable, t.Label)).FirstOrDefault();
+            var target = traits?.FirstOrDefault(t => TraitHelper.MultiCompare(traitQuery, t.Label));
 
             if(target == null)
             {
@@ -89,8 +87,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            this.trait = target;
-            this.buyable = buyable;
+            trait = target;
+            buyable = traitQuery;
             return true;
         }
 

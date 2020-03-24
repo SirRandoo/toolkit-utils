@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using RimWorld;
 
@@ -21,9 +21,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             Viewer = viewer;
 
-            var pawn = CommandBase.GetOrFindPawn(viewer.username);
+            var viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
 
-            if(pawn == null)
+            if (viewerPawn == null)
             {
                 CommandBase.SendCommandMessage(
                     viewer.username,
@@ -33,12 +33,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if(PawnTracker.pawnsToRevive.Contains(pawn))
+            if (PawnTracker.pawnsToRevive.Contains(viewerPawn))
             {
                 return false;
             }
 
-            this.pawn = pawn;
+            pawn = viewerPawn;
             return true;
         }
 

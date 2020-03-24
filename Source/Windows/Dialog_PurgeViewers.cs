@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,9 +12,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
-    public class Dialog_PurgeViewers : Window
+    public class DialogPurgeViewers : Window
     {
-        private static readonly List<Tuple<string, Type>> registry = new List<Tuple<string, Type>>
+        private static readonly List<Tuple<string, Type>> Registry = new List<Tuple<string, Type>>
         {
             //new Tuple<string, Type>("Banned", typeof(BannedConstraint)),
             new Tuple<string, Type>("Coin", typeof(CoinConstraint)),
@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Vector2 scrollPos = Vector2.zero;
         private bool showingAffected = false;
 
-        public Dialog_PurgeViewers()
+        public DialogPurgeViewers()
         {
             doCloseX = true;
             forcePause = true;

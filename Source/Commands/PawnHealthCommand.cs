@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using RimWorld;
@@ -75,41 +75,39 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private string GetFriendlyMoodState(Pawn pawn)
+        private static string GetMoodFriendly(Pawn subject)
         {
-            if(pawn.MentalStateDef != null)
+            if (subject.MentalStateDef != null)
             {
                 return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.None").Translate();
             }
 
-            var breakThresholdExtreme = pawn.mindState.mentalBreaker.BreakThresholdExtreme;
+            var thresholdExtreme = subject.mindState.mentalBreaker.BreakThresholdExtreme;
+            var moodLevel = subject.needs.mood.CurLevel;
 
-            if(pawn.needs.mood.CurLevel < breakThresholdExtreme)
+            if (moodLevel < thresholdExtreme)
             {
                 return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Extreme").Translate();
             }
 
-            if(pawn.needs.mood.CurLevel < breakThresholdExtreme + 0.05f)
+            if (moodLevel < thresholdExtreme + 0.0500000007450581)
             {
                 return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Upset").Translate();
             }
 
-            if(pawn.needs.mood.CurLevel < pawn.mindState.mentalBreaker.BreakThresholdMinor)
+            if (moodLevel < subject.mindState.mentalBreaker.BreakThresholdMinor)
             {
                 return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Stressed").Translate();
             }
 
-            if(pawn.needs.mood.CurLevel < 0.65f)
+            if (moodLevel < 0.649999976158142)
             {
                 return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Bad").Translate();
             }
 
-            if(pawn.needs.mood.CurLevel < 0.9f)
-            {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Neutral").Translate();
-            }
-
-            return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Happy").Translate();
+            return moodLevel < 0.899999976158142
+                ? "🙂".AltText("Mood_Content".Translate())
+                : "😊".AltText("Mood_Happy".Translate());
         }
 
         private string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
