@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Linq;
-
 using HarmonyLib;
-
 using TwitchToolkit;
 using TwitchToolkit.IRC;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
@@ -19,38 +16,47 @@ namespace SirRandoo.ToolkitUtils.Harmony
             try
             {
                 var badges = msg.Parameters
-                    .Where(p => p.Key.Equals("badges"))
-                    .FirstOrDefault();
+                    .FirstOrDefault(p => p.Key.Equals("badges"));
 
-                if(badges.Key.Equals("badges") && !badges.Value.NullOrEmpty())
+                if (!badges.Key.Equals("badges") || badges.Value.NullOrEmpty())
                 {
-                    var viewer = Viewers.GetViewer(msg.User);
-                    var value = badges.Value;
+                    return;
+                }
 
-                    foreach(var type in value.Split(','))
+                var viewer = Viewers.GetViewer(msg.User);
+                var value = badges.Value;
+
+                foreach (var type in value.Split(','))
+                {
+                    var badge = type.Split('/').FirstOrDefault();
+
+                    if (badge == null)
                     {
-                        var pair = type.Split('/');
-                        var badge = pair.FirstOrDefault();
-                        var version = pair.LastOrDefault();
+                        Logger.Warn($"Could not check badge \"{type}\"");
+                        continue;
+                    }
 
-                        if(badge.Equals("vip"))
-                        {
-                            viewer.vip = true;
-                        }
-                        else if(badge.Equals("founder"))
-                        {
-                            viewer.subscriber = true;
-                        }
-                        else if(badge.Equals("moderator") || badge.Equals("broadcaster") || badge.Equals("admin") || badge.Equals("staff") || badge.Equals("global_mod"))
-                        {
-                            viewer.mod = true;
-                        }
+                    if (badge.Equals("vip"))
+                    {
+                        viewer.vip = true;
+                    }
+                    else if (badge.Equals("founder"))
+                    {
+                        viewer.subscriber = true;
+                    }
+                    else if (badge.Equals("moderator")
+                             || badge.Equals("broadcaster")
+                             || badge.Equals("admin")
+                             || badge.Equals("staff")
+                             || badge.Equals("global_mod"))
+                    {
+                        viewer.mod = true;
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Logger.Error($"Founder patch failed", e);
+                Logger.Error("Founder patch failed", e);
             }
         }
     }
