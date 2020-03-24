@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -26,21 +26,19 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (text.NullOrEmpty() || !Widgets.ButtonText(canvas, text))
             {
-                var names = Enum.GetNames(typeof(ComparisonTypes));
-                var options = new List<FloatMenuOption>();
-
-                foreach(var name in names)
-                {
-                    options.Add(
-                        new FloatMenuOption(
-                            $"TKUtils.Windows.Purge.ComparisonTypes.{name}".Translate(),
-                            () => Strategy = (ComparisonTypes) Enum.Parse(typeof(ComparisonTypes), name)
-                        )
-                    );
-                }
-
-                Find.WindowStack.Add(new FloatMenu(options));
+                return;
             }
+
+            var names = Enum.GetNames(typeof(ComparisonTypes));
+            var options = names.Select(
+                    name => new FloatMenuOption(
+                        $"TKUtils.Windows.Purge.ComparisonTypes.{name}".Translate(),
+                        () => Strategy = (ComparisonTypes) Enum.Parse(typeof(ComparisonTypes), name)
+                    )
+                )
+                .ToList();
+
+            Find.WindowStack.Add(new FloatMenu(options));
         }
     }
 }

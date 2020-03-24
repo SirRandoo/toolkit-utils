@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using TwitchToolkit;
 using UnityEngine;
@@ -31,17 +31,13 @@ namespace SirRandoo.ToolkitUtils.Utils
             ))
             {
                 var names = Enum.GetNames(typeof(NameComparisonTypes));
-                var options = new List<FloatMenuOption>();
-
-                foreach(var name in names)
-                {
-                    options.Add(
-                        new FloatMenuOption(
+                var options = names.Select(
+                        name => new FloatMenuOption(
                             $"TKUtils.Windows.Purge.NameComparisonTypes.{name}".Translate(),
                             () => nameStrategy = (NameComparisonTypes) Enum.Parse(typeof(NameComparisonTypes), name)
                         )
-                    );
-                }
+                    )
+                    .ToList();
 
                 Find.WindowStack.Add(new FloatMenu(options));
             }

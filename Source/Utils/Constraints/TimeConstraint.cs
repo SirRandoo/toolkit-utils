@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using TwitchToolkit;
 using UnityEngine;
@@ -40,21 +40,19 @@ namespace SirRandoo.ToolkitUtils.Utils
                 $"TKUtils.Windows.Purge.TimeScales.{Enum.GetName(typeof(TimeScale), timeScale)}".Translate()
             ))
             {
-                var names = Enum.GetNames(typeof(TimeScale));
-                var options = new List<FloatMenuOption>();
-
-                foreach(var name in names)
-                {
-                    options.Add(
-                        new FloatMenuOption(
-                            $"TKUtils.Windows.Purge.TimeScales.{name}".Translate(),
-                            () => timeScale = (TimeScale) Enum.Parse(typeof(TimeScale), name)
-                        )
-                    );
-                }
-
-                Find.WindowStack.Add(new FloatMenu(options));
+                return;
             }
+
+            var names = Enum.GetNames(typeof(TimeScale));
+            var options = names.Select(
+                    name => new FloatMenuOption(
+                        $"TKUtils.Windows.Purge.TimeScales.{name}".Translate(),
+                        () => timeScale = (TimeScale) Enum.Parse(typeof(TimeScale), name)
+                    )
+                )
+                .ToList();
+
+            Find.WindowStack.Add(new FloatMenu(options));
         }
 
         public override bool ShouldPurge(Viewer viewer)
