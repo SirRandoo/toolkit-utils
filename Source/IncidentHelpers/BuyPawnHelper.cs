@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -117,7 +117,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 pawn.Name = new NameTriple(name.First, Viewer.username, name.Last);
                 GenSpawn.Spawn(pawn, loc, map);
                 var title = "TKUtils.Responses.Buy.Joined.Title".Translate();
-                var text = "TKUtils.Responses.Buy.Joined.Text".Translate(Viewer.username.Named("VIEWER"));
+                var text = "TKUtils.Responses.Buy.Joined.Text".Translate(Viewer.username);
                 PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref title, pawn);
 
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);

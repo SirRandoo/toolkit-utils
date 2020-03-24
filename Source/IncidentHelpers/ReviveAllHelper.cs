@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -68,12 +68,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             Viewer.TakeViewerCoins(storeIncident.cost);
             Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-                Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.MassRevival.Title".Translate(),
-                    "TKUtils.Letters.MassRevival.Description".Translate(),
-                    LetterDefOf.PositiveEvent
-                );
-            }
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.Letters.MassRevival.Title".Translate(),
+                "TKUtils.Letters.MassRevival.Description".Translate(),
+                LetterDefOf.PositiveEvent
+            );
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -52,11 +52,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             switch (state)
             {
                 case PawnHealthState.Down:
-                    return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Downed").Translate();
-
+                    return "💫".AltText("DownedLower".Translate().CapitalizeFirst());
                 case PawnHealthState.Dead:
-                    return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Dead").Translate();
-
+                    return "👻".AltText("Dead".Translate());
                 default:
                     return string.Empty;
             }
@@ -66,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if (subject.MentalStateDef != null)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.None").Translate();
+                return "⚡".AltText(subject.MentalStateDef.LabelCap);
             }
 
             var thresholdExtreme = subject.mindState.mentalBreaker.BreakThresholdExtreme;
@@ -74,22 +72,22 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (moodLevel < thresholdExtreme)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Extreme").Translate();
+                return "🤬".AltText("Mood_AboutToBreak");
             }
 
             if (moodLevel < thresholdExtreme + 0.0500000007450581)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Upset").Translate();
+                return "😠".AltText("Mood_OnEdge");
             }
 
             if (moodLevel < subject.mindState.mentalBreaker.BreakThresholdMinor)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Stressed").Translate();
+                return "😣".AltText("Mood_Stressed");
             }
 
             if (moodLevel < 0.649999976158142)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Bad").Translate();
+                return "😐".AltText("Mood_Neutral");
             }
 
             return moodLevel < 0.899999976158142
@@ -102,19 +100,18 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
             {
                 return "TKUtils.Responses.PawnHealth.Capacity.Race".Translate(
-                    Find.ActiveLanguageWorker.Pluralize(pawn.kindDef.race.defName).Named("RACE"),
-                    capacity.GetLabelFor(pawn).Named("CAPACITY")
+                    Find.ActiveLanguageWorker.Pluralize(pawn.kindDef.race.defName),
+                    capacity.GetLabelFor(pawn)
                 );
             }
 
             var impactors = new List<PawnCapacityUtility.CapacityImpactor>();
             var segments = new List<string>
             {
-                "TKUtils.Formats.PawnHealth.Capacity".Translate(
-                    capacity.LabelCap.Named("CAPACITY"),
-                    GenText.ToStringPercent(
-                        PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
-                    ).Named("PERCENT")
+                "TKUtils.Formats.KeyValue".Translate(
+                    capacity.LabelCap,
+                    PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
+                        .ToStringPercent()
                 )
             };
 
@@ -155,23 +152,15 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
 
                 segments.Add(
-                    "TKUtils.Formats.PawnHealth.Impactors".Translate(
-                        string.Join(
-                            "TKUtils.Misc.Separators.Inner".Translate(),
-                            parts
-                        ).Named("IMPACTORS")
-                    )
+                    "TKUtils.Formats.PawnHealth.Impactors".Translate(string.Join(", ", parts))
                 );
             }
             else
             {
-                segments.Add("TKUtils.Responses.Healthy".Translate());
+                segments.Add("NoHealthConditions".Translate().CapitalizeFirst());
             }
 
-            return string.Join(
-                "TKUtils.Misc.Separators.Upper".Translate(),
-                segments
-            );
+            return string.Join("⎮", segments);
         }
 
         private static string HealthReport(Pawn pawn)
@@ -185,32 +174,22 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn.health.State != PawnHealthState.Mobile)
             {
-                segments[0] += " " + GetFriendlyHealthState(pawn.health.State);
+                segments[0] += $" {GetHealthStateFriendly(pawn.health.State)}";
             }
             else
             {
-                segments[0] += " " + GetFriendlyMoodState(pawn);
+                segments[0] += $" {GetMoodFriendly(pawn)}";
             }
 
             if (pawn.health.hediffSet.BleedRateTotal > 0.01f)
             {
                 var ticks = HealthUtility.TicksUntilDeathDueToBloodLoss(pawn);
 
-                if(ticks >= 60000)
-                {
-                    segments.Add(
-                        GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Bleeding.NoDanger").Translate()
-                    );
-                }
-                else
-                {
-                    segments.Add(
-                        GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Bleeding.Danger")
-                            .Translate(
-                                GenDate.ToStringTicksToPeriod(ticks, shortForm: true).Named("TIME")
-                            )
-                    );
-                }
+                segments.Add(
+                    ticks >= 60000
+                        ? "🩸⌛".AltText("WontBleedOutSoon".Translate().CapitalizeFirst())
+                        : $"{"🩸⏳".AltText("BleedingRate".Translate().RawText)} ({ticks.ToStringTicksToPeriod(shortForm: true)})"
+                );
             }
 
             List<PawnCapacityDef> source;
@@ -232,7 +211,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 segments.Add(
                     "TKUtils.Responses.UnsupportedRace".Translate(
-                        pawn.kindDef.race.defName.Named("RACE")
+                        pawn.kindDef.race.defName
                     )
                 );
             }
@@ -257,7 +236,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!TkSettings.ShowSurgeries)
             {
-                var surgeries = pawn.health.surgeryBills;
+                return string.Join("⎮", segments);
+            }
+
+            var surgeries = pawn.health.surgeryBills;
 
             if (surgeries == null || surgeries.Count <= 0)
             {
@@ -266,16 +248,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var queued = surgeries.Bills.Select(item => item.LabelCap).ToArray();
 
-                    segments.Add(
-                        "TKUtils.Formats.PawnHealth.Surgeries".Translate(
-                            string.Join(
-                                "TKUtils.Misc.Separators.Inner".Translate(),
-                                queued
-                            ).Named("SURGERIES")
-                        )
-                    );
-                }
-            }
+            segments.Add("TKUtils.Formats.PawnHealth.Surgeries".Translate(string.Join(", ", queued)));
 
             return string.Join("⎮", segments.ToArray());
         }

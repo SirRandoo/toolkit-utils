@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -54,10 +54,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 {
                     MessageHelper.ReplyToUser(
                         viewer.username,
-                        "TKUtils.Responses.BuyTrait.LimitReached".Translate(
-                            maxTraits.Named("LIMIT")
-                        ),
-                        separateChannel
+                        "TKUtils.Responses.BuyTrait.LimitReached".Translate(maxTraits)
                     );
                     return false;
                 }
@@ -87,10 +84,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.Duplicate".Translate(
-                        traitObj.Label.Named("TRAIT")
-                    ),
-                    separateChannel
+                    "TKUtils.Responses.BuyTrait.Duplicate".Translate(traitObj.Label)
                 );
                 return false;
             }
@@ -127,10 +121,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.Letters.Trait.Title".Translate(),
-                "TKUtils.Letters.Trait.Description".Translate(
-                    Viewer.username.Named("VIEWER"),
-                    trait.LabelCap.Named("TRAIT")
-                ),
+                "TKUtils.Letters.Trait.Description".Translate(Viewer.username, trait.LabelCap),
                 LetterDefOf.PositiveEvent,
                 new LookTargets(pawn)
             );

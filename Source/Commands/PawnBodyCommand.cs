@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (hediffs == null || !hediffs.Any())
             {
-                return "TKUtils.Responses.Healthy".Translate();
+                return "NoHealthConditions".Translate().CapitalizeFirst();
             }
 
             var hediffsGrouped = GetVisibleHediffGroupsInOrder(target);
@@ -48,9 +48,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 var tempMin = target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
                 var tempMax = target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
-                        display = TaggedString.Empty;
-                    }
-                }
+                parts.Add($"{"🌡".AltText("ComfyTemperatureRange".Translate().RawText)}{tempMin}~{tempMax}");
+            }
 
             foreach (var item in hediffsGrouped)
             {
@@ -70,42 +69,21 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                     if (count > 0)
                     {
-                        display = GetTranslatedEmoji("TKUtils.Formats.PawnBody.Bleeding").Translate() + display;
+                        display = "🩸".AltText().Translate("BleedingRate".Translate().RawText) + display;
                     }
 
                     bits.Add(display);
                 }
 
                 parts.Add(
-                    "TKUtils.Formats.PawnBody.Affliction".Translate(
-                        bodyPart.Named("PART"),
-                        string.Join(
-                            "TKUtils.Misc.Separators.Inner".Translate(),
-                            bits.ToArray()
-                        ).Named("HEDIFFS")
+                    "TKUtils.Formats.KeyValue".Translate(
+                        bodyPart,
+                        string.Join(", ", bits.ToArray())
                     )
                 );
             }
 
-            return string.Join("TKUtils.Misc.Separators.Upper".Translate(), parts.ToArray());
-        }
-
-        private TaggedString GetTemperatureDisplay()
-        {
-            switch(Prefs.TemperatureMode)
-            {
-                case TemperatureDisplayMode.Fahrenheit:
-                    return "TKUtils.Misc.Temperature.Fahrenheit".Translate();
-
-                case TemperatureDisplayMode.Kelvin:
-                    return "TKUtils.Misc.Temperature.Kelvin".Translate();
-
-                case TemperatureDisplayMode.Celsius:
-                    return "TKUtils.Misc.Temperature.Celsius".Translate();
-
-                default:
-                    return "?";
-            }
+            return string.Join("⎮", parts.ToArray());
         }
 
         private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder(Pawn pawn)

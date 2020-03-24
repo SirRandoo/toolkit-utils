@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -52,13 +52,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                     }
                 }
 
-                    container.Add(
-                        "TKUtils.Formats.PawnWork.Work".Translate(
-                            priority.ToString().Named("NAME"),
-                            p.Named("VALUE")
-                        )
-                    );
-                }
+                container.Add("TKUtils.Formats.KeyValue".Translate(priority.ToString(), p));
+            }
 
             if (container.Count > 0)
             {

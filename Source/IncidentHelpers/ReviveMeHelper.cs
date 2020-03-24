@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -55,7 +55,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     pawn.ClearAllReservations();
                     ResurrectionUtility.ResurrectWithSideEffects(pawn);
                     PawnTracker.pawnsToRevive.Remove(pawn);
-                    Find.LetterStack.ReceiveLetter("Pawn Revived", $"{pawn.Name} has been revived but is experiencing some side effects.", LetterDefOf.PositiveEvent, new LookTargets(pawn), null);
+                    Find.LetterStack.ReceiveLetter(
+                        "TKUtils.Letters.Revival.Title".Translate(),
+                        "TKUtils.Letters.Revival.Description".Translate(pawn.Name),
+                        LetterDefOf.PositiveEvent,
+                        new LookTargets(pawn)
+                    );
                 }
             }
             catch (Exception ex)

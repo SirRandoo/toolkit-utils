@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -95,19 +95,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    "TKUtils.Responses.RemoveTrait.Removed".Translate(
-                        trait.LabelCap.Named("TRAIT")
-                    ),
-                    separateChannel
+                    "TKUtils.Responses.RemoveTrait.Removed".Translate(trait.LabelCap)
                 );
             }
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.Letters.Trait.Title".Translate(),
-                "TKUtils.Letters.TraitRemove.Description".Translate(
-                    Viewer.username.Named("VIEWER"),
-                    trait.LabelCap.Named("TRAIT")
-                ),
+                "TKUtils.Letters.TraitRemove.Description".Translate(Viewer.username, trait.LabelCap),
                 LetterDefOf.PositiveEvent,
                 new LookTargets(pawn)
             );

@@ -1,136 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
-  <!-- General Translations -->
-  <TKUtils.Formats.CommandBase>@{VIEWER} → {MESSAGE}</TKUtils.Formats.CommandBase>
-  <TKUtils.Responses.NoPawn>You are not in this colony!</TKUtils.Responses.NoPawn>
-  <TKUtils.Responses.Healthy>No health conditions.</TKUtils.Responses.Healthy>
-  <TKUtils.Responses.UnsupportedRace>{RACE} are not supported by this command!</TKUtils.Responses.UnsupportedRace>
-  <TKUtils.Responses.TraitQueryInvalid>No trait by the name of "{QUERY}" could be found.</TKUtils.Responses.TraitQueryInvalid>
-
-  <!-- Mod List Translations -->
-  <TKUtils.Formats.ModList.Base>【Toolkit v{VERSION}】 Mods: {MODS}</TKUtils.Formats.ModList.Base>
-  <TKUtils.Formats.ModList.Mod>{NAME} (v{VERSION})</TKUtils.Formats.ModList.Mod>
-
-  <!-- Research Translations -->
-  <TKUtils.Formats.Research.Base>【Research】 {TEXT}</TKUtils.Formats.Research.Base>
-  <TKUtils.Formats.Research.Current>{PROJECT}: {PERCENT}</TKUtils.Formats.Research.Current>
-  <TKUtils.Formats.Research.Prerequisites>Missing prerequisites: {PREREQUISITES}</TKUtils.Formats.Research.Prerequisites>
-  <TKUtils.Responses.Research.QueryInvalid>No research project by the name of "{PROJECT}" could be found.</TKUtils.Responses.Research.QueryInvalid>
-  <TKUtils.Responses.Research.None>The colony is not currently researching anything.</TKUtils.Responses.Research.None>
-
-  <!-- MyPawnBody Translations -->
-  <TKUtils.Formats.PawnBody.Base>【Body】 {HEDIFFS}</TKUtils.Formats.PawnBody.Base>
-  <TKUtils.Formats.PawnBody.Affliction>{PART}: {HEDIFFS}</TKUtils.Formats.PawnBody.Affliction>
-  <TKUtils.Formats.PawnBody.Affliction.Multiple>{HEDIFF} (x{COUNT})</TKUtils.Formats.PawnBody.Affliction.Multiple>
-  <TKUtils.Formats.PawnBody.Bleeding>🩸</TKUtils.Formats.PawnBody.Bleeding>
-  <TKUtils.Formats.PawnBody.Bleeding.Text>Bleeding</TKUtils.Formats.PawnBody.Bleeding.Text>
-
-  <!-- MyPawnGear Translations -->
-  <TKUtils.Formats.PawnGear.Base>【Gear】 {COMPOSITE}</TKUtils.Formats.PawnGear.Base>
-  <TKUtils.Formats.PawnGear.Temperature>🌡 {MINIMUM}{DISPLAY}-{MAXIMUM}{DISPLAY}</TKUtils.Formats.PawnGear.Temperature>
-  <TKUtils.Formats.PawnGear.Temperature.Text>Temperature Range: {MINIMUM}{DISPLAY}-{MAXIMUM}{DISPLAY}</TKUtils.Formats.PawnGear.Temperature.Text>
-  <TKUtils.Formats.PawnGear.Armor>Armor: {STATS}</TKUtils.Formats.PawnGear.Armor>
-  <TKUtils.Formats.PawnGear.Armor.Sharp>🔪 {SHARP}</TKUtils.Formats.PawnGear.Armor.Sharp>
-  <TKUtils.Formats.PawnGear.Armor.Sharp.Text>Sharp: {SHARP}</TKUtils.Formats.PawnGear.Armor.Sharp.Text>
-  <TKUtils.Formats.PawnGear.Armor.Blunt>🍳 {BLUNT}</TKUtils.Formats.PawnGear.Armor.Blunt>
-  <TKUtils.Formats.PawnGear.Armor.Blunt.Text>Blunt: {BLUNT}</TKUtils.Formats.PawnGear.Armor.Blunt.Text>
-  <TKUtils.Formats.PawnGear.Armor.Heat>🔥 {HEAT}</TKUtils.Formats.PawnGear.Armor.Heat>
-  <TKUtils.Formats.PawnGear.Armor.Heat.Text>Heat: {HEAT}</TKUtils.Formats.PawnGear.Armor.Heat.Text>
-  <TKUtils.Formats.PawnGear.Equipment>Equipment: {EQUIPMENT}</TKUtils.Formats.PawnGear.Equipment>
-  <TKUtils.Formats.PawnGear.Apparel>Apparel: {APPAREL}</TKUtils.Formats.PawnGear.Apparel>
-
-  <!-- FixMyPawn Translations -->
-  <TKUtils.Responses.PawnFix.Relinked>You've been successfully relinked.</TKUtils.Responses.PawnFix.Relinked>
-
-  <!-- FixAllPawns Translations -->
-  <TKUtils.Responses.PawnFixAll.Relinked>Relinked all pawns.</TKUtils.Responses.PawnFixAll.Relinked>
-
-  <!-- MyPawnWork Translations -->
-  <TKUtils.Formats.PawnWork.Base>【Work Priorities】 {PRIORITIES}</TKUtils.Formats.PawnWork.Base>
-  <TKUtils.Formats.PawnWork.Work>{NAME}: {VALUE}</TKUtils.Formats.PawnWork.Work>
-  <TKUtils.Responses.PawnWork.None>Your pawn cannot do any work.</TKUtils.Responses.PawnWork.None>
-
-  <!-- MyPawnNeeds Translations -->
-  <TKUtils.Formats.PawnNeeds.Base>【Needs】 {NEEDS}</TKUtils.Formats.PawnNeeds.Base>
-  <TKUtils.Formats.PawnNeeds.Need>{NEED}: {PERCENT}</TKUtils.Formats.PawnNeeds.Need>
-  <TKUtils.Responses.PawnNeeds.None>Your pawn does not have any needs.</TKUtils.Responses.PawnNeeds.None>
-
-  <!-- MyPawnHealth Translations -->
-  <TKUtils.Formats.PawnHealth.Base>【Health】 {HEALTH}</TKUtils.Formats.PawnHealth.Base>
-  <TKUtils.Formats.PawnHealth.Capacity>{CAPACITY}: {PERCENT}</TKUtils.Formats.PawnHealth.Capacity>
-  <TKUtils.Formats.PawnHealth.Impactors>Affected by: {IMPACTORS}</TKUtils.Formats.PawnHealth.Impactors>
-  <TKUtils.Formats.PawnHealth.Summary>Overall health: {PERCENT}</TKUtils.Formats.PawnHealth.Summary>
-  <TKUtils.Formats.PawnHealth.Mood>Mood: {MOOD}</TKUtils.Formats.PawnHealth.Mood>
-  <TKUtils.Formats.PawnHealth.Surgeries>Queued surgeries: {SURGERIES}</TKUtils.Formats.PawnHealth.Surgeries>
-  <TKUtils.Responses.PawnHealth.Bleeding.NoDanger>🩸⌛</TKUtils.Responses.PawnHealth.Bleeding.NoDanger>
-  <TKUtils.Responses.PawnHealth.Bleeding.NoDanger.Text>No immediate danger</TKUtils.Responses.PawnHealth.Bleeding.NoDanger.Text>
-  <TKUtils.Responses.PawnHealth.Bleeding.Danger>🩸⏳ ({TIME})</TKUtils.Responses.PawnHealth.Bleeding.Danger>
-  <TKUtils.Responses.PawnHealth.Bleeding.Danger.Text>Bleeding ({TIME})</TKUtils.Responses.PawnHealth.Bleeding.Danger.Text>
-  <TKUtils.Responses.PawnHealth.Downed>💫</TKUtils.Responses.PawnHealth.Downed>
-  <TKUtils.Responses.PawnHealth.Downed.Text>Downed</TKUtils.Responses.PawnHealth.Downed.Text>
-  <TKUtils.Responses.PawnHealth.Dead>👻</TKUtils.Responses.PawnHealth.Dead>
-  <TKUtils.Responses.PawnHealth.Dead.Text>Dead</TKUtils.Responses.PawnHealth.Dead.Text>
-  <TKUtils.Responses.PawnHealth.Mood.None>😐</TKUtils.Responses.PawnHealth.Mood.None>
-  <TKUtils.Responses.PawnHealth.Mood.None.Text>?</TKUtils.Responses.PawnHealth.Mood.None.Text>
-  <TKUtils.Responses.PawnHealth.Mood.Extreme>🤬</TKUtils.Responses.PawnHealth.Mood.Extreme>
-  <TKUtils.Responses.PawnHealth.Mood.Extreme.Text>Extreme</TKUtils.Responses.PawnHealth.Mood.Extreme.Text>
-  <TKUtils.Responses.PawnHealth.Mood.Upset>😡</TKUtils.Responses.PawnHealth.Mood.Upset>
-  <TKUtils.Responses.PawnHealth.Mood.Upset.Text>Upset</TKUtils.Responses.PawnHealth.Mood.Upset.Text>
-  <TKUtils.Responses.PawnHealth.Mood.Stressed>😤</TKUtils.Responses.PawnHealth.Mood.Stressed>
-  <TKUtils.Responses.PawnHealth.Mood.Stressed.Text>Stressed</TKUtils.Responses.PawnHealth.Mood.Stressed.Text>
-  <TKUtils.Responses.PawnHealth.Mood.Neutral>😐</TKUtils.Responses.PawnHealth.Mood.Neutral>
-  <TKUtils.Responses.PawnHealth.Mood.Neutral.Text>Neutral</TKUtils.Responses.PawnHealth.Mood.Neutral.Text>
-  <TKUtils.Responses.PawnHealth.Mood.Bad>🙁</TKUtils.Responses.PawnHealth.Mood.Bad>
-  <TKUtils.Responses.PawnHealth.Mood.Bad.Text>Bad</TKUtils.Responses.PawnHealth.Mood.Bad.Text>
-  <TKUtils.Responses.PawnHealth.Mood.Happy>🙂</TKUtils.Responses.PawnHealth.Mood.Happy>
-  <TKUtils.Responses.PawnHealth.Mood.Happy.Text>Happy</TKUtils.Responses.PawnHealth.Mood.Happy.Text>
-  <TKUtils.Responses.PawnHealth.Capacity.Race>{RACE} are incapable of {CAPACITY}.</TKUtils.Responses.PawnHealth.Capacity.Race>
-  <TKUtils.Responses.PawnHealth.Capacity.None>No capacity by the name of "{QUERY}" could be found.</TKUtils.Responses.PawnHealth.Capacity.None>
-
-  <!-- Buy Trait Translations -->
-  <TKUtils.Responses.BuyTrait.LimitReached>Your pawn already has the maximum number of traits allowed ({LIMIT} traits).</TKUtils.Responses.BuyTrait.LimitReached>
-  <TKUtils.Responses.BuyTrait.Conflicts>Your pawn has {TRAIT} which conflicts with {REQUESTED}!</TKUtils.Responses.BuyTrait.Conflicts>
-  <TKUtils.Responses.BuyTrait.Duplicate>Your pawn already has {TRAIT}!</TKUtils.Responses.BuyTrait.Duplicate>
-  <TKUtils.Responses.BuyTrait.Added>Added {TRAIT} to your pawn.</TKUtils.Responses.BuyTrait.Added>
-
-  <!-- Remove Trait Translations -->
-  <TKUtils.Responses.RemoveTrait.Missing>Your pawn does not have the trait "{QUERY}"!</TKUtils.Responses.RemoveTrait.Missing>
-  <TKUtils.Responses.RemoveTrait.None>Your pawn doesn't have any traits!</TKUtils.Responses.RemoveTrait.None>
-  <TKUtils.Responses.RemoveTrait.Removed>Removed {TRAIT} from your pawn.</TKUtils.Responses.RemoveTrait.Removed>
-
-  <!-- HealMe Translations -->
-  <TKUtils.Responses.HealMe.Healed>Your pawn has recovered from {TARGET}.</TKUtils.Responses.HealMe.Healed>
-
-  <!-- Buy Pawn Translations -->
-  <TKUtils.Responses.Buy.HasPawn>You're already in this colony!</TKUtils.Responses.Buy.HasPawn>
-  <TKUtils.Responses.Buy.NoMap>No suitable map could be found.</TKUtils.Responses.Buy.NoMap>
-  <TKUtils.Responses.Buy.OnlyHuman>You can only purchase humanoids!</TKUtils.Responses.Buy.OnlyHuman>
-  <TKUtils.Responses.Buy.NoRace>No race by the name of "{QUERY}" could be found.</TKUtils.Responses.Buy.NoRace>
-  <TKUtils.Responses.Buy.Joined.Title>Viewer joins</TKUtils.Responses.Buy.Joined.Title>
-  <TKUtils.Responses.Buy.Joined.Text>A new pawn has been purchased by {VIEWER}, let's welcome them to the colony.</TKUtils.Responses.Buy.Joined.Text>
-  <TKUtils.Responses.Buy.PurchaseMessage>You've purchased a colonist and have now joined the colony.</TKUtils.Responses.Buy.PurchaseMessage>
-
-  <TKUtils.Formats.Lookup.Base>Results for "{QUERY}": {RESULTS}</TKUtils.Formats.Lookup.Base>
-
-  <!-- Misc Translations -->
-  <TKUtils.Misc.Temperature.Fahrenheit>℉</TKUtils.Misc.Temperature.Fahrenheit>
-  <TKUtils.Misc.Temperature.Celsius>℃</TKUtils.Misc.Temperature.Celsius>
-  <TKUtils.Misc.Temperature.Kelvin>K</TKUtils.Misc.Temperature.Kelvin>
-  <TKUtils.Misc.Separators.Upper>⎮</TKUtils.Misc.Separators.Upper>
-  <TKUtils.Misc.Separators.Upper.Text>|</TKUtils.Misc.Separators.Upper.Text>
-  <TKUtils.Misc.Separators.Inner>, </TKUtils.Misc.Separators.Inner>
-  <TKUtils.Misc.Decorators.Favorite>★{DECORATING}</TKUtils.Misc.Decorators.Favorite>
-  <TKUtils.Misc.Decorators.Favorite.Text>*{DECORATING}</TKUtils.Misc.Decorators.Favorite.Text>
-
-  <!-- Letter Translations -->
-  <TKUtils.Letters.MassRevival.Title>Mass Revival</TKUtils.Letters.MassRevival.Title>
-  <TKUtils.Letters.MassRevival.Description>Previously deceased pawns have been granted another chance at life.  They may be experiencing side effects.</TKUtils.Letters.MassRevival.Description>
-  <TKUtils.Letters.MassHeal.Title>Mass Heal</TKUtils.Letters.MassHeal.Title>
-  <TKUtils.Letters.MassHeal.Description>All pawns have recovered from an affliction.</TKUtils.Letters.MassHeal.Description>
-  <TKUtils.Letters.Trait.Title>Trait</TKUtils.Letters.Trait.Title>
-  <TKUtils.Letters.Trait.Description>{VIEWER} purchased trait {TRAIT}.</TKUtils.Letters.Trait.Description>
-  <TKUtils.Letters.TraitRemove.Description>{VIEWER} removed trait {TRAIT}</TKUtils.Letters.TraitRemove.Description>
-  <TKUtils.Letters.Heal.Title>Heal</TKUtils.Letters.Heal.Title>
-  <TKUtils.Letters.Heal.Description>{VIEWER} recovered from {TARGET}.</TKUtils.Letters.Heal.Description>
+    <TKUtils.Formats.KeyValue>{0}: {1}</TKUtils.Formats.KeyValue>
+    <TKUtils.Headers.Work>Work Priorities</TKUtils.Headers.Work>
+    <TKUtils.Responses.NoPawn>You are not in this colony!</TKUtils.Responses.NoPawn>
+    <TKUtils.Responses.UnsupportedRace>{0} are not supported by this command!</TKUtils.Responses.UnsupportedRace>
+    <TKUtils.Responses.TraitQueryInvalid>No trait by the name of "{0}" could be found.</TKUtils.Responses.TraitQueryInvalid>
+    
+    <!-- Research Translations -->
+    <TKUtils.Formats.Research.Prerequisites>Missing prerequisites: {0}</TKUtils.Formats.Research.Prerequisites>
+    <TKUtils.Responses.Research.QueryInvalid>No research project by the name of "{0}" could be found.</TKUtils.Responses.Research.QueryInvalid>
+    <TKUtils.Responses.Research.None>The colony is not currently researching anything.</TKUtils.Responses.Research.None>
+    
+    <!-- MyPawnBody Translations -->
+    <TKUtils.Formats.PawnBody.Affliction.Multiple>{0} (x{1})</TKUtils.Formats.PawnBody.Affliction.Multiple>
+    
+    <!-- MyPawnGear Translations -->
+    <TKUtils.Formats.PawnGear.Armor>Armor: {0}</TKUtils.Formats.PawnGear.Armor>
+    <TKUtils.Formats.PawnGear.Equipment>Equipment: {0}</TKUtils.Formats.PawnGear.Equipment>
+    <TKUtils.Formats.PawnGear.Apparel>Apparel: {0}</TKUtils.Formats.PawnGear.Apparel>
+    
+    <!-- FixMyPawn Translations -->
+    <TKUtils.Responses.PawnFix.Relinked>You've been successfully relinked.</TKUtils.Responses.PawnFix.Relinked>
+    
+    <!-- FixAllPawns Translations -->
+    <TKUtils.Responses.PawnFixAll.Relinked>Relinked all pawns.</TKUtils.Responses.PawnFixAll.Relinked>
+    
+    <!-- MyPawnWork Translations -->
+    <TKUtils.Responses.PawnWork.None>Your pawn cannot do any work.</TKUtils.Responses.PawnWork.None>
+    
+    <!-- MyPawnNeeds Translations -->
+    <TKUtils.Responses.PawnNeeds.None>Your pawn does not have any needs.</TKUtils.Responses.PawnNeeds.None>
+    
+    <!-- MyPawnHealth Translations -->
+    <TKUtils.Formats.PawnHealth.Impactors>Affected by: {0}</TKUtils.Formats.PawnHealth.Impactors>
+    <TKUtils.Formats.PawnHealth.Summary>Overall health: {0}</TKUtils.Formats.PawnHealth.Summary>
+    <TKUtils.Formats.PawnHealth.Mood>Mood: {0}</TKUtils.Formats.PawnHealth.Mood>
+    <TKUtils.Formats.PawnHealth.Surgeries>Queued surgeries: {0}</TKUtils.Formats.PawnHealth.Surgeries>
+    <TKUtils.Responses.PawnHealth.Capacity.Race>{0} are incapable of {1}.</TKUtils.Responses.PawnHealth.Capacity.Race>
+    <TKUtils.Responses.PawnHealth.Capacity.None>No capacity by the name of "{0}" could be found.</TKUtils.Responses.PawnHealth.Capacity.None>
+    
+    <!-- Buy Trait Translations -->
+    <TKUtils.Responses.BuyTrait.LimitReached>Your pawn already has the maximum number of traits allowed ({0} traits).</TKUtils.Responses.BuyTrait.LimitReached>
+    <TKUtils.Responses.BuyTrait.Conflicts>Your pawn has {0} which conflicts with {1}!</TKUtils.Responses.BuyTrait.Conflicts>
+    <TKUtils.Responses.BuyTrait.Duplicate>Your pawn already has {0}!</TKUtils.Responses.BuyTrait.Duplicate>
+    <TKUtils.Responses.BuyTrait.Added>Added {0} to your pawn.</TKUtils.Responses.BuyTrait.Added>
+    
+    <!-- Remove Trait Translations -->
+    <TKUtils.Responses.RemoveTrait.Missing>Your pawn does not have the trait "{0}"!</TKUtils.Responses.RemoveTrait.Missing>
+    <TKUtils.Responses.RemoveTrait.None>Your pawn doesn't have any traits!</TKUtils.Responses.RemoveTrait.None>
+    <TKUtils.Responses.RemoveTrait.Removed>Removed {0} from your pawn.</TKUtils.Responses.RemoveTrait.Removed>
+    
+    <!-- HealMe Translations -->
+    <TKUtils.Responses.HealMe.Healed>Your pawn has recovered from {0}.</TKUtils.Responses.HealMe.Healed>
+    
+    <!-- Buy Pawn Translations -->
+    <TKUtils.Responses.Buy.HasPawn>You're already in this colony!</TKUtils.Responses.Buy.HasPawn>
+    <TKUtils.Responses.Buy.NoMap>No suitable map could be found.</TKUtils.Responses.Buy.NoMap>
+    <TKUtils.Responses.Buy.OnlyHuman>You can only purchase humanoids!</TKUtils.Responses.Buy.OnlyHuman>
+    <TKUtils.Responses.Buy.NoRace>No race by the name of "{0}" could be found.</TKUtils.Responses.Buy.NoRace>
+    <TKUtils.Responses.Buy.Joined.Title>Viewer joins</TKUtils.Responses.Buy.Joined.Title>
+    <TKUtils.Responses.Buy.Joined.Text>A new pawn has been purchased by {0}, let's welcome them to the colony.</TKUtils.Responses.Buy.Joined.Text>
+    <TKUtils.Responses.Buy.PurchaseMessage>You've purchased a colonist and have now joined the colony.</TKUtils.Responses.Buy.PurchaseMessage>
+    
+    <TKUtils.Formats.Lookup>Results for "{0}": {1}</TKUtils.Formats.Lookup>
+    
+    <!-- Misc Translations -->
+    <TKUtils.Misc.Separators.Upper>⎮</TKUtils.Misc.Separators.Upper>
+    
+    <!-- Letter Translations -->
+    <TKUtils.Letters.Revival.Title>Pawn Revived</TKUtils.Letters.Revival.Title>
+    <TKUtils.Letters.Revival.Description>{0} has been revived but is experiencing some side effects.</TKUtils.Letters.Revival.Description>
+    <TKUtils.Letters.MassRevival.Title>Mass Revival</TKUtils.Letters.MassRevival.Title>
+    <TKUtils.Letters.MassRevival.Description>Previously deceased pawns have been granted another chance at life. They may be experiencing side effects.</TKUtils.Letters.MassRevival.Description>
+    <TKUtils.Letters.MassHeal.Title>Mass Heal</TKUtils.Letters.MassHeal.Title>
+    <TKUtils.Letters.MassHeal.Description>All pawns have recovered from an affliction.</TKUtils.Letters.MassHeal.Description>
+    <TKUtils.Letters.Trait.Title>Trait</TKUtils.Letters.Trait.Title>
+    <TKUtils.Letters.Trait.Description>{0} purchased trait {1}.</TKUtils.Letters.Trait.Description>
+    <TKUtils.Letters.TraitRemove.Description>{0} removed trait {1}</TKUtils.Letters.TraitRemove.Description>
+    <TKUtils.Letters.Heal.Title>Heal</TKUtils.Letters.Heal.Title>
+    <TKUtils.Letters.Heal.Description>{0} recovered from {1}.</TKUtils.Letters.Heal.Description>
 </LanguageData>

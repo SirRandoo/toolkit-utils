@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -62,15 +62,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 var tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
                 var tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
-                    if(TemperatureCheck && display.RawText.Contains("["))
-                    {
-                        Logger.Info("Custom temperature display detected; omitting temperature scale from now on.");
-                        IsTemperatureCustom = true;
-                        TemperatureCheck = false;
-
-                        display = TaggedString.Empty;
-                    }
-                }
+                parts.Add($"{"🌡".AltText("ComfyTemperatureRange".Translate().RawText)}{tempMin}~{tempMax}");
+            }
 
             if (TkSettings.ShowArmor)
             {
@@ -81,39 +74,20 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (sharp > 0)
                 {
-                    stats.Add(
-                        GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Sharp").Translate(
-                            GenText.ToStringPercent(sharp).Named("SHARP")
-                        )
-                    );
+                    stats.Add($"{"🗡".AltText("ArmorSharp".Translate().RawText)}{sharp.ToStringPercent()}");
                 }
 
                 if (blunt > 0)
                 {
-                    stats.Add(
-                        GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Blunt").Translate(
-                            GenText.ToStringPercent(blunt).Named("BLUNT")
-                        )
-                    );
+                    stats.Add($"{"🍳".AltText("ArmorBlunt".Translate().RawText)}{blunt.ToStringPercent()}");
                 }
 
                 if (heat > 0)
                 {
-                    stats.Add(
-                        GetTranslatedEmoji("TKUtils.Formats.PawnGear.Armor.Heat").Translate(
-                            GenText.ToStringPercent(heat).Named("HEAT")
-                        )
-                    );
+                    stats.Add($"{"🔥".AltText("ArmorHeat".Translate().RawText)}{heat.ToStringPercent()}");
                 }
 
-                parts.Add(
-                    "TKUtils.Formats.PawnGear.Armor".Translate(
-                        string.Join(
-                            "TKUtils.Misc.Separators.Inner".Translate(),
-                            stats.ToArray()
-                        ).Named("STATS")
-                    )
-                );
+                parts.Add($"{"OverallArmor".Translate().RawText}: {string.Join(", ", stats.ToArray())}");
             }
 
             if (TkSettings.ShowWeapon)
@@ -124,19 +98,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     var equip = e.AllEquipmentListForReading.Select(eq => eq.LabelCap);
 
-                    foreach(var eq in equip)
-                    {
-                        container.Add(eq.LabelCap);
-                    }
-
-                    parts.Add(
-                        "TKUtils.Formats.PawnGear.Equipment".Translate(
-                            string.Join(
-                                "TKUtils.Misc.Separators.Inner".Translate(),
-                                container.ToArray()
-                            ).Named("EQUIPMENT")
-                        )
-                    );
+                    parts.Add($"{"Stat_Weapon_Name".Translate().RawText}: {string.Join(", ", equip.ToArray())}");
                 }
             }
 
@@ -154,44 +116,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var apparel = a.WornApparel;
 
-                    foreach(var item in apparel)
-                    {
-                        container.Add(item.LabelCap);
-                    }
-
-                    parts.Add(
-                        "TKUtils.Formats.PawnGear.Apparel".Translate(
-                            string.Join(
-                                "TKUtils.Misc.Separators.Inner".Translate(),
-                                container.ToArray()
-                            ).Named("APPAREL")
-                        )
-                    );
-                }
-            }
-
-            return string.Join(
-                "TKUtils.Misc.Separators.Upper".Translate(),
-                parts.ToArray()
+            parts.Add(
+                $"{"Apparel".Translate().RawText}: {string.Join(", ", apparel.Select(item => item.LabelCap).ToArray())}"
             );
-        }
 
-        private TaggedString GetTemperatureDisplay()
-        {
-            switch(Prefs.TemperatureMode)
-            {
-                case TemperatureDisplayMode.Fahrenheit:
-                    return "TKUtils.Misc.Temperature.Fahrenheit".Translate();
-
-                case TemperatureDisplayMode.Kelvin:
-                    return "TKUtils.Misc.Temperature.Kelvin".Translate();
-
-                case TemperatureDisplayMode.Celsius:
-                    return "TKUtils.Misc.Temperature.Celsius".Translate();
-
-                default:
-                    return "?";
-            }
+            return string.Join("⎮", parts.ToArray());
         }
     }
 }
