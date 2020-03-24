@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 .Select(i => i.Value)
                 .FirstOrDefault();
 
-            if (race.NullOrEmpty())
+            if (race.NullOrEmpty() || !TkSettings.Race)
             {
                 return true;
             }
