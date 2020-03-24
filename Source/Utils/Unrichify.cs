@@ -6,7 +6,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
-    public static class RichTextUnparser
+    public static class Unrichify
     {
         private static readonly string[] SupportedTags = {"b", "i", "size", "color", "material", "quad"};
 
