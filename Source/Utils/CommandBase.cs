@@ -119,16 +119,13 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (messages.Count <= 0)
             {
-                foreach(var m in messages)
-                {
-                    Toolkit.client.SendMessage(m.Trim(), separateRoom);
-                }
+                return;
             }
-        }
 
-        public static void SendMessage(string message, IRCMessage ircMessage)
-        {
-            SendMessage(message, CommandsHandler.SendToChatroom(ircMessage));
+            foreach (var m in messages)
+            {
+                Toolkit.client.SendMessage(m.Trim());
+            }
         }
     }
 }

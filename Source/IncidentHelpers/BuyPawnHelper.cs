@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (CommandBase.GetOrFindPawn(viewer.username) != null)
             {
-                CommandBase.SendCommandMessage(viewer.username, "TKUtils.Responses.Buy.HasPawn".Translate(), separateChannel);
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.HasPawn".Translate());
                 return false;
             }
 
@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (anyPlayerMap == null)
             {
-                CommandBase.SendCommandMessage(viewer.username, "TKUtils.Responses.Buy.NoMap".Translate(), separateChannel);
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".Translate());
                 return false;
             }
 
@@ -51,6 +51,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 out loc
             ))
             {
+                Logger.Warn("No reachable location to spawn a viewer pawn!");
                 return false;
             }
 
@@ -58,21 +59,36 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (segments.Length <= 0)
             {
-                var keyed = CommandParser.ParseKeyed(segments);
-                var race = keyed.Where(i => i.Key.EqualsIgnoreCase("--race"))
-                    .Select(i => i.Value)
-                    .FirstOrDefault();
-                var raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading
-                    .Where(r => r.race.defName.EqualsIgnoreCase(race) || r.race.LabelCap.RawText.EqualsIgnoreCase(race))
-                    .FirstOrDefault();
+                Logger.Warn("No command arguments specified!");
+                return true;
+            }
 
-                if(raceDef != null)
-                {
-                    if(!raceDef.RaceProps.Humanlike)
-                    {
-                        CommandBase.SendCommandMessage(viewer.username, "TKUtils.Responses.Buy.OnlyHuman".Translate(), separateChannel);
-                        return false;
-                    }
+            var keyed = CommandParser.ParseKeyed(segments);
+            var race = keyed.Where(i => i.Key.EqualsIgnoreCase("--race"))
+                .Select(i => i.Value)
+                .FirstOrDefault();
+
+            if (race.NullOrEmpty())
+            {
+                return true;
+            }
+
+            var raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading
+                .FirstOrDefault(
+                    r => r.race.defName.EqualsIgnoreCase(race) || r.race.LabelCap.RawText.EqualsIgnoreCase(race)
+                );
+
+            if (raceDef == null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(race));
+                return false;
+            }
+
+            if (!raceDef.RaceProps.Humanlike)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.OnlyHuman".Translate());
+                return false;
+            }
 
             kindDef = raceDef;
 
@@ -91,7 +107,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     mustBeCapableOfViolence: true
                 );
                 var pawn = PawnGenerator.GeneratePawn(request);
-                var name = pawn.Name as NameTriple;
+
+                if (!(pawn.Name is NameTriple name))
+                {
+                    Logger.Warn("Pawn name is not a name triple!");
+                    return;
+                }
 
                 pawn.Name = new NameTriple(name.First, Viewer.username, name.Last);
                 GenSpawn.Spawn(pawn, loc, map);
@@ -105,7 +126,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 Viewer.TakeViewerCoins(storeIncident.cost);
                 Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-                VariablesHelpers.SendPurchaseMessage("TKUtils.Responses.Buy.PurchaseMessage".Translate());
+                if (ToolkitSettings.PurchaseConfirmations)
+                {
+                    MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.Buy.PurchaseMessage".Translate());
+                }
             }
             catch (Exception e)
             {

@@ -13,20 +13,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
     {
         private BuyableTrait buyableTrait;
         private Pawn pawn;
-        private bool separateChannel;
         private Trait trait;
         private TraitDef traitDef;
         public override Viewer Viewer { get; set; }
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            if(viewer == null)
+            if (viewer == null)
             {
                 return false;
             }
 
             Viewer = viewer;
-            this.separateChannel = separateChannel;
 
             var traitQuery = CommandParser.Parse(message, TkSettings.Prefix).Skip(2).FirstOrDefault();
 
@@ -39,11 +37,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (viewerPawn == null)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
                 return false;
             }
 
@@ -58,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 if (tally >= maxTraits && !flag)
                 {
-                    CommandBase.SendCommandMessage(
+                    MessageHelper.ReplyToUser(
                         viewer.username,
                         "TKUtils.Responses.BuyTrait.LimitReached".Translate(
                             maxTraits.Named("LIMIT")
@@ -71,13 +65,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (buyable == null)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.TraitQueryInvalid".Translate(
-                        trait.Named("QUERY")
-                    ),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.TraitQueryInvalid".Translate(traitQuery));
                 return false;
             }
 
@@ -88,23 +76,16 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 t => t.def.ConflictsWith(traitObj) || buyableDef.ConflictsWith(t)
             ))
             {
-                if(t.def.ConflictsWith(traitObj) || traitDef.ConflictsWith(t))
-                {
-                    CommandBase.SendCommandMessage(
-                        viewer.username,
-                        "TKUtils.Responses.BuyTrait.Conflicts".Translate(
-                            t.LabelCap.Named("TRAIT"),
-                            traitDef.defName.Named("REQUESTED")
-                        ),
-                        separateChannel
-                    );
-                    return false;
-                }
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.BuyTrait.Conflicts".Translate(t.LabelCap, buyableDef.defName)
+                );
+                return false;
             }
 
             if (traits?.Find(s => s.def.defName == traitObj.def.defName) != null)
             {
-                CommandBase.SendCommandMessage(
+                MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.Responses.BuyTrait.Duplicate".Translate(
                         traitObj.Label.Named("TRAIT")
@@ -131,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 foreach (var skillGain in val.skillGains)
                 {
                     var skill = pawn.skills.GetSkill(skillGain.Key);
-                    int level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
+                    var level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
                     skill.Level = level;
                 }
             }
@@ -141,13 +122,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                CommandBase.SendCommandMessage(
-                    Viewer.username,
-                    "TKUtils.Responses.BuyTrait.Added".Translate(
-                        trait.Label.Named("TRAIT")
-                    ),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.BuyTrait.Added".Translate(trait.Label));
             }
 
             Current.Game.letterStack.ReceiveLetter(

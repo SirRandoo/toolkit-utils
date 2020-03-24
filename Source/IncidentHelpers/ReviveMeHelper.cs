@@ -21,11 +21,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (viewerPawn == null)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
                 return false;
             }
 

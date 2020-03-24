@@ -22,19 +22,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                SendCommandMessage(
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    message
-                );
+                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabGear".Translate()));
                 return;
             }
 
-            SendCommandMessage(
-                "TKUtils.Formats.PawnGear.Base".Translate(
-                    GetPawnGear(pawn).Named("COMPOSITE")
-                ),
-                message
-            );
+            message.Reply(GetPawnGear(pawn).WithHeader("TabGear".Translate()));
         }
 
         private static float CalculateArmorRating(Pawn pawn, StatDef stat)

@@ -36,11 +36,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
                 return false;
             }
 
@@ -48,11 +44,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (traits?.Count <= 0)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.RemoveTrait.None".Translate(),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.RemoveTrait.None".Translate());
                 return false;
             }
 
@@ -60,13 +52,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (traitQuery == null)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.TraitQueryInvalid".Translate(
-                        query.Named("QUERY")
-                    ),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.TraitQueryInvalid".Translate(query));
                 return false;
             }
 
@@ -74,13 +60,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (target == null)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.RemoveTrait.Missing".Translate(
-                        query.Named("QUERY")
-                    ),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.RemoveTrait.Missing".Translate(query));
                 return false;
             }
 
@@ -113,7 +93,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                CommandBase.SendCommandMessage(
+                MessageHelper.ReplyToUser(
                     Viewer.username,
                     "TKUtils.Responses.RemoveTrait.Removed".Translate(
                         trait.LabelCap.Named("TRAIT")

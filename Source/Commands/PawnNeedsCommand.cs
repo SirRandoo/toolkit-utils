@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -20,36 +20,30 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                var needs = pawn.needs.AllNeeds;
-                var container = new List<string>();
-
-                foreach(var need in needs)
-                {
-                    container.Add(
-                        "TKUtils.Formats.PawnNeeds.Need".Translate(
-                            need.LabelCap.Named("NEED"),
-                            GenText.ToStringPercent(need.CurLevelPercentage).Named("PERCENT")
-                        )
-                    );
-                }
-
-                SendCommandMessage(
-                    "TKUtils.Formats.PawnNeeds.Base".Translate(
-                        string.Join(
-                            "TKUtils.Misc.Separators.Inner".Translate(),
-                            container
-                        ).Named("NEEDS")
-                    ),
-                    message
-                );
+                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabNeeds".Translate()));
+                return;
             }
-            else
+
+            var needs = pawn.needs.AllNeeds;
+
+            if (pawn.needs?.AllNeeds == null)
             {
-                SendCommandMessage(
-                    "TKUtils.Responses.PawnNeeds.None".Translate(),
-                    message
-                );
+                message.Reply("TKUtils.Responses.PawnNeeds.None".Translate().WithHeader("TabNeeds".Translate()));
+                return;
             }
+            
+            message.Reply(
+                string.Join(
+                    ", ",
+                    needs.Select(
+                            n => (string) "TKUtils.Formats.KeyValue".Translate(
+                                n.LabelCap,
+                                n.CurLevelPercentage.ToStringPercent()
+                            )
+                        )
+                        .ToArray()
+                    ).WithHeader("TabNeeds".Translate())
+            );
         }
     }
 }

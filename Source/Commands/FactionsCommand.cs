@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
@@ -19,7 +19,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!factions.Any())
             {
-                var segments = filteredFactions.Select(f => $"{f.GetCallLabel()}: {f.PlayerGoodwill.ToStringWithSign()}").ToArray();
+                message.Reply("TKUtils.Responses.NoFactions".WithHeader("Factions"));
+                return;
+            }
 
             message.Reply(
                 string.Join(

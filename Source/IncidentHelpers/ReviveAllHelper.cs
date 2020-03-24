@@ -38,7 +38,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 try
                 {
                     Pawn val;
-                    if(pawn.SpawnedParentOrMe != pawn.Corpse && (val = (pawn.SpawnedParentOrMe as Pawn)) != null && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var val2, null))
+                    if (pawn.SpawnedParentOrMe != pawn.Corpse
+                        && (val = pawn.SpawnedParentOrMe as Pawn) != null
+                        && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var _))
                     {
                         Logger.Warn(
                             $"Submit this bug to ToolkitUtils' issue tracker: Could not drop {pawn} at {val.Position} from {val}"

@@ -22,11 +22,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
                 return false;
             }
 
@@ -167,13 +163,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                CommandBase.SendCommandMessage(
-                    Viewer.username,
-                    "TKUtils.Responses.HealMe.Healed".Translate(
-                        target.Named("TARGET")
-                    ),
-                    separateChannel
-                );
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.HealMe.Healed".Translate(target));
             }
 
             Current.Game.letterStack.ReceiveLetter(

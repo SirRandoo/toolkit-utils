@@ -32,24 +32,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (target == null)
             {
-                if(!query.NullOrEmpty())
-                {
-                    SendCommandMessage(
-                        "TKUtils.Formats.Research.Base".Translate(
-                            "TKUtils.Responses.Research.QueryInvalid".Translate(
-                                query.Named("PROJECT")
-                            ).Named("TEXT")
-                        ),
-                        message
-                    );
-                }
-                else
-                {
-                    SendCommandMessage(
-                        "TKUtils.Responses.Research.None".Translate(),
-                        message
-                    );
-                }
+                message.Reply(
+                    !query.NullOrEmpty()
+                        ? "TKUtils.Responses.Research.QueryInvalid".Translate(query).WithHeader("Research".Translate())
+                        : "TKUtils.Responses.Research.None".Translate().WithHeader("Research".Translate())
+                );
+
                 return;
             }
 
@@ -90,15 +78,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
             }
 
-            SendCommandMessage(
-                "TKUtils.Formats.Research.Base".Translate(
-                    string.Join(
-                        "TKUtils.Misc.Separators.Upper".Translate(),
-                        segments
-                    ).Named("TEXT")
-                ),
-                message
-            );
+            message.Reply(string.Join("⎮", segments).WithHeader("Research".Translate()));
         }
     }
 }

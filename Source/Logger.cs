@@ -1,5 +1,4 @@
-using System;
-
+﻿using System;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils

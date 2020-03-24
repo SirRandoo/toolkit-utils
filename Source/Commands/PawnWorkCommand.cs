@@ -20,8 +20,18 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                var container = new List<string>();
-                var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder;
+                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TKUtils.Headers.Work".Translate()));
+                return;
+            }
+
+            if (pawn.workSettings == null || (pawn.workSettings?.EverWork ?? true))
+            {
+                message.Reply("TKUtils.Responses.PawnWork.None".Translate().WithHeader("TKUtils.Headers.Work".Translate()));
+                return;
+            }
+
+            var container = new List<string>();
+            var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder;
 
             if (TkSettings.SortWorkPriorities)
             {
@@ -50,25 +60,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                     );
                 }
 
-                if(container.Count > 0)
-                {
-                    SendCommandMessage(
-                        "TKUtils.Formats.PawnWork.Base".Translate(
-                            string.Join(
-                                "TKUtils.Misc.Separators.Inner".Translate(),
-                                container
-                            ).Named("PRIORITIES")
-                        ),
-                        message
-                    );
-                }
-            }
-            else
+            if (container.Count > 0)
             {
-                SendCommandMessage(
-                    "TKUtils.Responses.PawnWork.None".Translate(),
-                    message
-                );
+                message.Reply(string.Join(", ", container).WithHeader("TKUtils.Headers.Work".Translate()));
             }
         }
     }

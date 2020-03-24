@@ -15,12 +15,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            SendCommandMessage(
-                "TKUtils.Formats.ModList.Base".Translate(
-                    Toolkit.Mod.Version.Named("VERSION"),
-                    (TKSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).Named("MODS")
-                ),
-                message
+            message.Reply(
+                (
+                    TkSettings.VersionedModList
+                        ? GetModListStringVersioned()
+                        : GetModListString()
+                ).WithHeader($"Toolkit v{Toolkit.Mod.Version}")
             );
         }
 

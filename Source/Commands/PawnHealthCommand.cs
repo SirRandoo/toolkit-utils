@@ -21,10 +21,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                SendCommandMessage(
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    message
-                );
+                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabHealth".Translate()));
                 return;
             }
 
@@ -32,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (segment.NullOrEmpty())
             {
-                SendCommandMessage(HealthReport(pawn), message);
+                message.Reply(HealthReport(pawn).WithHeader("TabHealth".Translate()));
                 return;
             }
 
@@ -41,22 +38,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 )
                 .ToArray();
 
-            if(cap.Any())
-            {
-                SendCommandMessage(
-                    HealthCapacityReport(pawn, cap.First()),
-                    message
-                );
-            }
-            else
-            {
-                SendCommandMessage(
-                    "TKUtils.Responses.PawnHealth.Capacity.None".Translate(
-                        segment.Named("QUERY")
-                    ),
-                    message
-                );
-            }
+
+            message.Reply(
+                (cap.Any()
+                    ? HealthCapacityReport(pawn, cap.First())
+                    : "TKUtils.Responses.PawnHealth.Capacity.None".Translate(segment).ToString()
+                ).WithHeader("TabHealth".Translate())
+            );
         }
 
         private static string GetHealthStateFriendly(PawnHealthState state)

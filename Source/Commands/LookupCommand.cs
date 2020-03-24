@@ -29,23 +29,16 @@ namespace SirRandoo.ToolkitUtils.Commands
             PerformLookup(segments.FirstOrDefault(), segments.Skip(1).FirstOrDefault());
         }
 
-        private void Notify__LookupComplete(string query, string[] results, int limit = 10)
+        private void Notify__LookupComplete(string query, IReadOnlyCollection<string> results, int limit = 10)
         {
             if (limit < 0 || results.Count <= 0)
             {
                 return;
             }
 
-            var formatted = string.Join("TKUtils.Misc.Separators.Inner".Translate(), results.Take(limit));
+            var formatted = string.Join(", ", results.Take(limit));
 
-            SendCommandMessage(
-                viewer,
-                "TKUtils.Formats.Lookup.Base".Translate(
-                    query.Named("QUERY"),
-                    formatted.Named("RESULTS")
-                ),
-                separateChannel
-            );
+            msg.Reply("TKUtils.Formats.Lookup".Translate(query, formatted));
         }
 
         private void PerformAnimalLookup(string query)

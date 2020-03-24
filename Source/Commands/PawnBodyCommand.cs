@@ -21,16 +21,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                SendCommandMessage("TKUtils.Responses.NoPawn".Translate(), message);
+                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("HealthOverview".Translate()));
                 return;
             }
 
-            SendCommandMessage(
-                "TKUtils.Formats.PawnBody.Base".Translate(
-                    GetPawnBody(pawn).Named("HEDIFFS")
-                ),
-                message
-            );
+            message.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Translate()));
         }
 
         private static float GetListPriority(BodyPartRecord record) =>

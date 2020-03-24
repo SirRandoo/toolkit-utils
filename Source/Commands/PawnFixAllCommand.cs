@@ -1,4 +1,4 @@
-using SirRandoo.ToolkitUtils.Utils;
+﻿using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 using Verse;
@@ -19,10 +19,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 GetOrFindPawn(viewer.username);
             }
 
-            SendCommandMessage(
-                "TKUtils.Responses.PawnFixAll.Relinked".Translate(),
-                message
-            );
+            message.Reply("TKUtils.Responses.PawnFixAll.Relinked".Translate());
         }
     }
 }
