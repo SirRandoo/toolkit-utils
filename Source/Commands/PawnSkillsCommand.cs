@@ -32,6 +32,13 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 var container = "";
 
+                container += "TKUtils.Formats.KeyValue".Translate(
+                    skill.def.LabelCap,
+                    skill.TotallyDisabled
+                        ? "-"
+                        : skill.levelInt.ToString()
+                ).RawText;
+
                 switch (skill.passion)
                 {
                     case Passion.Major:
@@ -41,13 +48,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                         container += "🔥".AltText("+");
                         break;
                 }
-
-                container += "TKUtils.Formats.KeyValue".Translate(
-                    skill.def.LabelCap,
-                    skill.TotallyDisabled
-                        ? "-"
-                        : skill.levelInt.ToString()
-                ).RawText;
 
                 parts.Add(container);
             }
