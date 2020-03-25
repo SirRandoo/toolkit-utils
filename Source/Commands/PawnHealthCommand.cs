@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var segment = message.Message.Split(' ').Skip(1).FirstOrDefault();
+            var segment = CommandParser.Parse(message.Message).Skip(1).FirstOrDefault();
 
             if (segment.NullOrEmpty())
             {
@@ -35,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var cap = DefDatabase<PawnCapacityDef>.AllDefsListForReading.Where(
                     d => d.defName.EqualsIgnoreCase(segment)
+                         || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
                 )
                 .ToArray();
 
