@@ -16,7 +16,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var query = message.Message.Split(' ').Skip(1).FirstOrDefault();
+            var query = CommandParser.Parse(message.Message).Skip(1).FirstOrDefault();
             ResearchProjectDef target;
 
             if (query.NullOrEmpty())
@@ -27,7 +27,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 target = DefDatabase<ResearchProjectDef>
                     .AllDefsListForReading
-                    .FirstOrDefault(p => p.defName.EqualsIgnoreCase(query) || p.label.EqualsIgnoreCase(query));
+                    .FirstOrDefault(
+                        p => p.defName.EqualsIgnoreCase(query)
+                             || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                    );
             }
 
             if (target == null)
