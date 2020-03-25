@@ -2,8 +2,8 @@
 <Configuration>
   <Excluded>
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Toolkit Utils\.git</exclude>
+    <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Toolkit Utils\.idea</exclude>
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Toolkit Utils\.vs</exclude>
-    <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Toolkit Utils\1.1\Assemblies\0Harmony.xml</exclude>
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Toolkit Utils\Source</exclude>
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Toolkit Utils\ToolkitUtils.sln</exclude>
   </Excluded>
