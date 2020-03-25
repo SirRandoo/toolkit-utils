@@ -48,34 +48,20 @@ namespace SirRandoo.ToolkitUtils.Commands
                 .Where(
                     i =>
                     {
-                        if (i.LabelCap.RawText.Contains(query))
+                        var label = i.LabelCap.RawText.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+                        
+                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
                         {
                             return true;
                         }
 
-                        if (i.LabelCap.RawText.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        var t = i.LabelCap.RawText.ToToolkit();
-
-                        if (t.Contains(query))
-                        {
-                            return true;
-                        }
-
-                        if (t.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        if (i.defName.ToLower().Contains(query))
-                        {
-                            return true;
-                        }
-
-                        return i.defName.EqualsIgnoreCase(query);
+                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.defName.CapitalizeFirst())
@@ -91,19 +77,20 @@ namespace SirRandoo.ToolkitUtils.Commands
                 .Where(
                     i =>
                     {
-                        if (i.LabelCap.RawText.Contains(query))
+                        var label = i.LabelCap.RawText.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+                        
+                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
                         {
                             return true;
                         }
 
-                        if (i.LabelCap.RawText.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        var t = i.LabelCap.RawText.ToToolkit();
-
-                        return t.Contains(query) || t.EqualsIgnoreCase(query);
+                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.LabelCap.RawText.ToToolkit().CapitalizeFirst())
@@ -119,29 +106,20 @@ namespace SirRandoo.ToolkitUtils.Commands
                 .Where(
                     i =>
                     {
-                        if (i.abbreviation.Contains(query))
+                        var label = i.abbreviation.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+                        
+                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
                         {
                             return true;
                         }
 
-                        if (i.abbreviation.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        var t = i.abbreviation.ToToolkit();
-
-                        if (t.Contains(query))
-                        {
-                            return true;
-                        }
-
-                        if (t.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        return i.defName.ToLower().Contains(query) || i.defName.EqualsIgnoreCase(query);
+                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.abbreviation.ToToolkit().CapitalizeFirst())
@@ -157,29 +135,20 @@ namespace SirRandoo.ToolkitUtils.Commands
                 .Where(
                     i =>
                     {
-                        if (i.abr.Contains(query))
+                        var label = i.abr.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+                        
+                        if (i.defname.ToToolkit().Contains(query.ToToolkit()))
                         {
                             return true;
                         }
 
-                        if (i.abr.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        var t = i.abr.ToToolkit();
-
-                        if (t.Contains(query))
-                        {
-                            return true;
-                        }
-
-                        if (t.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        return i.defname.ToLower().Contains(query) || i.defname.EqualsIgnoreCase(query);
+                        return i.defname.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.abr.ToToolkit().CapitalizeFirst())
@@ -227,29 +196,20 @@ namespace SirRandoo.ToolkitUtils.Commands
                 .Where(
                     i =>
                     {
-                        if (i.LabelCap.RawText.Contains(query))
+                        var label = i.LabelCap.RawText.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+                        
+                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
                         {
                             return true;
                         }
 
-                        if (i.LabelCap.RawText.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        var t = i.LabelCap.RawText.ToToolkit();
-
-                        if (t.Contains(query))
-                        {
-                            return true;
-                        }
-
-                        if (t.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        return i.defName.ToLower().Contains(query) || i.defName.EqualsIgnoreCase(query);
+                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .GroupBy(i => i.race.defName)
@@ -265,19 +225,20 @@ namespace SirRandoo.ToolkitUtils.Commands
                 .Where(
                     i =>
                     {
-                        if (i.LabelCap.RawText.Contains(query))
+                        var label = i.LabelCap.RawText.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+                        
+                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
                         {
                             return true;
                         }
 
-                        if (i.LabelCap.RawText.EqualsIgnoreCase(query))
-                        {
-                            return true;
-                        }
-
-                        var t = i.LabelCap.RawText.ToToolkit();
-
-                        return t.Contains(query) || t.EqualsIgnoreCase(query);
+                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.defName.ToLower().CapitalizeFirst())
@@ -290,10 +251,23 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             var results = AllTraits.buyableTraits
                 .Where(
-                    i => i.label.ToLower().Contains(query)
-                         || i.label.EqualsIgnoreCase(query)
-                         || i.def.defName.ToLower().Contains(query)
-                         || i.def.defName.EqualsIgnoreCase(query)
+                    i =>
+                    {
+                        var label = i.label.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+                        
+                        if (i.def.defName.ToToolkit().Contains(query.ToToolkit()))
+                        {
+                            return true;
+                        }
+
+                        return i.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                    }
                 )
                 .Select(i => i.label.CapitalizeFirst())
                 .ToArray();
