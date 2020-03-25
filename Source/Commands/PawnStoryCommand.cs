@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (workTags == WorkTags.None)
             {
-                parts.Add($"{"IncapableOf".Translate().RawText} {"NoneLower".Translate().RawText}");
+                parts.Add($"{"IncapableOf".Translate().RawText}: {"NoneLower".Translate().RawText}");
             }
             else
             {
