@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -43,6 +43,30 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case Gender.None:
                     parts.Add("⚪".AltText("NoneLower".Translate()));
                     break;
+                default:
+                    parts.Add("");
+                    break;
+            }
+
+            if (pawn.royalty?.MostSeniorTitle != null)
+            {
+                parts.RemoveLast();
+
+                switch (pawn.gender)
+                {
+                    case Gender.Female:
+                        parts.Add("🤴".AltText("Male".Translate()));
+                        break;
+                    case Gender.Male:
+                        parts.Add("👸".AltText("Female".Translate()));
+                        break;
+                    case Gender.None:
+                        parts.Add("👑".AltText("NoneLower".Translate()));
+                        break;
+                    default:
+                        parts.Add("👑");
+                        break;
+                }
             }
 
             var workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
