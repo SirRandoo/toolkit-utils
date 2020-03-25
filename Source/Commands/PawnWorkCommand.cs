@@ -24,9 +24,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            if (pawn.workSettings == null || (pawn.workSettings?.EverWork ?? true))
+            if (pawn.workSettings == null || (!pawn.workSettings?.EverWork ?? true))
             {
-                message.Reply("TKUtils.Responses.PawnWork.None".Translate().WithHeader("TKUtils.Headers.Work".Translate()));
+                message.Reply(
+                    "TKUtils.Responses.PawnWork.None".Translate().WithHeader("TKUtils.Headers.Work".Translate())
+                );
                 return;
             }
 
@@ -52,7 +54,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                     }
                 }
 
-                container.Add("TKUtils.Formats.KeyValue".Translate(priority.ToString(), p));
+                container.Add(
+                    "TKUtils.Formats.KeyValue".Translate(
+                        priority.LabelCap.NullOrEmpty()
+                            ? priority.defName.CapitalizeFirst()
+                            : priority.LabelCap.RawText,
+                        p
+                    )
+                );
             }
 
             if (container.Count > 0)
