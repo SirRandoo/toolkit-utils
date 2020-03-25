@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using HarmonyLib;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -88,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         command = def;
                         break;
                     }
-                    
+
                     if (command != null)
                     {
                         var runnable = command.enabled;
@@ -109,7 +111,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         {
                             runnable = false;
                         }
-                        
+
                         if (runnable)
                         {
                             // Fix up the message for Toolkit
@@ -119,7 +121,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                                 Channel = msg.Channel,
                                 Cmd = msg.Cmd,
                                 Host = msg.Host,
-                                Message = ($"!{command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim(),
+                                Message = ($"!{command.command}" + " " + CombineSegments(segments.Skip(1))).Trim(),
                                 Parameters = msg.Parameters,
                                 User = msg.User,
                                 Whisper = msg.Whisper
@@ -127,7 +129,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                             if (command.commandDriver.Name.Equals("Buy") && !command.defName.EqualsIgnoreCase("buy"))
                             {
-                                payload.Message = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1)))
+                                payload.Message = ($"!buy {command.command}" + " " + CombineSegments(segments.Skip(1)))
                                     .Trim();
                             }
 
@@ -167,7 +169,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     Message = ("!"
                                + segments.Take(1).FirstOrDefault()?.ToLowerInvariant()
                                + " "
-                               + string.Join(" ", segments.Skip(1))).Trim(),
+                               + CombineSegments(segments.Skip(1))).Trim(),
                     Parameters = msg.Parameters,
                     User = msg.User,
                     Whisper = msg.Whisper
@@ -205,6 +207,15 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             return false;
+        }
+
+        private static string CombineSegments(IEnumerable<string> segments)
+        {
+            return string.Join(
+                " ",
+                segments.Select(segment => segment.Contains(' ') ? $"\"{segment.Replace("\"", "\\\"")}\"" : segment)
+                    .ToArray()
+            );
         }
     }
 }
