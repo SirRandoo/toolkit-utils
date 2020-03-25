@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using HarmonyLib;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
-using TwitchToolkit.Store;
 using Verse;
 using Command = TwitchToolkit.Command;
 

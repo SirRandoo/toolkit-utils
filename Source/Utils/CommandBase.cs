@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RimWorld;
 using TwitchToolkit;
-using TwitchToolkit.IRC;
 using TwitchToolkit.PawnQueue;
 using Verse;
 
@@ -63,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            var words = message.Split(new[] {' '}, System.StringSplitOptions.None);
+            var words = message.Split(new[] {' '}, StringSplitOptions.None);
             var builder = new StringBuilder();
             var messages = new List<string>();
             var chars = 0;

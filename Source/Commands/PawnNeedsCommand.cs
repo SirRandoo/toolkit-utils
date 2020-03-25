@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
@@ -31,18 +30,19 @@ namespace SirRandoo.ToolkitUtils.Commands
                 message.Reply("TKUtils.Responses.PawnNeeds.None".Translate().WithHeader("TabNeeds".Translate()));
                 return;
             }
-            
+
             message.Reply(
                 string.Join(
-                    ", ",
-                    needs.Select(
-                            n => (string) "TKUtils.Formats.KeyValue".Translate(
-                                n.LabelCap,
-                                n.CurLevelPercentage.ToStringPercent()
+                        ", ",
+                        needs.Select(
+                                n => (string) "TKUtils.Formats.KeyValue".Translate(
+                                    n.LabelCap,
+                                    n.CurLevelPercentage.ToStringPercent()
+                                )
                             )
-                        )
-                        .ToArray()
-                    ).WithHeader("TabNeeds".Translate())
+                            .ToArray()
+                    )
+                    .WithHeader("TabNeeds".Translate())
             );
         }
     }

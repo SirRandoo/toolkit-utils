@@ -1,5 +1,4 @@
-﻿using TwitchToolkit;
-using TwitchToolkit.IRC;
+﻿using TwitchToolkit.IRC;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -32,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 alt = $"{emoji}.Text";
             }
-            
+
             return TkSettings.Emojis ? emoji : alt;
         }
     }

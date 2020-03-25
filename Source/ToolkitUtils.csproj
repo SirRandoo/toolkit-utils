@@ -83,6 +83,7 @@
     <Compile Include="Commands\PawnWorkCommand.cs" />
     <Compile Include="Commands\ResearchCommand.cs" />
     <Compile Include="Harmony\CommandsHandler_CheckCommand.cs" />
+    <Compile Include="Harmony\PawnCommands_ParseCommand.cs" />
     <Compile Include="Harmony\Store_Lookup__ParseCommand.cs" />
     <Compile Include="Harmony\ViewerUpdater_ParseCommand.cs" />
     <Compile Include="Harmony\Window_Viewers__DoWindowContents.cs" />

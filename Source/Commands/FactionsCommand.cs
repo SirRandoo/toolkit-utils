@@ -26,11 +26,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             message.Reply(
                 string.Join(
                     ", ",
-                    factions.Select(f => "TKUtils.Formats.KeyValue".Translate(
-                            f.GetCallLabel(),
-                            f.PlayerGoodwill.ToStringWithSign()
-                        ).ToString()
-                    ).ToArray()
+                    factions.Select(
+                            f => "TKUtils.Formats.KeyValue".Translate(
+                                    f.GetCallLabel(),
+                                    f.PlayerGoodwill.ToStringWithSign()
+                                )
+                                .ToString()
+                        )
+                        .ToArray()
                 )
             );
         }

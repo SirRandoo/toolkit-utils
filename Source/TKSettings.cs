@@ -1,5 +1,4 @@
-﻿using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
@@ -67,7 +66,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             listing.End();
-            
+
             switch (_category)
             {
                 case Categories.General:
@@ -126,7 +125,7 @@ namespace SirRandoo.ToolkitUtils
                 line.width - labelRect.width - 5f,
                 line.height
             );
-            
+
             Widgets.Label(labelRect, "TKUtils.SettingGroups.General.LookupLimit.Label".Translate());
             Widgets.TextFieldNumeric(entryRect, ref LookupLimit, ref buffer);
 

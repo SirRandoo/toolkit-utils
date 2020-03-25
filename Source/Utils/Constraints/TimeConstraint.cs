@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             Widgets.Label(left, "TKUtils.Windows.Purge.Constraints.Time".Translate());
             DrawButton(new Rect(right.x - 20f, right.y, rightWidth, right.height));
             Widgets.TextFieldNumeric(
-                new Rect(right.x + rightWidth - 10f, right.y, right.width - (rightWidth * 2), right.height),
+                new Rect(right.x + rightWidth - 10f, right.y, right.width - rightWidth * 2, right.height),
                 ref value,
                 ref buffer
             );

@@ -181,7 +181,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 var bleedRate = h.BleedRate;
 
-                if (!(bleedRate > 0f) || (!(bleedRate > num) && hediff != null))
+                if (!(bleedRate > 0f) || !(bleedRate > num) && hediff != null)
                 {
                     continue;
                 }

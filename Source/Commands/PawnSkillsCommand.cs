@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -33,11 +32,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                 var container = "";
 
                 container += "TKUtils.Formats.KeyValue".Translate(
-                    skill.def.LabelCap,
-                    skill.TotallyDisabled
-                        ? "-"
-                        : skill.levelInt.ToString()
-                ).RawText;
+                        skill.def.LabelCap,
+                        skill.TotallyDisabled
+                            ? "-"
+                            : skill.levelInt.ToString()
+                    )
+                    .RawText;
 
                 switch (skill.passion)
                 {
@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 parts.Add(container);
             }
-            
+
             message.Reply(string.Join(", ", parts.ToArray()).WithHeader("StatsReport_Skills".Translate()));
         }
     }

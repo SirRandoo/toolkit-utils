@@ -26,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static string GetModListString()
         {
-            return string.Join(", ",TkUtils.GetModListUnversioned().Select(TryFavoriteMod).ToArray());
+            return string.Join(", ", TkUtils.GetModListUnversioned().Select(TryFavoriteMod).ToArray());
         }
 
         private static string GetModListStringVersioned()

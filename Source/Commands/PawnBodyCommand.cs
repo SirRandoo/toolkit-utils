@@ -28,8 +28,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             message.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Translate()));
         }
 
-        private static float GetListPriority(BodyPartRecord record) =>
-            record == null ? 9999999f : (float) record.height * 10000 + record.coverageAbsWithChildren;
+        private static float GetListPriority(BodyPartRecord record)
+        {
+            return record == null ? 9999999f : (float) record.height * 10000 + record.coverageAbsWithChildren;
+        }
 
         private static string GetPawnBody(Pawn target)
         {

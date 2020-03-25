@@ -18,8 +18,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             message.Reply(
                 pawn == null
-                ? "TKUtils.Responses.NoPawn".Translate()
-                : "TKUtils.Responses.PawnFix.Relinked".Translate()
+                    ? "TKUtils.Responses.NoPawn".Translate()
+                    : "TKUtils.Responses.PawnFix.Relinked".Translate()
             );
         }
     }

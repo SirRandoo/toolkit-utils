@@ -16,7 +16,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             new Tuple<string, Type>("Coin", typeof(CoinConstraint)),
             new Tuple<string, Type>("Karma", typeof(KarmaConstraint)),
             //new Tuple<string, Type>("Mod", typeof(ModConstraint)),
-            new Tuple<string, Type>("Name", typeof(NameConstraint)),
+            new Tuple<string, Type>("Name", typeof(NameConstraint))
             //new Tuple<string, Type>("Subscriber", typeof(SubscriberConstraint)),
             //new Tuple<string, Type>("Vip", typeof(VipConstraint))
         };

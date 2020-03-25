@@ -19,7 +19,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
                 .ToList();
 
-            if (!list.Any()) return false;
+            if (!list.Any())
+            {
+                return false;
+            }
 
             pawns = list;
             foreach (var p in list)

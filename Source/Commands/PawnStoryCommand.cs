@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             parts.Add(
                 $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => t.LabelCap).ToArray())}"
             );
-            
+
             message.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
         }
     }
