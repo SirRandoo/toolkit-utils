@@ -26,10 +26,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var parts = new List<string>
             {
-                string.Join(
-                    ", ".Translate(),
-                    pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray()
-                )
+                $"{"Backstory".Translate().RawText}: {string.Join(", ".Translate(), pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray())}"
             };
 
             switch (pawn.gender)
