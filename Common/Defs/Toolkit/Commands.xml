@@ -133,4 +133,12 @@
         <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.LookupCommand</commandDriver>
     </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>UnstickAll</defName>
+        <label>unstick</label>
+        <command>unstick</command>
+        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickCommand</commandDriver>
+    </TwitchToolkit.Command>
 </Defs>
