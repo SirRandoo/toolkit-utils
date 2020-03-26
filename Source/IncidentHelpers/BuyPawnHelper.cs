@@ -63,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             var keyed = CommandParser.ParseKeyed(segments);
-            var race = keyed.Where(i => i.Key.EqualsIgnoreCase("--race"))
+            var race = keyed.Where(i => i.Key.EqualsIgnoreCase("--race") || i.Key.EqualsIgnoreCase("race"))
                 .Select(i => i.Value)
                 .FirstOrDefault();
 
