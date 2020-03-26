@@ -25,7 +25,7 @@
     <TKUtils.Windows.Purge.Buttons.ExemptViewer>Exempt</TKUtils.Windows.Purge.Buttons.ExemptViewer>
     <TKUtils.Windows.Purge.Buttons.ClearConstraints>Clear Constraints</TKUtils.Windows.Purge.Buttons.ClearConstraints>
     <TKUtils.Windows.Purge.Buttons.Confirm>Confirm</TKUtils.Windows.Purge.Buttons.Confirm>
-    <TKUtils.Windows.Purge.Headers.Affected>{COUNT} viewers affected</TKUtils.Windows.Purge.Headers.Affected>
+    <TKUtils.Windows.Purge.Headers.Affected>{0} viewers affected</TKUtils.Windows.Purge.Headers.Affected>
     
     <!-- Constraints Translations -->
     <TKUtils.Windows.Purge.Constraints.Coins>Coins</TKUtils.Windows.Purge.Constraints.Coins>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
@@ -153,7 +153,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var affected = GetAffectedViewers();
                 Widgets.Label(
                     textRegion,
-                    "TKUtils.Windows.Purge.Headers.Affected".Translate(affected.Length.Named("COUNT"))
+                    "TKUtils.Windows.Purge.Headers.Affected".Translate(affected.Length.ToString())
                 );
             }
             else
