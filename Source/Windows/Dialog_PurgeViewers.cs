@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
@@ -205,7 +205,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var affected = GetAffectedViewers();
             var count = affected.Count(viewer => Viewers.All.Remove(viewer));
 
-            Logger.Warn($"Purged {count} viewers out of the requested {affected.Length}!");
+            Logger.Warn($"Purged {count.ToString()} viewers out of the requested {affected.Length.ToString()}!");
             showingAffected = false;
         }
     }

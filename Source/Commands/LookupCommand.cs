@@ -55,13 +55,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                         {
                             return true;
                         }
-                        
-                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
-                        {
-                            return true;
-                        }
 
-                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.defName.CapitalizeFirst())
@@ -84,13 +80,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                         {
                             return true;
                         }
-                        
-                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
-                        {
-                            return true;
-                        }
 
-                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.LabelCap.RawText.ToToolkit().CapitalizeFirst())
@@ -113,13 +105,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                         {
                             return true;
                         }
-                        
-                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
-                        {
-                            return true;
-                        }
 
-                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.abbreviation.ToToolkit().CapitalizeFirst())
@@ -142,13 +130,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                         {
                             return true;
                         }
-                        
-                        if (i.defname.ToToolkit().Contains(query.ToToolkit()))
-                        {
-                            return true;
-                        }
 
-                        return i.defname.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.defname.ToToolkit().Contains(query.ToToolkit())
+                               || i.defname.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.abr.ToToolkit().CapitalizeFirst())
@@ -203,13 +187,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                         {
                             return true;
                         }
-                        
-                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
-                        {
-                            return true;
-                        }
 
-                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .GroupBy(i => i.race.defName)
@@ -232,13 +212,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                         {
                             return true;
                         }
-                        
-                        if (i.defName.ToToolkit().Contains(query.ToToolkit()))
-                        {
-                            return true;
-                        }
 
-                        return i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.defName.ToLower().CapitalizeFirst())
@@ -260,13 +236,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                         {
                             return true;
                         }
-                        
-                        if (i.def.defName.ToToolkit().Contains(query.ToToolkit()))
-                        {
-                            return true;
-                        }
 
-                        return i.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.def.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
                 .Select(i => i.label.CapitalizeFirst())

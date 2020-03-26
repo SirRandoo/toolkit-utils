@@ -119,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                                 Channel = msg.Channel,
                                 Cmd = msg.Cmd,
                                 Host = msg.Host,
-                                Message = ($"!{command.command}" + " " + CombineSegments(segments.Skip(1))).Trim(),
+                                Message = $"!{command.command} {CombineSegments(segments.Skip(1))}".Trim(),
                                 Parameters = msg.Parameters,
                                 User = msg.User,
                                 Whisper = msg.Whisper
@@ -127,8 +127,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                             if (command.commandDriver.Name.Equals("Buy") && !command.defName.EqualsIgnoreCase("buy"))
                             {
-                                payload.Message = ($"!buy {command.command}" + " " + CombineSegments(segments.Skip(1)))
-                                    .Trim();
+                                payload.Message = $"!buy {command.command} {CombineSegments(segments.Skip(1))}".Trim();
                             }
 
                             Logger.Info($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
@@ -164,10 +163,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     Channel = msg.Channel,
                     Cmd = msg.Cmd,
                     Host = msg.Host,
-                    Message = ("!"
-                               + segments.Take(1).FirstOrDefault()?.ToLowerInvariant()
-                               + " "
-                               + CombineSegments(segments.Skip(1))).Trim(),
+                    Message = $"!{segments.Take(1).FirstOrDefault()?.ToLowerInvariant()} {CombineSegments(segments.Skip(1))}".Trim(),
                     Parameters = msg.Parameters,
                     User = msg.User,
                     Whisper = msg.Whisper

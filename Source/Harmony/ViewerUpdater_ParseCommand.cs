@@ -30,27 +30,24 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 {
                     var badge = type.Split('/').FirstOrDefault();
 
-                    if (badge == null)
+                    switch (badge)
                     {
-                        Logger.Warn($"Could not check badge \"{type}\"");
-                        continue;
-                    }
-
-                    if (badge.Equals("vip"))
-                    {
-                        viewer.vip = true;
-                    }
-                    else if (badge.Equals("founder"))
-                    {
-                        viewer.subscriber = true;
-                    }
-                    else if (badge.Equals("moderator")
-                             || badge.Equals("broadcaster")
-                             || badge.Equals("admin")
-                             || badge.Equals("staff")
-                             || badge.Equals("global_mod"))
-                    {
-                        viewer.mod = true;
+                        case null:
+                            Logger.Warn($"Could not check badge \"{type}\"");
+                            continue;
+                        case "vip":
+                            viewer.vip = true;
+                            break;
+                        case "founder":
+                            viewer.subscriber = true;
+                            break;
+                        case "moderator":
+                        case "broadcaster":
+                        case "admin":
+                        case "staff":
+                        case "global_mod":
+                            viewer.mod = true;
+                            break;
                     }
                 }
             }

@@ -20,6 +20,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static bool IsSpecialTrait(TraitDef trait)
         {
+            if (!TkSettings.Sexuality)
+            {
+                return false;
+            }
+            
             return trait.Equals(TraitDefOf.Gay)
                    || trait.Equals(TraitDefOf.Bisexual)
                    || trait.Equals(TraitDefOf.Asexual);

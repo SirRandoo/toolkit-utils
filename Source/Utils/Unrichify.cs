@@ -40,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                             break;
                         case ' ' when inTag:
                             nameEnd = true;
-                            tagContent += c;
+                            tagContent += c.ToString();
                             break;
                         case '>':
                             inTag = false;
@@ -49,11 +49,11 @@ namespace SirRandoo.ToolkitUtils.Utils
                         {
                             if (inTag)
                             {
-                                tagContent += c;
+                                tagContent += c.ToString();
 
                                 if (!nameEnd)
                                 {
-                                    tag += c;
+                                    tag += c.ToString();
                                 }
                             }
 

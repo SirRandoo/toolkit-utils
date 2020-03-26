@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -47,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 var hediffInjury = HealHelper.FindPermanentInjury(
                     pawn,
-                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain())
+                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
                 );
                 if (hediffInjury != null)
                 {
@@ -66,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             var hediffInjury2 = HealHelper.FindPermanentInjury(
                 pawn,
                 pawn.health.hediffSet.GetNotMissingParts()
-                    .Where(p => p.def == BodyPartDefOf.Eye)
+                    .Where(p => p.def == BodyPartDefOf.Eye) as IReadOnlyCollection<BodyPartRecord>
             );
 
             if (hediffInjury2 != null)
@@ -98,7 +99,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn.health.hediffSet.GetBrain() != null)
             {
-                var hediffInjury3 = HealHelper.FindInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()));
+                var hediffInjury3 = HealHelper.FindInjury(
+                    pawn,
+                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
+                );
                 if (hediffInjury3 != null)
                 {
                     toHeal = hediffInjury3;
@@ -145,7 +149,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 Viewer.TakeViewerCoins(storeIncident.cost);
                 Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-                NotifySuccess(toHeal.LabelCap);
+                Notify__Success(toHeal.LabelCap);
             }
 
             if (toRestore == null)
@@ -158,10 +162,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             Viewer.TakeViewerCoins(storeIncident.cost);
             Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-            NotifySuccess(toRestore.LabelCap);
+            Notify__Success(toRestore.LabelCap);
         }
 
-        private void NotifySuccess(string target)
+        private void Notify__Success(string target)
         {
             if (ToolkitSettings.PurchaseConfirmations)
             {

@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                         && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var _))
                     {
                         Logger.Warn(
-                            $"Submit this bug to ToolkitUtils' issue tracker: Could not drop {pawn} at {val.Position} from {val}"
+                            $"Submit this bug to ToolkitUtils' issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"
                         );
                     }
                     else

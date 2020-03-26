@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 if (escaped && !c.Equals('"'))
                 {
                     escaped = false;
-                    segment += '\\';
+                    segment += '\\'.ToString();
                 }
 
                 switch (c)
@@ -37,14 +37,14 @@ namespace SirRandoo.ToolkitUtils.Utils
                         quoted = !quoted;
                         break;
                     case '"':
-                        segment += c;
+                        segment += c.ToString();
                         escaped = false;
                         break;
                     case '\\':
                         escaped = true;
                         break;
                     default:
-                        segment += c;
+                        segment += c.ToString();
                         break;
                 }
             }
@@ -92,11 +92,11 @@ namespace SirRandoo.ToolkitUtils.Utils
                         {
                             if (!sep)
                             {
-                                key += c;
+                                key += c.ToString();
                             }
                             else
                             {
-                                value += c;
+                                value += c.ToString();
                             }
 
                             break;

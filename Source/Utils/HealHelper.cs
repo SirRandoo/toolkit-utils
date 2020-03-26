@@ -111,7 +111,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             return hediff;
         }
 
-        public static Hediff_Injury FindInjury(Pawn pawn, IEnumerable<BodyPartRecord> allowedBodyParts = null)
+        public static Hediff_Injury FindInjury(Pawn pawn, IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
         {
             Hediff_Injury injury = null;
             var hediffs = pawn.health.hediffSet.hediffs;
@@ -201,31 +201,33 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach (var h in hediffs)
             {
-                if (h.Visible
-                    && h.def.isBad
-                    && h.def.everCurableByItem
-                    && !(h is Hediff_Injury)
-                    && !(h is Hediff_MissingPart)
-                    && !(h is Hediff_Addiction)
-                    && !(h is Hediff_AddedPart)
-                    && (!onlyIfCanKill || CanEverKill(h)))
+                if (!h.Visible
+                    || !h.def.isBad
+                    || !h.def.everCurableByItem
+                    || h is Hediff_Injury
+                    || h is Hediff_MissingPart
+                    || h is Hediff_Addiction
+                    || h is Hediff_AddedPart
+                    || onlyIfCanKill && !CanEverKill(h))
                 {
-                    var coverage = h.Part?.coverageAbsWithChildren ?? 999f;
-
-                    if (hediff != null && !(coverage > num))
-                    {
-                        continue;
-                    }
-
-                    hediff = h;
-                    num = coverage;
+                    continue;
                 }
+
+                var coverage = h.Part?.coverageAbsWithChildren ?? 999f;
+
+                if (hediff != null && !(coverage > num))
+                {
+                    continue;
+                }
+
+                hediff = h;
+                num = coverage;
             }
 
             return hediff;
         }
 
-        public static Hediff_Injury FindPermanentInjury(Pawn pawn, IEnumerable<BodyPartRecord> allowedBodyParts = null)
+        public static Hediff_Injury FindPermanentInjury(Pawn pawn, IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
         {
             Hediff_Injury injury = null;
             var hediffs = pawn.health.hediffSet.hediffs;

@@ -5,6 +5,8 @@ using System.Reflection;
 using TwitchToolkit.Settings;
 using UnityEngine;
 using Verse;
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable UnusedType.Global
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -18,7 +20,7 @@ namespace SirRandoo.ToolkitUtils
 
             Logger.Info("Building mod list cache...");
             TkUtils.ModListCache = TkUtils.GetModListVersioned();
-            Logger.Info($"Built mod list cache ({TkUtils.ModListCache.Length} mods loaded)");
+            Logger.Info($"Built mod list cache ({TkUtils.ModListCache.Length.ToString()} mods loaded)");
         }
     }
 
@@ -31,7 +33,7 @@ namespace SirRandoo.ToolkitUtils
         public TkUtils(ModContentPack content) : base(content)
         {
             GetSettings<TkSettings>();
-            Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(ToolkitWindow)));
+            Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(TkUtilsWindow)));
         }
 
         public static IEnumerable<string> GetModListUnversioned()

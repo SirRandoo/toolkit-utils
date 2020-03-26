@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using TwitchToolkit.Settings;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    public class ToolkitWindow : TwitchToolkit.Settings.ToolkitWindow
+    public class TkUtilsWindow : ToolkitWindow
     {
-        public ToolkitWindow(Mod mod) : base(mod)
+        public TkUtilsWindow(Mod mod) : base(mod)
         {
             Mod = mod;
         }

@@ -42,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     .Reverse();
             }
 
-            foreach (var priority in priorities)
+            foreach (var priority in priorities.ToList())
             {
                 var p = pawn.workSettings.GetPriority(priority);
 

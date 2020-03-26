@@ -5,6 +5,7 @@ using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;
+#pragma warning disable 618
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
@@ -44,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var _))
                 {
                     Logger.Warn(
-                        $"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position} from {val}"
+                        $"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"
                     );
                 }
                 else

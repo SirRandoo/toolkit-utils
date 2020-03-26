@@ -79,7 +79,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn.health.hediffSet.GetBrain() != null)
             {
-                var injury = HealHelper.FindPermanentInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()));
+                var injury = HealHelper.FindPermanentInjury(
+                    pawn,
+                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
+                );
                 if (injury != null)
                 {
                     return injury;
@@ -94,7 +97,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             var injury2 = HealHelper.FindPermanentInjury(
                 pawn,
-                pawn.health.hediffSet.GetNotMissingParts().Where(p => p.def == BodyPartDefOf.Eye)
+                pawn.health.hediffSet.GetNotMissingParts().Where(p => p.def == BodyPartDefOf.Eye) as
+                    IReadOnlyCollection<BodyPartRecord>
             );
             if (injury2 != null)
             {
@@ -121,7 +125,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn.health.hediffSet.GetBrain() != null)
             {
-                var injury3 = HealHelper.FindInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()));
+                var injury3 = HealHelper.FindInjury(
+                    pawn,
+                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
+                );
                 if (injury3 != null)
                 {
                     return injury3;

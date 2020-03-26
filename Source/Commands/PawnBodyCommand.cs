@@ -66,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                     if (total != 1)
                     {
-                        display += $" x{total}";
+                        display += $" x{total.ToString()}";
                     }
 
                     if (count > 0)
