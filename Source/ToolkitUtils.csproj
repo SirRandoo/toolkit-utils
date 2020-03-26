@@ -99,7 +99,7 @@
     <Compile Include="TkSettings.cs" />
     <Compile Include="TkUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ToolkitWindow.cs" />
+    <Compile Include="TkUtilsWindow.cs" />
     <Compile Include="Utils\CommandBase.cs" />
     <Compile Include="Utils\CommandParser.cs" />
     <Compile Include="Utils\Constraints\BannedConstraint.cs" />
