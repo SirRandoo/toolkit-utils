@@ -407,3 +407,4 @@ MigrationBackup/
 /.idea/.idea.ToolkitUtils/.idea/.gitignore
 /.idea/.gitignore
 /.idea/.idea.ToolkitUtils/
+/Source/ToolkitUtils.csproj.DotSettings

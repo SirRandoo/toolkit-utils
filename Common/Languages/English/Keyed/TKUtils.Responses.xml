@@ -63,6 +63,16 @@
     <TKUtils.Responses.Buy.Joined.Text>A new pawn has been purchased by {0}, let's welcome them to the colony.</TKUtils.Responses.Buy.Joined.Text>
     <TKUtils.Responses.Buy.PurchaseMessage>You've purchased a colonist and have now joined the colony.</TKUtils.Responses.Buy.PurchaseMessage>
     
+    <!-- Buy Surgery Translations -->
+    <TKUtils.Responses.BuySurgery.InvalidQuery>No item by the name of "{0}" could be found.</TKUtils.Responses.BuySurgery.InvalidQuery>
+    <TKUtils.Responses.BuySurgery.DisabledItem>The item "{0}" cannot be purchased; it's disabled.</TKUtils.Responses.BuySurgery.DisabledItem>
+    <TKUtils.Responses.BuySurgery.OnlySurgeries>The item "{0}" cannot be purchased; it cannot be surgically attached.</TKUtils.Responses.BuySurgery.OnlySurgeries>
+    <TKUtils.Responses.BuySurgery.NoAvailableSlots>No suitable body part could be found.</TKUtils.Responses.BuySurgery.NoAvailableSlots>
+    <TKUtils.Responses.BuySurgery.Queued>Your pawn has been queued for surgery.</TKUtils.Responses.BuySurgery.Queued>
+    <TKUtils.Responses.BuySurgery.AlreadyQueued>Your pawn already has a surgery of this type queued for body part "{0}".</TKUtils.Responses.BuySurgery.AlreadyQueued>
+    <TKUtils.Responses.Buy.MissingResearch>This colony must research the following prerequisites before "{0}" will be available: {1}</TKUtils.Responses.Buy.MissingResearch>
+    
+    <!-- Lookup Translations -->
     <TKUtils.Formats.Lookup>Results for "{0}": {1}</TKUtils.Formats.Lookup>
     
     <!-- Misc Translations -->
@@ -80,4 +90,6 @@
     <TKUtils.Letters.TraitRemove.Description>{0} removed trait {1}</TKUtils.Letters.TraitRemove.Description>
     <TKUtils.Letters.Heal.Title>Heal</TKUtils.Letters.Heal.Title>
     <TKUtils.Letters.Heal.Description>{0} recovered from {1}.</TKUtils.Letters.Heal.Description>
+    <TKUtils.Letters.BuySurgery.Title>Surgery Requested</TKUtils.Letters.BuySurgery.Title>
+    <TKUtils.Letters.BuySurgery.Description>{0} has requested {1} be installed on their pawn.</TKUtils.Letters.BuySurgery.Description>
 </LanguageData>

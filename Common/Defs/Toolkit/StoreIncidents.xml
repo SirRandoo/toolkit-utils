@@ -40,4 +40,14 @@
         <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.HealMeHelper</incidentHelper>
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+    
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>BuySurgery</defName>
+        <label>surgery</label>
+        <abbreviation>surgery</abbreviation>
+        <cost>500</cost>
+        <eventCap>5</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.BuySurgeryHelper</incidentHelper>
+        <karmaType>Neutral</karmaType>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>
