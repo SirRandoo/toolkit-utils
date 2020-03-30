@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -62,8 +62,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 query,
                 "TKUtils.Formats.PriceCheck.Quantity".Translate(
                     result.defName.CapitalizeFirst(),
-                    item.price,
-                    item.CalculatePrice(quantity)
+                    item.price.ToString("N0"),
+                    item.CalculatePrice(quantity).ToString("N0"),
+                    quantity
                 )
             );
         }
@@ -84,7 +85,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Notify__LookupComplete(
                 query,
-                "TKUtils.Formats.PriceCheck.Limited".Translate(result.abbreviation.CapitalizeFirst(), result.cost)
+                "TKUtils.Formats.PriceCheck.Limited".Translate(
+                    result.abbreviation.CapitalizeFirst(),
+                    result.cost.ToString("N0")
+                )
             );
         }
 
@@ -106,8 +110,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 query,
                 "TKUtils.Formats.PriceCheck.Quantity".Translate(
                     result.abr.CapitalizeFirst(),
-                    result.price,
-                    result.CalculatePrice(quantity)
+                    result.price.ToString("N0"),
+                    result.CalculatePrice(quantity).ToString("N0"),
+                    quantity
                 )
             );
         }
@@ -156,7 +161,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Notify__LookupComplete(
                 query,
-                "TKUtils.Formats.PriceCheck.Limited".Translate(result.name.CapitalizeFirst(), result.price)
+                "TKUtils.Formats.PriceCheck.Limited".Translate(
+                    result.name.CapitalizeFirst(),
+                    result.price.ToString("N0")
+                )
             );
         }
 
@@ -176,8 +184,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 query,
                 "TKUtils.Formats.PriceCheck.Trait".Translate(
                     result.name.CapitalizeFirst(),
-                    result.addPrice,
-                    result.removePrice
+                    result.addPrice.ToString("N0"),
+                    result.removePrice.ToString("N0")
                 )
             );
         }
