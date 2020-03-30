@@ -72,13 +72,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(enableRect, enableText))
             {
-                var defaultPrice =
-                    DefDatabase<StoreIncident>.AllDefsListForReading
-                        .FirstOrDefault(i => i.defName.EqualsIgnoreCase("BuyPawn"));
-
                 foreach (var race in TkUtils.ShopExpansion.races)
                 {
-                    race.price = defaultPrice?.cost ?? 2500;
+                    race.enabled = true;
                 }
             }
 
@@ -86,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (var race in TkUtils.ShopExpansion.races)
                 {
-                    race.price = -1;
+                    race.enabled = true;
                 }
             }
 
@@ -107,8 +103,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 var lineRect = listing.GetRect(Text.LineHeight);
                 var boxRect = new Rect(contentArea.x, lineRect.y, lineRect.width * 0.84f, lineRect.height);
-                var state = true;
-                Widgets.CheckboxLabeled(boxRect, race.defName, ref state);
+                Widgets.CheckboxLabeled(race.enabled ? boxRect : lineRect, race.defName, ref race.enabled);
 
                 var inputRect = new Rect(
                     lineRect.width - contentArea.width * 0.14f,
@@ -116,9 +111,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                     contentArea.width * 0.14f,
                     lineRect.height
                 );
-                var value = 3500;
-                var valueBuffer = value.ToString();
-                Widgets.TextFieldNumeric(inputRect, ref value, ref valueBuffer);
+
+                var valueBuffer = race.price.ToString();
+                Widgets.TextFieldNumeric(inputRect, ref race.price, ref valueBuffer);
             }
 
             listing.EndScrollView(ref viewPort);
