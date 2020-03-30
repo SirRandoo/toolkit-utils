@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -125,7 +125,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.SkillShuffle.Shuffled".Translate());
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.PassionShuffle.Shuffled".Translate());
             }
             
             Find.LetterStack.ReceiveLetter(
