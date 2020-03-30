@@ -85,7 +85,7 @@
     <TKUtils.Responses.PassionShuffle.Shuffled>Your passions have been shuffled.</TKUtils.Responses.PassionShuffle.Shuffled>
     
     <!-- Price Check Translations -->
-    <TKUtils.Formats.PriceCheck.Quantity>{0} - {1} coins per item ({2} coins total to purchase {3} item(s))</TKUtils.Formats.PriceCheck.Quantity>
+    <TKUtils.Formats.PriceCheck.Quantity>{0} - {1} coins per item ({2} total coins required to purchase {3} item(s))</TKUtils.Formats.PriceCheck.Quantity>
     <TKUtils.Formats.PriceCheck.Trait>{0} - {1} coins to add / {2} coins to remove</TKUtils.Formats.PriceCheck.Trait>
     <TKUtils.Formats.PriceCheck.Limited>{0} - {1} coins</TKUtils.Formats.PriceCheck.Limited>
     
