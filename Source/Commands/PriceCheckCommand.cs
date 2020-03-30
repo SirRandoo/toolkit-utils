@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-using RimWorld;
+﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
