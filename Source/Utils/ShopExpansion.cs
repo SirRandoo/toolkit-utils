@@ -79,19 +79,14 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             try
             {
-                Logger.Info("START");
                 for (var i = TkUtils.ShopExpansion.traits.Count - 1; i >= 0; i--)
                 {
-                    Logger.Info($"{i} : CHECK");
                     if (loadedTraits.Any(t => t.defName.Equals(TkUtils.ShopExpansion.traits[i].defName)))
                     {
                         continue;
                     }
 
-                    Logger.Info($"{i} : REMOVAL");
                     TkUtils.ShopExpansion.traits.RemoveAt(i);
-
-                    Logger.Info($"{i} : ADDITION");
                     removedTraits += 1;
                 }
 
