@@ -175,12 +175,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            var results = DefDatabase<PawnKindDef>.AllDefsListForReading
-                .Where(i => i.RaceProps.Humanlike)
+            var results = TkUtils.ShopExpansion.races
                 .Where(
                     i =>
                     {
-                        var label = i.LabelCap.RawText.ToToolkit();
+                        var label = i.name.ToToolkit();
                         var q = query.ToToolkit();
 
                         if (label.Contains(q) || label.EqualsIgnoreCase(q))
@@ -192,8 +191,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .GroupBy(i => i.race.defName)
-                .Select(i => i.Key.CapitalizeFirst())
+                .Select(i => i.name.CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -225,11 +223,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            var results = AllTraits.buyableTraits
+            var results = TkUtils.ShopExpansion.traits
                 .Where(
                     i =>
                     {
-                        var label = i.label.ToToolkit();
+                        var label = i.name.ToToolkit();
                         var q = query.ToToolkit();
 
                         if (label.Contains(q) || label.EqualsIgnoreCase(q))
@@ -237,11 +235,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                             return true;
                         }
 
-                        return i.def.defName.ToToolkit().Contains(query.ToToolkit())
-                               || i.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.label.CapitalizeFirst())
+                .Select(i => i.name.CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
