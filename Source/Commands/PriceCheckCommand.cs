@@ -24,9 +24,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             var segments = CommandParser.Parse(message.Message, TkSettings.Prefix).Skip(1).ToArray();
 
             PerformLookup(
-                segments.FirstOrDefault(),
-                segments.Skip(1).FirstOrDefault(),
-                segments.Skip(2).FirstOrDefault()
+                segments.FirstOrFallback(""),
+                segments.Skip(1).FirstOrFallback(""),
+                segments.Skip(2).FirstOrFallback("")
             );
         }
 

@@ -26,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var segments = CommandParser.Parse(message.Message, TkSettings.Prefix).Skip(1).ToArray();
 
-            PerformLookup(segments.FirstOrDefault(), segments.Skip(1).FirstOrDefault());
+            PerformLookup(segments.FirstOrFallback(""), segments.Skip(1).FirstOrFallback(""));
         }
 
         private void Notify__LookupComplete(string query, IReadOnlyCollection<string> results)
