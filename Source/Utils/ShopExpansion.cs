@@ -108,6 +108,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 foreach (var t in TraitHelper.GetEffectiveTraits(trait))
                 {
+                    t.name = Unrichify.StripTags(t.name);
                     t.bypassLimit = TraitHelper.IsSexualityTrait(trait);
 
                     TkUtils.ShopExpansion.traits.Add(t);
