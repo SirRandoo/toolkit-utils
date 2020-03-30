@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
     public enum Categories { General, CommandTweaks, PawnCommands }
+
+    public enum LeaveMethods { Thanos, MentalBreak }
 
     public class TkSettings : ModSettings
     {
@@ -21,10 +23,13 @@ namespace SirRandoo.ToolkitUtils
         public static bool SortWorkPriorities;
         public static bool Race = true;
         public static bool TempInGear;
+        public static bool DropInventory;
+        public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
         public static int LookupLimit = 10;
         public static bool VersionedModList;
 
         private static Categories _category = Categories.General;
+        private static string[] leaveMethods = Enum.GetNames(typeof(LeaveMethods));
 
         public static void DoWindowContents(Rect inRect)
         {
@@ -234,6 +239,27 @@ namespace SirRandoo.ToolkitUtils
                 ref FilterWorkPriorities,
                 "TKUtils.SettingGroups.PawnCommands.FilterWork.Tooltip".Translate()
             );
+
+            listing.Gap();
+            if (listing.ButtonTextLabeled(
+                "TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label".Translate(),
+                LeaveMethod
+            ))
+            {
+                Find.WindowStack.Add(
+                    new FloatMenu(leaveMethods.Select(o => new FloatMenuOption(o, () => LeaveMethod = o)).ToList())
+                );
+            }
+
+            if (!LeaveMethod.EqualsIgnoreCase("Thanos"))
+            {
+                listing.CheckboxLabeled(
+                    "TKUtils.SettingGroups.PawnCommands.LeaveGear.Label".Translate(),
+                    ref DropInventory,
+                    "TKUtils.SettingGroups.PawnCommands.LeaveGear.Tooltip".Translate()
+                );
+            }
+
             listing.End();
         }
 
@@ -256,6 +282,8 @@ namespace SirRandoo.ToolkitUtils
 
             Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
             Scribe_Values.Look(ref Race, "race", true);
+            Scribe_Values.Look(ref LeaveMethod, "leaveMethod", LeaveMethods.MentalBreak.ToString());
+            Scribe_Values.Look(ref DropInventory, "dropInventory");
         }
     }
 }

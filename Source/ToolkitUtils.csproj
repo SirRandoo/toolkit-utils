@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Commands\FactionsCommand.cs" />
     <Compile Include="Commands\InstalledModsDriver.cs" />
+    <Compile Include="Commands\LeaveCommand.cs" />
     <Compile Include="Commands\LookupCommand.cs" />
     <Compile Include="Commands\PawnBodyCommand.cs" />
     <Compile Include="Commands\PawnFixAllCommand.cs" />

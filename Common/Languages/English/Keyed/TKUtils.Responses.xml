@@ -75,6 +75,10 @@
     <!-- Lookup Translations -->
     <TKUtils.Formats.Lookup>Results for "{0}": {1}</TKUtils.Formats.Lookup>
     
+    <!-- Leave Translations -->
+    <TKUtils.Responses.Leave.Thanos>Mr. Stark, I don't feel so good...</TKUtils.Responses.Leave.Thanos>
+    <TKUtils.Responses.Leave.Generic>You've left the colony.</TKUtils.Responses.Leave.Generic>
+    
     <!-- Misc Translations -->
     <TKUtils.Misc.Separators.Upper>⎮</TKUtils.Misc.Separators.Upper>
     
@@ -92,4 +96,8 @@
     <TKUtils.Letters.Heal.Description>{0} recovered from {1}.</TKUtils.Letters.Heal.Description>
     <TKUtils.Letters.BuySurgery.Title>Surgery Requested</TKUtils.Letters.BuySurgery.Title>
     <TKUtils.Letters.BuySurgery.Description>{0} has requested {1} be installed on their pawn.</TKUtils.Letters.BuySurgery.Description>
+    <TKUtils.Letters.Leave.Thanos.Title>Colonist Vanished</TKUtils.Letters.Leave.Thanos.Title>
+    <TKUtils.Letters.Leave.Thanos.Description>{0} was snapped out of existence.</TKUtils.Letters.Leave.Thanos.Description>
+    <TKUtils.Letters.Leave.Generic.Title>Colonist Left</TKUtils.Letters.Leave.Generic.Title>
+    <TKUtils.Letters.Leave.Generic.Description>{0} chose to leave the colony.</TKUtils.Letters.Leave.Generic.Description>
 </LanguageData>

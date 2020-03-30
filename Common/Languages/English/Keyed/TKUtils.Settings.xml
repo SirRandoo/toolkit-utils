@@ -17,6 +17,9 @@
     <TKUtils.SettingGroups.PawnCommands.SortWork.Tooltip>If enabled, work priorities will be sorted like the Work tab in the pawn work command (!mypawnwork).  This means work will be displayed as the Work tab from left to right.</TKUtils.SettingGroups.PawnCommands.SortWork.Tooltip>
     <TKUtils.SettingGroups.PawnCommands.FilterWork.Label>Filter work priorities in the pawn work command.</TKUtils.SettingGroups.PawnCommands.FilterWork.Label>
     <TKUtils.SettingGroups.PawnCommands.FilterWork.Tooltip>If enabled, disabled work priorities will be removed from the pawn work command's output. (!mypawnwork).  This means work priorities a pawn is incapable of doing, or is not assigned to, will be omitted from the command's response.</TKUtils.SettingGroups.PawnCommands.FilterWork.Tooltip>
+    <TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label>How pawns should leave when the leave command is invoked.</TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label>
+    <TKUtils.SettingGroups.PawnCommands.LeaveGear.Label>Colonists that leave by the leave command drop their inventory.</TKUtils.SettingGroups.PawnCommands.LeaveGear.Label>
+    <TKUtils.SettingGroups.PawnCommands.LeaveGear.Tooltip>If a viewer chooses to leave the colony by the leave command (!leave), they'll empty their inventory (including gear) before departing.</TKUtils.SettingGroups.PawnCommands.LeaveGear.Tooltip>
 
     <!-- Command Tweaks -->
     <TKUtils.SettingGroups.CommandTweaks>Command Tweaks</TKUtils.SettingGroups.CommandTweaks>
