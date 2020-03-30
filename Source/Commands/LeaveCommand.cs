@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
@@ -31,8 +31,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     pawn.Map,
                     ThingDefOf.Filth_Ash,
                     pawn.LabelShortCap,
-                    (int) (pawn.BodySize * 0.6f),
-                    FilthSourceFlags.Unnatural
+                    Mathf.CeilToInt(pawn.BodySize * 0.6f)
                 ))
             {
                 message.Reply("TKUtils.Responses.Leave.Thanos".Translate());
