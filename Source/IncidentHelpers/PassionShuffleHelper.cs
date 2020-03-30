@@ -79,6 +79,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 {
                     skill.passion = Passion.Minor;
                     passionCount -= 1;
+                    continue;
                 }
                 
                 skill.passion = Passion.None;
