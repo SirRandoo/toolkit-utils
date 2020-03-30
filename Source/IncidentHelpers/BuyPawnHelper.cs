@@ -14,7 +14,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         private PawnKindDef kindDef = PawnKindDefOf.Colonist;
         private IntVec3 loc;
         private Map map;
-        private IncidentParms paramz;
+        private ShopExpansion.Race race;
         public override Viewer Viewer { get; set; }
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
@@ -40,7 +40,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            paramz = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, anyPlayerMap);
             map = anyPlayerMap;
 
             if (!CellFinder.TryFindRandomEdgeCellWith(
@@ -63,24 +62,24 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             var keyed = CommandParser.ParseKeyed(segments);
-            var race = keyed.Where(i => i.Key.EqualsIgnoreCase("--race") || i.Key.EqualsIgnoreCase("race"))
+            var raceParam = keyed.Where(i => i.Key.EqualsIgnoreCase("--race") || i.Key.EqualsIgnoreCase("race"))
                 .Select(i => i.Value)
                 .FirstOrDefault();
 
-            if (race.NullOrEmpty() || !TkSettings.Race)
+            if (raceParam.NullOrEmpty() || !TkSettings.Race)
             {
                 return true;
             }
 
             var raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading
                 .FirstOrDefault(
-                    r => r.race.defName.ToToolkit().EqualsIgnoreCase(race.ToToolkit())
-                         || r.race.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(race.ToToolkit())
+                    r => r.race.defName.ToToolkit().EqualsIgnoreCase(raceParam.ToToolkit())
+                         || r.race.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(raceParam.ToToolkit())
                 );
 
             if (raceDef == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(race));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(raceParam));
                 return false;
             }
 
@@ -91,6 +90,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             kindDef = raceDef;
+            race = TkUtils.ShopExpansion.races.FirstOrDefault(r => r.defName.Equals(raceDef.defName));
 
             return true;
         }
@@ -123,8 +123,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
                 Current.Game.GetComponent<GameComponentPawns>().AssignUserToPawn(Viewer.username, pawn);
 
-                Viewer.TakeViewerCoins(storeIncident.cost);
-                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+                Viewer.TakeViewerCoins(race?.price ?? 2500);
+                Viewer.CalculateNewKarma(storeIncident.karmaType, race?.price ?? 2500);
 
                 if (ToolkitSettings.PurchaseConfirmations)
                 {

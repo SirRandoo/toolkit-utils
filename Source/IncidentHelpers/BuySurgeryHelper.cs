@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             var researched = true;
-            List<ResearchProjectDef> projects = new List<ResearchProjectDef>();
+            var projects = new List<ResearchProjectDef>();
 
             if (!buyable.recipeMaker?.researchPrerequisite?.IsFinished ?? false)
             {

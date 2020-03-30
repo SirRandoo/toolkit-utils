@@ -8,7 +8,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
-    public class DialogPurgeViewers : Window
+    public class PurgeViewersDialog : Window
     {
         private static readonly List<Tuple<string, Type>> Registry = new List<Tuple<string, Type>>
         {
@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Vector2 scrollPos = Vector2.zero;
         private bool showingAffected;
 
-        public DialogPurgeViewers()
+        public PurgeViewersDialog()
         {
             doCloseX = true;
             forcePause = true;

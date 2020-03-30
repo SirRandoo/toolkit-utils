@@ -18,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (Widgets.ButtonText(canvas, "TKUtils.Windows.Purge.Button.Label".Translate()))
             {
-                Find.WindowStack.Add(new DialogPurgeViewers());
+                Find.WindowStack.Add(new PurgeViewersDialog());
             }
         }
     }

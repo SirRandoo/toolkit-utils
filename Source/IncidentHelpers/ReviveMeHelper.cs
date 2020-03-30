@@ -5,6 +5,7 @@ using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;
+
 #pragma warning disable 618
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers

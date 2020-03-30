@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -29,7 +31,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool VersionedModList;
 
         private static Categories _category = Categories.General;
-        private static string[] leaveMethods = Enum.GetNames(typeof(LeaveMethods));
+        private static readonly string[] leaveMethods = Enum.GetNames(typeof(LeaveMethods));
 
         public static void DoWindowContents(Rect inRect)
         {

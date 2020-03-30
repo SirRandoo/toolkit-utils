@@ -2,7 +2,6 @@
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
-using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -10,7 +9,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
     internal class RemoveTraitHelper : IncidentHelperVariables
     {
-        private BuyableTrait buyable;
+        private ShopExpansion.Trait buyable;
         private Pawn pawn;
         private Trait trait;
         public override Viewer Viewer { get; set; }
@@ -47,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var traitQuery = AllTraits.buyableTraits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
+            var traitQuery = TkUtils.ShopExpansion.traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
 
             if (traitQuery == null)
             {
@@ -87,8 +86,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            Viewer.TakeViewerCoins(storeIncident.cost);
-            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+            Viewer.TakeViewerCoins(buyable.removePrice);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, buyable.removePrice);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {

@@ -10,9 +10,9 @@ namespace SirRandoo.ToolkitUtils.Commands
         public override void RunCommand(IRCMessage message)
         {
             var stuck = Purchase_Handler.viewerNamesDoingVariableCommands.Count;
-            
+
             Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
-            
+
             message.Reply($"Unstuck {stuck.ToString()} viewers.");
         }
     }

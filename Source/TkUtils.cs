@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Settings;
 using UnityEngine;
 using Verse;
+
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedType.Global
 
@@ -21,6 +24,33 @@ namespace SirRandoo.ToolkitUtils
             Logger.Info("Building mod list cache...");
             TkUtils.ModListCache = TkUtils.GetModListVersioned();
             Logger.Info($"Built mod list cache ({TkUtils.ModListCache.Length.ToString()} mods loaded)");
+
+            try
+            {
+                TkUtils.ShopExpansion = ShopExpansionHelper.LoadData<ShopExpansion>(ShopExpansionHelper.ExpansionFile);
+            }
+            catch (IOException)
+            {
+                Logger.Warn("Could not load shop extension database!");
+                Logger.Warn("If this is your first run with this version of Utils, you can safely ignore this.");
+            }
+
+            if (TkUtils.ShopExpansion == null)
+            {
+                TkUtils.ShopExpansion = new ShopExpansion();
+            }
+
+            if (TkUtils.ShopExpansion.traits == null)
+            {
+                TkUtils.ShopExpansion.traits = new List<ShopExpansion.Trait>();
+            }
+
+            if (TkUtils.ShopExpansion.races == null)
+            {
+                TkUtils.ShopExpansion.races = new List<ShopExpansion.Race>();
+            }
+
+            ShopExpansionHelper.ValidateExpansionData();
         }
     }
 
@@ -29,6 +59,7 @@ namespace SirRandoo.ToolkitUtils
         public const string Id = "ToolkitUtils";
         internal static HarmonyLib.Harmony Harmony;
         internal static Tuple<string, string>[] ModListCache;
+        internal static ShopExpansion ShopExpansion;
 
         public TkUtils(ModContentPack content) : base(content)
         {

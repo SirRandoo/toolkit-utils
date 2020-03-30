@@ -1,15 +1,13 @@
 ﻿using RimWorld;
-using RimWorld.Planet;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 using TwitchToolkit.PawnQueue;
 using Verse;
-using Verse.AI;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    public class LeaveCommand : CommandBase  
+    public class LeaveCommand : CommandBase
     {
         public override void RunCommand(IRCMessage message)
         {
@@ -25,8 +23,16 @@ namespace SirRandoo.ToolkitUtils.Commands
                 message.Reply("TKUtils.Responses.NoPawn".Translate());
                 return;
             }
-            
-            if (TkSettings.LeaveMethod.EqualsIgnoreCase("Thanos") && FilthMaker.TryMakeFilth(pawn.Position, pawn.Map, ThingDefOf.Filth_Ash, pawn.LabelShortCap, (int)(pawn.BodySize * 0.6f), FilthSourceFlags.Unnatural))
+
+            if (TkSettings.LeaveMethod.EqualsIgnoreCase("Thanos")
+                && FilthMaker.TryMakeFilth(
+                    pawn.Position,
+                    pawn.Map,
+                    ThingDefOf.Filth_Ash,
+                    pawn.LabelShortCap,
+                    (int) (pawn.BodySize * 0.6f),
+                    FilthSourceFlags.Unnatural
+                ))
             {
                 message.Reply("TKUtils.Responses.Leave.Thanos".Translate());
                 Find.LetterStack.ReceiveLetter(
@@ -43,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     pawn.Strip();
                 }
-                
+
                 message.Reply("TKUtils.Responses.Leave.Generic".Translate());
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.Letters.Leave.Generic.Title".Translate(),
@@ -51,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
                 );
-                
+
                 pawn.ChangeKind(PawnKindDefOf.WildMan);
             }
 

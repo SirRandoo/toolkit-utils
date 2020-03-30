@@ -11,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
     public class AddTraitHelper : IncidentHelperVariables
     {
-        private BuyableTrait buyableTrait;
+        private ShopExpansion.Trait buyableTrait;
         private Pawn pawn;
         private Trait trait;
         private TraitDef traitDef;
@@ -41,16 +41,22 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var buyable = AllTraits.buyableTraits.FirstOrDefault(t => TraitHelper.MultiCompare(t, traitQuery));
+            var buyable = TkUtils.ShopExpansion.traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, traitQuery));
             var maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
             var traits = viewerPawn.story.traits.allTraits;
 
+            if (buyable == null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.TraitQueryInvalid".Translate(traitQuery));
+                return false;
+            }
+
             if (traits != null)
             {
-                var tally = traits.Count(t => !TraitHelper.IsSpecialTrait(t));
-                var flag = buyable != null && TraitHelper.IsSpecialTrait(buyable.def);
+                var tally = traits.Count(t => !TraitHelper.IsSexualityTrait(t));
+                var canBypassLimit = buyable.bypassLimit;
 
-                if (tally >= maxTraits && !flag)
+                if (tally >= maxTraits && !canBypassLimit)
                 {
                     MessageHelper.ReplyToUser(
                         viewer.username,
@@ -60,22 +66,25 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            if (buyable == null)
+            var def = DefDatabase<TraitDef>.AllDefsListForReading.FirstOrDefault(
+                t => t.defName.Equals(buyable.defName)
+            );
+
+            if (def == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.TraitQueryInvalid".Translate(traitQuery));
                 return false;
             }
 
-            var buyableDef = buyable.def;
-            var traitObj = new Trait(buyableDef, buyable.degree);
+            var traitObj = new Trait(def, buyable.degree);
 
             foreach (var t in viewerPawn.story.traits.allTraits.Where(
-                t => t.def.ConflictsWith(traitObj) || buyableDef.ConflictsWith(t)
+                t => t.def.ConflictsWith(traitObj) || def.ConflictsWith(t)
             ))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.Conflicts".Translate(t.LabelCap, buyableDef.defName)
+                    "TKUtils.Responses.BuyTrait.Conflicts".Translate(t.LabelCap, def.defName)
                 );
                 return false;
             }
@@ -90,11 +99,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             trait = traitObj;
-            traitDef = buyableDef;
+            traitDef = def;
             buyableTrait = buyable;
             pawn = viewerPawn;
 
-            return traitQuery != null && buyableDef != null && buyableTrait != null;
+            return traitQuery != null && buyableTrait != null;
         }
 
         public override void TryExecute()
@@ -111,8 +120,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            Viewer.TakeViewerCoins(storeIncident.cost);
-            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+            Viewer.TakeViewerCoins(buyableTrait.addPrice);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, buyableTrait.addPrice);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {

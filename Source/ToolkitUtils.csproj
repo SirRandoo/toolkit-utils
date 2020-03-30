@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -63,6 +63,14 @@
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
@@ -86,6 +94,7 @@
     <Compile Include="Commands\UnstickCommand.cs" />
     <Compile Include="Harmony\CommandsHandler_CheckCommand.cs" />
     <Compile Include="Harmony\PawnCommands_ParseCommand.cs" />
+    <Compile Include="Harmony\Settings_Store__DoWindowContents.cs" />
     <Compile Include="Harmony\Store_Lookup__ParseCommand.cs" />
     <Compile Include="Harmony\ViewerUpdater_ParseCommand.cs" />
     <Compile Include="Harmony\Window_Viewers__DoWindowContents.cs" />
@@ -116,9 +125,12 @@
     <Compile Include="Utils\Constraints\VipConstraint.cs" />
     <Compile Include="Utils\HealHelper.cs" />
     <Compile Include="Utils\MessageHelper.cs" />
+    <Compile Include="Utils\ShopExpansion.cs" />
     <Compile Include="Utils\Unrichify.cs" />
     <Compile Include="Utils\TraitHelper.cs" />
-    <Compile Include="Windows\Dialog_PurgeViewers.cs" />
+    <Compile Include="Windows\PurgeViewersDialog.cs" />
+    <Compile Include="Windows\RaceConfigDialog.cs" />
+    <Compile Include="Windows\TraitConfigDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\About\About.xml">

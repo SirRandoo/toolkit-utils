@@ -163,7 +163,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     Channel = msg.Channel,
                     Cmd = msg.Cmd,
                     Host = msg.Host,
-                    Message = $"!{segments.Take(1).FirstOrDefault()?.ToLowerInvariant()} {CombineSegments(segments.Skip(1))}".Trim(),
+                    Message =
+                        $"!{segments.Take(1).FirstOrDefault()?.ToLowerInvariant()} {CombineSegments(segments.Skip(1))}"
+                            .Trim(),
                     Parameters = msg.Parameters,
                     User = msg.User,
                     Whisper = msg.Whisper

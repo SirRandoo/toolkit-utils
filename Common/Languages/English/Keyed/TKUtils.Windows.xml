@@ -36,4 +36,14 @@
     <TKUtils.Windows.Purge.Constraints.Sub>Not subbed</TKUtils.Windows.Purge.Constraints.Sub>
     <TKUtils.Windows.Purge.Constraints.Mod>Not modded</TKUtils.Windows.Purge.Constraints.Mod>
     <TKUtils.Windows.Purge.Constraints.Name>Username</TKUtils.Windows.Purge.Constraints.Name>
+    
+    
+    <!-- Config Translations -->
+    <TKUtils.Windows.Traits.Title>Trait Inventory</TKUtils.Windows.Traits.Title>
+    <TKUtils.Windows.Races.Title>Pawn Kind Inventory</TKUtils.Windows.Races.Title>
+    <TKUtils.Windows.Config.Buttons.Search.Label>Search</TKUtils.Windows.Config.Buttons.Search.Label>
+    <TKUtils.Windows.Config.Buttons.EnableAll.Label>Enable All</TKUtils.Windows.Config.Buttons.EnableAll.Label>
+    <TKUtils.Windows.Config.Buttons.DisableAll.Label>Disable All</TKUtils.Windows.Config.Buttons.DisableAll.Label>
+    <TKUtils.Windows.Traits.AddPrice.Label>Add</TKUtils.Windows.Traits.AddPrice.Label>
+    <TKUtils.Windows.Traits.RemovePrice.Label>Remove</TKUtils.Windows.Traits.RemovePrice.Label>
 </LanguageData>
