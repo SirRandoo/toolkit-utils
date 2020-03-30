@@ -72,6 +72,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             var passionCount = pawn.skills.skills.Sum(s => (int) s.passion);
+            var iterations = 0;
 
             foreach (var skill in pawn.skills.skills)
             {
@@ -94,7 +95,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                         continue;
                     }
 
-                    if (Random.Range(0, 1) == 1)
+                    if (passionCount > 0 && Random.Range(1, 5) <= 3)
                     {
                         passionCount -= 1;
 
@@ -108,6 +109,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                                 break;
                         }
                     }
+                }
+
+                iterations += 1;
+
+                if (iterations >= 100)
+                {
+                    Logger.Warn("Exceeded 100 iterations while shuffling passions!");
+                    return;
                 }
             }
 
