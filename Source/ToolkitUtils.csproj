@@ -103,6 +103,7 @@
     <Compile Include="IncidentHelpers\BuySurgeryHelper.cs" />
     <Compile Include="IncidentHelpers\HealAllHelper.cs" />
     <Compile Include="IncidentHelpers\HealMeHelper.cs" />
+    <Compile Include="IncidentHelpers\PassionShuffleHelper.cs" />
     <Compile Include="IncidentHelpers\RemoveTraitHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveAllHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveMeHelper.cs" />

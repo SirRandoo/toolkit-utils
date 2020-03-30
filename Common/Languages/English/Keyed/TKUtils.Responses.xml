@@ -6,10 +6,11 @@
     <TKUtils.Responses.NoPawn>You are not in this colony!</TKUtils.Responses.NoPawn>
     <TKUtils.Responses.UnsupportedRace>{0} are not supported by this command!</TKUtils.Responses.UnsupportedRace>
     <TKUtils.Responses.TraitQueryInvalid>No trait by the name of "{0}" could be found.</TKUtils.Responses.TraitQueryInvalid>
+    <TKUtils.Responses.SkillQueryInvalid>No skill by the name of "{0}" could be found.</TKUtils.Responses.SkillQueryInvalid>
+    <TKUtils.Responses.Research.QueryInvalid>No research project by the name of "{0}" could be found.</TKUtils.Responses.Research.QueryInvalid>
     
     <!-- Research Translations -->
     <TKUtils.Formats.Research.Prerequisites>Missing prerequisites: {0}</TKUtils.Formats.Research.Prerequisites>
-    <TKUtils.Responses.Research.QueryInvalid>No research project by the name of "{0}" could be found.</TKUtils.Responses.Research.QueryInvalid>
     <TKUtils.Responses.Research.None>The colony is not currently researching anything.</TKUtils.Responses.Research.None>
     
     <!-- MyPawnBody Translations -->
@@ -79,6 +80,10 @@
     <TKUtils.Responses.Leave.Thanos>Mr. Stark, I don't feel so good...</TKUtils.Responses.Leave.Thanos>
     <TKUtils.Responses.Leave.Generic>You've left the colony.</TKUtils.Responses.Leave.Generic>
     
+    <!-- Passion Shuffle Translations -->
+    <TKUtils.Responses.PassionShuffle.NoPassions>Your pawn has no passions to shuffle.</TKUtils.Responses.PassionShuffle.NoPassions>
+    <TKUtils.Responses.PassionShuffle.Shuffled>Your passions have been shuffled.</TKUtils.Responses.PassionShuffle.Shuffled>
+    
     <!-- Misc Translations -->
     <TKUtils.Misc.Separators.Upper>⎮</TKUtils.Misc.Separators.Upper>
     
@@ -100,4 +105,6 @@
     <TKUtils.Letters.Leave.Thanos.Description>{0} was snapped out of existence.</TKUtils.Letters.Leave.Thanos.Description>
     <TKUtils.Letters.Leave.Generic.Title>Colonist Left</TKUtils.Letters.Leave.Generic.Title>
     <TKUtils.Letters.Leave.Generic.Description>{0} chose to leave the colony.</TKUtils.Letters.Leave.Generic.Description>
+    <TKUtils.Letters.PassionShuffle.Title>Passion Shuffle</TKUtils.Letters.PassionShuffle.Title>
+    <TKUtils.Letters.PassionShuffle.Description>{0} has shuffled their pawn's passions.</TKUtils.Letters.PassionShuffle.Description>
 </LanguageData>
