@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -44,11 +44,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!query.NullOrEmpty())
             {
-                target = pawn.skills.skills
+                target = viewerPawn.skills.skills
                     .FirstOrDefault(
                         s => s.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                             || s.def.skillLabel.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                             || s.def.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                             || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
+                             || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                     )
                     ?.def;
 
