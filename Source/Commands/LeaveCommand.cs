@@ -1,8 +1,9 @@
-﻿using RimWorld;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
 using TwitchToolkit.PawnQueue;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -59,6 +60,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
 
                 pawn.ChangeKind(PawnKindDefOf.WildMan);
+
+                if (pawn.Faction != null)
+                {
+                    pawn.SetFaction(null);
+                }
+
+                pawn.jobs.StopAll();
             }
 
             var component = Current.Game.GetComponent<GameComponentPawns>();
