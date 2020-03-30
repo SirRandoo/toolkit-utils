@@ -135,6 +135,14 @@
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
+        <defName>PriceCheck</defName>
+        <label>price check</label>
+        <command>price</command>
+        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PriceCheckCommand</commandDriver>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
         <defName>UnstickAll</defName>
         <label>unstick</label>
         <command>unstick</command>

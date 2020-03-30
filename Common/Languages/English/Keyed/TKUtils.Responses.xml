@@ -84,6 +84,11 @@
     <TKUtils.Responses.PassionShuffle.NoPassions>Your pawn has no passions to shuffle.</TKUtils.Responses.PassionShuffle.NoPassions>
     <TKUtils.Responses.PassionShuffle.Shuffled>Your passions have been shuffled.</TKUtils.Responses.PassionShuffle.Shuffled>
     
+    <!-- Price Check Translations -->
+    <TKUtils.Formats.PriceCheck.Quantity>{0} - {1} coins per item | Total: {2} coins</TKUtils.Formats.PriceCheck.Quantity>
+    <TKUtils.Formats.PriceCheck.Trait>{0} - {1} coins to add | {2} coins to remove</TKUtils.Formats.PriceCheck.Trait>
+    <TKUtils.Formats.PriceCheck.Limited>{0} - {1} coins</TKUtils.Formats.PriceCheck.Limited>
+    
     <!-- Misc Translations -->
     <TKUtils.Misc.Separators.Upper>⎮</TKUtils.Misc.Separators.Upper>
     
