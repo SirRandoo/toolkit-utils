@@ -108,6 +108,14 @@
         <requiresMod>true</requiresMod>
     </TwitchToolkit.Command>
     
+    <TwitchToolkit.Command>
+        <defName>AbandonPawn</defName>
+        <label>abandon pawn</label>
+        <command>leave</command>
+        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.LeaveCommand</commandDriver>
+    </TwitchToolkit.Command>
+    
     <!-- Colony Commands -->
     <TwitchToolkit.Command>
         <defName>Factions</defName>
