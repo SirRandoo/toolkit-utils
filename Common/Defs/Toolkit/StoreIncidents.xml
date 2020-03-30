@@ -50,4 +50,14 @@
         <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.BuySurgeryHelper</incidentHelper>
         <karmaType>Neutral</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+    
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>PassionShuffle</defName>
+        <label>passion shuffle</label>
+        <abbreviation>passionshuffle</abbreviation>
+        <cost>2000</cost>
+        <eventCap>4</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.PassionShuffleHelper</incidentHelper>
+        <karmaType>Neutral</karmaType>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>
