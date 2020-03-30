@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
     <TKUtils.Formats.KeyValue>{0}: {1}</TKUtils.Formats.KeyValue>
@@ -88,9 +88,6 @@
     <TKUtils.Formats.PriceCheck.Quantity>{0} - {1} coins per item | Total: {2} coins</TKUtils.Formats.PriceCheck.Quantity>
     <TKUtils.Formats.PriceCheck.Trait>{0} - {1} coins to add | {2} coins to remove</TKUtils.Formats.PriceCheck.Trait>
     <TKUtils.Formats.PriceCheck.Limited>{0} - {1} coins</TKUtils.Formats.PriceCheck.Limited>
-    
-    <!-- Misc Translations -->
-    <TKUtils.Misc.Separators.Upper>⎮</TKUtils.Misc.Separators.Upper>
     
     <!-- Letter Translations -->
     <TKUtils.Letters.Revival.Title>Pawn Revived</TKUtils.Letters.Revival.Title>
