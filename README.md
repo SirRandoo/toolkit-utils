@@ -69,6 +69,17 @@ A collection of tweaks and commands for TwitchToolkit.
     <br/>
     **Note**: This command does not safely relink a pawn.  It will look for the ***first*** colonist 
                 named after the viewer.
+- `!leave`<br/>
+    Allows a viewer to voluntarily leave the colony without the streamer having to banish them.
+    <br/>
+    <br/>
+    By default the preferred method of leave is a "Run Wild" mental break.  Should the streamer choose
+    to enable the alternative, they will be reduced to a pile of ash.
+    <br/>
+    **Note**: This command does **not** refund any coins spent on a bad pawn.
+    <br/>
+    **Note**: If the leave method is not `Mental Break`, the pawn's current inventory will turn to ash
+                as well.
 
 #### Colony Commands
 
@@ -89,6 +100,8 @@ A collection of tweaks and commands for TwitchToolkit.
     with the progress of said prerequisite.
 - `!factions`<br/>
     Allows a viewer to see the colony's current faction relations.
+- `!unstick`<br/>
+    A carbon copy of Toolkit's `!unstick` command.
 
 #### Purchasable Events
 
@@ -100,6 +113,19 @@ A collection of tweaks and commands for TwitchToolkit.
     Allows a viewer to purchase a personal healer mech serum.
 - `!buy healall` / `!healall`<br/>
     Allows a viewer to purchase a colony-wide healer mech serum.
+- `!buy passionshuffle {preferred}` / `!passionshuffle`<br/>
+    Allows a viewer to shuffle their current passions.
+    <br/>
+    **Note**: If a preferred skill is specified, there will *always* be a minor passion in this 
+                skill, but all others will be shuffled.
+- `!buy surgery {part}` / `!surgery`<br/>
+    Allows a viewer to purchase an installable part and immediately queue it for surgery.
+    <br/>
+    **Note**: This command does ***not*** include medicine.  This is a convenience event for
+                ensuring parts get installed without the streamer having to keep track of who
+                purchased what.
+    **Note**: This command does not have checks to ensure downgrades don't replace upgrades, like
+                bionic replacing an archotech. 
 
 #### Toolkit Tweaks
 
@@ -116,7 +142,7 @@ A collection of tweaks and commands for TwitchToolkit.
     remove the `<color>` tag requirement in mods that add a colored trait.
 - `!buy pawn`<br/>
     This tweak modifies how Toolkit processes pawn purchases to allow for race
-    support.  A race can be specified with the `--race={race}` argument.
+    support.  A race can be specified with the `race={race}` argument.
     <br/>
     **Note**: If this argument isn't included, the tweak will default to using
                 `Human` as the pawn's race.
@@ -126,7 +152,7 @@ A collection of tweaks and commands for TwitchToolkit.
     <br/>
     With the addition of the race tweak above, this command has been modified
     to show the current list of races available to viewers for use in the
-    `--race={race}` argument.
+    `race={race}` argument.
     <br/>
     <br/>
     Additionally, this command now allows you to use a query that features spaces
@@ -135,6 +161,8 @@ A collection of tweaks and commands for TwitchToolkit.
     **Note**: If you elect to use a quoted query, all products will be looked up
                 according to that query.  This means that the tweak will not 
                 modify your query.
+- `!price {category} {query} [quantity]`<br/>
+    This command is similar to `!lookup`, but shows the price of a product in the shop.
 - `!installedmods`<br/>
     This tweak modifies how Toolkit outputs the mod list.  When ToolkitUtils 
     first loads, it'll cache the current mod list to allow for quicker responses.
@@ -160,3 +188,10 @@ A collection of tweaks and commands for TwitchToolkit.
                     issue doesn't, you should [submit a bug report](https://github.com/sirrandoo/toolkit-utils/issues/new)
 - Founders Support<br/>
     This tweak allows Toolkit to process the `Founders` badge added by Twitch.
+- Configurable trait prices<br/>
+    This tweak allows streamers to configure the prices of each individual trait in
+    their current game.  This includes the price of adding a trait, and the price of
+    removing a trait.
+- Configurable race prices<br/>
+    This tweak allows streamers to configure the prices of each individual race a 
+    pawn can be.
