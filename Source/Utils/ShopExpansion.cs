@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using RimWorld;
 using TwitchToolkit.Utilities;
 using UnityEngine;
@@ -12,14 +13,30 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public static class ShopExpansionHelper
     {
-        public static readonly string ExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
+        public static readonly string ExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt.xml");
+        public static readonly string JsonExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
 
-        public static void SaveData(object json, string filePath)
+        public static void SaveData<T>(T xml, string filePath)
         {
-            var result = JsonUtility.ToJson(json);
-            Logger.Info(result);
+            var directory = Path.GetDirectoryName(filePath);
 
-            SaveData(result, filePath);
+            if (directory == null)
+            {
+                Logger.Warn($"File path @ {filePath} is invalid!");
+                return;
+            }
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            var serializer = new XmlSerializer(typeof(T));
+
+            using (var writer = File.OpenWrite(filePath))
+            {
+                serializer.Serialize(writer, xml);
+            }
         }
 
         public static void SaveData(string data, string filePath)
@@ -40,20 +57,6 @@ namespace SirRandoo.ToolkitUtils.Utils
             File.WriteAllText(filePath, data);
         }
 
-        public static void SaveShopExtension()
-        {
-            var builder = new StringBuilder("{");
-
-            builder.Append("\"traits\":[");
-            builder.Append(string.Join(",", TkUtils.ShopExpansion.traits.Select(JsonUtility.ToJson).ToArray()));
-            builder.Append("],");
-            builder.Append("\"races\":[");
-            builder.Append(string.Join(",", TkUtils.ShopExpansion.races.Select(JsonUtility.ToJson).ToArray()));
-            builder.Append("]}");
-
-            SaveData(builder.ToString(), ExpansionFile);
-        }
-
         public static T LoadData<T>(string filePath)
         {
             var directory = Path.GetDirectoryName(filePath);
@@ -63,7 +66,51 @@ namespace SirRandoo.ToolkitUtils.Utils
                 throw new IOException($"Directory {directory} does not exist!");
             }
 
-            return JsonUtility.FromJson<T>(File.ReadAllText(filePath));
+            var serializer = new XmlSerializer(typeof(T));
+
+            using (var reader = File.OpenText(filePath))
+            {
+                return (T) serializer.Deserialize(reader);
+            }
+        }
+
+        public static void DumpShopExtension()
+        {
+            var jsonTraits = TkUtils.ShopExpansion.Traits.Select(
+                    t =>
+                        new ShopExpansion.Trait
+                        {
+                            addPrice = t.AddPrice,
+                            bypassLimit = t.BypassLimit,
+                            degree = t.Degree,
+                            enabled = t.Enabled,
+                            name = t.Name,
+                            defName = t.DefName,
+                            removePrice = t.RemovePrice
+                        }
+                )
+                .Select(JsonUtility.ToJson)
+                .ToArray();
+
+            var jsonRaces = TkUtils.ShopExpansion.Races.Select(
+                    r => new ShopExpansion.Race
+                    {
+                        defName = r.DefName, enabled = r.Enabled, name = r.Name, price = r.Price
+                    }
+                )
+                .Select(JsonUtility.ToJson)
+                .ToArray();
+
+            var builder = new StringBuilder("{");
+
+            builder.Append("\"traits\":[");
+            builder.Append(string.Join(",", jsonTraits.ToArray()));
+            builder.Append("],");
+            builder.Append("\"races\":[");
+            builder.Append(string.Join(",", jsonRaces.ToArray()));
+            builder.Append("]}");
+
+            SaveData(builder.ToString(), JsonExpansionFile);
         }
 
         public static void ValidateExpansionData()
@@ -79,14 +126,14 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             try
             {
-                for (var i = TkUtils.ShopExpansion.traits.Count - 1; i >= 0; i--)
+                for (var i = TkUtils.ShopExpansion.Traits.Count - 1; i >= 0; i--)
                 {
-                    if (loadedTraits.Any(t => t.defName.Equals(TkUtils.ShopExpansion.traits[i].defName)))
+                    if (loadedTraits.Any(t => t.defName.Equals(TkUtils.ShopExpansion.Traits[i].DefName)))
                     {
                         continue;
                     }
 
-                    TkUtils.ShopExpansion.traits.RemoveAt(i);
+                    TkUtils.ShopExpansion.Traits.RemoveAt(i);
                     removedTraits += 1;
                 }
 
@@ -101,30 +148,30 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             var missingTraits = loadedTraits
-                .Where(t => !TkUtils.ShopExpansion.traits.Any(p => t.defName.EqualsIgnoreCase(t.defName)))
+                .Where(t => !TkUtils.ShopExpansion.Traits.Any(p => t.defName.EqualsIgnoreCase(p.DefName)))
                 .ToList();
 
             foreach (var trait in missingTraits)
             {
                 foreach (var t in TraitHelper.GetEffectiveTraits(trait))
                 {
-                    t.name = Unrichify.StripTags(t.name);
-                    t.bypassLimit = TraitHelper.IsSexualityTrait(trait);
+                    t.Name = Unrichify.StripTags(t.Name);
+                    t.BypassLimit = TraitHelper.IsSexualityTrait(trait);
 
-                    TkUtils.ShopExpansion.traits.Add(t);
+                    TkUtils.ShopExpansion.Traits.Add(t);
                 }
             }
 
             try
             {
-                for (var i = TkUtils.ShopExpansion.races.Count - 1; i >= 0; i--)
+                for (var i = TkUtils.ShopExpansion.Races.Count - 1; i >= 0; i--)
                 {
-                    if (loadedRaces.Any(r => r.Equals(TkUtils.ShopExpansion.races[i].defName)))
+                    if (loadedRaces.Any(r => r.Equals(TkUtils.ShopExpansion.Races[i].DefName)))
                     {
                         continue;
                     }
 
-                    TkUtils.ShopExpansion.races.RemoveAt(i);
+                    TkUtils.ShopExpansion.Races.RemoveAt(i);
                     removedRaces += 1;
                 }
 
@@ -139,13 +186,13 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             var missingRaces = loadedRaces
-                .Where(t => !TkUtils.ShopExpansion.races.Any(p => t.EqualsIgnoreCase(p.defName)))
+                .Where(t => !TkUtils.ShopExpansion.Races.Any(p => t.EqualsIgnoreCase(p.DefName)))
                 .ToList();
 
             foreach (var race in missingRaces)
             {
-                TkUtils.ShopExpansion.races.Add(
-                    new ShopExpansion.Race {defName = race, name = race, price = 2500, enabled = true}
+                TkUtils.ShopExpansion.Races.Add(
+                    new XmlRace {DefName = race, Name = race, Price = 2500, Enabled = true}
                 );
             }
 
@@ -155,8 +202,37 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             Logger.Info("Trait/Race data changed between instances; saving new data...");
-            SaveShopExtension();
+            SaveData(TkUtils.ShopExpansion, ExpansionFile);
+            DumpShopExtension();
         }
+    }
+
+    [XmlRoot("ShopExpansion", IsNullable = false)]
+    public class XmlShop
+    {
+        public List<XmlRace> Races;
+        public List<XmlTrait> Traits;
+    }
+
+    public class XmlRace
+    {
+        [XmlAttribute]
+        public string DefName;
+
+        public bool Enabled;
+        public string Name;
+        public int Price;
+    }
+
+    public class XmlTrait
+    {
+        public string DefName;
+        public bool BypassLimit;
+        public int Degree;
+        public bool Enabled;
+        public string Name;
+        public int AddPrice;
+        public int RemovePrice;
     }
 
     [Serializable]

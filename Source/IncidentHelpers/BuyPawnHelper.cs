@@ -14,7 +14,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         private PawnKindDef kindDef = PawnKindDefOf.Colonist;
         private IntVec3 loc;
         private Map map;
-        private ShopExpansion.Race race;
+        private XmlRace race;
         public override Viewer Viewer { get; set; }
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
@@ -90,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             kindDef = raceDef;
-            race = TkUtils.ShopExpansion.races.FirstOrDefault(r => r.defName.Equals(raceDef.defName));
+            race = TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(raceDef.defName));
 
             return true;
         }
@@ -123,8 +123,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
                 Current.Game.GetComponent<GameComponentPawns>().AssignUserToPawn(Viewer.username, pawn);
 
-                Viewer.TakeViewerCoins(race?.price ?? 2500);
-                Viewer.CalculateNewKarma(storeIncident.karmaType, race?.price ?? 2500);
+                Viewer.TakeViewerCoins(race?.Price ?? 2500);
+                Viewer.CalculateNewKarma(storeIncident.karmaType, race?.Price ?? 2500);
 
                 if (ToolkitSettings.PurchaseConfirmations)
                 {

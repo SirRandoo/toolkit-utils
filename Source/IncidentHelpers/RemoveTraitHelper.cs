@@ -9,7 +9,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
     internal class RemoveTraitHelper : IncidentHelperVariables
     {
-        private ShopExpansion.Trait buyable;
+        private XmlTrait buyable;
         private Pawn pawn;
         private Trait trait;
         public override Viewer Viewer { get; set; }
@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var traitQuery = TkUtils.ShopExpansion.traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
+            var traitQuery = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
 
             if (traitQuery == null)
             {
@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             pawn.story.traits.allTraits.Remove(trait);
-            var data = trait.def.DataAtDegree(buyable.degree);
+            var data = trait.def.DataAtDegree(buyable.Degree);
 
             if (data?.skillGains != null)
             {
@@ -86,8 +86,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            Viewer.TakeViewerCoins(buyable.removePrice);
-            Viewer.CalculateNewKarma(storeIncident.karmaType, buyable.removePrice);
+            Viewer.TakeViewerCoins(buyable.RemovePrice);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, buyable.RemovePrice);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {

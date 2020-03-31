@@ -11,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
     public class AddTraitHelper : IncidentHelperVariables
     {
-        private ShopExpansion.Trait buyableTrait;
+        private XmlTrait buyableTrait;
         private Pawn pawn;
         private Trait trait;
         private TraitDef traitDef;
@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var buyable = TkUtils.ShopExpansion.traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, traitQuery));
+            var buyable = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, traitQuery));
             var maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
             var traits = viewerPawn.story.traits.allTraits;
 
@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             if (traits != null)
             {
                 var tally = traits.Count(t => !TraitHelper.IsSexualityTrait(t));
-                var canBypassLimit = buyable.bypassLimit;
+                var canBypassLimit = buyable.BypassLimit;
 
                 if (tally >= maxTraits && !canBypassLimit)
                 {
@@ -67,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             var def = DefDatabase<TraitDef>.AllDefsListForReading.FirstOrDefault(
-                t => t.defName.Equals(buyable.defName)
+                t => t.defName.Equals(buyable.DefName)
             );
 
             if (def == null)
@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var traitObj = new Trait(def, buyable.degree);
+            var traitObj = new Trait(def, buyable.Degree);
 
             foreach (var t in viewerPawn.story.traits.allTraits.Where(
                 t => t.def.ConflictsWith(traitObj) || def.ConflictsWith(t)
@@ -109,7 +109,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         public override void TryExecute()
         {
             pawn.story.traits.GainTrait(trait);
-            var val = traitDef.DataAtDegree(buyableTrait.degree);
+            var val = traitDef.DataAtDegree(buyableTrait.Degree);
             if (val?.skillGains != null)
             {
                 foreach (var skillGain in val.skillGains)
@@ -120,8 +120,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            Viewer.TakeViewerCoins(buyableTrait.addPrice);
-            Viewer.CalculateNewKarma(storeIncident.karmaType, buyableTrait.addPrice);
+            Viewer.TakeViewerCoins(buyableTrait.AddPrice);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, buyableTrait.AddPrice);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {

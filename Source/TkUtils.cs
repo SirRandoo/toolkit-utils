@@ -27,7 +27,8 @@ namespace SirRandoo.ToolkitUtils
 
             try
             {
-                TkUtils.ShopExpansion = ShopExpansionHelper.LoadData<ShopExpansion>(ShopExpansionHelper.ExpansionFile);
+                TkUtils.ShopExpansion = ShopExpansionHelper.LoadData<XmlShop>(ShopExpansionHelper.ExpansionFile);
+                Logger.Info($"Loaded {TkUtils.ShopExpansion.Traits.Count} traits and {TkUtils.ShopExpansion.Races.Count} races.");
             }
             catch (IOException)
             {
@@ -37,17 +38,17 @@ namespace SirRandoo.ToolkitUtils
 
             if (TkUtils.ShopExpansion == null)
             {
-                TkUtils.ShopExpansion = new ShopExpansion();
+                TkUtils.ShopExpansion = new XmlShop();
             }
 
-            if (TkUtils.ShopExpansion.traits == null)
+            if (TkUtils.ShopExpansion.Traits == null)
             {
-                TkUtils.ShopExpansion.traits = new List<ShopExpansion.Trait>();
+                TkUtils.ShopExpansion.Traits = new List<XmlTrait>();
             }
 
-            if (TkUtils.ShopExpansion.races == null)
+            if (TkUtils.ShopExpansion.Races == null)
             {
-                TkUtils.ShopExpansion.races = new List<ShopExpansion.Race>();
+                TkUtils.ShopExpansion.Races = new List<XmlRace>();
             }
 
             ShopExpansionHelper.ValidateExpansionData();
@@ -59,7 +60,7 @@ namespace SirRandoo.ToolkitUtils
         public const string Id = "ToolkitUtils";
         internal static HarmonyLib.Harmony Harmony;
         internal static Tuple<string, string>[] ModListCache;
-        internal static ShopExpansion ShopExpansion;
+        internal static XmlShop ShopExpansion;
 
         public TkUtils(ModContentPack content) : base(content)
         {

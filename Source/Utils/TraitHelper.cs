@@ -31,9 +31,9 @@ namespace SirRandoo.ToolkitUtils.Utils
                    || trait.Equals(TraitDefOf.Asexual);
         }
 
-        public static bool MultiCompare(ShopExpansion.Trait trait, string input)
+        public static bool MultiCompare(XmlTrait trait, string input)
         {
-            var label = trait.name;
+            var label = trait.Name;
 
             if (input.ToToolkit().EqualsIgnoreCase(label.ToToolkit()))
             {
@@ -56,33 +56,33 @@ namespace SirRandoo.ToolkitUtils.Utils
             return t.Replace(" ", "").ToLower();
         }
 
-        public static IEnumerable<ShopExpansion.Trait> GetEffectiveTraits(TraitDef trait)
+        public static IEnumerable<XmlTrait> GetEffectiveTraits(TraitDef trait)
         {
             if (trait.degreeDatas == null)
             {
                 return new[]
                 {
-                    new ShopExpansion.Trait
+                    new XmlTrait
                     {
-                        defName = trait.defName,
-                        degree = 0,
-                        enabled = true,
-                        name = trait.label,
-                        addPrice = 3500,
-                        removePrice = 5500
+                        DefName = trait.defName,
+                        Degree = 0,
+                        Enabled = true,
+                        Name = trait.label,
+                        AddPrice = 3500,
+                        RemovePrice = 5500
                     }
                 };
             }
 
             return trait.degreeDatas.Select(
-                    t => new ShopExpansion.Trait
+                    t => new XmlTrait
                     {
-                        defName = trait.defName,
-                        degree = t.degree,
-                        addPrice = 3500,
-                        removePrice = 5500,
-                        enabled = true,
-                        name = t.label
+                        DefName = trait.defName,
+                        Degree = t.degree,
+                        AddPrice = 3500,
+                        RemovePrice = 5500,
+                        Enabled = true,
+                        Name = t.label
                     }
                 )
                 .ToArray();

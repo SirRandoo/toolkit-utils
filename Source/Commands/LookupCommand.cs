@@ -174,11 +174,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            var results = TkUtils.ShopExpansion.races
+            var results = TkUtils.ShopExpansion.Races
                 .Where(
                     i =>
                     {
-                        var label = i.name.ToToolkit();
+                        var label = i.Name.ToToolkit();
                         var q = query.ToToolkit();
 
                         if (label.Contains(q) || label.EqualsIgnoreCase(q))
@@ -186,11 +186,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                             return true;
                         }
 
-                        return i.defName.ToToolkit().Contains(query.ToToolkit())
-                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
+                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.name.CapitalizeFirst())
+                .Select(i => i.Name.CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -222,11 +222,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            var results = TkUtils.ShopExpansion.traits
+            var results = TkUtils.ShopExpansion.Traits
                 .Where(
                     i =>
                     {
-                        var label = i.name.ToToolkit();
+                        var label = i.Name.ToToolkit();
                         var q = query.ToToolkit();
 
                         if (label.Contains(q) || label.EqualsIgnoreCase(q))
@@ -234,11 +234,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                             return true;
                         }
 
-                        return i.defName.ToToolkit().Contains(query.ToToolkit())
-                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
+                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.name.CapitalizeFirst())
+                .Select(i => i.Name.CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);

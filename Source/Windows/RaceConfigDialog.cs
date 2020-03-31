@@ -8,10 +8,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class RaceConfigDialog : Window
     {
-        private readonly List<ShopExpansion.Race> cache = TkUtils.ShopExpansion.races;
+        private readonly List<XmlRace> cache = TkUtils.ShopExpansion.Races;
         private string currentQuery = "";
         private string lastQuery = "";
-        private IReadOnlyCollection<ShopExpansion.Race> results;
+        private IReadOnlyCollection<XmlRace> results;
         private Vector2 scrollPos = Vector2.zero;
 
         public RaceConfigDialog()
@@ -20,7 +20,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             forcePause = true;
 
             optionalTitle = "TKUtils.Windows.Races.Title".Translate();
-            cache.SortBy(t => t.name.NullOrEmpty() ? t.defName : t.name);
+            cache.SortBy(r => r.Name.NullOrEmpty() ? r.DefName : r.Name);
         }
 
         public override Vector2 InitialSize => new Vector2(640f, 740f);
@@ -71,17 +71,17 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(enableRect, enableText))
             {
-                foreach (var race in TkUtils.ShopExpansion.races)
+                foreach (var race in TkUtils.ShopExpansion.Races)
                 {
-                    race.enabled = true;
+                    race.Enabled = true;
                 }
             }
 
             if (Widgets.ButtonText(disableRect, disableText))
             {
-                foreach (var race in TkUtils.ShopExpansion.races)
+                foreach (var race in TkUtils.ShopExpansion.Races)
                 {
-                    race.enabled = true;
+                    race.Enabled = true;
                 }
             }
 
@@ -102,9 +102,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 var lineRect = listing.GetRect(Text.LineHeight);
                 var boxRect = new Rect(contentArea.x, lineRect.y, lineRect.width * 0.84f, lineRect.height);
-                Widgets.CheckboxLabeled(race.enabled ? boxRect : lineRect, race.defName, ref race.enabled);
+                Widgets.CheckboxLabeled(race.Enabled ? boxRect : lineRect, race.DefName, ref race.Enabled);
 
-                if (!race.enabled)
+                if (!race.Enabled)
                 {
                     continue;
                 }
@@ -116,8 +116,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                     lineRect.height
                 );
 
-                var valueBuffer = race.price.ToString();
-                Widgets.TextFieldNumeric(inputRect, ref race.price, ref valueBuffer);
+                var valueBuffer = race.Price.ToString();
+                Widgets.TextFieldNumeric(inputRect, ref race.Price, ref valueBuffer);
             }
 
             listing.EndScrollView(ref viewPort);
@@ -145,7 +145,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private IReadOnlyCollection<ShopExpansion.Race> GetSearchResults()
+        private IReadOnlyCollection<XmlRace> GetSearchResults()
         {
             var serialized = currentQuery?.ToToolkit();
 
@@ -155,8 +155,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             var searchResults = cache.Where(
-                    t => t.defName.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
-                         || t.defName.ToToolkit().Contains(currentQuery.ToToolkit())
+                    t => t.DefName.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
+                         || t.DefName.ToToolkit().Contains(currentQuery.ToToolkit())
                 )
                 .ToList();
 
@@ -165,7 +165,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreClose()
         {
-            ShopExpansionHelper.SaveShopExtension();
+            ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
+            ShopExpansionHelper.DumpShopExtension();
         }
     }
 }

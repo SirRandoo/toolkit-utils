@@ -8,10 +8,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class TraitConfigDialog : Window
     {
-        private readonly List<ShopExpansion.Trait> cache = TkUtils.ShopExpansion.traits;
+        private readonly List<XmlTrait> cache = TkUtils.ShopExpansion.Traits;
         private string currentQuery = "";
         private string lastQuery = "";
-        private IReadOnlyCollection<ShopExpansion.Trait> results;
+        private IReadOnlyCollection<XmlTrait> results;
         private Vector2 scrollPos = Vector2.zero;
 
         public TraitConfigDialog()
@@ -20,7 +20,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             forcePause = true;
 
             optionalTitle = "TKUtils.Windows.Traits.Title".Translate();
-            cache.SortBy(t => t.defName);
+            cache.SortBy(t => t.DefName);
         }
 
         public override Vector2 InitialSize => new Vector2(640f, 740f);
@@ -71,17 +71,17 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(enableRect, enableText))
             {
-                foreach (var trait in TkUtils.ShopExpansion.traits)
+                foreach (var trait in TkUtils.ShopExpansion.Traits)
                 {
-                    trait.enabled = true;
+                    trait.Enabled = true;
                 }
             }
 
             if (Widgets.ButtonText(disableRect, disableText))
             {
-                foreach (var trait in TkUtils.ShopExpansion.traits)
+                foreach (var trait in TkUtils.ShopExpansion.Traits)
                 {
-                    trait.enabled = false;
+                    trait.Enabled = false;
                 }
             }
 
@@ -102,30 +102,30 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 var lineRect = listing.GetRect(Text.LineHeight);
                 Widgets.CheckboxLabeled(
-                    !trait.enabled ? lineRect : lineRect.LeftHalf(),
-                    trait.name.CapitalizeFirst(),
-                    ref trait.enabled
+                    !trait.Enabled ? lineRect : lineRect.LeftHalf(),
+                    trait.Name.CapitalizeFirst(),
+                    ref trait.Enabled
                 );
 
-                if (!trait.enabled)
+                if (!trait.Enabled)
                 {
                     continue;
                 }
 
                 var inputRect = lineRect.RightHalf();
-                var addBuffer = trait.addPrice.ToString();
-                var removeBuffer = trait.removePrice.ToString();
+                var addBuffer = trait.AddPrice.ToString();
+                var removeBuffer = trait.RemovePrice.ToString();
 
                 Widgets.TextFieldNumericLabeled(
                     inputRect.LeftHalf(),
                     "TKUtils.Windows.Traits.AddPrice.Label".Translate(),
-                    ref trait.addPrice,
+                    ref trait.AddPrice,
                     ref addBuffer
                 );
                 Widgets.TextFieldNumericLabeled(
                     inputRect.RightHalf(),
                     "TKUtils.Windows.Traits.RemovePrice.Label".Translate(),
-                    ref trait.removePrice,
+                    ref trait.RemovePrice,
                     ref removeBuffer
                 );
             }
@@ -155,7 +155,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private IReadOnlyCollection<ShopExpansion.Trait> GetSearchResults()
+        private IReadOnlyCollection<XmlTrait> GetSearchResults()
         {
             var serialized = currentQuery?.ToToolkit();
 
@@ -165,8 +165,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             var searchResults = cache.Where(
-                    t => t.defName.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
-                         || t.defName.ToToolkit().Contains(currentQuery.ToToolkit())
+                    t => t.DefName.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
+                         || t.DefName.ToToolkit().Contains(currentQuery.ToToolkit())
                 )
                 .ToList();
 
@@ -175,7 +175,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreClose()
         {
-            ShopExpansionHelper.SaveShopExtension();
+            ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
+            ShopExpansionHelper.DumpShopExtension();
         }
     }
 }

@@ -146,10 +146,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            var result = TkUtils.ShopExpansion.races
+            var result = TkUtils.ShopExpansion.Races
                 .FirstOrDefault(
-                    i => i.name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                    i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                         || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                 );
 
             if (result == null)
@@ -160,17 +160,17 @@ namespace SirRandoo.ToolkitUtils.Commands
             Notify__LookupComplete(
                 query,
                 "TKUtils.Formats.PriceCheck.Limited".Translate(
-                    result.name.CapitalizeFirst(),
-                    result.price.ToString("N0")
+                    result.Name.CapitalizeFirst(),
+                    result.Price.ToString("N0")
                 )
             );
         }
 
         private void PerformTraitLookup(string query)
         {
-            var result = TkUtils.ShopExpansion.traits.FirstOrDefault(
-                i => i.name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                     || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+            var result = TkUtils.ShopExpansion.Traits.FirstOrDefault(
+                i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                     || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
             );
 
             if (result == null)
@@ -181,9 +181,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             Notify__LookupComplete(
                 query,
                 "TKUtils.Formats.PriceCheck.Trait".Translate(
-                    result.name.CapitalizeFirst(),
-                    result.addPrice.ToString("N0"),
-                    result.removePrice.ToString("N0")
+                    result.Name.CapitalizeFirst(),
+                    result.AddPrice.ToString("N0"),
+                    result.RemovePrice.ToString("N0")
                 )
             );
         }
