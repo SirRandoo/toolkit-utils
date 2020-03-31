@@ -188,10 +188,16 @@ A collection of tweaks and commands for TwitchToolkit.
                     issue doesn't, you should [submit a bug report](https://github.com/sirrandoo/toolkit-utils/issues/new)
 - Founders Support<br/>
     This tweak allows Toolkit to process the `Founders` badge added by Twitch.
-- Configurable trait prices<br/>
+- Viewer Data Purge<br/>
+    This tweak allows streamers to purge their viewer data file according to 
+    constraints they've specified.
+    <br/>
+    **Note**: This tweak is unlikely to see new constraints added due to viewer
+                data limitations.
+- Configurable Trait Prices<br/>
     This tweak allows streamers to configure the prices of each individual trait in
     their current game.  This includes the price of adding a trait, and the price of
     removing a trait.
-- Configurable race prices<br/>
+- Configurable Race Prices<br/>
     This tweak allows streamers to configure the prices of each individual race a 
     pawn can be.
