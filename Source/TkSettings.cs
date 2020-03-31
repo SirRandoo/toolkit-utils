@@ -26,6 +26,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool Race = true;
         public static bool TempInGear;
         public static bool DropInventory;
+        public static bool JsonShop;
         public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
         public static int LookupLimit = 10;
         public static bool VersionedModList;
@@ -141,6 +142,12 @@ namespace SirRandoo.ToolkitUtils
                 Widgets.DrawHighlightIfMouseover(line);
                 TooltipHandler.TipRegion(line, "TKUtils.SettingGroups.General.LookupLimit.Tooltip".Translate());
             }
+
+            listing.CheckboxLabeled(
+                "TKUtils.SettingGroups.General.JsonStore.Label".Translate(),
+                ref JsonShop,
+                "TKUtils.SettingGroups.General.JsonStore.Tooltip".Translate()
+            );
 
             listing.End();
         }
@@ -296,6 +303,8 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref Race, "race", true);
             Scribe_Values.Look(ref LeaveMethod, "leaveMethod", LeaveMethods.MentalBreak.ToString());
             Scribe_Values.Look(ref DropInventory, "dropInventory");
+            
+            Scribe_Values.Look(ref JsonShop, "shopJson");
         }
     }
 }

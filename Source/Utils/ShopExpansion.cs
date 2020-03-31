@@ -203,7 +203,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             Logger.Info("Trait/Race data changed between instances; saving new data...");
             SaveData(TkUtils.ShopExpansion, ExpansionFile);
-            DumpShopExtension();
+            
+            if(TkSettings.JsonShop)
+            {
+                DumpShopExtension();
+            }
         }
     }
 

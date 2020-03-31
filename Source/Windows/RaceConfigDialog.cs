@@ -166,7 +166,11 @@ namespace SirRandoo.ToolkitUtils.Windows
         public override void PreClose()
         {
             ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
-            ShopExpansionHelper.DumpShopExtension();
+            
+            if(TkSettings.JsonShop)
+            {
+                ShopExpansionHelper.DumpShopExtension();
+            }
         }
     }
 }
