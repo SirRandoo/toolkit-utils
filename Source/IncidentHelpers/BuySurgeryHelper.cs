@@ -154,7 +154,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             var shouldAdd = worker.GetPartsToApplyOn(viewerPawn, surgery)
                 .Where(p => !viewerPawn.health.hediffSet.HasHediff(surgery.addsHediff, p))
                 .FirstOrDefault(
-                    p => viewerPawn.health.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part != p)
+                    p => viewerPawn.health.surgeryBills.Bills.Count <= 0 || viewerPawn.health.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part != p)
                 );
 
             if (shouldAdd == null)
