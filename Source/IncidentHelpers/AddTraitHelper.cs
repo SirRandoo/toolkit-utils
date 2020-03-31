@@ -56,6 +56,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            if (Viewer.GetViewerCoins() < buyable.AddPrice)
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.NotEnoughCoins".Translate(
+                        buyable.AddPrice.ToString("N0"),
+                        Viewer.GetViewerCoins().ToString("N0")
+                    )
+                );
+                return false;
+            }
+
             if (traits != null)
             {
                 var tally = traits.Count(t => !TraitHelper.IsSexualityTrait(t));

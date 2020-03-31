@@ -54,6 +54,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            if (Viewer.GetViewerCoins() < traitQuery.RemovePrice)
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.NotEnoughCoins".Translate(
+                        traitQuery.RemovePrice.ToString("N0"),
+                        Viewer.GetViewerCoins().ToString("N0")
+                    )
+                );
+                return false;
+            }
+
             var target = traits?.FirstOrDefault(t => TraitHelper.MultiCompare(traitQuery, t.Label));
 
             if (target == null)
