@@ -28,7 +28,9 @@ namespace SirRandoo.ToolkitUtils
             try
             {
                 TkUtils.ShopExpansion = ShopExpansionHelper.LoadData<XmlShop>(ShopExpansionHelper.ExpansionFile);
-                Logger.Info($"Loaded {TkUtils.ShopExpansion.Traits.Count} traits and {TkUtils.ShopExpansion.Races.Count} races.");
+                Logger.Info(
+                    $"Loaded {TkUtils.ShopExpansion.Traits.Count} traits and {TkUtils.ShopExpansion.Races.Count} races."
+                );
             }
             catch (IOException)
             {
@@ -51,6 +53,7 @@ namespace SirRandoo.ToolkitUtils
                 TkUtils.ShopExpansion.Races = new List<XmlRace>();
             }
 
+            ShopExpansionHelper.TryMigrateData();
             ShopExpansionHelper.ValidateExpansionData();
         }
     }

@@ -14,7 +14,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public static class ShopExpansionHelper
     {
-        public static readonly string ExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt.xml");
+        public static readonly string ExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt_1.xml");
+        public static readonly string OldExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt.xml");
         public static readonly string JsonExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
 
         public static void SaveData<T>(T xml, string filePath)
@@ -213,9 +214,66 @@ namespace SirRandoo.ToolkitUtils.Utils
                 DumpShopExtension();
             }
         }
+
+        internal static void TryMigrateData()
+        {
+            if (!File.Exists(OldExpansionFile))
+            {
+                return;
+            }
+
+            Logger.Info("Migrating old shop file to new format...");
+            OldShop oldShop;
+            using (var reader = File.OpenText(OldExpansionFile))
+            {
+                var serializer = new XmlSerializer(typeof(OldShop));
+                oldShop = (OldShop) serializer.Deserialize(reader);
+            }
+
+            if (oldShop == null)
+            {
+                Logger.Warn("Could not load old shop file!");
+                return;
+            }
+
+            Logger.Info($"Found {oldShop.Traits.Count.ToString()} traits to migrate.");
+            foreach (var trait in oldShop.Traits)
+            {
+                var newTrait = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => t.DefName.Equals(trait.DefName) && t.Degree == trait.Degree);
+
+                if (newTrait == null)
+                {
+                    TkUtils.ShopExpansion.Traits.Add(new XmlTrait
+                    {
+                        AddPrice = trait.AddPrice,
+                        BypassLimit = trait.BypassLimit,
+                        CanAdd = trait.Enabled,
+                        CanRemove = trait.Enabled,
+                        DefName = trait.DefName,
+                        Degree = trait.Degree,
+                        Name = trait.Name,
+                        RemovePrice = trait.RemovePrice
+                    });
+                }
+                else
+                {
+                    newTrait.AddPrice = trait.AddPrice;
+                    newTrait.BypassLimit = trait.BypassLimit;
+                    newTrait.CanAdd = trait.Enabled;
+                    newTrait.CanRemove = trait.Enabled;
+                    newTrait.DefName = trait.DefName;
+                    newTrait.Degree = trait.Degree;
+                    newTrait.Name = trait.Name;
+                    newTrait.RemovePrice = trait.RemovePrice;
+                }
+            }
+            
+            Logger.Info("Migrated!");
+            File.Delete(OldExpansionFile);
+        }
     }
 
-    [XmlRoot("ShopExpansion", IsNullable = false)]
+    [XmlRoot("ShopExpansion", IsNullable = false, Namespace = null)]
     public class XmlShop
     {
         public List<XmlRace> Races;
@@ -239,6 +297,26 @@ namespace SirRandoo.ToolkitUtils.Utils
         public int Degree;
         public bool CanAdd;
         public bool CanRemove;
+        public string Name;
+        public int AddPrice;
+        public int RemovePrice;
+    }
+
+    [XmlRoot("ShopExpansion", IsNullable = false)]
+    public class OldShop
+    {
+        public List<XmlRace> Races;
+        
+        [XmlArrayItem("XmlTrait")]
+        public List<OldTrait> Traits;
+    }
+
+    public class OldTrait
+    {
+        public string DefName;
+        public bool BypassLimit;
+        public int Degree;
+        public bool Enabled;
         public string Name;
         public int AddPrice;
         public int RemovePrice;
