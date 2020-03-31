@@ -34,6 +34,22 @@
         <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
     </TwitchToolkit.Command>
     
+    <TwitchToolkit.Command>
+        <defName>PassionShuffleShortcut</defName>
+        <label>passion shuffle</label>
+        <command>passionshuffle</command>
+        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>SurgeryShortcut</defName>
+        <label>surgery</label>
+        <command>surgery</command>
+        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+    </TwitchToolkit.Command>
+    
     <!-- Pawn Commands -->
     <TwitchToolkit.Command>
         <defName>MyPawnHealth</defName>
