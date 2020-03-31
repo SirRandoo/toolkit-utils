@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
+using TwitchToolkit.Store;
 using TwitchToolkit.Utilities;
 using UnityEngine;
 using Verse;
@@ -192,8 +193,10 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach (var race in missingRaces)
             {
+                var item = StoreInventory.items.FirstOrDefault(i => i.defname.Equals(race));
+                
                 TkUtils.ShopExpansion.Races.Add(
-                    new XmlRace {DefName = race, Name = race, Price = 2500, Enabled = true}
+                    new XmlRace {DefName = race, Name = race, Price = item?.price ?? 2500, Enabled = true}
                 );
             }
 
