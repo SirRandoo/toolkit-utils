@@ -97,25 +97,23 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
 
             var total = results?.Count ?? cache.Count;
-            var viewPort = new Rect(contentArea.x, 0f, contentArea.width * 0.9f, Text.LineHeight * total + 1);
+            var maxHeight = Text.LineHeight * total * 3 - 1;
+            var viewPort = new Rect(contentArea.x, 0f, contentArea.width * 0.9f, maxHeight);
 
             listing.BeginScrollView(contentArea, ref scrollPos, ref viewPort);
             foreach (var trait in results ?? cache)
             {
-                var lineRect = listing.GetRect(Text.LineHeight);
-                var labelRect = new Rect(lineRect.x, lineRect.y, lineRect.width * 0.3f, lineRect.height);
+                var lineRect = listing.GetRect(Text.LineHeight * 2);
+                var labelRect = new Rect(lineRect.x, lineRect.y, lineRect.width * 0.6f, lineRect.height);
 
-                Widgets.Label(!(trait.CanAdd || trait.CanRemove) ? lineRect : labelRect, trait.Name.CapitalizeFirst());
-
-                if (!trait.CanAdd && !trait.CanRemove)
-                {
-                    continue;
-                }
-
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(labelRect, trait.Name.CapitalizeFirst());
+                Text.Anchor = old;
+                
                 var inputRect = new Rect(
                     labelRect.x + labelRect.width + 5f,
                     lineRect.y,
-                    lineRect.width - labelRect.width,
+                    lineRect.width - labelRect.width - 35f,
                     labelRect.height
                 );
 
@@ -124,8 +122,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var addRect = new Rect(
                     inputRect.x + 28f,
                     inputRect.y,
-                    inputRect.LeftHalf().width - 28f,
-                    inputRect.height
+                    inputRect.width,
+                    Text.LineHeight
                 );
 
                 if (trait.CanAdd)
@@ -141,15 +139,21 @@ namespace SirRandoo.ToolkitUtils.Windows
                 else
                 {
                     Widgets.Label(addRect.LeftHalf(), "TKUtils.Windows.Traits.AddPrice.Label".Translate());
+
+                    Text.Anchor = TextAnchor.MiddleRight;
                     Widgets.Label(addRect.RightHalf(), trait.AddPrice.ToString());
+                    
+                    Text.Anchor = old;
                 }
 
                 var removeRect = new Rect(
-                    inputRect.RightHalf().x + 28f,
-                    addRect.y,
-                    inputRect.RightHalf().width - 28f,
-                    inputRect.height
+                    inputRect.x + 28f,
+                    inputRect.BottomHalf().y,
+                    inputRect.width,
+                    Text.LineHeight
                 );
+                
+                Widgets.Checkbox(removeRect.x - 28f, removeRect.y, ref trait.CanRemove);
 
                 if (trait.CanRemove)
                 {
@@ -164,8 +168,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                 else
                 {
                     Widgets.Label(removeRect.LeftHalf(), "TKUtils.Windows.Traits.RemovePrice.Label".Translate());
+
+                    Text.Anchor = TextAnchor.MiddleRight;
                     Widgets.Label(removeRect.RightHalf(), trait.RemovePrice.ToString());
+                    
+                    Text.Anchor = old;
                 }
+                
+                listing.GapLine();
             }
 
             listing.EndScrollView(ref viewPort);

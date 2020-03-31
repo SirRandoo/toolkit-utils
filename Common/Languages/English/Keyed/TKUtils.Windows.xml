@@ -44,6 +44,6 @@
     <TKUtils.Windows.Config.Buttons.Search.Label>Search</TKUtils.Windows.Config.Buttons.Search.Label>
     <TKUtils.Windows.Config.Buttons.EnableAll.Label>Enable All</TKUtils.Windows.Config.Buttons.EnableAll.Label>
     <TKUtils.Windows.Config.Buttons.DisableAll.Label>Disable All</TKUtils.Windows.Config.Buttons.DisableAll.Label>
-    <TKUtils.Windows.Traits.AddPrice.Label>Add</TKUtils.Windows.Traits.AddPrice.Label>
-    <TKUtils.Windows.Traits.RemovePrice.Label>Remove</TKUtils.Windows.Traits.RemovePrice.Label>
+    <TKUtils.Windows.Traits.AddPrice.Label>Add Cost</TKUtils.Windows.Traits.AddPrice.Label>
+    <TKUtils.Windows.Traits.RemovePrice.Label>Removal Cost</TKUtils.Windows.Traits.RemovePrice.Label>
 </LanguageData>
