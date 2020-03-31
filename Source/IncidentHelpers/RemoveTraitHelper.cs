@@ -54,6 +54,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            if (!traitQuery.CanRemove)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.BuyTrait.RemoveDisabled".Translate(query));
+                return false;
+            }
+
             if (Viewer.GetViewerCoins() < traitQuery.RemovePrice)
             {
                 MessageHelper.ReplyToUser(

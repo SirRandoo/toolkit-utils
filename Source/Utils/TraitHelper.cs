@@ -66,7 +66,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                     {
                         DefName = trait.defName,
                         Degree = 0,
-                        Enabled = true,
+                        CanAdd = true,
+                        CanRemove = true,
                         Name = trait.label,
                         AddPrice = 3500,
                         RemovePrice = 5500
@@ -81,7 +82,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                         Degree = t.degree,
                         AddPrice = 3500,
                         RemovePrice = 5500,
-                        Enabled = true,
+                        CanAdd = true,
+                        CanRemove = true,
                         Name = t.label
                     }
                 )

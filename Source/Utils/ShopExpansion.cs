@@ -83,7 +83,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                             addPrice = t.AddPrice,
                             bypassLimit = t.BypassLimit,
                             degree = t.Degree,
-                            enabled = t.Enabled,
+                            canAdd = t.CanAdd,
+                            canRemove = t.CanRemove,
                             name = t.Name,
                             defName = t.DefName,
                             removePrice = t.RemovePrice
@@ -233,7 +234,8 @@ namespace SirRandoo.ToolkitUtils.Utils
         public string DefName;
         public bool BypassLimit;
         public int Degree;
-        public bool Enabled;
+        public bool CanAdd;
+        public bool CanRemove;
         public string Name;
         public int AddPrice;
         public int RemovePrice;
@@ -252,7 +254,8 @@ namespace SirRandoo.ToolkitUtils.Utils
             public bool bypassLimit;
             public string defName;
             public int degree;
-            public bool enabled;
+            public bool canAdd;
+            public bool canRemove;
             public string name;
             public int removePrice;
         }

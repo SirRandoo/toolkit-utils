@@ -73,7 +73,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (var trait in TkUtils.ShopExpansion.Traits)
                 {
-                    trait.Enabled = true;
+                    trait.CanAdd = true;
+                    trait.CanRemove = true;
                 }
             }
 
@@ -81,7 +82,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (var trait in TkUtils.ShopExpansion.Traits)
                 {
-                    trait.Enabled = false;
+                    trait.CanAdd = false;
+                    trait.CanRemove = false;
                 }
             }
 
@@ -101,33 +103,69 @@ namespace SirRandoo.ToolkitUtils.Windows
             foreach (var trait in results ?? cache)
             {
                 var lineRect = listing.GetRect(Text.LineHeight);
-                Widgets.CheckboxLabeled(
-                    !trait.Enabled ? lineRect : lineRect.LeftHalf(),
-                    trait.Name.CapitalizeFirst(),
-                    ref trait.Enabled
-                );
+                var labelRect = new Rect(lineRect.x, lineRect.y, lineRect.width * 0.3f, lineRect.height);
 
-                if (!trait.Enabled)
+                Widgets.Label(!(trait.CanAdd || trait.CanRemove) ? lineRect : labelRect, trait.Name.CapitalizeFirst());
+
+                if (!trait.CanAdd && !trait.CanRemove)
                 {
                     continue;
                 }
 
-                var inputRect = lineRect.RightHalf();
-                var addBuffer = trait.AddPrice.ToString();
-                var removeBuffer = trait.RemovePrice.ToString();
+                var inputRect = new Rect(
+                    labelRect.x + labelRect.width + 5f,
+                    lineRect.y,
+                    lineRect.width - labelRect.width,
+                    labelRect.height
+                );
 
-                Widgets.TextFieldNumericLabeled(
-                    inputRect.LeftHalf(),
-                    "TKUtils.Windows.Traits.AddPrice.Label".Translate(),
-                    ref trait.AddPrice,
-                    ref addBuffer
+                Widgets.Checkbox(inputRect.x, inputRect.y, ref trait.CanAdd);
+
+                var addRect = new Rect(
+                    inputRect.x + 28f,
+                    inputRect.y,
+                    inputRect.LeftHalf().width - 28f,
+                    inputRect.height
                 );
-                Widgets.TextFieldNumericLabeled(
-                    inputRect.RightHalf(),
-                    "TKUtils.Windows.Traits.RemovePrice.Label".Translate(),
-                    ref trait.RemovePrice,
-                    ref removeBuffer
+
+                if (trait.CanAdd)
+                {
+                    var addBuffer = trait.AddPrice.ToString();
+                    Widgets.TextFieldNumericLabeled(
+                        addRect,
+                        "TKUtils.Windows.Traits.AddPrice.Label".Translate(),
+                        ref trait.AddPrice,
+                        ref addBuffer
+                    );
+                }
+                else
+                {
+                    Widgets.Label(addRect.LeftHalf(), "TKUtils.Windows.Traits.AddPrice.Label".Translate());
+                    Widgets.Label(addRect.RightHalf(), trait.AddPrice.ToString());
+                }
+
+                var removeRect = new Rect(
+                    inputRect.RightHalf().x + 28f,
+                    addRect.y,
+                    inputRect.RightHalf().width - 28f,
+                    inputRect.height
                 );
+
+                if (trait.CanRemove)
+                {
+                    var removeBuffer = trait.RemovePrice.ToString();
+                    Widgets.TextFieldNumericLabeled(
+                        removeRect,
+                        "TKUtils.Windows.Traits.RemovePrice.Label".Translate(),
+                        ref trait.RemovePrice,
+                        ref removeBuffer
+                    );
+                }
+                else
+                {
+                    Widgets.Label(removeRect.LeftHalf(), "TKUtils.Windows.Traits.RemovePrice.Label".Translate());
+                    Widgets.Label(removeRect.RightHalf(), trait.RemovePrice.ToString());
+                }
             }
 
             listing.EndScrollView(ref viewPort);
@@ -176,8 +214,8 @@ namespace SirRandoo.ToolkitUtils.Windows
         public override void PreClose()
         {
             ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
-            
-            if(TkSettings.JsonShop)
+
+            if (TkSettings.JsonShop)
             {
                 ShopExpansionHelper.DumpShopExtension();
             }
