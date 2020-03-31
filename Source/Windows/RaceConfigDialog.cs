@@ -105,6 +105,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var boxRect = new Rect(contentArea.x, lineRect.y, lineRect.width * 0.84f, lineRect.height);
                 Widgets.CheckboxLabeled(race.enabled ? boxRect : lineRect, race.defName, ref race.enabled);
 
+                if (!race.enabled)
+                {
+                    continue;
+                }
+
                 var inputRect = new Rect(
                     lineRect.width - contentArea.width * 0.14f,
                     lineRect.y,
