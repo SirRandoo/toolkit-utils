@@ -54,6 +54,7 @@
     
     <!-- HealMe Translations -->
     <TKUtils.Responses.HealMe.Healed>Your pawn has recovered from {0}.</TKUtils.Responses.HealMe.Healed>
+    <TKUtils.Responses.HealMe.Restored>Your pawn has had their {0} restored.</TKUtils.Responses.HealMe.Restored>
     
     <!-- Buy Pawn Translations -->
     <TKUtils.Responses.Buy.HasPawn>You're already in this colony!</TKUtils.Responses.Buy.HasPawn>
@@ -100,7 +101,8 @@
     <TKUtils.Letters.Trait.Description>{0} purchased trait {1}.</TKUtils.Letters.Trait.Description>
     <TKUtils.Letters.TraitRemove.Description>{0} removed trait {1}</TKUtils.Letters.TraitRemove.Description>
     <TKUtils.Letters.Heal.Title>Heal</TKUtils.Letters.Heal.Title>
-    <TKUtils.Letters.Heal.Description>{0} recovered from {1}.</TKUtils.Letters.Heal.Description>
+    <TKUtils.Letters.Heal.Recovery.Description>{0} recovered from {1}.</TKUtils.Letters.Heal.Recovery.Description>
+    <TKUtils.Letters.Heal.Restored.Description>{0} had their {1} restored.</TKUtils.Letters.Heal.Restored.Description>
     <TKUtils.Letters.BuySurgery.Title>Surgery Requested</TKUtils.Letters.BuySurgery.Title>
     <TKUtils.Letters.BuySurgery.Description>{0} has requested {1} be installed on their pawn.</TKUtils.Letters.BuySurgery.Description>
     <TKUtils.Letters.Leave.Thanos.Title>Colonist Vanished</TKUtils.Letters.Leave.Thanos.Title>

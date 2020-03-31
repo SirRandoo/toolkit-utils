@@ -162,22 +162,52 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             Viewer.TakeViewerCoins(storeIncident.cost);
             Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-            Notify__Success(toRestore.LabelCap);
+            Notify__Success(toRestore.Label);
         }
 
         private void Notify__Success(string target)
         {
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.HealMe.Healed".Translate(target));
+                var response = "";
+
+                if (toHeal != null)
+                {
+                    response = "TKUtils.Responses.HealMe.Healed";
+                }
+
+                if (toRestore != null)
+                {
+                    response = "TKUtils.Responses.HealMe.Restored";
+                }
+                
+                if(!response.NullOrEmpty())
+                {
+                    MessageHelper.ReplyToUser(Viewer.username, response.Translate(target));
+                }
             }
 
-            Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.Letters.Heal.Title".Translate(),
-                "TKUtils.Letters.Heal.Description".Translate(Viewer.username, target),
-                LetterDefOf.PositiveEvent,
-                new LookTargets(CommandBase.GetPawn(Viewer.username))
-            );
+            var description = "";
+
+            if (toHeal != null)
+            {
+                description = "TKUtils.Letters.Heal.Recovery.Description";
+            }
+
+            if (toRestore != null)
+            {
+                description = "TKUtils.Letters.Heal.Restored.Description";
+            }
+
+            if(!description.NullOrEmpty())
+            {
+                Current.Game.letterStack.ReceiveLetter(
+                    "TKUtils.Letters.Heal.Title".Translate(),
+                    description.Translate(Viewer.username, target),
+                    LetterDefOf.PositiveEvent,
+                    pawn
+                );
+            }
         }
     }
 }
