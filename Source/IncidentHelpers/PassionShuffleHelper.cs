@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
-using Random = UnityEngine.Random;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
@@ -82,7 +80,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     passionCount -= 1;
                     continue;
                 }
-                
+
                 skill.passion = Passion.None;
             }
 
@@ -127,7 +125,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.PassionShuffle.Shuffled".Translate());
             }
-            
+
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.Letters.PassionShuffle.Title".Translate(),
                 "TKUtils.Letters.PassionShuffle.Description".Translate(Viewer.username),

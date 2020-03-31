@@ -3,7 +3,6 @@ using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
-using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.IRC;
 using TwitchToolkit.Store;

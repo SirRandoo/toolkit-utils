@@ -180,8 +180,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 {
                     response = "TKUtils.Responses.HealMe.Restored";
                 }
-                
-                if(!response.NullOrEmpty())
+
+                if (!response.NullOrEmpty())
                 {
                     MessageHelper.ReplyToUser(Viewer.username, response.Translate(target));
                 }
@@ -199,7 +199,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 description = "TKUtils.Letters.Heal.Restored.Description";
             }
 
-            if(!description.NullOrEmpty())
+            if (!description.NullOrEmpty())
             {
                 Current.Game.letterStack.ReceiveLetter(
                     "TKUtils.Letters.Heal.Title".Translate(),

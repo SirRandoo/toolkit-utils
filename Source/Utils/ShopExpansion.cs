@@ -169,12 +169,12 @@ namespace SirRandoo.ToolkitUtils.Utils
         public class Trait
         {
             public int addPrice;
+            public bool bypassLimit;
             public string defName;
             public int degree;
             public bool enabled;
             public string name;
             public int removePrice;
-            public bool bypassLimit;
         }
 
         [Serializable]

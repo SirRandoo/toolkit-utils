@@ -24,7 +24,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     markerFound = true;
                 }
 
-                if (markerFound && instruction.opcode == OpCodes.Callvirt && ReferenceEquals(instruction.operand, methodMarker))
+                if (markerFound
+                    && instruction.opcode == OpCodes.Callvirt
+                    && ReferenceEquals(instruction.operand, methodMarker))
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_1);
                     yield return new CodeInstruction(OpCodes.Call, method);
