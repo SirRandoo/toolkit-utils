@@ -243,8 +243,18 @@ namespace SirRandoo.ToolkitUtils
             );
 
             listing.Gap();
-            if (listing.ButtonTextLabeled(
-                "TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label".Translate(),
+            var leaveRect = listing.GetRect(Text.LineHeight);
+            var leaveLabelRect = new Rect(leaveRect.x, leaveRect.y, leaveRect.width * 0.85f, leaveRect.height);
+
+            Widgets.Label(leaveLabelRect, "TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label".Translate());
+
+            if (Widgets.ButtonText(
+                new Rect(
+                    leaveRect.x + leaveLabelRect.width + 5f,
+                    leaveRect.y,
+                    leaveRect.width - leaveLabelRect.width - 5f,
+                    leaveRect.height
+                ),
                 LeaveMethod
             ))
             {
