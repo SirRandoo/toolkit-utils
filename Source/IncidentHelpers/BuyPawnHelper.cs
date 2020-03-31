@@ -92,6 +92,30 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             kindDef = raceDef;
             race = TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(raceDef.defName));
 
+            if (race == null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoRace".Translate(raceParam));
+                return false;
+            }
+
+            if (!race.Enabled)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.DisabledItem".Translate());
+                return false;
+            }
+
+            if (Viewer.GetViewerCoins() < race.Price)
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.NotEnoughCoins".Translate(
+                        race.Price.ToString("N0"),
+                        Viewer.GetViewerCoins().ToString("N0")
+                    )
+                );
+                return false;
+            }
+
             return true;
         }
 

@@ -9,6 +9,7 @@
     <TKUtils.Responses.SkillQueryInvalid>No skill by the name of "{0}" could be found.</TKUtils.Responses.SkillQueryInvalid>
     <TKUtils.Responses.Research.QueryInvalid>No research project by the name of "{0}" could be found.</TKUtils.Responses.Research.QueryInvalid>
     <TKUtils.Responses.NotEnoughCoins>The requested item costs {0} coins, but you only have {1} coins.</TKUtils.Responses.NotEnoughCoins>
+    <TKUtils.Responses.DisabledItem>The requested item is disabled.</TKUtils.Responses.DisabledItem>
     
     <!-- Research Translations -->
     <TKUtils.Formats.Research.Prerequisites>Missing prerequisites: {0}</TKUtils.Formats.Research.Prerequisites>
