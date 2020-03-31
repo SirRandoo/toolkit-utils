@@ -91,6 +91,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            if (buyable.category != ThingCategory.Item)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.BuySurgery.OnlySurgeries".Translate(partQuery));
+                return false;
+            }
+
             if (buyable.IsMedicine)
             {
                 MessageHelper.ReplyToUser(
@@ -110,7 +116,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 );
                 return false;
             }
-
+            
             if (price.price < 0)
             {
                 MessageHelper.ReplyToUser(
