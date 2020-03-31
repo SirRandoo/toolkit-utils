@@ -145,7 +145,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             foreach (var race in missingRaces)
             {
                 TkUtils.ShopExpansion.races.Add(
-                    new ShopExpansion.Race {defName = race, name = race, price = 2500}
+                    new ShopExpansion.Race {defName = race, name = race, price = 2500, enabled = true}
                 );
             }
 
