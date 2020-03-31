@@ -51,6 +51,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            if (!buyable.Enabled)
+            {
+                return false;
+            }
+
             if (traits != null)
             {
                 var tally = traits.Count(t => !TraitHelper.IsSexualityTrait(t));
