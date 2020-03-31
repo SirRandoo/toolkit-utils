@@ -104,19 +104,20 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (Viewer.GetViewerCoins() < race.Price)
+            if (Viewer.GetViewerCoins() >= race.Price)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Responses.NotEnoughCoins".Translate(
-                        race.Price.ToString("N0"),
-                        Viewer.GetViewerCoins().ToString("N0")
-                    )
-                );
-                return false;
+                return true;
             }
 
-            return true;
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.Responses.NotEnoughCoins".Translate(
+                    race.Price.ToString("N0"),
+                    Viewer.GetViewerCoins().ToString("N0")
+                )
+            );
+            return false;
+
         }
 
         public override void TryExecute()
