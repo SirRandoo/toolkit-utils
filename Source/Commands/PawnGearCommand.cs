@@ -68,8 +68,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (TkSettings.ShowArmor)
             {
                 var sharp = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
-                var blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
-                var heat = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
+                var blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Blunt);
+                var heat = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Heat);
                 var stats = new List<string>();
 
                 if (sharp > 0)
