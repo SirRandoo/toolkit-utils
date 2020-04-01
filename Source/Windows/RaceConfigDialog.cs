@@ -81,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (var race in TkUtils.ShopExpansion.Races)
                 {
-                    race.Enabled = true;
+                    race.Enabled = false;
                 }
             }
 
