@@ -94,7 +94,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (race == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoRace".Translate(raceParam));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(raceParam));
                 return false;
             }
 
