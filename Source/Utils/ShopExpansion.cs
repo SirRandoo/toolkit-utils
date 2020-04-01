@@ -195,9 +195,16 @@ namespace SirRandoo.ToolkitUtils.Utils
             foreach (var race in missingRaces)
             {
                 var item = StoreInventory.items.FirstOrDefault(i => i.defname.Equals(race));
+                var price = 2500;
+
+                if (item != null && item.price >= 0)
+                {
+                    price = item.price;
+                    item.price = -10;
+                }
                 
                 TkUtils.ShopExpansion.Races.Add(
-                    new XmlRace {DefName = race, Name = race, Price = item?.price ?? 2500, Enabled = true}
+                    new XmlRace {DefName = race, Name = race, Price = price, Enabled = true}
                 );
             }
 
