@@ -91,7 +91,8 @@
     
     <!-- Price Check Translations -->
     <TKUtils.Formats.PriceCheck.Quantity>{0} - {1} coins per item ({2} total coins required to purchase {3} item(s))</TKUtils.Formats.PriceCheck.Quantity>
-    <TKUtils.Formats.PriceCheck.Trait>{0} - {1} coins to add / {2} coins to remove</TKUtils.Formats.PriceCheck.Trait>
+    <TKUtils.Responses.PriceCheck.Trait.Add>{0} coins to add</TKUtils.Responses.PriceCheck.Trait.Add>
+    <TKUtils.Responses.PriceCheck.Trait.Remove>{0} coins to remove</TKUtils.Responses.PriceCheck.Trait.Remove>
     <TKUtils.Formats.PriceCheck.Limited>{0} - {1} coins</TKUtils.Formats.PriceCheck.Limited>
     
     <!-- Letter Translations -->

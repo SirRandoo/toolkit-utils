@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
@@ -178,13 +179,26 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
+            if (!result.CanAdd && !result.CanRemove)
+            {
+                return;
+            }
+
+            var parts = new List<string>();
+
+            if (result.CanAdd)
+            {
+                parts.Add("TKUtils.Responses.PriceCheck.Trait.Add".Translate(result.AddPrice.ToString("N0")));
+            }
+
+            if (result.CanRemove)
+            {
+                parts.Add("TKUtils.Responses.PriceCheck.Trait.Remove".Translate(result.RemovePrice.ToString("N0")));
+            }
+
             Notify__LookupComplete(
                 query,
-                "TKUtils.Formats.PriceCheck.Trait".Translate(
-                    result.Name.CapitalizeFirst(),
-                    result.AddPrice.ToString("N0"),
-                    result.RemovePrice.ToString("N0")
-                )
+                $"{result.Name.CapitalizeFirst()} - {string.Join(" / ", parts.ToArray())}"
             );
         }
     }
