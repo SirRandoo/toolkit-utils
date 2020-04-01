@@ -46,4 +46,10 @@
     <TKUtils.Windows.Config.Buttons.DisableAll.Label>Disable All</TKUtils.Windows.Config.Buttons.DisableAll.Label>
     <TKUtils.Windows.Traits.AddPrice.Label>Add Cost</TKUtils.Windows.Traits.AddPrice.Label>
     <TKUtils.Windows.Traits.RemovePrice.Label>Removal Cost</TKUtils.Windows.Traits.RemovePrice.Label>
+    
+    <TKUtils.Windows.Config.Buttons.DontShowAgain>Don't show again</TKUtils.Windows.Config.Buttons.DontShowAgain>
+    <TKUtils.Windows.Config.Notices.Header>This incident is overriden by ToolkitUtils</TKUtils.Windows.Config.Notices.Header>
+    <TKUtils.Windows.Config.Notices.AddTrait>Changing the cost of "add trait" will update the cost for ALL traits.  The cost displayed here is effectively ignored.</TKUtils.Windows.Config.Notices.AddTrait>
+    <TKUtils.Windows.Config.Notices.RemoveTrait>Changing the cost of "remove trait" will update the cost for ALL traits.  The cost displayed here is effectively ignored.</TKUtils.Windows.Config.Notices.RemoveTrait>
+    <TKUtils.Windows.Config.Notices.BuyPawn>Changing the cost of "buy pawn" will update the cost for ALL races.  The cost displayed here is effectively ignored.</TKUtils.Windows.Config.Notices.BuyPawn>
 </LanguageData>

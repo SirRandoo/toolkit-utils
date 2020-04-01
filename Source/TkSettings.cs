@@ -30,6 +30,10 @@ namespace SirRandoo.ToolkitUtils
         public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
         public static int LookupLimit = 10;
         public static bool VersionedModList;
+        
+        public static bool UtilsNoticeAdd = true;
+        public static bool UtilsNoticeRemove = true;
+        public static bool UtilsNoticePawn = true;
 
         private static Categories _category = Categories.General;
         private static readonly string[] leaveMethods = Enum.GetNames(typeof(LeaveMethods));
@@ -305,6 +309,9 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref DropInventory, "dropInventory");
             
             Scribe_Values.Look(ref JsonShop, "shopJson");
+            Scribe_Values.Look(ref UtilsNoticeAdd, "utilsNoticeAdd", true);
+            Scribe_Values.Look(ref UtilsNoticeRemove, "utilsNoticeRemove", true);
+            Scribe_Values.Look(ref UtilsNoticePawn, "utilsNoticePawn", true);
         }
     }
 }
