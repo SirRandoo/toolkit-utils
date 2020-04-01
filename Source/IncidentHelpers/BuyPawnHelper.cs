@@ -61,12 +61,29 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return true;
             }
 
+            if (!TkSettings.Race)
+            {
+                return true;
+            }
+
             var keyed = CommandParser.ParseKeyed(segments);
             var raceParam = keyed.Where(i => i.Key.EqualsIgnoreCase("--race") || i.Key.EqualsIgnoreCase("race"))
                 .Select(i => i.Value)
                 .FirstOrDefault();
 
-            if (raceParam.NullOrEmpty() || !TkSettings.Race)
+            if (raceParam.NullOrEmpty())
+            {
+                if (segments.Length >= 1)
+                {
+                    raceParam = segments.FirstOrDefault();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            if (raceParam.NullOrEmpty())
             {
                 return true;
             }
