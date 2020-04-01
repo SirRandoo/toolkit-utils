@@ -90,8 +90,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             kindDef = raceDef;
-            race = TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(raceDef.defName));
-
+            race = TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(raceDef.race.defName));
+            
             if (race == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(raceParam));
