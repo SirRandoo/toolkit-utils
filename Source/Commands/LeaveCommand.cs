@@ -1,4 +1,4 @@
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.Planet;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -71,6 +71,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
 
                 pawn.jobs.StopAll();
+                pawn.health.surgeryBills.Clear();
             }
 
             var component = Current.Game.GetComponent<GameComponentPawns>();
