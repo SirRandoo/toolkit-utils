@@ -56,7 +56,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!traitQuery.CanRemove)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.BuyTrait.RemoveDisabled".Translate(query));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.BuyTrait.RemoveDisabled".Translate(query)
+                );
                 return false;
             }
 

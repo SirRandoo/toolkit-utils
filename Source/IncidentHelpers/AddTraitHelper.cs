@@ -53,7 +53,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!buyable.CanAdd)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.BuyTrait.AddDisabled".Translate(buyable.Name.CapitalizeFirst()));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.BuyTrait.AddDisabled".Translate(buyable.Name.CapitalizeFirst())
+                );
                 return false;
             }
 

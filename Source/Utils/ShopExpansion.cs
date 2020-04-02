@@ -202,7 +202,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     price = item.price;
                     item.price = -10;
                 }
-                
+
                 TkUtils.ShopExpansion.Races.Add(
                     new XmlRace {DefName = race, Name = race, Price = price, Enabled = true}
                 );
@@ -215,8 +215,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             Logger.Info("Trait/Race data changed between instances; saving new data...");
             SaveData(TkUtils.ShopExpansion, ExpansionFile);
-            
-            if(TkSettings.JsonShop)
+
+            if (TkSettings.JsonShop)
             {
                 DumpShopExtension();
             }
@@ -246,21 +246,25 @@ namespace SirRandoo.ToolkitUtils.Utils
             Logger.Info($"Found {oldShop.Traits.Count.ToString()} traits to migrate.");
             foreach (var trait in oldShop.Traits)
             {
-                var newTrait = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => t.DefName.Equals(trait.DefName) && t.Degree == trait.Degree);
+                var newTrait = TkUtils.ShopExpansion.Traits.FirstOrDefault(
+                    t => t.DefName.Equals(trait.DefName) && t.Degree == trait.Degree
+                );
 
                 if (newTrait == null)
                 {
-                    TkUtils.ShopExpansion.Traits.Add(new XmlTrait
-                    {
-                        AddPrice = trait.AddPrice,
-                        BypassLimit = trait.BypassLimit,
-                        CanAdd = trait.Enabled,
-                        CanRemove = trait.Enabled,
-                        DefName = trait.DefName,
-                        Degree = trait.Degree,
-                        Name = trait.Name,
-                        RemovePrice = trait.RemovePrice
-                    });
+                    TkUtils.ShopExpansion.Traits.Add(
+                        new XmlTrait
+                        {
+                            AddPrice = trait.AddPrice,
+                            BypassLimit = trait.BypassLimit,
+                            CanAdd = trait.Enabled,
+                            CanRemove = trait.Enabled,
+                            DefName = trait.DefName,
+                            Degree = trait.Degree,
+                            Name = trait.Name,
+                            RemovePrice = trait.RemovePrice
+                        }
+                    );
                 }
                 else
                 {
@@ -274,7 +278,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     newTrait.RemovePrice = trait.RemovePrice;
                 }
             }
-            
+
             Logger.Info("Migrated!");
             File.Delete(OldExpansionFile);
         }
@@ -299,13 +303,13 @@ namespace SirRandoo.ToolkitUtils.Utils
 
     public class XmlTrait
     {
-        public string DefName;
+        public int AddPrice;
         public bool BypassLimit;
-        public int Degree;
         public bool CanAdd;
         public bool CanRemove;
+        public string DefName;
+        public int Degree;
         public string Name;
-        public int AddPrice;
         public int RemovePrice;
     }
 
@@ -313,19 +317,19 @@ namespace SirRandoo.ToolkitUtils.Utils
     public class OldShop
     {
         public List<XmlRace> Races;
-        
+
         [XmlArrayItem("XmlTrait")]
         public List<OldTrait> Traits;
     }
 
     public class OldTrait
     {
-        public string DefName;
+        public int AddPrice;
         public bool BypassLimit;
+        public string DefName;
         public int Degree;
         public bool Enabled;
         public string Name;
-        public int AddPrice;
         public int RemovePrice;
     }
 
@@ -340,10 +344,10 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             public int addPrice;
             public bool bypassLimit;
-            public string defName;
-            public int degree;
             public bool canAdd;
             public bool canRemove;
+            public string defName;
+            public int degree;
             public string name;
             public int removePrice;
         }

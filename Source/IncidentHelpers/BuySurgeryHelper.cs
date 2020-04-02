@@ -93,7 +93,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (buyable.category != ThingCategory.Item)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.BuySurgery.OnlySurgeries".Translate(partQuery));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.BuySurgery.OnlySurgeries".Translate(partQuery)
+                );
                 return false;
             }
 
@@ -116,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 );
                 return false;
             }
-            
+
             if (price.price < 0)
             {
                 MessageHelper.ReplyToUser(
@@ -154,7 +157,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             var shouldAdd = worker.GetPartsToApplyOn(viewerPawn, surgery)
                 .Where(p => !viewerPawn.health.hediffSet.HasHediff(surgery.addsHediff, p))
                 .FirstOrDefault(
-                    p => viewerPawn.health.surgeryBills.Bills.Count <= 0 || viewerPawn.health.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part != p)
+                    p => viewerPawn.health.surgeryBills.Bills.Count <= 0
+                         || viewerPawn.health.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part != p)
                 );
 
             if (shouldAdd == null)
