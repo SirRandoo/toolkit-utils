@@ -34,9 +34,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return;
             }
 
-            if (editor.storeIncidentVariables.defName.Equals("AddTrait")
-                || editor.storeIncidentVariables.defName.Equals("RemoveTrait")
-                || editor.storeIncidentVariables.defName.Equals("BuyPawn"))
+            if ((editor.storeIncidentVariables.defName.Equals("AddTrait") && TkSettings.UtilsNoticeAdd)
+                || (editor.storeIncidentVariables.defName.Equals("RemoveTrait") && TkSettings.UtilsNoticeRemove)
+                || (editor.storeIncidentVariables.defName.Equals("BuyPawn") && TkSettings.UtilsNoticePawn))
             {
                 Find.WindowStack.Add(new NoticeWindow(editor.storeIncidentVariables.defName));
             }
@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return;
             }
 
-            if (editor.storeIncidentVariables.cost <= 0)
+            if (editor.storeIncidentVariables.cost <= 1)
             {
                 return;
             }
@@ -71,7 +71,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         trait.AddPrice = editor.storeIncidentVariables.cost;
                     }
 
-                    editor.storeIncidentVariables.cost = 0;
+                    editor.storeIncidentVariables.cost = 1;
                     return;
                 case "RemoveTrait":
                     foreach (var trait in TkUtils.ShopExpansion.Traits)
@@ -79,7 +79,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         trait.RemovePrice = editor.storeIncidentVariables.cost;
                     }
 
-                    editor.storeIncidentVariables.cost = 0;
+                    editor.storeIncidentVariables.cost = 1;
                     return;
                 case "BuyPawn":
                     foreach (var race in TkUtils.ShopExpansion.Races)
@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         race.Price = editor.storeIncidentVariables.cost;
                     }
 
-                    editor.storeIncidentVariables.cost = 0;
+                    editor.storeIncidentVariables.cost = 1;
                     return;
             }
         }
@@ -144,14 +144,17 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 {
                     case "AddTrait":
                         TkSettings.UtilsNoticeAdd = false;
+                        LoadedModManager.GetMod<TkUtils>().GetSettings<TkSettings>().Write();
                         Close();
                         break;
                     case "RemoveTrait":
                         TkSettings.UtilsNoticeRemove = false;
+                        LoadedModManager.GetMod<TkUtils>().GetSettings<TkSettings>().Write();
                         Close();
                         break;
                     case "BuyPawn":
                         TkSettings.UtilsNoticePawn = false;
+                        LoadedModManager.GetMod<TkUtils>().GetSettings<TkSettings>().Write();
                         Close();
                         break;
                 }
