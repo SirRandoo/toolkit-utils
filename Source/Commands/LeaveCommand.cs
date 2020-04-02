@@ -65,8 +65,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                     new LookTargets(pawn.Position, pawn.Map)
                 );
 
-                pawn.ChangeKind(PawnKindDefOf.WildMan);
-
                 if (pawn.Faction != null)
                 {
                     pawn.SetFaction(null);
