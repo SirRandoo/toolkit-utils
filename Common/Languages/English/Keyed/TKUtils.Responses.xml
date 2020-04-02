@@ -84,6 +84,7 @@
     <!-- Leave Translations -->
     <TKUtils.Responses.Leave.Thanos>Mr. Stark, I don't feel so good...</TKUtils.Responses.Leave.Thanos>
     <TKUtils.Responses.Leave.Generic>You've left the colony.</TKUtils.Responses.Leave.Generic>
+    <TKUtils.Responses.Leave.Caravan>You cannot leave while in a caravan.</TKUtils.Responses.Leave.Caravan>
     
     <!-- Passion Shuffle Translations -->
     <TKUtils.Responses.PassionShuffle.NoPassions>Your pawn has no passions to shuffle.</TKUtils.Responses.PassionShuffle.NoPassions>

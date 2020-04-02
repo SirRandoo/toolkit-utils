@@ -1,4 +1,5 @@
-﻿using RimWorld;
+using RimWorld;
+using RimWorld.Planet;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
@@ -22,6 +23,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (pawn == null)
             {
                 message.Reply("TKUtils.Responses.NoPawn".Translate());
+                return;
+            }
+
+            if (pawn.IsCaravanMember())
+            {
+                message.Reply("TKUtils.Responses.Leave.Caravan".Translate());
                 return;
             }
 
