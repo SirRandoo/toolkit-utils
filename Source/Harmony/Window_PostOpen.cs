@@ -1,14 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.Remoting.Messaging;
+﻿using System;
 using HarmonyLib;
-using RimWorld;
-using SirRandoo.ToolkitUtils.IncidentHelpers;
-using SirRandoo.ToolkitUtils.Windows;
-using TwitchToolkit.IncidentHelpers.Traits;
-using TwitchToolkit.Incidents;
 using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
@@ -34,9 +25,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return;
             }
 
-            if ((editor.storeIncidentVariables.defName.Equals("AddTrait") && TkSettings.UtilsNoticeAdd)
-                || (editor.storeIncidentVariables.defName.Equals("RemoveTrait") && TkSettings.UtilsNoticeRemove)
-                || (editor.storeIncidentVariables.defName.Equals("BuyPawn") && TkSettings.UtilsNoticePawn))
+            if (editor.storeIncidentVariables.defName.Equals("AddTrait") && TkSettings.UtilsNoticeAdd
+                || editor.storeIncidentVariables.defName.Equals("RemoveTrait") && TkSettings.UtilsNoticeRemove
+                || editor.storeIncidentVariables.defName.Equals("BuyPawn") && TkSettings.UtilsNoticePawn)
             {
                 Find.WindowStack.Add(new NoticeWindow(editor.storeIncidentVariables.defName));
             }
@@ -95,13 +86,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
     public class NoticeWindow : Window
     {
-        public override Vector2 InitialSize => new Vector2(512, 256);
         private readonly string def;
 
         public NoticeWindow(string def)
         {
             this.def = def;
         }
+
+        public override Vector2 InitialSize => new Vector2(512, 256);
 
         public override void DoWindowContents(Rect inRect)
         {
@@ -140,23 +132,30 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 showText
             ))
             {
-                switch (def)
+                try
                 {
-                    case "AddTrait":
-                        TkSettings.UtilsNoticeAdd = false;
-                        LoadedModManager.GetMod<TkUtils>().GetSettings<TkSettings>().Write();
-                        Close();
-                        break;
-                    case "RemoveTrait":
-                        TkSettings.UtilsNoticeRemove = false;
-                        LoadedModManager.GetMod<TkUtils>().GetSettings<TkSettings>().Write();
-                        Close();
-                        break;
-                    case "BuyPawn":
-                        TkSettings.UtilsNoticePawn = false;
-                        LoadedModManager.GetMod<TkUtils>().GetSettings<TkSettings>().Write();
-                        Close();
-                        break;
+                    switch (def)
+                    {
+                        case "AddTrait":
+                            TkSettings.UtilsNoticeAdd = false;
+                            LoadedModManager.GetMod<TkUtils>().GetSettings<TkSettings>().Write();
+                            Close();
+                            break;
+                        case "RemoveTrait":
+                            TkSettings.UtilsNoticeRemove = false;
+                            LoadedModManager.GetMod<TkUtils>().GetSettings<TkSettings>().Write();
+                            Close();
+                            break;
+                        case "BuyPawn":
+                            TkSettings.UtilsNoticePawn = false;
+                            LoadedModManager.GetMod<TkUtils>().GetSettings<TkSettings>().Write();
+                            Close();
+                            break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Could not save notice preferences!", e);
                 }
             }
         }

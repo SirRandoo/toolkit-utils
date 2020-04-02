@@ -20,7 +20,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             forcePause = true;
 
             optionalTitle = "TKUtils.Windows.Traits.Title".Translate();
-            cache.SortBy(t => t.DefName);
+            cache?.SortBy(t => t.DefName);
+
+            if (cache == null)
+            {
+                Logger.Warn("The trait shop is null! You should report this.");
+            }
         }
 
         public override Vector2 InitialSize => new Vector2(640f, 740f);
@@ -109,7 +114,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(labelRect, trait.Name.CapitalizeFirst());
                 Text.Anchor = old;
-                
+
                 var inputRect = new Rect(
                     labelRect.x + labelRect.width + 5f,
                     lineRect.y,
@@ -142,7 +147,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                     Text.Anchor = TextAnchor.MiddleRight;
                     Widgets.Label(addRect.RightHalf(), trait.AddPrice.ToString());
-                    
+
                     Text.Anchor = old;
                 }
 
@@ -152,7 +157,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     inputRect.width,
                     Text.LineHeight
                 );
-                
+
                 Widgets.Checkbox(removeRect.x - 28f, removeRect.y, ref trait.CanRemove);
 
                 if (trait.CanRemove)
@@ -171,10 +176,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                     Text.Anchor = TextAnchor.MiddleRight;
                     Widgets.Label(removeRect.RightHalf(), trait.RemovePrice.ToString());
-                    
+
                     Text.Anchor = old;
                 }
-                
+
                 listing.GapLine();
             }
 

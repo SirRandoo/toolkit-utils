@@ -20,7 +20,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             forcePause = true;
 
             optionalTitle = "TKUtils.Windows.Races.Title".Translate();
-            cache.SortBy(r => r.Name.NullOrEmpty() ? r.DefName : r.Name);
+            cache?.SortBy(r => r.Name.NullOrEmpty() ? r.DefName : r.Name);
+
+            if (cache == null)
+            {
+                Logger.Warn("The race shop is null! You should report this.");
+            }
         }
 
         public override Vector2 InitialSize => new Vector2(640f, 740f);
@@ -166,8 +171,8 @@ namespace SirRandoo.ToolkitUtils.Windows
         public override void PreClose()
         {
             ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
-            
-            if(TkSettings.JsonShop)
+
+            if (TkSettings.JsonShop)
             {
                 ShopExpansionHelper.DumpShopExtension();
             }

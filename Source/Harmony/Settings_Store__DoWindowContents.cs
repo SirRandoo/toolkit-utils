@@ -38,6 +38,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         private static void DrawUtilsContents(Listing_Standard optionsListing)
         {
+            if (optionsListing == null)
+            {
+                Logger.Warn("Could not inject Utils' shop buttons into Toolkit's store.  You should report this.");
+                return;
+            }
+
             optionsListing.Gap();
             optionsListing.GapLine();
             if (optionsListing.ButtonTextLabeled("[ToolkitUtils]" + "Traits".Translate(), "Open"))
@@ -47,7 +53,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             optionsListing.Gap();
             optionsListing.GapLine();
-            if (optionsListing.ButtonTextLabeled(Find.ActiveLanguageWorker.Pluralize("[ToolkitUtils]" + "Race".Translate()), "Open"))
+            if (optionsListing.ButtonTextLabeled(
+                Find.ActiveLanguageWorker.Pluralize("[ToolkitUtils]" + "Race".Translate()),
+                "Open"
+            ))
             {
                 Find.WindowStack.Add(new RaceConfigDialog());
             }
