@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     race.Price = price;
                     ___tradeablesPrices[i] = -10;
                 }
-                
+
                 ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
             }
         }
