@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
@@ -34,10 +35,25 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             var serializer = new XmlSerializer(typeof(T));
+            var tempFile = $"{filePath}.tmp";
+            var backupFile = $"{filePath}.bak";
 
-            using (var writer = File.OpenWrite(filePath))
+            try
             {
-                serializer.Serialize(writer, xml);
+                using (var writer = File.OpenWrite(tempFile))
+                {
+                    serializer.Serialize(writer, xml);
+                }
+                
+                File.Replace(tempFile, filePath, backupFile);
+            }
+            catch (IOException e)
+            {
+                Logger.Error($"Could not save data to {filePath}", e);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Logger.Error("File access denied", e);
             }
         }
 
@@ -55,8 +71,23 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 Directory.CreateDirectory(directory);
             }
+            
+            var tempFile = $"{filePath}.tmp";
+            var backupFile = $"{filePath}.bak";
 
-            File.WriteAllText(filePath, data);
+            try
+            {
+                File.WriteAllText(tempFile, data);
+                File.Replace(tempFile, filePath, backupFile);
+            }
+            catch (IOException e)
+            {
+                Logger.Error($"Could not save data to {filePath}", e);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Logger.Error("File access denied", e);
+            }
         }
 
         public static T LoadData<T>(string filePath)
