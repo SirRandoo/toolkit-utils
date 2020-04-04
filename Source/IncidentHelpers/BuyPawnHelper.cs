@@ -14,16 +14,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         private PawnKindDef kindDef = PawnKindDefOf.Colonist;
         private IntVec3 loc;
         private Map map;
-        private XmlRace race;
+
+        private XmlRace race =
+            TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(PawnKindDefOf.Colonist.race.defName));
+
         public override Viewer Viewer { get; set; }
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            if (!Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, storeIncident.cost))
-            {
-                return false;
-            }
-
             if (CommandBase.GetOrFindPawn(viewer.username) != null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.HasPawn".Translate());
@@ -58,12 +56,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             if (segments.Length <= 0)
             {
                 Logger.Warn("No command arguments specified!");
-                return true;
+                return Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, race.Price);
             }
 
             if (!TkSettings.Race)
             {
-                return true;
+                return Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, race.Price);
             }
 
             var keyed = CommandParser.ParseKeyed(segments);
@@ -79,13 +77,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
                 else
                 {
-                    return true;
+                    return Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, race.Price);
                 }
             }
 
             if (raceParam.NullOrEmpty())
             {
-                return true;
+                return Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, race.Price);
             }
 
             var raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading
@@ -107,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             kindDef = raceDef;
-            race = TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(raceDef.race.defName));
+            race = TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
 
             if (race == null)
             {
