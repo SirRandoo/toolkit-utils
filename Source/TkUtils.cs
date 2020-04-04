@@ -32,10 +32,18 @@ namespace SirRandoo.ToolkitUtils
                     $"Loaded {TkUtils.ShopExpansion.Traits.Count} traits and {TkUtils.ShopExpansion.Races.Count} races."
                 );
             }
-            catch (IOException)
+            catch (Exception)
             {
                 Logger.Warn("Could not load shop extension database!");
-                Logger.Warn("If this is your first run with this version of Utils, you can safely ignore this.");
+
+                if (!File.Exists(ShopExpansionHelper.ExpansionFile))
+                {
+                    Logger.Warn("If this is your first run with this version of Utils, you can safely ignore this.");
+                }
+                else
+                {
+                    ShopExpansionHelper.TrySalvageData();
+                }
             }
 
             if (TkUtils.ShopExpansion == null)

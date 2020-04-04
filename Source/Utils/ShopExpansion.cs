@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security;
 using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
@@ -44,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 {
                     serializer.Serialize(writer, xml);
                 }
-                
+
                 File.Replace(tempFile, filePath, backupFile);
             }
             catch (IOException e)
@@ -71,7 +70,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 Directory.CreateDirectory(directory);
             }
-            
+
             var tempFile = $"{filePath}.tmp";
             var backupFile = $"{filePath}.bak";
 
@@ -312,6 +311,35 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             Logger.Info("Migrated!");
             File.Delete(OldExpansionFile);
+        }
+
+        internal static void TrySalvageData()
+        {
+            Logger.Info("Attempting to salvage shop data...");
+
+            var buffer = new StringBuilder();
+            var lines = File.ReadLines(ExpansionFile, Encoding.UTF8);
+
+            foreach (var line in lines)
+            {
+                if (!line.StartsWith("</ShopExpansion>"))
+                {
+                    buffer.Append(line);
+                }
+                else
+                {
+                    buffer.Append("</ShopExpansion>");
+                    break;
+                }
+            }
+
+            var reader = new StringReader(buffer.ToString());
+            var serializer = new XmlSerializer(typeof(XmlShop));
+            TkUtils.ShopExpansion = (XmlShop) serializer.Deserialize(reader);
+
+            Logger.Info("Salvaged?");
+            SaveData(TkUtils.ShopExpansion, ExpansionFile);
+            reader.Dispose();
         }
     }
 
