@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -43,12 +43,22 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             try
             {
-                using (var writer = File.OpenWrite(tempFile))
+                if(File.Exists(filePath))
                 {
-                    serializer.Serialize(writer, xml);
-                }
+                    using (var writer = File.OpenWrite(tempFile))
+                    {
+                        serializer.Serialize(writer, xml);
+                    }
 
-                File.Replace(tempFile, filePath, backupFile);
+                    File.Replace(tempFile, filePath, backupFile);
+                }
+                else
+                {
+                    using (var writer = File.OpenWrite(filePath))
+                    {
+                        serializer.Serialize(writer, xml);
+                    }
+                }
             }
             catch (IOException e)
             {
@@ -80,8 +90,15 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             try
             {
-                File.WriteAllText(tempFile, data);
-                File.Replace(tempFile, filePath, backupFile);
+                if(File.Exists(filePath))
+                {
+                    File.WriteAllText(tempFile, data);
+                    File.Replace(tempFile, filePath, backupFile);
+                }
+                else
+                {
+                    File.WriteAllText(filePath, data);
+                }
             }
             catch (IOException e)
             {
