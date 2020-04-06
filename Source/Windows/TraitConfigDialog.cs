@@ -232,7 +232,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (TkSettings.JsonShop)
             {
-                ShopExpansionHelper.DumpShopExtension();
+                ShopExpansionHelper.DumpShopExpansion();
             }
         }
     }

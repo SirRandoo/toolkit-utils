@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -174,7 +174,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (TkSettings.JsonShop)
             {
-                ShopExpansionHelper.DumpShopExtension();
+                ShopExpansionHelper.DumpShopExpansion();
             }
         }
     }
