@@ -83,7 +83,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             parts.Add(
-                $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => t.LabelCap).ToArray())}"
+                $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => Unrichify.StripTags(t.LabelCap)).ToArray())}"
             );
 
             message.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
