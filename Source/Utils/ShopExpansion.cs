@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -193,6 +193,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                     TkUtils.ShopExpansion.Traits.Add(t);
                 }
+            }
+
+            foreach (var trait in TkUtils.ShopExpansion.Traits.Where(trait => Unrichify.IsRichText($"<color>{trait.Name}")))
+            {
+                trait.Name = Unrichify.StripTags($"<color>{trait.Name}");
             }
 
             try
