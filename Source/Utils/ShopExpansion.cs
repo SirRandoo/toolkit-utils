@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static readonly string ShopFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
         public static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "Commands.json");
         public static readonly string ModsFile = Path.Combine(SaveHelper.dataPath, "Mods.json");
-        
+
         public static void SaveData<T>(T xml, string filePath)
         {
             var directory = Path.GetDirectoryName(filePath);
@@ -130,10 +130,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .ToArray();
 
             var jsonRaces = TkUtils.ShopExpansion.Races.Select(
-                    r => new RaceDump
-                    {
-                        defName = r.DefName, enabled = r.Enabled, name = r.Name, price = r.Price
-                    }
+                    r => new RaceDump {defName = r.DefName, enabled = r.Enabled, name = r.Name, price = r.Price}
                 )
                 .Select(JsonUtility.ToJson)
                 .ToArray();
@@ -161,12 +158,16 @@ namespace SirRandoo.ToolkitUtils.Utils
                 var hook = meta.GetWorkshopItemHook();
                 var steamIdInfo = hook.GetType().GetProperty("PublishedFileId");
                 var steamId = steamIdInfo?.GetValue(hook) is int ? (int) steamIdInfo.GetValue(hook) : -1;
-                
-                jsonMods.Add(new ModDump
+
+                jsonMods.Add(
+                    new ModDump
                     {
                         author = meta.Author,
                         name = meta.Name,
-                        version = TkUtils.GetModListVersioned().FirstOrDefault(i => i.Item1.Equals(mod.Content.Name))?.Item2 ?? "0.0.0",
+                        version = TkUtils.GetModListVersioned()
+                                      .FirstOrDefault(i => i.Item1.Equals(mod.Content.Name))
+                                      ?.Item2
+                                  ?? "0.0.0",
                         steamId = steamId
                     }
                 );
@@ -175,7 +176,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             var builder = new StringBuilder("[");
             builder.Append(string.Join(",", jsonMods.Select(JsonUtility.ToJson).ToArray()));
             builder.Append("]");
-            
+
             SaveData(builder.ToString(), ModsFile);
         }
 
@@ -190,7 +191,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 {
                     continue;
                 }
-                
+
                 container.Add(
                     new CommandDump
                     {
@@ -207,7 +208,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             builder.Append("[");
             builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
             builder.Append("]");
-            
+
             SaveData(builder.ToString(), CommandsFile);
         }
 
@@ -260,7 +261,9 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
             }
 
-            foreach (var trait in TkUtils.ShopExpansion.Traits.Where(trait => Unrichify.IsRichText($"<color>{trait.Name}")))
+            foreach (var trait in TkUtils.ShopExpansion.Traits.Where(
+                trait => Unrichify.IsRichText($"<color>{trait.Name}")
+            ))
             {
                 trait.Name = Unrichify.StripTags($"<color>{trait.Name}");
             }
@@ -320,7 +323,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 DumpShopExpansion();
             }
-            
+
             DumpModList();
         }
 
@@ -467,44 +470,44 @@ namespace SirRandoo.ToolkitUtils.Utils
     [Serializable]
     public class TraitDump
     {
-        public string defName;
-        public string name;
-        public string description;
         public int addPrice;
-        public int removePrice;
+        public bool bypassLimit;
         public bool canAdd;
         public bool canRemove;
         public string[] conflicts;
-        public string[] stats;
+        public string defName;
         public int degree;
-        public bool bypassLimit;
+        public string description;
+        public string name;
+        public int removePrice;
+        public string[] stats;
     }
 
     [Serializable]
     public class RaceDump
     {
         public string defName;
+        public bool enabled;
         public string name;
         public int price;
-        public bool enabled;
     }
 
     [Serializable]
     public class ModDump
     {
-        public string name;
         public string author;
-        public string version;
+        public string name;
         public int steamId;
+        public string version;
     }
 
     [Serializable]
     public class CommandDump
     {
-        public string name;
         public string description;
-        public string userLevel;
-        public string usage;
+        public string name;
         public bool shortcut;
+        public string usage;
+        public string userLevel;
     }
 }

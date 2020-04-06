@@ -107,7 +107,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 var lineRect = listing.GetRect(Text.LineHeight);
                 var boxRect = new Rect(contentArea.x, lineRect.y, lineRect.width * 0.84f, lineRect.height);
-                Widgets.CheckboxLabeled(race.Enabled ? boxRect : lineRect, $"{race.Name} ({race.DefName})", ref race.Enabled);
+                Widgets.CheckboxLabeled(
+                    race.Enabled ? boxRect : lineRect,
+                    $"{race.Name} ({race.DefName})",
+                    ref race.Enabled
+                );
 
                 if (!race.Enabled)
                 {
