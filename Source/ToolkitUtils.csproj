@@ -149,6 +149,9 @@
     <Content Include="..\Common\Defs\Toolkit\StoreIncidents.xml">
       <Link>Defs\StoreIncidents.xml</Link>
     </Content>
+    <Content Include="..\Common\Languages\English\Keyed\TKUtils.Commands.xml">
+      <Link>Languages\English\Keyed\TKUtils.Commands.xml</Link>
+    </Content>
     <Content Include="..\Common\Languages\English\Keyed\TKUtils.Responses.xml">
       <Link>Languages\English\Keyed\TKUtils.Responses.xml</Link>
     </Content>

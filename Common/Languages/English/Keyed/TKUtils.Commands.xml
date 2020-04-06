@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- ToolkitUtils' Commands -->
+    <TKUtils.Commands.Description.ReviveAllShortcut>A colony wide resurrector mech serum.</TKUtils.Commands.Description.ReviveAllShortcut>
+    <TKUtils.Commands.Usage.ReviveAllShortcut>reviveall</TKUtils.Commands.Usage.ReviveAllShortcut>
+    <TKUtils.Commands.UserLevel.ReviveAllShortcut>Anyone</TKUtils.Commands.UserLevel.ReviveAllShortcut>
+    
+    <TKUtils.Commands.Description.ReviveMeShortcut>A personal resurrector mech serum.</TKUtils.Commands.Description.ReviveMeShortcut>
+    <TKUtils.Commands.Usage.ReviveMeShortcut>reviveme</TKUtils.Commands.Usage.ReviveMeShortcut>
+    <TKUtils.Commands.UserLevel.ReviveMeShortcut>Anyone</TKUtils.Commands.UserLevel.ReviveMeShortcut>
+    
+    <TKUtils.Commands.Description.HealMeShortcut>A personal healer mech serum.</TKUtils.Commands.Description.HealMeShortcut>
+    <TKUtils.Commands.Usage.HealMeShortcut>healme</TKUtils.Commands.Usage.HealMeShortcut>
+    <TKUtils.Commands.UserLevel.HealMeShortcut>Anyone</TKUtils.Commands.UserLevel.HealMeShortcut>
+    
+    <TKUtils.Commands.Description.HealAllShortcut>A colony wide healer mech serum.</TKUtils.Commands.Description.HealAllShortcut>
+    <TKUtils.Commands.Usage.HealAllShortcut>healall</TKUtils.Commands.Usage.HealAllShortcut>
+    <TKUtils.Commands.UserLevel.HealAllShortcut>Anyone</TKUtils.Commands.UserLevel.HealAllShortcut>
+    
+    <TKUtils.Commands.Description.PassionShuffleShortcut>Shuffles your passions. If a skill is specified, you'll be guaranteed a minor passion in it.</TKUtils.Commands.Description.PassionShuffleShortcut>
+    <TKUtils.Commands.Usage.PassionShuffleShortcut>passionshuffle [skill]</TKUtils.Commands.Usage.PassionShuffleShortcut>
+    <TKUtils.Commands.UserLevel.PassionShuffleShortcut>Anyone</TKUtils.Commands.UserLevel.PassionShuffleShortcut>
+    
+    <TKUtils.Commands.Description.SurgeryShortcut>Purchases the part specified and queues it for surgery on your pawn.</TKUtils.Commands.Description.SurgeryShortcut>
+    <TKUtils.Commands.Usage.SurgeryShortcut>surgery {part}</TKUtils.Commands.Usage.SurgeryShortcut>
+    <TKUtils.Commands.UserLevel.SurgeryShortcut>Anyone</TKUtils.Commands.UserLevel.SurgeryShortcut>
+    
+    <TKUtils.Commands.Description.MyPawnHealth>Shows an overview of your pawn's health. If a capacity is specified, it'll show what's impacting it.</TKUtils.Commands.Description.MyPawnHealth>
+    <TKUtils.Commands.Usage.MyPawnHealth>mypawnhealth</TKUtils.Commands.Usage.MyPawnHealth>
+    <TKUtils.Commands.UserLevel.MyPawnHealth>Anyone</TKUtils.Commands.UserLevel.MyPawnHealth>
+    
+    <TKUtils.Commands.Description.MyPawnNeeds>Shows an overview of your pawn's current needs.</TKUtils.Commands.Description.MyPawnNeeds>
+    <TKUtils.Commands.Usage.MyPawnNeeds>mypawnneeds</TKUtils.Commands.Usage.MyPawnNeeds>
+    <TKUtils.Commands.UserLevel.MyPawnNeeds>Anyone</TKUtils.Commands.UserLevel.MyPawnNeeds>
+    
+    <TKUtils.Commands.Description.MyPawnGear>Shows your pawn's current gear and armor values.</TKUtils.Commands.Description.MyPawnGear>
+    <TKUtils.Commands.Usage.MyPawnGear>mypawngear</TKUtils.Commands.Usage.MyPawnGear>
+    <TKUtils.Commands.UserLevel.MyPawnGear>Anyone</TKUtils.Commands.UserLevel.MyPawnGear>
+    
+    <TKUtils.Commands.Description.MyPawnBody>Shows an overview of your pawn's body, including any health conditions.</TKUtils.Commands.Description.MyPawnBody>
+    <TKUtils.Commands.Usage.MyPawnBody>mypawnbody</TKUtils.Commands.Usage.MyPawnBody>
+    <TKUtils.Commands.UserLevel.MyPawnBody>Anyone</TKUtils.Commands.UserLevel.MyPawnBody>
+    
+    <TKUtils.Commands.Description.MyPawnWork>Shows your pawn's current work priorities.</TKUtils.Commands.Description.MyPawnWork>
+    <TKUtils.Commands.Usage.MyPawnWork>mypawnwork</TKUtils.Commands.Usage.MyPawnWork>
+    <TKUtils.Commands.UserLevel.MyPawnWork>Anyone</TKUtils.Commands.UserLevel.MyPawnWork>
+    
+    <TKUtils.Commands.Description.MyPawnStory>Shows your pawn's bio.</TKUtils.Commands.Description.MyPawnStory>
+    <TKUtils.Commands.Usage.MyPawnStory>mypawnstory</TKUtils.Commands.Usage.MyPawnStory>
+    <TKUtils.Commands.UserLevel.MyPawnStory>Anyone</TKUtils.Commands.UserLevel.MyPawnStory>
+    
+    <TKUtils.Commands.Description.MyPawnSkills>Shows your pawn's current skills, and their passions.</TKUtils.Commands.Description.MyPawnSkills>
+    <TKUtils.Commands.Usage.MyPawnSkills>mypawnskills</TKUtils.Commands.Usage.MyPawnSkills>
+    <TKUtils.Commands.UserLevel.MyPawnSkills>Anyone</TKUtils.Commands.UserLevel.MyPawnSkills>
+    
+    <TKUtils.Commands.Description.FixMyPawn>Attempts to relink you to your pawn.</TKUtils.Commands.Description.FixMyPawn>
+    <TKUtils.Commands.Usage.FixMyPawn>fixmypawn</TKUtils.Commands.Usage.FixMyPawn>
+    <TKUtils.Commands.UserLevel.FixMyPawn>Anyone</TKUtils.Commands.UserLevel.FixMyPawn>
+    
+    <TKUtils.Commands.Description.FixAllPawns>Attempts to relink viewers to their pawns.</TKUtils.Commands.Description.FixAllPawns>
+    <TKUtils.Commands.Usage>fixallpawns</TKUtils.Commands.Usage>
+    <TKUtils.Commands.UserLevel.FixAllPawns>Moderator</TKUtils.Commands.UserLevel.FixAllPawns>
+    
+    <TKUtils.Commands.Description.AbandonPawn>Makes your pawn leave the colony.</TKUtils.Commands.Description.AbandonPawn>
+    <TKUtils.Commands.Usage.AbandonPawn>leave</TKUtils.Commands.Usage.AbandonPawn>
+    <TKUtils.Commands.UserLevel.AbandonPawn>Anyone</TKUtils.Commands.UserLevel.AbandonPawn>
+    
+    <TKUtils.Commands.Description.Factions>Shows your pawn's current work priorities.</TKUtils.Commands.Description.Factions>
+    <TKUtils.Commands.Usage.Factions>factions</TKUtils.Commands.Usage.Factions>
+    <TKUtils.Commands.UserLevel.Factions>Anyone</TKUtils.Commands.UserLevel.Factions>
+    
+    <TKUtils.Commands.Description.Research>Shows information about the current research project. If a project is specified, it'll show information about that, including any prerequisites missing.</TKUtils.Commands.Description.Research>
+    <TKUtils.Commands.Usage.Research>research [project]</TKUtils.Commands.Usage.Research>
+    <TKUtils.Commands.UserLevel.Research>Anyone</TKUtils.Commands.UserLevel.Research>
+    
+    <TKUtils.Commands.Description.Lookup>Returns items in-game that match the query given in the specified category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', and 'skills'</TKUtils.Commands.Description.Lookup>
+    <TKUtils.Commands.Usage.Lookup>lookup {category} {query}</TKUtils.Commands.Usage.Lookup>
+    <TKUtils.Commands.UserLevel.Lookup>Anyone</TKUtils.Commands.UserLevel.Lookup>
+    
+    <TKUtils.Commands.Description.PriceCheck>Similar to !lookup, but shows the price of the first result.</TKUtils.Commands.Description.PriceCheck>
+    <TKUtils.Commands.Usage.PriceCheck>price {category} {query} [quantity]</TKUtils.Commands.Usage.PriceCheck>
+    <TKUtils.Commands.UserLevel.PriceCheck>Anyone</TKUtils.Commands.UserLevel.PriceCheck>
+</LanguageData>
