@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                         case '<' when tagContent == "":
                             inTag = true;
                             break;
-                        case ' ' when inTag:
+                        case '=' when inTag:
                             nameEnd = true;
                             tagContent += c.ToString();
                             break;
@@ -69,6 +69,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
 
                 i++;
+                Logger.Info($"Stripping Tag: {tagContent}/{tag}");
 
                 // While this may not catch everything, this should help prevent infinite loops. For
                 // the types of content this method will be used for, any strings that contain more
