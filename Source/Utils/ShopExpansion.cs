@@ -9,6 +9,7 @@ using TwitchToolkit.Store;
 using TwitchToolkit.Utilities;
 using UnityEngine;
 using Verse;
+using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
@@ -16,8 +17,11 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         public static readonly string ExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt_1.xml");
         public static readonly string OldExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt.xml");
-        public static readonly string JsonExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
 
+        public static readonly string ShopFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
+        public static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "Commands.json");
+        public static readonly string ModsFile = Path.Combine(SaveHelper.dataPath, "Mods.json");
+        
         public static void SaveData<T>(T xml, string filePath)
         {
             var directory = Path.GetDirectoryName(filePath);
@@ -106,11 +110,11 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
         }
 
-        public static void DumpShopExtension()
+        public static void DumpShopExpansion()
         {
             var jsonTraits = TkUtils.ShopExpansion.Traits.Select(
                     t =>
-                        new ShopExpansion.Trait
+                        new TraitDump
                         {
                             addPrice = t.AddPrice,
                             bypassLimit = t.BypassLimit,
@@ -126,7 +130,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .ToArray();
 
             var jsonRaces = TkUtils.ShopExpansion.Races.Select(
-                    r => new ShopExpansion.Race
+                    r => new RaceDump
                     {
                         defName = r.DefName, enabled = r.Enabled, name = r.Name, price = r.Price
                     }
@@ -143,7 +147,68 @@ namespace SirRandoo.ToolkitUtils.Utils
             builder.Append(string.Join(",", jsonRaces.ToArray()));
             builder.Append("]}");
 
-            SaveData(builder.ToString(), JsonExpansionFile);
+            SaveData(builder.ToString(), ShopFile);
+        }
+
+        public static void DumpModList()
+        {
+            var jsonMods = new List<ModDump>();
+            var loaded = LoadedModManager.ModHandles.ToList();
+
+            foreach (var mod in loaded)
+            {
+                var meta = ModLister.GetActiveModWithIdentifier(mod.Content.PackageId);
+                var hook = meta.GetWorkshopItemHook();
+                var steamIdInfo = hook.GetType().GetProperty("PublishedFileId");
+                var steamId = steamIdInfo?.GetValue(hook) is int ? (int) steamIdInfo.GetValue(hook) : -1;
+                
+                jsonMods.Add(new ModDump
+                    {
+                        author = meta.Author,
+                        name = meta.Name,
+                        version = TkUtils.GetModListVersioned().FirstOrDefault(i => i.Item1.Equals(mod.Content.Name))?.Item2 ?? "0.0.0",
+                        steamId = steamId
+                    }
+                );
+            }
+
+            var builder = new StringBuilder("[");
+            builder.Append(string.Join(",", jsonMods.Select(JsonUtility.ToJson).ToArray()));
+            builder.Append("]");
+            
+            SaveData(builder.ToString(), ModsFile);
+        }
+
+        public static void DumpCommands()
+        {
+            var commands = DefDatabase<Command>.AllDefsListForReading;
+            var container = new List<CommandDump>();
+
+            foreach (var command in commands)
+            {
+                if (command.defName.Equals("UnstickAll"))
+                {
+                    continue;
+                }
+                
+                container.Add(
+                    new CommandDump
+                    {
+                        name = command.LabelCap.RawText,
+                        description = $"TKUtils.Commands.Description.{command.defName}".Translate(),
+                        usage = $"TKUtils.Commands.Usage.{command.defName}".Translate(),
+                        shortcut = command.commandDriver.Name.Equals("Buy"),
+                        userLevel = $"TKUtils.Commands.UserLevel.{command.defName}".Translate()
+                    }
+                );
+            }
+
+            var builder = new StringBuilder();
+            builder.Append("[");
+            builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
+            builder.Append("]");
+            
+            SaveData(builder.ToString(), CommandsFile);
         }
 
         public static void ValidateExpansionData()
@@ -253,8 +318,10 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (TkSettings.JsonShop)
             {
-                DumpShopExtension();
+                DumpShopExpansion();
             }
+            
+            DumpModList();
         }
 
         internal static void TryMigrateData()
@@ -398,31 +465,46 @@ namespace SirRandoo.ToolkitUtils.Utils
     }
 
     [Serializable]
-    public class ShopExpansion
+    public class TraitDump
     {
-        public List<Race> races;
-        public List<Trait> traits;
+        public string defName;
+        public string name;
+        public string description;
+        public int addPrice;
+        public int removePrice;
+        public bool canAdd;
+        public bool canRemove;
+        public string[] conflicts;
+        public string[] stats;
+        public int degree;
+        public bool bypassLimit;
+    }
 
-        [Serializable]
-        public class Trait
-        {
-            public int addPrice;
-            public bool bypassLimit;
-            public bool canAdd;
-            public bool canRemove;
-            public string defName;
-            public int degree;
-            public string name;
-            public int removePrice;
-        }
+    [Serializable]
+    public class RaceDump
+    {
+        public string defName;
+        public string name;
+        public int price;
+        public bool enabled;
+    }
 
-        [Serializable]
-        public class Race
-        {
-            public string defName;
-            public bool enabled;
-            public string name;
-            public int price;
-        }
+    [Serializable]
+    public class ModDump
+    {
+        public string name;
+        public string author;
+        public string version;
+        public int steamId;
+    }
+
+    [Serializable]
+    public class CommandDump
+    {
+        public string name;
+        public string description;
+        public string userLevel;
+        public string usage;
+        public bool shortcut;
     }
 }
