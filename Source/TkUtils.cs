@@ -63,6 +63,9 @@ namespace SirRandoo.ToolkitUtils
 
             ShopExpansionHelper.TryMigrateData();
             ShopExpansionHelper.ValidateExpansionData();
+            
+            ShopExpansionHelper.DumpCommands();
+            ShopExpansionHelper.DumpModList();
         }
     }
 

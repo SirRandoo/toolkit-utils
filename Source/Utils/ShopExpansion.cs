@@ -374,8 +374,6 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 DumpShopExpansion();
             }
-
-            DumpModList();
         }
 
         internal static void TryMigrateData()
