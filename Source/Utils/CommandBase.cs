@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 return null;
             }
-            
+
             if (safe != null)
             {
                 return safe;
