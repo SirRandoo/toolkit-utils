@@ -1,39 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LanguageData>
-  <!-- Toolkit's Viewer_Dialog Translations -->
-  <TKUtils.Windows.Purge.Button.Label>Purge</TKUtils.Windows.Purge.Button.Label>
-
-  <!-- Purge Viewers Dialog Translations -->
-  <TKUtils.Windows.Purge.ComparisonTypes.Greater>&gt;</TKUtils.Windows.Purge.ComparisonTypes.Greater>
-  <TKUtils.Windows.Purge.ComparisonTypes.Equal>=</TKUtils.Windows.Purge.ComparisonTypes.Equal>
-  <TKUtils.Windows.Purge.ComparisonTypes.Less>&lt;</TKUtils.Windows.Purge.ComparisonTypes.Less>
-  <TKUtils.Windows.Purge.ComparisonTypes.LessEqual>&lt;=</TKUtils.Windows.Purge.ComparisonTypes.LessEqual>
-  <TKUtils.Windows.Purge.ComparisonTypes.GreaterEqual>&gt;=</TKUtils.Windows.Purge.ComparisonTypes.GreaterEqual>
-  <TKUtils.Windows.Purge.TimeScales.Hours>Hours</TKUtils.Windows.Purge.TimeScales.Hours>
-  <TKUtils.Windows.Purge.TimeScales.Days>Days</TKUtils.Windows.Purge.TimeScales.Days>
-  <TKUtils.Windows.Purge.TimeScales.Months>Months</TKUtils.Windows.Purge.TimeScales.Months>
-  <TKUtils.Windows.Purge.TimeScales.Years>Years</TKUtils.Windows.Purge.TimeScales.Years>
-  <TKUtils.Windows.Purge.NameComparisonTypes.Is>is</TKUtils.Windows.Purge.NameComparisonTypes.Is>
-  <TKUtils.Windows.Purge.NameComparisonTypes.Not>is not</TKUtils.Windows.Purge.NameComparisonTypes.Not>
-
-  <TKUtils.Windows.Purge.Buttons.Remove>Remove</TKUtils.Windows.Purge.Buttons.Remove>
-  <TKUtils.Windows.Purge.Buttons.Add>Add Constraint</TKUtils.Windows.Purge.Buttons.Add>
-  <TKUtils.Windows.Purge.Buttons.TestAffected>View Affected</TKUtils.Windows.Purge.Buttons.TestAffected>
-  <TKUtils.Windows.Purge.Buttons.Execute>Purge Viewers</TKUtils.Windows.Purge.Buttons.Execute>
-  <TKUtils.Windows.Purge.Buttons.Back>Back</TKUtils.Windows.Purge.Buttons.Back>
-  <TKUtils.Windows.Purge.Buttons.ExemptViewer>Exempt</TKUtils.Windows.Purge.Buttons.ExemptViewer>
-  <TKUtils.Windows.Purge.Buttons.ClearConstraints>Clear Constraints</TKUtils.Windows.Purge.Buttons.ClearConstraints>
-  <TKUtils.Windows.Purge.Buttons.Confirm>Confirm</TKUtils.Windows.Purge.Buttons.Confirm>
-  <TKUtils.Windows.Purge.Headers.Affected>{COUNT} viewers affected</TKUtils.Windows.Purge.Headers.Affected>
-
-  <!-- Constraints Translations -->
-  <TKUtils.Windows.Purge.Constraints.Coins>Coins</TKUtils.Windows.Purge.Constraints.Coins>
-  <TKUtils.Windows.Purge.Constraints.Time>Time</TKUtils.Windows.Purge.Constraints.Time>
-  <TKUtils.Windows.Purge.Constraints.Karma>Karma</TKUtils.Windows.Purge.Constraints.Karma>
-  <TKUtils.Windows.Purge.Constraints.Banned>Is banned</TKUtils.Windows.Purge.Constraints.Banned>
-  <TKUtils.Windows.Purge.Constraints.Vip>Not vip</TKUtils.Windows.Purge.Constraints.Vip>
-  <TKUtils.Windows.Purge.Constraints.Sub>Not subbed</TKUtils.Windows.Purge.Constraints.Sub>
-  <TKUtils.Windows.Purge.Constraints.Mod>Not modded</TKUtils.Windows.Purge.Constraints.Mod>
-  <TKUtils.Windows.Purge.Constraints.Name>Username</TKUtils.Windows.Purge.Constraints.Name>
+    <!-- Toolkit's Viewer_Dialog Translations -->
+    <TKUtils.Windows.Purge.Button.Label>Purge</TKUtils.Windows.Purge.Button.Label>
+    
+    <!-- Purge Viewers Dialog Translations -->
+    <TKUtils.Windows.Purge.ComparisonTypes.Greater>&gt;</TKUtils.Windows.Purge.ComparisonTypes.Greater>
+    <TKUtils.Windows.Purge.ComparisonTypes.Equal>=</TKUtils.Windows.Purge.ComparisonTypes.Equal>
+    <TKUtils.Windows.Purge.ComparisonTypes.Less>&lt;</TKUtils.Windows.Purge.ComparisonTypes.Less>
+    <TKUtils.Windows.Purge.ComparisonTypes.LessEqual>&lt;=</TKUtils.Windows.Purge.ComparisonTypes.LessEqual>
+    <TKUtils.Windows.Purge.ComparisonTypes.GreaterEqual>&gt;=</TKUtils.Windows.Purge.ComparisonTypes.GreaterEqual>
+    <TKUtils.Windows.Purge.TimeScales.Hours>Hours</TKUtils.Windows.Purge.TimeScales.Hours>
+    <TKUtils.Windows.Purge.TimeScales.Days>Days</TKUtils.Windows.Purge.TimeScales.Days>
+    <TKUtils.Windows.Purge.TimeScales.Months>Months</TKUtils.Windows.Purge.TimeScales.Months>
+    <TKUtils.Windows.Purge.TimeScales.Years>Years</TKUtils.Windows.Purge.TimeScales.Years>
+    <TKUtils.Windows.Purge.NameComparisonTypes.Is>is</TKUtils.Windows.Purge.NameComparisonTypes.Is>
+    <TKUtils.Windows.Purge.NameComparisonTypes.Not>is not</TKUtils.Windows.Purge.NameComparisonTypes.Not>
+    
+    <TKUtils.Windows.Purge.Buttons.Remove>Remove</TKUtils.Windows.Purge.Buttons.Remove>
+    <TKUtils.Windows.Purge.Buttons.Add>Add Constraint</TKUtils.Windows.Purge.Buttons.Add>
+    <TKUtils.Windows.Purge.Buttons.TestAffected>View Affected</TKUtils.Windows.Purge.Buttons.TestAffected>
+    <TKUtils.Windows.Purge.Buttons.Execute>Purge Viewers</TKUtils.Windows.Purge.Buttons.Execute>
+    <TKUtils.Windows.Purge.Buttons.Back>Back</TKUtils.Windows.Purge.Buttons.Back>
+    <TKUtils.Windows.Purge.Buttons.ExemptViewer>Exempt</TKUtils.Windows.Purge.Buttons.ExemptViewer>
+    <TKUtils.Windows.Purge.Buttons.ClearConstraints>Clear Constraints</TKUtils.Windows.Purge.Buttons.ClearConstraints>
+    <TKUtils.Windows.Purge.Buttons.Confirm>Confirm</TKUtils.Windows.Purge.Buttons.Confirm>
+    <TKUtils.Windows.Purge.Headers.Affected>{0} viewers affected</TKUtils.Windows.Purge.Headers.Affected>
+    
+    <!-- Constraints Translations -->
+    <TKUtils.Windows.Purge.Constraints.Coins>Coins</TKUtils.Windows.Purge.Constraints.Coins>
+    <TKUtils.Windows.Purge.Constraints.Time>Time</TKUtils.Windows.Purge.Constraints.Time>
+    <TKUtils.Windows.Purge.Constraints.Karma>Karma</TKUtils.Windows.Purge.Constraints.Karma>
+    <TKUtils.Windows.Purge.Constraints.Banned>Is banned</TKUtils.Windows.Purge.Constraints.Banned>
+    <TKUtils.Windows.Purge.Constraints.Vip>Not vip</TKUtils.Windows.Purge.Constraints.Vip>
+    <TKUtils.Windows.Purge.Constraints.Sub>Not subbed</TKUtils.Windows.Purge.Constraints.Sub>
+    <TKUtils.Windows.Purge.Constraints.Mod>Not modded</TKUtils.Windows.Purge.Constraints.Mod>
+    <TKUtils.Windows.Purge.Constraints.Name>Username</TKUtils.Windows.Purge.Constraints.Name>
+    
+    
+    <!-- Config Translations -->
+    <TKUtils.Windows.Traits.Title>Trait Inventory</TKUtils.Windows.Traits.Title>
+    <TKUtils.Windows.Races.Title>Pawn Kind Inventory</TKUtils.Windows.Races.Title>
+    <TKUtils.Windows.Config.Buttons.Search.Label>Search</TKUtils.Windows.Config.Buttons.Search.Label>
+    <TKUtils.Windows.Config.Buttons.EnableAll.Label>Enable All</TKUtils.Windows.Config.Buttons.EnableAll.Label>
+    <TKUtils.Windows.Config.Buttons.DisableAll.Label>Disable All</TKUtils.Windows.Config.Buttons.DisableAll.Label>
+    <TKUtils.Windows.Traits.AddPrice.Label>Add Cost</TKUtils.Windows.Traits.AddPrice.Label>
+    <TKUtils.Windows.Traits.RemovePrice.Label>Removal Cost</TKUtils.Windows.Traits.RemovePrice.Label>
+    
+    <TKUtils.Windows.Config.Buttons.DontShowAgain>Don't show again</TKUtils.Windows.Config.Buttons.DontShowAgain>
+    <TKUtils.Windows.Config.Notices.Header>This incident is overriden by ToolkitUtils</TKUtils.Windows.Config.Notices.Header>
+    <TKUtils.Windows.Config.Notices.AddTrait>With the addition of individual trait support in ToolkitUtils, modifying "add trait" though this window will update the amount of coins viewers will have to pay to add ANY trait.  Utils will then set this event's cost to 1 as the price a viewer ends up paying will be the prices set in the trait shop.  You're seeing this window because initial feedback wanted this to be used as a way to set the cost globally for all traits.</TKUtils.Windows.Config.Notices.AddTrait>
+    <TKUtils.Windows.Config.Notices.RemoveTrait>With the addition of individual trait support in ToolkitUtils, modifying "remove trait" though this window will update the amount of coins viewers will have to pay to remove ANY trait.  Utils will then set this event's cost to 1 as the price a viewer ends up paying will be the prices set in the trait shop.  You're seeing this window because initial feedback wanted this to be used as a way to set the cost globally for all traits.</TKUtils.Windows.Config.Notices.RemoveTrait>
+    <TKUtils.Windows.Config.Notices.BuyPawn>With the addition of race support in ToolkitUtils, modifying "buy pawn" though this window will update the amount of coins viewers will have to pay to be ANY race.  Utils will then set this event's cost to 1 as the price a viewer ends up paying will be the prices set in the race shop.  You're seeing this window because initial feedback wanted this to be used as a way to set the cost globally for all races.</TKUtils.Windows.Config.Notices.BuyPawn>
 </LanguageData>

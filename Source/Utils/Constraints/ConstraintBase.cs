@@ -1,8 +1,7 @@
 ﻿using TwitchToolkit;
-
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Constraints
+namespace SirRandoo.ToolkitUtils.Utils
 {
     public class ConstraintBase
     {

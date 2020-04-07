@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -10,7 +9,7 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         public static string[] Parse(string input, string prefix = "!")
         {
-            if(input.StartsWith(prefix))
+            if (input.StartsWith(prefix))
             {
                 input = input.Substring(prefix.Length);
             }
@@ -20,42 +19,37 @@ namespace SirRandoo.ToolkitUtils.Utils
             var quoted = false;
             var escaped = false;
 
-            foreach(var c in input)
+            foreach (var c in input)
             {
-                if(escaped && !c.Equals('"'))
+                if (escaped && !c.Equals('"'))
                 {
                     escaped = false;
-                    segment += '\\';
+                    segment += '\\'.ToString();
                 }
 
-                if(c.Equals(' ') && !quoted)
+                switch (c)
                 {
-                    cache.Add(segment);
-                    segment = "";
-                }
-                else if(c.Equals('"'))
-                {
-                    if(!escaped)
-                    {
+                    case ' ' when !quoted:
+                        cache.Add(segment);
+                        segment = "";
+                        break;
+                    case '"' when !escaped:
                         quoted = !quoted;
-                    }
-                    else
-                    {
-                        segment += c;
+                        break;
+                    case '"':
+                        segment += c.ToString();
                         escaped = false;
-                    }
-                }
-                else if(c.Equals('\\'))
-                {
-                    escaped = true;
-                }
-                else
-                {
-                    segment += c;
+                        break;
+                    case '\\':
+                        escaped = true;
+                        break;
+                    default:
+                        segment += c.ToString();
+                        break;
                 }
             }
 
-            if(segment.Length > 0)
+            if (segment.Length > 0)
             {
                 cache.Add(segment);
             }
@@ -63,47 +57,54 @@ namespace SirRandoo.ToolkitUtils.Utils
             return cache.ToArray();
         }
 
-        public static List<KeyValuePair<string, string>> ParseKeyed(string input, string prefix = "!") => ParseKeyed(Parse(input, prefix: prefix));
+        public static List<KeyValuePair<string, string>> ParseKeyed(string input, string prefix = "!")
+        {
+            return ParseKeyed(Parse(input, prefix));
+        }
 
-        public static List<KeyValuePair<string, string>> ParseKeyed(string[] input)
+        public static List<KeyValuePair<string, string>> ParseKeyed(IEnumerable<string> input)
         {
             var cache = new List<KeyValuePair<string, string>>();
 
-            foreach(var segment in input)
+            foreach (var segment in input)
             {
-                if(segment.Contains('='))
+                if (!segment.Contains('='))
                 {
-                    var key = "";
-                    var value = "";
-                    var sep = false;
-                    var escaped = false;
+                    continue;
+                }
 
-                    foreach(var c in segment)
+                var key = "";
+                var value = "";
+                var sep = false;
+                var escaped = false;
+
+                foreach (var c in segment)
+                {
+                    switch (c)
                     {
-                        if(c.Equals('=') && !escaped)
-                        {
-                            escaped = false;
+                        case '=' when !escaped:
                             sep = true;
-                        }
-                        else if(c.Equals('\\'))
-                        {
+                            break;
+                        case '\\':
                             escaped = true;
-                        }
-                        else
+                            break;
+                        default:
                         {
-                            if(!sep)
+                            if (!sep)
                             {
-                                key += c;
+                                key += c.ToString();
                             }
                             else
                             {
-                                value += c;
+                                value += c.ToString();
                             }
+
+                            break;
                         }
                     }
-
-                    cache.Add(new KeyValuePair<string, string>(key, value));
                 }
+
+                cache.Add(new KeyValuePair<string, string>(key, value));
             }
 
             return cache;
@@ -111,27 +112,46 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static bool TryParseBool(string input, bool defaultValue = true)
         {
-            if(input.EqualsIgnoreCase("yes") || input.EqualsIgnoreCase("true") || input.EqualsIgnoreCase("y") || input.Equals("1") || input.Equals("+"))
+            if (input.EqualsIgnoreCase("yes")
+                || input.EqualsIgnoreCase("true")
+                || input.EqualsIgnoreCase("y")
+                || input.Equals("1")
+                || input.Equals("+"))
             {
                 return true;
             }
 
-            if(input.EqualsIgnoreCase("no") || input.EqualsIgnoreCase("false") || input.EqualsIgnoreCase("n") || input.Equals("0") || input.Equals("-"))
+            if (input.EqualsIgnoreCase("no")
+                || input.EqualsIgnoreCase("false")
+                || input.EqualsIgnoreCase("n")
+                || input.Equals("0")
+                || input.Equals("-"))
             {
                 return false;
             }
 
-            if(input.Equals("👍") || input.Equals("✔️") || input.Equals("☑️") || input.Equals("✅") || input.Equals("🆗"))
+            if (input.Equals("👍")
+                || input.Equals("✔️")
+                || input.Equals("☑️")
+                || input.Equals("✅")
+                || input.Equals("🆗"))
             {
                 return true;
             }
 
-            if(input.Equals("👎") || input.Equals("🛑") || input.Equals("🚫") || input.Equals("⛔") || input.Equals("⏹️") || input.Equals("⏏️") || input.Equals("❌") || input.Equals("❎"))
+            if (input.Equals("👎")
+                || input.Equals("🛑")
+                || input.Equals("🚫")
+                || input.Equals("⛔")
+                || input.Equals("⏹️")
+                || input.Equals("⏏️")
+                || input.Equals("❌")
+                || input.Equals("❎"))
             {
                 return false;
             }
 
-            if(input.Equals("🎲"))
+            if (input.Equals("🎲"))
             {
                 return new Random().Next(1) == 1;
             }

@@ -1,50 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using ToolkitCore;
-
-using TwitchLib.Client.Models;
-
+using RimWorld;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
     public class CommandBase : CommandDriver
     {
-        private const int MESSAGE_LIMIT = 500;
+        private const int MessageLimit = 500;
 
-        public static Pawn FindPawn(string username)
+        private static Pawn FindPawn(string username)
         {
-            return Find.ColonistBar.Entries
-                .Where(c => ((NameTriple) c.pawn.Name).Nick.EqualsIgnoreCase(username))
+            return Find.ColonistBar.Entries.Where(c => ((NameTriple) c.pawn.Name).Nick.EqualsIgnoreCase(username))
                 .Select(c => c.pawn)
                 .FirstOrDefault();
         }
 
-        public static Pawn GetOrFindPawn(string username)
+        public static Pawn GetOrFindPawn(string username, bool allowKidnapped = false)
         {
             var safe = GetPawn(username);
 
-            if(safe != null)
+            if (safe.IsKidnapped() && !allowKidnapped)
+            {
+                return null;
+            }
+            
+            if (safe != null)
             {
                 return safe;
             }
 
             var result = FindPawn(username);
 
-            if(result != null)
+            if (result == null)
             {
-                Logger.Warn($"Viewer \"{username}\" was unlinked from their pawn!  Reassigning...");
-
-                var component = Current.Game.GetComponent<GameComponentPawns>();
-
-                component.pawnHistory[username] = result;
-                component.viewerNameQueue.Remove(username);
+                return null;
             }
+
+            Logger.Warn($"Viewer \"{username}\" was unlinked from their pawn!  Reassigning...");
+
+            var component = Current.Game.GetComponent<GameComponentPawns>();
+
+            component.pawnHistory[username] = result;
+            component.viewerNameQueue.Remove(username);
 
             return result;
         }
@@ -56,54 +58,24 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .Where(k => k.EqualsIgnoreCase(username))
                 .Select(p => component.pawnHistory[p]);
 
-            return query.Any() ? query.First() : null;
+            return query.FirstOrDefault();
         }
 
-        public static string GetTranslatedEmoji(string emoji, string text = null)
+        internal static void SendMessage(string message)
         {
-            if(text == null)
-            {
-                text = $"{emoji}.Text";
-            }
-
-            if(TKSettings.Emojis)
-            {
-                return emoji;
-            }
-
-            return text;
-        }
-
-        public static void SendCommandMessage(string viewer, string message)
-        {
-            SendMessage(
-                "TKUtils.Formats.CommandBase".Translate(
-                    viewer.Named("VIEWER"),
-                    message.Named("MESSAGE")
-                )
-            );
-        }
-
-        public static void SendCommandMessage(string message, ChatMessage ircMessage)
-        {
-            SendCommandMessage(ircMessage.Username, message);
-        }
-
-        public static void SendMessage(string message)
-        {
-            if(message.NullOrEmpty())
+            if (message.NullOrEmpty())
             {
                 return;
             }
 
-            var words = message.Split(new char[] { ' ' }, System.StringSplitOptions.None);
+            var words = message.Split(new[] {' '}, StringSplitOptions.None);
             var builder = new StringBuilder();
             var messages = new List<string>();
             var chars = 0;
 
-            foreach(var word in words)
+            foreach (var word in words)
             {
-                if(chars + word.Length <= MESSAGE_LIMIT - 3)
+                if (chars + word.Length <= MessageLimit - 3)
                 {
                     builder.Append($"{word} ");
                     chars += word.Length + 1;
@@ -117,24 +89,21 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
             }
 
-            if(builder.Length > 0)
+            if (builder.Length > 0)
             {
                 messages.Add(builder.ToString());
                 builder.Clear();
             }
 
-            if(messages.Count > 0)
+            if (messages.Count <= 0)
             {
-                foreach(var m in messages)
-                {
-                    MessageQueue.messageQueue.Enqueue(m.Trim());
-                }
+                return;
             }
-        }
 
-        public static void SendMessage(string message, ChatMessage ircMessage)
-        {
-            SendMessage(message);
+            foreach (var m in messages)
+            {
+                Toolkit.client.SendMessage(m.Trim());
+            }
         }
     }
 }

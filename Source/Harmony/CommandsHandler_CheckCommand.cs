@@ -1,17 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-
 using HarmonyLib;
-
 using SirRandoo.ToolkitUtils.Utils;
-
-using ToolkitCore;
-
-using TwitchLib.Client.Models;
-
 using TwitchToolkit;
-
+using TwitchToolkit.IRC;
 using Verse;
+using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
@@ -19,154 +14,141 @@ namespace SirRandoo.ToolkitUtils.Harmony
     public static class CommandsHandler_CheckCommand
     {
         [HarmonyPrefix]
-        public static bool CheckCommand(ChatMessage msg)
+        public static bool CheckCommand(IRCMessage msg)
         {
             try
             {
-                if(!TKSettings.Commands || msg == null || msg.Message == null)
+                if (!TkSettings.Commands)
                 {
                     return true;
                 }
 
-                var viewer = Viewers.GetViewer(msg.Username);
+                if (msg?.Message == null)
+                {
+                    return false;
+                }
+
+                var viewer = Viewers.GetViewer(msg.User);
                 viewer.last_seen = DateTime.Now;
 
-                if(viewer.IsBanned)
+                if (viewer.IsBanned)
                 {
                     return false;
                 }
 
                 var message = msg.Message;
-                var segments = CommandParser.Parse(message, TKSettings.Prefix);
+                var segments = CommandParser.Parse(message, TkSettings.Prefix);
                 var unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"));
-                var emojiCache = TKSettings.Emojis;
+                var emojiCache = TkSettings.Emojis;
 
-                if(message.Substring(0, TKSettings.Prefix.Length).EqualsIgnoreCase(TKSettings.Prefix))
+                IRCMessage payload;
+                if (message.Substring(0, TkSettings.Prefix.Length).EqualsIgnoreCase(TkSettings.Prefix))
                 {
-                    if(!segments.Any())
+                    if (!segments.Any())
                     {
                         return false;
                     }
 
-                    if(segments.First().StartsWith("/w"))
+                    if (segments.First().StartsWith("/w"))
                     {
                         segments = segments.Skip(1).ToArray();
                     }
 
-                    if(unemoji)
+                    if (unemoji)
                     {
                         segments = segments
                             .Where(i => !i.EqualsIgnoreCase("--text"))
                             .ToArray();
                     }
 
-                    var commands = DefDatabase<TwitchToolkit.Command>.AllDefsListForReading.ToList();
-                    TwitchToolkit.Command command = null;
+                    var commands = DefDatabase<Command>.AllDefsListForReading.ToList();
+                    Command command = null;
 
-                    foreach(var def in commands)
+                    foreach (var def in commands)
                     {
-                        if(def.command.Contains(" "))
+                        if (def.command.Contains(" "))
                         {
-                            var spaces = def.command.Count(c => c.Equals(" "));
+                            var spaces = def.command.Count(c => c.Equals(' '));
                             var joined = string.Join(" ", segments.Take(spaces));
 
-                            if(def.command.EqualsIgnoreCase(joined))
+                            if (!def.command.EqualsIgnoreCase(joined))
                             {
-                                command = def;
-                                break;
+                                continue;
                             }
+
+                            command = def;
+                            break;
                         }
-                        else
+
+                        if (!def.command.EqualsIgnoreCase(segments.Take(1).First()))
                         {
-                            if(def.command.EqualsIgnoreCase(segments.Take(1).First()))
-                            {
-                                command = def;
-                                break;
-                            }
+                            continue;
                         }
+
+                        command = def;
+                        break;
                     }
 
-                    if(command != null)
+                    if (command != null)
                     {
-                        var runnable = true;
+                        var runnable = command.enabled;
 
-                        if(!command.enabled)
+                        if (command.requiresMod
+                            && !viewer.mod
+                            && !viewer.username.EqualsIgnoreCase(ToolkitSettings.Channel))
                         {
                             runnable = false;
                         }
 
-                        if(command.requiresMod && !viewer.mod && !viewer.username.EqualsIgnoreCase(ToolkitSettings.Channel))
+                        if (command.requiresAdmin && !msg.User.EqualsIgnoreCase(ToolkitSettings.Channel))
                         {
                             runnable = false;
                         }
 
-                        if(command.requiresAdmin && !msg.Username.EqualsIgnoreCase(ToolkitSettings.Channel))
+                        if (command.shouldBeInSeparateRoom && !CommandsHandler.AllowCommand(msg))
                         {
                             runnable = false;
                         }
 
-                        if(command.shouldBeInSeparateRoom && !CommandsHandler.AllowCommand(msg))
-                        {
-                            runnable = false;
-                        }
-
-                        if(runnable)
+                        if (runnable)
                         {
                             // Fix up the message for Toolkit
-                            var t = ($"!{command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
-
-                            if(command.commandDriver.Name.Equals("Buy") && !command.command.EqualsIgnoreCase("buy"))
+                            payload = new IRCMessage
                             {
-                                t = ($"!buy {command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim();
-                            }
+                                Args = msg.Args,
+                                Channel = msg.Channel,
+                                Cmd = msg.Cmd,
+                                Host = msg.Host,
+                                Message = $"!{command.command} {CombineSegments(segments.Skip(1))}".Trim(),
+                                Parameters = msg.Parameters,
+                                User = msg.User,
+                                Whisper = msg.Whisper
+                            };
 
-                            var payload = new ChatMessage(
-                                msg.BotUsername,
-                                msg.UserId,
-                                msg.Username,
-                                msg.DisplayName,
-                                msg.ColorHex,
-                                msg.Color,
-                                msg.EmoteSet,
-                                ($"!{command.command}" + " " + string.Join(" ", segments.Skip(1))).Trim(),
-                                msg.UserType,
-                                msg.Channel,
-                                msg.Id,
-                                msg.IsSubscriber,
-                                msg.SubscribedMonthCount,
-                                msg.RoomId,
-                                msg.IsTurbo,
-                                msg.IsModerator,
-                                msg.IsMe,
-                                msg.IsBroadcaster,
-                                msg.Noisy,
-                                msg.RawIrcMessage,
-                                msg.EmoteReplacedMessage,
-                                msg.Badges,
-                                msg.CheerBadge,
-                                msg.Bits,
-                                msg.BitsInDollars
-                            );
+                            if (command.commandDriver.Name.Equals("Buy") && !command.defName.EqualsIgnoreCase("buy"))
+                            {
+                                payload.Message = $"!buy {command.command} {CombineSegments(segments.Skip(1))}".Trim();
+                            }
 
                             Logger.Info($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
 
-                            if(unemoji)
+                            if (unemoji)
                             {
-                                TKSettings.Emojis = false;
+                                TkSettings.Emojis = false;
                             }
 
                             try
                             {
                                 command.RunCommand(payload);
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 Logger.Error($"Command \"{command.command}\" failed", e);
                             }
 
-                            if(unemoji)
+                            if (unemoji)
                             {
-                                TKSettings.Emojis = emojiCache;
+                                TkSettings.Emojis = emojiCache;
                             }
                         }
                     }
@@ -174,68 +156,62 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 var twitchInterfaces = Current.Game.components.OfType<TwitchInterfaceBase>().ToList();
 
-                if(twitchInterfaces != null)
+                // hard-coded pawn commands....
+                payload = new IRCMessage
                 {
-                    // hard-coded pawn commands....
-                    var payload = new ChatMessage(
-                        msg.BotUsername,
-                        msg.UserId,
-                        msg.Username,
-                        msg.DisplayName,
-                        msg.ColorHex,
-                        msg.Color,
-                        msg.EmoteSet,
-                        ($"!" + segments.Take(1).FirstOrDefault().ToLowerInvariant() + " " + string.Join(" ", segments.Skip(1))).Trim(),
-                        msg.UserType,
-                        msg.Channel,
-                        msg.Id,
-                        msg.IsSubscriber,
-                        msg.SubscribedMonthCount,
-                        msg.RoomId,
-                        msg.IsTurbo,
-                        msg.IsModerator,
-                        msg.IsMe,
-                        msg.IsBroadcaster,
-                        msg.Noisy,
-                        msg.RawIrcMessage,
-                        msg.EmoteReplacedMessage,
-                        msg.Badges,
-                        msg.CheerBadge,
-                        msg.Bits,
-                        msg.BitsInDollars
-                    );
+                    Args = msg.Args,
+                    Channel = msg.Channel,
+                    Cmd = msg.Cmd,
+                    Host = msg.Host,
+                    Message =
+                        $"!{segments.Take(1).FirstOrDefault()?.ToLowerInvariant()} {CombineSegments(segments.Skip(1))}"
+                            .Trim(),
+                    Parameters = msg.Parameters,
+                    User = msg.User,
+                    Whisper = msg.Whisper
+                };
 
-                    Logger.Info($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check");
+                Logger.Info(
+                    $"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check"
+                );
 
-                    if(unemoji)
+                if (unemoji)
+                {
+                    TkSettings.Emojis = false;
+                }
+
+                foreach (var tInterface in twitchInterfaces)
+                {
+                    try
                     {
-                        TKSettings.Emojis = false;
+                        tInterface.ParseCommand(payload);
                     }
-
-                    foreach(var tInterface in twitchInterfaces)
+                    catch (Exception e)
                     {
-                        try
-                        {
-                            tInterface.ParseCommand(payload);
-                        }
-                        catch(Exception e)
-                        {
-                            Logger.Error($"Twitch interface \"{tInterface.GetType().FullName}\" failed", e);
-                        }
-                    }
-
-                    if(unemoji)
-                    {
-                        TKSettings.Emojis = emojiCache;
+                        Logger.Error($"Twitch interface \"{tInterface.GetType().FullName}\" failed", e);
                     }
                 }
+
+                if (unemoji)
+                {
+                    TkSettings.Emojis = emojiCache;
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Logger.Error($"Command parser failed", e);
+                Logger.Error("Command parser failed", e);
             }
 
             return false;
+        }
+
+        private static string CombineSegments(IEnumerable<string> segments)
+        {
+            return string.Join(
+                " ",
+                segments.Select(segment => segment.Contains(' ') ? $"\"{segment.Replace("\"", "\\\"")}\"" : segment)
+                    .ToArray()
+            );
         }
     }
 }

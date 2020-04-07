@@ -1,167 +1,112 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
-using TwitchLib.Client.Models;
-
 using TwitchToolkit;
-
+using TwitchToolkit.IRC;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnBodyCommand : CommandBase
     {
-        private static bool IsTemperatureCustom = false;
-        private static bool TemperatureCheck = true;
-
-        public override void RunCommand(ChatMessage message)
+        public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
 
-            var pawn = GetOrFindPawn(message.Username);
+            var pawn = GetOrFindPawn(message.User);
 
-            if(pawn == null)
+            if (pawn == null)
             {
-                SendCommandMessage("TKUtils.Responses.NoPawn".Translate(), message);
+                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("HealthOverview".Translate()));
                 return;
             }
 
-            SendCommandMessage(
-                "TKUtils.Formats.PawnBody.Base".Translate(
-                    GetPawnBody(pawn).Named("HEDIFFS")
-                ),
-                message
-            );
+            message.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Translate()));
         }
 
-        private float GetListPriority(BodyPartRecord record) => record == null ? 9999999f : ((float) record.height * 10000) + record.coverageAbsWithChildren;
+        private static float GetListPriority(BodyPartRecord record)
+        {
+            return record == null ? 9999999f : (float) record.height * 10000 + record.coverageAbsWithChildren;
+        }
 
-        private string GetPawnBody(Pawn target)
+        private static string GetPawnBody(Pawn target)
         {
             var hediffs = target.health.hediffSet.hediffs;
 
-            if(hediffs == null || !hediffs.Any())
+            if (hediffs == null || !hediffs.Any())
             {
-                return "TKUtils.Responses.Healthy".Translate();
+                return "NoHealthConditions".Translate().CapitalizeFirst();
             }
 
             var hediffsGrouped = GetVisibleHediffGroupsInOrder(target);
             var parts = new List<string>();
 
-            if(!TKSettings.TempInGear)
+            if (!TkSettings.TempInGear)
             {
-                var tempMin = GenText.ToStringTemperature(StatExtension.GetStatValue(target, StatDefOf.ComfyTemperatureMin, applyPostProcess: true));
-                var tempMax = GenText.ToStringTemperature(StatExtension.GetStatValue(target, StatDefOf.ComfyTemperatureMax, applyPostProcess: true));
-                TaggedString display;
+                var tempMin = target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
+                var tempMax = target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
-                if(IsTemperatureCustom)
-                {
-                    display = TaggedString.Empty;
-                }
-                else
-                {
-                    display = GetTemperatureDisplay();
-
-                    if(TemperatureCheck && display.RawText.Contains("["))
-                    {
-                        Logger.Info("Custom temperature display detected; omitting temperature scale from now on.");
-                        IsTemperatureCustom = true;
-                        TemperatureCheck = false;
-
-                        display = TaggedString.Empty;
-                    }
-                }
-
-                parts.Add(
-                    "TKUtils.Formats.PawnGear.Temperature".Translate(
-                        tempMin.Named("MINIMUM"),
-                        tempMax.Named("MAXIMUM"),
-                        display.Named("DISPLAY")
-                    )
-                );
+                parts.Add($"{"🌡".AltText("ComfyTemperatureRange".Translate().RawText)}{tempMin}~{tempMax}");
             }
-            foreach(var item in hediffsGrouped)
+
+            foreach (var item in hediffsGrouped)
             {
                 var bodyPart = item.Key?.LabelCap ?? "WholeBody".Translate();
                 var bits = new List<string>();
 
-                foreach(var group in item.GroupBy(h => h.UIGroupKey))
+                foreach (var group in item.GroupBy(h => h.UIGroupKey))
                 {
                     var display = group.First().LabelCap;
-                    var count = group.Where(i => i.Bleeding).Count();
+                    var count = group.Count(i => i.Bleeding);
                     var total = group.Count();
 
-                    if(total != 1)
+                    if (total != 1)
                     {
                         display += $" x{total.ToString()}";
                     }
 
-                    if(count > 0)
+                    if (count > 0)
                     {
-                        display = GetTranslatedEmoji("TKUtils.Formats.PawnBody.Bleeding").Translate() + display;
+                        display = "🩸".AltText().Translate("BleedingRate".Translate().RawText) + display;
                     }
 
                     bits.Add(display);
                 }
 
                 parts.Add(
-                    "TKUtils.Formats.PawnBody.Affliction".Translate(
-                        bodyPart.Named("PART"),
-                        string.Join(
-                            "TKUtils.Misc.Separators.Inner".Translate(),
-                            bits.ToArray()
-                        ).Named("HEDIFFS")
+                    "TKUtils.Formats.KeyValue".Translate(
+                        bodyPart,
+                        string.Join(", ", bits.ToArray())
                     )
                 );
             }
 
-            return string.Join("TKUtils.Misc.Separators.Upper".Translate(), parts.ToArray());
+            return string.Join("⎮", parts.ToArray());
         }
 
-        private TaggedString GetTemperatureDisplay()
-        {
-            switch(Prefs.TemperatureMode)
-            {
-                case TemperatureDisplayMode.Fahrenheit:
-                    return "TKUtils.Misc.Temperature.Fahrenheit".Translate();
-
-                case TemperatureDisplayMode.Kelvin:
-                    return "TKUtils.Misc.Temperature.Kelvin".Translate();
-
-                case TemperatureDisplayMode.Celsius:
-                    return "TKUtils.Misc.Temperature.Celsius".Translate();
-
-                default:
-                    return "?";
-            }
-        }
-
-        private IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder(Pawn pawn)
+        private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder(Pawn pawn)
         {
             return GetVisibleHediffs(pawn)
                 .GroupBy(x => x.Part)
                 .OrderByDescending(x => GetListPriority(x.First().Part));
         }
 
-        private IEnumerable<Hediff> GetVisibleHediffs(Pawn pawn)
+        private static IEnumerable<Hediff> GetVisibleHediffs(Pawn pawn)
         {
             var missing = pawn.health.hediffSet.GetMissingPartsCommonAncestors();
 
-            foreach(var part in missing)
+            foreach (var part in missing)
             {
                 yield return part;
             }
 
             var e = pawn.health.hediffSet.hediffs.Where(d => !(d is Hediff_MissingPart) && d.Visible);
 
-            foreach(var item in e)
+            foreach (var item in e)
             {
                 yield return item;
             }

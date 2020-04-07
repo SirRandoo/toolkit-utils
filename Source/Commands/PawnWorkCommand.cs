@@ -1,78 +1,72 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
 using SirRandoo.ToolkitUtils.Utils;
-
-using TwitchLib.Client.Models;
-
 using TwitchToolkit;
-
+using TwitchToolkit.IRC;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnWorkCommand : CommandBase
     {
-        public override void RunCommand(ChatMessage message)
+        public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
 
-            var pawn = GetOrFindPawn(message.Username);
+            var pawn = GetOrFindPawn(message.User);
 
-            if(pawn.workSettings != null && pawn.workSettings.EverWork)
+            if (pawn == null)
             {
-                var container = new List<string>();
-                var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder;
-
-                if(TKSettings.SortWorkPriorities)
-                {
-                    priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
-                        .ThenBy(p => p.naturalPriority)
-                        .Reverse();
-                }
-
-                foreach(var priority in priorities)
-                {
-                    var p = pawn.workSettings.GetPriority(priority);
-
-                    if(TKSettings.FilterWorkPriorities)
-                    {
-                        if(p <= 0)
-                        {
-                            continue;
-                        }
-                    }
-
-                    container.Add(
-                        "TKUtils.Formats.PawnWork.Work".Translate(
-                            priority.ToString().Named("NAME"),
-                            p.Named("VALUE")
-                        )
-                    );
-                }
-
-                if(container.Count > 0)
-                {
-                    SendCommandMessage(
-                        "TKUtils.Formats.PawnWork.Base".Translate(
-                            string.Join(
-                                "TKUtils.Misc.Separators.Inner".Translate(),
-                                container
-                            ).Named("PRIORITIES")
-                        ),
-                        message
-                    );
-                }
+                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TKUtils.Headers.Work".Translate()));
+                return;
             }
-            else
+
+            if (pawn.workSettings == null || (!pawn.workSettings?.EverWork ?? true))
             {
-                SendCommandMessage(
-                    "TKUtils.Responses.PawnWork.None".Translate(),
-                    message
+                message.Reply(
+                    "TKUtils.Responses.PawnWork.None".Translate().WithHeader("TKUtils.Headers.Work".Translate())
                 );
+                return;
+            }
+
+            var container = new List<string>();
+            var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder;
+
+            if (TkSettings.SortWorkPriorities)
+            {
+                priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
+                    .ThenBy(p => p.naturalPriority)
+                    .Reverse();
+            }
+
+            foreach (var priority in priorities.ToList())
+            {
+                var p = pawn.workSettings.GetPriority(priority);
+
+                if (TkSettings.FilterWorkPriorities)
+                {
+                    if (p <= 0)
+                    {
+                        continue;
+                    }
+                }
+
+                container.Add(
+                    "TKUtils.Formats.KeyValue".Translate(
+                        priority.LabelCap.NullOrEmpty()
+                            ? priority.defName.CapitalizeFirst()
+                            : priority.LabelCap.RawText,
+                        p
+                    )
+                );
+            }
+
+            if (container.Count > 0)
+            {
+                message.Reply(string.Join(", ", container).WithHeader("TKUtils.Headers.Work".Translate()));
             }
         }
     }

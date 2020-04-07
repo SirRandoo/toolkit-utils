@@ -1,14 +1,12 @@
 ﻿using System;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
-
 using Verse;
+
+#pragma warning disable 618
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
@@ -21,23 +19,20 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             Viewer = viewer;
 
-            var pawn = CommandBase.GetOrFindPawn(viewer.username);
+            var viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
 
-            if(pawn == null)
+            if (viewerPawn == null)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate()
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
                 return false;
             }
 
-            if(PawnTracker.pawnsToRevive.Contains(pawn))
+            if (PawnTracker.pawnsToRevive.Contains(viewerPawn))
             {
                 return false;
             }
 
-            this.pawn = pawn;
+            pawn = viewerPawn;
             return true;
         }
 
@@ -46,26 +41,31 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             try
             {
                 Pawn val;
-                if(pawn.SpawnedParentOrMe != pawn.Corpse && (val = (pawn.SpawnedParentOrMe as Pawn)) != null && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var val2, null))
+                if (pawn.SpawnedParentOrMe != pawn.Corpse
+                    && (val = pawn.SpawnedParentOrMe as Pawn) != null
+                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var _))
                 {
-                    Logger.Warn($"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position} from {val}");
+                    Logger.Warn(
+                        $"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"
+                    );
                 }
                 else
                 {
                     Viewer.TakeViewerCoins(storeIncident.cost);
                     Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-                    pawn.ClearAllReservations(true);
+                    pawn.ClearAllReservations();
                     ResurrectionUtility.ResurrectWithSideEffects(pawn);
                     PawnTracker.pawnsToRevive.Remove(pawn);
-
-                    Viewer.TakeViewerCoins(storeIncident.cost);
-                    Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
-
-                    Find.LetterStack.ReceiveLetter("Pawn Revived", $"{pawn.Name} has been revived but is experiencing some side effects.", LetterDefOf.PositiveEvent, new LookTargets(pawn), null);
+                    Find.LetterStack.ReceiveLetter(
+                        "TKUtils.Letters.Revival.Title".Translate(),
+                        "TKUtils.Letters.Revival.Description".Translate(pawn.Name),
+                        LetterDefOf.PositiveEvent,
+                        new LookTargets(pawn)
+                    );
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error("Could not execute reviveme", ex);
             }

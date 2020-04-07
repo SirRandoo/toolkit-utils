@@ -1,21 +1,24 @@
 ﻿using TwitchToolkit;
-
 using UnityEngine;
-
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Constraints
+namespace SirRandoo.ToolkitUtils.Utils
 {
     public class CoinConstraint : ComparableConstraint
     {
         private string buffer = "0";
-        private int coins = 0;
+        private int coins;
 
         public override void Draw(Rect canvas)
         {
             var right = canvas.RightHalf();
-            var buttonRect = new Rect(right.x, right.y, (right.width * 0.25f) - 10f, right.height);
-            var fieldRect = new Rect(buttonRect.x + buttonRect.width + 10f, buttonRect.y, (right.width * 0.75f) - 10f, right.height);
+            var buttonRect = new Rect(right.x, right.y, right.width * 0.25f - 10f, right.height);
+            var fieldRect = new Rect(
+                buttonRect.x + buttonRect.width + 10f,
+                buttonRect.y,
+                right.width * 0.75f - 10f,
+                right.height
+            );
 
             Widgets.Label(canvas.LeftHalf(), "TKUtils.Windows.Purge.Constraints.Coins".Translate());
 
@@ -25,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Constraints
 
         public override bool ShouldPurge(Viewer viewer)
         {
-            switch(Strategy)
+            switch (Strategy)
             {
                 case ComparisonTypes.Equal:
                     return viewer.coins == coins;

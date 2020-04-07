@@ -1,44 +1,41 @@
 ﻿using System.Linq;
-
 using SirRandoo.ToolkitUtils.Utils;
-
-using TwitchLib.Client.Models;
-
 using TwitchToolkit;
-
+using TwitchToolkit.IRC;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class FactionsCommand : CommandBase
     {
-        public override void RunCommand(ChatMessage message)
+        public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
 
-            var filteredFactions = Current.Game.World.factionManager.AllFactionsVisible
-                .Where(f => !Current.Game.World.factionManager.OfAncients.Equals(f))
-                .Where(f => !Current.Game.World.factionManager.OfMechanoids.Equals(f))
-                .Where(f => !Current.Game.World.factionManager.OfInsects.Equals(f))
-                .Where(f => !Current.Game.World.factionManager.OfAncientsHostile.Equals(f))
-                .Where(f => !Current.Game.World.factionManager.OfPlayer.Equals(f));
+            var factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.ToList();
 
-            if(filteredFactions.Any())
+            if (!factions.Any())
             {
-                var segments = filteredFactions.Select(f => $"{f.GetCallLabel()}: {f.PlayerGoodwill.ToStringWithSign()}").ToArray();
+                message.Reply("TKUtils.Responses.NoFactions".WithHeader("Factions"));
+                return;
+            }
 
-                SendCommandMessage(
-                    string.Join("TKUtils.Misc.Separators.Inner".Translate(), segments),
-                    message
-                );
-            }
-            else
-            {
-                SendCommandMessage("TKUtils.Responses.NoFactions".Translate(), message);
-            }
+            message.Reply(
+                string.Join(
+                    ", ",
+                    factions.Select(
+                            f => "TKUtils.Formats.KeyValue".Translate(
+                                    f.GetCallLabel(),
+                                    f.PlayerGoodwill.ToStringWithSign()
+                                )
+                                .ToString()
+                        )
+                        .ToArray()
+                )
+            );
         }
     }
 }

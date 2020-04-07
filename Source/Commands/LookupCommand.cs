@@ -1,99 +1,65 @@
-﻿using System.Linq;
-
+﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
-using TwitchLib.Client.Models;
-
 using TwitchToolkit;
-using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Incidents;
+using TwitchToolkit.IRC;
 using TwitchToolkit.Store;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class LookupCommand : CommandBase
     {
-        private bool separateChannel;
-        private string viewer;
+        private IRCMessage msg;
 
-        public override void RunCommand(ChatMessage message)
+        public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
 
-            viewer = message.Username;
-            separateChannel = CommandsHandler.SendToChatroom(message);
+            msg = message;
 
-            var segments = CommandParser.Parse(message.Message, prefix: TKSettings.Prefix).Skip(1).ToArray();
+            var segments = CommandParser.Parse(message.Message, TkSettings.Prefix).Skip(1).ToArray();
 
-            PerformLookup(segments.FirstOrDefault(), segments.Skip(1).FirstOrDefault());
+            PerformLookup(segments.FirstOrFallback(""), segments.Skip(1).FirstOrFallback(""));
         }
 
-        private void Notify__LookupComplete(string query, string[] results, int limit = 10)
+        private void Notify__LookupComplete(string query, IReadOnlyCollection<string> results)
         {
-            if(limit < 0 || results.Length <= 0)
+            if (results.Count <= 0)
             {
                 return;
             }
 
-            var formatted = string.Join("TKUtils.Misc.Separators.Inner".Translate(), results.Take(limit));
+            var formatted = string.Join(", ", results.Take(TkSettings.LookupLimit));
 
-            SendCommandMessage(
-                viewer,
-                "TKUtils.Formats.Lookup.Base".Translate(
-                    query.Named("QUERY"),
-                    formatted.Named("RESULTS")
-                )
-            );
+            msg.Reply("TKUtils.Formats.Lookup".Translate(query, formatted));
         }
 
         private void PerformAnimalLookup(string query)
         {
             var results = DefDatabase<PawnKindDef>.AllDefsListForReading
                 .Where(i => i.RaceProps.Animal)
-                .Where(i =>
-                {
-                    if(i.LabelCap.RawText.Contains(query))
+                .Where(
+                    i =>
                     {
-                        return true;
+                        var label = i.LabelCap.RawText.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
-
-                    if(i.LabelCap.RawText.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    var t = i.LabelCap.RawText.ToLower().Replace(" ", "");
-
-                    if(t.Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(t.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    if(i.defName.ToLower().Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(i.defName.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                })
-                .Select(i => GenText.CapitalizeFirst(i.defName))
+                )
+                .Select(i => i.defName.CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -103,32 +69,22 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             var results = DefDatabase<IncidentDef>.AllDefsListForReading
                 .Where(i => i.category == IncidentCategoryDefOf.DiseaseHuman)
-                .Where(i =>
-                {
-                    if(i.LabelCap.RawText.Contains(query))
+                .Where(
+                    i =>
                     {
-                        return true;
+                        var label = i.LabelCap.RawText.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
-
-                    if(i.LabelCap.RawText.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    var t = i.LabelCap.RawText.Replace(" ", "").ToLower();
-
-                    if(t.Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(t.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }).Select(i => GenText.CapitalizeFirst(i.LabelCap.RawText.Replace(" ", "").ToLower()))
+                )
+                .Select(i => i.LabelCap.RawText.ToToolkit().CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -138,85 +94,47 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             var results = DefDatabase<StoreIncident>.AllDefsListForReading
                 .Where(i => i.cost > 0)
-                .Where(i =>
-                {
-                    if(i.abbreviation.Contains(query))
+                .Where(
+                    i =>
                     {
-                        return true;
+                        var label = i.abbreviation.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
-
-                    if(i.abbreviation.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    var t = i.abbreviation.Replace(" ", "").ToLower();
-
-                    if(t.Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(t.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    if(i.defName.ToLower().Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(i.defName.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }).Select(i => GenText.CapitalizeFirst(i.abbreviation.Replace(" ", "").ToLower()))
+                )
+                .Select(i => i.abbreviation.ToToolkit().CapitalizeFirst())
                 .ToArray();
+
+            Notify__LookupComplete(query, results);
         }
 
         private void PerformItemLookup(string query)
         {
             var results = StoreInventory.items
                 .Where(i => i.price > 0)
-                .Where(i =>
-                {
-                    if(i.abr.Contains(query))
+                .Where(
+                    i =>
                     {
-                        return true;
+                        var label = i.abr.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+
+                        return i.defname.ToToolkit().Contains(query.ToToolkit())
+                               || i.defname.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
-
-                    if(i.abr.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    var t = i.abr.Replace(" ", "").ToLower();
-
-                    if(t.Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(t.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    if(i.defname.ToLower().Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(i.defname.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }).Select(i => GenText.CapitalizeFirst(i.abr.Replace(" ", "").ToLower()))
+                )
+                .Select(i => i.abr.ToToolkit().CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -224,31 +142,31 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformLookup(string category, string query)
         {
-            if(category.EqualsIgnoreCase("disease") || category.EqualsIgnoreCase("diseases"))
+            if (category.EqualsIgnoreCase("disease") || category.EqualsIgnoreCase("diseases"))
             {
                 PerformDiseaseLookup(query);
             }
-            else if(category.EqualsIgnoreCase("skill") || category.EqualsIgnoreCase("skills"))
+            else if (category.EqualsIgnoreCase("skill") || category.EqualsIgnoreCase("skills"))
             {
                 PerformSkillLookup(query);
             }
-            else if(category.EqualsIgnoreCase("event") || category.EqualsIgnoreCase("events"))
+            else if (category.EqualsIgnoreCase("event") || category.EqualsIgnoreCase("events"))
             {
                 PerformEventLookup(query);
             }
-            else if(category.EqualsIgnoreCase("item") || category.EqualsIgnoreCase("items"))
+            else if (category.EqualsIgnoreCase("item") || category.EqualsIgnoreCase("items"))
             {
                 PerformItemLookup(query);
             }
-            else if(category.EqualsIgnoreCase("animal") || category.EqualsIgnoreCase("animals"))
+            else if (category.EqualsIgnoreCase("animal") || category.EqualsIgnoreCase("animals"))
             {
                 PerformAnimalLookup(query);
             }
-            else if(category.EqualsIgnoreCase("trait") || category.EqualsIgnoreCase("traits"))
+            else if (category.EqualsIgnoreCase("trait") || category.EqualsIgnoreCase("traits"))
             {
                 PerformTraitLookup(query);
             }
-            else if(category.EqualsIgnoreCase("race") || category.EqualsIgnoreCase("races"))
+            else if (category.EqualsIgnoreCase("race") || category.EqualsIgnoreCase("races"))
             {
                 PerformRaceLookup(query);
             }
@@ -256,46 +174,23 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            var results = DefDatabase<PawnKindDef>.AllDefsListForReading
-                .Where(i => i.RaceProps.Humanlike)
-                .Where(i =>
-                {
-                    if(i.LabelCap.RawText.Contains(query))
+            var results = TkUtils.ShopExpansion.Races
+                .Where(
+                    i =>
                     {
-                        return true;
+                        var label = i.Name.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+
+                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
+                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
-
-                    if(i.LabelCap.RawText.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    var t = i.LabelCap.RawText.ToLower().Replace(" ", "");
-
-                    if(t.Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(t.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    if(i.defName.ToLower().Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(i.defName.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                })
-                .GroupBy(i => i.race.defName)
-                .Select(i => GenText.CapitalizeFirst(i.Key))
+                )
+                .Select(i => i.Name.CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -304,32 +199,22 @@ namespace SirRandoo.ToolkitUtils.Commands
         private void PerformSkillLookup(string query)
         {
             var results = DefDatabase<SkillDef>.AllDefsListForReading
-                .Where(i =>
-                {
-                    if(i.LabelCap.RawText.Contains(query))
+                .Where(
+                    i =>
                     {
-                        return true;
+                        var label = i.LabelCap.RawText.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+
+                        return i.defName.ToToolkit().Contains(query.ToToolkit())
+                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
-
-                    if(i.LabelCap.RawText.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    var t = i.LabelCap.RawText.Replace(" ", "").ToLower();
-
-                    if(t.Contains(query))
-                    {
-                        return true;
-                    }
-
-                    if(t.EqualsIgnoreCase(query))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }).Select(i => GenText.CapitalizeFirst(i.defName.ToLower()))
+                )
+                .Select(i => i.defName.ToLower().CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -337,9 +222,23 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            var results = AllTraits.buyableTraits
-                .Where(i => i.label.ToLower().Contains(query) || i.label.EqualsIgnoreCase(query) || i.def.defName.ToLower().Contains(query) || i.def.defName.EqualsIgnoreCase(query))
-                .Select(i => GenText.CapitalizeFirst(i.label))
+            var results = TkUtils.ShopExpansion.Traits
+                .Where(
+                    i =>
+                    {
+                        var label = i.Name.ToToolkit();
+                        var q = query.ToToolkit();
+
+                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
+                        {
+                            return true;
+                        }
+
+                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
+                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                    }
+                )
+                .Select(i => i.Name.CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);

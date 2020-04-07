@@ -1,35 +1,26 @@
 ﻿using SirRandoo.ToolkitUtils.Utils;
-
-using TwitchLib.Client.Models;
-
 using TwitchToolkit;
-
+using TwitchToolkit.IRC;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnFixCommand : CommandBase
     {
-        public override void RunCommand(ChatMessage message)
+        public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
 
-            var pawn = GetOrFindPawn(message.Username);
+            var pawn = GetOrFindPawn(message.User);
 
-            if(pawn == null)
-            {
-                SendCommandMessage(
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    message
-                );
-
-                return;
-            }
-
-            SendCommandMessage("TKUtils.Responses.PawnFix.Relinked".Translate(), message);
+            message.Reply(
+                pawn == null
+                    ? "TKUtils.Responses.NoPawn".Translate()
+                    : "TKUtils.Responses.PawnFix.Relinked".Translate()
+            );
         }
     }
 }

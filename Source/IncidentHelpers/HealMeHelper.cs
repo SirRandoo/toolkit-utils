@@ -1,12 +1,9 @@
-﻿using System.Linq;
-
+﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
 using TwitchToolkit;
 using TwitchToolkit.Store;
-
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
@@ -14,7 +11,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
     public class HealMeHelper : IncidentHelperVariables
     {
         private Pawn pawn;
-        private bool separateChannel;
         private Hediff toHeal;
         private BodyPartRecord toRestore;
         public override Viewer Viewer { get; set; }
@@ -22,109 +18,123 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             Viewer = viewer;
-            this.separateChannel = separateChannel;
 
             pawn = CommandBase.GetPawn(viewer.username);
 
-            if(pawn == null)
+            if (pawn == null)
             {
-                CommandBase.SendCommandMessage(
-                    viewer.username,
-                    "TKUtils.Responses.NoPawn".Translate()
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
                 return false;
             }
 
             var hediff = HealHelper.FindLifeThreateningHediff(pawn);
-            if(hediff != null)
+            if (hediff != null)
             {
                 toHeal = hediff;
                 return true;
             }
-            if(HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 2500)
+
+            if (HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 2500)
             {
                 var hediff2 = HealHelper.FindMostBleedingHediff(pawn);
-                if(hediff2 != null)
+                if (hediff2 != null)
                 {
                     toHeal = hediff2;
                     return true;
                 }
             }
-            if(pawn.health.hediffSet.GetBrain() != null)
+
+            if (pawn.health.hediffSet.GetBrain() != null)
             {
-                var hediff_Injury = HealHelper.FindPermanentInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()));
-                if(hediff_Injury != null)
+                var hediffInjury = HealHelper.FindPermanentInjury(
+                    pawn,
+                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
+                );
+                if (hediffInjury != null)
                 {
-                    toHeal = hediff_Injury;
+                    toHeal = hediffInjury;
                     return true;
                 }
             }
+
             var bodyPartRecord = HealHelper.FindBiggestMissingBodyPart(pawn, HealHelper.HandCoverageAbsWithChildren);
-            if(bodyPartRecord != null)
+            if (bodyPartRecord != null)
             {
                 toRestore = bodyPartRecord;
                 return true;
             }
-            var hediff_Injury2 = HealHelper.FindPermanentInjury(
+
+            var hediffInjury2 = HealHelper.FindPermanentInjury(
                 pawn,
                 pawn.health.hediffSet.GetNotMissingParts()
-                    .Where(p => p.def == BodyPartDefOf.Eye)
+                    .Where(p => p.def == BodyPartDefOf.Eye) as IReadOnlyCollection<BodyPartRecord>
             );
 
-            if(hediff_Injury2 != null)
+            if (hediffInjury2 != null)
             {
-                toHeal = hediff_Injury2;
+                toHeal = hediffInjury2;
                 return true;
             }
+
             var hediff3 = HealHelper.FindImmunizableHediffWhichCanKill(pawn);
-            if(hediff3 != null)
+            if (hediff3 != null)
             {
                 toHeal = hediff3;
                 return true;
             }
-            var hediff4 = HealHelper.FindNonInjuryMiscBadHediff(pawn, onlyIfCanKill: true);
-            if(hediff4 != null)
+
+            var hediff4 = HealHelper.FindNonInjuryMiscBadHediff(pawn, true);
+            if (hediff4 != null)
             {
                 toHeal = hediff4;
                 return true;
             }
-            var hediff5 = HealHelper.FindNonInjuryMiscBadHediff(pawn, onlyIfCanKill: false);
-            if(hediff5 != null)
+
+            var hediff5 = HealHelper.FindNonInjuryMiscBadHediff(pawn, false);
+            if (hediff5 != null)
             {
                 toHeal = hediff5;
                 return true;
             }
-            if(pawn.health.hediffSet.GetBrain() != null)
+
+            if (pawn.health.hediffSet.GetBrain() != null)
             {
-                var hediff_Injury3 = HealHelper.FindInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()));
-                if(hediff_Injury3 != null)
+                var hediffInjury3 = HealHelper.FindInjury(
+                    pawn,
+                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
+                );
+                if (hediffInjury3 != null)
                 {
-                    toHeal = hediff_Injury3;
+                    toHeal = hediffInjury3;
                     return true;
                 }
             }
+
             var bodyPartRecord2 = HealHelper.FindBiggestMissingBodyPart(pawn);
-            if(bodyPartRecord2 != null)
+            if (bodyPartRecord2 != null)
             {
                 toRestore = bodyPartRecord2;
                 return true;
             }
-            var hediff_Addiction = HealHelper.FindAddiction(pawn);
-            if(hediff_Addiction != null)
+
+            var hediffAddiction = HealHelper.FindAddiction(pawn);
+            if (hediffAddiction != null)
             {
-                toHeal = hediff_Addiction;
+                toHeal = hediffAddiction;
                 return true;
             }
-            var hediff_Injury4 = HealHelper.FindPermanentInjury(pawn);
-            if(hediff_Injury4 != null)
+
+            var hediffInjury4 = HealHelper.FindPermanentInjury(pawn);
+            if (hediffInjury4 != null)
             {
-                toHeal = hediff_Injury4;
+                toHeal = hediffInjury4;
                 return true;
             }
-            var hediff_Injury5 = HealHelper.FindInjury(pawn);
-            if(hediff_Injury5 != null)
+
+            var hediffInjury5 = HealHelper.FindInjury(pawn);
+            if (hediffInjury5 != null)
             {
-                toHeal = hediff_Injury5;
+                toHeal = hediffInjury5;
             }
 
             return toHeal != null || toRestore != null;
@@ -132,48 +142,72 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override void TryExecute()
         {
-            if(toHeal != null)
+            if (toHeal != null)
             {
                 HealHelper.Cure(toHeal);
 
                 Viewer.TakeViewerCoins(storeIncident.cost);
                 Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
-                NotifySuccess(toHeal.LabelCap);
+                Notify__Success(toHeal.LabelCap);
             }
 
-            if(toRestore != null)
+            if (toRestore == null)
             {
-                pawn.health.RestorePart(toRestore);
-
-                Viewer.TakeViewerCoins(storeIncident.cost);
-                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
-
-                NotifySuccess(toRestore.LabelCap);
+                return;
             }
+
+            pawn.health.RestorePart(toRestore);
+
+            Viewer.TakeViewerCoins(storeIncident.cost);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
+            Notify__Success(toRestore.Label);
         }
 
-        private void NotifySuccess(string target)
+        private void Notify__Success(string target)
         {
-            if(ToolkitSettings.PurchaseConfirmations)
+            if (ToolkitSettings.PurchaseConfirmations)
             {
-                CommandBase.SendCommandMessage(
-                    Viewer.username,
-                    "TKUtils.Responses.HealMe.Healed".Translate(
-                        target.Named("TARGET")
-                    )
-                );
+                var response = "";
+
+                if (toHeal != null)
+                {
+                    response = "TKUtils.Responses.HealMe.Healed";
+                }
+
+                if (toRestore != null)
+                {
+                    response = "TKUtils.Responses.HealMe.Restored";
+                }
+
+                if (!response.NullOrEmpty())
+                {
+                    MessageHelper.ReplyToUser(Viewer.username, response.Translate(target));
+                }
             }
 
-            Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.Letters.Heal.Title".Translate(),
-                "TKUtils.Letters.Heal.Description".Translate(
-                    Viewer.username.Named("VIEWER"),
-                    target.Named("TARGET")
-                ),
-                LetterDefOf.PositiveEvent,
-                new LookTargets(CommandBase.GetPawn(Viewer.username))
-            );
+            var description = "";
+
+            if (toHeal != null)
+            {
+                description = "TKUtils.Letters.Heal.Recovery.Description";
+            }
+
+            if (toRestore != null)
+            {
+                description = "TKUtils.Letters.Heal.Restored.Description";
+            }
+
+            if (!description.NullOrEmpty())
+            {
+                Current.Game.letterStack.ReceiveLetter(
+                    "TKUtils.Letters.Heal.Title".Translate(),
+                    description.Translate(Viewer.username, target),
+                    LetterDefOf.PositiveEvent,
+                    pawn
+                );
+            }
         }
     }
 }

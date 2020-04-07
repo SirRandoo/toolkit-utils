@@ -1,314 +1,257 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
 using RimWorld;
-
 using SirRandoo.ToolkitUtils.Utils;
-
-using TwitchLib.Client.Models;
-
 using TwitchToolkit;
-
+using TwitchToolkit.IRC;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnHealthCommand : CommandBase
     {
-        public override void RunCommand(ChatMessage message)
+        public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
 
-            var pawn = GetOrFindPawn(message.Username);
+            var pawn = GetOrFindPawn(message.User);
 
-            if(pawn == null)
+            if (pawn == null)
             {
-                SendCommandMessage(
-                    "TKUtils.Responses.NoPawn".Translate(),
-                    message
-                );
+                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabHealth".Translate()));
                 return;
             }
 
-            var segment = message.Message.Split(' ').Skip(1).FirstOrDefault();
+            var segment = CommandParser.Parse(message.Message).Skip(1).FirstOrDefault();
 
-            if(segment.NullOrEmpty())
+            if (segment.NullOrEmpty())
             {
-                SendCommandMessage(HealthReport(pawn), message);
+                message.Reply(HealthReport(pawn).WithHeader("TabHealth".Translate()));
                 return;
             }
 
-            var cap = DefDatabase<PawnCapacityDef>.AllDefsListForReading.Where(d => d.defName.EqualsIgnoreCase(segment));
+            var cap = DefDatabase<PawnCapacityDef>.AllDefsListForReading.Where(
+                    d => d.defName.EqualsIgnoreCase(segment)
+                         || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
+                )
+                .ToArray();
 
-            if(cap.Any())
-            {
-                SendCommandMessage(
-                    HealthCapacityReport(pawn, cap.First()),
-                    message
-                );
-            }
-            else
-            {
-                SendCommandMessage(
-                    "TKUtils.Responses.PawnHealth.Capacity.None".Translate(
-                        segment.Named("QUERY")
-                    ),
-                    message
-                );
-            }
+
+            message.Reply(
+                (cap.Any()
+                    ? HealthCapacityReport(pawn, cap.First())
+                    : "TKUtils.Responses.PawnHealth.Capacity.None".Translate(segment).ToString()
+                ).WithHeader("TabHealth".Translate())
+            );
         }
 
-        private string GetFriendlyHealthState(PawnHealthState state)
+        private static string GetHealthStateFriendly(PawnHealthState state)
         {
-            switch(state)
+            switch (state)
             {
                 case PawnHealthState.Down:
-                    return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Downed").Translate();
-
+                    return "💫".AltText("DownedLower".Translate().CapitalizeFirst());
                 case PawnHealthState.Dead:
-                    return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Dead").Translate();
-
+                    return "👻".AltText("Dead".Translate());
                 default:
-                    return $"[{Gen.ToStringSafe(state)}]";
+                    return string.Empty;
             }
         }
 
-        private string GetFriendlyMoodState(Pawn pawn)
+        private static string GetMoodFriendly(Pawn subject)
         {
-            if(pawn.MentalStateDef != null)
+            if (subject.MentalStateDef != null)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.None").Translate();
+                return "⚡".AltText(subject.MentalStateDef.LabelCap);
             }
 
-            var breakThresholdExtreme = pawn.mindState.mentalBreaker.BreakThresholdExtreme;
+            var thresholdExtreme = subject.mindState.mentalBreaker.BreakThresholdExtreme;
+            var moodLevel = subject.needs.mood.CurLevel;
 
-            if(pawn.needs.mood.CurLevel < breakThresholdExtreme)
+            if (moodLevel < thresholdExtreme)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Extreme").Translate();
+                return "🤬".AltText("Mood_AboutToBreak");
             }
 
-            if(pawn.needs.mood.CurLevel < breakThresholdExtreme + 0.05f)
+            if (moodLevel < thresholdExtreme + 0.0500000007450581)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Upset").Translate();
+                return "😠".AltText("Mood_OnEdge");
             }
 
-            if(pawn.needs.mood.CurLevel < pawn.mindState.mentalBreaker.BreakThresholdMinor)
+            if (moodLevel < subject.mindState.mentalBreaker.BreakThresholdMinor)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Stressed").Translate();
+                return "😣".AltText("Mood_Stressed");
             }
 
-            if(pawn.needs.mood.CurLevel < 0.65f)
+            if (moodLevel < 0.649999976158142)
             {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Bad").Translate();
+                return "😐".AltText("Mood_Neutral");
             }
 
-            if(pawn.needs.mood.CurLevel < 0.9f)
-            {
-                return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Neutral").Translate();
-            }
-
-            return GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Mood.Happy").Translate();
+            return moodLevel < 0.899999976158142
+                ? "🙂".AltText("Mood_Content".Translate())
+                : "😊".AltText("Mood_Happy".Translate());
         }
 
-        private string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
+        private static string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
         {
-            if(!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
+            if (!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
             {
                 return "TKUtils.Responses.PawnHealth.Capacity.Race".Translate(
-                    Find.ActiveLanguageWorker.Pluralize(pawn.kindDef.race.defName).Named("RACE"),
-                    capacity.GetLabelFor(pawn).Named("CAPACITY")
+                    Find.ActiveLanguageWorker.Pluralize(pawn.kindDef.race.defName),
+                    capacity.GetLabelFor(pawn)
                 );
             }
 
             var impactors = new List<PawnCapacityUtility.CapacityImpactor>();
             var segments = new List<string>
             {
-                "TKUtils.Formats.PawnHealth.Capacity".Translate(
-                    capacity.LabelCap.Named("CAPACITY"),
-                    GenText.ToStringPercent(
-                        PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
-                    ).Named("PERCENT")
+                "TKUtils.Formats.KeyValue".Translate(
+                    capacity.LabelCap,
+                    PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
+                        .ToStringPercent()
                 )
             };
 
-            if(impactors.Any())
+            if (impactors.Any())
             {
                 var parts = new List<string>();
 
-                foreach(var i in impactors)
+                foreach (var i in impactors)
                 {
-                    if(i is PawnCapacityUtility.CapacityImpactorHediff)
+                    if (i is PawnCapacityUtility.CapacityImpactorHediff)
                     {
                         parts.Add(i.Readable(pawn));
                     }
                 }
 
-                foreach(var i in impactors)
+                foreach (var i in impactors)
                 {
-                    if(i is PawnCapacityUtility.CapacityImpactorBodyPartHealth)
+                    if (i is PawnCapacityUtility.CapacityImpactorBodyPartHealth)
                     {
                         parts.Add(i.Readable(pawn));
                     }
                 }
 
-                foreach(var i in impactors)
+                foreach (var i in impactors)
                 {
-                    if(i is PawnCapacityUtility.CapacityImpactorCapacity)
+                    if (i is PawnCapacityUtility.CapacityImpactorCapacity)
                     {
                         parts.Add(i.Readable(pawn));
                     }
                 }
 
-                foreach(var i in impactors)
+                foreach (var i in impactors)
                 {
-                    if(i is PawnCapacityUtility.CapacityImpactorPain)
+                    if (i is PawnCapacityUtility.CapacityImpactorPain)
                     {
                         parts.Add(i.Readable(pawn));
                     }
                 }
 
                 segments.Add(
-                    "TKUtils.Formats.PawnHealth.Impactors".Translate(
-                        string.Join(
-                            "TKUtils.Misc.Separators.Inner".Translate(),
-                            parts
-                        ).Named("IMPACTORS")
-                    )
+                    "TKUtils.Formats.PawnHealth.Impactors".Translate(string.Join(", ", parts))
                 );
             }
             else
             {
-                segments.Add("TKUtils.Responses.Healthy".Translate());
+                segments.Add("NoHealthConditions".Translate().CapitalizeFirst());
             }
 
-            return string.Join(
-                "TKUtils.Misc.Separators.Upper".Translate(),
-                segments
-            );
+            return string.Join("⎮", segments);
         }
 
-        private string HealthReport(Pawn pawn)
+        private static string HealthReport(Pawn pawn)
         {
-            var segments = new List<string>()
+            var segments = new List<string>
             {
                 "TKUtils.Formats.PawnHealth.Summary".Translate(
-                    GenText.ToStringPercent(pawn.health.summaryHealth.SummaryHealthPercent).Named("PERCENT")
+                    pawn.health.summaryHealth.SummaryHealthPercent.ToStringPercent()
                 )
             };
 
-            if(pawn.health.State != PawnHealthState.Mobile)
+            if (pawn.health.State != PawnHealthState.Mobile)
             {
-                segments[0] += " " + GetFriendlyHealthState(pawn.health.State);
+                segments[0] += $" {GetHealthStateFriendly(pawn.health.State)}";
             }
             else
             {
-                segments[0] += " " + GetFriendlyMoodState(pawn);
+                segments[0] += $" {GetMoodFriendly(pawn)}";
             }
 
-            if(pawn.health.hediffSet.BleedRateTotal > 0.01f)
+            if (pawn.health.hediffSet.BleedRateTotal > 0.01f)
             {
                 var ticks = HealthUtility.TicksUntilDeathDueToBloodLoss(pawn);
 
-                if(ticks >= 60000)
-                {
-                    segments.Add(
-                        GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Bleeding.NoDanger").Translate()
-                    );
-                }
-                else
-                {
-                    segments.Add(
-                        GetTranslatedEmoji("TKUtils.Responses.PawnHealth.Bleeding.Danger")
-                            .Translate(
-                                GenDate.ToStringTicksToPeriod(ticks, shortForm: true).Named("TIME")
-                            )
-                    );
-                }
+                segments.Add(
+                    ticks >= 60000
+                        ? "🩸⌛".AltText("WontBleedOutSoon".Translate().CapitalizeFirst())
+                        : $"{"🩸⏳".AltText("BleedingRate".Translate().RawText)} ({ticks.ToStringTicksToPeriod(shortForm: true)})"
+                );
             }
 
-            IEnumerable<PawnCapacityDef> source;
-            if(pawn.def.race.Humanlike)
+            List<PawnCapacityDef> source;
+            if (pawn.def.race.Humanlike)
             {
-                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnHumanlikes);
+                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnHumanlikes).ToList();
             }
-            else if(pawn.def.race.Animal)
+            else if (pawn.def.race.Animal)
             {
-                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnAnimals);
+                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnAnimals).ToList();
             }
-            else if(pawn.def.race.IsMechanoid)
+            else if (pawn.def.race.IsMechanoid)
             {
-                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnMechanoids);
+                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnMechanoids).ToList();
             }
             else
             {
-                source = new List<PawnCapacityDef>();
+                source = new List<PawnCapacityDef>().ToList();
 
                 segments.Add(
                     "TKUtils.Responses.UnsupportedRace".Translate(
-                        pawn.kindDef.race.defName.Named("RACE")
+                        pawn.kindDef.race.defName
                     )
                 );
             }
 
-            if(source.Any())
+            if (source.Any())
             {
-                var capacities = new List<string>();
-                source = source.OrderBy(d => d.listOrder);
+                source = source.OrderBy(d => d.listOrder).ToList();
 
-                foreach(var capacity in source)
-                {
-                    if(!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
-                    {
-                        continue;
-                    }
-
-                    capacities.Add(
-                        "TKUtils.Formats.PawnHealth.Capacity".Translate(
-                            capacity.GetLabelFor(pawn).CapitalizeFirst().Named("CAPACITY"),
-                            HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First.Named("PERCENT")
+                var capacities = source
+                    .Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
+                    .Select(
+                        capacity => "TKUtils.Formats.KeyValue".Translate(
+                            capacity.GetLabelFor(pawn).CapitalizeFirst(),
+                            HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First
                         )
-                    );
-                }
-
-                segments.Add(
-                    string.Join(
-                        "TKUtils.Misc.Separators.Inner".Translate(),
-                        capacities
                     )
-                );
+                    .Select(dummy => (string) dummy)
+                    .ToArray();
+
+                segments.Add(string.Join(", ", capacities));
             }
 
-            if(TKSettings.ShowSurgeries)
+            if (!TkSettings.ShowSurgeries)
             {
-                var surgeries = pawn.health.surgeryBills;
-
-                if(surgeries != null && surgeries.Count > 0)
-                {
-                    var queued = new List<string>();
-
-                    foreach(var item in surgeries.Bills)
-                    {
-                        queued.Add(item.LabelCap);
-                    }
-
-                    segments.Add(
-                        "TKUtils.Formats.PawnHealth.Surgeries".Translate(
-                            string.Join(
-                                "TKUtils.Misc.Separators.Inner".Translate(),
-                                queued
-                            ).Named("SURGERIES")
-                        )
-                    );
-                }
+                return string.Join("⎮", segments);
             }
 
-            return string.Join(
-                "TKUtils.Misc.Separators.Upper".Translate(),
-                segments
-            );
+            var surgeries = pawn.health.surgeryBills;
+
+            if (surgeries == null || surgeries.Count <= 0)
+            {
+                return string.Join("⎮", segments);
+            }
+
+            var queued = surgeries.Bills.Select(item => item.LabelCap).ToArray();
+
+            segments.Add("TKUtils.Formats.PawnHealth.Surgeries".Translate(string.Join(", ", queued)));
+
+            return string.Join("⎮", segments.ToArray());
         }
     }
 }

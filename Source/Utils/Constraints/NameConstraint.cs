@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-
+using System.Linq;
 using TwitchToolkit;
-
 using UnityEngine;
-
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Constraints
+namespace SirRandoo.ToolkitUtils.Utils
 {
-    public enum NameComparisonTypes
-    {
-        Is,
-        Not
-    }
+    public enum NameComparisonTypes { Is, Not }
 
     public class NameConstraint : ConstraintBase
     {
@@ -31,25 +24,28 @@ namespace SirRandoo.ToolkitUtils.Constraints
 
             Widgets.Label(left, "TKUtils.Windows.Purge.Constraints.Name".Translate());
 
-            if(Widgets.ButtonText(new Rect(right.x, right.y, rightWidth, right.height), $"TKUtils.Windows.Purge.NameComparisonTypes.{Enum.GetName(typeof(NameComparisonTypes), nameStrategy)}".Translate()))
+            if (Widgets.ButtonText(
+                new Rect(right.x, right.y, rightWidth, right.height),
+                $"TKUtils.Windows.Purge.NameComparisonTypes.{Enum.GetName(typeof(NameComparisonTypes), nameStrategy)}"
+                    .Translate()
+            ))
             {
                 var names = Enum.GetNames(typeof(NameComparisonTypes));
-                var options = new List<FloatMenuOption>();
-
-                foreach(var name in names)
-                {
-                    options.Add(
-                        new FloatMenuOption(
+                var options = names.Select(
+                        name => new FloatMenuOption(
                             $"TKUtils.Windows.Purge.NameComparisonTypes.{name}".Translate(),
                             () => nameStrategy = (NameComparisonTypes) Enum.Parse(typeof(NameComparisonTypes), name)
                         )
-                    );
-                }
+                    )
+                    .ToList();
 
                 Find.WindowStack.Add(new FloatMenu(options));
             }
 
-            username = Widgets.TextField(new Rect(right.x + rightWidth, right.y, right.width - rightWidth, right.height), username);
+            username = Widgets.TextField(
+                new Rect(right.x + rightWidth, right.y, right.width - rightWidth, right.height),
+                username
+            );
         }
 
         public void SetComparison(NameComparisonTypes type)

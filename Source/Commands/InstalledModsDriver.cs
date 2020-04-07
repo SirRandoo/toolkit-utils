@@ -1,85 +1,46 @@
-﻿using System.Collections.Generic;
-
+﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-
-using TwitchLib.Client.Models;
-
 using TwitchToolkit;
-
+using TwitchToolkit.IRC;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class InstalledModsDriver : CommandBase
     {
-        public override void RunCommand(ChatMessage message)
+        public override void RunCommand(IRCMessage message)
         {
-            if(!CommandsHandler.AllowCommand(message))
+            if (!CommandsHandler.AllowCommand(message))
             {
                 return;
             }
 
-            SendCommandMessage(
-                "TKUtils.Formats.ModList.Base".Translate(
-                    Toolkit.Mod.Version.Named("VERSION"),
-                    (TKSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).Named("MODS")
-                ),
-                message
+            message.Reply(
+                (
+                    TkSettings.VersionedModList
+                        ? GetModListStringVersioned()
+                        : GetModListString()
+                ).WithHeader($"Toolkit v{Toolkit.Mod.Version}")
             );
         }
 
         private static string GetModListString()
         {
-            var container = new List<string>();
-            var unversioned = TKUtils.GetModListUnversioned();
-
-            foreach(var mod in unversioned)
-            {
-                container.Add(TryFavoriteMod(mod));
-            }
-
-            return string.Join(
-                "TKUtils.Misc.Separators.Inner".Translate(),
-                container
-            );
+            return string.Join(", ", TkUtils.GetModListUnversioned().Select(TryFavoriteMod).ToArray());
         }
 
         private static string GetModListStringVersioned()
         {
-            var container = new List<string>();
-            var versioned = TKUtils.GetModListVersioned();
+            var list = TkUtils.GetModListVersioned();
 
-            foreach(var mod in versioned)
-            {
-                container.Add(
-                    "TKUtils.Formats.ModList.Mod".Translate(
-                        TryFavoriteMod(mod.Item1).Named("NAME"),
-                        mod.Item2.Named("VERSION")
-                    )
-                );
-            }
-
-            return string.Join(
-                "TKUtils.Misc.Separators.Inner".Translate(),
-                container
-            );
+            return string.Join(", ", list.Select(m => $"{TryFavoriteMod(m.Item1)} (v{m.Item2})").ToArray());
         }
 
         private static string TryFavoriteMod(string mod)
         {
-            if(mod.EqualsIgnoreCase(TKUtils.ID))
-            {
-                return GetTranslatedEmoji(
-                    "TKUtils.Misc.Decorators.Favorite",
-                    "TKUtils.Misc.Decorators.Favorite.Text"
-                ).Translate(
-                    mod.Named("DECORATING")
-                );
-            }
-            else
-            {
-                return mod;
-            }
+            return !TkSettings.DecorateUtils || !mod.EqualsIgnoreCase(TkUtils.Id)
+                ? mod
+                : $"{"★".AltText("*")}{mod}";
         }
     }
 }
