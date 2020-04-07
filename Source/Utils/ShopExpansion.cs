@@ -238,7 +238,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach (var command in commands)
             {
-                if (command.defName.Equals("UnstickAll"))
+                if (!$"TKUtils.Commands.UserLevel.{command.defName}".CanTranslate() && command.enabled)
                 {
                     continue;
                 }
@@ -248,8 +248,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                     {
                         name = command.LabelCap.RawText,
                         description = $"TKUtils.Commands.Description.{command.defName}".Translate(),
-                        usage = $"TKUtils.Commands.Usage.{command.defName}".Translate(),
-                        shortcut = command.commandDriver.Name.Equals("Buy"),
+                        usage = TkSettings.Prefix + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
+                        shortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
                         userLevel = $"TKUtils.Commands.UserLevel.{command.defName}".Translate()
                     }
                 );
