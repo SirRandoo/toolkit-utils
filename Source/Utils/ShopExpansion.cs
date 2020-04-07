@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -546,7 +546,7 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         public string author;
         public string name;
-        public int steamId;
+        public string steamId;
         public string version;
     }
 
