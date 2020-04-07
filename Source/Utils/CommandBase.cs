@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using Verse;
@@ -19,10 +20,15 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .FirstOrDefault();
         }
 
-        public static Pawn GetOrFindPawn(string username)
+        public static Pawn GetOrFindPawn(string username, bool allowKidnapped = false)
         {
             var safe = GetPawn(username);
 
+            if (safe.IsKidnapped() && !allowKidnapped)
+            {
+                return null;
+            }
+            
             if (safe != null)
             {
                 return safe;
