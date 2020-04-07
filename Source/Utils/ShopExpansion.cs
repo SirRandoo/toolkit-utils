@@ -129,22 +129,57 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void DumpShopExpansion()
         {
-            var jsonTraits = TkUtils.ShopExpansion.Traits.Select(
-                    t =>
-                        new TraitDump
-                        {
-                            addPrice = t.AddPrice,
-                            bypassLimit = t.BypassLimit,
-                            degree = t.Degree,
-                            canAdd = t.CanAdd,
-                            canRemove = t.CanRemove,
-                            name = t.Name,
-                            defName = t.DefName,
-                            removePrice = t.RemovePrice
-                        }
-                )
-                .Select(JsonUtility.ToJson)
-                .ToArray();
+            var traits = DefDatabase<TraitDef>.AllDefsListForReading;
+            var container = new List<TraitDump>();
+
+            foreach (var trait in TkUtils.ShopExpansion.Traits)
+            {
+                var t = new TraitDump
+                {
+                    addPrice = trait.AddPrice,
+                    bypassLimit = trait.BypassLimit,
+                    degree = trait.Degree,
+                    canAdd = trait.CanAdd,
+                    canRemove = trait.CanRemove,
+                    name = trait.Name,
+                    defName = trait.DefName,
+                    removePrice = trait.RemovePrice
+                };
+
+                var def = traits.FirstOrDefault(i => i.defName.Equals(trait.DefName));
+
+                if (def == null)
+                {
+                    continue;
+                }
+
+                var inst = new Trait(def, trait.Degree);
+
+                t.conflicts = def.conflictingTraits.Select(i => i.label.NullOrEmpty() ? i.defName : i.label).ToArray();
+
+                var statContainer = new List<string>();
+
+                if(inst.CurrentData.statOffsets != null)
+                {
+                    foreach (var offset in inst.CurrentData.statOffsets)
+                    {
+                        statContainer.Add($"{offset.ValueToStringAsOffset} {offset.stat.LabelForFullStatListCap}");
+                    }
+                }
+
+                if(inst.CurrentData.statFactors != null)
+                {
+                    foreach (var factor in inst.CurrentData.statFactors)
+                    {
+                        statContainer.Add($"{factor.ToStringAsFactor} {factor.stat.LabelForFullStatListCap}");
+                    }
+                }
+
+                t.description = inst.CurrentData.description;
+                t.stats = statContainer.ToArray();
+
+                container.Add(t);
+            }
 
             var jsonRaces = TkUtils.ShopExpansion.Races.Select(
                     r => new RaceDump {defName = r.DefName, enabled = r.Enabled, name = r.Name, price = r.Price}
@@ -155,7 +190,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             var builder = new StringBuilder("{");
 
             builder.Append("\"traits\":[");
-            builder.Append(string.Join(",", jsonTraits.ToArray()));
+            builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
             builder.Append("],");
             builder.Append("\"races\":[");
             builder.Append(string.Join(",", jsonRaces.ToArray()));
