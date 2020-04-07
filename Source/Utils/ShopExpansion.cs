@@ -209,18 +209,17 @@ namespace SirRandoo.ToolkitUtils.Utils
                 var meta = ModLister.GetActiveModWithIdentifier(mod.Content.PackageId);
                 var hook = meta.GetWorkshopItemHook();
                 var steamIdInfo = hook.GetType().GetProperty("PublishedFileId");
-                var steamId = steamIdInfo?.GetValue(hook) is int ? (int) steamIdInfo.GetValue(hook) : -1;
 
                 jsonMods.Add(
                     new ModDump
                     {
                         author = meta.Author,
-                        name = meta.Name,
+                        name = hook.Name,
                         version = TkUtils.GetModListVersioned()
                                       .FirstOrDefault(i => i.Item1.Equals(mod.Content.Name))
                                       ?.Item2
                                   ?? "0.0.0",
-                        steamId = steamId
+                        steamId = meta.OnSteamWorkshop ? steamIdInfo?.GetValue(hook).ToString() : null
                     }
                 );
             }
