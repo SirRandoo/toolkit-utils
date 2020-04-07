@@ -93,6 +93,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                         continue;
                     }
 
+                    if (skill.TotallyDisabled)
+                    {
+                        continue;
+                    }
+
                     if (passionCount > 0 && Random.Range(1, 5) <= 3)
                     {
                         passionCount -= 1;
