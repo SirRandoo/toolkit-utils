@@ -29,7 +29,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Viewer = viewer;
-
             var anyPlayerMap = Helper.AnyPlayerMap;
 
             if (anyPlayerMap == null)
@@ -51,50 +50,28 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var segments = CommandParser.Parse(message).Skip(2).ToArray();
-
-            if (segments.Length <= 0)
-            {
-                Logger.Warn("No command arguments specified!");
-                return Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, race.Price);
-            }
-
             if (!TkSettings.Race)
             {
-                return Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, race.Price);
+                return CanPurchaseRace(viewer, race);
             }
 
-            var keyed = CommandParser.ParseKeyed(segments);
-            var raceParam = keyed.Where(i => i.Key.EqualsIgnoreCase("--race") || i.Key.EqualsIgnoreCase("race"))
-                .Select(i => i.Value)
-                .FirstOrDefault();
+            var segments = CommandParser.Parse(message).Skip(2).ToArray();
+            var query = segments.FirstOrDefault();
 
-            if (raceParam.NullOrEmpty())
+            if (query.NullOrEmpty())
             {
-                if (segments.Length >= 1)
-                {
-                    raceParam = segments.FirstOrDefault();
-                }
-                else
-                {
-                    return Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, race.Price);
-                }
-            }
-
-            if (raceParam.NullOrEmpty())
-            {
-                return Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, race.Price);
+                return CanPurchaseRace(viewer, race);
             }
 
             var raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading
                 .FirstOrDefault(
-                    r => r.race.defName.ToToolkit().EqualsIgnoreCase(raceParam.ToToolkit())
-                         || r.race.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(raceParam.ToToolkit())
+                    r => r.race.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                         || r.race.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                 );
 
             if (raceDef == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(raceParam));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(query));
                 return false;
             }
 
@@ -107,30 +84,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             kindDef = raceDef;
             race = TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
 
-            if (race == null)
+            if (race != null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(raceParam));
-                return false;
+                return CanPurchaseRace(viewer, race);
             }
 
-            if (!race.Enabled)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.DisabledItem".Translate());
-                return false;
-            }
-
-            if (Viewer.GetViewerCoins() >= race.Price)
-            {
-                return true;
-            }
-
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                "TKUtils.Responses.NotEnoughCoins".Translate(
-                    race.Price.ToString("N0"),
-                    Viewer.GetViewerCoins().ToString("N0")
-                )
-            );
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(query));
             return false;
         }
 
@@ -174,6 +133,29 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 Logger.Error("Could not execute buy pawn", e);
             }
+        }
+
+        private bool CanPurchaseRace(Viewer viewer, XmlRace target)
+        {
+            if (!target.Enabled && TkSettings.Race)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.DisabledItem".Translate());
+                return false;
+            }
+
+            if (viewer.coins >= target.Price)
+            {
+                return true;
+            }
+
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.Responses.NotEnoughCoins".Translate(
+                    target.Price.ToString("N0"),
+                    Viewer.GetViewerCoins().ToString("N0")
+                )
+            );
+            return false;
         }
     }
 }
