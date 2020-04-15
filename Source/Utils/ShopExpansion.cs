@@ -43,9 +43,9 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             try
             {
-                if(File.Exists(filePath))
+                if (File.Exists(filePath))
                 {
-                    using (var writer = File.OpenWrite(tempFile))
+                    using (var writer = File.Open(tempFile, FileMode.Truncate))
                     {
                         serializer.Serialize(writer, xml);
                     }
@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
                 else
                 {
-                    using (var writer = File.OpenWrite(filePath))
+                    using (var writer = File.Open(filePath, FileMode.Truncate))
                     {
                         serializer.Serialize(writer, xml);
                     }
@@ -90,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             try
             {
-                if(File.Exists(filePath))
+                if (File.Exists(filePath))
                 {
                     File.WriteAllText(tempFile, data);
                     File.Replace(tempFile, filePath, backupFile);
@@ -159,7 +159,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 var statContainer = new List<string>();
 
-                if(inst.CurrentData.statOffsets != null)
+                if (inst.CurrentData.statOffsets != null)
                 {
                     foreach (var offset in inst.CurrentData.statOffsets)
                     {
@@ -167,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     }
                 }
 
-                if(inst.CurrentData.statFactors != null)
+                if (inst.CurrentData.statFactors != null)
                 {
                     foreach (var factor in inst.CurrentData.statFactors)
                     {
@@ -248,7 +248,9 @@ namespace SirRandoo.ToolkitUtils.Utils
                     {
                         name = command.LabelCap.RawText,
                         description = $"TKUtils.Commands.Description.{command.defName}".Translate(),
-                        usage = TkSettings.Prefix + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
+                        usage =
+                            TkSettings.Prefix
+                            + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
                         shortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
                         userLevel = $"TKUtils.Commands.UserLevel.{command.defName}".Translate()
                     }
