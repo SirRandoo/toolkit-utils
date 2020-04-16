@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +16,6 @@ namespace SirRandoo.ToolkitUtils.Utils
     public static class ShopExpansionHelper
     {
         public static readonly string ExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt_1.xml");
-        public static readonly string OldExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt.xml");
 
         public static readonly string ShopFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
         public static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "Commands.json");
@@ -494,26 +493,6 @@ namespace SirRandoo.ToolkitUtils.Utils
         public bool CanRemove;
         public string DefName;
         public int Degree;
-        public string Name;
-        public int RemovePrice;
-    }
-
-    [XmlRoot("ShopExpansion", IsNullable = false)]
-    public class OldShop
-    {
-        public List<XmlRace> Races;
-
-        [XmlArrayItem("XmlTrait")]
-        public List<OldTrait> Traits;
-    }
-
-    public class OldTrait
-    {
-        public int AddPrice;
-        public bool BypassLimit;
-        public string DefName;
-        public int Degree;
-        public bool Enabled;
         public string Name;
         public int RemovePrice;
     }
