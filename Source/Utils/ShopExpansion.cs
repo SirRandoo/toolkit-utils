@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -314,13 +314,6 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
             }
 
-            foreach (var trait in TkUtils.ShopExpansion.Traits.Where(
-                trait => Unrichify.IsRichText($"<color>{trait.Name}")
-            ))
-            {
-                trait.Name = Unrichify.StripTags($"<color>{trait.Name}");
-            }
-
             try
             {
                 for (var i = TkUtils.ShopExpansion.Races.Count - 1; i >= 0; i--)
@@ -381,63 +374,33 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         internal static void TryMigrateData()
         {
-            if (!File.Exists(OldExpansionFile))
+            var traitCount = 0;
+            foreach (var trait in TkUtils.ShopExpansion.Traits.Where(trait => trait.Name.Contains('<')))
             {
-                return;
+                trait.Name = trait.Name.StripTags();
+                traitCount += 1;
             }
 
-            Logger.Info("Migrating old shop file to new format...");
-            OldShop oldShop;
-            using (var reader = File.OpenText(OldExpansionFile))
+            if (traitCount > 0)
             {
-                var serializer = new XmlSerializer(typeof(OldShop));
-                oldShop = (OldShop) serializer.Deserialize(reader);
+                Logger.Info($"Cleaned up {traitCount} traits with lingering tags.");
             }
 
-            if (oldShop == null)
+            var raceCount = 0;
+            var races = DefDatabase<PawnKindDef>.AllDefsListForReading
+                .Where(r => r.RaceProps.Humanlike)
+                .Select(r => r.race)
+                .ToHashSet();
+            foreach (var race in TkUtils.ShopExpansion.Races.Where(r => r.DefName.Equals(r.Name)))
             {
-                Logger.Warn("Could not load old shop file!");
-                return;
+                race.Name = races.FirstOrDefault(r => r.defName.Equals(race.DefName))?.label ?? race.DefName;
+                raceCount += 1;
             }
 
-            Logger.Info($"Found {oldShop.Traits.Count.ToString()} traits to migrate.");
-            foreach (var trait in oldShop.Traits)
+            if (raceCount > 0)
             {
-                var newTrait = TkUtils.ShopExpansion.Traits.FirstOrDefault(
-                    t => t.DefName.Equals(trait.DefName) && t.Degree == trait.Degree
-                );
-
-                if (newTrait == null)
-                {
-                    TkUtils.ShopExpansion.Traits.Add(
-                        new XmlTrait
-                        {
-                            AddPrice = trait.AddPrice,
-                            BypassLimit = trait.BypassLimit,
-                            CanAdd = trait.Enabled,
-                            CanRemove = trait.Enabled,
-                            DefName = trait.DefName,
-                            Degree = trait.Degree,
-                            Name = trait.Name,
-                            RemovePrice = trait.RemovePrice
-                        }
-                    );
-                }
-                else
-                {
-                    newTrait.AddPrice = trait.AddPrice;
-                    newTrait.BypassLimit = trait.BypassLimit;
-                    newTrait.CanAdd = trait.Enabled;
-                    newTrait.CanRemove = trait.Enabled;
-                    newTrait.DefName = trait.DefName;
-                    newTrait.Degree = trait.Degree;
-                    newTrait.Name = trait.Name;
-                    newTrait.RemovePrice = trait.RemovePrice;
-                }
+                Logger.Info($"Cleaned up {raceCount} races with wrong names.");
             }
-
-            Logger.Info("Migrated!");
-            File.Delete(OldExpansionFile);
         }
 
         internal static void TrySalvageData()
