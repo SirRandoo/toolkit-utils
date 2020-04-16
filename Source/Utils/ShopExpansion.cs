@@ -268,7 +268,8 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             Logger.Info("Validating shop expansion data...");
             var loadedTraits = DefDatabase<TraitDef>.AllDefsListForReading.ToHashSet();
-            var loadedRaces = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(i => i.RaceProps.Humanlike)
+            var raceDefs = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(i => i.RaceProps.Humanlike).ToHashSet();
+            var loadedRaces = raceDefs
                 .GroupBy(i => i.race.defName)
                 .Select(i => i.Key)
                 .ToHashSet();
@@ -349,6 +350,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach (var race in missingRaces)
             {
+                var raceName = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race))?.label ?? race;
                 var item = StoreInventory.items.FirstOrDefault(i => i.defname.Equals(race));
                 var price = 2500;
 
@@ -359,7 +361,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
 
                 TkUtils.ShopExpansion.Races.Add(
-                    new XmlRace {DefName = race, Name = race, Price = price, Enabled = true}
+                    new XmlRace {DefName = race, Name = raceName, Price = price, Enabled = true}
                 );
             }
 
