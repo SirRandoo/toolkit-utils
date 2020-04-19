@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             optionsListing.Gap();
             optionsListing.GapLine();
-            if (optionsListing.ButtonTextLabeled("[ToolkitUtils]" + "Traits".Translate(), "Open"))
+            if (optionsListing.ButtonTextLabeled("[ToolkitUtils] " + "Traits".Translate(), "Open"))
             {
                 Find.WindowStack.Add(new TraitConfigDialog());
             }
@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             optionsListing.Gap();
             optionsListing.GapLine();
             if (optionsListing.ButtonTextLabeled(
-                Find.ActiveLanguageWorker.Pluralize("[ToolkitUtils]" + "Race".Translate()),
+                Find.ActiveLanguageWorker.Pluralize("[ToolkitUtils] " + "Race".Translate()),
                 "Open"
             ))
             {
