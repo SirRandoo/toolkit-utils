@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
@@ -184,7 +185,7 @@ namespace SirRandoo.ToolkitUtils
                 );
 
                 Widgets.Label(labelRect, "TKUtils.SettingGroups.CommandTweaks.Prefix.Label".Translate());
-                Prefix = Widgets.TextField(entryRect, Prefix);
+                var prefix = Widgets.TextField(entryRect, Prefix);
 
                 if (Mouse.IsOver(line))
                 {
@@ -192,14 +193,20 @@ namespace SirRandoo.ToolkitUtils
                     TooltipHandler.TipRegion(line, "TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip".Translate());
                 }
 
-                if (Prefix.StartsWith(" "))
+                if (prefix.StartsWith(" "))
                 {
-                    Prefix = Prefix.Trim();
+                    prefix = prefix.Trim();
                 }
 
-                if (Prefix.StartsWith("/") || Prefix.StartsWith("."))
+                if (prefix.StartsWith("/") || prefix.StartsWith("."))
                 {
-                    Prefix = "!";
+                    prefix = "!";
+                }
+
+                if (!prefix.Equals(Prefix))
+                {
+                    Prefix = prefix;
+                    ShopExpansionHelper.DumpCommands();
                 }
             }
 
