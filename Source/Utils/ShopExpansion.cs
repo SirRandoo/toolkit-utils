@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,8 +18,8 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static readonly string ExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt_1.xml");
 
         public static readonly string ShopFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
-        public static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "Commands.json");
-        public static readonly string ModsFile = Path.Combine(SaveHelper.dataPath, "Mods.json");
+        public static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "commands.json");
+        public static readonly string ModsFile = Path.Combine(SaveHelper.dataPath, "modlist.json");
 
         public static void SaveData<T>(T xml, string filePath)
         {
