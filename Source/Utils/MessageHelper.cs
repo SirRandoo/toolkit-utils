@@ -27,10 +27,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         internal static string AltText(this string emoji, string alt = null)
         {
-            if (alt == null)
-            {
-                alt = $"{emoji}.Text";
-            }
+            alt ??= $"{emoji}.Text";
 
             return TkSettings.Emojis ? emoji : alt;
         }

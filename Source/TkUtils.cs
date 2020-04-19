@@ -21,49 +21,36 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
             TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            Logger.Info("Building mod list cache...");
             TkUtils.ModListCache = TkUtils.GetModListVersioned();
-            Logger.Info($"Built mod list cache ({TkUtils.ModListCache.Length.ToString()} mods loaded)");
+            Logger.Info($"Cached {TkUtils.ModListCache.Length} mods.");
 
             try
             {
                 TkUtils.ShopExpansion = ShopExpansionHelper.LoadData<XmlShop>(ShopExpansionHelper.ExpansionFile);
-                Logger.Info(
-                    $"Loaded {TkUtils.ShopExpansion.Traits.Count} traits and {TkUtils.ShopExpansion.Races.Count} races."
-                );
+
+                Logger.Info($"{TkUtils.ShopExpansion.Traits.Count} traits loaded into the shop.");
+                Logger.Info($"{TkUtils.ShopExpansion.Races.Count} races loaded into the shop.");
             }
             catch (Exception)
             {
-                Logger.Warn("Could not load shop extension database!");
-
                 if (!File.Exists(ShopExpansionHelper.ExpansionFile))
                 {
                     Logger.Warn("If this is your first run with this version of Utils, you can safely ignore this.");
                 }
                 else
                 {
+                    Logger.Warn("Could not load shop extension database! Attempting to salvage it...");
                     ShopExpansionHelper.TrySalvageData();
                 }
             }
 
-            if (TkUtils.ShopExpansion == null)
-            {
-                TkUtils.ShopExpansion = new XmlShop();
-            }
-
-            if (TkUtils.ShopExpansion.Traits == null)
-            {
-                TkUtils.ShopExpansion.Traits = new List<XmlTrait>();
-            }
-
-            if (TkUtils.ShopExpansion.Races == null)
-            {
-                TkUtils.ShopExpansion.Races = new List<XmlRace>();
-            }
+            TkUtils.ShopExpansion ??= new XmlShop();
+            TkUtils.ShopExpansion.Traits ??= new List<XmlTrait>();
+            TkUtils.ShopExpansion.Races ??= new List<XmlRace>();
 
             ShopExpansionHelper.TryMigrateData();
             ShopExpansionHelper.ValidateExpansionData();
-            
+
             ShopExpansionHelper.DumpCommands();
             ShopExpansionHelper.DumpModList();
         }

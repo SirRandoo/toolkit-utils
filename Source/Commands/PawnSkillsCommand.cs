@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using RimWorld;
+﻿using System;
+using System.Collections.Generic;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
@@ -39,15 +39,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     )
                     .RawText;
 
-                switch (skill.passion)
-                {
-                    case Passion.Major:
-                        container += "🔥🔥".AltText("++");
-                        break;
-                    case Passion.Minor:
-                        container += "🔥".AltText("+");
-                        break;
-                }
+                container += new string(Convert.ToChar("🔥".AltText("+")), (int) skill.passion);
 
                 parts.Add(container);
             }

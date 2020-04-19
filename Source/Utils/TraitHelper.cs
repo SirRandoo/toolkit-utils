@@ -40,15 +40,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return true;
             }
 
-            if (!TkSettings.RichText)
-            {
-                return false;
-            }
-
-            label = Unrichify.IsRichText(label) ? Unrichify.StripTags(label) : label;
-            input = Unrichify.IsRichText(input) ? Unrichify.StripTags(input) : input;
-
-            return label.ToToolkit().EqualsIgnoreCase(input.ToToolkit());
+            return TkSettings.RichText && label.StripTags().ToToolkit().EqualsIgnoreCase(input.StripTags().ToToolkit());
         }
 
         public static string ToToolkit(this string t)

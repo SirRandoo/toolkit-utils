@@ -29,41 +29,21 @@ namespace SirRandoo.ToolkitUtils.Commands
                 $"{"Backstory".Translate().RawText}: {string.Join(", ".Translate(), pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray())}"
             };
 
+            var isRoyal = pawn.royalty?.MostSeniorTitle != null;
             switch (pawn.gender)
             {
                 case Gender.Female:
-                    parts.Add("♀".AltText("Female".Translate()));
+                    parts.Add((isRoyal ? "👸" : "♀").AltText("Female".Translate()));
                     break;
                 case Gender.Male:
-                    parts.Add("♂".AltText("Male".Translate()));
+                    parts.Add((isRoyal ? "🤴" : "♂").AltText("Male".Translate()));
                     break;
                 case Gender.None:
-                    parts.Add("⚪".AltText("NoneLower".Translate()));
+                    parts.Add((isRoyal ? "👑" : "⚪").AltText("NoneLower".Translate()));
                     break;
                 default:
-                    parts.Add("");
+                    parts.Add(isRoyal ? "👑" : "");
                     break;
-            }
-
-            if (pawn.royalty?.MostSeniorTitle != null)
-            {
-                parts.RemoveLast();
-
-                switch (pawn.gender)
-                {
-                    case Gender.Female:
-                        parts.Add("🤴".AltText("Male".Translate()));
-                        break;
-                    case Gender.Male:
-                        parts.Add("👸".AltText("Female".Translate()));
-                        break;
-                    case Gender.None:
-                        parts.Add("👑".AltText("NoneLower".Translate()));
-                        break;
-                    default:
-                        parts.Add("👑");
-                        break;
-                }
             }
 
             var workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
@@ -83,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             parts.Add(
-                $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => Unrichify.StripTags(t.LabelCap)).ToArray())}"
+                $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => t.LabelCap.StripTags()).ToArray())}"
             );
 
             message.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -44,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 if (File.Exists(filePath))
                 {
-                    using (var writer = File.Open(tempFile, FileMode.Truncate))
+                    using (var writer = File.Open(tempFile, FileMode.Truncate, FileAccess.Write))
                     {
                         serializer.Serialize(writer, xml);
                     }
@@ -53,7 +53,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
                 else
                 {
-                    using (var writer = File.Open(filePath, FileMode.Truncate))
+                    using (var writer = File.Open(filePath, FileMode.Truncate, FileAccess.Write))
                     {
                         serializer.Serialize(writer, xml);
                     }
@@ -160,10 +160,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (inst.CurrentData.statOffsets != null)
                 {
-                    foreach (var offset in inst.CurrentData.statOffsets)
-                    {
-                        statContainer.Add($"{offset.ValueToStringAsOffset} {offset.stat.LabelForFullStatListCap}");
-                    }
+                    statContainer.AddRange(
+                        inst.CurrentData.statOffsets.Select(
+                            offset => $"{offset.ValueToStringAsOffset} {offset.stat.LabelForFullStatListCap}"
+                        )
+                    );
                 }
 
                 if (inst.CurrentData.statFactors != null)
@@ -188,10 +189,10 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             var builder = new StringBuilder("{");
 
-            builder.Append("\"traits\":[");
+            builder.Append(@"""traits"":[");
             builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
             builder.Append("],");
-            builder.Append("\"races\":[");
+            builder.Append(@"""races"":[");
             builder.Append(string.Join(",", jsonRaces.ToArray()));
             builder.Append("]}");
 
@@ -235,13 +236,10 @@ namespace SirRandoo.ToolkitUtils.Utils
             var commands = DefDatabase<Command>.AllDefsListForReading;
             var container = new List<CommandDump>();
 
-            foreach (var command in commands)
+            foreach (var command in commands.Where(
+                c => c.enabled && $"TKUtils.Commands.UserLevel.{c.defName}".CanTranslate()
+            ))
             {
-                if (!$"TKUtils.Commands.UserLevel.{command.defName}".CanTranslate() && command.enabled)
-                {
-                    continue;
-                }
-
                 container.Add(
                     new CommandDump
                     {
@@ -273,6 +271,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .GroupBy(i => i.race.defName)
                 .Select(i => i.Key)
                 .ToHashSet();
+
             var removedTraits = 0;
             var removedRaces = 0;
 
@@ -307,7 +306,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 foreach (var t in TraitHelper.GetEffectiveTraits(trait))
                 {
-                    t.Name = Unrichify.StripTags(t.Name);
+                    t.Name = t.Name.StripTags();
                     t.BypassLimit = TraitHelper.IsSexualityTrait(trait);
 
                     TkUtils.ShopExpansion.Traits.Add(t);

@@ -116,11 +116,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 iterations += 1;
 
-                if (iterations >= 100)
+                if (iterations < 100)
                 {
-                    Logger.Warn("Exceeded 100 iterations while shuffling passions!");
-                    return;
+                    continue;
                 }
+
+                Logger.Warn("Exceeded 100 iterations while shuffling passions!");
+                return;
             }
 
             Viewer.TakeViewerCoins(storeIncident.cost);

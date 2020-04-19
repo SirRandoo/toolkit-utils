@@ -161,7 +161,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 segments.Add("NoHealthConditions".Translate().CapitalizeFirst());
             }
 
-            return string.Join("⎮", segments);
+            return string.Join("⎮", segments.ToArray());
         }
 
         private static string HealthReport(Pawn pawn)
@@ -237,14 +237,14 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!TkSettings.ShowSurgeries)
             {
-                return string.Join("⎮", segments);
+                return string.Join("⎮", segments.ToArray());
             }
 
             var surgeries = pawn.health.surgeryBills;
 
             if (surgeries == null || surgeries.Count <= 0)
             {
-                return string.Join("⎮", segments);
+                return string.Join("⎮", segments.ToArray());
             }
 
             var queued = surgeries.Bills.Select(item => item.LabelCap).ToArray();
