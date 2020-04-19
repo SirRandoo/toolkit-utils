@@ -1,176 +1,353 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
+    <!-- Base -->
+    <TwitchToolkit.Command Name="CommandBase" Abstract="true">
+        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command Name="ShortcutBase" ParentName="CommandBase" Abstract="true">
+        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+    </TwitchToolkit.Command>
+    
     <!-- Shortcuts -->
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveAllShortcut</defName>
         <label>revive all</label>
         <command>reviveall</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
-        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>A colony wide resurrector mech serum.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveMeShortcut</defName>
         <label>revive me</label>
         <command>reviveme</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
-        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>A personal resurrector mech serum.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealMeShortcut</defName>
         <label>heal me</label>
         <command>healme</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
-        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>A personal healer mech serum/</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealAllShortcut</defName>
         <label>healall</label>
         <command>healall</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
-        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>A colony wide healer mech serum.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>PassionShuffleShortcut</defName>
         <label>passion shuffle</label>
         <command>passionshuffle</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
-        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shuffles your passions. If a skill is specified, you'll be guaranteed a minor passion in it.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>SurgeryShortcut</defName>
         <label>surgery</label>
         <command>surgery</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
-        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Purchases the part specified and queues it for surgery on your pawn.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command ParentName="ShortcutBase">
+        <defName>TraitShortcut</defName>
+        <label>add trait</label>
+        <command>trait</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Adds a trait for your pawn.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command ParentName="ShortcutBase">
+        <defName>RemoveTraitShortcut</defName>
+        <label>remove trait</label>
+        <command>removetrait</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Removes a trait from our pawn.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command ParentName="ShortcutBase">
+        <defName>ReviveAnyPawnShortcut</defName>
+        <label>revive any pawn</label>
+        <command>reviveanypawn</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>A resurrector mech serum for a random dead colonist.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
     <!-- Pawn Commands -->
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>MyPawnHealth</defName>
         <label>viewer health</label>
         <command>mypawnhealth</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnHealthCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows an overview of your pawn's health. If a capacity is specified, it'll show what's affecting it.</Description>
+                <Parameters>
+                    <li>
+                        <Type>Verse.PawnCapacityDef</Type>
+                        <Name>Capacity</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>MyPawnNeeds</defName>
         <label>viewer needs</label>
         <command>mypawnneeds</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnNeedsCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows an overview of your pawn's needs.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>MyPawnGear</defName>
         <label>viewer gear</label>
         <command>mypawngear</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnGearCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows an overview of your pawn's gear.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>MyPawnBody</defName>
         <label>viewer body</label>
         <command>mypawnbody</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnBodyCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows an overview of your pawn's body.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>MyPawnWork</defName>
         <label>viewer work</label>
         <command>mypawnwork</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnWorkCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows your pawn's work priorities.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>MyPawnStory</defName>
         <label>viewer story</label>
         <command>mypawnstory</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStoryCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows your pawn's bio.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>MyPawnSkills</defName>
         <label>viewer skills</label>
         <command>mypawnskills</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnSkillsCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows your pawn's current skills and their passions.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>FixMyPawn</defName>
         <label>fix viewer pawn</label>
         <command>fixmypawn</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Attempts to relink your pawn to you.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>FixAllPawns</defName>
         <label>fix all pawns</label>
         <command>fixallpawns</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixAllCommand</commandDriver>
         <requiresMod>true</requiresMod>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Attempts to relink all pawns to their respective viewers.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>AbandonPawn</defName>
         <label>abandon pawn</label>
         <command>leave</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.LeaveCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Makes your pawn leave the colony.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
     <!-- Colony Commands -->
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>Factions</defName>
         <label>factions</label>
         <command>factions</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.FactionsCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows an overview of the colony's current faction relations.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>Research</defName>
         <label>research</label>
         <command>research</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.ResearchCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows the current research progress. If a project is specified, it'll show the progress of that instead.</Description>
+                <Parameters>
+                    <li>
+                        <Type>Verse.ResearchProjectDef</Type>
+                        <Name>Project</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
     <!-- General Commands -->
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>Lookup</defName>
         <label>lookup</label>
         <command>lookup</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.LookupCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows the first few results for the query in the given category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', and 'skills'.</Description>
+                <Parameters>
+                    <li>
+                        <Type>System.String</Type>
+                        <Name>Category</Name>
+                        <Optional>false</Optional>
+                    </li>
+                    <li>
+                        <Type>System.String</Type>
+                        <Name>Query</Name>
+                        <Optional>false</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>PriceCheck</defName>
         <label>price check</label>
         <command>price</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PriceCheckCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Similar to the lookup command, except it'll show the price for the first valid match.</Description>
+                <Parameters>
+                    <li>
+                        <Type>System.String</Type>
+                        <Name>Category</Name>
+                        <Optional>false</Optional>
+                    </li>
+                    <li>
+                        <Type>System.String</Type>
+                        <Name>Query</Name>
+                        <Optional>false</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="CommandBase">
         <defName>UnstickAll</defName>
         <label>unstick</label>
         <command>unstick</command>
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickCommand</commandDriver>
+        <requiresMod>true</requiresMod>
     </TwitchToolkit.Command>
 </Defs>
