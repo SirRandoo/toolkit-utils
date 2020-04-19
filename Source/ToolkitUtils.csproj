@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -97,6 +98,7 @@
     <Compile Include="Harmony\PawnCommands_ParseCommand.cs" />
     <Compile Include="Harmony\Settings_Store__DoWindowContents.cs" />
     <Compile Include="Harmony\StoreItemsWindow_PostClose.cs" />
+    <Compile Include="Harmony\Window_CommandEditor__PostClose.cs"/>
     <Compile Include="Harmony\Window_PostOpen.cs" />
     <Compile Include="Harmony\Store_Lookup__ParseCommand.cs" />
     <Compile Include="Harmony\ViewerUpdater_ParseCommand.cs" />
