@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool TempInGear;
         public static bool DropInventory;
         public static bool JsonShop;
-        public static bool ToolkitJson = true;
+        public static bool ToolkitJson;
         public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
         public static int LookupLimit = 10;
         public static bool VersionedModList;
@@ -323,7 +323,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref DropInventory, "dropInventory");
 
             Scribe_Values.Look(ref JsonShop, "shopJson");
-            Scribe_Values.Look(ref ToolkitJson, "toolkitJson", true);
+            Scribe_Values.Look(ref ToolkitJson, "toolkitJson");
             Scribe_Values.Look(ref UtilsNoticeAdd, "utilsNoticeAdd", true);
             Scribe_Values.Look(ref UtilsNoticeRemove, "utilsNoticeRemove", true);
             Scribe_Values.Look(ref UtilsNoticePawn, "utilsNoticePawn", true);
