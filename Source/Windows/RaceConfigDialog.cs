@@ -34,7 +34,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             var listing = new Listing_Standard {maxOneColumn = true};
             var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f - 28f, Text.LineHeight);
-            var clearRect = new Rect(searchRect.x + searchRect.width + 5f, searchRect.y, 16f, searchRect.height);
 
             currentQuery = Widgets.TextEntryLabeled(
                 searchRect,
@@ -45,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var old = Text.Anchor;
             Text.Anchor = TextAnchor.MiddleCenter;
 
-            if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(clearRect))
+            if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(searchRect))
             {
                 currentQuery = "";
             }
