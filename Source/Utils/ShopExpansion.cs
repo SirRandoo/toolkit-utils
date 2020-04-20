@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
@@ -211,14 +210,14 @@ namespace SirRandoo.ToolkitUtils.Utils
                 var handle = loaded.FirstOrDefault(h => h.Content.Name.Equals(entry.Item1));
                 ModMetaData meta = null;
                 WorkshopItemHook hook = null;
-                PropertyInfo steamIdInfo = null;
                 string steamId = null;
 
                 if (handle != null)
                 {
                     meta = ModLister.GetActiveModWithIdentifier(handle.Content.PackageId);
                     hook = meta.GetWorkshopItemHook();
-                    steamIdInfo = hook.GetType().GetProperty("PublishedFileId");
+
+                    var steamIdInfo = hook.GetType().GetProperty("PublishedFileId");
                     steamId = meta.OnSteamWorkshop ? steamIdInfo?.GetValue(hook).ToString() : null;
                 }
                 else
