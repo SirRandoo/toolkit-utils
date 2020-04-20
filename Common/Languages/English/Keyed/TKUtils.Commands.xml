@@ -126,4 +126,8 @@
     <TKUtils.Commands.Description.PriceCheck>Similar to !lookup, but shows the price of the first result.</TKUtils.Commands.Description.PriceCheck>
     <TKUtils.Commands.Usage.PriceCheck>{0} (category) (query) [quantity]</TKUtils.Commands.Usage.PriceCheck>
     <TKUtils.Commands.UserLevel.PriceCheck>Anyone</TKUtils.Commands.UserLevel.PriceCheck>
+    
+    <TKUtils.Commands.Description.Insult>Insults a viewer. If no viewer is specified, it'll insult a random pawn.</TKUtils.Commands.Description.Insult>
+    <TKUtils.Commands.Usage.Insult>{0} [viewer]</TKUtils.Commands.Usage.Insult>
+    <TKUtils.Commands.UserLevel.Insult>Anyone</TKUtils.Commands.UserLevel.Insult>
 </LanguageData>
