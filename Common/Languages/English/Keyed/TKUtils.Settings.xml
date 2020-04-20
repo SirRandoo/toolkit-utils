@@ -43,7 +43,9 @@
     <TKUtils.SettingGroups.General.Race.Label>Allow viewers to specify their pawn's race when buying.</TKUtils.SettingGroups.General.Race.Label>
     <TKUtils.SettingGroups.General.Race.Tooltip>If enabled, viewers will be able to specify their pawn's race when buying a pawn (!buy pawn) with --race={race}.</TKUtils.SettingGroups.General.Race.Tooltip>
     <TKUtils.SettingGroups.General.LookupLimit.Label>Maximum number of results in the lookup command.</TKUtils.SettingGroups.General.LookupLimit.Label>
-    <TKUtils.SettingGroups.General.LookupLimit.Tooltip>The maximum number of results that will be displayed in the lookup command (!lookup).  A higher value may create walls of text.</TKUtils.SettingGroups.General.LookupLimit.Tooltip>
+    <TKUtils.SettingGroups.General.LookupLimit.Tooltip>The maximum number of results that will be displayed in the lookup command (!lookup). A higher value may create walls of text.</TKUtils.SettingGroups.General.LookupLimit.Tooltip>
     <TKUtils.SettingGroups.General.JsonStore.Label>Dump Utils' shop file as json.</TKUtils.SettingGroups.General.JsonStore.Label>
     <TKUtils.SettingGroups.General.JsonStore.Tooltip>If enabled, Utils will dump a copy of its shop file as json for use in whatever.</TKUtils.SettingGroups.General.JsonStore.Tooltip>
+    <TKUtils.SettingGroups.General.ToolkitJson.Label>Modify how Toolkit saves its store items.</TKUtils.SettingGroups.General.ToolkitJson.Label>
+    <TKUtils.SettingGroups.General.ToolkitJson.Tooltip>If enabled, Utils will attempt to fix the lingering comma in Toolkit's StoreItems.json file.</TKUtils.SettingGroups.General.ToolkitJson.Tooltip>
 </LanguageData>

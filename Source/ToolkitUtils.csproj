@@ -84,6 +84,10 @@
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
       <Private>False</Private>
@@ -120,6 +124,7 @@
     <Compile Include="Harmony\PawnCommands_ParseCommand.cs" />
     <Compile Include="Harmony\Settings_Store__DoWindowContents.cs" />
     <Compile Include="Harmony\StoreItemsWindow_PostClose.cs" />
+    <Compile Include="Harmony\Store_ItemEditor__UpdateStoreItemList.cs" />
     <Compile Include="Harmony\Window_CommandEditor__PostClose.cs" />
     <Compile Include="Harmony\Window_PostOpen.cs" />
     <Compile Include="Harmony\Store_Lookup__ParseCommand.cs" />
