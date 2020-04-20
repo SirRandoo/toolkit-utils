@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 if (File.Exists(filePath))
                 {
-                    using (var writer = File.Open(tempFile, FileMode.Truncate, FileAccess.Write))
+                    using (var writer = File.Open(tempFile, FileMode.Create, FileAccess.Write))
                     {
                         serializer.Serialize(writer, xml);
                     }
@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
                 else
                 {
-                    using (var writer = File.Open(filePath, FileMode.Truncate, FileAccess.Write))
+                    using (var writer = File.Open(filePath, FileMode.Create, FileAccess.Write))
                     {
                         serializer.Serialize(writer, xml);
                     }
