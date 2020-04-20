@@ -132,6 +132,7 @@
     <Compile Include="Utils\Constraints\VipConstraint.cs" />
     <Compile Include="Utils\HealHelper.cs" />
     <Compile Include="Utils\MessageHelper.cs" />
+    <Compile Include="Utils\SettingsHelper.cs"/>
     <Compile Include="Utils\ShopExpansion.cs" />
     <Compile Include="Utils\Unrichify.cs" />
     <Compile Include="Utils\TraitHelper.cs" />
