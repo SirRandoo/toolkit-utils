@@ -357,13 +357,21 @@ namespace SirRandoo.ToolkitUtils.Utils
             foreach (var race in missingRaces)
             {
                 var raceName = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race))?.label ?? race;
-                var item = StoreInventory.items.FirstOrDefault(i => i.defname.Equals(race));
                 var price = 2500;
 
-                if (item != null && item.price >= 0)
+                try
                 {
-                    price = item.price;
-                    item.price = -10;
+                    var item = StoreInventory.items.FirstOrDefault(i => i.defname.Equals(race));
+
+                    if (item != null && item.price >= 0)
+                    {
+                        price = item.price;
+                        item.price = -10;
+                    }
+                }
+                catch (Exception)
+                {
+                    Logger.Warn($"Could not update race prices from Toolkit's store for race \"{raceName}\".");
                 }
 
                 TkUtils.ShopExpansion.Races.Add(
