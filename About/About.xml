@@ -4,6 +4,7 @@
     <name>ToolkitUtils</name>
     <author>SirRandoo</author>
     <description>A collection of command and tweaks for TwitchToolkit.</description>
+    <url>https://sirrandoo.github.io/toolkit-utils</url>
     
     <packageId>sirrandoo.tku</packageId>
     <supportedVersions>
