@@ -216,13 +216,16 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (handle != null)
                 {
-                    Logger.Warn(
-                        $"Could not get mod handle for mod \"{entry.Item1}\"!  Some content may not appear in the mod list."
-                    );
                     meta = ModLister.GetActiveModWithIdentifier(handle.Content.PackageId);
                     hook = meta.GetWorkshopItemHook();
                     steamIdInfo = hook.GetType().GetProperty("PublishedFileId");
                     steamId = meta.OnSteamWorkshop ? steamIdInfo?.GetValue(hook).ToString() : null;
+                }
+                else
+                {
+                    Logger.Warn(
+                        $"Could not get mod handle for mod \"{entry.Item1}\"!  Some content may not appear in the mod list."
+                    );
                 }
 
                 jsonMods.Add(
