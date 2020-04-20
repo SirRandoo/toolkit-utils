@@ -1,36 +1,46 @@
 ﻿using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnFixCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private Pawn pawn;
+
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (!base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var pawn = GetOrFindPawn(message.User);
+            pawn = GetOrFindPawn(twitchCommand.Message);
 
             if (pawn != null)
             {
-                var name = pawn.Name as NameTriple;
-
-                if (name?.Nick != message.User)
-                {
-                    pawn.Name = new NameTriple(name?.First ?? "", message.User, name?.Last ?? "");
-                }
+                return true;
             }
 
-            message.Reply(
-                pawn == null
-                    ? "TKUtils.Responses.NoPawn".Translate()
-                    : "TKUtils.Responses.PawnFix.Relinked".Translate()
-            );
+            twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate());
+            return false;
+        }
+
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
+            var name = pawn.Name as NameTriple;
+
+            if (name?.Nick != twitchCommand.Username)
+            {
+                pawn.Name = new NameTriple(name?.First ?? "", twitchCommand.Username, name?.Last ?? "");
+            }
+
+            twitchCommand.Reply("TKUtils.Responses.PawnFix.Relinked".Translate());
+        }
+
+        public PawnFixCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

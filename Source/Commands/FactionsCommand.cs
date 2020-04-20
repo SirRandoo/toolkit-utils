@@ -1,29 +1,33 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class FactionsCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private List<Faction> factions;
+
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (!base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.ToList();
+            factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.ToList();
 
-            if (!factions.Any())
-            {
-                message.Reply("TKUtils.Responses.NoFactions".WithHeader("Factions"));
-                return;
-            }
+            return factions.Any();
+        }
 
-            message.Reply(
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
+            twitchCommand.Reply(
                 string.Join(
                     ", ",
                     factions.Select(
@@ -36,6 +40,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                         .ToArray()
                 )
             );
+        }
+
+        public FactionsCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

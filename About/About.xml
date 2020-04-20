@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <ModMetaData>
-    <name>ToolkitUtils</name>
+    <name>ToolkitUtils-dev</name>
     <author>SirRandoo</author>
     <description>A collection of command and tweaks for TwitchToolkit.</description>
     <url>https://sirrandoo.github.io/toolkit-utils</url>
@@ -13,9 +13,9 @@
     
     <modDependencies>
         <li>
-            <packageId>hodl.twitchtoolkit</packageId>
-            <displayName>TwitchToolkit</displayName>
-            <steamWorkshopUrl>steam://url/CommunityFilePage/1718525787</steamWorkshopUrl>
+            <packageId>hodl.toolkitdev</packageId>
+            <displayName>Twitch Toolkit</displayName>
+            <steamWorkshopUrl>steam://url/CommunityFilePage/2019162052</steamWorkshopUrl>
         </li>
         <li>
             <packageId>brrainz.harmony</packageId>

@@ -1,26 +1,23 @@
 ﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using TwitchToolkit;
-using TwitchToolkit.IRC;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class InstalledModsDriver : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void Execute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            message.Reply(
+            twitchCommand.Reply(
                 (
                     TkSettings.VersionedModList
                         ? GetModListStringVersioned()
                         : GetModListString()
-                ).WithHeader($"Toolkit v{Toolkit.Mod.Version}")
+                ).WithHeader($"Toolkit-dev v{Toolkit.Mod.Version}")
             );
         }
 
@@ -41,6 +38,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             return !TkSettings.DecorateUtils || !mod.EqualsIgnoreCase(TkUtils.Id)
                 ? mod
                 : $"{"★".AltText("*")}{mod}";
+        }
+
+        public InstalledModsDriver(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

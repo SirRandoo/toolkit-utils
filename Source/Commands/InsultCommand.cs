@@ -1,33 +1,37 @@
 ﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using TwitchToolkit.PawnQueue;
 using Verse;
 using Verse.AI;
+using Viewers = TwitchToolkit.Viewers;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class InsultCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private Pawn viewer;
+        private Pawn target;
+
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (!base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var pawn = GetOrFindPawn(message.User);
+            viewer = GetOrFindPawn(twitchCommand.Username);
 
-            if (pawn == null)
+            if (viewer == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate());
-                return;
+                twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate());
+                return false;
             }
 
-            var query = CommandParser.Parse(message.Message).Skip(1).FirstOrFallback("");
-            Pawn target = null;
+            var query = CommandParser.Parse(twitchCommand.Message, TkSettings.Prefix).Skip(1).FirstOrFallback("");
 
             if (!query.NullOrEmpty())
             {
@@ -36,30 +40,31 @@ namespace SirRandoo.ToolkitUtils.Commands
                     query = query.Substring(1);
                 }
 
-                var viewerPawn = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(query));
-
-                if (viewerPawn == null)
-                {
-                    return;
-                }
-
-                var component = Current.Game.GetComponent<GameComponentPawns>();
-                target = component.PawnAssignedToUser(viewerPawn.username.ToLowerInvariant());
+                target = GetOrFindPawn(query);
 
                 if (target == null)
                 {
-                    message.Reply("TKUtils.Responses.ViewerNotFound".Translate(query));
-                    return;
+                    twitchCommand.Reply("TKUtils.Responses.ViewerNotFound".Translate(query));
+                    return false;
                 }
             }
 
             target ??= Find.ColonistBar.Entries.RandomElement().pawn;
+            return true;
+        }
+
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
             var job = new Job(JobDefOf.Insult, target);
 
-            if (job.CanBeginNow(pawn))
+            if (job.CanBeginNow(viewer))
             {
-                pawn.jobs.StartJob(new Job(JobDefOf.Insult, target), JobCondition.InterruptForced);
+                viewer.jobs.StartJob(job, JobCondition.InterruptForced);
             }
+        }
+
+        public InsultCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

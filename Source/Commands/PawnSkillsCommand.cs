@@ -1,29 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnSkillsCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private Pawn pawn;
+
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (!base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var pawn = GetOrFindPawn(message.User);
+            pawn = GetOrFindPawn(twitchCommand.Username);
 
-            if (pawn == null)
+            if (pawn != null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate());
-                return;
+                return true;
             }
 
+            twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate());
+            return false;
+        }
+
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
             var parts = new List<string>();
             var skills = pawn.skills.skills;
 
@@ -33,18 +40,20 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 container += "TKUtils.Formats.KeyValue".Translate(
                         skill.def.LabelCap,
-                        skill.TotallyDisabled
-                            ? "-"
-                            : skill.levelInt.ToString()
+                        skill.TotallyDisabled ? "-" : skill.levelInt.ToString()
                     )
                     .RawText;
-
+                
                 container += new string(Convert.ToChar("🔥".AltText("+")), (int) skill.passion);
 
                 parts.Add(container);
             }
+            
+            twitchCommand.Reply(string.Join(", ", parts.ToArray()).WithHeader("StatsReport_Skills".Translate()));
+        }
 
-            message.Reply(string.Join(", ", parts.ToArray()).WithHeader("StatsReport_Skills".Translate()));
+        public PawnSkillsCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

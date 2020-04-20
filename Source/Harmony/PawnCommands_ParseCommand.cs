@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using TwitchToolkit.IRC;
+using TwitchLib.Client.Models;
 using TwitchToolkit.PawnQueue;
 
 namespace SirRandoo.ToolkitUtils.Harmony
@@ -8,7 +8,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     public static class PawnCommands_ParseCommand
     {
         [HarmonyPrefix]
-        public static bool ParseCommand(IRCMessage msg)
+        public static bool ParseCommand(ChatMessage msg)
         {
             return false;
         }

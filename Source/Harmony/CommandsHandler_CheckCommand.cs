@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Models;
+using TwitchLib.Client.Models;
 using TwitchToolkit;
-using TwitchToolkit.IRC;
 using Verse;
-using Command = TwitchToolkit.Command;
+using Viewers = TwitchToolkit.Viewers;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
@@ -14,7 +15,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     public static class CommandsHandler_CheckCommand
     {
         [HarmonyPrefix]
-        public static bool CheckCommand(IRCMessage msg)
+        public static bool CheckCommand(ChatMessage msg)
         {
             try
             {
@@ -28,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     return false;
                 }
 
-                var viewer = Viewers.GetViewer(msg.User);
+                var viewer = Viewers.GetViewer(msg.Username);
                 viewer.last_seen = DateTime.Now;
 
                 if (viewer.IsBanned)
@@ -41,7 +42,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 var unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"));
                 var emojiCache = TkSettings.Emojis;
 
-                IRCMessage payload;
                 if (message.Substring(0, TkSettings.Prefix.Length).EqualsIgnoreCase(TkSettings.Prefix))
                 {
                     if (!segments.Any())
@@ -61,17 +61,17 @@ namespace SirRandoo.ToolkitUtils.Harmony
                             .ToArray();
                     }
 
-                    var commands = DefDatabase<Command>.AllDefsListForReading.ToList();
-                    Command command = null;
+                    var commands = DefDatabase<ToolkitChatCommand>.AllDefsListForReading.ToList();
+                    ToolkitChatCommand command = null;
 
                     foreach (var def in commands)
                     {
-                        if (def.command.Contains(" "))
+                        if (def.commandText.Contains(" "))
                         {
-                            var spaces = def.command.Count(c => c.Equals(' '));
+                            var spaces = def.commandText.Count(c => c.Equals(' '));
                             var joined = string.Join(" ", segments.Take(spaces));
 
-                            if (!def.command.EqualsIgnoreCase(joined))
+                            if (!def.commandText.EqualsIgnoreCase(joined))
                             {
                                 continue;
                             }
@@ -80,7 +80,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                             break;
                         }
 
-                        if (!def.command.EqualsIgnoreCase(segments.Take(1).First()))
+                        if (!def.commandText.EqualsIgnoreCase(segments.Take(1).First()))
                         {
                             continue;
                         }
@@ -91,47 +91,54 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                     if (command != null)
                     {
-                        var runnable = command.enabled;
+                        var instance = (CommandMethod) Activator.CreateInstance(command.commandClass, (object) command);
+                        var chatMessage = msg;
 
-                        if (command.requiresMod
-                            && !viewer.mod
-                            && !viewer.username.EqualsIgnoreCase(ToolkitSettings.Channel))
+                        if (command.commandClass.FullName.EqualsIgnoreCase("TwitchToolkit.Commands.ViewerCommands.Buy"))
                         {
-                            runnable = false;
+                            chatMessage = new ChatMessage(
+                                msg.BotUsername,
+                                msg.UserId,
+                                msg.Username,
+                                msg.DisplayName,
+                                msg.ColorHex,
+                                msg.Color,
+                                msg.EmoteSet,
+                                $"!{command.commandText} {CombineSegments(segments.Skip(1))}".Trim(),
+                                msg.UserType,
+                                msg.Channel,
+                                msg.Id,
+                                msg.IsSubscriber,
+                                msg.SubscribedMonthCount,
+                                msg.RoomId,
+                                msg.IsTurbo,
+                                msg.IsModerator,
+                                msg.IsMe,
+                                msg.IsBroadcaster,
+                                msg.Noisy,
+                                msg.RawIrcMessage,
+                                msg.EmoteReplacedMessage,
+                                msg.Badges,
+                                msg.CheerBadge,
+                                msg.Bits,
+                                msg.BitsInDollars
+                            );
+
+                            Logger.Info(
+                                $"Falsified viewer's command from \"{msg.Message}\" to \"{chatMessage.Message}\""
+                            );
                         }
 
-                        if (command.requiresAdmin && !msg.User.EqualsIgnoreCase(ToolkitSettings.Channel))
+                        var payload = new ChatCommand(
+                            chatMessage,
+                            command.commandText,
+                            CombineSegments(segments.Skip(1)),
+                            segments.ToList(),
+                            '!'
+                        );
+
+                        if (instance.CanExecute(payload))
                         {
-                            runnable = false;
-                        }
-
-                        if (command.shouldBeInSeparateRoom && !CommandsHandler.AllowCommand(msg))
-                        {
-                            runnable = false;
-                        }
-
-                        if (runnable)
-                        {
-                            // Fix up the message for Toolkit
-                            payload = new IRCMessage
-                            {
-                                Args = msg.Args,
-                                Channel = msg.Channel,
-                                Cmd = msg.Cmd,
-                                Host = msg.Host,
-                                Message = $"!{command.command} {CombineSegments(segments.Skip(1))}".Trim(),
-                                Parameters = msg.Parameters,
-                                User = msg.User,
-                                Whisper = msg.Whisper
-                            };
-
-                            if (command.commandDriver.Name.Equals("Buy") && !command.defName.EqualsIgnoreCase("buy"))
-                            {
-                                payload.Message = $"!buy {command.command} {CombineSegments(segments.Skip(1))}".Trim();
-                            }
-
-                            Logger.Info($"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"");
-
                             if (unemoji)
                             {
                                 TkSettings.Emojis = false;
@@ -139,11 +146,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                             try
                             {
-                                command.RunCommand(payload);
+                                instance.Execute(payload);
                             }
                             catch (Exception e)
                             {
-                                Logger.Error($"Command \"{command.command}\" failed", e);
+                                Logger.Error($"Command \"{command.commandText}\" failed", e);
                             }
 
                             if (unemoji)
@@ -152,49 +159,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
                             }
                         }
                     }
-                }
-
-                var twitchInterfaces = Current.Game.components.OfType<TwitchInterfaceBase>().ToList();
-
-                // hard-coded pawn commands....
-                payload = new IRCMessage
-                {
-                    Args = msg.Args,
-                    Channel = msg.Channel,
-                    Cmd = msg.Cmd,
-                    Host = msg.Host,
-                    Message =
-                        $"!{segments.Take(1).FirstOrDefault()?.ToLowerInvariant()} {CombineSegments(segments.Skip(1))}"
-                            .Trim(),
-                    Parameters = msg.Parameters,
-                    User = msg.User,
-                    Whisper = msg.Whisper
-                };
-
-                Logger.Info(
-                    $"Falsified viewer's command from \"{msg.Message}\" to \"{payload.Message}\"  -- Hard-coded commands check"
-                );
-
-                if (unemoji)
-                {
-                    TkSettings.Emojis = false;
-                }
-
-                foreach (var tInterface in twitchInterfaces)
-                {
-                    try
-                    {
-                        tInterface.ParseCommand(payload);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error($"Twitch interface \"{tInterface.GetType().FullName}\" failed", e);
-                    }
-                }
-
-                if (unemoji)
-                {
-                    TkSettings.Emojis = emojiCache;
                 }
             }
             catch (Exception e)

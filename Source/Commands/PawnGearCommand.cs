@@ -2,8 +2,8 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using UnityEngine;
 using Verse;
 
@@ -11,22 +11,29 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnGearCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private Pawn pawn;
+        
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (!base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var pawn = GetOrFindPawn(message.User);
+            pawn = GetOrFindPawn(twitchCommand.Username);
 
-            if (pawn == null)
+            if (pawn != null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabGear".Translate()));
-                return;
+                return true;
             }
+            
+            twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabGear".Translate()));
+            return false;
+        }
 
-            message.Reply(GetPawnGear(pawn).WithHeader("TabGear".Translate()));
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
+            twitchCommand.Reply(GetPawnGear(pawn).WithHeader("TabGear".Translate()));
         }
 
         private static float CalculateArmorRating(Pawn pawn, StatDef stat)
@@ -121,6 +128,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
 
             return string.Join("⎮", parts.ToArray());
+        }
+
+        public PawnGearCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

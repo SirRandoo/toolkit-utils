@@ -1,57 +1,61 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class ResearchCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private ResearchProjectDef project;
+
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (!base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var query = CommandParser.Parse(message.Message).Skip(1).FirstOrDefault();
-            ResearchProjectDef target;
+            var query = CommandParser.Parse(twitchCommand.Message).Skip(1).FirstOrDefault();
 
             if (query.NullOrEmpty())
             {
-                target = Current.Game.researchManager.currentProj;
+                project = Current.Game.researchManager.currentProj;
             }
             else
             {
-                target = DefDatabase<ResearchProjectDef>
-                    .AllDefsListForReading
-                    .FirstOrDefault(
-                        p => p.defName.EqualsIgnoreCase(query)
-                             || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                    );
-            }
-
-            if (target == null)
-            {
-                message.Reply(
-                    !query.NullOrEmpty()
-                        ? "TKUtils.Responses.Research.QueryInvalid".Translate(query).WithHeader("Research".Translate())
-                        : "TKUtils.Responses.Research.None".Translate().WithHeader("Research".Translate())
+                project = DefDatabase<ResearchProjectDef>.AllDefsListForReading.FirstOrDefault(
+                    p => p.defName.EqualsIgnoreCase(query) || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                 );
-
-                return;
             }
 
+            if (project != null)
+            {
+                return true;
+            }
+
+            twitchCommand.Reply(
+                (
+                    !query.NullOrEmpty()
+                        ? "TKUtils.Responses.Research.QueryInvalid".Translate(query)
+                        : "TKUtils.Responses.Research.None".Translate()
+                ).WithHeader("Research".Translate())
+            );
+            return false;
+        }
+
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
             var segments = new List<string>
             {
-                "TKUtils.Formats.KeyValue".Translate(target.LabelCap, target.ProgressPercent.ToStringPercent())
+                "TKUtils.Formats.KeyValue".Translate(project.LabelCap, project.ProgressPercent.ToStringPercent())
             };
 
-            if (target.prerequisites != null && !target.PrerequisitesCompleted)
+            if (project.prerequisites != null && !project.PrerequisitesCompleted)
             {
-                var prerequisites = target.prerequisites;
+                var prerequisites = project.prerequisites;
 
                 var container = prerequisites.Where(prerequisite => !prerequisite.IsFinished)
                     .Select(
@@ -66,7 +70,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                 segments.Add($"{"ResearchPrerequisites".Translate().RawText}: {string.Join(", ", container)}");
             }
 
-            message.Reply(string.Join("⎮", segments).WithHeader("Research".Translate()));
+            twitchCommand.Reply(string.Join("⎮", segments).WithHeader("Research".Translate()));
+        }
+
+        public ResearchCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

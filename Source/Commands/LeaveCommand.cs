@@ -1,8 +1,9 @@
 ﻿using RimWorld;
 using RimWorld.Planet;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using TwitchToolkit.PawnQueue;
 using UnityEngine;
 using Verse;
@@ -11,27 +12,34 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class LeaveCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private Pawn pawn;
+
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (!base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var pawn = GetOrFindPawn(message.User);
+            pawn = GetOrFindPawn(twitchCommand.Message);
 
             if (pawn == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate());
-                return;
+                twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate());
+                return false;
             }
 
-            if (pawn.IsCaravanMember())
+            if (!pawn.IsCaravanMember())
             {
-                message.Reply("TKUtils.Responses.Leave.Caravan".Translate());
-                return;
+                return true;
             }
 
+            twitchCommand.Reply("TKUtils.Responses.Leave.Caravan".Translate());
+            return false;
+        }
+
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
             if (TkSettings.LeaveMethod.EqualsIgnoreCase("Thanos")
                 && FilthMaker.TryMakeFilth(
                     pawn.Position,
@@ -41,13 +49,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                     Mathf.CeilToInt(pawn.BodySize * 0.6f)
                 ))
             {
-                message.Reply("TKUtils.Responses.Leave.Thanos".Translate());
+                twitchCommand.Reply("TKUtils.Responses.Leave.Thanos".Translate());
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.Letters.Leave.Thanos.Title".Translate(),
                     "TKUtils.Letters.Leave.Thanos.Description".Translate(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
                 );
+
                 pawn.Destroy();
             }
             else
@@ -57,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     pawn.Strip();
                 }
 
-                message.Reply("TKUtils.Responses.Leave.Generic".Translate());
+                twitchCommand.Reply("TKUtils.Responses.Leave.Generic".Translate());
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.Letters.Leave.Generic.Title".Translate(),
                     "TKUtils.Letters.Leave.Generic.Description".Translate(pawn.LabelShortCap),
@@ -65,17 +74,21 @@ namespace SirRandoo.ToolkitUtils.Commands
                     new LookTargets(pawn.Position, pawn.Map)
                 );
 
+                pawn.jobs.StopAll();
+                pawn.health.surgeryBills.Clear();
+
                 if (pawn.Faction != null)
                 {
                     pawn.SetFaction(null);
                 }
-
-                pawn.jobs.StopAll();
-                pawn.health.surgeryBills.Clear();
             }
 
             var component = Current.Game.GetComponent<GameComponentPawns>();
-            component?.pawnHistory.Remove(message.User);
+            component?.pawnHistory.Remove(twitchCommand.Username);
+        }
+
+        public LeaveCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

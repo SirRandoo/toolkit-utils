@@ -1,19 +1,19 @@
 ﻿using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using Verse;
+using Viewers = TwitchToolkit.Viewers;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnFixAllCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public PawnFixAllCommand(ToolkitChatCommand command) : base(command)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
+        }
 
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
             foreach (var viewer in Viewers.All)
             {
                 var pawn = GetOrFindPawn(viewer.username);
@@ -30,8 +30,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                     pawn.Name = new NameTriple(name?.First ?? "", viewer.username, name?.Last ?? "");
                 }
             }
-
-            message.Reply("TKUtils.Responses.PawnFixAll.Relinked".Translate());
+            
+            twitchCommand.Reply("TKUtils.Responses.PawnFixAll.Relinked".Translate());
         }
     }
 }

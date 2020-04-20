@@ -1,32 +1,39 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnStoryCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private Pawn pawn;
+
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var pawn = GetOrFindPawn(message.User);
-
-            if (pawn == null)
+            pawn = GetOrFindPawn(twitchCommand.Username);
+            
+            if (pawn != null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabCharacter".Translate()));
-                return;
+                return true;
             }
+            
+            twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabCharacter".Translate()));
+            return false;
+        }
 
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
             var parts = new List<string>
             {
-                $"{"Backstory".Translate().RawText}: {string.Join(", ".Translate(), pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray())}"
+                $"{"Backstory".Translate().RawText}: {string.Join(", ", pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray())}"
             };
 
             var isRoyal = pawn.royalty?.MostSeniorTitle != null;
@@ -45,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     parts.Add(isRoyal ? "👑" : "");
                     break;
             }
-
+            
             var workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
 
             if (workTags == WorkTags.None)
@@ -66,7 +73,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                 $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => t.LabelCap.StripTags()).ToArray())}"
             );
 
-            message.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
+            twitchCommand.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
+        }
+
+        public PawnStoryCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

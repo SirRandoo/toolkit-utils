@@ -1,49 +1,53 @@
 ﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnNeedsCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private Pawn pawn;
+        
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (!base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var pawn = GetOrFindPawn(message.User);
+            pawn = GetOrFindPawn(twitchCommand.Message);
 
             if (pawn == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabNeeds".Translate()));
-                return;
+                twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate("TabNeeds".Translate()));
+                return false;
             }
 
-            var needs = pawn.needs.AllNeeds;
-
-            if (pawn.needs?.AllNeeds == null)
+            if (pawn.needs?.AllNeeds != null)
             {
-                message.Reply("TKUtils.Responses.PawnNeeds.None".Translate().WithHeader("TabNeeds".Translate()));
-                return;
+                return true;
             }
 
-            message.Reply(
+            twitchCommand.Reply("TKUtils.Responses.PawnNeeds.None".Translate().WithHeader("TabNeeds".Translate()));
+            return false;
+        }
+
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
+            twitchCommand.Reply(
                 string.Join(
-                        ", ",
-                        needs.Select(
-                                n => (string) "TKUtils.Formats.KeyValue".Translate(
-                                    n.LabelCap,
-                                    n.CurLevelPercentage.ToStringPercent()
-                                )
-                            )
-                            .ToArray()
-                    )
-                    .WithHeader("TabNeeds".Translate())
+                    ", ",
+                    pawn.needs.AllNeeds.Select(
+                        n => "TKUtils.Formats.KeyValue".Translate(n.LabelCap, n.CurLevelPercentage.ToStringPercent()).RawText
+                    ).ToArray()
+                ).WithHeader("TabNeeds".Translate())
             );
+        }
+
+        public PawnNeedsCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }

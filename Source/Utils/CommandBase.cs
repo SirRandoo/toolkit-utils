@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RimWorld;
-using TwitchToolkit;
+using ToolkitCore;
+using ToolkitCore.Models;
 using TwitchToolkit.PawnQueue;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
-    public class CommandBase : CommandDriver
+    public class CommandBase : CommandMethod
     {
         private const int MessageLimit = 500;
+
+        public CommandBase(ToolkitChatCommand command) : base(command)
+        {
+        }
 
         private static Pawn FindPawn(string username)
         {
@@ -102,7 +107,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach (var m in messages)
             {
-                Toolkit.client.SendMessage(m.Trim());
+                TwitchWrapper.SendChatMessage(m.Trim());
             }
         }
     }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using TwitchToolkit.Incidents;
-using TwitchToolkit.IRC;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -11,18 +11,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PriceCheckCommand : CommandBase
     {
-        private IRCMessage msg;
+        private ITwitchCommand cmd;
 
-        public override void RunCommand(IRCMessage message)
+        public override void Execute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            msg = message;
-
-            var segments = CommandParser.Parse(message.Message, TkSettings.Prefix).Skip(1).ToArray();
+            cmd = twitchCommand;
+            var segments = CommandParser.Parse(twitchCommand.Message, TkSettings.Prefix).Skip(1).ToArray();
 
             PerformLookup(
                 segments.FirstOrFallback(""),
@@ -33,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void Notify__LookupComplete(string query, string result)
         {
-            msg.Reply("TKUtils.Formats.Lookup".Translate(query, result));
+            cmd.Reply("TKUtils.Formats.Lookup".Translate(query, result));
         }
 
         private void PerformAnimalLookup(string query, int quantity)
@@ -200,6 +194,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                 query,
                 $"{result.Name.CapitalizeFirst()} - {string.Join(" / ", parts.ToArray())}"
             );
+        }
+
+        public PriceCheckCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }
