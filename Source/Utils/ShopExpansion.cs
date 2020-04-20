@@ -412,6 +412,19 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 Logger.Info($"Cleaned up {raceCount} races with wrong names.");
             }
+
+            var oldMods = Path.Combine(SaveHelper.dataPath, "Mods.json");
+            var oldModsBack = Path.Combine(SaveHelper.dataPath, "Mods.json.bak");
+
+            if (File.Exists(oldMods))
+            {
+                File.Delete(oldMods);
+            }
+
+            if (File.Exists(oldModsBack))
+            {
+                File.Delete(oldModsBack);
+            }
         }
 
         internal static void TrySalvageData()
