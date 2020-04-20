@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     )
                     .RawText;
 
-                container += new string(Convert.ToChar("🔥".AltText("+")), (int) skill.passion);
+                container += string.Concat(Enumerable.Repeat("🔥".AltText("+"), (int) skill.passion));
 
                 parts.Add(container);
             }
