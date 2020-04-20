@@ -16,7 +16,19 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             foreach (var viewer in Viewers.All)
             {
-                GetOrFindPawn(viewer.username);
+                var pawn = GetOrFindPawn(viewer.username);
+
+                if (pawn == null)
+                {
+                    continue;
+                }
+
+                var name = pawn.Name as NameTriple;
+
+                if (name?.Nick != viewer.username)
+                {
+                    pawn.Name = new NameTriple(name?.First ?? "", viewer.username, name?.Last ?? "");
+                }
             }
 
             message.Reply("TKUtils.Responses.PawnFixAll.Relinked".Translate());

@@ -16,6 +16,16 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var pawn = GetOrFindPawn(message.User);
 
+            if (pawn != null)
+            {
+                var name = pawn.Name as NameTriple;
+
+                if (name?.Nick != message.User)
+                {
+                    pawn.Name = new NameTriple(name?.First ?? "", message.User, name?.Last ?? "");
+                }
+            }
+
             message.Reply(
                 pawn == null
                     ? "TKUtils.Responses.NoPawn".Translate()
