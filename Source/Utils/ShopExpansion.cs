@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
@@ -9,6 +10,7 @@ using TwitchToolkit.Store;
 using TwitchToolkit.Utilities;
 using UnityEngine;
 using Verse;
+using Verse.Steam;
 using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -204,22 +206,32 @@ namespace SirRandoo.ToolkitUtils.Utils
             var jsonMods = new List<ModDump>();
             var loaded = LoadedModManager.ModHandles.ToList();
 
-            foreach (var mod in loaded)
+            foreach (var entry in TkUtils.ModListCache)
             {
-                var meta = ModLister.GetActiveModWithIdentifier(mod.Content.PackageId);
-                var hook = meta.GetWorkshopItemHook();
-                var steamIdInfo = hook.GetType().GetProperty("PublishedFileId");
+                var handle = loaded.FirstOrDefault(h => h.Content.Name.Equals(entry.Item1));
+                ModMetaData meta = null;
+                WorkshopItemHook hook = null;
+                PropertyInfo steamIdInfo = null;
+                string steamId = null;
+
+                if (handle != null)
+                {
+                    Logger.Warn(
+                        $"Could not get mod handle for mod \"{entry.Item1}\"!  Some content may not appear in the mod list."
+                    );
+                    meta = ModLister.GetActiveModWithIdentifier(handle.Content.PackageId);
+                    hook = meta.GetWorkshopItemHook();
+                    steamIdInfo = hook.GetType().GetProperty("PublishedFileId");
+                    steamId = meta.OnSteamWorkshop ? steamIdInfo?.GetValue(hook).ToString() : null;
+                }
 
                 jsonMods.Add(
                     new ModDump
                     {
-                        author = meta.Author,
-                        name = hook.Name,
-                        version = TkUtils.GetModListVersioned()
-                                      .FirstOrDefault(i => i.Item1.Equals(mod.Content.Name))
-                                      ?.Item2
-                                  ?? "0.0.0",
-                        steamId = meta.OnSteamWorkshop ? steamIdInfo?.GetValue(hook).ToString() : null
+                        author = meta?.Author ?? "UNKNOWN",
+                        name = hook?.Name ?? entry.Item1,
+                        version = entry.Item2 ?? "0.0.0",
+                        steamId = steamId ?? null
                     }
                 );
             }
