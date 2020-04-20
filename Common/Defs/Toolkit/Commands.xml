@@ -350,4 +350,11 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickCommand</commandDriver>
         <requiresMod>true</requiresMod>
     </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command ParentName="CommandBase">
+        <defName>Insult</defName>
+        <label>insult</label>
+        <command>insult</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.InsultCommand</commandDriver>
+    </TwitchToolkit.Command>
 </Defs>
