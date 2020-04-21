@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0")
                 ),
                 "TKUtils.Formats.KeyValue".Translate(
-                    "TKUtils.Responses.Balance.Karma".Translate().CapitalizeFirst(),
+                    "⚖️".AltText("TKUtils.Responses.Balance.Karma".Translate().CapitalizeFirst()),
                     (viewer.GetViewerKarma() / 100f).ToString("P0")
                 )
             };
