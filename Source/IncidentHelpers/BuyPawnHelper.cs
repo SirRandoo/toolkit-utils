@@ -121,7 +121,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
                 Current.Game.GetComponent<GameComponentPawns>().AssignUserToPawn(Viewer.username, pawn);
 
-                Viewer.TakeViewerCoins(race?.Price ?? storeIncident.cost);
+                if (!ToolkitSettings.UnlimitedCoins)
+                {
+                    Viewer.TakeViewerCoins(race?.Price ?? storeIncident.cost);
+                }
+
                 Viewer.CalculateNewKarma(storeIncident.karmaType, race?.Price ?? storeIncident.cost);
 
                 if (ToolkitSettings.PurchaseConfirmations)
