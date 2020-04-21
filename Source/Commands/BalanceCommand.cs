@@ -24,17 +24,31 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var container = new List<string>
+            var container = new List<string> { };
+            var coins = ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0");
+            var karma = (viewer.GetViewerKarma() / 100f).ToString("P0");
+
+            if (TkSettings.Emojis)
             {
-                "TKUtils.Formats.KeyValue".Translate(
-                    "💰".AltText("TKUtils.Responses.Balance.Coins".Translate().CapitalizeFirst()),
-                    ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0")
-                ),
-                "TKUtils.Formats.KeyValue".Translate(
-                    "⚖️".AltText("TKUtils.Responses.Balance.Karma".Translate().CapitalizeFirst()),
-                    (viewer.GetViewerKarma() / 100f).ToString("P0")
-                )
-            };
+                container.Add($"💰 {coins}");
+                container.Add($"⚖ {karma}");
+            }
+            else
+            {
+                container.Add(
+                    "TKUtils.Formats.KeyValue".Translate(
+                        "TKUtils.Responses.Balance.Coins".Translate().CapitalizeFirst(),
+                        coins
+                    )
+                );
+
+                container.Add(
+                    "TKUtils.Formats.KeyValue".Translate(
+                        "TKUtils.Responses.Balance.Karma".Translate().CapitalizeFirst(),
+                        karma
+                    )
+                );
+            }
 
             if (ToolkitSettings.EarningCoins)
             {
