@@ -32,6 +32,7 @@ namespace SirRandoo.ToolkitUtils
         public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
         public static int LookupLimit = 10;
         public static bool VersionedModList;
+        public static bool ShowCoinRate = true;
 
         public static bool UtilsNoticeAdd = true;
         public static bool UtilsNoticeRemove = true;
@@ -172,6 +173,12 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.SettingGroups.CommandTweaks.Unrichify.Label".Translate(),
                 ref RichText,
                 "TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip".Translate()
+            );
+
+            listing.CheckboxLabeled(
+                "TKUtils.SettingGroups.CommandTweaks.CoinRate.Label".Translate(),
+                ref ShowCoinRate,
+                "TKUtils.SettingGroups.CommandTweaks.CoinRate.Tooltip".Translate()
             );
 
             listing.CheckboxLabeled(

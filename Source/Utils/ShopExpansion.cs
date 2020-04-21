@@ -205,9 +205,9 @@ namespace SirRandoo.ToolkitUtils.Utils
             var jsonMods = new List<ModDump>();
             var loaded = LoadedModManager.ModHandles.ToList();
 
-            foreach (var entry in TkUtils.ModListCache)
+            foreach (var (name, version) in TkUtils.ModListCache)
             {
-                var handle = loaded.FirstOrDefault(h => h.Content.Name.Equals(entry.Item1));
+                var handle = loaded.FirstOrDefault(h => h.Content.Name.Equals(name));
                 ModMetaData meta = null;
                 WorkshopItemHook hook = null;
                 string steamId = null;
@@ -223,7 +223,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 else
                 {
                     Logger.Warn(
-                        $"Could not get mod handle for mod \"{entry.Item1}\"!  Some content may not appear in the mod list."
+                        $"Could not get mod handle for mod \"{name}\"!  If this is an xml mod, you can safely ignore this."
                     );
                 }
 
@@ -231,9 +231,9 @@ namespace SirRandoo.ToolkitUtils.Utils
                     new ModDump
                     {
                         author = meta?.Author ?? "UNKNOWN",
-                        name = hook?.Name ?? entry.Item1,
-                        version = entry.Item2 ?? "0.0.0",
-                        steamId = steamId ?? null
+                        name = hook?.Name ?? name,
+                        version = version ?? "0.0.0.0",
+                        steamId = steamId
                     }
                 );
             }

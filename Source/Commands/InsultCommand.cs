@@ -59,6 +59,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (job.CanBeginNow(viewer))
             {
+                pawn.jobs.StartJob(job, JobCondition.InterruptForced);
                 viewer.jobs.StartJob(job, JobCondition.InterruptForced);
             }
         }
