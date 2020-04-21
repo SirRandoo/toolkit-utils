@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Xml;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Settings;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
             TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            TkUtils.ModListCache = TkUtils.GetModListVersioned();
+            TkUtils.BuildModList();
             Logger.Info($"Cached {TkUtils.ModListCache.Length} mods.");
 
             try
@@ -60,7 +61,7 @@ namespace SirRandoo.ToolkitUtils
     {
         public const string Id = "ToolkitUtils";
         internal static HarmonyLib.Harmony Harmony;
-        internal static Tuple<string, string>[] ModListCache;
+        internal static ModDump[] ModListCache;
         internal static XmlShop ShopExpansion;
 
         public TkUtils(ModContentPack content) : base(content)
@@ -69,44 +70,55 @@ namespace SirRandoo.ToolkitUtils
             Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(TkUtilsWindow)));
         }
 
-        public static IEnumerable<string> GetModListUnversioned()
+        public static void BuildModList()
         {
-            return GetModListVersioned().Select(m => m.Item1);
-        }
+            var jsonMods = new List<ModDump>();
+            var running = ModsConfig.ActiveModsInLoadOrder.ToList();
 
-        public static Tuple<string, string>[] GetModListVersioned()
-        {
-            if (ModListCache?.Any() ?? false)
+            foreach (var mod in running.Where(m => m.Active))
             {
-                Logger.Debug("Something requested the mod list; we'll use the cached list.");
-                return ModListCache;
-            }
-
-            var container = new List<Tuple<string, string>>();
-
-            foreach (var content in LoadedModManager.RunningMods)
-            {
-                if (container.Any(i => i.Item1.Equals(content.Name)))
+                if (mod.Official)
                 {
                     continue;
                 }
 
-                var version = "0.0.0.0";
-                if (content.assemblies?.loadedAssemblies.Count > 0)
-                {
-                    var handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content == content);
+                string version = null;
 
-                    version = handle?.GetType().Module.Assembly.GetName().Version.ToString() ?? "0.0.0.0";
+                var handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
+
+                if (handle != null)
+                {
+                    version = handle.GetType().Module.Assembly.GetName().Version.ToString();
                 }
 
-                container.Add(
-                    new Tuple<string, string>(content.Name, version)
+                if (version == null)
+                {
+                    var manifestFile = Path.Combine(mod.RootDir.ToString(), "About/Manifest.xml");
+
+                    if (File.Exists(manifestFile))
+                    {
+                        using (var reader = new XmlTextReader(manifestFile))
+                        {
+                            reader.ReadToFollowing("version");
+
+                            if (reader.Name.Equals("version"))
+                            {
+                                version = reader.ReadElementContentAsString();
+                                reader.Close();
+                            }
+                        }
+                    }
+                }
+
+                jsonMods.Add(
+                    new ModDump
+                    {
+                        author = mod.Author, name = mod.Name, version = version, steamId = mod.SteamAppId.ToString()
+                    }
                 );
             }
 
-            ModListCache = container.ToArray();
-
-            return ModListCache;
+            ModListCache = jsonMods.ToArray();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)

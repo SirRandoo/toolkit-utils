@@ -9,7 +9,6 @@ using TwitchToolkit.Store;
 using TwitchToolkit.Utilities;
 using UnityEngine;
 using Verse;
-using Verse.Steam;
 using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -202,44 +201,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void DumpModList()
         {
-            var jsonMods = new List<ModDump>();
-            var loaded = LoadedModManager.ModHandles.ToList();
-
-            foreach (var (name, version) in TkUtils.ModListCache)
-            {
-                var handle = loaded.FirstOrDefault(h => h.Content.Name.Equals(name));
-                ModMetaData meta = null;
-                WorkshopItemHook hook = null;
-                string steamId = null;
-
-                if (handle != null)
-                {
-                    meta = ModLister.GetActiveModWithIdentifier(handle.Content.PackageId);
-                    hook = meta.GetWorkshopItemHook();
-
-                    var steamIdInfo = hook.GetType().GetProperty("PublishedFileId");
-                    steamId = meta.OnSteamWorkshop ? steamIdInfo?.GetValue(hook).ToString() : null;
-                }
-                else
-                {
-                    Logger.Warn(
-                        $"Could not get mod handle for mod \"{name}\"!  If this is an xml mod, you can safely ignore this."
-                    );
-                }
-
-                jsonMods.Add(
-                    new ModDump
-                    {
-                        author = meta?.Author ?? "UNKNOWN",
-                        name = hook?.Name ?? name,
-                        version = version ?? "0.0.0.0",
-                        steamId = steamId
-                    }
-                );
-            }
-
             var builder = new StringBuilder("[");
-            builder.Append(string.Join(",", jsonMods.Select(JsonUtility.ToJson).ToArray()));
+            builder.Append(string.Join(",", TkUtils.ModListCache.Select(JsonUtility.ToJson).ToArray()));
             builder.Append("]");
 
             SaveData(builder.ToString(), ModsFile);
@@ -248,25 +211,19 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static void DumpCommands()
         {
             var commands = DefDatabase<Command>.AllDefsListForReading;
-            var container = new List<CommandDump>();
-
-            foreach (var command in commands.Where(
-                c => c.enabled && $"TKUtils.Commands.UserLevel.{c.defName}".CanTranslate()
-            ))
-            {
-                container.Add(
-                    new CommandDump
+            var container = commands.Where(c => c.enabled && $"TKUtils.Commands.UserLevel.{c.defName}".CanTranslate())
+                .Select(
+                    command => new CommandDump
                     {
                         name = command.LabelCap.RawText,
                         description = $"TKUtils.Commands.Description.{command.defName}".Translate(),
-                        usage =
-                            TkSettings.Prefix
-                            + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
+                        usage = TkSettings.Prefix
+                                + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
                         shortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
                         userLevel = $"TKUtils.Commands.UserLevel.{command.defName}".Translate()
                     }
-                );
-            }
+                )
+                .ToList();
 
             var builder = new StringBuilder();
             builder.Append("[");
