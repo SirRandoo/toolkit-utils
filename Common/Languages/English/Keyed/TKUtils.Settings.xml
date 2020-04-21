@@ -20,22 +20,29 @@
     <TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label>How pawns should leave when the leave command is invoked.</TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label>
     <TKUtils.SettingGroups.PawnCommands.LeaveGear.Label>Colonists that leave by the leave command drop their inventory.</TKUtils.SettingGroups.PawnCommands.LeaveGear.Label>
     <TKUtils.SettingGroups.PawnCommands.LeaveGear.Tooltip>If a viewer chooses to leave the colony by the leave command (!leave), they'll empty their inventory (including gear) before departing.</TKUtils.SettingGroups.PawnCommands.LeaveGear.Tooltip>
-
+    
     <!-- Command Tweaks -->
     <TKUtils.SettingGroups.CommandTweaks>Command Tweaks</TKUtils.SettingGroups.CommandTweaks>
     <TKUtils.SettingGroups.CommandTweaks.Parser.Label>Override Toolkit's command handler.</TKUtils.SettingGroups.CommandTweaks.Parser.Label>
-    <TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>By default, Toolkit looks messages that start with a command.  This allows viewers to add flair to commands, like !balloon for !bal.  This tweak forces users to use commands as defined, and allows the mod's shortcut commands to function.</TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>
+    <TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>By default, Toolkit looks messages that start with a command. This allows viewers to add flair to commands, like !balloon for !bal. This tweak forces users to use commands as defined, and allows the
+        mod's shortcut commands to function.
+    </TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>
     <TKUtils.SettingGroups.CommandTweaks.Unrichify.Label>Unrichify data from RimWorld and viewers.</TKUtils.SettingGroups.CommandTweaks.Unrichify.Label>
-    <TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>By default, Toolkit checks for exact matches on things like traits, including html tags.  This tweak filters out html tags when checking for matches so you'll never have to write out tags.</TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>
+    <TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>By default, Toolkit checks for exact matches on things like traits, including html tags. This tweak filters out html tags when checking for matches so you'll never have to write out tags.
+    </TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>
     <TKUtils.SettingGroups.CommandTweaks.Prefix.Label>Custom command prefix</TKUtils.SettingGroups.CommandTweaks.Prefix.Label>
-    <TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip>A string all commands must start with before they'll be recognized and processed by the mod.  This can be anything, including a sentence, but you should keep it short and simple.</TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip>
-
+    <TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip>A string all commands must start with before they'll be recognized and processed by the mod. This can be anything, including a sentence, but you should keep it short and simple.
+    </TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip>
+    <TKUtils.SettingGroups.CommandTweaks.CoinRate.Label>Show a viewer's calculated coin rate in the balance command.</TKUtils.SettingGroups.CommandTweaks.CoinRate.Label>
+    <TKUTils.SettingGroups.COmmandTweaks.CoinRate.Tooltip>If enabled, Utils will include the amount of coins a viewer earns per interval in the balance command's output (!bal).</TKUTils.SettingGroups.COmmandTweaks.CoinRate.Tooltip>
+    
     <!-- General -->
     <TKUtils.SettingGroups.General>General</TKUtils.SettingGroups.General>
     <TKUtils.SettingGroups.General.VersionedModList.Label>Include mod versions in the mod list command.</TKUtils.SettingGroups.General.VersionedModList.Label>
-    <TKUtils.SettingGroups.General.VersionedModList.Tooltip>By default, the mod list command (!installedmods) only outputs mod names.  This tweaks allows you to include mod versions along side the names.</TKUtils.SettingGroups.General.VersionedModList.Tooltip>
+    <TKUtils.SettingGroups.General.VersionedModList.Tooltip>By default, the mod list command (!installedmods) only outputs mod names. This tweaks allows you to include mod versions along side the names.
+    </TKUtils.SettingGroups.General.VersionedModList.Tooltip>
     <TKUtils.SettingGroups.General.Emojis.Label>Use emoticons in some commands.</TKUtils.SettingGroups.General.Emojis.Label>
-    <TKUtils.SettingGroups.General.Emojis.Tooltip>Allows Utils to use emoticons over text in some commands, like !mypawnhealth.  If this is disabled, emoticons will be subsituted with text.</TKUtils.SettingGroups.General.Emojis.Tooltip>
+    <TKUtils.SettingGroups.General.Emojis.Tooltip>Allows Utils to use emoticons over text in some commands, like !mypawnhealth. If this is disabled, emoticons will be subsituted with text.</TKUtils.SettingGroups.General.Emojis.Tooltip>
     <TKUtils.SettingGroups.General.DecorateUtils.Label>Add a star next to Utils in the mod list.</TKUtils.SettingGroups.General.DecorateUtils.Label>
     <TKUtils.SettingGroups.General.DecorateUtils.Tooltip>because why not?</TKUtils.SettingGroups.General.DecorateUtils.Tooltip>
     <TKUtils.SettingGroups.General.Sexuality.Label>Allow sexuality traits to bypass the trait limit.</TKUtils.SettingGroups.General.Sexuality.Label>
