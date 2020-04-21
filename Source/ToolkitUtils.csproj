@@ -83,8 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandExtension.cs"/>
-    <Compile Include="Commands\FactionsCommand.cs" />
-    <Compile Include="Commands\InstalledModsDriver.cs" />
+    <Compile Include="Commands\BalanceCommand.cs"/>
+    <Compile Include="Commands\FactionsCommand.cs"/>
+    <Compile Include="Commands\InstalledModsDriver.cs"/>
     <Compile Include="Commands\InsultCommand.cs"/>
     <Compile Include="Commands\LeaveCommand.cs"/>
     <Compile Include="Commands\LookupCommand.cs"/>
@@ -126,16 +127,16 @@
     <Compile Include="TkUtilsWindow.cs"/>
     <Compile Include="Utils\CommandBase.cs"/>
     <Compile Include="Utils\CommandParser.cs"/>
-    <Compile Include="Utils\Constraints\BannedConstraint.cs" />
-    <Compile Include="Utils\Constraints\CoinConstraint.cs" />
-    <Compile Include="Utils\Constraints\KarmaConstraint.cs" />
-    <Compile Include="Utils\Constraints\ModConstraint.cs" />
-    <Compile Include="Utils\Constraints\NameConstraint.cs" />
-    <Compile Include="Utils\Constraints\SubscriberConstraint.cs" />
-    <Compile Include="Utils\Constraints\TimeConstraint.cs" />
-    <Compile Include="Utils\Constraints\ComparableConstraint.cs" />
-    <Compile Include="Utils\Constraints\ConstraintBase.cs" />
-    <Compile Include="Utils\Constraints\VipConstraint.cs" />
+    <Compile Include="Utils\Constraints\BannedConstraint.cs"/>
+    <Compile Include="Utils\Constraints\CoinConstraint.cs"/>
+    <Compile Include="Utils\Constraints\KarmaConstraint.cs"/>
+    <Compile Include="Utils\Constraints\ModConstraint.cs"/>
+    <Compile Include="Utils\Constraints\NameConstraint.cs"/>
+    <Compile Include="Utils\Constraints\SubscriberConstraint.cs"/>
+    <Compile Include="Utils\Constraints\TimeConstraint.cs"/>
+    <Compile Include="Utils\Constraints\ComparableConstraint.cs"/>
+    <Compile Include="Utils\Constraints\ConstraintBase.cs"/>
+    <Compile Include="Utils\Constraints\VipConstraint.cs"/>
     <Compile Include="Utils\HealHelper.cs" />
     <Compile Include="Utils\MessageHelper.cs" />
     <Compile Include="Utils\SettingsHelper.cs"/>
@@ -176,6 +177,9 @@
     </Content>
     <Content Include="..\Common\Patches\IncidentHelpers\RemoveTraitPatch.xml">
       <Link>Patches\RemoveTraitPatch.xml</Link>
+    </Content>
+    <Content Include="..\Common\Patches\BalancePatch.xml">
+      <Link>Patches\BalancePatch.xml</Link>
     </Content>
     <Content Include="..\Common\Languages\English\Keyed\TKUtils.Windows.xml">
       <Link>Languages\English\Keyed\TKUtils.Windows.xml</Link>

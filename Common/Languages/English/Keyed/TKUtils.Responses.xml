@@ -82,6 +82,11 @@
     <!-- Lookup Translations -->
     <TKUtils.Formats.Lookup>Results for "{0}": {1}</TKUtils.Formats.Lookup>
     
+    <!-- Balance Translations -->
+    <TKUtils.Responses.Balance.Coins>coins</TKUtils.Responses.Balance.Coins>
+    <TKUtils.Responses.Balance.Karma>karma</TKUtils.Responses.Balance.Karma>
+    <TKUtils.Responses.Balance.Rate>Earning {0} coins every {1} minute(s)</TKUtils.Responses.Balance.Rate>
+    
     <!-- Leave Translations -->
     <TKUtils.Responses.Leave.Thanos>Mr. Stark, I don't feel so good...</TKUtils.Responses.Leave.Thanos>
     <TKUtils.Responses.Leave.Generic>You've left the colony.</TKUtils.Responses.Leave.Generic>
