@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             var container = new List<string>
             {
                 "TKUtils.Formats.KeyValue".Translate(
-                    "TKUtils.Responses.Balance.Coins".Translate().CapitalizeFirst(),
+                    "💰".AltText("TKUtils.Responses.Balance.Coins".Translate().CapitalizeFirst()),
                     ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0")
                 ),
                 "TKUtils.Formats.KeyValue".Translate(
@@ -38,10 +38,18 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (ToolkitSettings.EarningCoins)
             {
+                var income = CalculateCoinAward(viewer);
+
                 container.Add(
-                    "TKUtils.Responses.Balance.Rate".Translate(
-                        CalculateCoinAward(viewer),
-                        ToolkitSettings.CoinInterval
+                    (
+                        income > 0
+                            ? $"📈 {income:N0}"
+                            : $"📉 {income:N0}"
+                    ).AltText(
+                        "TKUtils.Responses.Balance.Rate".Translate(
+                            CalculateCoinAward(viewer),
+                            ToolkitSettings.CoinInterval
+                        )
                     )
                 );
             }
