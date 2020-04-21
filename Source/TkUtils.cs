@@ -84,17 +84,23 @@ namespace SirRandoo.ToolkitUtils
 
             var container = new List<Tuple<string, string>>();
 
-            foreach (var handle in LoadedModManager.ModHandles)
+            foreach (var content in LoadedModManager.RunningMods)
             {
-                if (container.Any(i => i.Item1.Equals(handle.Content.Name)))
+                if (container.Any(i => i.Item1.Equals(content.Name)))
                 {
                     continue;
                 }
 
-                var version = handle.GetType().Module.Assembly.GetName().Version.ToString();
+                var version = "0.0.0.0";
+                if (content.assemblies?.loadedAssemblies.Count > 0)
+                {
+                    var handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content == content);
+
+                    version = handle?.GetType().Module.Assembly.GetName().Version.ToString() ?? "0.0.0.0";
+                }
 
                 container.Add(
-                    new Tuple<string, string>(handle.Content.Name, version)
+                    new Tuple<string, string>(content.Name, version)
                 );
             }
 
