@@ -83,6 +83,7 @@ namespace SirRandoo.ToolkitUtils
                 }
 
                 string version = null;
+                string steamId = null;
 
                 var handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
 
@@ -110,11 +111,30 @@ namespace SirRandoo.ToolkitUtils
                     }
                 }
 
-                jsonMods.Add(
-                    new ModDump
+                if (mod.SteamAppId > 0)
+                {
+                    steamId = mod.SteamAppId.ToString();
+                }
+
+                if (steamId.NullOrEmpty())
+                {
+                    var hook = mod.GetWorkshopItemHook();
+                    var property = hook.GetType().GetProperty("PublishedFileId");
+                    steamId = property?.GetValue(hook)?.ToString();
+                }
+
+                if (steamId.NullOrEmpty())
+                {
+                    var publishedFile = Path.Combine(mod.RootDir.ToString(), "About/PublishedFileId.txt");
+
+                    if (File.Exists(publishedFile))
                     {
-                        author = mod.Author, name = mod.Name, version = version, steamId = mod.SteamAppId.ToString()
+                        steamId = File.ReadAllText(publishedFile);
                     }
+                }
+
+                jsonMods.Add(
+                    new ModDump {author = mod.Author, name = mod.Name, version = version, steamId = steamId}
                 );
             }
 
