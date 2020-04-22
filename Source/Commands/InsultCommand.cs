@@ -3,7 +3,6 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IRC;
-using TwitchToolkit.PawnQueue;
 using Verse;
 using Verse.AI;
 
@@ -36,15 +35,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                     query = query.Substring(1);
                 }
 
-                var viewerPawn = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(query));
+                var viewer = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(query));
 
-                if (viewerPawn == null)
+                if (viewer == null)
                 {
                     return;
                 }
 
-                var component = Current.Game.GetComponent<GameComponentPawns>();
-                target = component.PawnAssignedToUser(viewerPawn.username.ToLowerInvariant());
+                target = GetOrFindPawn(viewer.username);
 
                 if (target == null)
                 {
