@@ -125,7 +125,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return;
             }
 
-            Viewer.TakeViewerCoins(storeIncident.cost);
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                Viewer.TakeViewerCoins(storeIncident.cost);
+            }
+
             Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
             if (ToolkitSettings.PurchaseConfirmations)

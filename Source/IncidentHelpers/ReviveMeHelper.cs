@@ -48,22 +48,25 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     Logger.Warn(
                         $"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"
                     );
+                    return;
                 }
-                else
+
+                if (!ToolkitSettings.UnlimitedCoins)
                 {
                     Viewer.TakeViewerCoins(storeIncident.cost);
-                    Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
-
-                    pawn.ClearAllReservations();
-                    ResurrectionUtility.ResurrectWithSideEffects(pawn);
-                    PawnTracker.pawnsToRevive.Remove(pawn);
-                    Find.LetterStack.ReceiveLetter(
-                        "TKUtils.Letters.Revival.Title".Translate(),
-                        "TKUtils.Letters.Revival.Description".Translate(pawn.Name),
-                        LetterDefOf.PositiveEvent,
-                        new LookTargets(pawn)
-                    );
                 }
+
+                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
+                pawn.ClearAllReservations();
+                ResurrectionUtility.ResurrectWithSideEffects(pawn);
+                PawnTracker.pawnsToRevive.Remove(pawn);
+                Find.LetterStack.ReceiveLetter(
+                    "TKUtils.Letters.Revival.Title".Translate(),
+                    "TKUtils.Letters.Revival.Description".Translate(pawn.Name),
+                    LetterDefOf.PositiveEvent,
+                    new LookTargets(pawn)
+                );
             }
             catch (Exception ex)
             {

@@ -24,24 +24,46 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var container = new List<string>
+            var container = new List<string> { };
+            var coins = ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0");
+            var karma = (viewer.GetViewerKarma() / 100f).ToString("P0");
+
+            if (TkSettings.Emojis)
             {
-                "TKUtils.Formats.KeyValue".Translate(
-                    "TKUtils.Responses.Balance.Coins".Translate().CapitalizeFirst(),
-                    ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0")
-                ),
-                "TKUtils.Formats.KeyValue".Translate(
-                    "TKUtils.Responses.Balance.Karma".Translate().CapitalizeFirst(),
-                    (viewer.GetViewerKarma() / 100f).ToString("P0")
-                )
-            };
+                container.Add($"💰 {coins}");
+                container.Add($"⚖ {karma}");
+            }
+            else
+            {
+                container.Add(
+                    "TKUtils.Formats.KeyValue".Translate(
+                        "TKUtils.Responses.Balance.Coins".Translate().CapitalizeFirst(),
+                        coins
+                    )
+                );
+
+                container.Add(
+                    "TKUtils.Formats.KeyValue".Translate(
+                        "TKUtils.Responses.Balance.Karma".Translate().CapitalizeFirst(),
+                        karma
+                    )
+                );
+            }
 
             if (ToolkitSettings.EarningCoins)
             {
+                var income = CalculateCoinAward(viewer);
+
                 container.Add(
-                    "TKUtils.Responses.Balance.Rate".Translate(
-                        CalculateCoinAward(viewer),
-                        ToolkitSettings.CoinInterval
+                    (
+                        income > 0
+                            ? $"📈 {income:N0}"
+                            : $"📉 {income:N0}"
+                    ).AltText(
+                        "TKUtils.Responses.Balance.Rate".Translate(
+                            CalculateCoinAward(viewer),
+                            ToolkitSettings.CoinInterval
+                        )
                     )
                 );
             }

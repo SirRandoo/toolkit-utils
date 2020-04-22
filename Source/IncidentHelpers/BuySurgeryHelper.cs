@@ -200,7 +200,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             pawn.health.surgeryBills.AddBill(bill);
             bill.Part = toPart;
 
-            Viewer.TakeViewerCoins(storeIncident.cost + product.price);
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                Viewer.TakeViewerCoins(storeIncident.cost + product.price);
+            }
+
             Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost + product.price);
 
             if (ToolkitSettings.PurchaseConfirmations)

@@ -141,7 +141,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            Viewer.TakeViewerCoins(buyableTrait.AddPrice);
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                Viewer.TakeViewerCoins(buyableTrait.AddPrice);
+            }
+
             Viewer.CalculateNewKarma(storeIncident.karmaType, buyableTrait.AddPrice);
 
             if (ToolkitSettings.PurchaseConfirmations)
