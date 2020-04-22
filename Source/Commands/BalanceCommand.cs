@@ -1,30 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
 using TwitchToolkit;
-using TwitchToolkit.IRC;
 using TwitchToolkit.Utilities;
 using Verse;
+using Viewer = TwitchToolkit.Viewer;
+using Viewers = TwitchToolkit.Viewers;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class BalanceCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        private Viewer viewer;
+
+        public override bool CanExecute(ITwitchCommand twitchCommand)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            if (!base.CanExecute(twitchCommand))
             {
-                return;
+                return false;
             }
 
-            var viewer = Viewers.GetViewer(message.User);
+            viewer = Viewers.GetViewer(twitchCommand.Username);
 
-            if (viewer == null)
-            {
-                return;
-            }
+            return viewer != null;
+        }
 
-            var container = new List<string> { };
+        public override void Execute(ITwitchCommand twitchCommand)
+        {
+            var container = new List<string>();
             var coins = ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0");
             var karma = (viewer.GetViewerKarma() / 100f).ToString("P0");
 
@@ -68,7 +73,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
             }
 
-            message.Reply(string.Join("⎮", container.ToArray()));
+            twitchCommand.Reply(string.Join("⎮", container.ToArray()));
         }
 
         private static int CalculateCoinAward(Viewer viewer)
@@ -108,6 +113,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             return (int) Math.Ceiling((double) baseCoins * multiplier);
+        }
+
+        public BalanceCommand(ToolkitChatCommand command) : base(command)
+        {
         }
     }
 }
