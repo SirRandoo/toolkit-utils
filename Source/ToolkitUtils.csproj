@@ -121,7 +121,6 @@
     <Compile Include="Commands\PriceCheckCommand.cs" />
     <Compile Include="Commands\ResearchCommand.cs" />
     <Compile Include="Commands\UnstickCommand.cs" />
-    <Compile Include="Harmony\CommandsHandler_CheckCommand.cs" />
     <Compile Include="Harmony\PawnCommands_ParseCommand.cs" />
     <Compile Include="Harmony\Settings_Store__DoWindowContents.cs" />
     <Compile Include="Harmony\StoreItemsWindow_PostClose.cs" />
