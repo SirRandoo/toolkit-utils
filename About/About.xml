@@ -13,7 +13,7 @@
     
     <modDependencies>
         <li>
-            <packageId>hodl.toolkitdev</packageId>
+            <packageId>hodlhodl.toolkitdev</packageId>
             <displayName>Twitch Toolkit</displayName>
             <steamWorkshopUrl>steam://url/CommunityFilePage/2019162052</steamWorkshopUrl>
         </li>
