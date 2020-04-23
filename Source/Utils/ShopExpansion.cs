@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     degree = trait.Degree,
                     canAdd = trait.CanAdd,
                     canRemove = trait.CanRemove,
-                    name = trait.Name,
+                    name = trait.Name.ToToolkit(),
                     defName = trait.DefName,
                     removePrice = trait.RemovePrice
                 };
@@ -190,7 +190,10 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             var jsonRaces = TkUtils.ShopExpansion.Races.Select(
-                    r => new RaceDump {defName = r.DefName, enabled = r.Enabled, name = r.Name, price = r.Price}
+                    r => new RaceDump
+                    {
+                        defName = r.DefName, enabled = r.Enabled, name = r.Name.ToToolkit(), price = r.Price
+                    }
                 )
                 .Select(JsonUtility.ToJson)
                 .ToArray();

@@ -198,7 +198,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.Name.CapitalizeFirst())
+                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -246,7 +246,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.Name.CapitalizeFirst())
+                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);

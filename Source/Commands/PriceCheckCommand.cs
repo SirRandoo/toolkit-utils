@@ -168,7 +168,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             Notify__LookupComplete(
                 query,
                 "TKUtils.Formats.PriceCheck.Limited".Translate(
-                    result.Name.CapitalizeFirst(),
+                    result.Name.ToToolkit().CapitalizeFirst(),
                     result.Price.ToString("N0")
                 )
             );
@@ -205,7 +205,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Notify__LookupComplete(
                 query,
-                $"{result.Name.CapitalizeFirst()} - {string.Join(" / ", parts.ToArray())}"
+                $"{result.Name.ToToolkit().CapitalizeFirst()} - {string.Join(" / ", parts.ToArray())}"
             );
         }
 
