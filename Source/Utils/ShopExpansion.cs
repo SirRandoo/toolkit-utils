@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -175,7 +175,15 @@ namespace SirRandoo.ToolkitUtils.Utils
                     }
                 }
 
-                t.description = inst.CurrentData.description;
+                t.description = inst.CurrentData.description
+                    .Replace("{PAWN_nameDef}", ToolkitCoreSettings.channel_username.CapitalizeFirst())
+                    .Replace("{PAWN_possessive}", "TKUtils.Misc.Their".Translate())
+                    .Replace("{PAWN_pronoun}", "TKUtils.Misc.They".Translate())
+                    .Replace("{PAWN_objective}", "TKUtils.Misc.Them".Translate())
+                    .Replace("[PAWN_nameDef]", ToolkitCoreSettings.channel_username.CapitalizeFirst())
+                    .Replace("[PAWN_possessive]", "TKUtils.Misc.Their".Translate())
+                    .Replace("[PAWN_pronoun]", "TKUtils.Misc.They".Translate())
+                    .Replace("[PAWN_objective]", "TKUtils.Misc.Them".Translate());
                 t.stats = statContainer.ToArray();
 
                 container.Add(t);
