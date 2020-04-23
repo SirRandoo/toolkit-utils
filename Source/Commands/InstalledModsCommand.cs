@@ -8,7 +8,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    public class InstalledModsDriver : CommandBase
+    public class InstalledModsCommand : CommandBase
     {
         public override void Execute(ITwitchCommand twitchCommand)
         {
@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 : $"{"★".AltText("*")}{mod}";
         }
 
-        public InstalledModsDriver(ToolkitChatCommand command) : base(command)
+        public InstalledModsCommand(ToolkitChatCommand command) : base(command)
         {
         }
     }
