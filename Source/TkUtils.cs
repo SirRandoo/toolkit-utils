@@ -50,6 +50,7 @@ namespace SirRandoo.ToolkitUtils
 
             ShopExpansionHelper.DumpCommands();
             ShopExpansionHelper.DumpModList();
+            ShopExpansionHelper.DumpShopExpansion();
         }
     }
 
