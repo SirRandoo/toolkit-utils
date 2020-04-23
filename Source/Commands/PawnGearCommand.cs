@@ -130,7 +130,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 $"{"Apparel".Translate().RawText}: {string.Join(", ", apparel.Select(item => item.LabelCap).ToArray())}"
             );
 
-            return string.Join("⎮", parts.ToArray());
+            return !parts.Any() 
+                ? "None".Translate().RawText 
+                : string.Join("⎮", parts.ToArray());
         }
 
         public PawnGearCommand(ToolkitChatCommand command) : base(command)
