@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -79,7 +79,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                     if (group.Count(i => i.Bleeding) > 0)
                     {
-                        display = "🩸".AltText().Translate("BleedingRate".Translate().RawText) + display;
+                        display = "🩸".AltText("BleedingRate".Translate().RawText) + display;
                     }
 
                     if (group.All(i => i.IsTended()))
