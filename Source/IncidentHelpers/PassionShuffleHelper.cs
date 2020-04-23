@@ -121,7 +121,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     continue;
                 }
 
-                Logger.Warn("Exceeded 100 iterations while shuffling passions!");
+                TkLogger.Warn("Exceeded 100 iterations while shuffling passions!");
                 return;
             }
 

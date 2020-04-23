@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (num > 10000)
                 {
-                    Logger.Warn("HealHelper iterated too many times.");
+                    TkLogger.Warn("HealHelper iterated too many times.");
                     break;
                 }
 

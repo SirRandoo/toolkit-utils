@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return null;
             }
 
-            Logger.Warn($"Viewer \"{username}\" was unlinked from their pawn!  Reassigning...");
+            TkLogger.Warn($"Viewer \"{username}\" was unlinked from their pawn!  Reassigning...");
 
             var component = Current.Game.GetComponent<GameComponentPawns>();
 

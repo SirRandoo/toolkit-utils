@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 out loc
             ))
             {
-                Logger.Warn("No reachable location to spawn a viewer pawn!");
+                TkLogger.Warn("No reachable location to spawn a viewer pawn!");
                 return false;
             }
 
@@ -108,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 if (!(pawn.Name is NameTriple name))
                 {
-                    Logger.Warn("Pawn name is not a name triple!");
+                    TkLogger.Warn("Pawn name is not a name triple!");
                     return;
                 }
 
@@ -135,7 +135,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
             catch (Exception e)
             {
-                Logger.Error("Could not execute buy pawn", e);
+                TkLogger.Error("Could not execute buy pawn", e);
             }
         }
 

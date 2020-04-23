@@ -155,7 +155,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 }
                 catch (Exception e)
                 {
-                    Logger.Error("Could not save notice preferences!", e);
+                    TkLogger.Error("Could not save notice preferences!", e);
                 }
             }
         }

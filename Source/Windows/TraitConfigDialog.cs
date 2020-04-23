@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (cache == null)
             {
-                Logger.Warn("The trait shop is null! You should report this.");
+                TkLogger.Warn("The trait shop is null! You should report this.");
             }
         }
 
