@@ -152,7 +152,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 var inst = new Trait(def, trait.Degree);
 
                 t.conflicts = def.conflictingTraits
-                    .SelectMany(i => TraitHelper.GetEffectiveTraits(def)?.Select(c => c.Name.ToToolkit()))
+                    .SelectMany(i => TraitHelper.GetEffectiveTraits(i)?.Select(c => c.Name.StripTags().ToToolkit()))
                     .ToArray();
 
                 var statContainer = new List<string>();
