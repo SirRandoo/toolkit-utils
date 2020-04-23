@@ -2,35 +2,24 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
-using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class FactionsCommand : CommandBase
     {
-        private List<Faction> factions;
-
-        public FactionsCommand(ToolkitChatCommand command) : base(command)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-        }
+            var factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.ToList();
 
-        public override bool CanExecute(ITwitchCommand twitchCommand)
-        {
-            if (!base.CanExecute(twitchCommand))
+            if (!factions.Any())
             {
-                return false;
+                twitchMessage.Reply("TKUtils.Responses.NoFactions".WithHeader("Factions"));
+                return;
             }
 
-            factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.ToList();
-
-            return factions.Any();
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
-        {
-            twitchCommand.Reply(
+            twitchMessage.Reply(
                 string.Join(
                     ", ",
                     factions.Select(

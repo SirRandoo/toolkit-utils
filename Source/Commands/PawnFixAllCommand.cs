@@ -1,6 +1,5 @@
 ﻿using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
-using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 using Viewers = TwitchToolkit.Viewers;
 
@@ -8,11 +7,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnFixAllCommand : CommandBase
     {
-        public PawnFixAllCommand(ToolkitChatCommand command) : base(command)
-        {
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
             foreach (var viewer in Viewers.All)
             {
@@ -31,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
             
-            twitchCommand.Reply("TKUtils.Responses.PawnFixAll.Relinked".Translate());
+            twitchMessage.Reply("TKUtils.Responses.PawnFixAll.Relinked".Translate());
         }
     }
 }

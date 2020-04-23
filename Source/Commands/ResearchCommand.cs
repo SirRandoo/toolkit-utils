@@ -4,22 +4,17 @@ using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Models;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class ResearchCommand : CommandBase
     {
-        private ResearchProjectDef project;
-
-        public override bool CanExecute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!base.CanExecute(twitchCommand))
-            {
-                return false;
-            }
-
-            var query = CommandFilter.Parse(twitchCommand.Message).Skip(1).FirstOrDefault();
+            var query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
+            ResearchProjectDef project;
 
             if (query.NullOrEmpty())
             {
@@ -32,23 +27,18 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
             }
 
-            if (project != null)
+            if (project == null)
             {
-                return true;
+                twitchMessage.Reply(
+                    (
+                        !query.NullOrEmpty()
+                            ? "TKUtils.Responses.Research.QueryInvalid".Translate(query)
+                            : "TKUtils.Responses.Research.None".Translate()
+                    ).WithHeader("Research".Translate())
+                );
+                return;
             }
-
-            twitchCommand.Reply(
-                (
-                    !query.NullOrEmpty()
-                        ? "TKUtils.Responses.Research.QueryInvalid".Translate(query)
-                        : "TKUtils.Responses.Research.None".Translate()
-                ).WithHeader("Research".Translate())
-            );
-            return false;
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
-        {
+            
             var segments = new List<string>
             {
                 "TKUtils.Formats.KeyValue".Translate(project.LabelCap, project.ProgressPercent.ToStringPercent())
@@ -71,11 +61,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 segments.Add($"{"ResearchPrerequisites".Translate().RawText}: {string.Join(", ", container)}");
             }
 
-            twitchCommand.Reply(string.Join("⎮", segments).WithHeader("Research".Translate()));
-        }
-
-        public ResearchCommand(ToolkitChatCommand command) : base(command)
-        {
+            twitchMessage.Reply(string.Join("⎮", segments).WithHeader("Research".Translate()));
         }
     }
 }

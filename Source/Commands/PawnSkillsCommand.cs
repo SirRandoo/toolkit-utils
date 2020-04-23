@@ -1,36 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
-using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnSkillsCommand : CommandBase
     {
-        private Pawn pawn;
-
-        public override bool CanExecute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!base.CanExecute(twitchCommand))
+            var pawn = GetOrFindPawn(twitchMessage.Username);
+
+            if (pawn == null)
             {
-                return false;
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
+                return;
             }
 
-            pawn = GetOrFindPawn(twitchCommand.Username);
-
-            if (pawn != null)
-            {
-                return true;
-            }
-
-            twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate());
-            return false;
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
-        {
             var parts = new List<string>();
             var skills = pawn.skills.skills;
 
@@ -49,11 +36,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 parts.Add(container);
             }
             
-            twitchCommand.Reply(string.Join(", ", parts.ToArray()).WithHeader("StatsReport_Skills".Translate()));
-        }
-
-        public PawnSkillsCommand(ToolkitChatCommand command) : base(command)
-        {
+            twitchMessage.Reply(string.Join(", ", parts.ToArray()).WithHeader("StatsReport_Skills".Translate()));
         }
     }
 }

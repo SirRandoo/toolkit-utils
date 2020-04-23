@@ -1,115 +1,125 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-    <ToolkitCore.Models.ToolkitChatCommand Name="ShortcutBase" Abstract="true">
-        <commandClass>TwitchToolkit.Commands.ViewerCommands.Buy</commandClass>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command Name="ShortcutBase" Abstract="true">
+        <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
+    </TwitchToolkit.Command>
     
     <!-- Shortcuts -->
-    <ToolkitCore.Models.ToolkitChatCommand ParentName="ShortcutBase">
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveAllShortcut</defName>
-        <commandText>reviveall</commandText>
+        <label>revive all</label>
+        <command>reviveall</command>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A colony wide resurrector mech serum.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand ParentName="ShortcutBase">
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveMeShortcut</defName>
-        <commandText>reviveme</commandText>
+        <label>revive me</label>
+        <command>reviveme</command>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A personal resurrector mech serum.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand ParentName="ShortcutBase">
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealMeShortcut</defName>
-        <commandText>healme</commandText>
+        <label>heal me</label>
+        <command>healme</command>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A personal healer mech serum/</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand ParentName="ShortcutBase">
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealAllShortcut</defName>
-        <commandText>healall</commandText>
+        <label>healall</label>
+        <command>healall</command>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A colony wide healer mech serum.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand ParentName="ShortcutBase">
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>PassionShuffleShortcut</defName>
-        <commandText>passionshuffle</commandText>
+        <label>passion shuffle</label>
+        <command>passionshuffle</command>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shuffles your passions. If a skill is specified, you'll be guaranteed a minor passion in it.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand ParentName="ShortcutBase">
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>SurgeryShortcut</defName>
-        <commandText>surgery</commandText>
+        <label>surgery</label>
+        <command>surgery</command>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Purchases the part specified and queues it for surgery on your pawn.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand ParentName="ShortcutBase">
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>TraitShortcut</defName>
-        <commandText>trait</commandText>
+        <label>add trait</label>
+        <command>trait</command>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Adds a trait for your pawn.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand ParentName="ShortcutBase">
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>RemoveTraitShortcut</defName>
-        <commandText>removetrait</commandText>
+        <label>remove trait</label>
+        <command>removetrait</command>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Removes a trait from our pawn.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand ParentName="ShortcutBase">
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveAnyPawnShortcut</defName>
-        <commandText>reviveanypawn</commandText>
+        <label>revive any pawn</label>
+        <command>reviveanypawn</command>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A resurrector mech serum for a random dead colonist.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
     <!-- Pawn Commands -->
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>MyPawnHealth</defName>
-        <commandText>mypawnhealth</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PawnHealthCommand</commandClass>
+        <label>viewer health</label>
+        <command>mypawnhealth</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnHealthCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -123,96 +133,104 @@
                 </Parameters>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>MyPawnNeeds</defName>
-        <commandText>mypawnneeds</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PawnNeedsCommand</commandClass>
+        <label>viewer needs</label>
+        <command>mypawnneeds</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnNeedsCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows an overview of your pawn's needs.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>MyPawnGear</defName>
-        <commandText>mypawngear</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PawnGearCommand</commandClass>
+        <label>viewer gear</label>
+        <command>mypawngear</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnGearCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows an overview of your pawn's gear.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>MyPawnBody</defName>
-        <commandText>mypawnbody</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PawnBodyCommand</commandClass>
+        <label>viewer body</label>
+        <command>mypawnbody</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnBodyCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows an overview of your pawn's body.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>MyPawnWork</defName>
-        <commandText>mypawnwork</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PawnWorkCommand</commandClass>
+        <label>viewer work</label>
+        <command>mypawnwork</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnWorkCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows your pawn's work priorities.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>MyPawnStory</defName>
-        <commandText>mypawnstory</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PawnStoryCommand</commandClass>
+        <label>viewer story</label>
+        <command>mypawnstory</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStoryCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows your pawn's bio.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>MyPawnSkills</defName>
-        <commandText>mypawnskills</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PawnSkillsCommand</commandClass>
+        <label>viewer skills</label>
+        <command>mypawnskills</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnSkillsCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows your pawn's current skills and their passions.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>FixMyPawn</defName>
-        <commandText>fixmypawn</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PawnFixCommand</commandClass>
+        <label>fix viewer pawn</label>
+        <command>fixmypawn</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Attempts to relink your pawn to you.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>FixAllPawns</defName>
-        <commandText>fixallpawns</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PawnFixAllCommand</commandClass>
+        <label>fix all pawns</label>
+        <command>fixallpawns</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixAllCommand</commandDriver>
         <requiresMod>true</requiresMod>
         
         <modExtensions>
@@ -220,37 +238,40 @@
                 <Description>Attempts to relink all pawns to their respective viewers.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>AbandonPawn</defName>
-        <commandText>leave</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.LeaveCommand</commandClass>
+        <label>abandon pawn</label>
+        <command>leave</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.LeaveCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Makes your pawn leave the colony.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
     <!-- Colony Commands -->
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>Factions</defName>
-        <commandText>factions</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.FactionsCommand</commandClass>
+        <label>factions</label>
+        <command>factions</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.FactionsCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows an overview of the colony's current faction relations.</Description>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>Research</defName>
-        <commandText>research</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.ResearchCommand</commandClass>
+        <label>research</label>
+        <command>research</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.ResearchCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -264,13 +285,14 @@
                 </Parameters>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
     <!-- General Commands -->
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>Lookup</defName>
-        <commandText>lookup</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.LookupCommand</commandClass>
+        <label>lookup</label>
+        <command>lookup</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.LookupCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -289,12 +311,13 @@
                 </Parameters>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>PriceCheck</defName>
-        <commandText>price</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.PriceCheckCommand</commandClass>
+        <label>price check</label>
+        <command>price</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PriceCheckCommand</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -313,18 +336,20 @@
                 </Parameters>
             </li>
         </modExtensions>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>UnstickAll</defName>
-        <commandText>unstick</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.UnstickCommand</commandClass>
+        <label>unstick</label>
+        <command>unstick</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickCommand</commandDriver>
         <requiresMod>true</requiresMod>
-    </ToolkitCore.Models.ToolkitChatCommand>
+    </TwitchToolkit.Command>
     
-    <ToolkitCore.Models.ToolkitChatCommand>
+    <TwitchToolkit.Command>
         <defName>Insult</defName>
-        <commandText>insult</commandText>
-        <commandClass>SirRandoo.ToolkitUtils.Commands.InsultCommand</commandClass>
-    </ToolkitCore.Models.ToolkitChatCommand>
+        <label>insult</label>
+        <command>insult</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.InsultCommand</commandDriver>
+    </TwitchToolkit.Command>
 </Defs>

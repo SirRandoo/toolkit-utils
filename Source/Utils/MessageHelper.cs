@@ -1,4 +1,5 @@
 ﻿using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -6,6 +7,11 @@ namespace SirRandoo.ToolkitUtils.Utils
     public static class MessageHelper
     {
         internal static void Reply(this ITwitchCommand m, string message)
+        {
+            ReplyToUser(m.Username, message);
+        }
+        
+        internal static void Reply(this ITwitchMessage m, string message)
         {
             ReplyToUser(m.Username, message);
         }

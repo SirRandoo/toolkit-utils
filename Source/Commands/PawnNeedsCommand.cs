@@ -1,42 +1,29 @@
 ﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
-using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnNeedsCommand : CommandBase
     {
-        private Pawn pawn;
-        
-        public override bool CanExecute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!base.CanExecute(twitchCommand))
-            {
-                return false;
-            }
-
-            pawn = GetOrFindPawn(twitchCommand.Message);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate("TabNeeds".Translate()));
-                return false;
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate("TabNeeds".Translate()));
+                return;
             }
 
-            if (pawn.needs?.AllNeeds != null)
+            if (pawn.needs?.AllNeeds == null)
             {
-                return true;
+                twitchMessage.Reply("TKUtils.Responses.PawnNeeds.None".Translate().WithHeader("TabNeeds".Translate()));
+                return;
             }
 
-            twitchCommand.Reply("TKUtils.Responses.PawnNeeds.None".Translate().WithHeader("TabNeeds".Translate()));
-            return false;
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
-        {
-            twitchCommand.Reply(
+            twitchMessage.Reply(
                 string.Join(
                     ", ",
                     pawn.needs.AllNeeds.Select(
@@ -44,10 +31,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                     ).ToArray()
                 ).WithHeader("TabNeeds".Translate())
             );
-        }
-
-        public PawnNeedsCommand(ToolkitChatCommand command) : base(command)
-        {
         }
     }
 }

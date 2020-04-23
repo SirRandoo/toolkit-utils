@@ -1,36 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
-using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnStoryCommand : CommandBase
     {
-        private Pawn pawn;
-
-        public override bool CanExecute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (base.CanExecute(twitchCommand))
+            var pawn = GetOrFindPawn(twitchMessage.Username);
+
+            if (pawn == null)
             {
-                return false;
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabCharacter".Translate()));
+                return;
             }
 
-            pawn = GetOrFindPawn(twitchCommand.Username);
-            
-            if (pawn != null)
-            {
-                return true;
-            }
-            
-            twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabCharacter".Translate()));
-            return false;
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
-        {
             var parts = new List<string>
             {
                 $"{"Backstory".Translate().RawText}: {string.Join(", ", pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray())}"
@@ -73,11 +60,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => t.LabelCap.StripTags()).ToArray())}"
             );
 
-            twitchCommand.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
-        }
-
-        public PawnStoryCommand(ToolkitChatCommand command) : base(command)
-        {
+            twitchMessage.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
         }
     }
 }

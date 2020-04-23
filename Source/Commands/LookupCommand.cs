@@ -2,9 +2,8 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
 using ToolkitCore.Utilities;
-using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
@@ -13,12 +12,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class LookupCommand : CommandBase
     {
-        private ITwitchCommand cmd;
-        
-        public override void Execute(ITwitchCommand twitchCommand)
+        private ITwitchMessage msg;
+
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            cmd = twitchCommand;
-            var segments = CommandFilter.Parse(twitchCommand.Message).Skip(1).ToArray();
+            msg = twitchMessage;
+            var segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
             string category;
             string query;
 
@@ -45,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var formatted = string.Join(", ", results.Take(TkSettings.LookupLimit));
 
-            cmd.Reply("TKUtils.Formats.Lookup".Translate(query, formatted));
+            msg.Reply("TKUtils.Formats.Lookup".Translate(query, formatted));
         }
 
         private void PerformAnimalLookup(string query)
@@ -250,10 +249,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                 .ToArray();
 
             Notify__LookupComplete(query, results);
-        }
-
-        public LookupCommand(ToolkitChatCommand command) : base(command)
-        {
         }
     }
 }

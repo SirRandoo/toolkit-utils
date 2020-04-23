@@ -2,63 +2,43 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
 using ToolkitCore.Utilities;
-using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnHealthCommand : CommandBase
     {
-        private Pawn pawn;
-        private PawnCapacityDef capacity;
-        
-        public override bool CanExecute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!base.CanExecute(twitchCommand))
-            {
-                return false;
-            }
-
-            pawn = GetOrFindPawn(twitchCommand.Message);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabHealth".Translate()));
-                return false;
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabHealth".Translate()));
+                return;
             }
 
-            var segment = CommandFilter.Parse(twitchCommand.Message).Skip(1).FirstOrFallback("");
+            var segment = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
 
             if (segment.NullOrEmpty())
             {
-                return true;
+                twitchMessage.Reply(HealthReport(pawn).WithHeader("TabHealth".Translate()));
+                return;
             }
 
-            capacity = DefDatabase<PawnCapacityDef>.AllDefsListForReading
+            var capacity = DefDatabase<PawnCapacityDef>.AllDefsListForReading
                 .FirstOrDefault(
                     d => d.defName.EqualsIgnoreCase(segment)
                          || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
                 );
 
-            if (capacity != null)
-            {
-                return true;
-            }
-
-            twitchCommand.Reply("TKUtils.Responses.PawnHealth.Capacity.None".Translate(segment).ToString());
-            return false;
-
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
-        {
-            twitchCommand.Reply(
+            twitchMessage.Reply(
                 (
                     capacity == null
-                    ? HealthReport(pawn)
-                    : HealthCapacityReport(pawn, capacity)
+                        ? HealthReport(pawn)
+                        : HealthCapacityReport(pawn, capacity)
                 ).WithHeader("TabHealth".Translate())
             );
         }
@@ -267,10 +247,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             segments.Add("TKUtils.Formats.PawnHealth.Surgeries".Translate(string.Join(", ", queued)));
 
             return string.Join("⎮", segments.ToArray());
-        }
-
-        public PawnHealthCommand(ToolkitChatCommand command) : base(command)
-        {
         }
     }
 }

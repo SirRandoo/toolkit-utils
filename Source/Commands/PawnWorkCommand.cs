@@ -3,42 +3,31 @@ using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Models;
 using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnWorkCommand : CommandBase
     {
-        private Pawn pawn;
-
-        public override bool CanExecute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!base.CanExecute(twitchCommand))
-            {
-                return false;
-            }
-
-            pawn = GetOrFindPawn(twitchCommand.Message);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TKUtils.Headers.Work".Translate()));
-                return false;
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TKUtils.Headers.Work".Translate()));
+                return;
             }
 
-            if (pawn.workSettings != null && (!(!pawn.workSettings?.EverWork ?? true)))
+            if (pawn.workSettings == null || (!pawn.workSettings?.EverWork ?? true))
             {
-                return true;
+                twitchMessage.Reply(
+                    "TKUtils.Responses.PawnWork.None".Translate().WithHeader("TKUtils.Headers.Work".Translate())
+                );
+                return;
             }
 
-            twitchCommand.Reply(
-                "TKUtils.Responses.PawnWork.None".Translate().WithHeader("TKUtils.Headers.Work".Translate())
-            );
-            return false;
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
-        {
             var container = new List<string>();
             var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder;
 
@@ -73,12 +62,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (container.Count > 0)
             {
-                twitchCommand.Reply(string.Join(", ", container).WithHeader("TKUtils.Headers.Work".Translate()));
+                twitchMessage.Reply(string.Join(", ", container).WithHeader("TKUtils.Headers.Work".Translate()));
             }
-        }
-
-        public PawnWorkCommand(ToolkitChatCommand command) : base(command)
-        {
         }
     }
 }

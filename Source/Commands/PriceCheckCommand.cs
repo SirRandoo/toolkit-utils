@@ -4,6 +4,7 @@ using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Models;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
@@ -12,12 +13,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PriceCheckCommand : CommandBase
     {
-        private ITwitchCommand cmd;
+        private ITwitchMessage msg;
 
-        public override void Execute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            cmd = twitchCommand;
-            var segments = CommandFilter.Parse(twitchCommand.Message).Skip(1).ToArray();
+            msg = twitchMessage;
+            var segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
             string category;
             string query;
             string quantity;
@@ -40,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void Notify__LookupComplete(string query, string result)
         {
-            cmd.Reply("TKUtils.Formats.Lookup".Translate(query, result));
+            msg.Reply("TKUtils.Formats.Lookup".Translate(query, result));
         }
 
         private void PerformAnimalLookup(string query, int quantity)
@@ -207,10 +208,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                 query,
                 $"{result.Name.ToToolkit().CapitalizeFirst()} - {string.Join(" / ", parts.ToArray())}"
             );
-        }
-
-        public PriceCheckCommand(ToolkitChatCommand command) : base(command)
-        {
         }
     }
 }

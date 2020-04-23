@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore;
-using ToolkitCore.Models;
-using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using Verse;
 
@@ -10,9 +8,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class InstalledModsCommand : CommandBase
     {
-        public override void Execute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            twitchCommand.Reply(
+            twitchMessage.Reply(
                 (
                     TkSettings.VersionedModList
                         ? GetModListStringVersioned()
@@ -46,10 +44,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             return !TkSettings.DecorateUtils || !mod.EqualsIgnoreCase(TkUtils.Id)
                 ? mod
                 : $"{"★".AltText("*")}{mod}";
-        }
-
-        public InstalledModsCommand(ToolkitChatCommand command) : base(command)
-        {
         }
     }
 }

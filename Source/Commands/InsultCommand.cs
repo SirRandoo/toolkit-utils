@@ -5,6 +5,7 @@ using ToolkitCore;
 using ToolkitCore.Models;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.PawnQueue;
 using Verse;
 using Verse.AI;
@@ -14,27 +15,18 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class InsultCommand : CommandBase
     {
-        private Pawn viewer;
-        private Pawn target;
-
-        public override bool CanExecute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!base.CanExecute(twitchCommand))
+            var pawn = GetOrFindPawn(twitchMessage.Username);
+
+            if (pawn == null)
             {
-                return false;
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
+                return;
             }
 
-            viewer = GetOrFindPawn(twitchCommand.Username);
-
-            if (viewer == null)
-            {
-                twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate());
-                return false;
-            }
-
-            var query = CommandFilter.Parse(twitchCommand.Message)
-                .Skip(1)
-                .FirstOrFallback("");
+            var query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
+            Pawn target = null;
 
             if (!query.NullOrEmpty())
             {
@@ -43,31 +35,29 @@ namespace SirRandoo.ToolkitUtils.Commands
                     query = query.Substring(1);
                 }
 
-                target = GetOrFindPawn(query);
+                var viewer = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(query));
+
+                if (viewer == null)
+                {
+                    return;
+                }
+
+                target = GetOrFindPawn(viewer.username);
 
                 if (target == null)
                 {
-                    twitchCommand.Reply("TKUtils.Responses.ViewerNotFound".Translate(query));
-                    return false;
+                    twitchMessage.Reply("TKUtils.Responses.ViewerNotFound".Translate(query));
+                    return;
                 }
             }
 
             target ??= Find.ColonistBar.Entries.RandomElement().pawn;
-            return true;
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
-        {
             var job = new Job(JobDefOf.Insult, target);
 
-            if (job.CanBeginNow(viewer))
+            if (job.CanBeginNow(pawn))
             {
-                viewer.jobs.StartJob(job, JobCondition.InterruptForced);
+                pawn.jobs.StartJob(job, JobCondition.InterruptForced);
             }
-        }
-
-        public InsultCommand(ToolkitChatCommand command) : base(command)
-        {
         }
     }
 }

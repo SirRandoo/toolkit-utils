@@ -105,7 +105,7 @@
     <Compile Include="CommandExtension.cs" />
     <Compile Include="Commands\BalanceCommand.cs" />
     <Compile Include="Commands\FactionsCommand.cs" />
-    <Compile Include="Commands\InstalledModsDriver.cs" />
+    <Compile Include="Commands\InstalledModsCommand.cs" />
     <Compile Include="Commands\InsultCommand.cs" />
     <Compile Include="Commands\LeaveCommand.cs" />
     <Compile Include="Commands\LookupCommand.cs" />
@@ -206,9 +206,6 @@
     <Content Include="..\Common\Patches\IncidentHelpers\BuyPawnPatch.xml">
       <Link>Patches\BuyPawnPatch.xml</Link>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.0.6" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

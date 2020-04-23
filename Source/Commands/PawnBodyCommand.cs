@@ -2,38 +2,24 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
-using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnBodyCommand : CommandBase
     {
-        private Pawn pawn;
-        
-        public override bool CanExecute(ITwitchCommand twitchCommand)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!base.CanExecute(twitchCommand))
+            var pawn = GetOrFindPawn(twitchMessage.Username);
+
+            if (pawn == null)
             {
-                return false;
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("HealthOverview".Translate()));
+                return;
             }
-
-            pawn = GetOrFindPawn(twitchCommand.Username);
-
-            if (pawn != null)
-            {
-                return true;
-            }
-
-            twitchCommand.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("HealthOverview".Translate()));
-            return false;
-
-        }
-
-        public override void Execute(ITwitchCommand twitchCommand)
-        {
-            twitchCommand.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Translate()));
+            
+            twitchMessage.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Translate()));
         }
 
         private static float GetListPriority(BodyPartRecord record)
@@ -123,10 +109,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 yield return item;
             }
-        }
-
-        public PawnBodyCommand(ToolkitChatCommand command) : base(command)
-        {
         }
     }
 }
