@@ -1,65 +1,16 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Verse;
+ using ToolkitCore.Utilities;
+ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
     public static class CommandParser
     {
-        public static string[] Parse(string input, string prefix = "!")
+        public static List<KeyValuePair<string, string>> ParseKeyed(string input)
         {
-            if (input.StartsWith(prefix))
-            {
-                input = input.Substring(prefix.Length);
-            }
-
-            var cache = new List<string>();
-            var segment = "";
-            var quoted = false;
-            var escaped = false;
-
-            foreach (var c in input)
-            {
-                if (escaped && !c.Equals('"'))
-                {
-                    escaped = false;
-                    segment += '\\'.ToString();
-                }
-
-                switch (c)
-                {
-                    case ' ' when !quoted:
-                        cache.Add(segment);
-                        segment = "";
-                        break;
-                    case '"' when !escaped:
-                        quoted = !quoted;
-                        break;
-                    case '"':
-                        segment += c.ToString();
-                        escaped = false;
-                        break;
-                    case '\\':
-                        escaped = true;
-                        break;
-                    default:
-                        segment += c.ToString();
-                        break;
-                }
-            }
-
-            if (segment.Length > 0)
-            {
-                cache.Add(segment);
-            }
-
-            return cache.ToArray();
-        }
-
-        public static List<KeyValuePair<string, string>> ParseKeyed(string input, string prefix = "!")
-        {
-            return ParseKeyed(Parse(input, prefix));
+            return ParseKeyed(CommandFilter.Parse(input));
         }
 
         public static List<KeyValuePair<string, string>> ParseKeyed(IEnumerable<string> input)
