@@ -16,7 +16,6 @@ namespace SirRandoo.ToolkitUtils
         public static bool DecorateUtils;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;
-        public static string Prefix = "!";
         public static bool RichText = true;
         public static bool Sexuality = true;
         public static bool ShowApparel;
@@ -197,31 +196,6 @@ namespace SirRandoo.ToolkitUtils
                     line.width - labelRect.width - 5f,
                     line.height
                 );
-
-                Widgets.Label(labelRect, "TKUtils.SettingGroups.CommandTweaks.Prefix.Label".Translate());
-                var prefix = Widgets.TextField(entryRect, Prefix);
-
-                if (Mouse.IsOver(line))
-                {
-                    Widgets.DrawHighlightIfMouseover(line);
-                    TooltipHandler.TipRegion(line, "TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip".Translate());
-                }
-
-                if (prefix.StartsWith(" "))
-                {
-                    prefix = prefix.Trim();
-                }
-
-                if (prefix.StartsWith("/") || prefix.StartsWith("."))
-                {
-                    prefix = "!";
-                }
-
-                if (!prefix.Equals(Prefix))
-                {
-                    Prefix = prefix;
-                    ShopExpansionHelper.DumpCommands();
-                }
             }
 
             listing.End();
@@ -309,7 +283,6 @@ namespace SirRandoo.ToolkitUtils
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref Prefix, "prefix", "!");
             Scribe_Values.Look(ref Commands, "commands", true);
             Scribe_Values.Look(ref RichText, "richText", true);
             Scribe_Values.Look(ref Emojis, "emojis", true);

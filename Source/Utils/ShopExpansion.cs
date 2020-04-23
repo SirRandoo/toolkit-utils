@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -220,8 +220,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     {
                         name = command.LabelCap.RawText,
                         description = $"TKUtils.Commands.Description.{command.defName}".Translate(),
-                        usage = TkSettings.Prefix
-                                + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
+                        usage = "!" + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
                         shortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
                         userLevel = $"TKUtils.Commands.UserLevel.{command.defName}".Translate()
                     }
