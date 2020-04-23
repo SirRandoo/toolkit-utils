@@ -22,7 +22,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         internal static void ReplyToUser(string user, string message)
         {
-            CommandBase.SendMessage($@"{user} → {message}");
+            CommandBase.SendMessage($"@{user} → {message}");
         }
 
         internal static string AltText(this string emoji, string alt = null)
