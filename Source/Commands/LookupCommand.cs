@@ -18,8 +18,21 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             cmd = twitchCommand;
             var segments = CommandParser.Parse(twitchCommand.Message, TkSettings.Prefix).Skip(1).ToArray();
+            var category = "";
+            var query = "";
+
+            if (segments.Length == 1)
+            {
+                category = "items";
+                query = segments.FirstOrFallback("");
+            }
+            else
+            {
+                category = segments.FirstOrFallback("");
+                query = segments.Skip(1).FirstOrFallback("");
+            }
             
-            PerformLookup(segments.FirstOrFallback(""), segments.Skip(1).FirstOrFallback(""));
+            PerformLookup(category, query);
         }
 
         private void Notify__LookupComplete(string query, IReadOnlyCollection<string> results)
