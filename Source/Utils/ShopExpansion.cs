@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
+using ToolkitCore;
 using TwitchToolkit.Store;
 using TwitchToolkit.Utilities;
 using UnityEngine;
@@ -17,9 +18,9 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         public static readonly string ExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt_1.xml");
 
-        public static readonly string ShopFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
-        public static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "commands.json");
-        public static readonly string ModsFile = Path.Combine(SaveHelper.dataPath, "modlist.json");
+        private static readonly string ShopFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
+        private static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "commands.json");
+        private static readonly string ModsFile = Path.Combine(SaveHelper.dataPath, "modlist.json");
 
         public static void SaveData<T>(T xml, string filePath)
         {
@@ -53,10 +54,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
                 else
                 {
-                    using (var writer = File.Open(filePath, FileMode.Create, FileAccess.Write))
-                    {
-                        serializer.Serialize(writer, xml);
-                    }
+                    using var writer = File.Open(filePath, FileMode.Create, FileAccess.Write);
+                    serializer.Serialize(writer, xml);
                 }
             }
             catch (IOException e)
@@ -69,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
         }
 
-        public static void SaveData(string data, string filePath)
+        private static void SaveData(string data, string filePath)
         {
             var directory = Path.GetDirectoryName(filePath);
 
@@ -120,10 +119,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             var serializer = new XmlSerializer(typeof(T));
 
-            using (var reader = File.OpenText(filePath))
-            {
-                return (T) serializer.Deserialize(reader);
-            }
+            using var reader = File.OpenText(filePath);
+            return (T) serializer.Deserialize(reader);
         }
 
         public static void DumpShopExpansion()
@@ -171,10 +168,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (inst.CurrentData.statFactors != null)
                 {
-                    foreach (var factor in inst.CurrentData.statFactors)
-                    {
-                        statContainer.Add($"{factor.ToStringAsFactor} {factor.stat.LabelForFullStatListCap}");
-                    }
+                    statContainer.AddRange(
+                        inst.CurrentData.statFactors.Select(
+                            factor => $"{factor.ToStringAsFactor} {factor.stat.LabelForFullStatListCap}"
+                        )
+                    );
                 }
 
                 t.description = inst.CurrentData.description
