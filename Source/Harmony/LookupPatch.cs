@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using TwitchLib.Client.Models;
-using TwitchToolkit.PawnQueue;
+using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [HarmonyPatch(typeof(PawnCommands), "ParseCommand")]
-    public static class PawnCommands_ParseCommand
+    [HarmonyPatch(typeof(Store_Lookup), "ParseCommand")]
+    public static class LookupPatch
     {
         [HarmonyPrefix]
         public static bool ParseCommand(ChatMessage msg)

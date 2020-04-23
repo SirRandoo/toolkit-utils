@@ -8,12 +8,12 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Settings_Store), "DoWindowContents")]
-    public static class Settings_Store__DoWindowContents
+    public static class StorePatch
     {
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> DoWindowContents(IEnumerable<CodeInstruction> instructions)
         {
-            var method = AccessTools.Method(typeof(Settings_Store__DoWindowContents), nameof(DrawUtilsContents));
+            var method = AccessTools.Method(typeof(StorePatch), nameof(DrawUtilsContents));
             var methodMarker = AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
             var markerFound = false;
 
@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             optionsListing.Gap();
             optionsListing.GapLine();
-            if (optionsListing.ButtonTextLabeled("[ToolkitUtils] " + "Traits".Translate(), "Open"))
+            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Traits".Translate().RawText}", "Open"))
             {
                 Find.WindowStack.Add(new TraitConfigDialog());
             }
@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             optionsListing.Gap();
             optionsListing.GapLine();
             if (optionsListing.ButtonTextLabeled(
-                Find.ActiveLanguageWorker.Pluralize("[ToolkitUtils] " + "Race".Translate()),
+                Find.ActiveLanguageWorker.Pluralize($"[ToolkitUtils] {"Race".Translate().RawText}"),
                 "Open"
             ))
             {

@@ -7,7 +7,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Window_Viewers), "DoWindowContents")]
-    public static class Window_Viewers__DoWindowContents
+    public static class ViewerWindowPatch
     {
         [HarmonyPostfix]
         public static void Postfix(Rect inRect)
