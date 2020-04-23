@@ -193,10 +193,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             var thing = ThingMaker.MakeThing(part);
-            var spot = DropCellFinder.RandomDropSpot(map);
+            var spot = DropCellFinder.TradeDropSpot(map);
             var bill = new Bill_Medical(surgery);
 
-            DropPodUtility.DropThingsNear(spot, map, new[] {thing}, forbid: false);
+            TradeUtility.SpawnDropPod(spot, map, thing);
 
             pawn.health.surgeryBills.AddBill(bill);
             bill.Part = toPart;
