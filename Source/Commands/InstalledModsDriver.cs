@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore;
 using ToolkitCore.Models;
@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     TkSettings.VersionedModList
                         ? GetModListStringVersioned()
                         : GetModListString()
-                ).WithHeader($"Toolkit-dev v{Toolkit.Mod.Version}")
+                ).WithHeader($"Toolkit v{Toolkit.Mod.Version}")
             );
         }
 
