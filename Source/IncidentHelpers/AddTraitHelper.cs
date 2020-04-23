@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.IncidentHelpers.Traits;
@@ -26,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Viewer = viewer;
 
-            var traitQuery = CommandParser.Parse(message, TkSettings.Prefix).Skip(2).FirstOrDefault();
+            var traitQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (traitQuery.NullOrEmpty())
             {

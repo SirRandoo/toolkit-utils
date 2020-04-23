@@ -3,6 +3,7 @@ using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Models;
+using ToolkitCore.Utilities;
 using TwitchLib.Client.Interfaces;
 using Verse;
 
@@ -28,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return false;
             }
 
-            var segment = CommandParser.Parse(twitchCommand.Message, TkSettings.Prefix).Skip(1).FirstOrFallback("");
+            var segment = CommandFilter.Parse(twitchCommand.Message).Skip(1).FirstOrFallback("");
 
             if (segment.NullOrEmpty())
             {

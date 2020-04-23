@@ -2,6 +2,7 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using TwitchToolkit.Store;
@@ -55,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return CanPurchaseRace(viewer, race);
             }
 
-            var segments = CommandParser.Parse(message).Skip(2).ToArray();
+            var segments = CommandFilter.Parse(message).Skip(2).ToArray();
             var query = segments.FirstOrDefault();
 
             if (query.NullOrEmpty())

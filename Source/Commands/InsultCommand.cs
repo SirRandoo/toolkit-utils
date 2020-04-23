@@ -3,6 +3,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore;
 using ToolkitCore.Models;
+using ToolkitCore.Utilities;
 using TwitchLib.Client.Interfaces;
 using TwitchToolkit.PawnQueue;
 using Verse;
@@ -31,7 +32,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return false;
             }
 
-            var query = CommandParser.Parse(twitchCommand.Message, TkSettings.Prefix).Skip(1).FirstOrFallback("");
+            var query = CommandFilter.Parse(twitchCommand.Message)
+                .Skip(1)
+                .FirstOrFallback("");
 
             if (!query.NullOrEmpty())
             {

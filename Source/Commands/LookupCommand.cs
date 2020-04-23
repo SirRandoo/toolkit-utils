@@ -3,6 +3,7 @@ using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Models;
+using ToolkitCore.Utilities;
 using TwitchLib.Client.Interfaces;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -17,9 +18,9 @@ namespace SirRandoo.ToolkitUtils.Commands
         public override void Execute(ITwitchCommand twitchCommand)
         {
             cmd = twitchCommand;
-            var segments = CommandParser.Parse(twitchCommand.Message, TkSettings.Prefix).Skip(1).ToArray();
-            var category = "";
-            var query = "";
+            var segments = CommandFilter.Parse(twitchCommand.Message).Skip(1).ToArray();
+            string category;
+            string query;
 
             if (segments.Length == 1)
             {
