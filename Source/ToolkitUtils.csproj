@@ -121,14 +121,14 @@
     <Compile Include="Commands\PriceCheckCommand.cs" />
     <Compile Include="Commands\ResearchCommand.cs" />
     <Compile Include="Commands\UnstickCommand.cs" />
-    <Compile Include="Harmony\PawnCommands_ParseCommand.cs" />
-    <Compile Include="Harmony\Settings_Store__DoWindowContents.cs" />
-    <Compile Include="Harmony\StoreItemsWindow_PostClose.cs" />
-    <Compile Include="Harmony\Store_ItemEditor__UpdateStoreItemList.cs" />
-    <Compile Include="Harmony\Window_CommandEditor__PostClose.cs" />
-    <Compile Include="Harmony\Window_PostOpen.cs" />
-    <Compile Include="Harmony\Store_Lookup__ParseCommand.cs" />
-    <Compile Include="Harmony\Window_Viewers__DoWindowContents.cs" />
+    <Compile Include="Harmony\PawnCommandsPatch.cs" />
+    <Compile Include="Harmony\StorePatch.cs" />
+    <Compile Include="Harmony\ItemWindowPatch.cs" />
+    <Compile Include="Harmony\ItemEditorPatch.cs" />
+    <Compile Include="Harmony\CommandEditorPatch.cs" />
+    <Compile Include="Harmony\WindowPatches.cs" />
+    <Compile Include="Harmony\LookupPatch.cs" />
+    <Compile Include="Harmony\ViewerWindowPatch.cs" />
     <Compile Include="IncidentHelpers\AddTraitHelper.cs" />
     <Compile Include="IncidentHelpers\BuyPawnHelper.cs" />
     <Compile Include="IncidentHelpers\BuySurgeryHelper.cs" />
@@ -138,7 +138,7 @@
     <Compile Include="IncidentHelpers\RemoveTraitHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveAllHelper.cs" />
     <Compile Include="IncidentHelpers\ReviveMeHelper.cs" />
-    <Compile Include="Logger.cs" />
+    <Compile Include="TkLogger.cs" />
     <Compile Include="TkSettings.cs" />
     <Compile Include="TkUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -161,6 +161,7 @@
     <Compile Include="Utils\ShopExpansion.cs" />
     <Compile Include="Utils\Unrichify.cs" />
     <Compile Include="Utils\TraitHelper.cs" />
+    <Compile Include="Windows\NoticeWindow.cs" />
     <Compile Include="Windows\PurgeViewersDialog.cs" />
     <Compile Include="Windows\RaceConfigDialog.cs" />
     <Compile Include="Windows\TraitConfigDialog.cs" />
@@ -205,6 +206,9 @@
     <Content Include="..\Common\Patches\IncidentHelpers\BuyPawnPatch.xml">
       <Link>Patches\BuyPawnPatch.xml</Link>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.0.6" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

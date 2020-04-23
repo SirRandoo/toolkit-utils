@@ -2,7 +2,6 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore;
 using ToolkitCore.Models;
 using TwitchLib.Client.Interfaces;
 using Verse;
@@ -12,6 +11,10 @@ namespace SirRandoo.ToolkitUtils.Commands
     public class FactionsCommand : CommandBase
     {
         private List<Faction> factions;
+
+        public FactionsCommand(ToolkitChatCommand command) : base(command)
+        {
+        }
 
         public override bool CanExecute(ITwitchCommand twitchCommand)
         {
@@ -40,10 +43,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                         .ToArray()
                 )
             );
-        }
-
-        public FactionsCommand(ToolkitChatCommand command) : base(command)
-        {
         }
     }
 }

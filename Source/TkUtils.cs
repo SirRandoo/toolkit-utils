@@ -94,15 +94,13 @@ namespace SirRandoo.ToolkitUtils
 
                     if (File.Exists(manifestFile))
                     {
-                        using (var reader = new XmlTextReader(manifestFile))
-                        {
-                            reader.ReadToFollowing("version");
+                        using var reader = new XmlTextReader(manifestFile);
+                        reader.ReadToFollowing("version");
 
-                            if (reader.Name.Equals("version"))
-                            {
-                                version = reader.ReadElementContentAsString();
-                                reader.Close();
-                            }
+                        if (reader.Name.Equals("version"))
+                        {
+                            version = reader.ReadElementContentAsString();
+                            reader.Close();
                         }
                     }
                 }

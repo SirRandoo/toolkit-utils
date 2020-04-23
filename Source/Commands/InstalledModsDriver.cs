@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore;
 using ToolkitCore.Models;
@@ -23,14 +23,21 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static string GetModListString()
         {
-            return string.Join(", ", TkUtils.ModListCache.Select(m => m.name).ToArray());
+            return string.Join(
+                ", ",
+                TkUtils.ModListCache
+                    .Select(m => m.name)
+                    .ToArray()
+            );
         }
 
         private static string GetModListStringVersioned()
         {
             return string.Join(
                 ", ",
-                TkUtils.ModListCache.Select(m => $"{TryFavoriteMod(m.name)} (v{m.version ?? "?"})").ToArray()
+                TkUtils.ModListCache
+                    .Select(m => $"{TryFavoriteMod(m.name)} (v{m.version ?? "?"})")
+                    .ToArray()
             );
         }
 
