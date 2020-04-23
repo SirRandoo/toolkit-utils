@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <ModMetaData>
-    <name>ToolkitUtils-dev</name>
+    <name>ToolkitUtils</name>
     <author>SirRandoo</author>
     <description>A collection of command and tweaks for TwitchToolkit.</description>
     <url>https://sirrandoo.github.io/toolkit-utils</url>
     
-    <packageId>sirrandoo.tku.dev</packageId>
+    <packageId>sirrandoo.tku</packageId>
     <supportedVersions>
         <li>1.1</li>
     </supportedVersions>
@@ -26,6 +26,6 @@
     </modDependencies>
     
     <loadAfter>
-        <li>hodl.twitchtoolkit</li>
+        <li>hodlhodl.toolkitdev</li>
     </loadAfter>
 </ModMetaData>
