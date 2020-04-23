@@ -69,7 +69,6 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
 
                 i++;
-                Logger.Info($"Stripping Tag: {tagContent}/{tag}");
 
                 // While this may not catch everything, this should help prevent infinite loops. For
                 // the types of content this method will be used for, any strings that contain more
