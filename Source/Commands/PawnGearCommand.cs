@@ -94,7 +94,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     stats.Add($"{"🔥".AltText("ArmorHeat".Translate().RawText)}{heat.ToStringPercent()}");
                 }
 
-                parts.Add($"{"OverallArmor".Translate().RawText}: {string.Join(", ", stats.ToArray())}");
+                if(stats.Any())
+                {
+                    parts.Add($"{"OverallArmor".Translate().RawText}: {string.Join(", ", stats.ToArray())}");
+                }
             }
 
             if (TkSettings.ShowWeapon)
