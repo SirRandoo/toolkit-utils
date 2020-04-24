@@ -26,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var parts = new List<string>
             {
-                $"{"Backstory".Translate().RawText}: {string.Join(", ".Translate(), pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray())}"
+                $"{"Backstory".Translate().RawText}: {string.Join(", ", pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray())}"
             };
 
             var isRoyal = pawn.royalty?.MostSeniorTitle != null;

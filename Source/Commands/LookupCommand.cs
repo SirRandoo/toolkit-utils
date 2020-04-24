@@ -2,7 +2,6 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.IRC;
 using TwitchToolkit.Store;
@@ -16,16 +15,23 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         public override void RunCommand(IRCMessage message)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            msg = message;
+            var segments = CommandParser.Parse(message.Message).Skip(1).ToArray();
+            string category;
+            string query;
+
+            if (segments.Length == 1)
             {
-                return;
+                category = "items";
+                query = segments.FirstOrFallback("");
+            }
+            else
+            {
+                category = segments.FirstOrFallback("");
+                query = segments.Skip(1).FirstOrFallback("");
             }
 
-            msg = message;
-
-            var segments = CommandParser.Parse(message.Message, TkSettings.Prefix).Skip(1).ToArray();
-
-            PerformLookup(segments.FirstOrFallback(""), segments.Skip(1).FirstOrFallback(""));
+            PerformLookup(category, query);
         }
 
         private void Notify__LookupComplete(string query, IReadOnlyCollection<string> results)
@@ -190,7 +196,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.Name.CapitalizeFirst())
+                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -238,7 +244,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.Name.CapitalizeFirst())
+                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                 .ToArray();
 
             Notify__LookupComplete(query, results);

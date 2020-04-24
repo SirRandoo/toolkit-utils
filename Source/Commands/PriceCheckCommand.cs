@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.IRC;
 using TwitchToolkit.Store;
@@ -15,20 +14,26 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         public override void RunCommand(IRCMessage message)
         {
-            if (!CommandsHandler.AllowCommand(message))
+            msg = message;
+            var segments = CommandParser.Parse(message.Message).Skip(1).ToArray();
+            string category;
+            string query;
+            string quantity;
+
+            if (segments.Length == 1)
             {
-                return;
+                category = "items";
+                query = segments.FirstOrFallback("");
+                quantity = "1";
+            }
+            else
+            {
+                category = segments.FirstOrFallback("");
+                query = segments.Skip(1).FirstOrFallback("");
+                quantity = segments.Skip(2).FirstOrFallback("1");
             }
 
-            msg = message;
-
-            var segments = CommandParser.Parse(message.Message, TkSettings.Prefix).Skip(1).ToArray();
-
-            PerformLookup(
-                segments.FirstOrFallback(""),
-                segments.Skip(1).FirstOrFallback(""),
-                segments.Skip(2).FirstOrFallback("")
-            );
+            PerformLookup(category, query, quantity);
         }
 
         private void Notify__LookupComplete(string query, string result)
@@ -161,7 +166,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             Notify__LookupComplete(
                 query,
                 "TKUtils.Formats.PriceCheck.Limited".Translate(
-                    result.Name.CapitalizeFirst(),
+                    result.Name.ToToolkit().CapitalizeFirst(),
                     result.Price.ToString("N0")
                 )
             );
@@ -198,7 +203,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Notify__LookupComplete(
                 query,
-                $"{result.Name.CapitalizeFirst()} - {string.Join(" / ", parts.ToArray())}"
+                $"{result.Name.ToToolkit().CapitalizeFirst()} - {string.Join(" / ", parts.ToArray())}"
             );
         }
     }

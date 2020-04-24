@@ -49,7 +49,7 @@
     <TKUtils.Responses.BuyTrait.Conflicts>Your pawn has {0} which conflicts with {1}!</TKUtils.Responses.BuyTrait.Conflicts>
     <TKUtils.Responses.BuyTrait.Duplicate>Your pawn already has {0}!</TKUtils.Responses.BuyTrait.Duplicate>
     <TKUtils.Responses.BuyTrait.Added>Added {0} to your pawn.</TKUtils.Responses.BuyTrait.Added>
-    <TKUtils.Resposnes.BuyTrait.AddDisabled>The trait "{0}" has been restricted from being added to pawns.</TKUtils.Resposnes.BuyTrait.AddDisabled>
+    <TKUtils.Responses.BuyTrait.AddDisabled>The trait "{0}" has been restricted from being added to pawns.</TKUtils.Responses.BuyTrait.AddDisabled>
     <TKUtils.Responses.BuyTrait.RemoveDisabled>The trait "{0}" has been restricted from being removed from pawns.</TKUtils.Responses.BuyTrait.RemoveDisabled>
     
     <!-- Remove Trait Translations -->

@@ -36,9 +36,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (target == null)
             {
                 message.Reply(
-                    !query.NullOrEmpty()
-                        ? "TKUtils.Responses.Research.QueryInvalid".Translate(query).WithHeader("Research".Translate())
-                        : "TKUtils.Responses.Research.None".Translate().WithHeader("Research".Translate())
+                    (
+                        !query.NullOrEmpty()
+                            ? "TKUtils.Responses.Research.QueryInvalid".Translate(query)
+                            : "TKUtils.Responses.Research.None".Translate()
+                    ).WithHeader("Research".Translate())
                 );
 
                 return;

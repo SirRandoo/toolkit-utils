@@ -33,17 +33,17 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var cap = DefDatabase<PawnCapacityDef>.AllDefsListForReading.Where(
+            var capacity = DefDatabase<PawnCapacityDef>.AllDefsListForReading
+                .FirstOrDefault(
                     d => d.defName.EqualsIgnoreCase(segment)
                          || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
-                )
-                .ToArray();
-
+                );
 
             message.Reply(
-                (cap.Any()
-                    ? HealthCapacityReport(pawn, cap.First())
-                    : "TKUtils.Responses.PawnHealth.Capacity.None".Translate(segment).ToString()
+                (
+                    capacity == null
+                        ? HealthReport(pawn)
+                        : HealthCapacityReport(pawn, capacity)
                 ).WithHeader("TabHealth".Translate())
             );
         }

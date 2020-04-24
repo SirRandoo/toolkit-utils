@@ -87,7 +87,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     stats.Add($"{"🔥".AltText("ArmorHeat".Translate().RawText)}{heat.ToStringPercent()}");
                 }
 
-                parts.Add($"{"OverallArmor".Translate().RawText}: {string.Join(", ", stats.ToArray())}");
+                if (stats.Any())
+                {
+                    parts.Add($"{"OverallArmor".Translate().RawText}: {string.Join(", ", stats.ToArray())}");
+                }
             }
 
             if (TkSettings.ShowWeapon)
@@ -120,7 +123,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 $"{"Apparel".Translate().RawText}: {string.Join(", ", apparel.Select(item => item.LabelCap).ToArray())}"
             );
 
-            return string.Join("⎮", parts.ToArray());
+            return !parts.Any()
+                ? "None".Translate().RawText
+                : string.Join("⎮", parts.ToArray());
         }
     }
 }

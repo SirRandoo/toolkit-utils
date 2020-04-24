@@ -34,11 +34,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             message.Reply(
                 string.Join(
                         ", ",
-                        needs.Select(
-                                n => (string) "TKUtils.Formats.KeyValue".Translate(
-                                    n.LabelCap,
-                                    n.CurLevelPercentage.ToStringPercent()
-                                )
+                        pawn.needs.AllNeeds.Select(
+                                n => "TKUtils.Formats.KeyValue".Translate(
+                                        n.LabelCap,
+                                        n.CurLevelPercentage.ToStringPercent()
+                                    )
+                                    .RawText
                             )
                             .ToArray()
                     )
