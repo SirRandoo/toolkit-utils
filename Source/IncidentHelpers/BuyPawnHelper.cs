@@ -67,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             var raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading
                 .FirstOrDefault(
                     r => r.race.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || r.race.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                         || r.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                 );
 
             if (raceDef == null)

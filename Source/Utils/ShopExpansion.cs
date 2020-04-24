@@ -315,7 +315,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach (var race in missingRaces)
             {
-                var raceName = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race))?.label ?? race;
+                var raceName = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race))?.race.label ?? race;
                 var price = 2500;
 
                 try
@@ -371,10 +371,19 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .Where(r => r.RaceProps.Humanlike)
                 .Select(r => r.race)
                 .ToHashSet();
-            foreach (var race in TkUtils.ShopExpansion.Races.Where(r => r.DefName.Equals(r.Name)))
+            foreach (var race in TkUtils.ShopExpansion.Races)
             {
-                race.Name = races.FirstOrDefault(r => r.defName.Equals(race.DefName))?.label ?? race.DefName;
-                raceCount += 1;
+                var name = races.FirstOrDefault(r => r.defName.EqualsIgnoreCase(race.DefName))?.label ?? race.DefName;
+
+                if (race.Name.Equals(name))
+                {
+                    continue;
+                }
+
+                {
+                    race.Name = races.FirstOrDefault(r => r.defName.Equals(race.DefName))?.label ?? race.DefName;
+                    raceCount += 1;
+                }
             }
 
             if (raceCount > 0)
