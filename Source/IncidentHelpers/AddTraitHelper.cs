@@ -106,7 +106,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.Conflicts".Translate(t.LabelCap, def.defName)
+                    "TKUtils.Responses.BuyTrait.Conflicts".Translate(t.LabelCap, traitObj.LabelCap)
                 );
                 return false;
             }
