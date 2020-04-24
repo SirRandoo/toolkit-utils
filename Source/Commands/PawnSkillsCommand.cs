@@ -33,9 +33,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 container += "TKUtils.Formats.KeyValue".Translate(
                         skill.def.LabelCap,
-                        skill.TotallyDisabled
-                            ? "-"
-                            : skill.levelInt.ToString()
+                        skill.TotallyDisabled ? "🚫" : skill.levelInt.ToString()
                     )
                     .RawText;
 

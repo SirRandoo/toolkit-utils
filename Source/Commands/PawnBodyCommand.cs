@@ -60,8 +60,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 foreach (var group in item.GroupBy(h => h.UIGroupKey))
                 {
-                    var display = group.First().LabelCap;
-                    var count = group.Count(i => i.Bleeding);
+                    var affliction = group.First();
+                    var display = affliction.LabelCap;
                     var total = group.Count();
 
                     if (total != 1)
@@ -69,9 +69,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                         display += $" x{total.ToString()}";
                     }
 
-                    if (count > 0)
+                    if (group.Count(i => i.Bleeding) > 0)
                     {
-                        display = "🩸".AltText().Translate("BleedingRate".Translate().RawText) + display;
+                        display = "🩸".AltText("BleedingRate".Translate().RawText) + display;
+                    }
+
+                    if (group.All(i => i.IsTended()))
+                    {
+                        display = "🩹".AltText("") + display;
                     }
 
                     bits.Add(display);

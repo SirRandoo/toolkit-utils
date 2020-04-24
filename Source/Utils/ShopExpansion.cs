@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     degree = trait.Degree,
                     canAdd = trait.CanAdd,
                     canRemove = trait.CanRemove,
-                    name = trait.Name,
+                    name = trait.Name.ToToolkit(),
                     defName = trait.DefName,
                     removePrice = trait.RemovePrice
                 };
@@ -154,7 +154,9 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 var inst = new Trait(def, trait.Degree);
 
-                t.conflicts = def.conflictingTraits.Select(i => i.label.NullOrEmpty() ? i.defName : i.label).ToArray();
+                t.conflicts = def.conflictingTraits
+                    .SelectMany(i => TraitHelper.GetEffectiveTraits(i)?.Select(c => c.Name.StripTags().ToToolkit()))
+                    .ToArray();
 
                 var statContainer = new List<string>();
 
@@ -169,10 +171,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (inst.CurrentData.statFactors != null)
                 {
-                    foreach (var factor in inst.CurrentData.statFactors)
-                    {
-                        statContainer.Add($"{factor.ToStringAsFactor} {factor.stat.LabelForFullStatListCap}");
-                    }
+                    statContainer.AddRange(
+                        inst.CurrentData.statFactors.Select(
+                            factor => $"{factor.ToStringAsFactor} {factor.stat.LabelForFullStatListCap}"
+                        )
+                    );
                 }
 
                 t.description = inst.CurrentData.description;
@@ -182,7 +185,10 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             var jsonRaces = TkUtils.ShopExpansion.Races.Select(
-                    r => new RaceDump {defName = r.DefName, enabled = r.Enabled, name = r.Name, price = r.Price}
+                    r => new RaceDump
+                    {
+                        defName = r.DefName, enabled = r.Enabled, name = r.Name.ToToolkit(), price = r.Price
+                    }
                 )
                 .Select(JsonUtility.ToJson)
                 .ToArray();
@@ -313,7 +319,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach (var race in missingRaces)
             {
-                var raceName = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race))?.label ?? race;
+                var raceName = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race))?.race.label ?? race;
                 var price = 2500;
 
                 try
@@ -369,10 +375,19 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .Where(r => r.RaceProps.Humanlike)
                 .Select(r => r.race)
                 .ToHashSet();
-            foreach (var race in TkUtils.ShopExpansion.Races.Where(r => r.DefName.Equals(r.Name)))
+            foreach (var race in TkUtils.ShopExpansion.Races)
             {
-                race.Name = races.FirstOrDefault(r => r.defName.Equals(race.DefName))?.label ?? race.DefName;
-                raceCount += 1;
+                var name = races.FirstOrDefault(r => r.defName.EqualsIgnoreCase(race.DefName))?.label ?? race.DefName;
+
+                if (race.Name.Equals(name))
+                {
+                    continue;
+                }
+
+                {
+                    race.Name = races.FirstOrDefault(r => r.defName.Equals(race.DefName))?.label ?? race.DefName;
+                    raceCount += 1;
+                }
             }
 
             if (raceCount > 0)

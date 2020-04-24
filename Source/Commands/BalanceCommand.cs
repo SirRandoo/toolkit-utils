@@ -57,8 +57,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 container.Add(
                     (
                         income > 0
-                            ? $"📈 {income:N0}"
-                            : $"📉 {income:N0}"
+                            ? $"📈 +{income:N0}"
+                            : $"📉 -{income:N0}"
                     ).AltText(
                         "TKUtils.Responses.Balance.Rate".Translate(
                             CalculateCoinAward(viewer),
