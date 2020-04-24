@@ -8,7 +8,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
-    internal class RemoveTraitHelper : IncidentHelperVariables
+    public class RemoveTraitHelper : IncidentHelperVariables
     {
         private XmlTrait buyable;
         private Pawn pawn;
