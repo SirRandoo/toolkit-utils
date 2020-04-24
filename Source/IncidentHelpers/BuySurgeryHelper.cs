@@ -155,12 +155,30 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var shouldAdd = worker.GetPartsToApplyOn(viewerPawn, surgery)
-                .Where(p => !viewerPawn.health.hediffSet.HasHediff(surgery.addsHediff, p))
-                .FirstOrDefault(
-                    p => viewerPawn.health.surgeryBills.Bills.Count <= 0
-                         || viewerPawn.health.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part != p)
-                );
+            var surgeryParts = worker.GetPartsToApplyOn(viewerPawn, surgery).ToList();
+            BodyPartRecord shouldAdd = null;
+            var lastHealth = 99999f;
+
+            foreach (var applied in surgeryParts)
+            {
+                if (viewerPawn.health.surgeryBills.Bills.Count > 0
+                    && viewerPawn.health.surgeryBills.Bills.Any(
+                        b => b is Bill_Medical bill && bill.Part == applied
+                    ))
+                {
+                    continue;
+                }
+
+                var partHealth = HealHelper.GetAverageHealthOfPart(viewerPawn, applied);
+
+                if (partHealth > lastHealth)
+                {
+                    continue;
+                }
+
+                shouldAdd = applied;
+                lastHealth = partHealth;
+            }
 
             if (shouldAdd == null)
             {
