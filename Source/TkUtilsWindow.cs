@@ -9,14 +9,11 @@ namespace SirRandoo.ToolkitUtils
         public TkUtilsWindow(Mod mod) : base(mod)
         {
             Mod = mod;
-
-            doCloseButton = false;
-            doCloseX = true;
         }
 
         public override void DoWindowContents(Rect inRect)
         {
-            TkSettings.DoWindowContents(inRect);
+            TkSettings.DoWindowContents(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 40f - CloseButSize.y));
         }
     }
 }
