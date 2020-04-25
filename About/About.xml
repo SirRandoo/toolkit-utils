@@ -13,9 +13,9 @@
     
     <modDependencies>
         <li>
-            <packageId>hodlhodl.toolkitdev</packageId>
+            <packageId>hodlhodl.twitchtoolkit</packageId>
             <displayName>Twitch Toolkit</displayName>
-            <steamWorkshopUrl>steam://url/CommunityFilePage/2019162052</steamWorkshopUrl>
+            <steamWorkshopUrl>steam://url/CommunityFilePage/1718525787</steamWorkshopUrl>
         </li>
         <li>
             <packageId>brrainz.harmony</packageId>
@@ -26,6 +26,6 @@
     </modDependencies>
     
     <loadAfter>
-        <li>hodlhodl.toolkitdev</li>
+        <li>hodlhodl.twitchtoolkit</li>
     </loadAfter>
 </ModMetaData>
