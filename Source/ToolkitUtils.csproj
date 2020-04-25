@@ -124,7 +124,6 @@
     <Compile Include="Harmony\PawnCommandsPatch.cs" />
     <Compile Include="Harmony\StorePatch.cs" />
     <Compile Include="Harmony\ItemWindowPatch.cs" />
-    <Compile Include="Harmony\ItemEditorPatch.cs" />
     <Compile Include="Harmony\CommandEditorPatch.cs" />
     <Compile Include="Harmony\WindowPatches.cs" />
     <Compile Include="Harmony\LookupPatch.cs" />

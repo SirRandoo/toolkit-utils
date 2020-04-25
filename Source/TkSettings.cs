@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
@@ -12,7 +11,6 @@ namespace SirRandoo.ToolkitUtils
 
     public class TkSettings : ModSettings
     {
-        public static bool Commands = true;
         public static bool DecorateUtils;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;
@@ -27,7 +25,6 @@ namespace SirRandoo.ToolkitUtils
         public static bool TempInGear;
         public static bool DropInventory;
         public static bool JsonShop;
-        public static bool ToolkitJson;
         public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
         public static int LookupLimit = 10;
         public static bool VersionedModList;
@@ -155,12 +152,6 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.SettingGroups.General.JsonStore.Tooltip".Translate()
             );
 
-            listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.ToolkitJson.Label".Translate(),
-                ref ToolkitJson,
-                "TKUtils.SettingGroups.General.ToolkitJson.Tooltip".Translate()
-            );
-
             listing.End();
         }
 
@@ -179,24 +170,6 @@ namespace SirRandoo.ToolkitUtils
                 ref ShowCoinRate,
                 "TKUtils.SettingGroups.CommandTweaks.CoinRate.Tooltip".Translate()
             );
-
-            listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.CommandTweaks.Parser.Label".Translate(),
-                ref Commands,
-                "TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip".Translate()
-            );
-
-            if (Commands)
-            {
-                var line = listing.GetRect(Text.LineHeight);
-                var labelRect = new Rect(line.x, line.y, line.width * 0.85f, line.height);
-                var entryRect = new Rect(
-                    line.x + labelRect.width + 5f,
-                    line.y,
-                    line.width - labelRect.width - 5f,
-                    line.height
-                );
-            }
 
             listing.End();
         }
@@ -283,7 +256,6 @@ namespace SirRandoo.ToolkitUtils
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref Commands, "commands", true);
             Scribe_Values.Look(ref RichText, "richText", true);
             Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
@@ -303,7 +275,6 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref DropInventory, "dropInventory");
 
             Scribe_Values.Look(ref JsonShop, "shopJson");
-            Scribe_Values.Look(ref ToolkitJson, "toolkitJson");
             Scribe_Values.Look(ref UtilsNoticeAdd, "utilsNoticeAdd", true);
             Scribe_Values.Look(ref UtilsNoticeRemove, "utilsNoticeRemove", true);
             Scribe_Values.Look(ref UtilsNoticePawn, "utilsNoticePawn", true);
