@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LanguageData>
+    <!-- ToolkitCore Addon Menu Translations -->
+    <TKUtils.AddonMenu.Settings>Settings</TKUtils.AddonMenu.Settings>
+    <TKUtils.AddonMenu.RaceConfig>Race Config</TKUtils.AddonMenu.RaceConfig>
+    <TKUtils.AddonMenu.TraitConfig>Trait Config</TKUtils.AddonMenu.TraitConfig>
+    <TKUtils.AddonMenu.Purge>Purge Viewers</TKUtils.AddonMenu.Purge>
+    
     <!-- Toolkit's Viewer_Dialog Translations -->
     <TKUtils.Windows.Purge.Button.Label>Purge</TKUtils.Windows.Purge.Button.Label>
     
