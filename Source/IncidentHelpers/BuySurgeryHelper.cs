@@ -129,6 +129,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            if (price.price + storeIncident.cost < viewer.GetViewerCoins())
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.NotEnoughCoins".Translate(
+                        price.price.ToString("N0"),
+                        viewer.GetViewerCoins().ToString("N0")
+                    )
+                );
+                return false;
+            }
+
             var recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.IsSurgery).ToList();
             var partRecipes = recipes
                 .Where(r => r.Worker is Recipe_Surgery && r.IsIngredient(buyable))
