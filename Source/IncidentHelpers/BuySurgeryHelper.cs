@@ -135,7 +135,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     viewer.username,
                     "TKUtils.Responses.NotEnoughCoins".Translate(
                         price.price.ToString("N0"),
-                        viewer.GetViewerCoins().ToString("N0")
+                        (viewer.GetViewerCoins() + storeIncident.cost).ToString("N0")
                     )
                 );
                 return false;
