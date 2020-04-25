@@ -2,8 +2,7 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using TwitchLib.Client.Models.Interfaces;
 using UnityEngine;
 using Verse;
 
@@ -11,22 +10,17 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnGearCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            var pawn = GetOrFindPawn(message.User);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabGear".Translate()));
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabGear".Translate()));
                 return;
             }
-
-            message.Reply(GetPawnGear(pawn).WithHeader("TabGear".Translate()));
+            
+            twitchMessage.Reply(GetPawnGear(pawn).WithHeader("TabGear".Translate()));
         }
 
         private static float CalculateArmorRating(Pawn pawn, StatDef stat)
@@ -87,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     stats.Add($"{"🔥".AltText("ArmorHeat".Translate().RawText)}{heat.ToStringPercent()}");
                 }
 
-                if (stats.Any())
+                if(stats.Any())
                 {
                     parts.Add($"{"OverallArmor".Translate().RawText}: {string.Join(", ", stats.ToArray())}");
                 }
@@ -123,8 +117,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 $"{"Apparel".Translate().RawText}: {string.Join(", ", apparel.Select(item => item.LabelCap).ToArray())}"
             );
 
-            return !parts.Any()
-                ? "None".Translate().RawText
+            return !parts.Any() 
+                ? "None".Translate().RawText 
                 : string.Join("⎮", parts.ToArray());
         }
     }

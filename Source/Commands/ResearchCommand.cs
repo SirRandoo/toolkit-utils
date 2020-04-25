@@ -1,59 +1,52 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Models;
+using ToolkitCore.Utilities;
+using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class ResearchCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            var query = CommandParser.Parse(message.Message).Skip(1).FirstOrDefault();
-            ResearchProjectDef target;
+            var query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
+            ResearchProjectDef project;
 
             if (query.NullOrEmpty())
             {
-                target = Current.Game.researchManager.currentProj;
+                project = Current.Game.researchManager.currentProj;
             }
             else
             {
-                target = DefDatabase<ResearchProjectDef>
-                    .AllDefsListForReading
-                    .FirstOrDefault(
-                        p => p.defName.EqualsIgnoreCase(query)
-                             || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                    );
+                project = DefDatabase<ResearchProjectDef>.AllDefsListForReading.FirstOrDefault(
+                    p => p.defName.EqualsIgnoreCase(query) || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                );
             }
 
-            if (target == null)
+            if (project == null)
             {
-                message.Reply(
+                twitchMessage.Reply(
                     (
                         !query.NullOrEmpty()
                             ? "TKUtils.Responses.Research.QueryInvalid".Translate(query)
                             : "TKUtils.Responses.Research.None".Translate()
                     ).WithHeader("Research".Translate())
                 );
-
                 return;
             }
-
+            
             var segments = new List<string>
             {
-                "TKUtils.Formats.KeyValue".Translate(target.LabelCap, target.ProgressPercent.ToStringPercent())
+                "TKUtils.Formats.KeyValue".Translate(project.LabelCap, project.ProgressPercent.ToStringPercent())
             };
 
-            if (target.prerequisites != null && !target.PrerequisitesCompleted)
+            if (project.prerequisites != null && !project.PrerequisitesCompleted)
             {
-                var prerequisites = target.prerequisites;
+                var prerequisites = project.prerequisites;
 
                 var container = prerequisites.Where(prerequisite => !prerequisite.IsFinished)
                     .Select(
@@ -68,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 segments.Add($"{"ResearchPrerequisites".Translate().RawText}: {string.Join(", ", container)}");
             }
 
-            message.Reply(string.Join("⎮", segments).WithHeader("Research".Translate()));
+            twitchMessage.Reply(string.Join("⎮", segments).WithHeader("Research".Translate()));
         }
     }
 }

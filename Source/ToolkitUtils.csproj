@@ -48,8 +48,28 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="TwitchToolkit">
-      <HintPath>..\..\..\..\..\workshop\content\294100\1718525787\v1.1\Assemblies\TwitchToolkit.dll</HintPath>
+    <Reference Include="ToolkitCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\ToolkitCore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TwitchLib.Client, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TwitchLib.Client.Enums, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TwitchLib.Client.Models, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Models.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TwitchLib.Communication, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Communication.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TwitchToolkit, Version=2.0.10.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\workshop\content\294100\2019162052\v1.1\Assemblies\TwitchToolkit.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
@@ -82,67 +102,67 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandExtension.cs"/>
-    <Compile Include="Commands\BalanceCommand.cs"/>
-    <Compile Include="Commands\FactionsCommand.cs"/>
-    <Compile Include="Commands\InstalledModsDriver.cs"/>
-    <Compile Include="Commands\InsultCommand.cs"/>
-    <Compile Include="Commands\LeaveCommand.cs"/>
-    <Compile Include="Commands\LookupCommand.cs"/>
-    <Compile Include="Commands\PawnBodyCommand.cs"/>
-    <Compile Include="Commands\PawnFixAllCommand.cs"/>
-    <Compile Include="Commands\PawnFixCommand.cs"/>
-    <Compile Include="Commands\PawnGearCommand.cs"/>
-    <Compile Include="Commands\PawnHealthCommand.cs"/>
-    <Compile Include="Commands\PawnNeedsCommand.cs"/>
-    <Compile Include="Commands\PawnSkillsCommand.cs"/>
-    <Compile Include="Commands\PawnStoryCommand.cs"/>
-    <Compile Include="Commands\PawnWorkCommand.cs"/>
-    <Compile Include="Commands\PriceCheckCommand.cs"/>
-    <Compile Include="Commands\ResearchCommand.cs"/>
-    <Compile Include="Commands\UnstickCommand.cs"/>
-    <Compile Include="Harmony\CommandsHandler_CheckCommand.cs"/>
-    <Compile Include="Harmony\PawnCommands_ParseCommand.cs"/>
-    <Compile Include="Harmony\Settings_Store__DoWindowContents.cs"/>
-    <Compile Include="Harmony\StoreItemsWindow_PostClose.cs"/>
-    <Compile Include="Harmony\Store_ItemEditor__UpdateStoreItemList.cs"/>
-    <Compile Include="Harmony\Window_CommandEditor__PostClose.cs"/>
-    <Compile Include="Harmony\Window_PostOpen.cs"/>
-    <Compile Include="Harmony\Store_Lookup__ParseCommand.cs"/>
-    <Compile Include="Harmony\ViewerUpdater_ParseCommand.cs"/>
-    <Compile Include="Harmony\Window_Viewers__DoWindowContents.cs"/>
-    <Compile Include="IncidentHelpers\AddTraitHelper.cs"/>
-    <Compile Include="IncidentHelpers\BuyPawnHelper.cs"/>
-    <Compile Include="IncidentHelpers\BuySurgeryHelper.cs"/>
-    <Compile Include="IncidentHelpers\HealAllHelper.cs"/>
-    <Compile Include="IncidentHelpers\HealMeHelper.cs"/>
-    <Compile Include="IncidentHelpers\PassionShuffleHelper.cs"/>
-    <Compile Include="IncidentHelpers\RemoveTraitHelper.cs"/>
-    <Compile Include="IncidentHelpers\ReviveAllHelper.cs"/>
-    <Compile Include="IncidentHelpers\ReviveMeHelper.cs"/>
-    <Compile Include="Logger.cs"/>
-    <Compile Include="TkSettings.cs"/>
-    <Compile Include="TkUtils.cs"/>
-    <Compile Include="Properties\AssemblyInfo.cs"/>
-    <Compile Include="TkUtilsWindow.cs"/>
-    <Compile Include="Utils\CommandBase.cs"/>
-    <Compile Include="Utils\CommandParser.cs"/>
-    <Compile Include="Utils\Constraints\BannedConstraint.cs"/>
-    <Compile Include="Utils\Constraints\CoinConstraint.cs"/>
-    <Compile Include="Utils\Constraints\KarmaConstraint.cs"/>
-    <Compile Include="Utils\Constraints\ModConstraint.cs"/>
-    <Compile Include="Utils\Constraints\NameConstraint.cs"/>
-    <Compile Include="Utils\Constraints\SubscriberConstraint.cs"/>
-    <Compile Include="Utils\Constraints\TimeConstraint.cs"/>
-    <Compile Include="Utils\Constraints\ComparableConstraint.cs"/>
-    <Compile Include="Utils\Constraints\ConstraintBase.cs"/>
-    <Compile Include="Utils\Constraints\VipConstraint.cs"/>
+    <Compile Include="CommandExtension.cs" />
+    <Compile Include="Commands\BalanceCommand.cs" />
+    <Compile Include="Commands\FactionsCommand.cs" />
+    <Compile Include="Commands\InstalledModsCommand.cs" />
+    <Compile Include="Commands\InsultCommand.cs" />
+    <Compile Include="Commands\LeaveCommand.cs" />
+    <Compile Include="Commands\LookupCommand.cs" />
+    <Compile Include="Commands\PawnBodyCommand.cs" />
+    <Compile Include="Commands\PawnFixAllCommand.cs" />
+    <Compile Include="Commands\PawnFixCommand.cs" />
+    <Compile Include="Commands\PawnGearCommand.cs" />
+    <Compile Include="Commands\PawnHealthCommand.cs" />
+    <Compile Include="Commands\PawnNeedsCommand.cs" />
+    <Compile Include="Commands\PawnSkillsCommand.cs" />
+    <Compile Include="Commands\PawnStoryCommand.cs" />
+    <Compile Include="Commands\PawnWorkCommand.cs" />
+    <Compile Include="Commands\PriceCheckCommand.cs" />
+    <Compile Include="Commands\ResearchCommand.cs" />
+    <Compile Include="Commands\UnstickCommand.cs" />
+    <Compile Include="Harmony\PawnCommandsPatch.cs" />
+    <Compile Include="Harmony\StorePatch.cs" />
+    <Compile Include="Harmony\ItemWindowPatch.cs" />
+    <Compile Include="Harmony\ItemEditorPatch.cs" />
+    <Compile Include="Harmony\CommandEditorPatch.cs" />
+    <Compile Include="Harmony\WindowPatches.cs" />
+    <Compile Include="Harmony\LookupPatch.cs" />
+    <Compile Include="Harmony\ViewerWindowPatch.cs" />
+    <Compile Include="IncidentHelpers\AddTraitHelper.cs" />
+    <Compile Include="IncidentHelpers\BuyPawnHelper.cs" />
+    <Compile Include="IncidentHelpers\BuySurgeryHelper.cs" />
+    <Compile Include="IncidentHelpers\HealAllHelper.cs" />
+    <Compile Include="IncidentHelpers\HealMeHelper.cs" />
+    <Compile Include="IncidentHelpers\PassionShuffleHelper.cs" />
+    <Compile Include="IncidentHelpers\RemoveTraitHelper.cs" />
+    <Compile Include="IncidentHelpers\ReviveAllHelper.cs" />
+    <Compile Include="IncidentHelpers\ReviveMeHelper.cs" />
+    <Compile Include="TkAddonMenu.cs" />
+    <Compile Include="TkLogger.cs" />
+    <Compile Include="TkSettings.cs" />
+    <Compile Include="TkUtils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TkUtilsWindow.cs" />
+    <Compile Include="Utils\CommandBase.cs" />
+    <Compile Include="Utils\CommandParser.cs" />
+    <Compile Include="Utils\Constraints\BannedConstraint.cs" />
+    <Compile Include="Utils\Constraints\CoinConstraint.cs" />
+    <Compile Include="Utils\Constraints\KarmaConstraint.cs" />
+    <Compile Include="Utils\Constraints\ModConstraint.cs" />
+    <Compile Include="Utils\Constraints\NameConstraint.cs" />
+    <Compile Include="Utils\Constraints\SubscriberConstraint.cs" />
+    <Compile Include="Utils\Constraints\TimeConstraint.cs" />
+    <Compile Include="Utils\Constraints\ComparableConstraint.cs" />
+    <Compile Include="Utils\Constraints\ConstraintBase.cs" />
+    <Compile Include="Utils\Constraints\VipConstraint.cs" />
     <Compile Include="Utils\HealHelper.cs" />
     <Compile Include="Utils\MessageHelper.cs" />
-    <Compile Include="Utils\SettingsHelper.cs"/>
+    <Compile Include="Utils\SettingsHelper.cs" />
     <Compile Include="Utils\ShopExpansion.cs" />
     <Compile Include="Utils\Unrichify.cs" />
     <Compile Include="Utils\TraitHelper.cs" />
+    <Compile Include="Windows\NoticeWindow.cs" />
     <Compile Include="Windows\PurgeViewersDialog.cs" />
     <Compile Include="Windows\RaceConfigDialog.cs" />
     <Compile Include="Windows\TraitConfigDialog.cs" />
@@ -159,6 +179,9 @@
     </Content>
     <Content Include="..\Common\Defs\Toolkit\StoreIncidents.xml">
       <Link>Defs\StoreIncidents.xml</Link>
+    </Content>
+    <Content Include="..\Common\Defs\Toolkit\Addons.xml">
+      <Link>Defs\Addons.xml</Link>
     </Content>
     <Content Include="..\Common\Languages\English\Keyed\TKUtils.Commands.xml">
       <Link>Languages\English\Keyed\TKUtils.Commands.xml</Link>

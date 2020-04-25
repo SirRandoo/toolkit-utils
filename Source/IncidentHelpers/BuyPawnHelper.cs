@@ -2,6 +2,7 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using TwitchToolkit.Store;
@@ -29,24 +30,22 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Viewer = viewer;
-            var anyPlayerMap = Helper.AnyPlayerMap;
+            map = Helper.AnyPlayerMap;
 
-            if (anyPlayerMap == null)
+            if (map == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".Translate());
                 return false;
             }
 
-            map = anyPlayerMap;
-
             if (!CellFinder.TryFindRandomEdgeCellWith(
-                p => anyPlayerMap.reachability.CanReachColony(p) && !p.Fogged(anyPlayerMap),
-                anyPlayerMap,
+                p => map.reachability.CanReachColony(p) && !p.Fogged(map),
+                map,
                 CellFinder.EdgeRoadChance_Neutral,
                 out loc
             ))
             {
-                Logger.Warn("No reachable location to spawn a viewer pawn!");
+                TkLogger.Warn("No reachable location to spawn a viewer pawn!");
                 return false;
             }
 
@@ -55,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return CanPurchaseRace(viewer, race);
             }
 
-            var segments = CommandParser.Parse(message).Skip(2).ToArray();
+            var segments = CommandFilter.Parse(message).Skip(2).ToArray();
             var query = segments.FirstOrDefault();
 
             if (query.NullOrEmpty())
@@ -108,7 +107,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 if (!(pawn.Name is NameTriple name))
                 {
-                    Logger.Warn("Pawn name is not a name triple!");
+                    TkLogger.Warn("Pawn name is not a name triple!");
                     return;
                 }
 
@@ -135,7 +134,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
             catch (Exception e)
             {
-                Logger.Error("Could not execute buy pawn", e);
+                TkLogger.Error("Could not execute buy pawn", e);
             }
         }
 

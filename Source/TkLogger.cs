@@ -3,7 +3,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    public static class Logger
+    public static class TkLogger
     {
         public static void Debug(string message)
         {

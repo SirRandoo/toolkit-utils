@@ -5,7 +5,7 @@ using TwitchToolkit.Windows;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Window_CommandEditor), "PostClose")]
-    public static class Window_CommandEditor__PostClose
+    public static class CommandEditorPatch
     {
         [HarmonyPostfix]
         public static void PostClose()

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.IncidentHelpers.Traits;
@@ -26,46 +27,46 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Viewer = viewer;
 
-            var traitQuery = CommandParser.Parse(message, TkSettings.Prefix).Skip(2).FirstOrDefault();
+            var traitQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (traitQuery.NullOrEmpty())
             {
                 return false;
             }
 
-            var viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
+            pawn = CommandBase.GetOrFindPawn(viewer.username);
 
-            if (viewerPawn == null)
+            if (pawn == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
                 return false;
             }
 
-            var buyable = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, traitQuery));
+            buyableTrait = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, traitQuery));
             var maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
-            var traits = viewerPawn.story.traits.allTraits;
+            var traits = pawn.story.traits.allTraits;
 
-            if (buyable == null)
+            if (buyableTrait == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.TraitQueryInvalid".Translate(traitQuery));
                 return false;
             }
 
-            if (!buyable.CanAdd)
+            if (!buyableTrait.CanAdd)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.AddDisabled".Translate(buyable.Name.CapitalizeFirst())
+                    "TKUtils.Responses.BuyTrait.AddDisabled".Translate(buyableTrait.Name.CapitalizeFirst())
                 );
                 return false;
             }
 
-            if (Viewer.GetViewerCoins() < buyable.AddPrice)
+            if (Viewer.GetViewerCoins() < buyableTrait.AddPrice)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.Responses.NotEnoughCoins".Translate(
-                        buyable.AddPrice.ToString("N0"),
+                        buyableTrait.AddPrice.ToString("N0"),
                         Viewer.GetViewerCoins().ToString("N0")
                     )
                 );
@@ -75,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             if (traits != null)
             {
                 var tally = traits.Count(t => !TraitHelper.IsSexualityTrait(t));
-                var canBypassLimit = buyable.BypassLimit;
+                var canBypassLimit = buyableTrait.BypassLimit;
 
                 if (tally >= maxTraits && !canBypassLimit)
                 {
@@ -87,44 +88,40 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
             }
 
-            var def = DefDatabase<TraitDef>.AllDefsListForReading.FirstOrDefault(
-                t => t.defName.Equals(buyable.DefName)
+            traitDef = DefDatabase<TraitDef>.AllDefsListForReading.FirstOrDefault(
+                t => t.defName.Equals(buyableTrait.DefName)
             );
 
-            if (def == null)
+            if (traitDef == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.TraitQueryInvalid".Translate(traitQuery));
                 return false;
             }
 
-            var traitObj = new Trait(def, buyable.Degree);
+            trait = new Trait(traitDef, buyableTrait.Degree);
 
-            foreach (var t in viewerPawn.story.traits.allTraits.Where(
-                t => t.def.ConflictsWith(traitObj) || def.ConflictsWith(t)
+            foreach (var t in pawn.story.traits.allTraits.Where(
+                t => t.def.ConflictsWith(trait) || traitDef.ConflictsWith(t)
             ))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.Conflicts".Translate(t.LabelCap, def.defName)
+                    "TKUtils.Responses.BuyTrait.Conflicts".Translate(t.LabelCap, trait.LabelCap)
                 );
                 return false;
             }
 
-            if (traits?.Find(s => s.def.defName == traitObj.def.defName) != null)
+            if (traits?.Find(s => s.def.defName == trait.def.defName) == null)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Responses.BuyTrait.Duplicate".Translate(traitObj.Label)
-                );
-                return false;
+                return traitQuery != null && buyableTrait != null;
             }
 
-            trait = traitObj;
-            traitDef = def;
-            buyableTrait = buyable;
-            pawn = viewerPawn;
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.Responses.BuyTrait.Duplicate".Translate(trait.Label)
+            );
+            return false;
 
-            return traitQuery != null && buyableTrait != null;
         }
 
         public override void TryExecute()

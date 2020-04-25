@@ -1,49 +1,35 @@
 ﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnNeedsCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            var pawn = GetOrFindPawn(message.User);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabNeeds".Translate()));
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate("TabNeeds".Translate()));
                 return;
             }
-
-            var needs = pawn.needs.AllNeeds;
 
             if (pawn.needs?.AllNeeds == null)
             {
-                message.Reply("TKUtils.Responses.PawnNeeds.None".Translate().WithHeader("TabNeeds".Translate()));
+                twitchMessage.Reply("TKUtils.Responses.PawnNeeds.None".Translate().WithHeader("TabNeeds".Translate()));
                 return;
             }
 
-            message.Reply(
+            twitchMessage.Reply(
                 string.Join(
-                        ", ",
-                        pawn.needs.AllNeeds.Select(
-                                n => "TKUtils.Formats.KeyValue".Translate(
-                                        n.LabelCap,
-                                        n.CurLevelPercentage.ToStringPercent()
-                                    )
-                                    .RawText
-                            )
-                            .ToArray()
-                    )
-                    .WithHeader("TabNeeds".Translate())
+                    ", ",
+                    pawn.needs.AllNeeds.Select(
+                        n => "TKUtils.Formats.KeyValue".Translate(n.LabelCap, n.CurLevelPercentage.ToStringPercent()).RawText
+                    ).ToArray()
+                ).WithHeader("TabNeeds".Translate())
             );
         }
     }

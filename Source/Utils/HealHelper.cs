@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (num > 10000)
                 {
-                    Logger.Warn("HealHelper iterated too many times.");
+                    TkLogger.Warn("HealHelper iterated too many times.");
                     break;
                 }
 
@@ -247,6 +247,22 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             return injury;
+        }
+
+        public static float GetAverageHealthOfPart(Pawn pawn, BodyPartRecord part)
+        {
+            var container = new List<float>();
+
+            if (part.GetDirectChildParts()?.Count() > 0)
+            {
+                container.AddRange(part.GetDirectChildParts().Select(p => GetAverageHealthOfPart(pawn, p)));
+            }
+            else
+            {
+                container.Add(pawn.health.hediffSet.GetPartHealth(part));
+            }
+
+            return container.Average();
         }
     }
 }

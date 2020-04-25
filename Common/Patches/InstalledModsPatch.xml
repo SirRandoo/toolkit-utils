@@ -6,14 +6,14 @@
         <operations>
             <li Class="PatchOperationTest">
                 <xpath>
-                    /Defs/TwitchToolkit.Command[defName="InstalledMods"]/commandDriver[text()="SirRandoo.ToolkitUtils.Commands.InstalledModsDriver"]
+                    /Defs/TwitchToolkit.Command[defName="InstalledMods"]/commandDriver[text()="SirRandoo.ToolkitUtils.Commands.InstalledModsCommand"]
                 </xpath>
                 <success>Invert</success>
             </li>
             <li Class="PatchOperationReplace">
                 <xpath>/Defs/TwitchToolkit.Command[defName="InstalledMods"]/commandDriver</xpath>
                 <value>
-                    <commandDriver>SirRandoo.ToolkitUtils.Commands.InstalledModsDriver</commandDriver>
+                    <commandDriver>SirRandoo.ToolkitUtils.Commands.InstalledModsCommand</commandDriver>
                 </value>
             </li>
         </operations>

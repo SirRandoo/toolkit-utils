@@ -2,8 +2,9 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Utilities;
+using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
-using TwitchToolkit.IRC;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -11,12 +12,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class LookupCommand : CommandBase
     {
-        private IRCMessage msg;
+        private ITwitchMessage msg;
 
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            msg = message;
-            var segments = CommandParser.Parse(message.Message).Skip(1).ToArray();
+            msg = twitchMessage;
+            var segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
             string category;
             string query;
 
@@ -30,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 category = segments.FirstOrFallback("");
                 query = segments.Skip(1).FirstOrFallback("");
             }
-
+            
             PerformLookup(category, query);
         }
 

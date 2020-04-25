@@ -1,13 +1,19 @@
-﻿using TwitchToolkit.IRC;
+﻿using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
     public static class MessageHelper
     {
-        internal static void Reply(this IRCMessage m, string message)
+        internal static void Reply(this ITwitchCommand m, string message)
         {
-            ReplyToUser(m.User, message);
+            ReplyToUser(m.Username, message);
+        }
+        
+        internal static void Reply(this ITwitchMessage m, string message)
+        {
+            ReplyToUser(m.Username, message);
         }
 
         internal static string WithHeader(this string s, string header)

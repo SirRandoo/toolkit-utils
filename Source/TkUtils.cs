@@ -23,24 +23,20 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             TkUtils.BuildModList();
-            Logger.Info($"Cached {TkUtils.ModListCache.Length} mods.");
+            TkLogger.Info($"Cached {TkUtils.ModListCache.Length} mods.");
 
             try
             {
                 TkUtils.ShopExpansion = ShopExpansionHelper.LoadData<XmlShop>(ShopExpansionHelper.ExpansionFile);
 
-                Logger.Info($"{TkUtils.ShopExpansion.Traits.Count} traits loaded into the shop.");
-                Logger.Info($"{TkUtils.ShopExpansion.Races.Count} races loaded into the shop.");
+                TkLogger.Info($"{TkUtils.ShopExpansion.Traits.Count} traits loaded into the shop.");
+                TkLogger.Info($"{TkUtils.ShopExpansion.Races.Count} races loaded into the shop.");
             }
             catch (Exception)
             {
-                if (!File.Exists(ShopExpansionHelper.ExpansionFile))
+                if (File.Exists(ShopExpansionHelper.ExpansionFile))
                 {
-                    Logger.Warn("If this is your first run with this version of Utils, you can safely ignore this.");
-                }
-                else
-                {
-                    Logger.Warn("Could not load shop extension database! Attempting to salvage it...");
+                    TkLogger.Warn("Could not load shop extension database! Attempting to salvage it...");
                     ShopExpansionHelper.TrySalvageData();
                 }
             }
@@ -99,15 +95,13 @@ namespace SirRandoo.ToolkitUtils
 
                     if (File.Exists(manifestFile))
                     {
-                        using (var reader = new XmlTextReader(manifestFile))
-                        {
-                            reader.ReadToFollowing("version");
+                        using var reader = new XmlTextReader(manifestFile);
+                        reader.ReadToFollowing("version");
 
-                            if (reader.Name.Equals("version"))
-                            {
-                                version = reader.ReadElementContentAsString();
-                                reader.Close();
-                            }
+                        if (reader.Name.Equals("version"))
+                        {
+                            version = reader.ReadElementContentAsString();
+                            reader.Close();
                         }
                     }
                 }

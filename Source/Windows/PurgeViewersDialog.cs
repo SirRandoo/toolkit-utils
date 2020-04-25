@@ -205,7 +205,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var affected = GetAffectedViewers();
             var count = affected.Count(viewer => Viewers.All.Remove(viewer));
 
-            Logger.Warn($"Purged {count} viewers out of the requested {affected.Length}!");
+            TkLogger.Warn($"Purged {count:N0} viewers out of the requested {affected.Length:N0}!");
             showingAffected = false;
         }
     }

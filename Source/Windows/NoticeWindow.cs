@@ -1,89 +1,9 @@
 ﻿using System;
-using HarmonyLib;
-using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Windows
 {
-    [HarmonyPatch(typeof(Window))]
-    public class Window_PostOpen
-    {
-        [HarmonyPrefix]
-        [HarmonyPatch(nameof(Window.PostOpen))]
-        public static void PostOpen(Window __instance)
-        {
-            if (!(__instance is StoreIncidentEditor))
-            {
-                return;
-            }
-
-            var editor = (StoreIncidentEditor) __instance;
-
-            if (!editor.variableIncident)
-            {
-                return;
-            }
-
-            if (editor.storeIncidentVariables.defName.Equals("AddTrait") && TkSettings.UtilsNoticeAdd
-                || editor.storeIncidentVariables.defName.Equals("RemoveTrait") && TkSettings.UtilsNoticeRemove
-                || editor.storeIncidentVariables.defName.Equals("BuyPawn") && TkSettings.UtilsNoticePawn)
-            {
-                Find.WindowStack.Add(new NoticeWindow(editor.storeIncidentVariables.defName));
-            }
-        }
-
-        [HarmonyPrefix]
-        [HarmonyPatch(nameof(Window.PreClose))]
-        public static void PreClose(Window __instance)
-        {
-            if (!(__instance is StoreIncidentEditor))
-            {
-                return;
-            }
-
-            var editor = (StoreIncidentEditor) __instance;
-
-            if (!editor.variableIncident)
-            {
-                return;
-            }
-
-            if (editor.storeIncidentVariables.cost <= 1)
-            {
-                return;
-            }
-
-            switch (editor.storeIncidentVariables.defName)
-            {
-                case "AddTrait":
-                    foreach (var trait in TkUtils.ShopExpansion.Traits)
-                    {
-                        trait.AddPrice = editor.storeIncidentVariables.cost;
-                    }
-
-                    editor.storeIncidentVariables.cost = 1;
-                    return;
-                case "RemoveTrait":
-                    foreach (var trait in TkUtils.ShopExpansion.Traits)
-                    {
-                        trait.RemovePrice = editor.storeIncidentVariables.cost;
-                    }
-
-                    editor.storeIncidentVariables.cost = 1;
-                    return;
-                case "BuyPawn":
-                    foreach (var race in TkUtils.ShopExpansion.Races)
-                    {
-                        race.Price = editor.storeIncidentVariables.cost;
-                    }
-
-                    editor.storeIncidentVariables.cost = 1;
-                    return;
-            }
-        }
-    }
-
     public class NoticeWindow : Window
     {
         private readonly string def;
@@ -155,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 }
                 catch (Exception e)
                 {
-                    Logger.Error("Could not save notice preferences!", e);
+                    TkLogger.Error("Could not save notice preferences!", e);
                 }
             }
         }

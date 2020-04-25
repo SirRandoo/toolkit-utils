@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (cache == null)
             {
-                Logger.Warn("The race shop is null! You should report this.");
+                TkLogger.Warn("The race shop is null! You should report this.");
             }
         }
 

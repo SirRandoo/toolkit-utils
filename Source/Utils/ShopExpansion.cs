@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
+using ToolkitCore;
 using TwitchToolkit.Store;
 using TwitchToolkit.Utilities;
 using UnityEngine;
@@ -17,9 +18,9 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         public static readonly string ExpansionFile = Path.Combine(SaveHelper.dataPath, "ShopExt_1.xml");
 
-        public static readonly string ShopFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
-        public static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "commands.json");
-        public static readonly string ModsFile = Path.Combine(SaveHelper.dataPath, "modlist.json");
+        private static readonly string ShopFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
+        private static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "commands.json");
+        private static readonly string ModsFile = Path.Combine(SaveHelper.dataPath, "modlist.json");
 
         public static void SaveData<T>(T xml, string filePath)
         {
@@ -27,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (directory == null)
             {
-                Logger.Warn($"File path @ {filePath} is invalid!");
+                TkLogger.Warn($"File path @ {filePath} is invalid!");
                 return;
             }
 
@@ -53,29 +54,27 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
                 else
                 {
-                    using (var writer = File.Open(filePath, FileMode.Create, FileAccess.Write))
-                    {
-                        serializer.Serialize(writer, xml);
-                    }
+                    using var writer = File.Open(filePath, FileMode.Create, FileAccess.Write);
+                    serializer.Serialize(writer, xml);
                 }
             }
             catch (IOException e)
             {
-                Logger.Error($"Could not save data to {filePath}", e);
+                TkLogger.Error($"Could not save data to {filePath}", e);
             }
             catch (UnauthorizedAccessException e)
             {
-                Logger.Error("File access denied", e);
+                TkLogger.Error("File access denied", e);
             }
         }
 
-        public static void SaveData(string data, string filePath)
+        private static void SaveData(string data, string filePath)
         {
             var directory = Path.GetDirectoryName(filePath);
 
             if (directory == null)
             {
-                Logger.Warn($"File path @ {filePath} is invalid!");
+                TkLogger.Warn($"File path @ {filePath} is invalid!");
                 return;
             }
 
@@ -101,11 +100,11 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
             catch (IOException e)
             {
-                Logger.Error($"Could not save data to {filePath}", e);
+                TkLogger.Error($"Could not save data to {filePath}", e);
             }
             catch (UnauthorizedAccessException e)
             {
-                Logger.Error("File access denied", e);
+                TkLogger.Error("File access denied", e);
             }
         }
 
@@ -120,10 +119,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             var serializer = new XmlSerializer(typeof(T));
 
-            using (var reader = File.OpenText(filePath))
-            {
-                return (T) serializer.Deserialize(reader);
-            }
+            using var reader = File.OpenText(filePath);
+            return (T) serializer.Deserialize(reader);
         }
 
         public static void DumpShopExpansion()
@@ -223,8 +220,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     {
                         name = command.LabelCap.RawText,
                         description = $"TKUtils.Commands.Description.{command.defName}".Translate(),
-                        usage = TkSettings.Prefix
-                                + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
+                        usage = "!" + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
                         shortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
                         userLevel = $"TKUtils.Commands.UserLevel.{command.defName}".Translate()
                     }
@@ -241,7 +237,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void ValidateExpansionData()
         {
-            Logger.Info("Validating shop expansion data...");
+            TkLogger.Info("Validating shop expansion data...");
             var loadedTraits = DefDatabase<TraitDef>.AllDefsListForReading.ToHashSet();
             var raceDefs = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(i => i.RaceProps.Humanlike).ToHashSet();
             var loadedRaces = raceDefs
@@ -267,12 +263,12 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (removedTraits > 0)
                 {
-                    Logger.Info($"Removed {removedTraits} traits from the shop.");
+                    TkLogger.Info($"Removed {removedTraits} traits from the shop.");
                 }
             }
             catch (Exception e)
             {
-                Logger.Error("Could not validate trait data!", e);
+                TkLogger.Error("Could not validate trait data!", e);
             }
 
             var missingTraits = loadedTraits
@@ -305,12 +301,12 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (removedRaces > 0)
                 {
-                    Logger.Info($"Removed {removedRaces} races from the shop.");
+                    TkLogger.Info($"Removed {removedRaces} races from the shop.");
                 }
             }
             catch (Exception e)
             {
-                Logger.Error("Could not validate race data!", e);
+                TkLogger.Error("Could not validate race data!", e);
             }
 
             var missingRaces = loadedRaces
@@ -334,7 +330,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
                 catch (Exception)
                 {
-                    Logger.Warn($"Could not update race prices from Toolkit's store for race \"{raceName}\".");
+                    TkLogger.Warn($"Could not update race prices from Toolkit's store for race \"{raceName}\".");
                 }
 
                 TkUtils.ShopExpansion.Races.Add(
@@ -347,7 +343,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            Logger.Info("Trait/Race data changed between instances; saving new data...");
+            TkLogger.Info("Trait/Race data changed between instances; saving new data...");
             SaveData(TkUtils.ShopExpansion, ExpansionFile);
 
             if (TkSettings.JsonShop)
@@ -367,7 +363,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (traitCount > 0)
             {
-                Logger.Info($"Cleaned up {traitCount} traits with lingering tags.");
+                TkLogger.Info($"Cleaned up {traitCount} traits with lingering tags.");
             }
 
             var raceCount = 0;
@@ -392,7 +388,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (raceCount > 0)
             {
-                Logger.Info($"Cleaned up {raceCount} races with wrong names.");
+                TkLogger.Info($"Cleaned up {raceCount} races with wrong names.");
             }
 
             var oldMods = Path.Combine(SaveHelper.dataPath, "Mods.json");
@@ -411,7 +407,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         internal static void TrySalvageData()
         {
-            Logger.Info("Attempting to salvage shop data...");
+            TkLogger.Info("Attempting to salvage shop data...");
 
             var buffer = new StringBuilder();
             var lines = File.ReadLines(ExpansionFile, Encoding.UTF8);
@@ -433,7 +429,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             var serializer = new XmlSerializer(typeof(XmlShop));
             TkUtils.ShopExpansion = (XmlShop) serializer.Deserialize(reader);
 
-            Logger.Info("Salvaged?");
+            TkLogger.Info("Salvaged?");
             SaveData(TkUtils.ShopExpansion, ExpansionFile);
             reader.Dispose();
         }

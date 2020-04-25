@@ -1,31 +1,31 @@
 ﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore;
+using ToolkitCore.Models;
+using ToolkitCore.Utilities;
+using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
+using TwitchToolkit.PawnQueue;
 using Verse;
 using Verse.AI;
+using Viewers = TwitchToolkit.Viewers;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class InsultCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            var pawn = GetOrFindPawn(message.User);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate());
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
                 return;
             }
 
-            var query = CommandParser.Parse(message.Message).Skip(1).FirstOrFallback("");
+            var query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
             Pawn target = null;
 
             if (!query.NullOrEmpty())
@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (target == null)
                 {
-                    message.Reply("TKUtils.Responses.ViewerNotFound".Translate(query));
+                    twitchMessage.Reply("TKUtils.Responses.ViewerNotFound".Translate(query));
                     return;
                 }
             }

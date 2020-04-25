@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Models;
+using ToolkitCore.Utilities;
+using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
-using TwitchToolkit.IRC;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -10,12 +13,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PriceCheckCommand : CommandBase
     {
-        private IRCMessage msg;
+        private ITwitchMessage msg;
 
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            msg = message;
-            var segments = CommandParser.Parse(message.Message).Skip(1).ToArray();
+            msg = twitchMessage;
+            var segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
             string category;
             string query;
             string quantity;
@@ -32,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 query = segments.Skip(1).FirstOrFallback("");
                 quantity = segments.Skip(2).FirstOrFallback("1");
             }
-
+            
             PerformLookup(category, query, quantity);
         }
 

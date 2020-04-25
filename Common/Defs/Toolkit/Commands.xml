@@ -1,126 +1,121 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Defs>
-    <!-- Base -->
-    <TwitchToolkit.Command Name="CommandBase" Abstract="true">
-        <shouldBeInSeparateRoom>true</shouldBeInSeparateRoom>
-    </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command Name="ShortcutBase" ParentName="CommandBase" Abstract="true">
+    <TwitchToolkit.Command Name="ShortcutBase" Abstract="true">
         <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
     </TwitchToolkit.Command>
     
     <!-- Shortcuts -->
-    <TwitchToolkit.Command ParentName="ShortcutBase">
-        <defName>ReviveAllShortcut</defName>
-        <label>revive all</label>
-        <command>reviveall</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A colony wide resurrector mech serum.</Description>
-            </li>
-        </modExtensions>
-    </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command ParentName="ShortcutBase">
-        <defName>ReviveMeShortcut</defName>
-        <label>revive me</label>
-        <command>reviveme</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A personal resurrector mech serum.</Description>
-            </li>
-        </modExtensions>
-    </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command ParentName="ShortcutBase">
-        <defName>HealMeShortcut</defName>
-        <label>heal me</label>
-        <command>healme</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A personal healer mech serum/</Description>
-            </li>
-        </modExtensions>
-    </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command ParentName="ShortcutBase">
-        <defName>HealAllShortcut</defName>
-        <label>healall</label>
-        <command>healall</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A colony wide healer mech serum.</Description>
-            </li>
-        </modExtensions>
-    </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command ParentName="ShortcutBase">
-        <defName>PassionShuffleShortcut</defName>
-        <label>passion shuffle</label>
-        <command>passionshuffle</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shuffles your passions. If a skill is specified, you'll be guaranteed a minor passion in it.</Description>
-            </li>
-        </modExtensions>
-    </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command ParentName="ShortcutBase">
-        <defName>SurgeryShortcut</defName>
-        <label>surgery</label>
-        <command>surgery</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Purchases the part specified and queues it for surgery on your pawn.</Description>
-            </li>
-        </modExtensions>
-    </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command ParentName="ShortcutBase">
-        <defName>TraitShortcut</defName>
-        <label>add trait</label>
-        <command>trait</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Adds a trait for your pawn.</Description>
-            </li>
-        </modExtensions>
-    </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command ParentName="ShortcutBase">
-        <defName>RemoveTraitShortcut</defName>
-        <label>remove trait</label>
-        <command>removetrait</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Removes a trait from our pawn.</Description>
-            </li>
-        </modExtensions>
-    </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command ParentName="ShortcutBase">
-        <defName>ReviveAnyPawnShortcut</defName>
-        <label>revive any pawn</label>
-        <command>reviveanypawn</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A resurrector mech serum for a random dead colonist.</Description>
-            </li>
-        </modExtensions>
-    </TwitchToolkit.Command>
+<!--    <TwitchToolkit.Command ParentName="ShortcutBase">-->
+<!--        <defName>ReviveAllShortcut</defName>-->
+<!--        <label>revive all</label>-->
+<!--        <command>reviveall</command>-->
+<!--        -->
+<!--        <modExtensions>-->
+<!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
+<!--                <Description>A colony wide resurrector mech serum.</Description>-->
+<!--            </li>-->
+<!--        </modExtensions>-->
+<!--    </TwitchToolkit.Command>-->
+<!--    -->
+<!--    <TwitchToolkit.Command ParentName="ShortcutBase">-->
+<!--        <defName>ReviveMeShortcut</defName>-->
+<!--        <label>revive me</label>-->
+<!--        <command>reviveme</command>-->
+<!--        -->
+<!--        <modExtensions>-->
+<!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
+<!--                <Description>A personal resurrector mech serum.</Description>-->
+<!--            </li>-->
+<!--        </modExtensions>-->
+<!--    </TwitchToolkit.Command>-->
+<!--    -->
+<!--    <TwitchToolkit.Command ParentName="ShortcutBase">-->
+<!--        <defName>HealMeShortcut</defName>-->
+<!--        <label>heal me</label>-->
+<!--        <command>healme</command>-->
+<!--        -->
+<!--        <modExtensions>-->
+<!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
+<!--                <Description>A personal healer mech serum/</Description>-->
+<!--            </li>-->
+<!--        </modExtensions>-->
+<!--    </TwitchToolkit.Command>-->
+<!--    -->
+<!--    <TwitchToolkit.Command ParentName="ShortcutBase">-->
+<!--        <defName>HealAllShortcut</defName>-->
+<!--        <label>healall</label>-->
+<!--        <command>healall</command>-->
+<!--        -->
+<!--        <modExtensions>-->
+<!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
+<!--                <Description>A colony wide healer mech serum.</Description>-->
+<!--            </li>-->
+<!--        </modExtensions>-->
+<!--    </TwitchToolkit.Command>-->
+<!--    -->
+<!--    <TwitchToolkit.Command ParentName="ShortcutBase">-->
+<!--        <defName>PassionShuffleShortcut</defName>-->
+<!--        <label>passion shuffle</label>-->
+<!--        <command>passionshuffle</command>-->
+<!--        -->
+<!--        <modExtensions>-->
+<!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
+<!--                <Description>Shuffles your passions. If a skill is specified, you'll be guaranteed a minor passion in it.</Description>-->
+<!--            </li>-->
+<!--        </modExtensions>-->
+<!--    </TwitchToolkit.Command>-->
+<!--    -->
+<!--    <TwitchToolkit.Command ParentName="ShortcutBase">-->
+<!--        <defName>SurgeryShortcut</defName>-->
+<!--        <label>surgery</label>-->
+<!--        <command>surgery</command>-->
+<!--        -->
+<!--        <modExtensions>-->
+<!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
+<!--                <Description>Purchases the part specified and queues it for surgery on your pawn.</Description>-->
+<!--            </li>-->
+<!--        </modExtensions>-->
+<!--    </TwitchToolkit.Command>-->
+<!--    -->
+<!--    <TwitchToolkit.Command ParentName="ShortcutBase">-->
+<!--        <defName>TraitShortcut</defName>-->
+<!--        <label>add trait</label>-->
+<!--        <command>trait</command>-->
+<!--        -->
+<!--        <modExtensions>-->
+<!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
+<!--                <Description>Adds a trait for your pawn.</Description>-->
+<!--            </li>-->
+<!--        </modExtensions>-->
+<!--    </TwitchToolkit.Command>-->
+<!--    -->
+<!--    <TwitchToolkit.Command ParentName="ShortcutBase">-->
+<!--        <defName>RemoveTraitShortcut</defName>-->
+<!--        <label>remove trait</label>-->
+<!--        <command>removetrait</command>-->
+<!--        -->
+<!--        <modExtensions>-->
+<!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
+<!--                <Description>Removes a trait from our pawn.</Description>-->
+<!--            </li>-->
+<!--        </modExtensions>-->
+<!--    </TwitchToolkit.Command>-->
+<!--    -->
+<!--    <TwitchToolkit.Command ParentName="ShortcutBase">-->
+<!--        <defName>ReviveAnyPawnShortcut</defName>-->
+<!--        <label>revive any pawn</label>-->
+<!--        <command>reviveanypawn</command>-->
+<!--        -->
+<!--        <modExtensions>-->
+<!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
+<!--                <Description>A resurrector mech serum for a random dead colonist.</Description>-->
+<!--            </li>-->
+<!--        </modExtensions>-->
+<!--    </TwitchToolkit.Command>-->
     
     <!-- Pawn Commands -->
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>MyPawnHealth</defName>
         <label>viewer health</label>
         <command>mypawnhealth</command>
@@ -140,7 +135,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>MyPawnNeeds</defName>
         <label>viewer needs</label>
         <command>mypawnneeds</command>
@@ -153,7 +148,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>MyPawnGear</defName>
         <label>viewer gear</label>
         <command>mypawngear</command>
@@ -166,7 +161,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>MyPawnBody</defName>
         <label>viewer body</label>
         <command>mypawnbody</command>
@@ -179,7 +174,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>MyPawnWork</defName>
         <label>viewer work</label>
         <command>mypawnwork</command>
@@ -192,7 +187,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>MyPawnStory</defName>
         <label>viewer story</label>
         <command>mypawnstory</command>
@@ -205,7 +200,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>MyPawnSkills</defName>
         <label>viewer skills</label>
         <command>mypawnskills</command>
@@ -218,7 +213,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>FixMyPawn</defName>
         <label>fix viewer pawn</label>
         <command>fixmypawn</command>
@@ -231,7 +226,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>FixAllPawns</defName>
         <label>fix all pawns</label>
         <command>fixallpawns</command>
@@ -245,7 +240,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>AbandonPawn</defName>
         <label>abandon pawn</label>
         <command>leave</command>
@@ -259,7 +254,7 @@
     </TwitchToolkit.Command>
     
     <!-- Colony Commands -->
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>Factions</defName>
         <label>factions</label>
         <command>factions</command>
@@ -272,7 +267,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>Research</defName>
         <label>research</label>
         <command>research</command>
@@ -293,7 +288,7 @@
     </TwitchToolkit.Command>
     
     <!-- General Commands -->
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>Lookup</defName>
         <label>lookup</label>
         <command>lookup</command>
@@ -318,7 +313,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>PriceCheck</defName>
         <label>price check</label>
         <command>price</command>
@@ -343,7 +338,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>UnstickAll</defName>
         <label>unstick</label>
         <command>unstick</command>
@@ -351,7 +346,7 @@
         <requiresMod>true</requiresMod>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command ParentName="CommandBase">
+    <TwitchToolkit.Command>
         <defName>Insult</defName>
         <label>insult</label>
         <command>insult</command>

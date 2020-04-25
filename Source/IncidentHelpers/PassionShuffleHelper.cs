@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
@@ -38,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var query = CommandParser.Parse(message, TkSettings.Prefix).Skip(2).FirstOrDefault();
+            var query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (!query.NullOrEmpty())
             {
@@ -121,7 +122,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     continue;
                 }
 
-                Logger.Warn("Exceeded 100 iterations while shuffling passions!");
+                TkLogger.Warn("Exceeded 100 iterations while shuffling passions!");
                 return;
             }
 

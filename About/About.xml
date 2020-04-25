@@ -6,15 +6,15 @@
     <description>A collection of command and tweaks for TwitchToolkit.</description>
     <url>https://sirrandoo.github.io/toolkit-utils</url>
     
-    <packageId>sirrandoo.tku</packageId>
+    <packageId>sirrandoo.tku.dev</packageId>
     <supportedVersions>
         <li>1.1</li>
     </supportedVersions>
     
     <modDependencies>
         <li>
-            <packageId>hodl.twitchtoolkit</packageId>
-            <displayName>TwitchToolkit</displayName>
+            <packageId>hodlhodl.twitchtoolkit</packageId>
+            <displayName>Twitch Toolkit</displayName>
             <steamWorkshopUrl>steam://url/CommunityFilePage/1718525787</steamWorkshopUrl>
         </li>
         <li>
@@ -26,6 +26,6 @@
     </modDependencies>
     
     <loadAfter>
-        <li>hodl.twitchtoolkit</li>
+        <li>hodlhodl.twitchtoolkit</li>
     </loadAfter>
 </ModMetaData>

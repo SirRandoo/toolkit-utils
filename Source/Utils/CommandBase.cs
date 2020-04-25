@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RimWorld;
+using ToolkitCore;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using Verse;
@@ -41,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return null;
             }
 
-            Logger.Warn($"Viewer \"{username}\" was unlinked from their pawn!  Reassigning...");
+            TkLogger.Warn($"Viewer \"{username}\" was unlinked from their pawn!  Reassigning...");
 
             var component = Current.Game.GetComponent<GameComponentPawns>();
 
@@ -102,7 +103,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach (var m in messages)
             {
-                Toolkit.client.SendMessage(m.Trim());
+                TwitchWrapper.SendChatMessage(m.Trim());
             }
         }
     }

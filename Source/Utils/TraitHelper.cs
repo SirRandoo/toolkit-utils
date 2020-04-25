@@ -9,14 +9,7 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         public static bool IsSexualityTrait(Trait trait)
         {
-            if (!TkSettings.Sexuality)
-            {
-                return false;
-            }
-
-            return trait.def.Equals(TraitDefOf.Gay)
-                   || trait.def.Equals(TraitDefOf.Bisexual)
-                   || trait.def.Equals(TraitDefOf.Asexual);
+            return IsSexualityTrait(trait.def);
         }
 
         public static bool IsSexualityTrait(TraitDef trait)
@@ -26,6 +19,11 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return false;
             }
 
+            if (trait.exclusionTags.Contains("SexualOrientation"))
+            {
+                return true;
+            }
+            
             return trait.Equals(TraitDefOf.Gay)
                    || trait.Equals(TraitDefOf.Bisexual)
                    || trait.Equals(TraitDefOf.Asexual);

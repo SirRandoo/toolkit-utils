@@ -12,6 +12,10 @@
     <TKUtils.Responses.DisabledItem>The requested item is disabled.</TKUtils.Responses.DisabledItem>
     <TKUtils.Responses.ViewerNotFound>{0} is not in this colony.</TKUtils.Responses.ViewerNotFound>
     
+    <TKUtils.Misc.They>they</TKUtils.Misc.They>
+    <TKUtils.Misc.Their>their</TKUtils.Misc.Their>
+    <TKUtils.Misc.Them>them</TKUtils.Misc.Them>
+    
     <!-- Research Translations -->
     <TKUtils.Formats.Research.Prerequisites>Missing prerequisites: {0}</TKUtils.Formats.Research.Prerequisites>
     <TKUtils.Responses.Research.None>The colony is not currently researching anything.</TKUtils.Responses.Research.None>

@@ -1,8 +1,7 @@
 ﻿using RimWorld;
 using RimWorld.Planet;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.PawnQueue;
 using UnityEngine;
 using Verse;
@@ -11,24 +10,19 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class LeaveCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            var pawn = GetOrFindPawn(message.User);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate());
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
                 return;
             }
 
             if (pawn.IsCaravanMember())
             {
-                message.Reply("TKUtils.Responses.Leave.Caravan".Translate());
+                twitchMessage.Reply("TKUtils.Responses.Leave.Caravan".Translate());
                 return;
             }
 
@@ -41,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     Mathf.CeilToInt(pawn.BodySize * 0.6f)
                 ))
             {
-                message.Reply("TKUtils.Responses.Leave.Thanos".Translate());
+                twitchMessage.Reply("TKUtils.Responses.Leave.Thanos".Translate());
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.Letters.Leave.Thanos.Title".Translate(),
                     "TKUtils.Letters.Leave.Thanos.Description".Translate(pawn.LabelShortCap),
@@ -57,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     pawn.Strip();
                 }
 
-                message.Reply("TKUtils.Responses.Leave.Generic".Translate());
+                twitchMessage.Reply("TKUtils.Responses.Leave.Generic".Translate());
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.Letters.Leave.Generic.Title".Translate(),
                     "TKUtils.Letters.Leave.Generic.Description".Translate(pawn.LabelShortCap),
@@ -75,7 +69,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var component = Current.Game.GetComponent<GameComponentPawns>();
-            component?.pawnHistory.Remove(message.User);
+            component?.pawnHistory.Remove(twitchMessage.Username);
         }
     }
 }

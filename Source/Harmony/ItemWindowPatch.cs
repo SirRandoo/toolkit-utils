@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using HarmonyLib;
 using SirRandoo.ToolkitUtils.Utils;
@@ -8,7 +9,8 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(StoreItemsWindow), "PostClose")]
-    public class StoreItemsWindow_PostClose
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class ItemWindowPatch
     {
         [HarmonyPrefix]
         public static void PostClose(List<ThingDef> ___cachedTradeables, List<int> ___tradeablesPrices)

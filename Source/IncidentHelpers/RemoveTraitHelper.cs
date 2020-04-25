@@ -1,13 +1,14 @@
 ﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
-    internal class RemoveTraitHelper : IncidentHelperVariables
+    public class RemoveTraitHelper : IncidentHelperVariables
     {
         private XmlTrait buyable;
         private Pawn pawn;
@@ -23,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Viewer = viewer;
 
-            var query = CommandParser.Parse(message, TkSettings.Prefix).Skip(2).FirstOrDefault();
+            var query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (query.NullOrEmpty())
             {

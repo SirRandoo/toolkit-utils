@@ -1,26 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnStoryCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            var pawn = GetOrFindPawn(message.User);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabCharacter".Translate()));
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabCharacter".Translate()));
                 return;
             }
 
@@ -45,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     parts.Add(isRoyal ? "👑" : "");
                     break;
             }
-
+            
             var workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
 
             if (workTags == WorkTags.None)
@@ -66,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => t.LabelCap.StripTags()).ToArray())}"
             );
 
-            message.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
+            twitchMessage.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
         }
     }
 }

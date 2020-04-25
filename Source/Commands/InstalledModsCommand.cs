@@ -1,21 +1,16 @@
 ﻿using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
+using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
-using TwitchToolkit.IRC;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    public class InstalledModsDriver : CommandBase
+    public class InstalledModsCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            message.Reply(
+            twitchMessage.Reply(
                 (
                     TkSettings.VersionedModList
                         ? GetModListStringVersioned()
@@ -26,14 +21,21 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static string GetModListString()
         {
-            return string.Join(", ", TkUtils.ModListCache.Select(m => m.name).ToArray());
+            return string.Join(
+                ", ",
+                TkUtils.ModListCache
+                    .Select(m => m.name)
+                    .ToArray()
+            );
         }
 
         private static string GetModListStringVersioned()
         {
             return string.Join(
                 ", ",
-                TkUtils.ModListCache.Select(m => $"{TryFavoriteMod(m.name)} (v{m.version ?? "?"})").ToArray()
+                TkUtils.ModListCache
+                    .Select(m => $"{TryFavoriteMod(m.name)} (v{m.version ?? "?"})")
+                    .ToArray()
             );
         }
 

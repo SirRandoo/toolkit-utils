@@ -2,34 +2,29 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Utilities;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnHealthCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            var pawn = GetOrFindPawn(message.User);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabHealth".Translate()));
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabHealth".Translate()));
                 return;
             }
 
-            var segment = CommandParser.Parse(message.Message).Skip(1).FirstOrDefault();
+            var segment = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
 
             if (segment.NullOrEmpty())
             {
-                message.Reply(HealthReport(pawn).WithHeader("TabHealth".Translate()));
+                twitchMessage.Reply(HealthReport(pawn).WithHeader("TabHealth".Translate()));
                 return;
             }
 
@@ -39,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                          || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
                 );
 
-            message.Reply(
+            twitchMessage.Reply(
                 (
                     capacity == null
                         ? HealthReport(pawn)

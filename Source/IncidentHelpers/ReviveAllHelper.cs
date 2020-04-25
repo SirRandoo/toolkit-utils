@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                         && (val = pawn.SpawnedParentOrMe as Pawn) != null
                         && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var _))
                     {
-                        Logger.Warn(
+                        TkLogger.Warn(
                             $"Submit this bug to ToolkitUtils' issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"
                         );
                     }
@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error($"Could not revive {pawn.LabelCap}", ex);
+                    TkLogger.Error($"Could not revive {pawn.LabelCap}", ex);
                 }
             }
 

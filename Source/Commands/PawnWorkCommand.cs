@@ -1,32 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
-using TwitchToolkit.IRC;
+using ToolkitCore.Models;
+using TwitchLib.Client.Interfaces;
+using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class PawnWorkCommand : CommandBase
     {
-        public override void RunCommand(IRCMessage message)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            if (!CommandsHandler.AllowCommand(message))
-            {
-                return;
-            }
-
-            var pawn = GetOrFindPawn(message.User);
+            var pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
-                message.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TKUtils.Headers.Work".Translate()));
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TKUtils.Headers.Work".Translate()));
                 return;
             }
 
             if (pawn.workSettings == null || (!pawn.workSettings?.EverWork ?? true))
             {
-                message.Reply(
+                twitchMessage.Reply(
                     "TKUtils.Responses.PawnWork.None".Translate().WithHeader("TKUtils.Headers.Work".Translate())
                 );
                 return;
@@ -66,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (container.Count > 0)
             {
-                message.Reply(string.Join(", ", container).WithHeader("TKUtils.Headers.Work".Translate()));
+                twitchMessage.Reply(string.Join(", ", container).WithHeader("TKUtils.Headers.Work".Translate()));
             }
         }
     }
