@@ -30,19 +30,17 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Viewer = viewer;
-            var anyPlayerMap = Helper.AnyPlayerMap;
+            map = Helper.AnyPlayerMap;
 
-            if (anyPlayerMap == null)
+            if (map == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".Translate());
                 return false;
             }
 
-            map = anyPlayerMap;
-
             if (!CellFinder.TryFindRandomEdgeCellWith(
-                p => anyPlayerMap.reachability.CanReachColony(p) && !p.Fogged(anyPlayerMap),
-                anyPlayerMap,
+                p => map.reachability.CanReachColony(p) && !p.Fogged(map),
+                map,
                 CellFinder.EdgeRoadChance_Neutral,
                 out loc
             ))

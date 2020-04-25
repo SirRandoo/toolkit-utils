@@ -37,20 +37,20 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
+            pawn = CommandBase.GetOrFindPawn(viewer.username);
 
-            if (viewerPawn == null)
+            if (pawn == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
                 return false;
             }
 
-            var buyable = DefDatabase<ThingDef>.AllDefsListForReading.FirstOrDefault(
+            part = DefDatabase<ThingDef>.AllDefsListForReading.FirstOrDefault(
                 t => t.defName.ToToolkit().EqualsIgnoreCase(partQuery.ToToolkit())
                      || t.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(partQuery.ToToolkit())
             );
 
-            if (buyable == null)
+            if (part == null)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -62,21 +62,21 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             var researched = true;
             var projects = new List<ResearchProjectDef>();
 
-            if (!buyable.recipeMaker?.researchPrerequisite?.IsFinished ?? false)
+            if (!part.recipeMaker?.researchPrerequisite?.IsFinished ?? false)
             {
-                projects.Add(buyable.recipeMaker.researchPrerequisite);
+                projects.Add(part.recipeMaker.researchPrerequisite);
                 researched = false;
             }
 
-            if (buyable.recipeMaker?.researchPrerequisites?.All(p => !p.IsFinished) ?? false)
+            if (part.recipeMaker?.researchPrerequisites?.All(p => !p.IsFinished) ?? false)
             {
-                projects = buyable.recipeMaker.researchPrerequisites;
+                projects = part.recipeMaker.researchPrerequisites;
                 researched = false;
             }
 
-            if (!buyable.IsResearchFinished)
+            if (!part.IsResearchFinished)
             {
-                projects = buyable.researchPrerequisites;
+                projects = part.researchPrerequisites;
                 researched = false;
             }
 
@@ -85,14 +85,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.Responses.Buy.MissingResearch".Translate(
-                        buyable.LabelCap.RawText,
+                        part.LabelCap.RawText,
                         string.Join(", ", projects.Select(p => p.LabelCap).ToArray())
                     )
                 );
                 return false;
             }
 
-            if (buyable.category != ThingCategory.Item)
+            if (part.category != ThingCategory.Item)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -101,7 +101,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (buyable.IsMedicine)
+            if (part.IsMedicine)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -110,9 +110,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var price = StoreInventory.items.FirstOrDefault(i => i.defname.EqualsIgnoreCase(buyable.defName));
+            product = StoreInventory.items.FirstOrDefault(i => i.defname.EqualsIgnoreCase(part.defName));
 
-            if (price == null)
+            if (product == null)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -121,7 +121,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (price.price < 0)
+            if (product.price < 0)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -130,9 +130,20 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            if (viewer.GetViewerCoins() < product.price + storeIncident.cost)
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.NotEnoughCoins".Translate(
+                        product.price + storeIncident.cost,
+                        viewer.GetViewerCoins()
+                    )
+                );
+            }
+
             var recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.IsSurgery).ToList();
             var partRecipes = recipes
-                .Where(r => r.Worker is Recipe_Surgery && r.IsIngredient(buyable))
+                .Where(r => r.Worker is Recipe_Surgery && r.IsIngredient(part))
                 .ToList();
 
             if (!partRecipes.Any())
@@ -155,21 +166,21 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var surgeryParts = worker.GetPartsToApplyOn(viewerPawn, surgery).ToList();
+            var surgeryParts = worker.GetPartsToApplyOn(pawn, surgery).ToList();
             BodyPartRecord shouldAdd = null;
             var lastHealth = 99999f;
 
             foreach (var applied in surgeryParts)
             {
-                if (viewerPawn.health.surgeryBills.Bills.Count > 0
-                    && viewerPawn.health.surgeryBills.Bills.Any(
+                if (pawn.health.surgeryBills.Bills.Count > 0
+                    && pawn.health.surgeryBills.Bills.Any(
                         b => b is Bill_Medical bill && bill.Part == applied
                     ))
                 {
                     continue;
                 }
 
-                var partHealth = HealHelper.GetAverageHealthOfPart(viewerPawn, applied);
+                var partHealth = HealHelper.GetAverageHealthOfPart(pawn, applied);
 
                 if (partHealth > lastHealth)
                 {
@@ -186,18 +197,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var tMap = Current.Game.AnyPlayerHomeMap;
+            map = Current.Game.AnyPlayerHomeMap;
 
-            if (tMap == null)
+            if (map == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".Translate());
                 return false;
             }
 
-            map = tMap;
-            product = price;
-            part = buyable;
-            pawn = viewerPawn;
             toPart = shouldAdd;
 
             return true;
