@@ -135,10 +135,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.Responses.NotEnoughCoins".Translate(
-                        product.price + storeIncident.cost,
-                        viewer.GetViewerCoins()
+                        (product.price + storeIncident.cost).ToString("N0"),
+                        viewer.GetViewerCoins().ToString("N0")
                     )
                 );
+                return false;
             }
 
             var recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.IsSurgery).ToList();
