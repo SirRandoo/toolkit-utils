@@ -129,7 +129,6 @@
     <Compile Include="Harmony\WindowPatches.cs" />
     <Compile Include="Harmony\LookupPatch.cs" />
     <Compile Include="Harmony\ViewerWindowPatch.cs" />
-    <Compile Include="Harmony\WindowPatches.cs" />
     <Compile Include="IncidentHelpers\AddTraitHelper.cs" />
     <Compile Include="IncidentHelpers\BuyPawnHelper.cs" />
     <Compile Include="IncidentHelpers\BuySurgeryHelper.cs" />
