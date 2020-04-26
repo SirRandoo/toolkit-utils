@@ -23,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 return true;
             }
-            
+
             return trait.Equals(TraitDefOf.Gay)
                    || trait.Equals(TraitDefOf.Bisexual)
                    || trait.Equals(TraitDefOf.Asexual);
@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return true;
             }
 
-            return TkSettings.RichText && label.StripTags().ToToolkit().EqualsIgnoreCase(input.StripTags().ToToolkit());
+            return label.StripTags().ToToolkit().EqualsIgnoreCase(input.StripTags().ToToolkit());
         }
 
         public static string ToToolkit(this string t)

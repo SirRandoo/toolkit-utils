@@ -14,7 +14,6 @@ namespace SirRandoo.ToolkitUtils
         public static bool DecorateUtils;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;
-        public static bool RichText = true;
         public static bool Sexuality = true;
         public static bool ShowApparel;
         public static bool ShowArmor = true;
@@ -159,11 +158,6 @@ namespace SirRandoo.ToolkitUtils
         {
             var listing = new Listing_Standard();
             listing.Begin(canvas);
-            listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.CommandTweaks.Unrichify.Label".Translate(),
-                ref RichText,
-                "TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip".Translate()
-            );
 
             listing.CheckboxLabeled(
                 "TKUtils.SettingGroups.CommandTweaks.CoinRate.Label".Translate(),
@@ -256,7 +250,6 @@ namespace SirRandoo.ToolkitUtils
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref RichText, "richText", true);
             Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
             Scribe_Values.Look(ref VersionedModList, "versionedModList");

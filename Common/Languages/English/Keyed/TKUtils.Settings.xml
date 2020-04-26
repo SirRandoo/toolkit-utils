@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
     <!-- Pawn Commands -->
@@ -23,16 +23,6 @@
     
     <!-- Command Tweaks -->
     <TKUtils.SettingGroups.CommandTweaks>Command Tweaks</TKUtils.SettingGroups.CommandTweaks>
-    <TKUtils.SettingGroups.CommandTweaks.Parser.Label>Override Toolkit's command handler.</TKUtils.SettingGroups.CommandTweaks.Parser.Label>
-    <TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>By default, Toolkit looks messages that start with a command. This allows viewers to add flair to commands, like !balloon for !bal. This tweak forces users to use commands as defined, and allows the
-        mod's shortcut commands to function.
-    </TKUtils.SettingGroups.CommandTweaks.Parser.Tooltip>
-    <TKUtils.SettingGroups.CommandTweaks.Unrichify.Label>Unrichify data from RimWorld and viewers.</TKUtils.SettingGroups.CommandTweaks.Unrichify.Label>
-    <TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>By default, Toolkit checks for exact matches on things like traits, including html tags. This tweak filters out html tags when checking for matches so you'll never have to write out tags.
-    </TKUtils.SettingGroups.CommandTweaks.Unrichify.Tooltip>
-    <TKUtils.SettingGroups.CommandTweaks.Prefix.Label>Custom command prefix</TKUtils.SettingGroups.CommandTweaks.Prefix.Label>
-    <TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip>A string all commands must start with before they'll be recognized and processed by the mod. This can be anything, including a sentence, but you should keep it short and simple.
-    </TKUtils.SettingGroups.CommandTweaks.Prefix.Tooltip>
     <TKUtils.SettingGroups.CommandTweaks.CoinRate.Label>Show a viewer's calculated coin rate in the balance command.</TKUtils.SettingGroups.CommandTweaks.CoinRate.Label>
     <TKUTils.SettingGroups.COmmandTweaks.CoinRate.Tooltip>If enabled, Utils will include the amount of coins a viewer earns per interval in the balance command's output (!bal).</TKUTils.SettingGroups.COmmandTweaks.CoinRate.Tooltip>
     
@@ -53,6 +43,4 @@
     <TKUtils.SettingGroups.General.LookupLimit.Tooltip>The maximum number of results that will be displayed in the lookup command (!lookup). A higher value may create walls of text.</TKUtils.SettingGroups.General.LookupLimit.Tooltip>
     <TKUtils.SettingGroups.General.JsonStore.Label>Dump Utils' shop file as json.</TKUtils.SettingGroups.General.JsonStore.Label>
     <TKUtils.SettingGroups.General.JsonStore.Tooltip>If enabled, Utils will dump a copy of its shop file as json for use in whatever.</TKUtils.SettingGroups.General.JsonStore.Tooltip>
-    <TKUtils.SettingGroups.General.ToolkitJson.Label>Modify how Toolkit saves its store items.</TKUtils.SettingGroups.General.ToolkitJson.Label>
-    <TKUtils.SettingGroups.General.ToolkitJson.Tooltip>If enabled, Utils will attempt to fix the lingering comma in Toolkit's StoreItems.json file.</TKUtils.SettingGroups.General.ToolkitJson.Tooltip>
 </LanguageData>
