@@ -38,7 +38,9 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return true;
             }
 
-            return label.StripTags().ToToolkit().EqualsIgnoreCase(input.StripTags().ToToolkit());
+            return Unrichify.StripTags(label)
+                .ToToolkit()
+                .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
         }
 
         public static string ToToolkit(this string t)

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
-using ToolkitCore;
 using TwitchToolkit.Store;
 using TwitchToolkit.Utilities;
 using UnityEngine;
@@ -152,7 +151,9 @@ namespace SirRandoo.ToolkitUtils.Utils
                 var inst = new Trait(def, trait.Degree);
 
                 t.conflicts = def.conflictingTraits
-                    .SelectMany(i => TraitHelper.GetEffectiveTraits(i)?.Select(c => c.Name.StripTags().ToToolkit()))
+                    .SelectMany(
+                        i => TraitHelper.GetEffectiveTraits(i)?.Select(c => Unrichify.StripTags(c.Name).ToToolkit())
+                    )
                     .ToArray();
 
                 var statContainer = new List<string>();
@@ -279,7 +280,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 foreach (var t in TraitHelper.GetEffectiveTraits(trait))
                 {
-                    t.Name = t.Name.StripTags();
+                    t.Name = Unrichify.StripTags(t.Name);
                     t.BypassLimit = TraitHelper.IsSexualityTrait(trait);
 
                     TkUtils.ShopExpansion.Traits.Add(t);
@@ -357,7 +358,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             var traitCount = 0;
             foreach (var trait in TkUtils.ShopExpansion.Traits.Where(trait => trait.Name.Contains('<')))
             {
-                trait.Name = trait.Name.StripTags();
+                trait.Name = Unrichify.StripTags(trait.Name);
                 traitCount += 1;
             }
 
