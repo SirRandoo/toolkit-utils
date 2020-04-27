@@ -6,13 +6,13 @@ nav_order: 6
 
 ## Purge Viewers
 
-![Purge Button in Viewers Window](/assets/viewers-purge.png)
+![Purge Button in Viewers Window]({{- "/assets/viewers/purge.png" | absolute_url -}})
 
 The above image depicts Toolkit's viewer editor window. When ToolkitUtils
 is installed, you'll notice a "purge" button in the top-right corner of
 the window. Clicking this button allows you to open Utils' purge window.
 
-![Purge Window](/assets/viewers-purge_constraints.png)
+![Purge Window]({{- "/assets/viewers/purge_constraints.png" | relative_url -}})
 
 The above image depicts the window shown after the purge button has been
 clicked. This window allows you to set constraints for your purge.
@@ -27,7 +27,7 @@ clicked. This window allows you to set constraints for your purge.
 | is              | This comparison is similar to `=` in that the values must match.                                        |
 | is not          | This comparison is the inverse of `is` in that the values must **not** match.                           |
 
-![Purge Window Review](/assets/viewers-purge_review.png)
+![Purge Window Review]({{- "/assets/viewers/purge_review.png" | relative_url -}})
 
 The above image depicts the window shown after the "purge viewers" button
 has been clicked. This screen allows you to excempt affected viewers from

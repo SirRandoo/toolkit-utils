@@ -11,7 +11,7 @@ layout: default
 
 ### Surgery
 
-Usage: `!buy surgery {part}` OR `!surgery {part}`
+Usage: `!buy surgery {part}`
 
 This evnet allows a viewer to purchase and queue an item from
 the shop for surgery. It's important to note that this command
@@ -29,31 +29,31 @@ the event **and** the archotech leg. It's considered a
 
 ### Passion Shuffle
 
-Usage: `!buy passionshuffle [skill]` OR `!passionshuffle [skill]`
+Usage: `!buy passionshuffle [skill]`
 
 This event allows a viewer to shuffle their pawn's current passions.
 If a viewer specifies a skill, it'll have a guaranteed minor passion.
 
 ### Heal
 
-Usage: `!buy healme` OR `!healme`
+Usage: `!buy healme`
 
 This event is essentially a personal use healer mech serum.
 
 ### Revive
 
-Usage: `!buy reviveme` OR `!reviveme`
+Usage: `!buy reviveme`
 
 This event is essentially a personal resurrector mech serum.
 
 ### Heal All
 
-Usage: `!buy healall` OR `!healall`
+Usage: `!buy healall`
 
 This event is essentially a colony-wide healer mech serum.
 
 ### Revive All
 
-Usage: `!buy reviveall` OR `!reviveall`
+Usage: `!buy reviveall`
 
 This event is essentially a colony-wide resurrector mech serum.

@@ -9,7 +9,7 @@ parent: Settings
 The pawn command settings refer to settings that modify how ToolkitUtils'
 `!mypawn` commands function.
 
-![Pawn Command Settings](/assets/settings-pawn_commands.png)
+![Pawn Command Settings]({{- "/assets/cfg/pawn_commands.png" | relative_url -}})
 
 The above image depicts the current list of pawn command settings that
 can be found in-game in ToolkitUtils' settings menu. Below is an explanation

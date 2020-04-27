@@ -9,7 +9,7 @@ parent: Settings
 The general settings refer to settings that don't have a specific category,
 are too few to group into a new category, or simply fit best in general.
 
-![General Settings](/assets/settings-general.png)
+![General Settings]({{- "/assets/cfg/general.png" | relative_url -}})
 
 The above image depicts the current list of general settings that can be
 found in-game in ToolkitUtils' settings menu. Below is an explanation of
@@ -49,7 +49,7 @@ vanilla RimWorld's traits. Modded content will still count towards the limit.
 ### Pawn Races
 
 This setting allows viewers to specify a race for their pawn. For more
-information about pawn races, please refer to the [race tweak](/tweaks/races)
+information about pawn races, please refer to the [race tweak]({{- "/tweaks/races" | relative_url -}})
 documentation.
 
 ### Lookup Results

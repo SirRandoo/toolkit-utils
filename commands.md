@@ -58,7 +58,7 @@ Usage: `!leave`
 
 This command allows a viewer to leave the colony without having to
 wait until their pawn is killed. For information about the leave
-command's settings, please refer to its [settings](/settings/pawn-commands#leave-method)
+command's settings, please refer to its [settings]({{- "/settings/pawn-commands#leave-method" | relative_url -}})
 documentation. It's important to note that this command does ***not***
 refund any coins spent on a pawn.
 
@@ -68,7 +68,7 @@ Usage: `!mypawngear`
 
 
 This command displays information about a pawn's gear. For information
-about the gear command's settings, please refer to the [pawn commands](/settings/pawn-commands)
+about the gear command's settings, please refer to the [pawn commands]({{- "/settings/pawn-commands" | relative_url -}})
 documentation.
 
 Information displayed includes:
@@ -97,7 +97,7 @@ Usage: `!mypawnwork`
 
 This command displays information about a pawn's current work priorities.
 For information
-about the gear command's settings, please refer to the [pawn commands](/settings/pawn-commands)
+about the gear command's settings, please refer to the [pawn commands]({{- "/settings/pawn-commands" | relative_url -}})
 documentation.
 
 ### Pawn Needs
@@ -124,5 +124,5 @@ displayed when no capacity is given includes:
 - Whether or not the colonist is bleeding out
     - If a colonist is about to bleed out, it'll display the time remaining
 - A list of capacities and their effective working percentage
-- [Queued surgeries](/settings/pawn-commands)
+- [Queued surgeries]({{- "/settings/pawn-commands" | relative_url -}})
     - Disabled by default
