@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -92,6 +93,18 @@ namespace SirRandoo.ToolkitUtils
                     {
                         version = reader.ReadElementContentAsString();
                         reader.Close();
+                    }
+                }
+
+                if (version == null)
+                {
+                    var handle =
+                        LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
+
+                    if (handle != null)
+                    {
+                        version = FileVersionInfo.GetVersionInfo(handle.GetType().Module.Assembly.Location)
+                            .ProductVersion;
                     }
                 }
 
