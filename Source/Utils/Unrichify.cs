@@ -64,8 +64,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (!tagContent.NullOrEmpty())
                 {
-                    container = container.Replace($"<{tagContent}>", "");
-                    container = container.Replace($"</{tag}>", "");
+                    container = container.ReplaceFirst($"<{tagContent}>", "");
+                    container = container.ReplaceFirst($"</{tag}>", "");
                 }
 
                 i++;
