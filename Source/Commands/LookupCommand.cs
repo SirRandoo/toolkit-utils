@@ -12,26 +12,43 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class LookupCommand : CommandBase
     {
+        internal static readonly Dictionary<string, string> Index = new Dictionary<string, string>
+        {
+            {"item", "items"},
+            {"items", "items"},
+            {"incident", "events"},
+            {"incidents", "events"},
+            {"event", "events"},
+            {"events", "events"},
+            {"pawn", "races"},
+            {"pawns", "races"},
+            {"race", "races"},
+            {"races", "races"},
+            {"disease", "diseases"},
+            {"diseases", "diseases"},
+            {"animal", "animals"},
+            {"animals", "animals"},
+            {"skill", "skills"},
+            {"skills", "skills"},
+            {"trait", "traits"},
+            {"traits", "traits"},
+        };
+
         private ITwitchMessage msg;
 
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
             msg = twitchMessage;
             var segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
-            string category;
-            string query;
+            var category = segments.FirstOrFallback("");
+            var query = segments.Skip(1).FirstOrFallback("");
 
-            if (segments.Length == 1)
+            if (!Index.TryGetValue(category.ToLowerInvariant(), out var _))
             {
+                query = category;
                 category = "items";
-                query = segments.FirstOrFallback("");
             }
-            else
-            {
-                category = segments.FirstOrFallback("");
-                query = segments.Skip(1).FirstOrFallback("");
-            }
-            
+
             PerformLookup(category, query);
         }
 
@@ -149,33 +166,34 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformLookup(string category, string query)
         {
-            if (category.EqualsIgnoreCase("disease") || category.EqualsIgnoreCase("diseases"))
+            if (!Index.TryGetValue(category.ToLowerInvariant(), out var result))
             {
-                PerformDiseaseLookup(query);
+                return;
             }
-            else if (category.EqualsIgnoreCase("skill") || category.EqualsIgnoreCase("skills"))
+
+            switch (result)
             {
-                PerformSkillLookup(query);
-            }
-            else if (category.EqualsIgnoreCase("event") || category.EqualsIgnoreCase("events"))
-            {
-                PerformEventLookup(query);
-            }
-            else if (category.EqualsIgnoreCase("item") || category.EqualsIgnoreCase("items"))
-            {
-                PerformItemLookup(query);
-            }
-            else if (category.EqualsIgnoreCase("animal") || category.EqualsIgnoreCase("animals"))
-            {
-                PerformAnimalLookup(query);
-            }
-            else if (category.EqualsIgnoreCase("trait") || category.EqualsIgnoreCase("traits"))
-            {
-                PerformTraitLookup(query);
-            }
-            else if (category.EqualsIgnoreCase("race") || category.EqualsIgnoreCase("races"))
-            {
-                PerformRaceLookup(query);
+                case "diseases":
+                    PerformDiseaseLookup(query);
+                    return;
+                case "skills":
+                    PerformSkillLookup(query);
+                    return;
+                case "events":
+                    PerformEventLookup(query);
+                    return;
+                case "items":
+                    PerformItemLookup(query);
+                    return;
+                case "animals":
+                    PerformAnimalLookup(query);
+                    return;
+                case "traits":
+                    PerformTraitLookup(query);
+                    return;
+                case "races":
+                    PerformRaceLookup(query);
+                    return;
             }
         }
 

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
 using ToolkitCore.Utilities;
-using TwitchLib.Client.Interfaces;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -19,23 +17,24 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             msg = twitchMessage;
             var segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
-            string category;
-            string query;
-            string quantity;
+            var category = segments.FirstOrFallback("");
+            var query = segments.Skip(1).FirstOrFallback("");
+            var quantity = segments.Skip(2).FirstOrFallback("1");
 
-            if (segments.Length == 1)
+            if (!LookupCommand.Index.TryGetValue(category.ToLowerInvariant(), out var result))
             {
                 category = "items";
-                query = segments.FirstOrFallback("");
+                query = quantity;
                 quantity = "1";
             }
-            else
+
+            if (result != null && (result.Equals("diseases") || result.Equals("skills")))
             {
-                category = segments.FirstOrFallback("");
-                query = segments.Skip(1).FirstOrFallback("");
-                quantity = segments.Skip(2).FirstOrFallback("1");
+                category = "items";
+                query = quantity;
+                quantity = "1";
             }
-            
+
             PerformLookup(category, query, quantity);
         }
 
@@ -131,25 +130,28 @@ namespace SirRandoo.ToolkitUtils.Commands
                 quantity = 1;
             }
 
-            if (category.EqualsIgnoreCase("event") || category.EqualsIgnoreCase("events"))
+            if (!LookupCommand.Index.TryGetValue(category.ToLowerInvariant(), out var result))
             {
-                PerformEventLookup(query);
+                return;
             }
-            else if (category.EqualsIgnoreCase("item") || category.EqualsIgnoreCase("items"))
+
+            switch (result)
             {
-                PerformItemLookup(query, quantity);
-            }
-            else if (category.EqualsIgnoreCase("animal") || category.EqualsIgnoreCase("animals"))
-            {
-                PerformAnimalLookup(query, quantity);
-            }
-            else if (category.EqualsIgnoreCase("trait") || category.EqualsIgnoreCase("traits"))
-            {
-                PerformTraitLookup(query);
-            }
-            else if (category.EqualsIgnoreCase("race") || category.EqualsIgnoreCase("races"))
-            {
-                PerformRaceLookup(query);
+                case "events":
+                    PerformEventLookup(query);
+                    return;
+                case "items":
+                    PerformItemLookup(query, quantity);
+                    return;
+                case "animals":
+                    PerformAnimalLookup(query, quantity);
+                    return;
+                case "traits":
+                    PerformTraitLookup(query);
+                    return;
+                case "races":
+                    PerformRaceLookup(query);
+                    return;
             }
         }
 
