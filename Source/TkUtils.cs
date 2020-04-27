@@ -81,28 +81,17 @@ namespace SirRandoo.ToolkitUtils
 
                 string version = null;
                 string steamId = null;
+                var manifestFile = Path.Combine(mod.RootDir.ToString(), "About/Manifest.xml");
 
-                var handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
-
-                if (handle != null)
+                if (File.Exists(manifestFile))
                 {
-                    version = handle.GetType().Module.Assembly.GetName().Version.ToString();
-                }
+                    using var reader = new XmlTextReader(manifestFile);
+                    reader.ReadToFollowing("version");
 
-                if (version == null)
-                {
-                    var manifestFile = Path.Combine(mod.RootDir.ToString(), "About/Manifest.xml");
-
-                    if (File.Exists(manifestFile))
+                    if (reader.Name.Equals("version"))
                     {
-                        using var reader = new XmlTextReader(manifestFile);
-                        reader.ReadToFollowing("version");
-
-                        if (reader.Name.Equals("version"))
-                        {
-                            version = reader.ReadElementContentAsString();
-                            reader.Close();
-                        }
+                        version = reader.ReadElementContentAsString();
+                        reader.Close();
                     }
                 }
 
