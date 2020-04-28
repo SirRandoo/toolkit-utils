@@ -23,16 +23,16 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!LookupCommand.Index.TryGetValue(category.ToLowerInvariant(), out var result))
             {
+                quantity = query;
+                query = category;
                 category = "items";
-                query = quantity;
-                quantity = "1";
             }
 
             if (result != null && (result.Equals("diseases") || result.Equals("skills")))
             {
+                quantity = query;
+                query = category;
                 category = "items";
-                query = quantity;
-                quantity = "1";
             }
 
             PerformLookup(category, query, quantity);
