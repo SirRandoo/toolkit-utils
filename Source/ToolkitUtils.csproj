@@ -121,11 +121,11 @@
     <Compile Include="Commands\PriceCheckCommand.cs" />
     <Compile Include="Commands\ResearchCommand.cs" />
     <Compile Include="Commands\UnstickCommand.cs" />
+    <Compile Include="Harmony\IncidentEditorPatches.cs"/>
     <Compile Include="Harmony\PawnCommandsPatch.cs" />
     <Compile Include="Harmony\StorePatch.cs" />
     <Compile Include="Harmony\ItemWindowPatch.cs" />
     <Compile Include="Harmony\CommandEditorPatch.cs" />
-    <Compile Include="Harmony\WindowPatches.cs" />
     <Compile Include="Harmony\LookupPatch.cs" />
     <Compile Include="Harmony\ViewerWindowPatch.cs" />
     <Compile Include="IncidentHelpers\AddTraitHelper.cs" />
@@ -154,18 +154,19 @@
     <Compile Include="Utils\Constraints\TimeConstraint.cs" />
     <Compile Include="Utils\Constraints\ComparableConstraint.cs" />
     <Compile Include="Utils\Constraints\ConstraintBase.cs" />
-    <Compile Include="Utils\Constraints\VipConstraint.cs" />
-    <Compile Include="Utils\HealHelper.cs" />
-    <Compile Include="Utils\MessageHelper.cs" />
+    <Compile Include="Utils\Constraints\VipConstraint.cs"/>
+    <Compile Include="Utils\HealHelper.cs"/>
+    <Compile Include="Utils\MessageHelper.cs"/>
     <Compile Include="Utils\SettingsHelper.cs"/>
-    <Compile Include="Utils\ShopExpansion.cs" />
-    <Compile Include="Utils\Unrichify.cs" />
-    <Compile Include="Utils\TraitHelper.cs" />
-    <Compile Include="Windows\NoticeWindow.cs" />
-    <Compile Include="Windows\PurgeViewersDialog.cs" />
-    <Compile Include="Windows\RaceConfigDialog.cs" />
+    <Compile Include="Utils\ShopExpansion.cs"/>
+    <Compile Include="Utils\Unrichify.cs"/>
+    <Compile Include="Utils\TraitHelper.cs"/>
+    <Compile Include="Windows\NoticeWindow.cs"/>
+    <Compile Include="Windows\PurgeViewersDialog.cs"/>
+    <Compile Include="Windows\RaceConfigDialog.cs"/>
     <Compile Include="Windows\StoreDialog.cs"/>
-    <Compile Include="Windows\TraitConfigDialog.cs" />
+    <Compile Include="Windows\StoreIncidentEditor.cs"/>
+    <Compile Include="Windows\TraitConfigDialog.cs"/>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\About\About.xml">
