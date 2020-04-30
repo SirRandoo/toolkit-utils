@@ -34,7 +34,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        /// <inheritdoc />
         public override void PreClose()
         {
             base.PreClose();
