@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     parts.Add(isRoyal ? "👑" : "");
                     break;
             }
-            
+
             var workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
 
             if (workTags == WorkTags.None)
@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             parts.Add(
-                $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => t.LabelCap.StripTags()).ToArray())}"
+                $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => Unrichify.StripTags(t.LabelCap)).ToArray())}"
             );
 
             twitchMessage.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
