@@ -10,6 +10,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private readonly List<XmlRace> cache = TkUtils.ShopExpansion.Races;
         private string currentQuery = "";
+        private int globalCost;
         private string lastQuery = "";
         private IReadOnlyCollection<XmlRace> results;
         private Vector2 scrollPos = Vector2.zero;
@@ -30,54 +31,54 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override Vector2 InitialSize => new Vector2(640f, 740f);
 
-        public override void DoWindowContents(Rect inRect)
+        private void DrawHeader(Rect inRect)
         {
-            var listing = new Listing_Standard {maxOneColumn = true};
-            var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f - 28f, Text.LineHeight);
+            var midpoint = inRect.width / 2f;
+            var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f, Text.LineHeight);
+            var searchLabel = searchRect.LeftHalf();
+            var searchField = searchRect.RightHalf();
 
-            currentQuery = Widgets.TextEntryLabeled(
-                searchRect,
-                "TKUtils.Windows.Config.Buttons.Search.Label".Translate(),
-                currentQuery
-            );
+            Widgets.Label(searchLabel, "TKUtils.Windows.Config.Buttons.Search.Label".Translate());
+            currentQuery = Widgets.TextField(searchField, currentQuery);
 
-            var old = Text.Anchor;
-            Text.Anchor = TextAnchor.MiddleCenter;
-
-            if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(searchRect))
+            if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(searchField))
             {
                 currentQuery = "";
             }
 
-            if (currentQuery == "")
+            if (currentQuery.NullOrEmpty())
             {
                 results = null;
                 lastQuery = "";
             }
 
-            Text.Anchor = old;
+
             var enableText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
             var disableText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
-            var enableSize = Text.CalcSize(enableText);
-            var disableSize = Text.CalcSize(disableText);
-            var disableRect = new Rect(
-                inRect.width - disableSize.x * 1.5f,
-                inRect.y,
-                disableSize.x * 1.5f,
-                Text.LineHeight
-            );
-            var enableRect = new Rect(
-                inRect.width - disableSize.x * 1.5f - enableSize.x * 1.5f,
-                inRect.y,
-                enableSize.x * 1.5f,
-                Text.LineHeight
-            );
+            var applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
+            var enableSize = Text.CalcSize(enableText) * 1.5f;
+            var disableSize = Text.CalcSize(disableText) * 1.5f;
+            var maxWidth = Mathf.Max(enableSize.x, disableSize.x);
+            var disableRect = new Rect(midpoint, inRect.y + Text.LineHeight, maxWidth, Text.LineHeight);
+            var enableRect = new Rect(midpoint, inRect.y, maxWidth, Text.LineHeight);
 
-            if (Widgets.ButtonText(enableRect, enableText))
+            if (Widgets.ButtonText(enableRect, globalCost > 0 ? applyText : enableText))
             {
                 foreach (var race in TkUtils.ShopExpansion.Races)
                 {
-                    race.Enabled = true;
+                    if (globalCost > 0)
+                    {
+                        race.Price = globalCost;
+                    }
+                    else
+                    {
+                        race.Enabled = true;
+                    }
+                }
+
+                if (globalCost > 0)
+                {
+                    globalCost = 0;
                 }
             }
 
@@ -89,11 +90,34 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 2f, inRect.width);
+
+            var globalCostRect = new Rect(
+                enableRect.x + enableRect.width + 5f,
+                enableRect.y,
+                midpoint - enableRect.width - 5f,
+                Text.LineHeight
+            );
+
+            var globalAddBuffer = globalCost.ToString();
+            Widgets.Label(globalCostRect.LeftHalf(), "TKUtils.Windows.Config.Input.Price.Label".Translate());
+            Widgets.TextFieldNumeric(globalCostRect.RightHalf(), ref globalCost, ref globalAddBuffer);
+
+            if (globalCost > 0 && SettingsHelper.DrawClearButton(globalCostRect.RightHalf()))
+            {
+                globalCost = 0;
+            }
+        }
+
+        public override void DoWindowContents(Rect inRect)
+        {
+            var listing = new Listing_Standard {maxOneColumn = true};
+
+            DrawHeader(inRect);
+            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 3f, inRect.width);
 
             var contentArea = new Rect(
                 inRect.x,
-                Text.LineHeight * 3f,
+                Text.LineHeight * 4f,
                 inRect.width,
                 inRect.height - Text.LineHeight * 3f
             );

@@ -10,6 +10,8 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private readonly List<XmlTrait> cache = TkUtils.ShopExpansion.Traits;
         private string currentQuery = "";
+        private int globalAddCost;
+        private int globalRemoveCost;
         private string lastQuery = "";
         private IReadOnlyCollection<XmlTrait> results;
         private Vector2 scrollPos = Vector2.zero;
@@ -17,6 +19,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         public TraitConfigDialog()
         {
             doCloseX = true;
+            globalRemoveCost = 0;
             forcePause = true;
 
             optionalTitle = "TKUtils.Windows.Traits.Title".Translate();
@@ -28,78 +31,129 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        public override Vector2 InitialSize => new Vector2(640f, 740f);
+        public override Vector2 InitialSize => new Vector2(640f, Screen.height * 0.85f);
 
-        public override void DoWindowContents(Rect inRect)
+        private void DrawHeader(Rect inRect)
         {
-            var listing = new Listing_Standard {maxOneColumn = true};
+            var midpoint = inRect.width / 2f;
             var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f, Text.LineHeight);
+            var searchLabel = searchRect.LeftHalf();
+            var searchField = searchRect.RightHalf();
 
-            currentQuery = Widgets.TextEntryLabeled(
-                searchRect,
-                "TKUtils.Windows.Config.Buttons.Search.Label".Translate(),
-                currentQuery
-            );
+            Widgets.Label(searchLabel, "TKUtils.Windows.Config.Buttons.Search.Label".Translate());
+            currentQuery = Widgets.TextField(searchField, currentQuery);
 
-            var old = Text.Anchor;
-            Text.Anchor = TextAnchor.MiddleCenter;
-
-            if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(searchRect))
+            if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(searchField))
             {
                 currentQuery = "";
             }
 
-            if (currentQuery == "")
+            if (currentQuery.NullOrEmpty())
             {
                 results = null;
                 lastQuery = "";
             }
 
-            Text.Anchor = old;
+
             var enableText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
             var disableText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
-            var enableSize = Text.CalcSize(enableText);
-            var disableSize = Text.CalcSize(disableText);
-            var disableRect = new Rect(
-                inRect.width - disableSize.x * 1.5f,
-                inRect.y,
-                disableSize.x * 1.5f,
-                Text.LineHeight
-            );
-            var enableRect = new Rect(
-                inRect.width - disableSize.x * 1.5f - enableSize.x * 1.5f,
-                inRect.y,
-                enableSize.x * 1.5f,
-                Text.LineHeight
-            );
+            var applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
+            var enableSize = Text.CalcSize(enableText) * 1.5f;
+            var disableSize = Text.CalcSize(disableText) * 1.5f;
+            var maxWidth = Mathf.Max(enableSize.x, disableSize.x);
+            var disableRect = new Rect(midpoint, inRect.y + Text.LineHeight, maxWidth, Text.LineHeight);
+            var enableRect = new Rect(midpoint, inRect.y, maxWidth, Text.LineHeight);
 
-            if (Widgets.ButtonText(enableRect, enableText))
+            if (Widgets.ButtonText(enableRect, globalAddCost > 0 ? applyText : enableText))
             {
                 foreach (var trait in TkUtils.ShopExpansion.Traits)
                 {
-                    trait.CanAdd = true;
-                    trait.CanRemove = true;
+                    if (globalAddCost > 0)
+                    {
+                        trait.AddPrice = globalAddCost;
+                    }
+                    else
+                    {
+                        trait.CanAdd = true;
+                        trait.CanRemove = true;
+                    }
+                }
+
+                if (globalAddCost > 0)
+                {
+                    globalAddCost = 0;
                 }
             }
 
-            if (Widgets.ButtonText(disableRect, disableText))
+            if (Widgets.ButtonText(disableRect, globalRemoveCost > 0 ? applyText : disableText))
             {
                 foreach (var trait in TkUtils.ShopExpansion.Traits)
                 {
-                    trait.CanAdd = false;
-                    trait.CanRemove = false;
+                    if (globalRemoveCost > 0)
+                    {
+                        trait.RemovePrice = globalRemoveCost;
+                    }
+                    else
+                    {
+                        trait.CanAdd = false;
+                        trait.CanRemove = false;
+                    }
+                }
+
+                if (globalRemoveCost > 0)
+                {
+                    globalRemoveCost = 0;
                 }
             }
 
-            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 2f, inRect.width);
+
+            var globalAddRect = new Rect(
+                enableRect.x + enableRect.width + 5f,
+                enableRect.y,
+                midpoint - enableRect.width - 5f,
+                Text.LineHeight
+            );
+            var globalRemoveRect = new Rect(
+                disableRect.x + disableRect.width + 5f,
+                disableRect.y,
+                midpoint - disableRect.width - 5f,
+                Text.LineHeight
+            );
+
+            var globalAddBuffer = globalAddCost.ToString();
+            Widgets.Label(globalAddRect.LeftHalf(), "TKUtils.Windows.Traits.AddPrice.Label".Translate());
+            Widgets.TextFieldNumeric(globalAddRect.RightHalf(), ref globalAddCost, ref globalAddBuffer);
+
+            if (globalAddCost > 0 && SettingsHelper.DrawClearButton(globalAddRect.RightHalf()))
+            {
+                globalAddCost = 0;
+            }
+
+            var globalRemoveBuffer = globalRemoveCost.ToString();
+            Widgets.Label(globalRemoveRect.LeftHalf(), "TKUtils.Windows.Traits.RemovePrice.Label".Translate());
+            Widgets.TextFieldNumeric(globalRemoveRect.RightHalf(), ref globalRemoveCost, ref globalRemoveBuffer);
+
+            if (globalRemoveCost > 0 && SettingsHelper.DrawClearButton(globalRemoveRect.RightHalf()))
+            {
+                globalRemoveCost = 0;
+            }
+        }
+
+        public override void DoWindowContents(Rect inRect)
+        {
+            var listing = new Listing_Standard {maxOneColumn = true};
+
+            DrawHeader(inRect);
+            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 3f, inRect.width);
 
             var contentArea = new Rect(
                 inRect.x,
-                Text.LineHeight * 3f,
+                Text.LineHeight * 4f,
                 inRect.width,
                 inRect.height - Text.LineHeight * 3f
             );
 
+            var old = Text.Anchor;
             var total = results?.Count ?? cache.Count;
             var maxHeight = Text.LineHeight * total * 3 - 1;
             var viewPort = new Rect(contentArea.x, 0f, contentArea.width * 0.9f, maxHeight);
