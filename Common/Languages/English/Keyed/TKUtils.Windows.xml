@@ -43,6 +43,18 @@
     <TKUtils.Windows.Purge.Constraints.Mod>Not modded</TKUtils.Windows.Purge.Constraints.Mod>
     <TKUtils.Windows.Purge.Constraints.Name>Username</TKUtils.Windows.Purge.Constraints.Name>
     
+    <!-- Incident Editor Translations -->
+    <TKUtils.Windows.IncidentEditor.Code>Purchase Code</TKUtils.Windows.IncidentEditor.Code>
+    <TKUtils.Windows.IncidentEditor.Cost>Cost</TKUtils.Windows.IncidentEditor.Cost>
+    <TKUtils.Windows.IncidentEditor.Times>Max times per {0} in-game day(s)</TKUtils.Windows.IncidentEditor.Times>
+    <TKUtils.Windows.IncidentEditor.Wager>Maximum coin wager</TKUtils.Windows.IncidentEditor.Wager>
+    <TKUtils.Windows.IncidentEditor.Karma>Karma type</TKUtils.Windows.IncidentEditor.Karma>
+    <TKUtils.Windows.IncidentEditor.Disable>Disable</TKUtils.Windows.IncidentEditor.Disable>
+    <TKUtils.Windows.IncidentEditor.Reset>Reset</TKUtils.Windows.IncidentEditor.Reset>
+    <TKUtils.Windows.IncidentEditor.Settings>Settings</TKUtils.Windows.IncidentEditor.Settings>
+    <TKUtils.Windows.IncidentEditor.Items>Edit item prices</TKUtils.Windows.IncidentEditor.Items>
+    <TKUtils.Windows.IncidentEditor.Traits>Edit trait prices</TKUtils.Windows.IncidentEditor.Traits>
+    <TKUtils.Windows.IncidentEditor.Races>Edit race prices</TKUtils.Windows.IncidentEditor.Races>
     
     <!-- Config Translations -->
     <TKUtils.Windows.Store.Title>Store Inventory</TKUtils.Windows.Store.Title>
