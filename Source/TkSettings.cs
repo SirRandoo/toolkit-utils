@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
@@ -126,15 +127,9 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.SettingGroups.General.Race.Tooltip".Translate()
             );
 
-            var buffer = LookupLimit.ToString();
             var line = listing.GetRect(Text.LineHeight);
-            var labelRect = new Rect(line.x, line.y, line.width * 0.85f, line.height);
-            var entryRect = new Rect(
-                line.x + labelRect.width + 5f,
-                line.y,
-                line.width - labelRect.width - 5f,
-                line.height
-            );
+            var (labelRect, entryRect) = line.ToForm();
+            var buffer = LookupLimit.ToString();
 
             Widgets.Label(labelRect, "TKUtils.SettingGroups.General.LookupLimit.Label".Translate());
             Widgets.TextFieldNumeric(entryRect, ref LookupLimit, ref buffer);
@@ -216,20 +211,11 @@ namespace SirRandoo.ToolkitUtils
             );
 
             listing.Gap();
-            var leaveRect = listing.GetRect(Text.LineHeight);
-            var leaveLabelRect = new Rect(leaveRect.x, leaveRect.y, leaveRect.width * 0.85f, leaveRect.height);
 
+            var (leaveLabelRect, leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
             Widgets.Label(leaveLabelRect, "TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label".Translate());
 
-            if (Widgets.ButtonText(
-                new Rect(
-                    leaveRect.x + leaveLabelRect.width + 5f,
-                    leaveRect.y,
-                    leaveRect.width - leaveLabelRect.width - 5f,
-                    leaveRect.height
-                ),
-                LeaveMethod
-            ))
+            if (Widgets.ButtonText(leaveRect, LeaveMethod))
             {
                 Find.WindowStack.Add(
                     new FloatMenu(leaveMethods.Select(o => new FloatMenuOption(o, () => LeaveMethod = o)).ToList())

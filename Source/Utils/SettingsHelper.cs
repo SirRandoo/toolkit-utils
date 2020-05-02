@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -19,6 +20,16 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             GUI.FocusControl(null);
             return true;
+        }
+
+        public static Tuple<Rect, Rect> ToForm(this Rect region)
+        {
+            var left = new Rect(region.x, region.y, region.width * 0.7f - 2f, region.height);
+
+            return new Tuple<Rect, Rect>(
+                left,
+                new Rect(left.x + left.width + 2f, left.y, region.width - left.width - 2f, left.height)
+            );
         }
     }
 }
