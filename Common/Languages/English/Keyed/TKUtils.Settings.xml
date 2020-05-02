@@ -24,7 +24,7 @@
     <!-- Command Tweaks -->
     <TKUtils.SettingGroups.CommandTweaks>Command Tweaks</TKUtils.SettingGroups.CommandTweaks>
     <TKUtils.SettingGroups.CommandTweaks.CoinRate.Label>Show a viewer's calculated coin rate in the balance command.</TKUtils.SettingGroups.CommandTweaks.CoinRate.Label>
-    <TKUTils.SettingGroups.CommandTweaks.CoinRate.Tooltip>If enabled, Utils will include the amount of coins a viewer earns per interval in the balance command's output (!bal).</TKUTils.SettingGroups.CommandTweaks.CoinRate.Tooltip>
+    <TKUtils.SettingGroups.CommandTweaks.CoinRate.Tooltip>If enabled, Utils will include the amount of coins a viewer earns per interval in the balance command's output (!bal).</TKUtils.SettingGroups.CommandTweaks.CoinRate.Tooltip>
     
     <!-- General -->
     <TKUtils.SettingGroups.General>General</TKUtils.SettingGroups.General>
