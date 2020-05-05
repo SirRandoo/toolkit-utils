@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using HarmonyLib;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Windows;
@@ -31,11 +30,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     continue;
                 }
 
-                foreach (var race in TkUtils.ShopExpansion.Races.Where(race => race.DefName.Equals(t.defName)))
-                {
-                    race.Price = price;
-                    ___tradeablesPrices[i] = -10;
-                }
+                ___tradeablesPrices[i] = -10;
 
                 ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
             }
