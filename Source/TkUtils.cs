@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using SirRandoo.ToolkitUtils.Utils;
+using TwitchToolkit.Incidents;
 using TwitchToolkit.Settings;
 using UnityEngine;
 using Verse;
@@ -51,6 +52,17 @@ namespace SirRandoo.ToolkitUtils
             ShopExpansionHelper.DumpCommands();
             ShopExpansionHelper.DumpModList();
             ShopExpansionHelper.DumpShopExpansion();
+
+            var incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
+
+            foreach (var incident in incidents.Where(
+                i => i.defName == "BuyPawn"
+                     || i.defName == "AddTrait"
+                     || i.defName == "RemoveTrait"
+            ))
+            {
+                incident.cost = 1;
+            }
         }
     }
 
