@@ -69,7 +69,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="TwitchToolkit, Version=2.0.10.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\workshop\content\294100\2019162052\v1.1\Assemblies\TwitchToolkit.dll</HintPath>
+      <HintPath>..\..\..\..\..\workshop\content\294100\1718525787\v1.1\Assemblies\TwitchToolkit.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
