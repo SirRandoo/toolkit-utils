@@ -20,6 +20,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
                      || i.defName == "RemoveTrait"
             ))
             {
+                if (incident.cost <= 1)
+                {
+                    continue;
+                }
+
                 incident.cost = 1;
             }
         }
