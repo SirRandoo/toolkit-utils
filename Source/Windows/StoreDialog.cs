@@ -410,7 +410,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Store_ItemEditor.FindItemsNotInList();
         }
 
-        private static int CalculateToolkitPrice(float basePrice)
+        public static int CalculateToolkitPrice(float basePrice)
         {
             return Math.Max(1, Convert.ToInt32(basePrice * 10.0f / 6.0f));
         }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
-using TwitchToolkit.Store;
+using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Utilities;
 using UnityEngine;
 using Verse;
@@ -316,23 +316,9 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             foreach (var race in missingRaces)
             {
-                var raceName = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race))?.race.label ?? race;
-                var price = 2500;
-
-                try
-                {
-                    var item = StoreInventory.items.FirstOrDefault(i => i.defname.Equals(race));
-
-                    if (item != null && item.price >= 0)
-                    {
-                        price = item.price;
-                        item.price = -10;
-                    }
-                }
-                catch (Exception)
-                {
-                    TkLogger.Warn($"Could not update race prices from Toolkit's store for race \"{raceName}\".");
-                }
+                var raceDef = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race));
+                var raceName = raceDef?.race.label ?? race;
+                var price = raceDef != null ? StoreDialog.CalculateToolkitPrice(raceDef.race.BaseMarketValue) : 3500;
 
                 TkUtils.ShopExpansion.Races.Add(
                     new XmlRace {DefName = race, Name = raceName, Price = price, Enabled = true}
