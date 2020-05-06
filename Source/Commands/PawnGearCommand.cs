@@ -2,6 +2,7 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchLib.Client.Models.Interfaces;
 using UnityEngine;
 using Verse;
@@ -19,7 +20,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabGear".Translate()));
                 return;
             }
-            
+
             twitchMessage.Reply(GetPawnGear(pawn).WithHeader("TabGear".Translate()));
         }
 
@@ -81,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     stats.Add($"{"🔥".AltText("ArmorHeat".Translate().RawText)}{heat.ToStringPercent()}");
                 }
 
-                if(stats.Any())
+                if (stats.Any())
                 {
                     parts.Add($"{"OverallArmor".Translate().RawText}: {string.Join(", ", stats.ToArray())}");
                 }
@@ -89,13 +90,92 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (TkSettings.ShowWeapon)
             {
-                var e = pawn.equipment;
+                var sidearms = SimpleSidearms.GetSidearms(pawn)?.ToList();
+                var weapons = new List<string>();
+                var equipment = pawn.equipment?.AllEquipmentListForReading ?? new List<ThingWithComps>();
+                var equipmentCount = equipment.Count;
+                var inventory = pawn.inventory.innerContainer.InnerListForReading ?? new List<Thing>();
+                var usedInventory = new List<Thing>();
 
-                if (e != null && e.AllEquipmentListForReading?.Count > 0)
+                if (sidearms?.Any() ?? false)
                 {
-                    var equip = e.AllEquipmentListForReading.Select(eq => eq.LabelCap);
+                    var loops = 0;
+                    var equipmentUsed = false;
+                    sidearms.ForEach(t => TkLogger.Info(t.ToString()));
 
-                    parts.Add($"{"Stat_Weapon_Name".Translate().RawText}: {string.Join(", ", equip.ToArray())}");
+                    while (sidearms.Any())
+                    {
+                        var sidearm = sidearms.Take(1).FirstOrDefault();
+
+                        if (sidearm == null)
+                        {
+                            continue;
+                        }
+
+                        if (equipmentCount > 0 && !equipmentUsed)
+                        {
+                            foreach (var equip in equipment.Where(
+                                equip => sidearm.def.defName.Equals(equip.def.defName)
+                            ))
+                            {
+                                weapons.Insert(0, equip.LabelCap);
+                                equipmentUsed = true;
+                            }
+
+                            if (equipmentUsed)
+                            {
+                                sidearms.Remove(sidearm);
+                                continue;
+                            }
+                        }
+
+                        foreach (var thing in inventory.Where(
+                            thing => sidearm.def.defName.Equals(thing.def.defName)
+                        ))
+                        {
+                            if (usedInventory.Contains(thing))
+                            {
+                                continue;
+                            }
+
+                            weapons.Add(thing.LabelCap);
+                            usedInventory.Add(thing);
+                            sidearms.Remove(sidearm);
+                            break;
+                        }
+
+                        loops++;
+
+                        if (loops >= 50)
+                        {
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    var e = pawn.equipment;
+
+                    if (e != null && e.AllEquipmentListForReading?.Count > 0)
+                    {
+                        var equip = e.AllEquipmentListForReading.Select(eq => eq.LabelCap);
+
+                        weapons.AddRange(equip);
+                    }
+                }
+
+                if (weapons.Any())
+                {
+                    var section = "Stat_Weapon_Name".Translate().RawText;
+
+                    if (weapons.Count > 1)
+                    {
+                        section = Find.ActiveLanguageWorker.Pluralize(section);
+                    }
+
+                    parts.Add(
+                        $"{section}: {string.Join(", ", weapons.ToArray())}"
+                    );
                 }
             }
 
@@ -117,8 +197,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 $"{"Apparel".Translate().RawText}: {string.Join(", ", apparel.Select(item => item.LabelCap).ToArray())}"
             );
 
-            return !parts.Any() 
-                ? "None".Translate().RawText 
+            return !parts.Any()
+                ? "None".Translate().RawText
                 : string.Join("⎮", parts.ToArray());
         }
     }

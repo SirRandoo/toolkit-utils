@@ -102,15 +102,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandExtension.cs" />
-    <Compile Include="Commands\BalanceCommand.cs" />
-    <Compile Include="Commands\FactionsCommand.cs" />
-    <Compile Include="Commands\InstalledModsCommand.cs" />
-    <Compile Include="Commands\InsultCommand.cs" />
-    <Compile Include="Commands\LeaveCommand.cs" />
-    <Compile Include="Commands\LookupCommand.cs" />
-    <Compile Include="Commands\PawnBodyCommand.cs" />
-    <Compile Include="Commands\PawnFixAllCommand.cs" />
+    <Compile Include="CommandExtension.cs"/>
+    <Compile Include="Commands\BalanceCommand.cs"/>
+    <Compile Include="Commands\FactionsCommand.cs"/>
+    <Compile Include="Commands\InstalledModsCommand.cs"/>
+    <Compile Include="Commands\InsultCommand.cs"/>
+    <Compile Include="Commands\LeaveCommand.cs"/>
+    <Compile Include="Commands\LookupCommand.cs"/>
+    <Compile Include="Commands\PawnBodyCommand.cs"/>
+    <Compile Include="Commands\PawnFixAllCommand.cs"/>
     <Compile Include="Commands\PawnFixCommand.cs"/>
     <Compile Include="Commands\PawnGearCommand.cs"/>
     <Compile Include="Commands\PawnHealthCommand.cs"/>
@@ -124,6 +124,7 @@
     <Compile Include="Harmony\BuyPatch.cs"/>
     <Compile Include="Harmony\IncidentEditorPatches.cs"/>
     <Compile Include="Harmony\PawnCommandsPatch.cs"/>
+    <Compile Include="Harmony\StoreIncidentEditorPatch.cs"/>
     <Compile Include="Harmony\StorePatch.cs"/>
     <Compile Include="Harmony\ItemWindowPatch.cs"/>
     <Compile Include="Harmony\CommandEditorPatch.cs"/>
@@ -133,18 +134,18 @@
     <Compile Include="IncidentHelpers\BuyPawnHelper.cs"/>
     <Compile Include="IncidentHelpers\BuySurgeryHelper.cs"/>
     <Compile Include="IncidentHelpers\HealAllHelper.cs"/>
-    <Compile Include="IncidentHelpers\HealMeHelper.cs" />
-    <Compile Include="IncidentHelpers\PassionShuffleHelper.cs" />
-    <Compile Include="IncidentHelpers\RemoveTraitHelper.cs" />
-    <Compile Include="IncidentHelpers\ReviveAllHelper.cs" />
-    <Compile Include="IncidentHelpers\ReviveMeHelper.cs" />
-    <Compile Include="TkAddonMenu.cs" />
-    <Compile Include="TkLogger.cs" />
-    <Compile Include="TkSettings.cs" />
-    <Compile Include="TkUtils.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TkUtilsWindow.cs" />
-    <Compile Include="Utils\CommandBase.cs" />
+    <Compile Include="IncidentHelpers\HealMeHelper.cs"/>
+    <Compile Include="IncidentHelpers\PassionShuffleHelper.cs"/>
+    <Compile Include="IncidentHelpers\RemoveTraitHelper.cs"/>
+    <Compile Include="IncidentHelpers\ReviveAllHelper.cs"/>
+    <Compile Include="IncidentHelpers\ReviveMeHelper.cs"/>
+    <Compile Include="TkAddonMenu.cs"/>
+    <Compile Include="TkLogger.cs"/>
+    <Compile Include="TkSettings.cs"/>
+    <Compile Include="TkUtils.cs"/>
+    <Compile Include="Properties\AssemblyInfo.cs"/>
+    <Compile Include="TkUtilsWindow.cs"/>
+    <Compile Include="Utils\CommandBase.cs"/>
     <Compile Include="Utils\CommandParser.cs"/>
     <Compile Include="Utils\Constraints\BannedConstraint.cs"/>
     <Compile Include="Utils\Constraints\CoinConstraint.cs"/>
@@ -158,6 +159,7 @@
     <Compile Include="Utils\Constraints\VipConstraint.cs"/>
     <Compile Include="Utils\HealHelper.cs"/>
     <Compile Include="Utils\MessageHelper.cs"/>
+    <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
     <Compile Include="Utils\SettingsHelper.cs"/>
     <Compile Include="Utils\ShopExpansion.cs"/>
     <Compile Include="Utils\Unrichify.cs"/>
