@@ -7,6 +7,7 @@ using System.Xml;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Settings;
+using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
 
@@ -54,6 +55,7 @@ namespace SirRandoo.ToolkitUtils
             ShopExpansionHelper.DumpShopExpansion();
 
             var incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
+            var wereChanges = false;
 
             foreach (var incident in incidents.Where(
                 i => i.defName == "BuyPawn"
@@ -61,7 +63,19 @@ namespace SirRandoo.ToolkitUtils
                      || i.defName == "RemoveTrait"
             ))
             {
+                if (incident.cost <= 1)
+                {
+                    continue;
+                }
+
                 incident.cost = 1;
+                wereChanges = true;
+            }
+
+            if (wereChanges)
+            {
+                TkLogger.Info("Changing prices for overwritten events...");
+                Store_IncidentEditor.UpdatePriceSheet();
             }
         }
     }
