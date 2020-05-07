@@ -56,9 +56,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                 parts.Add($"{"IncapableOf".Translate().RawText}: {string.Join(", ", filteredTags)}");
             }
 
-            parts.Add(
-                $"{"Traits".Translate().RawText}: {string.Join(", ", pawn.story.traits.allTraits.Select(t => Unrichify.StripTags(t.LabelCap)).ToArray())}"
-            );
+            var traits = pawn.story.traits.allTraits;
+
+            if (traits.Count > 0)
+            {
+                parts.Add(
+                    $"{"Traits".Translate().RawText}: {string.Join(", ", traits.Select(t => Unrichify.StripTags(t.LabelCap)).ToArray())}"
+                );
+            }
 
             twitchMessage.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
         }
