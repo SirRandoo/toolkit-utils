@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -15,27 +18,56 @@ namespace SirRandoo.ToolkitUtils.Windows
     [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
-        private static readonly Texture2D _sortingAscend = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
-        private static readonly Texture2D _sortingDescend = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
-        private readonly List<Item> cache = StoreInventory.items;
-        private readonly List<Change> dirtyItems = new List<Change>();
-        private readonly List<ThingDef> things = DefDatabase<ThingDef>.AllDefsListForReading;
+        private static readonly Texture2D SortingAscend;
+        private static readonly Texture2D SortingDescend;
+        private readonly List<Container> cache;
+        private string categoryFilter = "";
+        private TaggedString categoryHeader;
+        private bool closeCalled;
+        private bool ctrlKeyDown;
+        private TaggedString ctxAscending;
+        private TaggedString ctxDescending;
+        private TaggedString ctxInfo;
 
         private string currentQuery = "";
+        private TaggedString disableAllText;
+        private Vector2 disableAllTextSize;
+        private TaggedString enableAllText;
+        private Vector2 enableAllTextSize;
         private string lastQuery = "";
+        private TaggedString nameHeader;
+        private TaggedString priceHeader;
+        private TaggedString resetAllText;
 
-        private List<Item> results;
+        private Vector2 resetAllTextSize;
+
+        private List<Container> results;
         private Vector2 scrollPos = Vector2.zero;
+        private TaggedString searchText;
+
+        [SuppressMessage("ReSharper", "IdentifierTypo")]
+        private bool shftKeyDown;
+
         private Sorter sorter = Sorter.Name;
-        private SortMode sortMode = SortMode.Descending;
+        private SortMode sortMode = SortMode.Ascending;
+
+        private TaggedString title;
+
+        static StoreDialog()
+        {
+            SortingAscend = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
+            SortingDescend = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
+        }
 
         public StoreDialog()
         {
             doCloseX = true;
-            forcePause = true;
 
-            optionalTitle = "TKUtils.Windows.Store.Title".Translate();
-            cache?.SortBy(i => i.abr);
+            GetTranslationStrings();
+            cache = GenerateContainers();
+
+            optionalTitle = title;
+            cache?.SortBy(i => i.Item.abr);
 
             if (cache == null)
             {
@@ -43,118 +75,111 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        public override Vector2 InitialSize => new Vector2(1024f, UI.screenHeight / 9f);
+        public override Vector2 InitialSize => new Vector2(1024f, UI.screenHeight * 0.9f);
 
         public override void DoWindowContents(Rect inRect)
         {
             var listing = new Listing_Standard {maxOneColumn = true};
-            var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f, Text.LineHeight);
-            var clearRect = new Rect(searchRect.x + searchRect.width + 5f, searchRect.y, 16f, searchRect.height);
+            var fontCache = Text.Font;
+            Text.Font = GameFont.Small;
 
-            currentQuery = Widgets.TextEntryLabeled(
-                searchRect,
-                "TKUtils.Windows.Config.Buttons.Search.Label".Translate(),
-                currentQuery
-            );
-
-            var old = Text.Anchor;
-            Text.Anchor = TextAnchor.MiddleCenter;
-
-            if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(clearRect))
-            {
-                currentQuery = "";
-            }
-
-            if (currentQuery == "")
-            {
-                results = null;
-                lastQuery = "";
-            }
-
-            Text.Anchor = old;
-            var resetText = "TKUtils.Windows.Config.Buttons.ResetAll.Label".Translate();
-            var enableText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
-            var disableText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
-            var resetSize = Text.CalcSize(resetText);
-            var enableSize = Text.CalcSize(enableText);
-            var disableSize = Text.CalcSize(disableText);
-            var disableRect = new Rect(
-                inRect.width - disableSize.x * 1.5f,
-                inRect.y,
-                disableSize.x * 1.5f,
-                Text.LineHeight
-            );
-            var enableRect = new Rect(
-                inRect.width - disableSize.x * 1.5f - enableSize.x * 1.5f,
-                inRect.y,
-                enableSize.x * 1.5f,
-                Text.LineHeight
-            );
-            var resetRect = new Rect(
-                inRect.width - disableSize.x * 1.5f - enableSize.x * 1.5f - resetSize.x * 1.5f,
-                inRect.y,
-                resetSize.x * 1.5f,
-                Text.LineHeight
-            );
-
-            if (Widgets.ButtonText(resetRect, resetText))
-            {
-                foreach (var item in cache.Where(i => i.price < 0))
-                {
-                    var thing = things.FirstOrDefault(t => t.defName.Equals(item.defname));
-                    var change = dirtyItems.FirstOrDefault(i => i.DefName.Equals(item.defname));
-                    var price = CalculateToolkitPrice(thing?.BaseMarketValue ?? 0f);
-
-                    if (change != null && change.Price != price)
-                    {
-                        change.Price = price;
-                    }
-                    else if (item.price != price)
-                    {
-                        dirtyItems.Add(new Change(item.defname) {Price = price});
-                    }
-                }
-            }
-
-            if (Widgets.ButtonText(enableRect, enableText))
-            {
-                foreach (var item in cache.Where(i => i.price < 0))
-                {
-                    var thing = things.FirstOrDefault(t => t.defName.Equals(item.defname));
-                    var change = dirtyItems.FirstOrDefault(i => i.DefName.Equals(item.defname));
-                    var price = thing?.BaseMarketValue ?? 0f;
-
-                    if (change != null)
-                    {
-                        change.Price = price <= 0 ? -10 : CalculateToolkitPrice(price);
-                    }
-                    else
-                    {
-                        dirtyItems.Add(
-                            new Change(item.defname) {Price = price <= 0 ? -10 : CalculateToolkitPrice(price)}
-                        );
-                    }
-                }
-            }
-
-            if (Widgets.ButtonText(disableRect, disableText))
-            {
-                foreach (var item in cache.Where(i => i.price > -10))
-                {
-                    var change = dirtyItems.FirstOrDefault(i => i.DefName.Equals(item.defname));
-
-                    if (change != null)
-                    {
-                        change.Price = -10;
-                    }
-                    else
-                    {
-                        dirtyItems.Add(new Change(item.defname) {Price = -10});
-                    }
-                }
-            }
-
+            DrawStoreHeader(inRect);
             Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 2f, inRect.width);
+
+            var wrapped = Text.WordWrap;
+
+            Text.WordWrap = false;
+
+            var infoHeaderRect = new Rect(
+                inRect.x + 30f,
+                Text.LineHeight * 3f,
+                inRect.width * 0.4f - 15f,
+                Text.LineHeight
+            );
+            var priceHeaderRect = new Rect(
+                inRect.x + infoHeaderRect.width + 35f,
+                infoHeaderRect.y,
+                inRect.width - infoHeaderRect.width * 2f - 35f,
+                Text.LineHeight
+            );
+            var categoryHeaderRect = new Rect(
+                inRect.x + infoHeaderRect.width + priceHeaderRect.width + 35f,
+                infoHeaderRect.y,
+                infoHeaderRect.width,
+                Text.LineHeight
+            );
+
+
+            Widgets.DrawHighlightIfMouseover(infoHeaderRect);
+            Widgets.DrawHighlightIfMouseover(priceHeaderRect);
+            Widgets.DrawHighlightIfMouseover(categoryHeaderRect);
+
+
+            if (Widgets.ButtonText(infoHeaderRect, "   " + nameHeader, false))
+            {
+                if (sorter != Sorter.Name)
+                {
+                    sortMode = SortMode.Descending;
+                }
+
+                sorter = Sorter.Name;
+                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+
+                SortCurrentWorkingList();
+            }
+
+            if (Widgets.ButtonText(priceHeaderRect, "   " + priceHeader, false))
+            {
+                if (sorter != Sorter.Price)
+                {
+                    sortMode = SortMode.Descending;
+                }
+
+                sorter = Sorter.Price;
+                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+
+                SortCurrentWorkingList();
+            }
+
+            if (Widgets.ButtonText(categoryHeaderRect, "   " + categoryHeader, false))
+            {
+                if (sorter != Sorter.Category)
+                {
+                    sortMode = SortMode.Descending;
+                }
+
+                sorter = Sorter.Category;
+                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+
+                SortCurrentWorkingList();
+            }
+
+            switch (sorter)
+            {
+                case Sorter.Name:
+                    GUI.DrawTexture(
+                        new Rect(infoHeaderRect.x, infoHeaderRect.y + (Text.LineHeight / 2f) - 4f, 8f, 8f),
+                        sortMode != SortMode.Descending ? SortingAscend : SortingDescend
+                    );
+                    break;
+
+                case Sorter.Price:
+                    GUI.DrawTexture(
+                        new Rect(priceHeaderRect.x, priceHeaderRect.y + (Text.LineHeight / 2f) - 4f, 8f, 8f),
+                        sortMode != SortMode.Descending ? SortingAscend : SortingDescend
+                    );
+                    break;
+
+                case Sorter.Category:
+                    GUI.DrawTexture(
+                        new Rect(categoryHeaderRect.x, categoryHeaderRect.y + (Text.LineHeight / 2f) - 4f, 8f, 8f),
+                        sortMode != SortMode.Descending ? SortingAscend : SortingDescend
+                    );
+                    break;
+            }
+
+            var effectiveWorkingList = results ?? cache;
+            var total = effectiveWorkingList.Count;
 
             var contentArea = new Rect(
                 inRect.x,
@@ -162,174 +187,324 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.width,
                 inRect.height - Text.LineHeight * 3f
             );
-
-            var total = results?.Count ?? cache.Count;
-            var viewPort = new Rect(contentArea.x, 0f, contentArea.width * 0.9f, Text.LineHeight * total + 1);
-            var wrapped = Text.WordWrap;
-
-            Text.WordWrap = false;
-
-            var infoHeaderRect = new Rect(
-                inRect.x,
-                Text.LineHeight * 3f,
-                inRect.width * 0.3f,
-                Text.LineHeight
+            var viewPort = new Rect(
+                0f,
+                0f,
+                contentArea.width * 0.9f,
+                (Text.LineHeight + listing.verticalSpacing) * total
             );
-            var priceHeaderRect = new Rect(
-                inRect.x + infoHeaderRect.width + 5f,
-                infoHeaderRect.y,
-                infoHeaderRect.width,
-                Text.LineHeight
-            );
-            var categoryHeaderRect = new Rect(
-                inRect.x + infoHeaderRect.width + priceHeaderRect.width + 5f,
-                infoHeaderRect.y,
-                infoHeaderRect.width,
-                Text.LineHeight
-            );
-
-            Text.Anchor = TextAnchor.MiddleCenter;
-            if (Widgets.ButtonText(infoHeaderRect, "TKUtils.Windows.Store.Headers.Name".Translate()))
-            {
-                sorter = Sorter.Name;
-                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
-
-                switch (sortMode)
-                {
-                    case SortMode.Ascending:
-                        (results ?? cache)?.SortBy(i => i.abr);
-                        break;
-
-                    case SortMode.Descending:
-                        (results ?? cache)?.SortByDescending(i => i.abr);
-                        break;
-                }
-            }
-
-            if (Widgets.ButtonText(priceHeaderRect, "TKUtils.Windows.Store.Headers.Price".Translate()))
-            {
-                sorter = Sorter.Price;
-                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
-
-                switch (sortMode)
-                {
-                    case SortMode.Ascending:
-                        (results ?? cache)?.SortBy(i => i.price);
-                        break;
-
-                    case SortMode.Descending:
-                        (results ?? cache)?.SortByDescending(i => i.price);
-                        break;
-                }
-            }
-
-            if (Widgets.ButtonText(categoryHeaderRect, "TKUtils.Windows.Store.Headers.Category".Translate()))
-            {
-                sorter = Sorter.Category;
-                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
-
-                switch (sortMode)
-                {
-                    case SortMode.Ascending:
-                        (results ?? cache)?.SortBy(
-                            i =>
-                            {
-                                var thing = things.FirstOrDefault(t => t.defName.Equals(i.defname));
-
-                                var category = thing?.FirstThingCategory?.LabelCap.RawText ?? string.Empty;
-
-                                if (category.NullOrEmpty() && thing?.race != null)
-                                {
-                                    category = "Animal";
-                                }
-
-                                return category;
-                            }
-                        );
-                        break;
-
-                    case SortMode.Descending:
-                        (results ?? cache)?.SortByDescending(
-                            i =>
-                            {
-                                var thing = things.FirstOrDefault(t => t.defName.Equals(i.defname));
-
-                                var category = thing?.FirstThingCategory?.LabelCap.RawText ?? string.Empty;
-
-                                if (category.NullOrEmpty() && thing?.race != null)
-                                {
-                                    category = "Animal";
-                                }
-
-                                return category;
-                            }
-                        );
-                        break;
-                }
-            }
-
-            Text.Anchor = old;
-
-            switch (sorter)
-            {
-                case Sorter.Name:
-                    GUI.DrawTexture(
-                        new Rect(infoHeaderRect.x, infoHeaderRect.y, 16f, 16f),
-                        sortMode == SortMode.Descending ? _sortingDescend : _sortingAscend
-                    );
-                    break;
-
-                case Sorter.Price:
-                    GUI.DrawTexture(
-                        new Rect(priceHeaderRect.x, priceHeaderRect.y, 16f, 16f),
-                        sortMode == SortMode.Descending ? _sortingDescend : _sortingAscend
-                    );
-                    break;
-
-                case Sorter.Category:
-                    GUI.DrawTexture(
-                        new Rect(categoryHeaderRect.x, categoryHeaderRect.y, 16f, 16f),
-                        sortMode == SortMode.Descending ? _sortingDescend : _sortingAscend
-                    );
-                    break;
-            }
 
             listing.BeginScrollView(contentArea, ref scrollPos, ref viewPort);
-            foreach (var item in results ?? cache)
+            for (var index = 0; index < effectiveWorkingList.Count; index++)
             {
-                var thing = things.FirstOrDefault(t => t.defName.Equals(item.defname));
+                var item = effectiveWorkingList[index];
                 var lineRect = listing.GetRect(Text.LineHeight);
 
-                var iconRect = new Rect(contentArea.x, lineRect.y, 27f, lineRect.height);
+                if (index % 2 == 0)
+                {
+                    Widgets.DrawLightHighlight(lineRect);
+                }
+
+                var iconRect = new Rect(contentArea.x + 27f, lineRect.y, 27f, lineRect.height);
                 var labelRect = new Rect(
-                    contentArea.x + iconRect.width + 5f,
+                    contentArea.x + iconRect.width + 5f + 27f,
                     lineRect.y,
-                    lineRect.width * 0.25f,
+                    infoHeaderRect.width - 30f,
                     lineRect.height
                 );
                 var infoRect = new Rect(
-                    contentArea.x,
+                    contentArea.x + 27f,
                     lineRect.y,
-                    iconRect.width + labelRect.width + 5f,
+                    infoHeaderRect.width,
                     lineRect.height
                 );
 
-                Widgets.Label(labelRect, thing?.LabelCap ?? item.abr);
+                Widgets.Checkbox(contentArea.x, lineRect.y, ref item.Enabled, paintable: true);
+                Widgets.Label(labelRect, item.Thing?.LabelCap ?? item.Item.abr);
+                Widgets.ThingIcon(iconRect, item.Thing);
 
-                if (thing != null)
+                if (Widgets.ButtonInvisible(infoRect, false))
                 {
-                    Widgets.ThingIcon(iconRect, thing);
+                    Find.WindowStack.Add(new Dialog_InfoCard(item.Thing));
+                }
 
-                    if (Widgets.ButtonInvisible(infoRect, false))
+                Widgets.DrawHighlightIfMouseover(infoRect);
+
+                if (infoRect.WasRightClicked())
+                {
+                    var infoOptions = new List<FloatMenuOption>()
                     {
-                        Find.WindowStack.Add(new Dialog_InfoCard(thing));
-                    }
+                        new FloatMenuOption(
+                            ctxInfo,
+                            () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))
+                        ),
+                        new FloatMenuOption(
+                            (item.Enabled
+                                ? "TKUtils.Windows.Store.Context.Disable"
+                                : "TKUtils.Windows.Store.Context.Enable"
+                            ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            () => { item.Enabled = !item.Enabled; }
+                        ),
+                        new FloatMenuOption(
+                            ctxAscending,
+                            () =>
+                            {
+                                sorter = Sorter.Name;
+                                sortMode = SortMode.Ascending;
+                                SortCurrentWorkingList();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxDescending,
+                            () =>
+                            {
+                                sorter = Sorter.Name;
+                                sortMode = SortMode.Descending;
+                                SortCurrentWorkingList();
+                            }
+                        )
+                    };
 
-                    Widgets.DrawHighlightIfMouseover(infoRect);
+                    Find.WindowStack.Add(new FloatMenu(infoOptions));
+                }
+
+
+                var priceRect = new Rect(
+                    infoRect.x + infoRect.width + 5f,
+                    lineRect.y,
+                    priceHeaderRect.width,
+                    lineRect.height
+                );
+
+                if (item.Item.price > 0)
+                {
+                    SettingsHelper.DrawPriceField(priceRect, ref item.Item.price, ref ctrlKeyDown, ref shftKeyDown);
+                }
+
+                if (priceRect.WasRightClicked())
+                {
+                    var priceOptions = new List<FloatMenuOption>()
+                    {
+                        new FloatMenuOption(
+                            (item.Enabled
+                                ? "TKUtils.Windows.Store.Context.Disable"
+                                : "TKUtils.Windows.Store.Context.Enable"
+                            ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            () => { item.Enabled = !item.Enabled; }
+                        ),
+                        new FloatMenuOption(
+                            ctxAscending,
+                            () =>
+                            {
+                                sorter = Sorter.Price;
+                                sortMode = SortMode.Ascending;
+                                SortCurrentWorkingList();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxDescending,
+                            () =>
+                            {
+                                sorter = Sorter.Price;
+                                sortMode = SortMode.Descending;
+                                SortCurrentWorkingList();
+                            }
+                        )
+                    };
+
+                    Find.WindowStack.Add(new FloatMenu(priceOptions));
+                }
+
+                var categoryRect = new Rect(
+                    priceRect.x + priceRect.width + 5f,
+                    lineRect.y,
+                    categoryHeaderRect.width,
+                    lineRect.height
+                );
+
+                Widgets.Label(categoryRect, item.Category);
+
+                if (categoryRect.WasRightClicked())
+                {
+                    var categoryOptions = new List<FloatMenuOption>()
+                    {
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.Category".Translate(item.Category),
+                            () =>
+                            {
+                                categoryFilter = item.Category;
+                                Notify__SearchRequested();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            (item.Enabled
+                                ? "TKUtils.Windows.Store.Context.Disable"
+                                : "TKUtils.Windows.Store.Context.Enable"
+                            ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            () => { item.Enabled = !item.Enabled; }
+                        ),
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.EnableAll".Translate(item.Category),
+                            () =>
+                            {
+                                foreach (var i in cache.Where(
+                                    i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
+                                ))
+                                {
+                                    i.Enabled = true;
+                                    i.Update();
+                                }
+                            }
+                        ),
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.DisableAll".Translate(item.Category),
+                            () =>
+                            {
+                                foreach (var i in cache.Where(
+                                    i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
+                                ))
+                                {
+                                    i.Enabled = false;
+                                    i.Update();
+                                }
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxAscending,
+                            () =>
+                            {
+                                sorter = Sorter.Category;
+                                sortMode = SortMode.Ascending;
+                                SortCurrentWorkingList();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxDescending,
+                            () =>
+                            {
+                                sorter = Sorter.Category;
+                                sortMode = SortMode.Descending;
+                                SortCurrentWorkingList();
+                            }
+                        )
+                    };
+
+                    Find.WindowStack.Add(new FloatMenu(categoryOptions));
+                }
+
+                if (!closeCalled)
+                {
+                    item.Update();
                 }
             }
 
+            listing.EndScrollView(ref viewPort);
             Text.WordWrap = wrapped;
+            Text.Font = fontCache;
+        }
+
+        private void DrawStoreHeader(Rect canvas)
+        {
+            var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
+            var searchRect = new Rect(line.x, line.y, line.width * 0.25f, line.height);
+
+            currentQuery = Widgets.TextEntryLabeled(searchRect, searchText, currentQuery);
+
+            if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(searchRect))
+            {
+                currentQuery = "";
+            }
+
+            if (currentQuery == "")
+            {
+                if (categoryFilter.NullOrEmpty())
+                {
+                    results = null;
+                }
+                else if (!lastQuery.Equals(currentQuery))
+                {
+                    Notify__SearchRequested();
+                }
+
+                lastQuery = "";
+            }
+
+            var buttonWidth = Mathf.Max(resetAllTextSize.x, enableAllTextSize.x, disableAllTextSize.x) * 1.5f;
+            var offset = buttonWidth;
+
+            if (Widgets.ButtonText(
+                new Rect(line.x + line.width - offset, line.y, buttonWidth, line.height),
+                disableAllText
+            ))
+            {
+                foreach (var item in cache.Where(i => i.Item.price > 0))
+                {
+                    item.Enabled = false;
+                    item.Update();
+                }
+            }
+
+            offset += buttonWidth + 5f;
+
+            if (Widgets.ButtonText(
+                new Rect(line.x + line.width - offset, line.y, buttonWidth, line.height),
+                enableAllText
+            ))
+            {
+                foreach (var item in cache.Where(i => i.Item.price < 0))
+                {
+                    item.Enabled = true;
+                    item.Update();
+                }
+            }
+
+            offset += buttonWidth + 5f;
+
+            if (Widgets.ButtonText(
+                new Rect(line.x + line.width - offset, line.y, buttonWidth, line.height),
+                resetAllText
+            ))
+            {
+                foreach (var item in cache)
+                {
+                    item.Item.price = CalculateToolkitPrice(item.Thing.BaseMarketValue);
+                }
+            }
+
+            offset += buttonWidth + 5f;
+
+            var filterSection = new Rect(
+                searchRect.x + searchRect.width + 5f,
+                line.y,
+                line.width - offset - searchRect.width - 10f,
+                line.height
+            );
+
+            var filterOffset = 0f;
+
+            if (!categoryFilter.NullOrEmpty())
+            {
+                var categoryFilterWidth = Text.CalcSize(categoryFilter).x * 1.5f;
+                var categoryFilterRect = new Rect(
+                    filterSection.x + filterOffset,
+                    filterSection.y,
+                    categoryFilterWidth + 20f,
+                    filterSection.height
+                );
+
+                Widgets.DrawHighlight(categoryFilterRect);
+                Widgets.Label(categoryFilterRect, " " + categoryFilter);
+
+                if (SettingsHelper.DrawClearButton(categoryFilterRect))
+                {
+                    categoryFilter = null;
+
+                    if (!currentQuery.NullOrEmpty())
+                    {
+                        Notify__SearchRequested();
+                    }
+                }
+            }
         }
 
         public override void WindowUpdate()
@@ -352,61 +527,72 @@ namespace SirRandoo.ToolkitUtils.Windows
             lastQuery = currentQuery;
 
             results = GetSearchResults();
+            SortCurrentWorkingList();
         }
 
-        private List<Item> GetSearchResults()
+        private List<Container> GetSearchResults()
         {
+            var workingList = cache;
+
+            if (!categoryFilter.NullOrEmpty())
+            {
+                workingList = workingList
+                    .Where(i => i.Category.RawText.EqualsIgnoreCase(categoryFilter))
+                    .ToList();
+            }
+
             var serialized = currentQuery?.ToToolkit();
 
             if (serialized == null)
             {
-                return null;
+                return workingList;
             }
 
-            return cache
-                .Where(i => i.abr.EqualsIgnoreCase(serialized) || i.defname.EqualsIgnoreCase(serialized))
+            return workingList
+                .Where(
+                    i =>
+                    {
+                        if (i.Item.abr.ToToolkit().Contains(serialized)
+                            || i.Item.abr.ToToolkit().EqualsIgnoreCase(serialized))
+                        {
+                            return true;
+                        }
+
+                        return i.Item.defname.ToToolkit().Contains(serialized)
+                               || i.Item.defname.ToToolkit().EqualsIgnoreCase(serialized);
+                    }
+                )
                 .ToList();
         }
 
         public override void PreClose()
         {
-            foreach (var thing in things)
+            foreach (var c in cache.Where(c => c.Item == null))
             {
-                var change = dirtyItems.FirstOrDefault(i => i.DefName.Equals(thing.defName));
+                c.Item = new Item(
+                    CalculateToolkitPrice(c.Thing.BaseMarketValue),
+                    c.Thing.LabelCap.RawText.ToToolkit(),
+                    c.Thing.defName
+                );
 
-                Item item;
-
-                if (change == null)
-                {
-                    item = new Item(
-                        CalculateToolkitPrice(thing.BaseMarketValue),
-                        thing.LabelCap.RawText.ToToolkit(),
-                        thing.defName
-                    );
-
-                    StoreInventory.items.Add(item);
-                }
-                else
-                {
-                    item = StoreInventory.items.FirstOrDefault(i => i.defname.Equals(change.DefName));
-
-                    if (item == null)
-                    {
-                        TkLogger.Warn(
-                            $"Received change notice for item \"{change.DefName}\", but the item doesn't exist in the shop."
-                        );
-                        continue;
-                    }
-
-                    item.price = change.Price;
-                }
+                StoreInventory.items.Add(c.Item);
             }
 
+            base.PreClose();
+        }
+
+        public override void PostClose()
+        {
+            closeCalled = true;
             Store_ItemEditor.UpdateStoreItemList();
+
+            base.PostClose();
         }
 
         public override void PreOpen()
         {
+            base.PreOpen();
+
             Store_ItemEditor.FindItemsNotInList();
         }
 
@@ -415,15 +601,150 @@ namespace SirRandoo.ToolkitUtils.Windows
             return Math.Max(1, Convert.ToInt32(basePrice * 10.0f / 6.0f));
         }
 
-        private class Change
+        private static IEnumerable<ThingDef> GetTradeables()
         {
-            public Change(string defName)
+            var things = DefDatabase<ThingDef>.AllDefsListForReading;
+
+            return things
+                .Where(
+                    thing => (thing.tradeability.TraderCanSell() || ThingSetMakerUtility.CanGenerate(thing))
+                             && (thing.building == null || thing.Minifiable || ToolkitSettings.MinifiableBuildings)
+                             && (thing.FirstThingCategory != null || thing.race != null)
+                             && !(thing.BaseMarketValue <= 0.0)
+                )
+                .ToList();
+        }
+
+        private void SortCurrentWorkingList()
+        {
+            var workingList = results ?? cache;
+
+            switch (sorter)
             {
-                DefName = defName;
+                case Sorter.Name:
+                    switch (sortMode)
+                    {
+                        case SortMode.Ascending:
+                            workingList.SortBy(i => i.Item.abr);
+                            results = workingList;
+                            return;
+                        case SortMode.Descending:
+                            workingList.SortByDescending(i => i.Item.abr);
+                            results = workingList;
+                            return;
+                        default:
+                            return;
+                    }
+                case Sorter.Price:
+                    switch (sortMode)
+                    {
+                        case SortMode.Ascending:
+                            workingList.SortBy(i => i.Item.price);
+                            results = workingList;
+                            return;
+                        case SortMode.Descending:
+                            workingList.SortByDescending(i => i.Item.price);
+                            results = workingList;
+                            return;
+                        default:
+                            return;
+                    }
+                case Sorter.Category when sortMode == SortMode.Ascending:
+                    workingList.SortBy(i => i.Category.RawText);
+                    results = workingList;
+                    return;
+                case Sorter.Category when sortMode == SortMode.Descending:
+                    workingList.SortByDescending(i => i.Category.RawText);
+                    results = workingList;
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        private void GetTranslationStrings()
+        {
+            title = "TKUtils.Windows.Store.Title".Translate();
+            nameHeader = "TKUtils.Windows.Store.Headers.Name".Translate();
+            priceHeader = "TKUtils.Windows.Store.Headers.Price".Translate();
+            categoryHeader = "TKUtils.Windows.Store.Headers.Category".Translate();
+            searchText = "TKUtils.Windows.Config.Buttons.Search.Label".Translate();
+            resetAllText = "TKUtils.Windows.Config.Buttons.ResetAll.Label".Translate();
+            enableAllText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
+            disableAllText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
+            ctxAscending = "TKUtils.Windows.Store.Context.Ascending".Translate();
+            ctxDescending = "TKUtils.Windows.Store.Context.Descending".Translate();
+            ctxInfo = "TKUtils.Windows.Store.Context.Info".Translate();
+
+            resetAllTextSize = Text.CalcSize(resetAllText);
+            enableAllTextSize = Text.CalcSize(enableAllText);
+            disableAllTextSize = Text.CalcSize(disableAllText);
+        }
+
+        private static List<Container> GenerateContainers()
+        {
+            return GetTradeables()
+                .Select(
+                    t => new
+                    {
+                        thing = t,
+                        item = StoreInventory.items.FirstOrDefault(i => i?.defname.Equals(t.defName) ?? false)
+                    }
+                )
+                .Where(t => t.item != null)
+                .Select(t => new Container {Item = t.item, Thing = t.thing, Enabled = t.item.price > 0})
+                .ToList();
+        }
+
+        private class Container
+        {
+            private TaggedString categoryCached;
+            public bool Enabled;
+
+            public Item Item;
+            public ThingDef Thing;
+
+            public TaggedString Category
+            {
+                get
+                {
+                    if (!categoryCached.NullOrEmpty())
+                    {
+                        return categoryCached;
+                    }
+
+                    var category = Thing?.FirstThingCategory?.LabelCap.RawText ?? string.Empty;
+
+                    if (category.NullOrEmpty() && Thing?.race != null)
+                    {
+                        category = "TechLevel_Animal".Translate().CapitalizeFirst();
+                    }
+
+                    categoryCached = category;
+                    return categoryCached;
+                }
             }
 
-            public string DefName { get; }
-            public int Price { get; set; }
+            public void Update()
+            {
+                if (Item.price == 0)
+                {
+                    Enabled = false;
+                    Item.price = -10;
+                    return;
+                }
+
+                if (Enabled && Item.price < 0)
+                {
+                    Item.price = CalculateToolkitPrice(Thing.BaseMarketValue);
+                }
+                else if (!Enabled && Item.price > 0)
+                {
+                    Item.price = -10;
+                }
+
+                Enabled = Item.price > 0;
+            }
         }
     }
 }

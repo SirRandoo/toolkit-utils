@@ -60,6 +60,7 @@
     <TKUtils.Windows.Store.Title>Store Inventory</TKUtils.Windows.Store.Title>
     <TKUtils.Windows.Traits.Title>Trait Inventory</TKUtils.Windows.Traits.Title>
     <TKUtils.Windows.Races.Title>Pawn Kind Inventory</TKUtils.Windows.Races.Title>
+    <TKUtils.Windows.Store.Filters.Category>Category: {0}</TKUtils.Windows.Store.Filters.Category>
     <TKUtils.Windows.Store.Headers.Name>Name</TKUtils.Windows.Store.Headers.Name>
     <TKUtils.Windows.Store.Headers.Price>Price</TKUtils.Windows.Store.Headers.Price>
     <TKUtils.Windows.Store.Headers.Category>Category</TKUtils.Windows.Store.Headers.Category>
@@ -83,4 +84,14 @@
     <TKUtils.Windows.Config.Notices.BuyPawn>With the addition of race support in ToolkitUtils, modifying "buy pawn" though this window will update the amount of coins viewers will have to pay to be ANY race. Utils will then set this event's cost to 1 as
         the price a viewer ends up paying will be the prices set in the race shop. You're seeing this window because initial feedback wanted this to be used as a way to set the cost globally for all races.
     </TKUtils.Windows.Config.Notices.BuyPawn>
+    
+    <!-- Context Menu Translations -->
+    <TKUtils.Windows.Store.Context.Category>Filter by "{0}" category</TKUtils.Windows.Store.Context.Category>
+    <TKUtils.Windows.Store.Context.DisableAll>Disable all in "{0}" category</TKUtils.Windows.Store.Context.DisableAll>
+    <TKUtils.Windows.Store.Context.EnableAll>Enable all in "{0}" category</TKUtils.Windows.Store.Context.EnableAll>
+    <TKUtils.Windows.Store.Context.Ascending>Sort ascending</TKUtils.Windows.Store.Context.Ascending>
+    <TKUtils.Windows.Store.Context.Descending>Sort descending</TKUtils.Windows.Store.Context.Descending>
+    <TKUtils.Windows.Store.Context.Info>Show information</TKUtils.Windows.Store.Context.Info>
+    <TKUtils.Windows.Store.Context.Enable>Enable "{0}"</TKUtils.Windows.Store.Context.Enable>
+    <TKUtils.Windows.Store.Context.Disable>Disable "{0}"</TKUtils.Windows.Store.Context.Disable>
 </LanguageData>
