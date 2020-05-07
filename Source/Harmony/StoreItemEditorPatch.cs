@@ -14,7 +14,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             var inventory = StoreInventory.items;
 
             foreach (var item in inventory
-                .Where(item => item.price > 0)
+                .Where(item => item.price >= 0)
                 .Where(item => TkUtils.ShopExpansion.Races.Any(r => r.DefName.Equals(item.defname))))
             {
                 item.price = -10;
