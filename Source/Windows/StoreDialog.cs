@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -219,7 +219,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 Widgets.Checkbox(contentArea.x, lineRect.y, ref item.Enabled, paintable: true);
                 Widgets.Label(labelRect, item.Thing?.LabelCap ?? item.Item.abr);
-                Widgets.ThingIcon(iconRect, item.Thing);
+
+                if (item.Thing != null)
+                {
+                    Widgets.ThingIcon(iconRect, item.Thing);
+                }
 
                 if (Widgets.ButtonInvisible(infoRect, false))
                 {
