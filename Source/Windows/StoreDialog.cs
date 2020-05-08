@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -695,7 +695,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         continue;
                     }
 
-                    var item = StoreInventory.items.FirstOrDefault(i => i?.defname.Equals(thing.defName) ?? false);
+                    var item = StoreInventory.items.FirstOrDefault(i => i != null && i.defname.Equals(thing.defName));
 
                     if (item == null)
                     {
@@ -705,6 +705,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             thing.defName
                         );
 
+                        TkLogger.Info($@"Added product ""{item.abr}"" to Toolkit's inventory.");
                         StoreInventory.items.Add(item);
                     }
                     else
