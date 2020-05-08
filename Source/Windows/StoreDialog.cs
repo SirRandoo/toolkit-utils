@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -601,7 +601,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             return Math.Max(1, Convert.ToInt32(basePrice * 10.0f / 6.0f));
         }
 
-        private static IEnumerable<ThingDef> GetTradeables()
+        public static IEnumerable<ThingDef> GetTradeables()
         {
             var things = DefDatabase<ThingDef>.AllDefsListForReading;
 
