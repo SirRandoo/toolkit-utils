@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -683,17 +683,48 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private static List<Container> GenerateContainers()
         {
-            return GetTradeables()
-                .Select(
-                    t => new
+            // StoreInventory.items = StoreInventory.items
+            //     .Where(i => !i.defname.NullOrEmpty())
+            //     .ToList();
+
+            var container = new List<Container>();
+            var tradeables = GetTradeables();
+
+            try
+            {
+                foreach (var thing in tradeables)
+                {
+                    if (thing == null)
                     {
-                        thing = t,
-                        item = StoreInventory.items.FirstOrDefault(i => i?.defname.Equals(t.defName) ?? false)
+                        continue;
                     }
-                )
-                .Where(t => t.item != null)
-                .Select(t => new Container {Item = t.item, Thing = t.thing, Enabled = t.item.price > 0})
-                .ToList();
+
+                    var item = StoreInventory.items.FirstOrDefault(i => i?.defname.Equals(thing.defName) ?? false);
+
+                    if (item == null)
+                    {
+                        item = new Item(
+                            CalculateToolkitPrice(thing.BaseMarketValue),
+                            thing.label.ToToolkit(),
+                            thing.defName
+                        );
+
+                        StoreInventory.items.Add(item);
+                    }
+                    else
+                    {
+                        item.abr ??= thing.label.ToToolkit();
+                    }
+
+                    container.Add(new Container {Item = item, Thing = thing, Enabled = item.price > 0});
+                }
+            }
+            catch (Exception e)
+            {
+                TkLogger.Error("Could not generate containers!", e);
+            }
+
+            return container;
         }
 
         private class Container
