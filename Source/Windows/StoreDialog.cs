@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -683,10 +683,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private static List<Container> GenerateContainers()
         {
-            // StoreInventory.items = StoreInventory.items
-            //     .Where(i => !i.defname.NullOrEmpty())
-            //     .ToList();
-
             var container = new List<Container>();
             var tradeables = GetTradeables();
 
