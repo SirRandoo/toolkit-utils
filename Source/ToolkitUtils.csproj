@@ -136,6 +136,7 @@
     <Compile Include="IncidentHelpers\BuySurgeryHelper.cs"/>
     <Compile Include="IncidentHelpers\HealAllHelper.cs"/>
     <Compile Include="IncidentHelpers\HealMeHelper.cs"/>
+    <Compile Include="IncidentHelpers\ItemHelper.cs"/>
     <Compile Include="IncidentHelpers\PassionShuffleHelper.cs"/>
     <Compile Include="IncidentHelpers\RemoveTraitHelper.cs"/>
     <Compile Include="IncidentHelpers\ReviveAllHelper.cs"/>
@@ -166,6 +167,7 @@
     <Compile Include="Utils\ShopExpansion.cs"/>
     <Compile Include="Utils\Unrichify.cs"/>
     <Compile Include="Utils\TraitHelper.cs"/>
+    <Compile Include="Windows\NameQueueDialog.cs"/>
     <Compile Include="Windows\NoticeWindow.cs"/>
     <Compile Include="Windows\PurgeViewersDialog.cs"/>
     <Compile Include="Windows\RaceConfigDialog.cs"/>
