@@ -77,6 +77,19 @@ namespace SirRandoo.ToolkitUtils
                 TkLogger.Info("Changing prices for overwritten events...");
                 Store_IncidentEditor.UpdatePriceSheet();
             }
+
+
+            try
+            {
+                if (ModLister.GetActiveModWithIdentifier("sickboywi.medieval.vanilla") != null)
+                {
+                    TkLogger.Warn("Medieval - Vanilla detected!");
+                }
+            }
+            catch (Exception e)
+            {
+                TkLogger.Error("Could not sanitize Toolkit's store inventory!", e);
+            }
         }
     }
 
