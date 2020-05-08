@@ -409,6 +409,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             var searchRect = new Rect(line.x, line.y, line.width * 0.25f, line.height);
+            var workingList = results ?? cache;
 
             currentQuery = Widgets.TextEntryLabeled(searchRect, searchText, currentQuery);
 
@@ -439,7 +440,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 disableAllText
             ))
             {
-                foreach (var item in cache.Where(i => i.Item.price > 0))
+                foreach (var item in workingList.Where(i => i.Item.price > 0))
                 {
                     item.Enabled = false;
                     item.Update();
@@ -453,7 +454,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 enableAllText
             ))
             {
-                foreach (var item in cache.Where(i => i.Item.price < 0))
+                foreach (var item in workingList.Where(i => i.Item.price < 0))
                 {
                     item.Enabled = true;
                     item.Update();
@@ -467,7 +468,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 resetAllText
             ))
             {
-                foreach (var item in cache)
+                foreach (var item in workingList)
                 {
                     item.Item.price = CalculateToolkitPrice(item.Thing.BaseMarketValue);
                 }
