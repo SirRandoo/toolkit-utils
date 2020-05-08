@@ -80,10 +80,7 @@ namespace SirRandoo.ToolkitUtils
                     "Name Queue",
                     () =>
                     {
-                        if (!(Activator.CreateInstance(NameQueueType) is Window window))
-                        {
-                            return;
-                        }
+                        var window = new NameQueueDialog();
 
                         Find.WindowStack.TryRemove(window.GetType(), false);
                         Find.WindowStack.Add(window);
