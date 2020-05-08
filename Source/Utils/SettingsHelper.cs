@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Verse;
 
@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             var fieldRect = new Rect(
                 canvas.x + buttonWidth + 5f,
                 canvas.y,
-                canvas.width - buttonWidth * 2 - 5f,
+                canvas.width - buttonWidth * 2 - 10f,
                 canvas.height
             );
             var currentEvent = Event.current;
