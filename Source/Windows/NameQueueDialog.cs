@@ -341,19 +341,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (pawnComponent != null)
             {
-                pawnComponent.ViewerNameQueue.AddRange(
-                    new[]
-                    {
-                        "nightbot",
-                        "streamlabs",
-                        "streamjar",
-                        "streamelements",
-                        "moobot",
-                        "scavmechbot",
-                        "shovelbot",
-                        "scavenging_mechanic"
-                    }
-                );
                 return;
             }
 
