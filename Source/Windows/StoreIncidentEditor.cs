@@ -5,7 +5,6 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
-using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
 
@@ -192,8 +191,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (Widgets.ButtonText(itemRect, itemText))
                 {
-                    Find.WindowStack.TryRemove(typeof(StoreItemsWindow));
-                    Find.WindowStack.Add(new StoreItemsWindow());
+                    Find.WindowStack.TryRemove(typeof(StoreDialog));
+                    Find.WindowStack.Add(new StoreDialog());
                 }
             }
 
