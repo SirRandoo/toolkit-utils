@@ -57,6 +57,7 @@
     <TKUtils.Windows.IncidentEditor.Races>Edit race prices</TKUtils.Windows.IncidentEditor.Races>
     
     <!-- Config Translations -->
+    <TKUtils.Windows.NameQueue.Title>Name Queue</TKUtils.Windows.NameQueue.Title>
     <TKUtils.Windows.Store.Title>Store Inventory</TKUtils.Windows.Store.Title>
     <TKUtils.Windows.Traits.Title>Trait Inventory</TKUtils.Windows.Traits.Title>
     <TKUtils.Windows.Races.Title>Pawn Kind Inventory</TKUtils.Windows.Races.Title>
@@ -72,6 +73,8 @@
     <TKUtils.Windows.Traits.RemovePrice.Label>Removal Cost</TKUtils.Windows.Traits.RemovePrice.Label>
     <TKUtils.Windows.Config.Buttons.Apply.Label>Apply</TKUtils.Windows.Config.Buttons.Apply.Label>
     <TKUtils.Windows.Config.Input.Price.Label>Price</TKUtils.Windows.Config.Input.Price.Label>
+    <TKUtils.Windows.Config.Input.Username.Label>Username</TKUtils.Windows.Config.Input.Username.Label>
+    <TKUtils.Windows.Config.Buttons.Remove.Label>Remove</TKUtils.Windows.Config.Buttons.Remove.Label>
     
     <TKUtils.Windows.Config.Buttons.DontShowAgain>Don't show again</TKUtils.Windows.Config.Buttons.DontShowAgain>
     <TKUtils.Windows.Config.Notices.Header>This incident is overriden by ToolkitUtils</TKUtils.Windows.Config.Notices.Header>
@@ -94,4 +97,10 @@
     <TKUtils.Windows.Store.Context.Info>Show information</TKUtils.Windows.Store.Context.Info>
     <TKUtils.Windows.Store.Context.Enable>Enable "{0}"</TKUtils.Windows.Store.Context.Enable>
     <TKUtils.Windows.Store.Context.Disable>Disable "{0}"</TKUtils.Windows.Store.Context.Disable>
+    
+    <!-- Name Queue Translations -->
+    <TKUtils.Windows.NameQueue.None>The name queue is empty!</TKUtils.Windows.NameQueue.None>
+    <TKUtils.Windows.NameQueue.Count>{0} viewer(s) waiting in queue</TKUtils.Windows.NameQueue.Count>
+    <TKUtils.Windows.NameQueue.Unassigned>Unassigned</TKUtils.Windows.NameQueue.Unassigned>
+    <TKUtils.Windows.NameQueue.Assigned>Assigned</TKUtils.Windows.NameQueue.Assigned>
 </LanguageData>
