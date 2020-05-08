@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -603,16 +601,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public static IEnumerable<ThingDef> GetTradeables()
         {
-            var things = DefDatabase<ThingDef>.AllDefsListForReading;
-
-            return things
-                .Where(
-                    thing => (thing.tradeability.TraderCanSell() || ThingSetMakerUtility.CanGenerate(thing))
-                             && (thing.building == null || thing.Minifiable || ToolkitSettings.MinifiableBuildings)
-                             && (thing.FirstThingCategory != null || thing.race != null)
-                             && !(thing.BaseMarketValue <= 0.0)
-                )
-                .ToList();
+            return Store_ItemEditor.GetDefaultItems();
         }
 
         private void SortCurrentWorkingList()
