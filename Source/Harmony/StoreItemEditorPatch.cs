@@ -26,6 +26,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             StoreInventory.items = inventory
                 .Where(i => !i.defname.NullOrEmpty())
+                .Where(i => tradeables.Any(t => t.defName.Equals(i.defname)))
                 .ToList();
 
             foreach (var item in StoreInventory.items.Where(i => i.abr.NullOrEmpty()))
