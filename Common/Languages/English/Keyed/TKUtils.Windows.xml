@@ -75,6 +75,7 @@
     <TKUtils.Windows.Config.Input.Price.Label>Price</TKUtils.Windows.Config.Input.Price.Label>
     <TKUtils.Windows.Config.Input.Username.Label>Username</TKUtils.Windows.Config.Input.Username.Label>
     <TKUtils.Windows.Config.Buttons.Remove.Label>Remove</TKUtils.Windows.Config.Buttons.Remove.Label>
+    <TKUtils.Windows.Config.Buttons.Random.Label>Random</TKUtils.Windows.Config.Buttons.Random.Label>
     
     <TKUtils.Windows.Config.Buttons.DontShowAgain>Don't show again</TKUtils.Windows.Config.Buttons.DontShowAgain>
     <TKUtils.Windows.Config.Notices.Header>This incident is overriden by ToolkitUtils</TKUtils.Windows.Config.Notices.Header>

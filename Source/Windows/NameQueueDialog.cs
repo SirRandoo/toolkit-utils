@@ -17,6 +17,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private TaggedString assignedText;
         private Pawn current;
         private TaggedString emptyQueueText;
+        private TaggedString randomText;
         private TaggedString removeText;
         private Vector2 scrollPos = Vector2.zero;
 
@@ -52,6 +53,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             assignedText = "TKUtils.Windows.NameQueue.Assigned".Translate();
             unassignedText = "TKUtils.Windows.NameQueue.Unassigned".Translate();
             applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
+            randomText = "TKUtils.Windows.Config.Buttons.Random.Label".Translate();
             removeText = "TKUtils.Windows.Config.Buttons.Remove.Label".Translate();
             usernameText = "TKUtils.Windows.Config.Input.Username.Label".Translate();
         }
@@ -102,10 +104,18 @@ namespace SirRandoo.ToolkitUtils.Windows
 
 
             var listing = new Listing_Standard {maxOneColumn = true};
+            var randomBtnWidth = Text.CalcSize(randomText).x * 1.5f;
+            var adjustedLineRect = new Rect(0f, Text.LineHeight * 4f, contentRect.width * 0.95f - 2f, Text.LineHeight);
             var queueNoticeRect = new Rect(
                 0f,
                 Text.LineHeight * 4f,
-                contentRect.width,
+                adjustedLineRect.width - randomBtnWidth - 5f,
+                Text.LineHeight
+            );
+            var queueRandomRect = new Rect(
+                queueNoticeRect.width + queueNoticeRect.x + 5f,
+                Text.LineHeight * 4f,
+                adjustedLineRect.width - queueNoticeRect.width - 6f,
                 Text.LineHeight
             );
             var queueRect = new Rect(
@@ -131,6 +141,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 queueNoticeRect,
                 "TKUtils.Windows.NameQueue.Count".Translate(pawnComponent.ViewerNameQueue.Count)
             );
+
+            if (Widgets.ButtonText(queueRandomRect, randomText))
+            {
+                username = pawnComponent.ViewerNameQueue.RandomElement();
+            }
 
             listing.BeginScrollView(queueRect, ref scrollPos, ref queueView);
             listing.Gap(Text.LineHeight * 5f);
