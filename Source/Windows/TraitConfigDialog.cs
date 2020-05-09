@@ -6,24 +6,46 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    [StaticConstructorOnStartup]
     public class TraitConfigDialog : Window
     {
+        private static readonly Texture2D SortingAscend;
+        private static readonly Texture2D SortingDescend;
         private readonly List<XmlTrait> cache = TkUtils.ShopExpansion.Traits;
+
+        private bool control;
         private string currentQuery = "";
         private int globalAddCost;
         private int globalRemoveCost;
         private string lastQuery = "";
-        private IReadOnlyCollection<XmlTrait> results;
+        private List<XmlTrait> results;
         private Vector2 scrollPos = Vector2.zero;
+        private bool shift;
+
+        private Sorter sorter = Sorter.Name;
+        private SortMode sortMode = SortMode.Ascending;
+
+        private TaggedString titleText;
+        // private TaggedString nameHeaderText;
+        // private TaggedString priceText;
+        // private TaggedString priceHeaderText;
+
+        static TraitConfigDialog()
+        {
+            SortingAscend = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
+            SortingDescend = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
+        }
 
         public TraitConfigDialog()
         {
+            GetTranslations();
+
             doCloseX = true;
             globalRemoveCost = 0;
             forcePause = true;
 
-            optionalTitle = "TKUtils.Windows.Traits.Title".Translate();
-            cache?.SortBy(t => t.DefName);
+            optionalTitle = titleText;
+            cache?.SortBy(t => t.Name);
 
             if (cache == null)
             {
@@ -33,8 +55,22 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override Vector2 InitialSize => new Vector2(640f, Screen.height * 0.85f);
 
+        private void GetTranslations()
+        {
+            titleText = "TKUtils.Windows.Races.Title".Translate();
+            // nameHeaderText = "TKUtils.Windows.Store.Headers.Name".Translate();
+            // priceText = "TKUtils.Windows.Config.Input.Price.Label".Translate();
+            // priceHeaderText = "TKUtils.Windows.Store.Headers.Price".Translate();
+            // applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
+            // searchText = "TKUtils.Windows.Config.Buttons.Search.Label".Translate();
+            // resetText = "TKUtils.Windows.Config.Buttons.ResetAll.Label".Translate();
+            // enableText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
+            // disableText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
+        }
+
         private void DrawHeader(Rect inRect)
         {
+            GUI.BeginGroup(inRect);
             var midpoint = inRect.width / 2f;
             var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f, Text.LineHeight);
             var searchLabel = searchRect.LeftHalf();
@@ -137,39 +173,54 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 globalRemoveCost = 0;
             }
+
+            GUI.EndGroup();
         }
 
         public override void DoWindowContents(Rect inRect)
         {
-            var listing = new Listing_Standard {maxOneColumn = true};
+            GUI.BeginGroup(inRect);
 
-            DrawHeader(inRect);
+            var listing = new Listing_Standard {maxOneColumn = true};
+            var headerRect = new Rect(0f, 0f, inRect.width, Text.LineHeight * 2f);
+
+            DrawHeader(headerRect);
             Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 3f, inRect.width);
 
             var contentArea = new Rect(
                 inRect.x,
                 Text.LineHeight * 4f,
                 inRect.width,
-                inRect.height - Text.LineHeight * 3f
+                inRect.height - Text.LineHeight * 4f
             );
 
             var old = Text.Anchor;
-            var total = results?.Count ?? cache.Count;
-            var maxHeight = Text.LineHeight * total * 3 - 1;
-            var viewPort = new Rect(contentArea.x, 0f, contentArea.width * 0.9f, maxHeight);
+            var effectiveList = results ?? cache;
+            var total = effectiveList.Count;
+            var maxHeight = (Text.LineHeight * 2f) * total;
+            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight);
+            var traits = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
-            listing.BeginScrollView(contentArea, ref scrollPos, ref viewPort);
-            foreach (var trait in results ?? cache)
+            GUI.BeginGroup(contentArea);
+            listing.BeginScrollView(traits, ref scrollPos, ref viewPort);
+
+            for (var index = 0; index < effectiveList.Count; index++)
             {
+                var trait = effectiveList[index];
                 var lineRect = listing.GetRect(Text.LineHeight * 2);
-                var labelRect = new Rect(lineRect.x, lineRect.y, lineRect.width * 0.6f, lineRect.height);
+                var labelRect = new Rect(0f, lineRect.y, lineRect.width * 0.6f, lineRect.height);
+
+                if (index % 2 == 0)
+                {
+                    Widgets.DrawLightHighlight(lineRect);
+                }
 
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(labelRect, trait.Name.CapitalizeFirst());
                 Text.Anchor = old;
 
                 var inputRect = new Rect(
-                    labelRect.x + labelRect.width + 5f,
+                    labelRect.width + 5f,
                     lineRect.y,
                     lineRect.width - labelRect.width - 35f,
                     labelRect.height
@@ -232,11 +283,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                     Text.Anchor = old;
                 }
-
-                listing.GapLine();
             }
 
+            GUI.EndGroup();
             listing.EndScrollView(ref viewPort);
+            GUI.EndGroup();
         }
 
         private void Notify__SearchRequested()
@@ -261,7 +312,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private IReadOnlyCollection<XmlTrait> GetSearchResults()
+        private List<XmlTrait> GetSearchResults()
         {
             var serialized = currentQuery?.ToToolkit();
 
