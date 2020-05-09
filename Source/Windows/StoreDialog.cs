@@ -187,7 +187,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.x,
                 Text.LineHeight * 4f,
                 inRect.width,
-                inRect.height - Text.LineHeight * 3f
+                inRect.height - Text.LineHeight * 4f
             );
             var viewPort = new Rect(
                 0f,
