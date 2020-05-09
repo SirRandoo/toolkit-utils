@@ -244,14 +244,16 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.height - Text.LineHeight * 5f
             );
 
-            var total = results?.Count ?? cache.Count;
+            var effectiveList = results ?? cache;
+            var total = effectiveList.Count;
             var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * total);
             var races = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
             listing.BeginScrollView(races, ref scrollPos, ref viewPort);
-            foreach (var race in results ?? cache)
+            for (var index = 0; index < effectiveList.Count; index++)
             {
+                var race = effectiveList[index];
                 var lineRect = listing.GetRect(Text.LineHeight);
                 var nameRect = new Rect(0f, lineRect.y, nameHeadingRect.width, lineRect.height);
                 var stateRect = new Rect(
@@ -261,6 +263,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Text.LineHeight
                 );
                 var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width - 16f, lineRect.height);
+
+                if (index % 2 == 0)
+                {
+                    Widgets.DrawLightHighlight(lineRect);
+                }
 
                 Widgets.Label(nameRect, race.Name);
                 Widgets.Checkbox(stateRect.x, stateRect.y, ref race.Enabled, paintable: true);
