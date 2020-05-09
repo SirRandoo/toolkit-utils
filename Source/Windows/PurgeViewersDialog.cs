@@ -37,6 +37,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void DoWindowContents(Rect inRect)
         {
+            GUI.BeginGroup(inRect);
+
             var midpoint = inRect.width / 2;
             var buttonText =
                 (showingAffected ? "TKUtils.Windows.Purge.Buttons.Confirm" : "TKUtils.Windows.Purge.Buttons.Execute")
@@ -50,9 +52,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.width,
                 inRect.height - headerArea.height - 40f
             );
-            var contentView = new Rect(contentArea.x, contentArea.y, contentArea.width * 0.97f, 96f * 36f);
 
-            if (Widgets.ButtonText(buttonRect, buttonText))
+            GUI.BeginGroup(buttonRect);
+            if (Widgets.ButtonText(new Rect(0f, 0f, buttonRect.width, buttonRect.height), buttonText))
             {
                 if (showingAffected)
                 {
@@ -64,9 +66,21 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
+            GUI.EndGroup();
+
             DrawHeader(headerArea);
 
-            Widgets.BeginScrollView(contentArea, ref scrollPos, contentView);
+            GUI.BeginGroup(contentArea);
+
+            var constraintsArea = new Rect(0f, 0f, contentArea.width, contentArea.height);
+            var contentView = new Rect(
+                constraintsArea.x,
+                constraintsArea.y,
+                constraintsArea.width - 16f,
+                (showingAffected ? GetAffectedViewers().Length : constraints.Count) * Text.LineHeight
+            );
+
+            Widgets.BeginScrollView(constraintsArea, ref scrollPos, contentView);
             if (showingAffected)
             {
                 var affected = GetAffectedViewers();
@@ -78,13 +92,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                     var viewer = affected[i];
                     var closeRect = new Rect(
                         contentView.width - exemptWidth,
-                        contentView.y + i * 40f,
+                        i * Text.LineHeight,
                         exemptWidth,
-                        30f
+                        Text.LineHeight
                     );
 
                     Widgets.Label(
-                        new Rect(contentView.x, contentView.y + i * 40f, inRect.width - exemptWidth - 20f, 30f),
+                        new Rect(0f, i * Text.LineHeight, inRect.width - exemptWidth - 20f, Text.LineHeight),
                         viewer.username
                     );
 
@@ -111,11 +125,16 @@ namespace SirRandoo.ToolkitUtils.Windows
                     var constraint = constraints[i];
 
                     constraint.Draw(
-                        new Rect(contentView.x, contentView.y + i * 40f, contentView.width - exemptWidth - 20f, 30f)
+                        new Rect(
+                            contentView.x,
+                            i * Text.LineHeight,
+                            contentView.width - exemptWidth - 20f,
+                            Text.LineHeight
+                        )
                     );
 
                     if (Widgets.ButtonText(
-                        new Rect(contentView.width - exemptWidth, contentView.y + i * 40f, exemptWidth, 30f),
+                        new Rect(contentView.width - exemptWidth, i * Text.LineHeight, exemptWidth, Text.LineHeight),
                         exemptText
                     ))
                     {
@@ -130,10 +149,15 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             Widgets.EndScrollView();
+            GUI.EndGroup();
+
+            GUI.EndGroup();
         }
 
         private void DrawHeader(Rect region)
         {
+            GUI.BeginGroup(region);
+
             if (showingAffected)
             {
                 var backText = "TKUtils.Windows.Purge.Buttons.Back".Translate();
@@ -191,6 +215,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                     constraints.Clear();
                 }
             }
+
+            GUI.EndGroup();
         }
 
         private Viewer[] GetAffectedViewers()
