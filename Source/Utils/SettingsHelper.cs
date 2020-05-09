@@ -103,13 +103,13 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 if (Widgets.ButtonText(reduceRect, "-10"))
                 {
-                    price -= 100;
+                    price -= 10;
                     buffer = price.ToString();
                 }
 
                 if (Widgets.ButtonText(raiseRect, "+10"))
                 {
-                    price += 100;
+                    price += 10;
                     buffer = price.ToString();
                 }
             }
