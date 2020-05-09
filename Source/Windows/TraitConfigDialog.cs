@@ -197,7 +197,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var old = Text.Anchor;
             var effectiveList = results ?? cache;
             var total = effectiveList.Count;
-            var maxHeight = (Text.LineHeight * 2f) * total;
+            var maxHeight = (Text.LineHeight * 3f) * total;
             var viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight);
             var traits = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
@@ -207,12 +207,20 @@ namespace SirRandoo.ToolkitUtils.Windows
             for (var index = 0; index < effectiveList.Count; index++)
             {
                 var trait = effectiveList[index];
-                var lineRect = listing.GetRect(Text.LineHeight * 2);
+                var lineRect = listing.GetRect(Text.LineHeight * 2f);
+                var spacerRect = listing.GetRect(Text.LineHeight);
                 var labelRect = new Rect(0f, lineRect.y, lineRect.width * 0.6f, lineRect.height);
 
-                if (index % 2 == 0)
+                if (index % 2 == 1)
                 {
-                    Widgets.DrawLightHighlight(lineRect);
+                    Widgets.DrawLightHighlight(
+                        new Rect(
+                            lineRect.x,
+                            lineRect.y - (Text.LineHeight / 2f),
+                            lineRect.width,
+                            lineRect.height + Text.LineHeight
+                        )
+                    );
                 }
 
                 Text.Anchor = TextAnchor.MiddleLeft;
@@ -283,6 +291,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                     Text.Anchor = old;
                 }
+
+                var colorCache = GUI.color;
+                GUI.color = Color.gray;
+                Widgets.DrawLineHorizontal(spacerRect.x, spacerRect.y + (spacerRect.height / 2f), spacerRect.width);
+                GUI.color = colorCache;
             }
 
             GUI.EndGroup();
