@@ -77,6 +77,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void DoWindowContents(Rect inRect)
         {
+            GUI.BeginGroup(inRect);
             var listing = new Listing_Standard {maxOneColumn = true};
             var fontCache = Text.Font;
             Text.Font = GameFont.Small;
@@ -89,25 +90,26 @@ namespace SirRandoo.ToolkitUtils.Windows
             Text.WordWrap = false;
 
             var infoHeaderRect = new Rect(
-                inRect.x + 30f,
-                Text.LineHeight * 3f,
+                30f,
+                0f,
                 inRect.width * 0.4f - 15f,
                 Text.LineHeight
             );
             var priceHeaderRect = new Rect(
-                inRect.x + infoHeaderRect.width + 35f,
+                infoHeaderRect.width + 35f,
                 infoHeaderRect.y,
                 inRect.width - infoHeaderRect.width * 2f - 35f,
                 Text.LineHeight
             );
             var categoryHeaderRect = new Rect(
-                inRect.x + infoHeaderRect.width + priceHeaderRect.width + 35f,
+                infoHeaderRect.width + priceHeaderRect.width + 35f,
                 infoHeaderRect.y,
                 infoHeaderRect.width,
                 Text.LineHeight
             );
 
 
+            GUI.BeginGroup(new Rect(inRect.x, Text.LineHeight * 3f, inRect.width, infoHeaderRect.height));
             Widgets.DrawHighlightIfMouseover(infoHeaderRect);
             Widgets.DrawHighlightIfMouseover(priceHeaderRect);
             Widgets.DrawHighlightIfMouseover(categoryHeaderRect);
@@ -176,6 +178,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                     break;
             }
 
+            GUI.EndGroup();
+
             var effectiveWorkingList = results ?? cache;
             var total = effectiveWorkingList.Count;
 
@@ -188,11 +192,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             var viewPort = new Rect(
                 0f,
                 0f,
-                contentArea.width * 0.9f,
-                (Text.LineHeight + listing.verticalSpacing) * total
+                contentArea.width - 16f,
+                Text.LineHeight * total
             );
+            var items = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
-            listing.BeginScrollView(contentArea, ref scrollPos, ref viewPort);
+            GUI.BeginGroup(contentArea);
+            listing.BeginScrollView(items, ref scrollPos, ref viewPort);
             for (var index = 0; index < effectiveWorkingList.Count; index++)
             {
                 var item = effectiveWorkingList[index];
@@ -203,21 +209,21 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                var iconRect = new Rect(contentArea.x + 27f, lineRect.y, 27f, lineRect.height);
+                var iconRect = new Rect(27f, lineRect.y, 27f, lineRect.height);
                 var labelRect = new Rect(
-                    contentArea.x + iconRect.width + 5f + 27f,
+                    iconRect.width + 5f + 27f,
                     lineRect.y,
                     infoHeaderRect.width - 30f,
                     lineRect.height
                 );
                 var infoRect = new Rect(
-                    contentArea.x + 27f,
+                    27f,
                     lineRect.y,
                     infoHeaderRect.width,
                     lineRect.height
                 );
 
-                Widgets.Checkbox(contentArea.x, lineRect.y, ref item.Enabled, paintable: true);
+                Widgets.Checkbox(0f, lineRect.y, ref item.Enabled, paintable: true);
                 Widgets.Label(labelRect, item.Thing?.LabelCap ?? item.Item.abr);
 
                 if (item.Thing != null)
@@ -400,13 +406,18 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
+            GUI.EndGroup();
+
             listing.EndScrollView(ref viewPort);
             Text.WordWrap = wrapped;
             Text.Font = fontCache;
+
+            GUI.EndGroup();
         }
 
         private void DrawStoreHeader(Rect canvas)
         {
+            GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             var searchRect = new Rect(line.x, line.y, line.width * 0.25f, line.height);
             var workingList = results ?? cache;
@@ -508,6 +519,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                     }
                 }
             }
+
+            GUI.EndGroup();
         }
 
         public override void WindowUpdate()
