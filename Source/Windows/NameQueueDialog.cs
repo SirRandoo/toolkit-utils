@@ -149,13 +149,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.BeginScrollView(queueRect, ref scrollPos, ref queueView);
             listing.Gap(Text.LineHeight * 5f);
-            var rmvBtnSize = Text.CalcSize(removeText).x * 1.5f;
             for (var index = pawnComponent.ViewerNameQueue.Count - 1; index >= 0; index--)
             {
                 var name = pawnComponent.ViewerNameQueue[index];
 
                 var line = listing.GetRect(Text.LineHeight);
-                var buttonRect = new Rect(line.x + line.width - rmvBtnSize, line.y, rmvBtnSize, line.height);
+                var buttonRect = new Rect(line.x + line.width - line.height, line.y, line.height, line.height);
                 var nameRect = new Rect(line.x, line.y, line.width - buttonRect.width - 5f, line.height);
 
                 if (name.EqualsIgnoreCase(username))
@@ -164,7 +163,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
                 else if (index % 2 == 0)
                 {
-                    Widgets.DrawLightHighlight(nameRect);
+                    Widgets.DrawLightHighlight(line);
                 }
 
                 Widgets.DrawHighlightIfMouseover(nameRect);
@@ -175,7 +174,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     username = name.ToLowerInvariant();
                 }
 
-                if (Widgets.ButtonText(buttonRect, removeText))
+                if (Widgets.ButtonImage(buttonRect, Widgets.CheckboxOffTex))
                 {
                     try
                     {
@@ -195,16 +194,17 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawMenuSection(Rect canvas)
         {
-            var arrowMax = Mathf.Max(TexUI.ArrowTexLeft.width, TexUI.ArrowTexRight.width) * 0.333f;
+            var widthMidpoint = canvas.width / 2f;
+            var arrowMax = Mathf.Max(TexUI.ArrowTexLeft.width, TexUI.ArrowTexRight.width) * 0.6f;
             var colonistRect = new Rect(
-                arrowMax + 2f + 5f,
+                widthMidpoint - 50f,
                 5f,
-                canvas.width - (arrowMax * 2f) - 4f - 10f,
-                canvas.width - (arrowMax * 2f) - 4f - 10f
+                100f,
+                140f
             );
             var previousRect = new Rect(5f, 5f + colonistRect.height / 2 - arrowMax / 2f, arrowMax, arrowMax);
             var nextRect = new Rect(
-                colonistRect.x + colonistRect.width + 2f,
+                canvas.width - arrowMax - 5f,
                 previousRect.y,
                 previousRect.width,
                 previousRect.height
@@ -356,6 +356,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (pawnComponent != null)
             {
+                pawnComponent.viewerNameQueue.AddRange(
+                    new[] {"username1", "username2", "username3", "username4", "username5", "username6", "username7"}
+                );
                 return;
             }
 
