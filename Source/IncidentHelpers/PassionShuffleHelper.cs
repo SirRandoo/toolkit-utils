@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.Store;
@@ -60,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             pawn = viewerPawn;
             Viewer = viewer;
-            return true;
+            return !Interests.Active;
         }
 
         public override void TryExecute()
