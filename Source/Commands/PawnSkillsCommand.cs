@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
@@ -31,11 +32,15 @@ namespace SirRandoo.ToolkitUtils.Commands
                     )
                     .RawText;
 
-                container += string.Concat(Enumerable.Repeat("🔥".AltText("+"), (int) skill.passion));
+                container += !Interests.Active
+                    ? string.Concat(Enumerable.Repeat("🔥".AltText("+"), (int) skill.passion))
+                    : Interests.GetIconForPassion(skill);
 
                 parts.Add(container);
+
+                TkLogger.Info($"{skill.passion.GetType().FullName}: {skill.passion.ToString()}");
             }
-            
+
             twitchMessage.Reply(string.Join(", ", parts.ToArray()).WithHeader("StatsReport_Skills".Translate()));
         }
     }
