@@ -1,15 +1,11 @@
 ﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore;
-using ToolkitCore.Models;
 using ToolkitCore.Utilities;
-using TwitchLib.Client.Interfaces;
 using TwitchLib.Client.Models.Interfaces;
-using TwitchToolkit.PawnQueue;
+using TwitchToolkit;
 using Verse;
 using Verse.AI;
-using Viewers = TwitchToolkit.Viewers;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
@@ -18,6 +14,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
             var pawn = GetOrFindPawn(twitchMessage.Username);
+            var data = Viewers.GetViewer(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -56,6 +53,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (job.CanBeginNow(pawn))
             {
+                data.SetViewerKarma(data.karma - 15);
+
                 pawn.jobs.StartJob(job, JobCondition.InterruptForced);
             }
         }
