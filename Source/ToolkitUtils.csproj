@@ -123,6 +123,7 @@
     <Compile Include="Commands\UnstickCommand.cs"/>
     <Compile Include="Harmony\BuyPatch.cs"/>
     <Compile Include="Harmony\IncidentEditorPatches.cs"/>
+    <Compile Include="Harmony\KarmaMinimumPatch.cs"/>
     <Compile Include="Harmony\PawnCommandsPatch.cs"/>
     <Compile Include="Harmony\StoreIncidentEditorPatch.cs"/>
     <Compile Include="Harmony\StoreItemEditorPatch.cs"/>
