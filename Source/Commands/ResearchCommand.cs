@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
 using ToolkitCore.Utilities;
-using TwitchLib.Client.Interfaces;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
@@ -22,9 +20,24 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
             else
             {
-                project = DefDatabase<ResearchProjectDef>.AllDefsListForReading.FirstOrDefault(
-                    p => p.defName.EqualsIgnoreCase(query) || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                );
+                project = DefDatabase<ResearchProjectDef>.AllDefsListForReading
+                    .FirstOrDefault(
+                        p => p.defName.EqualsIgnoreCase(query)
+                             || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                    );
+
+
+                if (project == null)
+                {
+                    var thing = DefDatabase<ThingDef>.AllDefsListForReading
+                        .FirstOrDefault(
+                            t => t.defName.EqualsIgnoreCase(query)
+                                 || t.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                        );
+
+                    project = thing?.recipeMaker.researchPrerequisite;
+                    project ??= thing?.recipeMaker.researchPrerequisites?.FirstOrDefault(p => !p.IsFinished);
+                }
             }
 
             if (project == null)
@@ -38,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
                 return;
             }
-            
+
             var segments = new List<string>
             {
                 "TKUtils.Formats.KeyValue".Translate(project.LabelCap, project.ProgressPercent.ToStringPercent())
