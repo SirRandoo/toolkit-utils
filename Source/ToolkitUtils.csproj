@@ -164,6 +164,7 @@
     <Compile Include="Utils\Constraints\VipConstraint.cs"/>
     <Compile Include="Utils\HealHelper.cs"/>
     <Compile Include="Utils\MessageHelper.cs"/>
+    <Compile Include="Utils\ModComp\Androids.cs"/>
     <Compile Include="Utils\ModComp\Interests.cs"/>
     <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
     <Compile Include="Utils\SettingsHelper.cs"/>

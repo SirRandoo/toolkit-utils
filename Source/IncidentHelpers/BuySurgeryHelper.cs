@@ -2,6 +2,7 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -92,7 +93,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (part.category != ThingCategory.Item)
+            if (part.category != ThingCategory.Item
+                || (Androids.Active && !part.thingCategories.Any(c => c.defName.EqualsIgnoreCase("BodyPartsAndroid"))))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -144,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             var recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.IsSurgery).ToList();
             var partRecipes = recipes
-                .Where(r => r.Worker is Recipe_Surgery && r.IsIngredient(part))
+                .Where(r => (r.Worker is Recipe_Surgery || Androids.IsSurgeryUsable(pawn, r)) && r.IsIngredient(part))
                 .ToList();
 
             if (!partRecipes.Any())
@@ -160,14 +162,15 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 r => r.Worker is Recipe_InstallImplant
                      || r.Worker is Recipe_InstallNaturalBodyPart
                      || r.Worker is Recipe_InstallArtificialBodyPart
+                     || Androids.IsSurgeryUsable(pawn, r)
             );
 
-            if (!(surgery?.Worker is Recipe_Surgery worker))
+            if (surgery == null)
             {
                 return false;
             }
 
-            var surgeryParts = worker.GetPartsToApplyOn(pawn, surgery).ToList();
+            var surgeryParts = surgery.Worker?.GetPartsToApplyOn(pawn, surgery).ToList() ?? new List<BodyPartRecord>();
             BodyPartRecord shouldAdd = null;
             var lastHealth = 99999f;
 
