@@ -356,9 +356,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (pawnComponent != null)
             {
-                pawnComponent.viewerNameQueue.AddRange(
-                    new[] {"username1", "username2", "username3", "username4", "username5", "username6", "username7"}
-                );
                 return;
             }
 
