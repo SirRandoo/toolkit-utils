@@ -27,6 +27,17 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
+        public static bool IsAndroid(Pawn pawn)
+        {
+            if (!Active)
+            {
+                return false;
+            }
+
+            return pawn.RaceProps.FleshType.defName.EqualsIgnoreCase(AndroidFlesh.defName)
+                   || pawn.RaceProps.FleshType.defName.EqualsIgnoreCase(MechFlesh.defName);
+        }
+
         public static bool IsSurgeryUsable(Pawn pawn, RecipeDef recipe)
         {
             if (!Active)
@@ -34,8 +45,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return false;
             }
 
-            if (!pawn.RaceProps.FleshType.defName.EqualsIgnoreCase(AndroidFlesh.defName)
-                && !pawn.RaceProps.FleshType.defName.EqualsIgnoreCase(MechFlesh.defName))
+            if (!IsAndroid(pawn))
             {
                 return false;
             }

@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;
@@ -11,30 +11,30 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
-    public class ReviveMeHelper : IncidentHelperVariables
+    public class ReviveRandomHelper : IncidentHelper
     {
         private Pawn pawn;
-        public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool IsPossible()
         {
-            Viewer = viewer;
+            var list = Find.ColonistBar
+                .GetColonistsInOrder()
+                .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
+                .ToList();
 
-            var viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
-
-            if (viewerPawn == null)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
-                return false;
-            }
-
-            if (PawnTracker.pawnsToRevive.Contains(viewerPawn))
+            if (!list.Any())
             {
                 return false;
             }
 
-            pawn = viewerPawn;
-            PawnTracker.pawnsToRevive.Add(viewerPawn);
+            pawn = list.RandomElementWithFallback();
+
+            if (pawn == null)
+            {
+                return false;
+            }
+
+            PawnTracker.pawnsToRevive.Add(pawn);
             return true;
         }
 
@@ -81,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
             catch (Exception ex)
             {
-                TkLogger.Error("Could not execute reviveme", ex);
+                TkLogger.Error("Could not execute reviveanypawn", ex);
             }
         }
     }

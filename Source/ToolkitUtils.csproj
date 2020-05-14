@@ -143,6 +143,7 @@
     <Compile Include="IncidentHelpers\RemoveTraitHelper.cs"/>
     <Compile Include="IncidentHelpers\ReviveAllHelper.cs"/>
     <Compile Include="IncidentHelpers\ReviveMeHelper.cs"/>
+    <Compile Include="IncidentHelpers\ReviveRandomHelper.cs"/>
     <Compile Include="TkAddonMenu.cs"/>
     <Compile Include="TkLogger.cs"/>
     <Compile Include="TkSettings.cs"/>
@@ -212,6 +213,9 @@
     </Content>
     <Content Include="..\Common\Patches\IncidentHelpers\RemoveTraitPatch.xml">
       <Link>Patches\RemoveTraitPatch.xml</Link>
+    </Content>
+    <Content Include="..\Common\Patches\IncidentHelpers\RandomRevivePatch.xml">
+      <Link>Patches\RandomRevivePatch.xml</Link>
     </Content>
     <Content Include="..\Common\Patches\BalancePatch.xml">
       <Link>Patches\BalancePatch.xml</Link>
