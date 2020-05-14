@@ -31,6 +31,16 @@
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentSimple>
     
+    <TwitchToolkit.Incidents.StoreIncidentSimple>
+        <defName>HealRandomPawn</defName>
+        <label>heal random pawn</label>
+        <abbreviation>healanypawn</abbreviation>
+        <cost>2000</cost>
+        <eventCap>2</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.HealRandomHelper</incidentHelper>
+        <karmaType>Good</karmaType>
+    </TwitchToolkit.Incidents.StoreIncidentSimple>
+    
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealMe</defName>
         <label>healme</label>
