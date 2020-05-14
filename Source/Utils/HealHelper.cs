@@ -264,5 +264,97 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             return container.Average();
         }
+
+        public static object GetPawnHealable(Pawn pawn)
+        {
+            var hediff = FindLifeThreateningHediff(pawn);
+            if (hediff != null)
+            {
+                return hediff;
+            }
+
+            if (HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 2500)
+            {
+                var hediff2 = FindMostBleedingHediff(pawn);
+                if (hediff2 != null)
+                {
+                    return hediff2;
+                }
+            }
+
+            if (pawn.health.hediffSet.GetBrain() != null)
+            {
+                var injury = FindPermanentInjury(
+                    pawn,
+                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
+                );
+                if (injury != null)
+                {
+                    return injury;
+                }
+            }
+
+            var bodyPartRecord = FindBiggestMissingBodyPart(pawn, HandCoverageAbsWithChildren);
+            if (bodyPartRecord != null)
+            {
+                return bodyPartRecord;
+            }
+
+            var injury2 = FindPermanentInjury(
+                pawn,
+                pawn.health.hediffSet.GetNotMissingParts().Where(p => p.def == BodyPartDefOf.Eye) as
+                    IReadOnlyCollection<BodyPartRecord>
+            );
+            if (injury2 != null)
+            {
+                return injury2;
+            }
+
+            var hediff3 = FindImmunizableHediffWhichCanKill(pawn);
+            if (hediff3 != null)
+            {
+                return hediff3;
+            }
+
+            var hediff4 = FindNonInjuryMiscBadHediff(pawn, true);
+            if (hediff4 != null)
+            {
+                return hediff4;
+            }
+
+            var hediff5 = FindNonInjuryMiscBadHediff(pawn, false);
+            if (hediff5 != null)
+            {
+                return hediff5;
+            }
+
+            if (pawn.health.hediffSet.GetBrain() != null)
+            {
+                var injury3 = FindInjury(
+                    pawn,
+                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
+                );
+                if (injury3 != null)
+                {
+                    return injury3;
+                }
+            }
+
+            var bodyPartRecord2 = FindBiggestMissingBodyPart(pawn);
+            if (bodyPartRecord2 != null)
+            {
+                return bodyPartRecord2;
+            }
+
+            var addiction = FindAddiction(pawn);
+            if (addiction != null)
+            {
+                return addiction;
+            }
+
+            var injury4 = FindPermanentInjury(pawn);
+
+            return injury4 ?? FindInjury(pawn);
+        }
     }
 }

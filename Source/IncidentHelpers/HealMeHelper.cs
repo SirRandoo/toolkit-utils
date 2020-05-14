@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using RimWorld;
+﻿using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.Store;
@@ -27,114 +25,16 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var hediff = HealHelper.FindLifeThreateningHediff(pawn);
-            if (hediff != null)
-            {
-                toHeal = hediff;
-                return true;
-            }
+            var result = HealHelper.GetPawnHealable(pawn);
 
-            if (HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 2500)
+            switch (result)
             {
-                var hediff2 = HealHelper.FindMostBleedingHediff(pawn);
-                if (hediff2 != null)
-                {
-                    toHeal = hediff2;
-                    return true;
-                }
-            }
-
-            if (pawn.health.hediffSet.GetBrain() != null)
-            {
-                var hediffInjury = HealHelper.FindPermanentInjury(
-                    pawn,
-                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
-                );
-                if (hediffInjury != null)
-                {
-                    toHeal = hediffInjury;
-                    return true;
-                }
-            }
-
-            var bodyPartRecord = HealHelper.FindBiggestMissingBodyPart(pawn, HealHelper.HandCoverageAbsWithChildren);
-            if (bodyPartRecord != null)
-            {
-                toRestore = bodyPartRecord;
-                return true;
-            }
-
-            var hediffInjury2 = HealHelper.FindPermanentInjury(
-                pawn,
-                pawn.health.hediffSet.GetNotMissingParts()
-                    .Where(p => p.def == BodyPartDefOf.Eye) as IReadOnlyCollection<BodyPartRecord>
-            );
-
-            if (hediffInjury2 != null)
-            {
-                toHeal = hediffInjury2;
-                return true;
-            }
-
-            var hediff3 = HealHelper.FindImmunizableHediffWhichCanKill(pawn);
-            if (hediff3 != null)
-            {
-                toHeal = hediff3;
-                return true;
-            }
-
-            var hediff4 = HealHelper.FindNonInjuryMiscBadHediff(pawn, true);
-            if (hediff4 != null)
-            {
-                toHeal = hediff4;
-                return true;
-            }
-
-            var hediff5 = HealHelper.FindNonInjuryMiscBadHediff(pawn, false);
-            if (hediff5 != null)
-            {
-                toHeal = hediff5;
-                return true;
-            }
-
-            if (pawn.health.hediffSet.GetBrain() != null)
-            {
-                var hediffInjury3 = HealHelper.FindInjury(
-                    pawn,
-                    Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
-                );
-                if (hediffInjury3 != null)
-                {
-                    toHeal = hediffInjury3;
-                    return true;
-                }
-            }
-
-            var bodyPartRecord2 = HealHelper.FindBiggestMissingBodyPart(pawn);
-            if (bodyPartRecord2 != null)
-            {
-                toRestore = bodyPartRecord2;
-                return true;
-            }
-
-            var hediffAddiction = HealHelper.FindAddiction(pawn);
-            if (hediffAddiction != null)
-            {
-                toHeal = hediffAddiction;
-                return true;
-            }
-
-            var hediffInjury4 = HealHelper.FindPermanentInjury(pawn);
-            if (hediffInjury4 != null)
-            {
-                toHeal = hediffInjury4;
-                return true;
-            }
-
-            var hediffInjury5 = HealHelper.FindInjury(pawn);
-            if (hediffInjury5 != null)
-            {
-                toHeal = hediffInjury5;
+                case Hediff hediff:
+                    toHeal = hediff;
+                    break;
+                case BodyPartRecord record:
+                    toRestore = record;
+                    break;
             }
 
             return toHeal != null || toRestore != null;
