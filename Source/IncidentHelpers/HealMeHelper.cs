@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             Viewer = viewer;
 
-            pawn = CommandBase.GetPawn(viewer.username);
+            pawn = CommandBase.GetOrFindPawn(viewer.username);
 
             if (pawn == null)
             {
