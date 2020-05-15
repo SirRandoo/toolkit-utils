@@ -19,7 +19,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var container = new List<string> { };
+            var container = new List<string>();
             var coins = ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0");
             var karma = (viewer.GetViewerKarma() / 100f).ToString("P0");
 
