@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -9,16 +10,73 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
 {
     [StaticConstructorOnStartup]
-    public class Interests
+    public static class Interests
     {
         public static readonly bool Active;
-        private static Type interestsClass;
-        private static FieldInfo interestsList;
+        private static readonly Type InterestsClass;
+        private static readonly FieldInfo InterestsList;
+        private static readonly IList InterestListInstance;
+        private static readonly List<Def> UsableInterestList = new List<Def>();
+
+        private static readonly Dictionary<string, string> InterestIndex = new Dictionary<string, string>
+        {
+            {"DMinorPassion", "🔥"},
+            {"DMajorPassion", "🔥🔥"},
+            {"DMinorAversion", "❄"},
+            {"DMajorAversion", "❄❄"},
+            {"DCompulsion", "🎲"},
+            {"DInvigorating", "☕"},
+            {"DInspiring", "💡"},
+            {"DStagnant", "🔒"},
+            {"DForgetful", "💭"},
+            {"DVocalHatred", "📢"},
+            {"DNaturalGenius", "🧠"},
+            {"DBored", "💤"},
+            {"DAllergic", "🤧"},
+        };
 
         static Interests()
         {
             Active = ModsConfig.ActiveModsInLoadOrder
-                .Any(m => m.PackageId.EqualsIgnoreCase("dame.interestsframework"));
+                .Any(m => m.PackageId.EqualsIgnoreCase("dame.InterestsFramework"));
+
+            if (!Active)
+            {
+                return;
+            }
+
+            foreach (var handle in LoadedModManager.ModHandles.Where(
+                h => h.Content.PackageId.EqualsIgnoreCase("dame.InterestsFramework")
+            ))
+            {
+                InterestsClass = handle.GetType().Assembly.GetType("DInterests.InterestBase", false);
+
+                if (InterestsClass != null)
+                {
+                    InterestsList = AccessTools.Field(InterestsClass, "interestList");
+                }
+
+                if (InterestsList != null)
+                {
+                    InterestListInstance = InterestsList.GetValue(InterestsClass) as IList;
+                }
+
+                if (InterestListInstance != null)
+                {
+                    foreach (var def in InterestListInstance)
+                    {
+                        if (!(def is Def instance))
+                        {
+                            TkLogger.Warn($@"Could not cast ""{def.ToStringSafe()}"" to a Def instance!");
+                            continue;
+                        }
+
+                        UsableInterestList.Add(instance);
+                    }
+                }
+
+                Active = InterestsClass != null;
+            }
         }
 
         public static string GetIconForPassion(SkillRecord skill)
@@ -28,61 +86,18 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return null;
             }
 
-            if (interestsClass == null)
+            if (!UsableInterestList.Any())
             {
-                TkLogger.Info("Interests class is null! Fetching...");
-
-                var modHandle = LoadedModManager.ModHandles.FirstOrDefault(
-                    h => h.Content.PackageId.EqualsIgnoreCase("dame.interestsframework")
-                );
-
-                if (modHandle == null)
-                {
-                    return string.Empty;
-                }
-
-                interestsClass = modHandle.GetType().Assembly.GetType("DInterests.InterestBase", false);
+                return null;
             }
 
-            if (interestsClass == null)
-            {
-                TkLogger.Info("Interests class is still null! Returning an empty string...");
-                return string.Empty;
-            }
-
-            if (interestsList == null)
-            {
-                TkLogger.Info("Interests list is null! Fetching...");
-                interestsList = AccessTools.Field(interestsClass, "interestList");
-            }
-
-            if (interestsList == null)
-            {
-                TkLogger.Info("Interests list is still null! Returning an empty string...");
-                return string.Empty;
-            }
-
-            TkLogger.Info("Attempting to get list instance...");
-            var value = interestsList.GetValue(interestsList);
-
-            if (value == null)
-            {
-                TkLogger.Info("List instance is null! Returning an empty string...");
-                return string.Empty;
-            }
-
-            if (!(value is IList valueAsList))
-            {
-                TkLogger.Info("List instance could not be casted to a list!");
-                return string.Empty;
-            }
 
             var passionValue = skill.passion;
             Def interest;
 
             try
             {
-                interest = valueAsList[(int) passionValue] as Def;
+                interest = UsableInterestList[(int) passionValue];
             }
             catch (Exception e)
             {
@@ -90,56 +105,14 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return string.Empty;
             }
 
-            if (interest == null)
+            if (interest != null)
             {
-                TkLogger.Info("Interest def was null!");
-                return string.Empty;
+                return InterestIndex.TryGetValue(interest.defName, string.Empty)
+                    .AltText($"{interest.LabelCap.RawText}");
             }
 
-            switch (interest.defName)
-            {
-                case "DMinorPassion":
-                    return "🔥".AltText("+");
-
-                case "DMajorPassion":
-                    return "🔥🔥".AltText("++");
-
-                case "DMinorAversion":
-                    return "❄️".AltText("");
-
-                case "DMajorAversion":
-                    return "❄️❄️".AltText("");
-
-                case "DCompulsion":
-                    return "🎲".AltText("");
-
-                case "DInvigorating":
-                    return "☕".AltText("");
-
-                case "DInspiring":
-                    return "💡".AltText("");
-
-                case "DStagnant":
-                    return "🔒".AltText("");
-
-                case "DForgetful":
-                    return "💭".AltText("");
-
-                case "DVocalHatred":
-                    return "📢".AltText("");
-
-                case "DNaturalGenius":
-                    return "🧠".AltText("");
-
-                case "DBored":
-                    return "💤".AltText("");
-
-                case "DAllergic":
-                    return "🤧".AltText("");
-
-                default:
-                    return string.Empty;
-            }
+            TkLogger.Info("Interest def was null!");
+            return string.Empty;
         }
     }
 }
