@@ -92,29 +92,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         private void Notify__Success(string affected)
         {
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                var response = "";
-
-                if (toHeal != null)
-                {
-                    response = "TKUtils.Responses.HealMe.Healed";
-                }
-
-                if (toRestore != null)
-                {
-                    response = "TKUtils.Responses.HealthMe.Restored";
-                }
-
-                if (!response.NullOrEmpty())
-                {
-                    if (target.Name is NameTriple name && !name.Nick.NullOrEmpty())
-                    {
-                        MessageHelper.ReplyToUser(name.Nick, response.Translate(affected));
-                    }
-                }
-            }
-
             var description = "";
 
             if (toHeal != null)
@@ -132,17 +109,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return;
             }
 
-            {
-                if (target.Name is NameTriple name && !name.Nick.NullOrEmpty())
-                {
-                    Current.Game.letterStack.ReceiveLetter(
-                        "TKUtils.Letters.Heal.Title".Translate(),
-                        description.Translate(name.Nick, affected),
-                        LetterDefOf.PositiveEvent,
-                        affected
-                    );
-                }
-            }
+            Current.Game.letterStack.ReceiveLetter(
+                "TKUtils.Letters.Heal.Title".Translate(),
+                description.Translate(target.LabelCap, affected),
+                LetterDefOf.PositiveEvent,
+                affected
+            );
         }
     }
 }
