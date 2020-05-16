@@ -336,8 +336,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             var name = current.Name as NameTriple;
 
-            current.Name = new NameTriple(name?.First, username, name?.Last);
-            pawnComponent.AssignUserToPawn(username.ToLowerInvariant(), current);
+            current.Name = new NameTriple(name?.First, username.NullOrEmpty() ? name?.Last : username, name?.Last);
+
+            if (!username.NullOrEmpty())
+            {
+                pawnComponent.AssignUserToPawn(username.ToLowerInvariant(), current);
+            }
 
             NextUnnamedColonist();
         }
@@ -345,7 +349,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void NextUnnamedColonist()
         {
             current = allPawns
-                .FirstOrDefault(p => pawnComponent.pawnHistory.All(pair => pair.Value != p));
+                .FirstOrDefault(p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current);
 
             Notify__CurrentPawnChanged();
         }
