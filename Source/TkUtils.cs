@@ -119,6 +119,11 @@ namespace SirRandoo.ToolkitUtils
                     continue;
                 }
 
+                if (File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt")))
+                {
+                    continue;
+                }
+
                 string version = null;
                 string steamId = null;
                 var manifestFile = Path.Combine(mod.RootDir.ToString(), "About/Manifest.xml");
