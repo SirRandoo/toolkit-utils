@@ -708,7 +708,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     {
                         item = new Item(
                             CalculateToolkitPrice(thing.BaseMarketValue),
-                            thing.label.ToToolkit(),
+                            thing.label?.ToToolkit() ?? thing.defName,
                             thing.defName
                         );
 
@@ -717,7 +717,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     }
                     else
                     {
-                        item.abr ??= thing.label.ToToolkit();
+                        item.abr ??= thing.label?.ToToolkit() ?? thing.defName;
                     }
 
                     container.Add(new Container {Item = item, Thing = thing, Enabled = item.price > 0});
