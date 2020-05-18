@@ -174,7 +174,6 @@
     <Compile Include="Utils\Unrichify.cs"/>
     <Compile Include="Utils\TraitHelper.cs"/>
     <Compile Include="Windows\NameQueueDialog.cs"/>
-    <Compile Include="Windows\NoticeWindow.cs"/>
     <Compile Include="Windows\PurgeViewersDialog.cs"/>
     <Compile Include="Windows\RaceConfigDialog.cs"/>
     <Compile Include="Windows\StoreDialog.cs"/>
