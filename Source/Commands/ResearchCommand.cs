@@ -35,8 +35,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                                  || t.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                         );
 
-                    project = thing?.recipeMaker.researchPrerequisite;
-                    project ??= thing?.recipeMaker.researchPrerequisites?.FirstOrDefault(p => !p.IsFinished);
+                    project = thing?.recipeMaker?.researchPrerequisite;
+                    project ??= thing?.recipeMaker?.researchPrerequisites?.FirstOrDefault(p => !p.IsFinished);
                 }
             }
 
