@@ -264,6 +264,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
                 var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width - 16f, lineRect.height);
 
+                if (!lineRect.IsRegionVisible(races, scrollPos))
+                {
+                    continue;
+                }
+
                 if (index % 2 == 0)
                 {
                     Widgets.DrawLightHighlight(lineRect);

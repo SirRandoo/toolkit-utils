@@ -211,6 +211,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var spacerRect = listing.GetRect(Text.LineHeight);
                 var labelRect = new Rect(0f, lineRect.y, lineRect.width * 0.6f, lineRect.height);
 
+                if (!lineRect.IsRegionVisible(traits, scrollPos))
+                {
+                    continue;
+                }
+
                 if (index % 2 == 1)
                 {
                     Widgets.DrawLightHighlight(
