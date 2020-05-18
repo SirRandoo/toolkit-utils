@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool TempInGear;
         public static bool DropInventory;
         public static bool JsonShop;
-        public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
+        public static string LeaveMethod = ToolkitUtils.LeaveMethods.MentalBreak.ToString();
         public static int LookupLimit = 10;
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool UtilsNoticePawn = true;
 
         private static Categories _category = Categories.General;
-        private static readonly string[] leaveMethods = Enum.GetNames(typeof(LeaveMethods));
+        private static readonly string[] LeaveMethods = Enum.GetNames(typeof(LeaveMethods));
 
         public static void DoWindowContents(Rect inRect)
         {
@@ -218,7 +218,7 @@ namespace SirRandoo.ToolkitUtils
             if (Widgets.ButtonText(leaveRect, LeaveMethod))
             {
                 Find.WindowStack.Add(
-                    new FloatMenu(leaveMethods.Select(o => new FloatMenuOption(o, () => LeaveMethod = o)).ToList())
+                    new FloatMenu(LeaveMethods.Select(o => new FloatMenuOption(o, () => LeaveMethod = o)).ToList())
                 );
             }
 
@@ -250,7 +250,7 @@ namespace SirRandoo.ToolkitUtils
 
             Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
             Scribe_Values.Look(ref Race, "race", true);
-            Scribe_Values.Look(ref LeaveMethod, "leaveMethod", LeaveMethods.MentalBreak.ToString());
+            Scribe_Values.Look(ref LeaveMethod, "leaveMethod", ToolkitUtils.LeaveMethods.MentalBreak.ToString());
             Scribe_Values.Look(ref DropInventory, "dropInventory");
 
             Scribe_Values.Look(ref JsonShop, "shopJson");
