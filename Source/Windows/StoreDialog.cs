@@ -77,6 +77,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void DoWindowContents(Rect inRect)
         {
+            if (Event.current.type == EventType.Layout)
+            {
+                return;
+            }
+
             GUI.BeginGroup(inRect);
             var listing = new Listing_Standard {maxOneColumn = true};
             var fontCache = Text.Font;
@@ -203,6 +208,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 var item = effectiveWorkingList[index];
                 var lineRect = listing.GetRect(Text.LineHeight);
+
+                if (!lineRect.IsRegionVisible(items, scrollPos))
+                {
+                    continue;
+                }
 
                 if (index % 2 == 0)
                 {
