@@ -97,6 +97,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                         Text.LineHeight
                     );
 
+                    if (!closeRect.IsRegionVisible(constraintsArea, scrollPos))
+                    {
+                        continue;
+                    }
+
                     Widgets.Label(
                         new Rect(0f, i * Text.LineHeight, inRect.width - exemptWidth - 20f, Text.LineHeight),
                         viewer.username
@@ -123,20 +128,28 @@ namespace SirRandoo.ToolkitUtils.Windows
                 for (var i = 0; i < constraints.Count; i++)
                 {
                     var constraint = constraints[i];
-
-                    constraint.Draw(
-                        new Rect(
-                            contentView.x,
-                            i * Text.LineHeight,
-                            contentView.width - exemptWidth - 20f,
-                            Text.LineHeight
-                        )
+                    var lineRect = new Rect(contentView.x, i * Text.LineHeight, contentView.width, Text.LineHeight);
+                    var constraintRect = new Rect(
+                        lineRect.x,
+                        lineRect.y,
+                        lineRect.width - exemptWidth - 20f,
+                        lineRect.height
+                    );
+                    var exemptRect = new Rect(
+                        contentView.width - exemptWidth,
+                        i * Text.LineHeight,
+                        exemptWidth,
+                        Text.LineHeight
                     );
 
-                    if (Widgets.ButtonText(
-                        new Rect(contentView.width - exemptWidth, i * Text.LineHeight, exemptWidth, Text.LineHeight),
-                        exemptText
-                    ))
+                    if (!lineRect.IsRegionVisible(constraintsArea, scrollPos))
+                    {
+                        continue;
+                    }
+
+                    constraint.Draw(constraintRect);
+
+                    if (Widgets.ButtonText(exemptRect, exemptText))
                     {
                         toRemove = constraint;
                     }
