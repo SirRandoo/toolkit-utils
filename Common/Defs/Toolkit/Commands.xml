@@ -106,10 +106,22 @@
         <defName>ReviveAnyPawnShortcut</defName>
         <label>revive any pawn</label>
         <command>reviveanypawn</command>
-        
+    
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A resurrector mech serum for a random dead colonist.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command ParentName="ShortcutBase">
+        <defName>HealAnyPawnShortcut</defName>
+        <label>heal any pawn</label>
+        <command>healanypawn</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>A healer mech serum for a random colonist.</Description>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
