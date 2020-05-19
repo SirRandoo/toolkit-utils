@@ -5,7 +5,6 @@ using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.Store;
-using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
@@ -119,26 +118,31 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             while (passionCount > 0)
             {
-                foreach (var skill in pawn.skills.skills.Where(skill => skill.passion != Passion.Major)
-                    .Where(skill => !skill.TotallyDisabled)
-                    .Where(skill => passionCount > 0 && Random.Range(1, 5) <= 3))
-                {
-                    passionCount -= 1;
+                var skill = pawn.skills.skills
+                    .Where(s => !s.TotallyDisabled)
+                    .Where(s => s.passion != Passion.Major)
+                    .RandomElementWithFallback();
 
-                    switch (skill.passion)
-                    {
-                        case Passion.None:
-                            skill.passion = Passion.Minor;
-                            break;
-                        case Passion.Minor:
-                            skill.passion = Passion.Major;
-                            break;
-                    }
+                if (skill == null)
+                {
+                    iterations += 1;
+                    continue;
                 }
 
+                switch (skill.passion)
+                {
+                    case Passion.None:
+                        skill.passion = Passion.Minor;
+                        break;
+                    case Passion.Minor:
+                        skill.passion = Passion.Major;
+                        break;
+                }
+
+                passionCount -= 1;
                 iterations += 1;
 
-                if (iterations < 100)
+                if (iterations < 150)
                 {
                     continue;
                 }
@@ -176,26 +180,31 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             while (passionCount > 0)
             {
-                foreach (var skill in pawn.skills.skills.Where(skill => skill.passion != Passion.Major)
-                    .Where(skill => !skill.TotallyDisabled)
-                    .Where(skill => passionCount > 0 && Random.Range(1, 5) <= 3))
-                {
-                    passionCount -= 1;
+                var skill = pawn.skills.skills
+                    .Where(s => !s.TotallyDisabled)
+                    .Where(s => s.passion != Passion.Major)
+                    .RandomElementWithFallback();
 
-                    switch (skill.passion)
-                    {
-                        case Passion.None:
-                            skill.passion = Passion.Minor;
-                            break;
-                        case Passion.Minor:
-                            skill.passion = Passion.Major;
-                            break;
-                    }
+                if (skill == null)
+                {
+                    iterations += 1;
+                    continue;
                 }
 
+                switch (skill.passion)
+                {
+                    case Passion.None:
+                        skill.passion = Passion.Minor;
+                        break;
+                    case Passion.Minor:
+                        skill.passion = Passion.Major;
+                        break;
+                }
+
+                passionCount -= 1;
                 iterations += 1;
 
-                if (iterations < 100)
+                if (iterations < 150)
                 {
                     continue;
                 }
@@ -206,28 +215,25 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             while (interests.Any())
             {
-                foreach (var skill in pawn.skills.skills.Where(s => s.passion == Passion.None)
+                var skill = pawn.skills.skills
                     .Where(s => !s.TotallyDisabled)
-                    .Where(s => Random.Range(1, 5) <= 3))
+                    .Where(s => s.passion == Passion.None)
+                    .RandomElementWithFallback();
+
+                if (skill == null)
                 {
-                    TkLogger.Info($"Attempting to apply interest for skill {skill}");
-                    if (skill.passion != Passion.None)
-                    {
-                        iterations += 1;
-                        continue;
-                    }
-
-                    var interest = interests.RandomElementWithFallback();
-
-                    TkLogger.Info($"{skill} → {interest.ToStringSafe()}");
-                    skill.passion = interest;
-
-                    interests.Remove(interest);
+                    iterations += 1;
+                    continue;
                 }
 
+                var interest = interests.RandomElementWithFallback();
+
+                skill.passion = interest;
+
+                interests.Remove(interest);
                 iterations += 1;
 
-                if (iterations < 100)
+                if (iterations < 150)
                 {
                     continue;
                 }
