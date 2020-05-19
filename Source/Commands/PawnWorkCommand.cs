@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
-using TwitchLib.Client.Interfaces;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
@@ -16,7 +15,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TKUtils.Headers.Work".Translate()));
+                twitchMessage.Reply(
+                    "TKUtils.Responses.NoPawn".Translate().WithHeader("TKUtils.Headers.Work".Translate())
+                );
                 return;
             }
 
@@ -29,13 +30,39 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var container = new List<string>();
-            var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder;
+            var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToList();
 
             if (TkSettings.SortWorkPriorities)
             {
                 priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
                     .ThenBy(p => p.naturalPriority)
-                    .Reverse();
+                    .Reverse()
+                    .ToList();
+            }
+
+            for (var index = priorities.Count - 1; index >= 0; index--)
+            {
+                var priority = priorities[index];
+                var setting =
+                    TkSettings.WorkSettings.FirstOrDefault(p => p.WorkTypeDef.EqualsIgnoreCase(priority.defName));
+
+                if (setting == null)
+                {
+                    continue;
+                }
+
+                if (setting.Enabled)
+                {
+                    continue;
+                }
+
+                try
+                {
+                    priorities.RemoveAt(index);
+                }
+                catch (IndexOutOfRangeException)
+                {
+                }
             }
 
             foreach (var priority in priorities.ToList())
