@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
     <TKUtils.Formats.KeyValue>{0}: {1}</TKUtils.Formats.KeyValue>
@@ -29,7 +29,7 @@
     <TKUtils.Formats.PawnGear.Apparel>Apparel: {0}</TKUtils.Formats.PawnGear.Apparel>
     
     <!-- FixMyPawn Translations -->
-    <TKUtils.Responses.PawnFix.Relinked>You've been successfully relinked.</TKUtils.Responses.PawnFix.Relinked>
+    <TKUtils.Responses.PawnFix.Relinked>You've been successfully relinked in Twitch Toolkit.</TKUtils.Responses.PawnFix.Relinked>
     
     <!-- FixAllPawns Translations -->
     <TKUtils.Responses.PawnFixAll.Relinked>Relinked all pawns.</TKUtils.Responses.PawnFixAll.Relinked>
