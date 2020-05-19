@@ -340,6 +340,8 @@ namespace SirRandoo.ToolkitUtils
                     workSetting.WorkTypeDef,
                     ref workSetting.Enabled
                 );
+
+                Widgets.DrawHighlightIfMouseover(line);
             }
 
             GUI.EndGroup();
@@ -387,6 +389,8 @@ namespace SirRandoo.ToolkitUtils
                     statSetting.StatDef,
                     ref statSetting.Enabled
                 );
+
+                Widgets.DrawHighlightIfMouseover(line);
             }
 
             GUI.EndGroup();
