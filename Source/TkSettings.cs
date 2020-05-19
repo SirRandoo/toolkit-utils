@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -301,6 +301,8 @@ namespace SirRandoo.ToolkitUtils
 
         private static void DrawPawnWork(Rect canvas)
         {
+            GUI.BeginGroup(canvas);
+
             var listing = new Listing_Standard();
             // listing.Begin(canvas);
             //
@@ -340,12 +342,15 @@ namespace SirRandoo.ToolkitUtils
                 );
             }
 
+            GUI.EndGroup();
             listing.EndScrollView(ref view);
             // listing.End();
         }
 
         private static void DrawPawnStats(Rect canvas)
         {
+            GUI.BeginGroup(canvas);
+
             var listing = new Listing_Standard();
             // listing.Begin(canvas);
 
@@ -384,6 +389,7 @@ namespace SirRandoo.ToolkitUtils
                 );
             }
 
+            GUI.EndGroup();
             listing.EndScrollView(ref view);
             // listing.End();
         }
