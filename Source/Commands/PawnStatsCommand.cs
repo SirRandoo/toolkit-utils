@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -55,6 +56,30 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 twitchMessage.Reply("TKUtils.Responses.PawnStats.None".Translate());
                 return;
+            }
+
+            for (var index = stats.Count - 1; index >= 0; index--)
+            {
+                var stat = stats[index];
+                var setting = TkSettings.StatSettings.FirstOrDefault(s => s.StatDef.EqualsIgnoreCase(stat.defName));
+
+                if (setting == null)
+                {
+                    continue;
+                }
+
+                if (setting.Enabled)
+                {
+                    continue;
+                }
+
+                try
+                {
+                    stats.RemoveAt(index);
+                }
+                catch (IndexOutOfRangeException)
+                {
+                }
             }
 
             var parts = stats
