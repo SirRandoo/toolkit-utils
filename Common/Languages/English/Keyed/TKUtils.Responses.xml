@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
     <TKUtils.Formats.KeyValue>{0}: {1}</TKUtils.Formats.KeyValue>
@@ -47,6 +47,9 @@
     <TKUtils.Formats.PawnHealth.Surgeries>Queued surgeries: {0}</TKUtils.Formats.PawnHealth.Surgeries>
     <TKUtils.Responses.PawnHealth.Capacity.Race>{0} are incapable of {1}.</TKUtils.Responses.PawnHealth.Capacity.Race>
     <TKUtils.Responses.PawnHealth.Capacity.None>No capacity by the name of "{0}" could be found.</TKUtils.Responses.PawnHealth.Capacity.None>
+    
+    <!-- MyPawnStats Translations -->
+    <TKUtils.Responses.PawnStats.None>There are no stats registered to this category.</TKUtils.Responses.PawnStats.None>
     
     <!-- Buy Trait Translations -->
     <TKUtils.Responses.BuyTrait.LimitReached>Your pawn already has the maximum number of traits allowed ({0} traits).</TKUtils.Responses.BuyTrait.LimitReached>

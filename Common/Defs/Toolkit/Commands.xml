@@ -118,7 +118,7 @@
         <defName>HealAnyPawnShortcut</defName>
         <label>heal any pawn</label>
         <command>healanypawn</command>
-        
+    
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A healer mech serum for a random colonist.</Description>
@@ -127,6 +127,26 @@
     </TwitchToolkit.Command>
     
     <!-- Pawn Commands -->
+    <TwitchToolkit.Command>
+        <defName>MyPawnStats</defName>
+        <label>viewer stats</label>
+        <command>mypawnstats</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStatsCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows your current stats within a given category.</Description>
+                <Parameters>
+                    <li>
+                        <Type>System.String</Type>
+                        <Name>Category</Name>
+                        <Optional>false</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
     <TwitchToolkit.Command>
         <defName>MyPawnHealth</defName>
         <label>viewer health</label>
