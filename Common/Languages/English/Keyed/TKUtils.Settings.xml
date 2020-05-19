@@ -43,4 +43,12 @@
     <TKUtils.SettingGroups.General.LookupLimit.Tooltip>The maximum number of results that will be displayed in the lookup command (!lookup). A higher value may create walls of text.</TKUtils.SettingGroups.General.LookupLimit.Tooltip>
     <TKUtils.SettingGroups.General.JsonStore.Label>Dump Utils' shop file as json.</TKUtils.SettingGroups.General.JsonStore.Label>
     <TKUtils.SettingGroups.General.JsonStore.Tooltip>If enabled, Utils will dump a copy of its shop file as json for use in whatever.</TKUtils.SettingGroups.General.JsonStore.Tooltip>
+    <TKUtils.SettingGroups.General.HairColor.Label>Dye viewers's hair color to match their chat color.</TKUtils.SettingGroups.General.HairColor.Label>
+    <TKUtils.SettingGroups.General.HairColor.Tooltip>If enabled, users will have their hair dyed to match their current chat name color.</TKUtils.SettingGroups.General.HairColor.Tooltip>
+    
+    <!-- Pawn Work -->
+    <TKUtils.SettingGroups.PawnWork>Work Priorities</TKUtils.SettingGroups.PawnWork>
+    
+    <!-- Pawn Stats -->
+    <TKUtils.SettingGroups.PawnStats>Stats</TKUtils.SettingGroups.PawnStats>
 </LanguageData>

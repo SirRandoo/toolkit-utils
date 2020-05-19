@@ -21,6 +21,8 @@ namespace SirRandoo.ToolkitUtils
     {
         static TkUtilsStatic()
         {
+            TkSettings.ValidateDynamicSettings();
+
             TkUtils.Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
             TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
 

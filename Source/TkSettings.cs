@@ -1,15 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    public enum Categories { General, CommandTweaks, PawnCommands }
+    public enum Categories
+    {
+        General, CommandTweaks, PawnCommands,
+        PawnWork, PawnStats
+    }
 
     public enum LeaveMethods { Thanos, MentalBreak }
 
+    [StaticConstructorOnStartup]
     public class TkSettings : ModSettings
     {
         public static bool DecorateUtils;
@@ -29,67 +36,116 @@ namespace SirRandoo.ToolkitUtils
         public static int LookupLimit = 10;
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
+        public static bool HairColor = true;
 
-        public static bool UtilsNoticeAdd = true;
-        public static bool UtilsNoticeRemove = true;
-        public static bool UtilsNoticePawn = true;
+        public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
+        public static List<StatSetting> StatSettings = new List<StatSetting>();
 
         private static Categories _category = Categories.General;
         private static readonly string[] LeaveMethods = Enum.GetNames(typeof(LeaveMethods));
+        private static readonly Tuple<string, Categories>[] MenuCategories;
+
+        private static WorkTypeDef[] _workTypeDefs;
+        private static StatDef[] _statDefs;
+
+        private static Vector2 _menuScrollPos = Vector2.zero;
+        private static Vector2 _workScrollPos = Vector2.zero;
+        private static Vector2 _statScrollPos = Vector2.zero;
+
+        static TkSettings()
+        {
+            MenuCategories = Enum.GetNames(typeof(Categories))
+                .Select(n => new Tuple<string, Categories>(n, (Categories) Enum.Parse(typeof(Categories), n)))
+                .ToArray();
+
+            if (_workTypeDefs.NullOrEmpty())
+            {
+                _workTypeDefs = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToArray();
+            }
+
+            if (_statDefs.NullOrEmpty())
+            {
+                _statDefs = DefDatabase<StatDef>.AllDefsListForReading.ToArray();
+            }
+        }
 
         public static void DoWindowContents(Rect inRect)
         {
-            var catRect = new Rect(inRect.x, inRect.y, inRect.width * 0.25f, inRect.height);
+            GUI.BeginGroup(inRect);
+            var catRect = new Rect(0f, 0f, inRect.width * 0.25f, inRect.height);
             var setRect = new Rect(
                 catRect.width + 10f,
-                inRect.y,
+                0f,
                 inRect.width - catRect.width - 10f,
                 inRect.height
             );
 
+            GUI.BeginGroup(catRect);
+            var menu = new Rect(0f, 0f, catRect.width, catRect.height).ContractedBy(5f);
+            var menuView = new Rect(0f, 0f, menu.width, Text.LineHeight * MenuCategories.Length);
+
+            if (menuView.height > menu.height)
+            {
+                menuView.width -= 16f;
+            }
+
             var listing = new Listing_Standard();
-            Widgets.DrawMenuSection(catRect);
+            Widgets.DrawMenuSection(new Rect(0f, 0f, catRect.width, catRect.height));
 
-            listing.Begin(catRect);
-            var generalRect = listing.Label("TKUtils.SettingGroups.General".Translate());
-            var commandTweakRect = listing.Label("TKUtils.SettingGroups.CommandTweaks".Translate());
-            var pawnRect = listing.Label("TKUtils.SettingGroups.PawnCommands".Translate());
-
-            if (Widgets.ButtonInvisible(generalRect) || _category == Categories.General)
+            listing.BeginScrollView(menu, ref _menuScrollPos, ref menuView);
+            foreach (var (name, value) in MenuCategories)
             {
-                _category = Categories.General;
+                var line = listing.GetRect(Text.LineHeight);
 
-                Widgets.DrawHighlight(generalRect);
+                if (!line.IsRegionVisible(menu, _menuScrollPos))
+                {
+                    continue;
+                }
+
+                if (_category == value)
+                {
+                    Widgets.DrawHighlightSelected(line);
+                }
+
+                Widgets.Label(line, $"TKUtils.SettingGroups.{name}".Translate());
+
+                if (Widgets.ButtonInvisible(line))
+                {
+                    _category = value;
+                }
+
+                Widgets.DrawHighlightIfMouseover(line);
             }
 
-            if (Widgets.ButtonInvisible(commandTweakRect) || _category == Categories.CommandTweaks)
-            {
-                _category = Categories.CommandTweaks;
+            GUI.EndGroup();
+            listing.EndScrollView(ref menuView);
 
-                Widgets.DrawHighlight(commandTweakRect);
-            }
 
-            if (Widgets.ButtonInvisible(pawnRect) || _category == Categories.PawnCommands)
-            {
-                _category = Categories.PawnCommands;
-
-                Widgets.DrawHighlight(pawnRect);
-            }
-
-            listing.End();
+            GUI.BeginGroup(setRect);
+            var contentArea = new Rect(0f, 0f, setRect.width, setRect.height);
 
             switch (_category)
             {
                 case Categories.General:
-                    DrawGeneral(setRect);
+                    DrawGeneral(contentArea);
                     break;
                 case Categories.CommandTweaks:
-                    DrawCommandTweaks(setRect);
+                    DrawCommandTweaks(contentArea);
                     break;
                 case Categories.PawnCommands:
-                    DrawPawnCommands(setRect);
+                    DrawPawnCommands(contentArea);
+                    break;
+                case Categories.PawnWork:
+                    DrawPawnWork(contentArea);
+                    break;
+                case Categories.PawnStats:
+                    DrawPawnStats(contentArea);
                     break;
             }
+
+            GUI.EndGroup();
+
+            GUI.EndGroup();
         }
 
         private static void DrawGeneral(Rect canvas)
@@ -97,6 +153,7 @@ namespace SirRandoo.ToolkitUtils
             var listing = new Listing_Standard();
 
             listing.Begin(canvas);
+
             listing.CheckboxLabeled(
                 "TKUtils.SettingGroups.General.VersionedModList.Label".Translate(),
                 ref VersionedModList,
@@ -146,12 +203,19 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.SettingGroups.General.JsonStore.Tooltip".Translate()
             );
 
+            listing.CheckboxLabeled(
+                "TKUtils.SettingGroups.General.HairColor.Label".Translate(),
+                ref HairColor,
+                "TKUtils.SettingGroups.General.HairColor.Tooltip".Translate()
+            );
+
             listing.End();
         }
 
         private static void DrawCommandTweaks(Rect canvas)
         {
             var listing = new Listing_Standard();
+
             listing.Begin(canvas);
 
             listing.CheckboxLabeled(
@@ -168,6 +232,7 @@ namespace SirRandoo.ToolkitUtils
             var listing = new Listing_Standard();
 
             listing.Begin(canvas);
+
             listing.CheckboxLabeled(
                 "TKUtils.SettingGroups.PawnCommands.TempInGear.Label".Translate(),
                 ref TempInGear,
@@ -234,6 +299,95 @@ namespace SirRandoo.ToolkitUtils
             listing.End();
         }
 
+        private static void DrawPawnWork(Rect canvas)
+        {
+            var listing = new Listing_Standard();
+            // listing.Begin(canvas);
+            //
+            var content = new Rect(0f, 0f, canvas.width, canvas.height);
+            var view = new Rect(0f, 0f, canvas.width - 16f, _workTypeDefs.Length * Text.LineHeight);
+
+            listing.BeginScrollView(content, ref _workScrollPos, ref view);
+
+            for (var index = 0; index < _workTypeDefs.Length; index++)
+            {
+                var workType = _workTypeDefs[index];
+                var workSetting = WorkSettings.FirstOrDefault(w => w.WorkTypeDef.EqualsIgnoreCase(workType.defName));
+
+                if (workSetting == null)
+                {
+                    workSetting = new WorkSetting {Enabled = true, WorkTypeDef = workType.defName};
+
+                    WorkSettings.Add(workSetting);
+                }
+
+                var line = listing.GetRect(Text.LineHeight);
+
+                if (!line.IsRegionVisible(content, _workScrollPos))
+                {
+                    continue;
+                }
+
+                if (index % 2 == 0)
+                {
+                    Widgets.DrawLightHighlight(line);
+                }
+
+                Widgets.CheckboxLabeled(
+                    line,
+                    workSetting.WorkTypeDef,
+                    ref workSetting.Enabled
+                );
+            }
+
+            listing.EndScrollView(ref view);
+            // listing.End();
+        }
+
+        private static void DrawPawnStats(Rect canvas)
+        {
+            var listing = new Listing_Standard();
+            // listing.Begin(canvas);
+
+            var content = new Rect(0f, 0f, canvas.width, canvas.height);
+            var view = new Rect(0f, 0f, canvas.width - 16f, _statDefs.Length * Text.LineHeight);
+
+            listing.BeginScrollView(content, ref _statScrollPos, ref view);
+            for (var index = 0; index < _statDefs.Length; index++)
+            {
+                var statDef = _statDefs[index];
+                var statSetting = StatSettings.FirstOrDefault(w => w.StatDef.EqualsIgnoreCase(statDef.defName));
+
+                if (statSetting == null)
+                {
+                    statSetting = new StatSetting {Enabled = true, StatDef = statDef.defName};
+
+                    StatSettings.Add(statSetting);
+                }
+
+                var line = listing.GetRect(Text.LineHeight);
+
+                if (!line.IsRegionVisible(content, _statScrollPos))
+                {
+                    continue;
+                }
+
+                if (index % 2 == 0)
+                {
+                    Widgets.DrawLightHighlight(line);
+                }
+
+                Widgets.CheckboxLabeled(
+                    line,
+                    statSetting.StatDef,
+                    ref statSetting.Enabled
+                );
+            }
+
+            listing.EndScrollView(ref view);
+            // listing.End();
+        }
+
         public override void ExposeData()
         {
             Scribe_Values.Look(ref Emojis, "emojis", true);
@@ -254,9 +408,71 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref DropInventory, "dropInventory");
 
             Scribe_Values.Look(ref JsonShop, "shopJson");
-            Scribe_Values.Look(ref UtilsNoticeAdd, "utilsNoticeAdd", true);
-            Scribe_Values.Look(ref UtilsNoticeRemove, "utilsNoticeRemove", true);
-            Scribe_Values.Look(ref UtilsNoticePawn, "utilsNoticePawn", true);
+
+            Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
+            Scribe_Collections.Look(ref StatSettings, "statSettings", LookMode.Deep);
+        }
+
+        internal static void ValidateDynamicSettings()
+        {
+            if (_workTypeDefs.NullOrEmpty())
+            {
+                _workTypeDefs = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToArray();
+            }
+
+            if (_statDefs.NullOrEmpty())
+            {
+                _statDefs = DefDatabase<StatDef>.AllDefsListForReading.ToArray();
+            }
+
+
+            WorkSettings ??= new List<WorkSetting>();
+            StatSettings ??= new List<StatSetting>();
+
+
+            foreach (var workType in _workTypeDefs.Where(
+                d => !WorkSettings.Any(s => s.WorkTypeDef.EqualsIgnoreCase(d.defName))
+            ))
+            {
+                WorkSettings.Add(new WorkSetting {Enabled = true, WorkTypeDef = workType.defName});
+            }
+
+            foreach (var stat in _statDefs.Where(
+                d => !StatSettings.Any(s => s.StatDef.EqualsIgnoreCase(d.defName))
+            ))
+            {
+                StatSettings.Add(new StatSetting {Enabled = true, StatDef = stat.defName});
+            }
+        }
+
+        public class WorkSetting : IExposable
+        {
+            [Description("Whether or not the work priority will be shown in !mypawnwork")]
+            public bool Enabled;
+
+            [Description("The def name of the work type instance.")]
+            public string WorkTypeDef;
+
+            public void ExposeData()
+            {
+                Scribe_Values.Look(ref WorkTypeDef, "defName");
+                Scribe_Values.Look(ref Enabled, "enabled", true);
+            }
+        }
+
+        public class StatSetting : IExposable
+        {
+            [Description("Whether or not the stat will be shown in !mypawnstats")]
+            public bool Enabled;
+
+            [Description("The def name of the stat instance.")]
+            public string StatDef;
+
+            public void ExposeData()
+            {
+                Scribe_Values.Look(ref StatDef, "defName");
+                Scribe_Values.Look(ref Enabled, "enabled", true);
+            }
         }
     }
 }
