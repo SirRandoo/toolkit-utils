@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -386,7 +386,7 @@ namespace SirRandoo.ToolkitUtils
 
                 Widgets.CheckboxLabeled(
                     line,
-                    statSetting.StatDef,
+                    statDef.LabelForFullStatListCap ?? statDef.LabelCap,
                     ref statSetting.Enabled
                 );
 
