@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -32,6 +33,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             {"skills", "skills"},
             {"trait", "traits"},
             {"traits", "traits"},
+            {"stat", "stats"},
+            {"stats", "stats"},
         };
 
         private ITwitchMessage msg;
@@ -194,6 +197,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case "races":
                     PerformRaceLookup(query);
                     return;
+                case "stats":
+                    PerformStatLookup(query);
+                    return;
             }
         }
 
@@ -267,6 +273,34 @@ namespace SirRandoo.ToolkitUtils.Commands
                 .ToArray();
 
             Notify__LookupComplete(query, results);
+        }
+
+        private void PerformStatLookup(string query)
+        {
+            var results = PawnStatsCommand.StatRegistry.Keys
+                .Where(i => i.EqualsIgnoreCase(query.ToToolkit()) || i.Contains(query.ToToolkit()))
+                .Select(i => PawnStatsCommand.StatRegistry[i].ToToolkit().CapitalizeFirst())
+                .ToList();
+
+            for (var index = results.Count - 1; index >= 0; index--)
+            {
+                var result = results[index];
+
+                if (results.Count(i => i.EqualsIgnoreCase(result)) <= 1)
+                {
+                    continue;
+                }
+
+                try
+                {
+                    results.RemoveAt(index);
+                }
+                catch (IndexOutOfRangeException)
+                {
+                }
+            }
+
+            Notify__LookupComplete(query, results.ToArray());
         }
     }
 }
