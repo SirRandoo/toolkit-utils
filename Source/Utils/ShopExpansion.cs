@@ -20,6 +20,8 @@ namespace SirRandoo.ToolkitUtils.Utils
         private static readonly string ShopFile = Path.Combine(SaveHelper.dataPath, "ShopExt.json");
         private static readonly string CommandsFile = Path.Combine(SaveHelper.dataPath, "commands.json");
         private static readonly string ModsFile = Path.Combine(SaveHelper.dataPath, "modlist.json");
+        private static readonly string TraitsFile = Path.Combine(SaveHelper.dataPath, "Traits.json");
+        private static readonly string RaceFile = Path.Combine(SaveHelper.dataPath, "Races.json");
 
         public static void SaveData<T>(T xml, string filePath)
         {
@@ -191,16 +193,39 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .Select(JsonUtility.ToJson)
                 .ToArray();
 
-            var builder = new StringBuilder("{");
+            if (TkSettings.DumpStyle.EqualsIgnoreCase("SingleFile"))
+            {
+                var builder = new StringBuilder("{");
 
-            builder.Append(@"""traits"":[");
-            builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
-            builder.Append("],");
-            builder.Append(@"""races"":[");
-            builder.Append(string.Join(",", jsonRaces.ToArray()));
-            builder.Append("]}");
+                builder.Append(@"""traits"":[");
+                builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
+                builder.Append("],");
+                builder.Append(@"""races"":[");
+                builder.Append(string.Join(",", jsonRaces.ToArray()));
+                builder.Append("]}");
 
-            SaveData(builder.ToString(), ShopFile);
+                SaveData(builder.ToString(), ShopFile);
+                return;
+            }
+
+            if (TkSettings.DumpStyle.EqualsIgnoreCase("MultiFile"))
+            {
+                var builder = new StringBuilder("[");
+
+                builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
+                builder.Append("]");
+
+                SaveData(builder.ToString(), TraitsFile);
+
+
+                builder.Clear();
+
+                builder.Append("[");
+                builder.Append(string.Join(",", jsonRaces.ToArray()));
+                builder.Append("]");
+
+                SaveData(builder.ToString(), RaceFile);
+            }
         }
 
         public static void DumpModList()

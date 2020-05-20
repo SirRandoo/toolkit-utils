@@ -16,6 +16,8 @@ namespace SirRandoo.ToolkitUtils
 
     public enum LeaveMethods { Thanos, MentalBreak }
 
+    public enum DumpStyles { SingleFile, MultiFile }
+
     [StaticConstructorOnStartup]
     public class TkSettings : ModSettings
     {
@@ -33,6 +35,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool DropInventory;
         public static bool JsonShop;
         public static string LeaveMethod = ToolkitUtils.LeaveMethods.MentalBreak.ToString();
+        public static string DumpStyle = ToolkitUtils.DumpStyles.SingleFile.ToString();
         public static int LookupLimit = 10;
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
@@ -43,6 +46,7 @@ namespace SirRandoo.ToolkitUtils
 
         private static Categories _category = Categories.General;
         private static readonly string[] LeaveMethods = Enum.GetNames(typeof(LeaveMethods));
+        private static readonly string[] DumpStyles = Enum.GetNames(typeof(DumpStyles));
         private static readonly Tuple<string, Categories>[] MenuCategories;
 
         private static WorkTypeDef[] _workTypeDefs;
@@ -198,16 +202,27 @@ namespace SirRandoo.ToolkitUtils
             }
 
             listing.CheckboxLabeled(
+                "TKUtils.SettingGroups.General.HairColor.Label".Translate(),
+                ref HairColor,
+                "TKUtils.SettingGroups.General.HairColor.Tooltip".Translate()
+            );
+
+            listing.CheckboxLabeled(
                 "TKUtils.SettingGroups.General.JsonStore.Label".Translate(),
                 ref JsonShop,
                 "TKUtils.SettingGroups.General.JsonStore.Tooltip".Translate()
             );
 
-            listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.HairColor.Label".Translate(),
-                ref HairColor,
-                "TKUtils.SettingGroups.General.HairColor.Tooltip".Translate()
-            );
+            var (dumpLabel, dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
+            Widgets.Label(dumpLabel, "TKUtils.SettingGroups.General.DumpStyle.Label".Translate());
+
+            if (Widgets.ButtonText(dumpBtn, DumpStyle))
+            {
+                Find.WindowStack.Add(
+                    new FloatMenu(DumpStyles.Select(o => new FloatMenuOption(o, () => DumpStyle = o)).ToList())
+                );
+            }
+
 
             listing.End();
         }
@@ -415,6 +430,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
             Scribe_Values.Look(ref Race, "race", true);
             Scribe_Values.Look(ref LeaveMethod, "leaveMethod", ToolkitUtils.LeaveMethods.MentalBreak.ToString());
+            Scribe_Values.Look(ref DumpStyle, "dumpStyle", ToolkitUtils.DumpStyles.SingleFile.ToString());
             Scribe_Values.Look(ref DropInventory, "dropInventory");
 
             Scribe_Values.Look(ref JsonShop, "shopJson");
