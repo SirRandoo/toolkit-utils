@@ -62,6 +62,13 @@
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shuffles your passions. If a skill is specified, you'll be guaranteed a minor passion in it.</Description>
+                <Parameters>
+                    <li>
+                        <Type>System.String</Type>
+                        <Name>Skill</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
@@ -74,6 +81,12 @@
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Purchases the part specified and queues it for surgery on your pawn.</Description>
+                <Parameters>
+                    <li>
+                        <Type>System.String</Type>
+                        <Name>Part</Name>
+                    </li>
+                </Parameters>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
@@ -153,7 +166,7 @@
                     <li>
                         <Type>System.String</Type>
                         <Name>Category</Name>
-                        <Optional>false</Optional>
+                        <Optional>true</Optional>
                     </li>
                 </Parameters>
             </li>
@@ -266,7 +279,7 @@
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Attempts to relink your pawn to you.</Description>
+                <Description>Attempts to relink your pawn to you. (Doesn't work for Puppeteer)</Description>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
@@ -280,7 +293,7 @@
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Attempts to relink all pawns to their respective viewers.</Description>
+                <Description>Attempts to relink all pawns to their respective viewers. (Doesn't work for Puppeteer)</Description>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
@@ -324,7 +337,7 @@
                 <Parameters>
                     <li>
                         <Type>Verse.ResearchProjectDef</Type>
-                        <Name>Project</Name>
+                        <Name>Project/Item</Name>
                         <Optional>true</Optional>
                     </li>
                 </Parameters>
@@ -345,13 +358,12 @@
                 <Parameters>
                     <li>
                         <Type>System.String</Type>
-                        <Name>Category</Name>
-                        <Optional>false</Optional>
+                        <Name>Category/Item</Name>
                     </li>
                     <li>
                         <Type>System.String</Type>
                         <Name>Query</Name>
-                        <Optional>false</Optional>
+                        <Optional>true</Optional>
                     </li>
                 </Parameters>
             </li>
@@ -370,13 +382,12 @@
                 <Parameters>
                     <li>
                         <Type>System.String</Type>
-                        <Name>Category</Name>
-                        <Optional>false</Optional>
+                        <Name>Category/Item</Name>
                     </li>
                     <li>
                         <Type>System.String</Type>
                         <Name>Query</Name>
-                        <Optional>false</Optional>
+                        <Optional>true</Optional>
                     </li>
                 </Parameters>
             </li>
@@ -389,6 +400,12 @@
         <command>unstick</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickCommand</commandDriver>
         <requiresMod>true</requiresMod>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Removes viewers that were stuck in the "game paused" limbo.</Description>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -396,5 +413,18 @@
         <label>insult</label>
         <command>insult</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.InsultCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Makes your pawn insult a random viewer. If a viewer is specified, you'll insult them instead.</Description>
+                <Parameters>
+                    <li>
+                        <Type>TwitchToolkit.Viewer</Type>
+                        <Name>Target</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
 </Defs>
