@@ -1,7 +1,6 @@
 ﻿using System;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
@@ -62,13 +61,23 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 pawn.ClearAllReservations();
 
-                if (Androids.IsAndroid(pawn))
-                {
-                    ResurrectionUtility.Resurrect(pawn);
-                }
-                else
+                // if (Androids.IsAndroid(pawn))
+                // {
+                //     ResurrectionUtility.Resurrect(pawn);
+                // }
+                // else
+                // {
+                //     ResurrectionUtility.ResurrectWithSideEffects(pawn);
+                // }
+
+                try
                 {
                     ResurrectionUtility.ResurrectWithSideEffects(pawn);
+                }
+                catch (NullReferenceException)
+                {
+                    TkLogger.Warn("Failed to revive with side effects!");
+                    ResurrectionUtility.Resurrect(pawn);
                 }
 
                 PawnTracker.pawnsToRevive.Remove(pawn);
