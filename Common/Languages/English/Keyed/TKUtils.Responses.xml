@@ -51,6 +51,9 @@
     <!-- MyPawnStats Translations -->
     <TKUtils.Responses.PawnStats.None>There are no stats registered to this category.</TKUtils.Responses.PawnStats.None>
     
+    <!-- MyPawnKills Translations -->
+    <TKUtils.Misc.Total>Total</TKUtils.Misc.Total>
+    
     <!-- Buy Trait Translations -->
     <TKUtils.Responses.BuyTrait.LimitReached>Your pawn already has the maximum number of traits allowed ({0} traits).</TKUtils.Responses.BuyTrait.LimitReached>
     <TKUtils.Responses.BuyTrait.Conflicts>Your pawn has {0} which conflicts with {1}!</TKUtils.Responses.BuyTrait.Conflicts>

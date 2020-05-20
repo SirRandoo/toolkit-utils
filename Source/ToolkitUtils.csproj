@@ -114,6 +114,7 @@
     <Compile Include="Commands\PawnFixCommand.cs"/>
     <Compile Include="Commands\PawnGearCommand.cs"/>
     <Compile Include="Commands\PawnHealthCommand.cs"/>
+    <Compile Include="Commands\PawnKillsCommand.cs"/>
     <Compile Include="Commands\PawnNeedsCommand.cs"/>
     <Compile Include="Commands\PawnSkillsCommand.cs"/>
     <Compile Include="Commands\PawnStatsCommand.cs"/>

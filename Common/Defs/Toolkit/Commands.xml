@@ -128,6 +128,19 @@
     
     <!-- Pawn Commands -->
     <TwitchToolkit.Command>
+        <defName>MyPawnKills</defName>
+        <label>viewer kill count</label>
+        <command>mypawnkills</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnKillsCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows your current kill count.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
         <defName>MyPawnStats</defName>
         <label>viewer stats</label>
         <command>mypawnstats</command>
