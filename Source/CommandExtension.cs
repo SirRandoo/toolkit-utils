@@ -22,6 +22,11 @@ namespace SirRandoo.ToolkitUtils
 
         [Description("The type this parameter should be resolved to.")]
         public Type Type;
+
+        public override string ToString()
+        {
+            return Optional ? $"[{Name}]" : $"<{Name}>";
+        }
     }
 
     public class CommandExtension : DefModExtension

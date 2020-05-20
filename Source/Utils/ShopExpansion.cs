@@ -240,15 +240,32 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static void DumpCommands()
         {
             var commands = DefDatabase<Command>.AllDefsListForReading;
-            var container = commands.Where(c => c.enabled && $"TKUtils.Commands.UserLevel.{c.defName}".CanTranslate())
+            var container = commands
+                .Where(c => c.enabled && c.HasModExtension<CommandExtension>())
                 .Select(
-                    command => new CommandDump
+                    c =>
                     {
-                        name = command.LabelCap.RawText,
-                        description = $"TKUtils.Commands.Description.{command.defName}".Translate(),
-                        usage = "!" + $"TKUtils.Commands.Usage.{command.defName}".Translate(command.command),
-                        shortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
-                        userLevel = $"TKUtils.Commands.UserLevel.{command.defName}".Translate()
+                        var ext = c.GetModExtension<CommandExtension>();
+
+                        var dump = new CommandDump
+                        {
+                            name = c.LabelCap.RawText,
+                            description = ext.Description,
+                            usage = $"!{c.command}",
+                            shortcut = c.commandDriver.Name.Equals("Buy") && !c.defName.Equals("Buy"),
+                            userLevel = Enum.GetName(typeof(UserLevels), ext.UserLevel)
+                        };
+
+                        if (!ext.Parameters.NullOrEmpty())
+                        {
+                            dump.usage += " ";
+                            dump.usage += string.Join(
+                                " ",
+                                ext.Parameters.Select(i => i.ToString().ToLowerInvariant()).ToArray()
+                            );
+                        }
+
+                        return dump;
                     }
                 )
                 .ToList();
