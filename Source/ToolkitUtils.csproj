@@ -220,15 +220,18 @@
     <Content Include="..\Common\Patches\BalancePatch.xml">
       <Link>Patches\BalancePatch.xml</Link>
     </Content>
-    <Content Include="..\Common\Languages\English\Keyed\TKUtils.Windows.xml">
-      <Link>Languages\English\Keyed\TKUtils.Windows.xml</Link>
-    </Content>
-    <Content Include="..\Common\Patches\IncidentHelpers\BuyPawnPatch.xml">
-      <Link>Patches\BuyPawnPatch.xml</Link>
-    </Content>
-    <Content Include="..\Common\Patches\AddonPatch.xml">
-      <Link>Patches\AddonPatch.xml</Link>
-    </Content>
+      <Content Include="..\Common\Languages\English\Keyed\TKUtils.Windows.xml">
+          <Link>Languages\English\Keyed\TKUtils.Windows.xml</Link>
+      </Content>
+      <Content Include="..\Common\Patches\IncidentHelpers\BuyPawnPatch.xml">
+          <Link>Patches\BuyPawnPatch.xml</Link>
+      </Content>
+      <Content Include="..\Common\Patches\AddonPatch.xml">
+          <Link>Patches\AddonPatch.xml</Link>
+      </Content>
+      <Content Include="..\Common\Patches\CommandExtPatch.xml">
+          <Link>Patches\CommandExtPatch.xml</Link>
+      </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
