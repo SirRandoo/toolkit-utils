@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml.Serialization;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Windows;
+using ToolkitCore.Models;
 using TwitchToolkit.Utilities;
 using UnityEngine;
 using Verse;
@@ -269,6 +270,37 @@ namespace SirRandoo.ToolkitUtils.Utils
                     }
                 )
                 .ToList();
+
+            container.AddRange(
+                DefDatabase<ToolkitChatCommand>.AllDefsListForReading
+                    .Where(c => c.enabled && c.HasModExtension<CommandExtension>())
+                    .Select(
+                        c =>
+                        {
+                            var ext = c.GetModExtension<CommandExtension>();
+
+                            var dump = new CommandDump
+                            {
+                                name = c.LabelCap.RawText,
+                                description = ext.Description,
+                                usage = $"!{c.commandText}",
+                                shortcut = false,
+                                userLevel = Enum.GetName(typeof(UserLevels), ext.UserLevel)
+                            };
+
+                            if (!ext.Parameters.NullOrEmpty())
+                            {
+                                dump.usage += " ";
+                                dump.usage += string.Join(
+                                    " ",
+                                    ext.Parameters.Select(i => i.ToString().ToLowerInvariant()).ToArray()
+                                );
+                            }
+
+                            return dump;
+                        }
+                    )
+            );
 
             var builder = new StringBuilder();
             builder.Append("[");
