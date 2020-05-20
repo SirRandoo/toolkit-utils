@@ -707,12 +707,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (var thing in tradeables)
                 {
-                    if (thing == null)
+                    if (thing?.defName == null)
                     {
                         continue;
                     }
 
-                    var item = StoreInventory.items.FirstOrDefault(i => i != null && i.defname.Equals(thing.defName));
+                    var item = StoreInventory.items
+                        .FirstOrDefault(i => i != null && (i.defname?.Equals(thing.defName) ?? false));
 
                     if (item == null)
                     {
