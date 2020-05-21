@@ -111,8 +111,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     return;
                 }
 
-                pawn.Name = new NameTriple(name.First, Viewer.username, name.Last);
                 GenSpawn.Spawn(pawn, loc, map);
+                pawn.Name = new NameTriple(name.First ?? string.Empty, Viewer.username, name.Last ?? string.Empty);
                 var title = "TKUtils.Responses.Buy.Joined.Title".Translate();
                 var text = "TKUtils.Responses.Buy.Joined.Text".Translate(Viewer.username);
                 PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref title, pawn);
