@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (Viewer.GetViewerCoins() < traitQuery.RemovePrice)
+            if (Viewer.GetViewerCoins() < traitQuery.RemovePrice && !ToolkitSettings.UnlimitedCoins)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,

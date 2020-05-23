@@ -132,7 +132,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (viewer.GetViewerCoins() < product.price + storeIncident.cost)
+            if ((viewer.GetViewerCoins() < product.price + storeIncident.cost) && !ToolkitSettings.UnlimitedCoins)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,

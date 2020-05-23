@@ -61,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (Viewer.GetViewerCoins() < buyableTrait.AddPrice)
+            if (Viewer.GetViewerCoins() < buyableTrait.AddPrice && !ToolkitSettings.UnlimitedCoins)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -121,7 +121,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 "TKUtils.Responses.BuyTrait.Duplicate".Translate(trait.Label)
             );
             return false;
-
         }
 
         public override void TryExecute()
