@@ -197,7 +197,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var old = Text.Anchor;
             var effectiveList = results ?? cache;
             var total = effectiveList.Count;
-            var maxHeight = (Text.LineHeight * 3f) * total;
+            var maxHeight = (Text.LineHeight * 3f + 2f) * total;
             var viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight);
             var traits = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
@@ -207,7 +207,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             for (var index = 0; index < effectiveList.Count; index++)
             {
                 var trait = effectiveList[index];
-                var lineRect = listing.GetRect(Text.LineHeight * 2f);
+                var lineRect = listing.GetRect(Text.LineHeight * 2f + 2f);
                 var spacerRect = listing.GetRect(Text.LineHeight);
                 var labelRect = new Rect(0f, lineRect.y, lineRect.width * 0.6f, lineRect.height);
 
