@@ -147,6 +147,7 @@
       <Compile Include="IncidentHelpers\ItemHelper.cs"/>
       <Compile Include="IncidentHelpers\PassionShuffleHelper.cs"/>
       <Compile Include="IncidentHelpers\RemoveTraitHelper.cs"/>
+      <Compile Include="IncidentHelpers\ReplaceTraitHelper.cs"/>
       <Compile Include="IncidentHelpers\ReviveAllHelper.cs"/>
       <Compile Include="IncidentHelpers\ReviveMeHelper.cs"/>
       <Compile Include="IncidentHelpers\ReviveRandomHelper.cs"/>

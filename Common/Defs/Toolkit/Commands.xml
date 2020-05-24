@@ -139,6 +139,29 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
+    <TwitchToolkit.Command ParentName="ShortcutBase">
+        <defName>ReplaceTraitShortcut</defName>
+        <label>replace trait</label>
+        <command>replacetrait</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Replaces a trait with a different trait.</Description>
+                
+                <Parameters>
+                    <li>
+                        <Type>System.String</Type>
+                        <Name>Old</Name>
+                    </li>
+                    <li>
+                        <Type>System.String</Type>
+                        <Name>New</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
     <!-- Pawn Commands -->
     <TwitchToolkit.Command>
         <defName>MyPawnKills</defName>

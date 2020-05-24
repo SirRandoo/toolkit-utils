@@ -18,6 +18,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 i => i.defName == "BuyPawn"
                      || i.defName == "AddTrait"
                      || i.defName == "RemoveTrait"
+                     || i.defName == "ReplaceTrait"
             ))
             {
                 if (incident.cost <= 1)

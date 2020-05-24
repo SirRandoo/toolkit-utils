@@ -12,12 +12,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
     {
-        protected List<FloatMenuOption> KarmaTypeOptions;
-        protected string[] KarmaTypeStrings = Enum.GetNames(typeof(KarmaType));
+        private readonly List<FloatMenuOption> karmaTypeOptions;
+        private readonly string[] karmaTypeStrings = Enum.GetNames(typeof(KarmaType));
 
         public StoreIncidentEditor(StoreIncident storeIncident) : base(storeIncident)
         {
-            KarmaTypeOptions = KarmaTypeStrings
+            karmaTypeOptions = karmaTypeStrings
                 .Select(
                     t => new FloatMenuOption(
                         t,
@@ -114,7 +114,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (!(storeIncident.defName.Equals("AddTrait")
                       || storeIncident.defName.Equals("RemoveTrait")
-                      || storeIncident.defName.Equals("BuyPawn")))
+                      || storeIncident.defName.Equals("BuyPawn"))
+                    || storeIncident.defName.Equals("ReplaceTrait"))
                 {
                     var (costLabel, costField) = listing.GetRect(Text.LineHeight).ToForm();
                     var costBuffer = storeIncident.cost.ToString();
@@ -164,7 +165,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (Widgets.ButtonText(karmaField, karmaType))
                 {
-                    Find.WindowStack.Add(new FloatMenu(KarmaTypeOptions));
+                    Find.WindowStack.Add(new FloatMenu(karmaTypeOptions));
                 }
             }
 

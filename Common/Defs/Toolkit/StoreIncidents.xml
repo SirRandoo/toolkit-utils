@@ -59,6 +59,7 @@
         <eventCap>5</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.BuySurgeryHelper</incidentHelper>
         <karmaType>Neutral</karmaType>
+        <variables>1</variables>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
     
     <TwitchToolkit.Incidents.StoreIncidentVariables>
@@ -69,5 +70,17 @@
         <eventCap>4</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.PassionShuffleHelper</incidentHelper>
         <karmaType>Neutral</karmaType>
+        <variables>1</variables>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
+    
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>ReplaceTrait</defName>
+        <label>replace trait</label>
+        <abbreviation>replacetrait</abbreviation>
+        <cost>1</cost>
+        <eventCap>6</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.ReplaceTraitHelper</incidentHelper>
+        <karmaType>Neutral</karmaType>
+        <variables>2</variables>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>

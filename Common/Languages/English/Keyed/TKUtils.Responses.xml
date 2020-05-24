@@ -77,6 +77,9 @@
     <TKUtils.Responses.RemoveTrait.None>Your pawn doesn't have any traits!</TKUtils.Responses.RemoveTrait.None>
     <TKUtils.Responses.RemoveTrait.Removed>Removed {0} from your pawn.</TKUtils.Responses.RemoveTrait.Removed>
     
+    <!-- Replace Trait Translations -->
+    <TKUtils.Responses.ReplaceTrait.Done>Replaced {0} with {1}.</TKUtils.Responses.ReplaceTrait.Done>
+    
     <!-- HealMe Translations -->
     <TKUtils.Responses.HealMe.Healed>Your pawn has recovered from {0}.</TKUtils.Responses.HealMe.Healed>
     <TKUtils.Responses.HealMe.Restored>Your pawn has had their {0} restored.</TKUtils.Responses.HealMe.Restored>
@@ -132,6 +135,7 @@
     <TKUtils.Letters.Trait.Title>Trait</TKUtils.Letters.Trait.Title>
     <TKUtils.Letters.Trait.Description>{0} purchased trait {1}.</TKUtils.Letters.Trait.Description>
     <TKUtils.Letters.TraitRemove.Description>{0} removed trait {1}</TKUtils.Letters.TraitRemove.Description>
+    <TKUtils.Letters.TraitReplace.Description>{0} replaced {1} with {2}</TKUtils.Letters.TraitReplace.Description>
     <TKUtils.Letters.Heal.Title>Heal</TKUtils.Letters.Heal.Title>
     <TKUtils.Letters.Heal.Recovery.Description>{0} recovered from {1}.</TKUtils.Letters.Heal.Recovery.Description>
     <TKUtils.Letters.Heal.Restored.Description>{0} had their {1} restored.</TKUtils.Letters.Heal.Restored.Description>
