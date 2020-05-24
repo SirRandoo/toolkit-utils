@@ -178,12 +178,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             var randomKind = TkUtils.ShopExpansion.Races
-                .Where(k => k.Enabled)
-                .RandomElementWithFallback();
+                .FirstOrDefault(k => k.Enabled);
 
             if (randomKind == null)
             {
-                TkLogger.Warn("Could not get random enabled race!");
+                TkLogger.Warn("Could not get next enabled race!");
                 return;
             }
 
