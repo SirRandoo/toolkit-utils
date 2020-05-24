@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using SirRandoo.ToolkitUtils.Utils;
-using ToolkitCore.Models;
-using TwitchLib.Client.Interfaces;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Store;
 

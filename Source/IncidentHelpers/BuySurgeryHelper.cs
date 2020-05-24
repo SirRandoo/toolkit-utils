@@ -94,7 +94,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             if (part.category != ThingCategory.Item
-                || (Androids.Active && !part.thingCategories.Any(c => c.defName.EqualsIgnoreCase("BodyPartsAndroid"))))
+                || Androids.Active && !part.thingCategories.Any(c => c.defName.EqualsIgnoreCase("BodyPartsAndroid")))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -132,7 +132,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if ((viewer.GetViewerCoins() < product.price + storeIncident.cost) && !ToolkitSettings.UnlimitedCoins)
+            if (viewer.GetViewerCoins() < product.price + storeIncident.cost && !ToolkitSettings.UnlimitedCoins)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,

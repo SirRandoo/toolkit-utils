@@ -163,21 +163,21 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 case Sorter.Name:
                     GUI.DrawTexture(
-                        new Rect(infoHeaderRect.x, infoHeaderRect.y + (Text.LineHeight / 2f) - 4f, 8f, 8f),
+                        new Rect(infoHeaderRect.x, infoHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
                         sortMode != SortMode.Descending ? SortingAscend : SortingDescend
                     );
                     break;
 
                 case Sorter.Price:
                     GUI.DrawTexture(
-                        new Rect(priceHeaderRect.x, priceHeaderRect.y + (Text.LineHeight / 2f) - 4f, 8f, 8f),
+                        new Rect(priceHeaderRect.x, priceHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
                         sortMode != SortMode.Descending ? SortingAscend : SortingDescend
                     );
                     break;
 
                 case Sorter.Category:
                     GUI.DrawTexture(
-                        new Rect(categoryHeaderRect.x, categoryHeaderRect.y + (Text.LineHeight / 2f) - 4f, 8f, 8f),
+                        new Rect(categoryHeaderRect.x, categoryHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
                         sortMode != SortMode.Descending ? SortingAscend : SortingDescend
                     );
                     break;
@@ -199,7 +199,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 0f,
                 0f,
                 contentArea.width - 16f,
-                (Text.LineHeight * scale) * total
+                Text.LineHeight * scale * total
             );
             var items = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
@@ -255,7 +255,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (infoRect.WasRightClicked())
                 {
-                    var infoOptions = new List<FloatMenuOption>()
+                    var infoOptions = new List<FloatMenuOption>
                     {
                         new FloatMenuOption(
                             ctxInfo,
@@ -306,7 +306,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (priceRect.WasRightClicked())
                 {
-                    var priceOptions = new List<FloatMenuOption>()
+                    var priceOptions = new List<FloatMenuOption>
                     {
                         new FloatMenuOption(
                             (item.Enabled
@@ -351,7 +351,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (categoryRect.WasRightClicked())
                 {
-                    var categoryOptions = new List<FloatMenuOption>()
+                    var categoryOptions = new List<FloatMenuOption>
                     {
                         new FloatMenuOption(
                             "TKUtils.Windows.Store.Context.Category".Translate(item.Category),

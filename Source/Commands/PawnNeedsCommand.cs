@@ -25,11 +25,17 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             twitchMessage.Reply(
                 string.Join(
-                    ", ",
-                    pawn.needs.AllNeeds.Select(
-                        n => "TKUtils.Formats.KeyValue".Translate(n.LabelCap, n.CurLevelPercentage.ToStringPercent()).RawText
-                    ).ToArray()
-                ).WithHeader("TabNeeds".Translate())
+                        ", ",
+                        pawn.needs.AllNeeds.Select(
+                                n => "TKUtils.Formats.KeyValue".Translate(
+                                        n.LabelCap,
+                                        n.CurLevelPercentage.ToStringPercent()
+                                    )
+                                    .RawText
+                            )
+                            .ToArray()
+                    )
+                    .WithHeader("TabNeeds".Translate())
             );
         }
     }

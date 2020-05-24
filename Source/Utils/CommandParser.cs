@@ -1,8 +1,8 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
- using ToolkitCore.Utilities;
- using Verse;
+using ToolkitCore.Utilities;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {

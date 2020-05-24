@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {"trait", "traits"},
             {"traits", "traits"},
             {"stat", "stats"},
-            {"stats", "stats"},
+            {"stats", "stats"}
         };
 
         private ITwitchMessage msg;

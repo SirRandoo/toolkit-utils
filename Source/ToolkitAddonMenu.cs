@@ -104,8 +104,7 @@ namespace SirRandoo.ToolkitUtils
 
                         Messages.Message(
                             $"Earning Coins is {(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}",
-                            MessageTypeDefOf.NeutralEvent,
-                            true
+                            MessageTypeDefOf.NeutralEvent
                         );
                     }
                 ),

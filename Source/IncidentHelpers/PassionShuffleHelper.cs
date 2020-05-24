@@ -160,7 +160,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 .Where(p => p < 3)
                 .Sum();
             var interests = pawn.skills.skills
-                .Where(s => ((int) s.passion) >= 3)
+                .Where(s => (int) s.passion >= 3)
                 .Select(s => s.passion)
                 .ToList();
 

@@ -150,12 +150,12 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     continue;
                 }
 
-                if (compType == MagicClass && !((bool) IsMagicUser.GetValue(comp)))
+                if (compType == MagicClass && !(bool) IsMagicUser.GetValue(comp))
                 {
                     continue;
                 }
 
-                if (compType == MightClass && !((bool) IsMightUser.GetValue(comp)))
+                if (compType == MightClass && !(bool) IsMightUser.GetValue(comp))
                 {
                     continue;
                 }
@@ -246,7 +246,6 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     LevelXp = (float) MightXpLastLevel.GetValue(comp);
                     NextLevelXp = (int) MightXpTillNextLevel.GetValue(comp);
                     ResourceRegenRate = (float) MightRegen.GetValue(comp);
-                    return;
                 }
             }
 

@@ -36,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 "TKUtils.Formats.KeyValue".Translate(
                     "TKUtils.Misc.XP".Translate(),
                     data.Experience
-                ),
+                )
             };
 
 

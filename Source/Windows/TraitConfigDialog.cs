@@ -221,7 +221,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(
                         new Rect(
                             lineRect.x,
-                            lineRect.y - (Text.LineHeight / 2f),
+                            lineRect.y - Text.LineHeight / 2f,
                             lineRect.width,
                             lineRect.height + Text.LineHeight
                         )
@@ -299,7 +299,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 var colorCache = GUI.color;
                 GUI.color = Color.gray;
-                Widgets.DrawLineHorizontal(spacerRect.x, spacerRect.y + (spacerRect.height / 2f), spacerRect.width);
+                Widgets.DrawLineHorizontal(spacerRect.x, spacerRect.y + spacerRect.height / 2f, spacerRect.width);
                 GUI.color = colorCache;
             }
 

@@ -1,7 +1,7 @@
 ﻿using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
+using TwitchToolkit;
 using Verse;
-using Viewers = TwitchToolkit.Viewers;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     pawn.Name = new NameTriple(name?.First ?? "", viewer.username, name?.Last ?? "");
                 }
             }
-            
+
             twitchMessage.Reply("TKUtils.Responses.PawnFixAll.Relinked".Translate());
         }
     }

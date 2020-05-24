@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {"DVocalHatred", "📢"},
             {"DNaturalGenius", "🧠"},
             {"DBored", "💤"},
-            {"DAllergic", "🤧"},
+            {"DAllergic", "🤧"}
         };
 
         static Interests()

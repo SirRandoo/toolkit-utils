@@ -222,14 +222,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 case Sorter.Name:
                     GUI.DrawTexture(
-                        new Rect(nameHeadingRect.x, nameHeadingRect.y + (Text.LineHeight / 2f) - 4f, 8f, 8f),
+                        new Rect(nameHeadingRect.x, nameHeadingRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
                         sortMode != SortMode.Descending ? SortingAscend : SortingDescend
                     );
                     break;
 
                 case Sorter.Price:
                     GUI.DrawTexture(
-                        new Rect(priceHeadingRect.x, priceHeadingRect.y + (Text.LineHeight / 2f) - 4f, 8f, 8f),
+                        new Rect(priceHeadingRect.x, priceHeadingRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
                         sortMode != SortMode.Descending ? SortingAscend : SortingDescend
                     );
                     break;
@@ -247,7 +247,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var effectiveList = results ?? cache;
             var total = effectiveList.Count;
             const float scale = 1.1f;
-            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, (Text.LineHeight * scale) * total);
+            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * scale * total);
             var races = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);

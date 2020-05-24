@@ -18,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("HealthOverview".Translate()));
                 return;
             }
-            
+
             twitchMessage.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Translate()));
         }
 
