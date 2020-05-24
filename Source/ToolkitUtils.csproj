@@ -124,6 +124,7 @@
       <Compile Include="Commands\PriceCheckCommand.cs"/>
       <Compile Include="Commands\ResearchCommand.cs"/>
       <Compile Include="Commands\UnstickCommand.cs"/>
+      <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
       <Compile Include="Harmony\BuyPatch.cs"/>
       <Compile Include="Harmony\IncidentEditorPatches.cs"/>
       <Compile Include="Harmony\KarmaMinimumPatch.cs"/>
