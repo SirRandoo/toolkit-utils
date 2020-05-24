@@ -187,6 +187,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             var effectiveWorkingList = results ?? cache;
             var total = effectiveWorkingList.Count;
+            const float scale = 1.25f;
 
             var contentArea = new Rect(
                 inRect.x,
@@ -198,7 +199,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 0f,
                 0f,
                 contentArea.width - 16f,
-                Text.LineHeight * total
+                (Text.LineHeight * scale) * total
             );
             var items = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
@@ -206,8 +207,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.BeginScrollView(items, ref scrollPos, ref viewPort);
             for (var index = 0; index < effectiveWorkingList.Count; index++)
             {
+                var anchor = Text.Anchor;
                 var item = effectiveWorkingList[index];
-                var lineRect = listing.GetRect(Text.LineHeight);
+                var lineRect = listing.GetRect(Text.LineHeight * scale);
 
                 if (!lineRect.IsRegionVisible(items, scrollPos))
                 {
@@ -234,7 +236,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
 
                 Widgets.Checkbox(0f, lineRect.y, ref item.Enabled, paintable: true);
+
+                Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(labelRect, item.Thing?.LabelCap ?? item.Item.abr);
+                Text.Anchor = anchor;
 
                 if (item.Thing != null)
                 {
@@ -340,7 +345,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                     lineRect.height
                 );
 
+                Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(categoryRect, item.Category);
+                Text.Anchor = anchor;
 
                 if (categoryRect.WasRightClicked())
                 {
