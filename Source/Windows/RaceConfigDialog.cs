@@ -285,6 +285,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SettingsHelper.DrawPriceField(priceRect, ref race.Price, ref control, ref shift);
             }
 
+            GUI.EndGroup();
             listing.EndScrollView(ref viewPort);
 
             GUI.EndGroup();
