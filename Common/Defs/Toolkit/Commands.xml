@@ -354,7 +354,7 @@
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows the first few results for the query in the given category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', and 'skills'.</Description>
+                <Description>Shows the first few results for the query in the given category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', 'skills', and 'stats'.</Description>
                 <Parameters>
                     <li>
                         <Type>System.String</Type>
