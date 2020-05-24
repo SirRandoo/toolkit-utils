@@ -53,7 +53,6 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     {
                         if (!(def is Def instance))
                         {
-                            TkLogger.Warn($@"Could not cast ""{def.ToStringSafe()}"" to a Def instance!");
                             continue;
                         }
 
@@ -91,7 +90,6 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
             catch (Exception e)
             {
-                TkLogger.Error($"Could not get interest def for {skill.def}", e);
                 return string.Empty;
             }
 
@@ -101,7 +99,6 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     .AltText($"{interest.LabelCap.RawText}");
             }
 
-            TkLogger.Info("Interest def was null!");
             return string.Empty;
         }
     }
