@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
-using TwitchToolkit;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -63,13 +62,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 HealHelper.Cure(toHeal);
 
-                if (!ToolkitSettings.UnlimitedCoins)
-                {
-                    Viewer.TakeViewerCoins(storeIncident.cost);
-                }
-
-                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
-
                 Notify__Success(toHeal.LabelCap);
             }
 
@@ -79,13 +71,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             target.health.RestorePart(toRestore);
-
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(storeIncident.cost);
-            }
-
-            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
             Notify__Success(toRestore.Label);
         }
