@@ -101,7 +101,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     var loops = 0;
                     var equipmentUsed = false;
-                    sidearms.ForEach(t => TkLogger.Info(t.ToString()));
 
                     while (sidearms.Any())
                     {
