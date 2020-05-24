@@ -7,53 +7,62 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
 {
-    [StaticConstructorOnStartup]
     public static class SimpleSidearms
     {
-        public static readonly bool Active;
+        public static bool Active;
+        private static bool _pendingInit = true;
 
-        private static readonly Type CompSidearmMemory;
-        private static readonly FieldInfo SidearmMemoryWeapons;
-        private static readonly FieldInfo ThingFromPair;
-        private static readonly FieldInfo StuffFromPair;
+        private static Type _compSidearmMemory;
+        private static FieldInfo _sidearmMemoryWeapons;
+        private static FieldInfo _thingFromPair;
+        private static FieldInfo _stuffFromPair;
 
-        static SimpleSidearms()
+        private static void DeferredInitialization(ThingWithComps catalyst)
         {
-            foreach (var handle in LoadedModManager.ModHandles.Where(
-                h => h.Content.PackageId.EqualsIgnoreCase("PeteTimesSix.SimpleSidearms")
-            ))
+            _pendingInit = false;
+
+            var comp = catalyst.AllComps
+                .FirstOrDefault(c => c.GetType().Name.Equals("CompSidearmMemory"));
+
+            if (comp == null)
             {
-                try
-                {
-                    var assembly = handle.GetType().Assembly;
+                return;
+            }
 
-                    CompSidearmMemory = assembly.GetType("SimpleSidearms.rimworld.CompSidearmMemory");
-                    var weaponPair = assembly.GetType("SimpleSidearms.rimworld.ThingDefStuffDefPair");
+            try
+            {
+                var assembly = comp.GetType().Assembly;
 
-                    SidearmMemoryWeapons = CompSidearmMemory.GetField("rememberedWeapons");
-                    ThingFromPair = weaponPair.GetField("thing");
-                    StuffFromPair = weaponPair.GetField("stuff");
+                _compSidearmMemory = comp.GetType();
+                var weaponPair = assembly.GetType("SimpleSidearms.rimworld.ThingDefStuffDefPair");
 
-                    Active = true;
-                }
-                catch (Exception e)
-                {
-                    TkLogger.Error("Compatibility class for Simple Sidearms failed!", e);
-                }
+                _sidearmMemoryWeapons = _compSidearmMemory.GetField("rememberedWeapons");
+                _thingFromPair = weaponPair.GetField("thing");
+                _stuffFromPair = weaponPair.GetField("stuff");
+
+                Active = true;
+            }
+            catch (Exception e)
+            {
+                TkLogger.Error("Compatibility class for Simple Sidearms failed!", e);
             }
         }
 
         public static IEnumerable<Thing> GetSidearms(Pawn pawn)
         {
+            if (_pendingInit)
+            {
+                DeferredInitialization(pawn);
+            }
+
             if (!Active)
             {
                 return null;
             }
 
-            var comp = pawn.AllComps.FirstOrDefault(c => c.GetType() == CompSidearmMemory);
+            var comp = pawn.AllComps.FirstOrDefault(c => c.GetType() == _compSidearmMemory);
 
-
-            if (!(SidearmMemoryWeapons.GetValue(comp) is IList value))
+            if (!(_sidearmMemoryWeapons.GetValue(comp) is IList value))
             {
                 return null;
             }
@@ -64,8 +73,8 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
                 foreach (var obj in value)
                 {
-                    var thingValue = ThingFromPair.GetValue(obj);
-                    var stuffValue = StuffFromPair.GetValue(obj);
+                    var thingValue = _thingFromPair.GetValue(obj);
+                    var stuffValue = _stuffFromPair.GetValue(obj);
 
                     if (!(thingValue is ThingDef thing))
                     {
