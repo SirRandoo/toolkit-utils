@@ -110,6 +110,7 @@
       <Compile Include="Commands\LeaveCommand.cs"/>
       <Compile Include="Commands\LookupCommand.cs"/>
       <Compile Include="Commands\PawnBodyCommand.cs"/>
+      <Compile Include="Commands\PawnClassCommand.cs"/>
       <Compile Include="Commands\PawnFixAllCommand.cs"/>
       <Compile Include="Commands\PawnFixCommand.cs"/>
       <Compile Include="Commands\PawnGearCommand.cs"/>
@@ -171,6 +172,7 @@
       <Compile Include="Utils\MessageHelper.cs"/>
       <Compile Include="Utils\ModComp\Androids.cs"/>
       <Compile Include="Utils\ModComp\Interests.cs"/>
+      <Compile Include="Utils\ModComp\MagicComp.cs"/>
       <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
       <Compile Include="Utils\SettingsHelper.cs"/>
       <Compile Include="Utils\ShopExpansion.cs"/>
@@ -231,6 +233,9 @@
       </Content>
       <Content Include="..\Common\Patches\CommandExtPatch.xml">
           <Link>Patches\CommandExtPatch.xml</Link>
+      </Content>
+      <Content Include="..\Common\Patches\PawnClassPatch.xml">
+          <Link>Patches\Magic\PawnClassCommand.xml</Link>
       </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
     <TKUtils.Formats.KeyValue>{0}: {1}</TKUtils.Formats.KeyValue>
@@ -54,6 +54,15 @@
     
     <!-- MyPawnKills Translations -->
     <TKUtils.Misc.Total>Total</TKUtils.Misc.Total>
+    
+    <!-- MyPawnClass Translations -->
+    <TKUtils.Formats.PawnClass.Points>{0} point(s) available.</TKUtils.Formats.PawnClass.Points>
+    <TKUtils.Responses.PawnClass.None>You don't have a class!</TKUtils.Responses.PawnClass.None>
+    <TKUtils.Misc.Class>Class</TKUtils.Misc.Class>
+    <TKUtils.Misc.XP>XP</TKUtils.Misc.XP>
+    <TKUtils.Misc.Level>Level</TKUtils.Misc.Level>
+    <TKUtils.Misc.Stamina>Stamina</TKUtils.Misc.Stamina>
+    <TKUtils.Misc.Mana>Mana</TKUtils.Misc.Mana>
     
     <!-- Buy Trait Translations -->
     <TKUtils.Responses.BuyTrait.LimitReached>Your pawn already has the maximum number of traits allowed ({0} traits).</TKUtils.Responses.BuyTrait.LimitReached>
