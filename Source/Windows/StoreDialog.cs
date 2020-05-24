@@ -13,15 +13,18 @@ namespace SirRandoo.ToolkitUtils.Windows
 
     public enum Sorter { Name, Price, Category }
 
+    internal enum States { Running, Done }
+
     [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
         private static readonly Texture2D SortingAscend;
         private static readonly Texture2D SortingDescend;
-        private readonly List<Container> cache;
+        private readonly List<Container> cache = new List<Container>();
         private string categoryFilter = "";
         private TaggedString categoryHeader;
         private bool closeCalled;
+        private IEnumerator<States> containerGenerator;
         private bool ctrlKeyDown;
         private TaggedString ctxAscending;
         private TaggedString ctxDescending;
@@ -60,12 +63,10 @@ namespace SirRandoo.ToolkitUtils.Windows
         public StoreDialog()
         {
             doCloseX = true;
+            containerGenerator = GenerateContainers(cache).GetEnumerator();
 
             GetTranslationStrings();
-            cache = GenerateContainers();
-
             optionalTitle = title;
-            cache?.SortBy(i => i.Item.abr);
 
             if (cache == null)
             {
@@ -544,6 +545,18 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             base.WindowUpdate();
 
+            if (containerGenerator != null)
+            {
+                if (containerGenerator.MoveNext())
+                {
+                    Notify__SearchRequested();
+                }
+                else
+                {
+                    containerGenerator = null;
+                }
+            }
+
             if (lastQuery.Equals(currentQuery))
             {
                 return;
@@ -622,13 +635,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PostClose();
         }
 
-        public override void PreOpen()
-        {
-            base.PreOpen();
-
-            Store_ItemEditor.FindItemsNotInList();
-        }
-
         public static int CalculateToolkitPrice(float basePrice)
         {
             return Math.Max(1, Convert.ToInt32(basePrice * 10.0f / 6.0f));
@@ -705,14 +711,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             disableAllTextSize = Text.CalcSize(disableAllText);
         }
 
-        private static List<Container> GenerateContainers()
+        private static IEnumerable<States> GenerateContainers(ICollection<Container> receiver)
         {
-            var container = new List<Container>();
-            var tradeables = GetTradeables();
+            var things = GetTradeables();
 
-            try
+            foreach (var thing in things)
             {
-                foreach (var thing in tradeables)
+                try
                 {
                     if (thing?.defName == null)
                     {
@@ -738,15 +743,17 @@ namespace SirRandoo.ToolkitUtils.Windows
                         item.abr ??= thing.label?.ToToolkit() ?? thing.defName;
                     }
 
-                    container.Add(new Container {Item = item, Thing = thing, Enabled = item.price > 0});
+                    receiver.Add(new Container {Item = item, Thing = thing, Enabled = item.price > 0});
                 }
-            }
-            catch (Exception e)
-            {
-                TkLogger.Error("Could not generate containers!", e);
+                catch (Exception e)
+                {
+                    TkLogger.Error($@"Could not generate a container for ""{thing?.defName}""!", e);
+                }
+
+                yield return States.Running;
             }
 
-            return container;
+            yield return States.Done;
         }
 
         private class Container
