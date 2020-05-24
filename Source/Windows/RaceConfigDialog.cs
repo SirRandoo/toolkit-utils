@@ -181,11 +181,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 3f, inRect.width);
 
             var headingRect = new Rect(0f, Text.LineHeight * 4f, inRect.width, Text.LineHeight);
-            var nameHeadingRect = new Rect(0f, 0f, inRect.width * 0.5f, Text.LineHeight);
+            var nameHeadingRect = new Rect(Widgets.CheckboxSize + 5f, 0f, inRect.width * 0.5f, Text.LineHeight);
             var priceHeadingRect = new Rect(
-                nameHeadingRect.x + nameHeadingRect.width + Widgets.CheckboxSize + 10f,
+                nameHeadingRect.x + nameHeadingRect.width + 5f,
                 0f,
-                inRect.width - nameHeadingRect.width - Widgets.CheckboxSize - 26f,
+                inRect.width - nameHeadingRect.width - Widgets.CheckboxSize - 10f,
                 Text.LineHeight
             );
 
@@ -246,7 +246,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             var effectiveList = results ?? cache;
             var total = effectiveList.Count;
-            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * total);
+            const float scale = 1.1f;
+            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, (Text.LineHeight * scale) * total);
             var races = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
@@ -254,14 +255,15 @@ namespace SirRandoo.ToolkitUtils.Windows
             for (var index = 0; index < effectiveList.Count; index++)
             {
                 var race = effectiveList[index];
-                var lineRect = listing.GetRect(Text.LineHeight);
-                var nameRect = new Rect(0f, lineRect.y, nameHeadingRect.width, lineRect.height);
+                var anchor = Text.Anchor;
+                var lineRect = listing.GetRect(Text.LineHeight * scale);
                 var stateRect = new Rect(
-                    nameHeadingRect.x + nameHeadingRect.width + 5f,
+                    0f,
                     lineRect.y,
                     Widgets.CheckboxSize,
                     Text.LineHeight
                 );
+                var nameRect = new Rect(Widgets.CheckboxSize + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
                 var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width - 16f, lineRect.height);
 
                 if (!lineRect.IsRegionVisible(races, scrollPos))
@@ -274,7 +276,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                Widgets.Label(nameRect, race.Name);
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(
+                    nameRect,
+                    race.Name.ToLowerInvariant().Equals(race.Name) ? race.Name.CapitalizeFirst() : race.Name
+                );
+                Text.Anchor = anchor;
+
                 Widgets.Checkbox(stateRect.x, stateRect.y, ref race.Enabled, paintable: true);
 
                 if (!race.Enabled)
