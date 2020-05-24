@@ -245,7 +245,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     inputRect.x + 28f,
                     inputRect.y,
                     inputRect.width,
-                    Text.LineHeight
+                    Text.LineHeight - 1f
                 );
 
                 if (trait.CanAdd)
@@ -270,7 +270,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 var removeRect = new Rect(
                     inputRect.x + 28f,
-                    inputRect.BottomHalf().y,
+                    inputRect.BottomHalf().y + 1f,
                     inputRect.width,
                     Text.LineHeight
                 );
