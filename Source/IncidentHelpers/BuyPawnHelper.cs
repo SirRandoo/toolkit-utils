@@ -142,7 +142,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             if (!target.Enabled && TkSettings.Race)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.DisabledItem".Translate());
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.DisabledItem.Informative".Translate(target.Name)
+                );
                 return false;
             }
 

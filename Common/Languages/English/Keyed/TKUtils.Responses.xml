@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
     <TKUtils.Formats.KeyValue>{0}: {1}</TKUtils.Formats.KeyValue>
@@ -10,6 +10,7 @@
     <TKUtils.Responses.Research.QueryInvalid>No research project by the name of "{0}" could be found.</TKUtils.Responses.Research.QueryInvalid>
     <TKUtils.Responses.NotEnoughCoins>The requested item costs {0} coins, but you only have {1} coins.</TKUtils.Responses.NotEnoughCoins>
     <TKUtils.Responses.DisabledItem>The requested item is disabled.</TKUtils.Responses.DisabledItem>
+    <TKUtils.Responses.DisabledItem.Informative>The requested item ({0}) is disabled.</TKUtils.Responses.DisabledItem.Informative>
     <TKUtils.Responses.ViewerNotFound>{0} is not in this colony.</TKUtils.Responses.ViewerNotFound>
     
     <TKUtils.Misc.They>they</TKUtils.Misc.They>
