@@ -49,6 +49,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            GetDefaultRace();
+
             if (!TkSettings.Race)
             {
                 return CanPurchaseRace(viewer, race);
@@ -162,6 +164,32 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 )
             );
             return false;
+        }
+
+        public void GetDefaultRace()
+        {
+            var human = TkUtils.ShopExpansion.Races
+                .FirstOrDefault(d => d.DefName.EqualsIgnoreCase(PawnKindDefOf.Colonist.race.defName));
+
+            if (human?.Enabled ?? false)
+            {
+                kindDef = PawnKindDefOf.Colonist;
+                race = human;
+            }
+
+            var randomKind = TkUtils.ShopExpansion.Races
+                .Where(k => k.Enabled)
+                .RandomElementWithFallback();
+
+            if (randomKind == null)
+            {
+                TkLogger.Warn("Could not get random enabled race!");
+                return;
+            }
+
+            kindDef = DefDatabase<PawnKindDef>.AllDefsListForReading
+                .FirstOrDefault(k => k.race.defName.EqualsIgnoreCase(randomKind.DefName));
+            race = randomKind;
         }
     }
 }
