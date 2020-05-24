@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
@@ -11,10 +12,35 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
     {
         public static readonly bool Active;
 
+        private static readonly Type CompSidearmMemory;
+        private static readonly FieldInfo SidearmMemoryWeapons;
+        private static readonly FieldInfo ThingFromPair;
+        private static readonly FieldInfo StuffFromPair;
+
         static SimpleSidearms()
         {
-            Active = ModsConfig.ActiveModsInLoadOrder
-                .Any(m => m.PackageId.EqualsIgnoreCase("PeteTimesSix.SimpleSidearms"));
+            foreach (var handle in LoadedModManager.ModHandles.Where(
+                h => h.Content.PackageId.EqualsIgnoreCase("PeteTimesSix.SimpleSidearms")
+            ))
+            {
+                try
+                {
+                    var assembly = handle.GetType().Assembly;
+
+                    CompSidearmMemory = assembly.GetType("SimpleSidearms.rimworld.CompSidearmMemory");
+                    var weaponPair = assembly.GetType("SimpleSidearms.rimworld.ThingDefStuffDefPair");
+
+                    SidearmMemoryWeapons = CompSidearmMemory.GetField("rememberedWeapons");
+                    ThingFromPair = weaponPair.GetField("thing");
+                    StuffFromPair = weaponPair.GetField("stuff");
+
+                    Active = true;
+                }
+                catch (Exception e)
+                {
+                    TkLogger.Error("Compatibility class for Simple Sidearms failed!", e);
+                }
+            }
         }
 
         public static IEnumerable<Thing> GetSidearms(Pawn pawn)
@@ -24,11 +50,10 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return null;
             }
 
-            var comp = pawn.AllComps.FirstOrDefault(
-                c => c.GetType().FullName?.Equals("SimpleSidearms.rimworld.CompSidearmMemory") ?? false
-            );
+            var comp = pawn.AllComps.FirstOrDefault(c => c.GetType() == CompSidearmMemory);
 
-            if (!(comp?.GetType().GetField("rememberedWeapons").GetValue(comp) is IList value))
+
+            if (!(SidearmMemoryWeapons.GetValue(comp) is IList value))
             {
                 return null;
             }
@@ -39,11 +64,8 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
                 foreach (var obj in value)
                 {
-                    var thingField = obj.GetType().GetField("thing");
-                    var stuffField = obj.GetType().GetField("stuff");
-
-                    var thingValue = thingField.GetValue(obj);
-                    var stuffValue = stuffField.GetValue(obj);
+                    var thingValue = ThingFromPair.GetValue(obj);
+                    var stuffValue = StuffFromPair.GetValue(obj);
 
                     if (!(thingValue is ThingDef thing))
                     {

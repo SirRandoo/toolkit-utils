@@ -37,32 +37,18 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         static Interests()
         {
-            Active = ModsConfig.ActiveModsInLoadOrder
-                .Any(m => m.PackageId.EqualsIgnoreCase("dame.InterestsFramework"));
-
-            if (!Active)
-            {
-                return;
-            }
-
             foreach (var handle in LoadedModManager.ModHandles.Where(
                 h => h.Content.PackageId.EqualsIgnoreCase("dame.InterestsFramework")
             ))
             {
-                InterestsClass = handle.GetType().Assembly.GetType("DInterests.InterestBase", false);
-
-                if (InterestsClass != null)
+                try
                 {
+                    InterestsClass = handle.GetType().Assembly.GetType("DInterests.InterestBase");
+
                     InterestsList = AccessTools.Field(InterestsClass, "interestList");
-                }
-
-                if (InterestsList != null)
-                {
                     InterestListInstance = InterestsList.GetValue(InterestsClass) as IList;
-                }
 
-                if (InterestListInstance != null)
-                {
+                    // ReSharper disable once PossibleNullReferenceException
                     foreach (var def in InterestListInstance)
                     {
                         if (!(def is Def instance))
@@ -73,9 +59,13 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
                         UsableInterestList.Add(instance);
                     }
-                }
 
-                Active = InterestsClass != null;
+                    Active = true;
+                }
+                catch (Exception e)
+                {
+                    TkLogger.Error("Compatibility class for Interests failed!", e);
+                }
             }
         }
 

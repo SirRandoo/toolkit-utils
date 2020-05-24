@@ -19,11 +19,18 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 h => h.Content.PackageId.EqualsIgnoreCase("atlas.androidtiers")
             ))
             {
-                AndroidSurgery = handle.GetType().Assembly.GetType("MOARANDROIDS.Recipe_SurgeryAndroids", false);
-                AndroidFlesh = DefDatabase<FleshTypeDef>.GetNamedSilentFail("Android");
-                MechFlesh = DefDatabase<FleshTypeDef>.GetNamedSilentFail("MechanisedInfantry");
+                try
+                {
+                    AndroidSurgery = handle.GetType().Assembly.GetType("MOARANDROIDS.Recipe_SurgeryAndroids", false);
+                    AndroidFlesh = DefDatabase<FleshTypeDef>.GetNamedSilentFail("Android");
+                    MechFlesh = DefDatabase<FleshTypeDef>.GetNamedSilentFail("MechanisedInfantry");
 
-                Active = AndroidSurgery != null;
+                    Active = AndroidSurgery != null;
+                }
+                catch (Exception e)
+                {
+                    TkLogger.Error("Compatibility class for Android Tiers failed!", e);
+                }
             }
         }
 
