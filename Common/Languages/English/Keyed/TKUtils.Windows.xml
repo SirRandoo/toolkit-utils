@@ -90,6 +90,7 @@
     </TKUtils.Windows.Config.Notices.BuyPawn>
     
     <!-- Context Menu Translations -->
+    <TKUtils.Windows.Store.Context.Mod>Filter by mod "{0}"</TKUtils.Windows.Store.Context.Mod>
     <TKUtils.Windows.Store.Context.Category>Filter by "{0}" category</TKUtils.Windows.Store.Context.Category>
     <TKUtils.Windows.Store.Context.DisableAll>Disable all in "{0}" category</TKUtils.Windows.Store.Context.DisableAll>
     <TKUtils.Windows.Store.Context.EnableAll>Enable all in "{0}" category</TKUtils.Windows.Store.Context.EnableAll>

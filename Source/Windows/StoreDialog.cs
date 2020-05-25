@@ -36,6 +36,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private TaggedString enableAllText;
         private Vector2 enableAllTextSize;
         private string lastQuery = "";
+        private string modFilter = "";
         private TaggedString nameHeader;
         private TaggedString priceHeader;
         private TaggedString resetAllText;
@@ -63,18 +64,19 @@ namespace SirRandoo.ToolkitUtils.Windows
         public StoreDialog()
         {
             doCloseX = true;
-            containerGenerator = GenerateContainers(cache).GetEnumerator();
 
             GetTranslationStrings();
             optionalTitle = title;
-
-            if (cache == null)
-            {
-                TkLogger.Warn("Toolkit's item shop is null! You should report this.");
-            }
         }
 
         public override Vector2 InitialSize => new Vector2(1024f, UI.screenHeight * 0.9f);
+
+        public override void PostOpen()
+        {
+            containerGenerator = GenerateContainers(cache).GetEnumerator();
+
+            base.PostOpen();
+        }
 
         public override void DoWindowContents(Rect inRect)
         {
@@ -270,6 +272,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                             () => { item.Enabled = !item.Enabled; }
                         ),
                         new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
+                            () =>
+                            {
+                                modFilter = item.Mod;
+                                Notify__SearchRequested();
+                            }
+                        ),
+                        new FloatMenuOption(
                             ctxAscending,
                             () =>
                             {
@@ -317,6 +327,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                             () => { item.Enabled = !item.Enabled; }
                         ),
                         new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
+                            () =>
+                            {
+                                modFilter = item.Mod;
+                                Notify__SearchRequested();
+                            }
+                        ),
+                        new FloatMenuOption(
                             ctxAscending,
                             () =>
                             {
@@ -359,6 +377,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                             () =>
                             {
                                 categoryFilter = item.Category;
+                                Notify__SearchRequested();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
+                            () =>
+                            {
+                                modFilter = item.Mod;
                                 Notify__SearchRequested();
                             }
                         ),
@@ -449,7 +475,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (currentQuery == "")
             {
-                if (categoryFilter.NullOrEmpty())
+                if (categoryFilter.NullOrEmpty() && modFilter.NullOrEmpty())
                 {
                     results = null;
                 }
@@ -514,9 +540,35 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             var filterOffset = 0f;
 
+            if (!modFilter.NullOrEmpty())
+            {
+                var modFilterWidth = Text.CalcSize(modFilter).x + 2f;
+                var modFilterRect = new Rect(
+                    filterSection.x + filterOffset,
+                    filterSection.y,
+                    modFilterWidth + 22f,
+                    filterSection.height
+                );
+
+                Widgets.DrawHighlight(modFilterRect);
+                Widgets.Label(modFilterRect, " " + modFilter);
+
+                if (SettingsHelper.DrawClearButton(modFilterRect))
+                {
+                    modFilter = null;
+
+                    if (!currentQuery.NullOrEmpty() || !categoryFilter.NullOrEmpty())
+                    {
+                        Notify__SearchRequested();
+                    }
+                }
+
+                filterOffset += modFilterRect.width + 5f;
+            }
+
             if (!categoryFilter.NullOrEmpty())
             {
-                var categoryFilterWidth = Text.CalcSize(categoryFilter).x * 1.5f;
+                var categoryFilterWidth = Text.CalcSize(categoryFilter).x + 16f;
                 var categoryFilterRect = new Rect(
                     filterSection.x + filterOffset,
                     filterSection.y,
@@ -531,7 +583,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     categoryFilter = null;
 
-                    if (!currentQuery.NullOrEmpty())
+                    if (!currentQuery.NullOrEmpty() || !modFilter.NullOrEmpty())
                     {
                         Notify__SearchRequested();
                     }
@@ -547,13 +599,15 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (containerGenerator != null)
             {
-                if (containerGenerator.MoveNext())
+                for (var _ = 0; _ < 10; _++)
                 {
+                    if (!containerGenerator.MoveNext())
+                    {
+                        containerGenerator = null;
+                        break;
+                    }
+
                     Notify__SearchRequested();
-                }
-                else
-                {
-                    containerGenerator = null;
                 }
             }
 
@@ -580,6 +634,13 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             var workingList = cache;
 
+            if (!modFilter.NullOrEmpty())
+            {
+                workingList = workingList
+                    .Where(i => i.Mod.EqualsIgnoreCase(modFilter))
+                    .ToList();
+            }
+
             if (!categoryFilter.NullOrEmpty())
             {
                 workingList = workingList
@@ -589,7 +650,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             var serialized = currentQuery?.ToToolkit();
 
-            if (serialized == null)
+            if (serialized.NullOrEmpty())
             {
                 return workingList;
             }
@@ -743,7 +804,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                         item.abr ??= thing.label?.ToToolkit() ?? thing.defName;
                     }
 
-                    receiver.Add(new Container {Item = item, Thing = thing, Enabled = item.price > 0});
+                    receiver.Add(
+                        new Container
+                        {
+                            Item = item, Thing = thing, Enabled = item.price > 0, Mod = thing.modContentPack.Name
+                        }
+                    );
                 }
                 catch (Exception e)
                 {
@@ -762,6 +828,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             public bool Enabled;
 
             public Item Item;
+            public string Mod;
             public ThingDef Thing;
 
             public TaggedString Category
