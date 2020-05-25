@@ -807,13 +807,20 @@ namespace SirRandoo.ToolkitUtils.Windows
                     receiver.Add(
                         new Container
                         {
-                            Item = item, Thing = thing, Enabled = item.price > 0, Mod = thing.modContentPack.Name
+                            Item = item,
+                            Thing = thing,
+                            Enabled = item.price > 0,
+                            Mod = thing.modContentPack?.Name ?? "ModNameMissing"
                         }
                     );
                 }
                 catch (Exception e)
                 {
                     TkLogger.Error($@"Could not generate a container for ""{thing?.defName}""!", e);
+
+                    TkLogger.Info(
+                        $@"Errored thing data is as followed:\nDefName={thing?.defName.ToStringSafe()}\nBaseMarketValue={thing?.BaseMarketValue:N0}\nLabel={thing?.label?.ToStringSafe()}\nModName={thing?.modContentPack?.Name?.ToStringSafe()}"
+                    );
                 }
 
                 yield return States.Running;
