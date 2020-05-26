@@ -40,6 +40,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
         public static bool HairColor = true;
+        public static int StoreBuildRate = 30;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
         public static List<StatSetting> StatSettings = new List<StatSetting>();
@@ -223,6 +224,11 @@ namespace SirRandoo.ToolkitUtils
                 );
             }
 
+            var (storeLabel, storeField) = listing.GetRect(Text.LineHeight).ToForm();
+            Widgets.Label(storeLabel, "TKUtils.SettingGroups.General.StoreRate.Label".Translate());
+
+            var storeBuffer = StoreBuildRate.ToString();
+            Widgets.TextFieldNumeric(storeField, ref StoreBuildRate, ref storeBuffer);
 
             listing.End();
         }
