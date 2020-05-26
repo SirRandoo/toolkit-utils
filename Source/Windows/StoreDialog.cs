@@ -209,7 +209,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(contentArea);
 
-            if (containerGenerator != null)
+            if (containerGenerator != null && TkSettings.StoreLoading)
             {
                 Text.Font = GameFont.Medium;
                 Text.Anchor = TextAnchor.MiddleCenter;

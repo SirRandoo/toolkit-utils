@@ -43,6 +43,9 @@
     <TKUtils.SettingGroups.General.LookupLimit.Tooltip>The maximum number of results that will be displayed in the lookup command (!lookup). A higher value may create walls of text.</TKUtils.SettingGroups.General.LookupLimit.Tooltip>
     <TKUtils.SettingGroups.General.HairColor.Label>Dye viewers's hair color to match their chat color.</TKUtils.SettingGroups.General.HairColor.Label>
     <TKUtils.SettingGroups.General.HairColor.Tooltip>If enabled, users will have their hair dyed to match their current chat name color.</TKUtils.SettingGroups.General.HairColor.Tooltip>
+    <TKUtils.SettingGroups.General.StoreLoading.Label>Hide the item list while items are being loaded.</TKUtils.SettingGroups.General.StoreLoading.Label>
+    <TKUtils.SettingGroups.General.StoreLoading.Tooltip>If enabled, the item list will only disabled after all the items have been loaded. Disabling this may result in a weird looking list whilst items are being added.
+    </TKUtils.SettingGroups.General.StoreLoading.Tooltip>
     <TKUtils.SettingGroups.General.StoreRate.Label>The number of items the store will load per tick.</TKUtils.SettingGroups.General.StoreRate.Label>
     <TKUtils.SettingGroups.General.StoreRate.Tooltip>The amount of items the store will load every tick.</TKUtils.SettingGroups.General.StoreRate.Tooltip>
     <TKUtils.SettingGroups.General.JsonStore.Label>Dump Utils' shop file as json.</TKUtils.SettingGroups.General.JsonStore.Label>
