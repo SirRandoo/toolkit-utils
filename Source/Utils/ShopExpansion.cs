@@ -254,7 +254,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                             description = ext.Description,
                             usage = $"!{c.command}",
                             shortcut = c.commandDriver.Name.Equals("Buy") && !c.defName.Equals("Buy"),
-                            userLevel = Enum.GetName(typeof(UserLevels), ext.UserLevel)
+                            userLevel = nameof(ext.UserLevel)
                         };
 
                         if (!ext.Parameters.NullOrEmpty())
@@ -264,6 +264,11 @@ namespace SirRandoo.ToolkitUtils.Utils
                                 " ",
                                 ext.Parameters.Select(i => i.ToString().ToLowerInvariant()).ToArray()
                             );
+                        }
+
+                        if (c.requiresAdmin || c.requiresMod)
+                        {
+                            dump.userLevel = nameof(UserLevels.Moderator);
                         }
 
                         return dump;
