@@ -65,6 +65,7 @@
     <TKUtils.Windows.Store.Headers.Name>Name</TKUtils.Windows.Store.Headers.Name>
     <TKUtils.Windows.Store.Headers.Price>Price</TKUtils.Windows.Store.Headers.Price>
     <TKUtils.Windows.Store.Headers.Category>Category</TKUtils.Windows.Store.Headers.Category>
+    <TKUtils.Windows.Store.Screen.Text>Fetching items...</TKUtils.Windows.Store.Screen.Text>
     <TKUtils.Windows.Config.Buttons.Search.Label>Search</TKUtils.Windows.Config.Buttons.Search.Label>
     <TKUtils.Windows.Config.Buttons.EnableAll.Label>Enable All</TKUtils.Windows.Config.Buttons.EnableAll.Label>
     <TKUtils.Windows.Config.Buttons.DisableAll.Label>Disable All</TKUtils.Windows.Config.Buttons.DisableAll.Label>

@@ -236,255 +236,259 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 Widgets.FillableBar(progressRect, (float) containerGenerator.Current / StoreInventory.items.Count);
                 GUI.EndGroup();
+
+                Text.WordWrap = wrapped;
+                Text.Font = fontCache;
+                GUI.EndGroup();
+                return;
             }
-            else
+
+            // TODO: Refactor this
+            listing.BeginScrollView(items, ref scrollPos, ref viewPort);
+            for (var index = 0; index < effectiveWorkingList.Count; index++)
             {
-                listing.BeginScrollView(items, ref scrollPos, ref viewPort);
-                for (var index = 0; index < effectiveWorkingList.Count; index++)
+                var item = effectiveWorkingList[index];
+                var lineRect = listing.GetRect(Text.LineHeight * scale);
+
+                if (!lineRect.IsRegionVisible(items, scrollPos))
                 {
-                    var item = effectiveWorkingList[index];
-                    var lineRect = listing.GetRect(Text.LineHeight * scale);
-
-                    if (!lineRect.IsRegionVisible(items, scrollPos))
-                    {
-                        continue;
-                    }
-
-                    if (index % 2 == 0)
-                    {
-                        Widgets.DrawLightHighlight(lineRect);
-                    }
-
-                    var iconRect = new Rect(27f, lineRect.y, 27f, lineRect.height);
-                    var labelRect = new Rect(
-                        iconRect.width + 5f + 27f,
-                        lineRect.y,
-                        infoHeaderRect.width - 30f,
-                        lineRect.height
-                    );
-                    var infoRect = new Rect(
-                        27f,
-                        lineRect.y,
-                        infoHeaderRect.width,
-                        lineRect.height
-                    );
-
-                    Widgets.Checkbox(0f, lineRect.y, ref item.Enabled, paintable: true);
-
-                    Text.Anchor = TextAnchor.MiddleLeft;
-                    Widgets.Label(labelRect, item.Thing?.LabelCap ?? item.Item.abr);
-                    Text.Anchor = anchorCache;
-
-                    if (item.Thing != null)
-                    {
-                        Widgets.ThingIcon(iconRect, item.Thing);
-                    }
-
-                    if (Widgets.ButtonInvisible(infoRect, false))
-                    {
-                        Find.WindowStack.Add(new Dialog_InfoCard(item.Thing));
-                    }
-
-                    Widgets.DrawHighlightIfMouseover(infoRect);
-
-                    if (infoRect.WasRightClicked())
-                    {
-                        var infoOptions = new List<FloatMenuOption>
-                        {
-                            new FloatMenuOption(
-                                ctxInfo,
-                                () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))
-                            ),
-                            new FloatMenuOption(
-                                (item.Enabled
-                                    ? "TKUtils.Windows.Store.Context.Disable"
-                                    : "TKUtils.Windows.Store.Context.Enable"
-                                ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
-                                () => { item.Enabled = !item.Enabled; }
-                            ),
-                            new FloatMenuOption(
-                                "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
-                                () =>
-                                {
-                                    modFilter = item.Mod;
-                                    Notify__SearchRequested();
-                                }
-                            ),
-                            new FloatMenuOption(
-                                ctxAscending,
-                                () =>
-                                {
-                                    sorter = Sorter.Name;
-                                    sortMode = SortMode.Ascending;
-                                    SortCurrentWorkingList();
-                                }
-                            ),
-                            new FloatMenuOption(
-                                ctxDescending,
-                                () =>
-                                {
-                                    sorter = Sorter.Name;
-                                    sortMode = SortMode.Descending;
-                                    SortCurrentWorkingList();
-                                }
-                            )
-                        };
-
-                        Find.WindowStack.Add(new FloatMenu(infoOptions));
-                    }
-
-
-                    var priceRect = new Rect(
-                        infoRect.x + infoRect.width + 5f,
-                        lineRect.y,
-                        priceHeaderRect.width,
-                        lineRect.height
-                    );
-
-                    if (item.Item.price > 0)
-                    {
-                        SettingsHelper.DrawPriceField(priceRect, ref item.Item.price, ref ctrlKeyDown, ref shftKeyDown);
-                    }
-
-                    if (priceRect.WasRightClicked())
-                    {
-                        var priceOptions = new List<FloatMenuOption>
-                        {
-                            new FloatMenuOption(
-                                (item.Enabled
-                                    ? "TKUtils.Windows.Store.Context.Disable"
-                                    : "TKUtils.Windows.Store.Context.Enable"
-                                ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
-                                () => { item.Enabled = !item.Enabled; }
-                            ),
-                            new FloatMenuOption(
-                                "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
-                                () =>
-                                {
-                                    modFilter = item.Mod;
-                                    Notify__SearchRequested();
-                                }
-                            ),
-                            new FloatMenuOption(
-                                ctxAscending,
-                                () =>
-                                {
-                                    sorter = Sorter.Price;
-                                    sortMode = SortMode.Ascending;
-                                    SortCurrentWorkingList();
-                                }
-                            ),
-                            new FloatMenuOption(
-                                ctxDescending,
-                                () =>
-                                {
-                                    sorter = Sorter.Price;
-                                    sortMode = SortMode.Descending;
-                                    SortCurrentWorkingList();
-                                }
-                            )
-                        };
-
-                        Find.WindowStack.Add(new FloatMenu(priceOptions));
-                    }
-
-                    var categoryRect = new Rect(
-                        priceRect.x + priceRect.width + 5f,
-                        lineRect.y,
-                        categoryHeaderRect.width,
-                        lineRect.height
-                    );
-
-                    Text.Anchor = TextAnchor.MiddleLeft;
-                    Widgets.Label(categoryRect, item.Category);
-                    Text.Anchor = anchorCache;
-
-                    if (categoryRect.WasRightClicked())
-                    {
-                        var categoryOptions = new List<FloatMenuOption>
-                        {
-                            new FloatMenuOption(
-                                "TKUtils.Windows.Store.Context.Category".Translate(item.Category),
-                                () =>
-                                {
-                                    categoryFilter = item.Category;
-                                    Notify__SearchRequested();
-                                }
-                            ),
-                            new FloatMenuOption(
-                                "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
-                                () =>
-                                {
-                                    modFilter = item.Mod;
-                                    Notify__SearchRequested();
-                                }
-                            ),
-                            new FloatMenuOption(
-                                (item.Enabled
-                                    ? "TKUtils.Windows.Store.Context.Disable"
-                                    : "TKUtils.Windows.Store.Context.Enable"
-                                ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
-                                () => { item.Enabled = !item.Enabled; }
-                            ),
-                            new FloatMenuOption(
-                                "TKUtils.Windows.Store.Context.EnableAll".Translate(item.Category),
-                                () =>
-                                {
-                                    foreach (var i in cache.Where(
-                                        i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
-                                    ))
-                                    {
-                                        i.Enabled = true;
-                                        i.Update();
-                                    }
-                                }
-                            ),
-                            new FloatMenuOption(
-                                "TKUtils.Windows.Store.Context.DisableAll".Translate(item.Category),
-                                () =>
-                                {
-                                    foreach (var i in cache.Where(
-                                        i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
-                                    ))
-                                    {
-                                        i.Enabled = false;
-                                        i.Update();
-                                    }
-                                }
-                            ),
-                            new FloatMenuOption(
-                                ctxAscending,
-                                () =>
-                                {
-                                    sorter = Sorter.Category;
-                                    sortMode = SortMode.Ascending;
-                                    SortCurrentWorkingList();
-                                }
-                            ),
-                            new FloatMenuOption(
-                                ctxDescending,
-                                () =>
-                                {
-                                    sorter = Sorter.Category;
-                                    sortMode = SortMode.Descending;
-                                    SortCurrentWorkingList();
-                                }
-                            )
-                        };
-
-                        Find.WindowStack.Add(new FloatMenu(categoryOptions));
-                    }
-
-                    if (!closeCalled)
-                    {
-                        item.Update();
-                    }
+                    continue;
                 }
 
-                GUI.EndGroup();
+                if (index % 2 == 0)
+                {
+                    Widgets.DrawLightHighlight(lineRect);
+                }
 
-                listing.EndScrollView(ref viewPort);
+                var iconRect = new Rect(27f, lineRect.y, 27f, lineRect.height);
+                var labelRect = new Rect(
+                    iconRect.width + 5f + 27f,
+                    lineRect.y,
+                    infoHeaderRect.width - 30f,
+                    lineRect.height
+                );
+                var infoRect = new Rect(
+                    27f,
+                    lineRect.y,
+                    infoHeaderRect.width,
+                    lineRect.height
+                );
+
+                Widgets.Checkbox(0f, lineRect.y, ref item.Enabled, paintable: true);
+
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(labelRect, item.Thing?.LabelCap ?? item.Item.abr);
+                Text.Anchor = anchorCache;
+
+                if (item.Thing != null)
+                {
+                    Widgets.ThingIcon(iconRect, item.Thing);
+                }
+
+                if (Widgets.ButtonInvisible(infoRect, false))
+                {
+                    Find.WindowStack.Add(new Dialog_InfoCard(item.Thing));
+                }
+
+                Widgets.DrawHighlightIfMouseover(infoRect);
+
+                if (infoRect.WasRightClicked())
+                {
+                    var infoOptions = new List<FloatMenuOption>
+                    {
+                        new FloatMenuOption(
+                            ctxInfo,
+                            () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))
+                        ),
+                        new FloatMenuOption(
+                            (item.Enabled
+                                ? "TKUtils.Windows.Store.Context.Disable"
+                                : "TKUtils.Windows.Store.Context.Enable"
+                            ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            () => { item.Enabled = !item.Enabled; }
+                        ),
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
+                            () =>
+                            {
+                                modFilter = item.Mod;
+                                Notify__SearchRequested();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxAscending,
+                            () =>
+                            {
+                                sorter = Sorter.Name;
+                                sortMode = SortMode.Ascending;
+                                SortCurrentWorkingList();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxDescending,
+                            () =>
+                            {
+                                sorter = Sorter.Name;
+                                sortMode = SortMode.Descending;
+                                SortCurrentWorkingList();
+                            }
+                        )
+                    };
+
+                    Find.WindowStack.Add(new FloatMenu(infoOptions));
+                }
+
+
+                var priceRect = new Rect(
+                    infoRect.x + infoRect.width + 5f,
+                    lineRect.y,
+                    priceHeaderRect.width,
+                    lineRect.height
+                );
+
+                if (item.Item.price > 0)
+                {
+                    SettingsHelper.DrawPriceField(priceRect, ref item.Item.price, ref ctrlKeyDown, ref shftKeyDown);
+                }
+
+                if (priceRect.WasRightClicked())
+                {
+                    var priceOptions = new List<FloatMenuOption>
+                    {
+                        new FloatMenuOption(
+                            (item.Enabled
+                                ? "TKUtils.Windows.Store.Context.Disable"
+                                : "TKUtils.Windows.Store.Context.Enable"
+                            ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            () => { item.Enabled = !item.Enabled; }
+                        ),
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
+                            () =>
+                            {
+                                modFilter = item.Mod;
+                                Notify__SearchRequested();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxAscending,
+                            () =>
+                            {
+                                sorter = Sorter.Price;
+                                sortMode = SortMode.Ascending;
+                                SortCurrentWorkingList();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxDescending,
+                            () =>
+                            {
+                                sorter = Sorter.Price;
+                                sortMode = SortMode.Descending;
+                                SortCurrentWorkingList();
+                            }
+                        )
+                    };
+
+                    Find.WindowStack.Add(new FloatMenu(priceOptions));
+                }
+
+                var categoryRect = new Rect(
+                    priceRect.x + priceRect.width + 5f,
+                    lineRect.y,
+                    categoryHeaderRect.width,
+                    lineRect.height
+                );
+
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(categoryRect, item.Category);
+                Text.Anchor = anchorCache;
+
+                if (categoryRect.WasRightClicked())
+                {
+                    var categoryOptions = new List<FloatMenuOption>
+                    {
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.Category".Translate(item.Category),
+                            () =>
+                            {
+                                categoryFilter = item.Category;
+                                Notify__SearchRequested();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
+                            () =>
+                            {
+                                modFilter = item.Mod;
+                                Notify__SearchRequested();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            (item.Enabled
+                                ? "TKUtils.Windows.Store.Context.Disable"
+                                : "TKUtils.Windows.Store.Context.Enable"
+                            ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            () => { item.Enabled = !item.Enabled; }
+                        ),
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.EnableAll".Translate(item.Category),
+                            () =>
+                            {
+                                foreach (var i in cache.Where(
+                                    i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
+                                ))
+                                {
+                                    i.Enabled = true;
+                                    i.Update();
+                                }
+                            }
+                        ),
+                        new FloatMenuOption(
+                            "TKUtils.Windows.Store.Context.DisableAll".Translate(item.Category),
+                            () =>
+                            {
+                                foreach (var i in cache.Where(
+                                    i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
+                                ))
+                                {
+                                    i.Enabled = false;
+                                    i.Update();
+                                }
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxAscending,
+                            () =>
+                            {
+                                sorter = Sorter.Category;
+                                sortMode = SortMode.Ascending;
+                                SortCurrentWorkingList();
+                            }
+                        ),
+                        new FloatMenuOption(
+                            ctxDescending,
+                            () =>
+                            {
+                                sorter = Sorter.Category;
+                                sortMode = SortMode.Descending;
+                                SortCurrentWorkingList();
+                            }
+                        )
+                    };
+
+                    Find.WindowStack.Add(new FloatMenu(categoryOptions));
+                }
+
+                if (!closeCalled)
+                {
+                    item.Update();
+                }
             }
+
+            GUI.EndGroup();
+
+            listing.EndScrollView(ref viewPort);
 
             Text.WordWrap = wrapped;
             Text.Font = fontCache;

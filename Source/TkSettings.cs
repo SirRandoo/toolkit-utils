@@ -40,7 +40,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
         public static bool HairColor = true;
-        public static int StoreBuildRate = 30;
+        public static int StoreBuildRate = 60;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
         public static List<StatSetting> StatSettings = new List<StatSetting>();
