@@ -10,7 +10,8 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
 {
     [StaticConstructorOnStartup]
-    public class MagicComp
+    [SuppressMessage("ReSharper", "StringLiteralTypo")]
+    public static class MagicComp
     {
         public enum ClassTypes { Unknown, Magic, Might }
 
@@ -73,7 +74,6 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             "InnerFire"
         };
 
-        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         static MagicComp()
         {
             foreach (var handle in LoadedModManager.ModHandles.Where(
