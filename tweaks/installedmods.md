@@ -4,9 +4,8 @@ title: Installed Mods
 parent: Toolkit Tweaks
 ---
 
-## Installed Mods Tweak
-
-This change modifies how `!installedmods` looks for the mod list
-to use a cached list of names, and optionally mod versions. By
-default, this change does *not* output mod versions. You can find
-the setting to enable that in ToolkitUtils' `General` settings.
+ToolkitUtils modifies the `!installedmods` command to full from
+a list built on startup instead of pulling it from the game itself.
+While they function similarly, Utils pulls from the same list
+the `modlist.json` file is built from, which is why you have the
+option of including mod versions in the output.

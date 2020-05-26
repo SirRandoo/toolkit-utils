@@ -15,9 +15,14 @@ list used by users no longer accurately reflects how some events will function,
 like adding traits. To solve this problem, ToolkitUtils has its own
 [item list](https://github.com/sirrandoo/itemlist).
 
-### Table of Contents
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
 1. TOC
-{: toc }
+{:toc}
+</details>
 
 ### Set Up
 
@@ -73,19 +78,15 @@ RimWorld will generate a json file for Utils.
 
 #### Commands
 
-You may have noticed that there is also a `commands.json` file in the `_data`
-directory. By default, this file is prepopulated with the default commands a
-viewer might expect to find in a general Toolkit+Utils playthrough. Currently,
-Utils does *not* generate this file, so you'll have to manually modify this
-file to change the command list.
+As with the other two, you'll follow the same steps on the `commands.json` file
+in your Toolkit directory.
 
 #### Mod List
 
-You may have *also* noticed that there is a `modlist.json` file in the `_data`
-directory aswell. Utils doesn't generate this file yet either, so you'll have
-to manually add and remove mods. Any json object you add should have a `name`
-field and a `version` field. Any other fields are ignored by the list and will
-require some modifications to be shown.
+Same as before, but now it's on the `modlist.json` file. This file includes mod
+names, versions, authors, and the steam id of the mod. Utils' item list will
+automatically generate links to the mod's workshop page if a steam id was found,
+or a link with the mod's name as a search query.
 
 ### Personalizing
 
@@ -109,6 +110,10 @@ this should be how Github names your repository, which you can find in your
 url bar.
 
 ![Example url bar]({{- "/assets/itemlist/personalize_config-base_url.png" | relative_url -}})
+
+Not adjusting the base url to fit the criteria above **will** negatively impact
+how the site looks, or outright stop certain pages from being visible.
+{: .warn}
 
 ### Social Icons
 
