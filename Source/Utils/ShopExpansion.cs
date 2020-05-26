@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Models;
 using TwitchToolkit.Utilities;
-using UnityEngine;
 using Verse;
 using Command = TwitchToolkit.Command;
 
@@ -191,51 +192,32 @@ namespace SirRandoo.ToolkitUtils.Utils
                         defName = r.DefName, enabled = r.Enabled, name = r.Name.ToToolkit(), price = r.Price
                     }
                 )
-                .Select(JsonUtility.ToJson)
-                .ToArray();
+                .ToList();
 
             if (TkSettings.DumpStyle.EqualsIgnoreCase("SingleFile"))
             {
-                var builder = new StringBuilder("{");
-
-                builder.Append(@"""traits"":[");
-                builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
-                builder.Append("],");
-                builder.Append(@"""races"":[");
-                builder.Append(string.Join(",", jsonRaces.ToArray()));
-                builder.Append("]}");
-
-                SaveData(builder.ToString(), ShopFile);
+                SaveData(
+                    JsonConvert.SerializeObject(
+                        new ShopDump {races = jsonRaces, traits = container},
+                        Formatting.Indented
+                    ),
+                    ShopFile
+                );
                 return;
             }
 
-            if (TkSettings.DumpStyle.EqualsIgnoreCase("MultiFile"))
+            if (!TkSettings.DumpStyle.EqualsIgnoreCase("MultiFile"))
             {
-                var builder = new StringBuilder("[");
-
-                builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
-                builder.Append("]");
-
-                SaveData(builder.ToString(), TraitsFile);
-
-
-                builder.Clear();
-
-                builder.Append("[");
-                builder.Append(string.Join(",", jsonRaces.ToArray()));
-                builder.Append("]");
-
-                SaveData(builder.ToString(), RaceFile);
+                return;
             }
+
+            SaveData(JsonConvert.SerializeObject(container, Formatting.Indented), TraitsFile);
+            SaveData(JsonConvert.SerializeObject(jsonRaces, Formatting.Indented), RaceFile);
         }
 
         public static void DumpModList()
         {
-            var builder = new StringBuilder("[");
-            builder.Append(string.Join(",", TkUtils.ModListCache.Select(JsonUtility.ToJson).ToArray()));
-            builder.Append("]");
-
-            SaveData(builder.ToString(), ModsFile);
+            SaveData(JsonConvert.SerializeObject(TkUtils.ModListCache, Formatting.Indented), ModsFile);
         }
 
         public static void DumpCommands()
@@ -307,12 +289,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     )
             );
 
-            var builder = new StringBuilder();
-            builder.Append("[");
-            builder.Append(string.Join(",", container.Select(JsonUtility.ToJson).ToArray()));
-            builder.Append("]");
-
-            SaveData(builder.ToString(), CommandsFile);
+            SaveData(JsonConvert.SerializeObject(container, Formatting.Indented), CommandsFile);
         }
 
         public static void ValidateExpansionData()
@@ -530,47 +507,59 @@ namespace SirRandoo.ToolkitUtils.Utils
         public int RemovePrice;
     }
 
-    [Serializable]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class TraitDump
     {
-        public int addPrice;
-        public bool bypassLimit;
-        public bool canAdd;
-        public bool canRemove;
-        public string[] conflicts;
-        public string defName;
-        public int degree;
-        public string description;
-        public string name;
-        public int removePrice;
-        public string[] stats;
+        public int addPrice { get; set; }
+        public bool bypassLimit { get; set; }
+        public bool canAdd { get; set; }
+        public bool canRemove { get; set; }
+        public string[] conflicts { get; set; }
+        public string defName { get; set; }
+        public int degree { get; set; }
+        public string description { get; set; }
+        public string name { get; set; }
+        public int removePrice { get; set; }
+        public string[] stats { get; set; }
     }
 
-    [Serializable]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class RaceDump
     {
-        public string defName;
-        public bool enabled;
-        public string name;
-        public int price;
+        public string defName { get; set; }
+        public bool enabled { get; set; }
+        public string name { get; set; }
+        public int price { get; set; }
     }
 
-    [Serializable]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class ModDump
     {
-        public string author;
-        public string name;
-        public string steamId;
-        public string version;
+        public string author { get; set; }
+        public string name { get; set; }
+        public string steamId { get; set; }
+        public string version { get; set; }
     }
 
-    [Serializable]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class CommandDump
     {
-        public string description;
-        public string name;
-        public bool shortcut;
-        public string usage;
-        public string userLevel;
+        public string description { get; set; }
+        public string name { get; set; }
+        public bool shortcut { get; set; }
+        public string usage { get; set; }
+        public string userLevel { get; set; }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+    public class ShopDump
+    {
+        public List<TraitDump> traits { get; set; }
+        public List<RaceDump> races { get; set; }
     }
 }
