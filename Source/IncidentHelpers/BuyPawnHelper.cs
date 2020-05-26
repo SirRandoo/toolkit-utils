@@ -175,6 +175,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 kindDef = PawnKindDefOf.Colonist;
                 race = human;
+                return;
             }
 
             var randomKind = TkUtils.ShopExpansion.Races
