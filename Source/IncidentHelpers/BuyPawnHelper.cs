@@ -151,7 +151,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (viewer.coins >= target.Price || ToolkitSettings.UnlimitedCoins)
+            if (viewer.CanAfford(target.Price))
             {
                 return true;
             }

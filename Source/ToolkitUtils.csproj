@@ -54,14 +54,14 @@
       <Reference Include="System.Xml"/>
       <Reference Include="ToolkitCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\ToolkitCore.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="TwitchLib.Client, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="TwitchLib.Client.Enums, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
+          <Private>False</Private>
+      </Reference>
+      <Reference Include="TwitchLib.Client, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.dll</HintPath>
+          <Private>False</Private>
+      </Reference>
+      <Reference Include="TwitchLib.Client.Enums, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Client.Models, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
@@ -180,6 +180,7 @@
         <Compile Include="Utils\ModComp\Interests.cs"/>
         <Compile Include="Utils\ModComp\MagicComp.cs"/>
         <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
+        <Compile Include="Utils\PurchaseHelper.cs"/>
         <Compile Include="Utils\SettingsHelper.cs"/>
         <Compile Include="Utils\ShopExpansion.cs"/>
         <Compile Include="Utils\Unrichify.cs"/>

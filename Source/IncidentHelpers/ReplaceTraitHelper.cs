@@ -92,8 +92,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (Viewer.GetViewerCoins() < replaceThisShop.RemovePrice + replaceThatShop.AddPrice
-                && !ToolkitSettings.UnlimitedCoins)
+            if (!Viewer.CanAfford(replaceThisShop.RemovePrice + replaceThatShop.AddPrice))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
