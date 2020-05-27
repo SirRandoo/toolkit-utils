@@ -18,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private static readonly Texture2D SortingAscend;
         private static readonly Texture2D SortingDescend;
-        private readonly List<Container> cache = new List<Container>();
+        private static readonly List<Container> Containers = new List<Container>();
         private string categoryFilter = "";
         private TaggedString categoryHeader;
         private bool closeCalled;
@@ -73,7 +73,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PostOpen()
         {
-            containerGenerator = GenerateContainers(cache).GetEnumerator();
+            // Realistically, no one should be generating new ThingDefs past
+            // post init, so the store will cache the containers for use later.
+            if (Containers.NullOrEmpty())
+            {
+                containerGenerator = GenerateContainers(Containers).GetEnumerator();
+            }
 
             base.PostOpen();
         }
@@ -189,7 +194,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.EndGroup();
 
-            var effectiveWorkingList = results ?? cache;
+            var effectiveWorkingList = results ?? Containers;
             var total = effectiveWorkingList.Count;
             const float scale = 1.25f;
 
@@ -243,7 +248,6 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            // TODO: Refactor this
             listing.BeginScrollView(items, ref scrollPos, ref viewPort);
             for (var index = 0; index < effectiveWorkingList.Count; index++)
             {
@@ -260,13 +264,6 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                var iconRect = new Rect(27f, lineRect.y, 27f, lineRect.height);
-                var labelRect = new Rect(
-                    iconRect.width + 5f + 27f,
-                    lineRect.y,
-                    infoHeaderRect.width - 30f,
-                    lineRect.height
-                );
                 var infoRect = new Rect(
                     27f,
                     lineRect.y,
@@ -274,37 +271,18 @@ namespace SirRandoo.ToolkitUtils.Windows
                     lineRect.height
                 );
 
-                Widgets.Checkbox(0f, lineRect.y, ref item.Enabled, paintable: true);
-
-                Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(labelRect, item.Thing?.LabelCap ?? item.Item.abr);
-                Text.Anchor = anchorCache;
-
-                if (item.Thing != null)
-                {
-                    Widgets.ThingIcon(iconRect, item.Thing);
-                }
-
-                if (Widgets.ButtonInvisible(infoRect, false))
-                {
-                    Find.WindowStack.Add(new Dialog_InfoCard(item.Thing));
-                }
-
-                Widgets.DrawHighlightIfMouseover(infoRect);
+                item.DrawItemInfo(infoRect);
 
                 if (infoRect.WasRightClicked())
                 {
-                    var infoOptions = new List<FloatMenuOption>
+                    item.InfoContextOptions ??= new List<FloatMenuOption>
                     {
                         new FloatMenuOption(
                             ctxInfo,
                             () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))
                         ),
                         new FloatMenuOption(
-                            (item.Enabled
-                                ? "TKUtils.Windows.Store.Context.Disable"
-                                : "TKUtils.Windows.Store.Context.Enable"
-                            ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            "TKUtils.Windows.Store.Context.Toggle".Translate(item.Thing?.LabelCap ?? item.Item.abr),
                             () => { item.Enabled = !item.Enabled; }
                         ),
                         new FloatMenuOption(
@@ -335,7 +313,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         )
                     };
 
-                    Find.WindowStack.Add(new FloatMenu(infoOptions));
+                    Find.WindowStack.Add(new FloatMenu(item.InfoContextOptions));
                 }
 
 
@@ -353,13 +331,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (priceRect.WasRightClicked())
                 {
-                    var priceOptions = new List<FloatMenuOption>
+                    item.PriceContextOptions ??= new List<FloatMenuOption>
                     {
                         new FloatMenuOption(
-                            (item.Enabled
-                                ? "TKUtils.Windows.Store.Context.Disable"
-                                : "TKUtils.Windows.Store.Context.Enable"
-                            ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            "TKUtils.Windows.Store.Context.Toggle".Translate(item.Thing?.LabelCap ?? item.Item.abr),
                             () => { item.Enabled = !item.Enabled; }
                         ),
                         new FloatMenuOption(
@@ -390,7 +365,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         )
                     };
 
-                    Find.WindowStack.Add(new FloatMenu(priceOptions));
+                    Find.WindowStack.Add(new FloatMenu(item.PriceContextOptions));
                 }
 
                 var categoryRect = new Rect(
@@ -406,7 +381,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (categoryRect.WasRightClicked())
                 {
-                    var categoryOptions = new List<FloatMenuOption>
+                    item.CategoryContextOptions ??= new List<FloatMenuOption>
                     {
                         new FloatMenuOption(
                             "TKUtils.Windows.Store.Context.Category".Translate(item.Category),
@@ -425,17 +400,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                             }
                         ),
                         new FloatMenuOption(
-                            (item.Enabled
-                                ? "TKUtils.Windows.Store.Context.Disable"
-                                : "TKUtils.Windows.Store.Context.Enable"
-                            ).Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            "TKUtils.Windows.Store.Context.Toggle".Translate(item.Thing?.LabelCap ?? item.Item.abr),
                             () => { item.Enabled = !item.Enabled; }
                         ),
                         new FloatMenuOption(
                             "TKUtils.Windows.Store.Context.EnableAll".Translate(item.Category),
                             () =>
                             {
-                                foreach (var i in cache.Where(
+                                foreach (var i in Containers.Where(
                                     i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
                                 ))
                                 {
@@ -448,7 +420,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             "TKUtils.Windows.Store.Context.DisableAll".Translate(item.Category),
                             () =>
                             {
-                                foreach (var i in cache.Where(
+                                foreach (var i in Containers.Where(
                                     i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
                                 ))
                                 {
@@ -477,7 +449,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         )
                     };
 
-                    Find.WindowStack.Add(new FloatMenu(categoryOptions));
+                    Find.WindowStack.Add(new FloatMenu(item.CategoryContextOptions));
                 }
 
                 if (!closeCalled)
@@ -501,7 +473,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             var searchRect = new Rect(line.x, line.y, line.width * 0.25f, line.height);
-            var workingList = results ?? cache;
+            var workingList = results ?? Containers;
 
             currentQuery = Widgets.TextEntryLabeled(searchRect, searchText, currentQuery);
 
@@ -669,7 +641,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private List<Container> GetSearchResults()
         {
-            var workingList = cache;
+            var workingList = Containers;
 
             if (!modFilter.NullOrEmpty())
             {
@@ -696,7 +668,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 .Where(
                     i =>
                     {
-                        if (i.Item.abr.ToToolkit().Contains(serialized)
+                        if (i.Item.abr.ToToolkit().Contains(serialized!)
                             || i.Item.abr.ToToolkit().EqualsIgnoreCase(serialized))
                         {
                             return true;
@@ -711,7 +683,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreClose()
         {
-            foreach (var c in cache.Where(c => c.Item == null))
+            foreach (var c in Containers.Where(c => c.Item == null))
             {
                 c.Item = new Item(
                     CalculateToolkitPrice(c.Thing.BaseMarketValue),
@@ -745,7 +717,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void SortCurrentWorkingList()
         {
-            var workingList = results ?? cache;
+            var workingList = results ?? Containers;
 
             switch (sorter)
             {
@@ -872,10 +844,14 @@ namespace SirRandoo.ToolkitUtils.Windows
         private class Container
         {
             private TaggedString categoryCached;
+            public List<FloatMenuOption> CategoryContextOptions;
             public bool Enabled;
+
+            public List<FloatMenuOption> InfoContextOptions;
 
             public Item Item;
             public string Mod;
+            public List<FloatMenuOption> PriceContextOptions;
             public ThingDef Thing;
 
             public TaggedString Category
@@ -918,6 +894,31 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 Enabled = Item.price > 0;
+            }
+
+            public void DrawItemInfo(Rect canvas)
+            {
+                var iconRegion = new Rect(27f, canvas.y, 27f, canvas.height);
+                var labelRegion = new Rect(iconRegion.width + 5f + 27f, canvas.y, canvas.width - 30f, canvas.height);
+
+                Widgets.Checkbox(0f, canvas.y, ref Enabled, paintable: true);
+
+                var cache = Text.Anchor;
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(labelRegion, Thing?.LabelCap ?? Item.abr);
+                Text.Anchor = cache;
+
+                if (Thing != null)
+                {
+                    Widgets.ThingIcon(iconRegion, Thing);
+                }
+
+                if (Widgets.ButtonInvisible(canvas, false))
+                {
+                    Find.WindowStack.Add(new Dialog_InfoCard(Thing));
+                }
+
+                Widgets.DrawHighlightIfMouseover(canvas);
             }
         }
     }

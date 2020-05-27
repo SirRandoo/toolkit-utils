@@ -100,6 +100,7 @@
     <TKUtils.Windows.Store.Context.Info>Show information</TKUtils.Windows.Store.Context.Info>
     <TKUtils.Windows.Store.Context.Enable>Enable "{0}"</TKUtils.Windows.Store.Context.Enable>
     <TKUtils.Windows.Store.Context.Disable>Disable "{0}"</TKUtils.Windows.Store.Context.Disable>
+    <TKUtils.Windows.Store.Context.Toggle>Toggle "{0}"</TKUtils.Windows.Store.Context.Toggle>
     
     <!-- Name Queue Translations -->
     <TKUtils.Windows.NameQueue.None>The name queue is empty!</TKUtils.Windows.NameQueue.None>
