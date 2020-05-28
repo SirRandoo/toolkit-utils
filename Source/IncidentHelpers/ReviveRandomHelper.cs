@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using RimWorld;
-using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;
@@ -51,13 +50,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     );
                     return;
                 }
-
-                if (!ToolkitSettings.UnlimitedCoins)
-                {
-                    Viewer.TakeViewerCoins(storeIncident.cost);
-                }
-
-                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
 
                 pawn.ClearAllReservations();
 
