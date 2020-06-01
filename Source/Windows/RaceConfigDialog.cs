@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -6,11 +6,8 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
-    [StaticConstructorOnStartup]
     public class RaceConfigDialog : Window
     {
-        private static readonly Texture2D SortingAscend;
-        private static readonly Texture2D SortingDescend;
         private readonly List<XmlRace> cache = TkUtils.ShopExpansion.Races;
         private TaggedString applyText;
 
@@ -34,11 +31,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private TaggedString titleText;
 
-        static RaceConfigDialog()
-        {
-            SortingAscend = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
-            SortingDescend = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
-        }
 
         public RaceConfigDialog()
         {
@@ -218,23 +210,21 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SortCurrentWorkingList();
             }
 
+            var position = new Rect(0f, nameHeadingRect.y + Text.LineHeight / 2f - 4f, 8f, 8f);
             switch (sorter)
             {
                 case Sorter.Name:
-                    GUI.DrawTexture(
-                        new Rect(nameHeadingRect.x, nameHeadingRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
-                        sortMode != SortMode.Descending ? SortingAscend : SortingDescend
-                    );
+                    position.x = nameHeadingRect.x;
                     break;
-
                 case Sorter.Price:
-                    GUI.DrawTexture(
-                        new Rect(priceHeadingRect.x, priceHeadingRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
-                        sortMode != SortMode.Descending ? SortingAscend : SortingDescend
-                    );
+                    position.x = priceHeadingRect.x;
                     break;
             }
 
+            GUI.DrawTexture(
+                position,
+                sortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
+            );
             GUI.EndGroup();
 
             var contentArea = new Rect(

@@ -13,11 +13,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
     public enum Sorter { Name, Price, Category }
 
-    [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
-        private static readonly Texture2D SortingAscend;
-        private static readonly Texture2D SortingDescend;
         private static readonly List<Container> Containers = new List<Container>();
         private string categoryFilter = "";
         private TaggedString categoryHeader;
@@ -39,6 +36,8 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string modFilter = "";
         private TaggedString nameHeader;
         private TaggedString priceHeader;
+        private TaggedString refreshText;
+        private Vector2 refreshTextSize;
         private TaggedString resetAllText;
 
         private Vector2 resetAllTextSize;
@@ -54,12 +53,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private SortMode sortMode = SortMode.Ascending;
 
         private TaggedString title;
-
-        static StoreDialog()
-        {
-            SortingAscend = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
-            SortingDescend = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
-        }
 
         public StoreDialog()
         {
@@ -92,14 +85,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(inRect);
             var listing = new Listing_Standard {maxOneColumn = true};
-            var fontCache = Text.Font;
-            var anchorCache = Text.Anchor;
+            GameFont fontCache = Text.Font;
+            TextAnchor anchorCache = Text.Anchor;
             Text.Font = GameFont.Small;
 
             DrawStoreHeader(inRect);
             Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 2f, inRect.width);
 
-            var wrapped = Text.WordWrap;
+            bool wrapped = Text.WordWrap;
 
             Text.WordWrap = false;
 
@@ -168,30 +161,24 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SortCurrentWorkingList();
             }
 
+            var position = new Rect(0f, infoHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f);
             switch (sorter)
             {
                 case Sorter.Name:
-                    GUI.DrawTexture(
-                        new Rect(infoHeaderRect.x, infoHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
-                        sortMode != SortMode.Descending ? SortingAscend : SortingDescend
-                    );
+                    position.x = infoHeaderRect.x;
                     break;
-
                 case Sorter.Price:
-                    GUI.DrawTexture(
-                        new Rect(priceHeaderRect.x, priceHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
-                        sortMode != SortMode.Descending ? SortingAscend : SortingDescend
-                    );
+                    position.x = priceHeaderRect.x;
                     break;
-
                 case Sorter.Category:
-                    GUI.DrawTexture(
-                        new Rect(categoryHeaderRect.x, categoryHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f),
-                        sortMode != SortMode.Descending ? SortingAscend : SortingDescend
-                    );
+                    position.x = categoryHeaderRect.x;
                     break;
             }
 
+            GUI.DrawTexture(
+                position,
+                sortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
+            );
             GUI.EndGroup();
 
             var effectiveWorkingList = results ?? Containers;

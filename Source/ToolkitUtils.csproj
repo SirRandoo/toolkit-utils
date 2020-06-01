@@ -156,6 +156,7 @@
         <Compile Include="IncidentHelpers\ReviveAllHelper.cs"/>
         <Compile Include="IncidentHelpers\ReviveMeHelper.cs"/>
         <Compile Include="IncidentHelpers\ReviveRandomHelper.cs"/>
+        <Compile Include="Textures.cs"/>
         <Compile Include="TkAddonMenu.cs"/>
         <Compile Include="TkLogger.cs"/>
         <Compile Include="TkSettings.cs"/>

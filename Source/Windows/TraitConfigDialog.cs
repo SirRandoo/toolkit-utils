@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -6,11 +6,8 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
-    [StaticConstructorOnStartup]
     public class TraitConfigDialog : Window
     {
-        private static readonly Texture2D SortingAscend;
-        private static readonly Texture2D SortingDescend;
         private readonly List<XmlTrait> cache = TkUtils.ShopExpansion.Traits;
 
         private bool control;
@@ -29,12 +26,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         // private TaggedString nameHeaderText;
         // private TaggedString priceText;
         // private TaggedString priceHeaderText;
-
-        static TraitConfigDialog()
-        {
-            SortingAscend = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
-            SortingDescend = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
-        }
 
         public TraitConfigDialog()
         {
