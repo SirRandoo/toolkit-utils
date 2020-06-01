@@ -61,6 +61,16 @@ A collection of tweaks and commands for TwitchToolkit.
     <br/>
     **Note**: If the setting "Show pawn's weapon in `!mypawngear`" is disabled, the command will
                 not include the weapon the pawn is currently holding.
+- `!mypawnstats`<br/>
+    Allows a viewer to see their pawn's current stats.
+    <br/>
+    **Note**: Since this command outputs a lot of information into chat, it's broken up into various
+                categories, which can be seen with `!lookup stats`.
+    <br/>
+    **Note**: The streamer can disable stats from being included in the command output via ToolkitUtils'
+                settings menu.
+- `!mypawnkills`<br/>
+    Allows a viewer to see their pawn's current kill count.
 - `!fixmypawn`<br/>
     Allows a viewer to relink their pawn without intervention from the streamer.
     <br/>
@@ -87,7 +97,7 @@ A collection of tweaks and commands for TwitchToolkit.
     Please refer to `!fixmypawn` for a general overview.
     <br/>
     **Note**: This command will relink ***every*** pawn, including already linked pawns.
-- `!research [project]`<br/>
+- `!research [project/item]`<br/>
     Allows a viewer to query the colony's research projects.
     <br/>
     <br/>
@@ -95,7 +105,7 @@ A collection of tweaks and commands for TwitchToolkit.
     research project.
     <br/>
     <br/>
-    If a `project` is specified, this command will display the current progress towards that 
+    If a `project` or `item` is specified, this command will display the current progress towards that 
     project.  If the project has uncompleted prerequisites, the command will include them along
     with the progress of said prerequisite.
 - `!factions`<br/>
@@ -111,6 +121,8 @@ A collection of tweaks and commands for TwitchToolkit.
     Allows a viewer to purchase a personal revive.
 - `!buy healme` / `!healme`<br/>
     Allows a viewer to purchase a personal healer mech serum.
+- `!buy healanypawn` / `!healanypawn`<br/>
+    Allows a viewer to purchase a healer mech serum, but for a random colonist.
 - `!buy healall` / `!healall`<br/>
     Allows a viewer to purchase a colony-wide healer mech serum.
 - `!buy passionshuffle {preferred}` / `!passionshuffle`<br/>
@@ -140,9 +152,9 @@ A collection of tweaks and commands for TwitchToolkit.
 - `!buy removetrait`<br/>
     This tweak modifies how `!buy removetrait` looks up traits in order to
     remove the `<color>` tag requirement in mods that add a colored trait.
-- `!buy pawn`<br/>
+- `!buy pawn [race]`<br/>
     This tweak modifies how Toolkit processes pawn purchases to allow for race
-    support.  A race can be specified with the `race={race}` argument.
+    support.  A race can be specified with the `race` argument.
     <br/>
     **Note**: If this argument isn't included, the tweak will default to using
                 `Human` as the pawn's race.
@@ -152,7 +164,7 @@ A collection of tweaks and commands for TwitchToolkit.
     <br/>
     With the addition of the race tweak above, this command has been modified
     to show the current list of races available to viewers for use in the
-    `race={race}` argument.
+    `race` argument.
     <br/>
     <br/>
     Additionally, this command now allows you to use a query that features spaces
@@ -171,23 +183,6 @@ A collection of tweaks and commands for TwitchToolkit.
     Optionally, this tweak allows a streamer to include mod versions in the
     command's output.  This functionality can be enabled via the
     "Show mod versions in `!installedmods`" setting.
-- Command Parser<br/>
-    This *optional* tweak modifies how Toolkit processes commands.  This forces
-    viewers to use the commands as defined by mods via XML defs.  This means that
-    `!bal` will ***always*** be `!bal`, not `!balloon`.
-    <br/>
-    **Note**: This tweak is **required** if you want the shortcut commands this
-                mod provides for its shop events to function.
-    <br/>
-    **Note**: This tweak also allows you to specify a custom command prefix for 
-                your channel via the mod's settings dialog.
-    <br/>
-    **Warning**: Using this tweak *can* negatively impact Toolkit in various ways.
-                    Should an issue occur while this mod is enabled, it's worth 
-                    disabling the parser and seeing if the issue persists.  If the
-                    issue doesn't, you should [submit a bug report](https://github.com/sirrandoo/toolkit-utils/issues/new)
-- Founders Support<br/>
-    This tweak allows Toolkit to process the `Founders` badge added by Twitch.
 - Viewer Data Purge<br/>
     This tweak allows streamers to purge their viewer data file according to 
     constraints they've specified.
