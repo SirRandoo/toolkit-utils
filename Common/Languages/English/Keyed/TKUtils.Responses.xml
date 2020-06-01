@@ -64,6 +64,9 @@
     <TKUtils.Misc.Stamina>Stamina</TKUtils.Misc.Stamina>
     <TKUtils.Misc.Mana>Mana</TKUtils.Misc.Mana>
     
+    <!-- Immortals -->
+    <TKUtils.Responses.Immortality>Your pawn has been granted immortality.</TKUtils.Responses.Immortality>
+    
     <!-- Buy Trait Translations -->
     <TKUtils.Responses.BuyTrait.LimitReached>Your pawn already has the maximum number of traits allowed ({0} traits).</TKUtils.Responses.BuyTrait.LimitReached>
     <TKUtils.Responses.BuyTrait.Conflicts>Your pawn has {0} which conflicts with {1}!</TKUtils.Responses.BuyTrait.Conflicts>
@@ -147,4 +150,6 @@
     <TKUtils.Letters.Leave.Generic.Description>{0} chose to leave the colony.</TKUtils.Letters.Leave.Generic.Description>
     <TKUtils.Letters.PassionShuffle.Title>Passion Shuffle</TKUtils.Letters.PassionShuffle.Title>
     <TKUtils.Letters.PassionShuffle.Description>{0} has shuffled their pawn's passions.</TKUtils.Letters.PassionShuffle.Description>
+    <TKUtils.Letters.Immortality.Title>Immortality</TKUtils.Letters.Immortality.Title>
+    <TKUtils.Letters.Immortality.Description>{0} has been granted immortality.</TKUtils.Letters.Immortality.Description>
 </LanguageData>

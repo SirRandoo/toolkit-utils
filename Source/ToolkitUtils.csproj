@@ -148,6 +148,7 @@
         <Compile Include="IncidentHelpers\HealAllHelper.cs"/>
         <Compile Include="IncidentHelpers\HealMeHelper.cs"/>
         <Compile Include="IncidentHelpers\HealRandomHelper.cs"/>
+        <Compile Include="IncidentHelpers\ImmortalityHelper.cs"/>
         <Compile Include="IncidentHelpers\ItemHelper.cs"/>
         <Compile Include="IncidentHelpers\PassionShuffleHelper.cs"/>
         <Compile Include="IncidentHelpers\RemoveTraitHelper.cs"/>
@@ -177,6 +178,7 @@
         <Compile Include="Utils\HealHelper.cs"/>
         <Compile Include="Utils\MessageHelper.cs"/>
         <Compile Include="Utils\ModComp\Androids.cs"/>
+        <Compile Include="Utils\ModComp\Immortals.cs"/>
         <Compile Include="Utils\ModComp\Interests.cs"/>
         <Compile Include="Utils\ModComp\MagicComp.cs"/>
         <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
@@ -243,6 +245,9 @@
       </Content>
       <Content Include="..\Common\Patches\PawnClassPatch.xml">
           <Link>Patches\Magic\PawnClassCommand.xml</Link>
+      </Content>
+      <Content Include="..\Common\Patches\IncidentHelpers\ImmortalityPatch.xml">
+          <Link>Patches\Immortals\ImmortalityPatch.xml</Link>
       </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

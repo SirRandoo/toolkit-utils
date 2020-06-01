@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Immortals</li>
+        </mods>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs</xpath>
+            <value>
+                <TwitchToolkit.Incidents.StoreIncidentVariables>
+                    <defName>BuyImmortality</defName>
+                    <label>immortality</label>
+                    <abbreviation>immortality</abbreviation>
+                    <cost>100000</cost>
+                    <eventCap>2</eventCap>
+                    <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.ImmortalityHelper</incidentHelper>
+                    <karmaType>Neutral</karmaType>
+                </TwitchToolkit.Incidents.StoreIncidentVariables>
+            </value>
+        </match>
+    </Operation>
+</Patch>
