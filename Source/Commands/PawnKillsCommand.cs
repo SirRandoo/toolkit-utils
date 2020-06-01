@@ -9,7 +9,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -17,25 +17,25 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var totalKills = pawn.records.GetAsInt(RecordDefOf.Kills);
-            var animalKills = pawn.records.GetAsInt(RecordDefOf.KillsAnimals);
-            var humanLikeKills = pawn.records.GetAsInt(RecordDefOf.KillsHumanlikes);
-            var mechanoidKills = pawn.records.GetAsInt(RecordDefOf.KillsMechanoids);
+            int totalKills = pawn.records.GetAsInt(RecordDefOf.Kills);
+            int animalKills = pawn.records.GetAsInt(RecordDefOf.KillsAnimals);
+            int humanLikeKills = pawn.records.GetAsInt(RecordDefOf.KillsHumanlikes);
+            int mechanoidKills = pawn.records.GetAsInt(RecordDefOf.KillsMechanoids);
 
-            var mechanoidLabel = RecordDefOf.KillsMechanoids.label.Substring(
+            string mechanoidLabel = RecordDefOf.KillsMechanoids.label.Substring(
                 7,
                 RecordDefOf.KillsMechanoids.label.LastIndexOf(')') - 7
             );
-            var animalLabel = RecordDefOf.KillsAnimals.label.Substring(
+            string animalLabel = RecordDefOf.KillsAnimals.label.Substring(
                 7,
                 RecordDefOf.KillsAnimals.label.LastIndexOf(')') - 7
             );
-            var humanlikeLabel = RecordDefOf.KillsHumanlikes.label.Substring(
+            string humanlikeLabel = RecordDefOf.KillsHumanlikes.label.Substring(
                 7,
                 RecordDefOf.KillsHumanlikes.label.LastIndexOf(')') - 7
             );
 
-            var container = "TKUtils.Formats.KeyValue"
+            string container = "TKUtils.Formats.KeyValue"
                 .Translate("TKUtils.Misc.Total".Translate(), totalKills.ToString("N0"))
                 .RawText;
 

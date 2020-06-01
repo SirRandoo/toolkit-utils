@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void Cure(Hediff hediff)
         {
-            var pawn = hediff.pawn;
+            Pawn pawn = hediff.pawn;
             pawn.health.RemoveHediff(hediff);
 
             if (!hediff.def.cureAllAtOnceIfCuredByItem)
@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     break;
                 }
 
-                var firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(hediff.def);
+                Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(hediff.def);
 
                 if (firstHediffOfDef == null)
                 {
@@ -50,9 +50,9 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static Hediff_Addiction FindAddiction(Pawn pawn)
         {
-            var hediffs = pawn.health.hediffSet.hediffs;
+            List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
-            foreach (var h in hediffs)
+            foreach (Hediff h in hediffs)
             {
                 if (h is Hediff_Addiction a && a.Visible && a.def.everCurableByItem)
                 {
@@ -67,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             BodyPartRecord record = null;
 
-            foreach (var missing in pawn.health.hediffSet.GetMissingPartsCommonAncestors())
+            foreach (Hediff_MissingPart missing in pawn.health.hediffSet.GetMissingPartsCommonAncestors())
             {
                 if (!(missing.Part.coverageAbsWithChildren < minCoverage)
                     && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(missing.Part)
@@ -83,10 +83,10 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static Hediff FindImmunizableHediffWhichCanKill(Pawn pawn)
         {
             Hediff hediff = null;
-            var num = -1f;
-            var hediffs = pawn.health.hediffSet.hediffs;
+            float num = -1f;
+            List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
-            foreach (var h in hediffs)
+            foreach (Hediff h in hediffs)
             {
                 if (!h.Visible
                     || !h.def.everCurableByItem
@@ -97,7 +97,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     continue;
                 }
 
-                var severity = h.Severity;
+                float severity = h.Severity;
 
                 if (hediff != null && !(severity > num))
                 {
@@ -114,9 +114,9 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static Hediff_Injury FindInjury(Pawn pawn, IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
         {
             Hediff_Injury injury = null;
-            var hediffs = pawn.health.hediffSet.hediffs;
+            List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
-            foreach (var h in hediffs)
+            foreach (Hediff h in hediffs)
             {
                 if (h is Hediff_Injury h2
                     && h2.Visible
@@ -134,25 +134,25 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static Hediff FindLifeThreateningHediff(Pawn pawn)
         {
             Hediff hediff = null;
-            var num = -1f;
-            var hediffs = pawn.health.hediffSet.hediffs;
+            float num = -1f;
+            List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
-            foreach (var h in hediffs)
+            foreach (Hediff h in hediffs)
             {
                 if (!h.Visible || !h.def.everCurableByItem || h.FullyImmune())
                 {
                     continue;
                 }
 
-                var lifeThreatening = h.CurStage?.lifeThreatening ?? false;
-                var lethal = h.def.lethalSeverity >= 0f && h.Severity / h.def.lethalSeverity >= 0.8f;
+                bool lifeThreatening = h.CurStage?.lifeThreatening ?? false;
+                bool lethal = h.def.lethalSeverity >= 0f && h.Severity / h.def.lethalSeverity >= 0.8f;
 
                 if (!lifeThreatening && !lethal)
                 {
                     continue;
                 }
 
-                var coverage = h.Part?.coverageAbsWithChildren ?? 999f;
+                float coverage = h.Part?.coverageAbsWithChildren ?? 999f;
 
                 if (hediff != null && !(coverage > num))
                 {
@@ -170,16 +170,16 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             var num = 0f;
             Hediff hediff = null;
-            var hediffs = pawn.health.hediffSet.hediffs;
+            List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
-            foreach (var h in hediffs)
+            foreach (Hediff h in hediffs)
             {
                 if (!h.Visible || !h.def.everCurableByItem)
                 {
                     continue;
                 }
 
-                var bleedRate = h.BleedRate;
+                float bleedRate = h.BleedRate;
 
                 if (!(bleedRate > 0f) || !(bleedRate > num) && hediff != null)
                 {
@@ -197,9 +197,9 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             Hediff hediff = null;
             var num = 1f;
-            var hediffs = pawn.health.hediffSet.hediffs;
+            List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
-            foreach (var h in hediffs)
+            foreach (Hediff h in hediffs)
             {
                 if (!h.Visible
                     || !h.def.isBad
@@ -213,7 +213,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     continue;
                 }
 
-                var coverage = h.Part?.coverageAbsWithChildren ?? 999f;
+                float coverage = h.Part?.coverageAbsWithChildren ?? 999f;
 
                 if (hediff != null && !(coverage > num))
                 {
@@ -231,9 +231,9 @@ namespace SirRandoo.ToolkitUtils.Utils
             IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
         {
             Hediff_Injury injury = null;
-            var hediffs = pawn.health.hediffSet.hediffs;
+            List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
-            foreach (var h in hediffs)
+            foreach (Hediff h in hediffs)
             {
                 if (h is Hediff_Injury h2
                     && h2.Visible
@@ -267,7 +267,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static object GetPawnHealable(Pawn pawn)
         {
-            var hediff = FindLifeThreateningHediff(pawn);
+            Hediff hediff = FindLifeThreateningHediff(pawn);
             if (hediff != null)
             {
                 return hediff;
@@ -275,7 +275,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 2500)
             {
-                var hediff2 = FindMostBleedingHediff(pawn);
+                Hediff hediff2 = FindMostBleedingHediff(pawn);
                 if (hediff2 != null)
                 {
                     return hediff2;
@@ -284,7 +284,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (pawn.health.hediffSet.GetBrain() != null)
             {
-                var injury = FindPermanentInjury(
+                Hediff_Injury injury = FindPermanentInjury(
                     pawn,
                     Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
                 );
@@ -294,13 +294,13 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
             }
 
-            var bodyPartRecord = FindBiggestMissingBodyPart(pawn, HandCoverageAbsWithChildren);
+            BodyPartRecord bodyPartRecord = FindBiggestMissingBodyPart(pawn, HandCoverageAbsWithChildren);
             if (bodyPartRecord != null)
             {
                 return bodyPartRecord;
             }
 
-            var injury2 = FindPermanentInjury(
+            Hediff_Injury injury2 = FindPermanentInjury(
                 pawn,
                 pawn.health.hediffSet.GetNotMissingParts().Where(p => p.def == BodyPartDefOf.Eye) as
                     IReadOnlyCollection<BodyPartRecord>
@@ -310,19 +310,19 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return injury2;
             }
 
-            var hediff3 = FindImmunizableHediffWhichCanKill(pawn);
+            Hediff hediff3 = FindImmunizableHediffWhichCanKill(pawn);
             if (hediff3 != null)
             {
                 return hediff3;
             }
 
-            var hediff4 = FindNonInjuryMiscBadHediff(pawn, true);
+            Hediff hediff4 = FindNonInjuryMiscBadHediff(pawn, true);
             if (hediff4 != null)
             {
                 return hediff4;
             }
 
-            var hediff5 = FindNonInjuryMiscBadHediff(pawn, false);
+            Hediff hediff5 = FindNonInjuryMiscBadHediff(pawn, false);
             if (hediff5 != null)
             {
                 return hediff5;
@@ -330,7 +330,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             if (pawn.health.hediffSet.GetBrain() != null)
             {
-                var injury3 = FindInjury(
+                Hediff_Injury injury3 = FindInjury(
                     pawn,
                     Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>
                 );
@@ -340,19 +340,19 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
             }
 
-            var bodyPartRecord2 = FindBiggestMissingBodyPart(pawn);
+            BodyPartRecord bodyPartRecord2 = FindBiggestMissingBodyPart(pawn);
             if (bodyPartRecord2 != null)
             {
                 return bodyPartRecord2;
             }
 
-            var addiction = FindAddiction(pawn);
+            Hediff_Addiction addiction = FindAddiction(pawn);
             if (addiction != null)
             {
                 return addiction;
             }
 
-            var injury4 = FindPermanentInjury(pawn);
+            Hediff_Injury injury4 = FindPermanentInjury(pawn);
 
             return injury4 ?? FindInjury(pawn);
         }

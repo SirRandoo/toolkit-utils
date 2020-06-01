@@ -10,16 +10,16 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static bool IsRichText(string input)
         {
-            var lowered = input.ToLowerInvariant();
+            string lowered = input.ToLowerInvariant();
 
             return SupportedTags.Any(tag => lowered.Contains($"<{tag}") && lowered.Contains($"</{tag}>"));
         }
 
         public static string StripTags(string input)
         {
-            var container = input;
+            string container = input;
             var i = 0;
-            var expectedTags = Mathf.Min(
+            int expectedTags = Mathf.Min(
                 input.Count(ch => ch.Equals('<')),
                 input.Count(ch => ch.Equals('>'))
             );
@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 var tagContent = "";
                 var tag = "";
 
-                foreach (var c in container)
+                foreach (char c in container)
                 {
                     switch (c)
                     {

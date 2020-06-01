@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TwitchToolkit;
 using UnityEngine;
@@ -15,11 +16,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public override void Draw(Rect canvas)
         {
-            var right = canvas.RightHalf().Rounded();
+            Rect right = canvas.RightHalf().Rounded();
             var newWidth = (float) Math.Floor(right.width / 1.5);
 
             right = new Rect(canvas.width - newWidth, canvas.y, newWidth, canvas.height).Rounded();
-            var left = new Rect(canvas.x, canvas.y, canvas.width - right.width, canvas.height).Rounded();
+            Rect left = new Rect(canvas.x, canvas.y, canvas.width - right.width, canvas.height).Rounded();
 
             Widgets.Label(left, "TKUtils.Windows.Purge.Constraints.Name".Translate());
 
@@ -29,8 +30,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                     .Translate()
             ))
             {
-                var names = Enum.GetNames(typeof(NameComparisonTypes));
-                var options = names.Select(
+                string[] names = Enum.GetNames(typeof(NameComparisonTypes));
+                List<FloatMenuOption> options = names.Select(
                         name => new FloatMenuOption(
                             $"TKUtils.Windows.Purge.NameComparisonTypes.{name}".Translate(),
                             () => nameStrategy = (NameComparisonTypes) Enum.Parse(typeof(NameComparisonTypes), name)
@@ -59,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public override bool ShouldPurge(Viewer viewer)
         {
-            var result = viewer.username.EqualsIgnoreCase(username);
+            bool result = viewer.username.EqualsIgnoreCase(username);
 
             return nameStrategy == NameComparisonTypes.Is ? result : !result;
         }

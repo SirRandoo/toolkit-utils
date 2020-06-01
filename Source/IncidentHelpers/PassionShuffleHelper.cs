@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
@@ -23,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
+            Pawn viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
 
             if (viewerPawn == null)
             {
@@ -31,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var passions = viewerPawn.skills.skills.Sum(skill => (int) skill.passion);
+            int passions = viewerPawn.skills.skills.Sum(skill => (int) skill.passion);
 
             if (passions <= 0)
             {
@@ -39,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
+            string query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (!query.NullOrEmpty())
             {
@@ -101,10 +102,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         private void Shuffle()
         {
-            var passionCount = pawn.skills.skills.Sum(s => (int) s.passion);
+            int passionCount = pawn.skills.skills.Sum(s => (int) s.passion);
             var iterations = 0;
 
-            foreach (var skill in pawn.skills.skills)
+            foreach (SkillRecord skill in pawn.skills.skills)
             {
                 if (skill.def == target && passionCount > 0)
                 {
@@ -118,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             while (passionCount > 0)
             {
-                var skill = pawn.skills.skills
+                SkillRecord skill = pawn.skills.skills
                     .Where(s => !s.TotallyDisabled)
                     .Where(s => s.passion != Passion.Major)
                     .RandomElementWithFallback();
@@ -155,18 +156,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         private void ShuffleWithInterests()
         {
             var iterations = 0;
-            var passionCount = pawn.skills.skills
+            int passionCount = pawn.skills.skills
                 .Select(s => (int) s.passion)
                 .Where(p => p < 3)
                 .Sum();
-            var interests = pawn.skills.skills
+            List<Passion> interests = pawn.skills.skills
                 .Where(s => (int) s.passion >= 3)
                 .Select(s => s.passion)
                 .ToList();
 
             TkLogger.Info($"Interest count: {interests.Count}");
 
-            foreach (var skill in pawn.skills.skills)
+            foreach (SkillRecord skill in pawn.skills.skills)
             {
                 if (skill.def == target && passionCount > 0)
                 {
@@ -180,7 +181,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             while (passionCount > 0)
             {
-                var skill = pawn.skills.skills
+                SkillRecord skill = pawn.skills.skills
                     .Where(s => !s.TotallyDisabled)
                     .Where(s => s.passion != Passion.Major)
                     .RandomElementWithFallback();
@@ -215,7 +216,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             while (interests.Any())
             {
-                var skill = pawn.skills.skills
+                SkillRecord skill = pawn.skills.skills
                     .Where(s => !s.TotallyDisabled)
                     .Where(s => s.passion == Passion.None)
                     .RandomElementWithFallback();
@@ -226,7 +227,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     continue;
                 }
 
-                var interest = interests.RandomElementWithFallback();
+                Passion interest = interests.RandomElementWithFallback();
 
                 skill.passion = interest;
 

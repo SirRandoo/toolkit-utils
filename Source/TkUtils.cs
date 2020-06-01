@@ -10,6 +10,7 @@ using TwitchToolkit.Settings;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
+using Verse.Steam;
 
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedType.Global
@@ -56,10 +57,10 @@ namespace SirRandoo.ToolkitUtils
             ShopExpansionHelper.DumpModList();
             ShopExpansionHelper.DumpShopExpansion();
 
-            var incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
+            List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
             var wereChanges = false;
 
-            foreach (var incident in incidents.Where(
+            foreach (StoreIncident incident in incidents.Where(
                 i => i.defName == "BuyPawn"
                      || i.defName == "AddTrait"
                      || i.defName == "RemoveTrait"
@@ -112,9 +113,9 @@ namespace SirRandoo.ToolkitUtils
         public static void BuildModList()
         {
             var jsonMods = new List<ModDump>();
-            var running = ModsConfig.ActiveModsInLoadOrder.ToList();
+            List<ModMetaData> running = ModsConfig.ActiveModsInLoadOrder.ToList();
 
-            foreach (var mod in running.Where(m => m.Active))
+            foreach (ModMetaData mod in running.Where(m => m.Active))
             {
                 if (mod.Official)
                 {
@@ -128,7 +129,7 @@ namespace SirRandoo.ToolkitUtils
 
                 string version = null;
                 string steamId = null;
-                var manifestFile = Path.Combine(mod.RootDir.ToString(), "About/Manifest.xml");
+                string manifestFile = Path.Combine(mod.RootDir.ToString(), "About/Manifest.xml");
 
                 if (File.Exists(manifestFile))
                 {
@@ -144,7 +145,7 @@ namespace SirRandoo.ToolkitUtils
 
                 if (version == null)
                 {
-                    var handle =
+                    Mod handle =
                         LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
 
                     if (handle != null)
@@ -160,14 +161,14 @@ namespace SirRandoo.ToolkitUtils
 
                 if (steamId.NullOrEmpty())
                 {
-                    var hook = mod.GetWorkshopItemHook();
-                    var property = hook.GetType().GetProperty("PublishedFileId");
+                    WorkshopItemHook hook = mod.GetWorkshopItemHook();
+                    PropertyInfo property = hook.GetType().GetProperty("PublishedFileId");
                     steamId = property?.GetValue(hook)?.ToString();
                 }
 
                 if (steamId.NullOrEmpty())
                 {
-                    var publishedFile = Path.Combine(mod.RootDir.ToString(), "About/PublishedFileId.txt");
+                    string publishedFile = Path.Combine(mod.RootDir.ToString(), "About/PublishedFileId.txt");
 
                     if (File.Exists(publishedFile))
                     {

@@ -11,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
+            string query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
             ResearchProjectDef project;
 
             if (query.NullOrEmpty())
@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (project == null)
                 {
-                    var thing = DefDatabase<ThingDef>.AllDefsListForReading
+                    ThingDef thing = DefDatabase<ThingDef>.AllDefsListForReading
                         .FirstOrDefault(
                             t => t.defName.EqualsIgnoreCase(query)
                                  || t.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
@@ -59,9 +59,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (project.prerequisites != null && !project.PrerequisitesCompleted)
             {
-                var prerequisites = project.prerequisites;
+                List<ResearchProjectDef> prerequisites = project.prerequisites;
 
-                var container = prerequisites.Where(prerequisite => !prerequisite.IsFinished)
+                string[] container = prerequisites.Where(prerequisite => !prerequisite.IsFinished)
                     .Select(
                         prerequisite => "TKUtils.Formats.KeyValue".Translate(
                             prerequisite.LabelCap,

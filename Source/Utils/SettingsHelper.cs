@@ -11,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
             Widgets.ButtonText(region, "×", false);
 
-            var clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Event.current.clickCount > 0;
+            bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Event.current.clickCount > 0;
 
             if (!clicked)
             {
@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 canvas.width - buttonWidth * 2 - 10f,
                 canvas.height
             );
-            var currentEvent = Event.current;
+            Event currentEvent = Event.current;
             var buffer = price.ToString();
 
             if (currentEvent.type == EventType.Used || currentEvent.type == EventType.KeyDown)
@@ -139,8 +139,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return false;
             }
 
-            var current = Event.current;
-            var was = current.button == 1;
+            Event current = Event.current;
+            bool was = current.button == 1;
 
             switch (current.type)
             {

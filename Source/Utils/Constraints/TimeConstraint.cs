@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TwitchToolkit;
 using UnityEngine;
@@ -20,12 +21,12 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public override void Draw(Rect canvas)
         {
-            var right = canvas.RightHalf().Rounded();
+            Rect right = canvas.RightHalf().Rounded();
             var newWidth = (float) Math.Floor(right.width / 3);
 
             right = new Rect(canvas.width - newWidth, canvas.y, newWidth, canvas.height).Rounded();
-            var left = new Rect(canvas.x, canvas.y, canvas.width - right.width, canvas.height).Rounded();
-            var rightWidth = right.width * 0.3f;
+            Rect left = new Rect(canvas.x, canvas.y, canvas.width - right.width, canvas.height).Rounded();
+            float rightWidth = right.width * 0.3f;
 
             Widgets.Label(left, "TKUtils.Windows.Purge.Constraints.Time".Translate());
             DrawButton(new Rect(right.x - 20f, right.y, rightWidth, right.height));
@@ -43,8 +44,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            var names = Enum.GetNames(typeof(TimeScale));
-            var options = names.Select(
+            string[] names = Enum.GetNames(typeof(TimeScale));
+            List<FloatMenuOption> options = names.Select(
                     name => new FloatMenuOption(
                         $"TKUtils.Windows.Purge.TimeScales.{name}".Translate(),
                         () => timeScale = (TimeScale) Enum.Parse(typeof(TimeScale), name)
@@ -57,8 +58,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public override bool ShouldPurge(Viewer viewer)
         {
-            var seconds = value * ScaleToInt(timeScale);
-            var span = DateTime.Now - viewer.last_seen;
+            int seconds = value * ScaleToInt(timeScale);
+            TimeSpan span = DateTime.Now - viewer.last_seen;
 
             switch (Strategy)
             {

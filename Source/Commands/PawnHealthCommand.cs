@@ -12,7 +12,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -20,7 +20,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var segment = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
+            string segment = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
 
             if (segment.NullOrEmpty())
             {
@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var capacity = DefDatabase<PawnCapacityDef>.AllDefsListForReading
+            PawnCapacityDef capacity = DefDatabase<PawnCapacityDef>.AllDefsListForReading
                 .FirstOrDefault(
                     d => d.defName.EqualsIgnoreCase(segment)
                          || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
@@ -63,8 +63,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return "⚡".AltText(subject.MentalStateDef.LabelCap);
             }
 
-            var thresholdExtreme = subject.mindState.mentalBreaker.BreakThresholdExtreme;
-            var moodLevel = subject.needs.mood.CurLevel;
+            float thresholdExtreme = subject.mindState.mentalBreaker.BreakThresholdExtreme;
+            float moodLevel = subject.needs.mood.CurLevel;
 
             if (moodLevel < thresholdExtreme)
             {
@@ -115,7 +115,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 var parts = new List<string>();
 
-                foreach (var i in impactors)
+                foreach (PawnCapacityUtility.CapacityImpactor i in impactors)
                 {
                     if (i is PawnCapacityUtility.CapacityImpactorHediff)
                     {
@@ -123,7 +123,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     }
                 }
 
-                foreach (var i in impactors)
+                foreach (PawnCapacityUtility.CapacityImpactor i in impactors)
                 {
                     if (i is PawnCapacityUtility.CapacityImpactorBodyPartHealth)
                     {
@@ -131,7 +131,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     }
                 }
 
-                foreach (var i in impactors)
+                foreach (PawnCapacityUtility.CapacityImpactor i in impactors)
                 {
                     if (i is PawnCapacityUtility.CapacityImpactorCapacity)
                     {
@@ -139,7 +139,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     }
                 }
 
-                foreach (var i in impactors)
+                foreach (PawnCapacityUtility.CapacityImpactor i in impactors)
                 {
                     if (i is PawnCapacityUtility.CapacityImpactorPain)
                     {
@@ -179,7 +179,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn.health.hediffSet.BleedRateTotal > 0.01f)
             {
-                var ticks = HealthUtility.TicksUntilDeathDueToBloodLoss(pawn);
+                int ticks = HealthUtility.TicksUntilDeathDueToBloodLoss(pawn);
 
                 segments.Add(
                     ticks >= 60000
@@ -216,7 +216,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 source = source.OrderBy(d => d.listOrder).ToList();
 
-                var capacities = source
+                string[] capacities = source
                     .Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
                     .Select(
                         capacity => "TKUtils.Formats.KeyValue".Translate(
@@ -235,14 +235,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return string.Join("⎮", segments.ToArray());
             }
 
-            var surgeries = pawn.health.surgeryBills;
+            BillStack surgeries = pawn.health.surgeryBills;
 
             if (surgeries == null || surgeries.Count <= 0)
             {
                 return string.Join("⎮", segments.ToArray());
             }
 
-            var queued = surgeries.Bills.Select(item => item.LabelCap).ToArray();
+            string[] queued = surgeries.Bills.Select(item => item.LabelCap).ToArray();
 
             segments.Add("TKUtils.Formats.PawnHealth.Surgeries".Translate(string.Join(", ", queued)));
 

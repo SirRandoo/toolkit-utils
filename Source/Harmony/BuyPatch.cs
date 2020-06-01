@@ -20,8 +20,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return true;
             }
 
-            var viewer = Viewers.GetViewer(twitchMessage.Username);
-            var message = twitchMessage;
+            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
+            ITwitchMessage message = twitchMessage;
 
             if (!__instance.command.defName.Equals("Buy"))
             {

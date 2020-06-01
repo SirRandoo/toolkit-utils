@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Viewer = viewer;
 
-            var partQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
+            string partQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (partQuery.NullOrEmpty())
             {
@@ -144,8 +144,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.IsSurgery).ToList();
-            var partRecipes = recipes
+            List<RecipeDef> recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.IsSurgery).ToList();
+            List<RecipeDef> partRecipes = recipes
                 .Where(r => (r.Worker is Recipe_Surgery || Androids.IsSurgeryUsable(pawn, r)) && r.IsIngredient(part))
                 .ToList();
 
@@ -170,11 +170,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var surgeryParts = surgery.Worker?.GetPartsToApplyOn(pawn, surgery).ToList() ?? new List<BodyPartRecord>();
+            List<BodyPartRecord> surgeryParts =
+                surgery.Worker?.GetPartsToApplyOn(pawn, surgery).ToList() ?? new List<BodyPartRecord>();
             BodyPartRecord shouldAdd = null;
             var lastHealth = 99999f;
 
-            foreach (var applied in surgeryParts)
+            foreach (BodyPartRecord applied in surgeryParts)
             {
                 if (pawn.health.surgeryBills.Bills.Count > 0
                     && pawn.health.surgeryBills.Bills.Any(
@@ -184,7 +185,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     continue;
                 }
 
-                var partHealth = HealHelper.GetAverageHealthOfPart(pawn, applied);
+                float partHealth = HealHelper.GetAverageHealthOfPart(pawn, applied);
 
                 if (partHealth > lastHealth)
                 {
@@ -221,8 +222,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return;
             }
 
-            var thing = ThingMaker.MakeThing(part);
-            var spot = DropCellFinder.TradeDropSpot(map);
+            Thing thing = ThingMaker.MakeThing(part);
+            IntVec3 spot = DropCellFinder.TradeDropSpot(map);
             var bill = new Bill_Medical(surgery);
 
             TradeUtility.SpawnDropPod(spot, map, thing);

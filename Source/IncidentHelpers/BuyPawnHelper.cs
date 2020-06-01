@@ -56,15 +56,15 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return CanPurchaseRace(viewer, race);
             }
 
-            var segments = CommandFilter.Parse(message).Skip(2).ToArray();
-            var query = segments.FirstOrDefault();
+            string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
+            string query = segments.FirstOrDefault();
 
             if (query.NullOrEmpty())
             {
                 return CanPurchaseRace(viewer, race);
             }
 
-            var raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading
+            PawnKindDef raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading
                 .FirstOrDefault(
                     r => r.race.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                          || r.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
@@ -105,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     allowFood: false,
                     mustBeCapableOfViolence: true
                 );
-                var pawn = PawnGenerator.GeneratePawn(request);
+                Pawn pawn = PawnGenerator.GeneratePawn(request);
 
                 if (!(pawn.Name is NameTriple name))
                 {
@@ -115,8 +115,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 GenSpawn.Spawn(pawn, loc, map);
                 pawn.Name = new NameTriple(name.First ?? string.Empty, Viewer.username, name.Last ?? string.Empty);
-                var title = "TKUtils.Responses.Buy.Joined.Title".Translate();
-                var text = "TKUtils.Responses.Buy.Joined.Text".Translate(Viewer.username);
+                TaggedString title = "TKUtils.Responses.Buy.Joined.Title".Translate();
+                TaggedString text = "TKUtils.Responses.Buy.Joined.Text".Translate(Viewer.username);
                 PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref title, pawn);
 
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
@@ -168,7 +168,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public void GetDefaultRace()
         {
-            var human = TkUtils.ShopExpansion.Races
+            XmlRace human = TkUtils.ShopExpansion.Races
                 .FirstOrDefault(d => d.DefName.EqualsIgnoreCase(PawnKindDefOf.Colonist.race.defName));
 
             if (human?.Enabled ?? false)
@@ -178,7 +178,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return;
             }
 
-            var randomKind = TkUtils.ShopExpansion.Races
+            XmlRace randomKind = TkUtils.ShopExpansion.Races
                 .FirstOrDefault(k => k.Enabled);
 
             if (randomKind == null)

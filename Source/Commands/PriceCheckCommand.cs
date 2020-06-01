@@ -16,12 +16,12 @@ namespace SirRandoo.ToolkitUtils.Commands
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
             msg = twitchMessage;
-            var segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
-            var category = segments.FirstOrFallback("");
-            var query = segments.Skip(1).FirstOrFallback("");
-            var quantity = segments.Skip(2).FirstOrFallback("1");
+            string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
+            string category = segments.FirstOrFallback("");
+            string query = segments.Skip(1).FirstOrFallback("");
+            string quantity = segments.Skip(2).FirstOrFallback("1");
 
-            if (!LookupCommand.Index.TryGetValue(category.ToLowerInvariant(), out var result))
+            if (!LookupCommand.Index.TryGetValue(category.ToLowerInvariant(), out string result))
             {
                 quantity = query;
                 query = category;
@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformAnimalLookup(string query, int quantity)
         {
-            var result = DefDatabase<PawnKindDef>.AllDefsListForReading
+            PawnKindDef result = DefDatabase<PawnKindDef>.AllDefsListForReading
                 .FirstOrDefault(
                     i => i.RaceProps.Animal
                          && (i.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var item = StoreInventory.items.FirstOrDefault(i => i.defname.EqualsIgnoreCase(result.defName));
+            Item item = StoreInventory.items.FirstOrDefault(i => i.defname.EqualsIgnoreCase(result.defName));
 
             if (item == null || item.price <= 0)
             {
@@ -77,7 +77,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformEventLookup(string query)
         {
-            var result = DefDatabase<StoreIncident>.AllDefsListForReading
+            StoreIncident result = DefDatabase<StoreIncident>.AllDefsListForReading
                 .FirstOrDefault(
                     i => i.cost > 0
                          && (i.abbreviation.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
@@ -100,7 +100,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformItemLookup(string query, int quantity)
         {
-            var result = StoreInventory.items
+            Item result = StoreInventory.items
                 .FirstOrDefault(
                     i => i.price > 0
                          && (i.abr.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
@@ -125,12 +125,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformLookup(string category, string query, string amount)
         {
-            if (!int.TryParse(amount, out var quantity))
+            if (!int.TryParse(amount, out int quantity))
             {
                 quantity = 1;
             }
 
-            if (!LookupCommand.Index.TryGetValue(category.ToLowerInvariant(), out var result))
+            if (!LookupCommand.Index.TryGetValue(category.ToLowerInvariant(), out string result))
             {
                 return;
             }
@@ -157,7 +157,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            var result = TkUtils.ShopExpansion.Races
+            XmlRace result = TkUtils.ShopExpansion.Races
                 .FirstOrDefault(
                     i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                          || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
@@ -179,7 +179,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            var result = TkUtils.ShopExpansion.Traits.FirstOrDefault(
+            XmlTrait result = TkUtils.ShopExpansion.Traits.FirstOrDefault(
                 i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                      || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
             );

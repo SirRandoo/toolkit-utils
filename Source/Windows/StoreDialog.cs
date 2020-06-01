@@ -181,8 +181,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
             GUI.EndGroup();
 
-            var effectiveWorkingList = results ?? Containers;
-            var total = effectiveWorkingList.Count;
+            List<Container> effectiveWorkingList = results ?? Containers;
+            int total = effectiveWorkingList.Count;
             const float scale = 1.25f;
 
             var contentArea = new Rect(
@@ -208,7 +208,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 var fetchingRect = new Rect(
                     0f,
-                    (contentArea.height / 2f) - Text.LineHeight,
+                    contentArea.height / 2f - Text.LineHeight,
                     contentArea.width,
                     Text.LineHeight
                 );
@@ -220,7 +220,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 var progressRect = new Rect(
                     0f,
-                    fetchingRect.y + (Text.LineHeight * 1.25f),
+                    fetchingRect.y + Text.LineHeight * 1.25f,
                     contentArea.width * 0.8f,
                     Text.LineHeight
                 );
@@ -238,8 +238,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.BeginScrollView(items, ref scrollPos, ref viewPort);
             for (var index = 0; index < effectiveWorkingList.Count; index++)
             {
-                var item = effectiveWorkingList[index];
-                var lineRect = listing.GetRect(Text.LineHeight * scale);
+                Container item = effectiveWorkingList[index];
+                Rect lineRect = listing.GetRect(Text.LineHeight * scale);
 
                 if (!lineRect.IsRegionVisible(items, scrollPos))
                 {
@@ -394,7 +394,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             "TKUtils.Windows.Store.Context.EnableAll".Translate(item.Category),
                             () =>
                             {
-                                foreach (var i in Containers.Where(
+                                foreach (Container i in Containers.Where(
                                     i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
                                 ))
                                 {
@@ -407,7 +407,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             "TKUtils.Windows.Store.Context.DisableAll".Translate(item.Category),
                             () =>
                             {
-                                foreach (var i in Containers.Where(
+                                foreach (Container i in Containers.Where(
                                     i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
                                 ))
                                 {
@@ -460,7 +460,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             var searchRect = new Rect(line.x, line.y, line.width * 0.25f, line.height);
-            var workingList = results ?? Containers;
+            List<Container> workingList = results ?? Containers;
 
             currentQuery = Widgets.TextEntryLabeled(searchRect, searchText, currentQuery);
 
@@ -483,15 +483,15 @@ namespace SirRandoo.ToolkitUtils.Windows
                 lastQuery = "";
             }
 
-            var buttonWidth = Mathf.Max(resetAllTextSize.x, enableAllTextSize.x, disableAllTextSize.x) * 1.5f;
-            var offset = buttonWidth;
+            float buttonWidth = Mathf.Max(resetAllTextSize.x, enableAllTextSize.x, disableAllTextSize.x) * 1.5f;
+            float offset = buttonWidth;
 
             if (Widgets.ButtonText(
                 new Rect(line.x + line.width - offset, line.y, buttonWidth, line.height),
                 disableAllText
             ))
             {
-                foreach (var item in workingList.Where(i => i.Item.price > 0))
+                foreach (Container item in workingList.Where(i => i.Item.price > 0))
                 {
                     item.Enabled = false;
                     item.Update();
@@ -505,7 +505,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 enableAllText
             ))
             {
-                foreach (var item in workingList.Where(i => i.Item.price < 0))
+                foreach (Container item in workingList.Where(i => i.Item.price < 0))
                 {
                     item.Enabled = true;
                     item.Update();
@@ -519,7 +519,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 resetAllText
             ))
             {
-                foreach (var item in workingList)
+                foreach (Container item in workingList)
                 {
                     item.Item.price = CalculateToolkitPrice(item.Thing.BaseMarketValue);
                 }
@@ -538,7 +538,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (!modFilter.NullOrEmpty())
             {
-                var modFilterWidth = Text.CalcSize(modFilter).x + 2f;
+                float modFilterWidth = Text.CalcSize(modFilter).x + 2f;
                 var modFilterRect = new Rect(
                     filterSection.x + filterOffset,
                     filterSection.y,
@@ -564,7 +564,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (!categoryFilter.NullOrEmpty())
             {
-                var categoryFilterWidth = Text.CalcSize(categoryFilter).x + 16f;
+                float categoryFilterWidth = Text.CalcSize(categoryFilter).x + 16f;
                 var categoryFilterRect = new Rect(
                     filterSection.x + filterOffset,
                     filterSection.y,
@@ -628,7 +628,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private List<Container> GetSearchResults()
         {
-            var workingList = Containers;
+            List<Container> workingList = Containers;
 
             if (!modFilter.NullOrEmpty())
             {
@@ -644,7 +644,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     .ToList();
             }
 
-            var serialized = currentQuery?.ToToolkit();
+            string serialized = currentQuery?.ToToolkit();
 
             if (serialized.NullOrEmpty())
             {
@@ -670,7 +670,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreClose()
         {
-            foreach (var c in Containers.Where(c => c.Item == null))
+            foreach (Container c in Containers.Where(c => c.Item == null))
             {
                 c.Item = new Item(
                     CalculateToolkitPrice(c.Thing.BaseMarketValue),
@@ -704,7 +704,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void SortCurrentWorkingList()
         {
-            var workingList = results ?? Containers;
+            List<Container> workingList = results ?? Containers;
 
             switch (sorter)
             {
@@ -762,8 +762,10 @@ namespace SirRandoo.ToolkitUtils.Windows
             ctxAscending = "TKUtils.Windows.Store.Context.Ascending".Translate();
             ctxDescending = "TKUtils.Windows.Store.Context.Descending".Translate();
             ctxInfo = "TKUtils.Windows.Store.Context.Info".Translate();
+            refreshText = "TKUtils.Windows.Config.Buttons.Refresh.Label".Translate();
             fetchingText = "TKUtils.Windows.Store.Screen.Text".Translate();
 
+            refreshTextSize = Text.CalcSize(refreshText);
             fetchingTextSize = Text.CalcSize(fetchingText);
             resetAllTextSize = Text.CalcSize(resetAllText);
             enableAllTextSize = Text.CalcSize(enableAllText);
@@ -772,10 +774,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private static IEnumerable<int> GenerateContainers(ICollection<Container> receiver)
         {
-            var things = GetTradeables();
+            IEnumerable<ThingDef> things = GetTradeables();
             var tracker = 0;
 
-            foreach (var thing in things)
+            foreach (ThingDef thing in things)
             {
                 try
                 {
@@ -784,7 +786,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         continue;
                     }
 
-                    var item = StoreInventory.items
+                    Item item = StoreInventory.items
                         .FirstOrDefault(i => i != null && (i.defname?.Equals(thing.defName) ?? false));
 
                     if (item == null)
@@ -850,7 +852,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         return categoryCached;
                     }
 
-                    var category = Thing?.FirstThingCategory?.LabelCap.RawText ?? string.Empty;
+                    string category = Thing?.FirstThingCategory?.LabelCap.RawText ?? string.Empty;
 
                     if (category.NullOrEmpty() && Thing?.race != null)
                     {
@@ -890,7 +892,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 Widgets.Checkbox(0f, canvas.y, ref Enabled, paintable: true);
 
-                var cache = Text.Anchor;
+                TextAnchor cache = Text.Anchor;
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(labelRegion, Thing?.LabelCap ?? Item.abr);
                 Text.Anchor = cache;

@@ -12,11 +12,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public override void Draw(Rect canvas)
         {
-            var right = canvas.RightHalf().Rounded();
+            Rect right = canvas.RightHalf().Rounded();
             var newWidth = (float) Math.Floor(right.width / 1.5);
 
             right = new Rect(canvas.width - newWidth, canvas.y, newWidth, canvas.height).Rounded();
-            var left = new Rect(canvas.x, canvas.y, canvas.width - right.width, canvas.height).Rounded();
+            Rect left = new Rect(canvas.x, canvas.y, canvas.width - right.width, canvas.height).Rounded();
 
             var buttonRect = new Rect(right.x, right.y, 50f, right.height);
             var fieldRect = new Rect(

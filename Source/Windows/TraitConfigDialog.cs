@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -62,10 +62,10 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void DrawHeader(Rect inRect)
         {
             GUI.BeginGroup(inRect);
-            var midpoint = inRect.width / 2f;
+            float midpoint = inRect.width / 2f;
             var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f, Text.LineHeight);
-            var searchLabel = searchRect.LeftHalf();
-            var searchField = searchRect.RightHalf();
+            Rect searchLabel = searchRect.LeftHalf();
+            Rect searchField = searchRect.RightHalf();
 
             Widgets.Label(searchLabel, "TKUtils.Windows.Config.Buttons.Search.Label".Translate());
             currentQuery = Widgets.TextField(searchField, currentQuery);
@@ -82,18 +82,18 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
 
-            var enableText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
-            var disableText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
-            var applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
-            var enableSize = Text.CalcSize(enableText) * 1.5f;
-            var disableSize = Text.CalcSize(disableText) * 1.5f;
-            var maxWidth = Mathf.Max(enableSize.x, disableSize.x);
+            TaggedString enableText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
+            TaggedString disableText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
+            TaggedString applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
+            Vector2 enableSize = Text.CalcSize(enableText) * 1.5f;
+            Vector2 disableSize = Text.CalcSize(disableText) * 1.5f;
+            float maxWidth = Mathf.Max(enableSize.x, disableSize.x);
             var disableRect = new Rect(midpoint, inRect.y + Text.LineHeight, maxWidth, Text.LineHeight);
             var enableRect = new Rect(midpoint, inRect.y, maxWidth, Text.LineHeight);
 
             if (Widgets.ButtonText(enableRect, globalAddCost > 0 ? applyText : enableText))
             {
-                foreach (var trait in TkUtils.ShopExpansion.Traits)
+                foreach (XmlTrait trait in TkUtils.ShopExpansion.Traits)
                 {
                     if (globalAddCost > 0)
                     {
@@ -114,7 +114,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(disableRect, globalRemoveCost > 0 ? applyText : disableText))
             {
-                foreach (var trait in TkUtils.ShopExpansion.Traits)
+                foreach (XmlTrait trait in TkUtils.ShopExpansion.Traits)
                 {
                     if (globalRemoveCost > 0)
                     {
@@ -185,10 +185,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.height - Text.LineHeight * 4f
             );
 
-            var old = Text.Anchor;
-            var effectiveList = results ?? cache;
-            var total = effectiveList.Count;
-            var maxHeight = (Text.LineHeight * 3f + 2f) * total;
+            TextAnchor old = Text.Anchor;
+            List<XmlTrait> effectiveList = results ?? cache;
+            int total = effectiveList.Count;
+            float maxHeight = (Text.LineHeight * 3f + 2f) * total;
             var viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight);
             var traits = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
@@ -197,9 +197,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             for (var index = 0; index < effectiveList.Count; index++)
             {
-                var trait = effectiveList[index];
-                var lineRect = listing.GetRect(Text.LineHeight * 2f + 2f);
-                var spacerRect = listing.GetRect(Text.LineHeight);
+                XmlTrait trait = effectiveList[index];
+                Rect lineRect = listing.GetRect(Text.LineHeight * 2f + 2f);
+                Rect spacerRect = listing.GetRect(Text.LineHeight);
                 var labelRect = new Rect(0f, lineRect.y, lineRect.width * 0.6f, lineRect.height);
 
                 if (!lineRect.IsRegionVisible(traits, scrollPos))
@@ -288,7 +288,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Text.Anchor = old;
                 }
 
-                var colorCache = GUI.color;
+                Color colorCache = GUI.color;
                 GUI.color = Color.gray;
                 Widgets.DrawLineHorizontal(spacerRect.x, spacerRect.y + spacerRect.height / 2f, spacerRect.width);
                 GUI.color = colorCache;
@@ -323,7 +323,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private List<XmlTrait> GetSearchResults()
         {
-            var serialized = currentQuery?.ToToolkit();
+            string serialized = currentQuery?.ToToolkit();
 
             if (serialized == null)
             {

@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            foreach (var instruction in instructions)
+            foreach (CodeInstruction instruction in instructions)
             {
                 if (instruction.opcode == OpCodes.Newobj
                     && instruction.OperandIs(StoreItemsVariables.OldClassConstructor))
@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            foreach (var instruction in instructions)
+            foreach (CodeInstruction instruction in instructions)
             {
                 if (instruction.opcode == OpCodes.Newobj
                     && instruction.OperandIs(StoreItemsVariables.OldClassConstructor))

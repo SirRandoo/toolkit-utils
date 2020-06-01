@@ -76,13 +76,13 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         static MagicComp()
         {
-            foreach (var handle in LoadedModManager.ModHandles.Where(
+            foreach (Mod handle in LoadedModManager.ModHandles.Where(
                 m => m.Content.PackageId.EqualsIgnoreCase("Torann.ARimworldOfMagic")
             ))
             {
                 try
                 {
-                    var assembly = handle.GetType().Assembly;
+                    Assembly assembly = handle.GetType().Assembly;
 
                     MightClass = assembly.GetType("TorannMagic.CompAbilityUserMight");
                     MagicClass = assembly.GetType("TorannMagic.CompAbilityUserMagic");
@@ -105,8 +105,8 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     MightDataProperty = MightClass.GetProperty("MightData");
                     MagicDataProperty = MagicClass.GetProperty("MagicData");
 
-                    var mightData = assembly.GetType("TorannMagic.MightData");
-                    var magicData = assembly.GetType("TorannMagic.MagicData");
+                    Type mightData = assembly.GetType("TorannMagic.MightData");
+                    Type magicData = assembly.GetType("TorannMagic.MagicData");
 
                     MightUserLevel = mightData.GetProperty("MightUserLevel");
                     MightUserXp = mightData.GetProperty("MightUserXP");
@@ -131,7 +131,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return null;
             }
 
-            var comps = pawn.AllComps
+            List<ThingComp> comps = pawn.AllComps
                 .Where(c => c is CompUseEffect)
                 .Where(c => c.GetType().Namespace.EqualsIgnoreCase("TorannMagic"))
                 .ToList();
@@ -141,9 +141,9 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return null;
             }
 
-            foreach (var comp in comps)
+            foreach (ThingComp comp in comps)
             {
-                var compType = comp.GetType();
+                Type compType = comp.GetType();
 
                 if (compType != MagicClass && compType != MightClass)
                 {
@@ -160,7 +160,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     continue;
                 }
 
-                var data = CharacterData.FromComp(comp as CompUseEffect);
+                CharacterData data = CharacterData.FromComp(comp as CompUseEffect);
                 data.LocateClass(pawn, comp as CompUseEffect);
                 data.LocateResourceData(pawn);
 
@@ -213,7 +213,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {
                 if (Type == ClassTypes.Magic)
                 {
-                    var data = MagicDataProperty.GetValue(comp);
+                    object data = MagicDataProperty.GetValue(comp);
 
                     if (data == null)
                     {
@@ -232,7 +232,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
                 if (Type == ClassTypes.Might)
                 {
-                    var data = MightDataProperty.GetValue(comp);
+                    object data = MightDataProperty.GetValue(comp);
 
                     if (data == null)
                     {
@@ -286,7 +286,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 {
                     case ClassTypes.Magic:
                     {
-                        var need = pawn.needs.AllNeeds
+                        Need need = pawn.needs.AllNeeds
                             .FirstOrDefault(n => n.GetType() == ManaNeed);
 
                         if (need == null)
@@ -299,7 +299,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     }
                     case ClassTypes.Might:
                     {
-                        var need = pawn.needs.AllNeeds
+                        Need need = pawn.needs.AllNeeds
                             .FirstOrDefault(n => n.GetType() == StaminaNeed);
 
                         if (need == null)

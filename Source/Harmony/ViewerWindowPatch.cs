@@ -12,8 +12,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [HarmonyPostfix]
         public static void Postfix(Rect inRect)
         {
-            var text = "TKUtils.Windows.Purge.Button.Label".Translate();
-            var width = Text.CalcSize(text).x * 1.5f;
+            TaggedString text = "TKUtils.Windows.Purge.Button.Label".Translate();
+            float width = Text.CalcSize(text).x * 1.5f;
             var canvas = new Rect(inRect.width - width, 0f, width, 28f);
 
             if (Widgets.ButtonText(canvas, "TKUtils.Windows.Purge.Button.Label".Translate()))

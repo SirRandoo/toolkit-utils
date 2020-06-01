@@ -11,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var container = new List<string>();
-            var priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToList();
+            List<WorkTypeDef> priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToList();
 
             if (TkSettings.SortWorkPriorities)
             {
@@ -40,10 +40,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     .ToList();
             }
 
-            for (var index = priorities.Count - 1; index >= 0; index--)
+            for (int index = priorities.Count - 1; index >= 0; index--)
             {
-                var priority = priorities[index];
-                var setting =
+                WorkTypeDef priority = priorities[index];
+                TkSettings.WorkSetting setting =
                     TkSettings.WorkSettings.FirstOrDefault(p => p.WorkTypeDef.EqualsIgnoreCase(priority.defName));
 
                 if (setting == null)
@@ -65,9 +65,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            foreach (var priority in priorities.ToList())
+            foreach (WorkTypeDef priority in priorities.ToList())
             {
-                var p = pawn.workSettings.GetPriority(priority);
+                int p = pawn.workSettings.GetPriority(priority);
 
                 if (TkSettings.FilterWorkPriorities)
                 {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -94,7 +94,7 @@ namespace SirRandoo.ToolkitUtils
             );
 
             GUI.BeginGroup(catRect);
-            var menu = new Rect(0f, 0f, catRect.width, catRect.height).ContractedBy(5f);
+            Rect menu = new Rect(0f, 0f, catRect.width, catRect.height).ContractedBy(5f);
             var menuView = new Rect(0f, 0f, menu.width, Text.LineHeight * MenuCategories.Length);
 
             if (menuView.height > menu.height)
@@ -106,9 +106,9 @@ namespace SirRandoo.ToolkitUtils
             Widgets.DrawMenuSection(new Rect(0f, 0f, catRect.width, catRect.height));
 
             listing.BeginScrollView(menu, ref _menuScrollPos, ref menuView);
-            foreach (var (name, value) in MenuCategories)
+            foreach ((string name, Categories value) in MenuCategories)
             {
-                var line = listing.GetRect(Text.LineHeight);
+                Rect line = listing.GetRect(Text.LineHeight);
 
                 if (!line.IsRegionVisible(menu, _menuScrollPos))
                 {
@@ -157,7 +157,6 @@ namespace SirRandoo.ToolkitUtils
             }
 
             GUI.EndGroup();
-
             GUI.EndGroup();
         }
 
@@ -197,8 +196,8 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.SettingGroups.General.Race.Tooltip".Translate()
             );
 
-            var line = listing.GetRect(Text.LineHeight);
-            var (labelRect, entryRect) = line.ToForm();
+            Rect line = listing.GetRect(Text.LineHeight);
+            (Rect labelRect, Rect entryRect) = line.ToForm();
             var buffer = LookupLimit.ToString();
 
             Widgets.Label(labelRect, "TKUtils.SettingGroups.General.LookupLimit.Label".Translate());
@@ -222,7 +221,7 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.SettingGroups.General.JsonStore.Tooltip".Translate()
             );
 
-            var (dumpLabel, dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
+            (Rect dumpLabel, Rect dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
             Widgets.Label(dumpLabel, "TKUtils.SettingGroups.General.DumpStyle.Label".Translate());
 
             if (Widgets.ButtonText(dumpBtn, DumpStyle))
@@ -237,7 +236,7 @@ namespace SirRandoo.ToolkitUtils
                 ref StoreLoading,
                 "TKUtils.SettingGroups.General.StoreLoading.Tooltip".Translate()
             );
-            var (storeLabel, storeField) = listing.GetRect(Text.LineHeight).ToForm();
+            (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
             Widgets.Label(storeLabel, "TKUtils.SettingGroups.General.StoreRate.Label".Translate());
 
             var storeBuffer = StoreBuildRate.ToString();
@@ -311,7 +310,7 @@ namespace SirRandoo.ToolkitUtils
 
             listing.Gap();
 
-            var (leaveLabelRect, leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
+            (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
             Widgets.Label(leaveLabelRect, "TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label".Translate());
 
             if (Widgets.ButtonText(leaveRect, LeaveMethod))
@@ -347,8 +346,9 @@ namespace SirRandoo.ToolkitUtils
 
             for (var index = 0; index < _workTypeDefs.Length; index++)
             {
-                var workType = _workTypeDefs[index];
-                var workSetting = WorkSettings.FirstOrDefault(w => w.WorkTypeDef.EqualsIgnoreCase(workType.defName));
+                WorkTypeDef workType = _workTypeDefs[index];
+                WorkSetting workSetting =
+                    WorkSettings.FirstOrDefault(w => w.WorkTypeDef.EqualsIgnoreCase(workType.defName));
 
                 if (workSetting == null)
                 {
@@ -357,7 +357,7 @@ namespace SirRandoo.ToolkitUtils
                     WorkSettings.Add(workSetting);
                 }
 
-                var line = listing.GetRect(Text.LineHeight);
+                Rect line = listing.GetRect(Text.LineHeight);
 
                 if (!line.IsRegionVisible(content, _workScrollPos))
                 {
@@ -396,8 +396,8 @@ namespace SirRandoo.ToolkitUtils
             listing.BeginScrollView(content, ref _statScrollPos, ref view);
             for (var index = 0; index < _statDefs.Length; index++)
             {
-                var statDef = _statDefs[index];
-                var statSetting = StatSettings.FirstOrDefault(w => w.StatDef.EqualsIgnoreCase(statDef.defName));
+                StatDef statDef = _statDefs[index];
+                StatSetting statSetting = StatSettings.FirstOrDefault(w => w.StatDef.EqualsIgnoreCase(statDef.defName));
 
                 if (statSetting == null)
                 {
@@ -406,7 +406,7 @@ namespace SirRandoo.ToolkitUtils
                     StatSettings.Add(statSetting);
                 }
 
-                var line = listing.GetRect(Text.LineHeight);
+                Rect line = listing.GetRect(Text.LineHeight);
 
                 if (!line.IsRegionVisible(content, _statScrollPos))
                 {
@@ -475,14 +475,14 @@ namespace SirRandoo.ToolkitUtils
             StatSettings ??= new List<StatSetting>();
 
 
-            foreach (var workType in _workTypeDefs.Where(
+            foreach (WorkTypeDef workType in _workTypeDefs.Where(
                 d => !WorkSettings.Any(s => s.WorkTypeDef.EqualsIgnoreCase(d.defName))
             ))
             {
                 WorkSettings.Add(new WorkSetting {Enabled = true, WorkTypeDef = workType.defName});
             }
 
-            foreach (var stat in _statDefs.Where(
+            foreach (StatDef stat in _statDefs.Where(
                 d => !StatSettings.Any(s => s.StatDef.EqualsIgnoreCase(d.defName))
             ))
             {

@@ -19,7 +19,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            var viewer = Viewers.GetViewer(twitchMessage.Username);
+            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
             var component = Current.Game.GetComponent<GameComponentPawns>();
 
             ToolkitSettings.ViewerColorCodes[twitchMessage.Username.ToLowerInvariant()] =
@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (component.HasUserBeenNamed(twitchMessage.Username) && TkSettings.HairColor)
             {
-                if (ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out var hairColor))
+                if (ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
                 {
                     component.PawnAssignedToUser(twitchMessage.Username).story.hairColor = hairColor;
                 }

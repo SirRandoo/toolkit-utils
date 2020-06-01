@@ -16,14 +16,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             for (var i = 0; i < ___cachedTradeables.Count; i++)
             {
-                var t = ___cachedTradeables[i];
+                ThingDef t = ___cachedTradeables[i];
 
                 if (!(t.race?.Humanlike ?? false))
                 {
                     continue;
                 }
 
-                var price = ___tradeablesPrices[i];
+                int price = ___tradeablesPrices[i];
 
                 if (price < 0)
                 {

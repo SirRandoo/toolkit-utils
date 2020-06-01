@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
@@ -32,15 +33,15 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Viewer = viewer;
 
-            var segments = CommandFilter.Parse(message).Skip(2).ToArray();
+            string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
 
             if (segments.Length < 2)
             {
                 return false;
             }
 
-            var toReplace = segments.FirstOrDefault();
-            var toReplaceWith = segments.Skip(1).FirstOrDefault();
+            string toReplace = segments.FirstOrDefault();
+            string toReplaceWith = segments.Skip(1).FirstOrDefault();
 
             if (toReplace.NullOrEmpty() || toReplaceWith.NullOrEmpty())
             {
@@ -104,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var traitDefs = DefDatabase<TraitDef>.AllDefsListForReading;
+            List<TraitDef> traitDefs = DefDatabase<TraitDef>.AllDefsListForReading;
             replaceThisTraitDef = traitDefs.FirstOrDefault(t => t.defName.Equals(replaceThisShop.DefName));
             replaceThatTraitDef = traitDefs.FirstOrDefault(t => t.defName.Equals(replaceThatShop.DefName));
 
@@ -123,7 +124,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var traits = pawn.story.traits.allTraits;
+            List<Trait> traits = pawn.story.traits.allTraits;
 
             if (traits?.Count <= 0)
             {
@@ -163,13 +164,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             pawn.story.traits.allTraits.Remove(replaceThisTrait);
-            var data = replaceThisTrait.def.DataAtDegree(replaceThisTrait.Degree);
+            TraitDegreeData data = replaceThisTrait.def.DataAtDegree(replaceThisTrait.Degree);
 
             if (data?.skillGains != null)
             {
-                foreach (var gain in data.skillGains)
+                foreach (KeyValuePair<SkillDef, int> gain in data.skillGains)
                 {
-                    var skill = pawn.skills.GetSkill(gain.Key);
+                    SkillRecord skill = pawn.skills.GetSkill(gain.Key);
 
                     skill.Level -= gain.Value;
                 }
@@ -184,14 +185,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
 
             pawn.story.traits.GainTrait(replaceThatTrait);
-            var val = replaceThatTraitDef.DataAtDegree(replaceThatShop.Degree);
+            TraitDegreeData val = replaceThatTraitDef.DataAtDegree(replaceThatShop.Degree);
 
             if (val?.skillGains != null)
             {
-                foreach (var skillGain in val.skillGains)
+                foreach (KeyValuePair<SkillDef, int> skillGain in val.skillGains)
                 {
-                    var skill = pawn.skills.GetSkill(skillGain.Key);
-                    var level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
+                    SkillRecord skill = pawn.skills.GetSkill(skillGain.Key);
+                    int level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
 
                     skill.Level = level;
                 }

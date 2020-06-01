@@ -12,7 +12,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var viewer = Viewers.GetViewer(twitchMessage.Username);
+            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
 
             if (viewer == null)
             {
@@ -20,7 +20,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var container = new List<string>();
-            var coins = ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0");
+            string coins = ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0");
             var karma = (viewer.GetViewerKarma() / 100f).ToString("P0");
 
             if (TkSettings.Emojis)
@@ -47,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (ToolkitSettings.EarningCoins && TkSettings.ShowCoinRate)
             {
-                var income = CalculateCoinAward(viewer);
+                int income = CalculateCoinAward(viewer);
 
                 container.Add(
                     (
@@ -68,8 +68,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static int CalculateCoinAward(Viewer viewer)
         {
-            var baseCoins = ToolkitSettings.CoinAmount;
-            var multiplier = viewer.GetViewerKarma() / 100f;
+            int baseCoins = ToolkitSettings.CoinAmount;
+            float multiplier = viewer.GetViewerKarma() / 100f;
 
             if (viewer.IsSub)
             {
@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 multiplier *= ToolkitSettings.ModCoinMultiplier;
             }
 
-            var minutesElapsed = TimeHelper.MinutesElapsed(viewer.last_seen);
+            int minutesElapsed = TimeHelper.MinutesElapsed(viewer.last_seen);
 
             if (ToolkitSettings.ChatReqsForCoins)
             {

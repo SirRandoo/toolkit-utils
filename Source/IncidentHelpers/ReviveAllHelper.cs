@@ -14,7 +14,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override bool IsPossible()
         {
-            var list = Find.ColonistBar
+            List<Pawn> list = Find.ColonistBar
                 .GetColonistsInOrder()
                 .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
                 .ToList();
@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             pawns = list;
-            foreach (var p in list)
+            foreach (Pawn p in list)
             {
                 PawnTracker.pawnsToRevive.Add(p);
             }
@@ -36,14 +36,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         public override void TryExecute()
         {
             var wasAnyRevived = false;
-            foreach (var pawn in pawns)
+            foreach (Pawn pawn in pawns)
             {
                 try
                 {
                     Pawn val;
                     if (pawn.SpawnedParentOrMe != pawn.Corpse
                         && (val = pawn.SpawnedParentOrMe as Pawn) != null
-                        && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var _))
+                        && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out Thing _))
                     {
                         TkLogger.Warn(
                             $"Submit this bug to ToolkitUtils' issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"

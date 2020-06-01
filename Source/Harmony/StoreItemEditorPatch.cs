@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Windows;
@@ -13,12 +14,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [HarmonyPrefix]
         public static void Prefix()
         {
-            var inventory = StoreInventory.items;
-            var tradeables = StoreDialog.GetTradeables().ToHashSet();
+            List<Item> inventory = StoreInventory.items;
+            HashSet<ThingDef> tradeables = StoreDialog.GetTradeables().ToHashSet();
 
             if (TkUtils.ShopExpansion.Races != null)
             {
-                foreach (var item in inventory
+                foreach (Item item in inventory
                     .Where(item => !item.defname.NullOrEmpty())
                     .Where(item => item.price >= 0)
                     .Where(item => TkUtils.ShopExpansion.Races.Any(r => r.DefName.Equals(item.defname))))
@@ -32,9 +33,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 .Where(i => tradeables.Any(t => t.defName.Equals(i.defname)))
                 .ToList();
 
-            foreach (var item in StoreInventory.items.Where(i => i.abr.NullOrEmpty()))
+            foreach (Item item in StoreInventory.items.Where(i => i.abr.NullOrEmpty()))
             {
-                var thing = tradeables.FirstOrDefault(i => i.defName.Equals(item.defname));
+                ThingDef thing = tradeables.FirstOrDefault(i => i.defName.Equals(item.defname));
 
                 if (thing == null)
                 {

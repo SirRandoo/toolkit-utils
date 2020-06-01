@@ -23,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static Pawn GetOrFindPawn(string username, bool allowKidnapped = false)
         {
-            var safe = GetPawn(username);
+            Pawn safe = GetPawn(username);
 
             if (safe.IsKidnapped() && !allowKidnapped)
             {
@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return safe;
             }
 
-            var result = FindPawn(username);
+            Pawn result = FindPawn(username);
 
             if (result == null)
             {
@@ -55,7 +55,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static Pawn GetPawn(string username)
         {
             var component = Current.Game.GetComponent<GameComponentPawns>();
-            var query = component.pawnHistory.Keys
+            IEnumerable<Pawn> query = component.pawnHistory.Keys
                 .Where(k => k.EqualsIgnoreCase(username))
                 .Select(p => component.pawnHistory[p]);
 
@@ -69,12 +69,12 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            var words = message.Split(new[] {' '}, StringSplitOptions.None);
+            string[] words = message.Split(new[] {' '}, StringSplitOptions.None);
             var builder = new StringBuilder();
             var messages = new List<string>();
             var chars = 0;
 
-            foreach (var word in words)
+            foreach (string word in words)
             {
                 if (chars + word.Length <= MessageLimit - 3)
                 {
@@ -101,7 +101,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            foreach (var m in messages)
+            foreach (string m in messages)
             {
                 TwitchWrapper.SendChatMessage(m.Trim());
             }

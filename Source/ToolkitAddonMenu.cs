@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Interfaces;
@@ -18,7 +19,7 @@ namespace SirRandoo.ToolkitUtils
 
         static ToolkitAddonMenu()
         {
-            var assembly = typeof(TwitchToolkit.TwitchToolkit).Assembly;
+            Assembly assembly = typeof(TwitchToolkit.TwitchToolkit).Assembly;
             NameQueueType = assembly.GetType("TwitchToolkit.PawnQueue.QueueWindow");
         }
 

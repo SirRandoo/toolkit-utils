@@ -11,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -29,34 +29,34 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static string GetPawnBody(Pawn target)
         {
-            var hediffs = target.health.hediffSet.hediffs;
+            List<Hediff> hediffs = target.health.hediffSet.hediffs;
 
             if (hediffs == null || !hediffs.Any())
             {
                 return "NoHealthConditions".Translate().CapitalizeFirst();
             }
 
-            var hediffsGrouped = GetVisibleHediffGroupsInOrder(target);
+            IEnumerable<IGrouping<BodyPartRecord, Hediff>> hediffsGrouped = GetVisibleHediffGroupsInOrder(target);
             var parts = new List<string>();
 
             if (!TkSettings.TempInGear)
             {
-                var tempMin = target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
-                var tempMax = target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
+                string tempMin = target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
+                string tempMax = target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
                 parts.Add($"{"🌡".AltText("ComfyTemperatureRange".Translate().RawText)}{tempMin}~{tempMax}");
             }
 
-            foreach (var item in hediffsGrouped)
+            foreach (IGrouping<BodyPartRecord, Hediff> item in hediffsGrouped)
             {
-                var bodyPart = item.Key?.LabelCap ?? "WholeBody".Translate();
+                string bodyPart = item.Key?.LabelCap ?? "WholeBody".Translate();
                 var bits = new List<string>();
 
-                foreach (var group in item.GroupBy(h => h.UIGroupKey))
+                foreach (IGrouping<int, Hediff> group in item.GroupBy(h => h.UIGroupKey))
                 {
-                    var affliction = group.First();
-                    var display = affliction.LabelCap;
-                    var total = group.Count();
+                    Hediff affliction = group.First();
+                    string display = affliction.LabelCap;
+                    int total = group.Count();
 
                     if (total != 1)
                     {
@@ -96,16 +96,16 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static IEnumerable<Hediff> GetVisibleHediffs(Pawn pawn)
         {
-            var missing = pawn.health.hediffSet.GetMissingPartsCommonAncestors();
+            List<Hediff_MissingPart> missing = pawn.health.hediffSet.GetMissingPartsCommonAncestors();
 
-            foreach (var part in missing)
+            foreach (Hediff_MissingPart part in missing)
             {
                 yield return part;
             }
 
-            var e = pawn.health.hediffSet.hediffs.Where(d => !(d is Hediff_MissingPart) && d.Visible);
+            IEnumerable<Hediff> e = pawn.health.hediffSet.hediffs.Where(d => !(d is Hediff_MissingPart) && d.Visible);
 
-            foreach (var item in e)
+            foreach (Hediff item in e)
             {
                 yield return item;
             }

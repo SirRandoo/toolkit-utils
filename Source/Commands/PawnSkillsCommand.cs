@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchLib.Client.Models.Interfaces;
@@ -11,7 +12,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -20,9 +21,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var parts = new List<string>();
-            var skills = pawn.skills.skills;
+            List<SkillRecord> skills = pawn.skills.skills;
 
-            foreach (var skill in skills)
+            foreach (SkillRecord skill in skills)
             {
                 var container = "";
 

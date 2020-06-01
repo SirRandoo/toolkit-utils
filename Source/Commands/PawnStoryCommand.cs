@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
@@ -10,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -23,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 $"{"Backstory".Translate().RawText}: {string.Join(", ", pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray())}"
             };
 
-            var isRoyal = pawn.royalty?.MostSeniorTitle != null;
+            bool isRoyal = pawn.royalty?.MostSeniorTitle != null;
             switch (pawn.gender)
             {
                 case Gender.Female:
@@ -40,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     break;
             }
 
-            var workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
+            WorkTags workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
 
             if (workTags == WorkTags.None)
             {
@@ -48,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
             else
             {
-                var filteredTags = pawn.story.DisabledWorkTagsBackstoryAndTraits.GetAllSelectedItems<WorkTags>()
+                string[] filteredTags = pawn.story.DisabledWorkTagsBackstoryAndTraits.GetAllSelectedItems<WorkTags>()
                     .Where(t => t != WorkTags.None)
                     .Select(t => t.LabelTranslated().CapitalizeFirst())
                     .ToArray();
@@ -56,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 parts.Add($"{"IncapableOf".Translate().RawText}: {string.Join(", ", filteredTags)}");
             }
 
-            var traits = pawn.story.traits.allTraits;
+            List<Trait> traits = pawn.story.traits.allTraits;
 
             if (traits.Count > 0)
             {

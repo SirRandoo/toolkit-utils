@@ -20,7 +20,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                MessageHelper.ReplyToUser(Viewer.username, $"TKUtils.Responses.NoPawn".Translate());
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.NoPawn".Translate());
                 return false;
             }
 

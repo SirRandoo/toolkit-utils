@@ -39,11 +39,11 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             GUI.BeginGroup(inRect);
 
-            var midpoint = inRect.width / 2;
-            var buttonText =
+            float midpoint = inRect.width / 2;
+            TaggedString buttonText =
                 (showingAffected ? "TKUtils.Windows.Purge.Buttons.Confirm" : "TKUtils.Windows.Purge.Buttons.Execute")
                 .Translate();
-            var buttonWidth = Text.CalcSize(buttonText).x * 1.5f;
+            float buttonWidth = Text.CalcSize(buttonText).x * 1.5f;
             var buttonRect = new Rect(midpoint - buttonWidth / 2f, inRect.height - 30f, buttonWidth, 28f);
             var headerArea = new Rect(inRect.x, inRect.y, inRect.width, 28f);
             var contentArea = new Rect(
@@ -83,13 +83,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.BeginScrollView(constraintsArea, ref scrollPos, contentView);
             if (showingAffected)
             {
-                var affected = GetAffectedViewers();
-                var exemptText = "TKUtils.Windows.Purge.Buttons.ExemptViewer".Translate();
-                var exemptWidth = Text.CalcSize(exemptText).x * 1.5f;
+                Viewer[] affected = GetAffectedViewers();
+                TaggedString exemptText = "TKUtils.Windows.Purge.Buttons.ExemptViewer".Translate();
+                float exemptWidth = Text.CalcSize(exemptText).x * 1.5f;
 
                 for (var i = 0; i < affected.Length; i++)
                 {
-                    var viewer = affected[i];
+                    Viewer viewer = affected[i];
                     var closeRect = new Rect(
                         contentView.width - exemptWidth,
                         i * Text.LineHeight,
@@ -121,13 +121,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
             else
             {
-                var exemptText = "TKUtils.Windows.Purge.Buttons.Remove".Translate();
-                var exemptWidth = Text.CalcSize(exemptText).x * 1.5f;
+                TaggedString exemptText = "TKUtils.Windows.Purge.Buttons.Remove".Translate();
+                float exemptWidth = Text.CalcSize(exemptText).x * 1.5f;
                 ConstraintBase toRemove = null;
 
                 for (var i = 0; i < constraints.Count; i++)
                 {
-                    var constraint = constraints[i];
+                    ConstraintBase constraint = constraints[i];
                     var lineRect = new Rect(contentView.x, i * Text.LineHeight, contentView.width, Text.LineHeight);
                     var constraintRect = new Rect(
                         lineRect.x,
@@ -173,7 +173,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (showingAffected)
             {
-                var backText = "TKUtils.Windows.Purge.Buttons.Back".Translate();
+                TaggedString backText = "TKUtils.Windows.Purge.Buttons.Back".Translate();
                 var backRegion = new Rect(region.x, region.y, Text.CalcSize(backText).x * 1.5f, region.height);
                 var textRegion = new Rect(
                     region.x + backRegion.width + 10f,
@@ -187,7 +187,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     showingAffected = false;
                 }
 
-                var affected = GetAffectedViewers();
+                Viewer[] affected = GetAffectedViewers();
                 Widgets.Label(
                     textRegion,
                     "TKUtils.Windows.Purge.Headers.Affected".Translate(affected.Length.ToString())
@@ -195,21 +195,21 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
             else
             {
-                var width = region.width * 0.25f;
+                float width = region.width * 0.25f;
 
                 if (Widgets.ButtonText(
                     new Rect(region.x, region.y, width, region.height),
                     "TKUtils.Windows.Purge.Buttons.Add".Translate()
                 ))
                 {
-                    var keys = Registry.Select(i => i.Item1).ToArray();
-                    var options = keys.Select(
+                    string[] keys = Registry.Select(i => i.Item1).ToArray();
+                    List<FloatMenuOption> options = keys.Select(
                             key => new FloatMenuOption(
                                 key,
                                 delegate
                                 {
-                                    var constraint = Registry.First(i => i.Item1.Equals(key));
-                                    var t = constraint.Item2;
+                                    Tuple<string, Type> constraint = Registry.First(i => i.Item1.Equals(key));
+                                    Type t = constraint.Item2;
 
                                     constraints.Add((ConstraintBase) Activator.CreateInstance(t));
                                 }
@@ -241,8 +241,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void Purge()
         {
-            var affected = GetAffectedViewers();
-            var count = affected.Count(viewer => Viewers.All.Remove(viewer));
+            Viewer[] affected = GetAffectedViewers();
+            int count = affected.Count(viewer => Viewers.All.Remove(viewer));
 
             TkLogger.Warn($"Purged {count:N0} viewers out of the requested {affected.Length:N0}!");
             showingAffected = false;

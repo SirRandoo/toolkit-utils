@@ -74,9 +74,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             var usernameRect = new Rect(0f, 0f, contentRect.width, Text.LineHeight);
             Widgets.Label(usernameRect.LeftHalf(), usernameText);
 
-            var buttonWidth = Text.CalcSize(applyText).x * 1.5f;
+            float buttonWidth = Text.CalcSize(applyText).x * 1.5f;
 
-            var usernameFieldHalf = usernameRect.RightHalf();
+            Rect usernameFieldHalf = usernameRect.RightHalf();
             var usernameField = new Rect(
                 usernameFieldHalf.x,
                 usernameFieldHalf.y,
@@ -104,7 +104,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
 
             var listing = new Listing_Standard {maxOneColumn = true};
-            var randomBtnWidth = Text.CalcSize(randomText).x * 1.5f;
+            float randomBtnWidth = Text.CalcSize(randomText).x * 1.5f;
             var adjustedLineRect = new Rect(0f, Text.LineHeight * 4f, contentRect.width * 0.95f - 2f, Text.LineHeight);
             var queueNoticeRect = new Rect(
                 0f,
@@ -149,11 +149,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.BeginScrollView(queueRect, ref scrollPos, ref queueView);
             listing.Gap(Text.LineHeight * 5f);
-            for (var index = pawnComponent.ViewerNameQueue.Count - 1; index >= 0; index--)
+            for (int index = pawnComponent.ViewerNameQueue.Count - 1; index >= 0; index--)
             {
-                var name = pawnComponent.ViewerNameQueue[index];
+                string name = pawnComponent.ViewerNameQueue[index];
 
-                var line = listing.GetRect(Text.LineHeight);
+                Rect line = listing.GetRect(Text.LineHeight);
                 var buttonRect = new Rect(line.x + line.width - line.height, line.y, line.height, line.height);
                 var nameRect = new Rect(line.x, line.y, line.width - buttonRect.width - 5f, line.height);
 
@@ -174,15 +174,17 @@ namespace SirRandoo.ToolkitUtils.Windows
                     username = name.ToLowerInvariant();
                 }
 
-                if (Widgets.ButtonImage(buttonRect, Widgets.CheckboxOffTex))
+                if (!Widgets.ButtonImage(buttonRect, Widgets.CheckboxOffTex))
                 {
-                    try
-                    {
-                        pawnComponent.ViewerNameQueue.RemoveAt(index);
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                    }
+                    continue;
+                }
+
+                try
+                {
+                    pawnComponent.ViewerNameQueue.RemoveAt(index);
+                }
+                catch (IndexOutOfRangeException)
+                {
                 }
             }
 
@@ -194,8 +196,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawMenuSection(Rect canvas)
         {
-            var widthMidpoint = canvas.width / 2f;
-            var arrowMax = Mathf.Max(TexUI.ArrowTexLeft.width, TexUI.ArrowTexRight.width) * 0.6f;
+            float widthMidpoint = canvas.width / 2f;
+            float arrowMax = Mathf.Max(TexUI.ArrowTexLeft.width, TexUI.ArrowTexRight.width) * 0.6f;
             var colonistRect = new Rect(
                 widthMidpoint - 50f,
                 5f,
@@ -216,7 +218,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (allPawns.Count > 1 && Widgets.ButtonImage(previousRect, TexUI.ArrowTexLeft))
             {
-                var index = Mathf.Max(allPawns.IndexOf(current), 0);
+                int index = Mathf.Max(allPawns.IndexOf(current), 0);
 
                 current = allPawns[index == 0 ? allPawns.Count - 1 : index - 1];
                 Notify__CurrentPawnChanged();
@@ -224,7 +226,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (allPawns.Count > 1 && Widgets.ButtonImage(nextRect, TexUI.ArrowTexRight))
             {
-                var index = allPawns.IndexOf(current);
+                int index = allPawns.IndexOf(current);
 
                 current = allPawns[index == allPawns.Count - 1 ? 0 : index + 1];
                 Notify__CurrentPawnChanged();
@@ -251,7 +253,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 Find.WindowStack.Add(new Dialog_InfoCard(current));
             }
 
-            var cache = Text.Anchor;
+            TextAnchor cache = Text.Anchor;
             var name = current.Name as NameTriple;
 
             Text.Anchor = TextAnchor.MiddleCenter;
@@ -279,7 +281,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void Notify__CurrentPawnChanged()
         {
-            var assigned = pawnComponent.pawnHistory
+            string assigned = pawnComponent.pawnHistory
                 .Where(p => p.Value == current)
                 .Select(p => p.Key)
                 .FirstOrDefault();
@@ -289,9 +291,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private static void DrawTextFitted(Rect region, string text)
         {
-            var cache = Text.Font;
-            var wrapCache = Text.WordWrap;
-            var marker = (int) GameFont.Medium + 1;
+            GameFont cache = Text.Font;
+            bool wrapCache = Text.WordWrap;
+            int marker = (int) GameFont.Medium + 1;
 
             Text.WordWrap = false;
 
@@ -306,7 +308,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 Text.Font = (GameFont) Enum.ToObject(typeof(GameFont), marker);
 
-                var size = Text.CalcSize(text);
+                Vector2 size = Text.CalcSize(text);
 
                 if (size.x <= region.width && size.y <= region.height)
                 {
@@ -323,7 +325,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             if (pawnComponent.HasPawnBeenNamed(current) && pawnComponent.pawnHistory.ContainsValue(current))
             {
-                var key = pawnComponent.pawnHistory
+                string key = pawnComponent.pawnHistory
                     .Where(p => p.Value == current)
                     .Select(p => p.Key)
                     .FirstOrDefault();

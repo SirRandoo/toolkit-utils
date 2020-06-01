@@ -9,9 +9,9 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            foreach (var viewer in Viewers.All)
+            foreach (Viewer viewer in Viewers.All)
             {
-                var pawn = GetOrFindPawn(viewer.username);
+                Pawn pawn = GetOrFindPawn(viewer.username);
 
                 if (pawn == null)
                 {

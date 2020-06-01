@@ -11,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -19,7 +19,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var data = MagicComp.GetCharacterData(pawn);
+            MagicComp.CharacterData data = MagicComp.GetCharacterData(pawn);
 
             if (data == null || !data.Gifted || data.Class.NullOrEmpty())
             {
@@ -53,14 +53,14 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!key.NullOrEmpty())
             {
-                var t = $"{data.ResourceCurrent:N0} / {data.ResourceMax:N0} (";
+                string t = $"{data.ResourceCurrent:N0} / {data.ResourceMax:N0} (";
 
                 if (data.ResourceRegenRate > 0)
                 {
                     t += "+";
                 }
 
-                var rateKey = key?.Substring(key.LastIndexOf(".", StringComparison.Ordinal) + 1, 1) ?? "?";
+                string rateKey = key?.Substring(key.LastIndexOf(".", StringComparison.Ordinal) + 1, 1) ?? "?";
 
                 t += $"{data.ResourceRegenRate:N0} {rateKey}P/5s";
                 t += ")";

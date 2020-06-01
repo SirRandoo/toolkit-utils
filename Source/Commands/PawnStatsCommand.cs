@@ -16,9 +16,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         static PawnStatsCommand()
         {
-            var stats = DefDatabase<StatCategoryDef>.AllDefsListForReading;
+            List<StatCategoryDef> stats = DefDatabase<StatCategoryDef>.AllDefsListForReading;
 
-            foreach (var stat in stats)
+            foreach (StatCategoryDef stat in stats)
             {
                 StatRegistry[stat.defName.ToToolkit().ToLowerInvariant()] = stat.label;
                 StatRegistry[stat.label.ToToolkit().ToLowerInvariant()] = stat.label;
@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -35,19 +35,19 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var category = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
+            string category = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
 
             if (category.NullOrEmpty())
             {
                 category = "basics";
             }
 
-            if (!StatRegistry.TryGetValue(category.ToToolkit().ToLowerInvariant(), out var categoryDef))
+            if (!StatRegistry.TryGetValue(category.ToToolkit().ToLowerInvariant(), out string categoryDef))
             {
                 return;
             }
 
-            var stats = DefDatabase<StatDef>.AllDefsListForReading
+            List<StatDef> stats = DefDatabase<StatDef>.AllDefsListForReading
                 .Where(d => d.showOnHumanlikes && d.showOnPawns)
                 .Where(d => d.category != null && d.category.label.EqualsIgnoreCase(categoryDef))
                 .ToList();
@@ -58,10 +58,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            for (var index = stats.Count - 1; index >= 0; index--)
+            for (int index = stats.Count - 1; index >= 0; index--)
             {
-                var stat = stats[index];
-                var setting = TkSettings.StatSettings.FirstOrDefault(s => s.StatDef.EqualsIgnoreCase(stat.defName));
+                StatDef stat = stats[index];
+                TkSettings.StatSetting setting =
+                    TkSettings.StatSettings.FirstOrDefault(s => s.StatDef.EqualsIgnoreCase(stat.defName));
 
                 if (setting == null)
                 {
@@ -82,7 +83,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            var parts = stats
+            string[] parts = stats
                 .Select(s => "TKUtils.Formats.KeyValue".Translate(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
                 .Select(s => s.RawText)
                 .ToArray();

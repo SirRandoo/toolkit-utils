@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -67,10 +67,10 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             GUI.BeginGroup(inRect);
 
-            var midpoint = inRect.width / 2f;
+            float midpoint = inRect.width / 2f;
             var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f, Text.LineHeight);
-            var searchLabel = searchRect.LeftHalf();
-            var searchField = searchRect.RightHalf();
+            Rect searchLabel = searchRect.LeftHalf();
+            Rect searchField = searchRect.RightHalf();
 
             Widgets.Label(searchLabel, searchText);
             currentQuery = Widgets.TextField(searchField, currentQuery);
@@ -87,23 +87,23 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
 
-            var maxWidth = Mathf.Max(
-                               Text.CalcSize(enableText).x,
-                               Text.CalcSize(disableText).x,
-                               Text.CalcSize(resetText).x
-                           )
-                           * 1.5f;
+            float maxWidth = Mathf.Max(
+                                 Text.CalcSize(enableText).x,
+                                 Text.CalcSize(disableText).x,
+                                 Text.CalcSize(resetText).x
+                             )
+                             * 1.5f;
             var disableRect = new Rect(inRect.width - maxWidth, inRect.y + Text.LineHeight, maxWidth, Text.LineHeight);
             var enableRect = new Rect(inRect.width - maxWidth, inRect.y, maxWidth, Text.LineHeight);
             var resetRect = new Rect(inRect.width - maxWidth * 2f, inRect.y, maxWidth, Text.LineHeight);
 
             if (Widgets.ButtonText(resetRect, resetText))
             {
-                var kinds = DefDatabase<PawnKindDef>.AllDefsListForReading;
+                List<PawnKindDef> kinds = DefDatabase<PawnKindDef>.AllDefsListForReading;
 
-                foreach (var race in results ?? cache)
+                foreach (XmlRace race in results ?? cache)
                 {
-                    var kind = kinds.FirstOrDefault(k => k.race?.defName.Equals(race.DefName) ?? false);
+                    PawnKindDef kind = kinds.FirstOrDefault(k => k.race?.defName.Equals(race.DefName) ?? false);
 
                     if (kind == null)
                     {
@@ -116,7 +116,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(enableRect, globalCost > 0 ? applyText : enableText))
             {
-                foreach (var race in TkUtils.ShopExpansion.Races)
+                foreach (XmlRace race in TkUtils.ShopExpansion.Races)
                 {
                     if (globalCost > 0)
                     {
@@ -136,7 +136,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(disableRect, disableText))
             {
-                foreach (var race in TkUtils.ShopExpansion.Races)
+                foreach (XmlRace race in TkUtils.ShopExpansion.Races)
                 {
                     race.Enabled = false;
                 }
@@ -234,8 +234,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.height - Text.LineHeight * 5f
             );
 
-            var effectiveList = results ?? cache;
-            var total = effectiveList.Count;
+            List<XmlRace> effectiveList = results ?? cache;
+            int total = effectiveList.Count;
             const float scale = 1.1f;
             var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * scale * total);
             var races = new Rect(0f, 0f, contentArea.width, contentArea.height);
@@ -244,9 +244,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.BeginScrollView(races, ref scrollPos, ref viewPort);
             for (var index = 0; index < effectiveList.Count; index++)
             {
-                var race = effectiveList[index];
-                var anchor = Text.Anchor;
-                var lineRect = listing.GetRect(Text.LineHeight * scale);
+                XmlRace race = effectiveList[index];
+                TextAnchor anchor = Text.Anchor;
+                Rect lineRect = listing.GetRect(Text.LineHeight * scale);
                 var stateRect = new Rect(
                     0f,
                     lineRect.y,
@@ -314,14 +314,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private List<XmlRace> GetSearchResults()
         {
-            var serialized = currentQuery?.ToToolkit();
+            string serialized = currentQuery?.ToToolkit();
 
             if (serialized == null)
             {
                 return null;
             }
 
-            var searchResults = cache.Where(
+            List<XmlRace> searchResults = cache.Where(
                     t => t.DefName.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
                          || t.DefName.ToToolkit().Contains(currentQuery.ToToolkit())
                 )
@@ -342,7 +342,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void SortCurrentWorkingList()
         {
-            var workingList = results ?? cache;
+            List<XmlRace> workingList = results ?? cache;
 
             switch (sorter)
             {

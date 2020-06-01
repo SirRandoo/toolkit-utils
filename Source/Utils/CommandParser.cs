@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             var cache = new List<KeyValuePair<string, string>>();
 
-            foreach (var segment in input)
+            foreach (string segment in input)
             {
                 if (!segment.Contains('='))
                 {
@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 var sep = false;
                 var escaped = false;
 
-                foreach (var c in segment)
+                foreach (char c in segment)
                 {
                     switch (c)
                     {

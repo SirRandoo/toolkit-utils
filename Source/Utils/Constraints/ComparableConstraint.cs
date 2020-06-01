@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -22,15 +23,15 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         protected void DrawButton(Rect canvas)
         {
-            var text = GetStrategyString("TKUtils.Windows.Purge.ComparisonTypes", Strategy);
+            TaggedString text = GetStrategyString("TKUtils.Windows.Purge.ComparisonTypes", Strategy);
 
             if (text.NullOrEmpty() || !Widgets.ButtonText(canvas, text))
             {
                 return;
             }
 
-            var names = Enum.GetNames(typeof(ComparisonTypes));
-            var options = names.Select(
+            string[] names = Enum.GetNames(typeof(ComparisonTypes));
+            List<FloatMenuOption> options = names.Select(
                     name => new FloatMenuOption(
                         $"TKUtils.Windows.Purge.ComparisonTypes.{name}".Translate(),
                         () => Strategy = (ComparisonTypes) Enum.Parse(typeof(ComparisonTypes), name)

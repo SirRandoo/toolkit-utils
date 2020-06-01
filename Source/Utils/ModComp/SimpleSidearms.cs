@@ -21,7 +21,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
         {
             _pendingInit = false;
 
-            var comp = catalyst.AllComps
+            ThingComp comp = catalyst.AllComps
                 .FirstOrDefault(c => c.GetType().Name.Equals("CompSidearmMemory"));
 
             if (comp == null)
@@ -31,10 +31,10 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             try
             {
-                var assembly = comp.GetType().Assembly;
+                Assembly assembly = comp.GetType().Assembly;
 
                 _compSidearmMemory = comp.GetType();
-                var weaponPair = assembly.GetType("SimpleSidearms.rimworld.ThingDefStuffDefPair");
+                Type weaponPair = assembly.GetType("SimpleSidearms.rimworld.ThingDefStuffDefPair");
 
                 _sidearmMemoryWeapons = _compSidearmMemory.GetField("rememberedWeapons");
                 _thingFromPair = weaponPair.GetField("thing");
@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return null;
             }
 
-            var comp = pawn.AllComps.FirstOrDefault(c => c.GetType() == _compSidearmMemory);
+            ThingComp comp = pawn.AllComps.FirstOrDefault(c => c.GetType() == _compSidearmMemory);
 
             if (!(_sidearmMemoryWeapons.GetValue(comp) is IList value))
             {
@@ -71,10 +71,10 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {
                 var container = new List<Thing>();
 
-                foreach (var obj in value)
+                foreach (object obj in value)
                 {
-                    var thingValue = _thingFromPair.GetValue(obj);
-                    var stuffValue = _stuffFromPair.GetValue(obj);
+                    object thingValue = _thingFromPair.GetValue(obj);
+                    object stuffValue = _stuffFromPair.GetValue(obj);
 
                     if (!(thingValue is ThingDef thing))
                     {

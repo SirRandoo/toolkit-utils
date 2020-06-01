@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void SaveData<T>(T xml, string filePath)
         {
-            var directory = Path.GetDirectoryName(filePath);
+            string directory = Path.GetDirectoryName(filePath);
 
             if (directory == null)
             {
@@ -41,14 +41,14 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             var serializer = new XmlSerializer(typeof(T));
-            var tempFile = $"{filePath}.tmp";
-            var backupFile = $"{filePath}.bak";
+            string tempFile = $"{filePath}.tmp";
+            string backupFile = $"{filePath}.bak";
 
             try
             {
                 if (File.Exists(filePath))
                 {
-                    using (var writer = File.Open(tempFile, FileMode.Create, FileAccess.Write))
+                    using (FileStream writer = File.Open(tempFile, FileMode.Create, FileAccess.Write))
                     {
                         serializer.Serialize(writer, xml);
                     }
@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
                 else
                 {
-                    using var writer = File.Open(filePath, FileMode.Create, FileAccess.Write);
+                    using FileStream writer = File.Open(filePath, FileMode.Create, FileAccess.Write);
                     serializer.Serialize(writer, xml);
                 }
             }
@@ -73,7 +73,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         private static void SaveData(string data, string filePath)
         {
-            var directory = Path.GetDirectoryName(filePath);
+            string directory = Path.GetDirectoryName(filePath);
 
             if (directory == null)
             {
@@ -86,8 +86,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                 Directory.CreateDirectory(directory);
             }
 
-            var tempFile = $"{filePath}.tmp";
-            var backupFile = $"{filePath}.bak";
+            string tempFile = $"{filePath}.tmp";
+            string backupFile = $"{filePath}.bak";
 
             try
             {
@@ -113,7 +113,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static T LoadData<T>(string filePath)
         {
-            var directory = Path.GetDirectoryName(filePath);
+            string directory = Path.GetDirectoryName(filePath);
 
             if (!Directory.Exists(directory))
             {
@@ -122,16 +122,16 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             var serializer = new XmlSerializer(typeof(T));
 
-            using var reader = File.OpenText(filePath);
+            using StreamReader reader = File.OpenText(filePath);
             return (T) serializer.Deserialize(reader);
         }
 
         public static void DumpShopExpansion()
         {
-            var traits = DefDatabase<TraitDef>.AllDefsListForReading;
+            List<TraitDef> traits = DefDatabase<TraitDef>.AllDefsListForReading;
             var container = new List<TraitDump>();
 
-            foreach (var trait in TkUtils.ShopExpansion.Traits)
+            foreach (XmlTrait trait in TkUtils.ShopExpansion.Traits)
             {
                 var t = new TraitDump
                 {
@@ -145,7 +145,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                     removePrice = trait.RemovePrice
                 };
 
-                var def = traits.FirstOrDefault(i => i.defName.Equals(trait.DefName));
+                TraitDef def = traits.FirstOrDefault(i => i.defName.Equals(trait.DefName));
 
                 if (def == null)
                 {
@@ -186,7 +186,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 container.Add(t);
             }
 
-            var jsonRaces = TkUtils.ShopExpansion.Races.Select(
+            List<RaceDump> jsonRaces = TkUtils.ShopExpansion.Races.Select(
                     r => new RaceDump
                     {
                         defName = r.DefName, enabled = r.Enabled, name = r.Name.ToToolkit(), price = r.Price
@@ -222,8 +222,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void DumpCommands()
         {
-            var commands = DefDatabase<Command>.AllDefsListForReading;
-            var container = commands
+            List<Command> commands = DefDatabase<Command>.AllDefsListForReading;
+            List<CommandDump> container = commands
                 .Where(c => c.enabled && c.HasModExtension<CommandExtension>())
                 .Select(
                     c =>
@@ -295,9 +295,11 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static void ValidateExpansionData()
         {
             TkLogger.Info("Validating shop expansion data...");
-            var loadedTraits = DefDatabase<TraitDef>.AllDefsListForReading.ToHashSet();
-            var raceDefs = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(i => i.RaceProps.Humanlike).ToHashSet();
-            var loadedRaces = raceDefs
+            HashSet<TraitDef> loadedTraits = DefDatabase<TraitDef>.AllDefsListForReading.ToHashSet();
+            HashSet<PawnKindDef> raceDefs = DefDatabase<PawnKindDef>.AllDefsListForReading
+                .Where(i => i.RaceProps.Humanlike)
+                .ToHashSet();
+            HashSet<string> loadedRaces = raceDefs
                 .GroupBy(i => i.race.defName)
                 .Select(i => i.Key)
                 .ToHashSet();
@@ -307,7 +309,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             try
             {
-                for (var i = TkUtils.ShopExpansion.Traits.Count - 1; i >= 0; i--)
+                for (int i = TkUtils.ShopExpansion.Traits.Count - 1; i >= 0; i--)
                 {
                     if (loadedTraits.Any(t => t.defName.Equals(TkUtils.ShopExpansion.Traits[i].DefName)))
                     {
@@ -328,13 +330,13 @@ namespace SirRandoo.ToolkitUtils.Utils
                 TkLogger.Error("Could not validate trait data!", e);
             }
 
-            var missingTraits = loadedTraits
+            List<TraitDef> missingTraits = loadedTraits
                 .Where(t => !TkUtils.ShopExpansion.Traits.Any(p => t.defName.EqualsIgnoreCase(p.DefName)))
                 .ToList();
 
-            foreach (var trait in missingTraits)
+            foreach (TraitDef trait in missingTraits)
             {
-                foreach (var t in TraitHelper.GetEffectiveTraits(trait))
+                foreach (XmlTrait t in TraitHelper.GetEffectiveTraits(trait))
                 {
                     t.Name = Unrichify.StripTags(t.Name);
                     t.BypassLimit = TraitHelper.IsSexualityTrait(trait);
@@ -345,7 +347,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             try
             {
-                for (var i = TkUtils.ShopExpansion.Races.Count - 1; i >= 0; i--)
+                for (int i = TkUtils.ShopExpansion.Races.Count - 1; i >= 0; i--)
                 {
                     if (loadedRaces.Any(r => r.Equals(TkUtils.ShopExpansion.Races[i].DefName)))
                     {
@@ -366,15 +368,15 @@ namespace SirRandoo.ToolkitUtils.Utils
                 TkLogger.Error("Could not validate race data!", e);
             }
 
-            var missingRaces = loadedRaces
+            List<string> missingRaces = loadedRaces
                 .Where(t => !TkUtils.ShopExpansion.Races.Any(p => t.EqualsIgnoreCase(p.DefName)))
                 .ToList();
 
-            foreach (var race in missingRaces)
+            foreach (string race in missingRaces)
             {
-                var raceDef = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race));
-                var raceName = raceDef?.race.label ?? race;
-                var price = raceDef != null ? StoreDialog.CalculateToolkitPrice(raceDef.race.BaseMarketValue) : 3500;
+                PawnKindDef raceDef = raceDefs.FirstOrDefault(r => r.race.defName.Equals(race));
+                string raceName = raceDef?.race.label ?? race;
+                int price = raceDef != null ? StoreDialog.CalculateToolkitPrice(raceDef.race.BaseMarketValue) : 3500;
 
                 TkUtils.ShopExpansion.Races.Add(
                     new XmlRace {DefName = race, Name = raceName, Price = price, Enabled = true}
@@ -398,7 +400,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         internal static void TryMigrateData()
         {
             var traitCount = 0;
-            foreach (var trait in TkUtils.ShopExpansion.Traits.Where(trait => trait.Name.Contains('<')))
+            foreach (XmlTrait trait in TkUtils.ShopExpansion.Traits.Where(trait => trait.Name.Contains('<')))
             {
                 trait.Name = Unrichify.StripTags(trait.Name);
                 traitCount += 1;
@@ -410,13 +412,14 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             var raceCount = 0;
-            var races = DefDatabase<PawnKindDef>.AllDefsListForReading
+            HashSet<ThingDef> races = DefDatabase<PawnKindDef>.AllDefsListForReading
                 .Where(r => r.RaceProps.Humanlike)
                 .Select(r => r.race)
                 .ToHashSet();
-            foreach (var race in TkUtils.ShopExpansion.Races)
+            foreach (XmlRace race in TkUtils.ShopExpansion.Races)
             {
-                var name = races.FirstOrDefault(r => r.defName.EqualsIgnoreCase(race.DefName))?.label ?? race.DefName;
+                string name = races.FirstOrDefault(r => r.defName.EqualsIgnoreCase(race.DefName))?.label
+                              ?? race.DefName;
 
                 if (race.Name.Equals(name))
                 {
@@ -434,8 +437,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                 TkLogger.Info($"Cleaned up {raceCount} races with wrong names.");
             }
 
-            var oldMods = Path.Combine(SaveHelper.dataPath, "Mods.json");
-            var oldModsBack = Path.Combine(SaveHelper.dataPath, "Mods.json.bak");
+            string oldMods = Path.Combine(SaveHelper.dataPath, "Mods.json");
+            string oldModsBack = Path.Combine(SaveHelper.dataPath, "Mods.json.bak");
 
             if (File.Exists(oldMods))
             {
@@ -453,9 +456,9 @@ namespace SirRandoo.ToolkitUtils.Utils
             TkLogger.Info("Attempting to salvage shop data...");
 
             var buffer = new StringBuilder();
-            var lines = File.ReadLines(ExpansionFile, Encoding.UTF8);
+            IEnumerable<string> lines = File.ReadLines(ExpansionFile, Encoding.UTF8);
 
-            foreach (var line in lines)
+            foreach (string line in lines)
             {
                 if (!line.StartsWith("</ShopExpansion>"))
                 {

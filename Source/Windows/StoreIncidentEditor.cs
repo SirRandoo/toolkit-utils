@@ -39,12 +39,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             var listing = new Listing_Standard {maxOneColumn = true};
             listing.Begin(inRect);
 
-            var buttonGroup = listing.GetRect(Text.LineHeight);
+            Rect buttonGroup = listing.GetRect(Text.LineHeight);
 
             if (storeIncident.cost > 0)
             {
-                var disableText = "TKUtils.Windows.IncidentEditor.Disable".Translate();
-                var disableWidth = Text.CalcSize(disableText).x * 1.5f;
+                TaggedString disableText = "TKUtils.Windows.IncidentEditor.Disable".Translate();
+                float disableWidth = Text.CalcSize(disableText).x * 1.5f;
                 var disableRect = new Rect(buttonGroup.width - disableWidth, 0, disableWidth, Text.LineHeight);
                 offset += disableWidth + 5f;
 
@@ -56,8 +56,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (!storeIncident.defName.Equals("Item"))
             {
-                var resetText = "TKUtils.Windows.IncidentEditor.Reset".Translate();
-                var resetWidth = Text.CalcSize(resetText).x * 1.5f;
+                TaggedString resetText = "TKUtils.Windows.IncidentEditor.Reset".Translate();
+                float resetWidth = Text.CalcSize(resetText).x * 1.5f;
                 var resetRect = new Rect(
                     buttonGroup.width - offset - resetWidth,
                     0,
@@ -83,8 +83,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (variableIncident
                 && storeIncidentVariables.customSettings)
             {
-                var settingsText = "TKUtils.Windows.IncidentEditor.Settings".Translate();
-                var settingsWidth = Text.CalcSize(settingsText).x * 1.5f;
+                TaggedString settingsText = "TKUtils.Windows.IncidentEditor.Settings".Translate();
+                float settingsWidth = Text.CalcSize(settingsText).x * 1.5f;
                 var settingsRect = new Rect(
                     buttonGroup.width - offset - settingsWidth,
                     0,
@@ -107,7 +107,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (storeIncident.cost > 0)
             {
-                var (abbrLabel, abbrField) = listing.GetRect(Text.LineHeight).ToForm();
+                (Rect abbrLabel, Rect abbrField) = listing.GetRect(Text.LineHeight).ToForm();
 
                 Widgets.Label(abbrLabel, "TKUtils.Windows.IncidentEditor.Code".Translate());
                 storeIncident.abbreviation = Widgets.TextField(abbrField, storeIncident.abbreviation);
@@ -117,7 +117,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                       || storeIncident.defName.Equals("BuyPawn"))
                     || storeIncident.defName.Equals("ReplaceTrait"))
                 {
-                    var (costLabel, costField) = listing.GetRect(Text.LineHeight).ToForm();
+                    (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).ToForm();
                     var costBuffer = storeIncident.cost.ToString();
 
                     listing.Gap();
@@ -125,7 +125,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.TextFieldNumeric(costField, ref storeIncident.cost, ref costBuffer, 1f, 100000f);
                 }
 
-                var (timesLabel, timesField) = listing.GetRect(Text.LineHeight).ToForm();
+                (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm();
                 var timesBuffer = storeIncident.eventCap.ToString();
 
                 listing.Gap();
@@ -139,7 +139,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     listing.Gap();
 
-                    var (wagerLabel, wagerField) = listing.GetRect(Text.LineHeight).ToForm();
+                    (Rect wagerLabel, Rect wagerField) = listing.GetRect(Text.LineHeight).ToForm();
                     var wagerBuffer = storeIncidentVariables.maxWager.ToString();
 
                     Widgets.Label(wagerLabel, "TKUtils.Windows.IncidentEditor.Wager".Translate());
@@ -158,7 +158,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 listing.Gap();
-                var (karmaLabel, karmaField) = listing.GetRect(Text.LineHeight).ToForm();
+                (Rect karmaLabel, Rect karmaField) = listing.GetRect(Text.LineHeight).ToForm();
                 var karmaType = storeIncident.karmaType.ToString();
 
                 Widgets.Label(karmaLabel, "TKUtils.Windows.IncidentEditor.Karma".Translate());
@@ -173,7 +173,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (storeIncident.defName.Equals("Item"))
             {
-                var (timesLabel, timesField) = listing.GetRect(Text.LineHeight).ToForm();
+                (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm();
                 var timesBuffer = storeIncident.eventCap.ToString();
 
                 listing.Gap(6f);
@@ -185,9 +185,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 listing.Gap();
 
-                var current = listing.GetRect(Text.LineHeight);
-                var itemText = "TKUtils.Windows.IncidentEditor.Items".Translate();
-                var itemWidth = Text.CalcSize(itemText).x * 1.5f;
+                Rect current = listing.GetRect(Text.LineHeight);
+                TaggedString itemText = "TKUtils.Windows.IncidentEditor.Items".Translate();
+                float itemWidth = Text.CalcSize(itemText).x * 1.5f;
                 var itemRect = new Rect(current.x + current.width - itemWidth, current.y, itemWidth, current.height);
 
                 if (Widgets.ButtonText(itemRect, itemText))
@@ -199,9 +199,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (storeIncident.defName.Equals("AddTrait") || storeIncident.defName.Equals("RemoveTrait"))
             {
-                var current = listing.GetRect(Text.LineHeight);
-                var traitText = "TKUtils.Windows.IncidentEditor.Traits".Translate();
-                var traitWidth = Text.CalcSize(traitText).x * 1.5f;
+                Rect current = listing.GetRect(Text.LineHeight);
+                TaggedString traitText = "TKUtils.Windows.IncidentEditor.Traits".Translate();
+                float traitWidth = Text.CalcSize(traitText).x * 1.5f;
                 var traitRect = new Rect(current.x + current.width - traitWidth, current.y, traitWidth, current.height);
 
                 if (Widgets.ButtonText(traitRect, traitText))
@@ -213,9 +213,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (storeIncident.defName.Equals("BuyPawn"))
             {
-                var current = listing.GetRect(Text.LineHeight);
-                var raceText = "TKUtils.Windows.IncidentEditor.Races".Translate();
-                var raceWidth = Text.CalcSize(raceText).x * 1.5f;
+                Rect current = listing.GetRect(Text.LineHeight);
+                TaggedString raceText = "TKUtils.Windows.IncidentEditor.Races".Translate();
+                float raceWidth = Text.CalcSize(raceText).x * 1.5f;
                 var raceRect = new Rect(current.x + current.width - raceWidth, current.y, raceWidth, current.height);
 
                 if (Widgets.ButtonText(raceRect, raceText))

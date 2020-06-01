@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var result = HealHelper.GetPawnHealable(pawn);
+            object result = HealHelper.GetPawnHealable(pawn);
 
             switch (result)
             {

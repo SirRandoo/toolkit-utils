@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static bool MultiCompare(XmlTrait trait, string input)
         {
-            var label = trait.Name;
+            string label = trait.Name;
 
             if (input.ToToolkit().EqualsIgnoreCase(label.ToToolkit()))
             {

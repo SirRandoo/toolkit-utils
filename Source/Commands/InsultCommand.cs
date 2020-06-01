@@ -13,8 +13,8 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
-            var data = Viewers.GetViewer(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
+            Viewer data = Viewers.GetViewer(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -22,7 +22,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
+            string query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
             Pawn target = null;
 
             if (!query.NullOrEmpty())
@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     query = query.Substring(1);
                 }
 
-                var viewer = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(query));
+                Viewer viewer = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(query));
 
                 if (viewer == null)
                 {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
@@ -27,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Viewer = viewer;
 
-            var traitQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
+            string traitQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (traitQuery.NullOrEmpty())
             {
@@ -43,8 +44,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             buyableTrait = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, traitQuery));
-            var maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
-            var traits = pawn.story.traits.allTraits;
+            int maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
+            List<Trait> traits = pawn.story.traits.allTraits;
 
             if (buyableTrait == null)
             {
@@ -75,8 +76,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (traits != null)
             {
-                var tally = traits.Count(t => !TraitHelper.IsSexualityTrait(t));
-                var canBypassLimit = buyableTrait.BypassLimit;
+                int tally = traits.Count(t => !TraitHelper.IsSexualityTrait(t));
+                bool canBypassLimit = buyableTrait.BypassLimit;
 
                 if (tally >= maxTraits && !canBypassLimit)
                 {
@@ -100,7 +101,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             trait = new Trait(traitDef, buyableTrait.Degree);
 
-            foreach (var t in pawn.story.traits.allTraits.Where(
+            foreach (Trait t in pawn.story.traits.allTraits.Where(
                 t => t.def.ConflictsWith(trait) || traitDef.ConflictsWith(t)
             ))
             {
@@ -126,13 +127,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         public override void TryExecute()
         {
             pawn.story.traits.GainTrait(trait);
-            var val = traitDef.DataAtDegree(buyableTrait.Degree);
+            TraitDegreeData val = traitDef.DataAtDegree(buyableTrait.Degree);
             if (val?.skillGains != null)
             {
-                foreach (var skillGain in val.skillGains)
+                foreach (KeyValuePair<SkillDef, int> skillGain in val.skillGains)
                 {
-                    var skill = pawn.skills.GetSkill(skillGain.Key);
-                    var level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
+                    SkillRecord skill = pawn.skills.GetSkill(skillGain.Key);
+                    int level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
                     skill.Level = level;
                 }
             }

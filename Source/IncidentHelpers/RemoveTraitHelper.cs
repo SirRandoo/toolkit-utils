@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
@@ -24,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Viewer = viewer;
 
-            var query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
+            string query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (query.NullOrEmpty())
             {
@@ -39,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var traits = pawn.story.traits.allTraits;
+            List<Trait> traits = pawn.story.traits.allTraits;
 
             if (traits?.Count <= 0)
             {
@@ -47,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var traitQuery = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
+            XmlTrait traitQuery = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
 
             if (traitQuery == null)
             {
@@ -76,7 +77,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var target = traits?.FirstOrDefault(t => TraitHelper.MultiCompare(traitQuery, t.Label));
+            Trait target = traits?.FirstOrDefault(t => TraitHelper.MultiCompare(traitQuery, t.Label));
 
             if (target == null)
             {
@@ -97,13 +98,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             pawn.story.traits.allTraits.Remove(trait);
-            var data = trait.def.DataAtDegree(buyable.Degree);
+            TraitDegreeData data = trait.def.DataAtDegree(buyable.Degree);
 
             if (data?.skillGains != null)
             {
-                foreach (var gain in data.skillGains)
+                foreach (KeyValuePair<SkillDef, int> gain in data.skillGains)
                 {
-                    var skill = pawn.skills.GetSkill(gain.Key);
+                    SkillRecord skill = pawn.skills.GetSkill(gain.Key);
                     skill.Level -= gain.Value;
                 }
             }

@@ -13,18 +13,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override bool IsPossible()
         {
-            var entries = Find.ColonistBar.Entries;
+            List<ColonistBar.Entry> entries = Find.ColonistBar.Entries;
 
-            foreach (var e in entries)
+            foreach (ColonistBar.Entry e in entries)
             {
-                var pawn = e.pawn;
+                Pawn pawn = e.pawn;
 
                 if (pawn.health.Dead)
                 {
                     continue;
                 }
 
-                var result = HealHelper.GetPawnHealable(pawn);
+                object result = HealHelper.GetPawnHealable(pawn);
 
                 switch (result)
                 {
@@ -42,12 +42,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override void TryExecute()
         {
-            foreach (var hediff in healQueue)
+            foreach (Hediff hediff in healQueue)
             {
                 HealHelper.Cure(hediff);
             }
 
-            foreach (var part in restoreQueue)
+            foreach (Pair<Pawn, BodyPartRecord> part in restoreQueue)
             {
                 part.First.health.RestorePart(part.Second);
             }

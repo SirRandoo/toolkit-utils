@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using HarmonyLib;
 using RimWorld;
@@ -29,15 +30,15 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            var pawnHistory = component.pawnHistory;
-            var colonistsSpawned = Helper.AnyPlayerMap.mapPawns.FreeColonistsSpawned;
+            Dictionary<string, Pawn> pawnHistory = component.pawnHistory;
+            List<Pawn> colonistsSpawned = Helper.AnyPlayerMap.mapPawns.FreeColonistsSpawned;
 
             if (colonistsSpawned.Count == pawnHistory.Count)
             {
                 return false;
             }
 
-            var container = colonistsSpawned
+            List<Pawn> container = colonistsSpawned
                 .Where(c => !component.HasPawnBeenNamed(c))
                 // Questing
                 .Where(pawn => !pawn.IsBorrowedByAnyFaction())

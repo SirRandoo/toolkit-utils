@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Store;
@@ -14,7 +15,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override bool IsPossible()
         {
-            var list = Find.ColonistBar
+            List<Pawn> list = Find.ColonistBar
                 .GetColonistsInOrder()
                 .Where(p => !p.Dead)
                 .ToList();
@@ -24,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var container = list
+            List<Pair<Pawn, object>> container = list
                 .Select(p => new Pair<Pawn, object>(p, HealHelper.GetPawnHealable(p)))
                 .Where(r => r.Second != null)
                 .ToList();
@@ -34,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var random = container.RandomElementWithFallback();
+            Pair<Pawn, object> random = container.RandomElementWithFallback();
 
             if (random.First == null || random.Second == null)
             {

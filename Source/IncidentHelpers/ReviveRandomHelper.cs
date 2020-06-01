@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using TwitchToolkit.IncidentHelpers.Special;
@@ -15,7 +16,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override bool IsPossible()
         {
-            var list = Find.ColonistBar
+            List<Pawn> list = Find.ColonistBar
                 .GetColonistsInOrder()
                 .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
                 .ToList();
@@ -43,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 Pawn val;
                 if (pawn.SpawnedParentOrMe != pawn.Corpse
                     && (val = pawn.SpawnedParentOrMe as Pawn) != null
-                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var _))
+                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out Thing _))
                 {
                     TkLogger.Warn(
                         $"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
@@ -9,7 +11,8 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.Where(i => !i.IsPlayer)
+            List<Faction> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder
+                .Where(i => !i.IsPlayer)
                 .ToList();
 
             if (!factions.Any())

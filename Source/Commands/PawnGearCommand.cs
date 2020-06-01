@@ -13,7 +13,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var pawn = GetOrFindPawn(twitchMessage.Username);
+            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
 
             if (pawn == null)
             {
@@ -27,13 +27,13 @@ namespace SirRandoo.ToolkitUtils.Commands
         private static float CalculateArmorRating(Pawn pawn, StatDef stat)
         {
             var rating = 0f;
-            var value = Mathf.Clamp01(pawn.GetStatValue(stat) / 2f);
-            var parts = pawn.RaceProps.body.AllParts;
-            var apparel = pawn.apparel?.WornApparel;
+            float value = Mathf.Clamp01(pawn.GetStatValue(stat) / 2f);
+            List<BodyPartRecord> parts = pawn.RaceProps.body.AllParts;
+            List<Apparel> apparel = pawn.apparel?.WornApparel;
 
-            foreach (var part in parts)
+            foreach (BodyPartRecord part in parts)
             {
-                var cache = 1f - value;
+                float cache = 1f - value;
 
                 if (apparel != null && apparel.Any())
                 {
@@ -54,17 +54,17 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (TkSettings.TempInGear)
             {
-                var tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
-                var tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
+                string tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
+                string tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
                 parts.Add($"{"🌡".AltText("ComfyTemperatureRange".Translate().RawText)}{tempMin}~{tempMax}");
             }
 
             if (TkSettings.ShowArmor)
             {
-                var sharp = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
-                var blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Blunt);
-                var heat = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Heat);
+                float sharp = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
+                float blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Blunt);
+                float heat = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Heat);
                 var stats = new List<string>();
 
                 if (sharp > 0)
@@ -90,11 +90,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (TkSettings.ShowWeapon)
             {
-                var sidearms = SimpleSidearms.GetSidearms(pawn)?.ToList();
+                List<Thing> sidearms = SimpleSidearms.GetSidearms(pawn)?.ToList();
                 var weapons = new List<string>();
-                var equipment = pawn.equipment?.AllEquipmentListForReading ?? new List<ThingWithComps>();
-                var equipmentCount = equipment.Count;
-                var inventory = pawn.inventory.innerContainer.InnerListForReading ?? new List<Thing>();
+                List<ThingWithComps> equipment =
+                    pawn.equipment?.AllEquipmentListForReading ?? new List<ThingWithComps>();
+                int equipmentCount = equipment.Count;
+                List<Thing> inventory = pawn.inventory.innerContainer.InnerListForReading ?? new List<Thing>();
                 var usedInventory = new List<Thing>();
 
                 if (sidearms?.Any() ?? false)
@@ -104,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                     while (sidearms.Any())
                     {
-                        var sidearm = sidearms.Take(1).FirstOrDefault();
+                        Thing sidearm = sidearms.Take(1).FirstOrDefault();
 
                         if (sidearm == null)
                         {
@@ -113,7 +114,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                         if (equipmentCount > 0 && !equipmentUsed)
                         {
-                            foreach (var equip in equipment.Where(
+                            foreach (ThingWithComps equip in equipment.Where(
                                 equip => sidearm.def.defName.Equals(equip.def.defName)
                             ))
                             {
@@ -128,7 +129,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                             }
                         }
 
-                        foreach (var thing in inventory.Where(
+                        foreach (Thing thing in inventory.Where(
                             thing => sidearm.def.defName.Equals(thing.def.defName)
                         ))
                         {
@@ -153,11 +154,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
                 else
                 {
-                    var e = pawn.equipment;
+                    Pawn_EquipmentTracker e = pawn.equipment;
 
                     if (e != null && e.AllEquipmentListForReading?.Count > 0)
                     {
-                        var equip = e.AllEquipmentListForReading.Select(eq => eq.LabelCap);
+                        IEnumerable<string> equip = e.AllEquipmentListForReading.Select(eq => eq.LabelCap);
 
                         weapons.AddRange(equip);
                     }
@@ -165,7 +166,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (weapons.Any())
                 {
-                    var section = "Stat_Weapon_Name".Translate().RawText;
+                    string section = "Stat_Weapon_Name".Translate().RawText;
 
                     if (weapons.Count > 1)
                     {
@@ -183,14 +184,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return string.Join("⎮", parts.ToArray());
             }
 
-            var a = pawn.apparel;
+            Pawn_ApparelTracker a = pawn.apparel;
 
             if (a == null || a.WornApparelCount <= 0)
             {
                 return string.Join("⎮", parts.ToArray());
             }
 
-            var apparel = a.WornApparel;
+            List<Apparel> apparel = a.WornApparel;
 
             parts.Add(
                 $"{"Apparel".Translate().RawText}: {string.Join(", ", apparel.Select(item => item.LabelCap).ToArray())}"

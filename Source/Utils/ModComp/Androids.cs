@@ -15,7 +15,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         static Androids()
         {
-            foreach (var handle in LoadedModManager.ModHandles.Where(
+            foreach (Mod handle in LoadedModManager.ModHandles.Where(
                 h => h.Content.PackageId.EqualsIgnoreCase("atlas.androidtiers")
             ))
             {

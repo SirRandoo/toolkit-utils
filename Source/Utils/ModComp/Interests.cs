@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         static Interests()
         {
-            foreach (var handle in LoadedModManager.ModHandles.Where(
+            foreach (Mod handle in LoadedModManager.ModHandles.Where(
                 h => h.Content.PackageId.EqualsIgnoreCase("dame.InterestsFramework")
             ))
             {
@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     InterestListInstance = InterestsList.GetValue(InterestsClass) as IList;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    foreach (var def in InterestListInstance)
+                    foreach (object def in InterestListInstance)
                     {
                         if (!(def is Def instance))
                         {
@@ -81,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
 
 
-            var passionValue = skill.passion;
+            Passion passionValue = skill.passion;
             Def interest;
 
             try

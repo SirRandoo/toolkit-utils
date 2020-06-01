@@ -9,7 +9,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            var stuck = Purchase_Handler.viewerNamesDoingVariableCommands.Count;
+            int stuck = Purchase_Handler.viewerNamesDoingVariableCommands.Count;
 
             Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
 

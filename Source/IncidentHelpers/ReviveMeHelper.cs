@@ -19,7 +19,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             Viewer = viewer;
 
-            var viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
+            Pawn viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
 
             if (viewerPawn == null)
             {
@@ -44,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 Pawn val;
                 if (pawn.SpawnedParentOrMe != pawn.Corpse
                     && (val = pawn.SpawnedParentOrMe as Pawn) != null
-                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out var _))
+                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out Thing _))
                 {
                     TkLogger.Warn(
                         $"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"

@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             var marker = false;
 
-            foreach (var instruction in instructions)
+            foreach (CodeInstruction instruction in instructions)
             {
                 if (instruction.opcode == OpCodes.Ldsflda && instruction.OperandIs(settingMarker))
                 {

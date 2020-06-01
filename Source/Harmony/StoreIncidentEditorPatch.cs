@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -12,9 +13,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [HarmonyPrefix]
         public static void Prefix()
         {
-            var incidents = DefDatabase<StoreIncident>.AllDefs;
+            IEnumerable<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefs;
 
-            foreach (var incident in incidents.Where(
+            foreach (StoreIncident incident in incidents.Where(
                 i => i.defName == "BuyPawn"
                      || i.defName == "AddTrait"
                      || i.defName == "RemoveTrait"

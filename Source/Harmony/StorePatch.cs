@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using SirRandoo.ToolkitUtils.Windows;
@@ -13,11 +14,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> DoWindowContents(IEnumerable<CodeInstruction> instructions)
         {
-            var method = AccessTools.Method(typeof(StorePatch), nameof(DrawUtilsContents));
-            var methodMarker = AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
+            MethodInfo method = AccessTools.Method(typeof(StorePatch), nameof(DrawUtilsContents));
+            MethodInfo methodMarker = AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
             var markerFound = false;
 
-            foreach (var instruction in instructions)
+            foreach (CodeInstruction instruction in instructions)
             {
                 if (instruction.opcode == OpCodes.Ldstr && instruction.operand as string == "Events Edit")
                 {
