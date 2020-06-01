@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -77,6 +77,13 @@ namespace SirRandoo.ToolkitUtils
 
         public static void DoWindowContents(Rect inRect)
         {
+            const float adjustedHeight = 700f - 80f;
+
+            if (inRect.height > adjustedHeight)
+            {
+                inRect.height = adjustedHeight;
+            }
+
             GUI.BeginGroup(inRect);
             var catRect = new Rect(0f, 0f, inRect.width * 0.25f, inRect.height);
             var setRect = new Rect(
