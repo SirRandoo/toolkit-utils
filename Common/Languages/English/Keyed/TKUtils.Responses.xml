@@ -12,7 +12,6 @@
     <TKUtils.Responses.DisabledItem>The requested item is disabled.</TKUtils.Responses.DisabledItem>
     <TKUtils.Responses.DisabledItem.Informative>The requested item ({0}) is disabled.</TKUtils.Responses.DisabledItem.Informative>
     <TKUtils.Responses.ViewerNotFound>{0} is not in this colony.</TKUtils.Responses.ViewerNotFound>
-    <TKUtils.Responses.Exception>Something didn't quite go right with your request. You can see the full error in the dev console.</TKUtils.Responses.Exception>
     
     <TKUtils.Misc.They>they</TKUtils.Misc.They>
     <TKUtils.Misc.Their>their</TKUtils.Misc.Their>
