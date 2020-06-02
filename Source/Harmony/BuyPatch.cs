@@ -20,6 +20,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return true;
             }
 
+            if (!TkSettings.StoreState)
+            {
+                return false;
+            }
+
             Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
             ITwitchMessage message = twitchMessage;
 
@@ -33,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            TkLogger.Info($"{twitchMessage.Message} → {message.Message}");
+            // TkLogger.Info($"{twitchMessage.Message} → {message.Message}");
             Purchase_Handler.ResolvePurchase(viewer, message);
 
             return false;

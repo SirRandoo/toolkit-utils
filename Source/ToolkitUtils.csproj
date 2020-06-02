@@ -126,6 +126,7 @@
         <Compile Include="Commands\PawnStoryCommand.cs"/>
         <Compile Include="Commands\PawnWorkCommand.cs"/>
         <Compile Include="Commands\PriceCheckCommand.cs"/>
+        <Compile Include="Commands\PurchaseToggleCommand.cs"/>
         <Compile Include="Commands\ResearchCommand.cs"/>
         <Compile Include="Commands\UnstickCommand.cs"/>
         <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>

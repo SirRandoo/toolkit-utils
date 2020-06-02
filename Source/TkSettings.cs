@@ -42,6 +42,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool HairColor = true;
         public static bool StoreLoading = true;
         public static int StoreBuildRate = 60;
+        public static bool StoreState = true;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
         public static List<StatSetting> StatSettings = new List<StatSetting>();

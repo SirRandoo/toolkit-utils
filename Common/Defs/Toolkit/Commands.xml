@@ -423,10 +423,24 @@
         <command>unstick</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickCommand</commandDriver>
         <requiresMod>true</requiresMod>
-        
+    
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Removes viewers that were stuck in the "game paused" limbo.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>ToggleStore</defName>
+        <label>toggle store</label>
+        <command>togglestore</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PurchaseToggleCommand</commandDriver>
+        <requiresMod>true</requiresMod>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Toggles whether or not viewers can actively purchase things from the store.</Description>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>

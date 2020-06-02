@@ -17,6 +17,10 @@
     <TKUtils.Misc.Their>their</TKUtils.Misc.Their>
     <TKUtils.Misc.Them>them</TKUtils.Misc.Them>
     
+    <!-- Store Toggle Translations -->
+    <TKUtils.Responses.StoreState.Enabled>Toolkit's store has been enabled.</TKUtils.Responses.StoreState.Enabled>
+    <TKUtils.Responses.StoreState.Disabled>Toolkit's store has been disabled.</TKUtils.Responses.StoreState.Disabled>
+    
     <!-- Research Translations -->
     <TKUtils.Formats.Research.Prerequisites>Missing prerequisites: {0}</TKUtils.Formats.Research.Prerequisites>
     <TKUtils.Responses.Research.None>The colony is not currently researching anything.</TKUtils.Responses.Research.None>
