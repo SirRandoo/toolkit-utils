@@ -127,6 +127,8 @@ namespace SirRandoo.ToolkitUtils
                     continue;
                 }
 
+                Mod handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
+                Assembly assembly = null;
                 string version = null;
                 string steamId = null;
                 string manifestFile = Path.Combine(mod.RootDir.ToString(), "About/Manifest.xml");
@@ -143,15 +145,39 @@ namespace SirRandoo.ToolkitUtils
                     }
                 }
 
-                if (version == null)
+                if (version == null && handle != null)
                 {
-                    Mod handle =
-                        LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
+                    assembly = Assembly.GetAssembly(handle.GetType());
 
-                    if (handle != null)
-                    {
-                        version = handle.GetType().Module.Assembly.GetName().Version.ToString();
-                    }
+                    var attribute = (AssemblyInformationalVersionAttribute) Attribute.GetCustomAttribute(
+                        assembly,
+                        typeof(AssemblyInformationalVersionAttribute),
+                        false
+                    );
+
+                    version = attribute?.InformationalVersion;
+                }
+
+                if (version == null && handle != null)
+                {
+                    var attribute = (AssemblyFileVersionAttribute) Attribute.GetCustomAttribute(
+                        assembly,
+                        typeof(AssemblyFileVersionAttribute),
+                        false
+                    );
+
+                    version = attribute?.Version;
+                }
+
+                if (version == null && handle != null)
+                {
+                    var attribute = (AssemblyVersionAttribute) Attribute.GetCustomAttribute(
+                        assembly,
+                        typeof(AssemblyVersionAttribute),
+                        false
+                    );
+
+                    version = attribute?.Version ?? handle.GetType().Module.Assembly.GetName().Version.ToString();
                 }
 
                 if (mod.SteamAppId > 0)
