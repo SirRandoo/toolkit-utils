@@ -155,7 +155,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static bool IsRegionVisible(this Rect region, Rect scrollView, Vector2 scrollPos)
         {
-            return region.y >= scrollPos.y && region.y <= scrollPos.y + scrollView.height;
+            return (region.y >= scrollPos.y || region.y + region.height - 1f >= scrollPos.y)
+                   && region.y <= scrollPos.y + scrollView.height;
         }
 
         public static Tuple<Rect, Rect> ToForm(this Rect region)
