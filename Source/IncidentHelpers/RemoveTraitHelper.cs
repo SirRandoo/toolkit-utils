@@ -48,7 +48,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            XmlTrait traitQuery = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
+            XmlTrait traitQuery =
+                TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
 
             if (traitQuery == null)
             {

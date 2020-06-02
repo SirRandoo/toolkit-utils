@@ -177,6 +177,7 @@
         <Compile Include="Utils\Constraints\ComparableConstraint.cs"/>
         <Compile Include="Utils\Constraints\ConstraintBase.cs"/>
         <Compile Include="Utils\Constraints\VipConstraint.cs"/>
+        <Compile Include="Utils\Data.cs"/>
         <Compile Include="Utils\HealHelper.cs"/>
         <Compile Include="Utils\MessageHelper.cs"/>
         <Compile Include="Utils\ModComp\Androids.cs"/>
