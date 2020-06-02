@@ -409,3 +409,4 @@ MigrationBackup/
 /.idea/.idea.ToolkitUtils/
 /Source/ToolkitUtils.csproj.DotSettings
 /1.1/Assemblies/
+/\[Stable\] ToolkitUtils.zip
