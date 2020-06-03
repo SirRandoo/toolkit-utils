@@ -40,7 +40,6 @@ namespace SirRandoo.ToolkitUtils
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
         public static bool HairColor = true;
-        public static bool StoreLoading = true;
         public static int StoreBuildRate = 60;
         public static bool StoreState = true;
 
@@ -232,11 +231,6 @@ namespace SirRandoo.ToolkitUtils
                 );
             }
 
-            listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.StoreLoading.Label".Translate(),
-                ref StoreLoading,
-                "TKUtils.SettingGroups.General.StoreLoading.Tooltip".Translate()
-            );
             (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
             Widgets.Label(storeLabel, "TKUtils.SettingGroups.General.StoreRate.Label".Translate());
 
