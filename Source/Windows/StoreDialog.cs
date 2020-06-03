@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
-        private static readonly List<Container> Containers = new List<Container>();
+        internal static readonly List<Container> Containers = new List<Container>();
         private static IEnumerator<Container> _validator;
         private string categoryFilter = "";
         private TaggedString categoryHeader;
@@ -820,7 +820,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private class Container
+        internal class Container
         {
             private TaggedString categoryCached;
             public List<FloatMenuOption> CategoryContextOptions;

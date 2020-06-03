@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using SirRandoo.ToolkitUtils.Utils;
@@ -32,6 +33,24 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 .Where(i => !i.defname.NullOrEmpty())
                 .Where(i => tradeables.Any(t => t.defName.Equals(i.defname)))
                 .ToList();
+
+            for (int index = StoreDialog.Containers.Count - 1; index >= 0; index--)
+            {
+                StoreDialog.Container container = StoreDialog.Containers[index];
+
+                if (StoreInventory.items.Contains(container.Item))
+                {
+                    continue;
+                }
+
+                try
+                {
+                    StoreDialog.Containers.RemoveAt(index);
+                }
+                catch (IndexOutOfRangeException)
+                {
+                }
+            }
 
             foreach (Item item in StoreInventory.items.Where(i => i.abr.NullOrEmpty()))
             {
