@@ -13,13 +13,15 @@ namespace SirRandoo.ToolkitUtils.Windows
 
     public enum Sorter { Name, Price, Category }
 
+
+    [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
         private static readonly List<Container> Containers = new List<Container>();
+        private static IEnumerator<Container> _validator;
         private string categoryFilter = "";
         private TaggedString categoryHeader;
         private bool closeCalled;
-        private IEnumerator<int> containerGenerator;
         private bool ctrlKeyDown;
         private TaggedString ctxAscending;
         private TaggedString ctxDescending;
@@ -54,6 +56,30 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private TaggedString title;
 
+        static StoreDialog()
+        {
+            TkLogger.Info("Generating containers..");
+
+            try
+            {
+                foreach (Container container in GenerateContainers())
+                {
+                    if (container == null)
+                    {
+                        continue;
+                    }
+
+                    Containers.Add(container);
+                }
+            }
+            catch (Exception e)
+            {
+                TkLogger.Error("Couldn't generate containers!", e);
+            }
+
+            _validator = GenerateContainers().GetEnumerator();
+        }
+
         public StoreDialog()
         {
             doCloseX = true;
@@ -63,18 +89,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         }
 
         public override Vector2 InitialSize => new Vector2(1024f, UI.screenHeight * 0.9f);
-
-        public override void PostOpen()
-        {
-            // Realistically, no one should be generating new ThingDefs past
-            // post init, so the store will cache the containers for use later.
-            if (Containers.NullOrEmpty())
-            {
-                containerGenerator = GenerateContainers(Containers).GetEnumerator();
-            }
-
-            base.PostOpen();
-        }
 
         public override void DoWindowContents(Rect inRect)
         {
@@ -200,41 +214,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             var items = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
-
-            if (containerGenerator != null && TkSettings.StoreLoading)
-            {
-                Text.Font = GameFont.Medium;
-                Text.Anchor = TextAnchor.MiddleCenter;
-
-                var fetchingRect = new Rect(
-                    0f,
-                    contentArea.height / 2f - Text.LineHeight,
-                    contentArea.width,
-                    Text.LineHeight
-                );
-
-                Widgets.Label(fetchingRect, fetchingText);
-
-                Text.Font = fontCache;
-                Text.Anchor = anchorCache;
-
-                var progressRect = new Rect(
-                    0f,
-                    fetchingRect.y + Text.LineHeight * 1.25f,
-                    contentArea.width * 0.8f,
-                    Text.LineHeight
-                );
-                progressRect.x = (contentArea.width - progressRect.width) / 2f;
-
-                Widgets.FillableBar(progressRect, (float) containerGenerator.Current / StoreInventory.items.Count);
-                GUI.EndGroup();
-
-                Text.WordWrap = wrapped;
-                Text.Font = fontCache;
-                GUI.EndGroup();
-                return;
-            }
-
             listing.BeginScrollView(items, ref scrollPos, ref viewPort);
             for (var index = 0; index < effectiveWorkingList.Count; index++)
             {
@@ -593,16 +572,30 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             base.WindowUpdate();
 
-            if (containerGenerator != null)
+            if (_validator != null)
             {
                 for (var _ = 0; _ < TkSettings.StoreBuildRate; _++)
                 {
-                    if (!containerGenerator.MoveNext())
+                    if (!_validator.MoveNext())
                     {
-                        containerGenerator = null;
+                        _validator = null;
                         break;
                     }
 
+                    Container latest = _validator.Current;
+
+                    if (latest == null)
+                    {
+                        continue;
+                    }
+
+                    if (Containers.Any(c => c.Thing.defName.Equals(latest.Thing.defName)))
+                    {
+                        continue;
+                    }
+
+                    TkLogger.Info(latest.ToStringSafe());
+                    Containers.Add(latest);
                     Notify__SearchRequested();
                 }
             }
@@ -772,13 +765,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             disableAllTextSize = Text.CalcSize(disableAllText);
         }
 
-        private static IEnumerable<int> GenerateContainers(ICollection<Container> receiver)
+        private static IEnumerable<Container> GenerateContainers()
         {
             IEnumerable<ThingDef> things = GetTradeables();
-            var tracker = 0;
 
             foreach (ThingDef thing in things)
             {
+                Container container = null;
+
                 try
                 {
                     if (thing?.defName == null)
@@ -805,15 +799,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                         item.abr ??= thing.label?.ToToolkit() ?? thing.defName;
                     }
 
-                    receiver.Add(
-                        new Container
-                        {
-                            Item = item,
-                            Thing = thing,
-                            Enabled = item.price > 0,
-                            Mod = thing.modContentPack?.Name ?? "ModNameMissing"
-                        }
-                    );
+                    container = new Container
+                    {
+                        Item = item,
+                        Thing = thing,
+                        Enabled = item.price > 0,
+                        Mod = thing.modContentPack?.Name ?? "ModNameMissing"
+                    };
                 }
                 catch (Exception e)
                 {
@@ -824,10 +816,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                     );
                 }
 
-                yield return tracker++;
+                yield return container;
             }
-
-            yield return tracker;
         }
 
         private class Container
@@ -908,6 +898,27 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 Widgets.DrawHighlightIfMouseover(canvas);
+            }
+
+            public override string ToString()
+            {
+                var container = "Container(\n";
+
+                container += "  Item(\n";
+                container += $"    defname={Item.defname}\n";
+                container += $"    abr={Item.abr.ToStringSafe()}\n";
+                container += $"    price={Item.price.ToStringSafe()}\n";
+                container += "  ),\n";
+
+                container += "  Thing(\n";
+                container += $"    defName={Thing.defName.ToStringSafe()}\n";
+                container += "  ),\n";
+
+                container += $"  Mod={Mod},\n";
+                container += $"  Enabled={Enabled}\n";
+                container += ")";
+
+                return container;
             }
         }
     }
