@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
@@ -17,6 +17,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public StoreIncidentEditor(StoreIncident storeIncident) : base(storeIncident)
         {
+            onlyOneOfTypeAllowed = true;
+
             karmaTypeOptions = karmaTypeStrings
                 .Select(
                     t => new FloatMenuOption(
@@ -192,7 +194,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (Widgets.ButtonText(itemRect, itemText))
                 {
-                    Find.WindowStack.TryRemove(typeof(StoreDialog));
                     Find.WindowStack.Add(new StoreDialog());
                 }
             }
@@ -206,7 +207,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (Widgets.ButtonText(traitRect, traitText))
                 {
-                    Find.WindowStack.TryRemove(typeof(TraitConfigDialog));
                     Find.WindowStack.Add(new TraitConfigDialog());
                 }
             }
@@ -220,7 +220,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (Widgets.ButtonText(raceRect, raceText))
                 {
-                    Find.WindowStack.TryRemove(typeof(RaceConfigDialog));
                     Find.WindowStack.Add(new RaceConfigDialog());
                 }
             }

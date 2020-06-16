@@ -34,6 +34,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             doCloseX = true;
             globalRemoveCost = 0;
             forcePause = true;
+            onlyOneOfTypeAllowed = true;
 
             optionalTitle = titleText;
             cache?.SortBy(t => t.Name);

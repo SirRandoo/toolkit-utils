@@ -35,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             doCloseX = true;
             forcePause = true;
             pawnComponent = Current.Game.GetComponent<GameComponentPawns>();
+            onlyOneOfTypeAllowed = true;
 
             allPawns = Find.ColonistBar.Entries
                 .Select(e => e.pawn)

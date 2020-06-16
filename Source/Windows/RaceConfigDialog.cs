@@ -36,6 +36,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             GetTranslations();
 
+            onlyOneOfTypeAllowed = true;
             doCloseX = true;
             forcePause = true;
 

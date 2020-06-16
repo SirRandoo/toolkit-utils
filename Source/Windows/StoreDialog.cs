@@ -83,6 +83,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         public StoreDialog()
         {
             doCloseX = true;
+            onlyOneOfTypeAllowed = true;
 
             GetTranslationStrings();
             optionalTitle = title;

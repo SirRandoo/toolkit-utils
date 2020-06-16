@@ -29,6 +29,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             doCloseX = true;
             forcePause = true;
+            onlyOneOfTypeAllowed = true;
 
             constraints = new List<ConstraintBase>();
         }
