@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (category.NullOrEmpty())
             {
-                category = "basics";
+                category = "combat";
             }
 
             if (!StatRegistry.TryGetValue(category.ToToolkit().ToLowerInvariant(), out string categoryDef))
