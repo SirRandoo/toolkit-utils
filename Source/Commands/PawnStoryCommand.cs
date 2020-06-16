@@ -43,11 +43,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             WorkTags workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
 
-            if (workTags == WorkTags.None)
-            {
-                parts.Add($"{"IncapableOf".Translate().RawText}: {"NoneLower".Translate().RawText}");
-            }
-            else
+            if (workTags != WorkTags.None)
             {
                 string[] filteredTags = pawn.story.DisabledWorkTagsBackstoryAndTraits.GetAllSelectedItems<WorkTags>()
                     .Where(t => t != WorkTags.None)
