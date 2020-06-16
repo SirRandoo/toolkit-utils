@@ -163,20 +163,32 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 if (inst.CurrentData.statOffsets != null)
                 {
-                    statContainer.AddRange(
-                        inst.CurrentData.statOffsets.Select(
-                            offset => $"{offset.ValueToStringAsOffset} {offset.stat.LabelForFullStatListCap}"
-                        )
-                    );
+                    foreach (StatModifier offset in inst.CurrentData.statOffsets)
+                    {
+                        try
+                        {
+                            statContainer.Add($"{offset.ValueToStringAsOffset} {offset.stat.LabelForFullStatListCap}");
+                        }
+                        catch (Exception)
+                        {
+                            //
+                        }
+                    }
                 }
 
                 if (inst.CurrentData.statFactors != null)
                 {
-                    statContainer.AddRange(
-                        inst.CurrentData.statFactors.Select(
-                            factor => $"{factor.ToStringAsFactor} {factor.stat.LabelForFullStatListCap}"
-                        )
-                    );
+                    foreach (StatModifier factor in inst.CurrentData.statFactors)
+                    {
+                        try
+                        {
+                            statContainer.Add($"{factor.ToStringAsFactor} {factor.stat.LabelForFullStatListCap}");
+                        }
+                        catch (Exception)
+                        {
+                            //
+                        }
+                    }
                 }
 
                 t.description = inst.CurrentData.description;
@@ -415,20 +427,20 @@ namespace SirRandoo.ToolkitUtils.Utils
                 .Where(r => r.RaceProps.Humanlike)
                 .Select(r => r.race)
                 .ToHashSet();
-            foreach (XmlRace race in TkUtils.ShopExpansion.Races)
+            foreach (XmlRace race in TkUtils.ShopExpansion.Races
+                .Select(
+                    race => new
+                    {
+                        race,
+                        name = races.FirstOrDefault(r => r.defName.EqualsIgnoreCase(race.DefName))?.label
+                               ?? race.DefName
+                    }
+                )
+                .Where(t => !t.race.Name.Equals(t.name))
+                .Select(t => t.race))
             {
-                string name = races.FirstOrDefault(r => r.defName.EqualsIgnoreCase(race.DefName))?.label
-                              ?? race.DefName;
-
-                if (race.Name.Equals(name))
-                {
-                    continue;
-                }
-
-                {
-                    race.Name = races.FirstOrDefault(r => r.defName.Equals(race.DefName))?.label ?? race.DefName;
-                    raceCount += 1;
-                }
+                race.Name = races.FirstOrDefault(r => r.defName.Equals(race.DefName))?.label ?? race.DefName;
+                raceCount += 1;
             }
 
             if (raceCount > 0)
