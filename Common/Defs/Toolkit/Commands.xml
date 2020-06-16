@@ -464,4 +464,17 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>Wealth</defName>
+        <label>colony wealth</label>
+        <command>wealth</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.WealthCommand</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows the colony's current wealth. This command uses the same value the storyteller will use.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
 </Defs>

@@ -33,6 +33,9 @@
     <TKUtils.Formats.PawnGear.Equipment>Equipment: {0}</TKUtils.Formats.PawnGear.Equipment>
     <TKUtils.Formats.PawnGear.Apparel>Apparel: {0}</TKUtils.Formats.PawnGear.Apparel>
     
+    <!-- Wealth Translations -->
+    <TKUtils.Responses.Wealth>Wealth</TKUtils.Responses.Wealth>
+    
     <!-- FixMyPawn Translations -->
     <TKUtils.Responses.PawnFix.Relinked>You've been successfully relinked in Twitch Toolkit.</TKUtils.Responses.PawnFix.Relinked>
     
