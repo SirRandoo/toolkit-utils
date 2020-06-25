@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -221,6 +221,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
+                .Where(r => r.Enabled)
                 .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                 .ToArray();
 
