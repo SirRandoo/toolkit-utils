@@ -60,6 +60,21 @@
         <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.BuySurgeryHelper</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>1</variables>
+    
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <EventType>Item</EventType>
+                <Parameters>
+                    <li>
+                        <Name>Thing</Name>
+                    </li>
+                    <li>
+                        <Name>Quantity/BodyPart</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
     
     <TwitchToolkit.Incidents.StoreIncidentVariables>
@@ -71,6 +86,15 @@
         <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.PassionShuffleHelper</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>1</variables>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <Parameters>
+                    <li>
+                        <Name>Skill</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
     
     <TwitchToolkit.Incidents.StoreIncidentVariables>
@@ -82,5 +106,18 @@
         <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.ReplaceTraitHelper</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>2</variables>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <EventType>Trait</EventType>
+                <Parameters>
+                    <li>
+                        <Name>OldTrait</Name>
+                    </li>
+                    <li>
+                        <Name>NewTrait</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>
