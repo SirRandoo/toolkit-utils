@@ -4,6 +4,7 @@
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\[Stable] ToolkitUtils\.git</exclude>
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\[Stable] ToolkitUtils\.idea</exclude>
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\[Stable] ToolkitUtils\.vs</exclude>
+    <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\[Stable] ToolkitUtils\[Stable] ToolkitUtils.zip</exclude>
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\[Stable] ToolkitUtils\About\PublishedFileId.txt</exclude>
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\[Stable] ToolkitUtils\Source</exclude>
     <exclude>C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\[Stable] ToolkitUtils\ToolkitUtils.sln</exclude>
