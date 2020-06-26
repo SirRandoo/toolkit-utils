@@ -64,7 +64,6 @@
                 <Description>Shuffles your passions. If a skill is specified, you'll be guaranteed a minor passion in it.</Description>
                 <Parameters>
                     <li>
-                        <Type>System.String</Type>
                         <Name>Skill</Name>
                         <Optional>true</Optional>
                     </li>
@@ -83,7 +82,6 @@
                 <Description>Purchases the part specified and queues it for surgery on your pawn.</Description>
                 <Parameters>
                     <li>
-                        <Type>System.String</Type>
                         <Name>Part</Name>
                     </li>
                 </Parameters>
@@ -150,11 +148,9 @@
                 
                 <Parameters>
                     <li>
-                        <Type>System.String</Type>
                         <Name>Old</Name>
                     </li>
                     <li>
-                        <Type>System.String</Type>
                         <Name>New</Name>
                     </li>
                 </Parameters>
@@ -187,7 +183,6 @@
                 <Description>Shows your current stats within a given category.</Description>
                 <Parameters>
                     <li>
-                        <Type>System.String</Type>
                         <Name>Category</Name>
                         <Optional>true</Optional>
                     </li>
@@ -207,7 +202,6 @@
                 <Description>Shows an overview of your pawn's health. If a capacity is specified, it'll show what's affecting it.</Description>
                 <Parameters>
                     <li>
-                        <Type>Verse.PawnCapacityDef</Type>
                         <Name>Capacity</Name>
                         <Optional>true</Optional>
                     </li>
@@ -359,7 +353,6 @@
                 <Description>Shows the current research progress. If a project is specified, it'll show the progress of that instead.</Description>
                 <Parameters>
                     <li>
-                        <Type>Verse.ResearchProjectDef</Type>
                         <Name>Project/Item</Name>
                         <Optional>true</Optional>
                     </li>
@@ -380,11 +373,9 @@
                 <Description>Shows the first few results for the query in the given category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', 'skills', and 'stats'.</Description>
                 <Parameters>
                     <li>
-                        <Type>System.String</Type>
                         <Name>Category/Item</Name>
                     </li>
                     <li>
-                        <Type>System.String</Type>
                         <Name>Query</Name>
                         <Optional>true</Optional>
                     </li>
@@ -404,11 +395,9 @@
                 <Description>Similar to the lookup command, except it'll show the price for the first valid match.</Description>
                 <Parameters>
                     <li>
-                        <Type>System.String</Type>
                         <Name>Category/Item</Name>
                     </li>
                     <li>
-                        <Type>System.String</Type>
                         <Name>Query</Name>
                         <Optional>true</Optional>
                     </li>
@@ -456,7 +445,6 @@
                 <Description>Makes your pawn insult a random viewer. If a viewer is specified, you'll insult them instead.</Description>
                 <Parameters>
                     <li>
-                        <Type>TwitchToolkit.Viewer</Type>
                         <Name>Target</Name>
                         <Optional>true</Optional>
                     </li>

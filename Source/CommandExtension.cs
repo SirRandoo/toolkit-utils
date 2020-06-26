@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TwitchToolkit;
 using Verse;
 
@@ -19,9 +18,6 @@ namespace SirRandoo.ToolkitUtils
         [Description("Whether or not this parameter can be omitted.")]
         [DefaultValue(false)]
         public bool Optional;
-
-        [Description("The type this parameter should be resolved to.")]
-        public Type Type;
 
         public override string ToString()
         {
