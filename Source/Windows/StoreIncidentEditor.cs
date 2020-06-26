@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
@@ -14,6 +14,8 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private readonly List<FloatMenuOption> karmaTypeOptions;
         private readonly string[] karmaTypeStrings = Enum.GetNames(typeof(KarmaType));
+        private bool ctrl;
+        private bool shft;
 
         public StoreIncidentEditor(StoreIncident storeIncident) : base(storeIncident)
         {
@@ -109,7 +111,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (storeIncident.cost > 0)
             {
-                (Rect abbrLabel, Rect abbrField) = listing.GetRect(Text.LineHeight).ToForm();
+                (Rect abbrLabel, Rect abbrField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
 
                 Widgets.Label(abbrLabel, "TKUtils.Windows.IncidentEditor.Code".Translate());
                 storeIncident.abbreviation = Widgets.TextField(abbrField, storeIncident.abbreviation);
@@ -119,15 +121,19 @@ namespace SirRandoo.ToolkitUtils.Windows
                       || storeIncident.defName.Equals("BuyPawn"))
                     || storeIncident.defName.Equals("ReplaceTrait"))
                 {
-                    (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).ToForm();
-                    var costBuffer = storeIncident.cost.ToString();
+                    (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
 
                     listing.Gap();
                     Widgets.Label(costLabel, "TKUtils.Windows.IncidentEditor.Cost".Translate());
-                    Widgets.TextFieldNumeric(costField, ref storeIncident.cost, ref costBuffer, 1f, 100000f);
+                    SettingsHelper.DrawPriceField(costField, ref storeIncident.cost, ref ctrl, ref shft);
+
+                    if (storeIncident.cost == 0)
+                    {
+                        storeIncident.cost = 1;
+                    }
                 }
 
-                (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm();
+                (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
                 var timesBuffer = storeIncident.eventCap.ToString();
 
                 listing.Gap();
@@ -141,17 +147,19 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     listing.Gap();
 
-                    (Rect wagerLabel, Rect wagerField) = listing.GetRect(Text.LineHeight).ToForm();
-                    var wagerBuffer = storeIncidentVariables.maxWager.ToString();
-
+                    (Rect wagerLabel, Rect wagerField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
                     Widgets.Label(wagerLabel, "TKUtils.Windows.IncidentEditor.Wager".Translate());
-                    Widgets.TextFieldNumeric(
+                    SettingsHelper.DrawPriceField(
                         wagerField,
                         ref storeIncidentVariables.maxWager,
-                        ref wagerBuffer,
-                        storeIncidentVariables.cost,
-                        20000f
+                        ref ctrl,
+                        ref shft
                     );
+
+                    if (storeIncidentVariables.maxWager > 20000)
+                    {
+                        storeIncidentVariables.maxWager = 20000;
+                    }
 
                     if (storeIncidentVariables.maxWager < storeIncidentVariables.cost)
                     {
@@ -160,7 +168,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 listing.Gap();
-                (Rect karmaLabel, Rect karmaField) = listing.GetRect(Text.LineHeight).ToForm();
+                (Rect karmaLabel, Rect karmaField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
                 var karmaType = storeIncident.karmaType.ToString();
 
                 Widgets.Label(karmaLabel, "TKUtils.Windows.IncidentEditor.Karma".Translate());
@@ -175,7 +183,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (storeIncident.defName.Equals("Item"))
             {
-                (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm();
+                (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
                 var timesBuffer = storeIncident.eventCap.ToString();
 
                 listing.Gap(6f);

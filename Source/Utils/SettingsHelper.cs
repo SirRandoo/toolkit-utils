@@ -159,9 +159,9 @@ namespace SirRandoo.ToolkitUtils.Utils
                    && region.y <= scrollPos.y + scrollView.height;
         }
 
-        public static Tuple<Rect, Rect> ToForm(this Rect region)
+        public static Tuple<Rect, Rect> ToForm(this Rect region, float factor = 0.7f)
         {
-            var left = new Rect(region.x, region.y, region.width * 0.7f - 2f, region.height);
+            var left = new Rect(region.x, region.y, region.width * factor - 2f, region.height);
 
             return new Tuple<Rect, Rect>(
                 left,
