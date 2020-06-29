@@ -2,7 +2,7 @@
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Windows
 {
     public class TkUtilsWindow : ToolkitWindow
     {
