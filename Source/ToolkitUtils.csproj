@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -199,68 +199,98 @@
         <Compile Include="Windows\TkUtilsWindow.cs"/>
         <Compile Include="Windows\TraitConfigDialog.cs"/>
     </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\About\About.xml">
-      <Link>About\About.xml</Link>
-    </Content>
-    <Content Include="..\About\Preview.png">
-      <Link>About\Preview.png</Link>
-    </Content>
-    <Content Include="..\Common\Defs\Toolkit\Commands.xml">
-      <Link>Defs\Commands.xml</Link>
-    </Content>
-    <Content Include="..\Common\Defs\Toolkit\StoreIncidents.xml">
-      <Link>Defs\StoreIncidents.xml</Link>
-    </Content>
-    <Content Include="..\Common\Defs\Toolkit\Addons.xml">
-      <Link>Defs\Addons.xml</Link>
-    </Content>
-    <Content Include="..\Common\Languages\English\Keyed\TKUtils.Responses.xml">
-      <Link>Languages\English\Keyed\TKUtils.Responses.xml</Link>
-    </Content>
-    <Content Include="..\Common\Languages\English\Keyed\TKUtils.Settings.xml">
-      <Link>Languages\English\Keyed\TKUtils.Settings.xml</Link>
-    </Content>
-    <Content Include="..\Common\Patches\IncidentHelpers\AddTraitPatch.xml">
-      <Link>Patches\AddTraitPatch.xml</Link>
-    </Content>
-    <Content Include="..\Common\Patches\InstalledModsPatch.xml">
-      <Link>Patches\InstalledModsPatch.xml</Link>
-    </Content>
-    <Content Include="..\Common\Patches\IncidentHelpers\RemoveTraitPatch.xml">
-      <Link>Patches\RemoveTraitPatch.xml</Link>
-    </Content>
-    <Content Include="..\Common\Patches\IncidentHelpers\RandomRevivePatch.xml">
-      <Link>Patches\RandomRevivePatch.xml</Link>
-    </Content>
-    <Content Include="..\Common\Patches\BalancePatch.xml">
-      <Link>Patches\BalancePatch.xml</Link>
-    </Content>
-      <Content Include="..\Common\Languages\English\Keyed\TKUtils.Windows.xml">
-          <Link>Languages\English\Keyed\TKUtils.Windows.xml</Link>
-      </Content>
-      <Content Include="..\Common\Patches\IncidentHelpers\BuyPawnPatch.xml">
-          <Link>Patches\BuyPawnPatch.xml</Link>
-      </Content>
-      <Content Include="..\Common\Patches\AddonPatch.xml">
-          <Link>Patches\AddonPatch.xml</Link>
-      </Content>
-      <Content Include="..\Common\Patches\CommandExtPatch.xml">
-          <Link>Patches\CommandExtPatch.xml</Link>
-      </Content>
-      <Content Include="..\Common\Patches\PawnClassPatch.xml">
-          <Link>Patches\Magic\PawnClassCommand.xml</Link>
-      </Content>
-      <Content Include="..\Common\Patches\IncidentHelpers\ImmortalityPatch.xml">
-          <Link>Patches\Immortals\ImmortalityPatch.xml</Link>
-      </Content>
-      <Content Include="..\Common\Patches\EventExtPatch.xml">
-          <Link>Patches\EventExtPatch.xml</Link>
-      </Content>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\About\About.xml">
+            <Link>About\About.xml</Link>
+        </Content>
+        <Content Include="..\About\Preview.png">
+            <Link>About\Preview.png</Link>
+        </Content>
+        <Content Include="..\About\PublishedFileId.txt">
+            <Link>About\PublishedFileId.txt</Link>
+        </Content>
+        <Content Include="..\Common\Defs\Toolkit\Addons.xml">
+            <Link>Common\Defs\Toolkit\Addons.xml</Link>
+        </Content>
+        <Content Include="..\Common\Defs\Toolkit\Commands.xml">
+            <Link>Common\Defs\Toolkit\Commands.xml</Link>
+        </Content>
+        <Content Include="..\Common\Defs\Toolkit\StoreIncidents.xml">
+            <Link>Common\Defs\Toolkit\StoreIncidents.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\TKUtils.Responses.xml">
+            <Link>Common\Languages\English\Keyed\TKUtils.Responses.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\TKUtils.Settings.xml">
+            <Link>Common\Languages\English\Keyed\TKUtils.Settings.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\TKUtils.Windows.xml">
+            <Link>Common\Languages\English\Keyed\TKUtils.Windows.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\AddonPatch.xml">
+            <Link>Common\Patches\AddonPatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\BalancePatch.xml">
+            <Link>Common\Patches\BalancePatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\CommandExtPatch.xml">
+            <Link>Common\Patches\CommandExtPatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\EventExtPatch.xml">
+            <Link>Common\Patches\EventExtPatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\IncidentHelpers\AddTraitPatch.xml">
+            <Link>Common\Patches\IncidentHelpers\AddTraitPatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\IncidentHelpers\BuyPawnPatch.xml">
+            <Link>Common\Patches\IncidentHelpers\BuyPawnPatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\IncidentHelpers\ImmortalityPatch.xml">
+            <Link>Common\Patches\IncidentHelpers\ImmortalityPatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\IncidentHelpers\RandomRevivePatch.xml">
+            <Link>Common\Patches\IncidentHelpers\RandomRevivePatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\IncidentHelpers\RemoveTraitPatch.xml">
+            <Link>Common\Patches\IncidentHelpers\RemoveTraitPatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\InstalledModsPatch.xml">
+            <Link>Common\Patches\InstalledModsPatch.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\PawnClassPatch.xml">
+            <Link>Common\Patches\PawnClassPatch.xml</Link>
+        </Content>
+        <Content Update="..\Common\Languages\English\Keyed\TKUtils.Responses.xml">
+            <Link>Common\Languages\English\Keyed\TKUtils.Responses.xml</Link>
+        </Content>
+        <Content Update="..\Common\Languages\English\Keyed\TKUtils.Settings.xml">
+            <Link>Common\Languages\English\Keyed\TKUtils.Settings.xml</Link>
+        </Content>
+        <Content Update="..\Common\Languages\English\Keyed\TKUtils.Windows.xml">
+            <Link>Common\Languages\English\Keyed\TKUtils.Windows.xml</Link>
+        </Content>
+        <Content Update="..\Common\Textures\UI\Gear.png">
+            <Link>Common\Textures\UI\Gear.png</Link>
+        </Content>
+        <Content Update="..\Common\Textures\UI\Refresh.png">
+            <Link>Common\Textures\UI\Refresh.png</Link>
+        </Content>
+        <Content Update="..\Common\Textures\UI\Trash.png">
+            <Link>Common\Textures\UI\Trash.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Gear.png">
+            <Link>Common\Textures\UI\Icons\Gear.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Refresh.png">
+            <Link>Common\Textures\UI\Icons\Refresh.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Trash.png">
+            <Link>Common\Textures\UI\Icons\Trash.png</Link>
+        </Content>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <PropertyGroup>
+        <PostBuildEvent>
+        </PostBuildEvent>
+    </PropertyGroup>
 </Project>
