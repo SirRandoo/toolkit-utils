@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using RimWorld;
@@ -15,14 +14,6 @@ namespace SirRandoo.ToolkitUtils
     [StaticConstructorOnStartup]
     public class ToolkitAddonMenu : IAddonMenu
     {
-        private static readonly Type NameQueueType;
-
-        static ToolkitAddonMenu()
-        {
-            Assembly assembly = typeof(TwitchToolkit.TwitchToolkit).Assembly;
-            NameQueueType = assembly.GetType("TwitchToolkit.PawnQueue.QueueWindow");
-        }
-
         public List<FloatMenuOption> MenuOptions()
         {
             return new List<FloatMenuOption>
