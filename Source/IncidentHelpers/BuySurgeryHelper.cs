@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -9,6 +9,7 @@ using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.Store;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
@@ -35,7 +36,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             Viewer = viewer;
 
-            string partQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
+            string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
+            string partQuery = segments.FirstOrDefault();
 
             if (partQuery.NullOrEmpty())
             {
@@ -46,14 +48,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
                 return false;
             }
 
-            part = DefDatabase<ThingDef>.AllDefsListForReading.FirstOrDefault(
-                t => t.defName.ToToolkit().EqualsIgnoreCase(partQuery.ToToolkit())
-                     || t.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(partQuery.ToToolkit())
-            );
+            Appointment appointment = Appointment.ParseInput(pawn, segments);
+            part = appointment.ThingDef;
 
             if (part == null)
             {
@@ -91,7 +91,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     viewer.username,
                     "TKUtils.Responses.Buy.MissingResearch".Translate(
                         part.LabelCap.RawText,
-                        string.Join(", ", projects.Select(p => p.LabelCap).ToArray())
+                        projects.Select(p => p.LabelCap).SectionJoin()
                     )
                 );
                 return false;
@@ -162,12 +162,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            surgery = partRecipes.FirstOrDefault(
-                r => r.Worker is Recipe_InstallImplant
-                     || r.Worker is Recipe_InstallNaturalBodyPart
-                     || r.Worker is Recipe_InstallArtificialBodyPart
-                     || Androids.IsSurgeryUsable(pawn, r)
-            );
+            surgery = partRecipes.FirstOrDefault(r => r.AvailableOnNow(pawn));
 
             if (surgery == null)
             {
@@ -176,33 +171,42 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             List<BodyPartRecord> surgeryParts =
                 surgery.Worker?.GetPartsToApplyOn(pawn, surgery).ToList() ?? new List<BodyPartRecord>();
-            BodyPartRecord shouldAdd = null;
+            BodyPartRecord shouldAdd = appointment.BodyPart;
             var lastHealth = 99999f;
 
-            foreach (BodyPartRecord applied in surgeryParts)
-            {
-                if (pawn.health.surgeryBills.Bills.Count > 0
-                    && pawn.health.surgeryBills.Bills.Any(
-                        b => b is Bill_Medical bill && bill.Part == applied
-                    ))
+            if (shouldAdd == null)
+                foreach (BodyPartRecord applied in surgeryParts)
                 {
-                    continue;
+                    if (pawn.health.surgeryBills.Bills.Count > 0
+                        && pawn.health.surgeryBills.Bills.Any(
+                            b => b is Bill_Medical bill && bill.Part == applied
+                        ))
+                    {
+                        continue;
+                    }
+
+                    float partHealth = HealHelper.GetAverageHealthOfPart(pawn, applied);
+
+                    if (partHealth > lastHealth)
+                    {
+                        continue;
+                    }
+
+                    shouldAdd = applied;
+                    lastHealth = partHealth;
                 }
-
-                float partHealth = HealHelper.GetAverageHealthOfPart(pawn, applied);
-
-                if (partHealth > lastHealth)
-                {
-                    continue;
-                }
-
-                shouldAdd = applied;
-                lastHealth = partHealth;
-            }
 
             if (shouldAdd == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.BuySurgery.NoAvailableSlots".Translate());
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.BuySurgery.NoAvailableSlots".TranslateSimple()
+                );
+                return false;
+            }
+
+            if (!surgery.AvailableOnNow(pawn))
+            {
                 return false;
             }
 
@@ -210,7 +214,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (map == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".Translate());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".TranslateSimple());
                 return false;
             }
 
@@ -251,7 +255,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.BuySurgery.Title".Translate(),
+                "TKUtils.Letters.BuySurgery.Title".TranslateSimple(),
                 "TKUtils.Letters.BuySurgery.Description".Translate(
                     Viewer.username,
                     Find.ActiveLanguageWorker.WithDefiniteArticle(thing.LabelCap)
@@ -259,6 +263,55 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 LetterDefOf.NeutralEvent,
                 new LookTargets(thing)
             );
+        }
+
+        private class Appointment
+        {
+            public Pawn Patient { get; set; }
+            public RecipeDef Recipe { get; set; }
+            public BodyPartRecord BodyPart { get; set; }
+            public Item Item { get; set; }
+            public ThingDef ThingDef { get; set; }
+            public int Quantity { get; set; }
+
+            public static Appointment ParseInput(Pawn patient, string[] segments)
+            {
+                var appointment = new Appointment
+                {
+                    Patient = patient, ThingDef = ParseThingDef(segments.FirstOrFallback())
+                };
+
+                string multi = segments.Skip(1).FirstOrFallback();
+                if (int.TryParse(multi, out int quantity))
+                {
+                    appointment.Quantity = Mathf.Clamp(quantity, 0, 100);
+                }
+                else
+                {
+                    appointment.BodyPart = ParseBodyPart(patient, multi);
+                    appointment.Quantity = 1;
+                }
+
+                return appointment;
+            }
+
+            private static ThingDef ParseThingDef(string input)
+            {
+                return DefDatabase<ThingDef>.AllDefsListForReading
+                    .FirstOrDefault(
+                        t => t.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                             || t.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                    );
+            }
+
+            private static BodyPartRecord ParseBodyPart(Pawn patient, string input)
+            {
+                return patient.RaceProps.body.AllParts
+                    .FirstOrDefault(
+                        t => t.Label.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                             || t.def.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                    );
+            }
         }
     }
 }
