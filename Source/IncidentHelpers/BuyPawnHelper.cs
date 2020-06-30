@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             if (CommandBase.GetOrFindPawn(viewer.username) != null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.HasPawn".Translate());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.HasPawn".TranslateSimple());
                 return false;
             }
 
@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (map == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".Translate());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".TranslateSimple());
                 return false;
             }
 
@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!raceDef.RaceProps.Humanlike)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.OnlyHuman".Translate());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.OnlyHuman".TranslateSimple());
                 return false;
             }
 
@@ -119,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 GenSpawn.Spawn(pawn, loc, map);
                 pawn.Name = new NameTriple(name.First ?? string.Empty, Viewer.username, name.Last ?? string.Empty);
-                TaggedString title = "TKUtils.Responses.Buy.Joined.Title".Translate();
+                TaggedString title = "TKUtils.Responses.Buy.Joined.Title".TranslateSimple();
                 TaggedString text = "TKUtils.Responses.Buy.Joined.Text".Translate(Viewer.username);
                 PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref title, pawn);
 
@@ -135,7 +135,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 if (ToolkitSettings.PurchaseConfirmations)
                 {
-                    MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.Buy.PurchaseMessage".Translate());
+                    MessageHelper.ReplyToUser(
+                        Viewer.username,
+                        "TKUtils.Responses.Buy.PurchaseMessage".TranslateSimple()
+                    );
                 }
             }
             catch (Exception e)
@@ -170,7 +173,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             return false;
         }
 
-        public void GetDefaultRace()
+        private void GetDefaultRace()
         {
             XmlRace human = TkUtils.ShopExpansion.Races
                 .FirstOrDefault(d => d.DefName.EqualsIgnoreCase(PawnKindDefOf.Colonist.race.defName));

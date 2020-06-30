@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -17,29 +17,43 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabCharacter".Translate()));
+                twitchMessage.Reply(
+                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("TabCharacter".TranslateSimple())
+                );
                 return;
             }
 
             var parts = new List<string>
             {
-                $"{"Backstory".Translate().RawText}: {string.Join(", ", pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).ToArray())}"
+                $"{"Backstory".TranslateSimple()}: {pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).SectionJoin()}"
             };
 
             bool isRoyal = pawn.royalty?.MostSeniorTitle != null;
             switch (pawn.gender)
             {
                 case Gender.Female:
-                    parts.Add((isRoyal ? "👸" : "♀").AltText("Female".Translate()));
+                    parts.Add(
+                        (isRoyal ? ResponseHelper.PrincessGlyph : ResponseHelper.FemaleGlyph).AltText(
+                            "Female".TranslateSimple()
+                        )
+                    );
                     break;
                 case Gender.Male:
-                    parts.Add((isRoyal ? "🤴" : "♂").AltText("Male".Translate()));
+                    parts.Add(
+                        (isRoyal ? ResponseHelper.PrinceGlyph : ResponseHelper.MaleGlyph).AltText(
+                            "Male".TranslateSimple()
+                        )
+                    );
                     break;
                 case Gender.None:
-                    parts.Add((isRoyal ? "👑" : "⚪").AltText("NoneLower".Translate()));
+                    parts.Add(
+                        (isRoyal ? ResponseHelper.CrownGlyph : ResponseHelper.GenderlessGlyph).AltText(
+                            "NoneLower".TranslateSimple()
+                        )
+                    );
                     break;
                 default:
-                    parts.Add(isRoyal ? "👑" : "");
+                    parts.Add(isRoyal ? ResponseHelper.CrownGlyph : "");
                     break;
             }
 
@@ -52,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     .Select(t => t.LabelTranslated().CapitalizeFirst())
                     .ToArray();
 
-                parts.Add($"{"IncapableOf".Translate().RawText}: {string.Join(", ", filteredTags)}");
+                parts.Add($"{"IncapableOf".TranslateSimple()}: {filteredTags.SectionJoin()}");
             }
 
             List<Trait> traits = pawn.story.traits.allTraits;
@@ -60,11 +74,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (traits.Count > 0)
             {
                 parts.Add(
-                    $"{"Traits".Translate().RawText}: {string.Join(", ", traits.Select(t => Unrichify.StripTags(t.LabelCap)).ToArray())}"
+                    $"{"Traits".TranslateSimple()}: {traits.Select(t => Unrichify.StripTags(t.LabelCap)).SectionJoin()}"
                 );
             }
 
-            twitchMessage.Reply(string.Join("⎮", parts.ToArray()).WithHeader("TabCharacter".Translate()));
+            twitchMessage.Reply(parts.GroupedJoin().WithHeader("TabCharacter".TranslateSimple()));
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
                 return;
             }
 
@@ -25,32 +25,28 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (data == null || !data.Gifted || data.Class.NullOrEmpty())
             {
-                twitchMessage.Reply("TKUtils.Responses.PawnClass.None".Translate());
+                twitchMessage.Reply("TKUtils.Responses.PawnClass.None".TranslateSimple());
                 return;
             }
 
             var container = new List<string>
             {
-                "TKUtils.Formats.KeyValue".Translate(
-                    "TKUtils.Misc.Level".Translate(),
-                    data.Level.ToString("N0")
-                ),
-                "TKUtils.Formats.KeyValue".Translate(
-                    "TKUtils.Misc.XP".Translate(),
-                    data.Experience
-                )
+                ResponseHelper.JoinPair("TKUtils.Misc.Level".TranslateSimple(), data.Level.ToString("N0")),
+                ResponseHelper.JoinPair("TKUtils.Misc.XP".TranslateSimple(), data.Experience)
             };
 
-
-            string key = null;
-
-            if (data.Type == MagicComp.ClassTypes.Might)
+            string key;
+            switch (data.Type)
             {
-                key = "TKUtils.Misc.Stamina";
-            }
-            else if (data.Type == MagicComp.ClassTypes.Magic)
-            {
-                key = "TKUtils.Misc.Mana";
+                case MagicComp.ClassTypes.Might:
+                    key = "TKUtils.Misc.Stamina";
+                    break;
+                case MagicComp.ClassTypes.Magic:
+                    key = "TKUtils.Misc.Mana";
+                    break;
+                default:
+                    key = null;
+                    break;
             }
 
             if (!key.NullOrEmpty())
@@ -68,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 t += ")";
 
                 container.Add(
-                    "TKUtils.Formats.KeyValue".Translate(key.Translate(), t)
+                    ResponseHelper.JoinPair(key.TranslateSimple(), t)
                 );
             }
 
@@ -77,10 +73,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 container.Add("TKUtils.Formats.PawnClass.Points".Translate(data.Points.ToString("N0")));
             }
 
-            twitchMessage.Reply(
-                string.Join("⎮", container.ToArray())
-                    .WithHeader($"{data.Class}")
-            );
+            twitchMessage.Reply(container.GroupedJoin().WithHeader($"{data.Class}"));
         }
     }
 }

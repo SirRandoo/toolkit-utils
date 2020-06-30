@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -18,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
                 return;
             }
 
@@ -29,22 +29,19 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 var container = "";
 
-                container += "TKUtils.Formats.KeyValue".Translate(
-                        skill.def.LabelCap,
-                        skill.TotallyDisabled ? "🚫".AltText("-") : skill.levelInt.ToString()
-                    )
-                    .RawText;
+                container += ResponseHelper.JoinPair(
+                    skill.def.LabelCap,
+                    skill.TotallyDisabled ? ResponseHelper.ForbiddenGlyph.AltText("-") : skill.levelInt.ToString()
+                );
 
                 container += !Interests.Active
-                    ? string.Concat(Enumerable.Repeat("🔥".AltText("+"), (int) skill.passion))
+                    ? string.Concat(Enumerable.Repeat(ResponseHelper.FireGlyph.AltText("+"), (int) skill.passion))
                     : Interests.GetIconForPassion(skill);
 
                 parts.Add(container);
-
-                TkLogger.Info($"{skill.passion.GetType().FullName}: {skill.passion.ToString()}");
             }
 
-            twitchMessage.Reply(string.Join(", ", parts.ToArray()).WithHeader("StatsReport_Skills".Translate()));
+            twitchMessage.Reply(parts.SectionJoin().WithHeader("StatsReport_Skills".TranslateSimple()));
         }
     }
 }

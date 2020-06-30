@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
@@ -14,7 +14,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
                 return;
             }
 
@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 pawn.Name = new NameTriple(name?.First ?? "", twitchMessage.Username, name?.Last ?? "");
             }
 
-            twitchMessage.Reply("TKUtils.Responses.PawnFix.Relinked".Translate());
+            twitchMessage.Reply("TKUtils.Responses.PawnFix.Relinked".TranslateSimple());
         }
     }
 }

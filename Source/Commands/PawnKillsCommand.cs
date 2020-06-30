@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
@@ -15,7 +15,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
                 return;
             }
 
@@ -37,16 +37,17 @@ namespace SirRandoo.ToolkitUtils.Commands
                 RecordDefOf.KillsHumanlikes.label.LastIndexOf(')') - 7
             );
 
-            string container = "TKUtils.Formats.KeyValue"
-                .Translate("TKUtils.Misc.Total".Translate(), totalKills.ToString("N0"))
-                .RawText;
+            string container = ResponseHelper.JoinPair(
+                "TKUtils.Misc.Total".TranslateSimple(),
+                totalKills.ToString("N0")
+            );
 
-            container += "⎮";
+            container += ResponseHelper.OuterGroupSeparator;
             container += string.Join(
                 ", ",
-                "TKUtils.Formats.KeyValue".Translate(humanlikeLabel.CapitalizeFirst(), humanLikeKills.ToString("N0")),
-                "TKUtils.Formats.KeyValue".Translate(animalLabel.CapitalizeFirst(), animalKills.ToString("N0")),
-                "TKUtils.Formats.KeyValue".Translate(mechanoidLabel.CapitalizeFirst(), mechanoidKills.ToString("N0"))
+                ResponseHelper.JoinPair(humanlikeLabel.CapitalizeFirst(), humanLikeKills.ToString("N0")),
+                ResponseHelper.JoinPair(animalLabel.CapitalizeFirst(), animalKills.ToString("N0")),
+                ResponseHelper.JoinPair(mechanoidLabel.CapitalizeFirst(), mechanoidKills.ToString("N0"))
             );
 
 

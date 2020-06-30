@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
@@ -15,29 +15,27 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate("TabNeeds".Translate()));
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
                 return;
             }
 
             if (pawn.needs?.AllNeeds == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.PawnNeeds.None".Translate().WithHeader("TabNeeds".Translate()));
+                twitchMessage.Reply(
+                    "TKUtils.Responses.PawnNeeds.None".TranslateSimple().WithHeader("TabNeeds".TranslateSimple())
+                );
                 return;
             }
 
             twitchMessage.Reply(
-                string.Join(
-                        ", ",
-                        pawn.needs.AllNeeds.Select(
-                                n => "TKUtils.Formats.KeyValue".Translate(
-                                        n.LabelCap,
-                                        n.CurLevelPercentage.ToStringPercent()
-                                    )
-                                    .RawText
-                            )
-                            .ToArray()
+                pawn.needs.AllNeeds.Select(
+                        n => ResponseHelper.JoinPair(
+                            n.LabelCap,
+                            n.CurLevelPercentage.ToStringPercent()
+                        )
                     )
-                    .WithHeader("TabNeeds".Translate())
+                    .SectionJoin()
+                    .WithHeader("TabNeeds".TranslateSimple())
             );
         }
     }

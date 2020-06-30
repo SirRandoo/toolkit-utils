@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -50,7 +50,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             optionsListing.Gap();
             optionsListing.GapLine();
-            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Traits".Translate().RawText}", "Open"))
+            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Traits".TranslateSimple()}", "Open"))
             {
                 Find.WindowStack.Add(new TraitConfigDialog());
             }
@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             optionsListing.Gap();
             optionsListing.GapLine();
             if (optionsListing.ButtonTextLabeled(
-                Find.ActiveLanguageWorker.Pluralize($"[ToolkitUtils] {"Race".Translate().RawText}"),
+                Find.ActiveLanguageWorker.Pluralize($"[ToolkitUtils] {"Race".TranslateSimple()}"),
                 "Open"
             ))
             {

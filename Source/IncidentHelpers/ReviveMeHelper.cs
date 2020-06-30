@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (viewerPawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
                 return false;
             }
 
@@ -86,7 +86,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 PawnTracker.pawnsToRevive.Remove(pawn);
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Revival.Title".Translate(),
+                    "TKUtils.Letters.Revival.Title".TranslateSimple(),
                     "TKUtils.Letters.Revival.Description".Translate(pawn.Name),
                     LetterDefOf.PositiveEvent,
                     new LookTargets(pawn)

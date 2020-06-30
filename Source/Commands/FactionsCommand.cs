@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -19,22 +19,18 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!factions.Any())
             {
-                twitchMessage.Reply("TKUtils.Responses.NoFactions".WithHeader("Factions"));
+                twitchMessage.Reply("TKUtils.Responses.NoFactions".TranslateSimple().WithHeader("Factions"));
                 return;
             }
 
             twitchMessage.Reply(
-                string.Join(
-                    ", ",
-                    factions.Select(
-                            f => "TKUtils.Formats.KeyValue".Translate(
-                                    f.GetCallLabel(),
-                                    f.PlayerGoodwill.ToStringWithSign()
-                                )
-                                .ToString()
+                factions.Select(
+                        f => ResponseHelper.JoinPair(
+                            f.GetCallLabel(),
+                            f.PlayerGoodwill.ToStringWithSign()
                         )
-                        .ToArray()
-                )
+                    )
+                    .SectionJoin()
             );
         }
     }

@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
@@ -23,22 +23,16 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static string GetModListString()
         {
-            return string.Join(
-                ", ",
-                TkUtils.ModListCache
-                    .Select(m => m.name)
-                    .ToArray()
-            );
+            return TkUtils.ModListCache
+                .Select(m => m.name)
+                .SectionJoin();
         }
 
         private static string GetModListStringVersioned()
         {
-            return string.Join(
-                ", ",
-                TkUtils.ModListCache
-                    .Select(m => $"{TryFavoriteMod(m.name)} (v{m.version ?? "?"})")
-                    .ToArray()
-            );
+            return TkUtils.ModListCache
+                .Select(m => $"{TryFavoriteMod(m.name)} (v{m.version ?? "?"})")
+                .SectionJoin();
         }
 
         private static string TryFavoriteMod(string mod)

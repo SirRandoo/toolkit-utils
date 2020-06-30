@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -81,8 +81,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.MassRevival.Title".Translate(),
-                "TKUtils.Letters.MassRevival.Description".Translate(),
+                "TKUtils.Letters.MassRevival.Title".TranslateSimple(),
+                "TKUtils.Letters.MassRevival.Description".TranslateSimple(),
                 LetterDefOf.PositiveEvent
             );
         }

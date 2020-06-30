@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -19,11 +19,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabGear".Translate()));
+                twitchMessage.Reply(
+                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("TabGear".TranslateSimple())
+                );
                 return;
             }
 
-            twitchMessage.Reply(GetPawnGear(pawn).WithHeader("TabGear".Translate()));
+            twitchMessage.Reply(GetPawnGear(pawn).WithHeader("TabGear".TranslateSimple()));
         }
 
         private static float CalculateArmorRating(Pawn pawn, StatDef stat)
@@ -59,7 +61,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 string tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
                 string tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
-                parts.Add($"{"🌡".AltText("ComfyTemperatureRange".Translate().RawText)}{tempMin}~{tempMax}");
+                parts.Add(
+                    $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".TranslateSimple())}{tempMin}~{tempMax}"
+                );
             }
 
             if (TkSettings.ShowArmor)
@@ -71,22 +75,28 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (sharp > 0)
                 {
-                    stats.Add($"{"🗡".AltText("ArmorSharp".Translate().RawText)}{sharp.ToStringPercent()}");
+                    stats.Add(
+                        $"{ResponseHelper.DaggerGlyph.AltText("ArmorSharp".TranslateSimple())}{sharp.ToStringPercent()}"
+                    );
                 }
 
                 if (blunt > 0)
                 {
-                    stats.Add($"{"🍳".AltText("ArmorBlunt".Translate().RawText)}{blunt.ToStringPercent()}");
+                    stats.Add(
+                        $"{ResponseHelper.PanGlyph.AltText("ArmorBlunt".TranslateSimple())}{blunt.ToStringPercent()}"
+                    );
                 }
 
                 if (heat > 0)
                 {
-                    stats.Add($"{"🔥".AltText("ArmorHeat".Translate().RawText)}{heat.ToStringPercent()}");
+                    stats.Add(
+                        $"{ResponseHelper.FireGlyph.AltText("ArmorHeat".TranslateSimple())}{heat.ToStringPercent()}"
+                    );
                 }
 
                 if (stats.Any())
                 {
-                    parts.Add($"{"OverallArmor".Translate().RawText}: {string.Join(", ", stats.ToArray())}");
+                    parts.Add($"{"OverallArmor".TranslateSimple()}: {stats.SectionJoin()}");
                 }
             }
 
@@ -168,40 +178,36 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (weapons.Any())
                 {
-                    string section = "Stat_Weapon_Name".Translate().RawText;
+                    string section = "Stat_Weapon_Name".TranslateSimple();
 
                     if (weapons.Count > 1)
                     {
                         section = Find.ActiveLanguageWorker.Pluralize(section);
                     }
 
-                    parts.Add(
-                        $"{section}: {string.Join(", ", weapons.ToArray())}"
-                    );
+                    parts.Add($"{section}: {weapons.SectionJoin()}");
                 }
             }
 
             if (!TkSettings.ShowApparel)
             {
-                return string.Join("⎮", parts.ToArray());
+                return parts.GroupedJoin();
             }
 
             Pawn_ApparelTracker a = pawn.apparel;
 
             if (a == null || a.WornApparelCount <= 0)
             {
-                return string.Join("⎮", parts.ToArray());
+                return parts.GroupedJoin();
             }
 
             List<Apparel> apparel = a.WornApparel;
 
             parts.Add(
-                $"{"Apparel".Translate().RawText}: {string.Join(", ", apparel.Select(item => item.LabelCap).ToArray())}"
+                $"{"Apparel".TranslateSimple()}: {apparel.Select(item => item.LabelCap).SectionJoin()}"
             );
 
-            return !parts.Any()
-                ? "None".Translate().RawText
-                : string.Join("⎮", parts.ToArray());
+            return !parts.Any() ? "None".TranslateSimple() : parts.GroupedJoin();
         }
     }
 }

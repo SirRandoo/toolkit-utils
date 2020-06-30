@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -18,7 +18,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("TabHealth".Translate()));
+                twitchMessage.Reply(
+                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("TabHealth".TranslateSimple())
+                );
                 return;
             }
 
@@ -26,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (segment.NullOrEmpty())
             {
-                twitchMessage.Reply(HealthReport(pawn).WithHeader("TabHealth".Translate()));
+                twitchMessage.Reply(HealthReport(pawn).WithHeader("TabHealth".TranslateSimple()));
                 return;
             }
 
@@ -41,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     capacity == null
                         ? HealthReport(pawn)
                         : HealthCapacityReport(pawn, capacity)
-                ).WithHeader("TabHealth".Translate())
+                ).WithHeader("TabHealth".TranslateSimple())
             );
         }
 
@@ -50,9 +52,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             switch (state)
             {
                 case PawnHealthState.Down:
-                    return "💫".AltText("DownedLower".Translate().CapitalizeFirst());
+                    return ResponseHelper.DazedGlyph.AltText("DownedLower".TranslateSimple().CapitalizeFirst());
                 case PawnHealthState.Dead:
-                    return "👻".AltText("Dead".Translate());
+                    return ResponseHelper.GhostGlyph.AltText("Dead".TranslateSimple());
                 default:
                     return string.Empty;
             }
@@ -62,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if (subject.MentalStateDef != null)
             {
-                return "⚡".AltText(subject.MentalStateDef.LabelCap);
+                return ResponseHelper.LightningGlyph.AltText(subject.MentalStateDef.LabelCap);
             }
 
             float thresholdExtreme = subject.mindState.mentalBreaker.BreakThresholdExtreme;
@@ -70,27 +72,27 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (moodLevel < thresholdExtreme)
             {
-                return "🤬".AltText("Mood_AboutToBreak");
+                return ResponseHelper.AboutToBreakGlyph.AltText("Mood_AboutToBreak".TranslateSimple());
             }
 
             if (moodLevel < thresholdExtreme + 0.0500000007450581)
             {
-                return "😠".AltText("Mood_OnEdge");
+                return ResponseHelper.OnEdgeGlyph.AltText("Mood_OnEdge".TranslateSimple());
             }
 
             if (moodLevel < subject.mindState.mentalBreaker.BreakThresholdMinor)
             {
-                return "😣".AltText("Mood_Stressed");
+                return ResponseHelper.StressedGlyph.AltText("Mood_Stressed".TranslateSimple());
             }
 
             if (moodLevel < 0.649999976158142)
             {
-                return "😐".AltText("Mood_Neutral");
+                return ResponseHelper.NeutralGlyph.AltText("Mood_Neutral".TranslateSimple());
             }
 
             return moodLevel < 0.899999976158142
-                ? "🙂".AltText("Mood_Content".Translate())
-                : "😊".AltText("Mood_Happy".Translate());
+                ? ResponseHelper.ContentGlyph.AltText("Mood_Content".TranslateSimple())
+                : ResponseHelper.HappyGlyph.AltText("Mood_Happy".TranslateSimple());
         }
 
         private static string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
@@ -106,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             var impactors = new List<PawnCapacityUtility.CapacityImpactor>();
             var segments = new List<string>
             {
-                "TKUtils.Formats.KeyValue".Translate(
+                ResponseHelper.JoinPair(
                     capacity.LabelCap,
                     PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
                         .ToStringPercent()
@@ -150,15 +152,15 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
 
                 segments.Add(
-                    "TKUtils.Formats.PawnHealth.Impactors".Translate(string.Join(", ", parts))
+                    "TKUtils.Formats.PawnHealth.Impactors".Translate(parts.SectionJoin())
                 );
             }
             else
             {
-                segments.Add("NoHealthConditions".Translate().CapitalizeFirst());
+                segments.Add("NoHealthConditions".TranslateSimple().CapitalizeFirst());
             }
 
-            return string.Join("⎮", segments.ToArray());
+            return segments.GroupedJoin();
         }
 
         private static string HealthReport(Pawn pawn)
@@ -185,8 +187,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 segments.Add(
                     ticks >= 60000
-                        ? "🩸⌛".AltText("WontBleedOutSoon".Translate().CapitalizeFirst())
-                        : $"{"🩸⏳".AltText("BleedingRate".Translate().RawText)} ({ticks.ToStringTicksToPeriod(shortForm: true)})"
+                        ? ResponseHelper.BleedingSafeGlyphs.AltText(
+                            "WontBleedOutSoon".TranslateSimple().CapitalizeFirst()
+                        )
+                        : $"{ResponseHelper.BleedingBadGlyphs.AltText("BleedingRate".TranslateSimple())} ({ticks.ToStringTicksToPeriod(shortForm: true)})"
                 );
             }
 
@@ -221,34 +225,33 @@ namespace SirRandoo.ToolkitUtils.Commands
                 string[] capacities = source
                     .Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
                     .Select(
-                        capacity => "TKUtils.Formats.KeyValue".Translate(
+                        capacity => ResponseHelper.JoinPair(
                             capacity.GetLabelFor(pawn).CapitalizeFirst(),
                             HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First
                         )
                     )
-                    .Select(dummy => (string) dummy)
                     .ToArray();
 
-                segments.Add(string.Join(", ", capacities));
+                segments.Add(capacities.SectionJoin());
             }
 
             if (!TkSettings.ShowSurgeries)
             {
-                return string.Join("⎮", segments.ToArray());
+                return segments.GroupedJoin();
             }
 
             BillStack surgeries = pawn.health.surgeryBills;
 
             if (surgeries == null || surgeries.Count <= 0)
             {
-                return string.Join("⎮", segments.ToArray());
+                return segments.GroupedJoin();
             }
 
             string[] queued = surgeries.Bills.Select(item => item.LabelCap).ToArray();
 
-            segments.Add("TKUtils.Formats.PawnHealth.Surgeries".Translate(string.Join(", ", queued)));
+            segments.Add("TKUtils.Formats.PawnHealth.Surgeries".Translate(queued.SectionJoin()));
 
-            return string.Join("⎮", segments.ToArray());
+            return segments.GroupedJoin();
         }
     }
 }

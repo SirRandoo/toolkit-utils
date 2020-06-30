@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.NoPawn".Translate());
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
                 return false;
             }
 
@@ -50,11 +50,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.Immortality".Translate());
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.Immortality".TranslateSimple());
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.Immortality.Title".Translate(),
+                "TKUtils.Letters.Immortality.Title".TranslateSimple(),
                 "TKUtils.Letters.Immortality.Description".Translate(Viewer.username),
                 LetterDefOf.NeutralEvent,
                 pawn

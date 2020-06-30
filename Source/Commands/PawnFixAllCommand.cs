@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            twitchMessage.Reply("TKUtils.Responses.PawnFixAll.Relinked".Translate());
+            twitchMessage.Reply("TKUtils.Responses.PawnFixAll.Relinked".TranslateSimple());
         }
     }
 }

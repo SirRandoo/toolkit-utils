@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -17,11 +17,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate().WithHeader("HealthOverview".Translate()));
+                twitchMessage.Reply(
+                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("HealthOverview".TranslateSimple())
+                );
                 return;
             }
 
-            twitchMessage.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Translate()));
+            twitchMessage.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".TranslateSimple()));
         }
 
         private static float GetListPriority(BodyPartRecord record)
@@ -35,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (hediffs == null || !hediffs.Any())
             {
-                return "NoHealthConditions".Translate().CapitalizeFirst();
+                return "NoHealthConditions".TranslateSimple().CapitalizeFirst();
             }
 
             IEnumerable<IGrouping<BodyPartRecord, Hediff>> hediffsGrouped = GetVisibleHediffGroupsInOrder(target);
@@ -46,12 +48,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                 string tempMin = target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
                 string tempMax = target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
-                parts.Add($"{"🌡".AltText("ComfyTemperatureRange".Translate().RawText)}{tempMin}~{tempMax}");
+                parts.Add(
+                    $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".TranslateSimple())}{tempMin}~{tempMax}"
+                );
             }
 
             foreach (IGrouping<BodyPartRecord, Hediff> item in hediffsGrouped)
             {
-                string bodyPart = item.Key?.LabelCap ?? "WholeBody".Translate();
+                string bodyPart = item.Key?.LabelCap ?? "WholeBody".TranslateSimple();
                 var bits = new List<string>();
 
                 foreach (IGrouping<int, Hediff> group in item.GroupBy(h => h.UIGroupKey))
@@ -67,26 +71,21 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                     if (group.Count(i => i.Bleeding) > 0)
                     {
-                        display = "🩸".AltText("BleedingRate".Translate().RawText) + display;
+                        display = ResponseHelper.BleedingGlyph.AltText("BleedingRate".TranslateSimple()) + display;
                     }
 
                     if (group.All(i => i.IsTended()))
                     {
-                        display = "🩹".AltText("") + display;
+                        display = ResponseHelper.BandageGlyph.AltText("") + display;
                     }
 
                     bits.Add(display);
                 }
 
-                parts.Add(
-                    "TKUtils.Formats.KeyValue".Translate(
-                        bodyPart,
-                        string.Join(", ", bits.ToArray())
-                    )
-                );
+                parts.Add(ResponseHelper.JoinPair(bodyPart, bits.SectionJoin()));
             }
 
-            return string.Join("⎮", parts.ToArray());
+            return parts.GroupedJoin();
         }
 
         private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder(Pawn pawn)

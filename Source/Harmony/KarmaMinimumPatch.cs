@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -12,7 +12,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly]
     public class KarmaMinimumPatch
     {
-        private static readonly FieldInfo settingMarker = AccessTools.Field(typeof(ToolkitSettings), "KarmaMinimum");
+        private static readonly FieldInfo SettingMarker = AccessTools.Field(typeof(ToolkitSettings), "KarmaMinimum");
 
         [HarmonyTranspiler]
         [UsedImplicitly]
@@ -22,7 +22,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Ldsflda && instruction.OperandIs(settingMarker))
+                if (instruction.opcode == OpCodes.Ldsflda && instruction.OperandIs(SettingMarker))
                 {
                     marker = true;
                 }

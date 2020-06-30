@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
@@ -22,26 +22,28 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var container = new List<string>();
-            string coins = ToolkitSettings.UnlimitedCoins ? "∞" : viewer.GetViewerCoins().ToString("N0");
+            string coins = ToolkitSettings.UnlimitedCoins
+                ? ResponseHelper.InfinityGlyph
+                : viewer.GetViewerCoins().ToString("N0");
             var karma = (viewer.GetViewerKarma() / 100f).ToString("P0");
 
             if (TkSettings.Emojis)
             {
-                container.Add($"💰 {coins}");
-                container.Add($"⚖ {karma}");
+                container.Add($"{ResponseHelper.CoinGlyph} {coins}");
+                container.Add($"{ResponseHelper.KarmaGlyph} {karma}");
             }
             else
             {
                 container.Add(
-                    "TKUtils.Formats.KeyValue".Translate(
-                        "TKUtils.Responses.Balance.Coins".Translate().CapitalizeFirst(),
+                    ResponseHelper.JoinPair(
+                        "TKUtils.Responses.Balance.Coins".TranslateSimple().CapitalizeFirst(),
                         coins
                     )
                 );
 
                 container.Add(
-                    "TKUtils.Formats.KeyValue".Translate(
-                        "TKUtils.Responses.Balance.Karma".Translate().CapitalizeFirst(),
+                    ResponseHelper.JoinPair(
+                        "TKUtils.Responses.Balance.Karma".TranslateSimple().CapitalizeFirst(),
                         karma
                     )
                 );
@@ -54,8 +56,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 container.Add(
                     (
                         income > 0
-                            ? $"📈 +{income:N0}"
-                            : $"📉 {income:N0}"
+                            ? $"{ResponseHelper.IncomeGlyph} +{income:N0}"
+                            : $"{ResponseHelper.DebtGlyph} {income:N0}"
                     ).AltText(
                         "TKUtils.Responses.Balance.Rate".Translate(
                             CalculateCoinAward(viewer),
@@ -65,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
             }
 
-            twitchMessage.Reply(string.Join("⎮", container.ToArray()));
+            twitchMessage.Reply(container.GroupedJoin());
         }
 
         private static int CalculateCoinAward(Viewer viewer)

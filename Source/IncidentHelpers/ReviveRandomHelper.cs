@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 PawnTracker.pawnsToRevive.Remove(pawn);
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Revival.Title".Translate(),
+                    "TKUtils.Letters.Revival.Title".TranslateSimple(),
                     "TKUtils.Letters.Revival.Description".Translate(pawn.Name),
                     LetterDefOf.PositiveEvent,
                     new LookTargets(pawn)

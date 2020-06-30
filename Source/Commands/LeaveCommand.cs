@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using RimWorld;
 using RimWorld.Planet;
 using SirRandoo.ToolkitUtils.Utils;
@@ -18,13 +18,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
                 return;
             }
 
             if (pawn.IsCaravanMember())
             {
-                twitchMessage.Reply("TKUtils.Responses.Leave.Caravan".Translate());
+                twitchMessage.Reply("TKUtils.Responses.Leave.Caravan".TranslateSimple());
                 return;
             }
 
@@ -37,9 +37,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                     Mathf.CeilToInt(pawn.BodySize * 0.6f)
                 ))
             {
-                twitchMessage.Reply("TKUtils.Responses.Leave.Thanos".Translate());
+                twitchMessage.Reply("TKUtils.Responses.Leave.Thanos".TranslateSimple());
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Leave.Thanos.Title".Translate(),
+                    "TKUtils.Letters.Leave.Thanos.Title".TranslateSimple(),
                     "TKUtils.Letters.Leave.Thanos.Description".Translate(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
@@ -53,9 +53,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                     pawn.Strip();
                 }
 
-                twitchMessage.Reply("TKUtils.Responses.Leave.Generic".Translate());
+                twitchMessage.Reply("TKUtils.Responses.Leave.Generic".TranslateSimple());
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Leave.Generic.Title".Translate(),
+                    "TKUtils.Letters.Leave.Generic.Title".TranslateSimple(),
                     "TKUtils.Letters.Leave.Generic.Description".Translate(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)

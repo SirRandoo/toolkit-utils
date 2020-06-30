@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
@@ -16,7 +16,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             twitchMessage.Reply(
-                "TKUtils.Formats.KeyValue".Translate(
+                ResponseHelper.JoinPair(
                     "TKUtils.Responses.Wealth".TranslateSimple(),
                     Current.Game.CurrentMap.PlayerWealthForStoryteller.ToString("N0")
                 )

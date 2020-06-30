@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -18,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (pawn == null)
             {
                 twitchMessage.Reply(
-                    "TKUtils.Responses.NoPawn".Translate().WithHeader("TKUtils.Headers.Work".Translate())
+                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("TKUtils.Headers.Work".TranslateSimple())
                 );
                 return;
             }
@@ -26,7 +26,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (pawn.workSettings == null || (!pawn.workSettings?.EverWork ?? true))
             {
                 twitchMessage.Reply(
-                    "TKUtils.Responses.PawnWork.None".Translate().WithHeader("TKUtils.Headers.Work".Translate())
+                    "TKUtils.Responses.PawnWork.None".TranslateSimple()
+                        .WithHeader("TKUtils.Headers.Work".TranslateSimple())
                 );
                 return;
             }
@@ -80,18 +81,18 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
 
                 container.Add(
-                    "TKUtils.Formats.KeyValue".Translate(
+                    ResponseHelper.JoinPair(
                         priority.LabelCap.NullOrEmpty()
                             ? priority.defName.CapitalizeFirst()
                             : priority.LabelCap.RawText,
-                        p
+                        p.ToString()
                     )
                 );
             }
 
             if (container.Count > 0)
             {
-                twitchMessage.Reply(string.Join(", ", container).WithHeader("TKUtils.Headers.Work".Translate()));
+                twitchMessage.Reply(container.SectionJoin().WithHeader("TKUtils.Headers.Work".TranslateSimple()));
             }
         }
     }

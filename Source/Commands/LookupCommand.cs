@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            string formatted = string.Join(", ", results.Take(TkSettings.LookupLimit));
+            string formatted = results.Take(TkSettings.LookupLimit).SectionJoin();
 
             msg.Reply("TKUtils.Formats.Lookup".Translate(query, formatted));
         }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -55,8 +55,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.MassHeal.Title".Translate(),
-                "TKUtils.Letters.MassHeal.Description".Translate(),
+                "TKUtils.Letters.MassHeal.Title".TranslateSimple(),
+                "TKUtils.Letters.MassHeal.Description".TranslateSimple(),
                 LetterDefOf.PositiveEvent
             );
         }

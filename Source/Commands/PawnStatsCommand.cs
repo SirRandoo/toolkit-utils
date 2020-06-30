@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".Translate());
+                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!stats.Any())
             {
-                twitchMessage.Reply("TKUtils.Responses.PawnStats.None".Translate());
+                twitchMessage.Reply("TKUtils.Responses.PawnStats.None".TranslateSimple());
                 return;
             }
 
@@ -86,11 +86,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             string[] parts = stats
-                .Select(s => "TKUtils.Formats.KeyValue".Translate(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
-                .Select(s => s.RawText)
+                .Select(s => ResponseHelper.JoinPair(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
                 .ToArray();
 
-            twitchMessage.Reply(string.Join(", ", parts));
+            twitchMessage.Reply(parts.SectionJoin());
         }
     }
 }

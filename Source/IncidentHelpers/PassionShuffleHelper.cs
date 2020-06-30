@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (viewerPawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
                 return false;
             }
 
@@ -40,7 +40,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (passions <= 0)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.PassionShuffle.NoPassions".Translate());
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.PassionShuffle.NoPassions".TranslateSimple()
+                );
                 return false;
             }
 
@@ -93,11 +96,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.PassionShuffle.Shuffled".Translate());
+                MessageHelper.ReplyToUser(
+                    Viewer.username,
+                    "TKUtils.Responses.PassionShuffle.Shuffled".TranslateSimple()
+                );
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.PassionShuffle.Title".Translate(),
+                "TKUtils.Letters.PassionShuffle.Title".TranslateSimple(),
                 "TKUtils.Letters.PassionShuffle.Description".Translate(Viewer.username),
                 LetterDefOf.NeutralEvent,
                 pawn
@@ -168,8 +174,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 .Where(s => (int) s.passion >= 3)
                 .Select(s => s.passion)
                 .ToList();
-
-            TkLogger.Info($"Interest count: {interests.Count}");
 
             foreach (SkillRecord skill in pawn.skills.skills)
             {

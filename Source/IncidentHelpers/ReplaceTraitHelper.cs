@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -56,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".Translate());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
                 return false;
             }
 
@@ -132,7 +132,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (traits?.Count <= 0)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.RemoveTrait.None".Translate());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.RemoveTrait.None".TranslateSimple());
                 return false;
             }
 
@@ -222,7 +222,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.Letters.Trait.Title".Translate(),
+                "TKUtils.Letters.Trait.Title".TranslateSimple(),
                 "TKUtils.Letters.TraitReplace.Description".Translate(
                     Viewer.username,
                     replaceThisTrait.LabelCap,

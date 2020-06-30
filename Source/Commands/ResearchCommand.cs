@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
@@ -47,16 +47,16 @@ namespace SirRandoo.ToolkitUtils.Commands
                 twitchMessage.Reply(
                     (
                         !query.NullOrEmpty()
-                            ? "TKUtils.Responses.Research.QueryInvalid".Translate(query)
-                            : "TKUtils.Responses.Research.None".Translate()
-                    ).WithHeader("Research".Translate())
+                            ? "TKUtils.Responses.Research.QueryInvalid".Translate(query).RawText
+                            : "TKUtils.Responses.Research.None".TranslateSimple()
+                    ).WithHeader("Research".TranslateSimple())
                 );
                 return;
             }
 
             var segments = new List<string>
             {
-                "TKUtils.Formats.KeyValue".Translate(project.LabelCap, project.ProgressPercent.ToStringPercent())
+                ResponseHelper.JoinPair(project.LabelCap, project.ProgressPercent.ToStringPercent())
             };
 
             if (project.prerequisites != null && !project.PrerequisitesCompleted)
@@ -65,18 +65,17 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 string[] container = prerequisites.Where(prerequisite => !prerequisite.IsFinished)
                     .Select(
-                        prerequisite => "TKUtils.Formats.KeyValue".Translate(
+                        prerequisite => ResponseHelper.JoinPair(
                             prerequisite.LabelCap,
                             prerequisite.ProgressPercent.ToStringPercent()
                         )
                     )
-                    .Select(dummy => (string) dummy)
                     .ToArray();
 
-                segments.Add($"{"ResearchPrerequisites".Translate().RawText}: {string.Join(", ", container)}");
+                segments.Add($"{"ResearchPrerequisites".TranslateSimple()}: {container.SectionJoin()}");
             }
 
-            twitchMessage.Reply(string.Join("⎮", segments).WithHeader("Research".Translate()));
+            twitchMessage.Reply(segments.GroupedJoin().WithHeader("Research".TranslateSimple()));
         }
     }
 }
