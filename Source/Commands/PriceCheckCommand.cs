@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
@@ -91,13 +91,25 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            Notify__LookupComplete(
-                query,
-                "TKUtils.Formats.PriceCheck.Limited".Translate(
-                    result.abbreviation.CapitalizeFirst(),
-                    result.cost.ToString("N0")
-                )
-            );
+            EventTypes eventType = result.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None;
+            switch (eventType)
+            {
+                case EventTypes.None:
+                    Notify__LookupComplete(
+                        query,
+                        "TKUtils.Formats.PriceCheck.Limited".Translate(
+                            result.abbreviation.CapitalizeFirst(),
+                            result.cost.ToString("N0")
+                        )
+                    );
+                    return;
+                default:
+                    Notify__LookupComplete(
+                        query,
+                        $"TKUtils.Responses.PriceCheck.Overriden.{eventType.ToString()}".TranslateSimple()
+                    );
+                    return;
+            }
         }
 
         private void PerformItemLookup(string query, int quantity)
@@ -210,7 +222,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Notify__LookupComplete(
                 query,
-                $"{result.Name.ToToolkit().CapitalizeFirst()} - {string.Join(" / ", parts.ToArray())}"
+                $"{result.Name.ToToolkit().CapitalizeFirst()} - {parts.Join(" / ")}"
             );
         }
     }

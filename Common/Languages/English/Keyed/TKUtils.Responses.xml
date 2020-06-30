@@ -131,6 +131,9 @@
     <TKUtils.Responses.PriceCheck.Trait.Add>{0} coins to add</TKUtils.Responses.PriceCheck.Trait.Add>
     <TKUtils.Responses.PriceCheck.Trait.Remove>{0} coins to remove</TKUtils.Responses.PriceCheck.Trait.Remove>
     <TKUtils.Formats.PriceCheck.Limited>{0} - {1} coins</TKUtils.Formats.PriceCheck.Limited>
+    <TKUtils.Responses.PriceCheck.Overriden.Trait>To see the pricing for a trait, you can use the "traits" category in the price check command.</TKUtils.Responses.PriceCheck.Overriden.Trait>
+    <TKUtils.Responses.PriceCheck.Overriden.Race>To see the pricing for a race, you can use the "races" category in the price check command.</TKUtils.Responses.PriceCheck.Overriden.Race>
+    <TKUtils.Responses.PriceCheck.Overriden.Item>To see the pricing for an item, you can use the "items" category in the price check command.</TKUtils.Responses.PriceCheck.Overriden.Item>
     
     <!-- Letter Translations -->
     <TKUtils.Letters.Revival.Title>Pawn Revived</TKUtils.Letters.Revival.Title>
