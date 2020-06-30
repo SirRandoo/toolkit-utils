@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
@@ -10,6 +12,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
+    [UsedImplicitly]
     public class ReplaceTraitHelper : IncidentHelperVariables
     {
         private Pawn pawn;
@@ -24,6 +27,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override Viewer Viewer { get; set; }
 
+        [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             if (viewer == null)

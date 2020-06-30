@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Settings;
 using TwitchToolkit.Windows;
@@ -22,9 +23,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
     }
 
     [HarmonyPatch(typeof(Settings_Store), "DoWindowContents")]
+    [UsedImplicitly]
     public static class SettingsStorePatch
     {
         [HarmonyTranspiler]
+        [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             foreach (CodeInstruction instruction in instructions)
@@ -46,9 +49,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
     }
 
     [HarmonyPatch(typeof(StoreIncidentEditor), "DoWindowContents")]
+    [UsedImplicitly]
     public static class StoreIncidentEditorShopPatch
     {
         [HarmonyTranspiler]
+        [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             foreach (CodeInstruction instruction in instructions)

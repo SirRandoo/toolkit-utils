@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using HarmonyLib;
+using JetBrains.Annotations;
 using RimWorld;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
@@ -11,9 +12,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Alert_UnnamedColonist), "GetReport")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [UsedImplicitly]
     public class AlertUnnamedColonistPatch
     {
         [HarmonyPrefix]
+        [UsedImplicitly]
+        [SuppressMessage("ReSharper", "RedundantAssignment")]
         public static bool Prefix(ref AlertReport __result)
         {
             __result = false;

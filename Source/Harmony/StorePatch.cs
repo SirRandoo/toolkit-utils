@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Settings;
 using Verse;
@@ -9,9 +10,11 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Settings_Store), "DoWindowContents")]
+    [UsedImplicitly]
     public static class StorePatch
     {
         [HarmonyTranspiler]
+        [UsedImplicitly]
         public static IEnumerable<CodeInstruction> DoWindowContents(IEnumerable<CodeInstruction> instructions)
         {
             MethodInfo method = AccessTools.Method(typeof(StorePatch), nameof(DrawUtilsContents));

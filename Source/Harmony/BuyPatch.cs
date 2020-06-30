@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -10,9 +11,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Buy), "RunCommand")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [UsedImplicitly]
     public class BuyPatch
     {
         [HarmonyPrefix]
+        [UsedImplicitly]
         public static bool Prefix(CommandDriver __instance, ITwitchMessage twitchMessage)
         {
             if (__instance == null)
@@ -38,9 +41,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            // TkLogger.Info($"{twitchMessage.Message} → {message.Message}");
             Purchase_Handler.ResolvePurchase(viewer, message);
-
             return false;
         }
     }

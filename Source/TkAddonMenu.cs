@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Interfaces;
 using ToolkitCore.Windows;
@@ -7,6 +8,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
+    [UsedImplicitly]
     public class TkAddonMenu : IAddonMenu
     {
         public List<FloatMenuOption> MenuOptions()

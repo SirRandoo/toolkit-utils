@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
@@ -11,6 +12,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
+    [UsedImplicitly]
     public class LookupCommand : CommandBase
     {
         internal static readonly Dictionary<string, string> Index = new Dictionary<string, string>

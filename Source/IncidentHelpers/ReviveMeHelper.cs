@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -10,11 +12,13 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
+    [UsedImplicitly]
     public class ReviveMeHelper : IncidentHelperVariables
     {
         private Pawn pawn;
         public override Viewer Viewer { get; set; }
 
+        [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             Viewer = viewer;

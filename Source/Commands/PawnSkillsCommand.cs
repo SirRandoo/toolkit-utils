@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
@@ -8,6 +9,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
+    [UsedImplicitly]
     public class PawnSkillsCommand : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

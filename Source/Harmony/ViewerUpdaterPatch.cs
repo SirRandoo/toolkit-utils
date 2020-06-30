@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using JetBrains.Annotations;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
@@ -9,9 +10,11 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(ViewerUpdater), "ParseMessage")]
+    [UsedImplicitly]
     public class ViewerUpdaterPatch
     {
         [HarmonyPrefix]
+        [UsedImplicitly]
         public static bool Prefix(ITwitchMessage twitchMessage)
         {
             if (twitchMessage?.ChatMessage == null)

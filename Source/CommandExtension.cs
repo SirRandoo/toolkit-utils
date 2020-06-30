@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using TwitchToolkit;
 using Verse;
 
@@ -6,10 +7,13 @@ namespace SirRandoo.ToolkitUtils
 {
     public enum UserLevels
     {
-        Anyone, Vip, Subscriber,
+        Anyone,
+        Vip,
+        Subscriber,
         Moderator
     }
 
+    [UsedImplicitly]
     public class Parameter
     {
         [Description("The name of this parameter.")]
@@ -25,6 +29,7 @@ namespace SirRandoo.ToolkitUtils
         }
     }
 
+    [UsedImplicitly]
     public class CommandExtension : DefModExtension
     {
         [Description("A brief overview of what the command does.")]

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
@@ -9,6 +10,7 @@ using Verse.AI;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
+    [UsedImplicitly]
     public class InsultCommand : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

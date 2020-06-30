@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
@@ -11,6 +13,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
+    [UsedImplicitly]
     public class BuySurgeryHelper : IncidentHelperVariables
     {
         private Map map;
@@ -22,6 +25,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
         public override Viewer Viewer { get; set; }
 
+        [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             if (viewer == null)

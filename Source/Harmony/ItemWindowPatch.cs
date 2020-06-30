@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Windows;
 using Verse;
@@ -9,9 +10,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(StoreItemsWindow), "PostClose")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [UsedImplicitly]
     public class ItemWindowPatch
     {
         [HarmonyPrefix]
+        [UsedImplicitly]
         public static void PostClose(List<ThingDef> ___cachedTradeables, List<int> ___tradeablesPrices)
         {
             for (var i = 0; i < ___cachedTradeables.Count; i++)

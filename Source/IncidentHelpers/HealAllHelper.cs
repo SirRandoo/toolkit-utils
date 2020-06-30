@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Store;
@@ -6,6 +7,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
+    [UsedImplicitly]
     public class HealAllHelper : IncidentHelper
     {
         private readonly List<Hediff> healQueue = new List<Hediff>();

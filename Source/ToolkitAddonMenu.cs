@@ -1,5 +1,5 @@
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Interfaces;
@@ -12,6 +12,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
+    [UsedImplicitly]
     public class ToolkitAddonMenu : IAddonMenu
     {
         public List<FloatMenuOption> MenuOptions()

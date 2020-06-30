@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Incidents;
@@ -13,12 +14,10 @@ using UnityEngine;
 using Verse;
 using Verse.Steam;
 
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable UnusedType.Global
-
 namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
+    [UsedImplicitly]
     public static class TkUtilsStatic
     {
         static TkUtilsStatic()
@@ -98,6 +97,7 @@ namespace SirRandoo.ToolkitUtils
         }
     }
 
+    [UsedImplicitly]
     public class TkUtils : Mod
     {
         public const string Id = "ToolkitUtils";

@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+using HarmonyLib;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Windows;
 using UnityEngine;
@@ -7,9 +8,11 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Window_Viewers), "DoWindowContents")]
+    [UsedImplicitly]
     public static class ViewerWindowPatch
     {
         [HarmonyPostfix]
+        [UsedImplicitly]
         public static void Postfix(Rect inRect)
         {
             TaggedString text = "TKUtils.Windows.Purge.Button.Label".Translate();

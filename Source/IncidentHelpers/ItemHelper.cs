@@ -1,5 +1,8 @@
-﻿namespace SirRandoo.ToolkitUtils.IncidentHelpers
+﻿using JetBrains.Annotations;
+
+namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
+    [UsedImplicitly]
     public class ItemHelper
     {
     }

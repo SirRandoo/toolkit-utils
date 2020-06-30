@@ -1,10 +1,12 @@
-﻿using RimWorld;
+using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
+    [UsedImplicitly]
     public class PawnKillsCommand : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

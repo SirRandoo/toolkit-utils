@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Store;
@@ -10,9 +11,11 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Store_ItemEditor), "UpdateStoreItemList")]
+    [UsedImplicitly]
     public class StoreItemEditorPatch
     {
         [HarmonyPrefix]
+        [UsedImplicitly]
         public static void Prefix()
         {
             List<Item> inventory = StoreInventory.items;

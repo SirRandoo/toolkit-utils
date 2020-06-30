@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -8,6 +9,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
+    [UsedImplicitly]
     public class BalanceCommand : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

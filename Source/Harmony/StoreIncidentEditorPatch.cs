@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using JetBrains.Annotations;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
@@ -8,9 +9,11 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Store_IncidentEditor), "UpdatePriceSheet")]
+    [UsedImplicitly]
     public static class StoreIncidentEditorPatch
     {
         [HarmonyPrefix]
+        [UsedImplicitly]
         public static void Prefix()
         {
             IEnumerable<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefs;

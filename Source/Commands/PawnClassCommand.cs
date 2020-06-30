@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchLib.Client.Models.Interfaces;
@@ -7,6 +8,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
+    [UsedImplicitly]
     public class PawnClassCommand : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

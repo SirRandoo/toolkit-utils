@@ -1,4 +1,6 @@
-﻿using RimWorld;
+using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit;
@@ -7,12 +9,14 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentHelpers
 {
+    [UsedImplicitly]
     public class ImmortalityHelper : IncidentHelperVariables
     {
         private Pawn pawn;
 
         public override Viewer Viewer { get; set; }
 
+        [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             Viewer = viewer;
