@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
     <TKUtils.Formats.KeyValue>{0}: {1}</TKUtils.Formats.KeyValue>
@@ -12,6 +12,7 @@
     <TKUtils.Responses.DisabledItem>The requested item is disabled.</TKUtils.Responses.DisabledItem>
     <TKUtils.Responses.DisabledItem.Informative>The requested item ({0}) is disabled.</TKUtils.Responses.DisabledItem.Informative>
     <TKUtils.Responses.ViewerNotFound>{0} is not in this colony.</TKUtils.Responses.ViewerNotFound>
+    <TKUtils.Responses.Unstuck>Unstuck {0} viewers.</TKUtils.Responses.Unstuck>
     
     <!-- Store Toggle Translations -->
     <TKUtils.Responses.StoreState.Enabled>Toolkit's store has been enabled.</TKUtils.Responses.StoreState.Enabled>

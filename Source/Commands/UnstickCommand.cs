@@ -1,8 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Store;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
@@ -15,7 +16,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
 
-            twitchMessage.Reply($"Unstuck {stuck.ToString()} viewers.");
+            twitchMessage.Reply("TKUtils.Responses.Unstuck".Translate(stuck.ToString()));
         }
     }
 }
