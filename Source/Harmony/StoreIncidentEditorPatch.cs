@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -19,10 +19,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             IEnumerable<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefs;
 
             foreach (StoreIncident incident in incidents.Where(
-                i => i.defName == "BuyPawn"
-                     || i.defName == "AddTrait"
-                     || i.defName == "RemoveTrait"
-                     || i.defName == "ReplaceTrait"
+                i => (i.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None) != EventTypes.None
             ))
             {
                 if (incident.cost <= 1)
