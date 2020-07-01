@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <LanguageData>
     <TKUtils.Formats.KeyValue>{0}: {1}</TKUtils.Formats.KeyValue>
@@ -86,6 +86,7 @@
     
     <!-- Replace Trait Translations -->
     <TKUtils.Responses.ReplaceTrait.Done>Replaced {0} with {1}.</TKUtils.Responses.ReplaceTrait.Done>
+    <TKUtils.Responses.ReplaceTrait.Violation>Cannot replace {0} with {1}; it would exceed the trait limit.</TKUtils.Responses.ReplaceTrait.Violation>
     
     <!-- HealMe Translations -->
     <TKUtils.Responses.HealMe.Healed>Your pawn has recovered from {0}.</TKUtils.Responses.HealMe.Healed>
@@ -111,6 +112,9 @@
     
     <!-- Lookup Translations -->
     <TKUtils.Formats.Lookup>Results for "{0}": {1}</TKUtils.Formats.Lookup>
+    
+    <!-- Database Translations -->
+    <TKUtils.Misc.Stats>Stats</TKUtils.Misc.Stats>
     
     <!-- Balance Translations -->
     <TKUtils.Responses.Balance.Coins>coins</TKUtils.Responses.Balance.Coins>

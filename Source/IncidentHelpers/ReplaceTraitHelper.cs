@@ -6,6 +6,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
+using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Store;
 using Verse;
@@ -93,6 +94,17 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.Responses.BuyTrait.AddDisabled".Translate(replaceThatShop.Name.CapitalizeFirst())
+                );
+                return false;
+            }
+
+            if (replaceThisShop.BypassLimit
+                && !replaceThatShop.BypassLimit
+                && pawn.story.traits.allTraits.Count > AddTraitSettings.maxTraits)
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.ReplaceTrait.Violation".Translate(replaceThisShop.Name, replaceThatShop.Name)
                 );
                 return false;
             }
