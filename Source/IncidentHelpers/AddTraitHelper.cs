@@ -117,6 +117,15 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            if (pawn.kindDef.disallowedTraits.Any(t => t.defName.Equals(traitDef.defName)))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.BuyTrait.Race".Translate(pawn.kindDef.LabelCap, traitQuery)
+                );
+                return false;
+            }
+
             trait = new Trait(traitDef, buyableTrait.Degree);
 
             foreach (Trait t in pawn.story.traits.allTraits.Where(

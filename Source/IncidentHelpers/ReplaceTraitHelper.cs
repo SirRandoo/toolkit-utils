@@ -165,8 +165,18 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.Race".Translate(toReplace, pawn.kindDef.LabelCap)
+                    "TKUtils.Responses.BuyTrait.Race".Translate(pawn.kindDef.LabelCap, toReplace)
                 );
+                return false;
+            }
+
+            if (pawn.kindDef.disallowedTraits.Any(t => t.defName.Equals(replaceThatTraitDef.defName)))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.BuyTrait.Race".Translate(pawn.kindDef.LabelCap, toReplaceWith)
+                );
+                return false;
             }
 
             List<Trait> traits = pawn.story.traits.allTraits;
