@@ -120,4 +120,19 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+    
+    <!--<TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>RescueMe</defName>
+        <label>rescue me</label>
+        <abbreviation>rescueme</abbreviation>
+        <cost>800</cost>
+        <eventCap>5</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.RescueMeHelper</incidentHelper>
+        <karmaType>Neutral</karmaType>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <Description>Creates a prisoner rescue quest for your kidnapped pawn.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>-->
 </Defs>
