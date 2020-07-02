@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -41,17 +41,17 @@ namespace SirRandoo.ToolkitUtils.Utils
             return "TKUtils.Formats.KeyValue".Translate(key, value);
         }
 
-        public static string Join(this IEnumerable l, string separator)
+        public static string Join(this IEnumerable<string> l, string separator)
         {
             return string.Join(separator, l);
         }
 
-        public static string GroupedJoin(this IEnumerable l)
+        public static string GroupedJoin(this IEnumerable<string> l)
         {
             return string.Join(OuterGroupSeparator, l);
         }
 
-        public static string SectionJoin(this IEnumerable l)
+        public static string SectionJoin(this IEnumerable<string> l)
         {
             return string.Join(", ", l);
         }
