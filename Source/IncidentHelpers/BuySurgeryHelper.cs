@@ -91,7 +91,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     viewer.username,
                     "TKUtils.Responses.Buy.MissingResearch".Translate(
                         part.LabelCap.RawText,
-                        projects.Select(p => p.LabelCap).SectionJoin()
+                        projects.Select(p => p.LabelCap.RawText).SectionJoin()
                     )
                 );
                 return false;
