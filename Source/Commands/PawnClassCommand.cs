@@ -73,7 +73,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 container.Add("TKUtils.Formats.PawnClass.Points".Translate(data.Points.ToString("N0")));
             }
 
-            twitchMessage.Reply(container.GroupedJoin().WithHeader($"{data.Class}"));
+            twitchMessage.Reply(container.GroupedJoin().WithHeader(Unrichify.StripTags(data.Class)));
         }
     }
 }
