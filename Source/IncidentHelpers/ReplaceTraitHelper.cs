@@ -140,6 +140,35 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            foreach (Backstory backstory in pawn.story.AllBackstories)
+            {
+                if (backstory.DisallowsTrait(replaceThisTraitDef, replaceThisShop.Degree))
+                {
+                    MessageHelper.ReplyToUser(
+                        viewer.username,
+                        "TKUtils.Responses.BuyTrait.Backstory".Translate(backstory.identifier, toReplace)
+                    );
+                    return false;
+                }
+
+                if (backstory.DisallowsTrait(replaceThatTraitDef, replaceThatShop.Degree))
+                {
+                    MessageHelper.ReplyToUser(
+                        viewer.username,
+                        "TKUtils.Responses.BuyTrait.Backstory".Translate(backstory.identifier, toReplaceWith)
+                    );
+                    return false;
+                }
+            }
+
+            if (pawn.kindDef.disallowedTraits.Any(t => t.defName.Equals(replaceThisTraitDef.defName)))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.BuyTrait.Race".Translate(toReplace, pawn.kindDef.LabelCap)
+                );
+            }
+
             List<Trait> traits = pawn.story.traits.allTraits;
 
             if (traits?.Count <= 0)

@@ -103,6 +103,20 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
+            foreach (Backstory backstory in pawn.story.AllBackstories)
+            {
+                if (!backstory.DisallowsTrait(traitDef, buyableTrait.Degree))
+                {
+                    continue;
+                }
+
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Responses.BuyTrait.Backstory".Translate(backstory.identifier, traitQuery)
+                );
+                return false;
+            }
+
             trait = new Trait(traitDef, buyableTrait.Degree);
 
             foreach (Trait t in pawn.story.traits.allTraits.Where(

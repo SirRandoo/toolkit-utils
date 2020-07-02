@@ -78,6 +78,7 @@
     <TKUtils.Responses.BuyTrait.Added>Added {0} to your pawn.</TKUtils.Responses.BuyTrait.Added>
     <TKUtils.Responses.BuyTrait.AddDisabled>The trait "{0}" has been restricted from being added to pawns.</TKUtils.Responses.BuyTrait.AddDisabled>
     <TKUtils.Responses.BuyTrait.RemoveDisabled>The trait "{0}" has been restricted from being removed from pawns.</TKUtils.Responses.BuyTrait.RemoveDisabled>
+    <TKUtils.Responses.BuyTrait.Backstory>Your pawn has the backstory {0}, which forbids {1} from being added to your pawn.</TKUtils.Responses.BuyTrait.Backstory>
     
     <!-- Remove Trait Translations -->
     <TKUtils.Responses.RemoveTrait.Missing>Your pawn does not have the trait "{0}"!</TKUtils.Responses.RemoveTrait.Missing>
