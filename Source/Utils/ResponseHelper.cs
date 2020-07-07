@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static string JoinPair(string key, string value)
         {
-            return "TKUtils.Formats.KeyValue".Translate(key, value);
+            return $"{key}: {value}";
         }
 
         public static string Join(this IEnumerable<string> l, string separator)
