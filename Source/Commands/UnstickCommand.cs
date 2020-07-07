@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Store;
-using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
@@ -16,7 +15,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
 
-            twitchMessage.Reply("TKUtils.Responses.Unstuck".Translate(stuck.ToString()));
+            twitchMessage.Reply("TKUtils.Unstick".Localize(stuck.ToString()));
         }
     }
 }

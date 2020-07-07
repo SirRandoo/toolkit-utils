@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (viewerPawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
@@ -65,15 +65,6 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 pawn.ClearAllReservations();
 
-                // if (Androids.IsAndroid(pawn))
-                // {
-                //     ResurrectionUtility.Resurrect(pawn);
-                // }
-                // else
-                // {
-                //     ResurrectionUtility.ResurrectWithSideEffects(pawn);
-                // }
-
                 try
                 {
                     ResurrectionUtility.ResurrectWithSideEffects(pawn);
@@ -86,8 +77,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 PawnTracker.pawnsToRevive.Remove(pawn);
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Revival.Title".TranslateSimple(),
-                    "TKUtils.Letters.Revival.Description".Translate(pawn.Name),
+                    "TKUtils.RevivalLetter.Title".Localize(),
+                    "TKUtils.RevivalLetter.Description".Localize(Viewer.username.CapitalizeFirst()),
                     LetterDefOf.PositiveEvent,
                     new LookTargets(pawn)
                 );

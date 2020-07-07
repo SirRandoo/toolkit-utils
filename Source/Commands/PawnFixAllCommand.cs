@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            twitchMessage.Reply("TKUtils.Responses.PawnFixAll.Relinked".TranslateSimple());
+            twitchMessage.Reply("TKUtils.FixAll".Localize());
         }
     }
 }

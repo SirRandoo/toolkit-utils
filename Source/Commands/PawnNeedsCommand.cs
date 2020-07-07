@@ -15,15 +15,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
             if (pawn.needs?.AllNeeds == null)
             {
-                twitchMessage.Reply(
-                    "TKUtils.Responses.PawnNeeds.None".TranslateSimple().WithHeader("TabNeeds".TranslateSimple())
-                );
+                twitchMessage.Reply("TKUtils.PawnNeeds.None".Localize().WithHeader("TabNeeds".Localize()));
                 return;
             }
 
@@ -35,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         )
                     )
                     .SectionJoin()
-                    .WithHeader("TabNeeds".TranslateSimple())
+                    .WithHeader("TabNeeds".Localize())
             );
         }
     }

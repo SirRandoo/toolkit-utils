@@ -47,8 +47,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 twitchMessage.Reply(
                     (
                         !query.NullOrEmpty()
-                            ? "TKUtils.Responses.Research.QueryInvalid".Translate(query).RawText
-                            : "TKUtils.Responses.Research.None".TranslateSimple()
+                            ? "TKUtils.Research.InvalidQuery".Localize(query)
+                            : "TKUtils.Research.None".Localize()
                     ).WithHeader("Research".TranslateSimple())
                 );
                 return;
@@ -72,10 +72,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     )
                     .ToArray();
 
-                segments.Add($"{"ResearchPrerequisites".TranslateSimple()}: {container.SectionJoin()}");
+                segments.Add(ResponseHelper.JoinPair("ResearchPrerequisites".Localize(), container.SectionJoin()));
             }
 
-            twitchMessage.Reply(segments.GroupedJoin().WithHeader("Research".TranslateSimple()));
+            twitchMessage.Reply(segments.GroupedJoin().WithHeader("Research".Localize()));
         }
     }
 }

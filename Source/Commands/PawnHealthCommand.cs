@@ -19,7 +19,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (pawn == null)
             {
                 twitchMessage.Reply(
-                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("TabHealth".TranslateSimple())
+                    "TKUtils.NoPawn".TranslateSimple().WithHeader("TabHealth".Localize())
                 );
                 return;
             }
@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (segment.NullOrEmpty())
             {
-                twitchMessage.Reply(HealthReport(pawn).WithHeader("TabHealth".TranslateSimple()));
+                twitchMessage.Reply(HealthReport(pawn).WithHeader("TabHealth".Localize()));
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     capacity == null
                         ? HealthReport(pawn)
                         : HealthCapacityReport(pawn, capacity)
-                ).WithHeader("TabHealth".TranslateSimple())
+                ).WithHeader("TabHealth".Localize())
             );
         }
 
@@ -52,9 +52,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             switch (state)
             {
                 case PawnHealthState.Down:
-                    return ResponseHelper.DazedGlyph.AltText("DownedLower".TranslateSimple().CapitalizeFirst());
+                    return ResponseHelper.DazedGlyph.AltText("DownedLower".Localize().CapitalizeFirst());
                 case PawnHealthState.Dead:
-                    return ResponseHelper.GhostGlyph.AltText("Dead".TranslateSimple());
+                    return ResponseHelper.GhostGlyph.AltText("Dead".Localize());
                 default:
                     return string.Empty;
             }
@@ -72,37 +72,34 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (moodLevel < thresholdExtreme)
             {
-                return ResponseHelper.AboutToBreakGlyph.AltText("Mood_AboutToBreak".TranslateSimple());
+                return ResponseHelper.AboutToBreakGlyph.AltText("Mood_AboutToBreak".Localize());
             }
 
             if (moodLevel < thresholdExtreme + 0.0500000007450581)
             {
-                return ResponseHelper.OnEdgeGlyph.AltText("Mood_OnEdge".TranslateSimple());
+                return ResponseHelper.OnEdgeGlyph.AltText("Mood_OnEdge".Localize());
             }
 
             if (moodLevel < subject.mindState.mentalBreaker.BreakThresholdMinor)
             {
-                return ResponseHelper.StressedGlyph.AltText("Mood_Stressed".TranslateSimple());
+                return ResponseHelper.StressedGlyph.AltText("Mood_Stressed".Localize());
             }
 
             if (moodLevel < 0.649999976158142)
             {
-                return ResponseHelper.NeutralGlyph.AltText("Mood_Neutral".TranslateSimple());
+                return ResponseHelper.NeutralGlyph.AltText("Mood_Neutral".Localize());
             }
 
             return moodLevel < 0.899999976158142
-                ? ResponseHelper.ContentGlyph.AltText("Mood_Content".TranslateSimple())
-                : ResponseHelper.HappyGlyph.AltText("Mood_Happy".TranslateSimple());
+                ? ResponseHelper.ContentGlyph.AltText("Mood_Content".Localize())
+                : ResponseHelper.HappyGlyph.AltText("Mood_Happy".Localize());
         }
 
         private static string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
         {
             if (!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
             {
-                return "TKUtils.Responses.PawnHealth.Capacity.Race".Translate(
-                    Find.ActiveLanguageWorker.Pluralize(pawn.kindDef.race.defName),
-                    capacity.GetLabelFor(pawn)
-                );
+                return "TKUtils.PawnHealth.IncapableOfCapacity".Localize(capacity.GetLabelFor(pawn));
             }
 
             var impactors = new List<PawnCapacityUtility.CapacityImpactor>();
@@ -152,12 +149,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
 
                 segments.Add(
-                    "TKUtils.Formats.PawnHealth.Impactors".Translate(parts.SectionJoin())
+                    ResponseHelper.JoinPair("TKUtils.PawnHealth.AffectedBy".Localize(), parts.SectionJoin())
                 );
             }
             else
             {
-                segments.Add("NoHealthConditions".TranslateSimple().CapitalizeFirst());
+                segments.Add("NoHealthConditions".Localize().CapitalizeFirst());
             }
 
             return segments.GroupedJoin();
@@ -167,7 +164,8 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             var segments = new List<string>
             {
-                "TKUtils.Formats.PawnHealth.Summary".Translate(
+                ResponseHelper.JoinPair(
+                    "TKUtils.PawnHealth.OverallHealth".Localize(),
                     pawn.health.summaryHealth.SummaryHealthPercent.ToStringPercent()
                 )
             };
@@ -188,9 +186,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 segments.Add(
                     ticks >= 60000
                         ? ResponseHelper.BleedingSafeGlyphs.AltText(
-                            "WontBleedOutSoon".TranslateSimple().CapitalizeFirst()
+                            "WontBleedOutSoon".Localize().CapitalizeFirst()
                         )
-                        : $"{ResponseHelper.BleedingBadGlyphs.AltText("BleedingRate".TranslateSimple())} ({ticks.ToStringTicksToPeriod(shortForm: true)})"
+                        : $"{ResponseHelper.BleedingBadGlyphs.AltText("BleedingRate".Localize())} ({ticks.ToStringTicksToPeriod(shortForm: true)})"
                 );
             }
 
@@ -212,7 +210,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 source = new List<PawnCapacityDef>().ToList();
 
                 segments.Add(
-                    "TKUtils.Responses.UnsupportedRace".Translate(
+                    "TKUtils.Responses.UnsupportedRace".Localize(
                         pawn.kindDef.race.defName
                     )
                 );
@@ -249,7 +247,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             string[] queued = surgeries.Bills.Select(item => item.LabelCap).ToArray();
 
-            segments.Add("TKUtils.Formats.PawnHealth.Surgeries".Translate(queued.SectionJoin()));
+            segments.Add(
+                ResponseHelper.JoinPair("TKUtils.PawnHealth.QueuedSurgeries".Localize(), queued.SectionJoin())
+            );
 
             return segments.GroupedJoin();
         }

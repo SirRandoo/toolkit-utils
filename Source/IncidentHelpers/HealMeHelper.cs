@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
@@ -95,7 +95,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 if (!response.NullOrEmpty())
                 {
-                    MessageHelper.ReplyToUser(Viewer.username, response.Translate(target));
+                    MessageHelper.ReplyToUser(Viewer.username, response.Localize(target));
                 }
             }
 
@@ -114,8 +114,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             if (!description.NullOrEmpty())
             {
                 Current.Game.letterStack.ReceiveLetter(
-                    "TKUtils.Letters.Heal.Title".TranslateSimple(),
-                    description.Translate(Viewer.username, target),
+                    "TKUtils.HealLetter.Title".Localize(),
+                    description.Localize(Viewer.username, target),
                     LetterDefOf.PositiveEvent,
                     pawn
                 );

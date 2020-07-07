@@ -14,7 +14,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 pawn.Name = new NameTriple(name?.First ?? "", twitchMessage.Username, name?.Last ?? "");
             }
 
-            twitchMessage.Reply("TKUtils.Responses.PawnFix.Relinked".TranslateSimple());
+            twitchMessage.Reply("TKUtils.PawnFix".Localize());
         }
     }
 }

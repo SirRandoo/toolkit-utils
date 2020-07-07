@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;
@@ -81,8 +82,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.MassRevival.Title".TranslateSimple(),
-                "TKUtils.Letters.MassRevival.Description".TranslateSimple(),
+                "TKUtils.MassRevivalLetter.Title".Localize(),
+                "TKUtils.MassRevivalLetter.Description".Localize(),
                 LetterDefOf.PositiveEvent
             );
         }

@@ -18,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 parts.Add(container);
             }
 
-            twitchMessage.Reply(parts.SectionJoin().WithHeader("StatsReport_Skills".TranslateSimple()));
+            twitchMessage.Reply(parts.SectionJoin().WithHeader("StatsReport_Skills".Localize()));
         }
     }
 }

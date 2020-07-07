@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (viewerPawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
@@ -42,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.PassionShuffle.NoPassions".TranslateSimple()
+                    "TKUtils.PassionShuffle.None".Localize()
                 );
                 return false;
             }
@@ -61,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 if (target == null)
                 {
-                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.SkillQueryInvalid".Translate(query));
+                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".Localize(query));
                     return false;
                 }
             }
@@ -98,13 +98,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    "TKUtils.Responses.PassionShuffle.Shuffled".TranslateSimple()
+                    "TKUtils.PassionShuffle.Complete".Localize()
                 );
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.PassionShuffle.Title".TranslateSimple(),
-                "TKUtils.Letters.PassionShuffle.Description".Translate(Viewer.username),
+                "TKUtils.PassionShuffleLetter.Title".Localize(),
+                "TKUtils.PassionShuffleLetter.Description".Localize(Viewer.username),
                 LetterDefOf.NeutralEvent,
                 pawn
             );

@@ -17,17 +17,15 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply(
-                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("TKUtils.Headers.Work".TranslateSimple())
-                );
+                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
                 return;
             }
 
             if (pawn.workSettings == null || (!pawn.workSettings?.EverWork ?? true))
             {
                 twitchMessage.Reply(
-                    "TKUtils.Responses.PawnWork.None".TranslateSimple()
-                        .WithHeader("TKUtils.Headers.Work".TranslateSimple())
+                    "TKUtils.PawnWork.None".Localize()
+                        .WithHeader("TKUtils.PawnWork.Header".Localize())
                 );
                 return;
             }
@@ -92,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (container.Count > 0)
             {
-                twitchMessage.Reply(container.SectionJoin().WithHeader("TKUtils.Headers.Work".TranslateSimple()));
+                twitchMessage.Reply(container.SectionJoin().WithHeader("TKUtils.PawnWork.Header".Localize()));
             }
         }
     }

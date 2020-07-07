@@ -18,12 +18,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (pawn == null)
             {
                 twitchMessage.Reply(
-                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("HealthOverview".TranslateSimple())
+                    "TKUtils.NoPawn".Localize().WithHeader("HealthOverview".Localize())
                 );
                 return;
             }
 
-            twitchMessage.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".TranslateSimple()));
+            twitchMessage.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Localize()));
         }
 
         private static float GetListPriority(BodyPartRecord record)
@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (hediffs == null || !hediffs.Any())
             {
-                return "NoHealthConditions".TranslateSimple().CapitalizeFirst();
+                return "NoHealthConditions".Localize().CapitalizeFirst();
             }
 
             IEnumerable<IGrouping<BodyPartRecord, Hediff>> hediffsGrouped = GetVisibleHediffGroupsInOrder(target);
@@ -49,13 +49,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 string tempMax = target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
                 parts.Add(
-                    $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".TranslateSimple())}{tempMin}~{tempMax}"
+                    $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize())}{tempMin}~{tempMax}"
                 );
             }
 
             foreach (IGrouping<BodyPartRecord, Hediff> item in hediffsGrouped)
             {
-                string bodyPart = item.Key?.LabelCap ?? "WholeBody".TranslateSimple();
+                string bodyPart = item.Key?.LabelCap ?? "WholeBody".Localize();
                 var bits = new List<string>();
 
                 foreach (IGrouping<int, Hediff> group in item.GroupBy(h => h.UIGroupKey))
@@ -71,7 +71,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                     if (group.Count(i => i.Bleeding) > 0)
                     {
-                        display = ResponseHelper.BleedingGlyph.AltText("BleedingRate".TranslateSimple()) + display;
+                        display = ResponseHelper.BleedingGlyph.AltText("BleedingRate".Localize()) + display;
                     }
 
                     if (group.All(i => i.IsTended()))

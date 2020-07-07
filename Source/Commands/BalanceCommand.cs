@@ -36,14 +36,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 container.Add(
                     ResponseHelper.JoinPair(
-                        "TKUtils.Responses.Balance.Coins".TranslateSimple().CapitalizeFirst(),
+                        "TKUtils.Balance.Coins".Localize().CapitalizeFirst(),
                         coins
                     )
                 );
 
                 container.Add(
                     ResponseHelper.JoinPair(
-                        "TKUtils.Responses.Balance.Karma".TranslateSimple().CapitalizeFirst(),
+                        "TKUtils.Balance.Karma".Localize().CapitalizeFirst(),
                         karma
                     )
                 );
@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                             ? $"{ResponseHelper.IncomeGlyph} +{income:N0}"
                             : $"{ResponseHelper.DebtGlyph} {income:N0}"
                     ).AltText(
-                        "TKUtils.Responses.Balance.Rate".Translate(
+                        "TKUtils.Balance.Rate".Localize(
                             CalculateCoinAward(viewer),
                             ToolkitSettings.CoinInterval
                         )

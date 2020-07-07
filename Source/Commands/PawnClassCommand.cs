@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
@@ -25,14 +25,14 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (data == null || !data.Gifted || data.Class.NullOrEmpty())
             {
-                twitchMessage.Reply("TKUtils.Responses.PawnClass.None".TranslateSimple());
+                twitchMessage.Reply("TKUtils.PawnClass.None".Localize());
                 return;
             }
 
             var container = new List<string>
             {
-                ResponseHelper.JoinPair("TKUtils.Misc.Level".TranslateSimple(), data.Level.ToString("N0")),
-                ResponseHelper.JoinPair("TKUtils.Misc.XP".TranslateSimple(), data.Experience)
+                ResponseHelper.JoinPair("TKUtils.PawnClass.Level".Localize(), data.Level.ToString("N0")),
+                ResponseHelper.JoinPair("TKUtils.PawnClass.XP".Localize(), data.Experience)
             };
 
             string key;
@@ -51,6 +51,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!key.NullOrEmpty())
             {
+                string rateKey = key.Localize();
                 string t = $"{data.ResourceCurrent:N0} / {data.ResourceMax:N0} (";
 
                 if (data.ResourceRegenRate > 0)
@@ -64,13 +65,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 t += ")";
 
                 container.Add(
-                    ResponseHelper.JoinPair(key.TranslateSimple(), t)
+                    ResponseHelper.JoinPair(key.Localize(), t)
                 );
             }
 
             if (data.Points > 0)
             {
-                container.Add("TKUtils.Formats.PawnClass.Points".Translate(data.Points.ToString("N0")));
+                container.Add("TKUtils.PawnClass.Points".Localize(data.Points.ToString("N0")));
             }
 
             twitchMessage.Reply(container.GroupedJoin().WithHeader(Unrichify.StripTags(data.Class)));

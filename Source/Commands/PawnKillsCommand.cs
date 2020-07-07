@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
@@ -24,30 +24,23 @@ namespace SirRandoo.ToolkitUtils.Commands
             int humanLikeKills = pawn.records.GetAsInt(RecordDefOf.KillsHumanlikes);
             int mechanoidKills = pawn.records.GetAsInt(RecordDefOf.KillsMechanoids);
 
-            string mechanoidLabel = RecordDefOf.KillsMechanoids.label.Substring(
-                7,
-                RecordDefOf.KillsMechanoids.label.LastIndexOf(')') - 7
-            );
-            string animalLabel = RecordDefOf.KillsAnimals.label.Substring(
-                7,
-                RecordDefOf.KillsAnimals.label.LastIndexOf(')') - 7
-            );
-            string humanlikeLabel = RecordDefOf.KillsHumanlikes.label.Substring(
-                7,
-                RecordDefOf.KillsHumanlikes.label.LastIndexOf(')') - 7
-            );
-
-            string container = ResponseHelper.JoinPair(
-                "TKUtils.Misc.Total".TranslateSimple(),
-                totalKills.ToString("N0")
-            );
+            string container = ResponseHelper.JoinPair("TKUtils.Total".Localize(), totalKills.ToString("N0"));
 
             container += ResponseHelper.OuterGroupSeparator;
             container += string.Join(
                 ", ",
-                ResponseHelper.JoinPair(humanlikeLabel.CapitalizeFirst(), humanLikeKills.ToString("N0")),
-                ResponseHelper.JoinPair(animalLabel.CapitalizeFirst(), animalKills.ToString("N0")),
-                ResponseHelper.JoinPair(mechanoidLabel.CapitalizeFirst(), mechanoidKills.ToString("N0"))
+                ResponseHelper.JoinPair(
+                    "TKUtils.PawnKills.Humanlike".Localize().CapitalizeFirst(),
+                    humanLikeKills.ToString("N0")
+                ),
+                ResponseHelper.JoinPair(
+                    "TKUtils.PawnKills.Animals".Localize().CapitalizeFirst(),
+                    animalKills.ToString("N0")
+                ),
+                ResponseHelper.JoinPair(
+                    "TKUtils.PawnKills.Mechanoids".Localize().CapitalizeFirst(),
+                    mechanoidKills.ToString("N0")
+                )
             );
 
 

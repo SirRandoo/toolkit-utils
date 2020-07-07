@@ -18,13 +18,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
             if (pawn.IsCaravanMember())
             {
-                twitchMessage.Reply("TKUtils.Responses.Leave.Caravan".TranslateSimple());
+                twitchMessage.Reply("TKUtils.Leave.Caravan".Localize());
                 return;
             }
 
@@ -37,10 +37,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     Mathf.CeilToInt(pawn.BodySize * 0.6f)
                 ))
             {
-                twitchMessage.Reply("TKUtils.Responses.Leave.Thanos".TranslateSimple());
+                twitchMessage.Reply("TKUtils.Responses.Leave.Thanos".Localize());
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Leave.Thanos.Title".TranslateSimple(),
-                    "TKUtils.Letters.Leave.Thanos.Description".Translate(pawn.LabelShortCap),
+                    "TKUtils.Letters.Leave.Thanos.Title".Localize(),
+                    "TKUtils.Letters.Leave.Thanos.Description".Localize(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
                 );
@@ -53,10 +53,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     pawn.Strip();
                 }
 
-                twitchMessage.Reply("TKUtils.Responses.Leave.Generic".TranslateSimple());
+                twitchMessage.Reply("TKUtils.Responses.Leave.Generic".Localize());
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Leave.Generic.Title".TranslateSimple(),
-                    "TKUtils.Letters.Leave.Generic.Description".Translate(pawn.LabelShortCap),
+                    "TKUtils.Letters.Leave.Generic.Title".Localize(),
+                    "TKUtils.Letters.Leave.Generic.Description".Localize(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
                 );

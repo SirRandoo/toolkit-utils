@@ -1,7 +1,6 @@
 ﻿using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
-using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
@@ -13,7 +12,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             TkSettings.StoreState = !TkSettings.StoreState;
 
             string response = TkSettings.StoreState ? "Enabled" : "Disabled";
-            twitchMessage.Reply($"TKUtils.Responses.StoreState.{response}".TranslateSimple());
+            twitchMessage.Reply($"TKUtils.ToggleStore.{response}".Localize());
         }
     }
 }

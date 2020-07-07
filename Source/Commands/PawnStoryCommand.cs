@@ -18,14 +18,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (pawn == null)
             {
                 twitchMessage.Reply(
-                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("TabCharacter".TranslateSimple())
+                    "TKUtils.NoPawn".Localize().WithHeader("TabCharacter".Localize())
                 );
                 return;
             }
 
             var parts = new List<string>
             {
-                $"{"Backstory".TranslateSimple()}: {pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).SectionJoin()}"
+                $"{"Backstory".Localize()}: {pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).SectionJoin()}"
             };
 
             bool isRoyal = pawn.royalty?.MostSeniorTitle != null;
@@ -34,21 +34,21 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case Gender.Female:
                     parts.Add(
                         (isRoyal ? ResponseHelper.PrincessGlyph : ResponseHelper.FemaleGlyph).AltText(
-                            "Female".TranslateSimple()
+                            "Female".Localize()
                         )
                     );
                     break;
                 case Gender.Male:
                     parts.Add(
                         (isRoyal ? ResponseHelper.PrinceGlyph : ResponseHelper.MaleGlyph).AltText(
-                            "Male".TranslateSimple()
+                            "Male".Localize()
                         )
                     );
                     break;
                 case Gender.None:
                     parts.Add(
                         (isRoyal ? ResponseHelper.CrownGlyph : ResponseHelper.GenderlessGlyph).AltText(
-                            "NoneLower".TranslateSimple()
+                            "NoneLower".Localize()
                         )
                     );
                     break;
@@ -66,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     .Select(t => t.LabelTranslated().CapitalizeFirst())
                     .ToArray();
 
-                parts.Add($"{"IncapableOf".TranslateSimple()}: {filteredTags.SectionJoin()}");
+                parts.Add($"{"IncapableOf".Localize()}: {filteredTags.SectionJoin()}");
             }
 
             List<Trait> traits = pawn.story.traits.allTraits;
@@ -74,11 +74,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (traits.Count > 0)
             {
                 parts.Add(
-                    $"{"Traits".TranslateSimple()}: {traits.Select(t => Unrichify.StripTags(t.LabelCap)).SectionJoin()}"
+                    $"{"Traits".Localize()}: {traits.Select(t => Unrichify.StripTags(t.LabelCap)).SectionJoin()}"
                 );
             }
 
-            twitchMessage.Reply(parts.GroupedJoin().WithHeader("TabCharacter".TranslateSimple()));
+            twitchMessage.Reply(parts.GroupedJoin().WithHeader("TabCharacter".Localize()));
         }
     }
 }

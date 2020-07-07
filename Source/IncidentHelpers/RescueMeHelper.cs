@@ -117,10 +117,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             string output = pawnRelationsInfo.NullOrEmpty()
                 ? ""
-                : (string) ("\n\n"
-                            + "PawnHasRelationshipsWithColonists".Translate(pawn?.LabelShort, pawn)
-                            + "\n\n"
-                            + pawnRelationsInfo);
+                : $"\n\n{"PawnHasRelationshipsWithColonists".Localize(pawn?.LabelShort, pawn)}\n\n{pawnRelationsInfo}";
             slate.Set("prisoner", pawn);
 
             outExtraDescriptionRules.Add(new Rule_String("prisonerFullRelationInfo", output));
@@ -131,11 +128,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             string str = base.GetPostProcessedThreatLabel(site, sitePart);
             if (sitePart.things != null && sitePart.things.Any) str = str + ": " + sitePart.things[0].LabelShortCap;
             if (site.HasWorldObjectTimeout)
-                str += " ("
-                       + "DurationLeft".Translate(
-                           (NamedArgument) site.WorldObjectTimeoutTicksLeft.ToStringTicksToPeriod()
-                       )
-                       + ")";
+                str +=
+                    $" ({"DurationLeft".Localize((NamedArgument) site.WorldObjectTimeoutTicksLeft.ToStringTicksToPeriod())})";
             return str;
         }
     }

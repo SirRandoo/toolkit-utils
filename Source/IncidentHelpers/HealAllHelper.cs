@@ -55,8 +55,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.MassHeal.Title".TranslateSimple(),
-                "TKUtils.Letters.MassHeal.Description".TranslateSimple(),
+                "TKUtils.MassHealLetter.Title".Localize(),
+                "TKUtils.MassHealLetter.Description".Localize(),
                 LetterDefOf.PositiveEvent
             );
         }

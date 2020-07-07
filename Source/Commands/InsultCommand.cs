@@ -20,7 +20,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (target == null)
                 {
-                    twitchMessage.Reply("TKUtils.Responses.ViewerNotFound".Translate(query));
+                    twitchMessage.Reply("TKUtils.PawnNotFound".Localize(query));
                     return;
                 }
             }

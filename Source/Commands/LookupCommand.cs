@@ -66,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             string formatted = results.Take(TkSettings.LookupLimit).SectionJoin();
 
-            msg.Reply("TKUtils.Formats.Lookup".Translate(query, formatted));
+            msg.Reply("TKUtils.Lookup".Localize(query, formatted));
         }
 
         private void PerformAnimalLookup(string query)

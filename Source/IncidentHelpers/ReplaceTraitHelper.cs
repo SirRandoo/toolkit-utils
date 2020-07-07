@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (replaceThisShop == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.TraitQueryInvalid".Translate(toReplace));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplace));
                 return false;
             }
 
@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.TraitQueryInvalid".Translate(toReplaceWith)
+                    "TKUtils.InvalidTraitQuery".Localize(toReplaceWith)
                 );
                 return false;
             }
@@ -85,7 +85,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.RemoveDisabled".Translate(replaceThisShop.Name.CapitalizeFirst())
+                    "TKUtils.RemoveTrait.Disabled".Localize(replaceThisShop.Name.CapitalizeFirst())
                 );
                 return false;
             }
@@ -94,7 +94,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.AddDisabled".Translate(replaceThatShop.Name.CapitalizeFirst())
+                    "TKUtils.Trait.Disabled".Localize(replaceThatShop.Name.CapitalizeFirst())
                 );
                 return false;
             }
@@ -105,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.ReplaceTrait.Violation".Translate(replaceThisShop.Name, replaceThatShop.Name)
+                    "TKUtils.ReplaceTrait.Violation".Localize(replaceThisShop.Name, replaceThatShop.Name)
                 );
                 return false;
             }
@@ -114,7 +114,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.NotEnoughCoins".Translate(
+                    "TKUtils.InsufficientBalance".Localize(
                         (replaceThisShop.RemovePrice + replaceThatShop.AddPrice).ToString("N0"),
                         Viewer.GetViewerCoins().ToString("N0")
                     )
@@ -128,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (replaceThisTraitDef == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.TraitQueryInvalid".Translate(toReplace));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplace));
                 return false;
             }
 
@@ -136,7 +136,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.TraitQueryInvalid".Translate(toReplaceWith)
+                    "TKUtils.InvalidTraitQuery".Localize(toReplaceWith)
                 );
                 return false;
             }
@@ -147,7 +147,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 {
                     MessageHelper.ReplyToUser(
                         viewer.username,
-                        "TKUtils.Responses.BuyTrait.Backstory".Translate(backstory.identifier, toReplace)
+                        "TKUtils.Trait.RestrictedByBackstory".Localize(backstory.identifier, toReplace)
                     );
                     return false;
                 }
@@ -156,7 +156,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 {
                     MessageHelper.ReplyToUser(
                         viewer.username,
-                        "TKUtils.Responses.BuyTrait.Backstory".Translate(backstory.identifier, toReplaceWith)
+                        "TKUtils.Trait.RestrictedByBackstory".Localize(backstory.identifier, toReplaceWith)
                     );
                     return false;
                 }
@@ -166,7 +166,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.Race".Translate(pawn.kindDef.LabelCap, toReplace)
+                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, toReplace)
                 );
                 return false;
             }
@@ -175,7 +175,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.Race".Translate(pawn.kindDef.LabelCap, toReplaceWith)
+                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, toReplaceWith)
                 );
                 return false;
             }
@@ -184,7 +184,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (traits?.Count <= 0)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.RemoveTrait.None".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.None".Localize());
                 return false;
             }
 
@@ -194,7 +194,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.RemoveTrait.Missing".Translate(toReplace)
+                    "TKUtils.RemoveTrait.Missing".Localize(toReplace)
                 );
                 return false;
             }
@@ -207,7 +207,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             MessageHelper.ReplyToUser(
                 viewer.username,
-                "TKUtils.Responses.BuyTrait.Duplicate".Translate(toReplaceWith)
+                "TKUtils.Trait.Duplicate".Localize(toReplaceWith)
             );
             return false;
         }
@@ -266,7 +266,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    "TKUtils.Responses.ReplaceTrait.Done".Translate(
+                    "TKUtils.ReplaceTrait.Complete".Translate(
                         replaceThisTrait.LabelCap,
                         replaceThatTrait.LabelCap
                     )
@@ -274,8 +274,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.Letters.Trait.Title".TranslateSimple(),
-                "TKUtils.Letters.TraitReplace.Description".Translate(
+                "TKUtils.TraitLetter.Title".TranslateSimple(),
+                "TKUtils.TraitLetter.ReplaceDescription".Translate(
                     Viewer.username,
                     replaceThisTrait.LabelCap,
                     replaceThatTrait.LabelCap

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (traits?.Count <= 0)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.RemoveTrait.None".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.None".Localize());
                 return false;
             }
 
@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (traitQuery == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.TraitQueryInvalid".Translate(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(query));
                 return false;
             }
 
@@ -66,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuyTrait.RemoveDisabled".Translate(query)
+                    "TKUtils.RemoveTrait.Disabled".Localize(query)
                 );
                 return false;
             }
@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.NotEnoughCoins".Translate(
+                    "TKUtils.InsufficientBalance".Localize(
                         traitQuery.RemovePrice.ToString("N0"),
                         Viewer.GetViewerCoins().ToString("N0")
                     )
@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (target == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.RemoveTrait.Missing".Translate(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Missing".Localize(query));
                 return false;
             }
 
@@ -126,13 +126,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    "TKUtils.Responses.RemoveTrait.Removed".Translate(trait.LabelCap)
+                    "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap)
                 );
             }
 
             Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.Letters.Trait.Title".TranslateSimple(),
-                "TKUtils.Letters.TraitRemove.Description".Translate(Viewer.username, trait.LabelCap),
+                "TKUtils.TraitLetter.Title".TranslateSimple(),
+                "TKUtils.Trait.RemoveDescription".Localize(Viewer.username, trait.LabelCap),
                 LetterDefOf.NeutralEvent,
                 new LookTargets(pawn)
             );

@@ -20,12 +20,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (pawn == null)
             {
                 twitchMessage.Reply(
-                    "TKUtils.Responses.NoPawn".TranslateSimple().WithHeader("TabGear".TranslateSimple())
+                    "TKUtils.NoPawn".Localize().WithHeader("TabGear".Localize())
                 );
                 return;
             }
 
-            twitchMessage.Reply(GetPawnGear(pawn).WithHeader("TabGear".TranslateSimple()));
+            twitchMessage.Reply(GetPawnGear(pawn).WithHeader("TabGear".Localize()));
         }
 
         private static float CalculateArmorRating(Pawn pawn, StatDef stat)
@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 string tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
                 parts.Add(
-                    $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".TranslateSimple())}{tempMin}~{tempMax}"
+                    $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize())}{tempMin}~{tempMax}"
                 );
             }
 
@@ -76,27 +76,27 @@ namespace SirRandoo.ToolkitUtils.Commands
                 if (sharp > 0)
                 {
                     stats.Add(
-                        $"{ResponseHelper.DaggerGlyph.AltText("ArmorSharp".TranslateSimple())}{sharp.ToStringPercent()}"
+                        $"{ResponseHelper.DaggerGlyph.AltText("ArmorSharp".Localize())}{sharp.ToStringPercent()}"
                     );
                 }
 
                 if (blunt > 0)
                 {
                     stats.Add(
-                        $"{ResponseHelper.PanGlyph.AltText("ArmorBlunt".TranslateSimple())}{blunt.ToStringPercent()}"
+                        $"{ResponseHelper.PanGlyph.AltText("ArmorBlunt".Localize())}{blunt.ToStringPercent()}"
                     );
                 }
 
                 if (heat > 0)
                 {
                     stats.Add(
-                        $"{ResponseHelper.FireGlyph.AltText("ArmorHeat".TranslateSimple())}{heat.ToStringPercent()}"
+                        $"{ResponseHelper.FireGlyph.AltText("ArmorHeat".Localize())}{heat.ToStringPercent()}"
                     );
                 }
 
                 if (stats.Any())
                 {
-                    parts.Add($"{"OverallArmor".TranslateSimple()}: {stats.SectionJoin()}");
+                    parts.Add($"{"OverallArmor".Localize()}: {stats.SectionJoin()}");
                 }
             }
 
@@ -178,11 +178,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (weapons.Any())
                 {
-                    string section = "Stat_Weapon_Name".TranslateSimple();
+                    string section = "Stat_Weapon_Name".Localize();
 
                     if (weapons.Count > 1)
                     {
-                        section = Find.ActiveLanguageWorker.Pluralize(section);
+                        section = section.Pluralize();
                     }
 
                     parts.Add($"{section}: {weapons.SectionJoin()}");
@@ -204,10 +204,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             List<Apparel> apparel = a.WornApparel;
 
             parts.Add(
-                $"{"Apparel".TranslateSimple()}: {apparel.Select(item => item.LabelCap).SectionJoin()}"
+                $"{"Apparel".Localize()}: {apparel.Select(item => item.LabelCap).SectionJoin()}"
             );
 
-            return !parts.Any() ? "None".TranslateSimple() : parts.GroupedJoin();
+            return !parts.Any() ? "None".Localize() : parts.GroupedJoin();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!stats.Any())
             {
-                twitchMessage.Reply("TKUtils.Responses.PawnStats.None".TranslateSimple());
+                twitchMessage.Reply("TKUtils.PawnStats.None".Localize());
                 return;
             }
 

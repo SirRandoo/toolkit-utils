@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Models;
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void Notify__LookupComplete(string query, string result)
         {
-            msg.Reply("TKUtils.Formats.Lookup".Translate(query, result));
+            msg.Reply("TKUtils.Lookup".Localize(query, result));
         }
 
         private void PerformAnimalLookup(string query, int quantity)
@@ -69,7 +69,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Notify__LookupComplete(
                 query,
-                "TKUtils.Formats.PriceCheck.Quantity".Translate(
+                "TKUtils.Price.Quantity".Localize(
                     result.defName.CapitalizeFirst(),
                     item.price.ToString("N0"),
                     item.CalculatePrice(quantity).ToString("N0"),
@@ -98,7 +98,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case EventTypes.None:
                     Notify__LookupComplete(
                         query,
-                        "TKUtils.Formats.PriceCheck.Limited".Translate(
+                        "TKUtils.Price.Limited".Localize(
                             result.abbreviation.CapitalizeFirst(),
                             result.cost.ToString("N0")
                         )
@@ -107,7 +107,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 default:
                     Notify__LookupComplete(
                         query,
-                        $"TKUtils.Responses.PriceCheck.Overriden.{eventType.ToString()}".TranslateSimple()
+                        $"TKUtils.PriceCheck.Overridden{eventType.ToString()}".Localize()
                     );
                     return;
             }
@@ -129,7 +129,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Notify__LookupComplete(
                 query,
-                "TKUtils.Formats.PriceCheck.Quantity".Translate(
+                "TKUtils.Price.Quantity".Localize(
                     result.abr.CapitalizeFirst(),
                     result.price.ToString("N0"),
                     result.CalculatePrice(quantity).ToString("N0"),
@@ -185,7 +185,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Notify__LookupComplete(
                 query,
-                "TKUtils.Formats.PriceCheck.Limited".Translate(
+                "TKUtils.Price.Limited".Localize(
                     result.Name.ToToolkit().CapitalizeFirst(),
                     result.Price.ToString("N0")
                 )
@@ -213,12 +213,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (result.CanAdd)
             {
-                parts.Add("TKUtils.Responses.PriceCheck.Trait.Add".Translate(result.AddPrice.ToString("N0")));
+                parts.Add("TKUtils.Price.AddTrait".Localize(result.AddPrice.ToString("N0")));
             }
 
             if (result.CanRemove)
             {
-                parts.Add("TKUtils.Responses.PriceCheck.Trait.Remove".Translate(result.RemovePrice.ToString("N0")));
+                parts.Add("TKUtils.Price.RemoveTrait".Localize(result.RemovePrice.ToString("N0")));
             }
 
             Notify__LookupComplete(

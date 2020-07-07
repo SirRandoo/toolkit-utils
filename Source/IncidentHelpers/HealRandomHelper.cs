@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -98,8 +98,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.Letters.Heal.Title".TranslateSimple(),
-                description.Translate(target.LabelCap, affected),
+                "TKUtils.HealLetter.Title".Localize(),
+                description.Localize(target.LabelCap, affected),
                 LetterDefOf.PositiveEvent,
                 affected
             );

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;
@@ -68,8 +69,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 PawnTracker.pawnsToRevive.Remove(pawn);
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Revival.Title".TranslateSimple(),
-                    "TKUtils.Letters.Revival.Description".Translate(pawn.Name),
+                    "TKUtils.RevivalLetter.Title".Localize(),
+                    "TKUtils.RevivalLetter.Description".Localize(pawn.Name.ToStringShort),
                     LetterDefOf.PositiveEvent,
                     new LookTargets(pawn)
                 );

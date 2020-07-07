@@ -17,8 +17,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             twitchMessage.Reply(
                 ResponseHelper.JoinPair(
-                    "TKUtils.Responses.Wealth".TranslateSimple(),
-                    Current.Game.CurrentMap.PlayerWealthForStoryteller.ToString("N0")
+                    "ThisMapColonyWealthTotal".Localize(),
+                    Current.Game.CurrentMap.wealthWatcher.WealthTotal.ToString("N0")
                 )
             );
         }

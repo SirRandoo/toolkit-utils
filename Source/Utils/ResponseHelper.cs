@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
@@ -54,6 +54,26 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static string SectionJoin(this IEnumerable<string> l)
         {
             return string.Join(", ", l);
+        }
+
+        public static string Localize(this string key, params NamedArgument[] args)
+        {
+            if (args.NullOrEmpty())
+            {
+                return key.TranslateSimple();
+            }
+
+            return key.Translate(args);
+        }
+
+        public static string LocalizeWithBackup(this string key, string backup)
+        {
+            return key.CanTranslate() ? key.TranslateSimple() : backup.TranslateSimple();
+        }
+
+        public static string Pluralize(this string s)
+        {
+            return Find.ActiveLanguageWorker?.Pluralize(s) ?? s;
         }
     }
 }

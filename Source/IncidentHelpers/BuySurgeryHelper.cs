@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuySurgery.InvalidQuery".Translate(partQuery)
+                    "TKUtils.InvalidItemQuery".Localize(partQuery)
                 );
                 return false;
             }
@@ -89,7 +89,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.Buy.MissingResearch".Translate(
+                    "TKUtils.ResearchRequired".Localize(
                         part.LabelCap.RawText,
                         projects.Select(p => p.LabelCap.RawText).SectionJoin()
                     )
@@ -102,7 +102,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuySurgery.OnlySurgeries".Translate(partQuery)
+                    "TKUtils.Surgery.HasNoSurgery".Localize(partQuery)
                 );
                 return false;
             }
@@ -111,7 +111,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuySurgery.OnlySurgeries".Translate(partQuery)
+                    "TKUtils.Surgery.HasNoSurgery".Localize(partQuery)
                 );
                 return false;
             }
@@ -122,7 +122,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuySurgery.InvalidQuery".Translate(partQuery)
+                    "TKUtils.InvalidItemQuery".Localize(partQuery)
                 );
                 return false;
             }
@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.NotEnoughCoins".Translate(
+                    "TKUtils.InsufficientBalance".Localize(
                         (product.price + storeIncident.cost).ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
@@ -157,7 +157,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuySurgery.OnlySurgeries".Translate(partQuery)
+                    "TKUtils.Surgery.HasNoSurgery".Localize(partQuery)
                 );
                 return false;
             }
@@ -200,7 +200,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuySurgery.NoAvailableSlots".TranslateSimple()
+                    "TKUtils.Surgery.NoSlotAvailable".Localize()
                 );
                 return false;
             }
@@ -214,7 +214,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (map == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
                 return false;
             }
 
@@ -250,13 +250,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    "TKUtils.Responses.BuySurgery.Queued".Translate(part.LabelCap)
+                    "TKUtils.Surgery.Complete".Localize(part.LabelCap)
                 );
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.BuySurgery.Title".TranslateSimple(),
-                "TKUtils.Letters.BuySurgery.Description".Translate(
+                "TKUtils.SurgeryLetter.Title".Localize(),
+                "TKUtils.SurgeryLetter.Description".Localize(
                     Viewer.username,
                     Find.ActiveLanguageWorker.WithDefiniteArticle(thing.LabelCap)
                 ),

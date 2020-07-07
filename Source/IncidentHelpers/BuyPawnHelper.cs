@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         {
             if (CommandBase.GetOrFindPawn(viewer.username) != null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.HasPawn".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.HasPawn".Localize());
                 return false;
             }
 
@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (map == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoMap".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
                 return false;
             }
 
@@ -77,13 +77,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (raceDef == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".Localize(query));
                 return false;
             }
 
             if (!raceDef.RaceProps.Humanlike)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.OnlyHuman".TranslateSimple());
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.BuyPawn.Humanlike".Localize());
                 return false;
             }
 
@@ -95,7 +95,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return CanPurchaseRace(viewer, race);
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Responses.Buy.NoRace".Translate(query));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".Localize(query));
             return false;
         }
 
@@ -120,8 +120,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 GenSpawn.Spawn(pawn, loc, map);
                 pawn.Name = new NameTriple(name.First ?? string.Empty, Viewer.username, name.Last ?? string.Empty);
-                TaggedString title = "TKUtils.Responses.Buy.Joined.Title".TranslateSimple();
-                TaggedString text = "TKUtils.Responses.Buy.Joined.Text".Translate(Viewer.username);
+                TaggedString title = "TKUtils.PawnLetter.Title".Localize();
+                TaggedString text = "TKUtils.PawnLetter.Description".Localize(Viewer.username);
                 PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref title, pawn);
 
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
@@ -138,7 +138,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 {
                     MessageHelper.ReplyToUser(
                         Viewer.username,
-                        "TKUtils.Responses.Buy.PurchaseMessage".TranslateSimple()
+                        "TKUtils.BuyPawn.Confirmation".Localize()
                     );
                 }
             }
@@ -154,7 +154,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.DisabledItem.Informative".Translate(target.Name)
+                    "TKUtils.InformativeDisabledItem".Localize(target.Name)
                 );
                 return false;
             }
@@ -166,7 +166,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             MessageHelper.ReplyToUser(
                 viewer.username,
-                "TKUtils.Responses.NotEnoughCoins".Translate(
+                "TKUtils.InsufficientBalance".Localize(
                     target.Price.ToString("N0"),
                     Viewer.GetViewerCoins().ToString("N0")
                 )

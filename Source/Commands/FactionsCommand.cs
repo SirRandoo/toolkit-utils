@@ -19,7 +19,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!factions.Any())
             {
-                twitchMessage.Reply("TKUtils.Responses.NoFactions".TranslateSimple().WithHeader("Factions"));
+                twitchMessage.Reply("TKUtils.Factions.None".Localize().WithHeader("WorldFactionsTab".Localize()));
                 return;
             }
 

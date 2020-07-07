@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (pawn == null)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.NoPawn".TranslateSimple());
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
@@ -50,12 +50,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Responses.Immortality".TranslateSimple());
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Immortality".Localize());
             }
 
             Find.LetterStack.ReceiveLetter(
-                "TKUtils.Letters.Immortality.Title".TranslateSimple(),
-                "TKUtils.Letters.Immortality.Description".Translate(Viewer.username),
+                "TKUtils.ImmortalityLetter.Title".Localize(),
+                "TKUtils.ImmortalityLetter.Description".Localize(Viewer.username),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
