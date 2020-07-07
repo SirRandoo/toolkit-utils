@@ -36,8 +36,8 @@ namespace SirRandoo.ToolkitUtils
         public static bool TempInGear;
         public static bool DropInventory;
         public static bool JsonShop;
-        public static string LeaveMethod = ToolkitUtils.LeaveMethods.MentalBreak.ToString();
-        public static string DumpStyle = ToolkitUtils.DumpStyles.SingleFile.ToString();
+        public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
+        public static string DumpStyle = DumpStyles.SingleFile.ToString();
         public static int LookupLimit = 10;
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
@@ -49,8 +49,8 @@ namespace SirRandoo.ToolkitUtils
         public static List<StatSetting> StatSettings = new List<StatSetting>();
 
         private static Categories _category = Categories.General;
-        private static readonly string[] LeaveMethods = Enum.GetNames(typeof(LeaveMethods));
-        private static readonly string[] DumpStyles = Enum.GetNames(typeof(DumpStyles));
+        private static readonly List<FloatMenuOption> LeaveMenuOptions;
+        private static readonly List<FloatMenuOption> DumpStyleOptions;
         private static readonly Tuple<string, Categories>[] MenuCategories;
 
         private static WorkTypeDef[] _workTypeDefs;
@@ -62,6 +62,30 @@ namespace SirRandoo.ToolkitUtils
 
         static TkSettings()
         {
+            DumpStyleOptions = new List<FloatMenuOption>
+            {
+                new FloatMenuOption(
+                    "TKUtils.DumpStyle.SingleFile".Localize(),
+                    () => DumpStyle = nameof(DumpStyles.SingleFile)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.DumpStyle.MultiFile".Localize(),
+                    () => DumpStyle = nameof(DumpStyles.MultiFile)
+                )
+            };
+
+            LeaveMenuOptions = new List<FloatMenuOption>
+            {
+                new FloatMenuOption(
+                    "TKUtils.LeaveMethod.Thanos".Localize(),
+                    () => LeaveMethod = nameof(LeaveMethods.Thanos)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.LeaveMethod.MentalBreak".Localize(),
+                    () => LeaveMethod = nameof(LeaveMethods.MentalBreak)
+                )
+            };
+
             MenuCategories = Enum.GetNames(typeof(Categories))
                 .Select(n => new Tuple<string, Categories>(n, (Categories) Enum.Parse(typeof(Categories), n)))
                 .ToArray();
@@ -122,7 +146,7 @@ namespace SirRandoo.ToolkitUtils
                     Widgets.DrawHighlightSelected(line);
                 }
 
-                Widgets.Label(line, $"TKUtils.SettingGroups.{name}".Translate());
+                Widgets.Label(line, $"TKUtils.{name}".Localize());
 
                 if (Widgets.ButtonInvisible(line))
                 {
@@ -169,69 +193,73 @@ namespace SirRandoo.ToolkitUtils
             listing.Begin(canvas);
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.VersionedModList.Label".Translate(),
+                "TKUtils.VersionedModList.Label".Localize(),
                 ref VersionedModList,
-                "TKUtils.SettingGroups.General.VersionedModList.Tooltip".Translate()
+                "TKUtils.VersionedModList.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.Emojis.Label".Translate(),
+                "TKUtils.Emojis.Label".Localize(),
                 ref Emojis,
-                "TKUtils.SettingGroups.General.Emojis.Tooltip".Translate()
+                "TKUtils.Emojis.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.DecorateUtils.Label".Translate(),
+                "TKUtils.DecorateUtils.Label".Localize(),
                 ref DecorateUtils,
-                "TKUtils.SettingGroups.General.DecorateUtils.Tooltip".Translate()
+                "TKUtils.DecorateUtils.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.Race.Label".Translate(),
+                "TKUtils.PawnKind.Label".Localize(),
                 ref Race,
-                "TKUtils.SettingGroups.General.Race.Tooltip".Translate()
+                "TKUtils.PawnKind.Tooltip".Localize()
             );
 
             Rect line = listing.GetRect(Text.LineHeight);
             (Rect labelRect, Rect entryRect) = line.ToForm();
             var buffer = LookupLimit.ToString();
 
-            Widgets.Label(labelRect, "TKUtils.SettingGroups.General.LookupLimit.Label".Translate());
+            Widgets.Label(labelRect, "TKUtils.LookupLimit.Label".Localize());
             Widgets.TextFieldNumeric(entryRect, ref LookupLimit, ref buffer);
 
             if (Mouse.IsOver(line))
             {
-                Widgets.DrawHighlightIfMouseover(line);
-                TooltipHandler.TipRegion(line, "TKUtils.SettingGroups.General.LookupLimit.Tooltip".Translate());
+                Widgets.DrawHighlight(line);
+                TooltipHandler.TipRegion(line, "TKUtils.LookupLimit.Tooltip".Localize());
             }
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.HairColor.Label".Translate(),
+                "TKUtils.HairColor.Label".Localize(),
                 ref HairColor,
-                "TKUtils.SettingGroups.General.HairColor.Tooltip".Translate()
+                "TKUtils.HairColor.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.JsonStore.Label".Translate(),
+                "TKUtils.JsonOutput.Label".Localize(),
                 ref JsonShop,
-                "TKUtils.SettingGroups.General.JsonStore.Tooltip".Translate()
+                "TKUtils.JsonOutput.Tooltip".Localize()
             );
 
             (Rect dumpLabel, Rect dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(dumpLabel, "TKUtils.SettingGroups.General.DumpStyle.Label".Translate());
+            Widgets.Label(dumpLabel, "TKUtils.DumpStyle.Label".Localize());
 
             if (Widgets.ButtonText(dumpBtn, DumpStyle))
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(DumpStyles.Select(o => new FloatMenuOption(o, () => DumpStyle = o)).ToList())
-                );
+                Find.WindowStack.Add(new FloatMenu(DumpStyleOptions));
             }
 
             (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(storeLabel, "TKUtils.SettingGroups.General.StoreRate.Label".Translate());
+            Widgets.Label(storeLabel, "TKUtils.StoreRate.Label".Localize());
 
             var storeBuffer = StoreBuildRate.ToString();
             Widgets.TextFieldNumeric(storeField, ref StoreBuildRate, ref storeBuffer);
+
+            if (Mouse.IsOver(storeLabel))
+            {
+                Widgets.DrawHighlight(storeLabel);
+                TooltipHandler.TipRegion(storeLabel, "TKUtils.StoreRate.Tooltip".Localize());
+            }
 
             listing.End();
         }
@@ -243,9 +271,9 @@ namespace SirRandoo.ToolkitUtils
             listing.Begin(canvas);
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.CommandTweaks.CoinRate.Label".Translate(),
+                "TKUtils.CoinRate.Label".Translate(),
                 ref ShowCoinRate,
-                "TKUtils.SettingGroups.CommandTweaks.CoinRate.Tooltip".Translate()
+                "TKUtils.CoinRate.Tooltip".Localize()
             );
 
             listing.End();
@@ -258,65 +286,63 @@ namespace SirRandoo.ToolkitUtils
             listing.Begin(canvas);
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.PawnCommands.TempInGear.Label".Translate(),
+                "TKUtils.PawnGear.Temperature.Label".Localize(),
                 ref TempInGear,
-                "TKUtils.SettingGroups.PawnCommands.TempInGear.Tooltip".Translate()
+                "TKUtils.PawnGear.Temperature.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.PawnCommands.ShowApparel.Label".Translate(),
+                "TKUtils.PawnGear.Apparel.Label".Localize(),
                 ref ShowApparel,
-                "TKUtils.SettingGroups.PawnCommands.ShowApparel.Tooltip".Translate()
+                "TKUtils.PawnGear.Apparel.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.PawnCommands.ShowArmor.Label".Translate(),
+                "TKUtils.PawnGear.Armor.Label".Localize(),
                 ref ShowArmor,
-                "TKUtils.SettingGroups.PawnCommands.ShowArmor.Tooltip".Translate()
+                "TKUtils.PawnGear.Armor.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.PawnCommands.ShowWeapon.Label".Translate(),
+                "TKUtils.PawnGear.Weapon.Label".Localize(),
                 ref ShowWeapon,
-                "TKUtils.SettingGroups.PawnCommands.ShowWeapon.Tooltip".Translate()
+                "TKUtils.PawnGear.Weapon.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.PawnCommands.ShowSurgeries.Label".Translate(),
+                "TKUtils.PawnHealth.Surgeries.Label".Localize(),
                 ref ShowSurgeries,
-                "TKUtils.SettingGroups.PawnCommands.ShowSurgeries.Tooltip".Translate()
+                "TKUtils.PawnHealth.Surgeries.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.PawnCommands.SortWork.Label".Translate(),
+                "TKUtils.PawnWork.Sort.Label".Localize(),
                 ref SortWorkPriorities,
-                "TKUtils.SettingGroups.PawnCommands.SortWork.Tooltip".Translate()
+                "TKUtils.PawnWork.Sort.Tooltip".Localize()
             );
 
             listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.PawnCommands.FilterWork.Label".Translate(),
+                "TKUtils.PawnWork.Filter.Label".Localize(),
                 ref FilterWorkPriorities,
-                "TKUtils.SettingGroups.PawnCommands.FilterWork.Tooltip".Translate()
+                "TKUtils.PawnWork.Filter.Tooltip".Localize()
             );
 
             listing.Gap();
 
             (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(leaveLabelRect, "TKUtils.SettingGroups.PawnCommands.LeaveMethod.Label".Translate());
+            Widgets.Label(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
 
             if (Widgets.ButtonText(leaveRect, LeaveMethod))
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(LeaveMethods.Select(o => new FloatMenuOption(o, () => LeaveMethod = o)).ToList())
-                );
+                Find.WindowStack.Add(new FloatMenu(LeaveMenuOptions));
             }
 
-            if (!LeaveMethod.EqualsIgnoreCase("Thanos"))
+            if (!LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethods.Thanos)))
             {
                 listing.CheckboxLabeled(
-                    "TKUtils.SettingGroups.PawnCommands.LeaveGear.Label".Translate(),
+                    "TKUtils.Abandon.Gear.Label".Localize(),
                     ref DropInventory,
-                    "TKUtils.SettingGroups.PawnCommands.LeaveGear.Tooltip".Translate()
+                    "TKUtils.Abandon.Gear.Tooltip".Localize()
                 );
             }
 
@@ -328,8 +354,6 @@ namespace SirRandoo.ToolkitUtils
             GUI.BeginGroup(canvas);
 
             var listing = new Listing_Standard();
-            // listing.Begin(canvas);
-            //
             var content = new Rect(0f, 0f, canvas.width, canvas.height);
             var view = new Rect(0f, 0f, canvas.width - 16f, _workTypeDefs.Length * Text.LineHeight);
 
@@ -371,7 +395,6 @@ namespace SirRandoo.ToolkitUtils
 
             GUI.EndGroup();
             listing.EndScrollView(ref view);
-            // listing.End();
         }
 
         private static void DrawPawnStats(Rect canvas)
@@ -379,8 +402,6 @@ namespace SirRandoo.ToolkitUtils
             GUI.BeginGroup(canvas);
 
             var listing = new Listing_Standard();
-            // listing.Begin(canvas);
-
             var content = new Rect(0f, 0f, canvas.width, canvas.height);
             var view = new Rect(0f, 0f, canvas.width - 16f, _statDefs.Length * Text.LineHeight);
 
@@ -420,7 +441,6 @@ namespace SirRandoo.ToolkitUtils
 
             GUI.EndGroup();
             listing.EndScrollView(ref view);
-            // listing.End();
         }
 
         public override void ExposeData()
@@ -438,8 +458,8 @@ namespace SirRandoo.ToolkitUtils
 
             Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
             Scribe_Values.Look(ref Race, "race", true);
-            Scribe_Values.Look(ref LeaveMethod, "leaveMethod", ToolkitUtils.LeaveMethods.MentalBreak.ToString());
-            Scribe_Values.Look(ref DumpStyle, "dumpStyle", ToolkitUtils.DumpStyles.SingleFile.ToString());
+            Scribe_Values.Look(ref LeaveMethod, "leaveMethod", nameof(LeaveMethods.MentalBreak));
+            Scribe_Values.Look(ref DumpStyle, "dumpStyle", nameof(DumpStyles.SingleFile));
             Scribe_Values.Look(ref DropInventory, "dropInventory");
 
             Scribe_Values.Look(ref JsonShop, "shopJson");

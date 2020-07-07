@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         !query.NullOrEmpty()
                             ? "TKUtils.Research.InvalidQuery".Localize(query)
                             : "TKUtils.Research.None".Localize()
-                    ).WithHeader("Research".TranslateSimple())
+                    ).WithHeader("Research".Localize())
                 );
                 return;
             }

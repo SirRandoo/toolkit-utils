@@ -249,11 +249,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                             () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))
                         ),
                         new FloatMenuOption(
-                            "TKUtils.Windows.Store.Context.Toggle".Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            "TKUtils.StoreMenu.Toggle".Localize(item.Thing?.LabelCap ?? item.Item.abr),
                             () => { item.Enabled = !item.Enabled; }
                         ),
                         new FloatMenuOption(
-                            "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
+                            "TKUtils.StoreMenu.Mod".Localize(item.Mod),
                             () =>
                             {
                                 modFilter = item.Mod;
@@ -301,11 +301,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                     item.PriceContextOptions ??= new List<FloatMenuOption>
                     {
                         new FloatMenuOption(
-                            "TKUtils.Windows.Store.Context.Toggle".Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            "TKUtils.StoreMenu.Toggle".Localize(item.Thing?.LabelCap ?? item.Item.abr),
                             () => { item.Enabled = !item.Enabled; }
                         ),
                         new FloatMenuOption(
-                            "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
+                            "TKUtils.StoreMenu.Mod".Localize(item.Mod),
                             () =>
                             {
                                 modFilter = item.Mod;
@@ -351,7 +351,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     item.CategoryContextOptions ??= new List<FloatMenuOption>
                     {
                         new FloatMenuOption(
-                            "TKUtils.Windows.Store.Context.Category".Translate(item.Category),
+                            "TKUtils.StoreMenu.Category".Localize(item.Category),
                             () =>
                             {
                                 categoryFilter = item.Category;
@@ -359,7 +359,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             }
                         ),
                         new FloatMenuOption(
-                            "TKUtils.Windows.Store.Context.Mod".Translate(item.Mod),
+                            "TKUtils.StoreMenu.Mod".Localize(item.Mod),
                             () =>
                             {
                                 modFilter = item.Mod;
@@ -367,11 +367,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                             }
                         ),
                         new FloatMenuOption(
-                            "TKUtils.Windows.Store.Context.Toggle".Translate(item.Thing?.LabelCap ?? item.Item.abr),
+                            "TKUtils.StoreMenu.Toggle".Localize(item.Thing?.LabelCap ?? item.Item.abr),
                             () => { item.Enabled = !item.Enabled; }
                         ),
                         new FloatMenuOption(
-                            "TKUtils.Windows.Store.Context.EnableAll".Translate(item.Category),
+                            "TKUtils.StoreMenu.EnableCategory".Localize(item.Category),
                             () =>
                             {
                                 foreach (Container i in Containers.Where(
@@ -384,7 +384,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             }
                         ),
                         new FloatMenuOption(
-                            "TKUtils.Windows.Store.Context.DisableAll".Translate(item.Category),
+                            "TKUtils.StoreMenu.DisableCategory".Localize(item.Category),
                             () =>
                             {
                                 foreach (Container i in Containers.Where(
@@ -745,22 +745,18 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslationStrings()
         {
-            title = "TKUtils.Windows.Store.Title".Translate();
-            nameHeader = "TKUtils.Windows.Store.Headers.Name".Translate();
-            priceHeader = "TKUtils.Windows.Store.Headers.Price".Translate();
-            categoryHeader = "TKUtils.Windows.Store.Headers.Category".Translate();
-            searchText = "TKUtils.Windows.Config.Buttons.Search.Label".Translate();
-            resetAllText = "TKUtils.Windows.Config.Buttons.ResetAll.Label".Translate();
-            enableAllText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
-            disableAllText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
-            ctxAscending = "TKUtils.Windows.Store.Context.Ascending".Translate();
-            ctxDescending = "TKUtils.Windows.Store.Context.Descending".Translate();
-            ctxInfo = "TKUtils.Windows.Store.Context.Info".Translate();
-            refreshText = "TKUtils.Windows.Config.Buttons.Refresh.Label".Translate();
-            fetchingText = "TKUtils.Windows.Store.Screen.Text".Translate();
+            title = "TKUtils.ItemStore.Title".Localize();
+            nameHeader = "TKUtils.Headers.Name".Localize();
+            priceHeader = "TKUtils.Headers.Price".Localize();
+            categoryHeader = "TKUtils.ItemStore.Category".Localize();
+            searchText = "TKUtils.Buttons.Search".Localize();
+            resetAllText = "TKUtils.Buttons.ResetAll".Localize();
+            enableAllText = "TKUtils.Buttons.EnableAll".Localize();
+            disableAllText = "TKUtils.Buttons.DisableAll".Localize();
+            ctxAscending = "TKUtils.StoreMenu.Ascending".Localize();
+            ctxDescending = "TKUtils.StoreMenu.Descending".Localize();
+            ctxInfo = "TKUtils.StoreMenu.Info".Localize();
 
-            refreshTextSize = Text.CalcSize(refreshText);
-            fetchingTextSize = Text.CalcSize(fetchingText);
             resetAllTextSize = Text.CalcSize(resetAllText);
             enableAllTextSize = Text.CalcSize(enableAllText);
             disableAllTextSize = Text.CalcSize(disableAllText);

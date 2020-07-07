@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -10,17 +9,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class PurgeViewersDialog : Window
     {
-        private static readonly List<Tuple<string, Type>> Registry = new List<Tuple<string, Type>>
-        {
-            //new Tuple<string, Type>("Banned", typeof(BannedConstraint)),
-            new Tuple<string, Type>("Coin", typeof(CoinConstraint)),
-            new Tuple<string, Type>("Karma", typeof(KarmaConstraint)),
-            //new Tuple<string, Type>("Mod", typeof(ModConstraint)),
-            new Tuple<string, Type>("Name", typeof(NameConstraint))
-            //new Tuple<string, Type>("Subscriber", typeof(SubscriberConstraint)),
-            //new Tuple<string, Type>("Vip", typeof(VipConstraint))
-        };
-
+        private readonly List<FloatMenuOption> constraintOptions;
         private readonly List<ConstraintBase> constraints;
         private Vector2 scrollPos = Vector2.zero;
         private bool showingAffected;
@@ -32,6 +21,21 @@ namespace SirRandoo.ToolkitUtils.Windows
             onlyOneOfTypeAllowed = true;
 
             constraints = new List<ConstraintBase>();
+            constraintOptions = new List<FloatMenuOption>
+            {
+                new FloatMenuOption(
+                    "TKUtils.PurgeMenu.Coins".Localize().CapitalizeFirst(),
+                    () => constraints.Add(new CoinConstraint())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.PurgeMenu.Karma".Localize().CapitalizeFirst(),
+                    () => constraints.Add(new KarmaConstraint())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.PurgeMenu.Name".Localize().CapitalizeFirst(),
+                    () => constraints.Add(new NameConstraint())
+                )
+            };
         }
 
         public override Vector2 InitialSize => new Vector2(900f, 740f);
@@ -42,8 +46,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             float midpoint = inRect.width / 2;
             TaggedString buttonText =
-                (showingAffected ? "TKUtils.Windows.Purge.Buttons.Confirm" : "TKUtils.Windows.Purge.Buttons.Execute")
-                .Translate();
+                (showingAffected ? "TKUtils.Buttons.Confirm" : "TKUtils.Buttons.ViewAffected")
+                .Localize();
             float buttonWidth = Text.CalcSize(buttonText).x * 1.5f;
             var buttonRect = new Rect(midpoint - buttonWidth / 2f, inRect.height - 30f, buttonWidth, 28f);
             var headerArea = new Rect(inRect.x, inRect.y, inRect.width, 28f);
@@ -85,7 +89,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (showingAffected)
             {
                 Viewer[] affected = GetAffectedViewers();
-                TaggedString exemptText = "TKUtils.Windows.Purge.Buttons.ExemptViewer".Translate();
+                TaggedString exemptText = "TKUtils.Buttons.Exempt".Localize();
                 float exemptWidth = Text.CalcSize(exemptText).x * 1.5f;
 
                 for (var i = 0; i < affected.Length; i++)
@@ -122,7 +126,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
             else
             {
-                TaggedString exemptText = "TKUtils.Windows.Purge.Buttons.Remove".Translate();
+                TaggedString exemptText = "TKUtils.Buttons.Remove".Localize();
                 float exemptWidth = Text.CalcSize(exemptText).x * 1.5f;
                 ConstraintBase toRemove = null;
 
@@ -174,7 +178,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (showingAffected)
             {
-                TaggedString backText = "TKUtils.Windows.Purge.Buttons.Back".Translate();
+                TaggedString backText = "TKUtils.Buttons.Back".Localize();
                 var backRegion = new Rect(region.x, region.y, Text.CalcSize(backText).x * 1.5f, region.height);
                 var textRegion = new Rect(
                     region.x + backRegion.width + 10f,
@@ -191,7 +195,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 Viewer[] affected = GetAffectedViewers();
                 Widgets.Label(
                     textRegion,
-                    "TKUtils.Windows.Purge.Headers.Affected".Translate(affected.Length.ToString())
+                    $"{affected:N0} {"TKUtils.Purge.Affected".Localize()}"
                 );
             }
             else
@@ -200,30 +204,15 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (Widgets.ButtonText(
                     new Rect(region.x, region.y, width, region.height),
-                    "TKUtils.Windows.Purge.Buttons.Add".Translate()
+                    "TKUtils.Buttons.AddConstraint".Localize()
                 ))
                 {
-                    string[] keys = Registry.Select(i => i.Item1).ToArray();
-                    List<FloatMenuOption> options = keys.Select(
-                            key => new FloatMenuOption(
-                                key,
-                                delegate
-                                {
-                                    Tuple<string, Type> constraint = Registry.First(i => i.Item1.Equals(key));
-                                    Type t = constraint.Item2;
-
-                                    constraints.Add((ConstraintBase) Activator.CreateInstance(t));
-                                }
-                            )
-                        )
-                        .ToList();
-
-                    Find.WindowStack.Add(new FloatMenu(options));
+                    Find.WindowStack.Add(new FloatMenu(constraintOptions));
                 }
 
                 if (Widgets.ButtonText(
                     new Rect(region.x + width + 10f, region.y, width, region.height),
-                    "TKUtils.Windows.Purge.Buttons.ClearConstraints".Translate()
+                    "TKUtils.Buttons.ClearConstraints".Localize()
                 ))
                 {
                     constraints.Clear();

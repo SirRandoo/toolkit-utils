@@ -108,6 +108,7 @@
     <ItemGroup>
         <Compile Include="CommandExtension.cs"/>
         <Compile Include="Commands\BalanceCommand.cs"/>
+        <Compile Include="Commands\DatabaseCommand.cs"/>
         <Compile Include="Commands\FactionsCommand.cs"/>
         <Compile Include="Commands\InstalledModsCommand.cs"/>
         <Compile Include="Commands\InsultCommand.cs"/>
@@ -156,9 +157,23 @@
         <Compile Include="IncidentHelpers\PassionShuffleHelper.cs"/>
         <Compile Include="IncidentHelpers\RemoveTraitHelper.cs"/>
         <Compile Include="IncidentHelpers\ReplaceTraitHelper.cs"/>
+        <Compile Include="IncidentHelpers\RescueMeHelper.cs"/>
         <Compile Include="IncidentHelpers\ReviveAllHelper.cs"/>
         <Compile Include="IncidentHelpers\ReviveMeHelper.cs"/>
         <Compile Include="IncidentHelpers\ReviveRandomHelper.cs"/>
+        <Compile Include="Models\CommandDump.cs"/>
+        <Compile Include="Models\ItemData.cs"/>
+        <Compile Include="Models\ModDump.cs"/>
+        <Compile Include="Models\PawnKindProduct.cs"/>
+        <Compile Include="Models\PawnKindShop.cs"/>
+        <Compile Include="Models\RaceDump.cs"/>
+        <Compile Include="Models\ShopDump.cs"/>
+        <Compile Include="Models\TraitDump.cs"/>
+        <Compile Include="Models\TraitProduct.cs"/>
+        <Compile Include="Models\TraitShop.cs"/>
+        <Compile Include="Models\XmlRace.cs"/>
+        <Compile Include="Models\XmlShop.cs"/>
+        <Compile Include="Models\XmlTrait.cs"/>
         <Compile Include="Textures.cs"/>
         <Compile Include="TkAddonMenu.cs"/>
         <Compile Include="TkLogger.cs"/>
@@ -178,7 +193,6 @@
         <Compile Include="Utils\Constraints\ComparableConstraint.cs"/>
         <Compile Include="Utils\Constraints\ConstraintBase.cs"/>
         <Compile Include="Utils\Constraints\VipConstraint.cs"/>
-        <Compile Include="Utils\Data.cs"/>
         <Compile Include="Utils\HealHelper.cs"/>
         <Compile Include="Utils\MessageHelper.cs"/>
         <Compile Include="Utils\ModComp\Androids.cs"/>
@@ -194,7 +208,7 @@
         <Compile Include="Utils\TraitHelper.cs"/>
         <Compile Include="Windows\NameQueueDialog.cs"/>
         <Compile Include="Windows\PurgeViewersDialog.cs"/>
-        <Compile Include="Windows\RaceConfigDialog.cs"/>
+        <Compile Include="Windows\PawnKindConfigDialog.cs"/>
         <Compile Include="Windows\StoreDialog.cs"/>
         <Compile Include="Windows\StoreIncidentEditor.cs"/>
         <Compile Include="Windows\TkUtilsWindow.cs"/>
@@ -210,6 +224,9 @@
         <Content Include="..\About\PublishedFileId.txt">
             <Link>About\PublishedFileId.txt</Link>
         </Content>
+        <Content Include="..\Common\Defs\ViewerRescue.xml">
+            <Link>Common\Defs\ViewerRescue.xml</Link>
+        </Content>
         <Content Include="..\Common\Defs\Toolkit\Addons.xml">
             <Link>Common\Defs\Toolkit\Addons.xml</Link>
         </Content>
@@ -219,14 +236,32 @@
         <Content Include="..\Common\Defs\Toolkit\StoreIncidents.xml">
             <Link>Common\Defs\Toolkit\StoreIncidents.xml</Link>
         </Content>
-        <Content Include="..\Common\Languages\English\Keyed\TKUtils.Responses.xml">
-            <Link>Common\Languages\English\Keyed\TKUtils.Responses.xml</Link>
+        <Content Include="..\Common\Languages\English\Keyed\Buttons.xml">
+            <Link>Common\Languages\English\Keyed\Buttons.xml</Link>
         </Content>
-        <Content Include="..\Common\Languages\English\Keyed\TKUtils.Settings.xml">
-            <Link>Common\Languages\English\Keyed\TKUtils.Settings.xml</Link>
+        <Content Include="..\Common\Languages\English\Keyed\Commands.xml">
+            <Link>Common\Languages\English\Keyed\Commands.xml</Link>
         </Content>
-        <Content Include="..\Common\Languages\English\Keyed\TKUtils.Windows.xml">
-            <Link>Common\Languages\English\Keyed\TKUtils.Windows.xml</Link>
+        <Content Include="..\Common\Languages\English\Keyed\ErrorResponses.xml">
+            <Link>Common\Languages\English\Keyed\ErrorResponses.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Incidents.xml">
+            <Link>Common\Languages\English\Keyed\Incidents.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Letters.xml">
+            <Link>Common\Languages\English\Keyed\Letters.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\ContextMenus.xml">
+            <Link>Common\Languages\English\Keyed\ContextMenus.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Responses.xml">
+            <Link>Common\Languages\English\Keyed\Responses.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Settings.xml">
+            <Link>Common\Languages\English\Keyed\Settings.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Windows.xml">
+            <Link>Common\Languages\English\Keyed\Windows.xml</Link>
         </Content>
         <Content Include="..\Common\Patches\AddonPatch.xml">
             <Link>Common\Patches\AddonPatch.xml</Link>

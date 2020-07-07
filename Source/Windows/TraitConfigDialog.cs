@@ -50,7 +50,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslations()
         {
-            titleText = "TKUtils.Windows.Races.Title".Translate();
+            titleText = "TKUtils.TraitStore.Title".Localize();
             // nameHeaderText = "TKUtils.Windows.Store.Headers.Name".Translate();
             // priceText = "TKUtils.Windows.Config.Input.Price.Label".Translate();
             // priceHeaderText = "TKUtils.Windows.Store.Headers.Price".Translate();
@@ -69,7 +69,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Rect searchLabel = searchRect.LeftHalf();
             Rect searchField = searchRect.RightHalf();
 
-            Widgets.Label(searchLabel, "TKUtils.Windows.Config.Buttons.Search.Label".Translate());
+            Widgets.Label(searchLabel, "TKUtils.Buttons.Search".Localize());
             currentQuery = Widgets.TextField(searchField, currentQuery);
 
             if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(searchField))
@@ -84,9 +84,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
 
-            TaggedString enableText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
-            TaggedString disableText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
-            TaggedString applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
+            TaggedString enableText = "TKUtils.Buttons.EnableAll".Localize();
+            TaggedString disableText = "TKUtils.Buttons.DisableAll".Localize();
+            TaggedString applyText = "TKUtils.Buttons.Apply".Localize();
             Vector2 enableSize = Text.CalcSize(enableText) * 1.5f;
             Vector2 disableSize = Text.CalcSize(disableText) * 1.5f;
             float maxWidth = Mathf.Max(enableSize.x, disableSize.x);
@@ -150,7 +150,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
 
             var globalAddBuffer = globalAddCost.ToString();
-            Widgets.Label(globalAddRect.LeftHalf(), "TKUtils.Windows.Traits.AddPrice.Label".Translate());
+            Widgets.Label(globalAddRect.LeftHalf(), "TKUtils.TraitStore.AddCost".Localize());
             Widgets.TextFieldNumeric(globalAddRect.RightHalf(), ref globalAddCost, ref globalAddBuffer);
 
             if (globalAddCost > 0 && SettingsHelper.DrawClearButton(globalAddRect.RightHalf()))
@@ -159,7 +159,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             var globalRemoveBuffer = globalRemoveCost.ToString();
-            Widgets.Label(globalRemoveRect.LeftHalf(), "TKUtils.Windows.Traits.RemovePrice.Label".Translate());
+            Widgets.Label(globalRemoveRect.LeftHalf(), "TKUtils.TraitStore.RemoveCost".Localize());
             Widgets.TextFieldNumeric(globalRemoveRect.RightHalf(), ref globalRemoveCost, ref globalRemoveBuffer);
 
             if (globalRemoveCost > 0 && SettingsHelper.DrawClearButton(globalRemoveRect.RightHalf()))
@@ -246,14 +246,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                     var addBuffer = trait.AddPrice.ToString();
                     Widgets.TextFieldNumericLabeled(
                         addRect,
-                        "TKUtils.Windows.Traits.AddPrice.Label".Translate(),
+                        "TKUtils.TraitStore.AddCost".Localize(),
                         ref trait.AddPrice,
                         ref addBuffer
                     );
                 }
                 else
                 {
-                    Widgets.Label(addRect.LeftHalf(), "TKUtils.Windows.Traits.AddPrice.Label".Translate());
+                    Widgets.Label(addRect.LeftHalf(), "TKUtils.TraitStore.AddCost".Localize());
 
                     Text.Anchor = TextAnchor.MiddleRight;
                     Widgets.Label(addRect.RightHalf(), trait.AddPrice.ToString());
@@ -275,14 +275,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                     var removeBuffer = trait.RemovePrice.ToString();
                     Widgets.TextFieldNumericLabeled(
                         removeRect,
-                        "TKUtils.Windows.Traits.RemovePrice.Label".Translate(),
+                        "TKUtils.TraitStore.RemoveCost".Localize(),
                         ref trait.RemovePrice,
                         ref removeBuffer
                     );
                 }
                 else
                 {
-                    Widgets.Label(removeRect.LeftHalf(), "TKUtils.Windows.Traits.RemovePrice.Label".Translate());
+                    Widgets.Label(removeRect.LeftHalf(), "TKUtils.TraitStore.RemoveCost".Localize());
 
                     Text.Anchor = TextAnchor.MiddleRight;
                     Widgets.Label(removeRect.RightHalf(), trait.RemovePrice.ToString());

@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Settings;
 using Verse;
@@ -50,7 +51,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             optionsListing.Gap();
             optionsListing.GapLine();
-            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Traits".TranslateSimple()}", "Open"))
+            if (optionsListing.ButtonTextLabeled(
+                $"[ToolkitUtils] {"Traits".Localize()}",
+                "TKUtils.Buttons.Open".Localize()
+            ))
             {
                 Find.WindowStack.Add(new TraitConfigDialog());
             }
@@ -58,11 +62,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
             optionsListing.Gap();
             optionsListing.GapLine();
             if (optionsListing.ButtonTextLabeled(
-                Find.ActiveLanguageWorker.Pluralize($"[ToolkitUtils] {"Race".TranslateSimple()}"),
-                "Open"
+                Find.ActiveLanguageWorker.Pluralize($"[ToolkitUtils] {"Race".Localize().Pluralize()}"),
+                "TKUtils.Buttons.Open".Localize()
             ))
             {
-                Find.WindowStack.Add(new RaceConfigDialog());
+                Find.WindowStack.Add(new PawnKindConfigDialog());
             }
         }
     }

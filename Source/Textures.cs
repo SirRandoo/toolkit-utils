@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics.CodeAnalysis;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static class Textures
     {
         internal static readonly Texture2D SortingAscend;

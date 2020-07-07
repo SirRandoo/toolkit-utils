@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -131,17 +131,17 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Responses.BuySurgery.DisabledItem".Translate(partQuery)
+                    "TKUtils.Surgery.ItemDisabled".Localize(partQuery)
                 );
                 return false;
             }
 
-            if (!viewer.CanAfford(product.price + storeIncident.cost))
+            if (!viewer.CanAfford(product.price))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".Localize(
-                        (product.price + storeIncident.cost).ToString("N0"),
+                        product.price.ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
                 );
@@ -241,10 +241,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
-                Viewer.TakeViewerCoins(storeIncident.cost + product.price);
+                Viewer.TakeViewerCoins(product.price);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost + product.price);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, product.price);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {

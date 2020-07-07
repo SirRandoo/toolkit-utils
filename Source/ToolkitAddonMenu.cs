@@ -16,9 +16,11 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class ToolkitAddonMenu : IAddonMenu
     {
-        public List<FloatMenuOption> MenuOptions()
+        private static readonly List<FloatMenuOption> Options;
+
+        static ToolkitAddonMenu()
         {
-            return new List<FloatMenuOption>
+            Options = new List<FloatMenuOption>
             {
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Settings".Localize(),
@@ -111,6 +113,11 @@ namespace SirRandoo.ToolkitUtils
                     }
                 )
             };
+        }
+
+        public List<FloatMenuOption> MenuOptions()
+        {
+            return Options;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (storeIncident.cost > 0)
             {
-                TaggedString disableText = "TKUtils.Windows.IncidentEditor.Disable".Translate();
+                TaggedString disableText = "TKUtils.Buttons.Disable".Translate();
                 float disableWidth = Text.CalcSize(disableText).x * 1.5f;
                 var disableRect = new Rect(buttonGroup.width - disableWidth, 0, disableWidth, Text.LineHeight);
                 offset += disableWidth + 5f;
@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (!storeIncident.defName.Equals("Item"))
             {
-                TaggedString resetText = "TKUtils.Windows.IncidentEditor.Reset".Translate();
+                string resetText = "TKUtils.Buttons.Reset".Localize();
                 float resetWidth = Text.CalcSize(resetText).x * 1.5f;
                 var resetRect = new Rect(
                     buttonGroup.width - offset - resetWidth,
@@ -84,10 +84,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            if (variableIncident
-                && storeIncidentVariables.customSettings)
+            if (storeIncidentVariables?.customSettings ?? false)
             {
-                TaggedString settingsText = "TKUtils.Windows.IncidentEditor.Settings".Translate();
+                string settingsText = "TKUtils.Buttons.Settings".Localize();
                 float settingsWidth = Text.CalcSize(settingsText).x * 1.5f;
                 var settingsRect = new Rect(
                     buttonGroup.width - offset - settingsWidth,
@@ -113,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 (Rect abbrLabel, Rect abbrField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
 
-                Widgets.Label(abbrLabel, "TKUtils.Windows.IncidentEditor.Code".Translate());
+                Widgets.Label(abbrLabel, "TKUtils.IncidentEditor.Code".Localize());
                 storeIncident.abbreviation = Widgets.TextField(abbrField, storeIncident.abbreviation);
 
                 if ((storeIncident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None) == EventTypes.None)
@@ -121,7 +120,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
 
                     listing.Gap();
-                    Widgets.Label(costLabel, "TKUtils.Windows.IncidentEditor.Cost".Translate());
+                    Widgets.Label(costLabel, "TKUtils.IncidentEditor.Cost".Localize());
                     SettingsHelper.DrawPriceField(costField, ref storeIncident.cost, ref ctrl, ref shft);
 
                     if (storeIncident.cost == 0)
@@ -136,16 +135,16 @@ namespace SirRandoo.ToolkitUtils.Windows
                 listing.Gap();
                 Widgets.Label(
                     timesLabel,
-                    "TKUtils.Windows.IncidentEditor.Times".Translate(ToolkitSettings.EventCooldownInterval)
+                    "TKUtils.IncidentEditor.Times".Localize(ToolkitSettings.EventCooldownInterval)
                 );
                 Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 60f);
 
-                if (variableIncident && storeIncidentVariables.maxWager > 0)
+                if (storeIncidentVariables?.maxWager > 0)
                 {
                     listing.Gap();
 
                     (Rect wagerLabel, Rect wagerField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
-                    Widgets.Label(wagerLabel, "TKUtils.Windows.IncidentEditor.Wager".Translate());
+                    Widgets.Label(wagerLabel, "TKUtils.IncidentEditor.Wager".Localize());
                     SettingsHelper.DrawPriceField(
                         wagerField,
                         ref storeIncidentVariables.maxWager,
@@ -168,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 (Rect karmaLabel, Rect karmaField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
                 var karmaType = storeIncident.karmaType.ToString();
 
-                Widgets.Label(karmaLabel, "TKUtils.Windows.IncidentEditor.Karma".Translate());
+                Widgets.Label(karmaLabel, "TKUtils.IncidentEditor.Karma".Localize());
 
                 if (Widgets.ButtonText(karmaField, karmaType))
                 {
@@ -186,14 +185,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                 listing.Gap(6f);
                 Widgets.Label(
                     timesLabel,
-                    "TKUtils.Windows.IncidentEditor.Times".Translate(ToolkitSettings.EventCooldownInterval)
+                    "TKUtils.IncidentEditor.Times".Localize(ToolkitSettings.EventCooldownInterval)
                 );
                 Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 15f);
 
                 listing.Gap();
 
                 Rect current = listing.GetRect(Text.LineHeight);
-                TaggedString itemText = "TKUtils.Windows.IncidentEditor.Items".Translate();
+                string itemText = "TKUtils.Buttons.EditItems".Localize();
                 float itemWidth = Text.CalcSize(itemText).x * 1.5f;
                 var itemRect = new Rect(current.x + current.width - itemWidth, current.y, itemWidth, current.height);
 
@@ -206,7 +205,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (storeIncident.GetModExtension<EventExtension>()?.EventType == EventTypes.Trait)
             {
                 Rect current = listing.GetRect(Text.LineHeight);
-                TaggedString traitText = "TKUtils.Windows.IncidentEditor.Traits".Translate();
+                string traitText = "TKUtils.Buttons.EditTraits".Localize();
                 float traitWidth = Text.CalcSize(traitText).x * 1.5f;
                 var traitRect = new Rect(current.x + current.width - traitWidth, current.y, traitWidth, current.height);
 
@@ -219,13 +218,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (storeIncident.GetModExtension<EventExtension>()?.EventType == EventTypes.PawnKind)
             {
                 Rect current = listing.GetRect(Text.LineHeight);
-                TaggedString raceText = "TKUtils.Windows.IncidentEditor.PawnKind".Translate();
+                string raceText = "TKUtils.Buttons.EditPawns".Localize();
                 float raceWidth = Text.CalcSize(raceText).x * 1.5f;
                 var raceRect = new Rect(current.x + current.width - raceWidth, current.y, raceWidth, current.height);
 
                 if (Widgets.ButtonText(raceRect, raceText))
                 {
-                    Find.WindowStack.Add(new RaceConfigDialog());
+                    Find.WindowStack.Add(new PawnKindConfigDialog());
                 }
             }
 

@@ -61,6 +61,8 @@ namespace SirRandoo.ToolkitUtils
             List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
             var wereChanges = false;
 
+            // We're not going to update this to use EventExtension
+            // since it appears to wipe previous settings.
             foreach (StoreIncident incident in incidents.Where(
                 i => i.defName == "BuyPawn"
                      || i.defName == "AddTrait"

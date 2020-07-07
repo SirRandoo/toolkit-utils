@@ -13,18 +13,18 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private readonly List<Pawn> allPawns;
         private readonly GameComponentPawns pawnComponent;
-        private TaggedString applyText;
-        private TaggedString assignedText;
+        private string applyText;
+        private string assignedText;
         private Pawn current;
-        private TaggedString emptyQueueText;
-        private TaggedString randomText;
-        private TaggedString removeText;
+        private string emptyQueueText;
+        private string randomText;
+        private string removeText;
         private Vector2 scrollPos = Vector2.zero;
 
-        private TaggedString titleText;
-        private TaggedString unassignedText;
+        private string titleText;
+        private string unassignedText;
         private string username;
-        private TaggedString usernameText;
+        private string usernameText;
 
         public NameQueueDialog()
         {
@@ -49,14 +49,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslations()
         {
-            titleText = "TKUtils.Windows.NameQueue.Title".Translate();
-            emptyQueueText = "TKUtils.Windows.NameQueue.None".Translate();
-            assignedText = "TKUtils.Windows.NameQueue.Assigned".Translate();
-            unassignedText = "TKUtils.Windows.NameQueue.Unassigned".Translate();
-            applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
-            randomText = "TKUtils.Windows.Config.Buttons.Random.Label".Translate();
-            removeText = "TKUtils.Windows.Config.Buttons.Remove.Label".Translate();
-            usernameText = "TKUtils.Windows.Config.Input.Username.Label".Translate();
+            titleText = "TKUtils.NameQueue.Title".Localize();
+            emptyQueueText = "TKUtils.NameQueue.None".Localize();
+            assignedText = "TKUtils.NameQueue.Assigned".Localize();
+            unassignedText = "TKUtils.NameQueue.Unassigned".Localize();
+            applyText = "TKUtils.Buttons.Apply".Localize();
+            randomText = "TKUtils.Buttons.Random".Localize();
+            removeText = "TKUtils.Buttons.Remove".Localize();
+            usernameText = "TKUtils.Inputs.Username".Localize();
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             Widgets.Label(
                 queueNoticeRect,
-                "TKUtils.Windows.NameQueue.Count".Translate(pawnComponent.ViewerNameQueue.Count)
+                $"{pawnComponent.ViewerNameQueue.Count:N0} {"TKUtils.NameQueue.Count".Localize()}"
             );
 
             if (Widgets.ButtonText(queueRandomRect, randomText))
@@ -262,8 +262,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             DrawTextFitted(
                 viewerRect,
                 pawnComponent.pawnHistory.All(p => !p.Key.EqualsIgnoreCase(name?.Nick ?? string.Empty))
-                    ? $@"<color=""#ff8080"">{name?.Nick} ({unassignedText.RawText})</color>"
-                    : $@"<color=""#80ff80"">{name?.Nick} ({assignedText.RawText})</color>"
+                    ? $"{name?.Nick} ({unassignedText})".ColorTagged("ff8080")
+                    : $"{name?.Nick} ({assignedText})".ColorTagged("80ff80")
             );
             Text.Anchor = cache;
 

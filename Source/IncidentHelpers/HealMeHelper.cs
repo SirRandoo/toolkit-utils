@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -85,12 +85,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
                 if (toHeal != null)
                 {
-                    response = "TKUtils.Responses.HealMe.Healed";
+                    response = "TKUtils.HealMe.Recovered";
                 }
 
                 if (toRestore != null)
                 {
-                    response = "TKUtils.Responses.HealMe.Restored";
+                    response = "TKUtils.HealMe.Restored";
                 }
 
                 if (!response.NullOrEmpty())
@@ -103,12 +103,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (toHeal != null)
             {
-                description = "TKUtils.Letters.Heal.Recovery.Description";
+                description = "TKUtils.HealLetter.RecoveredDescription";
             }
 
             if (toRestore != null)
             {
-                description = "TKUtils.Letters.Heal.Restored.Description";
+                description = "TKUtils.HealLetter.RestoredDescription";
             }
 
             if (!description.NullOrEmpty())

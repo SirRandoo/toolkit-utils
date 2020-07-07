@@ -266,7 +266,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             {
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    "TKUtils.ReplaceTrait.Complete".Translate(
+                    "TKUtils.ReplaceTrait.Complete".Localize(
                         replaceThisTrait.LabelCap,
                         replaceThatTrait.LabelCap
                     )
@@ -274,8 +274,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.TraitLetter.Title".TranslateSimple(),
-                "TKUtils.TraitLetter.ReplaceDescription".Translate(
+                "TKUtils.TraitLetter.Title".Localize(),
+                "TKUtils.TraitLetter.ReplaceDescription".Localize(
                     Viewer.username,
                     replaceThisTrait.LabelCap,
                     replaceThatTrait.LabelCap

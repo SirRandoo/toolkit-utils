@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Models;
@@ -15,11 +15,6 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static bool IsSexualityTrait(TraitDef trait)
         {
-            if (!TkSettings.Sexuality)
-            {
-                return false;
-            }
-
             if (trait.exclusionTags.Contains("SexualOrientation"))
             {
                 return true;

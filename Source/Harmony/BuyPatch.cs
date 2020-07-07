@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
@@ -14,6 +15,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly]
     public class BuyPatch
     {
+        private static string buyCommand;
+
         [HarmonyPrefix]
         [UsedImplicitly]
         public static bool Prefix(CommandDriver __instance, ITwitchMessage twitchMessage)
@@ -33,7 +36,16 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (!__instance.command.defName.Equals("Buy"))
             {
-                message = twitchMessage.WithMessage($"!buy {twitchMessage.Message.Substring(1)}");
+                buyCommand ??=
+                    Verse.DefDatabase<Command>.AllDefsListForReading.FirstOrDefault(c => c.defName.Equals("Buy"))
+                        ?.command
+                    ?? "buy";
+
+                message = twitchMessage.WithMessage($"!{buyCommand} {twitchMessage.Message.Substring(1)}");
+            }
+            else
+            {
+                buyCommand = __instance.command.command;
             }
 
             if (message.Message.Split(' ').Length < 2)

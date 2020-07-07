@@ -168,5 +168,25 @@ namespace SirRandoo.ToolkitUtils.Utils
                 new Rect(left.x + left.width + 2f, left.y, region.width - left.width - 2f, left.height)
             );
         }
+
+        public static string Tagged(this string s, string tag)
+        {
+            return $"<{tag}>{s}</{tag}>";
+        }
+
+        public static string ColorTagged(this string s, string hex)
+        {
+            if (!hex.StartsWith("#"))
+            {
+                hex = $"#{hex}";
+            }
+
+            return $@"<color=""{hex}"">{s}</color>";
+        }
+
+        public static string ColorTagged(this string s, Color color)
+        {
+            return ColorTagged(s, ColorUtility.ToHtmlStringRGB(color));
+        }
     }
 }

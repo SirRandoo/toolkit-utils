@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
@@ -15,7 +15,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply("TKUtils.Responses.NoPawn".TranslateSimple());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 

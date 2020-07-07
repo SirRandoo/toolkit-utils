@@ -7,7 +7,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
-    public class RaceConfigDialog : Window
+    public class PawnKindConfigDialog : Window
     {
         private readonly List<XmlRace> cache = TkUtils.ShopExpansion.Races;
         private TaggedString applyText;
@@ -30,10 +30,10 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Sorter sorter = Sorter.Name;
         private SortMode sortMode = SortMode.Ascending;
 
-        private TaggedString titleText;
+        private string titleText;
 
 
-        public RaceConfigDialog()
+        public PawnKindConfigDialog()
         {
             GetTranslations();
 
@@ -54,15 +54,15 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslations()
         {
-            titleText = "TKUtils.Windows.Races.Title".Translate();
-            nameHeaderText = "TKUtils.Windows.Store.Headers.Name".Translate();
-            priceText = "TKUtils.Windows.Config.Input.Price.Label".Translate();
-            priceHeaderText = "TKUtils.Windows.Store.Headers.Price".Translate();
-            applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
-            searchText = "TKUtils.Windows.Config.Buttons.Search.Label".Translate();
-            resetText = "TKUtils.Windows.Config.Buttons.ResetAll.Label".Translate();
-            enableText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
-            disableText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
+            titleText = "TKUtils.PawnKindStore.Title".Localize();
+            nameHeaderText = "TKUtils.Headers.Name".Localize();
+            priceText = "TKUtils.Inputs.Price".Localize();
+            priceHeaderText = "TKUtils.Headers.Price".Localize();
+            applyText = "TKUtils.Buttons.Apply".Localize();
+            searchText = "TKUtils.Buttons.Search".Localize();
+            resetText = "TKUtils.Buttons.ResetAll".Localize();
+            enableText = "TKUtils.Buttons.EnableAll".Localize();
+            disableText = "TKUtils.Buttons.DisableAll".Localize();
         }
 
         private void DrawHeader(Rect inRect)

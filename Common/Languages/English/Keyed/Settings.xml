@@ -28,6 +28,8 @@
     
     <!-- Abandon -->
     <TKUtils.Abandon.Method>How pawns should leave when the leave command is invoked.</TKUtils.Abandon.Method>
+    <TKUtils.Abandon.Thanos>Thanos</TKUtils.Abandon.Thanos>
+    <TKUtils.Abandon.MentalBreak>Mental break</TKUtils.Abandon.MentalBreak>
     <TKUtils.Abandon.Gear.Label>Colonists that leave by the leave command drop their inventory.</TKUtils.Abandon.Gear.Label>
     <TKUtils.Abandon.Gear.Tooltip>If a viewer chooses to leave the colony by the leave command (!leave), they'll empty their inventory (including an worn items) before departing.</TKUtils.Abandon.Gear.Tooltip>
     
@@ -42,6 +44,10 @@
     
     <!-- General Group -->
     <TKUtils.General>General</TKUtils.General>
+    
+    <!-- Star -->
+    <TKUtils.DecorateUtils.Label>Add a little star beside Utils in the mod list command.</TKUtils.DecorateUtils.Label>
+    <TKUtils.DecorateUtils.Tooltip>because why not?</TKUtils.DecorateUtils.Tooltip>
     
     <!-- Versioned Mod List -->
     <TKUtils.VersionedModList.Label>Include mod versions in the mod list command.</TKUtils.VersionedModList.Label>

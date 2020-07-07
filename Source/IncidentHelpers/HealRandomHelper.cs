@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -84,12 +84,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (toHeal != null)
             {
-                description = "TKUtils.Letters.Heal.Recovery.Description";
+                description = "TKUtils.HealLetter.RecoveredDescription";
             }
 
             if (toRestore != null)
             {
-                description = "TKUtils.Letters.Heal.Restored.Description";
+                description = "TKUtils.HealLetter.RestoredDescription";
             }
 
             if (description.NullOrEmpty())
