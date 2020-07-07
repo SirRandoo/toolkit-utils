@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
@@ -116,10 +116,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 Widgets.Label(abbrLabel, "TKUtils.Windows.IncidentEditor.Code".Translate());
                 storeIncident.abbreviation = Widgets.TextField(abbrField, storeIncident.abbreviation);
 
-                if (!(storeIncident.defName.Equals("AddTrait")
-                      || storeIncident.defName.Equals("RemoveTrait")
-                      || storeIncident.defName.Equals("BuyPawn"))
-                    || storeIncident.defName.Equals("ReplaceTrait"))
+                if ((storeIncident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None) == EventTypes.None)
                 {
                     (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
 
@@ -181,7 +178,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.Gap();
 
-            if (storeIncident.defName.Equals("Item"))
+            if (storeIncident.GetModExtension<EventExtension>()?.EventType == EventTypes.Item)
             {
                 (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
                 var timesBuffer = storeIncident.eventCap.ToString();
@@ -206,7 +203,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            if (storeIncident.defName.Equals("AddTrait") || storeIncident.defName.Equals("RemoveTrait"))
+            if (storeIncident.GetModExtension<EventExtension>()?.EventType == EventTypes.Trait)
             {
                 Rect current = listing.GetRect(Text.LineHeight);
                 TaggedString traitText = "TKUtils.Windows.IncidentEditor.Traits".Translate();
@@ -219,10 +216,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            if (storeIncident.defName.Equals("BuyPawn"))
+            if (storeIncident.GetModExtension<EventExtension>()?.EventType == EventTypes.PawnKind)
             {
                 Rect current = listing.GetRect(Text.LineHeight);
-                TaggedString raceText = "TKUtils.Windows.IncidentEditor.Races".Translate();
+                TaggedString raceText = "TKUtils.Windows.IncidentEditor.PawnKind".Translate();
                 float raceWidth = Text.CalcSize(raceText).x * 1.5f;
                 var raceRect = new Rect(current.x + current.width - raceWidth, current.y, raceWidth, current.height);
 
