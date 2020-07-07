@@ -8,7 +8,7 @@ namespace SirRandoo.ToolkitUtils
     {
         None,
         [UsedImplicitly] Trait,
-        [UsedImplicitly] Race,
+        [UsedImplicitly] PawnKind,
         [UsedImplicitly] Item
     }
 
