@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
@@ -39,10 +38,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             switch (data.Type)
             {
                 case MagicComp.ClassTypes.Might:
-                    key = "TKUtils.Misc.Stamina";
+                    key = "TKUtils.PawnClass.Stamina";
                     break;
                 case MagicComp.ClassTypes.Magic:
-                    key = "TKUtils.Misc.Mana";
+                    key = "TKUtils.PawnClass.Mana";
                     break;
                 default:
                     key = null;
@@ -58,8 +57,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     t += "+";
                 }
-
-                string rateKey = key?.Substring(key.LastIndexOf(".", StringComparison.Ordinal) + 1, 1) ?? "?";
 
                 t += $"{data.ResourceRegenRate:N0} {rateKey}P/5s";
                 t += ")";
