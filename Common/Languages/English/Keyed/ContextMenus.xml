@@ -6,6 +6,14 @@
     <TKUtils.AddonMenu.PawnKind>Pawn Kind Config</TKUtils.AddonMenu.PawnKind>
     <TKUtils.AddonMenu.Trait>Trait Config</TKUtils.AddonMenu.Trait>
     <TKUtils.AddonMenu.Purge>Purge Viewers</TKUtils.AddonMenu.Purge>
+    <TKUtils.AddonMenu.Events>Events</TKUtils.AddonMenu.Events>
+    <TKUtils.AddonMenu.Items>Items</TKUtils.AddonMenu.Items>
+    <TKUtils.AddonMenu.Commands>Commands</TKUtils.AddonMenu.Commands>
+    <TKUtils.AddonMenu.Viewers>Viewers</TKUtils.AddonMenu.Viewers>
+    <TKUtils.AddonMenu.NameQueue>Name queue</TKUtils.AddonMenu.NameQueue>
+    <TKUtils.AddonMenu.Tracker>Tracker</TKUtils.AddonMenu.Tracker>
+    <TKUtils.AddonMenu.ToggleCoinEarning>Toggle earning coins</TKUtils.AddonMenu.ToggleCoinEarning>
+    <TKUtils.AddonMenu.DebugFix>Debug fix</TKUtils.AddonMenu.DebugFix>
     
     
     <!-- Purge Menu -->

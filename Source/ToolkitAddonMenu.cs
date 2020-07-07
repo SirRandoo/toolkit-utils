@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Interfaces;
 using ToolkitCore.Windows;
@@ -20,7 +21,7 @@ namespace SirRandoo.ToolkitUtils
             return new List<FloatMenuOption>
             {
                 new FloatMenuOption(
-                    "Settings",
+                    "TKUtils.AddonMenu.Settings".Localize(),
                     () =>
                     {
                         var settings = new Window_ModSettings(LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>());
@@ -30,7 +31,7 @@ namespace SirRandoo.ToolkitUtils
                     }
                 ),
                 new FloatMenuOption(
-                    "Events",
+                    "TKUtils.AddonMenu.Events".Localize(),
                     () =>
                     {
                         var window = new StoreIncidentsWindow();
@@ -40,7 +41,7 @@ namespace SirRandoo.ToolkitUtils
                     }
                 ),
                 new FloatMenuOption(
-                    "Items",
+                    "TKUtils.AddonMenu.Items".Localize(),
                     () =>
                     {
                         var window = new StoreDialog();
@@ -50,7 +51,7 @@ namespace SirRandoo.ToolkitUtils
                     }
                 ),
                 new FloatMenuOption(
-                    "Commands",
+                    "TKUtils.AddonMenu.Commands".Localize(),
                     () =>
                     {
                         var window = new Window_Commands();
@@ -60,7 +61,7 @@ namespace SirRandoo.ToolkitUtils
                     }
                 ),
                 new FloatMenuOption(
-                    "Viewers",
+                    "TKUtils.AddonMenu.Viewers".Localize(),
                     () =>
                     {
                         var window = new Window_Viewers();
@@ -70,7 +71,7 @@ namespace SirRandoo.ToolkitUtils
                     }
                 ),
                 new FloatMenuOption(
-                    "Name Queue",
+                    "TKUtils.AddonMenu.NameQueue".Localize(),
                     () =>
                     {
                         var window = new NameQueueDialog();
@@ -80,7 +81,7 @@ namespace SirRandoo.ToolkitUtils
                     }
                 ),
                 new FloatMenuOption(
-                    "Tracker",
+                    "TKUtils.AddonMenu.Tracker".Localize(),
                     () =>
                     {
                         var window = new Window_Trackers();
@@ -90,19 +91,19 @@ namespace SirRandoo.ToolkitUtils
                     }
                 ),
                 new FloatMenuOption(
-                    "Toggle Earning Coins",
+                    "TKUtils.AddonMenu.ToggleCoinEarning".Localize(),
                     () =>
                     {
                         ToolkitSettings.EarningCoins = !ToolkitSettings.EarningCoins;
 
                         Messages.Message(
-                            $"Earning Coins is {(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}",
+                            $"TKUtils.CoinEarning{(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}".Localize(),
                             MessageTypeDefOf.NeutralEvent
                         );
                     }
                 ),
                 new FloatMenuOption(
-                    "Debug Fix",
+                    "TKUtils.AddonMenu.DebugFix".Localize(),
                     () =>
                     {
                         Helper.playerMessages = new List<string>();

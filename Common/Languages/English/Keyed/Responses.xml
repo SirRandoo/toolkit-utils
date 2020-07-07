@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- Toolkit Addon Menu -->
+    <TKUtils.CoinEarningEnabled>Earning coins has been enabled</TKUtils.CoinEarningEnabled>
+    <TKUtils.CoinEarningDisable>Earning coins has been disabled</TKUtils.CoinEarningDisable>
+</LanguageData>
