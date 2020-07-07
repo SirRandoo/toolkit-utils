@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- Viewer Dialog -->
+    <TKUtils.Buttons.Purge>Purge</TKUtils.Buttons.Purge>
+    
+    
+    <!-- Purge Dialog -->
+    <TKUtils.Buttons.Remove>Remove</TKUtils.Buttons.Remove>
+    <TKUtils.Buttons.AddConstraint>Add constraint</TKUtils.Buttons.AddConstraint>
+    <TKUtils.Buttons.ViewAffected>View affected</TKUtils.Buttons.ViewAffected>
+    <TKUtils.Buttons.PurgeViewers>Purge viewers</TKUtils.Buttons.PurgeViewers>
+    <TKUtils.Buttons.Back>Back</TKUtils.Buttons.Back>
+    <TKUtils.Buttons.Exempt>Exempt</TKUtils.Buttons.Exempt>
+    <TKUtils.Buttons.ClearConstraints>Clear constraints</TKUtils.Buttons.ClearConstraints>
+    <TKUtils.Buttons.Confirm>Confirm</TKUtils.Buttons.Confirm>
+    
+    
+    <!-- Incident Editor -->
+    <TKUtils.Buttons.Disable>Disable</TKUtils.Buttons.Disable>
+    <TKUtils.Buttons.Reset>Reset</TKUtils.Buttons.Reset>
+    <TKUtils.Buttons.Settings>Settings</TKUtils.Buttons.Settings>
+    <TKUtils.Buttons.EditItems>Edit item prices</TKUtils.Buttons.EditItems>
+    <TKUtils.Buttons.EditTraits>Edit trait prices</TKUtils.Buttons.EditTraits>
+    <TKUtils.Buttons.EditPawns>Edit pawn prices</TKUtils.Buttons.EditPawns>
+    
+    
+    <!-- ? -->
+    <TKUtils.Buttons.Search>Search</TKUtils.Buttons.Search>
+    <TKUtils.Buttons.EnableAll>Enable all</TKUtils.Buttons.EnableAll>
+    <TKUtils.Buttons.DisableAll>Disable all</TKUtils.Buttons.DisableAll>
+    <TKUtils.Butotns.ResetAll>Reset all</TKUtils.Butotns.ResetAll>
+    <TKUtils.Buttons.Apply>Apply</TKUtils.Buttons.Apply>
+    <TKUtils.Buttons.Random>Random</TKUtils.Buttons.Random>
+</LanguageData>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- ToolkitCore Addon Menu -->
+    <TKUtils.AddonMenu.Settings>Settings</TKUtils.AddonMenu.Settings>
+    <TKUtils.AddonMenu.PawnKind>Pawn Kind Config</TKUtils.AddonMenu.PawnKind>
+    <TKUtils.AddonMenu.Trait>Trait Config</TKUtils.AddonMenu.Trait>
+    <TKUtils.AddonMenu.Purge>Purge Viewers</TKUtils.AddonMenu.Purge>
+    
+    
+    <!-- Purge Menu -->
+    <!-- Constraints Menu -->
+    <TKUtils.PurgeMenu.Coins>coins</TKUtils.PurgeMenu.Coins>
+    <TKUtils.PurgeMenu.Time>time</TKUtils.PurgeMenu.Time>
+    <TKUtils.PurgeMenu.Karma>karma</TKUtils.PurgeMenu.Karma>
+    <TKUtils.PurgeMenu.Banned>is banned</TKUtils.PurgeMenu.Banned>
+    <TKUtils.PurgeMenu.Vip>not vip</TKUtils.PurgeMenu.Vip>
+    <TKUtils.PurgeMenu.Sub>not subbed</TKUtils.PurgeMenu.Sub>
+    <TKUtils.PurgeMenu.Mod>not modded</TKUtils.PurgeMenu.Mod>
+    <TKUtils.PurgeMenu.Name>username</TKUtils.PurgeMenu.Name>
+    
+    <!-- Time Constraint Menu -->
+    <TKUtils.PurgeMenu.Hours>hours</TKUtils.PurgeMenu.Hours>
+    <TKUtils.PurgeMenu.Days>days</TKUtils.PurgeMenu.Days>
+    <TKUtils.PurgeMenu.Months>months</TKUtils.PurgeMenu.Months>
+    <TKUtils.PurgeMenu.Years>years</TKUtils.PurgeMenu.Years>
+    
+    <!-- Username Constraint Menu -->
+    <TKUtils.PurgeMenu.Is>is</TKUtils.PurgeMenu.Is>
+    <TKUtils.PurgeMenu.IsNot>is not</TKUtils.PurgeMenu.IsNot>
+    
+    
+    <!-- Item Store Menu -->
+    <TKUtils.StoreMenu.Mod>Filter by mod "{0}"</TKUtils.StoreMenu.Mod>
+    <TKUtils.StoreMenu.Category>Filter by "{0}" category</TKUtils.StoreMenu.Category>
+    <TKUtils.StoreMenu.DisableCategory>Disable all in "{0}" category</TKUtils.StoreMenu.DisableCategory>
+    <TKUtils.StoreMenu.EnableCategory>Enable all in "{0}" category</TKUtils.StoreMenu.EnableCategory>
+    <TKUtils.StoreMenu.Ascending>Sort ascending</TKUtils.StoreMenu.Ascending>
+    <TKUtils.StoreMenu.Descending>Sort descending</TKUtils.StoreMenu.Descending>
+    <TKUtils.StoreMenu.Info>Show information</TKUtils.StoreMenu.Info>
+    <TKUtils.StoreMenu.Enable>Enable "{0}"</TKUtils.StoreMenu.Enable>
+    <TKUtils.StoreMenu.Disable>Disable "{0}"</TKUtils.StoreMenu.Disable>
+    <TKUtils.StoreMenu.Toggle>Toggle "{0}"</TKUtils.StoreMenu.Toggle>
+</LanguageData>

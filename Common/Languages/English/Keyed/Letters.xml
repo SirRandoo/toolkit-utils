@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- Trait -->
+    <TKUtils.TraitLetter.Title>Trait</TKUtils.TraitLetter.Title>
+    <TKUtils.TraitLetter.AddDescription>{0} purchased trait {1}</TKUtils.TraitLetter.AddDescription>
+    <TKUtils.TraitLetter.RemoveDescription>{0} removed trait {1}</TKUtils.TraitLetter.RemoveDescription>
+    <TKUtils.TraitLetter.ReplaceDescription>{0} replaced {1} with {2}</TKUtils.TraitLetter.ReplaceDescription>
+    
+    <!-- Pawn -->
+    <TKUtils.PawnLetter.Title>Viewer Joins</TKUtils.PawnLetter.Title>
+    <TKUtils.PawnLetter.Description>A new pawn has been purchased by {0}, let's welcome them to the colony.</TKUtils.PawnLetter.Description>
+    
+    <!-- Surgery -->
+    <TKUtils.SurgeryLetter.Title>Surgery Scheduled</TKUtils.SurgeryLetter.Title>
+    <TKUtils.SurgeryLetter.Description>{0} has scheduled a(n) {1} to be installed on their pawn</TKUtils.SurgeryLetter.Description>
+    
+    <!-- Mass Heal -->
+    <TKUtils.MassHealLetter.Title>Mass Heal</TKUtils.MassHealLetter.Title>
+    <TKUtils.MassHealLetter.Description>All pawns have recovered from an affliction.</TKUtils.MassHealLetter.Description>
+    
+    <!-- Heal -->
+    <TKUtils.HealLetter.Title>Heal</TKUtils.HealLetter.Title>
+    <TKUtils.HealLetter.RecoveredDescription>{0} recovered from {1}</TKUtils.HealLetter.RecoveredDescription>
+    <TKUtils.HealLetter.RestoredDescription>{0} had their {1} restored</TKUtils.HealLetter.RestoredDescription>
+    
+    <!-- Immortality -->
+    <TKUtils.ImmortalityLetter.Title>Immortality</TKUtils.ImmortalityLetter.Title>
+    <TKUtils.ImmortalityLetter.Description>{0} has been granted immortality</TKUtils.ImmortalityLetter.Description>
+    
+    <!-- Passion Shuffle -->
+    <TKUtils.PassionShuffleLetter.Title>Passion Shuffle</TKUtils.PassionShuffleLetter.Title>
+    <TKUtils.PassionShuffleLetter.Description>{0} has shuffled their pawn's passions</TKUtils.PassionShuffleLetter.Description>
+    
+    <!-- Mass Revive -->
+    <TKUtils.MassRevivalLetter.Title>Mass Revival</TKUtils.MassRevivalLetter.Title>
+    <TKUtils.MassRevivalLetter.Description>Previously deceased pawns have been granted another chance at life.</TKUtils.MassRevivalLetter.Description>
+    
+    <!-- Revive -->
+    <TKUtils.RevivalLetter.Title>Pawn Revived</TKUtils.RevivalLetter.Title>
+    <TKUtils.RevivalLetter.Description>{0} has been revived but is experiencing some side effects.</TKUtils.RevivalLetter.Description>
+    
+    
+    <!-- Leave -->
+    <TKUtils.LeaveLetter.ThanosTitle>Colonist Vanished</TKUtils.LeaveLetter.ThanosTitle>
+    <TKUtils.LeaveLetter.GenericTitle>Colonist Left</TKUtils.LeaveLetter.GenericTitle>
+    <TKUtils.LeaveLetter.ThanosDescription>{0} was snapped out of existence</TKUtils.LeaveLetter.ThanosDescription>
+    <TKUtils.LeaveLetter.GenericDescription>{0} chose to leave the colony</TKUtils.LeaveLetter.GenericDescription>
+</LanguageData>

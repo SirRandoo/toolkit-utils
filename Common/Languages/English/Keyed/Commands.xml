@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- Balance -->
+    <TKUtils.Balance.Coins>coins</TKUtils.Balance.Coins>
+    <TKUtils.Balance.Karma>karma</TKUtils.Balance.Karma>
+    <TKUtils.Balance.Rate>Earning {0} coins every {1} minute(s)</TKUtils.Balance.Rate>
+    
+    <!-- Database -->
+    <TKUtils.Database.Stats>stats</TKUtils.Database.Stats>
+    
+    <!-- Factions -->
+    <TKUtils.Factions.None>The current game does not have any visible factions.</TKUtils.Factions.None>
+    
+    <!-- Leave -->
+    <TKUtils.Leave.Thanos>Mr. Stark, I don't feel so good...</TKUtils.Leave.Thanos>
+    <TKUtils.Leave.Generic>You've left the colony.</TKUtils.Leave.Generic>
+    <TKUtils.Leave.Caravan>You cannot leave while in a caravan.</TKUtils.Leave.Caravan>
+    
+    <!-- Lookup -->
+    <TKUtils.Lookup>Results for "{0}": {1}</TKUtils.Lookup>
+    
+    <!-- Pawn Class -->
+    <TKUtils.PawnClass.Class>class</TKUtils.PawnClass.Class>
+    <TKUtils.PawnClass.Experience>xp</TKUtils.PawnClass.Experience>
+    <TKUtils.PawnClass.Level>level</TKUtils.PawnClass.Level>
+    <TKUtils.PawnClass.Stamina>stamina</TKUtils.PawnClass.Stamina>
+    <TKUtils.PawnClass.Mana>mana</TKUtils.PawnClass.Mana>
+    <TKUtils.PawnClass.None>You do not have a class.</TKUtils.PawnClass.None>
+    <TKUtils.PawnClass.Points>{0} point(s) available.</TKUtils.PawnClass.Points>
+    
+    <!-- Fix All -->
+    <TKUtils.FixAll>Successfully relinked all pawns.</TKUtils.FixAll>
+    
+    <!-- Fix Me -->
+    <TKUtils.FixMe>You've been successfully relinked in Twitch Toolkit.</TKUtils.FixMe>
+    
+    <!-- Pawn Health -->
+    <TKUtils.PawnHealth.InvalidCapacity>No capacity by the name of "{0}" could be found.</TKUtils.PawnHealth.InvalidCapacity>
+    <TKUtils.PawnHealth.IncapableOfCapacity>Your pawn does not utilize the capacity "{0}".</TKUtils.PawnHealth.IncapableOfCapacity>
+    <TKUtils.PawnHealth.QueuedSugeries>Queued sugeries</TKUtils.PawnHealth.QueuedSugeries>
+    <TKUtils.PawnHealth.OverallHealth>Overall health</TKUtils.PawnHealth.OverallHealth>
+    <TKUtils.PawnHealth.AffectedBy>Affected by</TKUtils.PawnHealth.AffectedBy>
+    
+    <!-- Pawn Kills -->
+    <TKUtils.PawnKills.Total>total</TKUtils.PawnKills.Total>
+    <TKUtils.PawnKills.Mechanoids>mechanoids</TKUtils.PawnKills.Mechanoids>
+    <TKUtils.PawnKills.Animals>animals</TKUtils.PawnKills.Animals>
+    <TKUtils.PawnKills.Humanlike>humanlike</TKUtils.PawnKills.Humanlike>
+    
+    <!-- Pawn Needs -->
+    <TKUtils.PawnNeeds.None>Your pawn does not have any needs.</TKUtils.PawnNeeds.None>
+    
+    <!-- Pawn Stats -->
+    <TKUtils.PawnStats.None>Your pawn does not have any stats in the specified category.</TKUtils.PawnStats.None>
+    
+    <!-- Pawn Work -->
+    <TKUtils.PawnWork.Header>Work priorities</TKUtils.PawnWork.Header>
+    <TKUtils.PawnWork.None>Your pawn cannot do any work.</TKUtils.PawnWork.None>
+    
+    <!-- Price -->
+    <TKUtils.Price.Quantity>{0} - {1} coins per item ({2} total coins required to purchase {3} item(s))</TKUtils.Price.Quantity>
+    <TKUtils.Price.AddTrait>{0} coins to add</TKUtils.Price.AddTrait>
+    <TKUtils.Price.RemoveTrait>{0} coins to remove</TKUtils.Price.RemoveTrait>
+    <TKUtils.Price.Limited>{0} - {1} coins</TKUtils.Price.Limited>
+    <TKUtils.Price.OverriddenItem>To see the pricing for an item, you can use the "items" category in the price check command.</TKUtils.Price.OverriddenItem>
+    <TKUtils.Price.OverriddenTrait>To see the pricing for a trait, you can use the "traits" category in the price check command.</TKUtils.Price.OverriddenTrait>
+    <TKUtils.Price.OverriddenRace>To see the pricing for a pawn kind, you can use the "kind" category in the price check command.</TKUtils.Price.OverriddenRace>
+    
+    <!-- Toggle Store -->
+    <TKUtils.ToggleStore.Enabled>Toolkit's store has been enabled.</TKUtils.ToggleStore.Enabled>
+    <TKUtils.ToggleStore.Disabled>Toolkit's store has been disabled.</TKUtils.ToggleStore.Disabled>
+    
+    <!-- Research -->
+    <TKUtils.Research.InvalidQuery>No research project by the name of "{0}" could be found.</TKUtils.Research.InvalidQuery>
+    <TKUtils.Research.None>The colony is not currently researching anything.</TKUtils.Research.None>
+    
+    <!-- Unstick -->
+    <TKUtils.Unstick>Unstuck {0} viewers.</TKUtils.Unstick>
+</LanguageData>

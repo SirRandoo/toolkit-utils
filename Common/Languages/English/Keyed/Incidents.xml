@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- Trait -->
+    <TKUtils.Trait.Complete>Added {0} to your pawn.</TKUtils.Trait.Complete>
+    <TKUtils.Trait.Duplicate>Your pawn already has the trait {0}.</TKUtils.Trait.Duplicate>
+    <TKUtils.Trait.Conflict>Your pawn has {0} which conflicts with {1}!</TKUtils.Trait.Conflict>
+    <TKUtils.Trait.Disabled>The trait "{0}" has been restricted from being added to pawns.</TKUtils.Trait.Disabled>
+    <TKUtils.Trait.LimitReached>Your pawn already has the maximum number of traits allowed ({0} traits).</TKUtils.Trait.LimitReached>
+    <TKUtils.Trait.RestrictedByKind>Your pawn is a {0}, which disallowed the trait "{1}" from being added.</TKUtils.Trait.RestrictedByKind>
+    <TKUtils.Trait.RestrictedByBackstory>Your pawn has the backstory {0}, which forbids {1} from being added to your pawn.</TKUtils.Trait.RestrictedByBackstory>
+    
+    <!-- Buy Pawn -->
+    <TKUtils.BuyPawn.Humanlike>Only humanlikes can be purchased.</TKUtils.BuyPawn.Humanlike>
+    <TKUtils.BuyPawn.Confirmation>You've purchased a colonist and have now joined the colony.</TKUtils.BuyPawn.Confirmation>
+    
+    <!-- Surgery -->
+    <TKUtils.Surgery.Complete>Your pawn has been queued for surgery.</TKUtils.Surgery.Complete>
+    <TKUtils.Surgery.NoSlotAvailable>No suitable body part could be found.</TKUtils.Surgery.NoSlotAvailable>
+    <TKUtils.Surgery.ItemDisabled>The item "{0}" cannot be purchased; it's disabled.</TKUtils.Surgery.ItemDisabled>
+    <TKUtils.Surgery.Queued>Your pawn already has a surgery of this type queued for body part "{0}".</TKUtils.Surgery.Queued>
+    <TKUtils.Surgery.HasNoSurgery>The item "{0}" cannot be purchased; it cannot be surgically attached.</TKUtils.Surgery.HasNoSurgery>
+    
+    <!-- Heal Me -->
+    <TKUtils.HealMe.Recovered>Your pawn has recovered from {0}.</TKUtils.HealMe.Recovered>
+    <TKUtils.HealMe.Restored>Your pawn has had their {0} restored.</TKUtils.HealMe.Restored>
+    
+    <!-- Immortality -->
+    <TKUtils.Immortality>Your pawn has been granted immortality.</TKUtils.Immortality>
+    
+    <!-- Passion Shuffle -->
+    <TKUtils.PassionShuffle.None>Your pawn has no passions to shuffle.</TKUtils.PassionShuffle.None>
+    <TKUtils.PassionShuffle.Complete>Your passion have been shuffled.</TKUtils.PassionShuffle.Complete>
+    
+    <!-- Remove Trait -->
+    <TKUtils.RemoveTrait.Complete>Removed {0} from your pawn.</TKUtils.RemoveTrait.Complete>
+    <TKUtils.RemoveTrait.None>Your pawn does not have any traits.</TKUtils.RemoveTrait.None>
+    <TKUtils.RemoveTrait.Missing>Your pawn does not have the trait "{0}"!</TKUtils.RemoveTrait.Missing>
+    <TKUtils.RemoveTrait.Disabled>The trait "{0}" has been restricted from being removed from pawns.</TKUtils.RemoveTrait.Disabled>
+    
+    <!-- Replace Trait -->
+    <TKUtils.ReplaceTrait.Complete>Replace {0} with {1}!</TKUtils.ReplaceTrait.Complete>
+    <TKUtils.ReplaceTrait.Violation>Cannot replace {0} with {1}; it would exceed the trait limit.</TKUtils.ReplaceTrait.Violation>
+</LanguageData>
