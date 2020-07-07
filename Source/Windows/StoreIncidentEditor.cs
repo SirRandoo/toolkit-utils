@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
@@ -141,7 +141,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     timesLabel,
                     "TKUtils.Windows.IncidentEditor.Times".Translate(ToolkitSettings.EventCooldownInterval)
                 );
-                Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 15f);
+                Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 60f);
 
                 if (variableIncident && storeIncidentVariables.maxWager > 0)
                 {
