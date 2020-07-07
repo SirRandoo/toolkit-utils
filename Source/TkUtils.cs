@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Incidents;

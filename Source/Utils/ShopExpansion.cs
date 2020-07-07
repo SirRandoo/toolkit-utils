@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Models;
 using TwitchToolkit.Utilities;

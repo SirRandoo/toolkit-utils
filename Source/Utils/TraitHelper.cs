@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Models;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
