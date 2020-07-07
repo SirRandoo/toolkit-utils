@@ -10,8 +10,11 @@ namespace SirRandoo.ToolkitUtils
 {
     public enum Categories
     {
-        General, CommandTweaks, PawnCommands,
-        PawnWork, PawnStats
+        General,
+        CommandTweaks,
+        PawnCommands,
+        PawnWork,
+        PawnStats
     }
 
     public enum LeaveMethods { Thanos, MentalBreak }
@@ -24,7 +27,6 @@ namespace SirRandoo.ToolkitUtils
         public static bool DecorateUtils;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;
-        public static bool Sexuality = true;
         public static bool ShowApparel;
         public static bool ShowArmor = true;
         public static bool ShowSurgeries = true;
@@ -182,12 +184,6 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.SettingGroups.General.DecorateUtils.Label".Translate(),
                 ref DecorateUtils,
                 "TKUtils.SettingGroups.General.DecorateUtils.Tooltip".Translate()
-            );
-
-            listing.CheckboxLabeled(
-                "TKUtils.SettingGroups.General.Sexuality.Label".Translate(),
-                ref Sexuality,
-                "TKUtils.SettingGroups.General.Sexuality.Tooltip".Translate()
             );
 
             listing.CheckboxLabeled(
@@ -437,7 +433,6 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref ShowArmor, "armor", true);
             Scribe_Values.Look(ref ShowApparel, "apparel");
             Scribe_Values.Look(ref TempInGear, "tempInGear");
-            Scribe_Values.Look(ref Sexuality, "sexuality", true);
             Scribe_Values.Look(ref SortWorkPriorities, "sortWork");
             Scribe_Values.Look(ref FilterWorkPriorities, "filterWork");
 
