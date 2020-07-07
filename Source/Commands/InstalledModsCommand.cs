@@ -31,7 +31,11 @@ namespace SirRandoo.ToolkitUtils.Commands
         private static string GetModListStringVersioned()
         {
             return TkUtils.ModListCache
-                .Select(m => $"{TryFavoriteMod(m.name)} (v{m.version ?? "?"})")
+                .Select(
+                    m => m.version.NullOrEmpty()
+                        ? $"{TryFavoriteMod(m.name)}"
+                        : $"{TryFavoriteMod(m.name)} (v{m.version})"
+                )
                 .SectionJoin();
         }
 
