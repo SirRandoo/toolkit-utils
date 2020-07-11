@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
@@ -64,28 +65,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            var researched = true;
-            var projects = new List<ResearchProjectDef>();
+            List<ResearchProjectDef> projects = part.GetUnfinishedPrerequisites();
 
-            if (!part.recipeMaker?.researchPrerequisite?.IsFinished ?? false)
-            {
-                projects.Add(part.recipeMaker.researchPrerequisite);
-                researched = false;
-            }
-
-            if (part.recipeMaker?.researchPrerequisites?.All(p => !p.IsFinished) ?? false)
-            {
-                projects = part.recipeMaker.researchPrerequisites;
-                researched = false;
-            }
-
-            if (!part.IsResearchFinished)
-            {
-                projects = part.researchPrerequisites;
-                researched = false;
-            }
-
-            if (BuyItemSettings.mustResearchFirst && !researched)
+            if (projects.Count > 0)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,

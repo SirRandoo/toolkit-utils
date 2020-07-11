@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;

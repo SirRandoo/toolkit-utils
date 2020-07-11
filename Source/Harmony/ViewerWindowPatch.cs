@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Windows;
 using UnityEngine;

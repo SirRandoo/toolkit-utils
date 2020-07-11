@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using Verse;
 

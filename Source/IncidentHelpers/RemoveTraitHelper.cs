@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
@@ -83,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            Trait target = traits?.FirstOrDefault(t => TraitHelper.MultiCompare(traitQuery, t.Label));
+            Trait target = traits?.FirstOrDefault(t => TraitHelper.CompareToInput(traitQuery, t.Label));
 
             if (target == null)
             {

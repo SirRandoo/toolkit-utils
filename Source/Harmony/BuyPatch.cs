@@ -2,7 +2,7 @@
 using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.Commands.ViewerCommands;

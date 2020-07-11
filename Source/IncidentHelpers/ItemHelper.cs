@@ -1,8 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.Store;
@@ -49,11 +50,34 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (product == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.");
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(item));
                 return false;
             }
 
-            return false;
+            ThingDef thingDef = DefDatabase<ThingDef>.AllDefsListForReading
+                .FirstOrDefault(t => t.defName.Equals(product.defname));
+
+            if (thingDef == null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(item));
+                return false;
+            }
+
+            List<ResearchProjectDef> projects = thingDef.GetUnfinishedPrerequisites();
+            if (projects.Count > 0)
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.ResearchRequired".Localize(
+                        thingDef.LabelCap.RawText,
+                        projects.Select(p => p.LabelCap.RawText).SectionJoin()
+                    )
+                );
+                return false;
+            }
+
+
+            return true;
         }
 
         public override void TryExecute()

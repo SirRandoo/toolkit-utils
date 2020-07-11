@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;

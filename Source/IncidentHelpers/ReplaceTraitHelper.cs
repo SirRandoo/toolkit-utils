@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
@@ -62,9 +63,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            replaceThisShop = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, toReplace));
-            replaceThatShop = TkUtils.ShopExpansion.Traits
-                .FirstOrDefault(t => TraitHelper.MultiCompare(t, toReplaceWith));
+            replaceThisShop = TkUtils.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, toReplace));
+            replaceThatShop = TkUtils.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, toReplaceWith));
 
             if (replaceThisShop == null)
             {
@@ -188,7 +188,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            replaceThisTrait = traits?.FirstOrDefault(t => TraitHelper.MultiCompare(replaceThisShop, t.Label));
+            replaceThisTrait = traits?.FirstOrDefault(t => TraitHelper.CompareToInput(replaceThisShop, t.Label));
 
             if (replaceThisTrait == null)
             {
@@ -199,7 +199,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (traits?.Find(s => TraitHelper.MultiCompare(replaceThatShop, s.Label)) == null)
+            if (traits?.Find(s => TraitHelper.CompareToInput(replaceThatShop, s.Label)) == null)
             {
                 replaceThatTrait = new Trait(replaceThatTraitDef, replaceThatShop.Degree);
                 return true;

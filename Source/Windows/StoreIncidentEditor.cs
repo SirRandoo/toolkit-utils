@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
