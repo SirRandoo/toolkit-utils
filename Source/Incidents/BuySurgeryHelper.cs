@@ -12,7 +12,7 @@ using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.IncidentHelpers
+namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
     public class BuySurgeryHelper : IncidentHelperVariables

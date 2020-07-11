@@ -13,7 +13,7 @@ using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.IncidentHelpers
+namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
     public class ReplaceTraitHelper : IncidentHelperVariables

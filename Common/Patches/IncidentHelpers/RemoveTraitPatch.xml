@@ -6,7 +6,7 @@
         <operations>
             <li Class="PatchOperationTest">
                 <xpath>
-                    /Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="RemoveTrait"]/incidentHelper[text()="SirRandoo.ToolkitUtils.IncidentHelpers.RemoveTraitHelper"]
+                    /Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="RemoveTrait"]/incidentHelper[text()="SirRandoo.ToolkitUtils.Incidents.RemoveTraitHelper"]
                 </xpath>
                 <success>Invert</success>
             </li>
@@ -14,7 +14,7 @@
                 <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="RemoveTrait"]/incidentHelper
                 </xpath>
                 <value>
-                    <incidentHelper>SirRandoo.ToolkitUtils.IncidentHelpers.RemoveTraitHelper</incidentHelper>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.RemoveTraitHelper</incidentHelper>
                 </value>
             </li>
         </operations>

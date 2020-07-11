@@ -14,7 +14,7 @@ using TwitchToolkit.Store;
 using Verse;
 using Verse.Grammar;
 
-namespace SirRandoo.ToolkitUtils.IncidentHelpers
+namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
     public class RescueMeHelper : IncidentHelperVariables

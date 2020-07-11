@@ -8,7 +8,7 @@ using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.IncidentHelpers
+namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
     public class ReviveAllHelper : IncidentHelper

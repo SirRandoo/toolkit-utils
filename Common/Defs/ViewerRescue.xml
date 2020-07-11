@@ -5,7 +5,7 @@
         <defName>TKUtilsViewerRescue</defName>
         <label>viewer rescue</label>
         <description>A kidnapped viewer is being held by an enemy faction.</description>
-        <workerClass>SirRandoo.ToolkitUtils.IncidentHelpers.ViewerRescue</workerClass>
+        <workerClass>SirRandoo.ToolkitUtils.Incidents.ViewerRescue</workerClass>
         <siteTexture>World/WorldObjects/Sites/GenericSite</siteTexture>
         <expandingIconTexture>World/WorldObjects/Expanding/Sites/Prisoner</expandingIconTexture>
         <forceExitAndRemoveMapCountdownDurationDays>5</forceExitAndRemoveMapCountdownDurationDays>

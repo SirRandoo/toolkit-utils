@@ -12,7 +12,7 @@ using TwitchToolkit.PawnQueue;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.IncidentHelpers
+namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
     public class BuyPawnHelper : IncidentHelperVariables

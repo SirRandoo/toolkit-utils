@@ -11,7 +11,7 @@ using TwitchToolkit;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.IncidentHelpers
+namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
     public class PassionShuffleHelper : IncidentHelperVariables

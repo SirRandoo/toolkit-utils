@@ -1,42 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils;
+using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;
 
 #pragma warning disable 618
 
-namespace SirRandoo.ToolkitUtils.IncidentHelpers
+namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class ReviveRandomHelper : IncidentHelper
+    public class ReviveMeHelper : IncidentHelperVariables
     {
         private Pawn pawn;
+        public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible()
+        [SuppressMessage("ReSharper", "ParameterHidesMember")]
+        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            List<Pawn> list = Find.ColonistBar
-                .GetColonistsInOrder()
-                .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
-                .ToList();
+            Viewer = viewer;
 
-            if (!list.Any())
+            Pawn viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
+
+            if (viewerPawn == null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+                return false;
+            }
+
+            if (PawnTracker.pawnsToRevive.Contains(viewerPawn))
             {
                 return false;
             }
 
-            pawn = list.RandomElementWithFallback();
-
-            if (pawn == null)
-            {
-                return false;
-            }
-
-            PawnTracker.pawnsToRevive.Add(pawn);
+            pawn = viewerPawn;
+            PawnTracker.pawnsToRevive.Add(viewerPawn);
             return true;
         }
 
@@ -55,6 +57,13 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                     return;
                 }
 
+                if (!ToolkitSettings.UnlimitedCoins)
+                {
+                    Viewer.TakeViewerCoins(storeIncident.cost);
+                }
+
+                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
+
                 pawn.ClearAllReservations();
 
                 try
@@ -70,14 +79,14 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 PawnTracker.pawnsToRevive.Remove(pawn);
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.RevivalLetter.Title".Localize(),
-                    "TKUtils.RevivalLetter.Description".Localize(pawn.Name.ToStringShort),
+                    "TKUtils.RevivalLetter.Description".Localize(Viewer.username.CapitalizeFirst()),
                     LetterDefOf.PositiveEvent,
                     new LookTargets(pawn)
                 );
             }
             catch (Exception ex)
             {
-                TkLogger.Error("Could not execute reviveanypawn", ex);
+                TkLogger.Error("Could not execute reviveme", ex);
             }
         }
     }

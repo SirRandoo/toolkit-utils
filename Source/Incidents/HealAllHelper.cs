@@ -5,7 +5,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.IncidentHelpers
+namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
     public class HealAllHelper : IncidentHelper
