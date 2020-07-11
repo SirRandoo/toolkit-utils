@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -16,7 +16,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
     [UsedImplicitly]
     public class RemoveTraitHelper : IncidentHelperVariables
     {
-        private XmlTrait buyable;
+        private TraitItem buyable;
         private Pawn pawn;
         private Trait trait;
         public override Viewer Viewer { get; set; }
@@ -54,8 +54,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            XmlTrait traitQuery =
-                TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, query));
+            TraitItem traitQuery =
+                TkUtils.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, query));
 
             if (traitQuery == null)
             {
@@ -72,12 +72,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (!Viewer.CanAfford(traitQuery.RemovePrice))
+            if (!Viewer.CanAfford(traitQuery.CostToRemove))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".Localize(
-                        traitQuery.RemovePrice.ToString("N0"),
+                        traitQuery.CostToRemove.ToString("N0"),
                         Viewer.GetViewerCoins().ToString("N0")
                     )
                 );
@@ -118,10 +118,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
-                Viewer.TakeViewerCoins(buyable.RemovePrice);
+                Viewer.TakeViewerCoins(buyable.CostToRemove);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, buyable.RemovePrice);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, buyable.CostToRemove);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {

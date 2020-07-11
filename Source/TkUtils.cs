@@ -47,9 +47,8 @@ namespace SirRandoo.ToolkitUtils
                 }
             }
 
-            TkUtils.ShopExpansion ??= new XmlShop();
-            TkUtils.ShopExpansion.Traits ??= new List<XmlTrait>();
-            TkUtils.ShopExpansion.Races ??= new List<XmlRace>();
+            TkUtils.Traits ??= new List<TraitItem>();
+            TkUtils.PawnKinds ??= new List<PawnKindItem>();
 
             ShopExpansionHelper.TryMigrateData();
             ShopExpansionHelper.ValidateExpansionData();
@@ -105,8 +104,9 @@ namespace SirRandoo.ToolkitUtils
     {
         public const string Id = "ToolkitUtils";
         internal static HarmonyLib.Harmony Harmony;
-        internal static ModDump[] ModListCache;
-        internal static XmlShop ShopExpansion;
+        public static ModItem[] ModListCache;
+        public static List<TraitItem> Traits;
+        public static List<PawnKindItem> PawnKinds;
 
         public TkUtils(ModContentPack content) : base(content)
         {
@@ -116,7 +116,7 @@ namespace SirRandoo.ToolkitUtils
 
         public static void BuildModList()
         {
-            var jsonMods = new List<ModDump>();
+            var jsonMods = new List<ModItem>();
             List<ModMetaData> running = ModsConfig.ActiveModsInLoadOrder.ToList();
 
             foreach (ModMetaData mod in running.Where(m => m.Active))
@@ -207,7 +207,7 @@ namespace SirRandoo.ToolkitUtils
                 }
 
                 jsonMods.Add(
-                    new ModDump {author = mod.Author, name = mod.Name, version = version, steamId = steamId}
+                    new ModItem {Author = mod.Author, Name = mod.Name, Version = version, SteamId = steamId}
                 );
             }
 

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -19,11 +19,11 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
     public class ReplaceTraitHelper : IncidentHelperVariables
     {
         private Pawn pawn;
-        private XmlTrait replaceThatShop;
+        private TraitItem replaceThatShop;
 
         private Trait replaceThatTrait;
         private TraitDef replaceThatTraitDef;
-        private XmlTrait replaceThisShop;
+        private TraitItem replaceThisShop;
 
         private Trait replaceThisTrait;
         private TraitDef replaceThisTraitDef;
@@ -110,12 +110,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (!Viewer.CanAfford(replaceThisShop.RemovePrice + replaceThatShop.AddPrice))
+            if (!Viewer.CanAfford(replaceThisShop.CostToRemove + replaceThatShop.CostToAdd))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".Localize(
-                        (replaceThisShop.RemovePrice + replaceThatShop.AddPrice).ToString("N0"),
+                        (replaceThisShop.CostToRemove + replaceThatShop.CostToAdd).ToString("N0"),
                         Viewer.GetViewerCoins().ToString("N0")
                     )
                 );
@@ -234,10 +234,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
-                Viewer.TakeViewerCoins(replaceThisShop.RemovePrice);
+                Viewer.TakeViewerCoins(replaceThisShop.CostToRemove);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, replaceThisShop.RemovePrice);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, replaceThisShop.CostToRemove);
 
 
             pawn.story.traits.GainTrait(replaceThatTrait);
@@ -256,10 +256,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
-                Viewer.TakeViewerCoins(replaceThatShop.AddPrice);
+                Viewer.TakeViewerCoins(replaceThatShop.CostToAdd);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, replaceThatShop.AddPrice);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, replaceThatShop.CostToAdd);
 
 
             if (ToolkitSettings.PurchaseConfirmations)

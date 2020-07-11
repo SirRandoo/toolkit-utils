@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -173,7 +173,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            XmlRace result = TkUtils.ShopExpansion.Races
+            PawnKindItem result = TkUtils.PawnKinds
                 .FirstOrDefault(
                     i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                          || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
@@ -195,7 +195,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            XmlTrait result = TkUtils.ShopExpansion.Traits.FirstOrDefault(
+            TraitItem result = TkUtils.Traits.FirstOrDefault(
                 i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                      || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
             );
@@ -214,12 +214,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (result.CanAdd)
             {
-                parts.Add("TKUtils.Price.AddTrait".Localize(result.AddPrice.ToString("N0")));
+                parts.Add("TKUtils.Price.AddTrait".Localize(result.CostToAdd.ToString("N0")));
             }
 
             if (result.CanRemove)
             {
-                parts.Add("TKUtils.Price.RemoveTrait".Localize(result.RemovePrice.ToString("N0")));
+                parts.Add("TKUtils.Price.RemoveTrait".Localize(result.CostToRemove.ToString("N0")));
             }
 
             Notify__LookupComplete(

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -208,7 +208,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            string[] results = TkUtils.ShopExpansion.Races
+            string[] results = TkUtils.PawnKinds
                 .Where(
                     i =>
                     {
@@ -257,7 +257,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            string[] results = TkUtils.ShopExpansion.Traits
+            string[] results = TkUtils.Traits
                 .Where(
                     i =>
                     {

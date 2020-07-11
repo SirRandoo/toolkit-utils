@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -21,8 +21,8 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
         private IntVec3 loc;
         private Map map;
 
-        private XmlRace race =
-            TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(PawnKindDefOf.Colonist.race.defName));
+        private PawnKindItem race =
+            TkUtils.PawnKinds.FirstOrDefault(r => r.DefName.Equals(PawnKindDefOf.Colonist.race.defName));
 
         public override Viewer Viewer { get; set; }
 
@@ -55,7 +55,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            GetDefaultRace();
+            GetDefaultKind();
 
             if (!TkSettings.Race)
             {
@@ -89,7 +89,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
 
             kindDef = raceDef;
-            race = TkUtils.ShopExpansion.Races.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
+            race = TkUtils.PawnKinds.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
 
             if (race != null)
             {
@@ -149,7 +149,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             }
         }
 
-        private bool CanPurchaseRace(Viewer viewer, XmlRace target)
+        private bool CanPurchaseRace(Viewer viewer, PawnKindItem target)
         {
             if (!target.Enabled && TkSettings.Race)
             {
@@ -175,9 +175,9 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
             return false;
         }
 
-        private void GetDefaultRace()
+        private void GetDefaultKind()
         {
-            XmlRace human = TkUtils.ShopExpansion.Races
+            PawnKindItem human = TkUtils.PawnKinds
                 .FirstOrDefault(d => d.DefName.EqualsIgnoreCase(PawnKindDefOf.Colonist.race.defName));
 
             if (human?.Enabled ?? false)
@@ -187,7 +187,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return;
             }
 
-            XmlRace randomKind = TkUtils.ShopExpansion.Races
+            PawnKindItem randomKind = TkUtils.PawnKinds
                 .FirstOrDefault(k => k.Enabled);
 
             if (randomKind == null)

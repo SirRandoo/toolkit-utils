@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
@@ -10,7 +10,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class PawnKindConfigDialog : Window
     {
-        private readonly List<XmlRace> cache = TkUtils.ShopExpansion.Races;
+        private readonly List<PawnKindItem> cache = TkUtils.PawnKinds;
         private TaggedString applyText;
 
         private bool control;
@@ -23,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private TaggedString priceHeaderText;
         private TaggedString priceText;
         private TaggedString resetText;
-        private List<XmlRace> results;
+        private List<PawnKindItem> results;
         private Vector2 scrollPos = Vector2.zero;
         private TaggedString searchText;
         private bool shift;
@@ -104,30 +104,30 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 List<PawnKindDef> kinds = DefDatabase<PawnKindDef>.AllDefsListForReading;
 
-                foreach (XmlRace race in results ?? cache)
+                foreach (PawnKindItem item in results ?? cache)
                 {
-                    PawnKindDef kind = kinds.FirstOrDefault(k => k.race?.defName.Equals(race.DefName) ?? false);
+                    PawnKindDef kind = kinds.FirstOrDefault(k => k.race?.defName.Equals(item.DefName) ?? false);
 
                     if (kind == null)
                     {
                         continue;
                     }
 
-                    race.Price = StoreDialog.CalculateToolkitPrice(kind.race?.BaseMarketValue ?? 0f);
+                    item.Price = StoreDialog.CalculateToolkitPrice(kind.race?.BaseMarketValue ?? 0f);
                 }
             }
 
             if (Widgets.ButtonText(enableRect, globalCost > 0 ? applyText : enableText))
             {
-                foreach (XmlRace race in TkUtils.ShopExpansion.Races)
+                foreach (PawnKindItem item in TkUtils.PawnKinds)
                 {
                     if (globalCost > 0)
                     {
-                        race.Price = globalCost;
+                        item.Price = globalCost;
                     }
                     else
                     {
-                        race.Enabled = true;
+                        item.Enabled = true;
                     }
                 }
 
@@ -139,9 +139,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(disableRect, disableText))
             {
-                foreach (XmlRace race in TkUtils.ShopExpansion.Races)
+                foreach (PawnKindItem item in TkUtils.PawnKinds)
                 {
-                    race.Enabled = false;
+                    item.Enabled = false;
                 }
             }
 
@@ -237,7 +237,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.height - Text.LineHeight * 5f
             );
 
-            List<XmlRace> effectiveList = results ?? cache;
+            List<PawnKindItem> effectiveList = results ?? cache;
             int total = effectiveList.Count;
             const float scale = 1.1f;
             var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * scale * total);
@@ -247,7 +247,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.BeginScrollView(races, ref scrollPos, ref viewPort);
             for (var index = 0; index < effectiveList.Count; index++)
             {
-                XmlRace race = effectiveList[index];
+                PawnKindItem item = effectiveList[index];
                 TextAnchor anchor = Text.Anchor;
                 Rect lineRect = listing.GetRect(Text.LineHeight * scale);
                 var stateRect = new Rect(
@@ -272,18 +272,18 @@ namespace SirRandoo.ToolkitUtils.Windows
                 Text.Anchor = TextAnchor.MiddleLeft;
                 Widgets.Label(
                     nameRect,
-                    race.Name.ToLowerInvariant().Equals(race.Name) ? race.Name.CapitalizeFirst() : race.Name
+                    item.Name.ToLowerInvariant().Equals(item.Name) ? item.Name.CapitalizeFirst() : item.Name
                 );
                 Text.Anchor = anchor;
 
-                Widgets.Checkbox(stateRect.x, stateRect.y, ref race.Enabled, paintable: true);
+                Widgets.Checkbox(stateRect.x, stateRect.y, ref item.Enabled, paintable: true);
 
-                if (!race.Enabled)
+                if (!item.Enabled)
                 {
                     continue;
                 }
 
-                SettingsHelper.DrawPriceField(priceRect, ref race.Price, ref control, ref shift);
+                SettingsHelper.DrawPriceField(priceRect, ref item.Price, ref control, ref shift);
             }
 
             GUI.EndGroup();
@@ -315,7 +315,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private List<XmlRace> GetSearchResults()
+        private List<PawnKindItem> GetSearchResults()
         {
             string serialized = currentQuery?.ToToolkit();
 
@@ -324,7 +324,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return null;
             }
 
-            List<XmlRace> searchResults = cache.Where(
+            List<PawnKindItem> searchResults = cache.Where(
                     t => t.DefName.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
                          || t.DefName.ToToolkit().Contains(currentQuery.ToToolkit())
                 )
@@ -345,7 +345,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void SortCurrentWorkingList()
         {
-            List<XmlRace> workingList = results ?? cache;
+            List<PawnKindItem> workingList = results ?? cache;
 
             switch (sorter)
             {

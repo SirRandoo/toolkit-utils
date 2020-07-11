@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         private static string GetModListString()
         {
             return TkUtils.ModListCache
-                .Select(m => m.name)
+                .Select(m => m.Name)
                 .SectionJoin();
         }
 
@@ -33,9 +33,9 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             return TkUtils.ModListCache
                 .Select(
-                    m => m.version.NullOrEmpty()
-                        ? $"{TryFavoriteMod(m.name)}"
-                        : $"{TryFavoriteMod(m.name)} (v{m.version})"
+                    m => m.Version.NullOrEmpty()
+                        ? $"{TryFavoriteMod(m.Name)}"
+                        : $"{TryFavoriteMod(m.Name)} (v{m.Version})"
                 )
                 .SectionJoin();
         }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -18,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
     [UsedImplicitly]
     public class AddTraitHelper : IncidentHelperVariables
     {
-        private XmlTrait buyableTrait;
+        private TraitItem buyableTrait;
         private Pawn pawn;
         private Trait trait;
         private TraitDef traitDef;
@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            buyableTrait = TkUtils.ShopExpansion.Traits.FirstOrDefault(t => TraitHelper.MultiCompare(t, traitQuery));
+            buyableTrait = TkUtils.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, traitQuery));
             int maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
             List<Trait> traits = pawn.story.traits.allTraits;
 
@@ -68,12 +68,12 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
                 return false;
             }
 
-            if (!Viewer.CanAfford(buyableTrait.AddPrice))
+            if (!Viewer.CanAfford(buyableTrait.CostToAdd))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".Localize(
-                        buyableTrait.AddPrice.ToString("N0"),
+                        buyableTrait.CostToAdd.ToString("N0"),
                         Viewer.GetViewerCoins().ToString("N0")
                     )
                 );
@@ -169,10 +169,10 @@ namespace SirRandoo.ToolkitUtils.IncidentHelpers
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
-                Viewer.TakeViewerCoins(buyableTrait.AddPrice);
+                Viewer.TakeViewerCoins(buyableTrait.CostToAdd);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, buyableTrait.AddPrice);
+            Viewer.CalculateNewKarma(storeIncident.karmaType, buyableTrait.CostToAdd);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
