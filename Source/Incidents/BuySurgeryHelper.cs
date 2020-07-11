@@ -156,6 +156,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             var lastHealth = 99999f;
 
             if (shouldAdd == null)
+            {
                 foreach (BodyPartRecord applied in surgeryParts)
                 {
                     if (pawn.health.surgeryBills.Bills.Count > 0
@@ -176,6 +177,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     shouldAdd = applied;
                     lastHealth = partHealth;
                 }
+            }
 
             if (shouldAdd == null)
             {

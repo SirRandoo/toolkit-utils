@@ -127,10 +127,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override string GetPostProcessedThreatLabel(Site site, SitePart sitePart)
         {
             string str = base.GetPostProcessedThreatLabel(site, sitePart);
-            if (sitePart.things != null && sitePart.things.Any) str = str + ": " + sitePart.things[0].LabelShortCap;
+            if (sitePart.things != null && sitePart.things.Any)
+            {
+                str = str + ": " + sitePart.things[0].LabelShortCap;
+            }
+
             if (site.HasWorldObjectTimeout)
+            {
                 str +=
                     $" ({"DurationLeft".Localize((NamedArgument) site.WorldObjectTimeoutTicksLeft.ToStringTicksToPeriod())})";
+            }
+
             return str;
         }
     }

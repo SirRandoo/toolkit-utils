@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils
     {
         private static readonly JsonSerializer JsonSerializer = new JsonSerializer
         {
-            NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Ignore
         };
 
         static ShopInventory()
@@ -72,7 +72,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 using (FileStream writer = File.Open(tempPath, FileMode.Create, FileAccess.Write))
                 {
-                    using (StreamWriter streamWriter = new StreamWriter(writer))
+                    using (var streamWriter = new StreamWriter(writer))
                     {
                         using (JsonWriter jWriter = new JsonTextWriter(streamWriter))
                         {

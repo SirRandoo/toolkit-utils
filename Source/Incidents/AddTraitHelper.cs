@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (traits != null)
             {
-                int tally = traits.Count(t => !TraitHelper.IsSexualityTrait(t));
+                int tally = traits.Count(t => !t.IsSexualityTrait());
                 bool canBypassLimit = buyableTrait.BypassLimit;
 
                 if (tally >= maxTraits && !canBypassLimit)

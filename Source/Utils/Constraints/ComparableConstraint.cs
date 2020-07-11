@@ -8,8 +8,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public enum ComparisonTypes
     {
-        Greater, Equal, Less,
-        GreaterEqual, LessEqual
+        Greater,
+        Equal,
+        Less,
+        GreaterEqual,
+        LessEqual
     }
 
     public class ComparableConstraint : ConstraintBase

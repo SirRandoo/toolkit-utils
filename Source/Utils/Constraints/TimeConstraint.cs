@@ -9,7 +9,9 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public enum TimeScale
     {
-        Years, Months, Days,
+        Years,
+        Months,
+        Days,
         Hours
     }
 
