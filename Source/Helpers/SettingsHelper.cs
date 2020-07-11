@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Utils
+namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class SettingsHelper
     {

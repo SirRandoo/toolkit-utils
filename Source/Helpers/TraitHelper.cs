@@ -2,18 +2,19 @@
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Utils
+namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class TraitHelper
     {
-        public static bool IsSexualityTrait(Trait trait)
+        public static bool IsSexualityTrait(this Trait trait)
         {
             return IsSexualityTrait(trait.def);
         }
 
-        public static bool IsSexualityTrait(TraitDef trait)
+        public static bool IsSexualityTrait(this TraitDef trait)
         {
             if (trait.exclusionTags.Contains("SexualOrientation"))
             {
@@ -25,54 +26,44 @@ namespace SirRandoo.ToolkitUtils.Utils
                    || trait.Equals(TraitDefOf.Asexual);
         }
 
-        public static bool MultiCompare(XmlTrait trait, string input)
+        public static bool CompareToInput(TraitItem trait, string input)
         {
-            string label = trait.Name;
-
-            if (input.ToToolkit().EqualsIgnoreCase(label.ToToolkit()))
-            {
-                return true;
-            }
-
-            return Unrichify.StripTags(label)
+            return Unrichify.StripTags(trait.Name)
                 .ToToolkit()
                 .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
         }
 
-        public static string ToToolkit(this string t)
-        {
-            return t.Replace(" ", "").ToLower();
-        }
-
-        public static IEnumerable<XmlTrait> GetEffectiveTraits(TraitDef trait)
+        public static IEnumerable<TraitItem> ToTraitItems(this TraitDef trait)
         {
             if (trait.degreeDatas == null)
             {
                 return new[]
                 {
-                    new XmlTrait
+                    new TraitItem
                     {
                         DefName = trait.defName,
                         Degree = 0,
                         CanAdd = true,
                         CanRemove = true,
                         Name = trait.label,
-                        AddPrice = 3500,
-                        RemovePrice = 5500
+                        CostToAdd = 3500,
+                        CostToRemove = 5500,
+                        Data = new TraitData()
                     }
                 };
             }
 
             return trait.degreeDatas.Select(
-                    t => new XmlTrait
+                    t => new TraitItem
                     {
                         DefName = trait.defName,
                         Degree = t.degree,
-                        AddPrice = 3500,
-                        RemovePrice = 5500,
+                        CostToAdd = 3500,
+                        CostToRemove = 5500,
                         CanAdd = true,
                         CanRemove = true,
-                        Name = t.label
+                        Name = t.label,
+                        Data = new TraitData()
                     }
                 )
                 .ToArray();

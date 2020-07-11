@@ -1,9 +1,10 @@
-﻿using TwitchLib.Client.Interfaces;
+﻿using SirRandoo.ToolkitUtils.Utils;
+using TwitchLib.Client.Interfaces;
 using TwitchLib.Client.Models;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Utils
+namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class MessageHelper
     {
