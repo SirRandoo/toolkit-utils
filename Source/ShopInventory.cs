@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -103,6 +103,11 @@ namespace SirRandoo.ToolkitUtils
             return Traits != null;
         }
 
+        public static void SaveTraits(string path)
+        {
+            SaveJson(Traits, path);
+        }
+
         public static bool LoadPawnKinds(string path)
         {
             PawnKinds = LoadJson<List<PawnKindItem>>(path);
@@ -110,11 +115,21 @@ namespace SirRandoo.ToolkitUtils
             return PawnKinds != null;
         }
 
+        public static void SavePawnKinds(string path)
+        {
+            SaveJson(PawnKinds, path);
+        }
+
         public static bool LoadItemData(string path)
         {
             ItemData = LoadJson<Dictionary<string, ItemData>>(path);
 
             return ItemData != null;
+        }
+
+        public static void SaveItemData(string path)
+        {
+            SaveJson(ItemData, path);
         }
 
         private static void ValidateTraits()
@@ -187,6 +202,11 @@ namespace SirRandoo.ToolkitUtils
                     QuantityLimit = -1
                 };
             }
+        }
+
+        public static void SaveLegacyShop(string path)
+        {
+            SaveJson(new ShopLegacy {Races = PawnKinds, Traits = Traits}, path);
         }
     }
 }
