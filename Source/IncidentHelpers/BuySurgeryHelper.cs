@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -8,7 +8,6 @@ using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
-using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
