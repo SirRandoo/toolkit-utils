@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
@@ -10,14 +10,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class TraitConfigDialog : Window
     {
-        private readonly List<XmlTrait> cache = TkUtils.ShopExpansion.Traits;
+        private readonly List<TraitItem> cache = ShopInventory.Traits;
 
         private bool control;
         private string currentQuery = "";
         private int globalAddCost;
         private int globalRemoveCost;
         private string lastQuery = "";
-        private List<XmlTrait> results;
+        private List<TraitItem> results;
         private Vector2 scrollPos = Vector2.zero;
         private bool shift;
 
@@ -96,11 +96,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(enableRect, globalAddCost > 0 ? applyText : enableText))
             {
-                foreach (XmlTrait trait in TkUtils.ShopExpansion.Traits)
+                foreach (TraitItem trait in ShopInventory.Traits)
                 {
                     if (globalAddCost > 0)
                     {
-                        trait.AddPrice = globalAddCost;
+                        trait.CostToAdd = globalAddCost;
                     }
                     else
                     {
@@ -117,11 +117,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(disableRect, globalRemoveCost > 0 ? applyText : disableText))
             {
-                foreach (XmlTrait trait in TkUtils.ShopExpansion.Traits)
+                foreach (TraitItem trait in ShopInventory.Traits)
                 {
                     if (globalRemoveCost > 0)
                     {
-                        trait.RemovePrice = globalRemoveCost;
+                        trait.CostToRemove = globalRemoveCost;
                     }
                     else
                     {
@@ -189,7 +189,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
 
             TextAnchor old = Text.Anchor;
-            List<XmlTrait> effectiveList = results ?? cache;
+            List<TraitItem> effectiveList = results ?? cache;
             int total = effectiveList.Count;
             float maxHeight = (Text.LineHeight * 3f + 2f) * total;
             var viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight);
@@ -200,7 +200,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             for (var index = 0; index < effectiveList.Count; index++)
             {
-                XmlTrait trait = effectiveList[index];
+                TraitItem trait = effectiveList[index];
                 Rect lineRect = listing.GetRect(Text.LineHeight * 2f + 2f);
                 Rect spacerRect = listing.GetRect(Text.LineHeight);
                 var labelRect = new Rect(0f, lineRect.y, lineRect.width * 0.6f, lineRect.height);
@@ -244,11 +244,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (trait.CanAdd)
                 {
-                    var addBuffer = trait.AddPrice.ToString();
+                    var addBuffer = trait.CostToAdd.ToString();
                     Widgets.TextFieldNumericLabeled(
                         addRect,
                         "TKUtils.TraitStore.AddCost".Localize(),
-                        ref trait.AddPrice,
+                        ref trait.CostToAdd,
                         ref addBuffer
                     );
                 }
@@ -257,7 +257,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.Label(addRect.LeftHalf(), "TKUtils.TraitStore.AddCost".Localize());
 
                     Text.Anchor = TextAnchor.MiddleRight;
-                    Widgets.Label(addRect.RightHalf(), trait.AddPrice.ToString());
+                    Widgets.Label(addRect.RightHalf(), trait.CostToAdd.ToString());
 
                     Text.Anchor = old;
                 }
@@ -273,11 +273,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (trait.CanRemove)
                 {
-                    var removeBuffer = trait.RemovePrice.ToString();
+                    var removeBuffer = trait.CostToRemove.ToString();
                     Widgets.TextFieldNumericLabeled(
                         removeRect,
                         "TKUtils.TraitStore.RemoveCost".Localize(),
-                        ref trait.RemovePrice,
+                        ref trait.CostToRemove,
                         ref removeBuffer
                     );
                 }
@@ -286,7 +286,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.Label(removeRect.LeftHalf(), "TKUtils.TraitStore.RemoveCost".Localize());
 
                     Text.Anchor = TextAnchor.MiddleRight;
-                    Widgets.Label(removeRect.RightHalf(), trait.RemovePrice.ToString());
+                    Widgets.Label(removeRect.RightHalf(), trait.CostToRemove.ToString());
 
                     Text.Anchor = old;
                 }
@@ -324,7 +324,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private List<XmlTrait> GetSearchResults()
+        private List<TraitItem> GetSearchResults()
         {
             string serialized = currentQuery?.ToToolkit();
 
@@ -343,12 +343,20 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreClose()
         {
-            ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
-
-            if (TkSettings.JsonShop)
-            {
-                ShopExpansionHelper.DumpShopExpansion();
-            }
+            Task.Run(
+                () =>
+                {
+                    switch (TkSettings.DumpStyle)
+                    {
+                        case "MultiFile":
+                            ShopInventory.SaveTraits(Paths.TraitFilePath);
+                            return;
+                        case "SingleFile":
+                            ShopInventory.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                            return;
+                    }
+                }
+            );
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
@@ -10,7 +10,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class PawnKindConfigDialog : Window
     {
-        private readonly List<PawnKindItem> cache = TkUtils.PawnKinds;
+        private readonly List<PawnKindItem> cache = ShopInventory.PawnKinds;
         private TaggedString applyText;
 
         private bool control;
@@ -113,17 +113,17 @@ namespace SirRandoo.ToolkitUtils.Windows
                         continue;
                     }
 
-                    item.Price = StoreDialog.CalculateToolkitPrice(kind.race?.BaseMarketValue ?? 0f);
+                    item.Cost = StoreDialog.CalculateToolkitPrice(kind.race?.BaseMarketValue ?? 0f);
                 }
             }
 
             if (Widgets.ButtonText(enableRect, globalCost > 0 ? applyText : enableText))
             {
-                foreach (PawnKindItem item in TkUtils.PawnKinds)
+                foreach (PawnKindItem item in ShopInventory.PawnKinds)
                 {
                     if (globalCost > 0)
                     {
-                        item.Price = globalCost;
+                        item.Cost = globalCost;
                     }
                     else
                     {
@@ -139,7 +139,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(disableRect, disableText))
             {
-                foreach (PawnKindItem item in TkUtils.PawnKinds)
+                foreach (PawnKindItem item in ShopInventory.PawnKinds)
                 {
                     item.Enabled = false;
                 }
@@ -283,7 +283,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     continue;
                 }
 
-                SettingsHelper.DrawPriceField(priceRect, ref item.Price, ref control, ref shift);
+                SettingsHelper.DrawPriceField(priceRect, ref item.Cost, ref control, ref shift);
             }
 
             GUI.EndGroup();
@@ -335,12 +335,20 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreClose()
         {
-            ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
-
-            if (TkSettings.JsonShop)
-            {
-                ShopExpansionHelper.DumpShopExpansion();
-            }
+            Task.Run(
+                () =>
+                {
+                    switch (TkSettings.DumpStyle)
+                    {
+                        case "MultiFile":
+                            ShopInventory.SavePawnKinds(Paths.PawnKindFilePath);
+                            return;
+                        case "SingleFile":
+                            ShopInventory.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                            return;
+                    }
+                }
+            );
         }
 
         private void SortCurrentWorkingList()
@@ -367,11 +375,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                     switch (sortMode)
                     {
                         case SortMode.Ascending:
-                            workingList.SortBy(i => i.Price);
+                            workingList.SortBy(i => i.Cost);
                             results = workingList;
                             return;
                         case SortMode.Descending:
-                            workingList.SortByDescending(i => i.Price);
+                            workingList.SortByDescending(i => i.Cost);
                             results = workingList;
                             return;
                         default:

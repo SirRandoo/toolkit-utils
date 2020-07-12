@@ -50,7 +50,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            buyableTrait = TkUtils.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, traitQuery));
+            buyableTrait = ShopInventory.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, traitQuery));
             int maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
             List<Trait> traits = pawn.story.traits.allTraits;
 

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using Verse;
 
@@ -22,14 +23,52 @@ namespace SirRandoo.ToolkitUtils
 
         static ShopInventory()
         {
+            if (File.Exists(Paths.LegacyShopFilePath))
+            {
+                MigrateFromLegacy(Paths.LegacyShopFilePath);
+            }
+
+            if (Traits.NullOrEmpty())
+            {
+                LoadTraits(Paths.TraitFilePath);
+            }
+
+            if (PawnKinds.NullOrEmpty())
+            {
+                LoadPawnKinds(Paths.PawnKindFilePath);
+            }
+
+            LoadItemData(Paths.ItemDataFilePath);
         }
 
         public static List<TraitItem> Traits { get; set; }
         public static List<PawnKindItem> PawnKinds { get; set; }
         public static Dictionary<string, ItemData> ItemData { get; set; }
 
+        private static void MigrateFromLegacy(string path)
+        {
+            XmlShop data;
+            try
+            {
+                data = ShopExpansion.LoadData<XmlShop>(path);
+            }
+            catch (IOException e)
+            {
+                TkLogger.Error("Could not read legacy old data!", e);
+                return;
+            }
+
+            if (data == null)
+            {
+                return;
+            }
+
+            Traits = data.Traits.Select(TraitItem.MigrateFrom).ToList();
+            PawnKinds = data.Races.Select(PawnKindItem.MigrateFrom).ToList();
+        }
+
         [CanBeNull]
-        private static T LoadJson<T>(string path) where T : class
+        internal static T LoadJson<T>(string path) where T : class
         {
             if (!File.Exists(path))
             {
@@ -57,7 +96,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        private static void SaveJson<T>(T obj, string path)
+        internal static void SaveJson<T>(T obj, string path)
         {
             string directory = Path.GetDirectoryName(path);
 
@@ -176,7 +215,7 @@ namespace SirRandoo.ToolkitUtils
                         DefName = def.race.defName,
                         Enabled = true,
                         Name = def.race.label ?? def.race.defName,
-                        Price = def.race.CalculateStorePrice(),
+                        Cost = def.race.CalculateStorePrice(),
                         Data = new PawnKindData()
                     }
                 );

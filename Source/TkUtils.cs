@@ -31,31 +31,8 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.BuildModList();
             TkLogger.Info($"Cached {TkUtils.ModListCache.Length} mods.");
 
-            try
-            {
-                TkUtils.ShopExpansion = ShopExpansionHelper.LoadData<XmlShop>(ShopExpansionHelper.ExpansionFile);
-
-                TkLogger.Info($"{TkUtils.ShopExpansion.Traits.Count} traits loaded into the shop.");
-                TkLogger.Info($"{TkUtils.ShopExpansion.Races.Count} races loaded into the shop.");
-            }
-            catch (Exception)
-            {
-                if (File.Exists(ShopExpansionHelper.ExpansionFile))
-                {
-                    TkLogger.Warn("Could not load shop extension database! Attempting to salvage it...");
-                    ShopExpansionHelper.TrySalvageData();
-                }
-            }
-
-            TkUtils.Traits ??= new List<TraitItem>();
-            TkUtils.PawnKinds ??= new List<PawnKindItem>();
-
-            ShopExpansionHelper.TryMigrateData();
-            ShopExpansionHelper.ValidateExpansionData();
-
-            ShopExpansionHelper.DumpCommands();
-            ShopExpansionHelper.DumpModList();
-            ShopExpansionHelper.DumpShopExpansion();
+            ShopExpansion.DumpCommands();
+            ShopExpansion.DumpModList();
 
             List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
             var wereChanges = false;
@@ -105,8 +82,6 @@ namespace SirRandoo.ToolkitUtils
         public const string Id = "ToolkitUtils";
         internal static HarmonyLib.Harmony Harmony;
         public static ModItem[] ModListCache;
-        public static List<TraitItem> Traits;
-        public static List<PawnKindItem> PawnKinds;
 
         public TkUtils(ModContentPack content) : base(content)
         {

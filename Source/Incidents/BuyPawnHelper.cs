@@ -21,8 +21,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private IntVec3 loc;
         private Map map;
 
-        private PawnKindItem race =
-            TkUtils.PawnKinds.FirstOrDefault(r => r.DefName.Equals(PawnKindDefOf.Colonist.race.defName));
+        private PawnKindItem race;
 
         public override Viewer Viewer { get; set; }
 
@@ -89,7 +88,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             kindDef = raceDef;
-            race = TkUtils.PawnKinds.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
+            race = ShopInventory.PawnKinds.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
 
             if (race != null)
             {
@@ -130,10 +129,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 if (!ToolkitSettings.UnlimitedCoins)
                 {
-                    Viewer.TakeViewerCoins(race?.Price ?? storeIncident.cost);
+                    Viewer.TakeViewerCoins(race?.Cost ?? storeIncident.cost);
                 }
 
-                Viewer.CalculateNewKarma(storeIncident.karmaType, race?.Price ?? storeIncident.cost);
+                Viewer.CalculateNewKarma(storeIncident.karmaType, race?.Cost ?? storeIncident.cost);
 
                 if (ToolkitSettings.PurchaseConfirmations)
                 {
@@ -160,7 +159,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (viewer.CanAfford(target.Price))
+            if (viewer.CanAfford(target.Cost))
             {
                 return true;
             }
@@ -168,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             MessageHelper.ReplyToUser(
                 viewer.username,
                 "TKUtils.InsufficientBalance".Localize(
-                    target.Price.ToString("N0"),
+                    target.Cost.ToString("N0"),
                     Viewer.GetViewerCoins().ToString("N0")
                 )
             );
@@ -177,7 +176,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void GetDefaultKind()
         {
-            PawnKindItem human = TkUtils.PawnKinds
+            PawnKindItem human = ShopInventory.PawnKinds
                 .FirstOrDefault(d => d.DefName.EqualsIgnoreCase(PawnKindDefOf.Colonist.race.defName));
 
             if (human?.Enabled ?? false)
@@ -187,7 +186,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            PawnKindItem randomKind = TkUtils.PawnKinds
+            PawnKindItem randomKind = ShopInventory.PawnKinds
                 .FirstOrDefault(k => k.Enabled);
 
             if (randomKind == null)

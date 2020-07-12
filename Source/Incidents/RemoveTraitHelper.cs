@@ -55,7 +55,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             TraitItem traitQuery =
-                TkUtils.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, query));
+                ShopInventory.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, query));
 
             if (traitQuery == null)
             {

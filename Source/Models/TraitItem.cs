@@ -38,5 +38,26 @@ namespace SirRandoo.ToolkitUtils.Models
 
             return input.Equals(DefName, StringComparison.InvariantCulture);
         }
+
+        public static TraitItem MigrateFrom(XmlTrait trait)
+        {
+            return new TraitItem
+            {
+                CanAdd = trait.CanAdd,
+                CanRemove = trait.CanRemove,
+                CostToAdd = trait.AddPrice,
+                CostToRemove = trait.RemovePrice,
+                DefName = trait.DefName,
+                Degree = trait.Degree,
+                Name = trait.Name,
+                Data = new TraitData
+                {
+                    CanBypassLimit = trait.BypassLimit,
+                    Conflicts = new string[] { },
+                    CustomName = false,
+                    Stats = new string[] { }
+                }
+            };
+        }
     }
 }

@@ -9,6 +9,7 @@ using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
+using Item = TwitchToolkit.Store.Item;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
@@ -173,7 +174,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            PawnKindItem result = TkUtils.PawnKinds
+            PawnKindItem result = ShopInventory.PawnKinds
                 .FirstOrDefault(
                     i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                          || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
@@ -188,14 +189,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                 query,
                 "TKUtils.Price.Limited".Localize(
                     result.Name.ToToolkit().CapitalizeFirst(),
-                    result.Price.ToString("N0")
+                    result.Cost.ToString("N0")
                 )
             );
         }
 
         private void PerformTraitLookup(string query)
         {
-            TraitItem result = TkUtils.Traits.FirstOrDefault(
+            TraitItem result = ShopInventory.Traits.FirstOrDefault(
                 i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                      || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
             );

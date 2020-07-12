@@ -208,7 +208,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            string[] results = TkUtils.PawnKinds
+            string[] results = ShopInventory.PawnKinds
                 .Where(
                     i =>
                     {
@@ -257,7 +257,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            string[] results = TkUtils.Traits
+            string[] results = ShopInventory.Traits
                 .Where(
                     i =>
                     {
