@@ -2,7 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -14,6 +16,11 @@ namespace SirRandoo.ToolkitUtils.Models
         public bool CanBypassLimit;
         [DefaultValue(new string[] { })] public string[] Conflicts;
         public bool CustomName;
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        [DefaultValue(null)]
+        public KarmaType? KarmaType;
+
         [DefaultValue(new string[] { })] public string[] Stats;
     }
 }
