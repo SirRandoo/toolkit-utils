@@ -371,7 +371,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             () =>
                             {
                                 foreach (Container i in Containers.Where(
-                                    i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
+                                    i => i.Category.EqualsIgnoreCase(item.Category)
                                 ))
                                 {
                                     i.Enabled = true;
@@ -384,7 +384,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             () =>
                             {
                                 foreach (Container i in Containers.Where(
-                                    i => i.Category.RawText.EqualsIgnoreCase(item.Category.RawText)
+                                    i => i.Category.EqualsIgnoreCase(item.Category)
                                 ))
                                 {
                                     i.Enabled = false;
@@ -630,7 +630,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (!categoryFilter.NullOrEmpty())
             {
                 workingList = workingList
-                    .Where(i => i.Category.RawText.EqualsIgnoreCase(categoryFilter))
+                    .Where(i => i.Category.EqualsIgnoreCase(categoryFilter))
                     .ToList();
             }
 
@@ -727,11 +727,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                             return;
                     }
                 case Sorter.Category when sortMode == SortMode.Ascending:
-                    workingList.SortBy(i => i.Category.RawText);
+                    workingList.SortBy(i => i.Category);
                     results = workingList;
                     return;
                 case Sorter.Category when sortMode == SortMode.Descending:
-                    workingList.SortByDescending(i => i.Category.RawText);
+                    workingList.SortByDescending(i => i.Category);
                     results = workingList;
                     return;
                 default:
@@ -826,7 +826,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             public List<FloatMenuOption> PriceContextOptions;
             public ThingDef Thing;
 
-            public TaggedString Category
+            public string Category
             {
                 get
                 {
@@ -839,7 +839,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                     if (category.NullOrEmpty() && Thing?.race != null)
                     {
-                        category = "TechLevel_Animal".Translate().CapitalizeFirst();
+                        category = "TechLevel_Animal".Localize().CapitalizeFirst();
                     }
 
                     categoryCached = category;
