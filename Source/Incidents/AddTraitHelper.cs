@@ -6,6 +6,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -126,6 +127,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, traitQuery)
                 );
                 return false;
+            }
+
+            if (AlienRace.Enabled && !AlienRace.IsTraitAllowed(pawn, traitDef, buyableTrait.Degree))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, traitQuery)
+                );
             }
 
             trait = new Trait(traitDef, buyableTrait.Degree);
