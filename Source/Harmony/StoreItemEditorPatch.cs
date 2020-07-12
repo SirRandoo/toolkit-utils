@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Store;
 using Verse;
+using Item = TwitchToolkit.Store.Item;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
@@ -16,17 +19,17 @@ namespace SirRandoo.ToolkitUtils.Harmony
     {
         [HarmonyPrefix]
         [UsedImplicitly]
-        public static void Prefix()
+        public static bool Prefix()
         {
             List<Item> inventory = StoreInventory.items;
             HashSet<ThingDef> tradeables = StoreDialog.GetTradeables().ToHashSet();
 
-            if (TkUtils.ShopExpansion.Races != null)
+            if (ShopInventory.PawnKinds != null)
             {
                 foreach (Item item in inventory
                     .Where(item => !item.defname.NullOrEmpty())
                     .Where(item => item.price >= 0)
-                    .Where(item => TkUtils.ShopExpansion.Races.Any(r => r.DefName.Equals(item.defname))))
+                    .Where(item => ShopInventory.PawnKinds.Any(r => r.DefName.Equals(item.defname))))
                 {
                     item.price = -10;
                 }
@@ -66,6 +69,26 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 item.abr = thing.label.ToToolkit();
             }
+
+            var items = new List<Models.Item>();
+            foreach (Item item in StoreInventory.items)
+            {
+                ThingDef thingDef = tradeables.FirstOrDefault(t => t.defName.Equals(item.defname));
+                string category = thingDef?.FirstThingCategory?.LabelCap;
+
+                if (category.NullOrEmpty() && thingDef?.race != null)
+                {
+                    category = "Animal";
+                }
+
+                items.Add(
+                    new Models.Item {Abr = item.abr, DefName = item.defname, Price = item.price, Category = category}
+                );
+            }
+
+            Task.Run(() => ShopInventory.SaveJson(new ItemList {Items = items}, Paths.ToolkitItemFilePath));
+
+            return true;
         }
     }
 }

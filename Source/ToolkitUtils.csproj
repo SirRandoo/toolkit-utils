@@ -169,7 +169,9 @@
         <Compile Include="Incidents\ReviveRandomHelper.cs"/>
         <Compile Include="Models\CommandData.cs"/>
         <Compile Include="Models\CommandItem.cs"/>
+        <Compile Include="Models\Item.cs"/>
         <Compile Include="Models\ItemData.cs"/>
+        <Compile Include="Models\ItemList.cs"/>
         <Compile Include="Models\ModItem.cs"/>
         <Compile Include="Models\PawnKindData.cs"/>
         <Compile Include="Models\PawnKindItem.cs"/>
