@@ -35,7 +35,6 @@ namespace SirRandoo.ToolkitUtils
         public static bool Race = true;
         public static bool TempInGear;
         public static bool DropInventory;
-        public static bool JsonShop;
         public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
         public static string DumpStyle = DumpStyles.SingleFile.ToString();
         public static int LookupLimit = 10;
@@ -233,12 +232,6 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.HairColor.Label".Localize(),
                 ref HairColor,
                 "TKUtils.HairColor.Tooltip".Localize()
-            );
-
-            listing.CheckboxLabeled(
-                "TKUtils.JsonOutput.Label".Localize(),
-                ref JsonShop,
-                "TKUtils.JsonOutput.Tooltip".Localize()
             );
 
             (Rect dumpLabel, Rect dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
@@ -461,8 +454,6 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref LeaveMethod, "leaveMethod", nameof(LeaveMethods.MentalBreak));
             Scribe_Values.Look(ref DumpStyle, "dumpStyle", nameof(DumpStyles.SingleFile));
             Scribe_Values.Look(ref DropInventory, "dropInventory");
-
-            Scribe_Values.Look(ref JsonShop, "shopJson");
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
             Scribe_Collections.Look(ref StatSettings, "statSettings", LookMode.Deep);

@@ -75,10 +75,6 @@
         tick until complete.
     </TKUtils.StoreRate.Tooltip>
     
-    <!-- Json Store -->
-    <TKUtils.JsonOutput.Label>Output json file(s) for Utils' shop extension(s).</TKUtils.JsonOutput.Label>
-    <TKUtils.JsonOutput.Tooltip>If enabled, Utils will write a json dump of its shop file(s).</TKUtils.JsonOutput.Tooltip>
-    
     <!-- Dump Style -->
     <TKUtils.DumpStyle.Label>Json dump style</TKUtils.DumpStyle.Label>
     <TKUtils.DumpStyle.Tooltip>This setting changes how Utils dumps its shop data. If single file is selected, the default, the mod will write a single file containing its shop data. If multi-file is selected, Utils will write a single file for each
