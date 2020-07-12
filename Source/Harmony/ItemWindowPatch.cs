@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Windows;
 using Verse;
 
@@ -35,7 +35,20 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 ___tradeablesPrices[i] = -10;
 
-                ShopExpansionHelper.SaveData(TkUtils.ShopExpansion, ShopExpansionHelper.ExpansionFile);
+                Task.Run(
+                    () =>
+                    {
+                        switch (TkSettings.DumpStyle)
+                        {
+                            case "MultiFile":
+                                ShopInventory.SavePawnKinds(Paths.PawnKindFilePath);
+                                return;
+                            case "SingleFile":
+                                ShopInventory.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                                return;
+                        }
+                    }
+                );
             }
         }
     }

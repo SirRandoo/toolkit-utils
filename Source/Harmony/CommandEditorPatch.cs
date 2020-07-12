@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Threading.Tasks;
+using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Windows;
@@ -13,7 +14,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [UsedImplicitly]
         public static void PostClose()
         {
-            ShopExpansionHelper.DumpCommands();
+            Task.Run(ShopExpansion.DumpCommands);
         }
     }
 }
