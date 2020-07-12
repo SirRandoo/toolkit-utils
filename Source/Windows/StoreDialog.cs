@@ -32,14 +32,10 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Vector2 disableAllTextSize;
         private TaggedString enableAllText;
         private Vector2 enableAllTextSize;
-        private TaggedString fetchingText;
-        private Vector2 fetchingTextSize;
         private string lastQuery = "";
         private string modFilter = "";
         private TaggedString nameHeader;
         private TaggedString priceHeader;
-        private TaggedString refreshText;
-        private Vector2 refreshTextSize;
         private TaggedString resetAllText;
 
         private Vector2 resetAllTextSize;
