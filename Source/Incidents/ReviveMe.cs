@@ -14,7 +14,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class ReviveMeHelper : IncidentHelperVariables
+    public class ReviveMe : IncidentHelperVariables
     {
         private Pawn pawn;
         public override Viewer Viewer { get; set; }

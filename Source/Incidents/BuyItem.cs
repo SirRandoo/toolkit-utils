@@ -13,13 +13,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
     [StaticConstructorOnStartup]
-    public class ItemHelper : IncidentHelperVariables
+    public class BuyItem : IncidentHelperVariables
     {
         private static readonly ThingDef DropPod;
         private static readonly IncidentDef FarmAnimals;
         private PurchaseRequest purchaseRequest;
 
-        static ItemHelper()
+        static BuyItem()
         {
             DropPod = ThingDef.Named("DropPodIncoming");
             FarmAnimals = IncidentDef.Named("FarmAnimalsWanderIn");
@@ -44,9 +44,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = 1;
             }
 
-            Item product = StoreInventory.items
-                .Where(i => i.price > 0)
-                .FirstOrDefault(i => i.defname.EqualsIgnoreCase(item) || i.abr.EqualsIgnoreCase(item));
+            Item product = StoreInventory.items.Where(i => i.price > 0)
+               .FirstOrDefault(i => i.defname.EqualsIgnoreCase(item) || i.abr.EqualsIgnoreCase(item));
 
             if (product == null)
             {
@@ -54,8 +53,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            ThingDef thingDef = DefDatabase<ThingDef>.AllDefsListForReading
-                .FirstOrDefault(t => t.defName.Equals(product.defname));
+            ThingDef thingDef =
+                DefDatabase<ThingDef>.AllDefsListForReading.FirstOrDefault(t => t.defName.Equals(product.defname));
 
             if (thingDef == null)
             {
@@ -80,9 +79,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return true;
         }
 
-        public override void TryExecute()
-        {
-        }
+        public override void TryExecute() { }
     }
 
     internal class PurchaseRequest

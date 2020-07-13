@@ -9,7 +9,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class HealRandomHelper : IncidentHelper
+    public class HealRandom : IncidentHelper
     {
         private Pawn target;
         private Hediff toHeal;
@@ -17,10 +17,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible()
         {
-            List<Pawn> list = Find.ColonistBar
-                .GetColonistsInOrder()
-                .Where(p => !p.Dead)
-                .ToList();
+            List<Pawn> list = Find.ColonistBar.GetColonistsInOrder().Where(p => !p.Dead).ToList();
 
             if (!list.Any())
             {
@@ -28,9 +25,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             List<Pair<Pawn, object>> container = list
-                .Select(p => new Pair<Pawn, object>(p, HealHelper.GetPawnHealable(p)))
-                .Where(r => r.Second != null)
-                .ToList();
+               .Select(p => new Pair<Pawn, object>(p, HealHelper.GetPawnHealable(p)))
+               .Where(r => r.Second != null)
+               .ToList();
 
             if (!container.Any())
             {

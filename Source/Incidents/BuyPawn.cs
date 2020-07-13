@@ -15,7 +15,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class BuyPawnHelper : IncidentHelperVariables
+    public class BuyPawn : IncidentHelperVariables
     {
         private PawnKindDef kindDef = PawnKindDefOf.Colonist;
         private IntVec3 loc;

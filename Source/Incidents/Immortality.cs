@@ -11,7 +11,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class ImmortalityHelper : IncidentHelperVariables
+    public class Immortality : IncidentHelperVariables
     {
         private Pawn pawn;
 

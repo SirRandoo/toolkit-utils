@@ -16,7 +16,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class ReplaceTraitHelper : IncidentHelperVariables
+    public class ReplaceTrait : IncidentHelperVariables
     {
         private Pawn pawn;
         private TraitItem replaceThatShop;

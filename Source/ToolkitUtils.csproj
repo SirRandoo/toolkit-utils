@@ -152,21 +152,21 @@
         <Compile Include="Helpers\ResponseHelper.cs"/>
         <Compile Include="Helpers\SettingsHelper.cs"/>
         <Compile Include="Helpers\TraitHelper.cs"/>
-        <Compile Include="Incidents\AddTraitHelper.cs"/>
-        <Compile Include="Incidents\BuyPawnHelper.cs"/>
-        <Compile Include="Incidents\BuySurgeryHelper.cs"/>
-        <Compile Include="Incidents\HealAllHelper.cs"/>
-        <Compile Include="Incidents\HealMeHelper.cs"/>
-        <Compile Include="Incidents\HealRandomHelper.cs"/>
-        <Compile Include="Incidents\ImmortalityHelper.cs"/>
-        <Compile Include="Incidents\ItemHelper.cs"/>
-        <Compile Include="Incidents\PassionShuffleHelper.cs"/>
-        <Compile Include="Incidents\RemoveTraitHelper.cs"/>
-        <Compile Include="Incidents\ReplaceTraitHelper.cs"/>
-        <Compile Include="Incidents\RescueMeHelper.cs"/>
-        <Compile Include="Incidents\ReviveAllHelper.cs"/>
-        <Compile Include="Incidents\ReviveMeHelper.cs"/>
-        <Compile Include="Incidents\ReviveRandomHelper.cs"/>
+        <Compile Include="Incidents\AddTrait.cs"/>
+        <Compile Include="Incidents\BuyPawn.cs"/>
+        <Compile Include="Incidents\BuySurgery.cs"/>
+        <Compile Include="Incidents\HealAll.cs"/>
+        <Compile Include="Incidents\HealMe.cs"/>
+        <Compile Include="Incidents\HealRandom.cs"/>
+        <Compile Include="Incidents\Immortality.cs"/>
+        <Compile Include="Incidents\BuyItem.cs"/>
+        <Compile Include="Incidents\PassionShuffle.cs"/>
+        <Compile Include="Incidents\RemoveTrait.cs"/>
+        <Compile Include="Incidents\ReplaceTrait.cs"/>
+        <Compile Include="Incidents\RescueMe.cs"/>
+        <Compile Include="Incidents\ReviveAll.cs"/>
+        <Compile Include="Incidents\ReviveMe.cs"/>
+        <Compile Include="Incidents\ReviveRandom.cs"/>
         <Compile Include="Models\CommandData.cs"/>
         <Compile Include="Models\CommandItem.cs"/>
         <Compile Include="Models\Item.cs"/>
@@ -279,19 +279,19 @@
         <Content Include="..\Common\Patches\EventExtPatch.xml">
             <Link>Common\Patches\EventExtPatch.xml</Link>
         </Content>
-        <Content Include="..\Common\Patches\IncidentHelpers\AddTraitPatch.xml">
+        <Content Include="..\Common\Patches\Incidents\AddTraitPatch.xml">
             <Link>Common\Patches\IncidentHelpers\AddTraitPatch.xml</Link>
         </Content>
-        <Content Include="..\Common\Patches\IncidentHelpers\BuyPawnPatch.xml">
+        <Content Include="..\Common\Patches\Incidents\BuyPawnPatch.xml">
             <Link>Common\Patches\IncidentHelpers\BuyPawnPatch.xml</Link>
         </Content>
-        <Content Include="..\Common\Patches\IncidentHelpers\ImmortalityPatch.xml">
+        <Content Include="..\Common\Patches\Incidents\ImmortalityPatch.xml">
             <Link>Common\Patches\IncidentHelpers\ImmortalityPatch.xml</Link>
         </Content>
-        <Content Include="..\Common\Patches\IncidentHelpers\RandomRevivePatch.xml">
+        <Content Include="..\Common\Patches\Incidents\RandomRevivePatch.xml">
             <Link>Common\Patches\IncidentHelpers\RandomRevivePatch.xml</Link>
         </Content>
-        <Content Include="..\Common\Patches\IncidentHelpers\RemoveTraitPatch.xml">
+        <Content Include="..\Common\Patches\Incidents\RemoveTraitPatch.xml">
             <Link>Common\Patches\IncidentHelpers\RemoveTraitPatch.xml</Link>
         </Content>
         <Content Include="..\Common\Patches\InstalledModsPatch.xml">

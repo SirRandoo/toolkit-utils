@@ -17,7 +17,7 @@ using Item = TwitchToolkit.Store.Item;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class BuySurgeryHelper : IncidentHelperVariables
+    public class BuySurgery : IncidentHelperVariables
     {
         private ItemData dataForProduct;
         private Map map;

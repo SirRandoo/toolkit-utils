@@ -17,7 +17,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class AddTraitHelper : IncidentHelperVariables
+    public class AddTrait : IncidentHelperVariables
     {
         private TraitItem buyableTrait;
         private Pawn pawn;

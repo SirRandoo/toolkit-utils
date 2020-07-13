@@ -17,7 +17,7 @@ using Verse.Grammar;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class RescueMeHelper : IncidentHelperVariables
+    public class RescueMe : IncidentHelperVariables
     {
         public override Viewer Viewer { get; set; }
 
@@ -35,8 +35,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             try
             {
                 pawn = Faction.OfPlayer.kidnapped.KidnappedPawnsListForReading
-                    .Where(p => ((NameTriple) p.Name)?.Nick?.EqualsIgnoreCase(viewer.username) ?? false)
-                    .RandomElementWithFallback();
+                   .Where(p => ((NameTriple) p.Name)?.Nick?.EqualsIgnoreCase(viewer.username) ?? false)
+                   .RandomElementWithFallback();
             }
             catch (Exception e)
             {
@@ -73,9 +73,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
         }
 
         public override void Notify_GeneratedByQuestGen(SitePart part,
-            Slate slate,
-            List<Rule> outExtraDescriptionRules,
-            Dictionary<string, string> outExtraDescriptionConstants)
+                                                        Slate slate,
+                                                        List<Rule> outExtraDescriptionRules,
+                                                        Dictionary<string, string> outExtraDescriptionConstants)
         {
             base.Notify_GeneratedByQuestGen(part, slate, outExtraDescriptionRules, outExtraDescriptionConstants);
 
@@ -85,8 +85,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             Pawn pawn = CommandBase.GetOrFindPawn(nextViewer, true);
-            pawn ??= Faction.OfPlayer.kidnapped.KidnappedPawnsListForReading
-                .FirstOrFallback(p => ((NameTriple) p.Name)?.Nick.EqualsIgnoreCase(nextViewer) ?? false);
+            pawn ??= Faction.OfPlayer.kidnapped.KidnappedPawnsListForReading.FirstOrFallback(
+                p => ((NameTriple) p.Name)?.Nick.EqualsIgnoreCase(nextViewer) ?? false
+            );
             pawn ??= Faction.OfPlayer.kidnapped.KidnappedPawnsListForReading.RandomElementWithFallback();
 
             if (pawn != null)

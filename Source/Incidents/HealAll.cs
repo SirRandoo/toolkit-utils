@@ -8,7 +8,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class HealAllHelper : IncidentHelper
+    public class HealAll : IncidentHelper
     {
         private readonly List<Hediff> healQueue = new List<Hediff>();
         private readonly List<Pair<Pawn, BodyPartRecord>> restoreQueue = new List<Pair<Pawn, BodyPartRecord>>();

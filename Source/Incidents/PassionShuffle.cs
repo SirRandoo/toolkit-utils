@@ -14,7 +14,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class PassionShuffleHelper : IncidentHelperVariables
+    public class PassionShuffle : IncidentHelperVariables
     {
         private Pawn pawn;
         private SkillDef target;
@@ -41,10 +41,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (passions <= 0)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.PassionShuffle.None".Localize()
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.PassionShuffle.None".Localize());
                 return false;
             }
 
@@ -52,13 +49,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!query.NullOrEmpty())
             {
-                target = viewerPawn.skills.skills
-                    .FirstOrDefault(
+                target = viewerPawn.skills.skills.FirstOrDefault(
                         s => s.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                              || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                              || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                     )
-                    ?.def;
+                  ?.def;
 
                 if (target == null)
                 {
@@ -97,10 +93,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    "TKUtils.PassionShuffle.Complete".Localize()
-                );
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.PassionShuffle.Complete".Localize());
             }
 
             Find.LetterStack.ReceiveLetter(
@@ -130,10 +123,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             while (passionCount > 0)
             {
-                SkillRecord skill = pawn.skills.skills
-                    .Where(s => !s.TotallyDisabled)
-                    .Where(s => s.passion != Passion.Major)
-                    .RandomElementWithFallback();
+                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled)
+                   .Where(s => s.passion != Passion.Major)
+                   .RandomElementWithFallback();
 
                 if (skill == null)
                 {
@@ -167,14 +159,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private void ShuffleWithInterests()
         {
             var iterations = 0;
-            int passionCount = pawn.skills.skills
-                .Select(s => (int) s.passion)
-                .Where(p => p < 3)
-                .Sum();
+            int passionCount = pawn.skills.skills.Select(s => (int) s.passion).Where(p => p < 3).Sum();
             List<Passion> interests = pawn.skills.skills
-                .Where(s => (int) s.passion >= 3)
-                .Select(s => s.passion)
-                .ToList();
+               .Where(s => (int) s.passion >= 3)
+               .Select(s => s.passion)
+               .ToList();
 
             foreach (SkillRecord skill in pawn.skills.skills)
             {
@@ -190,10 +179,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             while (passionCount > 0)
             {
-                SkillRecord skill = pawn.skills.skills
-                    .Where(s => !s.TotallyDisabled)
-                    .Where(s => s.passion != Passion.Major)
-                    .RandomElementWithFallback();
+                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled)
+                   .Where(s => s.passion != Passion.Major)
+                   .RandomElementWithFallback();
 
                 if (skill == null)
                 {
@@ -225,10 +213,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             while (interests.Any())
             {
-                SkillRecord skill = pawn.skills.skills
-                    .Where(s => !s.TotallyDisabled)
-                    .Where(s => s.passion == Passion.None)
-                    .RandomElementWithFallback();
+                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled)
+                   .Where(s => s.passion == Passion.None)
+                   .RandomElementWithFallback();
 
                 if (skill == null)
                 {

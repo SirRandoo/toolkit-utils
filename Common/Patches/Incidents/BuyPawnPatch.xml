@@ -5,13 +5,13 @@
         <success>Always</success>
         <operations>
             <li Class="PatchOperationTest">
-                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="BuyPawn"]/incidentHelper[text()="SirRandoo.ToolkitUtils.Incidents.BuyPawnHelper"]</xpath>
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="BuyPawn"]/incidentHelper[text()="SirRandoo.ToolkitUtils.Incidents.BuyPawn"]</xpath>
                 <success>Invert</success>
             </li>
             <li Class="PatchOperationReplace">
                 <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="BuyPawn"]/incidentHelper</xpath>
                 <value>
-                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuyPawnHelper</incidentHelper>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuyPawn</incidentHelper>
                 </value>
             </li>
         </operations>

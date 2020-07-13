@@ -10,7 +10,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class HealMeHelper : IncidentHelperVariables
+    public class HealMe : IncidentHelperVariables
     {
         private Pawn pawn;
         private Hediff toHeal;

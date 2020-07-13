@@ -7,7 +7,7 @@
         <abbreviation>reviveall</abbreviation>
         <cost>22664</cost>
         <eventCap>2</eventCap>
-        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReviveAllHelper</incidentHelper>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReviveAll</incidentHelper>
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentSimple>
     
@@ -17,7 +17,7 @@
         <abbreviation>reviveme</abbreviation>
         <cost>2833</cost>
         <eventCap>2</eventCap>
-        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReviveMeHelper</incidentHelper>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReviveMe</incidentHelper>
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
     
@@ -27,7 +27,7 @@
         <abbreviation>healall</abbreviation>
         <cost>17336</cost>
         <eventCap>2</eventCap>
-        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.HealAllHelper</incidentHelper>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.HealAll</incidentHelper>
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentSimple>
     
@@ -37,7 +37,7 @@
         <abbreviation>healanypawn</abbreviation>
         <cost>2000</cost>
         <eventCap>2</eventCap>
-        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.HealRandomHelper</incidentHelper>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.HealRandom</incidentHelper>
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentSimple>
     
@@ -47,7 +47,7 @@
         <abbreviation>healme</abbreviation>
         <cost>2167</cost>
         <eventCap>2</eventCap>
-        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.HealMeHelper</incidentHelper>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.HealMe</incidentHelper>
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
     
@@ -57,7 +57,7 @@
         <abbreviation>surgery</abbreviation>
         <cost>500</cost>
         <eventCap>5</eventCap>
-        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuySurgeryHelper</incidentHelper>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuySurgery</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>1</variables>
     
@@ -83,7 +83,7 @@
         <abbreviation>passionshuffle</abbreviation>
         <cost>2000</cost>
         <eventCap>4</eventCap>
-        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.PassionShuffleHelper</incidentHelper>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.PassionShuffle</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>1</variables>
         <modExtensions>
@@ -103,7 +103,7 @@
         <abbreviation>replacetrait</abbreviation>
         <cost>1</cost>
         <eventCap>6</eventCap>
-        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReplaceTraitHelper</incidentHelper>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReplaceTrait</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>2</variables>
         <modExtensions>
@@ -127,7 +127,7 @@
         <abbreviation>rescueme</abbreviation>
         <cost>800</cost>
         <eventCap>5</eventCap>
-        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.RescueMeHelper</incidentHelper>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.RescueMe</incidentHelper>
         <karmaType>Neutral</karmaType>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">

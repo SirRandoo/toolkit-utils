@@ -13,16 +13,15 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    public class ReviveRandomHelper : IncidentHelper
+    public class ReviveRandom : IncidentHelper
     {
         private Pawn pawn;
 
         public override bool IsPossible()
         {
-            List<Pawn> list = Find.ColonistBar
-                .GetColonistsInOrder()
-                .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
-                .ToList();
+            List<Pawn> list = Find.ColonistBar.GetColonistsInOrder()
+               .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
+               .ToList();
 
             if (!list.Any())
             {
