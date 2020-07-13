@@ -182,10 +182,10 @@
             <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="BuyPawn"]</xpath>
             <value>
                 <li Class="SirRandoo.ToolkitUtils.EventExtension">
-                    <EventType>Race</EventType>
+                    <EventType>PawnKind</EventType>
                     <Parameters>
                         <li>
-                            <Name>Race</Name>
+                            <Name>PawnKind</Name>
                             <Optional>true</Optional>
                         </li>
                     </Parameters>
