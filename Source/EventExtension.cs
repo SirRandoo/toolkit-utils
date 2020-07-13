@@ -6,10 +6,7 @@ namespace SirRandoo.ToolkitUtils
 {
     public enum EventTypes
     {
-        None,
-        [UsedImplicitly] Trait,
-        [UsedImplicitly] PawnKind,
-        [UsedImplicitly] Item
+        None, [UsedImplicitly] Trait, [UsedImplicitly] PawnKind, [UsedImplicitly] Item, [UsedImplicitly] Misc
     }
 
     [UsedImplicitly]
