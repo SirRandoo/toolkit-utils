@@ -21,7 +21,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private IntVec3 loc;
         private Map map;
 
-        private PawnKindItem race;
+        private PawnKindItem pawnKindItem;
 
         public override Viewer Viewer { get; set; }
 
@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!TkSettings.Race)
             {
-                return CanPurchaseRace(viewer, race);
+                return CanPurchaseRace(viewer, pawnKindItem);
             }
 
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
@@ -66,14 +66,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (query.NullOrEmpty())
             {
-                return CanPurchaseRace(viewer, race);
+                return CanPurchaseRace(viewer, pawnKindItem);
             }
 
-            PawnKindDef raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading
-                .FirstOrDefault(
-                    r => r.race.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || r.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                );
+            PawnKindDef raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(
+                r => r.race.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                     || r.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+            );
 
             if (raceDef == null)
             {
@@ -88,11 +87,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             kindDef = raceDef;
-            race = ShopInventory.PawnKinds.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
+            pawnKindItem = ShopInventory.PawnKinds.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
 
-            if (race != null)
+            if (pawnKindItem != null)
             {
-                return CanPurchaseRace(viewer, race);
+                return CanPurchaseRace(viewer, pawnKindItem);
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".Localize(query));
@@ -129,17 +128,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 if (!ToolkitSettings.UnlimitedCoins)
                 {
-                    Viewer.TakeViewerCoins(race?.Cost ?? storeIncident.cost);
+                    Viewer.TakeViewerCoins(pawnKindItem!.Cost);
                 }
 
-                Viewer.CalculateNewKarma(storeIncident.karmaType, race?.Cost ?? storeIncident.cost);
+                Viewer.CalculateNewKarma(pawnKindItem!.Data?.KarmaType ?? storeIncident.karmaType, pawnKindItem!.Cost);
 
                 if (ToolkitSettings.PurchaseConfirmations)
                 {
-                    MessageHelper.ReplyToUser(
-                        Viewer.username,
-                        "TKUtils.BuyPawn.Confirmation".Localize()
-                    );
+                    MessageHelper.ReplyToUser(Viewer.username, "TKUtils.BuyPawn.Confirmation".Localize());
                 }
             }
             catch (Exception e)
@@ -152,10 +148,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (!target.Enabled && TkSettings.Race)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InformativeDisabledItem".Localize(target.Name)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InformativeDisabledItem".Localize(target.Name));
                 return false;
             }
 
@@ -176,18 +169,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void GetDefaultKind()
         {
-            PawnKindItem human = ShopInventory.PawnKinds
-                .FirstOrDefault(d => d.DefName.EqualsIgnoreCase(PawnKindDefOf.Colonist.race.defName));
+            PawnKindItem human = ShopInventory.PawnKinds.FirstOrDefault(
+                d => d.DefName.EqualsIgnoreCase(PawnKindDefOf.Colonist.race.defName)
+            );
 
             if (human?.Enabled ?? false)
             {
                 kindDef = PawnKindDefOf.Colonist;
-                race = human;
+                pawnKindItem = human;
                 return;
             }
 
-            PawnKindItem randomKind = ShopInventory.PawnKinds
-                .FirstOrDefault(k => k.Enabled);
+            PawnKindItem randomKind = ShopInventory.PawnKinds.FirstOrDefault(k => k.Enabled);
 
             if (randomKind == null)
             {
@@ -195,9 +188,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            kindDef = DefDatabase<PawnKindDef>.AllDefsListForReading
-                .FirstOrDefault(k => k.race.defName.EqualsIgnoreCase(randomKind.DefName));
-            race = randomKind;
+            kindDef = DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(
+                k => k.race.defName.EqualsIgnoreCase(randomKind.DefName)
+            );
+            pawnKindItem = randomKind;
         }
     }
 }

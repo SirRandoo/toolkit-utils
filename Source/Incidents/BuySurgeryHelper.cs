@@ -4,6 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
@@ -11,12 +12,14 @@ using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
+using Item = TwitchToolkit.Store.Item;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
     public class BuySurgeryHelper : IncidentHelperVariables
     {
+        private ItemData dataForProduct;
         private Map map;
         private ThingDef part;
         private Pawn pawn;
@@ -57,10 +60,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (part == null)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InvalidItemQuery".Localize(partQuery)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(partQuery));
                 return false;
             }
 
@@ -81,19 +81,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (part.category != ThingCategory.Item
                 || Androids.Active && !part.thingCategories.Any(c => c.defName.EqualsIgnoreCase("BodyPartsAndroid")))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Surgery.HasNoSurgery".Localize(partQuery)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".Localize(partQuery));
                 return false;
             }
 
             if (part.IsMedicine)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Surgery.HasNoSurgery".Localize(partQuery)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".Localize(partQuery));
                 return false;
             }
 
@@ -101,19 +95,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (product == null)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InvalidItemQuery".Localize(partQuery)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(partQuery));
                 return false;
             }
 
             if (product.price < 0)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Surgery.ItemDisabled".Localize(partQuery)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.ItemDisabled".Localize(partQuery));
                 return false;
             }
 
@@ -129,17 +117,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (!ShopInventory.ItemData.TryGetValue(product.defname, out dataForProduct))
+            {
+                TkLogger.Warn($"Could not get item data for {product.abr}!");
+            }
+
             List<RecipeDef> recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.IsSurgery).ToList();
-            List<RecipeDef> partRecipes = recipes
-                .Where(r => (r.Worker is Recipe_Surgery || Androids.IsSurgeryUsable(pawn, r)) && r.IsIngredient(part))
-                .ToList();
+            List<RecipeDef> partRecipes = recipes.Where(
+                    r => (r.Worker is Recipe_Surgery || Androids.IsSurgeryUsable(pawn, r)) && r.IsIngredient(part)
+                )
+               .ToList();
 
             if (!partRecipes.Any())
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Surgery.HasNoSurgery".Localize(partQuery)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".Localize(partQuery));
                 return false;
             }
 
@@ -160,9 +151,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 foreach (BodyPartRecord applied in surgeryParts)
                 {
                     if (pawn.health.surgeryBills.Bills.Count > 0
-                        && pawn.health.surgeryBills.Bills.Any(
-                            b => b is Bill_Medical bill && bill.Part == applied
-                        ))
+                        && pawn.health.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part == applied))
                     {
                         continue;
                     }
@@ -181,10 +170,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (shouldAdd == null)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Surgery.NoSlotAvailable".Localize()
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.NoSlotAvailable".Localize());
                 return false;
             }
 
@@ -227,14 +213,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Viewer.TakeViewerCoins(product.price);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, product.price);
+            Viewer.CalculateNewKarma(dataForProduct?.KarmaType ?? storeIncident.karmaType, product.price);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    "TKUtils.Surgery.Complete".Localize(part.LabelCap)
-                );
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Surgery.Complete".Localize(part.LabelCap));
             }
 
             Find.LetterStack.ReceiveLetter(
@@ -254,6 +237,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             public RecipeDef Recipe { get; set; }
             public BodyPartRecord BodyPart { get; set; }
             public Item Item { get; set; }
+            public ItemData ItemData { get; set; }
             public ThingDef ThingDef { get; set; }
             public int Quantity { get; set; }
 
@@ -280,20 +264,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             private static ThingDef ParseThingDef(string input)
             {
-                return DefDatabase<ThingDef>.AllDefsListForReading
-                    .FirstOrDefault(
-                        t => t.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                             || t.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                    );
+                return DefDatabase<ThingDef>.AllDefsListForReading.FirstOrDefault(
+                    t => t.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                         || t.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                );
             }
 
             private static BodyPartRecord ParseBodyPart(Pawn patient, string input)
             {
-                return patient.RaceProps.body.AllParts
-                    .FirstOrDefault(
-                        t => t.Label.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                             || t.def.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                    );
+                return patient.RaceProps.body.AllParts.FirstOrDefault(
+                    t => t.Label.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                         || t.def.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                );
             }
         }
     }

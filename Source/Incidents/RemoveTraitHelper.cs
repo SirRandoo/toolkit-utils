@@ -54,8 +54,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            TraitItem traitQuery =
-                ShopInventory.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, query));
+            TraitItem traitQuery = ShopInventory.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, query));
 
             if (traitQuery == null)
             {
@@ -65,10 +64,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!traitQuery.CanRemove)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.RemoveTrait.Disabled".Localize(query)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Disabled".Localize(query));
                 return false;
             }
 
@@ -121,14 +117,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Viewer.TakeViewerCoins(buyable.CostToRemove);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, buyable.CostToRemove);
+            Viewer.CalculateNewKarma(
+                buyable.Data?.KarmaTypeForRemoving ?? storeIncident.karmaType,
+                buyable.CostToRemove
+            );
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap)
-                );
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap));
             }
 
             Current.Game.letterStack.ReceiveLetter(

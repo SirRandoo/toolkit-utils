@@ -88,10 +88,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 if (tally >= maxTraits && !canBypassLimit)
                 {
-                    MessageHelper.ReplyToUser(
-                        viewer.username,
-                        "TKUtils.Trait.LimitReached".Localize(maxTraits)
-                    );
+                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.LimitReached".Localize(maxTraits));
                     return false;
                 }
             }
@@ -155,10 +152,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return traitQuery != null && buyableTrait != null;
             }
 
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                "TKUtils.Trait.Duplicate".Localize(trait.Label)
-            );
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".Localize(trait.Label));
             return false;
         }
 
@@ -181,7 +175,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Viewer.TakeViewerCoins(buyableTrait.CostToAdd);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, buyableTrait.CostToAdd);
+            Viewer.CalculateNewKarma(
+                buyableTrait.Data?.KarmaTypeForAdding ?? storeIncident.karmaType,
+                buyableTrait.CostToAdd
+            );
 
             if (ToolkitSettings.PurchaseConfirmations)
             {

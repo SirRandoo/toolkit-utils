@@ -19,7 +19,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
         [JsonConverter(typeof(StringEnumConverter))]
         [DefaultValue(null)]
-        public KarmaType? KarmaType;
+        public KarmaType? KarmaTypeForAdding;
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        [DefaultValue(null)]
+        public KarmaType? KarmaTypeForRemoving;
 
         [DefaultValue(new string[] { })] public string[] Stats;
     }

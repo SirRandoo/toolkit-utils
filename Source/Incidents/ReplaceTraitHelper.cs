@@ -74,10 +74,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (replaceThatShop == null)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InvalidTraitQuery".Localize(toReplaceWith)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplaceWith));
                 return false;
             }
 
@@ -134,10 +131,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (replaceThatTraitDef == null)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InvalidTraitQuery".Localize(toReplaceWith)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplaceWith));
                 return false;
             }
 
@@ -192,10 +186,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (replaceThisTrait == null)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.RemoveTrait.Missing".Localize(toReplace)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Missing".Localize(toReplace));
                 return false;
             }
 
@@ -205,10 +196,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return true;
             }
 
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                "TKUtils.Trait.Duplicate".Localize(toReplaceWith)
-            );
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".Localize(toReplaceWith));
             return false;
         }
 
@@ -237,7 +225,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Viewer.TakeViewerCoins(replaceThisShop.CostToRemove);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, replaceThisShop.CostToRemove);
+            Viewer.CalculateNewKarma(
+                replaceThisShop.Data?.KarmaTypeForRemoving ?? storeIncident.karmaType,
+                replaceThisShop.CostToRemove
+            );
 
 
             pawn.story.traits.GainTrait(replaceThatTrait);
@@ -259,17 +250,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Viewer.TakeViewerCoins(replaceThatShop.CostToAdd);
             }
 
-            Viewer.CalculateNewKarma(storeIncident.karmaType, replaceThatShop.CostToAdd);
+            Viewer.CalculateNewKarma(
+                replaceThatShop.Data?.KarmaTypeForAdding ?? storeIncident.karmaType,
+                replaceThatShop.CostToAdd
+            );
 
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    "TKUtils.ReplaceTrait.Complete".Localize(
-                        replaceThisTrait.LabelCap,
-                        replaceThatTrait.LabelCap
-                    )
+                    "TKUtils.ReplaceTrait.Complete".Localize(replaceThisTrait.LabelCap, replaceThatTrait.LabelCap)
                 );
             }
 
