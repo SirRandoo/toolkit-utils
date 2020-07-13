@@ -18,7 +18,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Pawn current;
         private string emptyQueueText;
         private string randomText;
-        private string removeText;
         private Vector2 scrollPos = Vector2.zero;
 
         private string titleText;
@@ -37,9 +36,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             pawnComponent = Current.Game.GetComponent<GameComponentPawns>();
             onlyOneOfTypeAllowed = true;
 
-            allPawns = Find.ColonistBar.Entries
-                .Select(e => e.pawn)
-                .ToList();
+            allPawns = Find.ColonistBar.Entries.Select(e => e.pawn).ToList();
 
             current = allPawns.FirstOrDefault(p => !pawnComponent.HasPawnBeenNamed(p)) ?? allPawns.FirstOrDefault();
             Notify__CurrentPawnChanged();
@@ -55,7 +52,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             unassignedText = "TKUtils.NameQueue.Unassigned".Localize();
             applyText = "TKUtils.Buttons.Apply".Localize();
             randomText = "TKUtils.Buttons.Random".Localize();
-            removeText = "TKUtils.Buttons.Remove".Localize();
             usernameText = "TKUtils.Inputs.Username".Localize();
         }
 
@@ -184,9 +180,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     pawnComponent.ViewerNameQueue.RemoveAt(index);
                 }
-                catch (IndexOutOfRangeException)
-                {
-                }
+                catch (IndexOutOfRangeException) { }
             }
 
             listing.EndScrollView(ref queueView);
@@ -199,12 +193,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             float widthMidpoint = canvas.width / 2f;
             float arrowMax = Mathf.Max(TexUI.ArrowTexLeft.width, TexUI.ArrowTexRight.width) * 0.6f;
-            var colonistRect = new Rect(
-                widthMidpoint - 50f,
-                5f,
-                100f,
-                140f
-            );
+            var colonistRect = new Rect(widthMidpoint - 50f, 5f, 100f, 140f);
             var previousRect = new Rect(5f, 5f + colonistRect.height / 2 - arrowMax / 2f, arrowMax, arrowMax);
             var nextRect = new Rect(
                 canvas.width - arrowMax - 5f,
@@ -282,10 +271,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void Notify__CurrentPawnChanged()
         {
-            string assigned = pawnComponent.pawnHistory
-                .Where(p => p.Value == current)
-                .Select(p => p.Key)
-                .FirstOrDefault();
+            string assigned = pawnComponent.pawnHistory.Where(p => p.Value == current)
+               .Select(p => p.Key)
+               .FirstOrDefault();
 
             username = assigned ?? "";
         }
@@ -326,10 +314,9 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             if (pawnComponent.HasPawnBeenNamed(current) && pawnComponent.pawnHistory.ContainsValue(current))
             {
-                string key = pawnComponent.pawnHistory
-                    .Where(p => p.Value == current)
-                    .Select(p => p.Key)
-                    .FirstOrDefault();
+                string key = pawnComponent.pawnHistory.Where(p => p.Value == current)
+                   .Select(p => p.Key)
+                   .FirstOrDefault();
 
                 if (key != null)
                 {
@@ -351,8 +338,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void NextUnnamedColonist()
         {
-            current = allPawns
-                .FirstOrDefault(p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current);
+            current = allPawns.FirstOrDefault(
+                p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current
+            );
 
             Notify__CurrentPawnChanged();
         }
