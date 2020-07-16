@@ -35,20 +35,35 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 ___tradeablesPrices[i] = -10;
 
-                Task.Run(
-                    () =>
-                    {
-                        switch (TkSettings.DumpStyle)
+                if (TkSettings.Offload)
+                {
+                    Task.Run(
+                        () =>
                         {
-                            case "MultiFile":
-                                ShopInventory.SavePawnKinds(Paths.PawnKindFilePath);
-                                return;
-                            case "SingleFile":
-                                ShopInventory.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
-                                return;
+                            switch (TkSettings.DumpStyle)
+                            {
+                                case "MultiFile":
+                                    Data.SavePawnKinds(Paths.PawnKindFilePath);
+                                    return;
+                                case "SingleFile":
+                                    Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                                    return;
+                            }
                         }
+                    );
+                }
+                else
+                {
+                    switch (TkSettings.DumpStyle)
+                    {
+                        case "MultiFile":
+                            Data.SavePawnKinds(Paths.PawnKindFilePath);
+                            return;
+                        case "SingleFile":
+                            Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                            return;
                     }
-                );
+                }
             }
         }
     }

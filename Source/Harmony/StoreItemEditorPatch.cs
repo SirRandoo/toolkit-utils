@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,10 +34,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 }
             }
 
-            StoreInventory.items = inventory
-                .Where(i => !i.defname.NullOrEmpty())
-                .Where(i => tradeables.Any(t => t.defName.Equals(i.defname)))
-                .ToList();
+            StoreInventory.items = inventory.Where(i => !i.defname.NullOrEmpty())
+               .Where(i => tradeables.Any(t => t.defName.Equals(i.defname)))
+               .ToList();
 
             for (int index = StoreDialog.Containers.Count - 1; index >= 0; index--)
             {
@@ -52,9 +51,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 {
                     StoreDialog.Containers.RemoveAt(index);
                 }
-                catch (IndexOutOfRangeException)
-                {
-                }
+                catch (IndexOutOfRangeException) { }
             }
 
             foreach (Item item in StoreInventory.items.Where(i => i.abr.NullOrEmpty()))
@@ -85,7 +82,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 );
             }
 
-            Task.Run(() => ShopInventory.SaveJson(new ItemList {Items = items}, Paths.ToolkitItemFilePath));
+            if (TkSettings.Offload)
+            {
+                Task.Run(() => Data.SaveJson(new ItemList {Items = items}, Paths.ToolkitItemFilePath));
+            }
+            else
+            {
+                Data.SaveJson(new ItemList {Items = items}, Paths.ToolkitItemFilePath);
+            }
 
             return true;
         }

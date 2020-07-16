@@ -29,15 +29,21 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void DumpModList()
         {
-            Task.Run(() => ShopInventory.SaveJson(TkUtils.ModListCache, Paths.ModListFilePath));
+            if (TkSettings.Offload)
+            {
+                Task.Run(() => Data.SaveJson(TkUtils.ModListCache, Paths.ModListFilePath));
+            }
+            else
+            {
+                Data.SaveJson(TkUtils.ModListCache, Paths.ModListFilePath);
+            }
         }
 
         public static void DumpCommands()
         {
             List<Command> commands = DefDatabase<Command>.AllDefsListForReading;
-            List<CommandItem> container = commands
-                .Where(c => c.enabled && c.HasModExtension<CommandExtension>())
-                .Select(
+            List<CommandItem> container = commands.Where(c => c.enabled && c.HasModExtension<CommandExtension>())
+               .Select(
                     c =>
                     {
                         var ext = c.GetModExtension<CommandExtension>();
@@ -71,12 +77,12 @@ namespace SirRandoo.ToolkitUtils.Utils
                         return dump;
                     }
                 )
-                .ToList();
+               .ToList();
 
             container.AddRange(
                 DefDatabase<ToolkitChatCommand>.AllDefsListForReading
-                    .Where(c => c.enabled && c.HasModExtension<CommandExtension>())
-                    .Select(
+                   .Where(c => c.enabled && c.HasModExtension<CommandExtension>())
+                   .Select(
                         c =>
                         {
                             var ext = c.GetModExtension<CommandExtension>();
@@ -104,7 +110,14 @@ namespace SirRandoo.ToolkitUtils.Utils
                     )
             );
 
-            Task.Run(() => ShopInventory.SaveJson(container, Paths.CommandListFilePath));
+            if (TkSettings.Offload)
+            {
+                Task.Run(() => Data.SaveJson(container, Paths.CommandListFilePath));
+            }
+            else
+            {
+                Data.SaveJson(container, Paths.CommandListFilePath);
+            }
         }
     }
 }

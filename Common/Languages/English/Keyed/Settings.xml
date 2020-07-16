@@ -90,4 +90,12 @@
     
     <!-- Pawn Stats Group -->
     <TKUtils.PawnStats>Stats</TKUtils.PawnStats>
+    
+    
+    <!-- Experimental Group -->
+    <TKUtils.Experimental>Experimental</TKUtils.Experimental>
+    
+    <!-- Offload Shop -->
+    <TKUtils.OffloadShop.Label>Offload saving shop data to a separate thread.</TKUtils.OffloadShop.Label>
+    <TKUtils.OffloadShop.Tooltip>If enabled, the mod will save shop data on a separate thread.\n\nWarning: This could lead to unexpected behavior.</TKUtils.OffloadShop.Tooltip>
 </LanguageData>

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -235,12 +235,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 Widgets.Checkbox(inputRect.x, inputRect.y, ref trait.CanAdd);
 
-                var addRect = new Rect(
-                    inputRect.x + 28f,
-                    inputRect.y,
-                    inputRect.width,
-                    Text.LineHeight - 1f
-                );
+                var addRect = new Rect(inputRect.x + 28f, inputRect.y, inputRect.width, Text.LineHeight - 1f);
 
                 if (trait.CanAdd)
                 {
@@ -333,30 +328,44 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return null;
             }
 
-            return cache
-                .Where(
+            return cache.Where(
                     t => t.DefName.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
                          || t.DefName.ToToolkit().Contains(currentQuery.ToToolkit())
                 )
-                .ToList();
+               .ToList();
         }
 
         public override void PreClose()
         {
-            Task.Run(
-                () =>
-                {
-                    switch (TkSettings.DumpStyle)
+            if (TkSettings.Offload)
+            {
+                Task.Run(
+                    () =>
                     {
-                        case "MultiFile":
-                            ShopInventory.SaveTraits(Paths.TraitFilePath);
-                            return;
-                        case "SingleFile":
-                            ShopInventory.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
-                            return;
+                        switch (TkSettings.DumpStyle)
+                        {
+                            case "MultiFile":
+                                Data.SaveTraits(Paths.TraitFilePath);
+                                return;
+                            case "SingleFile":
+                                Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                                return;
+                        }
                     }
+                );
+            }
+            else
+            {
+                switch (TkSettings.DumpStyle)
+                {
+                    case "MultiFile":
+                        Data.SaveTraits(Paths.TraitFilePath);
+                        return;
+                    case "SingleFile":
+                        Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                        return;
                 }
-            );
+            }
         }
     }
 }

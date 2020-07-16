@@ -14,7 +14,8 @@ namespace SirRandoo.ToolkitUtils
         CommandTweaks,
         PawnCommands,
         PawnWork,
-        PawnStats
+        PawnStats,
+        Experimental
     }
 
     public enum LeaveMethods { Thanos, MentalBreak }
@@ -43,6 +44,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool HairColor = true;
         public static int StoreBuildRate = 60;
         public static bool StoreState = true;
+        public static bool Offload;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
         public static List<StatSetting> StatSettings = new List<StatSetting>();
@@ -86,8 +88,8 @@ namespace SirRandoo.ToolkitUtils
             };
 
             MenuCategories = Enum.GetNames(typeof(Categories))
-                .Select(n => new Tuple<string, Categories>(n, (Categories) Enum.Parse(typeof(Categories), n)))
-                .ToArray();
+               .Select(n => new Tuple<string, Categories>(n, (Categories) Enum.Parse(typeof(Categories), n)))
+               .ToArray();
 
             if (_workTypeDefs.NullOrEmpty())
             {
@@ -111,12 +113,7 @@ namespace SirRandoo.ToolkitUtils
 
             GUI.BeginGroup(inRect);
             var catRect = new Rect(0f, 0f, inRect.width * 0.25f, inRect.height);
-            var setRect = new Rect(
-                catRect.width + 10f,
-                0f,
-                inRect.width - catRect.width - 10f,
-                inRect.height
-            );
+            var setRect = new Rect(catRect.width + 10f, 0f, inRect.width - catRect.width - 10f, inRect.height);
 
             GUI.BeginGroup(catRect);
             Rect menu = new Rect(0f, 0f, catRect.width, catRect.height).ContractedBy(5f);
@@ -179,6 +176,9 @@ namespace SirRandoo.ToolkitUtils
                 case Categories.PawnStats:
                     DrawPawnStats(contentArea);
                     break;
+                case Categories.Experimental:
+                    DrawExperimental(contentArea);
+                    break;
             }
 
             GUI.EndGroup();
@@ -197,11 +197,7 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.VersionedModList.Tooltip".Localize()
             );
 
-            listing.CheckboxLabeled(
-                "TKUtils.Emojis.Label".Localize(),
-                ref Emojis,
-                "TKUtils.Emojis.Tooltip".Localize()
-            );
+            listing.CheckboxLabeled("TKUtils.Emojis.Label".Localize(), ref Emojis, "TKUtils.Emojis.Tooltip".Localize());
 
             listing.CheckboxLabeled(
                 "TKUtils.DecorateUtils.Label".Localize(),
@@ -377,11 +373,7 @@ namespace SirRandoo.ToolkitUtils
                     Widgets.DrawLightHighlight(line);
                 }
 
-                Widgets.CheckboxLabeled(
-                    line,
-                    workSetting.WorkTypeDef,
-                    ref workSetting.Enabled
-                );
+                Widgets.CheckboxLabeled(line, workSetting.WorkTypeDef, ref workSetting.Enabled);
 
                 Widgets.DrawHighlightIfMouseover(line);
             }
@@ -436,6 +428,20 @@ namespace SirRandoo.ToolkitUtils
             listing.EndScrollView(ref view);
         }
 
+        private static void DrawExperimental(Rect canvas)
+        {
+            var listing = new Listing_Standard();
+            listing.Begin(canvas);
+
+            listing.CheckboxLabeled(
+                "TKUtils.OffloadShop.Label".Localize(),
+                ref Offload,
+                "TKUtils.OffloadShop.Tooltip".Localize()
+            );
+
+            listing.End();
+        }
+
         public override void ExposeData()
         {
             Scribe_Values.Look(ref Emojis, "emojis", true);
@@ -457,6 +463,8 @@ namespace SirRandoo.ToolkitUtils
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
             Scribe_Collections.Look(ref StatSettings, "statSettings", LookMode.Deep);
+
+            Scribe_Values.Look(ref Offload, "offload");
         }
 
         internal static void ValidateDynamicSettings()
@@ -483,9 +491,8 @@ namespace SirRandoo.ToolkitUtils
                 WorkSettings.Add(new WorkSetting {Enabled = true, WorkTypeDef = workType.defName});
             }
 
-            foreach (StatDef stat in _statDefs.Where(
-                d => !StatSettings.Any(s => s.StatDef.EqualsIgnoreCase(d.defName))
-            ))
+            foreach (StatDef stat in _statDefs.Where(d => !StatSettings.Any(s => s.StatDef.EqualsIgnoreCase(d.defName)))
+            )
             {
                 StatSettings.Add(new StatSetting {Enabled = true, StatDef = stat.defName});
             }

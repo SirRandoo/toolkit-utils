@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -250,12 +250,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 PawnKindItem item = effectiveList[index];
                 TextAnchor anchor = Text.Anchor;
                 Rect lineRect = listing.GetRect(Text.LineHeight * scale);
-                var stateRect = new Rect(
-                    0f,
-                    lineRect.y,
-                    Widgets.CheckboxSize,
-                    Text.LineHeight
-                );
+                var stateRect = new Rect(0f, lineRect.y, Widgets.CheckboxSize, Text.LineHeight);
                 var nameRect = new Rect(Widgets.CheckboxSize + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
                 var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width - 16f, lineRect.height);
 
@@ -328,27 +323,42 @@ namespace SirRandoo.ToolkitUtils.Windows
                     t => t.DefName.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
                          || t.DefName.ToToolkit().Contains(currentQuery.ToToolkit())
                 )
-                .ToList();
+               .ToList();
 
             return searchResults;
         }
 
         public override void PreClose()
         {
-            Task.Run(
-                () =>
-                {
-                    switch (TkSettings.DumpStyle)
+            if (TkSettings.Offload)
+            {
+                Task.Run(
+                    () =>
                     {
-                        case "MultiFile":
-                            ShopInventory.SavePawnKinds(Paths.PawnKindFilePath);
-                            return;
-                        case "SingleFile":
-                            ShopInventory.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
-                            return;
+                        switch (TkSettings.DumpStyle)
+                        {
+                            case "MultiFile":
+                                Data.SavePawnKinds(Paths.PawnKindFilePath);
+                                return;
+                            case "SingleFile":
+                                Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                                return;
+                        }
                     }
+                );
+            }
+            else
+            {
+                switch (TkSettings.DumpStyle)
+                {
+                    case "MultiFile":
+                        Data.SavePawnKinds(Paths.PawnKindFilePath);
+                        return;
+                    case "SingleFile":
+                        Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                        return;
                 }
-            );
+            }
         }
 
         private void SortCurrentWorkingList()
