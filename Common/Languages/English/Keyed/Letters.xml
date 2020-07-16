@@ -24,6 +24,10 @@
     <TKUtils.HealLetter.RecoveredDescription>{0} recovered from {1}</TKUtils.HealLetter.RecoveredDescription>
     <TKUtils.HealLetter.RestoredDescription>{0} had their {1} restored</TKUtils.HealLetter.RestoredDescription>
     
+    <!-- Full Heal -->
+    <TKUtils.FullHealLetter.Title>Full Heal</TKUtils.FullHealLetter.Title>
+    <TKUtils.FullHealLetter.Description>{0} has been fully healed.</TKUtils.FullHealLetter.Description>
+    
     <!-- Immortality -->
     <TKUtils.ImmortalityLetter.Title>Immortality</TKUtils.ImmortalityLetter.Title>
     <TKUtils.ImmortalityLetter.Description>{0} has been granted immortality</TKUtils.ImmortalityLetter.Description>
@@ -39,7 +43,6 @@
     <!-- Revive -->
     <TKUtils.RevivalLetter.Title>Pawn Revived</TKUtils.RevivalLetter.Title>
     <TKUtils.RevivalLetter.Description>{0} has been revived but is experiencing some side effects.</TKUtils.RevivalLetter.Description>
-    
     
     <!-- Leave -->
     <TKUtils.LeaveLetter.ThanosTitle>Colonist Vanished</TKUtils.LeaveLetter.ThanosTitle>

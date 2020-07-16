@@ -156,6 +156,7 @@
         <Compile Include="Incidents\AddTrait.cs"/>
         <Compile Include="Incidents\BuyPawn.cs"/>
         <Compile Include="Incidents\BuySurgery.cs"/>
+        <Compile Include="Incidents\FullHeal.cs"/>
         <Compile Include="Incidents\HealAll.cs"/>
         <Compile Include="Incidents\HealMe.cs"/>
         <Compile Include="Incidents\HealRandom.cs"/>

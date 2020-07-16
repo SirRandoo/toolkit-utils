@@ -135,4 +135,20 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>-->
+    
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>FullHeal</defName>
+        <label>full heal</label>
+        <abbreviation>fullheal</abbreviation>
+        <cost>2167</cost>
+        <eventCap>5</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.FullHeal</incidentHelper>
+        <karmaType>Good</karmaType>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <Description>Heals all healable injuries your pawn currently has.</Description>
+                <EventType>Variable</EventType>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>

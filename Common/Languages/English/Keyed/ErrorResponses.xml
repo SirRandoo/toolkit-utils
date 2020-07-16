@@ -6,6 +6,7 @@
     <TKUtils.HasPawn>You are already in this colony.</TKUtils.HasPawn>
     <TKUtils.PawnNotFound>{0} is not in this colony.</TKUtils.PawnNotFound>
     <TKUtils.DisabledItem>The requested item is disabled.</TKUtils.DisabledItem>
+    <TKUtils.NotInjured>You don't have any healable injuries!</TKUtils.NotInjured>
     <TKUtils.InputUnsupported>{0} are not supported by this command!</TKUtils.InputUnsupported>
     <TKUtils.InvalidItemQuery>No item by the name of "{0}" could be found.</TKUtils.InvalidItemQuery>
     <TKUtils.InvalidTraitQuery>No trait by the name of "{0}" could be found.</TKUtils.InvalidTraitQuery>
