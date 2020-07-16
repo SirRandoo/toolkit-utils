@@ -48,15 +48,34 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     break;
                 }
 
+                if (!Viewer.CanAfford(storeIncident.cost))
+                {
+                    break;
+                }
+
                 switch (injury)
                 {
                     case Hediff hediff:
                         HealHelper.Cure(hediff);
                         healed += 1;
+
+                        if (!ToolkitSettings.UnlimitedCoins)
+                        {
+                            Viewer.TakeViewerCoins(storeIncident.cost);
+                        }
+
+                        Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost * healed);
                         break;
                     case BodyPartRecord record:
                         pawn.health.RestorePart(record);
                         healed += 1;
+
+                        if (!ToolkitSettings.UnlimitedCoins)
+                        {
+                            Viewer.TakeViewerCoins(storeIncident.cost);
+                        }
+
+                        Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost * healed);
                         break;
                 }
 
@@ -70,13 +89,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 TkLogger.Warn("Exceeded the maximum number of iterations during full heal.");
                 return;
             }
-
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(storeIncident.cost * healed);
-            }
-
-            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost * healed);
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
