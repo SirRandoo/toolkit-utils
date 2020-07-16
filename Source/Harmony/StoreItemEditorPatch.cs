@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,12 +24,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
             List<Item> inventory = StoreInventory.items;
             HashSet<ThingDef> tradeables = StoreDialog.GetTradeables().ToHashSet();
 
-            if (ShopInventory.PawnKinds != null)
+            if (Data.PawnKinds != null)
             {
-                foreach (Item item in inventory
-                    .Where(item => !item.defname.NullOrEmpty())
-                    .Where(item => item.price >= 0)
-                    .Where(item => ShopInventory.PawnKinds.Any(r => r.DefName.Equals(item.defname))))
+                foreach (Item item in inventory.Where(item => !item.defname.NullOrEmpty())
+                   .Where(item => item.price >= 0)
+                   .Where(item => Data.PawnKinds.Any(r => r.DefName.Equals(item.defname))))
                 {
                     item.price = -10;
                 }

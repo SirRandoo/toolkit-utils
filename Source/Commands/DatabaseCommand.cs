@@ -62,9 +62,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformWeaponLookup(string query)
         {
-            ThingDef weapon = DefDatabase<ThingDef>.AllDefsListForReading
-                .Where(t => t.IsWeapon)
-                .FirstOrDefault(
+            ThingDef weapon = DefDatabase<ThingDef>.AllDefsListForReading.Where(t => t.IsWeapon)
+               .FirstOrDefault(
                     t => t.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                          || t.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                 );
@@ -86,9 +85,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 result.AddRange(weapon.equippedStatOffsets.Select(stat => $"{stat.ValueToStringAsOffset}"));
             }
 
-            Notify__LookupComplete(
-                ResponseHelper.JoinPair(weapon.LabelCap, result.GroupedJoin())
-            );
+            Notify__LookupComplete(ResponseHelper.JoinPair(weapon.LabelCap, result.GroupedJoin()));
         }
 
         private void PerformLookup(string category, string query)
@@ -114,11 +111,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            PawnKindDef kind = DefDatabase<PawnKindDef>.AllDefsListForReading
-                .FirstOrDefault(
-                    t => t.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || t.race.defName.ToToolkit().EqualsIgnoreCase(query)
-                );
+            PawnKindDef kind = DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(
+                t => t.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                     || t.race.defName.ToToolkit().EqualsIgnoreCase(query)
+            );
 
             if (kind == null)
             {
@@ -132,8 +128,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 var container = new List<string>();
             }
 
-            string[] results = ShopInventory.PawnKinds
-                .Where(
+            string[] results = Data.PawnKinds.Where(
                     i =>
                     {
                         string label = i.Name.ToToolkit();
@@ -148,17 +143,16 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Where(r => r.Enabled)
-                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
-                .ToArray();
+               .Where(r => r.Enabled)
+               .Select(i => i.Name.ToToolkit().CapitalizeFirst())
+               .ToArray();
 
             Notify__LookupComplete(result.GroupedJoin());
         }
 
         private void PerformTraitLookup(string query)
         {
-            string[] results = ShopInventory.Traits
-                .Where(
+            string[] results = Data.Traits.Where(
                     i =>
                     {
                         string label = i.Name.ToToolkit();
@@ -173,9 +167,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Where(t => t.CanAdd || t.CanRemove)
-                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
-                .ToArray();
+               .Where(t => t.CanAdd || t.CanRemove)
+               .Select(i => i.Name.ToToolkit().CapitalizeFirst())
+               .ToArray();
 
             var container = new List<string>();
 

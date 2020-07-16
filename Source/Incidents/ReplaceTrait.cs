@@ -63,8 +63,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            replaceThisShop = ShopInventory.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, toReplace));
-            replaceThatShop = ShopInventory.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, toReplaceWith));
+            replaceThisShop = Data.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, toReplace));
+            replaceThatShop = Data.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, toReplaceWith));
 
             if (replaceThisShop == null)
             {

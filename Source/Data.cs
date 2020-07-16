@@ -14,14 +14,14 @@ using Verse;
 namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
-    public static class ShopInventory
+    public static class Data
     {
         private static readonly JsonSerializer JsonSerializer = new JsonSerializer
         {
             NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Ignore
         };
 
-        static ShopInventory()
+        static Data()
         {
             if (File.Exists(Paths.LegacyShopFilePath))
             {
@@ -44,6 +44,7 @@ namespace SirRandoo.ToolkitUtils
         public static List<TraitItem> Traits { get; set; }
         public static List<PawnKindItem> PawnKinds { get; set; }
         public static Dictionary<string, ItemData> ItemData { get; set; }
+        public static ModItem[] Mods { get; set; }
 
         private static void MigrateFromLegacy(string path)
         {
@@ -135,11 +136,9 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        public static bool LoadTraits(string path)
+        public static void LoadTraits(string path)
         {
             Traits = LoadJson<List<TraitItem>>(path);
-
-            return Traits != null;
         }
 
         public static void SaveTraits(string path)
@@ -147,11 +146,9 @@ namespace SirRandoo.ToolkitUtils
             SaveJson(Traits, path);
         }
 
-        public static bool LoadPawnKinds(string path)
+        public static void LoadPawnKinds(string path)
         {
             PawnKinds = LoadJson<List<PawnKindItem>>(path);
-
-            return PawnKinds != null;
         }
 
         public static void SavePawnKinds(string path)
@@ -159,11 +156,9 @@ namespace SirRandoo.ToolkitUtils
             SaveJson(PawnKinds, path);
         }
 
-        public static bool LoadItemData(string path)
+        public static void LoadItemData(string path)
         {
             ItemData = LoadJson<Dictionary<string, ItemData>>(path);
-
-            return ItemData != null;
         }
 
         public static void SaveItemData(string path)
@@ -224,9 +219,7 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidateItemData()
         {
-            List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefs
-                .Where(t => t.race == null)
-                .ToList();
+            List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefs.Where(t => t.race == null).ToList();
             ItemData.RemoveAll(p => thingDefs.Find(d => d.defName.Equals(p.Key)) == null);
 
             foreach (ThingDef thingDef in thingDefs.Where(thingDef => !ItemData.ContainsKey(thingDef.defName)))

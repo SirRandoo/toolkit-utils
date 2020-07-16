@@ -117,7 +117,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!ShopInventory.ItemData.TryGetValue(product.defname, out dataForProduct))
+            if (!Data.ItemData.TryGetValue(product.defname, out dataForProduct))
             {
                 TkLogger.Warn($"Could not get item data for {product.abr}!");
             }

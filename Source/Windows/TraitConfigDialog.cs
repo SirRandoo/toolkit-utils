@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -10,7 +10,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class TraitConfigDialog : Window
     {
-        private readonly List<TraitItem> cache = ShopInventory.Traits;
+        private readonly List<TraitItem> cache = Data.Traits;
 
         private bool control;
         private string currentQuery = "";
@@ -96,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(enableRect, globalAddCost > 0 ? applyText : enableText))
             {
-                foreach (TraitItem trait in ShopInventory.Traits)
+                foreach (TraitItem trait in Data.Traits)
                 {
                     if (globalAddCost > 0)
                     {
@@ -117,7 +117,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(disableRect, globalRemoveCost > 0 ? applyText : disableText))
             {
-                foreach (TraitItem trait in ShopInventory.Traits)
+                foreach (TraitItem trait in Data.Traits)
                 {
                     if (globalRemoveCost > 0)
                     {

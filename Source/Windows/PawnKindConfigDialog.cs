@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -10,7 +10,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class PawnKindConfigDialog : Window
     {
-        private readonly List<PawnKindItem> cache = ShopInventory.PawnKinds;
+        private readonly List<PawnKindItem> cache = Data.PawnKinds;
         private TaggedString applyText;
 
         private bool control;
@@ -119,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(enableRect, globalCost > 0 ? applyText : enableText))
             {
-                foreach (PawnKindItem item in ShopInventory.PawnKinds)
+                foreach (PawnKindItem item in Data.PawnKinds)
                 {
                     if (globalCost > 0)
                     {
@@ -139,7 +139,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(disableRect, disableText))
             {
-                foreach (PawnKindItem item in ShopInventory.PawnKinds)
+                foreach (PawnKindItem item in Data.PawnKinds)
                 {
                     item.Enabled = false;
                 }

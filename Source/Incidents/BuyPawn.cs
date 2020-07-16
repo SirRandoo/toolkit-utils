@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             kindDef = raceDef;
-            pawnKindItem = ShopInventory.PawnKinds.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
+            pawnKindItem = Data.PawnKinds.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
 
             if (pawnKindItem != null)
             {
@@ -169,7 +169,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void GetDefaultKind()
         {
-            PawnKindItem human = ShopInventory.PawnKinds.FirstOrDefault(
+            PawnKindItem human = Data.PawnKinds.FirstOrDefault(
                 d => d.DefName.EqualsIgnoreCase(PawnKindDefOf.Colonist.race.defName)
             );
 
@@ -180,7 +180,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            PawnKindItem randomKind = ShopInventory.PawnKinds.FirstOrDefault(k => k.Enabled);
+            PawnKindItem randomKind = Data.PawnKinds.FirstOrDefault(k => k.Enabled);
 
             if (randomKind == null)
             {

@@ -50,12 +50,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformAnimalLookup(string query, int quantity)
         {
-            PawnKindDef result = DefDatabase<PawnKindDef>.AllDefsListForReading
-                .FirstOrDefault(
-                    i => i.RaceProps.Animal
-                         && (i.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                             || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
-                );
+            PawnKindDef result = DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(
+                i => i.RaceProps.Animal
+                     && (i.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                         || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
+            );
 
             if (result == null)
             {
@@ -82,12 +81,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformEventLookup(string query)
         {
-            StoreIncident result = DefDatabase<StoreIncident>.AllDefsListForReading
-                .FirstOrDefault(
-                    i => i.cost > 0
-                         && (i.abbreviation.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                             || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
-                );
+            StoreIncident result = DefDatabase<StoreIncident>.AllDefsListForReading.FirstOrDefault(
+                i => i.cost > 0
+                     && (i.abbreviation.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                         || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
+            );
 
             if (result == null)
             {
@@ -107,22 +105,18 @@ namespace SirRandoo.ToolkitUtils.Commands
                     );
                     return;
                 default:
-                    Notify__LookupComplete(
-                        query,
-                        $"TKUtils.PriceCheck.Overridden{eventType.ToString()}".Localize()
-                    );
+                    Notify__LookupComplete(query, $"TKUtils.PriceCheck.Overridden{eventType.ToString()}".Localize());
                     return;
             }
         }
 
         private void PerformItemLookup(string query, int quantity)
         {
-            Item result = StoreInventory.items
-                .FirstOrDefault(
-                    i => i.price > 0
-                         && (i.abr.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                             || i.defname.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
-                );
+            Item result = StoreInventory.items.FirstOrDefault(
+                i => i.price > 0
+                     && (i.abr.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                         || i.defname.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
+            );
 
             if (result == null)
             {
@@ -174,11 +168,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            PawnKindItem result = ShopInventory.PawnKinds
-                .FirstOrDefault(
-                    i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                );
+            PawnKindItem result = Data.PawnKinds.FirstOrDefault(
+                i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                     || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+            );
 
             if (result == null)
             {
@@ -187,16 +180,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Notify__LookupComplete(
                 query,
-                "TKUtils.Price.Limited".Localize(
-                    result.Name.ToToolkit().CapitalizeFirst(),
-                    result.Cost.ToString("N0")
-                )
+                "TKUtils.Price.Limited".Localize(result.Name.ToToolkit().CapitalizeFirst(), result.Cost.ToString("N0"))
             );
         }
 
         private void PerformTraitLookup(string query)
         {
-            TraitItem result = ShopInventory.Traits.FirstOrDefault(
+            TraitItem result = Data.Traits.FirstOrDefault(
                 i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                      || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
             );
@@ -223,10 +213,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 parts.Add("TKUtils.Price.RemoveTrait".Localize(result.CostToRemove.ToString("N0")));
             }
 
-            Notify__LookupComplete(
-                query,
-                $"{result.Name.ToToolkit().CapitalizeFirst()} - {parts.Join(" / ")}"
-            );
+            Notify__LookupComplete(query, $"{result.Name.ToToolkit().CapitalizeFirst()} - {parts.Join(" / ")}");
         }
     }
 }

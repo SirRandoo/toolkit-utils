@@ -72,9 +72,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformAnimalLookup(string query)
         {
-            string[] results = DefDatabase<PawnKindDef>.AllDefsListForReading
-                .Where(i => i.RaceProps.Animal)
-                .Where(
+            string[] results = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(i => i.RaceProps.Animal)
+               .Where(
                     i =>
                     {
                         string label = i.LabelCap.RawText.ToToolkit();
@@ -89,8 +88,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.defName.CapitalizeFirst())
-                .ToArray();
+               .Select(i => i.defName.CapitalizeFirst())
+               .ToArray();
 
             Notify__LookupComplete(query, results);
         }
@@ -98,8 +97,8 @@ namespace SirRandoo.ToolkitUtils.Commands
         private void PerformDiseaseLookup(string query)
         {
             string[] results = DefDatabase<IncidentDef>.AllDefsListForReading
-                .Where(i => i.category == IncidentCategoryDefOf.DiseaseHuman)
-                .Where(
+               .Where(i => i.category == IncidentCategoryDefOf.DiseaseHuman)
+               .Where(
                     i =>
                     {
                         string label = i.LabelCap.RawText.ToToolkit();
@@ -114,17 +113,16 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.LabelCap.RawText.ToToolkit().CapitalizeFirst())
-                .ToArray();
+               .Select(i => i.LabelCap.RawText.ToToolkit().CapitalizeFirst())
+               .ToArray();
 
             Notify__LookupComplete(query, results);
         }
 
         private void PerformEventLookup(string query)
         {
-            string[] results = DefDatabase<StoreIncident>.AllDefsListForReading
-                .Where(i => i.cost > 0)
-                .Where(
+            string[] results = DefDatabase<StoreIncident>.AllDefsListForReading.Where(i => i.cost > 0)
+               .Where(
                     i =>
                     {
                         string label = i.abbreviation.ToToolkit();
@@ -139,17 +137,16 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.abbreviation.ToToolkit().CapitalizeFirst())
-                .ToArray();
+               .Select(i => i.abbreviation.ToToolkit().CapitalizeFirst())
+               .ToArray();
 
             Notify__LookupComplete(query, results);
         }
 
         private void PerformItemLookup(string query)
         {
-            string[] results = StoreInventory.items
-                .Where(i => i.price > 0)
-                .Where(
+            string[] results = StoreInventory.items.Where(i => i.price > 0)
+               .Where(
                     i =>
                     {
                         string label = i.abr.ToToolkit();
@@ -164,8 +161,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.defname.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.abr.ToToolkit().CapitalizeFirst())
-                .ToArray();
+               .Select(i => i.abr.ToToolkit().CapitalizeFirst())
+               .ToArray();
 
             Notify__LookupComplete(query, results);
         }
@@ -208,8 +205,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformRaceLookup(string query)
         {
-            string[] results = ShopInventory.PawnKinds
-                .Where(
+            string[] results = Data.PawnKinds.Where(
                     i =>
                     {
                         string label = i.Name.ToToolkit();
@@ -224,17 +220,16 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Where(r => r.Enabled)
-                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
-                .ToArray();
+               .Where(r => r.Enabled)
+               .Select(i => i.Name.ToToolkit().CapitalizeFirst())
+               .ToArray();
 
             Notify__LookupComplete(query, results);
         }
 
         private void PerformSkillLookup(string query)
         {
-            string[] results = DefDatabase<SkillDef>.AllDefsListForReading
-                .Where(
+            string[] results = DefDatabase<SkillDef>.AllDefsListForReading.Where(
                     i =>
                     {
                         string label = i.LabelCap.RawText.ToToolkit();
@@ -249,16 +244,15 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Select(i => i.defName.ToLower().CapitalizeFirst())
-                .ToArray();
+               .Select(i => i.defName.ToLower().CapitalizeFirst())
+               .ToArray();
 
             Notify__LookupComplete(query, results);
         }
 
         private void PerformTraitLookup(string query)
         {
-            string[] results = ShopInventory.Traits
-                .Where(
+            string[] results = Data.Traits.Where(
                     i =>
                     {
                         string label = i.Name.ToToolkit();
@@ -273,9 +267,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-                .Where(t => t.CanAdd || t.CanRemove)
-                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
-                .ToArray();
+               .Where(t => t.CanAdd || t.CanRemove)
+               .Select(i => i.Name.ToToolkit().CapitalizeFirst())
+               .ToArray();
 
             Notify__LookupComplete(query, results);
         }
@@ -283,9 +277,9 @@ namespace SirRandoo.ToolkitUtils.Commands
         private void PerformStatLookup(string query)
         {
             List<string> results = PawnStatsCommand.StatRegistry.Keys
-                .Where(i => i.EqualsIgnoreCase(query.ToToolkit()) || i.Contains(query.ToToolkit()))
-                .Select(i => PawnStatsCommand.StatRegistry[i].ToToolkit().CapitalizeFirst())
-                .ToList();
+               .Where(i => i.EqualsIgnoreCase(query.ToToolkit()) || i.Contains(query.ToToolkit()))
+               .Select(i => PawnStatsCommand.StatRegistry[i].ToToolkit().CapitalizeFirst())
+               .ToList();
 
             for (int index = results.Count - 1; index >= 0; index--)
             {
@@ -300,9 +294,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     results.RemoveAt(index);
                 }
-                catch (IndexOutOfRangeException)
-                {
-                }
+                catch (IndexOutOfRangeException) { }
             }
 
             Notify__LookupComplete(query, results.ToArray());

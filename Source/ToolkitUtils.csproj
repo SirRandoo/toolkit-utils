@@ -183,7 +183,7 @@
         <Compile Include="Models\XmlShop.cs"/>
         <Compile Include="Models\XmlTrait.cs"/>
         <Compile Include="Paths.cs"/>
-        <Compile Include="ShopInventory.cs"/>
+        <Compile Include="Data.cs"/>
         <Compile Include="Textures.cs"/>
         <Compile Include="TkAddonMenu.cs"/>
         <Compile Include="TkLogger.cs"/>
