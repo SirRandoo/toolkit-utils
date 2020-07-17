@@ -16,7 +16,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [UsedImplicitly]
         public static void Postfix(Rect inRect)
         {
-            string text = "TKUtils.Purge.Button".Localize();
+            string text = "TKUtils.Buttons.Purge".Localize();
             float width = Text.CalcSize(text).x * 1.5f;
             var canvas = new Rect(inRect.width - width, 0f, width, 28f);
 
