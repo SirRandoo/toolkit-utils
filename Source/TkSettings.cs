@@ -50,8 +50,8 @@ namespace SirRandoo.ToolkitUtils
         public static List<StatSetting> StatSettings = new List<StatSetting>();
 
         private static Categories _category = Categories.General;
-        private static readonly List<FloatMenuOption> LeaveMenuOptions;
-        private static readonly List<FloatMenuOption> DumpStyleOptions;
+        private static List<FloatMenuOption> _leaveMenuOptions;
+        private static List<FloatMenuOption> _dumpStyleOptions;
         private static readonly Tuple<string, Categories>[] MenuCategories;
 
         private static WorkTypeDef[] _workTypeDefs;
@@ -63,30 +63,6 @@ namespace SirRandoo.ToolkitUtils
 
         static TkSettings()
         {
-            DumpStyleOptions = new List<FloatMenuOption>
-            {
-                new FloatMenuOption(
-                    "TKUtils.DumpStyle.SingleFile".Localize(),
-                    () => DumpStyle = nameof(DumpStyles.SingleFile)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.DumpStyle.MultiFile".Localize(),
-                    () => DumpStyle = nameof(DumpStyles.MultiFile)
-                )
-            };
-
-            LeaveMenuOptions = new List<FloatMenuOption>
-            {
-                new FloatMenuOption(
-                    "TKUtils.LeaveMethod.Thanos".Localize(),
-                    () => LeaveMethod = nameof(LeaveMethods.Thanos)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.LeaveMethod.MentalBreak".Localize(),
-                    () => LeaveMethod = nameof(LeaveMethods.MentalBreak)
-                )
-            };
-
             MenuCategories = Enum.GetNames(typeof(Categories))
                .Select(n => new Tuple<string, Categories>(n, (Categories) Enum.Parse(typeof(Categories), n)))
                .ToArray();
@@ -110,6 +86,30 @@ namespace SirRandoo.ToolkitUtils
             {
                 inRect.height = adjustedHeight;
             }
+
+            _dumpStyleOptions ??= new List<FloatMenuOption>
+            {
+                new FloatMenuOption(
+                    "TKUtils.DumpStyle.SingleFile".Localize(),
+                    () => DumpStyle = nameof(DumpStyles.SingleFile)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.DumpStyle.MultiFile".Localize(),
+                    () => DumpStyle = nameof(DumpStyles.MultiFile)
+                )
+            };
+
+            _leaveMenuOptions ??= new List<FloatMenuOption>
+            {
+                new FloatMenuOption(
+                    "TKUtils.LeaveMethod.Thanos".Localize(),
+                    () => LeaveMethod = nameof(LeaveMethods.Thanos)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.LeaveMethod.MentalBreak".Localize(),
+                    () => LeaveMethod = nameof(LeaveMethods.MentalBreak)
+                )
+            };
 
             GUI.BeginGroup(inRect);
             var catRect = new Rect(0f, 0f, inRect.width * 0.25f, inRect.height);
@@ -235,7 +235,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (Widgets.ButtonText(dumpBtn, DumpStyle))
             {
-                Find.WindowStack.Add(new FloatMenu(DumpStyleOptions));
+                Find.WindowStack.Add(new FloatMenu(_dumpStyleOptions));
             }
 
             (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
@@ -323,7 +323,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (Widgets.ButtonText(leaveRect, LeaveMethod))
             {
-                Find.WindowStack.Add(new FloatMenu(LeaveMenuOptions));
+                Find.WindowStack.Add(new FloatMenu(_leaveMenuOptions));
             }
 
             if (!LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethods.Thanos)))
