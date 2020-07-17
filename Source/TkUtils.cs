@@ -40,9 +40,7 @@ namespace SirRandoo.ToolkitUtils
             // We're not going to update this to use EventExtension
             // since it appears to wipe previous settings.
             foreach (StoreIncident incident in incidents.Where(
-                i => i.defName == "BuyPawn"
-                     || i.defName == "AddTrait"
-                     || i.defName == "RemoveTrait"
+                i => i.defName == "BuyPawn" || i.defName == "AddTrait" || i.defName == "RemoveTrait"
             ))
             {
                 if (incident.cost <= 1)
@@ -61,17 +59,10 @@ namespace SirRandoo.ToolkitUtils
             }
 
 
-            try
+            // ReSharper disable once StringLiteralTypo
+            if (ModLister.GetActiveModWithIdentifier("sickboywi.medieval.vanilla") != null)
             {
-                // ReSharper disable once StringLiteralTypo
-                if (ModLister.GetActiveModWithIdentifier("sickboywi.medieval.vanilla") != null)
-                {
-                    TkLogger.Warn("Medieval - Vanilla detected!");
-                }
-            }
-            catch (Exception e)
-            {
-                TkLogger.Error("Could not sanitize Toolkit's store inventory!", e);
+                TkLogger.Warn("Medieval - Vanilla detected!");
             }
         }
     }
@@ -181,9 +172,7 @@ namespace SirRandoo.ToolkitUtils
                     }
                 }
 
-                jsonMods.Add(
-                    new ModItem {Author = mod.Author, Name = mod.Name, Version = version, SteamId = steamId}
-                );
+                jsonMods.Add(new ModItem {Author = mod.Author, Name = mod.Name, Version = version, SteamId = steamId});
             }
 
             ModListCache = jsonMods.ToArray();
