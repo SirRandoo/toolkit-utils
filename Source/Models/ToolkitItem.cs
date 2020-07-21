@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly]
-    public class Item
+    public class ToolkitItem
     {
         [JsonProperty("abr")] public string Abr;
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +9,6 @@ using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Store;
 using Verse;
-using Item = TwitchToolkit.Store.Item;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
@@ -66,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 item.abr = thing.label.ToToolkit();
             }
 
-            var items = new List<Models.Item>();
+            var items = new List<ToolkitItem>();
             foreach (Item item in StoreInventory.items)
             {
                 ThingDef thingDef = tradeables.FirstOrDefault(t => t.defName.Equals(item.defname));
@@ -78,7 +77,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 }
 
                 items.Add(
-                    new Models.Item {Abr = item.abr, DefName = item.defname, Price = item.price, Category = category}
+                    new ToolkitItem {Abr = item.abr, DefName = item.defname, Price = item.price, Category = category}
                 );
             }
 

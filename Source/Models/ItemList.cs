@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -6,7 +6,7 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class ItemList
     {
-        public List<Item> Items;
+        public List<ToolkitItem> Items;
         public int Total => Items.Count;
     }
 }
