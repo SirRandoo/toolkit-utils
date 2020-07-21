@@ -1,16 +1,14 @@
 ﻿using System.ComponentModel;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using JetBrains.Annotations;
 using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
+    [UsedImplicitly]
     public class PawnKindData
     {
         public bool CustomName;
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        [DefaultValue(null)]
-        public KarmaType? KarmaType;
+        [DefaultValue(null)] public KarmaType? KarmaType;
     }
 }

@@ -2,14 +2,12 @@
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using SirRandoo.ToolkitUtils.Helpers;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class TraitItem
     {
         public bool CanAdd;
