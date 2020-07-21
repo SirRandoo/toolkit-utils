@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,9 +40,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             for (int index = StoreDialog.Containers.Count - 1; index >= 0; index--)
             {
-                StoreDialog.Container container = StoreDialog.Containers[index];
+                ThingItem thingItem = StoreDialog.Containers[index];
 
-                if (StoreInventory.items.Contains(container.Item))
+                if (StoreInventory.items.Contains(thingItem.Item))
                 {
                     continue;
                 }

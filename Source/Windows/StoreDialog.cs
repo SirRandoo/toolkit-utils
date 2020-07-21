@@ -17,8 +17,8 @@ namespace SirRandoo.ToolkitUtils.Windows
     [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
-        internal static readonly List<Container> Containers = new List<Container>();
-        private static IEnumerator<Container> _validator;
+        internal static readonly List<ThingItem> Containers = new List<ThingItem>();
+        private static IEnumerator<ThingItem> _validator;
         private string categoryFilter = "";
         private TaggedString categoryHeader;
         private bool closeCalled;
@@ -40,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private Vector2 resetAllTextSize;
 
-        private List<Container> results;
+        private List<ThingItem> results;
         private Vector2 scrollPos = Vector2.zero;
         private TaggedString searchText;
 
@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             try
             {
-                foreach (Container container in GenerateContainers())
+                foreach (ThingItem container in GenerateContainers())
                 {
                     if (container == null)
                     {
@@ -107,12 +107,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             Text.WordWrap = false;
 
-            var infoHeaderRect = new Rect(
-                30f,
-                0f,
-                inRect.width * 0.4f - 15f,
-                Text.LineHeight
-            );
+            var infoHeaderRect = new Rect(30f, 0f, inRect.width * 0.4f - 15f, Text.LineHeight);
             var priceHeaderRect = new Rect(
                 infoHeaderRect.width + 35f,
                 infoHeaderRect.y,
@@ -192,7 +187,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
             GUI.EndGroup();
 
-            List<Container> effectiveWorkingList = results ?? Containers;
+            List<ThingItem> effectiveWorkingList = results ?? Containers;
             int total = effectiveWorkingList.Count;
             const float scale = 1.25f;
 
@@ -202,19 +197,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.width,
                 inRect.height - Text.LineHeight * 4f
             );
-            var viewPort = new Rect(
-                0f,
-                0f,
-                contentArea.width - 16f,
-                Text.LineHeight * scale * total
-            );
+            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * scale * total);
             var items = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
             listing.BeginScrollView(items, ref scrollPos, ref viewPort);
             for (var index = 0; index < effectiveWorkingList.Count; index++)
             {
-                Container item = effectiveWorkingList[index];
+                ThingItem item = effectiveWorkingList[index];
                 Rect lineRect = listing.GetRect(Text.LineHeight * scale);
 
                 if (!lineRect.IsRegionVisible(items, scrollPos))
@@ -227,12 +217,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                var infoRect = new Rect(
-                    27f,
-                    lineRect.y,
-                    infoHeaderRect.width,
-                    lineRect.height
-                );
+                var infoRect = new Rect(27f, lineRect.y, infoHeaderRect.width, lineRect.height);
 
                 item.DrawItemInfo(infoRect);
 
@@ -240,10 +225,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     item.InfoContextOptions ??= new List<FloatMenuOption>
                     {
-                        new FloatMenuOption(
-                            ctxInfo,
-                            () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))
-                        ),
+                        new FloatMenuOption(ctxInfo, () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))),
                         new FloatMenuOption(
                             "TKUtils.StoreMenu.Toggle".Localize(item.Thing?.LabelCap ?? item.Item.abr),
                             () => { item.Enabled = !item.Enabled; }
@@ -370,7 +352,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             "TKUtils.StoreMenu.EnableCategory".Localize(item.Category),
                             () =>
                             {
-                                foreach (Container i in Containers.Where(
+                                foreach (ThingItem i in Containers.Where(
                                     i => i.Category.EqualsIgnoreCase(item.Category)
                                 ))
                                 {
@@ -383,7 +365,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             "TKUtils.StoreMenu.DisableCategory".Localize(item.Category),
                             () =>
                             {
-                                foreach (Container i in Containers.Where(
+                                foreach (ThingItem i in Containers.Where(
                                     i => i.Category.EqualsIgnoreCase(item.Category)
                                 ))
                                 {
@@ -436,7 +418,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             var searchRect = new Rect(line.x, line.y, line.width * 0.25f, line.height);
-            List<Container> workingList = results ?? Containers;
+            List<ThingItem> workingList = results ?? Containers;
 
             currentQuery = Widgets.TextEntryLabeled(searchRect, searchText, currentQuery);
 
@@ -467,7 +449,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 disableAllText
             ))
             {
-                foreach (Container item in workingList.Where(i => i.Item.price > 0))
+                foreach (ThingItem item in workingList.Where(i => i.Item.price > 0))
                 {
                     item.Enabled = false;
                     item.Update();
@@ -481,7 +463,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 enableAllText
             ))
             {
-                foreach (Container item in workingList.Where(i => i.Item.price < 0))
+                foreach (ThingItem item in workingList.Where(i => i.Item.price < 0))
                 {
                     item.Enabled = true;
                     item.Update();
@@ -495,7 +477,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 resetAllText
             ))
             {
-                foreach (Container item in workingList)
+                foreach (ThingItem item in workingList)
                 {
                     item.Item.price = CalculateToolkitPrice(item.Thing.BaseMarketValue);
                 }
@@ -579,7 +561,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         break;
                     }
 
-                    Container latest = _validator.Current;
+                    ThingItem latest = _validator.Current;
 
                     if (latest == null)
                     {
@@ -616,22 +598,18 @@ namespace SirRandoo.ToolkitUtils.Windows
             SortCurrentWorkingList();
         }
 
-        private List<Container> GetSearchResults()
+        private List<ThingItem> GetSearchResults()
         {
-            List<Container> workingList = Containers;
+            List<ThingItem> workingList = Containers;
 
             if (!modFilter.NullOrEmpty())
             {
-                workingList = workingList
-                    .Where(i => i.Mod.EqualsIgnoreCase(modFilter))
-                    .ToList();
+                workingList = workingList.Where(i => i.Mod.EqualsIgnoreCase(modFilter)).ToList();
             }
 
             if (!categoryFilter.NullOrEmpty())
             {
-                workingList = workingList
-                    .Where(i => i.Category.EqualsIgnoreCase(categoryFilter))
-                    .ToList();
+                workingList = workingList.Where(i => i.Category.EqualsIgnoreCase(categoryFilter)).ToList();
             }
 
             string serialized = currentQuery?.ToToolkit();
@@ -641,8 +619,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return workingList;
             }
 
-            return workingList
-                .Where(
+            return workingList.Where(
                     i =>
                     {
                         if (i.Item.abr.ToToolkit().Contains(serialized!)
@@ -655,12 +632,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                                || i.Item.defname.ToToolkit().EqualsIgnoreCase(serialized);
                     }
                 )
-                .ToList();
+               .ToList();
         }
 
         public override void PreClose()
         {
-            foreach (Container c in Containers.Where(c => c.Item == null))
+            foreach (ThingItem c in Containers.Where(c => c.Item == null))
             {
                 c.Item = new Item(
                     CalculateToolkitPrice(c.Thing.BaseMarketValue),
@@ -694,7 +671,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void SortCurrentWorkingList()
         {
-            List<Container> workingList = results ?? Containers;
+            List<ThingItem> workingList = results ?? Containers;
 
             switch (sorter)
             {
@@ -758,13 +735,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             disableAllTextSize = Text.CalcSize(disableAllText);
         }
 
-        private static IEnumerable<Container> GenerateContainers()
+        private static IEnumerable<ThingItem> GenerateContainers()
         {
             IEnumerable<ThingDef> things = GetTradeables();
 
             foreach (ThingDef thing in things)
             {
-                Container container = null;
+                ThingItem thingItem = null;
 
                 try
                 {
@@ -773,8 +750,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                         continue;
                     }
 
-                    Item item = StoreInventory.items
-                        .FirstOrDefault(i => i != null && (i.defname?.Equals(thing.defName) ?? false));
+                    Item item = StoreInventory.items.FirstOrDefault(
+                        i => i != null && (i.defname?.Equals(thing.defName) ?? false)
+                    );
 
                     if (item == null)
                     {
@@ -792,13 +770,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         item.abr ??= thing.label?.ToToolkit() ?? thing.defName;
                     }
 
-                    container = new Container
-                    {
-                        Item = item,
-                        Thing = thing,
-                        Enabled = item.price > 0,
-                        Mod = thing.modContentPack?.Name ?? "ModNameMissing"
-                    };
+                    thingItem = new ThingItem {Item = item, Thing = thing, Enabled = item.price > 0,};
                 }
                 catch (Exception e)
                 {
@@ -809,109 +781,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     );
                 }
 
-                yield return container;
-            }
-        }
-
-        internal class Container
-        {
-            private TaggedString categoryCached;
-            public List<FloatMenuOption> CategoryContextOptions;
-            public bool Enabled;
-
-            public List<FloatMenuOption> InfoContextOptions;
-
-            public Item Item;
-            public string Mod;
-            public List<FloatMenuOption> PriceContextOptions;
-            public ThingDef Thing;
-
-            public string Category
-            {
-                get
-                {
-                    if (!categoryCached.NullOrEmpty())
-                    {
-                        return categoryCached;
-                    }
-
-                    string category = Thing?.FirstThingCategory?.LabelCap.RawText ?? string.Empty;
-
-                    if (category.NullOrEmpty() && Thing?.race != null)
-                    {
-                        category = "TechLevel_Animal".Localize().CapitalizeFirst();
-                    }
-
-                    categoryCached = category;
-                    return categoryCached;
-                }
-            }
-
-            public void Update()
-            {
-                if (Item.price == 0)
-                {
-                    Enabled = false;
-                    Item.price = -10;
-                    return;
-                }
-
-                if (Enabled && Item.price < 0)
-                {
-                    Item.price = CalculateToolkitPrice(Thing.BaseMarketValue);
-                }
-                else if (!Enabled && Item.price > 0)
-                {
-                    Item.price = -10;
-                }
-
-                Enabled = Item.price > 0;
-            }
-
-            public void DrawItemInfo(Rect canvas)
-            {
-                var iconRegion = new Rect(27f, canvas.y, 27f, canvas.height);
-                var labelRegion = new Rect(iconRegion.width + 5f + 27f, canvas.y, canvas.width - 30f, canvas.height);
-
-                Widgets.Checkbox(0f, canvas.y, ref Enabled, paintable: true);
-
-                TextAnchor cache = Text.Anchor;
-                Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(labelRegion, Thing?.LabelCap ?? Item.abr);
-                Text.Anchor = cache;
-
-                if (Thing != null)
-                {
-                    Widgets.ThingIcon(iconRegion, Thing);
-                }
-
-                if (Widgets.ButtonInvisible(canvas, false))
-                {
-                    Find.WindowStack.Add(new Dialog_InfoCard(Thing));
-                }
-
-                Widgets.DrawHighlightIfMouseover(canvas);
-            }
-
-            public override string ToString()
-            {
-                var container = "Container(\n";
-
-                container += "  Item(\n";
-                container += $"    defname={Item.defname}\n";
-                container += $"    abr={Item.abr.ToStringSafe()}\n";
-                container += $"    price={Item.price.ToStringSafe()}\n";
-                container += "  ),\n";
-
-                container += "  Thing(\n";
-                container += $"    defName={Thing.defName.ToStringSafe()}\n";
-                container += "  ),\n";
-
-                container += $"  Mod={Mod},\n";
-                container += $"  Enabled={Enabled}\n";
-                container += ")";
-
-                return container;
+                yield return thingItem;
             }
         }
     }
