@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using TwitchToolkit;
+using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
 
@@ -10,10 +14,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class TraitConfigDialog : Window
     {
+        private readonly KarmaType addKarmaType;
         private readonly List<TraitItem> cache = Data.Traits;
+        private readonly KarmaType removeKarmaType;
 
         private bool control;
         private string currentQuery = "";
+        private List<string> expanded = new List<string>();
         private int globalAddCost;
         private int globalRemoveCost;
         private string lastQuery = "";
@@ -40,6 +47,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             optionalTitle = titleText;
             cache?.SortBy(t => t.Name);
+
+            addKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("AddTrait").karmaType;
+            removeKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("RemoveTrait").karmaType;
 
             if (cache == null)
             {
@@ -169,6 +179,70 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             GUI.EndGroup();
+        }
+
+        private void DrawExpanded(TraitItem trait, Rect inRect)
+        {
+            trait.Data ??= new TraitData {KarmaTypeForAdding = addKarmaType, KarmaTypeForRemoving = removeKarmaType};
+
+            var firstColumn = new Rect(inRect.x, inRect.y, (inRect.width / 2f) - 5f, Text.LineHeight);
+            var secondColumn = new Rect(
+                firstColumn.x + firstColumn.width + 10f,
+                firstColumn.y,
+                firstColumn.width,
+                firstColumn.height
+            );
+            var listing = new Listing_Standard();
+
+            listing.Begin(firstColumn);
+            (Rect addKarmaLabel, Rect addKarmaField) = listing.GetRect(Text.LineHeight).ToForm();
+
+            Widgets.Label(addKarmaLabel, "TKUtils.TraitStore.AddKarmaType".Localize());
+            if (Widgets.ButtonText(addKarmaField, nameof(trait.Data.KarmaTypeForAdding)))
+            {
+                Find.WindowStack.Add(
+                    new FloatMenu(
+                        StoreDialog.KarmaTypes.Select(
+                                k => new FloatMenuOption(nameof(k), () => trait.Data.KarmaTypeForAdding = k)
+                            )
+                           .ToList()
+                    )
+                );
+            }
+
+            (Rect removeKarmaLabel, Rect removeKarmaField) = listing.GetRect(Text.LineHeight).ToForm();
+            Widgets.Label(removeKarmaLabel, "TKUtils.TraitStore.RemoveKarmaType".Localize());
+            if (Widgets.ButtonText(removeKarmaField, nameof(trait.Data.KarmaTypeForRemoving)))
+            {
+                Find.WindowStack.Add(
+                    new FloatMenu(
+                        StoreDialog.KarmaTypes.Select(
+                                k => new FloatMenuOption(nameof(k), () => trait.Data.KarmaTypeForRemoving = k)
+                            )
+                           .ToList()
+                    )
+                );
+            }
+
+            listing.End();
+
+            listing.Begin(secondColumn);
+            listing.CheckboxLabeled("TKUtils.TraitStore.BypassLimit".Localize(), ref trait.Data.CanBypassLimit);
+
+            if (listing.ButtonTextLabeled(
+                "TKUtils.TraitStore.ResetName".Localize(),
+                "TKUtils.Buttons.Reset".Localize()
+            ))
+            {
+                TraitDef traitDef = DefDatabase<TraitDef>.GetNamedSilentFail(trait.DefName);
+
+                trait.Name =
+                    (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(trait.Degree).label : traitDef?.label)
+                    ?? trait.Name;
+                trait.Data.CustomName = traitDef == null;
+            }
+
+            listing.End();
         }
 
         public override void DoWindowContents(Rect inRect)

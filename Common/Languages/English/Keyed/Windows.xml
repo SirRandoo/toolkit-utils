@@ -40,6 +40,9 @@
     <TKUtils.TraitStore.Title>Trait Inventory</TKUtils.TraitStore.Title>
     <TKUtils.TraitStore.AddCost>Add cost</TKUtils.TraitStore.AddCost>
     <TKUtils.TraitStore.RemoveCost>Removal cost</TKUtils.TraitStore.RemoveCost>
+    <TKUtils.TraitStore.BypassLimit>Bypass trait limit</TKUtils.TraitStore.BypassLimit>
+    <TKUtils.TraitStore.AddKarmaType>Karma type for adding</TKUtils.TraitStore.AddKarmaType>
+    <TKUtils.TraitStore.RemoveKarmaType>Karma type for removing</TKUtils.TraitStore.RemoveKarmaType>
     
     
     <!-- Pawn Kind Store -->

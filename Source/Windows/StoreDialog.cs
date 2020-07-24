@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -18,6 +19,10 @@ namespace SirRandoo.ToolkitUtils.Windows
     [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
+        internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType))
+           .Select(t => (KarmaType) Enum.Parse(typeof(KarmaType), t))
+           .ToList();
+
         internal static readonly List<ThingItem> Containers = new List<ThingItem>();
         private static IEnumerator<ThingItem> _validator;
         private string categoryFilter = "";
