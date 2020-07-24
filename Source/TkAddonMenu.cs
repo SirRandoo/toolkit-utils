@@ -21,43 +21,19 @@ namespace SirRandoo.ToolkitUtils
             {
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Settings".Localize(),
-                    () =>
-                    {
-                        var window = new Window_ModSettings(LoadedModManager.GetMod<TkUtils>());
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new Window_ModSettings(LoadedModManager.GetMod<TkUtils>()))
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.PawnKind".Localize(),
-                    () =>
-                    {
-                        var window = new PawnKindConfigDialog();
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new PawnKindConfigDialog())
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Trait".Localize(),
-                    () =>
-                    {
-                        var window = new TraitConfigDialog();
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new TraitConfigDialog())
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Purge".Localize(),
-                    () =>
-                    {
-                        var window = new PurgeViewersDialog();
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new PurgeViewersDialog())
                 ),
                 new FloatMenuOption(
                     "Wiki".Localize(),

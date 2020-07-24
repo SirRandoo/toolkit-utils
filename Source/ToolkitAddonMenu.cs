@@ -24,73 +24,33 @@ namespace SirRandoo.ToolkitUtils
             {
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Settings".Localize(),
-                    () =>
-                    {
-                        var settings = new Window_ModSettings(LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>());
-
-                        Find.WindowStack.TryRemove(settings.GetType(), false);
-                        Find.WindowStack.Add(settings);
-                    }
+                    () => Find.WindowStack.Add(
+                        new Window_ModSettings(LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>())
+                    )
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Events".Localize(),
-                    () =>
-                    {
-                        var window = new StoreIncidentsWindow();
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new StoreIncidentsWindow())
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Items".Localize(),
-                    () =>
-                    {
-                        var window = new StoreDialog();
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new StoreDialog())
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Commands".Localize(),
-                    () =>
-                    {
-                        var window = new Window_Commands();
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new Window_Commands())
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Viewers".Localize(),
-                    () =>
-                    {
-                        var window = new Window_Viewers();
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new Window_Viewers())
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.NameQueue".Localize(),
-                    () =>
-                    {
-                        var window = new NameQueueDialog();
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new NameQueueDialog())
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Tracker".Localize(),
-                    () =>
-                    {
-                        var window = new Window_Trackers();
-
-                        Find.WindowStack.TryRemove(window.GetType(), false);
-                        Find.WindowStack.Add(window);
-                    }
+                    () => Find.WindowStack.Add(new Window_Trackers())
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.ToggleCoinEarning".Localize(),
