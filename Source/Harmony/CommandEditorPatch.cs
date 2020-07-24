@@ -14,7 +14,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [UsedImplicitly]
         public static void PostClose()
         {
-            Task.Run(ShopExpansion.DumpCommands);
+            if (TkSettings.Offload)
+            {
+                Task.Run(ShopExpansion.DumpCommands);
+            }
+            else
+            {
+                ShopExpansion.DumpCommands();
+            }
         }
     }
 }
