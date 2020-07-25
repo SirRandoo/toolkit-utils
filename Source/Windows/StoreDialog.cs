@@ -26,29 +26,29 @@ namespace SirRandoo.ToolkitUtils.Windows
         internal static readonly List<ThingItem> Containers = new List<ThingItem>();
         private static IEnumerator<ThingItem> _validator;
         private string categoryFilter = "";
-        private TaggedString categoryHeader;
+        private string categoryHeader;
         private bool closeCalled;
         private bool ctrlKeyDown;
-        private TaggedString ctxAscending;
-        private TaggedString ctxDescending;
-        private TaggedString ctxInfo;
+        private string ctxAscending;
+        private string ctxDescending;
+        private string ctxInfo;
 
         private string currentQuery = "";
-        private TaggedString disableAllText;
+        private string disableAllText;
         private Vector2 disableAllTextSize;
-        private TaggedString enableAllText;
+        private string enableAllText;
         private Vector2 enableAllTextSize;
         private string lastQuery = "";
         private string modFilter = "";
-        private TaggedString nameHeader;
-        private TaggedString priceHeader;
-        private TaggedString resetAllText;
+        private string nameHeader;
+        private string priceHeader;
+        private string resetAllText;
 
         private Vector2 resetAllTextSize;
 
         private List<ThingItem> results;
         private Vector2 scrollPos = Vector2.zero;
-        private TaggedString searchText;
+        private string searchText;
 
         [SuppressMessage("ReSharper", "IdentifierTypo")]
         private bool shftKeyDown;
@@ -56,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Sorter sorter = Sorter.Name;
         private SortMode sortMode = SortMode.Ascending;
 
-        private TaggedString title;
+        private string title;
 
         static StoreDialog()
         {
