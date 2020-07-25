@@ -14,6 +14,8 @@ namespace SirRandoo.ToolkitUtils
         internal static readonly Texture2D Trash;
         internal static readonly Texture2D Refresh;
         internal static readonly Texture2D Edit;
+        internal static readonly Texture2D Visible;
+        internal static readonly Texture2D Hidden;
 
         static Textures()
         {
@@ -23,6 +25,8 @@ namespace SirRandoo.ToolkitUtils
             SortingAscend = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
             SortingDescend = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
             Edit = ContentFinder<Texture2D>.Get("UI/Icons/Edit");
+            Visible = ContentFinder<Texture2D>.Get("UI/Icons/Visible");
+            Hidden = ContentFinder<Texture2D>.Get("UI/Icons/Hidden");
         }
     }
 }

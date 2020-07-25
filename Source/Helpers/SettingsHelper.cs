@@ -11,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
             Widgets.ButtonText(region, "×", false);
 
-            bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Event.current.clickCount > 0;
+            bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
 
             if (!clicked)
             {
@@ -132,6 +132,38 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Widgets.TextFieldNumeric(fieldRect, ref price, ref buffer);
         }
 
+        public static bool DrawDoneButton(Rect canvas)
+        {
+            var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
+            Widgets.ButtonText(region, "✔", false);
+
+            bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
+
+            if (!clicked)
+            {
+                return false;
+            }
+
+            GUI.FocusControl(null);
+            return true;
+        }
+
+        public static void DrawShowButton(Rect canvas, ref bool state)
+        {
+            var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
+            Widgets.ButtonImageFitted(region, state ? Textures.Hidden : Textures.Visible);
+
+            bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
+
+            if (!clicked)
+            {
+                return;
+            }
+
+            state = !state;
+            GUI.FocusControl(null);
+        }
+
         public static bool WasRightClicked(this Rect region)
         {
             if (!Mouse.IsOver(region))
@@ -153,13 +185,47 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
+        public static Rect ShiftLeft(this Rect region, float padding = 5f)
+        {
+            region.x -= region.width + padding;
+
+            return region;
+        }
+
         public static bool IsRegionVisible(this Rect region, Rect scrollView, Vector2 scrollPos)
         {
             return (region.y >= scrollPos.y || region.y + region.height - 1f >= scrollPos.y)
                    && region.y <= scrollPos.y + scrollView.height;
         }
 
-        public static Tuple<Rect, Rect> ToForm(this Rect region, float factor = 0.7f)
+        public static void DrawColored(this Texture2D t, Rect region, Color color)
+        {
+            Color old = GUI.color;
+
+            GUI.color = color;
+            GUI.DrawTexture(region, t);
+            GUI.color = old;
+        }
+
+        public static void DrawLabelAnchored(Rect region, string text, TextAnchor anchor)
+        {
+            TextAnchor cache = Text.Anchor;
+
+            Text.Anchor = anchor;
+            Widgets.Label(region, text);
+            Text.Anchor = cache;
+        }
+
+        public static void DrawBigLabelAnchored(Rect region, string text, TextAnchor anchor)
+        {
+            GameFont cache = Text.Font;
+
+            Text.Font = GameFont.Medium;
+            DrawLabelAnchored(region, text, anchor);
+            Text.Font = cache;
+        }
+
+        public static Tuple<Rect, Rect> ToForm(this Rect region, float factor = 0.8f)
         {
             var left = new Rect(region.x, region.y, region.width * factor - 2f, region.height);
 
