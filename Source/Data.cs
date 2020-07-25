@@ -28,19 +28,20 @@ namespace SirRandoo.ToolkitUtils
 
         static Data()
         {
-            if (File.Exists(Paths.LegacyShopFilePath))
-            {
-                MigrateFromLegacy(Paths.LegacyShopFilePath);
-            }
-
             if (Traits.NullOrEmpty())
             {
-                LoadTraits(Paths.TraitFilePath);
+                LoadTraits(Paths.TraitFilePath, true);
             }
 
             if (PawnKinds.NullOrEmpty())
             {
-                LoadPawnKinds(Paths.PawnKindFilePath);
+                LoadPawnKinds(Paths.PawnKindFilePath, true);
+            }
+
+            if (File.Exists(Paths.LegacyShopFilePath) && (PawnKinds.NullOrEmpty() || Traits.NullOrEmpty()))
+            {
+                MigrateFromLegacy(Paths.LegacyShopFilePath);
+                // TODO: Remove the legacy file
             }
 
             LoadItemData(Paths.ItemDataFilePath);
@@ -74,9 +75,9 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [CanBeNull]
-        internal static T LoadJson<T>(string path) where T : class
+        internal static T LoadJson<T>(string path, bool ignoreErrors = false) where T : class
         {
-            if (!File.Exists(path))
+            if (!File.Exists(path) && !ignoreErrors)
             {
                 TkLogger.Warn($"Could not load file at {path} -- Does not exist!");
                 return null;
@@ -97,7 +98,11 @@ namespace SirRandoo.ToolkitUtils
             }
             catch (Exception e)
             {
-                TkLogger.Error($"Could not load file at {path}", e);
+                if (!ignoreErrors)
+                {
+                    TkLogger.Error($"Could not load file at {path}", e);
+                }
+
                 return null;
             }
         }
@@ -141,9 +146,9 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        public static void LoadTraits(string path)
+        public static void LoadTraits(string path, bool ignoreErrors = false)
         {
-            Traits = LoadJson<List<TraitItem>>(path);
+            Traits = LoadJson<List<TraitItem>>(path, ignoreErrors);
         }
 
         public static void SaveTraits(string path)
@@ -151,9 +156,9 @@ namespace SirRandoo.ToolkitUtils
             SaveJson(Traits, path);
         }
 
-        public static void LoadPawnKinds(string path)
+        public static void LoadPawnKinds(string path, bool ignoreErrors = false)
         {
-            PawnKinds = LoadJson<List<PawnKindItem>>(path);
+            PawnKinds = LoadJson<List<PawnKindItem>>(path, ignoreErrors);
         }
 
         public static void SavePawnKinds(string path)
