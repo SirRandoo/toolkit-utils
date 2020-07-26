@@ -1,5 +1,7 @@
-﻿using JetBrains.Annotations;
+﻿using System.Linq;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -22,6 +24,13 @@ namespace SirRandoo.ToolkitUtils.Models
                 Cost = race.Price,
                 Data = new PawnKindData {CustomName = false}
             };
+        }
+
+        public string GetDefaultName()
+        {
+            PawnKindDef kindDef = DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(d => d.race.defName.Equals(DefName));
+
+            return kindDef?.label ?? DefName;
         }
     }
 }

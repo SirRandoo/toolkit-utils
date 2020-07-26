@@ -51,9 +51,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GetTranslations();
 
             doCloseX = true;
-            globalRemoveCost = 0;
             forcePause = true;
-            onlyOneOfTypeAllowed = true;
 
             optionalTitle = titleText;
             cache?.SortBy(t => t.Name);
@@ -292,7 +290,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         expandedDialog.width - 30f,
                         Text.LineHeight * LineScale
                     ),
-                    "TKUtils.TraitStore.DataDialog".Localize(expanded.Name)
+                    "TKUtils.Headers.DataDialog".Localize(expanded.Name)
                 );
 
                 GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
