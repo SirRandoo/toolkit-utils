@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -56,6 +59,13 @@ namespace SirRandoo.ToolkitUtils.Models
                     Stats = new string[] { }
                 }
             };
+        }
+
+        public string GetDefaultName()
+        {
+            TraitDef traitDef = DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
+
+            return (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(Degree).label : traitDef?.label) ?? DefName;
         }
     }
 }

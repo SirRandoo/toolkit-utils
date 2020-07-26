@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit;
@@ -177,7 +176,17 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.Gap(Text.LineHeight * LineScale);
 
             (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.65f);
-            expandedName = Widgets.TextField(nameField, expandedName);
+            var trueNameField = new Rect(nameField.x, nameField.y, nameField.width - 21f, nameField.height);
+            var resetNameRect = new Rect(
+                trueNameField.x + trueNameField.width + 5f,
+                trueNameField.y,
+                16f,
+                trueNameField.height
+            );
+
+            expandedName = Widgets.TextField(trueNameField, expandedName);
+            GUI.DrawTexture(resetNameRect, Textures.Reset);
+            Widgets.DrawHighlightIfMouseover(resetNameRect);
 
             if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(nameField))
             {
@@ -185,9 +194,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 expanded.Name = expanded.DefName;
             }
 
-            if (expandedName.Length <= 0)
+            if (Widgets.ButtonInvisible(resetNameRect))
             {
-                expanded.Name = expanded.DefName;
+                expanded.Name = expanded.GetDefaultName();
+                expanded.Data!.CustomName = false;
             }
 
             SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
@@ -239,14 +249,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 resetText
             ))
             {
-                TraitDef traitDef = DefDatabase<TraitDef>.GetNamedSilentFail(expanded.DefName);
-
-                expanded.Name =
-                    (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(expanded.Degree).label : traitDef?.label)
-                    ?? expanded.Name;
-                expanded.Data.CustomName = false;
-                expanded.Data.KarmaTypeForAdding = null;
-                expanded.Data.KarmaTypeForRemoving = null;
+                expanded.Name = expanded.GetDefaultName();
+                expanded.Data!.CustomName = false;
+                expanded.Data!.KarmaTypeForAdding = null;
+                expanded.Data!.KarmaTypeForRemoving = null;
             }
 
             listing.End();
@@ -302,6 +308,16 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (Widgets.CloseButtonFor(expandedDialog))
                 {
+                    if (expanded.Name.NullOrEmpty())
+                    {
+                        expanded.Name = expanded.GetDefaultName();
+
+                        if (expanded.Data != null)
+                        {
+                            expanded.Data.CustomName = false;
+                        }
+                    }
+
                     expanded = null;
                 }
 

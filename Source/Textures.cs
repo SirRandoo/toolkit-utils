@@ -16,6 +16,7 @@ namespace SirRandoo.ToolkitUtils
         internal static readonly Texture2D Edit;
         internal static readonly Texture2D Visible;
         internal static readonly Texture2D Hidden;
+        internal static readonly Texture2D Reset;
 
         static Textures()
         {
@@ -27,6 +28,7 @@ namespace SirRandoo.ToolkitUtils
             Edit = ContentFinder<Texture2D>.Get("UI/Icons/Edit");
             Visible = ContentFinder<Texture2D>.Get("UI/Icons/Visible");
             Hidden = ContentFinder<Texture2D>.Get("UI/Icons/Hidden");
+            Reset = ContentFinder<Texture2D>.Get("UI/Icons/Reset");
         }
     }
 }
