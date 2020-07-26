@@ -27,10 +27,12 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string disableAllText;
         private string enableAllText;
         private TraitItem expanded;
+        private string expandedName = "";
         private int globalAddCost;
         private int globalRemoveCost;
         private string lastQuery = "";
         private string nameHeaderText;
+        private string nameText;
         private string noCustomKarmaText;
         private string removeCostText;
         private string removeKarmaTypeText;
@@ -77,6 +79,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             bypassLimitText = "TKUtils.TraitStore.BypassLimit".Localize();
             resetText = "TKUtils.Buttons.Reset".Localize();
             noCustomKarmaText = "TKUtils.TraitStore.NoCustomKarmaType".Localize();
+            nameText = "TKUtils.Inputs.Name".Localize();
         }
 
         private void DrawHeader(Rect inRect)
@@ -172,6 +175,22 @@ namespace SirRandoo.ToolkitUtils.Windows
                 ref expanded.Data.CanBypassLimit
             );
             listing.Gap(Text.LineHeight * LineScale);
+
+            (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.65f);
+            expandedName = Widgets.TextField(nameField, expandedName);
+
+            if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(nameField))
+            {
+                expandedName = "";
+                expanded.Name = expanded.DefName;
+            }
+
+            if (expandedName.Length <= 0)
+            {
+                expanded.Name = expanded.DefName;
+            }
+
+            SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
 
             (Rect addKarmaLabel, Rect addKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.65f);
 

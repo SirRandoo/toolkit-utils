@@ -9,6 +9,7 @@
     <!-- General Input -->
     <TKUtils.Inputs.Price>Price</TKUtils.Inputs.Price>
     <TKUtils.Inputs.Username>Username</TKUtils.Inputs.Username>
+    <TKUtils.Inputs.Name>Name</TKUtils.Inputs.Name>
     
     
     <!-- Purge Dialog -->
