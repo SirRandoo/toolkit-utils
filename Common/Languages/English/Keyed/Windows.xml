@@ -43,6 +43,8 @@
     <TKUtils.TraitStore.BypassLimit>Bypass trait limit</TKUtils.TraitStore.BypassLimit>
     <TKUtils.TraitStore.AddKarmaType>Karma type for adding</TKUtils.TraitStore.AddKarmaType>
     <TKUtils.TraitStore.RemoveKarmaType>Karma type for removing</TKUtils.TraitStore.RemoveKarmaType>
+    <TKUtils.TraitStore.NoCustomKarmaType>Default</TKUtils.TraitStore.NoCustomKarmaType>
+    <TKUtils.TraitStore.DataDialog>Editing data for "{0}"</TKUtils.TraitStore.DataDialog>
     
     
     <!-- Pawn Kind Store -->

@@ -14,27 +14,36 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class TraitConfigDialog : Window
     {
+        private const float LineScale = 1.25f;
         private readonly KarmaType addKarmaType;
         private readonly List<TraitItem> cache = Data.Traits;
         private readonly KarmaType removeKarmaType;
+        private string addCostText;
+        private string addKarmaTypeText;
+        private string bypassLimitText;
 
         private bool control;
         private string currentQuery = "";
-        private List<string> expanded = new List<string>();
+        private string disableAllText;
+        private string enableAllText;
+        private TraitItem expanded;
         private int globalAddCost;
         private int globalRemoveCost;
         private string lastQuery = "";
+        private string nameHeaderText;
+        private string noCustomKarmaText;
+        private string removeCostText;
+        private string removeKarmaTypeText;
+        private string resetText;
         private List<TraitItem> results;
         private Vector2 scrollPos = Vector2.zero;
+        private string searchText;
         private bool shift;
 
         private Sorter sorter = Sorter.Name;
         private SortMode sortMode = SortMode.Ascending;
 
-        private TaggedString titleText;
-        // private TaggedString nameHeaderText;
-        // private TaggedString priceText;
-        // private TaggedString priceHeaderText;
+        private string titleText;
 
         public TraitConfigDialog()
         {
@@ -50,37 +59,33 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             addKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("AddTrait").karmaType;
             removeKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("RemoveTrait").karmaType;
-
-            if (cache == null)
-            {
-                TkLogger.Warn("The trait shop is null! You should report this.");
-            }
         }
 
-        public override Vector2 InitialSize => new Vector2(640f, Screen.height * 0.85f);
+        public override Vector2 InitialSize => new Vector2(1024f, Screen.height * 0.9f);
 
         private void GetTranslations()
         {
             titleText = "TKUtils.TraitStore.Title".Localize();
-            // nameHeaderText = "TKUtils.Windows.Store.Headers.Name".Translate();
-            // priceText = "TKUtils.Windows.Config.Input.Price.Label".Translate();
-            // priceHeaderText = "TKUtils.Windows.Store.Headers.Price".Translate();
-            // applyText = "TKUtils.Windows.Config.Buttons.Apply.Label".Translate();
-            // searchText = "TKUtils.Windows.Config.Buttons.Search.Label".Translate();
-            // resetText = "TKUtils.Windows.Config.Buttons.ResetAll.Label".Translate();
-            // enableText = "TKUtils.Windows.Config.Buttons.EnableAll.Label".Translate();
-            // disableText = "TKUtils.Windows.Config.Buttons.DisableAll.Label".Translate();
+            nameHeaderText = "TKUtils.Headers.Name".Localize();
+            searchText = "TKUtils.Buttons.Search".Localize();
+            enableAllText = "TKUtils.Buttons.EnableAll".Localize();
+            disableAllText = "TKUtils.Buttons.DisableAll".Localize();
+            addCostText = "TKUtils.TraitStore.AddCost".Localize();
+            removeCostText = "TKUtils.TraitStore.RemoveCost".Localize();
+            addKarmaTypeText = "TKUtils.TraitStore.AddKarmaType".Localize();
+            removeKarmaTypeText = "TKUtils.TraitStore.RemoveKarmaType".Localize();
+            bypassLimitText = "TKUtils.TraitStore.BypassLimit".Localize();
+            resetText = "TKUtils.Buttons.Reset".Localize();
+            noCustomKarmaText = "TKUtils.TraitStore.NoCustomKarmaType".Localize();
         }
 
         private void DrawHeader(Rect inRect)
         {
             GUI.BeginGroup(inRect);
-            float midpoint = inRect.width / 2f;
-            var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f, Text.LineHeight);
-            Rect searchLabel = searchRect.LeftHalf();
-            Rect searchField = searchRect.RightHalf();
+            (Rect searchLabel, Rect searchField) =
+                new Rect(inRect.x, inRect.y, inRect.width * 0.19f, Text.LineHeight).ToForm(0.3f);
 
-            Widgets.Label(searchLabel, "TKUtils.Buttons.Search".Localize());
+            Widgets.Label(searchLabel, searchText);
             currentQuery = Widgets.TextField(searchField, currentQuery);
 
             if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(searchField))
@@ -95,151 +100,134 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
 
-            TaggedString enableText = "TKUtils.Buttons.EnableAll".Localize();
-            TaggedString disableText = "TKUtils.Buttons.DisableAll".Localize();
-            TaggedString applyText = "TKUtils.Buttons.Apply".Localize();
-            Vector2 enableSize = Text.CalcSize(enableText) * 1.5f;
-            Vector2 disableSize = Text.CalcSize(disableText) * 1.5f;
-            float maxWidth = Mathf.Max(enableSize.x, disableSize.x);
-            var disableRect = new Rect(midpoint, inRect.y + Text.LineHeight, maxWidth, Text.LineHeight);
-            var enableRect = new Rect(midpoint, inRect.y, maxWidth, Text.LineHeight);
+            float controlWidth = Mathf.Max(Text.CalcSize(enableAllText).x, Text.CalcSize(disableAllText).x) + 10f;
+            var enableRect = new Rect(inRect.width - controlWidth, 0f, controlWidth, Text.LineHeight);
+            var disableRect = new Rect(inRect.width - controlWidth, Text.LineHeight, controlWidth, Text.LineHeight);
 
-            if (Widgets.ButtonText(enableRect, globalAddCost > 0 ? applyText : enableText))
+            if (Widgets.ButtonText(enableRect, enableAllText))
             {
                 foreach (TraitItem trait in Data.Traits)
                 {
-                    if (globalAddCost > 0)
-                    {
-                        trait.CostToAdd = globalAddCost;
-                    }
-                    else
-                    {
-                        trait.CanAdd = true;
-                        trait.CanRemove = true;
-                    }
-                }
-
-                if (globalAddCost > 0)
-                {
-                    globalAddCost = 0;
+                    trait.CanAdd = true;
+                    trait.CanRemove = true;
                 }
             }
 
-            if (Widgets.ButtonText(disableRect, globalRemoveCost > 0 ? applyText : disableText))
+            if (Widgets.ButtonText(disableRect, disableAllText))
             {
                 foreach (TraitItem trait in Data.Traits)
                 {
-                    if (globalRemoveCost > 0)
-                    {
-                        trait.CostToRemove = globalRemoveCost;
-                    }
-                    else
-                    {
-                        trait.CanAdd = false;
-                        trait.CanRemove = false;
-                    }
-                }
-
-                if (globalRemoveCost > 0)
-                {
-                    globalRemoveCost = 0;
+                    trait.CanAdd = false;
+                    trait.CanRemove = false;
                 }
             }
 
-
-            var globalAddRect = new Rect(
-                enableRect.x + enableRect.width + 5f,
-                enableRect.y,
-                midpoint - enableRect.width - 5f,
-                Text.LineHeight
-            );
-            var globalRemoveRect = new Rect(
-                disableRect.x + disableRect.width + 5f,
-                disableRect.y,
-                midpoint - disableRect.width - 5f,
-                Text.LineHeight
-            );
+            var globalAddRect = new Rect(enableRect.x - 5f - 200f, 0f, 200f, Text.LineHeight);
+            var globalRemoveRect = new Rect(disableRect.x - 5f - 200f, Text.LineHeight, 200f, Text.LineHeight);
 
             var globalAddBuffer = globalAddCost.ToString();
-            Widgets.Label(globalAddRect.LeftHalf(), "TKUtils.TraitStore.AddCost".Localize());
+            Widgets.Label(globalAddRect.LeftHalf(), addCostText);
             Widgets.TextFieldNumeric(globalAddRect.RightHalf(), ref globalAddCost, ref globalAddBuffer);
 
-            if (globalAddCost > 0 && SettingsHelper.DrawClearButton(globalAddRect.RightHalf()))
+            if (SettingsHelper.DrawDoneButton(globalAddRect.RightHalf()))
             {
-                globalAddCost = 0;
+                foreach (TraitItem trait in Data.Traits)
+                {
+                    trait.CostToAdd = globalAddCost;
+                }
             }
 
             var globalRemoveBuffer = globalRemoveCost.ToString();
-            Widgets.Label(globalRemoveRect.LeftHalf(), "TKUtils.TraitStore.RemoveCost".Localize());
+            Widgets.Label(globalRemoveRect.LeftHalf(), removeCostText);
             Widgets.TextFieldNumeric(globalRemoveRect.RightHalf(), ref globalRemoveCost, ref globalRemoveBuffer);
 
-            if (globalRemoveCost > 0 && SettingsHelper.DrawClearButton(globalRemoveRect.RightHalf()))
+            if (SettingsHelper.DrawDoneButton(globalRemoveRect.RightHalf()))
             {
-                globalRemoveCost = 0;
+                foreach (TraitItem trait in Data.Traits)
+                {
+                    trait.CostToRemove = globalRemoveCost;
+                }
             }
 
             GUI.EndGroup();
         }
 
-        private void DrawExpanded(TraitItem trait, Rect inRect)
+        private void DrawTraitSettings(Rect inRect)
         {
-            trait.Data ??= new TraitData {KarmaTypeForAdding = addKarmaType, KarmaTypeForRemoving = removeKarmaType};
+            expanded.Data ??= new TraitData {KarmaTypeForAdding = addKarmaType, KarmaTypeForRemoving = removeKarmaType};
+            string addKarma = expanded.Data.KarmaTypeForAdding == null
+                ? noCustomKarmaText
+                : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaTypeForAdding);
+            string removeKarma = expanded.Data.KarmaTypeForRemoving == null
+                ? noCustomKarmaText
+                : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaTypeForRemoving);
 
-            var firstColumn = new Rect(inRect.x, inRect.y, (inRect.width / 2f) - 5f, Text.LineHeight);
-            var secondColumn = new Rect(
-                firstColumn.x + firstColumn.width + 10f,
-                firstColumn.y,
-                firstColumn.width,
-                firstColumn.height
-            );
+
             var listing = new Listing_Standard();
+            listing.Begin(inRect);
 
-            listing.Begin(firstColumn);
-            (Rect addKarmaLabel, Rect addKarmaField) = listing.GetRect(Text.LineHeight).ToForm();
+            Widgets.CheckboxLabeled(
+                listing.GetRect(Text.LineHeight * LineScale),
+                bypassLimitText,
+                ref expanded.Data.CanBypassLimit
+            );
+            listing.Gap(Text.LineHeight * LineScale);
 
-            Widgets.Label(addKarmaLabel, "TKUtils.TraitStore.AddKarmaType".Localize());
-            if (Widgets.ButtonText(addKarmaField, nameof(trait.Data.KarmaTypeForAdding)))
+            (Rect addKarmaLabel, Rect addKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.65f);
+
+            SettingsHelper.DrawLabelAnchored(addKarmaLabel, addKarmaTypeText, TextAnchor.MiddleLeft);
+            if (Widgets.ButtonText(addKarmaField, addKarma))
             {
                 Find.WindowStack.Add(
                     new FloatMenu(
                         StoreDialog.KarmaTypes.Select(
-                                k => new FloatMenuOption(nameof(k), () => trait.Data.KarmaTypeForAdding = k)
+                                k => new FloatMenuOption(
+                                    Enum.GetName(typeof(KarmaType), k),
+                                    () => expanded.Data.KarmaTypeForAdding = k
+                                )
                             )
                            .ToList()
                     )
                 );
             }
 
-            (Rect removeKarmaLabel, Rect removeKarmaField) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(removeKarmaLabel, "TKUtils.TraitStore.RemoveKarmaType".Localize());
-            if (Widgets.ButtonText(removeKarmaField, nameof(trait.Data.KarmaTypeForRemoving)))
+            (Rect removeKarmaLabel, Rect removeKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.65f);
+            SettingsHelper.DrawLabelAnchored(removeKarmaLabel, removeKarmaTypeText, TextAnchor.MiddleLeft);
+            if (Widgets.ButtonText(removeKarmaField, removeKarma))
             {
                 Find.WindowStack.Add(
                     new FloatMenu(
                         StoreDialog.KarmaTypes.Select(
-                                k => new FloatMenuOption(nameof(k), () => trait.Data.KarmaTypeForRemoving = k)
+                                k => new FloatMenuOption(
+                                    Enum.GetName(typeof(KarmaType), k),
+                                    () => expanded.Data.KarmaTypeForRemoving = k
+                                )
                             )
                            .ToList()
                     )
                 );
             }
 
-            listing.End();
+            var lastLine = new Rect(
+                0f,
+                inRect.height - Text.LineHeight * LineScale,
+                inRect.width,
+                Text.LineHeight * LineScale
+            );
 
-            listing.Begin(secondColumn);
-            listing.CheckboxLabeled("TKUtils.TraitStore.BypassLimit".Localize(), ref trait.Data.CanBypassLimit);
-
-            if (listing.ButtonTextLabeled(
-                "TKUtils.TraitStore.ResetName".Localize(),
-                "TKUtils.Buttons.Reset".Localize()
+            if (Widgets.ButtonText(
+                new Rect(lastLine.x + 10f, lastLine.y, lastLine.width - 20f, lastLine.height),
+                resetText
             ))
             {
-                TraitDef traitDef = DefDatabase<TraitDef>.GetNamedSilentFail(trait.DefName);
+                TraitDef traitDef = DefDatabase<TraitDef>.GetNamedSilentFail(expanded.DefName);
 
-                trait.Name =
-                    (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(trait.Degree).label : traitDef?.label)
-                    ?? trait.Name;
-                trait.Data.CustomName = traitDef == null;
+                expanded.Name =
+                    (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(expanded.Degree).label : traitDef?.label)
+                    ?? expanded.Name;
+                expanded.Data.CustomName = false;
+                expanded.Data.KarmaTypeForAdding = null;
+                expanded.Data.KarmaTypeForRemoving = null;
             }
 
             listing.End();
@@ -251,10 +239,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             var listing = new Listing_Standard {maxOneColumn = true};
             var headerRect = new Rect(0f, 0f, inRect.width, Text.LineHeight * 2f);
-
-            DrawHeader(headerRect);
-            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 3f, inRect.width);
-
             var contentArea = new Rect(
                 inRect.x,
                 Text.LineHeight * 4f,
@@ -262,113 +246,242 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.height - Text.LineHeight * 4f
             );
 
-            TextAnchor old = Text.Anchor;
+            DrawHeader(headerRect);
+            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 3f, inRect.width);
+
+            if (expanded != null)
+            {
+                float expandedWidth = contentArea.width * 0.33f;
+                Rect expandedDialog = new Rect(
+                    expandedWidth,
+                    contentArea.center.y - Text.LineHeight * LineScale * 4f,
+                    expandedWidth,
+                    Text.LineHeight * LineScale * 8f
+                ).ExpandedBy(StandardMargin * 2f);
+
+                Widgets.DrawBoxSolid(expandedDialog, new Color(0.13f, 0.16f, 0.17f));
+                Widgets.Label(
+                    new Rect(
+                        expandedDialog.x + 8f,
+                        expandedDialog.y + 5f,
+                        expandedDialog.width - 30f,
+                        Text.LineHeight * LineScale
+                    ),
+                    "TKUtils.TraitStore.DataDialog".Localize(expanded.Name)
+                );
+
+                GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
+                DrawTraitSettings(
+                    new Rect(
+                        0f,
+                        0f,
+                        expandedDialog.width - StandardMargin * 4f,
+                        expandedDialog.height - StandardMargin * 4f
+                    )
+                );
+                GUI.EndGroup();
+
+                if (Widgets.CloseButtonFor(expandedDialog))
+                {
+                    expanded = null;
+                }
+
+                GUI.EndGroup();
+                return;
+            }
+
+            float availableWidth = inRect.width - 30f * 3f;
+            bool wrapped = Text.WordWrap;
+            Text.WordWrap = false;
+            var nameHeaderRect = new Rect(0f, 0f, availableWidth * 0.45f - 5f, Text.LineHeight);
+
+            float remainingWidth = availableWidth - nameHeaderRect.width;
+
+            var addHeaderRect = new Rect(nameHeaderRect.width + 5f, nameHeaderRect.y, 24f, nameHeaderRect.height);
+            var addCostHeaderRect = new Rect(
+                addHeaderRect.x + addHeaderRect.width + 5f,
+                nameHeaderRect.y,
+                remainingWidth * 0.465f,
+                nameHeaderRect.height
+            );
+            var removeHeaderRect = new Rect(
+                addCostHeaderRect.x + addCostHeaderRect.width + 5f,
+                nameHeaderRect.y,
+                24f,
+                nameHeaderRect.height
+            );
+            var removeCostHeaderRect = new Rect(
+                removeHeaderRect.x + removeHeaderRect.width + 5f,
+                nameHeaderRect.y,
+                addCostHeaderRect.width,
+                nameHeaderRect.height
+            );
+            var expandHeaderRect = new Rect(
+                removeCostHeaderRect.x + removeCostHeaderRect.width + 5f,
+                nameHeaderRect.y,
+                24f,
+                nameHeaderRect.height
+            );
+
+            GUI.BeginGroup(new Rect(0f, Text.LineHeight * 3f, inRect.width, Text.LineHeight));
+            Widgets.DrawHighlightIfMouseover(nameHeaderRect);
+            Widgets.DrawHighlightIfMouseover(addCostHeaderRect);
+            Widgets.DrawHighlightIfMouseover(removeCostHeaderRect);
+
+
+            if (Widgets.ButtonText(nameHeaderRect, $"   {nameHeaderText}", false))
+            {
+                if (sorter != Sorter.Name)
+                {
+                    sortMode = SortMode.Descending;
+                }
+
+                sorter = Sorter.Name;
+                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+
+                SortCurrentWorkingList();
+            }
+
+            if (Widgets.ButtonText(addCostHeaderRect, $"   {addCostText}", false))
+            {
+                if (sorter != Sorter.AddCost)
+                {
+                    sortMode = SortMode.Descending;
+                }
+
+                sorter = Sorter.AddCost;
+                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+
+                SortCurrentWorkingList();
+            }
+
+            if (Widgets.ButtonText(removeCostHeaderRect, $"   {removeCostText}", false))
+            {
+                if (sorter != Sorter.RemoveCost)
+                {
+                    sortMode = SortMode.Descending;
+                }
+
+                sorter = Sorter.RemoveCost;
+                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+
+                SortCurrentWorkingList();
+            }
+
+            var position = new Rect(0f, nameHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f);
+            switch (sorter)
+            {
+                case Sorter.Name:
+                    position.x = nameHeaderRect.x;
+                    break;
+                case Sorter.AddCost:
+                    position.x = addCostHeaderRect.x;
+                    break;
+                case Sorter.RemoveCost:
+                    position.x = removeCostHeaderRect.x;
+                    break;
+            }
+
+            GUI.DrawTexture(
+                position,
+                sortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
+            );
+            GUI.EndGroup();
+
+
+            float lineHeight = Text.LineHeight * LineScale;
             List<TraitItem> effectiveList = results ?? cache;
             int total = effectiveList.Count;
-            float maxHeight = (Text.LineHeight * 3f + 2f) * total;
+            float maxHeight = lineHeight * total;
             var viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight);
             var traits = new Rect(0f, 0f, contentArea.width, contentArea.height);
+            GameFont font = Text.Font;
 
             GUI.BeginGroup(contentArea);
             listing.BeginScrollView(traits, ref scrollPos, ref viewPort);
 
+            Text.Font = GameFont.Small;
             for (var index = 0; index < effectiveList.Count; index++)
             {
                 TraitItem trait = effectiveList[index];
-                Rect lineRect = listing.GetRect(Text.LineHeight * 2f + 2f);
-                Rect spacerRect = listing.GetRect(Text.LineHeight);
-                var labelRect = new Rect(0f, lineRect.y, lineRect.width * 0.6f, lineRect.height);
+                Rect fullLineRect = listing.GetRect(lineHeight);
+                var lineRect = new Rect(fullLineRect.x, fullLineRect.y, fullLineRect.width, lineHeight);
 
-                if (!lineRect.IsRegionVisible(traits, scrollPos))
+                if (!fullLineRect.IsRegionVisible(traits, scrollPos))
                 {
                     continue;
                 }
 
                 if (index % 2 == 1)
                 {
-                    Widgets.DrawLightHighlight(
-                        new Rect(
-                            lineRect.x,
-                            lineRect.y - Text.LineHeight / 2f,
-                            lineRect.width,
-                            lineRect.height + Text.LineHeight
-                        )
-                    );
+                    Widgets.DrawLightHighlight(fullLineRect);
                 }
 
-                Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(labelRect, trait.Name.CapitalizeFirst());
-                Text.Anchor = old;
-
-                var inputRect = new Rect(
-                    labelRect.width + 5f,
+                var nameRect = new Rect(nameHeaderRect.x, lineRect.y, nameHeaderRect.width, lineRect.height);
+                var addRect = new Rect(addHeaderRect.x, lineRect.y, addHeaderRect.width, lineRect.height);
+                var addCostRect = new Rect(addCostHeaderRect.x, lineRect.y, addCostHeaderRect.width, lineRect.height);
+                var removeRect = new Rect(removeHeaderRect.x, lineRect.y, removeHeaderRect.width, lineRect.height);
+                var removeCostRect = new Rect(
+                    removeCostHeaderRect.x,
                     lineRect.y,
-                    lineRect.width - labelRect.width - 35f,
-                    labelRect.height
+                    removeCostHeaderRect.width,
+                    lineRect.height
                 );
+                var expandRect = new Rect(expandHeaderRect.x, lineRect.y, expandHeaderRect.width, lineRect.height);
 
-                Widgets.Checkbox(inputRect.x, inputRect.y, ref trait.CanAdd);
+                GUI.DrawTexture(expandRect, Textures.Gear);
 
-                var addRect = new Rect(inputRect.x + 28f, inputRect.y, inputRect.width, Text.LineHeight - 1f);
-
-                if (trait.CanAdd)
+                if (Widgets.ButtonInvisible(expandRect))
                 {
-                    var addBuffer = trait.CostToAdd.ToString();
-                    Widgets.TextFieldNumericLabeled(
-                        addRect,
-                        "TKUtils.TraitStore.AddCost".Localize(),
-                        ref trait.CostToAdd,
-                        ref addBuffer
-                    );
-                }
-                else
-                {
-                    Widgets.Label(addRect.LeftHalf(), "TKUtils.TraitStore.AddCost".Localize());
-
-                    Text.Anchor = TextAnchor.MiddleRight;
-                    Widgets.Label(addRect.RightHalf(), trait.CostToAdd.ToString());
-
-                    Text.Anchor = old;
+                    expanded = trait;
                 }
 
-                var removeRect = new Rect(
-                    inputRect.x + 28f,
-                    inputRect.BottomHalf().y + 1f,
-                    inputRect.width,
-                    Text.LineHeight
-                );
-
-                Widgets.Checkbox(removeRect.x - 28f, removeRect.y, ref trait.CanRemove);
-
-                if (trait.CanRemove)
-                {
-                    var removeBuffer = trait.CostToRemove.ToString();
-                    Widgets.TextFieldNumericLabeled(
-                        removeRect,
-                        "TKUtils.TraitStore.RemoveCost".Localize(),
-                        ref trait.CostToRemove,
-                        ref removeBuffer
-                    );
-                }
-                else
-                {
-                    Widgets.Label(removeRect.LeftHalf(), "TKUtils.TraitStore.RemoveCost".Localize());
-
-                    Text.Anchor = TextAnchor.MiddleRight;
-                    Widgets.Label(removeRect.RightHalf(), trait.CostToRemove.ToString());
-
-                    Text.Anchor = old;
-                }
-
-                Color colorCache = GUI.color;
-                GUI.color = Color.gray;
-                Widgets.DrawLineHorizontal(spacerRect.x, spacerRect.y + spacerRect.height / 2f, spacerRect.width);
-                GUI.color = colorCache;
+                SettingsHelper.DrawLabelAnchored(nameRect, trait.Name, TextAnchor.MiddleLeft);
+                Widgets.Checkbox(addRect.position, ref trait.CanAdd, paintable: true);
+                SettingsHelper.DrawPriceField(addCostRect, ref trait.CostToAdd, ref control, ref shift);
+                Widgets.Checkbox(removeRect.position, ref trait.CanRemove, paintable: true);
+                SettingsHelper.DrawPriceField(removeCostRect, ref trait.CostToRemove, ref control, ref shift);
             }
 
             GUI.EndGroup();
             listing.EndScrollView(ref viewPort);
             GUI.EndGroup();
+
+            Text.Font = font;
+            Text.WordWrap = wrapped;
+        }
+
+        private void SortCurrentWorkingList()
+        {
+            List<TraitItem> workingList = results ?? cache;
+
+            switch (sorter)
+            {
+                case Sorter.Name when sortMode == SortMode.Ascending:
+                    workingList.SortBy(i => i.Name);
+                    results = workingList;
+                    return;
+                case Sorter.Name when sortMode == SortMode.Descending:
+                    workingList.SortByDescending(i => i.Name);
+                    results = workingList;
+                    return;
+                case Sorter.AddCost when sortMode == SortMode.Ascending:
+                    workingList.SortBy(i => i.CostToAdd);
+                    results = workingList;
+                    return;
+                case Sorter.AddCost when sortMode == SortMode.Descending:
+                    workingList.SortByDescending(i => i.CostToAdd);
+                    results = workingList;
+                    return;
+                case Sorter.RemoveCost when sortMode == SortMode.Ascending:
+                    workingList.SortBy(i => i.CostToRemove);
+                    results = workingList;
+                    return;
+                case Sorter.RemoveCost when sortMode == SortMode.Descending:
+                    workingList.SortByDescending(i => i.CostToRemove);
+                    results = workingList;
+                    return;
+            }
         }
 
         private void Notify__SearchRequested()
@@ -376,6 +489,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             lastQuery = currentQuery;
 
             results = GetSearchResults();
+            SortCurrentWorkingList();
         }
 
         public override void WindowUpdate()
@@ -403,8 +517,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             return cache.Where(
-                    t => t.DefName.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
-                         || t.DefName.ToToolkit().Contains(currentQuery.ToToolkit())
+                    t => t.Name.ToToolkit().EqualsIgnoreCase(currentQuery.ToToolkit())
+                         || t.Name.ToToolkit().Contains(currentQuery.ToToolkit())
                 )
                .ToList();
         }

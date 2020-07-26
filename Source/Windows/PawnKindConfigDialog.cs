@@ -202,12 +202,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(priceHeadingRect, "  " + priceHeaderText, false))
             {
-                if (sorter != Sorter.Price)
+                if (sorter != Sorter.Cost)
                 {
                     sortMode = SortMode.Descending;
                 }
 
-                sorter = Sorter.Price;
+                sorter = Sorter.Cost;
                 sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
 
                 SortCurrentWorkingList();
@@ -219,7 +219,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 case Sorter.Name:
                     position.x = nameHeadingRect.x;
                     break;
-                case Sorter.Price:
+                case Sorter.Cost:
                     position.x = priceHeadingRect.x;
                     break;
             }
@@ -381,7 +381,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         default:
                             return;
                     }
-                case Sorter.Price:
+                case Sorter.Cost:
                     switch (sortMode)
                     {
                         case SortMode.Ascending:

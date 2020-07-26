@@ -13,7 +13,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public enum SortMode { Ascending, Descending }
 
-    public enum Sorter { Name, Price, Category }
+    public enum Sorter { Name, Cost, Category, AddCost, RemoveCost }
 
 
     [StaticConstructorOnStartup]
@@ -149,12 +149,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(priceHeaderRect, "   " + priceHeader, false))
             {
-                if (sorter != Sorter.Price)
+                if (sorter != Sorter.Cost)
                 {
                     sortMode = SortMode.Descending;
                 }
 
-                sorter = Sorter.Price;
+                sorter = Sorter.Cost;
                 sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
 
                 SortCurrentWorkingList();
@@ -179,7 +179,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 case Sorter.Name:
                     position.x = infoHeaderRect.x;
                     break;
-                case Sorter.Price:
+                case Sorter.Cost:
                     position.x = priceHeaderRect.x;
                     break;
                 case Sorter.Category:
@@ -300,7 +300,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             ctxAscending,
                             () =>
                             {
-                                sorter = Sorter.Price;
+                                sorter = Sorter.Cost;
                                 sortMode = SortMode.Ascending;
                                 SortCurrentWorkingList();
                             }
@@ -309,7 +309,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             ctxDescending,
                             () =>
                             {
-                                sorter = Sorter.Price;
+                                sorter = Sorter.Cost;
                                 sortMode = SortMode.Descending;
                                 SortCurrentWorkingList();
                             }
@@ -626,17 +626,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             return workingList.Where(
-                    i =>
-                    {
-                        if (i.Item.abr.ToToolkit().Contains(serialized!)
-                            || i.Item.abr.ToToolkit().EqualsIgnoreCase(serialized))
-                        {
-                            return true;
-                        }
-
-                        return i.Item.defname.ToToolkit().Contains(serialized)
-                               || i.Item.defname.ToToolkit().EqualsIgnoreCase(serialized);
-                    }
+                    i => i.Item.abr.ToToolkit().Contains(serialized!)
+                         || i.Item.abr.ToToolkit().EqualsIgnoreCase(serialized)
                 )
                .ToList();
         }
@@ -681,34 +672,22 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             switch (sorter)
             {
-                case Sorter.Name:
-                    switch (sortMode)
-                    {
-                        case SortMode.Ascending:
-                            workingList.SortBy(i => i.Item.abr);
-                            results = workingList;
-                            return;
-                        case SortMode.Descending:
-                            workingList.SortByDescending(i => i.Item.abr);
-                            results = workingList;
-                            return;
-                        default:
-                            return;
-                    }
-                case Sorter.Price:
-                    switch (sortMode)
-                    {
-                        case SortMode.Ascending:
-                            workingList.SortBy(i => i.Item.price);
-                            results = workingList;
-                            return;
-                        case SortMode.Descending:
-                            workingList.SortByDescending(i => i.Item.price);
-                            results = workingList;
-                            return;
-                        default:
-                            return;
-                    }
+                case Sorter.Name when sortMode == SortMode.Ascending:
+                    workingList.SortBy(i => i.Item.abr);
+                    results = workingList;
+                    return;
+                case Sorter.Name when sortMode == SortMode.Descending:
+                    workingList.SortByDescending(i => i.Item.abr);
+                    results = workingList;
+                    return;
+                case Sorter.Cost when sortMode == SortMode.Ascending:
+                    workingList.SortBy(i => i.Item.price);
+                    results = workingList;
+                    return;
+                case Sorter.Cost when sortMode == SortMode.Descending:
+                    workingList.SortByDescending(i => i.Item.price);
+                    results = workingList;
+                    return;
                 case Sorter.Category when sortMode == SortMode.Ascending:
                     workingList.SortBy(i => i.Category);
                     results = workingList;
