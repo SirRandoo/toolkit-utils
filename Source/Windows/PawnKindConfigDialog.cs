@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using TwitchToolkit;
+using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
 
@@ -10,22 +13,29 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class PawnKindConfigDialog : Window
     {
+        private const float LineScale = 1.25f;
         private readonly List<PawnKindItem> cache = Data.PawnKinds;
-        private TaggedString applyText;
+        private string applyText;
 
         private bool control;
         private string currentQuery = "";
-        private TaggedString disableText;
-        private TaggedString enableText;
+        private string disableText;
+        private string enableText;
+        private PawnKindItem expanded;
+        private string expandedName;
         private int globalCost;
+        private string karmaTypeText;
         private string lastQuery = "";
-        private TaggedString nameHeaderText;
-        private TaggedString priceHeaderText;
-        private TaggedString priceText;
-        private TaggedString resetText;
+        private string nameHeaderText;
+        private string nameText;
+        private string noCustomKarmaText;
+        private KarmaType pawnKarmaType;
+        private string priceHeaderText;
+        private string priceText;
+        private string resetText;
         private List<PawnKindItem> results;
         private Vector2 scrollPos = Vector2.zero;
-        private TaggedString searchText;
+        private string searchText;
         private bool shift;
 
         private Sorter sorter = Sorter.Name;
@@ -38,17 +48,13 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             GetTranslations();
 
-            onlyOneOfTypeAllowed = true;
             doCloseX = true;
             forcePause = true;
 
             optionalTitle = titleText;
-            cache?.SortBy(r => r.Name.NullOrEmpty() ? r.DefName : r.Name);
+            cache?.SortBy(r => r.Name);
 
-            if (cache == null)
-            {
-                TkLogger.Warn("The race shop is null! You should report this.");
-            }
+            pawnKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("BuyPawn").karmaType;
         }
 
         public override Vector2 InitialSize => new Vector2(640f, 740f);
@@ -63,7 +69,10 @@ namespace SirRandoo.ToolkitUtils.Windows
             searchText = "TKUtils.Buttons.Search".Localize();
             resetText = "TKUtils.Buttons.ResetAll".Localize();
             enableText = "TKUtils.Buttons.EnableAll".Localize();
+            noCustomKarmaText = "TKUtils.TraitStore.NoCustomKarmaType".Localize();
             disableText = "TKUtils.Buttons.DisableAll".Localize();
+            nameText = "TKUtils.Inputs.Name".Localize();
+            karmaTypeText = "TKUtils.IncidentEditor.Karma".Localize();
         }
 
         private void DrawHeader(Rect inRect)
@@ -170,17 +179,67 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(inRect);
 
             var listing = new Listing_Standard {maxOneColumn = true};
+            var headerRect = new Rect(0f, 0f, inRect.width, Text.LineHeight * 2f);
+            var contentArea = new Rect(
+                inRect.x,
+                Text.LineHeight * 5f,
+                inRect.width,
+                inRect.height - Text.LineHeight * 5f
+            );
 
-            DrawHeader(new Rect(0f, 0f, inRect.width, Text.LineHeight * 2f));
+            DrawHeader(headerRect);
 
             Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 3f, inRect.width);
 
+            if (expanded != null)
+            {
+                float expandedWidth = contentArea.width * 0.45f;
+                Vector2 center = contentArea.center;
+
+                Rect expandedDialog = new Rect(
+                    center.x - expandedWidth / 2f,
+                    center.y - Text.LineHeight * LineScale * 4f,
+                    expandedWidth,
+                    Text.LineHeight * LineScale * 8f
+                ).ExpandedBy(StandardMargin * 2f);
+
+                Widgets.DrawBoxSolid(expandedDialog, new Color(0.13f, 0.16f, 0.17f));
+                Widgets.Label(
+                    new Rect(
+                        expandedDialog.x + 8f,
+                        expandedDialog.y + 5f,
+                        expandedDialog.width - 30f,
+                        Text.LineHeight * LineScale
+                    ),
+                    "TKUtils.Headers.DataDialog".Localize(expanded.Name)
+                );
+
+                GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
+                DrawKindSettings(
+                    new Rect(
+                        0f,
+                        0f,
+                        expandedDialog.width - StandardMargin * 4f,
+                        expandedDialog.height - StandardMargin * 4f
+                    )
+                );
+                GUI.EndGroup();
+
+                if (Widgets.CloseButtonFor(expandedDialog))
+                {
+                    CloseExpandedMenu();
+                }
+
+                GUI.EndGroup();
+                return;
+            }
+
             var headingRect = new Rect(0f, Text.LineHeight * 4f, inRect.width, Text.LineHeight);
-            var nameHeadingRect = new Rect(Widgets.CheckboxSize + 5f, 0f, inRect.width * 0.5f, Text.LineHeight);
+            var nameHeadingRect = new Rect(Widgets.CheckboxSize + 5f, 0f, inRect.width * 0.45f, Text.LineHeight);
             var priceHeadingRect = new Rect(
                 nameHeadingRect.x + nameHeadingRect.width + 5f,
                 0f,
-                inRect.width - nameHeadingRect.width - Widgets.CheckboxSize - 10f,
+                inRect.width - nameHeadingRect.width - Widgets.CheckboxSize * 2 - 20f,
                 Text.LineHeight
             );
 
@@ -230,17 +289,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
             GUI.EndGroup();
 
-            var contentArea = new Rect(
-                inRect.x,
-                Text.LineHeight * 5f,
-                inRect.width,
-                inRect.height - Text.LineHeight * 5f
-            );
-
             List<PawnKindItem> effectiveList = results ?? cache;
             int total = effectiveList.Count;
-            const float scale = 1.1f;
-            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * scale * total);
+            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * LineScale * total);
             var races = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
@@ -248,11 +299,16 @@ namespace SirRandoo.ToolkitUtils.Windows
             for (var index = 0; index < effectiveList.Count; index++)
             {
                 PawnKindItem item = effectiveList[index];
-                TextAnchor anchor = Text.Anchor;
-                Rect lineRect = listing.GetRect(Text.LineHeight * scale);
+                Rect lineRect = listing.GetRect(Text.LineHeight * LineScale);
                 var stateRect = new Rect(0f, lineRect.y, Widgets.CheckboxSize, Text.LineHeight);
                 var nameRect = new Rect(Widgets.CheckboxSize + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
                 var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width - 16f, lineRect.height);
+                var settingsRect = new Rect(
+                    priceRect.x + priceRect.width + 5f,
+                    priceRect.y,
+                    Widgets.CheckboxSize,
+                    lineRect.height
+                );
 
                 if (!lineRect.IsRegionVisible(races, scrollPos))
                 {
@@ -264,12 +320,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(
+                SettingsHelper.DrawLabelAnchored(
                     nameRect,
-                    item.Name.ToLowerInvariant().Equals(item.Name) ? item.Name.CapitalizeFirst() : item.Name
+                    item.Name.ToLowerInvariant().Equals(item.Name) ? item.Name.CapitalizeFirst() : item.Name,
+                    TextAnchor.MiddleLeft
                 );
-                Text.Anchor = anchor;
 
                 Widgets.Checkbox(stateRect.x, stateRect.y, ref item.Enabled, paintable: true);
 
@@ -279,6 +334,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 SettingsHelper.DrawPriceField(priceRect, ref item.Cost, ref control, ref shift);
+
+                GUI.DrawTexture(settingsRect, Textures.Gear);
+
+                if (Widgets.ButtonInvisible(settingsRect))
+                {
+                    expanded = item;
+                }
             }
 
             GUI.EndGroup();
@@ -287,12 +349,128 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.EndGroup();
         }
 
+        private void DrawKindSettings(Rect inRect)
+        {
+            expanded.Data ??= new PawnKindData {KarmaType = pawnKarmaType};
+            string removeKarma = expanded.Data.KarmaType == null
+                ? noCustomKarmaText
+                : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaType);
+
+
+            var listing = new Listing_Standard();
+            listing.Begin(inRect);
+
+            (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.45f);
+            var trueNameField = new Rect(nameField.x, nameField.y, nameField.width - 26f, nameField.height);
+            var resetNameRect = new Rect(
+                trueNameField.x + trueNameField.width + 5f,
+                trueNameField.y,
+                21f,
+                trueNameField.height
+            );
+
+            expandedName = Widgets.TextField(trueNameField, expandedName).ToToolkit();
+            GUI.DrawTexture(resetNameRect, Textures.Reset);
+            Widgets.DrawHighlightIfMouseover(resetNameRect);
+
+            if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(trueNameField))
+            {
+                expandedName = "";
+                expanded.Name = expanded.DefName;
+            }
+
+            if (Widgets.ButtonInvisible(resetNameRect))
+            {
+                expanded.Name = expanded.GetDefaultName();
+                expanded.Data!.CustomName = false;
+            }
+
+            SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
+
+            (Rect karmaTypeLabel, Rect karmaTypeField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.45f);
+            SettingsHelper.DrawLabelAnchored(karmaTypeLabel, karmaTypeText, TextAnchor.MiddleLeft);
+            if (Widgets.ButtonText(karmaTypeField, removeKarma))
+            {
+                Find.WindowStack.Add(
+                    new FloatMenu(
+                        StoreDialog.KarmaTypes.Select(
+                                k => new FloatMenuOption(
+                                    Enum.GetName(typeof(KarmaType), k),
+                                    () => expanded.Data.KarmaType = k
+                                )
+                            )
+                           .ToList()
+                    )
+                );
+            }
+
+            var lastLine = new Rect(
+                0f,
+                inRect.height - Text.LineHeight * LineScale,
+                inRect.width,
+                Text.LineHeight * LineScale
+            );
+
+            if (Widgets.ButtonText(
+                new Rect(lastLine.x + 10f, lastLine.y, lastLine.width - 20f, lastLine.height),
+                resetText
+            ))
+            {
+                expanded.Name = expanded.GetDefaultName();
+                expanded.Data!.CustomName = false;
+                expanded.Data!.KarmaType = null;
+            }
+
+            listing.End();
+        }
+
         private void Notify__SearchRequested()
         {
             lastQuery = currentQuery;
 
             results = GetSearchResults();
             SortCurrentWorkingList();
+        }
+
+        public override void OnCancelKeyPressed()
+        {
+            if (expanded == null)
+            {
+                base.OnCancelKeyPressed();
+            }
+            else
+            {
+                CloseExpandedMenu();
+                Event.current.Use();
+            }
+        }
+
+        public override void OnAcceptKeyPressed()
+        {
+            if (expanded == null)
+            {
+                base.OnAcceptKeyPressed();
+            }
+            else
+            {
+                CloseExpandedMenu();
+                Event.current.Use();
+            }
+        }
+
+        private void CloseExpandedMenu()
+        {
+            if (expanded.Name.NullOrEmpty())
+            {
+                expanded.Name = expanded.GetDefaultName();
+
+                if (expanded.Data != null)
+                {
+                    expanded.Data.CustomName = false;
+                }
+            }
+
+            expanded = null;
         }
 
         public override void WindowUpdate()
