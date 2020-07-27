@@ -44,13 +44,21 @@ namespace SirRandoo.ToolkitUtils
                 File.Move(Paths.LegacyShopFilePath, Path.ChangeExtension(Paths.LegacyShopFilePath, ".bak")!);
             }
 
-            LoadItemData(Paths.ItemDataFilePath);
+            if (ItemData.Count <= 0)
+            {
+                LoadItemData(Paths.ItemDataFilePath);
+            }
+
+            ValidateItemData();
+            ValidatePawnKinds();
+            ValidateTraits();
         }
 
         public static List<TraitItem> Traits { get; set; }
         public static List<PawnKindItem> PawnKinds { get; set; }
         public static Dictionary<string, ItemData> ItemData { get; set; }
         public static ModItem[] Mods { get; set; }
+        public static List<ThingItem> Items { get; set; }
 
         private static void MigrateFromLegacy(string path)
         {
