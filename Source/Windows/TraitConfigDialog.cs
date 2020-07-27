@@ -173,12 +173,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
             listing.Gap(Text.LineHeight * LineScale);
 
-            (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.65f);
-            var trueNameField = new Rect(nameField.x, nameField.y, nameField.width - 21f, nameField.height);
+            (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
+            var trueNameField = new Rect(nameField.x, nameField.y, nameField.width - 26f, nameField.height);
             var resetNameRect = new Rect(
                 trueNameField.x + trueNameField.width + 5f,
                 trueNameField.y,
-                16f,
+                21f,
                 trueNameField.height
             );
 
@@ -200,7 +200,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
 
-            (Rect addKarmaLabel, Rect addKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.65f);
+            (Rect addKarmaLabel, Rect addKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
 
             SettingsHelper.DrawLabelAnchored(addKarmaLabel, addKarmaTypeText, TextAnchor.MiddleLeft);
             if (Widgets.ButtonText(addKarmaField, addKarma))
@@ -218,7 +218,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
             }
 
-            (Rect removeKarmaLabel, Rect removeKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.65f);
+            (Rect removeKarmaLabel, Rect removeKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
             SettingsHelper.DrawLabelAnchored(removeKarmaLabel, removeKarmaTypeText, TextAnchor.MiddleLeft);
             if (Widgets.ButtonText(removeKarmaField, removeKarma))
             {
@@ -274,10 +274,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (expanded != null)
             {
-                float expandedWidth = contentArea.width * 0.33f;
+                float expandedWidth = contentArea.width * 0.35f;
+                Vector2 center = contentArea.center;
+
                 Rect expandedDialog = new Rect(
-                    expandedWidth,
-                    contentArea.center.y - Text.LineHeight * LineScale * 4f,
+                    center.x - expandedWidth / 2f,
+                    center.y - Text.LineHeight * LineScale * 4f,
                     expandedWidth,
                     Text.LineHeight * LineScale * 8f
                 ).ExpandedBy(StandardMargin * 2f);
@@ -306,17 +308,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (Widgets.CloseButtonFor(expandedDialog))
                 {
-                    if (expanded.Name.NullOrEmpty())
-                    {
-                        expanded.Name = expanded.GetDefaultName();
-
-                        if (expanded.Data != null)
-                        {
-                            expanded.Data.CustomName = false;
-                        }
-                    }
-
-                    expanded = null;
+                    CloseExpandedMenu();
                 }
 
                 GUI.EndGroup();
@@ -587,6 +579,47 @@ namespace SirRandoo.ToolkitUtils.Windows
                         return;
                 }
             }
+        }
+
+        public override void OnCancelKeyPressed()
+        {
+            if (expanded == null)
+            {
+                base.OnCancelKeyPressed();
+            }
+            else
+            {
+                CloseExpandedMenu();
+                Event.current.Use();
+            }
+        }
+
+        public override void OnAcceptKeyPressed()
+        {
+            if (expanded == null)
+            {
+                base.OnAcceptKeyPressed();
+            }
+            else
+            {
+                CloseExpandedMenu();
+                Event.current.Use();
+            }
+        }
+
+        private void CloseExpandedMenu()
+        {
+            if (expanded.Name.NullOrEmpty())
+            {
+                expanded.Name = expanded.GetDefaultName();
+
+                if (expanded.Data != null)
+                {
+                    expanded.Data.CustomName = false;
+                }
+            }
+
+            expanded = null;
         }
     }
 }

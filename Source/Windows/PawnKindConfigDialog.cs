@@ -15,6 +15,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private const float LineScale = 1.25f;
         private readonly List<PawnKindItem> cache = Data.PawnKinds;
+        private readonly KarmaType pawnKarmaType;
         private string applyText;
 
         private bool control;
@@ -29,7 +30,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string nameHeaderText;
         private string nameText;
         private string noCustomKarmaText;
-        private KarmaType pawnKarmaType;
         private string priceHeaderText;
         private string priceText;
         private string resetText;
