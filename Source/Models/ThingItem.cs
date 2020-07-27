@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         private string categoryCached;
         public List<FloatMenuOption> CategoryContextOptions;
+        [JsonIgnore] private ItemData data;
         public bool Enabled;
 
         public List<FloatMenuOption> InfoContextOptions;
@@ -18,7 +20,24 @@ namespace SirRandoo.ToolkitUtils.Models
         public Item Item { get; set; }
         public string Mod => Thing.modContentPack?.Name ?? "";
         public ThingDef Thing { get; set; }
-        public ItemData Data { get; set; }
+
+        public ItemData Data
+        {
+            get
+            {
+                if (data == null && ToolkitUtils.Data.ItemData.TryGetValue(Item.defname, out ItemData result))
+                {
+                    data = result;
+                }
+
+                return data;
+            }
+            set
+            {
+                ToolkitUtils.Data.ItemData[Item.defname] = value;
+                data = value;
+            }
+        }
 
         public string Category
         {
