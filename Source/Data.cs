@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils
             if (File.Exists(Paths.LegacyShopFilePath) && (PawnKinds.NullOrEmpty() || Traits.NullOrEmpty()))
             {
                 MigrateFromLegacy(Paths.LegacyShopFilePath);
-                // TODO: Remove the legacy file
+                File.Move(Paths.LegacyShopFilePath, Path.ChangeExtension(Paths.LegacyShopFilePath, ".bak")!);
             }
 
             LoadItemData(Paths.ItemDataFilePath);
