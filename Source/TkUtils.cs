@@ -29,8 +29,6 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             TkUtils.BuildModList();
-            TkLogger.Info($"Cached {TkUtils.ModListCache.Length} mods.");
-
             ShopExpansion.DumpCommands();
             ShopExpansion.DumpModList();
 
@@ -54,7 +52,6 @@ namespace SirRandoo.ToolkitUtils
 
             if (wereChanges)
             {
-                TkLogger.Info("Changing prices for overwritten events...");
                 Store_IncidentEditor.UpdatePriceSheet();
             }
 
@@ -72,7 +69,6 @@ namespace SirRandoo.ToolkitUtils
     {
         public const string Id = "ToolkitUtils";
         internal static HarmonyLib.Harmony Harmony;
-        public static ModItem[] ModListCache;
 
         public TkUtils(ModContentPack content) : base(content)
         {
@@ -175,7 +171,7 @@ namespace SirRandoo.ToolkitUtils
                 jsonMods.Add(new ModItem {Author = mod.Author, Name = mod.Name, Version = version, SteamId = steamId});
             }
 
-            ModListCache = jsonMods.ToArray();
+            Data.Mods = jsonMods.ToArray();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)

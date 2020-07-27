@@ -31,11 +31,11 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             if (TkSettings.Offload)
             {
-                Task.Run(() => Data.SaveJson(TkUtils.ModListCache, Paths.ModListFilePath));
+                Task.Run(() => Data.SaveJson(Data.Mods, Paths.ModListFilePath));
             }
             else
             {
-                Data.SaveJson(TkUtils.ModListCache, Paths.ModListFilePath);
+                Data.SaveJson(Data.Mods, Paths.ModListFilePath);
             }
         }
 

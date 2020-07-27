@@ -14,37 +14,30 @@ namespace SirRandoo.ToolkitUtils.Commands
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
             twitchMessage.Reply(
-                (
-                    TkSettings.VersionedModList
-                        ? GetModListStringVersioned()
-                        : GetModListString()
-                ).WithHeader($"Toolkit v{Toolkit.Mod.Version}")
+                (TkSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).WithHeader(
+                    $"Toolkit v{Toolkit.Mod.Version}"
+                )
             );
         }
 
         private static string GetModListString()
         {
-            return TkUtils.ModListCache
-                .Select(m => m.Name)
-                .SectionJoin();
+            return Data.Mods.Select(m => m.Name).SectionJoin();
         }
 
         private static string GetModListStringVersioned()
         {
-            return TkUtils.ModListCache
-                .Select(
+            return Data.Mods.Select(
                     m => m.Version.NullOrEmpty()
                         ? $"{TryFavoriteMod(m.Name)}"
                         : $"{TryFavoriteMod(m.Name)} (v{m.Version})"
                 )
-                .SectionJoin();
+               .SectionJoin();
         }
 
         private static string TryFavoriteMod(string mod)
         {
-            return !TkSettings.DecorateUtils || !mod.EqualsIgnoreCase(TkUtils.Id)
-                ? mod
-                : $"{"★".AltText("*")}{mod}";
+            return !TkSettings.DecorateUtils || !mod.EqualsIgnoreCase(TkUtils.Id) ? mod : $"{"★".AltText("*")}{mod}";
         }
     }
 }
