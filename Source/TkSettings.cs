@@ -36,8 +36,8 @@ namespace SirRandoo.ToolkitUtils
         public static bool Race = true;
         public static bool TempInGear;
         public static bool DropInventory;
-        public static string LeaveMethod = LeaveMethods.MentalBreak.ToString();
-        public static string DumpStyle = DumpStyles.SingleFile.ToString();
+        public static string LeaveMethod = nameof(LeaveMethods.MentalBreak);
+        public static string DumpStyle = nameof(DumpStyles.SingleFile);
         public static int LookupLimit = 10;
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
