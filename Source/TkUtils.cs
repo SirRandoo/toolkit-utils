@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Xml;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Settings;
@@ -29,8 +28,6 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             TkUtils.BuildModList();
-            ShopExpansion.DumpCommands();
-            ShopExpansion.DumpModList();
 
             List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
             var wereChanges = false;

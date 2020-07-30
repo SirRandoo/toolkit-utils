@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -52,6 +53,15 @@ namespace SirRandoo.ToolkitUtils
             ValidateItemData();
             ValidatePawnKinds();
             ValidateTraits();
+
+            if (TkSettings.Offload)
+            {
+                Task.Run(DumpAllData);
+            }
+            else
+            {
+                DumpAllData();
+            }
         }
 
         public static List<TraitItem> Traits { get; set; }
@@ -257,6 +267,21 @@ namespace SirRandoo.ToolkitUtils
         public static void SaveLegacyShop(string path)
         {
             SaveJson(new ShopLegacy {Races = PawnKinds, Traits = Traits}, path);
+        }
+
+        public static void DumpAllData()
+        {
+            SaveItemData(Paths.ItemDataFilePath);
+
+            if (TkSettings.DumpStyle.Equals("SingleFile"))
+            {
+                SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+            }
+            else
+            {
+                SaveTraits(Paths.TraitFilePath);
+                SavePawnKinds(Paths.PawnKindFilePath);
+            }
         }
     }
 }
