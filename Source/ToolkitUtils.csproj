@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-      <Reference Include="0Harmony">
-          <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\v1.1\Assemblies\0Harmony.dll</HintPath>
+      <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
           <Private>False</Private>
       </Reference>
       <Reference Include="Assembly-CSharp">
