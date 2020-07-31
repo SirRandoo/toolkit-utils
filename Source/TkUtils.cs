@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Xml;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Windows;
@@ -12,7 +10,6 @@ using TwitchToolkit.Settings;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
-using Verse.Steam;
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -75,100 +72,13 @@ namespace SirRandoo.ToolkitUtils
 
         public static void BuildModList()
         {
-            var jsonMods = new List<ModItem>();
             List<ModMetaData> running = ModsConfig.ActiveModsInLoadOrder.ToList();
 
-            foreach (ModMetaData mod in running.Where(m => m.Active))
-            {
-                if (mod.Official)
-                {
-                    continue;
-                }
-
-                if (File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt")))
-                {
-                    continue;
-                }
-
-                Mod handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
-                Assembly assembly = null;
-                string version = null;
-                string steamId = null;
-                string manifestFile = Path.Combine(mod.RootDir.ToString(), "About/Manifest.xml");
-
-                if (File.Exists(manifestFile))
-                {
-                    using var reader = new XmlTextReader(manifestFile);
-                    reader.ReadToFollowing("version");
-
-                    if (reader.Name.Equals("version"))
-                    {
-                        version = reader.ReadElementContentAsString();
-                        reader.Close();
-                    }
-                }
-
-                if (version == null && handle != null)
-                {
-                    assembly = Assembly.GetAssembly(handle.GetType());
-
-                    var attribute = (AssemblyInformationalVersionAttribute) Attribute.GetCustomAttribute(
-                        assembly,
-                        typeof(AssemblyInformationalVersionAttribute),
-                        false
-                    );
-
-                    version = attribute?.InformationalVersion;
-                }
-
-                if (version == null && handle != null)
-                {
-                    var attribute = (AssemblyFileVersionAttribute) Attribute.GetCustomAttribute(
-                        assembly,
-                        typeof(AssemblyFileVersionAttribute),
-                        false
-                    );
-
-                    version = attribute?.Version;
-                }
-
-                if (version == null && handle != null)
-                {
-                    var attribute = (AssemblyVersionAttribute) Attribute.GetCustomAttribute(
-                        assembly,
-                        typeof(AssemblyVersionAttribute),
-                        false
-                    );
-
-                    version = attribute?.Version ?? handle.GetType().Module.Assembly.GetName().Version.ToString();
-                }
-
-                if (mod.SteamAppId > 0)
-                {
-                    steamId = mod.SteamAppId.ToString();
-                }
-
-                if (steamId.NullOrEmpty())
-                {
-                    WorkshopItemHook hook = mod.GetWorkshopItemHook();
-                    PropertyInfo property = hook.GetType().GetProperty("PublishedFileId");
-                    steamId = property?.GetValue(hook)?.ToString();
-                }
-
-                if (steamId.NullOrEmpty())
-                {
-                    string publishedFile = Path.Combine(mod.RootDir.ToString(), "About/PublishedFileId.txt");
-
-                    if (File.Exists(publishedFile))
-                    {
-                        steamId = File.ReadAllText(publishedFile);
-                    }
-                }
-
-                jsonMods.Add(new ModItem {Author = mod.Author, Name = mod.Name, Version = version, SteamId = steamId});
-            }
-
-            Data.Mods = jsonMods.ToArray();
+            Data.Mods = running.Where(m => m.Active)
+               .Where(mod => !mod.Official)
+               .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt")))
+               .Select(ModItem.FromMetadata)
+               .ToArray();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)

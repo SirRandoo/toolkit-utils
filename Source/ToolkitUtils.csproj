@@ -40,6 +40,10 @@
           <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
           <Private>False</Private>
       </Reference>
+      <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+          <Private>False</Private>
+      </Reference>
       <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\Newtonsoft.Json.dll</HintPath>
           <Private>False</Private>
