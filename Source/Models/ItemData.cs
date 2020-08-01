@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.ComponentModel;
+using JetBrains.Annotations;
 using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -6,13 +7,14 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class ItemData
     {
-        public bool? IsMelee;
-        public bool? IsRanged;
-        public bool? IsWeapon;
-        public KarmaType? KarmaType;
+        [DefaultValue(null)] public bool CustomName;
+        [DefaultValue(null)] public bool? IsMelee;
+        [DefaultValue(null)] public bool? IsRanged;
+        [DefaultValue(null)] public bool? IsWeapon;
+        [DefaultValue(null)] public KarmaType? KarmaType;
 
         public string Mod;
 
-        public int? QuantityLimit;
+        [DefaultValue(null)] public int? QuantityLimit;
     }
 }
