@@ -122,7 +122,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         continue;
                     }
 
-                    item.Cost = StoreDialog.CalculateToolkitPrice(kind.race?.BaseMarketValue ?? 0f);
+                    item.Cost = kind.race.CalculateStorePrice();
                 }
             }
 
