@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit;
+using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -19,12 +21,25 @@ namespace SirRandoo.ToolkitUtils.Windows
     [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
+        private const float LineScale = 1.25f;
+
         internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType))
            .Select(t => (KarmaType) Enum.Parse(typeof(KarmaType), t))
            .ToList();
 
         internal static readonly List<ThingItem> Containers = new List<ThingItem>();
         private static IEnumerator<ThingItem> _validator;
+
+        private readonly Dictionary<ThingItem, List<FloatMenuOption>> catCtxCache =
+            new Dictionary<ThingItem, List<FloatMenuOption>>();
+
+        private readonly Dictionary<ThingItem, List<FloatMenuOption>> infoCtxCache =
+            new Dictionary<ThingItem, List<FloatMenuOption>>();
+
+        private readonly Dictionary<ThingItem, List<FloatMenuOption>> priceCtxCache =
+            new Dictionary<ThingItem, List<FloatMenuOption>>();
+
+        private readonly KarmaType thingKarmaType;
         private string categoryFilter = "";
         private string categoryHeader;
         private bool closeCalled;
@@ -38,13 +53,19 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Vector2 disableAllTextSize;
         private string enableAllText;
         private Vector2 enableAllTextSize;
+        private ThingItem expanded;
+        private string expandedName;
+        private string karmaTypeText;
         private string lastQuery = "";
         private string modFilter = "";
         private string nameHeader;
+        private string nameText;
+        private string noCustomKarmaText;
         private string priceHeader;
         private string resetAllText;
 
         private Vector2 resetAllTextSize;
+        private string resetText;
 
         private List<ThingItem> results;
         private Vector2 scrollPos = Vector2.zero;
@@ -54,31 +75,14 @@ namespace SirRandoo.ToolkitUtils.Windows
         private bool shftKeyDown;
 
         private Sorter sorter = Sorter.Name;
+
         private SortMode sortMode = SortMode.Ascending;
 
         private string title;
 
         static StoreDialog()
         {
-            TkLogger.Info("Generating containers..");
-
-            try
-            {
-                foreach (ThingItem container in GenerateContainers())
-                {
-                    if (container == null)
-                    {
-                        continue;
-                    }
-
-                    Containers.Add(container);
-                }
-            }
-            catch (Exception e)
-            {
-                TkLogger.Error("Couldn't generate containers!", e);
-            }
-
+            Containers.AddRange(GenerateContainers().Where(c => c != null));
             _validator = GenerateContainers().GetEnumerator();
         }
 
@@ -89,30 +93,153 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GetTranslationStrings();
             optionalTitle = title;
+            thingKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("BuyItem").karmaType;
+        }
+
+        private List<ThingItem> CurrentWorkingList => results ?? Containers;
+
+        private Sorter Sorter
+        {
+            get => sorter;
+            set
+            {
+                if (sorter != value)
+                {
+                    SortMode = SortMode.Descending;
+                }
+
+                sorter = value;
+                SortCurrentWorkingList();
+            }
+        }
+
+        private SortMode SortMode
+        {
+            get => sortMode;
+            set
+            {
+                sortMode = value;
+                SortCurrentWorkingList();
+            }
         }
 
         public override Vector2 InitialSize => new Vector2(1024f, UI.screenHeight * 0.9f);
 
-        public override void DoWindowContents(Rect inRect)
+        private void DrawThingSettings(Rect inRect)
         {
-            if (Event.current.type == EventType.Layout)
+            expanded.Data ??= new ItemData {KarmaType = thingKarmaType};
+            string removeKarma = expanded.Data.KarmaType == null
+                ? noCustomKarmaText
+                : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaType);
+
+
+            var listing = new Listing_Standard();
+            listing.Begin(inRect);
+
+            (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.45f);
+            var trueNameField = new Rect(nameField.x, nameField.y, nameField.width - 26f, nameField.height);
+            var resetNameRect = new Rect(
+                trueNameField.x + trueNameField.width + 5f,
+                trueNameField.y,
+                21f,
+                trueNameField.height
+            );
+
+            expandedName = Widgets.TextField(trueNameField, expandedName).ToToolkit();
+            GUI.DrawTexture(resetNameRect, Textures.Reset);
+            Widgets.DrawHighlightIfMouseover(resetNameRect);
+
+            if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(trueNameField))
             {
-                return;
+                expandedName = "";
+                expanded.Name = expanded.DefName;
             }
 
-            GUI.BeginGroup(inRect);
-            var listing = new Listing_Standard {maxOneColumn = true};
-            GameFont fontCache = Text.Font;
-            TextAnchor anchorCache = Text.Anchor;
-            Text.Font = GameFont.Small;
+            if (Widgets.ButtonInvisible(resetNameRect))
+            {
+                expanded.Name = expanded.GetDefaultName();
+                expanded.Data!.CustomName = false;
+            }
 
-            DrawStoreHeader(inRect);
-            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 2f, inRect.width);
+            SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
 
-            bool wrapped = Text.WordWrap;
+            (Rect karmaTypeLabel, Rect karmaTypeField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.45f);
+            SettingsHelper.DrawLabelAnchored(karmaTypeLabel, karmaTypeText, TextAnchor.MiddleLeft);
+            if (Widgets.ButtonText(karmaTypeField, removeKarma))
+            {
+                Find.WindowStack.Add(
+                    new FloatMenu(
+                        KarmaTypes.Select(
+                                k => new FloatMenuOption(
+                                    Enum.GetName(typeof(KarmaType), k),
+                                    () => expanded.Data.KarmaType = k
+                                )
+                            )
+                           .ToList()
+                    )
+                );
+            }
 
-            Text.WordWrap = false;
+            if (Widgets.ButtonText(
+                new Rect(
+                    10f,
+                    inRect.height - Text.LineHeight * LineScale,
+                    inRect.width - 20f,
+                    Text.LineHeight * LineScale
+                ),
+                resetText
+            ))
+            {
+                expanded.Name = expanded.GetDefaultName();
+                expanded.Data!.CustomName = false;
+                expanded.Data!.KarmaType = null;
+            }
 
+            listing.End();
+        }
+
+        private void DoExpandedDialog(Rect inRect)
+        {
+            float expandedWidth = inRect.width * 0.45f;
+            Vector2 center = inRect.center;
+
+            Rect expandedDialog = new Rect(
+                center.x - expandedWidth / 2f,
+                center.y - Text.LineHeight * LineScale * 4f,
+                expandedWidth,
+                Text.LineHeight * LineScale * 8f
+            ).ExpandedBy(StandardMargin * 2f);
+
+            Widgets.DrawBoxSolid(expandedDialog, new Color(0.13f, 0.16f, 0.17f));
+            Widgets.Label(
+                new Rect(
+                    expandedDialog.x + 8f,
+                    expandedDialog.y + 5f,
+                    expandedDialog.width - 30f,
+                    Text.LineHeight * LineScale
+                ),
+                "TKUtils.Headers.DataDialog".Localize(expanded.Name)
+            );
+
+            GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
+            DrawThingSettings(
+                new Rect(
+                    0f,
+                    0f,
+                    expandedDialog.width - StandardMargin * 4f,
+                    expandedDialog.height - StandardMargin * 4f
+                )
+            );
+            GUI.EndGroup();
+
+            if (Widgets.CloseButtonFor(expandedDialog))
+            {
+                CloseExpandedMenu();
+            }
+        }
+
+        private (Rect, Rect, Rect) DoStoreHeaders(Rect inRect)
+        {
             var infoHeaderRect = new Rect(30f, 0f, inRect.width * 0.4f - 15f, Text.LineHeight);
             var priceHeaderRect = new Rect(
                 infoHeaderRect.width + 35f,
@@ -136,82 +263,77 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(infoHeaderRect, "   " + nameHeader, false))
             {
-                if (sorter != Sorter.Name)
-                {
-                    sortMode = SortMode.Descending;
-                }
-
                 sorter = Sorter.Name;
                 sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
-
-                SortCurrentWorkingList();
             }
 
             if (Widgets.ButtonText(priceHeaderRect, "   " + priceHeader, false))
             {
-                if (sorter != Sorter.Cost)
-                {
-                    sortMode = SortMode.Descending;
-                }
-
                 sorter = Sorter.Cost;
                 sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
-
-                SortCurrentWorkingList();
             }
 
             if (Widgets.ButtonText(categoryHeaderRect, "   " + categoryHeader, false))
             {
-                if (sorter != Sorter.Category)
-                {
-                    sortMode = SortMode.Descending;
-                }
-
                 sorter = Sorter.Category;
                 sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
-
-                SortCurrentWorkingList();
             }
 
-            var position = new Rect(0f, infoHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f);
-            switch (sorter)
+            DrawSortIcon(infoHeaderRect.y, infoHeaderRect.x, priceHeaderRect.x, categoryHeaderRect.x);
+
+            return (infoHeaderRect, priceHeaderRect, categoryHeaderRect);
+        }
+
+        public override void DoWindowContents(Rect inRect)
+        {
+            if (Event.current.type == EventType.Layout)
             {
-                case Sorter.Name:
-                    position.x = infoHeaderRect.x;
-                    break;
-                case Sorter.Cost:
-                    position.x = priceHeaderRect.x;
-                    break;
-                case Sorter.Category:
-                    position.x = categoryHeaderRect.x;
-                    break;
+                return;
             }
 
-            GUI.DrawTexture(
-                position,
-                sortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
-            );
-            GUI.EndGroup();
-
-            List<ThingItem> effectiveWorkingList = results ?? Containers;
-            int total = effectiveWorkingList.Count;
-            const float scale = 1.25f;
-
+            GUI.BeginGroup(inRect);
+            var listing = new Listing_Standard {maxOneColumn = true};
             var contentArea = new Rect(
                 inRect.x,
                 Text.LineHeight * 4f,
                 inRect.width,
                 inRect.height - Text.LineHeight * 4f
             );
-            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * scale * total);
+            GameFont fontCache = Text.Font;
+            Text.Font = GameFont.Small;
+
+            DrawStoreHeader(inRect);
+            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 2f, inRect.width);
+
+            if (expanded != null)
+            {
+                DoExpandedDialog(contentArea);
+                GUI.EndGroup();
+                return;
+            }
+
+            bool wrapped = Text.WordWrap;
+
+            Text.WordWrap = false;
+
+            (Rect infoHeaderRect, Rect priceHeaderRect, Rect categoryHeaderRect) = DoStoreHeaders(
+                new Rect(0f, Text.LineHeight * 3f, inRect.width, Text.LineHeight)
+            );
+
+            GUI.EndGroup();
+
+            List<ThingItem> effectiveWorkingList = CurrentWorkingList;
+            int total = effectiveWorkingList.Count;
+
+            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * LineScale * total);
             var items = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
             listing.BeginScrollView(items, ref scrollPos, ref viewPort);
-            for (var index = 0; index < effectiveWorkingList.Count; index++)
+            for (var index = 0; index < total; index++)
             {
                 ThingItem item = effectiveWorkingList[index];
-                Rect lineRect = listing.GetRect(Text.LineHeight * scale);
+                Rect lineRect = listing.GetRect(Text.LineHeight * LineScale);
 
                 if (!lineRect.IsRegionVisible(items, scrollPos))
                 {
@@ -224,49 +346,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 var infoRect = new Rect(27f, lineRect.y, infoHeaderRect.width, lineRect.height);
-
-                item.DrawItemInfo(infoRect);
-
-                if (infoRect.WasRightClicked())
-                {
-                    item.InfoContextOptions ??= new List<FloatMenuOption>
-                    {
-                        new FloatMenuOption(ctxInfo, () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))),
-                        new FloatMenuOption(
-                            "TKUtils.StoreMenu.Toggle".Localize(item.Thing?.LabelCap ?? item.Item.abr),
-                            () => { item.Enabled = !item.Enabled; }
-                        ),
-                        new FloatMenuOption(
-                            "TKUtils.StoreMenu.Mod".Localize(item.Mod),
-                            () =>
-                            {
-                                modFilter = item.Mod;
-                                Notify__SearchRequested();
-                            }
-                        ),
-                        new FloatMenuOption(
-                            ctxAscending,
-                            () =>
-                            {
-                                sorter = Sorter.Name;
-                                sortMode = SortMode.Ascending;
-                                SortCurrentWorkingList();
-                            }
-                        ),
-                        new FloatMenuOption(
-                            ctxDescending,
-                            () =>
-                            {
-                                sorter = Sorter.Name;
-                                sortMode = SortMode.Descending;
-                                SortCurrentWorkingList();
-                            }
-                        )
-                    };
-
-                    Find.WindowStack.Add(new FloatMenu(item.InfoContextOptions));
-                }
-
+                DrawInfoFor(infoRect, item);
+                DrawInfoContextFor(infoRect, item);
 
                 var priceRect = new Rect(
                     infoRect.x + infoRect.width + 5f,
@@ -280,44 +361,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     SettingsHelper.DrawPriceField(priceRect, ref item.Item.price, ref ctrlKeyDown, ref shftKeyDown);
                 }
 
-                if (priceRect.WasRightClicked())
-                {
-                    item.PriceContextOptions ??= new List<FloatMenuOption>
-                    {
-                        new FloatMenuOption(
-                            "TKUtils.StoreMenu.Toggle".Localize(item.Thing?.LabelCap ?? item.Item.abr),
-                            () => { item.Enabled = !item.Enabled; }
-                        ),
-                        new FloatMenuOption(
-                            "TKUtils.StoreMenu.Mod".Localize(item.Mod),
-                            () =>
-                            {
-                                modFilter = item.Mod;
-                                Notify__SearchRequested();
-                            }
-                        ),
-                        new FloatMenuOption(
-                            ctxAscending,
-                            () =>
-                            {
-                                sorter = Sorter.Cost;
-                                sortMode = SortMode.Ascending;
-                                SortCurrentWorkingList();
-                            }
-                        ),
-                        new FloatMenuOption(
-                            ctxDescending,
-                            () =>
-                            {
-                                sorter = Sorter.Cost;
-                                sortMode = SortMode.Descending;
-                                SortCurrentWorkingList();
-                            }
-                        )
-                    };
-
-                    Find.WindowStack.Add(new FloatMenu(item.PriceContextOptions));
-                }
+                DrawPriceContextFor(priceRect, item);
 
                 var categoryRect = new Rect(
                     priceRect.x + priceRect.width + 5f,
@@ -326,82 +370,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                     lineRect.height
                 );
 
-                Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(categoryRect, item.Category);
-                Text.Anchor = anchorCache;
-
-                if (categoryRect.WasRightClicked())
-                {
-                    item.CategoryContextOptions ??= new List<FloatMenuOption>
-                    {
-                        new FloatMenuOption(
-                            "TKUtils.StoreMenu.Category".Localize(item.Category),
-                            () =>
-                            {
-                                categoryFilter = item.Category;
-                                Notify__SearchRequested();
-                            }
-                        ),
-                        new FloatMenuOption(
-                            "TKUtils.StoreMenu.Mod".Localize(item.Mod),
-                            () =>
-                            {
-                                modFilter = item.Mod;
-                                Notify__SearchRequested();
-                            }
-                        ),
-                        new FloatMenuOption(
-                            "TKUtils.StoreMenu.Toggle".Localize(item.Thing?.LabelCap ?? item.Item.abr),
-                            () => { item.Enabled = !item.Enabled; }
-                        ),
-                        new FloatMenuOption(
-                            "TKUtils.StoreMenu.EnableCategory".Localize(item.Category),
-                            () =>
-                            {
-                                foreach (ThingItem i in Containers.Where(
-                                    i => i.Category.EqualsIgnoreCase(item.Category)
-                                ))
-                                {
-                                    i.Enabled = true;
-                                    i.Update();
-                                }
-                            }
-                        ),
-                        new FloatMenuOption(
-                            "TKUtils.StoreMenu.DisableCategory".Localize(item.Category),
-                            () =>
-                            {
-                                foreach (ThingItem i in Containers.Where(
-                                    i => i.Category.EqualsIgnoreCase(item.Category)
-                                ))
-                                {
-                                    i.Enabled = false;
-                                    i.Update();
-                                }
-                            }
-                        ),
-                        new FloatMenuOption(
-                            ctxAscending,
-                            () =>
-                            {
-                                sorter = Sorter.Category;
-                                sortMode = SortMode.Ascending;
-                                SortCurrentWorkingList();
-                            }
-                        ),
-                        new FloatMenuOption(
-                            ctxDescending,
-                            () =>
-                            {
-                                sorter = Sorter.Category;
-                                sortMode = SortMode.Descending;
-                                SortCurrentWorkingList();
-                            }
-                        )
-                    };
-
-                    Find.WindowStack.Add(new FloatMenu(item.CategoryContextOptions));
-                }
+                SettingsHelper.DrawLabelAnchored(categoryRect, item.Category, TextAnchor.MiddleLeft);
+                DrawCategoryCtxFor(categoryRect, item);
 
                 if (!closeCalled)
                 {
@@ -417,6 +387,201 @@ namespace SirRandoo.ToolkitUtils.Windows
             Text.Font = fontCache;
 
             GUI.EndGroup();
+        }
+
+        private void DrawSortIcon(float y, float infoX, float priceX, float categoryX)
+        {
+            var position = new Rect(0f, y + Text.LineHeight / 2f - 4f, 8f, 8f);
+
+            switch (sorter)
+            {
+                case Sorter.Name:
+                    position.x = infoX;
+                    break;
+                case Sorter.Cost:
+                    position.x = priceX;
+                    break;
+                case Sorter.Category:
+                    position.x = categoryX;
+                    break;
+            }
+
+            GUI.DrawTexture(
+                position,
+                sortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
+            );
+        }
+
+        private void DrawInfoContextFor(Rect infoRect, ThingItem item)
+        {
+            if (!infoRect.WasRightClicked())
+            {
+                return;
+            }
+
+            if (!infoCtxCache.TryGetValue(item, out List<FloatMenuOption> optionCache))
+            {
+                optionCache = new List<FloatMenuOption>
+                {
+                    new FloatMenuOption(ctxInfo, () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.Toggle".Localize(item.Name),
+                        () => item.IsEnabled = !item.IsEnabled
+                    ),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.Mod".Localize(item.Mod),
+                        () =>
+                        {
+                            modFilter = item.Mod;
+                            Notify__SearchRequested();
+                        }
+                    ),
+                    new FloatMenuOption(
+                        ctxAscending,
+                        () =>
+                        {
+                            sorter = Sorter.Name;
+                            sortMode = SortMode.Ascending;
+                        }
+                    ),
+                    new FloatMenuOption(
+                        ctxDescending,
+                        () =>
+                        {
+                            Sorter = Sorter.Name;
+                            SortMode = SortMode.Descending;
+                        }
+                    )
+                };
+
+                infoCtxCache[item] = optionCache;
+            }
+
+            Find.WindowStack.Add(new FloatMenu(optionCache));
+        }
+
+        private void DrawPriceContextFor(Rect priceRect, ThingItem item)
+        {
+            if (!priceRect.WasRightClicked())
+            {
+                return;
+            }
+
+            if (!priceCtxCache.TryGetValue(item, out List<FloatMenuOption> optionCache))
+            {
+                optionCache = new List<FloatMenuOption>
+                {
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.Toggle".Localize(item.Name),
+                        () => item.IsEnabled = !item.IsEnabled
+                    ),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.Mod".Localize(item.Mod),
+                        () =>
+                        {
+                            modFilter = item.Mod;
+                            Notify__SearchRequested();
+                        }
+                    ),
+                    new FloatMenuOption(
+                        ctxAscending,
+                        () =>
+                        {
+                            sorter = Sorter.Cost;
+                            sortMode = SortMode.Ascending;
+                        }
+                    ),
+                    new FloatMenuOption(
+                        ctxDescending,
+                        () =>
+                        {
+                            sorter = Sorter.Cost;
+                            sortMode = SortMode.Descending;
+                        }
+                    )
+                };
+
+                priceCtxCache[item] = optionCache;
+            }
+
+            Find.WindowStack.Add(new FloatMenu(optionCache));
+        }
+
+        private void DrawCategoryCtxFor(Rect categoryRect, ThingItem item)
+        {
+            if (!categoryRect.WasRightClicked())
+            {
+                return;
+            }
+
+            if (!catCtxCache.TryGetValue(item, out List<FloatMenuOption> optionCache))
+            {
+                optionCache = new List<FloatMenuOption>
+                {
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.Category".Localize(item.Category),
+                        () =>
+                        {
+                            categoryFilter = item.Category;
+                            Notify__SearchRequested();
+                        }
+                    ),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.Mod".Localize(item.Mod),
+                        () =>
+                        {
+                            modFilter = item.Mod;
+                            Notify__SearchRequested();
+                        }
+                    ),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.Toggle".Localize(item.Name),
+                        () => item.IsEnabled = !item.IsEnabled
+                    ),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.EnableCategory".Localize(item.Category),
+                        () =>
+                        {
+                            foreach (ThingItem i in Containers.Where(i => i.Category.EqualsIgnoreCase(item.Category)))
+                            {
+                                i.IsEnabled = true;
+                                i.Update();
+                            }
+                        }
+                    ),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.DisableCategory".Localize(item.Category),
+                        () =>
+                        {
+                            foreach (ThingItem i in Containers.Where(i => i.Category.EqualsIgnoreCase(item.Category)))
+                            {
+                                i.IsEnabled = false;
+                                i.Update();
+                            }
+                        }
+                    ),
+                    new FloatMenuOption(
+                        ctxAscending,
+                        () =>
+                        {
+                            sorter = Sorter.Category;
+                            sortMode = SortMode.Ascending;
+                        }
+                    ),
+                    new FloatMenuOption(
+                        ctxDescending,
+                        () =>
+                        {
+                            sorter = Sorter.Category;
+                            sortMode = SortMode.Descending;
+                        }
+                    )
+                };
+
+                catCtxCache[item] = optionCache;
+            }
+
+            Find.WindowStack.Add(new FloatMenu(optionCache));
         }
 
         private void DrawStoreHeader(Rect canvas)
@@ -457,7 +622,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (ThingItem item in workingList.Where(i => i.Item.price > 0))
                 {
-                    item.Enabled = false;
+                    item.IsEnabled = false;
                     item.Update();
                 }
             }
@@ -471,7 +636,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (ThingItem item in workingList.Where(i => i.Item.price < 0))
                 {
-                    item.Enabled = true;
+                    item.IsEnabled = true;
                     item.Update();
                 }
             }
@@ -485,7 +650,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (ThingItem item in workingList)
                 {
-                    item.Item.price = CalculateToolkitPrice(item.Thing.BaseMarketValue);
+                    item.Item.price = item.Thing.CalculateStorePrice();
                 }
             }
 
@@ -559,30 +724,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (_validator != null)
             {
-                for (var _ = 0; _ < TkSettings.StoreBuildRate; _++)
-                {
-                    if (!_validator.MoveNext())
-                    {
-                        _validator = null;
-                        break;
-                    }
-
-                    ThingItem latest = _validator.Current;
-
-                    if (latest == null)
-                    {
-                        continue;
-                    }
-
-                    if (Containers.Any(c => c.Thing.defName.Equals(latest.Thing.defName)))
-                    {
-                        continue;
-                    }
-
-                    TkLogger.Info(latest.ToStringSafe());
-                    Containers.Add(latest);
-                    Notify__SearchRequested();
-                }
+                AdvanceValidator();
             }
 
             if (lastQuery.Equals(currentQuery))
@@ -594,6 +736,34 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 Notify__SearchRequested();
             }
+        }
+
+        private void AdvanceValidator()
+        {
+            for (var _ = 0; _ < TkSettings.StoreBuildRate; _++)
+            {
+                if (!_validator.MoveNext())
+                {
+                    _validator = null;
+                    break;
+                }
+
+                ThingItem latest = _validator.Current;
+
+                if (latest == null)
+                {
+                    continue;
+                }
+
+                if (Containers.Any(c => c.Thing.defName.Equals(latest.Thing.defName)))
+                {
+                    continue;
+                }
+
+                Containers.Add(latest);
+            }
+
+            Notify__SearchRequested();
         }
 
         private void Notify__SearchRequested()
@@ -636,16 +806,33 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             foreach (ThingItem c in Containers.Where(c => c.Item == null))
             {
-                c.Item = new Item(
-                    CalculateToolkitPrice(c.Thing.BaseMarketValue),
-                    c.Thing.LabelCap.RawText.ToToolkit(),
-                    c.Thing.defName
-                );
+                c.Item = new Item(c.Thing.CalculateStorePrice(), c.Thing.LabelCap.RawText.ToToolkit(), c.Thing.defName);
 
                 StoreInventory.items.Add(c.Item);
             }
 
             base.PreClose();
+        }
+
+        private static void DrawInfoFor(Rect canvas, ThingItem item)
+        {
+            var iconRegion = new Rect(27f, canvas.y, 27f, canvas.height);
+            var labelRegion = new Rect(iconRegion.width + 5f + 27f, canvas.y, canvas.width - 30f, canvas.height);
+
+            Widgets.Checkbox(0f, canvas.y, ref item.IsEnabled, paintable: true);
+            SettingsHelper.DrawLabelAnchored(labelRegion, item.Name, TextAnchor.MiddleLeft);
+
+            if (item.Thing != null)
+            {
+                Widgets.ThingIcon(iconRegion, item.Thing);
+            }
+
+            if (Widgets.ButtonInvisible(canvas, false))
+            {
+                Find.WindowStack.Add(new Dialog_InfoCard(item.Thing));
+            }
+
+            Widgets.DrawHighlightIfMouseover(canvas);
         }
 
         public override void PostClose()
@@ -654,11 +841,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             Store_ItemEditor.UpdateStoreItemList();
 
             base.PostClose();
-        }
-
-        public static int CalculateToolkitPrice(float basePrice)
-        {
-            return Math.Max(1, Convert.ToInt32(basePrice * 10.0f / 6.0f));
         }
 
         public static IEnumerable<ThingDef> GetTradeables()
@@ -701,6 +883,47 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        public override void OnCancelKeyPressed()
+        {
+            if (expanded == null)
+            {
+                base.OnCancelKeyPressed();
+            }
+            else
+            {
+                CloseExpandedMenu();
+                Event.current.Use();
+            }
+        }
+
+        public override void OnAcceptKeyPressed()
+        {
+            if (expanded == null)
+            {
+                base.OnAcceptKeyPressed();
+            }
+            else
+            {
+                CloseExpandedMenu();
+                Event.current.Use();
+            }
+        }
+
+        private void CloseExpandedMenu()
+        {
+            if (expanded.Name.NullOrEmpty())
+            {
+                expanded.Name = expanded.GetDefaultName();
+
+                if (expanded.Data != null)
+                {
+                    expanded.Data.CustomName = false;
+                }
+            }
+
+            expanded = null;
+        }
+
         private void GetTranslationStrings()
         {
             title = "TKUtils.ItemStore.Title".Localize();
@@ -714,6 +937,10 @@ namespace SirRandoo.ToolkitUtils.Windows
             ctxAscending = "TKUtils.StoreMenu.Ascending".Localize();
             ctxDescending = "TKUtils.StoreMenu.Descending".Localize();
             ctxInfo = "TKUtils.StoreMenu.Info".Localize();
+            noCustomKarmaText = "TKUtils.TraitStore.NoCustomKarmaType".Localize();
+            resetText = "TKUtils.Buttons.ResetAll".Localize();
+            nameText = "TKUtils.Inputs.Name".Localize();
+            karmaTypeText = "TKUtils.IncidentEditor.Karma".Localize();
 
             resetAllTextSize = Text.CalcSize(resetAllText);
             enableAllTextSize = Text.CalcSize(enableAllText);
@@ -723,31 +950,29 @@ namespace SirRandoo.ToolkitUtils.Windows
         private static IEnumerable<ThingItem> GenerateContainers()
         {
             IEnumerable<ThingDef> things = GetTradeables();
+            var builder = new StringBuilder();
 
             foreach (ThingDef thing in things)
             {
+                if (thing?.defName == null)
+                {
+                    continue;
+                }
+
                 ThingItem thingItem = null;
 
                 try
                 {
-                    if (thing?.defName == null)
-                    {
-                        continue;
-                    }
-
-                    Item item = StoreInventory.items.FirstOrDefault(
-                        i => i != null && (i.defname?.Equals(thing.defName) ?? false)
-                    );
+                    Item item = StoreInventory.items.FirstOrDefault(i => i?.defname?.Equals(thing.defName) ?? false);
 
                     if (item == null)
                     {
                         item = new Item(
-                            CalculateToolkitPrice(thing.BaseMarketValue),
+                            thing.CalculateStorePrice(),
                             thing.label?.ToToolkit() ?? thing.defName,
                             thing.defName
                         );
 
-                        TkLogger.Info($@"Added product ""{item.abr}"" to Toolkit's inventory.");
                         StoreInventory.items.Add(item);
                     }
                     else
@@ -755,19 +980,23 @@ namespace SirRandoo.ToolkitUtils.Windows
                         item.abr ??= thing.label?.ToToolkit() ?? thing.defName;
                     }
 
-                    thingItem = new ThingItem {Item = item, Thing = thing, Enabled = item.price > 0,};
+                    thingItem = new ThingItem {Item = item, Thing = thing, IsEnabled = item.price > 0,};
                 }
                 catch (Exception e)
                 {
-                    TkLogger.Error($@"Could not generate a container for ""{thing?.defName}""!", e);
-
-                    TkLogger.Info(
-                        $@"Errored thing data is as followed:\nDefName={thing?.defName.ToStringSafe()}\nBaseMarketValue={thing?.BaseMarketValue:N0}\nLabel={thing?.label?.ToStringSafe()}\nModName={thing?.modContentPack?.Name?.ToStringSafe()}"
-                    );
+                    builder.AppendInNewLine($@"- {thing.defName} | ERROR: {e.GetType().Name}({e.Message})");
                 }
 
                 yield return thingItem;
             }
+
+            if (builder.Length <= 0)
+            {
+                yield break;
+            }
+
+            builder.Insert(0, "The following containers failed to generate:\n");
+            TkLogger.Warn(builder.ToString());
         }
     }
 }
