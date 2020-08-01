@@ -2,25 +2,29 @@
 using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
-using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class ThingItem
     {
         private string categoryCached;
         public List<FloatMenuOption> CategoryContextOptions;
-        [JsonIgnore] private ItemData data;
-        public bool Enabled;
-
+        private ItemData data;
+        [JsonProperty("defname")] public string DefName;
         public List<FloatMenuOption> InfoContextOptions;
+
+        public bool IsEnabled;
+        [JsonProperty("abr")] public string Name;
+        [JsonProperty("price")] public int Price;
         public List<FloatMenuOption> PriceContextOptions;
 
         public Item Item { get; set; }
-        public string Mod => Thing.modContentPack?.Name ?? "";
+        [JsonProperty] public string Mod => Thing.modContentPack?.Name ?? "";
         public ThingDef Thing { get; set; }
 
+        [JsonProperty]
         public ItemData Data
         {
             get
@@ -39,6 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
+        [JsonProperty]
         public string Category
         {
             get
@@ -64,46 +69,21 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             if (Item.price == 0)
             {
-                Enabled = false;
+                IsEnabled = false;
                 Item.price = -10;
                 return;
             }
 
-            if (Enabled && Item.price < 0)
+            if (IsEnabled && Item.price < 0)
             {
                 Item.price = Thing.CalculateStorePrice();
             }
-            else if (!Enabled && Item.price > 0)
+            else if (!IsEnabled && Item.price > 0)
             {
                 Item.price = -10;
             }
 
-            Enabled = Item.price > 0;
-        }
-
-        public void DrawItemInfo(Rect canvas)
-        {
-            var iconRegion = new Rect(27f, canvas.y, 27f, canvas.height);
-            var labelRegion = new Rect(iconRegion.width + 5f + 27f, canvas.y, canvas.width - 30f, canvas.height);
-
-            Widgets.Checkbox(0f, canvas.y, ref Enabled, paintable: true);
-
-            TextAnchor cache = Text.Anchor;
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(labelRegion, Thing?.LabelCap ?? Item.abr);
-            Text.Anchor = cache;
-
-            if (Thing != null)
-            {
-                Widgets.ThingIcon(iconRegion, Thing);
-            }
-
-            if (Widgets.ButtonInvisible(canvas, false))
-            {
-                Find.WindowStack.Add(new Dialog_InfoCard(Thing));
-            }
-
-            Widgets.DrawHighlightIfMouseover(canvas);
+            IsEnabled = Item.price > 0;
         }
 
         public override string ToString()
@@ -121,10 +101,15 @@ namespace SirRandoo.ToolkitUtils.Models
             container += "  ),\n";
 
             container += $"  Mod={Mod},\n";
-            container += $"  Enabled={Enabled}\n";
+            container += $"  Enabled={IsEnabled}\n";
             container += ")";
 
             return container;
+        }
+
+        public string GetDefaultName()
+        {
+            return Thing.label.ToToolkit();
         }
     }
 }
