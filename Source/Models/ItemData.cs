@@ -7,7 +7,7 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class ItemData
     {
-        [DefaultValue(null)] public bool CustomName;
+        [DefaultValue(null)] public string CustomName;
         [DefaultValue(null)] public bool? IsMelee;
         [DefaultValue(null)] public bool? IsRanged;
         [DefaultValue(null)] public bool? IsWeapon;
