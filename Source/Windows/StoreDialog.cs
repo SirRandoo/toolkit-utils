@@ -151,13 +151,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(trueNameField))
             {
                 expandedName = "";
-                expanded.Name = expanded.DefName;
+                expanded.Data!.CustomName = expanded.DefName;
             }
 
             if (Widgets.ButtonInvisible(resetNameRect))
             {
-                expanded.Name = expanded.GetDefaultName();
-                expanded.Data!.CustomName = false;
+                expanded.Data!.CustomName = null;
             }
 
             SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
@@ -189,8 +188,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 resetText
             ))
             {
-                expanded.Name = expanded.GetDefaultName();
-                expanded.Data!.CustomName = false;
+                expanded.Data!.CustomName = expanded.GetDefaultName();
                 expanded.Data!.KarmaType = null;
             }
 
@@ -249,7 +247,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var categoryHeaderRect = new Rect(
                 infoHeaderRect.width + priceHeaderRect.width + 35f,
                 infoHeaderRect.y,
-                infoHeaderRect.width,
+                infoHeaderRect.width - 16f,
                 Text.LineHeight
             );
 
@@ -366,12 +364,20 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var categoryRect = new Rect(
                     priceRect.x + priceRect.width + 5f,
                     lineRect.y,
-                    categoryHeaderRect.width,
+                    categoryHeaderRect.width - 27f - 16f,
                     lineRect.height
                 );
 
                 SettingsHelper.DrawLabelAnchored(categoryRect, item.Category, TextAnchor.MiddleLeft);
                 DrawCategoryCtxFor(categoryRect, item);
+
+                var settingsRect = new Rect(categoryRect.x + categoryRect.width + 5f, lineRect.y, 27f, lineRect.height);
+                GUI.DrawTexture(settingsRect, Textures.Gear);
+
+                if (Widgets.ButtonInvisible(settingsRect))
+                {
+                    expanded = item;
+                }
 
                 if (!closeCalled)
                 {
@@ -912,14 +918,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void CloseExpandedMenu()
         {
-            if (expanded.Name.NullOrEmpty())
+            if (expanded.Data != null && (expanded.Data.CustomName?.Equals("") ?? false))
             {
-                expanded.Name = expanded.GetDefaultName();
-
-                if (expanded.Data != null)
-                {
-                    expanded.Data.CustomName = false;
-                }
+                expanded.Data.CustomName = null;
             }
 
             expanded = null;
@@ -981,7 +982,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         item.abr ??= thing.label?.ToToolkit() ?? thing.defName;
                     }
 
-                    thingItem = new ThingItem {Item = item, Thing = thing, IsEnabled = item.price > 0,};
+                    thingItem = ThingItem.FromData(item, thing);
                 }
                 catch (Exception e)
                 {
