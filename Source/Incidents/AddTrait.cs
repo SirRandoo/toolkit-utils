@@ -93,9 +93,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            traitDef = DefDatabase<TraitDef>.AllDefsListForReading.FirstOrDefault(
-                t => t.defName.Equals(buyableTrait.DefName)
-            );
+            traitDef = DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(buyableTrait.DefName));
 
             if (traitDef == null)
             {
@@ -117,7 +115,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (pawn.kindDef.disallowedTraits.Any(t => t.defName.Equals(traitDef.defName)))
+            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(traitDef.defName)) ?? false)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
