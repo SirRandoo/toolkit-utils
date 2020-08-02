@@ -279,6 +279,8 @@ namespace SirRandoo.ToolkitUtils
         public static void DumpAllData()
         {
             SaveItemData(Paths.ItemDataFilePath);
+            ShopExpansion.DumpModList();
+            ShopExpansion.DumpCommands();
 
             if (TkSettings.DumpStyle.Equals("SingleFile"))
             {
