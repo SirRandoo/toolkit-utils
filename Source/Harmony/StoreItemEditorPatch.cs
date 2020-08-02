@@ -83,11 +83,18 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (TkSettings.Offload)
             {
-                Task.Run(() => Data.SaveJson(new ItemList {Items = items}, Paths.ToolkitItemFilePath));
+                Task.Run(
+                    () =>
+                    {
+                        Data.SaveJson(new ItemList {Items = items}, Paths.ToolkitItemFilePath);
+                        Data.SaveItemData(Paths.ItemDataFilePath);
+                    }
+                );
             }
             else
             {
                 Data.SaveJson(new ItemList {Items = items}, Paths.ToolkitItemFilePath);
+                Data.SaveItemData(Paths.ItemDataFilePath);
             }
 
             return true;
