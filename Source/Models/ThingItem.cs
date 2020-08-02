@@ -1,30 +1,28 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    [JsonObject(MemberSerialization.OptIn)]
     public class ThingItem
     {
         private string categoryCached;
         public List<FloatMenuOption> CategoryContextOptions;
         private ItemData data;
-        [JsonProperty("defname")] public string DefName;
         public List<FloatMenuOption> InfoContextOptions;
 
         public bool IsEnabled;
-        [JsonProperty("abr")] public string Name;
-        [JsonProperty("price")] public int Price;
         public List<FloatMenuOption> PriceContextOptions;
+        public string DefName => Item.defname;
+        public string Name => Data?.CustomName ?? Item.abr;
+        public int Price => Item.price;
 
         public Item Item { get; set; }
-        [JsonProperty] public string Mod => Thing.modContentPack?.Name ?? "";
+
+        public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
         public ThingDef Thing { get; set; }
 
-        [JsonProperty]
         public ItemData Data
         {
             get
@@ -43,7 +41,6 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [JsonProperty]
         public string Category
         {
             get
@@ -88,7 +85,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public override string ToString()
         {
-            var container = "Container(\n";
+            var container = "ThingItem(\n";
 
             container += "  Item(\n";
             container += $"    defName={Item.defname}\n";
@@ -110,6 +107,14 @@ namespace SirRandoo.ToolkitUtils.Models
         public string GetDefaultName()
         {
             return Thing.label.ToToolkit();
+        }
+
+        public static ThingItem FromData(Item item, ThingDef thing)
+        {
+            var thingItem = new ThingItem {Item = item, Thing = thing, IsEnabled = item.price > 0};
+            thingItem.Update();
+
+            return thingItem;
         }
     }
 }
