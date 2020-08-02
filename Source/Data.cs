@@ -264,7 +264,7 @@ namespace SirRandoo.ToolkitUtils
                     IsMelee = thingDef.IsMeleeWeapon,
                     IsRanged = thingDef.IsRangedWeapon,
                     IsWeapon = thingDef.IsWeapon,
-                    Mod = thingDef.modContentPack.Name,
+                    Mod = thingDef.modContentPack?.Name ?? "Unknown",
                     KarmaType = KarmaType.Neutral,
                     QuantityLimit = -1
                 };
