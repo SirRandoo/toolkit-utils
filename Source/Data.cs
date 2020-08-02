@@ -53,6 +53,7 @@ namespace SirRandoo.ToolkitUtils
             ValidateItemData();
             ValidatePawnKinds();
             ValidateTraits();
+            TkUtils.BuildModList();
 
             if (TkSettings.Offload)
             {

@@ -24,8 +24,6 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
             TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-            TkUtils.BuildModList();
-
             List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
             var wereChanges = false;
 
