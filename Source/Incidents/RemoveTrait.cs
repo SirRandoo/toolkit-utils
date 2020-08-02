@@ -129,7 +129,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),
-                "TKUtils.Trait.RemoveDescription".Localize(Viewer.username, trait.LabelCap),
+                "TKUtils.TraitLetter.RemoveDescription".Localize(Viewer.username, trait.LabelCap),
                 LetterDefOf.NeutralEvent,
                 new LookTargets(pawn)
             );
