@@ -263,20 +263,20 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(infoHeaderRect, "   " + nameHeader, false))
             {
-                sorter = Sorter.Name;
-                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+                Sorter = Sorter.Name;
+                SortMode = SortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
             }
 
             if (Widgets.ButtonText(priceHeaderRect, "   " + priceHeader, false))
             {
-                sorter = Sorter.Cost;
-                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+                Sorter = Sorter.Cost;
+                SortMode = SortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
             }
 
             if (Widgets.ButtonText(categoryHeaderRect, "   " + categoryHeader, false))
             {
-                sorter = Sorter.Category;
-                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+                Sorter = Sorter.Category;
+                SortMode = SortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
             }
 
             DrawSortIcon(infoHeaderRect.y, infoHeaderRect.x, priceHeaderRect.x, categoryHeaderRect.x);
@@ -284,6 +284,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             return (infoHeaderRect, priceHeaderRect, categoryHeaderRect);
         }
 
+        [SuppressMessage("ReSharper", "CognitiveComplexity")]
         public override void DoWindowContents(Rect inRect)
         {
             if (Event.current.type == EventType.Layout)
@@ -393,7 +394,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             var position = new Rect(0f, y + Text.LineHeight / 2f - 4f, 8f, 8f);
 
-            switch (sorter)
+            switch (Sorter)
             {
                 case Sorter.Name:
                     position.x = infoX;
@@ -408,7 +409,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.DrawTexture(
                 position,
-                sortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
+                SortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
             );
         }
 
@@ -440,8 +441,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                         ctxAscending,
                         () =>
                         {
-                            sorter = Sorter.Name;
-                            sortMode = SortMode.Ascending;
+                            Sorter = Sorter.Name;
+                            SortMode = SortMode.Ascending;
                         }
                     ),
                     new FloatMenuOption(
@@ -487,16 +488,16 @@ namespace SirRandoo.ToolkitUtils.Windows
                         ctxAscending,
                         () =>
                         {
-                            sorter = Sorter.Cost;
-                            sortMode = SortMode.Ascending;
+                            Sorter = Sorter.Cost;
+                            SortMode = SortMode.Ascending;
                         }
                     ),
                     new FloatMenuOption(
                         ctxDescending,
                         () =>
                         {
-                            sorter = Sorter.Cost;
-                            sortMode = SortMode.Descending;
+                            Sorter = Sorter.Cost;
+                            SortMode = SortMode.Descending;
                         }
                     )
                 };
@@ -564,16 +565,16 @@ namespace SirRandoo.ToolkitUtils.Windows
                         ctxAscending,
                         () =>
                         {
-                            sorter = Sorter.Category;
-                            sortMode = SortMode.Ascending;
+                            Sorter = Sorter.Category;
+                            SortMode = SortMode.Ascending;
                         }
                     ),
                     new FloatMenuOption(
                         ctxDescending,
                         () =>
                         {
-                            sorter = Sorter.Category;
-                            sortMode = SortMode.Descending;
+                            Sorter = Sorter.Category;
+                            SortMode = SortMode.Descending;
                         }
                     )
                 };
@@ -584,6 +585,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Find.WindowStack.Add(new FloatMenu(optionCache));
         }
 
+        [SuppressMessage("ReSharper", "CognitiveComplexity")]
         private void DrawStoreHeader(Rect canvas)
         {
             GUI.BeginGroup(canvas);
@@ -852,29 +854,29 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             List<ThingItem> workingList = results ?? Containers;
 
-            switch (sorter)
+            switch (Sorter)
             {
-                case Sorter.Name when sortMode == SortMode.Ascending:
+                case Sorter.Name when SortMode == SortMode.Ascending:
                     workingList.SortBy(i => i.Item.abr);
                     results = workingList;
                     return;
-                case Sorter.Name when sortMode == SortMode.Descending:
+                case Sorter.Name when SortMode == SortMode.Descending:
                     workingList.SortByDescending(i => i.Item.abr);
                     results = workingList;
                     return;
-                case Sorter.Cost when sortMode == SortMode.Ascending:
+                case Sorter.Cost when SortMode == SortMode.Ascending:
                     workingList.SortBy(i => i.Item.price);
                     results = workingList;
                     return;
-                case Sorter.Cost when sortMode == SortMode.Descending:
+                case Sorter.Cost when SortMode == SortMode.Descending:
                     workingList.SortByDescending(i => i.Item.price);
                     results = workingList;
                     return;
-                case Sorter.Category when sortMode == SortMode.Ascending:
+                case Sorter.Category when SortMode == SortMode.Ascending:
                     workingList.SortBy(i => i.Category);
                     results = workingList;
                     return;
-                case Sorter.Category when sortMode == SortMode.Descending:
+                case Sorter.Category when SortMode == SortMode.Descending:
                     workingList.SortByDescending(i => i.Category);
                     results = workingList;
                     return;
