@@ -92,7 +92,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GetTranslationStrings();
             optionalTitle = title;
-            thingKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("BuyItem").karmaType;
+            thingKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("Item").karmaType;
         }
 
         private List<ThingItem> CurrentWorkingList => results ?? Containers;
