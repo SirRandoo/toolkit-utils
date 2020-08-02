@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils
                 File.Move(Paths.LegacyShopFilePath, Path.ChangeExtension(Paths.LegacyShopFilePath, ".bak")!);
             }
 
-            if (ItemData.Count <= 0)
+            if (ItemData == null || ItemData.Count <= 0)
             {
                 LoadItemData(Paths.ItemDataFilePath);
             }
@@ -167,7 +167,7 @@ namespace SirRandoo.ToolkitUtils
 
         public static void LoadTraits(string path, bool ignoreErrors = false)
         {
-            Traits = LoadJson<List<TraitItem>>(path, ignoreErrors);
+            Traits = LoadJson<List<TraitItem>>(path, ignoreErrors) ?? new List<TraitItem>();
         }
 
         public static void SaveTraits(string path)
@@ -177,7 +177,7 @@ namespace SirRandoo.ToolkitUtils
 
         public static void LoadPawnKinds(string path, bool ignoreErrors = false)
         {
-            PawnKinds = LoadJson<List<PawnKindItem>>(path, ignoreErrors);
+            PawnKinds = LoadJson<List<PawnKindItem>>(path, ignoreErrors) ?? new List<PawnKindItem>();
         }
 
         public static void SavePawnKinds(string path)
@@ -187,7 +187,7 @@ namespace SirRandoo.ToolkitUtils
 
         public static void LoadItemData(string path)
         {
-            ItemData = LoadJson<Dictionary<string, ItemData>>(path);
+            ItemData = LoadJson<Dictionary<string, ItemData>>(path, true) ?? new Dictionary<string, ItemData>();
         }
 
         public static void SaveItemData(string path)
@@ -249,7 +249,13 @@ namespace SirRandoo.ToolkitUtils
         private static void ValidateItemData()
         {
             List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefs.Where(t => t.race == null).ToList();
-            ItemData.RemoveAll(p => thingDefs.Find(d => d.defName.Equals(p.Key)) == null);
+            List<string> toCull = thingDefs.Where(thing => !ItemData.ContainsKey(thing.defName))
+               .Select(thing => thing.defName)
+               .ToList();
+            foreach (string defName in toCull)
+            {
+                ItemData.Remove(defName);
+            }
 
             foreach (ThingDef thingDef in thingDefs.Where(thingDef => !ItemData.ContainsKey(thingDef.defName)))
             {
