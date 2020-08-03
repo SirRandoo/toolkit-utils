@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using RimWorld;
@@ -59,16 +58,26 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {
                 object raceSettings = AlienSettingsField.GetValue(pawn.kindDef.race);
                 object generalSettings = AlienGeneralSettingsField.GetValue(raceSettings);
-                var disallowedTraits = AlienDisallowedTraits.GetValue(generalSettings) as IList<string>;
 
-                if (disallowedTraits?.Any(t => t.Equals(traitDef.defName)) ?? false)
+                if (!(AlienDisallowedTraits.GetValue(generalSettings) is IList disallowedTraits))
                 {
-                    return false;
+                    return true;
                 }
 
-                var forcedTraits = AlienGeneralSettingsForcedTraits.GetValue(generalSettings) as IList;
+                foreach (object item in disallowedTraits)
+                {
+                    var defName = TraitEntryDefName.GetValue(item) as string;
+                    int itemDegree = TraitEntryDegree.GetValue(item) is int
+                        ? (int) TraitEntryDegree.GetValue(item)
+                        : -10;
 
-                if (forcedTraits == null)
+                    if ((defName?.Equals(traitDef.defName) ?? false) && itemDegree.Equals(degree))
+                    {
+                        return false;
+                    }
+                }
+
+                if (!(AlienGeneralSettingsForcedTraits.GetValue(generalSettings) is IList forcedTraits))
                 {
                     return true;
                 }
