@@ -266,7 +266,8 @@ namespace SirRandoo.ToolkitUtils
                     IsWeapon = thingDef.IsWeapon,
                     Mod = thingDef.modContentPack?.Name ?? "Unknown",
                     KarmaType = KarmaType.Neutral,
-                    QuantityLimit = -1
+                    QuantityLimit = -1,
+                    IsStuffAllowed = true
                 };
             }
         }
