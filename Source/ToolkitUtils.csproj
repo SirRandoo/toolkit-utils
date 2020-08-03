@@ -334,6 +334,9 @@
         <Content Include="..\Common\Textures\UI\Icons\Trash.png">
             <Link>Common\Textures\UI\Icons\Trash.png</Link>
         </Content>
+        <Content Include="..\LoadFolders.xml">
+            <Link>LoadFolders.xml</Link>
+        </Content>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <PropertyGroup>
