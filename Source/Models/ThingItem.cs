@@ -112,6 +112,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public static ThingItem FromData(Item item, ThingDef thing)
         {
             var thingItem = new ThingItem {Item = item, Thing = thing, IsEnabled = item.price > 0};
+            ItemData _ = thingItem.Data;
             thingItem.Update();
 
             return thingItem;
