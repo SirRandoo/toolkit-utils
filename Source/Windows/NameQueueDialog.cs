@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -58,8 +58,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void DoWindowContents(Rect inRect)
         {
-            GUI.BeginGroup(inRect);
-
             var menuRect = new Rect(0f, 0f, inRect.width * 0.3333f, inRect.height * .7f);
             var contentRect = new Rect(menuRect.width + 10f, 0f, inRect.width - 10f - menuRect.width, inRect.height);
 
@@ -132,6 +130,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (pawnComponent.ViewerNameQueue.Count <= 0)
             {
                 Widgets.Label(queueNoticeRect, emptyQueueText);
+                GUI.EndGroup();
                 return;
             }
 
@@ -183,7 +182,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.EndScrollView(ref queueView);
 
-            GUI.EndGroup();
             GUI.EndGroup();
         }
 
