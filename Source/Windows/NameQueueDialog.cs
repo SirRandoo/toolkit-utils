@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -15,6 +15,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private readonly GameComponentPawns pawnComponent;
         private string applyText;
         private string assignedText;
+        private string countText;
         private Pawn current;
         private string emptyQueueText;
         private string randomText;
@@ -53,6 +54,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             applyText = "TKUtils.Buttons.Apply".Localize();
             randomText = "TKUtils.Buttons.Random".Localize();
             usernameText = "TKUtils.Inputs.Username".Localize();
+            countText = "TKUtils.NameQueue.Count".Localize();
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -134,10 +136,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            Widgets.Label(
-                queueNoticeRect,
-                $"{pawnComponent.ViewerNameQueue.Count:N0} {"TKUtils.NameQueue.Count".Localize()}"
-            );
+            Widgets.Label(queueNoticeRect, $"{pawnComponent.ViewerNameQueue.Count:N0} {countText}");
 
             if (Widgets.ButtonText(queueRandomRect, randomText))
             {
