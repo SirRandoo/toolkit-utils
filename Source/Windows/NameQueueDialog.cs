@@ -72,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var usernameRect = new Rect(0f, 0f, contentRect.width, Text.LineHeight);
             Widgets.Label(usernameRect.LeftHalf(), usernameText);
 
-            float buttonWidth = Text.CalcSize(applyText).x * 1.5f;
+            float buttonWidth = Text.CalcSize(applyText).x + 16f;
 
             Rect usernameFieldHalf = usernameRect.RightHalf();
             var usernameField = new Rect(
@@ -101,8 +101,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
 
-            var listing = new Listing_Standard {maxOneColumn = true};
-            float randomBtnWidth = Text.CalcSize(randomText).x * 1.5f;
+            var listing = new Listing_Standard();
+            float randomBtnWidth = Text.CalcSize(randomText).x + 16f;
             var adjustedLineRect = new Rect(0f, Text.LineHeight * 4f, contentRect.width * 0.95f - 2f, Text.LineHeight);
             var queueNoticeRect = new Rect(
                 0f,
