@@ -221,12 +221,12 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidatePawnKinds()
         {
-            List<PawnKindDef> kindDefs = DefDatabase<PawnKindDef>.AllDefsListForReading;
-            PawnKinds.RemoveAll(k => kindDefs.Find(d => d.defName.Equals(k.DefName)) == null);
+            List<PawnKindDef> kindDefs = DefDatabase<PawnKindDef>.AllDefs.Where(k => k.RaceProps.Humanlike).ToList();
+            PawnKinds.RemoveAll(k => kindDefs.Find(d => d.race.defName.Equals(k.DefName)) == null);
 
             foreach (PawnKindDef def in kindDefs)
             {
-                List<PawnKindItem> item = PawnKinds.FindAll(k => k.DefName.Equals(def.defName));
+                List<PawnKindItem> item = PawnKinds.FindAll(k => k.DefName.Equals(def.race.defName));
 
                 if (item.Count > 0)
                 {
