@@ -202,15 +202,16 @@ namespace SirRandoo.ToolkitUtils
 
             foreach (TraitDef def in traitDefs)
             {
-                List<TraitItem> item = Traits.FindAll(t => t.DefName.Equals(def.defName));
+                List<TraitItem> existing = Traits.FindAll(t => t.DefName.Equals(def.defName));
 
-                if (item.NullOrEmpty())
+                if (existing.NullOrEmpty())
                 {
                     Traits.AddRange(def.ToTraitItems());
                     continue;
                 }
 
-                TraitItem[] traitItems = def.ToTraitItems().Except(item).ToArray();
+                TraitItem[] traitItems =
+                    def.ToTraitItems().Where(t => !existing.Any(e => e.Degree == t.Degree)).ToArray();
 
                 if (traitItems.Length > 0)
                 {
