@@ -131,10 +131,9 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return null;
             }
 
-            List<ThingComp> comps = pawn.AllComps
-                .Where(c => c is CompUseEffect)
-                .Where(c => c.GetType().Namespace.EqualsIgnoreCase("TorannMagic"))
-                .ToList();
+            List<ThingComp> comps = pawn.AllComps.Where(c => c is CompUseEffect)
+               .Where(c => c.GetType().Namespace.EqualsIgnoreCase("TorannMagic"))
+               .ToList();
 
             if (comps.NullOrEmpty())
             {
@@ -266,11 +265,11 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 if (customClass != null)
                 {
                     Class = customClass.LabelCap;
+                    Gifted = true;
+                    return;
                 }
 
-                Class = pawn.story.traits.allTraits
-                    .FirstOrDefault(t => KnownClasses.Contains(t.def.defName))
-                    ?.LabelCap;
+                Class = pawn.story.traits.allTraits.FirstOrDefault(t => KnownClasses.Contains(t.def.defName))?.LabelCap;
 
                 if (Class != null)
                 {
@@ -286,8 +285,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 {
                     case ClassTypes.Magic:
                     {
-                        Need need = pawn.needs.AllNeeds
-                            .FirstOrDefault(n => n.GetType() == ManaNeed);
+                        Need need = pawn.needs.AllNeeds.FirstOrDefault(n => n.GetType() == ManaNeed);
 
                         if (need == null)
                         {
@@ -299,8 +297,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     }
                     case ClassTypes.Might:
                     {
-                        Need need = pawn.needs.AllNeeds
-                            .FirstOrDefault(n => n.GetType() == StaminaNeed);
+                        Need need = pawn.needs.AllNeeds.FirstOrDefault(n => n.GetType() == StaminaNeed);
 
                         if (need == null)
                         {
