@@ -10,6 +10,11 @@
     <TKUtils.Trait.RestrictedByKind>Your pawn is a {0}, which disallowed the trait "{1}" from being added.</TKUtils.Trait.RestrictedByKind>
     <TKUtils.Trait.RestrictedByBackstory>Your pawn has the backstory {0}, which forbids {1} from being added to your pawn.</TKUtils.Trait.RestrictedByBackstory>
     
+    <!-- Item -->
+    <TKUtils.Item.MinimumViolation>Your requested purchase would cost {0} coin(s), which does not meet the required minimum of {1} coin(s).</TKUtils.Item.MinimumViolation>
+    <TKUtils.Item.Disabled>The item "{0}" cannot be purchased; it's disabled.</TKUtils.Item.Disabled>
+    <TKUtils.Item.Complete>You've purchased {0} {1}.</TKUtils.Item.Complete>
+    
     <!-- Buy Pawn -->
     <TKUtils.BuyPawn.Humanlike>Only humanlikes can be purchased.</TKUtils.BuyPawn.Humanlike>
     <TKUtils.BuyPawn.Confirmation>You've purchased a colonist and have now joined the colony.</TKUtils.BuyPawn.Confirmation>
@@ -17,7 +22,6 @@
     <!-- Surgery -->
     <TKUtils.Surgery.Complete>Your pawn has been queued for surgery.</TKUtils.Surgery.Complete>
     <TKUtils.Surgery.NoSlotAvailable>No suitable body part could be found.</TKUtils.Surgery.NoSlotAvailable>
-    <TKUtils.Surgery.ItemDisabled>The item "{0}" cannot be purchased; it's disabled.</TKUtils.Surgery.ItemDisabled>
     <TKUtils.Surgery.Queued>Your pawn already has a surgery of this type queued for body part "{0}".</TKUtils.Surgery.Queued>
     <TKUtils.Surgery.HasNoSurgery>The item "{0}" cannot be purchased; it cannot be surgically attached.</TKUtils.Surgery.HasNoSurgery>
     

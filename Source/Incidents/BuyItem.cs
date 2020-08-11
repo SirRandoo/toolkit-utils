@@ -1,29 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
+using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
+using TwitchToolkit.IncidentHelpers.Special;
+using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [UsedImplicitly]
-    [StaticConstructorOnStartup]
     public class BuyItem : IncidentHelperVariables
     {
-        private static readonly ThingDef DropPod;
-        private static readonly IncidentDef FarmAnimals;
         private PurchaseRequest purchaseRequest;
-
-        static BuyItem()
-        {
-            DropPod = ThingDef.Named("DropPodIncoming");
-            FarmAnimals = IncidentDef.Named("FarmAnimalsWanderIn");
-        }
 
         public override Viewer Viewer { get; set; }
 
@@ -44,8 +41,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = 1;
             }
 
-            Item product = StoreInventory.items.Where(i => i.price > 0)
-               .FirstOrDefault(i => i.defname.EqualsIgnoreCase(item) || i.abr.EqualsIgnoreCase(item));
+            ThingItem product = Data.Items.FirstOrDefault(i => i.Name.EqualsIgnoreCase(item));
 
             if (product == null)
             {
@@ -53,40 +49,192 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            ThingDef thingDef =
-                DefDatabase<ThingDef>.AllDefsListForReading.FirstOrDefault(t => t.defName.Equals(product.defname));
+            if (product.Price <= 0)
+            {
+                {
+                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".Localize(product.Name));
+                }
+            }
 
-            if (thingDef == null)
+            if (product.Thing == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(item));
                 return false;
             }
 
-            List<ResearchProjectDef> projects = thingDef.GetUnfinishedPrerequisites();
-            if (projects.Count > 0)
+            List<ResearchProjectDef> projects = product.Thing.GetUnfinishedPrerequisites();
+            if (BuyItemSettings.mustResearchFirst && projects.Count > 0)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.ResearchRequired".Localize(
-                        thingDef.LabelCap.RawText,
+                        product.Thing.LabelCap.RawText,
                         projects.Select(p => p.LabelCap.RawText).SectionJoin()
                     )
                 );
                 return false;
             }
 
+            purchaseRequest = new PurchaseRequest
+            {
+                ItemData = product,
+                ThingDef = product.Thing,
+                Quantity = amount,
+                Price = Mathf.Clamp(product.Item.price, int.MinValue, int.MaxValue),
+                Purchaser = Viewer
+            };
 
-            return true;
+            if (purchaseRequest.Price >= ToolkitSettings.MinimumPurchasePrice)
+            {
+                return true;
+            }
+
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.Item.MinimumViolation".Localize(
+                    purchaseRequest.Price.ToString("N0"),
+                    ToolkitSettings.MinimumPurchasePrice.ToString("N0")
+                )
+            );
+            return false;
         }
 
-        public override void TryExecute() { }
+        public override void TryExecute()
+        {
+            try
+            {
+                purchaseRequest.Spawn();
+            }
+            catch (Exception e)
+            {
+                TkLogger.Warn($"Buy item failed to execute with error message: {e.Message}");
+                return;
+            }
+
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                Viewer.TakeViewerCoins(purchaseRequest.Price);
+            }
+
+            Viewer.CalculateNewKarma(
+                purchaseRequest.ItemData.Data?.KarmaType ?? storeIncident.karmaType,
+                purchaseRequest.Price
+            );
+        }
     }
 
     internal class PurchaseRequest
     {
         public int Price { get; set; }
         public int Quantity { get; set; }
-        public Item ItemData { get; set; }
+        public ThingItem ItemData { get; set; }
         public ThingDef ThingDef { get; set; }
+        public Viewer Purchaser { get; set; }
+
+        public void Spawn()
+        {
+            if (ThingDef.race != null)
+            {
+                SpawnAnimal();
+                return;
+            }
+
+            SpawnItem();
+        }
+
+        private void SpawnAnimal()
+        {
+            if (ThingDef.race.Humanlike)
+            {
+                TkLogger.Warn("Tried to spawn a humanlike -- Humanlikes should be spawned via !buy pawn");
+                return;
+            }
+
+            string animal = ThingDef.LabelCap.RawText;
+
+            if (Quantity > 1)
+            {
+                animal = animal.Pluralize();
+            }
+
+            var worker = new IncidentWorker_SpecificAnimalsWanderIn(
+                "TKUtils.ItemLetter.Animal".Localize(Quantity > 1 ? animal.Pluralize() : animal),
+                PawnKindDef.Named(ThingDef.defName),
+                true,
+                Quantity,
+                false,
+                true
+            ) {def = IncidentDef.Named("FarmAnimalsWanderIn")};
+
+            worker.TryExecute(StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, Helper.AnyPlayerMap));
+
+            if (ToolkitSettings.PurchaseConfirmations)
+            {
+                MessageHelper.ReplyToUser(
+                    Purchaser.username,
+                    "TKUtils.Item.Complete".Localize(
+                        Quantity.ToString("N0"),
+                        Quantity > 1 ? animal.Pluralize() : animal
+                    )
+                );
+            }
+        }
+
+        private void SpawnItem()
+        {
+            ThingDef result = null;
+            if (ThingDef.MadeFromStuff
+                && !GenStuff.AllowedStuffsFor(ThingDef)
+                   .Where(t => Data.ItemData.TryGetValue(t.defName, out ItemData data) && data.IsStuffAllowed)
+                   .Where(t => !PawnWeaponGenerator.IsDerpWeapon(ThingDef, t))
+                   .TryRandomElementByWeight(t => t.stuffProps.commonality, out result))
+            {
+                TkLogger.Warn("Could not generate stuff for item! Falling back to a random stuff...");
+                result = GenStuff.RandomStuffByCommonalityFor(ThingDef);
+            }
+
+            Thing thing = ThingMaker.MakeThing(ThingDef, result);
+
+            if (thing.TryGetQuality(out QualityCategory _))
+            {
+                ItemHelper.setItemQualityRandom(thing);
+            }
+
+            Map map = Helper.AnyPlayerMap;
+            IntVec3 position = DropCellFinder.TradeDropSpot(map);
+
+            if (ThingDef.Minifiable)
+            {
+                ThingDef minifiedDef = ThingDef.minifiedDef;
+                var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
+                minifiedThing.InnerThing = thing;
+                minifiedThing.stackCount = Quantity;
+                TradeUtility.SpawnDropPod(position, map, minifiedThing);
+            }
+            else
+            {
+                thing.stackCount = Quantity;
+                TradeUtility.SpawnDropPod(position, map, thing);
+            }
+
+            Find.LetterStack.ReceiveLetter(
+                ItemData.Name.Truncate(15, true).CapitalizeFirst(),
+                "TKUtils.ItemLetter.ItemDescription".Localize(
+                    Quantity.ToString("N0"),
+                    ItemData.Name.Pluralize(),
+                    Purchaser.username
+                ),
+                ItemHelper.GetLetterFromValue(Price),
+                thing
+            );
+
+            if (ToolkitSettings.PurchaseConfirmations)
+            {
+                MessageHelper.ReplyToUser(
+                    Purchaser.username,
+                    "TKUtils.Item.Complete".Localize(Quantity, Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name)
+                );
+            }
+        }
     }
 }

@@ -7,6 +7,10 @@
     <TKUtils.TraitLetter.RemoveDescription>{0} removed trait {1}</TKUtils.TraitLetter.RemoveDescription>
     <TKUtils.TraitLetter.ReplaceDescription>{0} replaced {1} with {2}</TKUtils.TraitLetter.ReplaceDescription>
     
+    <!-- Item -->
+    <TKUtils.ItemLetter.Animal>{0} join</TKUtils.ItemLetter.Animal>
+    <TKUtils.ItemLetter.ItemDescription>{0} {1} purchased by {2}</TKUtils.ItemLetter.ItemDescription>
+    
     <!-- Pawn -->
     <TKUtils.PawnLetter.Title>Viewer Joins</TKUtils.PawnLetter.Title>
     <TKUtils.PawnLetter.Description>A new pawn has been purchased by {0}, let's welcome them to the colony.</TKUtils.PawnLetter.Description>
