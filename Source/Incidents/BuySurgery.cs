@@ -12,7 +12,6 @@ using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
-using Item = TwitchToolkit.Store.Item;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
@@ -101,7 +100,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (product.price < 0)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.ItemDisabled".Localize(partQuery));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".Localize(partQuery));
                 return false;
             }
 
