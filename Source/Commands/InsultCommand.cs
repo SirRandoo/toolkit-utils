@@ -52,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             target ??= Find.ColonistBar.Entries.RandomElement().pawn;
-            var job = new Job(JobDefOf.Insult, target);
+            Job job = JobMaker.MakeJob(JobDefOf.Insult, target);
 
             if (job.CanBeginNow(pawn))
             {
