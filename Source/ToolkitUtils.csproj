@@ -4,68 +4,88 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{03518130-CE79-47FD-9273-36B2C61CD05C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
-    <AssemblyName>ToolkitUtils</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <LangVersion>default</LangVersion>
+      <ProjectGuid>{03518130-CE79-47FD-9273-36B2C61CD05C}</ProjectGuid>
+      <OutputType>Library</OutputType>
+      <AppDesignerFolder>Properties</AppDesignerFolder>
+      <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
+      <AssemblyName>ToolkitUtils</AssemblyName>
+      <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+      <FileAlignment>512</FileAlignment>
+      <Deterministic>true</Deterministic>
+      <LangVersion>default</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\1.1\Assemblies\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\1.1\Assemblies\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-      <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
-          <Private>False</Private>
-      </Reference>
-      <Reference Include="Assembly-CSharp">
-          <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
-          <Private>False</Private>
-      </Reference>
-      <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-          <Private>False</Private>
-      </Reference>
-      <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\Newtonsoft.Json.dll</HintPath>
-          <Private>False</Private>
-      </Reference>
-      <Reference Include="System"/>
-      <Reference Include="System.Core"/>
-      <Reference Include="System.Xml.Linq"/>
-      <Reference Include="System.Data.DataSetExtensions"/>
-      <Reference Include="Microsoft.CSharp"/>
-      <Reference Include="System.Data"/>
-      <Reference Include="System.Net.Http"/>
-      <Reference Include="System.Xml"/>
-      <Reference Include="ToolkitCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\ToolkitCore.dll</HintPath>
-          <Private>False</Private>
-      </Reference>
-      <Reference Include="TwitchLib.Client, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.dll</HintPath>
-          <Private>False</Private>
-      </Reference>
-      <Reference Include="TwitchLib.Client.Enums, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>..\1.1\Assemblies\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.2 release|AnyCPU' ">
+        <OutputPath>1.2\Assemblies</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.1 release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <OutputPath>..\1.1\Assemblies</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.1 debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <OutputPath>..\1.1\Assemblies</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.2 debug|AnyCPU' ">
+        <OutputPath>1.2\Assemblies</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Assembly-CSharp, Version=1.2.7528.19839, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\Newtonsoft.Json.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Xml.Linq"/>
+        <Reference Include="System.Data.DataSetExtensions"/>
+        <Reference Include="Microsoft.CSharp"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Net.Http"/>
+        <Reference Include="System.Xml"/>
+        <Reference Include="ToolkitCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\ToolkitCore.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="TwitchLib.Client, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="TwitchLib.Client.Enums, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="TwitchLib.Client.Models, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
