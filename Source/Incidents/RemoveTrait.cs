@@ -114,17 +114,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            pawn.story.traits.allTraits.Remove(trait);
-            TraitDegreeData data = trait.def.DataAtDegree(buyable.Degree);
-
-            if (data?.skillGains != null)
-            {
-                foreach (KeyValuePair<SkillDef, int> gain in data.skillGains)
-                {
-                    SkillRecord skill = pawn.skills.GetSkill(gain.Key);
-                    skill.Level -= gain.Value;
-                }
-            }
+            TraitHelper.RemoveTraitFromPawn(pawn, trait);
 
             if (!ToolkitSettings.UnlimitedCoins)
             {

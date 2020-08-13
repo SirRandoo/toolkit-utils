@@ -3,6 +3,7 @@ using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using TwitchToolkit.IncidentHelpers.Traits;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers
@@ -29,8 +30,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static bool CompareToInput(TraitItem trait, string input)
         {
             return Unrichify.StripTags(trait.Name)
-                .ToToolkit()
-                .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
+               .ToToolkit()
+               .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
         }
 
         public static IEnumerable<TraitItem> ToTraitItems(this TraitDef trait)
@@ -66,7 +67,41 @@ namespace SirRandoo.ToolkitUtils.Helpers
                         Data = new TraitData()
                     }
                 )
-                .ToArray();
+               .ToArray();
+        }
+
+        public static void GivePawnTrait(Pawn pawn, Trait trait)
+        {
+            pawn.story.traits.GainTrait(trait);
+
+            TraitDegreeData val = trait.CurrentData;
+
+            if (val?.skillGains == null)
+            {
+                return;
+            }
+
+            foreach (KeyValuePair<SkillDef, int> skillGain in val.skillGains)
+            {
+                pawn.skills.GetSkill(skillGain.Key).Level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
+            }
+        }
+
+        public static void RemoveTraitFromPawn(Pawn pawn, Trait trait)
+        {
+            pawn.story.traits.allTraits.Remove(trait);
+
+            TraitDegreeData val = trait.CurrentData;
+
+            if (val?.skillGains == null)
+            {
+                return;
+            }
+
+            foreach (KeyValuePair<SkillDef, int> skillGain in val.skillGains)
+            {
+                pawn.skills.GetSkill(skillGain.Key).Level -= skillGain.Value;
+            }
         }
     }
 }

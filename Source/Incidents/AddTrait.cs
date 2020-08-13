@@ -10,7 +10,6 @@ using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
-using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -184,17 +183,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void TryExecute()
         {
-            pawn.story.traits.GainTrait(trait);
-            TraitDegreeData val = traitDef.DataAtDegree(buyableTrait.Degree);
-            if (val?.skillGains != null)
-            {
-                foreach (KeyValuePair<SkillDef, int> skillGain in val.skillGains)
-                {
-                    SkillRecord skill = pawn.skills.GetSkill(skillGain.Key);
-                    int level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
-                    skill.Level = level;
-                }
-            }
+            TraitHelper.GivePawnTrait(pawn, trait);
 
             if (!ToolkitSettings.UnlimitedCoins)
             {

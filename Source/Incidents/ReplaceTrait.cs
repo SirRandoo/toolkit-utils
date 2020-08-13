@@ -9,7 +9,6 @@ using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
-using TwitchToolkit.IncidentHelpers.Traits;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -207,18 +206,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            pawn.story.traits.allTraits.Remove(replaceThisTrait);
-            TraitDegreeData data = replaceThisTrait.def.DataAtDegree(replaceThisTrait.Degree);
-
-            if (data?.skillGains != null)
-            {
-                foreach (KeyValuePair<SkillDef, int> gain in data.skillGains)
-                {
-                    SkillRecord skill = pawn.skills.GetSkill(gain.Key);
-
-                    skill.Level -= gain.Value;
-                }
-            }
+            TraitHelper.RemoveTraitFromPawn(pawn, replaceThisTrait);
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
@@ -231,19 +219,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
 
 
-            pawn.story.traits.GainTrait(replaceThatTrait);
-            TraitDegreeData val = replaceThatTraitDef.DataAtDegree(replaceThatShop.Degree);
-
-            if (val?.skillGains != null)
-            {
-                foreach (KeyValuePair<SkillDef, int> skillGain in val.skillGains)
-                {
-                    SkillRecord skill = pawn.skills.GetSkill(skillGain.Key);
-                    int level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
-
-                    skill.Level = level;
-                }
-            }
+            TraitHelper.GivePawnTrait(pawn, replaceThatTrait);
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
