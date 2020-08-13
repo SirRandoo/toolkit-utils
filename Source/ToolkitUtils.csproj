@@ -23,7 +23,7 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.2 release|AnyCPU' ">
-        <OutputPath>1.2\Assemblies</OutputPath>
+        <OutputPath>..\1.2\Assemblies</OutputPath>
         <DefineConstants>TRACE</DefineConstants>
         <Optimize>true</Optimize>
         <DebugType>pdbonly</DebugType>
@@ -46,7 +46,7 @@
         <OutputPath>..\1.1\Assemblies</OutputPath>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.2 debug|AnyCPU' ">
-        <OutputPath>1.2\Assemblies</OutputPath>
+        <OutputPath>..\1.2\Assemblies</OutputPath>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
