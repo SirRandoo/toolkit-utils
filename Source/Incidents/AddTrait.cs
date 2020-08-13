@@ -145,13 +145,41 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (traits?.Find(s => s.def.defName == trait.def.defName) == null)
+            if (traits?.Find(s => s.def.defName == trait.def.defName) != null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".Localize(trait.Label));
+                return false;
+            }
+
+            if (!MagicComp.Active)
             {
                 return traitQuery != null && buyableTrait != null;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".Localize(trait.Label));
-            return false;
+            List<TraitDef> classes = MagicComp.GetAllClasses().ToList();
+
+            if (!classes.Any(c => c.defName.Equals(traitDef.defName)))
+            {
+                return traitQuery != null && buyableTrait != null;
+            }
+
+            foreach (TraitDef clazz in classes.Where(c => !c.defName.Equals(traitDef.defName)))
+            {
+                Trait traitOf = pawn.story.traits.GetTrait(clazz);
+
+                if (traitOf == null)
+                {
+                    continue;
+                }
+
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.Class".Localize(traitOf.LabelCap, trait.LabelCap)
+                );
+                return false;
+            }
+
+            return traitQuery != null && buyableTrait != null;
         }
 
         public override void TryExecute()
