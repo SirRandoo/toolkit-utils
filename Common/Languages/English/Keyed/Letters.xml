@@ -6,6 +6,7 @@
     <TKUtils.TraitLetter.AddDescription>{0} purchased trait {1}</TKUtils.TraitLetter.AddDescription>
     <TKUtils.TraitLetter.RemoveDescription>{0} removed trait {1}</TKUtils.TraitLetter.RemoveDescription>
     <TKUtils.TraitLetter.ReplaceDescription>{0} replaced {1} with {2}</TKUtils.TraitLetter.ReplaceDescription>
+    <TKUtils.TraitLetter.ClassDescription>{0} swapped classes to {1}.</TKUtils.TraitLetter.ClassDescription>
     
     <!-- Item -->
     <TKUtils.ItemLetter.Animal>{0} join</TKUtils.ItemLetter.Animal>

@@ -26,6 +26,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
         private static readonly PropertyInfo MightUserXp;
         private static readonly PropertyInfo MightUserLevel;
         private static readonly PropertyInfo MightAbilityPoints;
+        private static readonly MethodInfo MightResetSkills;
 
         // Magic
         private static readonly FieldInfo MagicCustomClass;
@@ -37,6 +38,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
         private static readonly PropertyInfo MagicUserLevel;
         private static readonly PropertyInfo MagicUserXp;
         private static readonly PropertyInfo MagicAbilityPoints;
+        private static readonly MethodInfo MagicResetSkills;
 
         // TM_Calc
         private static readonly MethodInfo IsUndeadMethod;
@@ -78,6 +80,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     MightXpTillNextLevel = mightClass.GetProperty("MightUserXPTillNextLevel");
                     IsMightUserProperty = mightClass.GetProperty("IsMightUser");
                     MightDataProperty = mightClass.GetProperty("MightData");
+                    MightResetSkills = mightClass.GetMethod("ResetSkills");
 
                     Type mightData = assembly.GetType("TorannMagic.MightData");
                     MightUserLevel = mightData.GetProperty("MightUserLevel");
@@ -92,6 +95,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     MagicXpTillNextLevel = magicClass.GetProperty("MagicUserXPTillNextLevel");
                     IsMagicUserProperty = magicClass.GetProperty("IsMagicUser");
                     MagicDataProperty = magicClass.GetProperty("MagicData");
+                    MagicResetSkills = magicClass.GetMethod("ResetSkills");
 
                     Type magicData = assembly.GetType("TorannMagic.MagicData");
 
@@ -348,6 +352,19 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             container.SortBy(t => t.label);
 
             return container;
+        }
+
+        internal static void ResetCharacterData(object data, ClassTypes classType)
+        {
+            switch (classType)
+            {
+                case ClassTypes.Magic:
+                    MagicResetSkills.Invoke(data, new object[] { });
+                    return;
+                case ClassTypes.Might:
+                    MightResetSkills.Invoke(data, new object[] { });
+                    return;
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.Store;
@@ -100,6 +101,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
+            var wasClass = false;
+            if (MagicComp.Active)
+            {
+                CharacterData character = MagicComp.GetCharacterData(pawn);
+
+                if (character.IsGifted)
+                {
+                    TkLogger.Warn($"Resetting character data for {Viewer.username}...");
+                    character.Reset();
+                    wasClass = true;
+                }
+            }
+
             pawn.story.traits.allTraits.Remove(trait);
             TraitDegreeData data = trait.def.DataAtDegree(buyable.Degree);
 
@@ -124,12 +138,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap));
+                string response = "TKUtils.RemoveTrait." + (wasClass ? "Class" : "Complete");
+                MessageHelper.ReplyToUser(Viewer.username, response.Localize(trait.LabelCap));
             }
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),
-                "TKUtils.TraitLetter.RemoveDescription".Localize(Viewer.username, trait.LabelCap),
+                (wasClass ? "TKUtils.TraitLetter.ClassDescription" : "TKUtils.TraitLetter.RemoveDescription").Localize(
+                    Viewer.username,
+                    trait.LabelCap
+                ),
                 LetterDefOf.NeutralEvent,
                 new LookTargets(pawn)
             );

@@ -9,6 +9,7 @@
     <TKUtils.Trait.LimitReached>Your pawn already has the maximum number of traits allowed ({0} traits).</TKUtils.Trait.LimitReached>
     <TKUtils.Trait.RestrictedByKind>Your pawn is a {0}, which disallowed the trait "{1}" from being added.</TKUtils.Trait.RestrictedByKind>
     <TKUtils.Trait.RestrictedByBackstory>Your pawn has the backstory {0}, which forbids {1} from being added to your pawn.</TKUtils.Trait.RestrictedByBackstory>
+    <TKUtils.Trait.Class>Your pawn cannot have more than one class.</TKUtils.Trait.Class>
     
     <!-- Item -->
     <TKUtils.Item.MinimumViolation>Your requested purchase would cost {0} coin(s), which does not meet the required minimum of {1} coin(s).</TKUtils.Item.MinimumViolation>
@@ -44,6 +45,7 @@
     <TKUtils.RemoveTrait.None>Your pawn does not have any traits.</TKUtils.RemoveTrait.None>
     <TKUtils.RemoveTrait.Missing>Your pawn does not have the trait "{0}"!</TKUtils.RemoveTrait.Missing>
     <TKUtils.RemoveTrait.Disabled>The trait "{0}" has been restricted from being removed from pawns.</TKUtils.RemoveTrait.Disabled>
+    <TKUtils.RemoveTrait.Class>Removed class {0} from your pawn.</TKUtils.RemoveTrait.Class>
     
     <!-- Replace Trait -->
     <TKUtils.ReplaceTrait.Complete>Replace {0} with {1}!</TKUtils.ReplaceTrait.Complete>

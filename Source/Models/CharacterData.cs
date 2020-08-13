@@ -14,6 +14,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public string ClassName { get; private set; }
         public bool IsGifted => Type != null && ClassName != null;
         public int Level { get; private set; }
+        public int MaxLevel { get; private set; }
         public int SkillPoints { get; private set; }
 
         public float CurrentExp { get; set; }
@@ -59,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Models
             SkillPoints = MagicComp.GetAbilityPointsFrom(Data, cType);
             Level = MagicComp.GetLevelFrom(Data, cType);
             CurrentExp = MagicComp.GetCurrentExpFrom(Data, cType);
-            ExpForCurrentLevel = MagicComp.GetCurrentExpFrom(Data, cType);
+            ExpForCurrentLevel = MagicComp.GetCurrentLevelExpFrom(Data, cType);
             ExpToNextLevel = MagicComp.GetNextLevelExpFrom(Data, cType);
             ResourceRegenRate = MagicComp.GetResourceRegenRateFrom(Data, cType);
         }
@@ -101,7 +102,6 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 Type = ClassTypes.Might;
                 Data = mightData;
-                return;
             }
         }
 
@@ -116,6 +116,16 @@ namespace SirRandoo.ToolkitUtils.Models
                     ClassName = MagicComp.GetMagicClassName(Data, Parent);
                     break;
             }
+        }
+
+        public void Reset()
+        {
+            if (Type == null)
+            {
+                return;
+            }
+
+            MagicComp.ResetCharacterData(Data, (ClassTypes) Type);
         }
     }
 }
