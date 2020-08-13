@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchLib.Client.Models.Interfaces;
@@ -21,9 +22,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            MagicComp.CharacterData data = MagicComp.GetCharacterData(pawn);
+            CharacterData data = MagicComp.GetCharacterData(pawn);
 
-            if (data == null || !data.Gifted || data.Class.NullOrEmpty())
+            if (data == null || !data.IsGifted || data.ClassName.NullOrEmpty())
             {
                 twitchMessage.Reply("TKUtils.PawnClass.None".Localize());
                 return;
@@ -32,16 +33,16 @@ namespace SirRandoo.ToolkitUtils.Commands
             var container = new List<string>
             {
                 ResponseHelper.JoinPair("TKUtils.PawnClass.Level".Localize(), data.Level.ToString("N0")),
-                ResponseHelper.JoinPair("TKUtils.PawnClass.XP".Localize(), data.Experience)
+                ResponseHelper.JoinPair("TKUtils.PawnClass.XP".Localize(), data.ExperienceString)
             };
 
             string key;
             switch (data.Type)
             {
-                case MagicComp.ClassTypes.Might:
+                case ClassTypes.Might:
                     key = "TKUtils.PawnClass.Stamina";
                     break;
-                case MagicComp.ClassTypes.Magic:
+                case ClassTypes.Magic:
                     key = "TKUtils.PawnClass.Mana";
                     break;
                 default:
@@ -52,7 +53,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!key.NullOrEmpty())
             {
                 string rateKey = key.Localize();
-                string t = $"{data.ResourceCurrent:N0} / {data.ResourceMax:N0} (";
+                var t = $"{data.CurrentResource:N0} / {data.MaxResource:N0} (";
 
                 if (data.ResourceRegenRate > 0)
                 {
@@ -62,17 +63,15 @@ namespace SirRandoo.ToolkitUtils.Commands
                 t += $"{data.ResourceRegenRate:N0} {rateKey}P/5s";
                 t += ")";
 
-                container.Add(
-                    ResponseHelper.JoinPair(key.Localize(), t)
-                );
+                container.Add(ResponseHelper.JoinPair(key.Localize(), t));
             }
 
-            if (data.Points > 0)
+            if (data.SkillPoints > 0)
             {
-                container.Add("TKUtils.PawnClass.Points".Localize(data.Points.ToString("N0")));
+                container.Add("TKUtils.PawnClass.Points".Localize(data.SkillPoints.ToString("N0")));
             }
 
-            twitchMessage.Reply(container.GroupedJoin().WithHeader(Unrichify.StripTags(data.Class)));
+            twitchMessage.Reply(container.GroupedJoin().WithHeader(Unrichify.StripTags(data.ClassName)));
         }
     }
 }

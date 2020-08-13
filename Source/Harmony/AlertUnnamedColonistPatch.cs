@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using Verse;
@@ -42,13 +43,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            List<Pawn> container = colonistsSpawned
-                .Where(c => !component.HasPawnBeenNamed(c))
+            List<Pawn> container = colonistsSpawned.Where(c => !component.HasPawnBeenNamed(c))
                 // Questing
-                .Where(pawn => !pawn.IsBorrowedByAnyFaction())
+               .Where(pawn => !pawn.IsBorrowedByAnyFaction())
                 // RimWorld of Magic
-                .Where(pawn => !pawn.story.traits.allTraits.Any(t => t.def.defName.EqualsIgnoreCase("Undead")))
-                .ToList();
+               .Where(pawn => !pawn.IsUndead())
+               .ToList();
 
             if (container.Any())
             {

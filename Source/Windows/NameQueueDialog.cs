@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit.PawnQueue;
 using UnityEngine;
 using Verse;
@@ -334,9 +335,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void NextUnnamedColonist()
         {
-            current = allPawns.FirstOrDefault(
-                p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current
-            );
+            current = allPawns.Where(p => !p.IsUndead())
+               .FirstOrDefault(p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current);
 
             Notify__CurrentPawnChanged();
         }

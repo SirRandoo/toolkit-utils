@@ -195,6 +195,7 @@
         <Compile Include="Incidents\ReviveRandom.cs"/>
         <Compile Include="Models\CommandData.cs"/>
         <Compile Include="Models\CommandItem.cs"/>
+        <Compile Include="Models\CharacterData.cs"/>
         <Compile Include="Models\ToolkitItem.cs"/>
         <Compile Include="Models\ItemData.cs"/>
         <Compile Include="Models\ThingItem.cs"/>
@@ -233,7 +234,7 @@
         <Compile Include="Utils\ModComp\Androids.cs"/>
         <Compile Include="Utils\ModComp\Immortals.cs"/>
         <Compile Include="Utils\ModComp\Interests.cs"/>
-        <Compile Include="Utils\ModComp\MagicComp.cs"/>
+        <Compile Include="Utils\ModComp\TMagic.cs"/>
         <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
         <Compile Include="Utils\ShopExpansion.cs"/>
         <Compile Include="Utils\Unrichify.cs"/>
