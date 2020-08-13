@@ -18,9 +18,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply(
-                    "TKUtils.NoPawn".Localize().WithHeader("TabCharacter".Localize())
-                );
+                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TabCharacter".Localize()));
                 return;
             }
 
@@ -28,6 +26,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 $"{"Backstory".Localize()}: {pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).SectionJoin()}"
             };
+
+            if (!pawn.story.title.NullOrEmpty())
+            {
+                parts.Add(pawn.story.TitleCap);
+            }
 
             bool isRoyal = pawn.royalty?.MostSeniorTitle != null;
             switch (pawn.gender)
@@ -41,9 +44,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     break;
                 case Gender.Male:
                     parts.Add(
-                        (isRoyal ? ResponseHelper.PrinceGlyph : ResponseHelper.MaleGlyph).AltText(
-                            "Male".Localize()
-                        )
+                        (isRoyal ? ResponseHelper.PrinceGlyph : ResponseHelper.MaleGlyph).AltText("Male".Localize())
                     );
                     break;
                 case Gender.None:
@@ -63,9 +64,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (workTags != WorkTags.None)
             {
                 string[] filteredTags = pawn.story.DisabledWorkTagsBackstoryAndTraits.GetAllSelectedItems<WorkTags>()
-                    .Where(t => t != WorkTags.None)
-                    .Select(t => t.LabelTranslated().CapitalizeFirst())
-                    .ToArray();
+                   .Where(t => t != WorkTags.None)
+                   .Select(t => t.LabelTranslated().CapitalizeFirst())
+                   .ToArray();
 
                 parts.Add($"{"IncapableOf".Localize()}: {filteredTags.SectionJoin()}");
             }
