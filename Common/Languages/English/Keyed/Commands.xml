@@ -16,6 +16,7 @@
     <TKUtils.Leave.Thanos>Mr. Stark, I don't feel so good...</TKUtils.Leave.Thanos>
     <TKUtils.Leave.Generic>You've left the colony.</TKUtils.Leave.Generic>
     <TKUtils.Leave.Caravan>You cannot leave while in a caravan.</TKUtils.Leave.Caravan>
+    <TKUtils.Leave.Undead>You cannot leave the colony; you're bound to a Necromancer.</TKUtils.Leave.Undead>
     
     <!-- Lookup -->
     <TKUtils.Lookup>Results for "{0}": {1}</TKUtils.Lookup>
