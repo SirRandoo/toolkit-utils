@@ -46,13 +46,6 @@ namespace SirRandoo.ToolkitUtils
             {
                 Store_IncidentEditor.UpdatePriceSheet();
             }
-
-
-            // ReSharper disable once StringLiteralTypo
-            if (ModLister.GetActiveModWithIdentifier("sickboywi.medieval.vanilla") != null)
-            {
-                TkLogger.Warn("Medieval - Vanilla detected!");
-            }
         }
     }
 
