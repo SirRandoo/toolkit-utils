@@ -5,9 +5,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Windows;
-using TwitchToolkit.Incidents;
 using TwitchToolkit.Settings;
-using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
 
@@ -23,29 +21,6 @@ namespace SirRandoo.ToolkitUtils
 
             TkUtils.Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
             TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
-
-            List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
-            var wereChanges = false;
-
-            // We're not going to update this to use EventExtension
-            // since it appears to wipe previous settings.
-            foreach (StoreIncident incident in incidents.Where(
-                i => i.defName == "BuyPawn" || i.defName == "AddTrait" || i.defName == "RemoveTrait"
-            ))
-            {
-                if (incident.cost <= 1)
-                {
-                    continue;
-                }
-
-                incident.cost = 1;
-                wereChanges = true;
-            }
-
-            if (wereChanges)
-            {
-                Store_IncidentEditor.UpdatePriceSheet();
-            }
         }
     }
 

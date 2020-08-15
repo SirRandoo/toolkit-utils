@@ -193,6 +193,7 @@
         <Compile Include="Incidents\ReviveAll.cs"/>
         <Compile Include="Incidents\ReviveMe.cs"/>
         <Compile Include="Incidents\ReviveRandom.cs"/>
+        <Compile Include="RuntimeChecker.cs"/>
         <Compile Include="Models\CommandData.cs"/>
         <Compile Include="Models\CommandItem.cs"/>
         <Compile Include="Models\CharacterData.cs"/>
