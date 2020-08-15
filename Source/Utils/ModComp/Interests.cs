@@ -89,7 +89,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {
                 interest = UsableInterestList[(int) passionValue];
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return string.Empty;
             }
@@ -97,7 +97,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             if (interest != null)
             {
                 return InterestIndex.TryGetValue(interest.defName, string.Empty)
-                    .AltText($"{interest.LabelCap.RawText}");
+                   .AltText($"{interest.LabelCap.RawText}");
             }
 
             return string.Empty;
