@@ -41,73 +41,13 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static void DumpCommands()
         {
-            List<Command> commands = DefDatabase<Command>.AllDefsListForReading;
-            List<CommandItem> container = commands.Where(c => c.enabled && c.HasModExtension<CommandExtension>())
-               .Select(
-                    c =>
-                    {
-                        var ext = c.GetModExtension<CommandExtension>();
-
-                        var dump = new CommandItem
-                        {
-                            Name = c.LabelCap.RawText,
-                            Description = ext.Description,
-                            Usage = $"!{c.command}",
-                            UserLevel = ext.UserLevel,
-                            Data = new CommandData
-                            {
-                                IsShortcut = c.commandDriver.Name.Equals("Buy") && !c.defName.Equals("Buy")
-                            }
-                        };
-
-                        if (!ext.Parameters.NullOrEmpty())
-                        {
-                            dump.Usage += " ";
-                            dump.Usage += string.Join(
-                                " ",
-                                ext.Parameters.Select(i => i.ToString().ToLowerInvariant()).ToArray()
-                            );
-                        }
-
-                        if (c.requiresAdmin || c.requiresMod)
-                        {
-                            dump.UserLevel = UserLevels.Moderator;
-                        }
-
-                        return dump;
-                    }
-                )
+            List<CommandItem> container = Verse.DefDatabase<Command>.AllDefs.Where(c => c.enabled)
+               .Select(CommandItem.FromToolkit)
                .ToList();
 
             container.AddRange(
-                DefDatabase<ToolkitChatCommand>.AllDefsListForReading
-                   .Where(c => c.enabled && c.HasModExtension<CommandExtension>())
-                   .Select(
-                        c =>
-                        {
-                            var ext = c.GetModExtension<CommandExtension>();
-
-                            var dump = new CommandItem
-                            {
-                                Name = c.LabelCap.RawText,
-                                Description = ext.Description,
-                                Usage = $"!{c.commandText}",
-                                UserLevel = ext.UserLevel,
-                                Data = new CommandData {IsShortcut = false}
-                            };
-
-                            if (!ext.Parameters.NullOrEmpty())
-                            {
-                                dump.Usage += " ";
-                                dump.Usage += string.Join(
-                                    " ",
-                                    ext.Parameters.Select(i => i.ToString().ToLowerInvariant()).ToArray()
-                                );
-                            }
-
-                            return dump;
-                        }
-                    )
+                DefDatabase<ToolkitChatCommand>.AllDefsListForReading.Where(c => c.enabled)
+                   .Select(CommandItem.FromToolkitCore)
             );
 
             if (TkSettings.Offload)
