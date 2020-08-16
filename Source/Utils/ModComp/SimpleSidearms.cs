@@ -21,8 +21,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
         {
             _pendingInit = false;
 
-            ThingComp comp = catalyst.AllComps
-                .FirstOrDefault(c => c.GetType().Name.Equals("CompSidearmMemory"));
+            ThingComp comp = catalyst.AllComps.FirstOrDefault(c => c.GetType().Name.Equals("CompSidearmMemory"));
 
             if (comp == null)
             {
@@ -55,14 +54,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 DeferredInitialization(pawn);
             }
 
-            if (!Active)
-            {
-                return null;
-            }
-
-            ThingComp comp = pawn.AllComps.FirstOrDefault(c => c.GetType() == _compSidearmMemory);
-
-            if (!(_sidearmMemoryWeapons.GetValue(comp) is IList value))
+            if (!Active || !TryGetSidearmMemory(pawn, out IList weapons))
             {
                 return null;
             }
@@ -71,30 +63,14 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {
                 var container = new List<Thing>();
 
-                foreach (object obj in value)
+                foreach (object obj in weapons)
                 {
-                    object thingValue = _thingFromPair.GetValue(obj);
-                    object stuffValue = _stuffFromPair.GetValue(obj);
-
-                    if (!(thingValue is ThingDef thing))
+                    if (!TryGetWeapon(obj, out Thing weapon))
                     {
                         continue;
                     }
 
-                    if (!(stuffValue is ThingDef stuff))
-                    {
-                        container.Add(ThingMaker.MakeThing(thing));
-                        continue;
-                    }
-
-                    var instance = ThingMaker.MakeThing(thing, stuff) as ThingWithComps;
-
-                    if (instance == null)
-                    {
-                        continue;
-                    }
-
-                    container.Add(instance);
+                    container.Add(weapon);
                 }
 
                 return container;
@@ -103,6 +79,52 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {
                 return null;
             }
+        }
+
+        private static bool TryGetSidearmComp(ThingWithComps pawn, out ThingComp comp)
+        {
+            comp = pawn.AllComps.FirstOrFallback(c => c.GetType() == _compSidearmMemory);
+
+            return comp != null;
+        }
+
+        private static bool TryGetSidearmMemory(ThingWithComps pawn, out IList weapons)
+        {
+            if (!TryGetSidearmComp(pawn, out ThingComp comp))
+            {
+                weapons = null;
+                return false;
+            }
+
+            if (!(_sidearmMemoryWeapons.GetValue(comp) is IList value))
+            {
+                weapons = null;
+                return false;
+            }
+
+            weapons = value;
+            return true;
+        }
+
+        private static bool TryGetWeapon(object weaponPair, out Thing weapon)
+        {
+            object thingValue = _thingFromPair.GetValue(weaponPair);
+            object stuffValue = _stuffFromPair.GetValue(weaponPair);
+
+            if (!(thingValue is ThingDef thing))
+            {
+                weapon = null;
+                return false;
+            }
+
+            if (!(stuffValue is ThingDef stuff))
+            {
+                weapon = ThingMaker.MakeThing(thing);
+                return true;
+            }
+
+            weapon = ThingMaker.MakeThing(thing, stuff);
+            return weapon != null;
         }
     }
 }

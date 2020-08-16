@@ -14,9 +14,6 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
     public static class Interests
     {
         public static readonly bool Active;
-        private static readonly Type InterestsClass;
-        private static readonly FieldInfo InterestsList;
-        private static readonly IList InterestListInstance;
         private static readonly List<Def> UsableInterestList = new List<Def>();
 
         private static readonly Dictionary<string, string> InterestIndex = new Dictionary<string, string>
@@ -44,13 +41,13 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {
                 try
                 {
-                    InterestsClass = handle.GetType().Assembly.GetType("DInterests.InterestBase");
+                    Type interestsClass = handle.GetType().Assembly.GetType("DInterests.InterestBase");
 
-                    InterestsList = AccessTools.Field(InterestsClass, "interestList");
-                    InterestListInstance = InterestsList.GetValue(InterestsClass) as IList;
+                    FieldInfo interestsList = AccessTools.Field(interestsClass, "interestList");
+                    var interestListInstance = interestsList.GetValue(interestsClass) as IList;
 
                     // ReSharper disable once PossibleNullReferenceException
-                    foreach (object def in InterestListInstance)
+                    foreach (object def in interestListInstance)
                     {
                         if (!(def is Def instance))
                         {

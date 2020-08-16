@@ -18,8 +18,8 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {
                 try
                 {
-                    ImmortalHediffDef = DefDatabase<HediffDef>.AllDefsListForReading
-                        .FirstOrDefault(h => h.defName.Equals("IH_Immortal"));
+                    ImmortalHediffDef =
+                        DefDatabase<HediffDef>.AllDefs.FirstOrDefault(h => h.defName.Equals("IH_Immortal"));
 
                     Active = ImmortalHediffDef != null;
                 }

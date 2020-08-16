@@ -56,51 +56,117 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             try
             {
-                object raceSettings = AlienSettingsField.GetValue(pawn.kindDef.race);
-                object generalSettings = AlienGeneralSettingsField.GetValue(raceSettings);
-
-                if (!(AlienDisallowedTraits.GetValue(generalSettings) is IList disallowedTraits))
-                {
-                    return true;
-                }
-
-                foreach (object item in disallowedTraits)
-                {
-                    var defName = TraitEntryDefName.GetValue(item) as string;
-                    int itemDegree = TraitEntryDegree.GetValue(item) is int
-                        ? (int) TraitEntryDegree.GetValue(item)
-                        : -10;
-
-                    if ((defName?.Equals(traitDef.defName) ?? false) && itemDegree.Equals(degree))
-                    {
-                        return false;
-                    }
-                }
-
-                if (!(AlienGeneralSettingsForcedTraits.GetValue(generalSettings) is IList forcedTraits))
-                {
-                    return true;
-                }
-
-                foreach (object item in forcedTraits)
-                {
-                    var defName = TraitEntryDefName.GetValue(item) as string;
-                    int itemDegree = TraitEntryDegree.GetValue(item) is int
-                        ? (int) TraitEntryDegree.GetValue(item)
-                        : -10;
-
-                    if ((defName?.Equals(traitDef.defName) ?? false) && itemDegree.Equals(degree))
-                    {
-                        return false;
-                    }
-                }
+                return !(IsTraitDisallowed(pawn, traitDef.defName, degree)
+                         || IsTraitForced(pawn, traitDef.defName, degree));
             }
             catch (Exception)
             {
                 return true;
             }
+        }
 
+        private static bool IsTraitForced(Pawn pawn, string defName, int degree)
+        {
+            if (!TryGetForcedTraits(pawn, out IList forcedTraits))
+            {
+                return false;
+            }
+
+            foreach (object item in forcedTraits)
+            {
+                if (!TryGetTraitEntry(item, out Tuple<string, int> pair))
+                {
+                    continue;
+                }
+
+                if (pair.Item1.Equals(defName) && pair.Item2.Equals(degree))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool TryGetRaceSettings(Pawn pawn, out object settings)
+        {
+            if (pawn.kindDef?.race == null)
+            {
+                settings = null;
+                return false;
+            }
+
+            settings = AlienSettingsField.GetValue(pawn.kindDef.race);
             return true;
+        }
+
+        private static bool TryGetGeneralSettings(Pawn pawn, out object generalSettings)
+        {
+            if (!TryGetRaceSettings(pawn, out object settings))
+            {
+                generalSettings = null;
+                return false;
+            }
+
+            generalSettings = AlienGeneralSettingsField.GetValue(settings);
+            return true;
+        }
+
+        private static bool TryGetDisallowedTraits(Pawn pawn, out IList disallowedTraits)
+        {
+            if (!TryGetGeneralSettings(pawn, out object settings))
+            {
+                disallowedTraits = null;
+                return false;
+            }
+
+            disallowedTraits = AlienDisallowedTraits.GetValue(settings) as IList;
+            return disallowedTraits != null;
+        }
+
+        private static bool TryGetForcedTraits(Pawn pawn, out IList forcedTraits)
+        {
+            if (!TryGetGeneralSettings(pawn, out object settings))
+            {
+                forcedTraits = null;
+                return false;
+            }
+
+            forcedTraits = AlienGeneralSettingsForcedTraits.GetValue(settings) as IList;
+            return forcedTraits != null;
+        }
+
+        private static bool TryGetTraitEntry(object entry, out Tuple<string, int> result)
+        {
+            var defName = TraitEntryDefName.GetValue(entry) as string;
+            object itemDegree = TraitEntryDegree.GetValue(entry);
+            int degree = itemDegree as int? ?? -10;
+
+            result = new Tuple<string, int>(defName, degree);
+            return defName != null;
+        }
+
+        private static bool IsTraitDisallowed(Pawn pawn, string defName, int degree)
+        {
+            if (!TryGetDisallowedTraits(pawn, out IList disallowedTraits))
+            {
+                return false;
+            }
+
+            foreach (object item in disallowedTraits)
+            {
+                if (!TryGetTraitEntry(item, out Tuple<string, int> pair))
+                {
+                    continue;
+                }
+
+                if (pair.Item1.Equals(defName) && pair.Item2.Equals(degree))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

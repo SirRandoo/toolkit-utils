@@ -6,12 +6,12 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
 {
     [StaticConstructorOnStartup]
-    public class Androids
+    public static class Androids
     {
         public static bool Active;
-        public static Type AndroidSurgery;
-        public static readonly FleshTypeDef AndroidFlesh;
-        public static readonly FleshTypeDef MechFlesh;
+        private static readonly Type AndroidSurgery;
+        private static readonly FleshTypeDef AndroidFlesh;
+        private static readonly FleshTypeDef MechFlesh;
 
         static Androids()
         {
@@ -52,12 +52,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return false;
             }
 
-            if (!IsAndroid(pawn))
-            {
-                return false;
-            }
-
-            return recipe.Worker.GetType().IsSubclassOf(AndroidSurgery);
+            return IsAndroid(pawn) && recipe.Worker.GetType().IsSubclassOf(AndroidSurgery);
         }
     }
 }
