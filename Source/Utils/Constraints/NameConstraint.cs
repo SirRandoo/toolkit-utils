@@ -1,68 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
-    public enum NameComparisonTypes { Is, Not }
+    public enum NameStrategies { Is, Not, Contains, EndsWith, StartsWith }
 
     public class NameConstraint : ConstraintBase
     {
-        private NameComparisonTypes nameStrategy = NameComparisonTypes.Is;
-        private string username;
+        private readonly string labelText;
+        private readonly List<FloatMenuOption> strategyOptions;
+
+        private NameStrategies nameStrategy = NameStrategies.Is;
+        private string nameStrategyButtonText;
+        private string nameStrategyText = nameof(NameStrategies.Is);
+
+        public NameConstraint()
+        {
+            labelText = "TKUtils.Windows.Purge.Constraints.Name".Localize();
+            nameStrategyButtonText =
+                $"TKUtils.Windows.Purge.NameComparisonTypes.{nameof(NameStrategies.Is)}".Localize();
+
+            strategyOptions = Enum.GetNames(typeof(NameStrategies))
+               .Select(
+                    t => new FloatMenuOption(
+                        $"TKUtils.Windows.Purge.NameComparisonTypes.{t}".Localize(),
+                        () => NameStrategy = (NameStrategies) Enum.Parse(typeof(NameStrategies), t)
+                    )
+                )
+               .ToList();
+        }
+
+        public NameStrategies NameStrategy
+        {
+            get => nameStrategy;
+            set
+            {
+                if (nameStrategy != value)
+                {
+                    nameStrategyText = Enum.GetName(typeof(NameStrategies), value);
+                    nameStrategyButtonText = $"TKUtils.Windows.Purge.NameComparisonTypes.{nameStrategyText}".Localize();
+                }
+
+                nameStrategy = value;
+            }
+        }
+
+        public string Username { get; set; }
 
         public override void Draw(Rect canvas)
         {
-            Rect right = canvas.RightHalf().Rounded();
-            var newWidth = (float) Math.Floor(right.width / 1.5);
+            (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
+            (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
 
-            right = new Rect(canvas.width - newWidth, canvas.y, newWidth, canvas.height).Rounded();
-            Rect left = new Rect(canvas.x, canvas.y, canvas.width - right.width, canvas.height).Rounded();
+            Widgets.Label(labelRect, labelText);
 
-            Widgets.Label(left, "TKUtils.Windows.Purge.Constraints.Name".Translate());
-
-            if (Widgets.ButtonText(
-                new Rect(right.x, right.y, 50f, right.height),
-                $"TKUtils.Windows.Purge.NameComparisonTypes.{Enum.GetName(typeof(NameComparisonTypes), nameStrategy)}"
-                    .Translate()
-            ))
+            if (Widgets.ButtonText(buttonRect, nameStrategyButtonText))
             {
-                string[] names = Enum.GetNames(typeof(NameComparisonTypes));
-                List<FloatMenuOption> options = names.Select(
-                        name => new FloatMenuOption(
-                            $"TKUtils.Windows.Purge.NameComparisonTypes.{name}".Translate(),
-                            () => nameStrategy = (NameComparisonTypes) Enum.Parse(typeof(NameComparisonTypes), name)
-                        )
-                    )
-                    .ToList();
-
-                Find.WindowStack.Add(new FloatMenu(options));
+                Find.WindowStack.Add(new FloatMenu(strategyOptions));
             }
 
-            username = Widgets.TextField(
-                new Rect(right.x + 55f, right.y, right.width - 55f, right.height),
-                username
-            );
-        }
-
-        public void SetComparison(NameComparisonTypes type)
-        {
-            nameStrategy = type;
-        }
-
-        public void SetUsername(string name)
-        {
-            username = name;
+            Username = Widgets.TextField(inputRect, Username);
         }
 
         public override bool ShouldPurge(Viewer viewer)
         {
-            bool result = viewer.username.EqualsIgnoreCase(username);
-
-            return nameStrategy == NameComparisonTypes.Is ? result : !result;
+            switch (NameStrategy)
+            {
+                case NameStrategies.Is:
+                    return viewer.username.EqualsIgnoreCase(Username);
+                case NameStrategies.Not:
+                    return !viewer.username.EqualsIgnoreCase(Username);
+                case NameStrategies.Contains:
+                    return viewer.username.ToLower().Contains(Username.ToLower());
+                case NameStrategies.StartsWith:
+                    return viewer.username.ToLower().StartsWith(Username.ToLower());
+                case NameStrategies.EndsWith:
+                    return viewer.username.ToLower().EndsWith(Username.ToLower());
+                default:
+                    return false;
+            }
         }
     }
 }

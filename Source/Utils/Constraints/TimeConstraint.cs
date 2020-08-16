@@ -1,69 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
-    public enum TimeScale
-    {
-        Years,
-        Months,
-        Days,
-        Hours
-    }
+    public enum TimeScales { Years, Months, Days, Hours }
 
+    [UsedImplicitly]
     public class TimeConstraint : ComparableConstraint
     {
+        private readonly string labelText;
+        private readonly List<FloatMenuOption> scaleOptions;
         private string buffer = "0";
-        private TimeScale timeScale = TimeScale.Days;
+        private TimeScales timeScale = TimeScales.Days;
+        private string timeScaleButtonText;
+        private string timeScaleText = nameof(TimeScales.Days);
         private int value;
+
+        public TimeConstraint()
+        {
+            labelText = "TKUtils.Windows.Purge.Constraints.Time".Localize();
+            timeScaleButtonText = $"TKUtils.Windows.Purge.TimeScales.{timeScaleText}".Localize();
+
+            scaleOptions = Enum.GetNames(typeof(TimeScales))
+               .Select(
+                    s => new FloatMenuOption(
+                        $"TKUtils.Windows.Purge.TimeScales.{s}".Localize(),
+                        () => TimeScale = (TimeScales) Enum.Parse(typeof(TimeScales), s)
+                    )
+                )
+               .ToList();
+        }
+
+        private TimeScales TimeScale
+        {
+            get => timeScale;
+            set
+            {
+                if (timeScale != value)
+                {
+                    timeScaleText = Enum.GetName(typeof(NameStrategies), value);
+                    timeScaleButtonText = $"TKUtils.Windows.Purge.TimeScales.{timeScaleText}".Localize();
+                }
+
+                timeScale = value;
+            }
+        }
 
         public override void Draw(Rect canvas)
         {
-            Rect right = canvas.RightHalf().Rounded();
-            var newWidth = (float) Math.Floor(right.width / 3);
-
-            right = new Rect(canvas.width - newWidth, canvas.y, newWidth, canvas.height).Rounded();
-            Rect left = new Rect(canvas.x, canvas.y, canvas.width - right.width, canvas.height).Rounded();
-            float rightWidth = right.width * 0.3f;
-
-            Widgets.Label(left, "TKUtils.Windows.Purge.Constraints.Time".Translate());
-            DrawButton(new Rect(right.x - 20f, right.y, rightWidth, right.height));
-            Widgets.TextFieldNumeric(
-                new Rect(right.x + rightWidth - 10f, right.y, right.width - rightWidth * 2, right.height),
-                ref value,
-                ref buffer
+            (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
+            (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
+            var scaleButtonRect = new Rect(
+                canvas.x + canvas.width - buttonRect.width,
+                buttonRect.y,
+                buttonRect.width,
+                buttonRect.height
             );
 
-            if (!Widgets.ButtonText(
-                new Rect(canvas.width - rightWidth, right.y, rightWidth, right.height),
-                $"TKUtils.Windows.Purge.TimeScales.{Enum.GetName(typeof(TimeScale), timeScale)}".Translate()
-            ))
+            inputRect.width -= buttonRect.width - 5f;
+
+            Widgets.Label(labelRect, labelText);
+            DrawButton(buttonRect);
+            Widgets.TextFieldNumeric(inputRect, ref value, ref buffer);
+
+            if (!Widgets.ButtonText(scaleButtonRect, timeScaleButtonText))
             {
                 return;
             }
 
-            string[] names = Enum.GetNames(typeof(TimeScale));
-            List<FloatMenuOption> options = names.Select(
-                    name => new FloatMenuOption(
-                        $"TKUtils.Windows.Purge.TimeScales.{name}".Translate(),
-                        () => timeScale = (TimeScale) Enum.Parse(typeof(TimeScale), name)
-                    )
-                )
-                .ToList();
-
-            Find.WindowStack.Add(new FloatMenu(options));
+            Find.WindowStack.Add(new FloatMenu(scaleOptions));
         }
 
         public override bool ShouldPurge(Viewer viewer)
         {
-            int seconds = value * ScaleToInt(timeScale);
+            int seconds = value * ScaleToInt(TimeScale);
             TimeSpan span = DateTime.Now - viewer.last_seen;
 
-            switch (Strategy)
+            switch (Comparison)
             {
                 case ComparisonTypes.Equal:
                     return (int) span.TotalSeconds == seconds;
@@ -85,20 +104,20 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
         }
 
-        private static int ScaleToInt(TimeScale scale)
+        private static int ScaleToInt(TimeScales scale)
         {
             switch (scale)
             {
-                case TimeScale.Days:
+                case TimeScales.Days:
                     return 60 * 24;
 
-                case TimeScale.Hours:
+                case TimeScales.Hours:
                     return 60;
 
-                case TimeScale.Months:
+                case TimeScales.Months:
                     return 60 * 24 * 30;
 
-                case TimeScale.Years:
+                case TimeScales.Years:
                     return 60 * 24 * 30 * 12;
 
                 default:

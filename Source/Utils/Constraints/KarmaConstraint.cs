@@ -1,4 +1,5 @@
 ﻿using System;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -7,45 +8,39 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class KarmaConstraint : ComparableConstraint
     {
+        private readonly string labelText;
         private string buffer = "0";
         private int karma;
 
+        public KarmaConstraint()
+        {
+            labelText = "TKUtils.Windows.Purge.Constraints.Karma".Localize();
+        }
+
         public override void Draw(Rect canvas)
         {
-            Rect right = canvas.RightHalf().Rounded();
-            var newWidth = (float) Math.Floor(right.width / 1.5);
+            (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
+            (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
 
-            right = new Rect(canvas.width - newWidth, canvas.y, newWidth, canvas.height).Rounded();
-            Rect left = new Rect(canvas.x, canvas.y, canvas.width - right.width, canvas.height).Rounded();
-
-            Widgets.Label(left, "TKUtils.Windows.Purge.Constraints.Karma".Translate());
-            DrawButton(new Rect(right.x, right.y, 50f, right.height));
-            Widgets.TextFieldNumeric(
-                new Rect(right.x + 55f, right.y, right.width - 55f, right.height),
-                ref karma,
-                ref buffer
-            );
+            Widgets.Label(labelRect, labelText);
+            DrawButton(buttonRect);
+            Widgets.TextFieldNumeric(inputRect, ref karma, ref buffer);
         }
 
         public override bool ShouldPurge(Viewer viewer)
         {
-            switch (Strategy)
+            switch (Comparison)
             {
                 case ComparisonTypes.Equal:
                     return viewer.karma == karma;
-
                 case ComparisonTypes.Greater:
                     return viewer.karma > karma;
-
                 case ComparisonTypes.Less:
                     return viewer.karma < karma;
-
                 case ComparisonTypes.GreaterEqual:
                     return viewer.karma >= karma;
-
                 case ComparisonTypes.LessEqual:
                     return viewer.karma <= karma;
-
                 default:
                     return false;
             }
