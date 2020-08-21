@@ -89,6 +89,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (MagicComp.Active && (MagicComp.GetAllClasses()?.Any(c => c.Equals(trait.def)) ?? false))
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Class".Localize(query));
+                return false;
+            }
+
             trait = target;
             buyable = traitQuery;
             return true;
@@ -99,19 +105,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (pawn == null || trait == null)
             {
                 return;
-            }
-
-            var wasClass = false;
-            if (MagicComp.Active)
-            {
-                CharacterData character = MagicComp.GetCharacterData(pawn);
-
-                if (character.IsGifted)
-                {
-                    TkLogger.Warn($"Resetting character data for {Viewer.username}...");
-                    character.Reset();
-                    wasClass = true;
-                }
             }
 
             TraitHelper.RemoveTraitFromPawn(pawn, trait);
@@ -128,16 +121,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                string response = "TKUtils.RemoveTrait." + (wasClass ? "Class" : "Complete");
-                MessageHelper.ReplyToUser(Viewer.username, response.Localize(trait.LabelCap));
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap));
             }
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),
-                (wasClass ? "TKUtils.TraitLetter.ClassDescription" : "TKUtils.TraitLetter.RemoveDescription").Localize(
-                    Viewer.username,
-                    trait.LabelCap
-                ),
+                "TKUtils.TraitLetter.RemoveDescription".Localize(Viewer.username, trait.LabelCap),
                 LetterDefOf.NeutralEvent,
                 new LookTargets(pawn)
             );

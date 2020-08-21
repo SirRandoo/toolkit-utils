@@ -6,6 +6,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -186,6 +187,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (replaceThisTrait == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Missing".Localize(toReplace));
+                return false;
+            }
+
+            if (MagicComp.Active && (MagicComp.GetAllClasses()?.Any(c => c.Equals(replaceThisTrait.def)) ?? false))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.RemoveTrait.Class".Localize(replaceThisTrait.Label)
+                );
                 return false;
             }
 
