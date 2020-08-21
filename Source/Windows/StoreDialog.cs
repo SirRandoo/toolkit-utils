@@ -619,13 +619,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 lastQuery = "";
             }
 
-            float buttonWidth = Mathf.Max(resetAllTextSize.x, enableAllTextSize.x, disableAllTextSize.x) * 1.5f;
-            float offset = buttonWidth;
+            float buttonWidth = Mathf.Max(resetAllTextSize.x, enableAllTextSize.x, disableAllTextSize.x) + 16f;
+            var buttonRect = new Rect(line.x + line.width - buttonWidth, line.y, buttonWidth, line.height);
 
-            if (Widgets.ButtonText(
-                new Rect(line.x + line.width - offset, line.y, buttonWidth, line.height),
-                disableAllText
-            ))
+            if (Widgets.ButtonText(buttonRect, disableAllText))
             {
                 foreach (ThingItem item in workingList.Where(i => i.Item.price > 0))
                 {
@@ -634,12 +631,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            offset += buttonWidth + 5f;
+            buttonRect = buttonRect.ShiftLeft();
 
-            if (Widgets.ButtonText(
-                new Rect(line.x + line.width - offset, line.y, buttonWidth, line.height),
-                enableAllText
-            ))
+            if (Widgets.ButtonText(buttonRect, enableAllText))
             {
                 foreach (ThingItem item in workingList.Where(i => i.Item.price < 0))
                 {
@@ -648,12 +642,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            offset += buttonWidth + 5f;
+            buttonRect = buttonRect.ShiftLeft();
 
-            if (Widgets.ButtonText(
-                new Rect(line.x + line.width - offset, line.y, buttonWidth, line.height),
-                resetAllText
-            ))
+            if (Widgets.ButtonText(buttonRect, resetAllText))
             {
                 foreach (ThingItem item in workingList)
                 {
@@ -661,12 +652,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            offset += buttonWidth + 5f;
-
+            float buttonGroupWidth = line.x + line.width - buttonRect.x;
             var filterSection = new Rect(
                 searchRect.x + searchRect.width + 5f,
                 line.y,
-                line.width - offset - searchRect.width - 10f,
+                line.width - buttonGroupWidth - searchRect.width - 10f,
                 line.height
             );
 
