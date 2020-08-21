@@ -35,19 +35,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
             else
             {
-                container.Add(
-                    ResponseHelper.JoinPair(
-                        "TKUtils.Balance.Coins".Localize().CapitalizeFirst(),
-                        coins
-                    )
-                );
+                container.Add(ResponseHelper.JoinPair("TKUtils.Balance.Coins".Localize().CapitalizeFirst(), coins));
 
-                container.Add(
-                    ResponseHelper.JoinPair(
-                        "TKUtils.Balance.Karma".Localize().CapitalizeFirst(),
-                        karma
-                    )
-                );
+                container.Add(ResponseHelper.JoinPair("TKUtils.Balance.Karma".Localize().CapitalizeFirst(), karma));
             }
 
             if (ToolkitSettings.EarningCoins && TkSettings.ShowCoinRate)
@@ -55,15 +45,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                 int income = CalculateCoinAward(viewer);
 
                 container.Add(
-                    (
-                        income > 0
-                            ? $"{ResponseHelper.IncomeGlyph} +{income:N0}"
-                            : $"{ResponseHelper.DebtGlyph} {income:N0}"
-                    ).AltText(
-                        "TKUtils.Balance.Rate".Localize(
-                            CalculateCoinAward(viewer),
-                            ToolkitSettings.CoinInterval
-                        )
+                    (income > 0
+                        ? $"{ResponseHelper.IncomeGlyph} +{income:N0}"
+                        : $"{ResponseHelper.DebtGlyph} {income:N0}").AltText(
+                        "TKUtils.Balance.Rate".Localize(CalculateCoinAward(viewer), ToolkitSettings.CoinInterval)
                     )
                 );
             }
