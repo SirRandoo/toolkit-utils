@@ -69,10 +69,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return CanPurchaseRace(viewer, pawnKindItem);
             }
 
-            PawnKindDef raceDef = DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(
-                r => r.race.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                     || r.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-            );
+            PawnKindDef[] raceDefs = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(
+                    r => r.race.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                         || r.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                )
+               .ToArray();
+
+            PawnKindDef raceDef = raceDefs.FirstOrDefault(r => r.defaultFactionType.isPlayer)
+                                  ?? raceDefs.RandomElementByWeightWithFallback(null);
 
             if (raceDef == null)
             {
