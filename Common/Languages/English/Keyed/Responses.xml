@@ -3,5 +3,5 @@
 <LanguageData>
     <!-- Toolkit Addon Menu -->
     <TKUtils.CoinEarningEnabled>Earning coins has been enabled</TKUtils.CoinEarningEnabled>
-    <TKUtils.CoinEarningDisable>Earning coins has been disabled</TKUtils.CoinEarningDisable>
+    <TKUtils.CoinEarningDisabled>Earning coins has been disabled</TKUtils.CoinEarningDisabled>
 </LanguageData>
