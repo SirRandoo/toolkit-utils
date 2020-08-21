@@ -51,9 +51,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             List<StatDef> stats = DefDatabase<StatDef>.AllDefsListForReading
-                .Where(d => d.showOnHumanlikes && d.showOnPawns)
-                .Where(d => d.category != null && d.category.label.EqualsIgnoreCase(categoryDef))
-                .ToList();
+               .Where(d => d.showOnHumanlikes && d.showOnPawns)
+               .Where(d => d.category != null && d.category.label.EqualsIgnoreCase(categoryDef))
+               .ToList();
 
             if (!stats.Any())
             {
@@ -81,14 +81,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     stats.RemoveAt(index);
                 }
-                catch (IndexOutOfRangeException)
-                {
-                }
+                catch (IndexOutOfRangeException) { }
             }
 
             string[] parts = stats
-                .Select(s => ResponseHelper.JoinPair(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
-                .ToArray();
+               .Select(s => ResponseHelper.JoinPair(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
+               .ToArray();
 
             twitchMessage.Reply(parts.SectionJoin());
         }

@@ -15,8 +15,8 @@ namespace SirRandoo.ToolkitUtils.Commands
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
             List<Faction> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder
-                .Where(i => !i.IsPlayer)
-                .ToList();
+               .Where(i => !i.IsPlayer)
+               .ToList();
 
             if (!factions.Any())
             {
@@ -25,13 +25,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             twitchMessage.Reply(
-                factions.Select(
-                        f => ResponseHelper.JoinPair(
-                            f.GetCallLabel(),
-                            f.PlayerGoodwill.ToStringWithSign()
-                        )
-                    )
-                    .SectionJoin()
+                factions.Select(f => ResponseHelper.JoinPair(f.GetCallLabel(), f.PlayerGoodwill.ToStringWithSign()))
+                   .SectionJoin()
             );
         }
     }

@@ -28,13 +28,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             twitchMessage.Reply(
                 pawn.needs.AllNeeds.Select(
-                        n => ResponseHelper.JoinPair(
-                            n.LabelCap,
-                            n.CurLevelPercentage.ToStringPercent()
-                        )
+                        n => ResponseHelper.JoinPair(n.LabelCap, n.CurLevelPercentage.ToStringPercent())
                     )
-                    .SectionJoin()
-                    .WithHeader("TabNeeds".Localize())
+                   .SectionJoin()
+                   .WithHeader("TabNeeds".Localize())
             );
         }
     }

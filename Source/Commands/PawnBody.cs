@@ -18,9 +18,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply(
-                    "TKUtils.NoPawn".Localize().WithHeader("HealthOverview".Localize())
-                );
+                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("HealthOverview".Localize()));
                 return;
             }
 
@@ -91,9 +89,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder(Pawn pawn)
         {
-            return GetVisibleHediffs(pawn)
-                .GroupBy(x => x.Part)
-                .OrderByDescending(x => GetListPriority(x.First().Part));
+            return GetVisibleHediffs(pawn).GroupBy(x => x.Part).OrderByDescending(x => GetListPriority(x.First().Part));
         }
 
         private static IEnumerable<Hediff> GetVisibleHediffs(Pawn pawn)

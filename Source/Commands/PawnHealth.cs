@@ -19,9 +19,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply(
-                    "TKUtils.NoPawn".TranslateSimple().WithHeader("TabHealth".Localize())
-                );
+                twitchMessage.Reply("TKUtils.NoPawn".TranslateSimple().WithHeader("TabHealth".Localize()));
                 return;
             }
 
@@ -33,18 +31,15 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            PawnCapacityDef capacity = DefDatabase<PawnCapacityDef>.AllDefsListForReading
-                .FirstOrDefault(
-                    d => d.defName.EqualsIgnoreCase(segment)
-                         || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
-                );
+            PawnCapacityDef capacity = DefDatabase<PawnCapacityDef>.AllDefsListForReading.FirstOrDefault(
+                d => d.defName.EqualsIgnoreCase(segment)
+                     || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
+            );
 
             twitchMessage.Reply(
-                (
-                    capacity == null
-                        ? HealthReport(pawn)
-                        : HealthCapacityReport(pawn, capacity)
-                ).WithHeader("TabHealth".Localize())
+                (capacity == null ? HealthReport(pawn) : HealthCapacityReport(pawn, capacity)).WithHeader(
+                    "TabHealth".Localize()
+                )
             );
         }
 
@@ -109,7 +104,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 ResponseHelper.JoinPair(
                     capacity.LabelCap,
                     PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
-                        .ToStringPercent()
+                       .ToStringPercent()
                 )
             };
 
@@ -149,9 +144,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     }
                 }
 
-                segments.Add(
-                    ResponseHelper.JoinPair("TKUtils.PawnHealth.AffectedBy".Localize(), parts.SectionJoin())
-                );
+                segments.Add(ResponseHelper.JoinPair("TKUtils.PawnHealth.AffectedBy".Localize(), parts.SectionJoin()));
             }
             else
             {
@@ -186,9 +179,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 segments.Add(
                     ticks >= 60000
-                        ? ResponseHelper.BleedingSafeGlyphs.AltText(
-                            "WontBleedOutSoon".Localize().CapitalizeFirst()
-                        )
+                        ? ResponseHelper.BleedingSafeGlyphs.AltText("WontBleedOutSoon".Localize().CapitalizeFirst())
                         : $"{ResponseHelper.BleedingBadGlyphs.AltText("BleedingRate".Localize())} ({ticks.ToStringTicksToPeriod(shortForm: true)})"
                 );
             }
@@ -210,11 +201,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 source = new List<PawnCapacityDef>().ToList();
 
-                segments.Add(
-                    "TKUtils.Responses.UnsupportedRace".Localize(
-                        pawn.kindDef.race.defName
-                    )
-                );
+                segments.Add("TKUtils.Responses.UnsupportedRace".Localize(pawn.kindDef.race.defName));
             }
 
             if (source.Any())
@@ -222,14 +209,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                 source = source.OrderBy(d => d.listOrder).ToList();
 
                 string[] capacities = source
-                    .Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
-                    .Select(
+                   .Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
+                   .Select(
                         capacity => ResponseHelper.JoinPair(
                             capacity.GetLabelFor(pawn).CapitalizeFirst(),
                             HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First
                         )
                     )
-                    .ToArray();
+                   .ToArray();
 
                 segments.Add(capacities.SectionJoin());
             }

@@ -9,7 +9,6 @@ using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
-using Item = TwitchToolkit.Store.Item;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {

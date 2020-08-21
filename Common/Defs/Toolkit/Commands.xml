@@ -163,7 +163,7 @@
         <defName>MyPawnKills</defName>
         <label>viewer kill count</label>
         <command>mypawnkills</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnKillsCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnKills</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -176,7 +176,7 @@
         <defName>MyPawnStats</defName>
         <label>viewer stats</label>
         <command>mypawnstats</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStatsCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStats</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -195,7 +195,7 @@
         <defName>MyPawnHealth</defName>
         <label>viewer health</label>
         <command>mypawnhealth</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnHealthCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnHealth</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -214,7 +214,7 @@
         <defName>MyPawnNeeds</defName>
         <label>viewer needs</label>
         <command>mypawnneeds</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnNeedsCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnNeeds</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -227,7 +227,7 @@
         <defName>MyPawnGear</defName>
         <label>viewer gear</label>
         <command>mypawngear</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnGearCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnGear</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -240,7 +240,7 @@
         <defName>MyPawnBody</defName>
         <label>viewer body</label>
         <command>mypawnbody</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnBodyCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnBody</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -253,7 +253,7 @@
         <defName>MyPawnWork</defName>
         <label>viewer work</label>
         <command>mypawnwork</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnWorkCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnWork</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -266,7 +266,7 @@
         <defName>MyPawnStory</defName>
         <label>viewer story</label>
         <command>mypawnstory</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStoryCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStory</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -279,7 +279,7 @@
         <defName>MyPawnSkills</defName>
         <label>viewer skills</label>
         <command>mypawnskills</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnSkillsCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnSkills</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -292,7 +292,7 @@
         <defName>FixMyPawn</defName>
         <label>fix viewer pawn</label>
         <command>fixmypawn</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFix</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -305,7 +305,7 @@
         <defName>FixAllPawns</defName>
         <label>fix all pawns</label>
         <command>fixallpawns</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixAllCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixAll</commandDriver>
         <requiresMod>true</requiresMod>
         
         <modExtensions>
@@ -319,7 +319,7 @@
         <defName>AbandonPawn</defName>
         <label>abandon pawn</label>
         <command>leave</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.LeaveCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnLeave</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -333,7 +333,7 @@
         <defName>Factions</defName>
         <label>factions</label>
         <command>factions</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.FactionsCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.Factions</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -346,7 +346,7 @@
         <defName>Research</defName>
         <label>research</label>
         <command>research</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.ResearchCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.Research</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -366,7 +366,7 @@
         <defName>Lookup</defName>
         <label>lookup</label>
         <command>lookup</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.LookupCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.Lookup</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -388,7 +388,7 @@
         <defName>PriceCheck</defName>
         <label>price check</label>
         <command>price</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PriceCheckCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PriceCheck</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -410,7 +410,7 @@
         <defName>UnstickAll</defName>
         <label>unstick</label>
         <command>unstick</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.Unstick</commandDriver>
         <requiresMod>true</requiresMod>
     
         <modExtensions>
@@ -424,7 +424,7 @@
         <defName>ToggleStore</defName>
         <label>toggle store</label>
         <command>togglestore</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PurchaseToggleCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.ShopToggle</commandDriver>
         <requiresMod>true</requiresMod>
         
         <modExtensions>
@@ -438,7 +438,7 @@
         <defName>Insult</defName>
         <label>insult</label>
         <command>insult</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.InsultCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnInsult</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
@@ -457,7 +457,7 @@
         <defName>Wealth</defName>
         <label>colony wealth</label>
         <command>wealth</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.WealthCommand</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.Wealth</commandDriver>
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">

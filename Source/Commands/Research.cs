@@ -23,20 +23,17 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
             else
             {
-                project = DefDatabase<ResearchProjectDef>.AllDefsListForReading
-                    .FirstOrDefault(
-                        p => p.defName.EqualsIgnoreCase(query)
-                             || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                    );
+                project = DefDatabase<ResearchProjectDef>.AllDefsListForReading.FirstOrDefault(
+                    p => p.defName.EqualsIgnoreCase(query) || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                );
 
 
                 if (project == null)
                 {
-                    ThingDef thing = DefDatabase<ThingDef>.AllDefsListForReading
-                        .FirstOrDefault(
-                            t => t.defName.EqualsIgnoreCase(query)
-                                 || t.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                        );
+                    ThingDef thing = DefDatabase<ThingDef>.AllDefsListForReading.FirstOrDefault(
+                        t => t.defName.EqualsIgnoreCase(query)
+                             || t.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                    );
 
                     project = thing?.recipeMaker?.researchPrerequisite;
                     project ??= thing?.recipeMaker?.researchPrerequisites?.FirstOrDefault(p => !p.IsFinished);
@@ -46,11 +43,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (project == null)
             {
                 twitchMessage.Reply(
-                    (
-                        !query.NullOrEmpty()
-                            ? "TKUtils.Research.InvalidQuery".Localize(query)
-                            : "TKUtils.Research.None".Localize()
-                    ).WithHeader("Research".Localize())
+                    (!query.NullOrEmpty()
+                        ? "TKUtils.Research.InvalidQuery".Localize(query)
+                        : "TKUtils.Research.None".Localize()).WithHeader("Research".Localize())
                 );
                 return;
             }
@@ -65,13 +60,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 List<ResearchProjectDef> prerequisites = project.prerequisites;
 
                 string[] container = prerequisites.Where(prerequisite => !prerequisite.IsFinished)
-                    .Select(
+                   .Select(
                         prerequisite => ResponseHelper.JoinPair(
                             prerequisite.LabelCap,
                             prerequisite.ProgressPercent.ToStringPercent()
                         )
                     )
-                    .ToArray();
+                   .ToArray();
 
                 segments.Add(ResponseHelper.JoinPair("ResearchPrerequisites".Localize(), container.SectionJoin()));
             }

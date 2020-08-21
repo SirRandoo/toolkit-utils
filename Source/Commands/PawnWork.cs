@@ -25,8 +25,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (pawn.workSettings == null || (!pawn.workSettings?.EverWork ?? true))
             {
                 twitchMessage.Reply(
-                    "TKUtils.PawnWork.None".Localize()
-                        .WithHeader("TKUtils.PawnWork.Header".Localize())
+                    "TKUtils.PawnWork.None".Localize().WithHeader("TKUtils.PawnWork.Header".Localize())
                 );
                 return;
             }
@@ -37,9 +36,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (TkSettings.SortWorkPriorities)
             {
                 priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
-                    .ThenBy(p => p.naturalPriority)
-                    .Reverse()
-                    .ToList();
+                   .ThenBy(p => p.naturalPriority)
+                   .Reverse()
+                   .ToList();
             }
 
             for (int index = priorities.Count - 1; index >= 0; index--)
@@ -62,9 +61,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     priorities.RemoveAt(index);
                 }
-                catch (IndexOutOfRangeException)
-                {
-                }
+                catch (IndexOutOfRangeException) { }
             }
 
             foreach (WorkTypeDef priority in priorities.ToList())

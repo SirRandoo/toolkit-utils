@@ -20,9 +20,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (pawn == null)
             {
-                twitchMessage.Reply(
-                    "TKUtils.NoPawn".Localize().WithHeader("TabGear".Localize())
-                );
+                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TabGear".Localize()));
                 return;
             }
 
@@ -43,8 +41,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 if (apparel != null && apparel.Any())
                 {
                     cache = apparel.Where(a => a.def.apparel.CoversBodyPart(part))
-                        .Select(a => Mathf.Clamp01(a.GetStatValue(stat) / 2f))
-                        .Aggregate(cache, (current, v) => current * (1f - v));
+                       .Select(a => Mathf.Clamp01(a.GetStatValue(stat) / 2f))
+                       .Aggregate(cache, (current, v) => current * (1f - v));
                 }
 
                 rating += part.coverageAbs * (1f - cache);
@@ -83,16 +81,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (blunt > 0)
                 {
-                    stats.Add(
-                        $"{ResponseHelper.PanGlyph.AltText("ArmorBlunt".Localize())}{blunt.ToStringPercent()}"
-                    );
+                    stats.Add($"{ResponseHelper.PanGlyph.AltText("ArmorBlunt".Localize())}{blunt.ToStringPercent()}");
                 }
 
                 if (heat > 0)
                 {
-                    stats.Add(
-                        $"{ResponseHelper.FireGlyph.AltText("ArmorHeat".Localize())}{heat.ToStringPercent()}"
-                    );
+                    stats.Add($"{ResponseHelper.FireGlyph.AltText("ArmorHeat".Localize())}{heat.ToStringPercent()}");
                 }
 
                 if (stats.Any())
@@ -142,9 +136,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                             }
                         }
 
-                        foreach (Thing thing in inventory.Where(
-                            thing => sidearm.def.defName.Equals(thing.def.defName)
-                        ))
+                        foreach (Thing thing in inventory.Where(thing => sidearm.def.defName.Equals(thing.def.defName)))
                         {
                             if (usedInventory.Contains(thing))
                             {
@@ -204,9 +196,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             List<Apparel> apparel = a.WornApparel;
 
-            parts.Add(
-                $"{"Apparel".Localize()}: {apparel.Select(item => item.LabelCap).SectionJoin()}"
-            );
+            parts.Add($"{"Apparel".Localize()}: {apparel.Select(item => item.LabelCap).SectionJoin()}");
 
             return !parts.Any() ? "None".Localize() : parts.GroupedJoin();
         }
