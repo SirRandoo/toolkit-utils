@@ -147,7 +147,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            string animal = ThingDef.LabelCap.RawText;
+            string animal = ThingDef.label;
 
             if (Quantity > 1)
             {
