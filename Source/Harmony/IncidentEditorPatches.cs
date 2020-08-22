@@ -26,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         private static readonly Type NewClassType = typeof(Windows.StoreIncidentEditor);
 
         [UsedImplicitly]
-        public static IEnumerable<MethodBase> GetTargetMethods()
+        public static IEnumerable<MethodBase> TargetMethods()
         {
             yield return AccessTools.Method(typeof(StoreIncidentsWindow), "DoRow");
             yield return AccessTools.Method(typeof(Window_Trackers), "DoWindowContents");
