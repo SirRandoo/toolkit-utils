@@ -24,7 +24,8 @@ namespace SirRandoo.ToolkitUtils
             NullValueHandling = NullValueHandling.Ignore,
             MissingMemberHandling = MissingMemberHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            Converters = {new StringEnumConverter()}
+            Converters = {new StringEnumConverter()},
+            Formatting = Formatting.Indented
         };
 
         static Data()
