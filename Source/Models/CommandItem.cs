@@ -15,7 +15,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public string Usage;
         public UserLevels UserLevel;
 
-        public bool Shortcut => !Data?.IsShortcut ?? false;
+        public bool Shortcut => Data?.IsShortcut ?? false;
 
         public static CommandItem FromToolkit(Command command)
         {
