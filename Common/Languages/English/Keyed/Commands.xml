@@ -66,7 +66,7 @@
     <TKUtils.Price.Limited>{0} - {1} coins</TKUtils.Price.Limited>
     <TKUtils.Price.OverriddenItem>To see the pricing for an item, you can use the "items" category in the price check command.</TKUtils.Price.OverriddenItem>
     <TKUtils.Price.OverriddenTrait>To see the pricing for a trait, you can use the "traits" category in the price check command.</TKUtils.Price.OverriddenTrait>
-    <TKUtils.Price.OverriddenRace>To see the pricing for a pawn kind, you can use the "kind" category in the price check command.</TKUtils.Price.OverriddenRace>
+    <TKUtils.Price.OverriddenPawnKind>To see the pricing for a pawn kind, you can use the "kind" category in the price check command.</TKUtils.Price.OverriddenPawnKind>
     
     <!-- Toggle Store -->
     <TKUtils.ToggleStore.Enabled>Toolkit's store has been enabled.</TKUtils.ToggleStore.Enabled>
