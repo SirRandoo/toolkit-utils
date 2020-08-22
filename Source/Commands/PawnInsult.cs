@@ -12,7 +12,7 @@ using Verse.AI;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class InsultCommand : CommandBase
+    public class PawnInsult : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

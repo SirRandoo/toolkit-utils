@@ -12,7 +12,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class PawnGearCommand : CommandBase
+    public class PawnGear : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

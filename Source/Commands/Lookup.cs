@@ -14,7 +14,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class LookupCommand : CommandBase
+    public class Lookup : CommandBase
     {
         internal static readonly Dictionary<string, string> Index = new Dictionary<string, string>
         {
@@ -276,9 +276,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformStatLookup(string query)
         {
-            List<string> results = PawnStatsCommand.StatRegistry.Keys
+            List<string> results = PawnStats.StatRegistry.Keys
                .Where(i => i.EqualsIgnoreCase(query.ToToolkit()) || i.Contains(query.ToToolkit()))
-               .Select(i => PawnStatsCommand.StatRegistry[i].ToToolkit().CapitalizeFirst())
+               .Select(i => PawnStats.StatRegistry[i].ToToolkit().CapitalizeFirst())
                .ToList();
 
             for (int index = results.Count - 1; index >= 0; index--)

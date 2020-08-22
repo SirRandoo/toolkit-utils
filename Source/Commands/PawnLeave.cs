@@ -12,7 +12,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class LeaveCommand : CommandBase
+    public class PawnLeave : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

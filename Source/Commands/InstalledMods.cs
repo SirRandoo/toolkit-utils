@@ -9,7 +9,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class InstalledModsCommand : CommandBase
+    public class InstalledMods : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

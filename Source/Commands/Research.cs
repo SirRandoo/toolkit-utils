@@ -10,7 +10,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class ResearchCommand : CommandBase
+    public class Research : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

@@ -8,7 +8,7 @@ using TwitchToolkit.Store;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class UnstickCommand : CommandBase
+    public class Unstick : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

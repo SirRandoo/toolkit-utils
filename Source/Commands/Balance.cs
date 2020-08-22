@@ -11,7 +11,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class BalanceCommand : CommandBase
+    public class Balance : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

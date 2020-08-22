@@ -11,7 +11,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class PawnSkillsCommand : CommandBase
+    public class PawnSkills : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

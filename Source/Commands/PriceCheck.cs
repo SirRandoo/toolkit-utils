@@ -13,7 +13,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class PriceCheckCommand : CommandBase
+    public class PriceCheck : CommandBase
     {
         private ITwitchMessage msg;
 
@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             string query = segments.Skip(1).FirstOrFallback("");
             string quantity = segments.Skip(2).FirstOrFallback("1");
 
-            if (!LookupCommand.Index.TryGetValue(category.ToLowerInvariant(), out string result))
+            if (!Lookup.Index.TryGetValue(category.ToLowerInvariant(), out string result))
             {
                 quantity = query;
                 query = category;
@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 quantity = 1;
             }
 
-            if (!LookupCommand.Index.TryGetValue(category.ToLowerInvariant(), out string result))
+            if (!Lookup.Index.TryGetValue(category.ToLowerInvariant(), out string result))
             {
                 return;
             }

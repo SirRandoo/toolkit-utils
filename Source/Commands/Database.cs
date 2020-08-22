@@ -10,7 +10,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class DatabaseCommand : CommandBase
+    public class Database : CommandBase
     {
         private static readonly Dictionary<string, string> Index = new Dictionary<string, string>
         {

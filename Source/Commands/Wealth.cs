@@ -7,7 +7,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class WealthCommand : CommandBase
+    public class Wealth : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

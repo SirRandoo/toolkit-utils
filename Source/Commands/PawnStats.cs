@@ -13,11 +13,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     [StaticConstructorOnStartup]
     [UsedImplicitly]
-    public class PawnStatsCommand : CommandBase
+    public class PawnStats : CommandBase
     {
         internal static readonly Dictionary<string, string> StatRegistry = new Dictionary<string, string>();
 
-        static PawnStatsCommand()
+        static PawnStats()
         {
             List<StatCategoryDef> stats = DefDatabase<StatCategoryDef>.AllDefsListForReading;
 
