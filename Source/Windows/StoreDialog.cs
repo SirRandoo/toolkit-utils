@@ -648,6 +648,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (ThingItem item in workingList)
                 {
+                    item.Item.abr = item.Thing.label.ToToolkit().Replace(@"\", "");
                     item.Item.price = item.Thing.CalculateStorePrice();
                 }
             }
