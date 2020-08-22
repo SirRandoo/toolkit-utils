@@ -82,7 +82,13 @@
                 <Description>Purchases the part specified and queues it for surgery on your pawn.</Description>
                 <Parameters>
                     <li>
-                        <Name>Part</Name>
+                        <Name>Item</Name>
+                    </li>
+                    <li>
+                        <Names>
+                            <li>Quantity</li>
+                            <li>BodyPart</li>
+                        </Names>
                     </li>
                 </Parameters>
             </li>
@@ -353,7 +359,10 @@
                 <Description>Shows the current research progress. If a project is specified, it'll show the progress of that instead.</Description>
                 <Parameters>
                     <li>
-                        <Name>Project/Item</Name>
+                        <Names>
+                            <li>Project</li>
+                            <li>Item</li>
+                        </Names>
                         <Optional>true</Optional>
                     </li>
                 </Parameters>
@@ -373,7 +382,10 @@
                 <Description>Shows the first few results for the query in the given category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', 'skills', and 'stats'.</Description>
                 <Parameters>
                     <li>
-                        <Name>Category/Item</Name>
+                        <Names>
+                            <li>Item</li>
+                            <li>Category</li>
+                        </Names>
                     </li>
                     <li>
                         <Name>Query</Name>
@@ -395,7 +407,10 @@
                 <Description>Similar to the lookup command, except it'll show the price for the first valid match.</Description>
                 <Parameters>
                     <li>
-                        <Name>Category/Item</Name>
+                        <Names>
+                            <li>Item</li>
+                            <li>Category</li>
+                        </Names>
                     </li>
                     <li>
                         <Name>Query</Name>

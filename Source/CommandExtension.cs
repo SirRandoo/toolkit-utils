@@ -5,20 +5,20 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    public enum UserLevels
-    {
-        Anyone,
-        Vip,
-        Subscriber,
-        Moderator
-    }
+    public enum UserLevels { Anyone, Vip, Subscriber, Moderator }
 
     [UsedImplicitly]
     public class Parameter
     {
         [Description("The name of this parameter.")]
         [UsedImplicitly]
+        [DefaultValue(null)]
         public string Name;
+
+        [Description("A list of names this parameter can be")]
+        [UsedImplicitly]
+        [DefaultValue(null)]
+        public List<string> Names;
 
         [Description("Whether or not this parameter can be omitted.")]
         [DefaultValue(false)]
@@ -27,7 +27,8 @@ namespace SirRandoo.ToolkitUtils
 
         public override string ToString()
         {
-            return Optional ? $"[{Name}]" : $"<{Name}>";
+            string name = Names != null ? string.Join("/", Names) : Name.ToStringSafe();
+            return Optional ? $"[{name}]" : $"<{name}>";
         }
     }
 

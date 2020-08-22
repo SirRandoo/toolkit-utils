@@ -66,10 +66,13 @@
                 <EventType>Item</EventType>
                 <Parameters>
                     <li>
-                        <Name>Thing</Name>
+                        <Name>Item</Name>
                     </li>
                     <li>
-                        <Name>Quantity/BodyPart</Name>
+                        <Names>
+                            <li>Quantity</li>
+                            <li>BodyPart</li>
+                        </Names>
                         <Optional>true</Optional>
                     </li>
                 </Parameters>
