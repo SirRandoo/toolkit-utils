@@ -27,7 +27,6 @@ namespace SirRandoo.ToolkitUtils.Windows
            .Select(t => (KarmaType) Enum.Parse(typeof(KarmaType), t))
            .ToList();
 
-        internal static readonly List<ThingItem> Containers = new List<ThingItem>();
         private static IEnumerator<ThingItem> _validator;
 
         private readonly Dictionary<ThingItem, List<FloatMenuOption>> catCtxCache =
@@ -82,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         static StoreDialog()
         {
-            Containers.AddRange(GenerateContainers().Where(c => c != null));
+            Data.Items = GenerateContainers().Where(c => c != null).ToList();
             _validator = GenerateContainers().GetEnumerator();
         }
 
@@ -95,7 +94,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             thingKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("Item").karmaType;
         }
 
-        private List<ThingItem> CurrentWorkingList => results ?? Containers;
+        private List<ThingItem> CurrentWorkingList => results ?? Data.Items;
 
         private Sorter Sorter
         {
@@ -548,7 +547,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         "TKUtils.StoreMenu.EnableCategory".Localize(item.Category),
                         () =>
                         {
-                            foreach (ThingItem i in Containers.Where(i => i.Category.EqualsIgnoreCase(item.Category)))
+                            foreach (ThingItem i in Data.Items.Where(i => i.Category.EqualsIgnoreCase(item.Category)))
                             {
                                 i.IsEnabled = true;
                                 i.Update();
@@ -559,7 +558,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         "TKUtils.StoreMenu.DisableCategory".Localize(item.Category),
                         () =>
                         {
-                            foreach (ThingItem i in Containers.Where(i => i.Category.EqualsIgnoreCase(item.Category)))
+                            foreach (ThingItem i in Data.Items.Where(i => i.Category.EqualsIgnoreCase(item.Category)))
                             {
                                 i.IsEnabled = false;
                                 i.Update();
@@ -596,7 +595,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             var searchRect = new Rect(line.x, line.y, line.width * 0.25f, line.height);
-            List<ThingItem> workingList = results ?? Containers;
+            List<ThingItem> workingList = results ?? Data.Items;
 
             currentQuery = Widgets.TextEntryLabeled(searchRect, searchText, currentQuery);
 
@@ -753,12 +752,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                     continue;
                 }
 
-                if (Containers.Any(c => c.Thing.defName.Equals(latest.Thing.defName)))
+                if (Data.Items.Any(c => c.Thing.defName.Equals(latest.Thing.defName)))
                 {
                     continue;
                 }
 
-                Containers.Add(latest);
+                Data.Items.Add(latest);
             }
 
             Notify__SearchRequested();
@@ -774,7 +773,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private List<ThingItem> GetSearchResults()
         {
-            List<ThingItem> workingList = Containers;
+            List<ThingItem> workingList = Data.Items;
 
             if (!modFilter.NullOrEmpty())
             {
@@ -802,7 +801,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreClose()
         {
-            foreach (ThingItem c in Containers.Where(c => c.Item == null))
+            foreach (ThingItem c in Data.Items.Where(c => c.Item == null))
             {
                 c.Item = new Item(c.Thing.CalculateStorePrice(), c.Thing.LabelCap.RawText.ToToolkit(), c.Thing.defName);
 
@@ -848,7 +847,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void SortCurrentWorkingList()
         {
-            List<ThingItem> workingList = results ?? Containers;
+            List<ThingItem> workingList = results ?? Data.Items;
 
             switch (Sorter)
             {
