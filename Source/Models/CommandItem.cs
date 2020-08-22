@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             Usage += " ";
-            Usage += string.Join(" ", extension.Parameters.Select(i => i.ToString().ToLowerInvariant())).ToArray();
+            Usage += string.Join(" ", extension.Parameters.Select(i => i.ToString().ToLowerInvariant()).ToArray());
         }
     }
 }
