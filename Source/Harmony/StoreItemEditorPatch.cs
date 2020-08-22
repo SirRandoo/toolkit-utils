@@ -35,9 +35,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                .Where(i => tradeables.Any(t => t.defName.Equals(i.defname)))
                .ToList();
 
-            for (int index = StoreDialog.Containers.Count - 1; index >= 0; index--)
+            for (int index = Data.Items.Count - 1; index >= 0; index--)
             {
-                ThingItem thingItem = StoreDialog.Containers[index];
+                ThingItem thingItem = Data.Items[index];
 
                 if (StoreInventory.items.Contains(thingItem.Item))
                 {
@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 try
                 {
-                    StoreDialog.Containers.RemoveAt(index);
+                    Data.Items.RemoveAt(index);
                 }
                 catch (IndexOutOfRangeException) { }
             }
