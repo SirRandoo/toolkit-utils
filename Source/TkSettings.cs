@@ -447,6 +447,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
             Scribe_Values.Look(ref VersionedModList, "versionedModList");
+            Scribe_Values.Look(ref HairColor, "hairColor", true);
 
             Scribe_Values.Look(ref ShowSurgeries, "surgeries", true);
             Scribe_Values.Look(ref ShowArmor, "armor", true);
