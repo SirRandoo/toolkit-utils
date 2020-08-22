@@ -104,7 +104,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     );
                     return;
                 default:
-                    Notify__LookupComplete(query, $"TKUtils.PriceCheck.Overridden{eventType.ToString()}".Localize());
+                    Notify__LookupComplete(query, $"TKUtils.Price.Overridden{eventType.ToString()}".Localize());
                     return;
             }
         }
@@ -160,12 +160,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                     PerformTraitLookup(query);
                     return;
                 case "races":
-                    PerformRaceLookup(query);
+                    PerformKindLookup(query);
                     return;
             }
         }
 
-        private void PerformRaceLookup(string query)
+        private void PerformKindLookup(string query)
         {
             PawnKindItem result = Data.PawnKinds.FirstOrDefault(
                 i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
