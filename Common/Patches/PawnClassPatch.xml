@@ -12,7 +12,7 @@
                     <defName>MyPawnClass</defName>
                     <label>viewer class</label>
                     <command>mypawnclass</command>
-                    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnClassCommand</commandDriver>
+                    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnClass</commandDriver>
                     
                     <modExtensions>
                         <li Class="SirRandoo.ToolkitUtils.CommandExtension">

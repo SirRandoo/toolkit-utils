@@ -13,7 +13,7 @@
             <li Class="PatchOperationReplace">
                 <xpath>/Defs/TwitchToolkit.Command[defName="InstalledMods"]/commandDriver</xpath>
                 <value>
-                    <commandDriver>SirRandoo.ToolkitUtils.Commands.InstalledModsCommand</commandDriver>
+                    <commandDriver>SirRandoo.ToolkitUtils.Commands.InstalledMods</commandDriver>
                 </value>
             </li>
         </operations>
