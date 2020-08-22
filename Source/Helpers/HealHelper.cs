@@ -228,7 +228,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         public static Hediff_Injury FindPermanentInjury(Pawn pawn,
-            IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
+                                                        IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
         {
             Hediff_Injury injury = null;
             List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
@@ -259,7 +259,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
             else
             {
-                container.Add(pawn.health.hediffSet.GetPartHealth(part));
+                container.Add(pawn.health.hediffSet.GetPartHealth(part) / part.def.GetMaxHealth(pawn));
             }
 
             return container.Average();
