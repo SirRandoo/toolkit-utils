@@ -27,6 +27,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
+            Viewer = viewer;
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
             string item = segments.FirstOrFallback();
             string quantity = segments.Skip(1).FirstOrFallback();
@@ -77,11 +78,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             purchaseRequest = new PurchaseRequest
             {
-                ItemData = product,
-                ThingDef = product.Thing,
-                Quantity = amount,
-                Price = Mathf.Clamp(product.Item.price, int.MinValue, int.MaxValue),
-                Purchaser = Viewer
+                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = Viewer
             };
 
             if (purchaseRequest.Price >= ToolkitSettings.MinimumPurchasePrice)
@@ -125,7 +122,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
     internal class PurchaseRequest
     {
-        public int Price { get; set; }
+        public int Price => Mathf.Clamp(ItemData.Price * Quantity, 0, int.MaxValue);
         public int Quantity { get; set; }
         public ThingItem ItemData { get; set; }
         public ThingDef ThingDef { get; set; }
