@@ -218,7 +218,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 ItemData.Name.Truncate(15, true).CapitalizeFirst(),
                 "TKUtils.ItemLetter.ItemDescription".Localize(
                     Quantity.ToString("N0"),
-                    ItemData.Name.Pluralize(),
+                    (Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name),
                     Purchaser.username
                 ),
                 ItemHelper.GetLetterFromValue(Price),
