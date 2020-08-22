@@ -311,6 +311,9 @@
         <Content Include="..\Common\Patches\Incidents\AddTraitPatch.xml">
             <Link>Common\Patches\IncidentHelpers\AddTraitPatch.xml</Link>
         </Content>
+        <Content Include="..\Common\Patches\Incidents\BuyItemPatch.xml">
+            <Link>Common\Patches\Incidents\BuyItemPatch.xml</Link>
+        </Content>
         <Content Include="..\Common\Patches\Incidents\BuyPawnPatch.xml">
             <Link>Common\Patches\IncidentHelpers\BuyPawnPatch.xml</Link>
         </Content>
