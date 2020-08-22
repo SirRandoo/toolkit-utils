@@ -3,8 +3,8 @@
 <LanguageData>
     <!-- Trait -->
     <TKUtils.Trait.Complete>Added {0} to your pawn.</TKUtils.Trait.Complete>
-    <TKUtils.Trait.Duplicate>Your pawn already has the trait {0}.</TKUtils.Trait.Duplicate>
-    <TKUtils.Trait.Conflict>Your pawn has {0} which conflicts with {1}!</TKUtils.Trait.Conflict>
+    <TKUtils.Trait.Duplicate>Your pawn has {0}, which shares the same spectrum as {0}.</TKUtils.Trait.Duplicate>
+    <TKUtils.Trait.Conflict>Your pawn has {0}, which conflicts with {1}!</TKUtils.Trait.Conflict>
     <TKUtils.Trait.Disabled>The trait "{0}" has been restricted from being added to pawns.</TKUtils.Trait.Disabled>
     <TKUtils.Trait.LimitReached>Your pawn already has the maximum number of traits allowed ({0} traits).</TKUtils.Trait.LimitReached>
     <TKUtils.Trait.RestrictedByKind>Your pawn is a {0}, which disallowed the trait "{1}" from being added.</TKUtils.Trait.RestrictedByKind>

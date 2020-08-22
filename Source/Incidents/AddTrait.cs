@@ -133,20 +133,26 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             trait = new Trait(traitDef, buyableTrait.Degree);
 
-            foreach (Trait t in pawn.story.traits.allTraits.Where(
-                t => t.def.ConflictsWith(trait) || traitDef.ConflictsWith(t)
-            ))
+            if (traits != null)
+            {
+                foreach (Trait t in traits.Where(t => t.def.ConflictsWith(trait) || traitDef.ConflictsWith(t)))
+                {
+                    MessageHelper.ReplyToUser(
+                        viewer.username,
+                        "TKUtils.Trait.Conflict".Localize(t.LabelCap, trait.LabelCap)
+                    );
+                    return false;
+                }
+            }
+
+            Trait duplicateTrait =
+                traits?.FirstOrDefault(t => t.def.Equals(traitDef) && t.Degree != buyableTrait.Degree);
+            if (duplicateTrait != null)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Trait.Conflict".Localize(t.LabelCap, trait.LabelCap)
+                    "TKUtils.Trait.Duplicate".Localize(duplicateTrait.Label, trait.Label)
                 );
-                return false;
-            }
-
-            if (traits?.Find(s => s.def.defName == trait.def.defName) != null)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".Localize(trait.Label));
                 return false;
             }
 
