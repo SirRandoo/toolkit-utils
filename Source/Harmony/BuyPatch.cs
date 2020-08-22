@@ -12,12 +12,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Buy), "RunCommand")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [UsedImplicitly]
-    public class BuyPatch
+    public static class BuyPatch
     {
         private static string buyCommand;
 
-        [HarmonyPrefix]
         [UsedImplicitly]
         public static bool Prefix(CommandDriver __instance, ITwitchMessage twitchMessage)
         {
@@ -36,10 +34,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (!__instance.command.defName.Equals("Buy"))
             {
-                buyCommand ??=
-                    Verse.DefDatabase<Command>.AllDefsListForReading.FirstOrDefault(c => c.defName.Equals("Buy"))
-                        ?.command
-                    ?? "buy";
+                buyCommand ??= Verse.DefDatabase<Command>.AllDefsListForReading
+                                  .FirstOrDefault(c => c.defName.Equals("Buy"))
+                                 ?.command
+                               ?? "buy";
 
                 message = twitchMessage.WithMessage($"!{buyCommand} {twitchMessage.Message.Substring(1)}");
             }

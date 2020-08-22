@@ -13,10 +13,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Alert_UnnamedColonist), "GetReport")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [UsedImplicitly]
-    public class AlertUnnamedColonistPatch
+    public static class AlertUnnamedColonistPatch
     {
-        [HarmonyPrefix]
         [UsedImplicitly]
         [SuppressMessage("ReSharper", "RedundantAssignment")]
         public static bool Prefix(ref AlertReport __result)

@@ -9,63 +9,41 @@ using TwitchToolkit.Windows;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    internal static class StoreIncidentWindowVariables
-    {
-        public static readonly ConstructorInfo OldClassConstructor =
-            typeof(StoreIncidentEditor).GetConstructor(new[] {typeof(StoreIncident)});
-
-        public static readonly ConstructorInfo NewClassConstructor =
-            typeof(Windows.StoreIncidentEditor).GetConstructor(new[] {typeof(StoreIncident)});
-
-        public static readonly Type OldClassType = typeof(StoreIncidentEditor);
-        public static readonly Type NewClassType = typeof(Windows.StoreIncidentEditor);
-    }
-
-    [HarmonyPatch(typeof(StoreIncidentsWindow), "DoRow")]
-    [UsedImplicitly]
+    [HarmonyPatch]
     public static class StoreIncidentsWindowPatch
     {
-        [HarmonyTranspiler]
-        [UsedImplicitly]
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            foreach (CodeInstruction instruction in instructions)
-            {
-                if (instruction.opcode == OpCodes.Newobj
-                    && instruction.OperandIs(StoreIncidentWindowVariables.OldClassConstructor))
-                {
-                    instruction.operand = StoreIncidentWindowVariables.NewClassConstructor;
-                }
-                else if (instruction.opcode == OpCodes.Ldtoken
-                         && instruction.OperandIs(StoreIncidentWindowVariables.OldClassType))
-                {
-                    instruction.operand = StoreIncidentWindowVariables.NewClassType;
-                }
+        private static readonly ConstructorInfo OldClassConstructor = AccessTools.Constructor(
+            typeof(StoreIncidentEditor),
+            new[] {typeof(StoreIncident)}
+        );
 
-                yield return instruction;
-            }
+        private static readonly ConstructorInfo NewClassConstructor = AccessTools.Constructor(
+            typeof(Windows.StoreIncidentEditor),
+            new[] {typeof(StoreIncident)}
+        );
+
+        private static readonly Type OldClassType = typeof(StoreIncidentEditor);
+        private static readonly Type NewClassType = typeof(Windows.StoreIncidentEditor);
+
+        [UsedImplicitly]
+        public static IEnumerable<MethodBase> GetTargetMethods()
+        {
+            yield return AccessTools.Method(typeof(StoreIncidentsWindow), "DoRow");
+            yield return AccessTools.Method(typeof(Window_Trackers), "DoWindowContents");
         }
-    }
 
-    [HarmonyPatch(typeof(Window_Trackers), "DoWindowContents")]
-    [UsedImplicitly]
-    public static class WindowTrackersPatch
-    {
-        [HarmonyTranspiler]
         [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Newobj
-                    && instruction.OperandIs(StoreIncidentWindowVariables.OldClassConstructor))
+                if (instruction.opcode == OpCodes.Newobj && instruction.OperandIs(OldClassConstructor))
                 {
-                    instruction.operand = StoreIncidentWindowVariables.NewClassConstructor;
+                    instruction.operand = NewClassConstructor;
                 }
-                else if (instruction.opcode == OpCodes.Ldtoken
-                         && instruction.OperandIs(StoreIncidentWindowVariables.OldClassType))
+                else if (instruction.opcode == OpCodes.Ldtoken && instruction.OperandIs(OldClassType))
                 {
-                    instruction.operand = StoreIncidentWindowVariables.NewClassType;
+                    instruction.operand = NewClassType;
                 }
 
                 yield return instruction;

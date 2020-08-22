@@ -13,10 +13,8 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Store_ItemEditor), "UpdateStoreItemList")]
-    [UsedImplicitly]
-    public class StoreItemEditorPatch
+    public static class StoreItemEditorPatch
     {
-        [HarmonyPrefix]
         [UsedImplicitly]
         public static bool Prefix()
         {

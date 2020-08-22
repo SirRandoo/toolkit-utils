@@ -10,10 +10,8 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(ViewerUpdater), "ParseMessage")]
-    [UsedImplicitly]
-    public class ViewerUpdaterPatch
+    public static class ViewerUpdaterPatch
     {
-        [HarmonyPrefix]
         [UsedImplicitly]
         public static bool Prefix(ITwitchMessage twitchMessage)
         {
@@ -28,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             ToolkitSettings.ViewerColorCodes[twitchMessage.Username.ToLowerInvariant()] =
                 twitchMessage.ChatMessage.ColorHex;
 
-            if (component.HasUserBeenNamed(twitchMessage.Username) && TkSettings.HairColor)
+            if (TkSettings.HairColor && component.HasUserBeenNamed(twitchMessage.Username))
             {
                 if (ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
                 {

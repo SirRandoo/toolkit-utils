@@ -11,30 +11,34 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Settings_Store), "DoWindowContents")]
-    [UsedImplicitly]
     public static class StorePatch
     {
-        [HarmonyTranspiler]
+        private static readonly MethodInfo UtilsInjectorMethod = AccessTools.Method(
+            typeof(StorePatch),
+            nameof(DrawUtilsContents)
+        );
+
+        private static readonly MethodInfo InjectionSiteMarkerMethod =
+            AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
+
         [UsedImplicitly]
-        public static IEnumerable<CodeInstruction> DoWindowContents(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            MethodInfo method = AccessTools.Method(typeof(StorePatch), nameof(DrawUtilsContents));
-            MethodInfo methodMarker = AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
             var markerFound = false;
 
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Ldstr && instruction.operand as string == "Events Edit")
+                if (instruction.opcode == OpCodes.Ldstr && instruction.OperandIs("Events Edit"))
                 {
                     markerFound = true;
                 }
 
                 if (markerFound
                     && instruction.opcode == OpCodes.Callvirt
-                    && ReferenceEquals(instruction.operand, methodMarker))
+                    && ReferenceEquals(instruction.operand, InjectionSiteMarkerMethod))
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_1);
-                    yield return new CodeInstruction(OpCodes.Call, method);
+                    yield return new CodeInstruction(OpCodes.Call, UtilsInjectorMethod);
                 }
 
                 yield return instruction;

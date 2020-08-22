@@ -9,10 +9,8 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Store_IncidentEditor), "UpdatePriceSheet")]
-    [UsedImplicitly]
     public static class StoreIncidentEditorPatch
     {
-        [HarmonyPrefix]
         [UsedImplicitly]
         public static void Prefix()
         {

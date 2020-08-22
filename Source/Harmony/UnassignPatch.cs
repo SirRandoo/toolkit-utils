@@ -9,7 +9,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [UsedImplicitly]
     [HarmonyPatch(typeof(Window_Viewers), "DoWindowContents")]
     public static class UnassignPatch
     {
@@ -31,7 +30,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         private static readonly FieldInfo ViewerComponentField = AccessTools.Field(typeof(Window_Viewers), "component");
 
-        [HarmonyTranspiler]
         [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

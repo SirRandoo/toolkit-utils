@@ -9,15 +9,13 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Window_Viewers), "DoWindowContents")]
-    [UsedImplicitly]
     public static class ViewerWindowPatch
     {
-        [HarmonyPostfix]
         [UsedImplicitly]
         public static void Postfix(Rect inRect)
         {
             string text = "TKUtils.Buttons.Purge".Localize();
-            float width = Text.CalcSize(text).x * 1.5f;
+            float width = Text.CalcSize(text).x + 16f;
             var canvas = new Rect(inRect.width - width, 0f, width, 28f);
 
             if (Widgets.ButtonText(canvas, text))
