@@ -350,14 +350,26 @@
         <Content Update="..\Common\Textures\UI\Trash.png">
             <Link>Common\Textures\UI\Trash.png</Link>
         </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Edit.png">
+            <Link>Common\Textures\UI\Icons\Edit.png</Link>
+        </Content>
         <Content Include="..\Common\Textures\UI\Icons\Gear.png">
             <Link>Common\Textures\UI\Icons\Gear.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Hidden.png">
+            <Link>Common\Textures\UI\Icons\Hidden.png</Link>
         </Content>
         <Content Include="..\Common\Textures\UI\Icons\Refresh.png">
             <Link>Common\Textures\UI\Icons\Refresh.png</Link>
         </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Reset.png">
+            <Link>Common\Textures\UI\Icons\Reset.png</Link>
+        </Content>
         <Content Include="..\Common\Textures\UI\Icons\Trash.png">
             <Link>Common\Textures\UI\Icons\Trash.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Visible.png">
+            <Link>Common\Textures\UI\Icons\Visible.png</Link>
         </Content>
         <Content Include="..\LoadFolders.xml">
             <Link>LoadFolders.xml</Link>
