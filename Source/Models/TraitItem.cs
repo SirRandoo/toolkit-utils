@@ -65,7 +65,9 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             TraitDef traitDef = DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
 
-            return (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(Degree).label : traitDef?.label) ?? DefName;
+            return (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(Degree).label : traitDef?.label).StripTags()
+                  .ToToolkit()
+                   ?? DefName;
         }
     }
 }
