@@ -11,8 +11,10 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Models;
 using TwitchToolkit;
 using Verse;
+using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -282,8 +284,8 @@ namespace SirRandoo.ToolkitUtils
         public static void DumpAllData()
         {
             SaveItemData(Paths.ItemDataFilePath);
-            ShopExpansion.DumpModList();
-            ShopExpansion.DumpCommands();
+            SaveModList();
+            SaveCommands();
 
             if (TkSettings.DumpStyle.Equals("SingleFile"))
             {
@@ -293,6 +295,39 @@ namespace SirRandoo.ToolkitUtils
             {
                 SaveTraits(Paths.TraitFilePath);
                 SavePawnKinds(Paths.PawnKindFilePath);
+            }
+        }
+
+        public static void SaveCommands()
+        {
+            List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled)
+               .Select(CommandItem.FromToolkit)
+               .ToList();
+
+            container.AddRange(
+                DefDatabase<ToolkitChatCommand>.AllDefsListForReading.Where(c => c.enabled)
+                   .Select(CommandItem.FromToolkitCore)
+            );
+
+            if (TkSettings.Offload)
+            {
+                Task.Run(() => SaveJson(container, Paths.CommandListFilePath));
+            }
+            else
+            {
+                SaveJson(container, Paths.CommandListFilePath);
+            }
+        }
+
+        public static void SaveModList()
+        {
+            if (TkSettings.Offload)
+            {
+                Task.Run(() => SaveJson(Mods, Paths.ModListFilePath));
+            }
+            else
+            {
+                SaveJson(Mods, Paths.ModListFilePath);
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit.Windows;
 
 namespace SirRandoo.ToolkitUtils.Harmony
@@ -14,11 +13,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (TkSettings.Offload)
             {
-                Task.Run(ShopExpansion.DumpCommands);
+                Task.Run(Data.SaveCommands);
             }
             else
             {
-                ShopExpansion.DumpCommands();
+                Data.SaveCommands();
             }
         }
     }
