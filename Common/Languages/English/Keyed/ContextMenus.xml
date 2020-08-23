@@ -39,6 +39,10 @@
     
     
     <!-- Item Store Menu -->
+    <TKUtils.StoreMenu.Filters>Filters</TKUtils.StoreMenu.Filters>
+    <TKUtils.StoreMenu.Sorting>Sorting</TKUtils.StoreMenu.Sorting>
+    <TKUtils.StoreMenu.State>State</TKUtils.StoreMenu.State>
+    
     <TKUtils.StoreMenu.Mod>Filter by mod "{0}"</TKUtils.StoreMenu.Mod>
     <TKUtils.StoreMenu.Category>Filter by "{0}" category</TKUtils.StoreMenu.Category>
     <TKUtils.StoreMenu.DisableCategory>Disable all in "{0}" category</TKUtils.StoreMenu.DisableCategory>

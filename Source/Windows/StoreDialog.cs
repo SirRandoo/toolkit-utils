@@ -431,10 +431,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 optionCache = new List<FloatMenuOption>
                 {
                     new FloatMenuOption(ctxInfo, () => Find.WindowStack.Add(new Dialog_InfoCard(item.Thing))),
-                    new FloatMenuOption(
-                        "TKUtils.StoreMenu.Toggle".Localize(item.Name),
-                        () => item.IsEnabled = !item.IsEnabled
-                    ),
+                    new FloatMenuOption("TKUtils.StoreMenu.Filters".Localize().Tagged("i").Tagged("b"), () => { }),
                     new FloatMenuOption(
                         "TKUtils.StoreMenu.Mod".Localize(item.Mod),
                         () =>
@@ -443,6 +440,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                             Notify__SearchRequested();
                         }
                     ),
+                    new FloatMenuOption("TKUtils.StoreMenu.State".Localize().Tagged("i").Tagged("b"), () => { }),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.Toggle".Localize(item.Name),
+                        () => item.IsEnabled = !item.IsEnabled
+                    ),
+                    new FloatMenuOption("TKUtils.StoreMenu.Sorting".Localize().Tagged("i").Tagged("b"), () => { }),
                     new FloatMenuOption(
                         ctxAscending,
                         () =>
@@ -460,6 +463,21 @@ namespace SirRandoo.ToolkitUtils.Windows
                         }
                     )
                 };
+
+                if (item.Thing.techLevel != TechLevel.Undefined)
+                {
+                    optionCache.Insert(
+                        1,
+                        new FloatMenuOption(
+                            "TKUtils.StoreMenu.Technology".Localize(item.Thing.techLevel.ToString()),
+                            () =>
+                            {
+                                InjectTechLevelFilter(item.Thing.techLevel);
+                                Notify__SearchRequested();
+                            }
+                        )
+                    );
+                }
 
                 infoCtxCache[item] = optionCache;
             }
@@ -478,10 +496,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 optionCache = new List<FloatMenuOption>
                 {
+                    new FloatMenuOption("TKUtils.StoreMenu.State".Localize().Tagged("i").Tagged("b"), () => { }),
                     new FloatMenuOption(
                         "TKUtils.StoreMenu.Toggle".Localize(item.Name),
                         () => item.IsEnabled = !item.IsEnabled
                     ),
+                    new FloatMenuOption("TKUtils.StoreMenu.Filters".Localize().Tagged("i").Tagged("b"), () => { }),
                     new FloatMenuOption(
                         "TKUtils.StoreMenu.Mod".Localize(item.Mod),
                         () =>
@@ -490,6 +510,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             Notify__SearchRequested();
                         }
                     ),
+                    new FloatMenuOption("TKUtils.StoreMenu.Sorting".Localize().Tagged("i").Tagged("b"), () => { }),
                     new FloatMenuOption(
                         ctxAscending,
                         () =>
@@ -508,6 +529,21 @@ namespace SirRandoo.ToolkitUtils.Windows
                     )
                 };
 
+                if (item.Thing.techLevel != TechLevel.Undefined)
+                {
+                    optionCache.Insert(
+                        4,
+                        new FloatMenuOption(
+                            "TKUtils.StoreMenu.Technology".Localize(item.Thing.techLevel.ToString()),
+                            () =>
+                            {
+                                InjectTechLevelFilter(item.Thing.techLevel);
+                                Notify__SearchRequested();
+                            }
+                        )
+                    );
+                }
+
                 priceCtxCache[item] = optionCache;
             }
 
@@ -525,6 +561,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 optionCache = new List<FloatMenuOption>
                 {
+                    new FloatMenuOption("TKUtils.StoreMenu.Filters".Localize().Tagged("i").Tagged("b"), () => { }),
                     new FloatMenuOption(
                         "TKUtils.StoreMenu.Category".Localize(item.Category),
                         () =>
@@ -541,6 +578,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             Notify__SearchRequested();
                         }
                     ),
+                    new FloatMenuOption("TKUtils.StoreMenu.State".Localize().Tagged("i").Tagged("b"), () => { }),
                     new FloatMenuOption(
                         "TKUtils.StoreMenu.Toggle".Localize(item.Name),
                         () => item.IsEnabled = !item.IsEnabled
@@ -567,6 +605,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                             }
                         }
                     ),
+                    new FloatMenuOption("TKUtils.StoreMenu.Sorting".Localize().Tagged("i").Tagged("b"), () => { }),
                     new FloatMenuOption(
                         ctxAscending,
                         () =>
@@ -588,7 +627,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 if (item.Thing.techLevel != TechLevel.Undefined)
                 {
                     optionCache.Insert(
-                        3,
+                        2,
                         new FloatMenuOption(
                             "TKUtils.StoreMenu.Technology".Localize(item.Thing.techLevel.ToString()),
                             () =>
