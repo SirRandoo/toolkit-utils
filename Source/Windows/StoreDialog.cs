@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit;
@@ -16,6 +17,8 @@ namespace SirRandoo.ToolkitUtils.Windows
     public enum SortMode { Ascending, Descending }
 
     public enum Sorter { Name, Cost, Category, AddCost, RemoveCost }
+
+    public enum FilterTypes { Mod, Category, TechLevel }
 
 
     [StaticConstructorOnStartup]
@@ -32,6 +35,8 @@ namespace SirRandoo.ToolkitUtils.Windows
         private readonly Dictionary<ThingItem, List<FloatMenuOption>> catCtxCache =
             new Dictionary<ThingItem, List<FloatMenuOption>>();
 
+        private readonly List<StoreItemFilter> filters = new List<StoreItemFilter>();
+
         private readonly Dictionary<ThingItem, List<FloatMenuOption>> infoCtxCache =
             new Dictionary<ThingItem, List<FloatMenuOption>>();
 
@@ -39,7 +44,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             new Dictionary<ThingItem, List<FloatMenuOption>>();
 
         private readonly KarmaType thingKarmaType;
-        private string categoryFilter = "";
         private string categoryHeader;
         private bool closeCalled;
         private bool ctrlKeyDown;
@@ -56,7 +60,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string expandedName;
         private string karmaTypeText;
         private string lastQuery = "";
-        private string modFilter = "";
         private string nameHeader;
         private string nameText;
         private string noCustomKarmaText;
@@ -65,7 +68,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private Vector2 resetAllTextSize;
         private string resetText;
-
         private List<ThingItem> results;
         private Vector2 scrollPos = Vector2.zero;
         private string searchText;
@@ -437,7 +439,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         "TKUtils.StoreMenu.Mod".Localize(item.Mod),
                         () =>
                         {
-                            modFilter = item.Mod;
+                            InjectModFilter(item.Mod);
                             Notify__SearchRequested();
                         }
                     ),
@@ -484,7 +486,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         "TKUtils.StoreMenu.Mod".Localize(item.Mod),
                         () =>
                         {
-                            modFilter = item.Mod;
+                            InjectModFilter(item.Mod);
                             Notify__SearchRequested();
                         }
                     ),
@@ -527,7 +529,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         "TKUtils.StoreMenu.Category".Localize(item.Category),
                         () =>
                         {
-                            categoryFilter = item.Category;
+                            InjectCategoryFilter(item.Category);
                             Notify__SearchRequested();
                         }
                     ),
@@ -535,7 +537,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         "TKUtils.StoreMenu.Mod".Localize(item.Mod),
                         () =>
                         {
-                            modFilter = item.Mod;
+                            InjectModFilter(item.Mod);
                             Notify__SearchRequested();
                         }
                     ),
@@ -583,6 +585,21 @@ namespace SirRandoo.ToolkitUtils.Windows
                     )
                 };
 
+                if (item.Thing.techLevel != TechLevel.Undefined)
+                {
+                    optionCache.Insert(
+                        3,
+                        new FloatMenuOption(
+                            "TKUtils.StoreMenu.Technology".Localize(item.Thing.techLevel.ToString()),
+                            () =>
+                            {
+                                InjectTechLevelFilter(item.Thing.techLevel);
+                                Notify__SearchRequested();
+                            }
+                        )
+                    );
+                }
+
                 catCtxCache[item] = optionCache;
             }
 
@@ -606,7 +623,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (currentQuery == "")
             {
-                if (categoryFilter.NullOrEmpty() && modFilter.NullOrEmpty())
+                if (filters.NullOrEmpty())
                 {
                     results = null;
                 }
@@ -661,55 +678,31 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
 
             var filterOffset = 0f;
-
-            if (!modFilter.NullOrEmpty())
+            StoreItemFilter toCull = null;
+            foreach (StoreItemFilter filter in filters)
             {
-                float modFilterWidth = Text.CalcSize(modFilter).x + 2f;
-                var modFilterRect = new Rect(
+                var filterRect = new Rect(
                     filterSection.x + filterOffset,
                     filterSection.y,
-                    modFilterWidth + 22f,
+                    filter.LabelWidth + 22f,
                     filterSection.height
                 );
 
-                Widgets.DrawHighlight(modFilterRect);
-                Widgets.Label(modFilterRect, " " + modFilter);
+                Widgets.DrawHighlight(filterRect);
+                Widgets.Label(filterRect, filter.Label);
 
-                if (SettingsHelper.DrawClearButton(modFilterRect))
+                if (SettingsHelper.DrawClearButton(filterRect))
                 {
-                    modFilter = null;
-
-                    if (!currentQuery.NullOrEmpty() || !categoryFilter.NullOrEmpty())
-                    {
-                        Notify__SearchRequested();
-                    }
+                    toCull = filter;
                 }
 
-                filterOffset += modFilterRect.width + 5f;
+                filterOffset += filterRect.width + 2f;
             }
 
-            if (!categoryFilter.NullOrEmpty())
+            if (toCull != null)
             {
-                float categoryFilterWidth = Text.CalcSize(categoryFilter).x + 16f;
-                var categoryFilterRect = new Rect(
-                    filterSection.x + filterOffset,
-                    filterSection.y,
-                    categoryFilterWidth + 20f,
-                    filterSection.height
-                );
-
-                Widgets.DrawHighlight(categoryFilterRect);
-                Widgets.Label(categoryFilterRect, " " + categoryFilter);
-
-                if (SettingsHelper.DrawClearButton(categoryFilterRect))
-                {
-                    categoryFilter = null;
-
-                    if (!currentQuery.NullOrEmpty() || !modFilter.NullOrEmpty())
-                    {
-                        Notify__SearchRequested();
-                    }
-                }
+                filters.Remove(toCull);
+                Notify__SearchRequested();
             }
 
             GUI.EndGroup();
@@ -773,19 +766,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private List<ThingItem> GetSearchResults()
         {
-            List<ThingItem> workingList = Data.Items;
-
-            if (!modFilter.NullOrEmpty())
-            {
-                workingList = workingList.Where(i => i.Mod.EqualsIgnoreCase(modFilter)).ToList();
-            }
-
-            if (!categoryFilter.NullOrEmpty())
-            {
-                workingList = workingList.Where(i => i.Category.EqualsIgnoreCase(categoryFilter)).ToList();
-            }
-
             string serialized = currentQuery?.ToToolkit();
+            List<ThingItem> workingList = filters.Aggregate(Data.Items, (current, filter) => filter.Filter(current));
 
             if (serialized.NullOrEmpty())
             {
@@ -990,5 +972,111 @@ namespace SirRandoo.ToolkitUtils.Windows
             builder.Insert(0, "The following containers failed to generate:\n");
             TkLogger.Warn(builder.ToString());
         }
+
+        private void InjectCategoryFilter(string category)
+        {
+            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Category);
+
+            if (filter == null)
+            {
+                filters.Add(
+                    new StoreItemFilter
+                    {
+                        FilterType = FilterTypes.Category,
+                        Filter = t => FilterByCategory(t, category),
+                        Label = category
+                    }
+                );
+                return;
+            }
+
+            filter.Label = category;
+            filter.Filter = t => FilterByCategory(t, category);
+        }
+
+        private void InjectModFilter(string mod)
+        {
+            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Mod);
+
+            if (filter == null)
+            {
+                filters.Add(
+                    new StoreItemFilter {FilterType = FilterTypes.Mod, Filter = t => FilterByMod(t, mod), Label = mod}
+                );
+                return;
+            }
+
+            filter.Label = mod;
+            filter.Filter = t => FilterByMod(t, mod);
+        }
+
+        private void InjectTechLevelFilter(TechLevel techLevel)
+        {
+            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.TechLevel);
+
+            if (filter == null)
+            {
+                filters.Add(
+                    new StoreItemFilter
+                    {
+                        FilterType = FilterTypes.TechLevel,
+                        Filter = t => FilterByTechLevel(t, techLevel),
+                        Label = techLevel.ToString()
+                    }
+                );
+                return;
+            }
+
+            filter.Label = techLevel.ToString();
+            filter.Filter = t => FilterByTechLevel(t, techLevel);
+        }
+
+        private static List<ThingItem> FilterByCategory(IEnumerable<ThingItem> subject, string category)
+        {
+            return subject.Where(t => t.Category.Equals(category)).ToList();
+        }
+
+        private static List<ThingItem> FilterByMod(IEnumerable<ThingItem> subject, string mod)
+        {
+            return subject.Where(t => t.Mod.Equals(mod)).ToList();
+        }
+
+        private static List<ThingItem> FilterByTechLevel(IEnumerable<ThingItem> subject, TechLevel techLevel)
+        {
+            return subject.Where(t => t.Thing.techLevel == techLevel).ToList();
+        }
+    }
+
+    internal class StoreItemFilter
+    {
+        private string label;
+        private float labelWidth = -1;
+
+        public FilterTypes FilterType { get; set; }
+
+        public string Label
+        {
+            get => label;
+            set
+            {
+                label = $" {value}";
+                labelWidth = Text.CalcSize(label).x;
+            }
+        }
+
+        public float LabelWidth
+        {
+            get
+            {
+                if (labelWidth <= -1)
+                {
+                    labelWidth = Text.CalcSize(Label).x;
+                }
+
+                return labelWidth;
+            }
+        }
+
+        public Func<List<ThingItem>, List<ThingItem>> Filter { get; set; }
     }
 }

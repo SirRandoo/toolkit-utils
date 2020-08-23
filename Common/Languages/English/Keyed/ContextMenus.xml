@@ -49,4 +49,5 @@
     <TKUtils.StoreMenu.Enable>Enable "{0}"</TKUtils.StoreMenu.Enable>
     <TKUtils.StoreMenu.Disable>Disable "{0}"</TKUtils.StoreMenu.Disable>
     <TKUtils.StoreMenu.Toggle>Toggle "{0}"</TKUtils.StoreMenu.Toggle>
+    <TKUtils.StoreMenu.Technology>Filter by tech level "{0}"</TKUtils.StoreMenu.Technology>
 </LanguageData>
