@@ -193,43 +193,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (expanded != null)
             {
-                float expandedWidth = contentArea.width * 0.45f;
-                Vector2 center = contentArea.center;
-
-                Rect expandedDialog = new Rect(
-                    center.x - expandedWidth / 2f,
-                    center.y - Text.LineHeight * LineScale * 4f,
-                    expandedWidth,
-                    Text.LineHeight * LineScale * 8f
-                ).ExpandedBy(StandardMargin * 2f);
-
-                Widgets.DrawBoxSolid(expandedDialog, new Color(0.13f, 0.16f, 0.17f));
-                Widgets.Label(
-                    new Rect(
-                        expandedDialog.x + 8f,
-                        expandedDialog.y + 5f,
-                        expandedDialog.width - 30f,
-                        Text.LineHeight * LineScale
-                    ),
-                    "TKUtils.Headers.DataDialog".Localize(expanded.Name)
-                );
-
-                GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
-                DrawKindSettings(
-                    new Rect(
-                        0f,
-                        0f,
-                        expandedDialog.width - StandardMargin * 4f,
-                        expandedDialog.height - StandardMargin * 4f
-                    )
-                );
-                GUI.EndGroup();
-
-                if (Widgets.CloseButtonFor(expandedDialog))
-                {
-                    CloseExpandedMenu();
-                }
-
+                DoExpandedDialog(contentArea);
                 GUI.EndGroup();
                 return;
             }
@@ -349,6 +313,50 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.EndGroup();
         }
 
+        private void DoExpandedDialog(Rect contentArea)
+        {
+            float expandedWidth = contentArea.width * 0.45f;
+            Vector2 center = contentArea.center;
+
+            Rect expandedDialog = new Rect(
+                center.x - expandedWidth / 2f,
+                center.y - Text.LineHeight * LineScale * 4f,
+                expandedWidth,
+                Text.LineHeight * LineScale * 8f
+            ).ExpandedBy(StandardMargin * 2f);
+
+            Widgets.DrawBoxSolid(expandedDialog, new Color(0.13f, 0.16f, 0.17f));
+            Widgets.Label(
+                new Rect(
+                    expandedDialog.x + 8f,
+                    expandedDialog.y + 5f,
+                    expandedDialog.width - 30f,
+                    Text.LineHeight * LineScale
+                ),
+                "TKUtils.Headers.DataDialog".Localize(expanded.Name)
+            );
+
+            Widgets.DrawHighlight(
+                new Rect(expandedDialog.position, new Vector2(expandedDialog.width, Text.LineHeight * LineScale))
+            );
+
+            GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
+            DrawKindSettings(
+                new Rect(
+                    0f,
+                    0f,
+                    expandedDialog.width - StandardMargin * 4f,
+                    expandedDialog.height - StandardMargin * 4f
+                )
+            );
+            GUI.EndGroup();
+
+            if (Widgets.CloseButtonFor(expandedDialog))
+            {
+                CloseExpandedMenu();
+            }
+        }
+
         private void DrawKindSettings(Rect inRect)
         {
             expanded.Data ??= new PawnKindData {KarmaType = pawnKarmaType};
@@ -361,32 +369,18 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.Begin(inRect);
 
             (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.45f);
-            var trueNameField = new Rect(nameField.x, nameField.y, nameField.width - 26f, nameField.height);
-            var resetNameRect = new Rect(
-                trueNameField.x + trueNameField.width + 5f,
-                trueNameField.y,
-                21f,
-                trueNameField.height
-            );
+            expandedName = Widgets.TextField(nameField, expandedName).ToToolkit();
 
-            expandedName = Widgets.TextField(trueNameField, expandedName).ToToolkit();
-            GUI.DrawTexture(resetNameRect, Textures.Reset);
-            Widgets.DrawHighlightIfMouseover(resetNameRect);
-
-            if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(trueNameField))
+            if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(nameField))
             {
                 expandedName = "";
-                expanded.Name = expanded.DefName;
-            }
-
-            if (Widgets.ButtonInvisible(resetNameRect))
-            {
                 expanded.Name = expanded.GetDefaultName();
                 expanded.Data!.CustomName = false;
             }
 
             SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
 
+            listing.Gap(4f);
             (Rect karmaTypeLabel, Rect karmaTypeField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.45f);
             SettingsHelper.DrawLabelAnchored(karmaTypeLabel, karmaTypeText, TextAnchor.MiddleLeft);
             if (Widgets.ButtonText(karmaTypeField, removeKarma))

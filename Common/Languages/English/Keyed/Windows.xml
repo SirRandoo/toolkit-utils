@@ -11,6 +11,7 @@
     <TKUtils.Inputs.Price>Price</TKUtils.Inputs.Price>
     <TKUtils.Inputs.Username>Username</TKUtils.Inputs.Username>
     <TKUtils.Inputs.Name>Name</TKUtils.Inputs.Name>
+    <TKUtils.Inputs.CustomName>Custom name</TKUtils.Inputs.CustomName>
     
     
     <!-- Purge Dialog -->
@@ -36,6 +37,7 @@
     <!-- Item Store -->
     <TKUtils.ItemStore.Title>Store Inventory</TKUtils.ItemStore.Title>
     <TKUtils.ItemStore.Category>Category</TKUtils.ItemStore.Category>
+    <TKUtils.ItemStore.Stuff>Can be stuff?</TKUtils.ItemStore.Stuff>
     
     
     <!-- Trait Store -->

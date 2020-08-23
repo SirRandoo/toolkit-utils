@@ -40,10 +40,8 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Vector2 scrollPos = Vector2.zero;
         private string searchText;
         private bool shift;
-
         private Sorter sorter = Sorter.Name;
         private SortMode sortMode = SortMode.Ascending;
-
         private string titleText;
 
         public TraitConfigDialog()
@@ -171,37 +169,22 @@ namespace SirRandoo.ToolkitUtils.Windows
                 bypassLimitText,
                 ref expanded.Data.CanBypassLimit
             );
-            listing.Gap(Text.LineHeight * LineScale);
+            listing.Gap(Text.LineHeight * LineScale * 0.5f);
 
             (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
-            var trueNameField = new Rect(nameField.x, nameField.y, nameField.width - 26f, nameField.height);
-            var resetNameRect = new Rect(
-                trueNameField.x + trueNameField.width + 5f,
-                trueNameField.y,
-                21f,
-                trueNameField.height
-            );
-
-            expandedName = Widgets.TextField(trueNameField, expandedName);
-            GUI.DrawTexture(resetNameRect, Textures.Reset);
-            Widgets.DrawHighlightIfMouseover(resetNameRect);
+            expandedName = Widgets.TextField(nameField, expandedName).ToToolkit();
 
             if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(nameField))
             {
                 expandedName = "";
-                expanded.Name = expanded.DefName;
-            }
-
-            if (Widgets.ButtonInvisible(resetNameRect))
-            {
                 expanded.Name = expanded.GetDefaultName();
                 expanded.Data!.CustomName = false;
             }
 
             SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
 
+            listing.GapLine(Text.LineHeight * LineScale);
             (Rect addKarmaLabel, Rect addKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
-
             SettingsHelper.DrawLabelAnchored(addKarmaLabel, addKarmaTypeText, TextAnchor.MiddleLeft);
             if (Widgets.ButtonText(addKarmaField, addKarma))
             {
@@ -218,6 +201,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
             }
 
+            listing.Gap(1f);
             (Rect removeKarmaLabel, Rect removeKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
             SettingsHelper.DrawLabelAnchored(removeKarmaLabel, removeKarmaTypeText, TextAnchor.MiddleLeft);
             if (Widgets.ButtonText(removeKarmaField, removeKarma))
@@ -249,8 +233,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 expanded.Name = expanded.GetDefaultName();
                 expanded.Data!.CustomName = false;
-                expanded.Data!.KarmaTypeForAdding = null;
-                expanded.Data!.KarmaTypeForRemoving = null;
+                expanded.Data.KarmaTypeForAdding = null;
+                expanded.Data.KarmaTypeForRemoving = null;
             }
 
             listing.End();
@@ -274,43 +258,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (expanded != null)
             {
-                float expandedWidth = contentArea.width * 0.35f;
-                Vector2 center = contentArea.center;
-
-                Rect expandedDialog = new Rect(
-                    center.x - expandedWidth / 2f,
-                    center.y - Text.LineHeight * LineScale * 4f,
-                    expandedWidth,
-                    Text.LineHeight * LineScale * 8f
-                ).ExpandedBy(StandardMargin * 2f);
-
-                Widgets.DrawBoxSolid(expandedDialog, new Color(0.13f, 0.16f, 0.17f));
-                Widgets.Label(
-                    new Rect(
-                        expandedDialog.x + 8f,
-                        expandedDialog.y + 5f,
-                        expandedDialog.width - 30f,
-                        Text.LineHeight * LineScale
-                    ),
-                    "TKUtils.Headers.DataDialog".Localize(expanded.Name)
-                );
-
-                GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
-                DrawTraitSettings(
-                    new Rect(
-                        0f,
-                        0f,
-                        expandedDialog.width - StandardMargin * 4f,
-                        expandedDialog.height - StandardMargin * 4f
-                    )
-                );
-                GUI.EndGroup();
-
-                if (Widgets.CloseButtonFor(expandedDialog))
-                {
-                    CloseExpandedMenu();
-                }
-
+                DoExpandedDialog(contentArea);
                 GUI.EndGroup();
                 return;
             }
@@ -474,6 +422,50 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             Text.Font = font;
             Text.WordWrap = wrapped;
+        }
+
+        private void DoExpandedDialog(Rect inRect)
+        {
+            float expandedWidth = inRect.width * 0.333f;
+            Vector2 center = inRect.center;
+
+            Rect expandedDialog = new Rect(
+                center.x - expandedWidth / 2f,
+                center.y - Text.LineHeight * LineScale * 4f,
+                expandedWidth,
+                Text.LineHeight * LineScale * 8f
+            ).ExpandedBy(StandardMargin * 2f);
+
+            Widgets.DrawBoxSolid(expandedDialog, new Color(0.13f, 0.16f, 0.17f));
+            Widgets.Label(
+                new Rect(
+                    expandedDialog.x + 8f,
+                    expandedDialog.y + 5f,
+                    expandedDialog.width - 30f,
+                    Text.LineHeight * LineScale
+                ),
+                "TKUtils.Headers.DataDialog".Localize(expanded.Name)
+            );
+
+            Widgets.DrawHighlight(
+                new Rect(expandedDialog.position, new Vector2(expandedDialog.width, Text.LineHeight * LineScale))
+            );
+
+            GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
+            DrawTraitSettings(
+                new Rect(
+                    0f,
+                    0f,
+                    expandedDialog.width - StandardMargin * 4f - 1f,
+                    expandedDialog.height - StandardMargin * 4f
+                )
+            );
+            GUI.EndGroup();
+
+            if (Widgets.CloseButtonFor(expandedDialog))
+            {
+                CloseExpandedMenu();
+            }
         }
 
         private void SortCurrentWorkingList()

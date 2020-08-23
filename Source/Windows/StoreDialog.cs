@@ -52,6 +52,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string ctxInfo;
 
         private string currentQuery = "";
+        private string customNameText;
         private string disableAllText;
         private Vector2 disableAllTextSize;
         private string enableAllText;
@@ -61,7 +62,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string karmaTypeText;
         private string lastQuery = "";
         private string nameHeader;
-        private string nameText;
         private string noCustomKarmaText;
         private string priceHeader;
         private string resetAllText;
@@ -71,14 +71,10 @@ namespace SirRandoo.ToolkitUtils.Windows
         private List<ThingItem> results;
         private Vector2 scrollPos = Vector2.zero;
         private string searchText;
-
-        [SuppressMessage("ReSharper", "IdentifierTypo")]
         private bool shftKeyDown;
-
         private Sorter sorter = Sorter.Name;
-
         private SortMode sortMode = SortMode.Ascending;
-
+        private string stuffText;
         private string title;
 
         static StoreDialog()
@@ -136,33 +132,19 @@ namespace SirRandoo.ToolkitUtils.Windows
             var listing = new Listing_Standard();
             listing.Begin(inRect);
 
-            (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.45f);
-            var trueNameField = new Rect(nameField.x, nameField.y, nameField.width - 26f, nameField.height);
-            var resetNameRect = new Rect(
-                trueNameField.x + trueNameField.width + 5f,
-                trueNameField.y,
-                21f,
-                trueNameField.height
-            );
+            (Rect nameLabel, Rect nameField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
+            expandedName = Widgets.TextField(nameField, expandedName).ToToolkit();
 
-            expandedName = Widgets.TextField(trueNameField, expandedName).ToToolkit();
-            GUI.DrawTexture(resetNameRect, Textures.Reset);
-            Widgets.DrawHighlightIfMouseover(resetNameRect);
-
-            if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(trueNameField))
+            if (expandedName.Length > 0 && SettingsHelper.DrawClearButton(nameField))
             {
                 expandedName = "";
-                expanded.Data!.CustomName = expanded.DefName;
+                expanded.Data.CustomName = null;
             }
 
-            if (Widgets.ButtonInvisible(resetNameRect))
-            {
-                expanded.Data!.CustomName = null;
-            }
+            SettingsHelper.DrawLabelAnchored(nameLabel, customNameText, TextAnchor.MiddleLeft);
 
-            SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
-
-            (Rect karmaTypeLabel, Rect karmaTypeField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.45f);
+            listing.Gap(4f);
+            (Rect karmaTypeLabel, Rect karmaTypeField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
             SettingsHelper.DrawLabelAnchored(karmaTypeLabel, karmaTypeText, TextAnchor.MiddleLeft);
             if (Widgets.ButtonText(karmaTypeField, removeKarma))
             {
@@ -179,6 +161,33 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
             }
 
+            if (expanded.Thing.IsStuff)
+            {
+                listing.Gap(2f);
+                listing.GapLine();
+                Rect stuffLineRect = listing.GetRect(Text.LineHeight * LineScale);
+                var stuffLabelRect = new Rect(
+                    stuffLineRect.x,
+                    stuffLineRect.y,
+                    stuffLineRect.width - stuffLineRect.height - 5f,
+                    stuffLineRect.height
+                );
+                var stuffCheckRect = new Rect(
+                    stuffLabelRect.x + stuffLabelRect.width + 5f,
+                    stuffLabelRect.y,
+                    stuffLineRect.height,
+                    stuffLineRect.height
+                );
+
+                SettingsHelper.DrawLabelAnchored(stuffLineRect, stuffText, TextAnchor.MiddleLeft);
+                Widgets.Checkbox(
+                    stuffCheckRect.position,
+                    ref expanded.Data.IsStuffAllowed,
+                    stuffCheckRect.height,
+                    paintable: true
+                );
+            }
+
             if (Widgets.ButtonText(
                 new Rect(
                     10f,
@@ -189,8 +198,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                 resetText
             ))
             {
-                expanded.Data!.CustomName = expanded.GetDefaultName();
-                expanded.Data!.KarmaType = null;
+                expanded.Data.CustomName = expanded.GetDefaultName();
+                expanded.Data.KarmaType = null;
             }
 
             listing.End();
@@ -198,7 +207,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DoExpandedDialog(Rect inRect)
         {
-            float expandedWidth = inRect.width * 0.45f;
+            float expandedWidth = inRect.width * 0.284f;
             Vector2 center = inRect.center;
 
             Rect expandedDialog = new Rect(
@@ -217,6 +226,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Text.LineHeight * LineScale
                 ),
                 "TKUtils.Headers.DataDialog".Localize(expanded.Name)
+            );
+
+            Widgets.DrawHighlight(
+                new Rect(expandedDialog.position, new Vector2(expandedDialog.width, Text.LineHeight * LineScale))
             );
 
             GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
@@ -686,7 +699,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            buttonRect = buttonRect.ShiftLeft();
+            buttonRect = buttonRect.ShiftLeft(1f);
 
             if (Widgets.ButtonText(buttonRect, enableAllText))
             {
@@ -697,7 +710,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            buttonRect = buttonRect.ShiftLeft();
+            buttonRect = buttonRect.ShiftLeft(1f);
 
             if (Widgets.ButtonText(buttonRect, resetAllText))
             {
@@ -952,8 +965,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             ctxInfo = "TKUtils.StoreMenu.Info".Localize();
             noCustomKarmaText = "TKUtils.TraitStore.NoCustomKarmaType".Localize();
             resetText = "TKUtils.Buttons.ResetAll".Localize();
-            nameText = "TKUtils.Inputs.Name".Localize();
+            customNameText = "TKUtils.Inputs.CustomName".Localize();
             karmaTypeText = "TKUtils.IncidentEditor.Karma".Localize();
+            stuffText = "TKUtils.ItemStore.Stuff".Localize();
 
             resetAllTextSize = Text.CalcSize(resetAllText);
             enableAllTextSize = Text.CalcSize(enableAllText);
