@@ -101,22 +101,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
             try
             {
                 purchaseRequest.Spawn();
+                purchaseRequest.CompletePurchase(storeIncident);
             }
             catch (Exception e)
             {
                 TkLogger.Warn($"Buy item failed to execute with error message: {e.Message}");
-                return;
             }
-
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(purchaseRequest.Price);
-            }
-
-            Viewer.CalculateNewKarma(
-                purchaseRequest.ItemData.Data?.KarmaType ?? storeIncident.karmaType,
-                purchaseRequest.Price
-            );
         }
     }
 
@@ -164,17 +154,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             ) {def = IncidentDef.Named("FarmAnimalsWanderIn")};
 
             worker.TryExecute(StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, Helper.AnyPlayerMap));
-
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(
-                    Purchaser.username,
-                    "TKUtils.Item.Complete".Localize(
-                        Quantity.ToString("N0"),
-                        Quantity > 1 ? animal.Pluralize() : animal
-                    )
-                );
-            }
         }
 
         private void SpawnItem()
@@ -224,17 +203,57 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 ItemHelper.GetLetterFromValue(Price),
                 thing
             );
+        }
 
-            if (ToolkitSettings.PurchaseConfirmations)
+        public void CompletePurchase(StoreIncident incident)
+        {
+            if (!ToolkitSettings.UnlimitedCoins)
             {
-                MessageHelper.ReplyToUser(
-                    Purchaser.username,
-                    "TKUtils.Item.Complete".Localize(
-                        Quantity.ToString("N0"),
-                        Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name
-                    )
-                );
+                Purchaser.TakeViewerCoins(Price);
             }
+
+            Purchaser.CalculateNewKarma(ItemData.Data?.KarmaType ?? incident.karmaType, Price);
+
+
+            if (!ToolkitSettings.PurchaseConfirmations)
+            {
+                return;
+            }
+
+            if (ThingDef.race != null)
+            {
+                Notify_AnimalPurchaseComplete();
+            }
+            else
+            {
+                Notify_ItemPurchaseComplete();
+            }
+        }
+
+        private void Notify_AnimalPurchaseComplete()
+        {
+            MessageHelper.ReplyToUser(
+                Purchaser.username,
+                "TKUtils.Item.Complete".Localize(
+                    Quantity.ToString("N0"),
+                    Quantity > 1 ? ThingDef.label.Pluralize() : ThingDef.label,
+                    Price.ToString("N0"),
+                    Purchaser.GetViewerCoins().ToString("N0")
+                )
+            );
+        }
+
+        private void Notify_ItemPurchaseComplete()
+        {
+            MessageHelper.ReplyToUser(
+                Purchaser.username,
+                "TKUtils.Item.Complete".Localize(
+                    Quantity.ToString("N0"),
+                    Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                    Price.ToString("N0"),
+                    Purchaser.GetViewerCoins().ToString("N0")
+                )
+            );
         }
     }
 }
