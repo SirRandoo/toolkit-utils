@@ -12,6 +12,8 @@ namespace SirRandoo.ToolkitUtils
     {
         static RuntimeChecker()
         {
+            TkSettings.ValidateDynamicSettings();
+
             var wereChanges = false;
 
             // We're not going to update this to use EventExtension
