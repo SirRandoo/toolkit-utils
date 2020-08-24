@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
@@ -12,7 +11,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     public class PurgeViewersDialog : Window
     {
         private readonly List<FloatMenuOption> constraintOptions;
-        private readonly ObservableCollection<ConstraintBase> constraints;
+        private readonly List<ConstraintBase> constraints;
         private string addConstraintText;
         private Vector2 affectedScrollPos = Vector2.zero;
         private string affectedText;
@@ -38,13 +37,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             doCloseX = true;
             forcePause = true;
 
-            constraints = new ObservableCollection<ConstraintBase>();
-            constraints.CollectionChanged += (sender, args) =>
-            {
-                affectedViewers = GetAffectedViewers();
-                affectedViewersCount = affectedViewers?.Length ?? 0;
-            };
-
+            constraints = new List<ConstraintBase>();
             constraintOptions = new List<FloatMenuOption>
             {
                 new FloatMenuOption(
@@ -120,6 +113,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                 else
                 {
                     showingAffected = true;
+                    affectedViewers = GetAffectedViewers();
+                    affectedViewersCount = affectedViewers.Length;
                 }
             }
 
@@ -175,7 +170,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     lineRect.width - removeButtonWidth - 20f,
                     lineRect.height
                 );
-                var exemptRect = new Rect(
+                var removeRect = new Rect(
                     lineRect.width - removeButtonWidth,
                     lineRect.y,
                     removeButtonWidth,
@@ -183,8 +178,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
 
                 constraint.Draw(constraintRect);
-
-                if (Widgets.ButtonText(exemptRect, exemptText))
+                if (Widgets.ButtonText(removeRect, removeText))
                 {
                     toRemove = constraint;
                 }
@@ -239,13 +233,15 @@ namespace SirRandoo.ToolkitUtils.Windows
                     lineRect.height
                 );
 
-                Widgets.Label(labelRect, viewer.username);
+                SettingsHelper.DrawLabelAnchored(labelRect, viewer.username, TextAnchor.MiddleLeft);
                 if (!Widgets.ButtonText(exemptRect, exemptText))
                 {
                     continue;
                 }
 
                 constraints.Add(new NameConstraint {Username = viewer.username, NameStrategy = NameStrategies.Not});
+                affectedViewers = GetAffectedViewers();
+                affectedViewersCount = affectedViewers.Length;
             }
 
             listing.EndScrollView(ref viewRect);
