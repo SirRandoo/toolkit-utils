@@ -81,19 +81,31 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = Viewer
             };
 
-            if (purchaseRequest.Price >= ToolkitSettings.MinimumPurchasePrice)
+            if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
             {
-                return true;
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Item.MinimumViolation".Localize(
+                        purchaseRequest.Price.ToString("N0"),
+                        ToolkitSettings.MinimumPurchasePrice.ToString("N0")
+                    )
+                );
+                return false;
             }
 
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                "TKUtils.Item.MinimumViolation".Localize(
-                    purchaseRequest.Price.ToString("N0"),
-                    ToolkitSettings.MinimumPurchasePrice.ToString("N0")
-                )
-            );
-            return false;
+            if (purchaseRequest.Price > Viewer.GetViewerCoins())
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InsufficientBalance".Localize(
+                        purchaseRequest.Price.ToString("N0"),
+                        Viewer.GetViewerCoins().ToString("N0")
+                    )
+                );
+                return false;
+            }
+
+            return true;
         }
 
         public override void TryExecute()
