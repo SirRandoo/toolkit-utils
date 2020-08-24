@@ -59,7 +59,7 @@
         <eventCap>5</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuySurgery</incidentHelper>
         <karmaType>Neutral</karmaType>
-        <variables>1</variables>
+        <variables>2</variables>
     
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">
