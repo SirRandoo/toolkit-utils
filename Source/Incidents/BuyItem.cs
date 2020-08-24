@@ -218,7 +218,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 (Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name).Truncate(15, true).CapitalizeFirst(),
                 "TKUtils.ItemLetter.ItemDescription".Localize(
                     Quantity.ToString("N0"),
-                    (Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name),
+                    Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
                     Purchaser.username
                 ),
                 ItemHelper.GetLetterFromValue(Price),
@@ -229,7 +229,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     Purchaser.username,
-                    "TKUtils.Item.Complete".Localize(Quantity, Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name)
+                    "TKUtils.Item.Complete".Localize(
+                        Quantity.ToString("N0"),
+                        Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name
+                    )
                 );
             }
         }
