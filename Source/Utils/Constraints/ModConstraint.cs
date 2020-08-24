@@ -13,12 +13,12 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public ModConstraint()
         {
-            labelText = "TKUtils.Windows.Purge.Constraints.Mod".Localize();
+            labelText = "TKUtils.PurgeMenu.Mod".Localize().CapitalizeFirst();
         }
 
         public override void Draw(Rect canvas)
         {
-            Widgets.Label(canvas, labelText);
+            SettingsHelper.DrawLabelAnchored(canvas, labelText, TextAnchor.MiddleLeft);
         }
 
         public override bool ShouldPurge(Viewer viewer)

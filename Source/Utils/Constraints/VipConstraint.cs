@@ -13,12 +13,12 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public VipConstraint()
         {
-            labelText = "TKUtils.Windows.Purge.Constraints.Vip".Localize();
+            labelText = "TKUtils.PurgeMenu.Vip".Localize().CapitalizeFirst();
         }
 
         public override void Draw(Rect canvas)
         {
-            Widgets.Label(canvas, labelText);
+            SettingsHelper.DrawLabelAnchored(canvas, labelText, TextAnchor.MiddleLeft);
         }
 
         public override bool ShouldPurge(Viewer viewer)

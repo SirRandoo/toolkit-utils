@@ -24,13 +24,13 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public TimeConstraint()
         {
-            labelText = "TKUtils.Windows.Purge.Constraints.Time".Localize();
-            timeScaleButtonText = $"TKUtils.Windows.Purge.TimeScales.{timeScaleText}".Localize();
+            labelText = "TKUtils.PurgeMenu.Time".Localize().CapitalizeFirst();
+            timeScaleButtonText = $"TKUtils.PurgeMenu.{timeScaleText}".Localize();
 
             scaleOptions = Enum.GetNames(typeof(TimeScales))
                .Select(
                     s => new FloatMenuOption(
-                        $"TKUtils.Windows.Purge.TimeScales.{s}".Localize(),
+                        $"TKUtils.PurgeMenu.{s}".Localize(),
                         () => TimeScale = (TimeScales) Enum.Parse(typeof(TimeScales), s)
                     )
                 )
@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 if (timeScale != value)
                 {
                     timeScaleText = Enum.GetName(typeof(NameStrategies), value);
-                    timeScaleButtonText = $"TKUtils.Windows.Purge.TimeScales.{timeScaleText}".Localize();
+                    timeScaleButtonText = $"TKUtils.PurgeMenu.{timeScaleText}".Localize();
                 }
 
                 timeScale = value;
@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             inputRect.width -= buttonRect.width - 5f;
 
-            Widgets.Label(labelRect, labelText);
+            SettingsHelper.DrawLabelAnchored(labelRect, labelText, TextAnchor.MiddleLeft);
             DrawButton(buttonRect);
             Widgets.TextFieldNumeric(inputRect, ref value, ref buffer);
 

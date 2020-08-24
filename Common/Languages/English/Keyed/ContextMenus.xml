@@ -26,6 +26,11 @@
     <TKUtils.PurgeMenu.Sub>not subbed</TKUtils.PurgeMenu.Sub>
     <TKUtils.PurgeMenu.Mod>not modded</TKUtils.PurgeMenu.Mod>
     <TKUtils.PurgeMenu.Name>username</TKUtils.PurgeMenu.Name>
+    <TKUtils.PurgeMenu.Greater>&gt;</TKUtils.PurgeMenu.Greater>
+    <TKUtils.PurgeMenu.Equal>=</TKUtils.PurgeMenu.Equal>
+    <TKUtils.PurgeMenu.Less>&lt;</TKUtils.PurgeMenu.Less>
+    <TKUtils.PurgeMenu.GreaterEqual>&gt;=</TKUtils.PurgeMenu.GreaterEqual>
+    <TKUtils.PurgeMenu.LessEqual>&lt;=</TKUtils.PurgeMenu.LessEqual>
     
     <!-- Time Constraint Menu -->
     <TKUtils.PurgeMenu.Hours>hours</TKUtils.PurgeMenu.Hours>
@@ -35,7 +40,10 @@
     
     <!-- Username Constraint Menu -->
     <TKUtils.PurgeMenu.Is>is</TKUtils.PurgeMenu.Is>
-    <TKUtils.PurgeMenu.IsNot>is not</TKUtils.PurgeMenu.IsNot>
+    <TKUtils.PurgeMenu.Not>is not</TKUtils.PurgeMenu.Not>
+    <TKUtils.PurgeMenu.Contains>contains</TKUtils.PurgeMenu.Contains>
+    <TKUtils.PurgeMenu.EndsWith>endswith</TKUtils.PurgeMenu.EndsWith>
+    <TKUtils.PurgeMenu.StartsWith>startswith</TKUtils.PurgeMenu.StartsWith>
     
     
     <!-- Item Store Menu -->

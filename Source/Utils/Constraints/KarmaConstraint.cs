@@ -14,7 +14,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public KarmaConstraint()
         {
-            labelText = "TKUtils.Windows.Purge.Constraints.Karma".Localize();
+            labelText = "TKUtils.PurgeMenu.Karma".Localize().CapitalizeFirst();
         }
 
         public override void Draw(Rect canvas)
@@ -22,7 +22,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
             (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
 
-            Widgets.Label(labelRect, labelText);
+            SettingsHelper.DrawLabelAnchored(labelRect, labelText, TextAnchor.MiddleLeft);
             DrawButton(buttonRect);
             Widgets.TextFieldNumeric(inputRect, ref karma, ref buffer);
         }

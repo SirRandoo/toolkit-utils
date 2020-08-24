@@ -21,14 +21,13 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public NameConstraint()
         {
-            labelText = "TKUtils.Windows.Purge.Constraints.Name".Localize();
-            nameStrategyButtonText =
-                $"TKUtils.Windows.Purge.NameComparisonTypes.{nameof(NameStrategies.Is)}".Localize();
+            labelText = "TKUtils.PurgeMenu.Name".Localize().CapitalizeFirst();
+            nameStrategyButtonText = $"TKUtils.PurgeMenu.{nameof(NameStrategies.Is)}".Localize();
 
             strategyOptions = Enum.GetNames(typeof(NameStrategies))
                .Select(
                     t => new FloatMenuOption(
-                        $"TKUtils.Windows.Purge.NameComparisonTypes.{t}".Localize(),
+                        $"TKUtils.PurgeMenu.{t}".Localize(),
                         () => NameStrategy = (NameStrategies) Enum.Parse(typeof(NameStrategies), t)
                     )
                 )
@@ -43,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 if (nameStrategy != value)
                 {
                     nameStrategyText = Enum.GetName(typeof(NameStrategies), value);
-                    nameStrategyButtonText = $"TKUtils.Windows.Purge.NameComparisonTypes.{nameStrategyText}".Localize();
+                    nameStrategyButtonText = $"TKUtils.PurgeMenu.{nameStrategyText}".Localize();
                 }
 
                 nameStrategy = value;
@@ -57,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
             (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
 
-            Widgets.Label(labelRect, labelText);
+            SettingsHelper.DrawLabelAnchored(labelRect, labelText, TextAnchor.MiddleLeft);
 
             if (Widgets.ButtonText(buttonRect, nameStrategyButtonText))
             {

@@ -14,7 +14,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public CoinConstraint()
         {
-            labelText = "TKUtils.Windows.Purge.Constraints.Coins".Localize();
+            labelText = "TKUtils.PurgeMenu.Coins".Localize().CapitalizeFirst();
         }
 
         public override void Draw(Rect canvas)
@@ -22,8 +22,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
             (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
 
-            Widgets.Label(labelRect, labelText);
-
+            SettingsHelper.DrawLabelAnchored(labelRect, labelText, TextAnchor.MiddleLeft);
             DrawButton(buttonRect);
             Widgets.TextFieldNumeric(inputRect, ref coins, ref buffer);
         }

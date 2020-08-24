@@ -18,10 +18,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         protected ComparableConstraint()
         {
+            Comparison = ComparisonTypes.Equal;
             comparisonOptions = Enum.GetNames(typeof(ComparisonTypes))
                .Select(
                     t => new FloatMenuOption(
-                        $"TKUtils.Windows.Purge.ComparisonTypes.{t}".Localize(),
+                        $"TKUtils.PurgeMenu.{t}".Localize(),
                         () => Comparison = (ComparisonTypes) Enum.Parse(typeof(ComparisonTypes), t)
                     )
                 )
@@ -36,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 if (comparison != value)
                 {
                     comparisonText = Enum.GetName(typeof(ComparisonTypes), value);
-                    comparisonButtonText = $"TKUtils.Windows.Purge.ComparisonTypes.{comparisonText}".Localize();
+                    comparisonButtonText = $"TKUtils.PurgeMenu.{comparisonText}".Localize();
                 }
 
                 comparison = value;
