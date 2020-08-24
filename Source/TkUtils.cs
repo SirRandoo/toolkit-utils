@@ -1,9 +1,5 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Settings;
 using UnityEngine;
@@ -34,17 +30,6 @@ namespace SirRandoo.ToolkitUtils
         {
             GetSettings<TkSettings>();
             Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(TkUtilsWindow)));
-        }
-
-        public static void BuildModList()
-        {
-            List<ModMetaData> running = ModsConfig.ActiveModsInLoadOrder.ToList();
-
-            Data.Mods = running.Where(m => m.Active)
-               .Where(mod => !mod.Official)
-               .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt")))
-               .Select(ModItem.FromMetadata)
-               .ToArray();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)

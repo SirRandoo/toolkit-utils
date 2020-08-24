@@ -56,7 +56,7 @@ namespace SirRandoo.ToolkitUtils
             ValidateItemData();
             ValidatePawnKinds();
             ValidateTraits();
-            TkUtils.BuildModList();
+            ValidateModList();
 
             if (TkSettings.Offload)
             {
@@ -274,6 +274,17 @@ namespace SirRandoo.ToolkitUtils
                     IsStuffAllowed = true
                 };
             }
+        }
+
+        private static void ValidateModList()
+        {
+            List<ModMetaData> running = ModsConfig.ActiveModsInLoadOrder.ToList();
+
+            Mods = running.Where(m => m.Active)
+               .Where(mod => !mod.Official)
+               .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt")))
+               .Select(ModItem.FromMetadata)
+               .ToArray();
         }
 
         public static void SaveLegacyShop(string path)
