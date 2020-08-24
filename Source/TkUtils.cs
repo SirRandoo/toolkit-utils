@@ -1,4 +1,3 @@
-using System.Reflection;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Settings;
@@ -7,22 +6,10 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    [StaticConstructorOnStartup]
-    [UsedImplicitly]
-    public static class TkUtilsStatic
-    {
-        static TkUtilsStatic()
-        {
-            TkUtils.Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
-            TkUtils.Harmony.PatchAll(Assembly.GetExecutingAssembly());
-        }
-    }
-
     [UsedImplicitly]
     public class TkUtils : Mod
     {
         public const string Id = "ToolkitUtils";
-        internal static HarmonyLib.Harmony Harmony;
 
         public TkUtils(ModContentPack content) : base(content)
         {
