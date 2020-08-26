@@ -473,10 +473,23 @@
         <label>colony wealth</label>
         <command>wealth</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Wealth</commandDriver>
-        
+    
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows the colony's current wealth. This command uses the same value the storyteller will use.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>ColonistCount</defName>
+        <label>colonist count</label>
+        <command>colonists</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.ColonistCount</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows the current number of colonists remaining in the colony.</Description>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
