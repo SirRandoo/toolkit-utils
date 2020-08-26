@@ -85,6 +85,20 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 pawn.skills.GetSkill(skillGain.Key).Level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
             }
+
+            List<WorkTypeDef> disabledWorkTypes = trait.GetDisabledWorkTypes().ToList();
+
+            if (disabledWorkTypes.Count <= 0)
+            {
+                return;
+            }
+
+            foreach (WorkTypeDef workType in disabledWorkTypes.Where(workType => !pawn.WorkTypeIsDisabled(workType)))
+            {
+                pawn.workSettings.Disable(workType);
+            }
+
+            pawn.Notify_DisabledWorkTypesChanged();
         }
 
         public static void RemoveTraitFromPawn(Pawn pawn, Trait trait)
@@ -102,6 +116,20 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 pawn.skills.GetSkill(skillGain.Key).Level -= skillGain.Value;
             }
+
+            List<WorkTypeDef> disabledWorkTypes = trait.GetDisabledWorkTypes().ToList();
+
+            if (disabledWorkTypes.Count <= 0)
+            {
+                return;
+            }
+
+            foreach (WorkTypeDef workType in disabledWorkTypes.Where(pawn.WorkTypeIsDisabled))
+            {
+                pawn.workSettings.SetPriority(workType, 3);
+            }
+
+            pawn.Notify_DisabledWorkTypesChanged();
         }
     }
 }
