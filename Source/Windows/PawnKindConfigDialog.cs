@@ -109,50 +109,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var enableRect = new Rect(inRect.width - maxWidth, inRect.y, maxWidth, Text.LineHeight);
             var resetRect = new Rect(inRect.width - maxWidth * 2f, inRect.y, maxWidth, Text.LineHeight);
 
-            if (Widgets.ButtonText(resetRect, resetText))
-            {
-                List<PawnKindDef> kinds = DefDatabase<PawnKindDef>.AllDefsListForReading;
-
-                foreach (PawnKindItem item in results ?? cache)
-                {
-                    PawnKindDef kind = kinds.FirstOrDefault(k => k.race?.defName.Equals(item.DefName) ?? false);
-
-                    if (kind == null)
-                    {
-                        continue;
-                    }
-
-                    item.Cost = kind.race.CalculateStorePrice();
-                }
-            }
-
-            if (Widgets.ButtonText(enableRect, globalCost > 0 ? applyText : enableText))
-            {
-                foreach (PawnKindItem item in Data.PawnKinds)
-                {
-                    if (globalCost > 0)
-                    {
-                        item.Cost = globalCost;
-                    }
-                    else
-                    {
-                        item.Enabled = true;
-                    }
-                }
-
-                if (globalCost > 0)
-                {
-                    globalCost = 0;
-                }
-            }
-
-            if (Widgets.ButtonText(disableRect, disableText))
-            {
-                foreach (PawnKindItem item in Data.PawnKinds)
-                {
-                    item.Enabled = false;
-                }
-            }
+            DrawGlobalButtons(resetRect, enableRect, disableRect);
 
 
             var globalCostRect = new Rect(
@@ -172,6 +129,72 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             GUI.EndGroup();
+        }
+
+        private void DrawGlobalButtons(Rect resetRect, Rect enableRect, Rect disableRect)
+        {
+            DrawGlobalResetButton(resetRect);
+            DrawGlobalEnableButton(enableRect);
+            DrawGlobalEnableButtons(disableRect);
+        }
+
+        private void DrawGlobalEnableButtons(Rect disableRect)
+        {
+            if (!Widgets.ButtonText(disableRect, disableText))
+            {
+                return;
+            }
+
+            foreach (PawnKindItem item in Data.PawnKinds)
+            {
+                item.Enabled = false;
+            }
+        }
+
+        private void DrawGlobalEnableButton(Rect enableRect)
+        {
+            if (!Widgets.ButtonText(enableRect, globalCost > 0 ? applyText : enableText))
+            {
+                return;
+            }
+
+            foreach (PawnKindItem item in Data.PawnKinds)
+            {
+                if (globalCost > 0)
+                {
+                    item.Cost = globalCost;
+                }
+                else
+                {
+                    item.Enabled = true;
+                }
+            }
+
+            if (globalCost > 0)
+            {
+                globalCost = 0;
+            }
+        }
+
+        private void DrawGlobalResetButton(Rect resetRect)
+        {
+            if (!Widgets.ButtonText(resetRect, resetText))
+            {
+                return;
+            }
+
+            foreach (PawnKindItem item in results ?? cache)
+            {
+                PawnKindDef kind =
+                    DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(k => k.race?.defName.Equals(item.DefName) ?? false);
+
+                if (kind == null)
+                {
+                    continue;
+                }
+
+                item.Cost = kind.race.CalculateStorePrice();
+            }
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -211,6 +234,51 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.DrawHighlightIfMouseover(nameHeadingRect);
             Widgets.DrawHighlightIfMouseover(priceHeadingRect);
 
+            DrawKindHeaders(nameHeadingRect, priceHeadingRect);
+            GUI.EndGroup();
+
+            List<PawnKindItem> effectiveList = results ?? cache;
+            int total = effectiveList.Count;
+            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * LineScale * total);
+            var races = new Rect(0f, 0f, contentArea.width, contentArea.height);
+
+            GUI.BeginGroup(contentArea);
+            listing.BeginScrollView(races, ref scrollPos, ref viewPort);
+            for (var index = 0; index < effectiveList.Count; index++)
+            {
+                PawnKindItem item = effectiveList[index];
+                Rect lineRect = listing.GetRect(Text.LineHeight * LineScale);
+                var stateRect = new Rect(0f, lineRect.y, Widgets.CheckboxSize, Text.LineHeight);
+                var nameRect = new Rect(Widgets.CheckboxSize + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
+                var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width - 16f, lineRect.height);
+                var settingsRect = new Rect(
+                    priceRect.x + priceRect.width + 5f,
+                    priceRect.y,
+                    Widgets.CheckboxSize,
+                    lineRect.height
+                );
+
+                if (!lineRect.IsRegionVisible(races, scrollPos))
+                {
+                    continue;
+                }
+
+                if (index % 2 == 0)
+                {
+                    Widgets.DrawLightHighlight(lineRect);
+                }
+
+                DrawKindItem(nameRect, item, stateRect, priceRect, settingsRect);
+            }
+
+            GUI.EndGroup();
+            listing.EndScrollView(ref viewPort);
+
+            GUI.EndGroup();
+        }
+
+        private void DrawKindHeaders(Rect nameHeadingRect, Rect priceHeadingRect)
+        {
             if (Widgets.ButtonText(nameHeadingRect, "  " + nameHeaderText, false))
             {
                 if (sorter != Sorter.Name)
@@ -251,66 +319,31 @@ namespace SirRandoo.ToolkitUtils.Windows
                 position,
                 sortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
             );
-            GUI.EndGroup();
+        }
 
-            List<PawnKindItem> effectiveList = results ?? cache;
-            int total = effectiveList.Count;
-            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * LineScale * total);
-            var races = new Rect(0f, 0f, contentArea.width, contentArea.height);
+        private void DrawKindItem(Rect nameRect, PawnKindItem item, Rect stateRect, Rect priceRect, Rect settingsRect)
+        {
+            SettingsHelper.DrawLabelAnchored(
+                nameRect,
+                item.Name.ToLowerInvariant().Equals(item.Name) ? item.Name.CapitalizeFirst() : item.Name,
+                TextAnchor.MiddleLeft
+            );
 
-            GUI.BeginGroup(contentArea);
-            listing.BeginScrollView(races, ref scrollPos, ref viewPort);
-            for (var index = 0; index < effectiveList.Count; index++)
+            Widgets.Checkbox(stateRect.x, stateRect.y, ref item.Enabled, paintable: true);
+
+            if (!item.Enabled)
             {
-                PawnKindItem item = effectiveList[index];
-                Rect lineRect = listing.GetRect(Text.LineHeight * LineScale);
-                var stateRect = new Rect(0f, lineRect.y, Widgets.CheckboxSize, Text.LineHeight);
-                var nameRect = new Rect(Widgets.CheckboxSize + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
-                var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width - 16f, lineRect.height);
-                var settingsRect = new Rect(
-                    priceRect.x + priceRect.width + 5f,
-                    priceRect.y,
-                    Widgets.CheckboxSize,
-                    lineRect.height
-                );
-
-                if (!lineRect.IsRegionVisible(races, scrollPos))
-                {
-                    continue;
-                }
-
-                if (index % 2 == 0)
-                {
-                    Widgets.DrawLightHighlight(lineRect);
-                }
-
-                SettingsHelper.DrawLabelAnchored(
-                    nameRect,
-                    item.Name.ToLowerInvariant().Equals(item.Name) ? item.Name.CapitalizeFirst() : item.Name,
-                    TextAnchor.MiddleLeft
-                );
-
-                Widgets.Checkbox(stateRect.x, stateRect.y, ref item.Enabled, paintable: true);
-
-                if (!item.Enabled)
-                {
-                    continue;
-                }
-
-                SettingsHelper.DrawPriceField(priceRect, ref item.Cost, ref control, ref shift);
-
-                GUI.DrawTexture(settingsRect, Textures.Gear);
-
-                if (Widgets.ButtonInvisible(settingsRect))
-                {
-                    expanded = item;
-                }
+                return;
             }
 
-            GUI.EndGroup();
-            listing.EndScrollView(ref viewPort);
+            SettingsHelper.DrawPriceField(priceRect, ref item.Cost, ref control, ref shift);
 
-            GUI.EndGroup();
+            GUI.DrawTexture(settingsRect, Textures.Gear);
+
+            if (Widgets.ButtonInvisible(settingsRect))
+            {
+                expanded = item;
+            }
         }
 
         private void DoExpandedDialog(Rect contentArea)

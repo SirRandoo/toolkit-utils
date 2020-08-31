@@ -102,23 +102,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var enableRect = new Rect(inRect.width - controlWidth, 0f, controlWidth, Text.LineHeight);
             var disableRect = new Rect(inRect.width - controlWidth, Text.LineHeight, controlWidth, Text.LineHeight);
 
-            if (Widgets.ButtonText(enableRect, enableAllText))
-            {
-                foreach (TraitItem trait in Data.Traits)
-                {
-                    trait.CanAdd = true;
-                    trait.CanRemove = true;
-                }
-            }
-
-            if (Widgets.ButtonText(disableRect, disableAllText))
-            {
-                foreach (TraitItem trait in Data.Traits)
-                {
-                    trait.CanAdd = false;
-                    trait.CanRemove = false;
-                }
-            }
+            DrawGlobalStateButtons(enableRect, disableRect);
 
             var globalAddRect = new Rect(enableRect.x - 5f - 200f, 0f, 200f, Text.LineHeight);
             var globalRemoveRect = new Rect(disableRect.x - 5f - 200f, Text.LineHeight, 200f, Text.LineHeight);
@@ -148,6 +132,27 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             GUI.EndGroup();
+        }
+
+        private void DrawGlobalStateButtons(Rect enableRect, Rect disableRect)
+        {
+            if (Widgets.ButtonText(enableRect, enableAllText))
+            {
+                foreach (TraitItem trait in Data.Traits)
+                {
+                    trait.CanAdd = true;
+                    trait.CanRemove = true;
+                }
+            }
+
+            if (Widgets.ButtonText(disableRect, disableAllText))
+            {
+                foreach (TraitItem trait in Data.Traits)
+                {
+                    trait.CanAdd = false;
+                    trait.CanRemove = false;
+                }
+            }
         }
 
         private void DrawTraitSettings(Rect inRect)
@@ -302,63 +307,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.DrawHighlightIfMouseover(removeCostHeaderRect);
 
 
-            if (Widgets.ButtonText(nameHeaderRect, $"   {nameHeaderText}", false))
-            {
-                if (sorter != Sorter.Name)
-                {
-                    sortMode = SortMode.Descending;
-                }
-
-                sorter = Sorter.Name;
-                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
-
-                SortCurrentWorkingList();
-            }
-
-            if (Widgets.ButtonText(addCostHeaderRect, $"   {addCostText}", false))
-            {
-                if (sorter != Sorter.AddCost)
-                {
-                    sortMode = SortMode.Descending;
-                }
-
-                sorter = Sorter.AddCost;
-                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
-
-                SortCurrentWorkingList();
-            }
-
-            if (Widgets.ButtonText(removeCostHeaderRect, $"   {removeCostText}", false))
-            {
-                if (sorter != Sorter.RemoveCost)
-                {
-                    sortMode = SortMode.Descending;
-                }
-
-                sorter = Sorter.RemoveCost;
-                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
-
-                SortCurrentWorkingList();
-            }
-
-            var position = new Rect(0f, nameHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f);
-            switch (sorter)
-            {
-                case Sorter.Name:
-                    position.x = nameHeaderRect.x;
-                    break;
-                case Sorter.AddCost:
-                    position.x = addCostHeaderRect.x;
-                    break;
-                case Sorter.RemoveCost:
-                    position.x = removeCostHeaderRect.x;
-                    break;
-            }
-
-            GUI.DrawTexture(
-                position,
-                sortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
-            );
+            DrawTraitHeaders(nameHeaderRect, addCostHeaderRect, removeCostHeaderRect);
             GUI.EndGroup();
 
 
@@ -422,6 +371,72 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             Text.Font = font;
             Text.WordWrap = wrapped;
+        }
+
+        private void DrawTraitHeaders(Rect nameHeaderRect, Rect addCostHeaderRect, Rect removeCostHeaderRect)
+        {
+            if (Widgets.ButtonText(nameHeaderRect, $"   {nameHeaderText}", false))
+            {
+                if (sorter != Sorter.Name)
+                {
+                    sortMode = SortMode.Descending;
+                }
+
+                sorter = Sorter.Name;
+                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+
+                SortCurrentWorkingList();
+            }
+
+            if (Widgets.ButtonText(addCostHeaderRect, $"   {addCostText}", false))
+            {
+                if (sorter != Sorter.AddCost)
+                {
+                    sortMode = SortMode.Descending;
+                }
+
+                sorter = Sorter.AddCost;
+                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+
+                SortCurrentWorkingList();
+            }
+
+            if (Widgets.ButtonText(removeCostHeaderRect, $"   {removeCostText}", false))
+            {
+                if (sorter != Sorter.RemoveCost)
+                {
+                    sortMode = SortMode.Descending;
+                }
+
+                sorter = Sorter.RemoveCost;
+                sortMode = sortMode == SortMode.Ascending ? SortMode.Descending : SortMode.Ascending;
+
+                SortCurrentWorkingList();
+            }
+
+            DrawHeaderSortingIcon(nameHeaderRect, addCostHeaderRect, removeCostHeaderRect);
+        }
+
+        private void DrawHeaderSortingIcon(Rect nameHeaderRect, Rect addCostHeaderRect, Rect removeCostHeaderRect)
+        {
+            var position = new Rect(0f, nameHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f);
+            switch (sorter)
+            {
+                case Sorter.Name:
+                    position.x = nameHeaderRect.x;
+                    break;
+                case Sorter.AddCost:
+                    position.x = addCostHeaderRect.x;
+                    break;
+                case Sorter.RemoveCost:
+                    position.x = removeCostHeaderRect.x;
+                    break;
+            }
+
+            GUI.DrawTexture(
+                position,
+                sortMode != SortMode.Descending ? Textures.SortingAscend : Textures.SortingDescend
+            );
         }
 
         private void DoExpandedDialog(Rect inRect)

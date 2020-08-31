@@ -68,10 +68,10 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        public static List<TraitItem> Traits { get; set; }
-        public static List<PawnKindItem> PawnKinds { get; set; }
-        public static Dictionary<string, ItemData> ItemData { get; set; }
-        public static ModItem[] Mods { get; set; }
+        public static List<TraitItem> Traits { get; private set; }
+        public static List<PawnKindItem> PawnKinds { get; private set; }
+        public static Dictionary<string, ItemData> ItemData { get; private set; }
+        public static ModItem[] Mods { get; private set; }
         public static List<ThingItem> Items { get; set; }
 
         private static void MigrateFromLegacy(string path)

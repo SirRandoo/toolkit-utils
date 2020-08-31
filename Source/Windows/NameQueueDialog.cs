@@ -144,6 +144,15 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.BeginScrollView(queueRect, ref scrollPos, ref queueView);
             listing.Gap(Text.LineHeight * 5f);
+            DrawNameQueue(listing);
+
+            listing.EndScrollView(ref queueView);
+
+            GUI.EndGroup();
+        }
+
+        private void DrawNameQueue(Listing listing)
+        {
             for (int index = pawnComponent.ViewerNameQueue.Count - 1; index >= 0; index--)
             {
                 string name = pawnComponent.ViewerNameQueue[index];
@@ -152,38 +161,40 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var buttonRect = new Rect(line.x + line.width - line.height, line.y, line.height, line.height);
                 var nameRect = new Rect(line.x, line.y, line.width - buttonRect.width - 5f, line.height);
 
-                if (name.EqualsIgnoreCase(username))
-                {
-                    Widgets.DrawHighlightSelected(nameRect);
-                }
-                else if (index % 2 == 0)
+                if (index % 2 == 0)
                 {
                     Widgets.DrawLightHighlight(line);
                 }
 
+                if (name.EqualsIgnoreCase(username))
+                {
+                    Widgets.DrawHighlightSelected(nameRect);
+                }
+
                 Widgets.DrawHighlightIfMouseover(nameRect);
-                Widgets.Label(nameRect, name);
+                DrawNameFromQueue(nameRect, name, buttonRect, index);
+            }
+        }
 
-                if (Widgets.ButtonInvisible(nameRect))
-                {
-                    username = name.ToLowerInvariant();
-                }
+        private void DrawNameFromQueue(Rect nameRect, string name, Rect buttonRect, int index)
+        {
+            Widgets.Label(nameRect, name);
 
-                if (!Widgets.ButtonImage(buttonRect, Widgets.CheckboxOffTex))
-                {
-                    continue;
-                }
-
-                try
-                {
-                    pawnComponent.ViewerNameQueue.RemoveAt(index);
-                }
-                catch (IndexOutOfRangeException) { }
+            if (Widgets.ButtonInvisible(nameRect))
+            {
+                username = name.ToLowerInvariant();
             }
 
-            listing.EndScrollView(ref queueView);
+            if (!Widgets.ButtonImage(buttonRect, Widgets.CheckboxOffTex))
+            {
+                return;
+            }
 
-            GUI.EndGroup();
+            try
+            {
+                pawnComponent.ViewerNameQueue.RemoveAt(index);
+            }
+            catch (IndexOutOfRangeException) { }
         }
 
         private void DrawMenuSection(Rect canvas)

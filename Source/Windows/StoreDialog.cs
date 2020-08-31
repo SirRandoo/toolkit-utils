@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using RimWorld;
@@ -295,7 +294,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             return (infoHeaderRect, priceHeaderRect, categoryHeaderRect);
         }
 
-        [SuppressMessage("ReSharper", "CognitiveComplexity")]
         public override void DoWindowContents(Rect inRect)
         {
             if (Event.current.type == EventType.Layout)
@@ -357,41 +355,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                var infoRect = new Rect(27f, lineRect.y, infoHeaderRect.width, lineRect.height);
-                DrawInfoFor(infoRect, item);
-                DrawInfoContextFor(infoRect, item);
-
-                var priceRect = new Rect(
-                    infoRect.x + infoRect.width + 5f,
-                    lineRect.y,
-                    priceHeaderRect.width,
-                    lineRect.height
-                );
-
-                if (item.Item.price > 0)
-                {
-                    SettingsHelper.DrawPriceField(priceRect, ref item.Item.price, ref ctrlKeyDown, ref shftKeyDown);
-                }
-
-                DrawPriceContextFor(priceRect, item);
-
-                var categoryRect = new Rect(
-                    priceRect.x + priceRect.width + 5f,
-                    lineRect.y,
-                    categoryHeaderRect.width - 27f - 16f,
-                    lineRect.height
-                );
-
-                SettingsHelper.DrawLabelAnchored(categoryRect, item.Category, TextAnchor.MiddleLeft);
-                DrawCategoryCtxFor(categoryRect, item);
-
-                var settingsRect = new Rect(categoryRect.x + categoryRect.width + 5f, lineRect.y, 27f, lineRect.height);
-                GUI.DrawTexture(settingsRect, Textures.Gear);
-
-                if (Widgets.ButtonInvisible(settingsRect))
-                {
-                    expanded = item;
-                }
+                DrawThingItem(lineRect, infoHeaderRect, item, priceHeaderRect, categoryHeaderRect);
 
                 if (!closeCalled)
                 {
@@ -407,6 +371,49 @@ namespace SirRandoo.ToolkitUtils.Windows
             Text.Font = fontCache;
 
             GUI.EndGroup();
+        }
+
+        private void DrawThingItem(Rect lineRect,
+                                   Rect infoHeaderRect,
+                                   ThingItem item,
+                                   Rect priceHeaderRect,
+                                   Rect categoryHeaderRect)
+        {
+            var infoRect = new Rect(27f, lineRect.y, infoHeaderRect.width, lineRect.height);
+            DrawInfoFor(infoRect, item);
+            DrawInfoContextFor(infoRect, item);
+
+            var priceRect = new Rect(
+                infoRect.x + infoRect.width + 5f,
+                lineRect.y,
+                priceHeaderRect.width,
+                lineRect.height
+            );
+
+            if (item.Item.price > 0)
+            {
+                SettingsHelper.DrawPriceField(priceRect, ref item.Item.price, ref ctrlKeyDown, ref shftKeyDown);
+            }
+
+            DrawPriceContextFor(priceRect, item);
+
+            var categoryRect = new Rect(
+                priceRect.x + priceRect.width + 5f,
+                lineRect.y,
+                categoryHeaderRect.width - 27f - 16f,
+                lineRect.height
+            );
+
+            SettingsHelper.DrawLabelAnchored(categoryRect, item.Category, TextAnchor.MiddleLeft);
+            DrawCategoryCtxFor(categoryRect, item);
+
+            var settingsRect = new Rect(categoryRect.x + categoryRect.width + 5f, lineRect.y, 27f, lineRect.height);
+            GUI.DrawTexture(settingsRect, Textures.Gear);
+
+            if (Widgets.ButtonInvisible(settingsRect))
+            {
+                expanded = item;
+            }
         }
 
         private void DrawSortIcon(float y, float infoX, float priceX, float categoryX)
@@ -658,7 +665,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             Find.WindowStack.Add(new FloatMenu(optionCache));
         }
 
-        [SuppressMessage("ReSharper", "CognitiveComplexity")]
         private void DrawStoreHeader(Rect canvas)
         {
             GUI.BeginGroup(canvas);
@@ -700,28 +706,19 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             buttonRect = buttonRect.ShiftLeft(1f);
-
-            if (Widgets.ButtonText(buttonRect, enableAllText))
-            {
-                foreach (ThingItem item in workingList.Where(i => i.Item.price < 0))
-                {
-                    item.IsEnabled = true;
-                    item.Update();
-                }
-            }
+            DrawGlobalEnableButton(buttonRect, workingList);
 
             buttonRect = buttonRect.ShiftLeft(1f);
-
-            if (Widgets.ButtonText(buttonRect, resetAllText))
-            {
-                foreach (ThingItem item in workingList)
-                {
-                    item.Item.abr = item.Thing.label.ToToolkit().Replace(@"\", "");
-                    item.Item.price = item.Thing.CalculateStorePrice();
-                }
-            }
+            DrawGlobalResetButton(buttonRect, workingList);
 
             float buttonGroupWidth = line.x + line.width - buttonRect.x;
+            DrawFilters(searchRect, line, buttonGroupWidth);
+
+            GUI.EndGroup();
+        }
+
+        private void DrawFilters(Rect searchRect, Rect line, float buttonGroupWidth)
+        {
             var filterSection = new Rect(
                 searchRect.x + searchRect.width + 5f,
                 line.y,
@@ -756,8 +753,30 @@ namespace SirRandoo.ToolkitUtils.Windows
                 filters.Remove(toCull);
                 Notify__SearchRequested();
             }
+        }
 
-            GUI.EndGroup();
+        private void DrawGlobalEnableButton(Rect buttonRect, List<ThingItem> workingList)
+        {
+            if (Widgets.ButtonText(buttonRect, enableAllText))
+            {
+                foreach (ThingItem item in workingList.Where(i => i.Item.price < 0))
+                {
+                    item.IsEnabled = true;
+                    item.Update();
+                }
+            }
+        }
+
+        private void DrawGlobalResetButton(Rect buttonRect, List<ThingItem> workingList)
+        {
+            if (Widgets.ButtonText(buttonRect, resetAllText))
+            {
+                foreach (ThingItem item in workingList)
+                {
+                    item.Item.abr = item.Thing.label.ToToolkit().Replace(@"\", "");
+                    item.Item.price = item.Thing.CalculateStorePrice();
+                }
+            }
         }
 
         public override void WindowUpdate()

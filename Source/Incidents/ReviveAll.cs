@@ -50,24 +50,22 @@ namespace SirRandoo.ToolkitUtils.Incidents
                         TkLogger.Warn(
                             $"Submit this bug to ToolkitUtils' issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"
                         );
+                        continue;
                     }
-                    else
+
+                    pawn.ClearAllReservations();
+
+                    try
                     {
-                        pawn.ClearAllReservations();
-
-                        try
-                        {
-                            ResurrectionUtility.ResurrectWithSideEffects(pawn);
-                        }
-                        catch (NullReferenceException)
-                        {
-                            TkLogger.Warn("Failed to revive with side effects!");
-                            ResurrectionUtility.Resurrect(pawn);
-                        }
-
-                        PawnTracker.pawnsToRevive.Remove(pawn);
-                        wasAnyRevived = true;
+                        ResurrectionUtility.ResurrectWithSideEffects(pawn);
                     }
+                    catch (NullReferenceException)
+                    {
+                        ResurrectionUtility.Resurrect(pawn);
+                    }
+
+                    PawnTracker.pawnsToRevive.Remove(pawn);
+                    wasAnyRevived = true;
                 }
                 catch (Exception ex)
                 {
