@@ -6,7 +6,6 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
-using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.Store;
@@ -18,35 +17,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class BuySurgery : IncidentHelperVariables
     {
-        private ItemData dataForProduct;
+        private Appointment appointment;
         private Map map;
-        private ThingDef part;
-        private Pawn pawn;
-        private Item product;
-        private RecipeDef surgery;
-        private BodyPartRecord toPart;
 
         public override Viewer Viewer { get; set; }
 
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            if (viewer == null)
-            {
-                return false;
-            }
-
-            Viewer = viewer;
-
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
-            string partQuery = segments.FirstOrDefault();
+            string partQuery = segments.FirstOrFallback();
 
-            if (partQuery.NullOrEmpty())
-            {
-                return false;
-            }
-
-            pawn = CommandBase.GetOrFindPawn(viewer.username);
+            Pawn pawn = CommandBase.GetOrFindPawn(viewer.username);
 
             if (pawn == null)
             {
@@ -54,169 +36,105 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            Appointment appointment = Appointment.ParseInput(pawn, segments);
-            part = appointment.ThingDef;
+            appointment = Appointment.ParseInput(pawn, segments);
 
-            if (part == null)
+            if (appointment.ThingDef == null || appointment.Item == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(partQuery));
                 return false;
             }
 
-            List<ResearchProjectDef> projects = part.GetUnfinishedPrerequisites();
+            if (appointment.ThingDef.IsMedicine || appointment.Surgery == null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".Localize(partQuery));
+                return false;
+            }
 
-            if (projects.Count > 0)
+            if (appointment.ThingDef.GetUnfinishedPrerequisites() is { } projects && projects.Count > 0)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.ResearchRequired".Localize(
-                        part.LabelCap.RawText,
+                        appointment.ThingDef.LabelCap.RawText,
                         projects.Select(p => p.LabelCap.RawText).SectionJoin()
                     )
                 );
                 return false;
             }
 
-            if (part.category != ThingCategory.Item
-                || Androids.Active && !part.thingCategories.Any(c => c.defName.EqualsIgnoreCase("BodyPartsAndroid")))
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".Localize(partQuery));
-                return false;
-            }
-
-            if (part.IsMedicine)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".Localize(partQuery));
-                return false;
-            }
-
-            product = StoreInventory.items.FirstOrDefault(i => i.defname.EqualsIgnoreCase(part.defName));
-
-            if (product == null)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(partQuery));
-                return false;
-            }
-
-            if (product.price < 0)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".Localize(partQuery));
-                return false;
-            }
-
-            if (!viewer.CanAfford(product.price))
+            if (!viewer.CanAfford(appointment.Item.Price))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".Localize(
-                        product.price.ToString("N0"),
+                        appointment.Item.Price.ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
                 );
                 return false;
             }
 
-            if (!Data.ItemData.TryGetValue(product.defname, out dataForProduct))
-            {
-                TkLogger.Warn($"Could not get item data for {product.abr}!");
-            }
-
-            List<RecipeDef> recipes = DefDatabase<RecipeDef>.AllDefsListForReading.Where(r => r.IsSurgery).ToList();
-            List<RecipeDef> partRecipes = recipes.Where(
-                    r => (r.Worker is Recipe_Surgery || Androids.IsSurgeryUsable(pawn, r)) && r.IsIngredient(part)
-                )
-               .ToList();
-
-            if (!partRecipes.Any())
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".Localize(partQuery));
-                return false;
-            }
-
-            surgery = partRecipes.FirstOrDefault(r => r.AvailableOnNow(pawn));
-
-            if (surgery == null)
-            {
-                return false;
-            }
-
-            List<BodyPartRecord> surgeryParts =
-                surgery.Worker?.GetPartsToApplyOn(pawn, surgery).ToList() ?? new List<BodyPartRecord>();
-            BodyPartRecord shouldAdd = appointment.BodyPart;
-            var lastHealth = 99999f;
-
-            if (shouldAdd == null)
-            {
-                foreach (BodyPartRecord applied in surgeryParts)
-                {
-                    if (pawn.health.surgeryBills.Bills.Count > 0
-                        && pawn.health.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part == applied))
-                    {
-                        continue;
-                    }
-
-                    float partHealth = HealHelper.GetAverageHealthOfPart(pawn, applied);
-
-                    if (partHealth > lastHealth)
-                    {
-                        continue;
-                    }
-
-                    shouldAdd = applied;
-                    lastHealth = partHealth;
-                }
-            }
-
-            if (shouldAdd == null)
+            if (appointment.BodyParts.NullOrEmpty())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.NoSlotAvailable".Localize());
                 return false;
             }
 
-            if (!surgery.AvailableOnNow(pawn))
-            {
-                return false;
-            }
-
             map = Current.Game.AnyPlayerHomeMap;
+            Viewer = viewer;
 
-            if (map == null)
+            if (map != null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
-                return false;
+                return true;
             }
 
-            toPart = shouldAdd;
-
-            return true;
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
+            return false;
         }
 
         public override void TryExecute()
         {
-            if (product == null || part == null || map == null || surgery == null)
+            if (map == null || appointment == null || Viewer == null)
             {
                 return;
             }
 
-            Thing thing = ThingMaker.MakeThing(part);
+            Thing thing = ThingMaker.MakeThing(appointment.ThingDef);
             IntVec3 spot = DropCellFinder.TradeDropSpot(map);
-            var bill = new Bill_Medical(surgery);
-
             TradeUtility.SpawnDropPod(spot, map, thing);
 
-            pawn.health.surgeryBills.AddBill(bill);
-            bill.Part = toPart;
+            if (appointment.ThingDef.Minifiable)
+            {
+                ThingDef minifiedDef = appointment.ThingDef.minifiedDef;
+                var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
+                minifiedThing.InnerThing = thing;
+                minifiedThing.stackCount = appointment.Quantity;
+                TradeUtility.SpawnDropPod(spot, map, minifiedThing);
+            }
+            else
+            {
+                thing.stackCount = appointment.Quantity;
+                TradeUtility.SpawnDropPod(spot, map, thing);
+            }
+
+            appointment.BookSurgeries();
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
-                Viewer.TakeViewerCoins(product.price);
+                Viewer.TakeViewerCoins(appointment.Item.Price * appointment.Quantity);
             }
 
-            Viewer.CalculateNewKarma(dataForProduct?.KarmaType ?? storeIncident.karmaType, product.price);
+            Viewer.CalculateNewKarma(
+                appointment.Item.Data?.KarmaType ?? storeIncident.karmaType,
+                appointment.Item.Price * appointment.Quantity
+            );
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Surgery.Complete".Localize(part.LabelCap));
+                MessageHelper.ReplyToUser(
+                    Viewer.username,
+                    "TKUtils.Surgery.Complete".Localize(appointment.ThingDef.LabelCap)
+                );
             }
 
             Find.LetterStack.ReceiveLetter(
@@ -233,48 +151,108 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private class Appointment
         {
             public Pawn Patient { get; set; }
-            public RecipeDef Recipe { get; set; }
-            public BodyPartRecord BodyPart { get; set; }
-            public Item Item { get; set; }
-            public ItemData ItemData { get; set; }
+            public RecipeDef Surgery { get; set; }
+            public List<BodyPartRecord> BodyParts { get; set; }
+            public ThingItem Item { get; set; }
             public ThingDef ThingDef { get; set; }
             public int Quantity { get; set; }
 
             public static Appointment ParseInput(Pawn patient, string[] segments)
             {
-                var appointment = new Appointment
-                {
-                    Patient = patient, ThingDef = ParseThingDef(segments.FirstOrFallback())
-                };
+                var appointment = new Appointment {Patient = patient};
+                appointment.ParseThingDef(segments.FirstOrFallback());
+                appointment.LocateSurgery();
 
                 string multi = segments.Skip(1).FirstOrFallback();
                 if (int.TryParse(multi, out int quantity))
                 {
                     appointment.Quantity = Mathf.Clamp(quantity, 0, 100);
+                    appointment.TryFillQuota();
                 }
                 else
                 {
-                    appointment.BodyPart = ParseBodyPart(patient, multi);
+                    appointment.ParseBodyPart(multi);
                     appointment.Quantity = 1;
                 }
 
                 return appointment;
             }
 
-            private static ThingDef ParseThingDef(string input)
+            private void ParseThingDef(string input)
             {
-                return DefDatabase<ThingDef>.AllDefsListForReading.FirstOrDefault(
-                    t => t.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                         || t.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                );
+                Item = Data.Items.Where(i => i.Price > 0)
+                   .FirstOrDefault(
+                        t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                             || t.DefName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                    );
+
+                ThingDef = Item?.Thing;
             }
 
-            private static BodyPartRecord ParseBodyPart(Pawn patient, string input)
+            private void ParseBodyPart(string input)
             {
-                return patient.RaceProps.body.AllParts.FirstOrDefault(
-                    t => t.Label.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                         || t.def.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                );
+                BodyParts = new List<BodyPartRecord>
+                {
+                    Patient.RaceProps.body.AllParts.FirstOrDefault(
+                        t => t.Label.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                             || t.def.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                    )
+                };
+            }
+
+            private void LocateSurgery()
+            {
+                Surgery = DefDatabase<RecipeDef>.AllDefs.Where(r => r.IsSurgery)
+                   .Where(r => r.Worker != null)
+                   .Where(
+                        r => r.Worker.GetPartsToApplyOn(Patient, r)
+                           .Any(p => BodyParts.Any(b => b.def.defName.Equals(p.def.defName)))
+                    )
+                   .Where(r => r.IsIngredient(ThingDef))
+                   .Where(r => r.AvailableOnNow(Patient))
+                   .FirstOrFallback();
+            }
+
+            private void TryFillQuota()
+            {
+                BodyParts = new List<BodyPartRecord>();
+
+                if (Surgery?.Worker == null || Surgery.addsHediff == null)
+                {
+                    return;
+                }
+
+                foreach (BodyPartRecord part in Surgery.Worker.GetPartsToApplyOn(Patient, Surgery))
+                {
+                    if (Patient.health.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part == part))
+                    {
+                        continue;
+                    }
+
+                    if (Patient.health.hediffSet.hediffs.Where(h => h.def.defName == Surgery.addsHediff.defName)
+                       .Any(h => h.Part == part))
+                    {
+                        continue;
+                    }
+
+                    BodyParts.Add(part);
+                }
+
+                BodyParts.SortBy(part => HealHelper.GetAverageHealthOfPart(Patient, part));
+                BodyParts = BodyParts.Take(Quantity).ToList();
+            }
+
+            private IEnumerable<Bill_Medical> GenerateSurgeries()
+            {
+                return BodyParts.Select(p => new Bill_Medical(Surgery) {Part = p});
+            }
+
+            public void BookSurgeries()
+            {
+                foreach (Bill_Medical surgery in GenerateSurgeries())
+                {
+                    Patient.health.surgeryBills.AddBill(surgery);
+                }
             }
         }
     }
