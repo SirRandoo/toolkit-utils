@@ -30,16 +30,21 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            GameComponentPawns component;
-            if (MagicComp.Active && pawn.IsUndead())
+            var component = Current.Game.GetComponent<GameComponentPawns>();
+
+            if (pawn.IsUndead())
             {
                 twitchMessage.Reply("TKUtils.Leave.Undead".Localize());
-
-                component = Current.Game.GetComponent<GameComponentPawns>();
                 component?.pawnHistory.Remove(twitchMessage.Username);
                 return;
             }
 
+            ForceLeave(twitchMessage, pawn);
+            component.pawnHistory.Remove(twitchMessage.Username);
+        }
+
+        private static void ForceLeave(ITwitchMessage twitchMessage, Pawn pawn)
+        {
             if (TkSettings.LeaveMethod.EqualsIgnoreCase("Thanos")
                 && FilthMaker.TryMakeFilth(
                     pawn.Position,
@@ -81,9 +86,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                 pawn.jobs.StopAll();
                 pawn.health.surgeryBills.Clear();
             }
-
-            component = Current.Game.GetComponent<GameComponentPawns>();
-            component?.pawnHistory.Remove(twitchMessage.Username);
         }
     }
 }

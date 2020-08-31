@@ -23,14 +23,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
             else
             {
-                project = DefDatabase<ResearchProjectDef>.AllDefsListForReading.FirstOrDefault(
+                project = DefDatabase<ResearchProjectDef>.AllDefs.FirstOrDefault(
                     p => p.defName.EqualsIgnoreCase(query) || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                 );
 
 
                 if (project == null)
                 {
-                    ThingDef thing = DefDatabase<ThingDef>.AllDefsListForReading.FirstOrDefault(
+                    ThingDef thing = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(
                         t => t.defName.EqualsIgnoreCase(query)
                              || t.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                     );

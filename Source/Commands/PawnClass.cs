@@ -36,20 +36,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 ResponseHelper.JoinPair("TKUtils.PawnClass.XP".Localize(), data.ExperienceString)
             };
 
-            string key;
-            switch (data.Type)
-            {
-                case ClassTypes.Might:
-                    key = "TKUtils.PawnClass.Stamina";
-                    break;
-                case ClassTypes.Magic:
-                    key = "TKUtils.PawnClass.Mana";
-                    break;
-                default:
-                    key = null;
-                    break;
-            }
-
+            string key = GetResourceKey(data);
             if (!key.NullOrEmpty())
             {
                 string rateKey = key.Localize();
@@ -72,6 +59,19 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             twitchMessage.Reply(container.GroupedJoin().WithHeader(Unrichify.StripTags(data.ClassName)));
+        }
+
+        private static string GetResourceKey(CharacterData data)
+        {
+            switch (data.Type)
+            {
+                case ClassTypes.Might:
+                    return "TKUtils.PawnClass.Stamina";
+                case ClassTypes.Magic:
+                    return "TKUtils.PawnClass.Mana";
+                default:
+                    return null;
+            }
         }
     }
 }

@@ -36,7 +36,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             else
             {
                 container.Add(ResponseHelper.JoinPair("TKUtils.Balance.Coins".Localize().CapitalizeFirst(), coins));
-
                 container.Add(ResponseHelper.JoinPair("TKUtils.Balance.Karma".Localize().CapitalizeFirst(), karma));
             }
 

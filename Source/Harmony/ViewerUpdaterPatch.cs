@@ -26,12 +26,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
             ToolkitSettings.ViewerColorCodes[twitchMessage.Username.ToLowerInvariant()] =
                 twitchMessage.ChatMessage.ColorHex;
 
-            if (TkSettings.HairColor && component.HasUserBeenNamed(twitchMessage.Username))
+            if (TkSettings.HairColor
+                && component.HasUserBeenNamed(twitchMessage.Username)
+                && ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
             {
-                if (ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
-                {
-                    component.PawnAssignedToUser(twitchMessage.Username).story.hairColor = hairColor;
-                }
+                component.PawnAssignedToUser(twitchMessage.Username).story.hairColor = hairColor;
             }
 
             if (twitchMessage.ChatMessage.IsModerator && !viewer.mod)

@@ -3,6 +3,7 @@ using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit.IncidentHelpers.Traits;
 using Verse;
 
@@ -130,6 +131,26 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             pawn.Notify_DisabledWorkTypesChanged();
+        }
+
+        public static Backstory IsDisallowedByBackstory(this TraitDef trait, Pawn pawn, int degree)
+        {
+            return pawn.story.AllBackstories.FirstOrFallback(s => s.DisallowsTrait(trait, degree));
+        }
+
+        public static Backstory IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree)
+        {
+            return trait.def.IsDisallowedByBackstory(pawn, degree);
+        }
+
+        public static TraitDef GetAnyClass(this Pawn pawn)
+        {
+            return MagicComp.GetAllClasses().FirstOrFallback(t => pawn.story.traits.GetTrait(t) != null);
+        }
+
+        public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree)
+        {
+            return AlienRace.Enabled && AlienRace.IsTraitAllowed(pawn, trait, degree);
         }
     }
 }

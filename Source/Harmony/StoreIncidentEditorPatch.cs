@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using TwitchToolkit.Incidents;
@@ -14,9 +13,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [UsedImplicitly]
         public static void Prefix()
         {
-            IEnumerable<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefs;
-
-            foreach (StoreIncident incident in incidents.Where(
+            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs.Where(
                 i => (i.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None) != EventTypes.None
             ))
             {

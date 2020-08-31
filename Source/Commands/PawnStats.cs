@@ -61,18 +61,24 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            for (int index = stats.Count - 1; index >= 0; index--)
+            HideDisabledStats(stats);
+
+            string[] parts = stats
+               .Select(s => ResponseHelper.JoinPair(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
+               .ToArray();
+
+            twitchMessage.Reply(parts.SectionJoin());
+        }
+
+        private static void HideDisabledStats(IList<StatDef> stats)
+        {
+            for (var index = 0; index < stats.Count; index++)
             {
                 StatDef stat = stats[index];
                 TkSettings.StatSetting setting =
                     TkSettings.StatSettings.FirstOrDefault(s => s.StatDef.EqualsIgnoreCase(stat.defName));
 
-                if (setting == null)
-                {
-                    continue;
-                }
-
-                if (setting.Enabled)
+                if (setting == null || setting.Enabled)
                 {
                     continue;
                 }
@@ -83,12 +89,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
                 catch (IndexOutOfRangeException) { }
             }
-
-            string[] parts = stats
-               .Select(s => ResponseHelper.JoinPair(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
-               .ToArray();
-
-            twitchMessage.Reply(parts.SectionJoin());
         }
     }
 }

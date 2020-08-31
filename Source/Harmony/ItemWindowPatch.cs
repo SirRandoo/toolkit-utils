@@ -32,35 +32,40 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 }
 
                 ___tradeablesPrices[i] = -10;
+            }
 
-                if (TkSettings.Offload)
-                {
-                    Task.Run(
-                        () =>
-                        {
-                            switch (TkSettings.DumpStyle)
-                            {
-                                case "MultiFile":
-                                    Data.SavePawnKinds(Paths.PawnKindFilePath);
-                                    return;
-                                case "SingleFile":
-                                    Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
-                                    return;
-                            }
-                        }
-                    );
-                }
-                else
-                {
-                    switch (TkSettings.DumpStyle)
+            SaveKinds();
+        }
+
+        private static void SaveKinds()
+        {
+            if (TkSettings.Offload)
+            {
+                Task.Run(
+                    () =>
                     {
-                        case "MultiFile":
-                            Data.SavePawnKinds(Paths.PawnKindFilePath);
-                            return;
-                        case "SingleFile":
-                            Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
-                            return;
+                        switch (TkSettings.DumpStyle)
+                        {
+                            case "MultiFile":
+                                Data.SavePawnKinds(Paths.PawnKindFilePath);
+                                return;
+                            case "SingleFile":
+                                Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                                return;
+                        }
                     }
+                );
+            }
+            else
+            {
+                switch (TkSettings.DumpStyle)
+                {
+                    case "MultiFile":
+                        Data.SavePawnKinds(Paths.PawnKindFilePath);
+                        return;
+                    case "SingleFile":
+                        Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                        return;
                 }
             }
         }

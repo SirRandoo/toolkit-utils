@@ -105,53 +105,37 @@ namespace SirRandoo.ToolkitUtils.Commands
                     capacity.LabelCap,
                     PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
                        .ToStringPercent()
-                )
+                ),
+                impactors.Any()
+                    ? ResponseHelper.JoinPair(
+                        "TKUtils.PawnHealth.AffectedBy".Localize(),
+                        GetImpactorsForPawn(pawn, impactors).SectionJoin()
+                    )
+                    : "NoHealthConditions".Localize().CapitalizeFirst()
             };
 
-            if (impactors.Any())
-            {
-                var parts = new List<string>();
-
-                foreach (PawnCapacityUtility.CapacityImpactor i in impactors)
-                {
-                    if (i is PawnCapacityUtility.CapacityImpactorHediff)
-                    {
-                        parts.Add(i.Readable(pawn));
-                    }
-                }
-
-                foreach (PawnCapacityUtility.CapacityImpactor i in impactors)
-                {
-                    if (i is PawnCapacityUtility.CapacityImpactorBodyPartHealth)
-                    {
-                        parts.Add(i.Readable(pawn));
-                    }
-                }
-
-                foreach (PawnCapacityUtility.CapacityImpactor i in impactors)
-                {
-                    if (i is PawnCapacityUtility.CapacityImpactorCapacity)
-                    {
-                        parts.Add(i.Readable(pawn));
-                    }
-                }
-
-                foreach (PawnCapacityUtility.CapacityImpactor i in impactors)
-                {
-                    if (i is PawnCapacityUtility.CapacityImpactorPain)
-                    {
-                        parts.Add(i.Readable(pawn));
-                    }
-                }
-
-                segments.Add(ResponseHelper.JoinPair("TKUtils.PawnHealth.AffectedBy".Localize(), parts.SectionJoin()));
-            }
-            else
-            {
-                segments.Add("NoHealthConditions".Localize().CapitalizeFirst());
-            }
 
             return segments.GroupedJoin();
+        }
+
+        private static IEnumerable<string> GetImpactorsForPawn(
+            Pawn pawn,
+            IReadOnlyCollection<PawnCapacityUtility.CapacityImpactor> impactors
+        )
+        {
+            List<string> parts = impactors.OfType<PawnCapacityUtility.CapacityImpactorHediff>()
+               .Select(i => i.Readable(pawn))
+               .ToList();
+
+            parts.AddRange(
+                impactors.OfType<PawnCapacityUtility.CapacityImpactorBodyPartHealth>().Select(i => i.Readable(pawn))
+            );
+            parts.AddRange(
+                impactors.OfType<PawnCapacityUtility.CapacityImpactorCapacity>().Select(i => i.Readable(pawn))
+            );
+            parts.AddRange(impactors.OfType<PawnCapacityUtility.CapacityImpactorPain>().Select(i => i.Readable(pawn)));
+
+            return parts;
         }
 
         private static string HealthReport(Pawn pawn)
@@ -184,25 +168,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
             }
 
-            List<PawnCapacityDef> source;
-            if (pawn.def.race.Humanlike)
-            {
-                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnHumanlikes).ToList();
-            }
-            else if (pawn.def.race.Animal)
-            {
-                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnAnimals).ToList();
-            }
-            else if (pawn.def.race.IsMechanoid)
-            {
-                source = DefDatabase<PawnCapacityDef>.AllDefs.Where(d => d.showOnMechanoids).ToList();
-            }
-            else
-            {
-                source = new List<PawnCapacityDef>().ToList();
-
-                segments.Add("TKUtils.Responses.UnsupportedRace".Localize(pawn.kindDef.race.defName));
-            }
+            List<PawnCapacityDef> source = GetCapacitiesForPawn(pawn).ToList();
 
             if (source.Any())
             {
@@ -219,6 +185,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                    .ToArray();
 
                 segments.Add(capacities.SectionJoin());
+            }
+            else
+            {
+                segments.Add("TKUtils.Responses.UnsupportedRace".Localize(pawn.kindDef.race.defName));
             }
 
             if (!TkSettings.ShowSurgeries)
@@ -240,6 +210,26 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
 
             return segments.GroupedJoin();
+        }
+
+        private static IEnumerable<PawnCapacityDef> GetCapacitiesForPawn(Thing pawn)
+        {
+            IEnumerable<PawnCapacityDef> capacityDefs = DefDatabase<PawnCapacityDef>.AllDefs;
+
+
+            if (pawn.def.race.Humanlike)
+            {
+                return capacityDefs.Where(d => d.showOnHumanlikes);
+            }
+
+            if (pawn.def.race.Animal)
+            {
+                return capacityDefs.Where(d => d.showOnAnimals);
+            }
+
+            return pawn.def.race.IsMechanoid
+                ? capacityDefs.Where(d => d.showOnMechanoids)
+                : new List<PawnCapacityDef>();
         }
     }
 }

@@ -100,13 +100,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            foreach (Backstory backstory in pawn.story.AllBackstories)
+            if (traitDef.IsDisallowedByBackstory(pawn, buyableTrait.Degree) is { } backstory)
             {
-                if (!backstory.DisallowsTrait(traitDef, buyableTrait.Degree))
-                {
-                    continue;
-                }
-
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.Trait.RestrictedByBackstory".Localize(backstory.identifier, traitQuery)
@@ -123,12 +118,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (AlienRace.Enabled && !AlienRace.IsTraitAllowed(pawn, traitDef, buyableTrait.Degree))
+            if (traitDef.IsDisallowedByKind(pawn, buyableTrait.Degree))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, traitQuery)
                 );
+                return false;
             }
 
             trait = new Trait(traitDef, buyableTrait.Degree);
@@ -168,23 +164,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return traitQuery != null && buyableTrait != null;
             }
 
-            foreach (TraitDef clazz in classes.Where(c => !c.defName.Equals(traitDef.defName)))
+            if (!(pawn.GetAnyClass() is {} tClass))
             {
-                Trait traitOf = pawn.story.traits.GetTrait(clazz);
-
-                if (traitOf == null)
-                {
-                    continue;
-                }
-
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.Class".Localize(traitOf.LabelCap, trait.LabelCap)
-                );
-                return false;
+                return traitQuery != null && buyableTrait != null;
             }
 
-            return traitQuery != null && buyableTrait != null;
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize(tClass.LabelCap, trait.LabelCap));
+            return false;
         }
 
         public override void TryExecute()

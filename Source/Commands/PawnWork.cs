@@ -30,17 +30,36 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var container = new List<string>();
             List<WorkTypeDef> priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToList();
 
             if (TkSettings.SortWorkPriorities)
             {
-                priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
-                   .ThenBy(p => p.naturalPriority)
-                   .Reverse()
-                   .ToList();
+                priorities = SortPriorities(priorities, pawn);
             }
 
+            HideDisabledWork(priorities);
+
+            List<string> container = priorities.ToList()
+               .Select(priority => new {priority, p = pawn.workSettings.GetPriority(priority)})
+               .Where(t => !TkSettings.FilterWorkPriorities || t.p > 0)
+               .Select(
+                    t => ResponseHelper.JoinPair(
+                        t.priority.LabelCap.NullOrEmpty()
+                            ? t.priority.defName.CapitalizeFirst()
+                            : t.priority.LabelCap.RawText,
+                        t.p.ToString()
+                    )
+                )
+               .ToList();
+
+            if (container.Count > 0)
+            {
+                twitchMessage.Reply(container.SectionJoin().WithHeader("TKUtils.PawnWork.Header".Localize()));
+            }
+        }
+
+        private static void HideDisabledWork(IList<WorkTypeDef> priorities)
+        {
             for (int index = priorities.Count - 1; index >= 0; index--)
             {
                 WorkTypeDef priority = priorities[index];
@@ -63,33 +82,15 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
                 catch (IndexOutOfRangeException) { }
             }
+        }
 
-            foreach (WorkTypeDef priority in priorities.ToList())
-            {
-                int p = pawn.workSettings.GetPriority(priority);
-
-                if (TkSettings.FilterWorkPriorities)
-                {
-                    if (p <= 0)
-                    {
-                        continue;
-                    }
-                }
-
-                container.Add(
-                    ResponseHelper.JoinPair(
-                        priority.LabelCap.NullOrEmpty()
-                            ? priority.defName.CapitalizeFirst()
-                            : priority.LabelCap.RawText,
-                        p.ToString()
-                    )
-                );
-            }
-
-            if (container.Count > 0)
-            {
-                twitchMessage.Reply(container.SectionJoin().WithHeader("TKUtils.PawnWork.Header".Localize()));
-            }
+        private static List<WorkTypeDef> SortPriorities(List<WorkTypeDef> priorities, Pawn pawn)
+        {
+            priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
+               .ThenBy(p => p.naturalPriority)
+               .Reverse()
+               .ToList();
+            return priorities;
         }
     }
 }

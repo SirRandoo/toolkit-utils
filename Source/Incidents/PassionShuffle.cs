@@ -109,51 +109,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             int passionCount = pawn.skills.skills.Sum(s => (int) s.passion);
             var iterations = 0;
 
-            foreach (SkillRecord skill in pawn.skills.skills)
-            {
-                if (skill.def == target && passionCount > 0)
-                {
-                    skill.passion = Passion.Minor;
-                    passionCount -= 1;
-                    continue;
-                }
-
-                skill.passion = Passion.None;
-            }
-
-            while (passionCount > 0)
-            {
-                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled)
-                   .Where(s => s.passion != Passion.Major)
-                   .RandomElementWithFallback();
-
-                if (skill == null)
-                {
-                    iterations += 1;
-                    continue;
-                }
-
-                switch (skill.passion)
-                {
-                    case Passion.None:
-                        skill.passion = Passion.Minor;
-                        break;
-                    case Passion.Minor:
-                        skill.passion = Passion.Major;
-                        break;
-                }
-
-                passionCount -= 1;
-                iterations += 1;
-
-                if (iterations < 150)
-                {
-                    continue;
-                }
-
-                TkLogger.Warn("Exceeded 100 iterations while shuffling passions!");
-                return;
-            }
+            passionCount = GetPassionCount(passionCount);
+            ShufflePassions(passionCount, ref iterations);
         }
 
         private void ShuffleWithInterests()
@@ -165,49 +122,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                .Select(s => s.passion)
                .ToList();
 
-            foreach (SkillRecord skill in pawn.skills.skills)
+            passionCount = GetPassionCount(passionCount);
+
+            if (!ShufflePassions(passionCount, ref iterations))
             {
-                if (skill.def == target && passionCount > 0)
-                {
-                    skill.passion = Passion.Minor;
-                    passionCount -= 1;
-                    continue;
-                }
-
-                skill.passion = Passion.None;
-            }
-
-            while (passionCount > 0)
-            {
-                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled)
-                   .Where(s => s.passion != Passion.Major)
-                   .RandomElementWithFallback();
-
-                if (skill == null)
-                {
-                    iterations += 1;
-                    continue;
-                }
-
-                switch (skill.passion)
-                {
-                    case Passion.None:
-                        skill.passion = Passion.Minor;
-                        break;
-                    case Passion.Minor:
-                        skill.passion = Passion.Major;
-                        break;
-                }
-
-                passionCount -= 1;
-                iterations += 1;
-
-                if (iterations < 150)
-                {
-                    continue;
-                }
-
-                TkLogger.Warn("Exceeded 100 iterations while shuffling passions!");
                 return;
             }
 
@@ -238,6 +156,66 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 TkLogger.Warn("Exceeded 100 iterations while shuffling interests!");
                 return;
             }
+        }
+
+        private bool ShufflePassions(int passionCount, ref int iterations)
+        {
+            while (passionCount > 0)
+            {
+                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled)
+                   .Where(s => s.passion != Passion.Major)
+                   .RandomElementWithFallback();
+
+                if (skill == null)
+                {
+                    iterations += 1;
+                    continue;
+                }
+
+                IncreasePassionFor(skill);
+                passionCount -= 1;
+                iterations += 1;
+
+                if (iterations < 150)
+                {
+                    continue;
+                }
+
+                TkLogger.Warn("Exceeded 100 iterations while shuffling passions!");
+                return false;
+            }
+
+            return true;
+        }
+
+        private static void IncreasePassionFor(SkillRecord skill)
+        {
+            switch (skill.passion)
+            {
+                case Passion.None:
+                    skill.passion = Passion.Minor;
+                    break;
+                case Passion.Minor:
+                    skill.passion = Passion.Major;
+                    break;
+            }
+        }
+
+        private int GetPassionCount(int passionCount)
+        {
+            foreach (SkillRecord skill in pawn.skills.skills)
+            {
+                if (skill.def == target && passionCount > 0)
+                {
+                    skill.passion = Passion.Minor;
+                    passionCount -= 1;
+                    continue;
+                }
+
+                skill.passion = Passion.None;
+            }
+
+            return passionCount;
         }
     }
 }

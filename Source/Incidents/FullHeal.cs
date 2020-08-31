@@ -41,44 +41,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
             var iterations = 0;
             while (true)
             {
-                object injury = HealHelper.GetPawnHealable(pawn);
-
-                if (injury == null)
-                {
-                    break;
-                }
-
                 if (!Viewer.CanAfford(storeIncident.cost))
                 {
                     break;
                 }
 
-                switch (injury)
-                {
-                    case Hediff hediff:
-                        HealHelper.Cure(hediff);
-                        healed += 1;
-
-                        if (!ToolkitSettings.UnlimitedCoins)
-                        {
-                            Viewer.TakeViewerCoins(storeIncident.cost);
-                        }
-
-                        Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost * healed);
-                        break;
-                    case BodyPartRecord record:
-                        pawn.health.RestorePart(record);
-                        healed += 1;
-
-                        if (!ToolkitSettings.UnlimitedCoins)
-                        {
-                            Viewer.TakeViewerCoins(storeIncident.cost);
-                        }
-
-                        Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost * healed);
-                        break;
-                }
-
+                healed = Heal(HealHelper.GetPawnHealable(pawn), healed);
                 iterations += 1;
 
                 if (iterations < 500)
@@ -101,6 +69,42 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 LetterDefOf.PositiveEvent,
                 pawn
             );
+        }
+
+        private int Heal(object injury, int healed)
+        {
+            if (injury == null)
+            {
+                return healed;
+            }
+
+            switch (injury)
+            {
+                case Hediff hediff:
+                    HealHelper.Cure(hediff);
+                    healed += 1;
+
+                    if (!ToolkitSettings.UnlimitedCoins)
+                    {
+                        Viewer.TakeViewerCoins(storeIncident.cost);
+                    }
+
+                    Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost * healed);
+                    break;
+                case BodyPartRecord record:
+                    pawn.health.RestorePart(record);
+                    healed += 1;
+
+                    if (!ToolkitSettings.UnlimitedCoins)
+                    {
+                        Viewer.TakeViewerCoins(storeIncident.cost);
+                    }
+
+                    Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost * healed);
+                    break;
+            }
+
+            return healed;
         }
     }
 }
