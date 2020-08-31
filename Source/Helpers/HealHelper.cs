@@ -227,8 +227,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return hediff;
         }
 
-        public static Hediff_Injury FindPermanentInjury(Pawn pawn,
-                                                        IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
+        public static Hediff_Injury FindPermanentInjury(
+            Pawn pawn,
+            IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null
+        )
         {
             Hediff_Injury injury = null;
             List<Hediff> hediffs = pawn.health.hediffSet.hediffs;

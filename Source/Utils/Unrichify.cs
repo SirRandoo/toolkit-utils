@@ -19,10 +19,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             string container = input;
             var i = 0;
-            int expectedTags = Mathf.Min(
-                input.Count(ch => ch.Equals('<')),
-                input.Count(ch => ch.Equals('>'))
-            );
+            int expectedTags = Mathf.Min(input.Count(ch => ch.Equals('<')), input.Count(ch => ch.Equals('>')));
 
             while (IsRichText(container))
             {

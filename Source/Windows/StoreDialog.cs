@@ -373,11 +373,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.EndGroup();
         }
 
-        private void DrawThingItem(Rect lineRect,
-                                   Rect infoHeaderRect,
-                                   ThingItem item,
-                                   Rect priceHeaderRect,
-                                   Rect categoryHeaderRect)
+        private void DrawThingItem(
+            Rect lineRect,
+            Rect infoHeaderRect,
+            ThingItem item,
+            Rect priceHeaderRect,
+            Rect categoryHeaderRect
+        )
         {
             var infoRect = new Rect(27f, lineRect.y, infoHeaderRect.width, lineRect.height);
             DrawInfoFor(infoRect, item);

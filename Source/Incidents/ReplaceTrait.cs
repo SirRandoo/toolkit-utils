@@ -135,25 +135,22 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            foreach (Backstory backstory in pawn.story.AllBackstories)
+            if (replaceThisTraitDef.IsDisallowedByBackstory(pawn, replaceThisShop.Degree) is { } thisBackstory)
             {
-                if (backstory.DisallowsTrait(replaceThisTraitDef, replaceThisShop.Degree))
-                {
-                    MessageHelper.ReplyToUser(
-                        viewer.username,
-                        "TKUtils.Trait.RestrictedByBackstory".Localize(backstory.identifier, toReplace)
-                    );
-                    return false;
-                }
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.RestrictedByBackstory".Localize(thisBackstory.identifier, toReplace)
+                );
+                return false;
+            }
 
-                if (backstory.DisallowsTrait(replaceThatTraitDef, replaceThatShop.Degree))
-                {
-                    MessageHelper.ReplyToUser(
-                        viewer.username,
-                        "TKUtils.Trait.RestrictedByBackstory".Localize(backstory.identifier, toReplaceWith)
-                    );
-                    return false;
-                }
+            if (replaceThatTraitDef.IsDisallowedByBackstory(pawn, replaceThatShop.Degree) is { } thatBackstory)
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.RestrictedByBackstory".Localize(thatBackstory.identifier, toReplaceWith)
+                );
+                return false;
             }
 
             if (pawn.kindDef.disallowedTraits.Any(t => t.defName.Equals(replaceThisTraitDef.defName)))

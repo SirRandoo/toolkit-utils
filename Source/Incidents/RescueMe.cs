@@ -72,10 +72,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
 
-        public override void Notify_GeneratedByQuestGen(SitePart part,
-                                                        Slate slate,
-                                                        List<Rule> outExtraDescriptionRules,
-                                                        Dictionary<string, string> outExtraDescriptionConstants)
+        public override void Notify_GeneratedByQuestGen(
+            SitePart part,
+            Slate slate,
+            List<Rule> outExtraDescriptionRules,
+            Dictionary<string, string> outExtraDescriptionConstants
+        )
         {
             base.Notify_GeneratedByQuestGen(part, slate, outExtraDescriptionRules, outExtraDescriptionConstants);
 
