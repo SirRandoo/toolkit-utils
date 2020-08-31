@@ -6,14 +6,14 @@
     <TKUtils.Trait.Duplicate>Your pawn has {0}, which shares the same spectrum as {0}.</TKUtils.Trait.Duplicate>
     <TKUtils.Trait.Conflict>Your pawn has {0}, which conflicts with {1}!</TKUtils.Trait.Conflict>
     <TKUtils.Trait.Disabled>The trait "{0}" has been restricted from being added to pawns.</TKUtils.Trait.Disabled>
-    <TKUtils.Trait.LimitReached>Your pawn already has the maximum number of traits allowed ({0} traits).</TKUtils.Trait.LimitReached>
-    <TKUtils.Trait.RestrictedByKind>Your pawn is a {0}, which disallowed the trait "{1}" from being added.</TKUtils.Trait.RestrictedByKind>
+    <TKUtils.Trait.LimitReached>Your pawn cannot have more than {0} traits.</TKUtils.Trait.LimitReached>
+    <TKUtils.Trait.RestrictedByKind>Your pawn is a {0}, which cannot have the trait "{1}".</TKUtils.Trait.RestrictedByKind>
     <TKUtils.Trait.RestrictedByBackstory>Your pawn has the backstory {0}, which forbids {1} from being added to your pawn.</TKUtils.Trait.RestrictedByBackstory>
     <TKUtils.Trait.Class>Your pawn cannot have more than one class.</TKUtils.Trait.Class>
     
     <!-- Item -->
     <TKUtils.Item.MinimumViolation>Your requested purchase would cost {0} coin(s), which does not meet the required minimum of {1} coin(s).</TKUtils.Item.MinimumViolation>
-    <TKUtils.Item.Disabled>The item "{0}" cannot be purchased; it's disabled.</TKUtils.Item.Disabled>
+    <TKUtils.Item.Disabled>The item "{0}" cannot be bought.</TKUtils.Item.Disabled>
     <TKUtils.Item.Complete>You've purchased {0} {1} for {2} coins. Your new balance is now {3} coins.</TKUtils.Item.Complete>
     
     <!-- Buy Pawn -->
@@ -23,8 +23,8 @@
     <!-- Surgery -->
     <TKUtils.Surgery.Complete>Your pawn has been queued for surgery.</TKUtils.Surgery.Complete>
     <TKUtils.Surgery.NoSlotAvailable>No suitable body part could be found.</TKUtils.Surgery.NoSlotAvailable>
-    <TKUtils.Surgery.Queued>Your pawn already has a surgery of this type queued for body part "{0}".</TKUtils.Surgery.Queued>
-    <TKUtils.Surgery.HasNoSurgery>The item "{0}" cannot be purchased; it cannot be surgically attached.</TKUtils.Surgery.HasNoSurgery>
+    <TKUtils.Surgery.Queued>A similar surgery is already queued for the body part "{0}".</TKUtils.Surgery.Queued>
+    <TKUtils.Surgery.HasNoSurgery>The item "{0}" cannot be surgically attached.</TKUtils.Surgery.HasNoSurgery>
     
     <!-- Heal Me -->
     <TKUtils.HealMe.Recovered>Your pawn has recovered from {0}.</TKUtils.HealMe.Recovered>
@@ -45,9 +45,9 @@
     <TKUtils.RemoveTrait.None>Your pawn does not have any traits.</TKUtils.RemoveTrait.None>
     <TKUtils.RemoveTrait.Missing>Your pawn does not have the trait "{0}"!</TKUtils.RemoveTrait.Missing>
     <TKUtils.RemoveTrait.Disabled>The trait "{0}" has been restricted from being removed from pawns.</TKUtils.RemoveTrait.Disabled>
-    <TKUtils.RemoveTrait.Class>Class changes have been forbidden.</TKUtils.RemoveTrait.Class>
+    <TKUtils.RemoveTrait.Class>Class changes are forbidden.</TKUtils.RemoveTrait.Class>
     
     <!-- Replace Trait -->
     <TKUtils.ReplaceTrait.Complete>Replace {0} with {1}!</TKUtils.ReplaceTrait.Complete>
-    <TKUtils.ReplaceTrait.Violation>Cannot replace {0} with {1}; it would exceed the trait limit.</TKUtils.ReplaceTrait.Violation>
+    <TKUtils.ReplaceTrait.Violation>Replacing {0} with {1} would exceed the trait limit.</TKUtils.ReplaceTrait.Violation>
 </LanguageData>
