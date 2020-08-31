@@ -101,7 +101,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Thing thing = ThingMaker.MakeThing(appointment.ThingDef);
             IntVec3 spot = DropCellFinder.TradeDropSpot(map);
-            TradeUtility.SpawnDropPod(spot, map, thing);
 
             if (appointment.ThingDef.Minifiable)
             {
