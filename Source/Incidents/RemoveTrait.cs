@@ -89,7 +89,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (MagicComp.Active && (MagicComp.GetAllClasses()?.Any(c => c.Equals(trait.def)) ?? false))
+            if (MagicComp.Active
+                && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(target.def.defName)) ?? false))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Class".Localize(query));
                 return false;

@@ -187,7 +187,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (MagicComp.Active && (MagicComp.GetAllClasses()?.Any(c => c.Equals(replaceThisTrait.def)) ?? false))
+            if (MagicComp.Active
+                && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(replaceThisTrait.def.defName)) ?? false))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
