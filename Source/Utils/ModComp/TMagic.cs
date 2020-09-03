@@ -301,16 +301,12 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         internal static IEnumerable<TraitDef> GetMagicClasses()
         {
-            TkLogger.Info("Getting TMagic traits...");
             List<TraitDef> container = MagicTraits.GetValue(null) as List<TraitDef> ?? new List<TraitDef>();
 
-            TkLogger.Info("Getting custom classes...");
             if (!(CustomMagicClasses.GetValue(null) is IList customMagic))
             {
                 return container;
             }
-
-            TkLogger.Info($"Obtained {customMagic.Count:N0} custom classes.");
 
             foreach (object trait in customMagic)
             {
