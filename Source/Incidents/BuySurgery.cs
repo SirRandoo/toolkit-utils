@@ -173,6 +173,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     appointment.Quantity = Mathf.Clamp(quantity, 0, 100);
                     appointment.LocateSurgery();
                     appointment.TryFillQuota();
+                    appointment.Quantity = appointment.BodyParts.Count;
                 }
                 else
                 {
