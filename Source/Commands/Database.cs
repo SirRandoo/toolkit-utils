@@ -24,10 +24,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             {"clubs", "weapons"},
             {"knife", "weapons"},
             {"knives", "weapons"},
-            {"pawn", "races"},
-            {"pawns", "races"},
-            {"race", "races"},
-            {"races", "races"},
+            {"pawn", "kinds"},
+            {"pawns", "kinds"},
+            {"race", "kinds"},
+            {"races", "kinds"},
+            {"kinds", "kinds"},
+            {"kind", "kinds"},
             {"trait", "traits"},
             {"traits", "traits"}
         };
