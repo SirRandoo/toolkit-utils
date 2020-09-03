@@ -2,6 +2,7 @@
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
@@ -64,10 +65,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformWeaponLookup(string query)
         {
-            ThingDef weapon = DefDatabase<ThingDef>.AllDefsListForReading.Where(t => t.IsWeapon)
+            ThingItem weapon = Data.Items.Where(t => t.Thing.IsWeapon)
                .FirstOrDefault(
-                    t => t.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || t.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                    t => t.Name.EqualsIgnoreCase(query.ToToolkit())
+                         || t.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                 );
 
             if (weapon == null)
@@ -77,22 +78,22 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var result = new List<string>();
 
-            if (!weapon.statBases.NullOrEmpty())
+            if (!weapon.Thing.statBases.NullOrEmpty())
             {
-                result.AddRange(weapon.statBases.Select(stat => $"{stat.value} {stat.stat.label}"));
+                result.AddRange(weapon.Thing.statBases.Select(stat => $"{stat.value} {stat.stat.label}"));
             }
 
-            if (!weapon.equippedStatOffsets.NullOrEmpty())
+            if (!weapon.Thing.equippedStatOffsets.NullOrEmpty())
             {
-                result.AddRange(weapon.equippedStatOffsets.Select(stat => $"{stat.ValueToStringAsOffset}"));
+                result.AddRange(weapon.Thing.equippedStatOffsets.Select(stat => $"{stat.ValueToStringAsOffset}"));
             }
 
-            if (!weapon.damageMultipliers.NullOrEmpty())
+            if (!weapon.Thing.damageMultipliers.NullOrEmpty())
             {
-                result.AddRange(weapon.damageMultipliers.Select(m => $"{m.damageDef.LabelCap} x{m.multiplier}"));
+                result.AddRange(weapon.Thing.damageMultipliers.Select(m => $"{m.damageDef.LabelCap} x{m.multiplier}"));
             }
 
-            Notify__LookupComplete(ResponseHelper.JoinPair(weapon.LabelCap, result.GroupedJoin()));
+            Notify__LookupComplete(ResponseHelper.JoinPair(weapon.Name, result.GroupedJoin()));
         }
 
         private void PerformLookup(string category, string query)
