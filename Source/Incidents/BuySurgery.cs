@@ -203,12 +203,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 Surgery = DefDatabase<RecipeDef>.AllDefs.Where(r => r.IsSurgery)
                    .Where(r => r.Worker != null)
-                   .Where(
-                        r => r.Worker.GetPartsToApplyOn(Patient, r)
-                           .Any(p => BodyParts.Any(b => b.def.defName.Equals(p.def.defName)))
-                    )
                    .Where(r => r.IsIngredient(ThingDef))
                    .Where(r => r.AvailableOnNow(Patient))
+                   .Where(
+                        r => r.Worker.GetPartsToApplyOn(Patient, r)
+                           .Any(p => BodyParts?.Any(b => b.def.defName.Equals(p.def.defName)) ?? true)
+                    )
                    .FirstOrFallback();
             }
 
