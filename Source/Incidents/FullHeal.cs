@@ -47,7 +47,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     break;
                 }
 
-                healed = Heal(HealHelper.GetPawnHealable(pawn), healed);
+                object healable = HealHelper.GetPawnHealable(pawn);
+
+                if (healable == null)
+                {
+                    break;
+                }
+
+                healed = Heal(healable, healed);
                 iterations += 1;
 
                 if (iterations < 500)
@@ -74,11 +81,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private int Heal(object injury, int healed)
         {
-            if (injury == null)
-            {
-                return healed;
-            }
-
             switch (injury)
             {
                 case Hediff hediff:
