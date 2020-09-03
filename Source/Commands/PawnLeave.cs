@@ -54,10 +54,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     Mathf.CeilToInt(pawn.BodySize * 0.6f)
                 ))
             {
-                twitchMessage.Reply("TKUtils.Responses.Leave.Thanos".Localize());
+                twitchMessage.Reply("TKUtils.Leave.Thanos".Localize());
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Leave.Thanos.Title".Localize(),
-                    "TKUtils.Letters.Leave.Thanos.Description".Localize(pawn.LabelShortCap),
+                    "TKUtils.LeaveLetter.ThanosTitle".Localize(),
+                    "TKUtils.LeaveLetter.ThanosDescription".Localize(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
                 );
@@ -70,10 +70,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     pawn.Strip();
                 }
 
-                twitchMessage.Reply("TKUtils.Responses.Leave.Generic".Localize());
+                twitchMessage.Reply("TKUtils.Leave.Generic".Localize());
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.Letters.Leave.Generic.Title".Localize(),
-                    "TKUtils.Letters.Leave.Generic.Description".Localize(pawn.LabelShortCap),
+                    "TKUtils.LeaveLetter.GenericTitle".Localize(),
+                    "TKUtils.LeaveLetter.GenericDescription".Localize(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
                 );
