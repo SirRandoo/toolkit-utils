@@ -87,6 +87,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                 result.AddRange(weapon.equippedStatOffsets.Select(stat => $"{stat.ValueToStringAsOffset}"));
             }
 
+            if (!weapon.damageMultipliers.NullOrEmpty())
+            {
+                result.AddRange(weapon.damageMultipliers.Select(m => $"{m.damageDef.LabelCap} x{m.multiplier}"));
+            }
+
             Notify__LookupComplete(ResponseHelper.JoinPair(weapon.LabelCap, result.GroupedJoin()));
         }
 
