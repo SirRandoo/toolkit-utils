@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!Index.TryGetValue(category.ToLowerInvariant(), out string _))
             {
                 query = category;
-                category = "items";
+                category = "weapons";
             }
 
             PerformLookup(category, query);
