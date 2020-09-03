@@ -24,10 +24,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             {"incidents", "events"},
             {"event", "events"},
             {"events", "events"},
-            {"pawn", "races"},
-            {"pawns", "races"},
-            {"race", "races"},
-            {"races", "races"},
+            {"pawn", "kinds"},
+            {"pawns", "kinds"},
+            {"race", "kinds"},
+            {"races", "kinds"},
+            {"kinds", "kinds"},
+            {"kind", "kinds"},
             {"disease", "diseases"},
             {"diseases", "diseases"},
             {"animal", "animals"},
@@ -194,8 +196,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case "traits":
                     PerformTraitLookup(query);
                     return;
-                case "races":
-                    PerformRaceLookup(query);
+                case "kinds":
+                    PerformKindLookup(query);
                     return;
                 case "stats":
                     PerformStatLookup(query);
@@ -203,7 +205,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private void PerformRaceLookup(string query)
+        private void PerformKindLookup(string query)
         {
             string[] results = Data.PawnKinds.Where(
                     i =>
