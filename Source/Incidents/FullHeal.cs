@@ -30,6 +30,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (HealHelper.GetPawnHealable(pawn) == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NotInjured".Localize());
+                return false;
             }
 
             return true;
