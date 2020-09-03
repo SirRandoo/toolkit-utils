@@ -68,7 +68,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (ToolkitSettings.PurchaseConfirmations)
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.FullHeal.Complete".Localize(healed.ToString("N0")));
+                MessageHelper.ReplyToUser(
+                    Viewer.username,
+                    healed > 1
+                        ? "TKUtils.FullHeal.CompletePlural".Localize(healed.ToString("N0"))
+                        : "TKUtils.FullHeal.Complete".Localize()
+                );
             }
 
             Current.Game.letterStack.ReceiveLetter(

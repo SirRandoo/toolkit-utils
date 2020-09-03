@@ -31,7 +31,8 @@
     <TKUtils.HealMe.Restored>Your pawn has had their {0} restored.</TKUtils.HealMe.Restored>
     
     <!-- Full Heal -->
-    <TKUtils.FullHeal.Complete>Your pawn has recovered from {0} injuries.</TKUtils.FullHeal.Complete>
+    <TKUtils.FullHeal.Complete>Your pawn has recoved from their injury.</TKUtils.FullHeal.Complete>
+    <TKUtils.FullHeal.CompletePlural>Your pawn has recovered from {0} injuries.</TKUtils.FullHeal.CompletePlural>
     
     <!-- Immortality -->
     <TKUtils.Immortality>Your pawn has been granted immortality.</TKUtils.Immortality>
