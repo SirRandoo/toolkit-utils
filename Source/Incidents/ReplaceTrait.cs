@@ -153,7 +153,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (pawn.kindDef.disallowedTraits.Any(t => t.defName.Equals(replaceThisTraitDef.defName)))
+            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(replaceThisTraitDef.defName)) ?? false)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -162,7 +162,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (pawn.kindDef.disallowedTraits.Any(t => t.defName.Equals(replaceThatTraitDef.defName)))
+            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(replaceThatTraitDef.defName)) ?? false)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
