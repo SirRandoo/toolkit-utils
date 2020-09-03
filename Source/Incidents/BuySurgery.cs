@@ -160,7 +160,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 var appointment = new Appointment {Patient = patient};
                 appointment.ParseThingDef(segments.FirstOrFallback());
-                appointment.LocateSurgery();
 
                 string multi = segments.Skip(1).FirstOrFallback();
 
@@ -172,11 +171,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 if (int.TryParse(multi, out int quantity))
                 {
                     appointment.Quantity = Mathf.Clamp(quantity, 0, 100);
+                    appointment.LocateSurgery();
                     appointment.TryFillQuota();
                 }
                 else
                 {
                     appointment.ParseBodyPart(multi);
+                    appointment.LocateSurgery();
                     appointment.Quantity = 1;
                 }
 
