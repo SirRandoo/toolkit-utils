@@ -349,7 +349,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             container.AddRange(GetMagicClasses());
             container.AddRange(GetMightClasses());
-            container.SortBy(t => t.label);
+            container.SortBy(t => t.label ?? t.defName);
 
             return container;
         }
