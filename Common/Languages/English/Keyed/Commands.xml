@@ -11,7 +11,7 @@
     
     <!-- Colonist Count -->
     <TKUtils.ColonistCount.None>It looks like there's no one here...</TKUtils.ColonistCount.None>
-    <TKUtils.ColonistCount.Any>{0} colonists remain!</TKUtils.ColonistCount.Any>
+    <TKUtils.ColonistCount.Any>There are {0} colonists left.</TKUtils.ColonistCount.Any>
     
     <!-- Factions -->
     <TKUtils.Factions.None>The current game does not have any visible factions.</TKUtils.Factions.None>
