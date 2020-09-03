@@ -163,6 +163,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 appointment.LocateSurgery();
 
                 string multi = segments.Skip(1).FirstOrFallback();
+
+                if (multi.NullOrEmpty())
+                {
+                    multi = "1";
+                }
+
                 if (int.TryParse(multi, out int quantity))
                 {
                     appointment.Quantity = Mathf.Clamp(quantity, 0, 100);
