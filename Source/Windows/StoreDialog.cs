@@ -757,7 +757,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private void DrawGlobalEnableButton(Rect buttonRect, List<ThingItem> workingList)
+        private void DrawGlobalEnableButton(Rect buttonRect, IEnumerable<ThingItem> workingList)
         {
             if (Widgets.ButtonText(buttonRect, enableAllText))
             {
@@ -769,7 +769,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private void DrawGlobalResetButton(Rect buttonRect, List<ThingItem> workingList)
+        private void DrawGlobalResetButton(Rect buttonRect, IEnumerable<ThingItem> workingList)
         {
             if (Widgets.ButtonText(buttonRect, resetAllText))
             {
