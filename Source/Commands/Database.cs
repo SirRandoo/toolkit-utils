@@ -105,13 +105,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case "traits":
                     PerformTraitLookup(query);
                     return;
-                case "races":
-                    PerformRaceLookup(query);
+                case "kinds":
+                    PerformKindLookup(query);
                     return;
             }
         }
 
-        private void PerformRaceLookup(string query)
+        private void PerformKindLookup(string query)
         {
             PawnKindDef kind = DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(
                 t => t.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
