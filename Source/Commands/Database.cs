@@ -99,7 +99,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             switch (result)
             {
-                case "items":
+                case "weapons":
                     PerformWeaponLookup(query);
                     return;
                 case "traits":
