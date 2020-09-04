@@ -153,7 +153,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (replaceThatTraitDef.IsDisallowedByKind(pawn, replaceThatShop.Degree))
+            if (AlienRace.Enabled && AlienRace.IsTraitDisallowed(pawn, replaceThatShop.DefName, replaceThatShop.Degree))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
