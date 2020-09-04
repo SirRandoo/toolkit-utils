@@ -153,6 +153,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, replaceThisShop.DefName, replaceThisShop.Degree))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.RemoveTrait.Kind".Localize(pawn.kindDef.LabelCap, replaceThisShop.Name)
+                );
+                return false;
+            }
+
             if (AlienRace.Enabled && AlienRace.IsTraitDisallowed(pawn, replaceThatShop.DefName, replaceThatShop.Degree))
             {
                 MessageHelper.ReplyToUser(
