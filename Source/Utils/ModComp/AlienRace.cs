@@ -146,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return defName != null;
         }
 
-        private static bool IsTraitDisallowed(Pawn pawn, string defName, int degree)
+        internal static bool IsTraitDisallowed(Pawn pawn, string defName, int degree)
         {
             if (!TryGetDisallowedTraits(pawn, out IList disallowedTraits))
             {
