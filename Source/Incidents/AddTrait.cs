@@ -118,7 +118,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (AlienRace.Enabled && AlienRace.IsTraitDisallowed(pawn, buyableTrait.DefName, buyableTrait.Degree))
+            if (traitDef.IsDisallowedByKind(pawn, buyableTrait.Degree))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
