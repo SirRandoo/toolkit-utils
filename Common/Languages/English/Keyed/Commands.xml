@@ -34,6 +34,9 @@
     <TKUtils.PawnClass.None>You do not have a class.</TKUtils.PawnClass.None>
     <TKUtils.PawnClass.Points>{0} point(s) available.</TKUtils.PawnClass.Points>
     
+    <!-- Pawn Relations -->
+    <TKUtils.PawnRelations.None>You don't have any relationships.</TKUtils.PawnRelations.None>
+    
     <!-- Fix All -->
     <TKUtils.FixAll>Successfully relinked all pawns in Twitch Toolkit.</TKUtils.FixAll>
     

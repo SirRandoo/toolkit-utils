@@ -326,10 +326,23 @@
         <label>abandon pawn</label>
         <command>leave</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnLeave</commandDriver>
-        
+    
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Makes your pawn leave the colony.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>PawnRelations</defName>
+        <label>viewer relations</label>
+        <command>mypawnrelations</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnRelations</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Shows your pawn's relationships to other viewers.</Description>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
