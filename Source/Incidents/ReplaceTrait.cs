@@ -135,29 +135,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (replaceThisTraitDef.IsDisallowedByBackstory(pawn, replaceThisShop.Degree) is { } thisBackstory)
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByBackstory".Localize(thisBackstory.identifier, toReplace)
-                );
-                return false;
-            }
-
             if (replaceThatTraitDef.IsDisallowedByBackstory(pawn, replaceThatShop.Degree) is { } thatBackstory)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.Trait.RestrictedByBackstory".Localize(thatBackstory.identifier, toReplaceWith)
-                );
-                return false;
-            }
-
-            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(replaceThisTraitDef.defName)) ?? false)
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, toReplace)
                 );
                 return false;
             }
