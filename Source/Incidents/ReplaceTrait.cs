@@ -171,6 +171,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (replaceThatTraitDef.IsDisallowedByKind(pawn, replaceThatShop.Degree))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, replaceThatShop.Name)
+                );
+                return false;
+            }
+
             List<Trait> traits = pawn.story.traits.allTraits;
 
             if (traits?.Count <= 0)
