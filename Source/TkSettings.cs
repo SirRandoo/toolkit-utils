@@ -45,6 +45,7 @@ namespace SirRandoo.ToolkitUtils
         public static int StoreBuildRate = 60;
         public static bool StoreState = true;
         public static bool Offload;
+        public static bool BuyItemBalance;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
         public static List<StatSetting> StatSettings = new List<StatSetting>();
@@ -209,6 +210,12 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.PawnKind.Label".Localize(),
                 ref Race,
                 "TKUtils.PawnKind.Tooltip".Localize()
+            );
+
+            listing.CheckboxLabeled(
+                "TKUtils.BuyItemBalance.Label".Localize(),
+                ref BuyItemBalance,
+                "TKUtils.BuyItemBalance.Tooltip".Localize()
             );
 
             Rect line = listing.GetRect(Text.LineHeight);
@@ -448,6 +455,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
             Scribe_Values.Look(ref VersionedModList, "versionedModList");
             Scribe_Values.Look(ref HairColor, "hairColor", true);
+            Scribe_Values.Look(ref BuyItemBalance, "buyItemBalance");
 
             Scribe_Values.Look(ref ShowSurgeries, "surgeries", true);
             Scribe_Values.Look(ref ShowArmor, "armor", true);

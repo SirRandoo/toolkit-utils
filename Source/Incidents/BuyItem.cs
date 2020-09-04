@@ -244,28 +244,56 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void Notify_AnimalPurchaseComplete()
         {
-            MessageHelper.ReplyToUser(
-                Purchaser.username,
-                "TKUtils.Item.Complete".Localize(
-                    Quantity.ToString("N0"),
-                    Quantity > 1 ? ThingDef.label.Pluralize() : ThingDef.label,
-                    Price.ToString("N0"),
-                    Purchaser.GetViewerCoins().ToString("N0")
-                )
-            );
+            if (TkSettings.BuyItemBalance)
+            {
+                MessageHelper.ReplyToUser(
+                    Purchaser.username,
+                    "TKUtils.Item.CompleteMinimum".Localize(
+                        Quantity.ToString("N0"),
+                        Quantity > 1 ? ThingDef.label.Pluralize() : ThingDef.label,
+                        Price.ToString("N0")
+                    )
+                );
+            }
+            else
+            {
+                MessageHelper.ReplyToUser(
+                    Purchaser.username,
+                    "TKUtils.Item.Complete".Localize(
+                        Quantity.ToString("N0"),
+                        Quantity > 1 ? ThingDef.label.Pluralize() : ThingDef.label,
+                        Price.ToString("N0"),
+                        Purchaser.GetViewerCoins().ToString("N0")
+                    )
+                );
+            }
         }
 
         private void Notify_ItemPurchaseComplete()
         {
-            MessageHelper.ReplyToUser(
-                Purchaser.username,
-                "TKUtils.Item.Complete".Localize(
-                    Quantity.ToString("N0"),
-                    Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
-                    Price.ToString("N0"),
-                    Purchaser.GetViewerCoins().ToString("N0")
-                )
-            );
+            if (TkSettings.BuyItemBalance)
+            {
+                MessageHelper.ReplyToUser(
+                    Purchaser.username,
+                    "TKUtils.Item.CompleteMinimums".Localize(
+                        Quantity.ToString("N0"),
+                        Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                        Price.ToString("N0")
+                    )
+                );
+            }
+            else
+            {
+                MessageHelper.ReplyToUser(
+                    Purchaser.username,
+                    "TKUtils.Item.Complete".Localize(
+                        Quantity.ToString("N0"),
+                        Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                        Price.ToString("N0"),
+                        Purchaser.GetViewerCoins().ToString("N0")
+                    )
+                );
+            }
         }
     }
 }
