@@ -147,6 +147,7 @@
         <Compile Include="Commands\PawnHealth.cs"/>
         <Compile Include="Commands\PawnKills.cs"/>
         <Compile Include="Commands\PawnNeeds.cs"/>
+        <Compile Include="Commands\PawnRelations.cs"/>
         <Compile Include="Commands\PawnSkills.cs"/>
         <Compile Include="Commands\PawnStats.cs"/>
         <Compile Include="Commands\PawnStory.cs"/>
