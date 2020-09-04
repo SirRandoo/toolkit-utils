@@ -171,17 +171,24 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             return result == null
                 ? GetMightClassNameBase(parent)
-                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result)).Label;
+                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result))?.Label ?? null;
         }
 
         private static string GetMightClassNameBase(Pawn pawn)
         {
-            if (!(MightTraits.GetValue(null, null) is List<TraitDef> mightTraits))
+            foreach (TraitDef t in GetMightClasses())
             {
-                return null;
+                Trait trait = pawn.story.traits.GetTrait(t);
+
+                if (trait == null)
+                {
+                    continue;
+                }
+
+                return trait.Label;
             }
 
-            return mightTraits.FirstOrDefault(t => pawn.story.traits.HasTrait(t))?.label;
+            return null;
         }
 
         internal static string GetMagicClassName(object magicData, Pawn parent)
@@ -190,17 +197,24 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             return result == null
                 ? GetMagicClassNameBase(parent)
-                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result)).Label;
+                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result))?.Label ?? null;
         }
 
         private static string GetMagicClassNameBase(Pawn pawn)
         {
-            if (!(MagicTraits.GetValue(null) is List<TraitDef> magicTraits))
+            foreach (TraitDef t in GetMagicClasses())
             {
-                return null;
+                Trait trait = pawn.story.traits.GetTrait(t);
+
+                if (trait == null)
+                {
+                    continue;
+                }
+
+                return trait.Label;
             }
 
-            return magicTraits.FirstOrDefault(t => pawn.story.traits.HasTrait(t))?.label;
+            return null;
         }
 
         private static object GetMagicDataFromComp(object magicComp)
@@ -341,7 +355,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 container.Add(result);
             }
 
-            return container.Where(t => !t.defName.Equals("PhysicalProdigy") && !t.defName.Equals("Gifted"));
+            return container.Where(t => !t.defName.Equals("Gifted"));
         }
 
         internal static IEnumerable<TraitDef> GetMightClasses()
@@ -363,7 +377,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 container.Add(result);
             }
 
-            return container;
+            return container.Where(t => !t.defName.Equals("PhysicalProdigy"));
         }
 
         internal static IEnumerable<TraitDef> GetAllClasses()
