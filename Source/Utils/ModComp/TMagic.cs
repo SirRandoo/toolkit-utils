@@ -171,7 +171,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             return result == null
                 ? GetMightClassNameBase(parent)
-                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result))?.Label ?? null;
+                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result))?.Label;
         }
 
         private static string GetMightClassNameBase(Pawn pawn)
@@ -197,7 +197,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             return result == null
                 ? GetMagicClassNameBase(parent)
-                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result))?.Label ?? null;
+                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result))?.Label;
         }
 
         private static string GetMagicClassNameBase(Pawn pawn)
