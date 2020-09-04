@@ -341,7 +341,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 container.Add(result);
             }
 
-            return container;
+            return container.Where(t => !t.defName.Equals("PhysicalProdigy") && !t.defName.Equals("Gifted"));
         }
 
         internal static IEnumerable<TraitDef> GetMightClasses()
