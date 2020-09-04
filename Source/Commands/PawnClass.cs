@@ -32,8 +32,14 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var container = new List<string>
             {
-                ResponseHelper.JoinPair("TKUtils.PawnClass.Level".Localize(), data.Level.ToString("N0")),
-                ResponseHelper.JoinPair("TKUtils.PawnClass.Experience".Localize(), data.ExperienceString)
+                ResponseHelper.JoinPair(
+                    "TKUtils.PawnClass.Level".Localize().CapitalizeFirst(),
+                    data.Level.ToString("N0")
+                ),
+                ResponseHelper.JoinPair(
+                    "TKUtils.PawnClass.Experience".Localize().CapitalizeFirst(),
+                    data.ExperienceString
+                )
             };
 
             string key = GetResourceKey(data);
@@ -50,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 t += $"{data.ResourceRegenRate:N0} {rateKey}P/5s";
                 t += ")";
 
-                container.Add(ResponseHelper.JoinPair(key.Localize(), t));
+                container.Add(ResponseHelper.JoinPair(rateKey.CapitalizeFirst(), t));
             }
 
             if (data.SkillPoints > 0)
