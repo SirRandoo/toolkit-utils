@@ -53,7 +53,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     t += "+";
                 }
 
-                t += $"{data.ResourceRegenRate:N0} {rateKey}P/5s";
+                t += $"{data.ResourceRegenRate:N0} {rateKey.Substring(0, 1).CapitalizeFirst()}P/5s";
                 t += ")";
 
                 container.Add(ResponseHelper.JoinPair(rateKey.CapitalizeFirst(), t));
