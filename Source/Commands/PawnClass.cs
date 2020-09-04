@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             var container = new List<string>
             {
                 ResponseHelper.JoinPair("TKUtils.PawnClass.Level".Localize(), data.Level.ToString("N0")),
-                ResponseHelper.JoinPair("TKUtils.PawnClass.XP".Localize(), data.ExperienceString)
+                ResponseHelper.JoinPair("TKUtils.PawnClass.Experience".Localize(), data.ExperienceString)
             };
 
             string key = GetResourceKey(data);
