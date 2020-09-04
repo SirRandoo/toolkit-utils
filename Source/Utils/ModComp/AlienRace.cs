@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
                     Type alienDef = assembly.GetType("AlienRace.ThingDef_AlienRace", false);
                     AlienSettingsField = alienDef.GetField("alienRace");
-                    Type alienSettingsType = assembly.GetType("AlienRace.ThingDef_AlienRace.AlienSettings", false);
+                    Type alienSettingsType = alienDef.GetNestedType("AlienSettings");
                     AlienGeneralSettingsField = alienSettingsType.GetField("generalSettings");
                     Type alienGeneralSettingsType = assembly.GetType("AlienRace.GeneralSettings", false);
                     Type alienTraitEntry = assembly.GetType("AlienRace.AlienTraitEntry", false);
