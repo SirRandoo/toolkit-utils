@@ -47,6 +47,7 @@
     <TKUtils.RemoveTrait.Missing>Your pawn does not have the trait "{0}"!</TKUtils.RemoveTrait.Missing>
     <TKUtils.RemoveTrait.Disabled>The trait "{0}" has been restricted from being removed from pawns.</TKUtils.RemoveTrait.Disabled>
     <TKUtils.RemoveTrait.Class>Class changes are forbidden.</TKUtils.RemoveTrait.Class>
+    <TKUtils.RemoveTrait.Kind>Your pawn is a(n) {0}, which forcibly have the trait "{1}".</TKUtils.RemoveTrait.Kind>
     
     <!-- Replace Trait -->
     <TKUtils.ReplaceTrait.Complete>Replace {0} with {1}!</TKUtils.ReplaceTrait.Complete>

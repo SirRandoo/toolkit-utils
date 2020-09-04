@@ -89,6 +89,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, target.def.defName, target.Degree))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.RemoveTrait.Kind".Localize(pawn.kindDef.LabelCap, traitQuery.Name)
+                );
+                return false;
+            }
+
             if (MagicComp.Active
                 && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(target.def.defName)) ?? false))
             {

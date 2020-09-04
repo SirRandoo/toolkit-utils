@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
-        private static bool IsTraitForced(Pawn pawn, string defName, int degree)
+        internal static bool IsTraitForced(Pawn pawn, string defName, int degree)
         {
             if (!TryGetForcedTraits(pawn, out IList forcedTraits))
             {
