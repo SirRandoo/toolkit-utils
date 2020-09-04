@@ -150,7 +150,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree)
         {
-            return AlienRace.Enabled && AlienRace.IsTraitAllowed(pawn, trait, degree);
+            return AlienRace.Enabled && !AlienRace.IsTraitAllowed(pawn, trait, degree);
         }
     }
 }
