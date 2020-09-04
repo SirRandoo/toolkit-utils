@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using System.Text;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using UnityEngine;
 using Verse;
@@ -24,6 +25,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public float MaxResource { get; private set; }
         public float ResourceRegenRate { get; private set; }
         private Pawn Parent { get; set; }
+        private object CompData { get; set; }
         private object Data { get; set; }
 
         public string ExperienceString => $"{CurrentExp:N0} / {ExpToNextLevel:N0}";
@@ -60,9 +62,9 @@ namespace SirRandoo.ToolkitUtils.Models
             SkillPoints = MagicComp.GetAbilityPointsFrom(Data, cType);
             Level = MagicComp.GetLevelFrom(Data, cType);
             CurrentExp = MagicComp.GetCurrentExpFrom(Data, cType);
-            ExpForCurrentLevel = MagicComp.GetCurrentLevelExpFrom(Data, cType);
-            ExpToNextLevel = MagicComp.GetNextLevelExpFrom(Data, cType);
-            ResourceRegenRate = MagicComp.GetResourceRegenRateFrom(Data, cType);
+            ExpForCurrentLevel = MagicComp.GetCurrentLevelExpFrom(CompData, cType);
+            ExpToNextLevel = MagicComp.GetNextLevelExpFrom(CompData, cType);
+            ResourceRegenRate = MagicComp.GetResourceRegenRateFrom(CompData, cType);
         }
 
         private void PullFromResource()
@@ -92,7 +94,8 @@ namespace SirRandoo.ToolkitUtils.Models
             if (magicData != null && MagicComp.IsMagicUser(magicData))
             {
                 Type = ClassTypes.Magic;
-                Data = magicData;
+                CompData = magicData;
+                Data = MagicComp.GetDataFromComp(magicData, ClassTypes.Magic);
                 return;
             }
 
@@ -101,7 +104,8 @@ namespace SirRandoo.ToolkitUtils.Models
             if (mightData != null && MagicComp.IsMightUser(mightData))
             {
                 Type = ClassTypes.Might;
-                Data = mightData;
+                CompData = mightData;
+                Data = MagicComp.GetDataFromComp(mightData, ClassTypes.Might);
             }
         }
 
@@ -110,10 +114,10 @@ namespace SirRandoo.ToolkitUtils.Models
             switch (Type)
             {
                 case ClassTypes.Might:
-                    ClassName = MagicComp.GetMightClassName(Data, Parent);
+                    ClassName = MagicComp.GetMightClassName(CompData, Parent);
                     break;
                 case ClassTypes.Magic:
-                    ClassName = MagicComp.GetMagicClassName(Data, Parent);
+                    ClassName = MagicComp.GetMagicClassName(CompData, Parent);
                     break;
             }
         }
@@ -125,7 +129,15 @@ namespace SirRandoo.ToolkitUtils.Models
                 return;
             }
 
-            MagicComp.ResetCharacterData(Data, (ClassTypes) Type);
+            MagicComp.ResetCharacterData(CompData, (ClassTypes) Type);
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder("CharacterData {").AppendLine($"  ClassType={Type?.ToString() ?? "None"}")
+               .AppendLine($"  ClassName={ClassName ?? "None"}")
+               .Append("}")
+               .ToString();
         }
     }
 }

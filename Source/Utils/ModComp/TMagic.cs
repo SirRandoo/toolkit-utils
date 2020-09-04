@@ -171,7 +171,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             return result == null
                 ? GetMightClassNameBase(parent)
-                : ((TraitDef) CustomClassTraitField.GetValue(result)).label;
+                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result)).Label;
         }
 
         private static string GetMightClassNameBase(Pawn pawn)
@@ -190,7 +190,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             return result == null
                 ? GetMagicClassNameBase(parent)
-                : ((TraitDef) CustomClassTraitField.GetValue(result)).label;
+                : parent.story.traits.GetTrait((TraitDef) CustomClassTraitField.GetValue(result)).Label;
         }
 
         private static string GetMagicClassNameBase(Pawn pawn)
@@ -201,6 +201,29 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
 
             return magicTraits.FirstOrDefault(t => pawn.story.traits.HasTrait(t))?.label;
+        }
+
+        private static object GetMagicDataFromComp(object magicComp)
+        {
+            return MagicDataProperty.GetValue(magicComp);
+        }
+
+        private static object GetMightDataFromComp(object mightComp)
+        {
+            return MightDataProperty.GetValue(mightComp);
+        }
+
+        internal static object GetDataFromComp(object comp, ClassTypes classType)
+        {
+            switch (classType)
+            {
+                case ClassTypes.Magic:
+                    return GetMagicDataFromComp(comp);
+                case ClassTypes.Might:
+                    return GetMightDataFromComp(comp);
+            }
+
+            return null;
         }
 
         internal static int GetAbilityPointsFrom(object data, ClassTypes classType)
@@ -242,14 +265,14 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return -1;
         }
 
-        internal static int GetCurrentLevelExpFrom(object data, ClassTypes classType)
+        internal static float GetCurrentLevelExpFrom(object data, ClassTypes classType)
         {
             switch (classType)
             {
                 case ClassTypes.Magic:
-                    return (int) MagicXpLastLevel.GetValue(data);
+                    return (float) MagicXpLastLevel.GetValue(data);
                 case ClassTypes.Might:
-                    return (int) MightXpLastLevel.GetValue(data);
+                    return (float) MightXpLastLevel.GetValue(data);
             }
 
             return -1;
