@@ -356,6 +356,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 if (Widgets.ButtonInvisible(expandRect))
                 {
                     expanded = trait;
+
+                    if (expanded.Data?.CustomName == true)
+                    {
+                        expandedName = expanded.Name;
+                    }
                 }
 
                 SettingsHelper.DrawLabelAnchored(nameRect, trait.Name, TextAnchor.MiddleLeft);

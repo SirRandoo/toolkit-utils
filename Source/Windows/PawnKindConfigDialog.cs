@@ -343,6 +343,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (Widgets.ButtonInvisible(settingsRect))
             {
                 expanded = item;
+
+                if (expanded.Data?.CustomName == true)
+                {
+                    expandedName = expanded.Name;
+                }
             }
         }
 
