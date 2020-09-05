@@ -17,19 +17,19 @@ namespace SirRandoo.ToolkitUtils.Harmony
     public static class CommandsHandlerPatch
     {
         [UsedImplicitly]
-        public static bool Prefix(ITwitchMessage msg)
+        public static bool Prefix(ITwitchMessage twitchMessage)
         {
             if (!TkSettings.Commands)
             {
                 return true;
             }
 
-            if (msg?.Message == null)
+            if (twitchMessage?.Message == null)
             {
                 return false;
             }
 
-            Viewer viewer = Viewers.GetViewer(msg.Username);
+            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
             viewer.last_seen = DateTime.Now;
 
             if (viewer.IsBanned)
@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            string message = msg.Message;
+            string message = twitchMessage.Message;
 
             if (message.StartsWith(TkSettings.Prefix))
             {
@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToArray();
             }
 
-            LocateCommand(segments)?.Execute(msg.WithMessage(CombineSegments(segments).Trim()));
+            LocateCommand(segments)?.Execute(twitchMessage.WithMessage(CombineSegments(segments).Trim()));
             return false;
         }
 
