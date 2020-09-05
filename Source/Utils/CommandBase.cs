@@ -16,8 +16,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         private static Pawn FindPawn(string username)
         {
-            return Find.ColonistBar.Entries.Where(c => c.pawn != null)
-               .Select(c => c.pawn)
+            return Find.ColonistBar.GetColonistsInOrder()
                .FirstOrDefault(c => ((NameTriple) c.Name)?.Nick.EqualsIgnoreCase(username) ?? false);
         }
 
