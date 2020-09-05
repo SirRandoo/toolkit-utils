@@ -261,5 +261,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             return ColorTagged(s, ColorUtility.ToHtmlStringRGB(color));
         }
+
+        public static void TipRegion(this Rect region, string tooltip)
+        {
+            TooltipHandler.TipRegion(region, tooltip);
+            Widgets.DrawHighlightIfMouseover(region);
+        }
     }
 }

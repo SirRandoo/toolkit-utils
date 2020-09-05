@@ -90,29 +90,7 @@ namespace SirRandoo.ToolkitUtils
                 inRect.height = adjustedHeight;
             }
 
-            _dumpStyleOptions ??= new List<FloatMenuOption>
-            {
-                new FloatMenuOption(
-                    "TKUtils.DumpStyle.SingleFile".Localize(),
-                    () => DumpStyle = nameof(DumpStyles.SingleFile)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.DumpStyle.MultiFile".Localize(),
-                    () => DumpStyle = nameof(DumpStyles.MultiFile)
-                )
-            };
-
-            _leaveMenuOptions ??= new List<FloatMenuOption>
-            {
-                new FloatMenuOption(
-                    "TKUtils.LeaveMethod.Thanos".Localize(),
-                    () => LeaveMethod = nameof(LeaveMethods.Thanos)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.LeaveMethod.MentalBreak".Localize(),
-                    () => LeaveMethod = nameof(LeaveMethods.MentalBreak)
-                )
-            };
+            ValidateEnumOptions();
 
             GUI.BeginGroup(inRect);
             var catRect = new Rect(0f, 0f, inRect.width * 0.25f, inRect.height);
@@ -131,29 +109,7 @@ namespace SirRandoo.ToolkitUtils
             Widgets.DrawMenuSection(new Rect(0f, 0f, catRect.width, catRect.height));
 
             listing.BeginScrollView(menu, ref _menuScrollPos, ref menuView);
-            foreach ((string name, Categories value) in MenuCategories)
-            {
-                Rect line = listing.GetRect(Text.LineHeight);
-
-                if (!line.IsRegionVisible(menu, _menuScrollPos))
-                {
-                    continue;
-                }
-
-                if (_category == value)
-                {
-                    Widgets.DrawHighlightSelected(line);
-                }
-
-                Widgets.Label(line, $"TKUtils.{name}".Localize());
-
-                if (Widgets.ButtonInvisible(line))
-                {
-                    _category = value;
-                }
-
-                Widgets.DrawHighlightIfMouseover(line);
-            }
+            DrawCategoryList(listing, menu);
 
             GUI.EndGroup();
             listing.EndScrollView(ref menuView);
@@ -186,6 +142,60 @@ namespace SirRandoo.ToolkitUtils
 
             GUI.EndGroup();
             GUI.EndGroup();
+        }
+
+        private static void DrawCategoryList(Listing listing, Rect menu)
+        {
+            foreach ((string name, Categories value) in MenuCategories)
+            {
+                Rect line = listing.GetRect(Text.LineHeight);
+
+                if (!line.IsRegionVisible(menu, _menuScrollPos))
+                {
+                    continue;
+                }
+
+                if (_category == value)
+                {
+                    Widgets.DrawHighlightSelected(line);
+                }
+
+                Widgets.Label(line, $"TKUtils.{name}".Localize());
+
+                if (Widgets.ButtonInvisible(line))
+                {
+                    _category = value;
+                }
+
+                Widgets.DrawHighlightIfMouseover(line);
+            }
+        }
+
+        private static void ValidateEnumOptions()
+        {
+            _dumpStyleOptions ??= new List<FloatMenuOption>
+            {
+                new FloatMenuOption(
+                    "TKUtils.DumpStyle.SingleFile".Localize(),
+                    () => DumpStyle = nameof(DumpStyles.SingleFile)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.DumpStyle.MultiFile".Localize(),
+                    () => DumpStyle = nameof(DumpStyles.MultiFile)
+                )
+            };
+
+            _leaveMenuOptions ??= new List<FloatMenuOption>
+            {
+                new FloatMenuOption(
+                    "TKUtils.LeaveMethod.Thanos".Localize(),
+                    () => LeaveMethod = nameof(LeaveMethods.Thanos)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.LeaveMethod.MentalBreak".Localize(),
+                    () => LeaveMethod = nameof(LeaveMethods.MentalBreak)
+                )
+            };
         }
 
         private static void DrawGeneral(Rect canvas)
