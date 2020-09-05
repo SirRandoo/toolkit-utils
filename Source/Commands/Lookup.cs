@@ -147,11 +147,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformItemLookup(string query)
         {
-            string[] results = StoreInventory.items.Where(i => i.price > 0)
+            string[] results = Data.Items.Where(i => i.Price > 0)
                .Where(
                     i =>
                     {
-                        string label = i.abr.ToToolkit();
+                        string label = i.Name.ToToolkit();
                         string q = query.ToToolkit();
 
                         if (label.Contains(q) || label.EqualsIgnoreCase(q))
@@ -159,11 +159,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                             return true;
                         }
 
-                        return i.defname.ToToolkit().Contains(query.ToToolkit())
-                               || i.defname.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
+                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-               .Select(i => i.abr.ToToolkit().CapitalizeFirst())
+               .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                .ToArray();
 
             Notify__LookupComplete(query, results);
