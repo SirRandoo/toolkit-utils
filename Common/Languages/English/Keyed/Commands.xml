@@ -71,9 +71,7 @@
     <TKUtils.Price.AddTrait>{0} coins to add</TKUtils.Price.AddTrait>
     <TKUtils.Price.RemoveTrait>{0} coins to remove</TKUtils.Price.RemoveTrait>
     <TKUtils.Price.Limited>{0} - {1} coins</TKUtils.Price.Limited>
-    <TKUtils.Price.OverriddenItem>This event pulls prices from the "items" category.</TKUtils.Price.OverriddenItem>
-    <TKUtils.Price.OverriddenTrait>This event pulls prices from the "traits" category.</TKUtils.Price.OverriddenTrait>
-    <TKUtils.Price.OverriddenPawnKind>This event pulls prices from the "kind" category.</TKUtils.Price.OverriddenPawnKind>
+    <TKUtils.Price.Overridden>This event pulls prices from the "{0}" category.</TKUtils.Price.Overridden>
     
     <!-- Toggle Store -->
     <TKUtils.ToggleStore.Enabled>Toolkit's store has been enabled.</TKUtils.ToggleStore.Enabled>

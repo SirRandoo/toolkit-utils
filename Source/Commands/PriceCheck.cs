@@ -104,7 +104,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     );
                     return;
                 default:
-                    Notify__LookupComplete(query, $"TKUtils.Price.Overridden{eventType.ToString()}".Localize());
+                    Notify__LookupComplete(query, "TKUtils.Price.Overridden".Localize(eventType.ToString()));
                     return;
             }
         }
