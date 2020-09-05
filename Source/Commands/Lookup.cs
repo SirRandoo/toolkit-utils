@@ -8,7 +8,6 @@ using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -74,7 +73,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformAnimalLookup(string query)
         {
-            string[] results = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(i => i.RaceProps.Animal)
+            string[] results = DefDatabase<PawnKindDef>.AllDefs.Where(i => i.RaceProps.Animal)
                .Where(
                     i =>
                     {
@@ -98,7 +97,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformDiseaseLookup(string query)
         {
-            string[] results = DefDatabase<IncidentDef>.AllDefsListForReading
+            string[] results = DefDatabase<IncidentDef>.AllDefs
                .Where(i => i.category == IncidentCategoryDefOf.DiseaseHuman)
                .Where(
                     i =>
@@ -123,7 +122,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformEventLookup(string query)
         {
-            string[] results = DefDatabase<StoreIncident>.AllDefsListForReading.Where(i => i.cost > 0)
+            string[] results = DefDatabase<StoreIncident>.AllDefs.Where(i => i.cost > 0)
                .Where(
                     i =>
                     {
