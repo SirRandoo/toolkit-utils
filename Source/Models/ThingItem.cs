@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (data == null && ToolkitUtils.Data.ItemData.TryGetValue(Item.defname, out ItemData result))
+                if (data == null && ToolkitUtils.Data.ItemData.TryGetValue(Thing.defName, out ItemData result))
                 {
                     data = result;
                 }

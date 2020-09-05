@@ -13,6 +13,7 @@ using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Models;
 using TwitchToolkit;
+using TwitchToolkit.Store;
 using Verse;
 using Command = TwitchToolkit.Command;
 
@@ -26,6 +27,15 @@ namespace SirRandoo.ToolkitUtils
             NullValueHandling = NullValueHandling.Ignore,
             MissingMemberHandling = MissingMemberHandling.Ignore,
             ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            Converters = {new StringEnumConverter()},
+            Formatting = Formatting.Indented
+        };
+
+        private static readonly JsonSerializer AltJsonSerializer = new JsonSerializer
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            MissingMemberHandling = MissingMemberHandling.Ignore,
+            ContractResolver = new DefaultContractResolver(),
             Converters = {new StringEnumConverter()},
             Formatting = Formatting.Indented
         };
@@ -97,7 +107,8 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [CanBeNull]
-        internal static T LoadJson<T>(string path, bool ignoreErrors = false) where T : class
+        internal static T LoadJson<T>(string path, bool ignoreErrors = false, JsonSerializer serializer = null)
+            where T : class
         {
             if (!File.Exists(path) && !ignoreErrors)
             {
@@ -113,7 +124,7 @@ namespace SirRandoo.ToolkitUtils
                     {
                         using (JsonReader jReader = new JsonTextReader(reader))
                         {
-                            return (T) JsonSerializer.Deserialize(jReader, typeof(T));
+                            return (T) (serializer ?? JsonSerializer).Deserialize(jReader, typeof(T));
                         }
                     }
                 }
@@ -129,7 +140,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        internal static void SaveJson<T>(T obj, string path)
+        internal static void SaveJson<T>(T obj, string path, JsonSerializer serializer = null)
         {
             string directory = Path.GetDirectoryName(path);
 
@@ -148,7 +159,7 @@ namespace SirRandoo.ToolkitUtils
                     {
                         using (JsonWriter jWriter = new JsonTextWriter(streamWriter))
                         {
-                            JsonSerializer.Serialize(jWriter, obj);
+                            (serializer ?? JsonSerializer).Serialize(jWriter, obj);
                         }
                     }
                 }
@@ -190,12 +201,13 @@ namespace SirRandoo.ToolkitUtils
 
         public static void LoadItemData(string path)
         {
-            ItemData = LoadJson<Dictionary<string, ItemData>>(path, true) ?? new Dictionary<string, ItemData>();
+            ItemData = LoadJson<Dictionary<string, ItemData>>(path, true, AltJsonSerializer)
+                       ?? new Dictionary<string, ItemData>();
         }
 
         public static void SaveItemData(string path)
         {
-            SaveJson(ItemData, path);
+            SaveJson(ItemData, path, AltJsonSerializer);
         }
 
         private static void ValidateTraits()
@@ -252,23 +264,26 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidateItemData()
         {
-            List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefs.Where(t => t.race == null).ToList();
-            List<string> toCull = thingDefs.Where(thing => !ItemData.ContainsKey(thing.defName))
-               .Select(thing => thing.defName)
+            List<string> tradeables = Store_ItemEditor.GetDefaultItems().Select(t => t.defName).ToList();
+            List<string> toCull = ItemData.Keys.Where(dataKey => !tradeables.Contains(dataKey.CapitalizeFirst()))
                .ToList();
+
             foreach (string defName in toCull)
             {
                 ItemData.Remove(defName);
             }
 
-            foreach (ThingDef thingDef in thingDefs.Where(thingDef => !ItemData.ContainsKey(thingDef.defName)))
+            TkLogger.Info($"{tradeables.Count:N0} → {toCull.Count:N0} items:\n{toCull.ToStringSafeEnumerable()}");
+
+            foreach (ThingDef item in tradeables.Where(t => !ItemData.ContainsKey(t))
+               .Select(i => DefDatabase<ThingDef>.GetNamed(i)))
             {
-                ItemData[thingDef.defName] = new ItemData
+                ItemData[item.defName] = new ItemData
                 {
-                    IsMelee = thingDef.IsMeleeWeapon,
-                    IsRanged = thingDef.IsRangedWeapon,
-                    IsWeapon = thingDef.IsWeapon,
-                    Mod = thingDef.modContentPack?.Name ?? "Unknown",
+                    IsMelee = item.IsMeleeWeapon,
+                    IsRanged = item.IsRangedWeapon,
+                    IsWeapon = item.IsWeapon,
+                    Mod = item.modContentPack?.Name ?? "Unknown",
                     KarmaType = KarmaType.Neutral,
                     QuantityLimit = -1,
                     IsStuffAllowed = true
