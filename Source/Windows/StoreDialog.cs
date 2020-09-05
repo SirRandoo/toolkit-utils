@@ -972,6 +972,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 expanded.Data.CustomName = expandedName.NullOrEmpty() ? null : expandedName;
             }
 
+            if (!expandedName.NullOrEmpty())
+            {
+                SortCurrentWorkingList();
+            }
+
             expanded = null;
         }
 

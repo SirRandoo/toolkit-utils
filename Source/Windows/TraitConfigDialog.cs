@@ -627,6 +627,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 expanded.Data.CustomName = true;
             }
 
+            if (!expandedName.NullOrEmpty())
+            {
+                SortCurrentWorkingList();
+            }
+
             expanded = null;
         }
     }
