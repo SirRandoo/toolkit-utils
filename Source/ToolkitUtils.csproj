@@ -160,6 +160,7 @@
         <Compile Include="EventExtension.cs"/>
         <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
         <Compile Include="Harmony\BuyPatch.cs"/>
+        <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
         <Compile Include="Harmony\PatchRunner.cs"/>
         <Compile Include="Harmony\IncidentEditorPatches.cs"/>
         <Compile Include="Harmony\KarmaMinimumPatch.cs"/>
@@ -174,6 +175,7 @@
         <Compile Include="Harmony\UnassignPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
+        <Compile Include="Helpers\CommandHelper.cs"/>
         <Compile Include="Helpers\HealHelper.cs"/>
         <Compile Include="Helpers\MessageHelper.cs"/>
         <Compile Include="Helpers\PurchaseHelper.cs"/>

@@ -25,6 +25,8 @@ namespace SirRandoo.ToolkitUtils
     [StaticConstructorOnStartup]
     public class TkSettings : ModSettings
     {
+        public static bool Commands;
+        public static string Prefix = "!";
         public static bool DecorateUtils;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;
@@ -212,24 +214,12 @@ namespace SirRandoo.ToolkitUtils
                 "TKUtils.PawnKind.Tooltip".Localize()
             );
 
-            listing.CheckboxLabeled(
-                "TKUtils.BuyItemBalance.Label".Localize(),
-                ref BuyItemBalance,
-                "TKUtils.BuyItemBalance.Tooltip".Localize()
-            );
-
-            Rect line = listing.GetRect(Text.LineHeight);
-            (Rect labelRect, Rect entryRect) = line.ToForm();
+            (Rect lookupLimitLabel, Rect lookupLimitField) = listing.GetRect(Text.LineHeight).ToForm();
             var buffer = LookupLimit.ToString();
 
-            Widgets.Label(labelRect, "TKUtils.LookupLimit.Label".Localize());
-            Widgets.TextFieldNumeric(entryRect, ref LookupLimit, ref buffer);
-
-            if (Mouse.IsOver(line))
-            {
-                Widgets.DrawHighlight(line);
-                TooltipHandler.TipRegion(line, "TKUtils.LookupLimit.Tooltip".Localize());
-            }
+            Widgets.Label(lookupLimitLabel, "TKUtils.LookupLimit.Label".Localize());
+            Widgets.TextFieldNumeric(lookupLimitField, ref LookupLimit, ref buffer);
+            lookupLimitLabel.TipRegion("TKUtils.LookupLimit.Tooltip".Localize());
 
             listing.CheckboxLabeled(
                 "TKUtils.HairColor.Label".Localize(),
@@ -247,15 +237,10 @@ namespace SirRandoo.ToolkitUtils
 
             (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
             Widgets.Label(storeLabel, "TKUtils.StoreRate.Label".Localize());
+            storeLabel.TipRegion("TKUtils.StoreRate.Tooltip".Localize());
 
             var storeBuffer = StoreBuildRate.ToString();
             Widgets.TextFieldNumeric(storeField, ref StoreBuildRate, ref storeBuffer);
-
-            if (Mouse.IsOver(storeLabel))
-            {
-                Widgets.DrawHighlight(storeLabel);
-                TooltipHandler.TipRegion(storeLabel, "TKUtils.StoreRate.Tooltip".Localize());
-            }
 
             listing.End();
         }
@@ -267,10 +252,29 @@ namespace SirRandoo.ToolkitUtils
             listing.Begin(canvas);
 
             listing.CheckboxLabeled(
+                "TKUtils.BuyItemBalance.Label".Localize(),
+                ref BuyItemBalance,
+                "TKUtils.BuyItemBalance.Tooltip".Localize()
+            );
+
+            listing.CheckboxLabeled(
                 "TKUtils.CoinRate.Label".Translate(),
                 ref ShowCoinRate,
                 "TKUtils.CoinRate.Tooltip".Localize()
             );
+
+            listing.CheckboxLabeled(
+                "TKUtils.CommandParser.Label".Localize(),
+                ref Commands,
+                "TKUtils.CommandParser.Tooltip".Localize()
+            );
+
+            listing.Gap();
+
+            (Rect prefixLabel, Rect prefixField) = listing.GetRect(Text.LineHeight).ToForm();
+            Widgets.Label(prefixLabel, "TKUtils.CommandPrefix.Label".Localize());
+            prefixLabel.TipRegion("TKUtils.CommandPrefix.Tooltip".Localize());
+            Prefix = CommandHelper.ValidatePrefix(Widgets.TextField(prefixField, Prefix));
 
             listing.End();
         }
@@ -451,6 +455,9 @@ namespace SirRandoo.ToolkitUtils
 
         public override void ExposeData()
         {
+            Scribe_Values.Look(ref Commands, "commands", true);
+            Scribe_Values.Look(ref Prefix, "prefix", "!");
+
             Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
             Scribe_Values.Look(ref VersionedModList, "versionedModList");
