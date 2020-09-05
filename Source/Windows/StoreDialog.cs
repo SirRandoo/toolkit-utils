@@ -848,8 +848,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             return workingList.Where(
-                    i => i.Item.abr.ToToolkit().Contains(serialized!)
-                         || i.Item.abr.ToToolkit().EqualsIgnoreCase(serialized)
+                    i => i.Name.ToToolkit().Contains(serialized!) || i.Name.ToToolkit().EqualsIgnoreCase(serialized)
                 )
                .ToList();
         }
@@ -907,19 +906,19 @@ namespace SirRandoo.ToolkitUtils.Windows
             switch (Sorter)
             {
                 case Sorter.Name when SortMode == SortMode.Ascending:
-                    workingList.SortBy(i => i.Item.abr);
+                    workingList.SortBy(i => i.Name);
                     results = workingList;
                     return;
                 case Sorter.Name when SortMode == SortMode.Descending:
-                    workingList.SortByDescending(i => i.Item.abr);
+                    workingList.SortByDescending(i => i.Name);
                     results = workingList;
                     return;
                 case Sorter.Cost when SortMode == SortMode.Ascending:
-                    workingList.SortBy(i => i.Item.price);
+                    workingList.SortBy(i => i.Price);
                     results = workingList;
                     return;
                 case Sorter.Cost when SortMode == SortMode.Descending:
-                    workingList.SortByDescending(i => i.Item.price);
+                    workingList.SortByDescending(i => i.Price);
                     results = workingList;
                     return;
                 case Sorter.Category when SortMode == SortMode.Ascending:
