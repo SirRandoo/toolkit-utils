@@ -45,6 +45,14 @@
     <TKUtils.BalanceInBuyItem.Label>Show a viewer's remaining balance after buying an item.</TKUtils.BalanceInBuyItem.Label>
     <TKUtils.BalanceInBuyItem.Tooltip>If enabled, Utils will include the viewer's remaining balance after purchasing an item.</TKUtils.BalanceInBuyItem.Tooltip>
     
+    <!-- Command Parser -->
+    <TKUtils.CommandParser.Label>Use Utils' flavor of command handling.</TKUtils.CommandParser.Label>
+    <TKUtils.CommandParser.Tooltip>Older users would remember this as its command parser.</TKUtils.CommandParser.Tooltip>
+    
+    <!-- Command Prefix -->
+    <TKUtils.CommandPrefix.Label>Command prefix</TKUtils.CommandPrefix.Label>
+    <TKUtils.CommandPrefix.Tooltip>The prefix to use for all Twitch Toolkit commands.\n\Prefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.CommandPrefix.Tooltip>
+    
     <!-- General Group -->
     <TKUtils.General>General</TKUtils.General>
     
