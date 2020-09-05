@@ -42,8 +42,8 @@
     <TKUtils.CoinRate.Tooltip>If enabled, Utils will include the amount of coins a viewer earns per interval in the balance command's output (!bal).</TKUtils.CoinRate.Tooltip>
     
     <!-- Balance in Buy Item -->
-    <TKUtils.BalanceInBuyItem.Label>Show a viewer's remaining balance after buying an item.</TKUtils.BalanceInBuyItem.Label>
-    <TKUtils.BalanceInBuyItem.Tooltip>If enabled, Utils will include the viewer's remaining balance after purchasing an item.</TKUtils.BalanceInBuyItem.Tooltip>
+    <TKUtils.BuyItemBalance.Label>Show a viewer's remaining balance after buying an item.</TKUtils.BuyItemBalance.Label>
+    <TKUtils.BuyItemBalance.Tooltip>If enabled, Utils will include the viewer's remaining balance after purchasing an item.</TKUtils.BuyItemBalance.Tooltip>
     
     <!-- Command Parser -->
     <TKUtils.CommandParser.Label>Use Utils' flavor of command handling.</TKUtils.CommandParser.Label>
