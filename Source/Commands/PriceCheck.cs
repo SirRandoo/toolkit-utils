@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformAnimalLookup(string query, int quantity)
         {
-            PawnKindDef result = DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(
+            PawnKindDef result = DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(
                 i => i.RaceProps.Animal
                      && (i.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                          || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
@@ -80,7 +80,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformEventLookup(string query)
         {
-            StoreIncident result = DefDatabase<StoreIncident>.AllDefsListForReading.FirstOrDefault(
+            StoreIncident result = DefDatabase<StoreIncident>.AllDefs.FirstOrDefault(
                 i => i.cost > 0
                      && (i.abbreviation.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                          || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
