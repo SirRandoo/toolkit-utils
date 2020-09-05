@@ -7,7 +7,6 @@ using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -60,9 +59,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            Item item = StoreInventory.items.FirstOrDefault(i => i.defname.EqualsIgnoreCase(result.defName));
+            ThingItem item = Data.Items.FirstOrDefault(i => i.DefName.EqualsIgnoreCase(result.defName));
 
-            if (item == null || item.price <= 0)
+            if (item == null || item.Price <= 0)
             {
                 return;
             }
@@ -71,8 +70,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 query,
                 "TKUtils.Price.Quantity".Localize(
                     result.defName.CapitalizeFirst(),
-                    item.price.ToString("N0"),
-                    item.CalculatePrice(quantity).ToString("N0"),
+                    item.Price.ToString("N0"),
+                    item.Item.CalculatePrice(quantity).ToString("N0"),
                     quantity
                 )
             );
