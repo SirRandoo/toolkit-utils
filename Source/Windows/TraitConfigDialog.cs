@@ -616,14 +616,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void CloseExpandedMenu()
         {
-            if (expanded.Name.NullOrEmpty())
+            if (expanded.Data != null && !expandedName.NullOrEmpty())
             {
-                expanded.Name = expanded.GetDefaultName();
-
-                if (expanded.Data != null)
-                {
-                    expanded.Data.CustomName = false;
-                }
+                expanded.Name = expandedName;
+                expanded.Data.CustomName = true;
             }
 
             expanded = null;

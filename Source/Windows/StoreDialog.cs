@@ -963,9 +963,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void CloseExpandedMenu()
         {
-            if (expanded.Data != null && (expanded.Data.CustomName?.Equals("") ?? false))
+            if (expanded.Data != null)
             {
-                expanded.Data.CustomName = null;
+                expanded.Data.CustomName = expandedName.NullOrEmpty() ? null : expandedName;
             }
 
             expanded = null;
