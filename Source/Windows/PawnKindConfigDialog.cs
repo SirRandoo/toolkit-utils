@@ -504,6 +504,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             expanded = null;
+            expandedName = null;
         }
 
         public override void WindowUpdate()

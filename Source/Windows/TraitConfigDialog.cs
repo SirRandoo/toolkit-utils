@@ -633,6 +633,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             expanded = null;
+            expandedName = null;
         }
     }
 }

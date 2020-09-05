@@ -978,6 +978,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             expanded = null;
+            expandedName = null;
         }
 
         private void GetTranslationStrings()
