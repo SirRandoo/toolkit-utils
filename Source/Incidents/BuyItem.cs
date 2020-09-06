@@ -148,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            string animal = ThingDef.label;
+            string animal = ThingDef.label.CapitalizeFirst();
 
             if (Quantity > 1)
             {
