@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using SirRandoo.ToolkitUtils.Helpers;
+﻿using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -8,12 +7,9 @@ namespace SirRandoo.ToolkitUtils.Models
     public class ThingItem
     {
         private string categoryCached;
-        public List<FloatMenuOption> CategoryContextOptions;
         private ItemData data;
-        public List<FloatMenuOption> InfoContextOptions;
 
         public bool IsEnabled;
-        public List<FloatMenuOption> PriceContextOptions;
         public string DefName => Item.defname;
         public string Name => Data?.CustomName ?? Item.abr;
         public int Price => Item.price;
