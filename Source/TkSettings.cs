@@ -11,11 +11,11 @@ namespace SirRandoo.ToolkitUtils
     public enum Categories
     {
         General,
+        Data,
         CommandTweaks,
         PawnCommands,
         PawnWork,
-        PawnStats,
-        Experimental
+        PawnStats
     }
 
     public enum LeaveMethods { Thanos, MentalBreak }
@@ -55,21 +55,17 @@ namespace SirRandoo.ToolkitUtils
         private static Categories _category = Categories.General;
         private static List<FloatMenuOption> _leaveMenuOptions;
         private static List<FloatMenuOption> _dumpStyleOptions;
-        private static readonly Tuple<string, Categories>[] MenuCategories;
+        private static TabEntry[] _tabEntries;
 
         private static WorkTypeDef[] _workTypeDefs;
         private static StatDef[] _statDefs;
 
-        private static Vector2 _menuScrollPos = Vector2.zero;
         private static Vector2 _workScrollPos = Vector2.zero;
         private static Vector2 _statScrollPos = Vector2.zero;
+        private static Vector2 _commandTweaksPos = Vector2.zero;
 
         static TkSettings()
         {
-            MenuCategories = Enum.GetNames(typeof(Categories))
-               .Select(n => new Tuple<string, Categories>(n, (Categories) Enum.Parse(typeof(Categories), n)))
-               .ToArray();
-
             if (_workTypeDefs.NullOrEmpty())
             {
                 _workTypeDefs = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToArray();
@@ -83,92 +79,167 @@ namespace SirRandoo.ToolkitUtils
 
         public static void DoWindowContents(Rect inRect)
         {
-            const float adjustedHeight = 700f - 80f;
-
-            if (inRect.height > adjustedHeight)
-            {
-                inRect.height = adjustedHeight;
-            }
-
+            // A fix for how some windows embed Utils' settings.
+            inRect.height = inRect.height > 620f ? 620f : inRect.height;
+            ValidateTabs();
             ValidateEnumOptions();
 
+            Color cache = GUI.color;
+            GUI.color = Color.grey;
+            Widgets.DrawLightHighlight(inRect);
+            GUI.color = cache;
+
             GUI.BeginGroup(inRect);
-            var catRect = new Rect(0f, 0f, inRect.width * 0.25f, inRect.height);
-            var setRect = new Rect(catRect.width + 10f, 0f, inRect.width - catRect.width - 10f, inRect.height);
+            var tabBarRect = new Rect(0f, 0f, inRect.width, Text.LineHeight * 2f);
+            var tabPanelRect = new Rect(0f, tabBarRect.height, inRect.width, inRect.height - tabBarRect.height);
+            Rect contentRect = tabPanelRect.ContractedBy(20f);
+            var trueContentRect = new Rect(0f, 0f, contentRect.width, contentRect.height);
 
-            GUI.BeginGroup(catRect);
-            Rect menu = new Rect(0f, 0f, catRect.width, catRect.height).ContractedBy(5f);
-            var menuView = new Rect(0f, 0f, menu.width, Text.LineHeight * MenuCategories.Length);
 
-            if (menuView.height > menu.height)
-            {
-                menuView.width -= 16f;
-            }
-
-            var listing = new Listing_Standard();
-            Widgets.DrawMenuSection(new Rect(0f, 0f, catRect.width, catRect.height));
-
-            listing.BeginScrollView(menu, ref _menuScrollPos, ref menuView);
-            DrawCategoryList(listing, menu);
-
+            GUI.BeginGroup(tabBarRect);
+            DrawTabs(tabBarRect);
             GUI.EndGroup();
-            listing.EndScrollView(ref menuView);
 
-
-            GUI.BeginGroup(setRect);
-            var contentArea = new Rect(0f, 0f, setRect.width, setRect.height);
-
+            DrawTabPanelLine(tabPanelRect);
+            Widgets.DrawLightHighlight(tabPanelRect);
+            GUI.BeginGroup(contentRect);
             switch (_category)
             {
                 case Categories.General:
-                    DrawGeneral(contentArea);
+                    DrawGeneralTab(trueContentRect);
+                    break;
+                case Categories.Data:
+                    DrawDataTab(trueContentRect);
                     break;
                 case Categories.CommandTweaks:
-                    DrawCommandTweaks(contentArea);
+                    DrawCommandTweaksTab(trueContentRect);
                     break;
                 case Categories.PawnCommands:
-                    DrawPawnCommands(contentArea);
+                    DrawPawnCommandsTab(trueContentRect);
                     break;
                 case Categories.PawnWork:
-                    DrawPawnWork(contentArea);
+                    DrawPawnWorkTab(trueContentRect);
                     break;
                 case Categories.PawnStats:
-                    DrawPawnStats(contentArea);
-                    break;
-                case Categories.Experimental:
-                    DrawExperimental(contentArea);
+                    DrawPawnStatsTab(trueContentRect);
                     break;
             }
 
             GUI.EndGroup();
+
+
             GUI.EndGroup();
         }
 
-        private static void DrawCategoryList(Listing listing, Rect menu)
+        private static void DrawDataTab(Rect canvas)
         {
-            foreach ((string name, Categories value) in MenuCategories)
+            var listing = new Listing_Standard();
+            listing.Begin(canvas);
+
+            listing.DrawGroupHeader("TKUtils.Data.Files".Localize(), false);
+
+            (Rect dumpLabel, Rect dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
+            Widgets.Label(dumpLabel, "TKUtils.DumpStyle.Label".Localize());
+            listing.DrawDescription("TKUtils.DumpStyle.Description".Localize());
+
+            if (Widgets.ButtonText(dumpBtn, DumpStyle))
             {
-                Rect line = listing.GetRect(Text.LineHeight);
-
-                if (!line.IsRegionVisible(menu, _menuScrollPos))
-                {
-                    continue;
-                }
-
-                if (_category == value)
-                {
-                    Widgets.DrawHighlightSelected(line);
-                }
-
-                Widgets.Label(line, $"TKUtils.{name}".Localize());
-
-                if (Widgets.ButtonInvisible(line))
-                {
-                    _category = value;
-                }
-
-                Widgets.DrawHighlightIfMouseover(line);
+                Find.WindowStack.Add(new FloatMenu(_dumpStyleOptions));
             }
+
+            listing.CheckboxLabeled("TKUtils.OffloadShop.Label".Localize(), ref Offload);
+            listing.DrawDescription("TKUtils.OffloadShop.Description".Localize());
+            listing.DrawDescription("TKUtils.Experimental".Localize(), new Color(1f, 0.53f, 0.76f));
+
+
+            listing.DrawGroupHeader("TKUtils.Data.LazyProcess".Localize());
+
+            (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
+            Widgets.Label(storeLabel, "TKUtils.StoreRate.Label".Localize());
+            listing.DrawDescription("TKUtils.StoreRate.Description".Localize());
+
+            var storeBuffer = StoreBuildRate.ToString();
+            Widgets.TextFieldNumeric(storeField, ref StoreBuildRate, ref storeBuffer);
+
+            listing.End();
+        }
+
+        private static void DrawTabPanelLine(Rect canvas)
+        {
+            int entryIndex = _tabEntries.FirstIndexOf(e => e.Category == _category);
+            float entryStartPoint = _tabEntries.Take(entryIndex).Sum(e => e.Width);
+            float entryEndPoint = canvas.x + entryStartPoint + _tabEntries[entryIndex].Width;
+
+            Color cache = GUI.color;
+
+            GUI.color = Color.black;
+            Widgets.DrawLineVertical(canvas.x, canvas.y, canvas.height);
+            Widgets.DrawLineHorizontal(canvas.x, canvas.y + canvas.height - 1f, canvas.width);
+
+            GUI.color = Color.grey;
+
+            if (entryStartPoint > 0)
+            {
+                Widgets.DrawLineHorizontal(canvas.x, canvas.y, entryStartPoint + 1f);
+            }
+
+            Widgets.DrawLineVertical(canvas.x + canvas.width - 1f, canvas.y, canvas.height);
+            Widgets.DrawLineHorizontal(entryEndPoint, canvas.y, canvas.width - entryEndPoint);
+
+            GUI.color = cache;
+        }
+
+        private static void ValidateTabs()
+        {
+            _tabEntries ??= Enum.GetNames(typeof(Categories))
+               .Select(
+                    n => new TabEntry
+                    {
+                        Label = $"TKUtils.{n}".Localize(), Category = (Categories) Enum.Parse(typeof(Categories), n)
+                    }
+                )
+               .ToArray();
+        }
+
+        private static void DrawTabs(Rect canvas)
+        {
+            Color cache = GUI.color;
+            float distributedWidth = canvas.width / _tabEntries.Length;
+            var currentTabCanvas = new Rect(0f, 0f, distributedWidth, canvas.height);
+
+            GUI.color = Color.black;
+            Widgets.DrawLineVertical(currentTabCanvas.x, currentTabCanvas.y, currentTabCanvas.height);
+            GUI.color = cache;
+
+            foreach (TabEntry entry in _tabEntries)
+            {
+                currentTabCanvas.width = Mathf.Min(canvas.width - currentTabCanvas.x, entry.Width);
+
+                if (_category == entry.Category)
+                {
+                    Widgets.DrawLightHighlight(currentTabCanvas);
+                    GUI.color = Color.grey;
+                }
+                else
+                {
+                    GUI.color = Color.black;
+                }
+
+                Widgets.DrawLineHorizontal(currentTabCanvas.x, currentTabCanvas.y, currentTabCanvas.width);
+                Widgets.DrawLineVertical(currentTabCanvas.x + entry.Width, currentTabCanvas.y, currentTabCanvas.height);
+
+                GUI.color = cache;
+                SettingsHelper.DrawLabelAnchored(currentTabCanvas, entry.Label, TextAnchor.MiddleCenter);
+
+                if (Widgets.ButtonInvisible(currentTabCanvas))
+                {
+                    _category = entry.Category;
+                }
+
+                currentTabCanvas = currentTabCanvas.ShiftRight(0f);
+            }
+
+            GUI.color = cache;
         }
 
         private static void ValidateEnumOptions()
@@ -188,156 +259,123 @@ namespace SirRandoo.ToolkitUtils
             _leaveMenuOptions ??= new List<FloatMenuOption>
             {
                 new FloatMenuOption(
-                    "TKUtils.LeaveMethod.Thanos".Localize(),
+                    "TKUtils.Abandon.Method.Thanos".Localize(),
                     () => LeaveMethod = nameof(LeaveMethods.Thanos)
                 ),
                 new FloatMenuOption(
-                    "TKUtils.LeaveMethod.MentalBreak".Localize(),
+                    "TKUtils.Abandon.Method.MentalBreak".Localize(),
                     () => LeaveMethod = nameof(LeaveMethods.MentalBreak)
                 )
             };
         }
 
-        private static void DrawGeneral(Rect canvas)
+        private static void DrawGeneralTab(Rect canvas)
         {
             var listing = new Listing_Standard();
-
             listing.Begin(canvas);
 
-            listing.CheckboxLabeled(
-                "TKUtils.VersionedModList.Label".Localize(),
-                ref VersionedModList,
-                "TKUtils.VersionedModList.Tooltip".Localize()
-            );
+            listing.DrawGroupHeader("TKUtils.General.Emojis".Localize(), false);
+            listing.CheckboxLabeled("TKUtils.Emojis.Label".Localize(), ref Emojis);
+            listing.DrawDescription("TKUtils.Emojis.Description".Localize());
 
-            listing.CheckboxLabeled("TKUtils.Emojis.Label".Localize(), ref Emojis, "TKUtils.Emojis.Tooltip".Localize());
 
-            listing.CheckboxLabeled(
-                "TKUtils.DecorateUtils.Label".Localize(),
-                ref DecorateUtils,
-                "TKUtils.DecorateUtils.Tooltip".Localize()
-            );
+            listing.DrawGroupHeader("TKUtils.General.Viewer".Localize());
+            listing.CheckboxLabeled("TKUtils.HairColor.Label".Localize(), ref HairColor);
+            listing.DrawDescription("TKUtils.HairColor.Description".Localize());
 
-            listing.CheckboxLabeled(
-                "TKUtils.PawnKind.Label".Localize(),
-                ref Race,
-                "TKUtils.PawnKind.Tooltip".Localize()
-            );
+            listing.End();
+        }
+
+        private static void DrawCommandTweaksTab(Rect canvas)
+        {
+            var listing = new Listing_Standard();
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 40f);
+
+            GUI.BeginGroup(canvas);
+            listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
+
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.Balance".Localize(), false);
+            listing.CheckboxLabeled("TKUtils.CoinRate.Label".Localize(), ref ShowCoinRate);
+            listing.DrawDescription("TKUtils.CoinRate.Description".Localize());
+
+
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.Handler".Localize());
+
+            if (Commands)
+            {
+                (Rect prefixLabel, Rect prefixField) = listing.GetRect(Text.LineHeight).ToForm();
+                Widgets.Label(prefixLabel, "TKUtils.CommandPrefix.Label".Localize());
+                listing.DrawDescription("TKUtils.CommandPrefix.Description".Localize());
+                Prefix = CommandHelper.ValidatePrefix(Widgets.TextField(prefixField, Prefix));
+            }
+
+            listing.CheckboxLabeled("TKUtils.CommandParser.Label".Localize(), ref Commands);
+            listing.DrawDescription("TKUtils.CommandParser.Description".Localize());
+
+
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.InstalledMods".Localize());
+            listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".Localize(), ref DecorateUtils);
+            listing.DrawDescription("TKUtils.DecorateUtils.Description".Localize());
+
+            listing.CheckboxLabeled("TKUtils.VersionedModList.Label".Localize(), ref VersionedModList);
+            listing.DrawDescription("TKUtils.VersionedModList.Description".Localize());
+
+
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.BuyItem".Localize());
+            listing.CheckboxLabeled("TKUtils.BuyItemBalance.Label".Localize(), ref BuyItemBalance);
+            listing.DrawDescription("TKUtils.BuyItemBalance.Description".Localize());
+
+
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.Lookup".Localize());
 
             (Rect lookupLimitLabel, Rect lookupLimitField) = listing.GetRect(Text.LineHeight).ToForm();
             var buffer = LookupLimit.ToString();
 
             Widgets.Label(lookupLimitLabel, "TKUtils.LookupLimit.Label".Localize());
             Widgets.TextFieldNumeric(lookupLimitField, ref LookupLimit, ref buffer);
-            lookupLimitLabel.TipRegion("TKUtils.LookupLimit.Tooltip".Localize());
+            listing.DrawDescription("TKUtils.LookupLimit.Description".Localize());
 
-            listing.CheckboxLabeled(
-                "TKUtils.HairColor.Label".Localize(),
-                ref HairColor,
-                "TKUtils.HairColor.Tooltip".Localize()
-            );
 
-            (Rect dumpLabel, Rect dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(dumpLabel, "TKUtils.DumpStyle.Label".Localize());
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.BuyPawn".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnKind.Label".Localize(), ref Race);
+            listing.DrawDescription("TKUtils.PawnKind.Description".Localize());
 
-            if (Widgets.ButtonText(dumpBtn, DumpStyle))
-            {
-                Find.WindowStack.Add(new FloatMenu(_dumpStyleOptions));
-            }
-
-            (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(storeLabel, "TKUtils.StoreRate.Label".Localize());
-            storeLabel.TipRegion("TKUtils.StoreRate.Tooltip".Localize());
-
-            var storeBuffer = StoreBuildRate.ToString();
-            Widgets.TextFieldNumeric(storeField, ref StoreBuildRate, ref storeBuffer);
-
-            listing.End();
+            GUI.EndGroup();
+            listing.EndScrollView(ref viewPort);
         }
 
-        private static void DrawCommandTweaks(Rect canvas)
+        private static void DrawPawnCommandsTab(Rect canvas)
         {
             var listing = new Listing_Standard();
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 32f);
 
-            listing.Begin(canvas);
+            GUI.BeginGroup(canvas);
+            listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
 
-            listing.CheckboxLabeled(
-                "TKUtils.BuyItemBalance.Label".Localize(),
-                ref BuyItemBalance,
-                "TKUtils.BuyItemBalance.Tooltip".Localize()
-            );
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Gear".Localize(), false);
+            listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".Localize(), ref TempInGear);
+            listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Apparel.Label".Localize(), ref ShowApparel);
+            listing.DrawDescription("TKUtils.PawnGear.Apparel.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Armor.Label".Localize(), ref ShowArmor);
+            listing.DrawDescription("TKUtils.PawnGear.Armor.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Weapon.Label".Localize(), ref ShowWeapon);
+            listing.DrawDescription("TKUtils.PawnGear.Weapon.Description".Localize());
 
-            listing.CheckboxLabeled(
-                "TKUtils.CoinRate.Label".Translate(),
-                ref ShowCoinRate,
-                "TKUtils.CoinRate.Tooltip".Localize()
-            );
 
-            listing.CheckboxLabeled(
-                "TKUtils.CommandParser.Label".Localize(),
-                ref Commands,
-                "TKUtils.CommandParser.Tooltip".Localize()
-            );
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Health".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnHealth.Surgeries.Label".Localize(), ref ShowSurgeries);
+            listing.DrawDescription("TKUtils.PawnHealth.Surgeries.Description".Localize());
 
-            listing.Gap();
 
-            (Rect prefixLabel, Rect prefixField) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(prefixLabel, "TKUtils.CommandPrefix.Label".Localize());
-            prefixLabel.TipRegion("TKUtils.CommandPrefix.Tooltip".Localize());
-            Prefix = CommandHelper.ValidatePrefix(Widgets.TextField(prefixField, Prefix));
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Work".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnWork.Sort.Label".Localize(), ref SortWorkPriorities);
+            listing.DrawDescription("TKUtils.PawnWork.Sort.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnWork.Filter.Label".Localize(), ref FilterWorkPriorities);
+            listing.DrawDescription("TKUtils.PawnWork.Filter.Description".Localize());
 
-            listing.End();
-        }
 
-        private static void DrawPawnCommands(Rect canvas)
-        {
-            var listing = new Listing_Standard();
-
-            listing.Begin(canvas);
-
-            listing.CheckboxLabeled(
-                "TKUtils.PawnGear.Temperature.Label".Localize(),
-                ref TempInGear,
-                "TKUtils.PawnGear.Temperature.Tooltip".Localize()
-            );
-
-            listing.CheckboxLabeled(
-                "TKUtils.PawnGear.Apparel.Label".Localize(),
-                ref ShowApparel,
-                "TKUtils.PawnGear.Apparel.Tooltip".Localize()
-            );
-
-            listing.CheckboxLabeled(
-                "TKUtils.PawnGear.Armor.Label".Localize(),
-                ref ShowArmor,
-                "TKUtils.PawnGear.Armor.Tooltip".Localize()
-            );
-
-            listing.CheckboxLabeled(
-                "TKUtils.PawnGear.Weapon.Label".Localize(),
-                ref ShowWeapon,
-                "TKUtils.PawnGear.Weapon.Tooltip".Localize()
-            );
-
-            listing.CheckboxLabeled(
-                "TKUtils.PawnHealth.Surgeries.Label".Localize(),
-                ref ShowSurgeries,
-                "TKUtils.PawnHealth.Surgeries.Tooltip".Localize()
-            );
-
-            listing.CheckboxLabeled(
-                "TKUtils.PawnWork.Sort.Label".Localize(),
-                ref SortWorkPriorities,
-                "TKUtils.PawnWork.Sort.Tooltip".Localize()
-            );
-
-            listing.CheckboxLabeled(
-                "TKUtils.PawnWork.Filter.Label".Localize(),
-                ref FilterWorkPriorities,
-                "TKUtils.PawnWork.Filter.Tooltip".Localize()
-            );
-
-            listing.Gap();
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Localize());
 
             (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
             Widgets.Label(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
@@ -349,17 +387,15 @@ namespace SirRandoo.ToolkitUtils
 
             if (!LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethods.Thanos)))
             {
-                listing.CheckboxLabeled(
-                    "TKUtils.Abandon.Gear.Label".Localize(),
-                    ref DropInventory,
-                    "TKUtils.Abandon.Gear.Tooltip".Localize()
-                );
+                listing.CheckboxLabeled("TKUtils.Abandon.Gear.Label".Localize(), ref DropInventory);
+                listing.DrawDescription("TKUtils.Abandon.Gear.Description".Localize());
             }
 
-            listing.End();
+            GUI.EndGroup();
+            listing.EndScrollView(ref viewPort);
         }
 
-        private static void DrawPawnWork(Rect canvas)
+        private static void DrawPawnWorkTab(Rect canvas)
         {
             GUI.BeginGroup(canvas);
 
@@ -403,7 +439,7 @@ namespace SirRandoo.ToolkitUtils
             listing.EndScrollView(ref view);
         }
 
-        private static void DrawPawnStats(Rect canvas)
+        private static void DrawPawnStatsTab(Rect canvas)
         {
             GUI.BeginGroup(canvas);
 
@@ -447,20 +483,6 @@ namespace SirRandoo.ToolkitUtils
 
             GUI.EndGroup();
             listing.EndScrollView(ref view);
-        }
-
-        private static void DrawExperimental(Rect canvas)
-        {
-            var listing = new Listing_Standard();
-            listing.Begin(canvas);
-
-            listing.CheckboxLabeled(
-                "TKUtils.OffloadShop.Label".Localize(),
-                ref Offload,
-                "TKUtils.OffloadShop.Tooltip".Localize()
-            );
-
-            listing.End();
         }
 
         public override void ExposeData()
@@ -551,6 +573,37 @@ namespace SirRandoo.ToolkitUtils
             {
                 Scribe_Values.Look(ref StatDef, "defName");
                 Scribe_Values.Look(ref Enabled, "enabled", true);
+            }
+        }
+
+        private class TabEntry
+        {
+            private string label;
+            private float width;
+
+            public string Label
+            {
+                get => label;
+                set
+                {
+                    label = value;
+                    width = -1;
+                }
+            }
+
+            public Categories Category { get; set; }
+
+            public float Width
+            {
+                get
+                {
+                    if (width <= 0)
+                    {
+                        width = Text.CalcSize(label).x + 25f;
+                    }
+
+                    return width;
+                }
             }
         }
     }
