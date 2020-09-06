@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 string tempMax = target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
                 parts.Add(
-                    $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize())}{tempMin}~{tempMax}"
+                    $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize() + " ")}{tempMin}~{tempMax}"
                 );
             }
 

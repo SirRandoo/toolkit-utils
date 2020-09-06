@@ -38,19 +38,21 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case Gender.Female:
                     parts.Add(
                         (isRoyal ? ResponseHelper.PrincessGlyph : ResponseHelper.FemaleGlyph).AltText(
-                            "Female".Localize()
+                            "Female".Localize().CapitalizeFirst()
                         )
                     );
                     break;
                 case Gender.Male:
                     parts.Add(
-                        (isRoyal ? ResponseHelper.PrinceGlyph : ResponseHelper.MaleGlyph).AltText("Male".Localize())
+                        (isRoyal ? ResponseHelper.PrinceGlyph : ResponseHelper.MaleGlyph).AltText(
+                            "Male".Localize().CapitalizeFirst()
+                        )
                     );
                     break;
                 case Gender.None:
                     parts.Add(
                         (isRoyal ? ResponseHelper.CrownGlyph : ResponseHelper.GenderlessGlyph).AltText(
-                            "NoneLower".Localize()
+                            "NoneLower".Localize().CapitalizeFirst()
                         )
                     );
                     break;

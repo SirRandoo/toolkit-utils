@@ -125,13 +125,13 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private static void GetTemperatureValues(Pawn pawn, List<string> parts)
+        private static void GetTemperatureValues(Thing pawn, ICollection<string> parts)
         {
             string tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
             string tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
             parts.Add(
-                $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize())}{tempMin}~{tempMax}"
+                $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize() + " ")}{tempMin}~{tempMax}"
             );
         }
 
@@ -214,17 +214,19 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (sharp > 0)
             {
-                stats.Add($"{ResponseHelper.DaggerGlyph.AltText("ArmorSharp".Localize())}{sharp.ToStringPercent()}");
+                stats.Add(
+                    $"{ResponseHelper.DaggerGlyph.AltText("ArmorSharp".Localize() + " ")}{sharp.ToStringPercent()}"
+                );
             }
 
             if (blunt > 0)
             {
-                stats.Add($"{ResponseHelper.PanGlyph.AltText("ArmorBlunt".Localize())}{blunt.ToStringPercent()}");
+                stats.Add($"{ResponseHelper.PanGlyph.AltText("ArmorBlunt".Localize() + " ")}{blunt.ToStringPercent()}");
             }
 
             if (heat > 0)
             {
-                stats.Add($"{ResponseHelper.FireGlyph.AltText("ArmorHeat".Localize())}{heat.ToStringPercent()}");
+                stats.Add($"{ResponseHelper.FireGlyph.AltText("ArmorHeat".Localize() + " ")}{heat.ToStringPercent()}");
             }
 
             if (stats.Any())

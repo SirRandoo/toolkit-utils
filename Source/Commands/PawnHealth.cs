@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if (subject.MentalStateDef != null)
             {
-                return ResponseHelper.LightningGlyph.AltText(subject.MentalStateDef.LabelCap);
+                return ResponseHelper.LightningGlyph.AltText("(" + subject.MentalStateDef.LabelCap + ")");
             }
 
             float thresholdExtreme = subject.mindState.mentalBreaker.BreakThresholdExtreme;
@@ -68,27 +68,27 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (moodLevel < thresholdExtreme)
             {
-                return ResponseHelper.AboutToBreakGlyph.AltText("Mood_AboutToBreak".Localize());
+                return ResponseHelper.AboutToBreakGlyph.AltText("(" + "Mood_AboutToBreak".Localize() + ")");
             }
 
             if (moodLevel < thresholdExtreme + 0.0500000007450581)
             {
-                return ResponseHelper.OnEdgeGlyph.AltText("Mood_OnEdge".Localize());
+                return ResponseHelper.OnEdgeGlyph.AltText("(" + "Mood_OnEdge".Localize() + ")");
             }
 
             if (moodLevel < subject.mindState.mentalBreaker.BreakThresholdMinor)
             {
-                return ResponseHelper.StressedGlyph.AltText("Mood_Stressed".Localize());
+                return ResponseHelper.StressedGlyph.AltText("(" + "Mood_Stressed".Localize() + ")");
             }
 
             if (moodLevel < 0.649999976158142)
             {
-                return ResponseHelper.NeutralGlyph.AltText("Mood_Neutral".Localize());
+                return ResponseHelper.NeutralGlyph.AltText("(" + "Mood_Neutral".Localize() + ")");
             }
 
             return moodLevel < 0.899999976158142
-                ? ResponseHelper.ContentGlyph.AltText("Mood_Content".Localize())
-                : ResponseHelper.HappyGlyph.AltText("Mood_Happy".Localize());
+                ? ResponseHelper.ContentGlyph.AltText("(" + "Mood_Content".Localize() + ")")
+                : ResponseHelper.HappyGlyph.AltText("(" + "Mood_Happy".Localize() + ")");
         }
 
         private static string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
