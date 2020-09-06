@@ -35,7 +35,7 @@
     <TKUtils.PawnClass.Points>{0} point(s) available.</TKUtils.PawnClass.Points>
     
     <!-- Pawn Relations -->
-    <TKUtils.PawnRelations.None>You don't have any relationships.</TKUtils.PawnRelations.None>
+    <TKUtils.PawnRelations.None>You don't have any relationships with other viewers.</TKUtils.PawnRelations.None>
     
     <!-- Fix All -->
     <TKUtils.FixAll>Successfully relinked all pawns in Twitch Toolkit.</TKUtils.FixAll>
