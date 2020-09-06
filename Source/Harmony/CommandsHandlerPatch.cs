@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToArray();
             }
 
-            LocateCommand(segments)?.Execute(twitchMessage.WithMessage(CombineSegments(segments).Trim()));
+            LocateCommand(segments)?.Execute(twitchMessage.WithMessage(CombineSegments(segments).Trim()), unemoji);
             return false;
         }
 
