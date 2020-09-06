@@ -34,9 +34,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (!__instance.command.defName.Equals("Buy"))
             {
-                buyCommand ??= Verse.DefDatabase<Command>.AllDefsListForReading
-                                  .FirstOrDefault(c => c.defName.Equals("Buy"))
-                                 ?.command
+                buyCommand ??= Verse.DefDatabase<Command>.AllDefs.FirstOrDefault(c => c.defName.Equals("Buy"))?.command
                                ?? "buy";
 
                 message = twitchMessage.WithMessage($"!{buyCommand} {twitchMessage.Message.Substring(1)}");

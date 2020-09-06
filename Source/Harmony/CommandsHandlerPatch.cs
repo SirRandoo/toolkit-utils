@@ -41,28 +41,37 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (message.StartsWith(TkSettings.Prefix))
             {
-                message = message.Substring(1);
+                message = message.Substring(TkSettings.Prefix.Length);
             }
 
-            string[] segments = CommandFilter.Parse(message).ToArray();
+            List<string> segments = CommandFilter.Parse(message).ToList();
             bool unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"));
 
-            if (segments.Length <= 0)
+            if (segments.Count <= 0)
             {
                 return false;
             }
 
             if (segments.First().StartsWith("/w"))
             {
-                segments = segments.Skip(1).ToArray();
+                segments = segments.Skip(1).ToList();
             }
 
             if (unemoji)
             {
-                segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToArray();
+                segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToList();
             }
 
-            LocateCommand(segments)?.Execute(twitchMessage.WithMessage(CombineSegments(segments).Trim()), unemoji);
+            Command command = LocateCommand(segments.ToArray());
+
+            if (command != null
+                && command.defName.Equals("Buy")
+                && !command.commandDriver.FullName.EqualsIgnoreCase("TwitchToolkit.Commands.ViewerCommands.Buy"))
+            {
+                segments.Insert(0, DefDatabase<Command>.GetNamedSilentFail("Buy").command);
+            }
+
+            command?.Execute(twitchMessage.WithMessage("!" + CombineSegments(segments).Trim()), unemoji);
             return false;
         }
 
@@ -82,8 +91,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             return string.Join(
                 " ",
-                segments.Select(segment => segment.Contains(' ') ? $@"""{segment.Replace("\"", "\\\"")}""" : segment)
-                   .ToArray()
+                segments.Select(s => s.Contains(' ') ? $@"""{s.Replace("\"", "\\\"")}""" : s).ToArray()
             );
         }
 
