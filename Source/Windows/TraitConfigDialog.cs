@@ -138,7 +138,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             if (Widgets.ButtonText(enableRect, enableAllText))
             {
-                foreach (TraitItem trait in Data.Traits)
+                foreach (TraitItem trait in results ?? Data.Traits)
                 {
                     trait.CanAdd = true;
                     trait.CanRemove = true;
@@ -147,7 +147,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(disableRect, disableAllText))
             {
-                foreach (TraitItem trait in Data.Traits)
+                foreach (TraitItem trait in results ?? Data.Traits)
                 {
                     trait.CanAdd = false;
                     trait.CanRemove = false;
