@@ -70,7 +70,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                     if (group.Count(i => i.Bleeding) > 0)
                     {
-                        display = ResponseHelper.BleedingGlyph.AltText("BleedingRate".Localize()) + display;
+                        display = ResponseHelper.BleedingGlyph.AltText("(" + "BleedingRate".Localize() + ") ")
+                                  + display;
                     }
 
                     if (group.All(i => i.IsTended()))
