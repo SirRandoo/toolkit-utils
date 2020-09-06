@@ -47,7 +47,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     (income > 0
                         ? $"{ResponseHelper.IncomeGlyph} +{income:N0}"
                         : $"{ResponseHelper.DebtGlyph} {income:N0}").AltText(
-                        "TKUtils.Balance.Rate".Localize(CalculateCoinAward(viewer), ToolkitSettings.CoinInterval)
+                        "TKUtils.Balance.Rate".Localize(
+                            CalculateCoinAward(viewer).ToString("N0"),
+                            ToolkitSettings.CoinInterval.ToString("N0")
+                        )
                     )
                 );
             }
