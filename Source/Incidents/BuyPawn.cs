@@ -69,10 +69,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return CanPurchaseRace(viewer, pawnKindItem);
             }
 
-            PawnKindDef[] raceDefs = DefDatabase<PawnKindDef>.AllDefsListForReading.Where(
-                    r => r.race.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || r.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                )
+            PawnKindItem kindItem = Data.PawnKinds.FirstOrDefault(k => query.ToToolkit().EqualsIgnoreCase(k.Name));
+
+            if (kindItem == null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".Localize(query));
+                return false;
+            }
+
+            PawnKindDef[] raceDefs = DefDatabase<PawnKindDef>.AllDefs
+               .Where(r => r.race.defName.Equals(kindItem.DefName))
                .ToArray();
 
             PawnKindDef raceDef = raceDefs.FirstOrDefault(r => r.defaultFactionType.isPlayer)
