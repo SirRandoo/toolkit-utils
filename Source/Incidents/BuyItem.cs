@@ -52,9 +52,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (product.Price <= 0)
             {
-                {
-                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".Localize(product.Name));
-                }
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".Localize(product.Name));
+                return false;
             }
 
             if (product.Thing == null)
