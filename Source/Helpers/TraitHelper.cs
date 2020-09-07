@@ -35,6 +35,13 @@ namespace SirRandoo.ToolkitUtils.Helpers
                .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
         }
 
+        public static bool CompareToInput(string traitName, string input)
+        {
+            return Unrichify.StripTags(traitName)
+               .ToToolkit()
+               .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
+        }
+
         public static IEnumerable<TraitItem> ToTraitItems(this TraitDef trait)
         {
             if (trait.degreeDatas == null)

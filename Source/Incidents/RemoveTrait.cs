@@ -79,9 +79,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            Trait target = traits?.FirstOrDefault(
-                t => traitQuery.GetDefaultName().StripTags().EqualsIgnoreCase(t.Label.StripTags())
-            );
+            Trait target = traits?.FirstOrDefault(t => TraitHelper.CompareToInput(traitQuery, t.Label));
 
             if (target == null)
             {
