@@ -62,16 +62,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToList();
             }
 
-            Command command = LocateCommand(segments.ToArray());
-
-            if (command != null
-                && command.defName.Equals("Buy")
-                && !command.commandDriver.FullName.EqualsIgnoreCase("TwitchToolkit.Commands.ViewerCommands.Buy"))
-            {
-                segments.Insert(0, DefDatabase<Command>.GetNamedSilentFail("Buy").command);
-            }
-
-            command?.Execute(twitchMessage.WithMessage("!" + CombineSegments(segments).Trim()), unemoji);
+            LocateCommand(segments.ToArray())
+              ?.Execute(twitchMessage.WithMessage("!" + CombineSegments(segments).Trim()), unemoji);
             return false;
         }
 
