@@ -96,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     int spaces = commandDef.command.Count(c => c.Equals(' '));
                     string joined = string.Join(" ", query.Take(spaces));
 
-                    if (!commandDef.command.EqualsIgnoreCase(joined))
+                    if (!IsCommand(commandDef.command, joined))
                     {
                         continue;
                     }
@@ -104,7 +104,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     return commandDef;
                 }
 
-                if (!commandDef.command.EqualsIgnoreCase(query.Take(1).First()))
+                if (!IsCommand(commandDef.command, query.Take(1).First()))
                 {
                     continue;
                 }
@@ -113,6 +113,17 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             return null;
+        }
+
+        private static bool IsCommand(string command, string input)
+        {
+            if (TkSettings.ToolkitStyleCommands
+                && input.StartsWith(command, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+
+            return input.EqualsIgnoreCase(command);
         }
     }
 }

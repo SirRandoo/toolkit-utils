@@ -27,6 +27,7 @@ namespace SirRandoo.ToolkitUtils
     {
         public static bool Commands;
         public static string Prefix = "!";
+        public static bool ToolkitStyleCommands;
         public static bool DecorateUtils;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;
@@ -312,6 +313,12 @@ namespace SirRandoo.ToolkitUtils
             listing.CheckboxLabeled("TKUtils.CommandParser.Label".Localize(), ref Commands);
             listing.DrawDescription("TKUtils.CommandParser.Description".Localize());
 
+            if (Commands)
+            {
+                listing.CheckboxLabeled("TKUtils.ToolkitStyleCommands.Label".Localize(), ref ToolkitStyleCommands);
+                listing.DrawDescription("TKUtils.ToolkitStyleCommands.Description".Localize());
+            }
+
 
             listing.DrawGroupHeader("TKUtils.CommandTweaks.InstalledMods".Localize());
             listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".Localize(), ref DecorateUtils);
@@ -489,6 +496,7 @@ namespace SirRandoo.ToolkitUtils
         {
             Scribe_Values.Look(ref Commands, "commands", true);
             Scribe_Values.Look(ref Prefix, "prefix", "!");
+            Scribe_Values.Look(ref ToolkitStyleCommands, "toolkitStyleCommands");
 
             Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
