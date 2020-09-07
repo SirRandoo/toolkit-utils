@@ -6,9 +6,11 @@ using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Interfaces;
 using ToolkitCore.Windows;
 using TwitchToolkit;
+using TwitchToolkit.Commands;
 using TwitchToolkit.Store;
 using TwitchToolkit.Windows;
 using Verse;
+using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -60,6 +62,20 @@ namespace SirRandoo.ToolkitUtils
 
                         Messages.Message(
                             $"TKUtils.CoinEarning{(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}".Localize(),
+                            MessageTypeDefOf.NeutralEvent
+                        );
+                    }
+                ),
+                new FloatMenuOption(
+                    "TKUtils.AddonMenu.GiftCoins".Localize(),
+                    () =>
+                    {
+                        Command giftCoins = DefDatabase<Command>.GetNamed("GiftCoins");
+                        giftCoins.enabled = !giftCoins.enabled;
+                        CommandEditor.SaveCopy(giftCoins);
+
+                        Messages.Message(
+                            $"TKUtils.GiftCoins{(giftCoins.enabled ? "Enabled" : "Disabled")}".Localize(),
                             MessageTypeDefOf.NeutralEvent
                         );
                     }

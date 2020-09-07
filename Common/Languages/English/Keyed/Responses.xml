@@ -4,4 +4,6 @@
     <!-- Toolkit Addon Menu -->
     <TKUtils.CoinEarningEnabled>Earning coins has been enabled</TKUtils.CoinEarningEnabled>
     <TKUtils.CoinEarningDisabled>Earning coins has been disabled</TKUtils.CoinEarningDisabled>
+    <TKUtils.GiftCoinsEnabled>Gift coins has been enabled</TKUtils.GiftCoinsEnabled>
+    <TKUtils.GiftCoinsDisabled>Gift coins has been disabled</TKUtils.GiftCoinsDisabled>
 </LanguageData>
