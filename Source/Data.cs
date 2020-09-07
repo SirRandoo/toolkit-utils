@@ -16,6 +16,7 @@ using TwitchToolkit;
 using TwitchToolkit.Store;
 using Verse;
 using Command = TwitchToolkit.Command;
+using Viewers = TwitchToolkit.Viewers;
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -387,6 +388,67 @@ namespace SirRandoo.ToolkitUtils
             }
 
             return kind != null;
+        }
+
+        public static IEnumerable<string> GetTraitResults(string input)
+        {
+            return Traits
+               .Where(
+                    t => t.Name.StripTags().StartsWith(input.StripTags(), StringComparison.InvariantCultureIgnoreCase)
+                )
+               .Where(t => t.CanAdd || t.CanRemove)
+               .Select(t => t.Name);
+        }
+
+        public static IEnumerable<string> GetKindResults(string input)
+        {
+            return PawnKinds.Where(k => k.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
+               .Where(k => k.Enabled)
+               .Select(k => k.Name);
+        }
+
+        public static IEnumerable<string> GetItemResults(string input)
+        {
+            return Items.Where(i => i.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
+               .Where(i => i.Price > 0)
+               .Select(i => i.Name);
+        }
+
+        public static IEnumerable<string> GetEventResults(string input)
+        {
+            foreach (string simpleIncidentName in Purchase_Handler.allStoreIncidentsSimple.Where(i => i.cost > 0)
+               .Where(i => i.abbreviation.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
+               .Select(i => i.abbreviation))
+            {
+                yield return simpleIncidentName;
+            }
+
+            foreach (string variablesIncidentName in Purchase_Handler.allStoreIncidentsVariables
+               .Where(i => i.cost > 0 || i.defName.Equals("Item") && i.cost >= 0)
+               .Where(i => i.abbreviation.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
+               .Select(i => i.abbreviation))
+            {
+                yield return variablesIncidentName;
+            }
+        }
+
+        public static IEnumerable<string> GetCommandResults(string input, string viewer = null)
+        {
+            return DefDatabase<Command>.AllDefs.Where(c => c.enabled)
+               .Where(c => c.command.EqualsIgnoreCase(input))
+               .Where(
+                    c => viewer != null
+                         && Viewers.GetViewer(viewer.ToLowerInvariant()) is {} v
+                         && (v.mod && c.requiresMod || v.username == ToolkitSettings.Channel && c.requiresAdmin)
+                )
+               .Select(c => c.command);
+        }
+
+        public static string GetViewerColorCode(string viewer)
+        {
+            return !ToolkitSettings.ViewerColorCodes.TryGetValue(viewer.ToLowerInvariant(), out string color)
+                ? null
+                : color;
         }
     }
 }
