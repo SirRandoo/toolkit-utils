@@ -372,5 +372,21 @@ namespace SirRandoo.ToolkitUtils
 
             return trait != null;
         }
+
+        public static bool TryGetPawnKind(string input, out PawnKindItem kind)
+        {
+            if (input.StartsWith("$"))
+            {
+                input = input.Substring(1);
+
+                kind = PawnKinds.FirstOrDefault(t => t.DefName.Equals(input));
+            }
+            else
+            {
+                kind = PawnKinds.FirstOrDefault(t => t.Name.EqualsIgnoreCase(input));
+            }
+
+            return kind != null;
+        }
     }
 }

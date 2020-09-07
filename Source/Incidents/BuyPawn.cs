@@ -69,9 +69,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return CanPurchaseRace(viewer, pawnKindItem);
             }
 
-            PawnKindItem kindItem = Data.PawnKinds.FirstOrDefault(k => query.ToToolkit().EqualsIgnoreCase(k.Name));
-
-            if (kindItem == null)
+            if (!Data.TryGetPawnKind(query.ToToolkit(), out PawnKindItem kindItem))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".Localize(query));
                 return false;
@@ -179,11 +177,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void GetDefaultKind()
         {
-            PawnKindItem human = Data.PawnKinds.FirstOrDefault(
-                d => d.DefName.EqualsIgnoreCase(PawnKindDefOf.Colonist.race.defName)
-            );
-
-            if (human?.Enabled ?? false)
+            if (Data.TryGetPawnKind($"!{PawnKindDefOf.Colonist.race.defName}", out PawnKindItem human) && human.Enabled)
             {
                 kindDef = PawnKindDefOf.Colonist;
                 pawnKindItem = human;
@@ -198,7 +192,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            kindDef = DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(
+            kindDef = DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(
                 k => k.race.defName.EqualsIgnoreCase(randomKind.DefName)
             );
             pawnKindItem = randomKind;
