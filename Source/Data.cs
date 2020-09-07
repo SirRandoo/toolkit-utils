@@ -356,5 +356,21 @@ namespace SirRandoo.ToolkitUtils
                 SaveJson(Mods, Paths.ModListFilePath);
             }
         }
+
+        public static bool TryGetTrait(string input, out TraitItem trait)
+        {
+            if (input.StartsWith("$"))
+            {
+                input = input.Substring(1);
+
+                trait = Traits.FirstOrDefault(t => t.DefName.Equals(input));
+            }
+            else
+            {
+                trait = Traits.FirstOrDefault(t => t.Name.StripTags().EqualsIgnoreCase(input.StripTags()));
+            }
+
+            return trait != null;
+        }
     }
 }

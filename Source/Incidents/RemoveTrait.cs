@@ -55,9 +55,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            TraitItem traitQuery = Data.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, query));
-
-            if (traitQuery == null)
+            if (!Data.TryGetTrait(query, out TraitItem traitQuery))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(query));
                 return false;
@@ -81,7 +79,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            Trait target = traits?.FirstOrDefault(t => TraitHelper.CompareToInput(traitQuery, t.Label));
+            Trait target = traits?.FirstOrDefault(
+                t => traitQuery.GetDefaultName().StripTags().EqualsIgnoreCase(t.Label.StripTags())
+            );
 
             if (target == null)
             {

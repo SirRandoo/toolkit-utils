@@ -63,16 +63,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            replaceThisShop = Data.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, toReplace));
-            replaceThatShop = Data.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, toReplaceWith));
-
-            if (replaceThisShop == null)
+            if (!Data.TryGetTrait(toReplace, out replaceThisShop))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplace));
                 return false;
             }
 
-            if (replaceThatShop == null)
+            if (!Data.TryGetTrait(toReplaceWith, out replaceThatShop))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplaceWith));
                 return false;
@@ -179,7 +176,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            replaceThisTrait = traits?.FirstOrDefault(t => TraitHelper.CompareToInput(replaceThisShop, t.Label));
+            replaceThisTrait = traits?.FirstOrDefault(
+                t => replaceThisShop.GetDefaultName().StripTags().EqualsIgnoreCase(t.Label.StripTags())
+            );
 
             if (replaceThisTrait == null)
             {
@@ -197,7 +196,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (traits?.Find(s => TraitHelper.CompareToInput(replaceThatShop, s.Label)) == null)
+            if (traits?.Find(s => replaceThatShop.GetDefaultName().StripTags().EqualsIgnoreCase(s.Label.StripTags()))
+                == null)
             {
                 replaceThatTrait = new Trait(replaceThatTraitDef, replaceThatShop.Degree);
                 return true;

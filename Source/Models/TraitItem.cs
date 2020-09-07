@@ -19,6 +19,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         [JsonProperty("removePrice")] public int CostToRemove;
         [CanBeNull] public TraitData Data;
+
+        [JsonIgnore] private string defaultName;
         public string DefName;
         public int Degree;
         public string Name;
@@ -61,13 +63,20 @@ namespace SirRandoo.ToolkitUtils.Models
             };
         }
 
-        public string GetDefaultName()
+        public string GetDefaultName(bool invalidate = false)
         {
+            if (defaultName != null && !invalidate)
+            {
+                return defaultName;
+            }
+
             TraitDef traitDef = DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
 
-            return (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(Degree).label : traitDef?.label).StripTags()
-                  .ToToolkit()
-                   ?? DefName;
+            defaultName = (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(Degree).label : traitDef?.label)
+                         .StripTags()
+                         .ToToolkit()
+                          ?? DefName;
+            return defaultName;
         }
     }
 }

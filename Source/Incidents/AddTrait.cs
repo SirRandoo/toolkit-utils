@@ -49,11 +49,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            buyableTrait = Data.Traits.FirstOrDefault(t => TraitHelper.CompareToInput(t, traitQuery));
             int maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
             List<Trait> traits = pawn.story.traits.allTraits;
 
-            if (buyableTrait == null)
+            if (!Data.TryGetTrait(traitQuery, out buyableTrait))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(traitQuery));
                 return false;
