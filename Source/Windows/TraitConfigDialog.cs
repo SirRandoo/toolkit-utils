@@ -157,7 +157,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawTraitSettings(Rect inRect)
         {
-            expanded.Data ??= new TraitData {KarmaTypeForAdding = addKarmaType, KarmaTypeForRemoving = removeKarmaType};
             string addKarma = expanded.Data.KarmaTypeForAdding == null
                 ? noCustomKarmaText
                 : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaTypeForAdding);

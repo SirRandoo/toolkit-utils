@@ -302,6 +302,9 @@
         <Content Include="..\Common\Languages\English\Keyed\Windows.xml">
             <Link>Common\Languages\English\Keyed\Windows.xml</Link>
         </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Workers.xml">
+            <Link>Common\Languages\English\Keyed\Workers.xml</Link>
+        </Content>
         <Content Include="..\Common\Patches\AddonPatch.xml">
             <Link>Common\Patches\AddonPatch.xml</Link>
         </Content>

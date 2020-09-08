@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -9,37 +9,140 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    [UsedImplicitly]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class TraitItem
     {
         public bool CanAdd;
         public bool CanRemove;
         [JsonProperty("addPrice")] public int CostToAdd;
-
         [JsonProperty("removePrice")] public int CostToRemove;
-        [CanBeNull] public TraitData Data;
-
         [JsonIgnore] private string defaultName;
+
         public string DefName;
         public int Degree;
         public string Name;
+        [JsonIgnore] private TraitData traitData;
+        [JsonIgnore] private TraitDef traitDef;
+
+        public TraitData Data => traitData ??= new TraitData();
 
         // Legacy support
-        public string[] Stats => Data?.Stats;
-        public string[] Conflicts => Data?.Conflicts;
-        public bool BypassLimit => Data?.CanBypassLimit ?? false;
+        [UsedImplicitly] public string Description => TraitDef.DataAtDegree(Degree).description;
 
-        public bool CompareToInput(string input)
+        [UsedImplicitly]
+        public string[] Stats
         {
-            input = input.ToToolkit();
-
-            if (input.Equals(Name.ToToolkit(), StringComparison.InvariantCultureIgnoreCase))
+            get
             {
-                return true;
+                if (Data.Stats.NullOrEmpty())
+                {
+                    FetchStats();
+                }
+
+                return Data.Stats;
+            }
+        }
+
+        [UsedImplicitly]
+        public string[] Conflicts
+        {
+            get
+            {
+                if (Data.Conflicts.NullOrEmpty())
+                {
+                    FetchConflicts();
+                }
+
+                return Data.Conflicts;
+            }
+        }
+
+        public bool BypassLimit => Data.CanBypassLimit;
+
+        [JsonIgnore]
+        public TraitDef TraitDef =>
+            traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
+
+        private void FetchStats()
+        {
+            var container = new List<string>();
+
+            TraitDegreeData degreeData = TraitDef.DataAtDegree(Degree);
+
+            if (!degreeData.disallowedInspirations.NullOrEmpty())
+            {
+                container.AddRange(
+                    degreeData.disallowedInspirations.Select(i => "TKUtils.Trait.Inspiration".Localize(i.LabelCap))
+                );
             }
 
-            return input.Equals(DefName, StringComparison.InvariantCulture);
+            if (!degreeData.disallowedMentalStates.NullOrEmpty())
+            {
+                container.AddRange(
+                    degreeData.disallowedMentalStates.Select(b => "TKUtils.Trait.MentalState".Localize(b.LabelCap))
+                );
+            }
+
+            if (ModLister.RoyaltyInstalled)
+            {
+                if (!degreeData.disallowedMeditationFocusTypes.NullOrEmpty())
+                {
+                    container.AddRange(
+                        degreeData.disallowedMeditationFocusTypes.Select(
+                            f => "TKUtils.Trait.MeditationDisabled".Localize(f.LabelCap)
+                        )
+                    );
+                }
+
+                if (!degreeData.allowedMeditationFocusTypes.NullOrEmpty())
+                {
+                    container.AddRange(
+                        degreeData.allowedMeditationFocusTypes.Select(
+                            f => "TKUtils.Trait.MeditationEnabled".Localize(f.LabelCap)
+                        )
+                    );
+                }
+            }
+
+            if (!degreeData.theOnlyAllowedMentalBreaks.NullOrEmpty())
+            {
+                container.AddRange(
+                    degreeData.theOnlyAllowedMentalBreaks.Select(
+                        b => "TKUtils.Trait.MentalBreak".Localize(b.ToString())
+                    )
+                );
+            }
+
+            if (degreeData.skillGains.Count > 0)
+            {
+                container.AddRange(
+                    degreeData.skillGains.Select(pair => $"{pair.Value.ToStringWithSign()} {pair.Key.skillLabel}")
+                );
+            }
+
+            if (!degreeData.statOffsets.NullOrEmpty())
+            {
+                container.AddRange(degreeData.statOffsets.Select(o => $"{o.ValueToStringAsOffset} {o.stat.label}"));
+            }
+
+            if (!degreeData.statFactors.NullOrEmpty())
+            {
+                container.AddRange(degreeData.statFactors.Select(f => $"{f.ToStringAsFactor} {f.stat.label}"));
+            }
+
+            Data.Stats = container.ToArray();
+        }
+
+        private void FetchConflicts()
+        {
+            var container = new List<string>();
+
+            foreach (TraitDef conflict in TraitDef.conflictingTraits)
+            {
+                container.AddRange(conflict.ToTraitItems().Select(t => t.Name));
+            }
+
+            Data.Conflicts = container.ToArray();
         }
 
         public static TraitItem MigrateFrom(XmlTrait trait)
@@ -53,7 +156,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 DefName = trait.DefName,
                 Degree = trait.Degree,
                 Name = trait.Name,
-                Data = new TraitData
+                traitData = new TraitData
                 {
                     CanBypassLimit = trait.BypassLimit,
                     Conflicts = new string[] { },
@@ -70,12 +173,9 @@ namespace SirRandoo.ToolkitUtils.Models
                 return defaultName;
             }
 
-            TraitDef traitDef = DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
-
-            defaultName = (traitDef?.degreeDatas != null ? traitDef.DataAtDegree(Degree).label : traitDef?.label)
-                         .StripTags()
-                         .ToToolkit()
-                          ?? DefName;
+            defaultName = (TraitDef.degreeDatas != null ? traitDef.DataAtDegree(Degree).label : TraitDef.label)
+               .StripTags()
+               .ToToolkit();
             return defaultName;
         }
     }

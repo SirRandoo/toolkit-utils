@@ -57,7 +57,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
                         Name = trait.label.StripTags().ToToolkit(),
                         CostToAdd = 3500,
                         CostToRemove = 5500,
-                        Data = new TraitData()
                     }
                 };
             }
@@ -71,8 +70,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                         CostToRemove = 5500,
                         CanAdd = true,
                         CanRemove = true,
-                        Name = t.label.StripTags().ToToolkit(),
-                        Data = new TraitData()
+                        Name = t.label.StripTags().ToToolkit()
                     }
                 )
                .ToArray();

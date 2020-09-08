@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <TKUtils.Trait.Inspiration>{0} inspiration disabled.</TKUtils.Trait.Inspiration>
+    <TKUtils.Trait.MentalState>{0} mental state disabled.</TKUtils.Trait.MentalState>
+    <TKUtils.Trait.MentalBreak>Only mental break "{0}" allowed.</TKUtils.Trait.MentalBreak>
+    <TKUtils.Trait.MeditationDisabled>{0} meditation focus type disabled.</TKUtils.Trait.MeditationDisabled>
+    <TKUtils.Trait.MeditationEnabled>{0} meditation focus type allowed.</TKUtils.Trait.MeditationEnabled>
+</LanguageData>
