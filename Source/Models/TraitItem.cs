@@ -20,6 +20,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public string DefName;
         public int Degree;
+        [JsonIgnore] private string finalDescription;
         public string Name;
         [JsonIgnore] private TraitData traitData;
         [JsonIgnore] private TraitDef traitDef;
@@ -27,7 +28,22 @@ namespace SirRandoo.ToolkitUtils.Models
         public TraitData Data => traitData ??= new TraitData();
 
         // Legacy support
-        [UsedImplicitly] public string Description => TraitDef.DataAtDegree(Degree).description;
+        [UsedImplicitly]
+        public string Description
+        {
+            get
+            {
+                return finalDescription ??= TraitDef.DataAtDegree(Degree)
+                   .description.Replace("PAWN_nameDef", "Timmy")
+                   .Replace("PAWN_pronoun", "Prohe".Localize())
+                   .Replace("PAWN_objective", "ProhimObj".Localize())
+                   .Replace("PAWN_possessive", "Prohis".Localize())
+                   .Replace("{", "")
+                   .Replace("}", "")
+                   .Replace("[", "")
+                   .Replace("]", "");
+            }
+        }
 
         [UsedImplicitly]
         public string[] Stats
