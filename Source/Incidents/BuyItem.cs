@@ -77,7 +77,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             purchaseRequest = new PurchaseRequest
             {
-                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = Viewer
+                ItemData = product,
+                ThingDef = product.Thing,
+                Quantity = Mathf.Min(amount, product.Data?.QuantityLimit ?? 1000000),
+                Purchaser = Viewer
             };
 
             if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
