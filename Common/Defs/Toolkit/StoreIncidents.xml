@@ -124,7 +124,7 @@
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
     
-    <!--<TwitchToolkit.Incidents.StoreIncidentVariables>
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>RescueMe</defName>
         <label>rescue me</label>
         <abbreviation>rescueme</abbreviation>
@@ -137,7 +137,7 @@
                 <Description>Creates a prisoner rescue quest for your kidnapped pawn.</Description>
             </li>
         </modExtensions>
-    </TwitchToolkit.Incidents.StoreIncidentVariables>-->
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
     
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>FullHeal</defName>
