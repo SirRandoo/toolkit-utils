@@ -274,8 +274,6 @@ namespace SirRandoo.ToolkitUtils
                 ItemData.Remove(defName);
             }
 
-            TkLogger.Info($"{tradeables.Count:N0} → {toCull.Count:N0} items:\n{toCull.ToStringSafeEnumerable()}");
-
             foreach (ThingDef item in tradeables.Where(t => !ItemData.ContainsKey(t))
                .Select(i => DefDatabase<ThingDef>.GetNamed(i)))
             {
