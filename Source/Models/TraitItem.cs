@@ -189,9 +189,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return defaultName;
             }
 
-            defaultName = (TraitDef.degreeDatas != null ? traitDef.DataAtDegree(Degree).label : TraitDef.label)
-               .StripTags()
-               .ToToolkit();
+            defaultName = TraitDef.DataAtDegree(Degree).label.StripTags().ToToolkit();
             return defaultName;
         }
     }
