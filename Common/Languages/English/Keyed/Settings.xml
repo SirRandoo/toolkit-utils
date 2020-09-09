@@ -19,10 +19,10 @@
     <TKUtils.CommandTweaks.BuyPawn>Pawn Purchases</TKUtils.CommandTweaks.BuyPawn>
     
     <TKUtils.PawnCommands>Pawn Commands</TKUtils.PawnCommands>
+    <TKUtils.PawnCommands.Abandon>Leave Command</TKUtils.PawnCommands.Abandon>
     <TKUtils.PawnCommands.Gear>Pawn Gear Command</TKUtils.PawnCommands.Gear>
     <TKUtils.PawnCommands.Health>Pawn Health Command</TKUtils.PawnCommands.Health>
     <TKUtils.PawnCommands.Work>Pawn Work Command</TKUtils.PawnCommands.Work>
-    <TKUtils.PawnCommands.Abandon>Leave Command</TKUtils.PawnCommands.Abandon>
     
     <TKUtils.PawnWork>Work Priorities</TKUtils.PawnWork>
     <TKUtils.PawnStats>Stats</TKUtils.PawnStats>
@@ -92,6 +92,14 @@
     
     
     <!-- Pawn Commands Tab -->
+    <!-- Leave Command Group -->
+    <TKUtils.Abandon.Method.Label>How pawns should leave when the leave command is invoked.</TKUtils.Abandon.Method.Label>
+    <TKUtils.Abandon.Method.Description>The type of leave method that'll be used when a viewer uses the &lt;i&gt;!leave&lt;/i&gt; command. The "Mental break" method will force the colonist to leave the colony, while the "Thanos" method will turn the colonist to dust.</TKUtils.Abandon.Method.Description>
+    <TKUtils.Abandon.Method.Thanos>Thanos</TKUtils.Abandon.Method.Thanos>
+    <TKUtils.Abandon.Method.MentalBreak>Mental break</TKUtils.Abandon.Method.MentalBreak>
+    <TKUtils.Abandon.Gear.Label>Colonists that leave by the leave command drop their inventory.</TKUtils.Abandon.Gear.Label>
+    <TKUtils.Abandon.Gear.Description>If a viewer chooses to leave the colony via the &lt;i&gt;!leave&lt;/i&gt; command, the mod will strip their equipment before they depart.</TKUtils.Abandon.Gear.Description>
+    
     <!-- Pawn Gear Command Group -->
     <TKUtils.PawnGear.Temperature.Label>Show temperature information in the pawn gear command.</TKUtils.PawnGear.Temperature.Label>
     <TKUtils.PawnGear.Temperature.Description>Include a pawn's temperature tolerance range in the &lt;i&gt;!mypawngear&lt;/i&gt; command. Enabling this removes temperature information from &lt;i&gt;!mypawnbody&lt;/i&gt;.</TKUtils.PawnGear.Temperature.Description>
@@ -111,12 +119,4 @@
     <TKUtils.PawnWork.Sort.Description>If enabled, work priorities will be sorted like the Work tab in the &lt;i&gt;!mypawnwork&lt;/i&gt; command. This means work will be displayed as the Work tab from left to right.</TKUtils.PawnWork.Sort.Description>
     <TKUtils.PawnWork.Filter.Label>Filter work priorities in the pawn work command.</TKUtils.PawnWork.Filter.Label>
     <TKUtils.PawnWork.Filter.Description>If enabled, disabled work priorities will be removed from the &lt;i&gt;!mypawnwork&lt;/i&gt; command's output. This means work priorities a pawn is incapable of doing, or is not assigned to, will be omitted from the command's response.</TKUtils.PawnWork.Filter.Description>
-    
-    <!-- Abandon -->
-    <TKUtils.Abandon.Method.Label>How pawns should leave when the leave command is invoked.</TKUtils.Abandon.Method.Label>
-    <TKUtils.Abandon.Method.Description>The type of leave method that'll be used when a viewer uses the &lt;i&gt;!leave&lt;/i&gt; command. The "Mental break" method will force the colonist to leave the colony, while the "Thanos" method will turn the colonist to dust.</TKUtils.Abandon.Method.Description>
-    <TKUtils.Abandon.Method.Thanos>Thanos</TKUtils.Abandon.Method.Thanos>
-    <TKUtils.Abandon.Method.MentalBreak>Mental break</TKUtils.Abandon.Method.MentalBreak>
-    <TKUtils.Abandon.Gear.Label>Colonists that leave by the leave command drop their inventory.</TKUtils.Abandon.Gear.Label>
-    <TKUtils.Abandon.Gear.Description>If a viewer chooses to leave the colony via the &lt;i&gt;!leave&lt;/i&gt; command, the mod will strip their equipment before they depart.</TKUtils.Abandon.Gear.Description>
 </LanguageData>

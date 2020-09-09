@@ -359,6 +359,22 @@ namespace SirRandoo.ToolkitUtils
             GUI.BeginGroup(canvas);
             listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
 
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Localize());
+
+            (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
+            Widgets.Label(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
+
+            if (Widgets.ButtonText(leaveRect, LeaveMethod))
+            {
+                Find.WindowStack.Add(new FloatMenu(_leaveMenuOptions));
+            }
+
+            if (!LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethods.Thanos)))
+            {
+                listing.CheckboxLabeled("TKUtils.Abandon.Gear.Label".Localize(), ref DropInventory);
+                listing.DrawDescription("TKUtils.Abandon.Gear.Description".Localize());
+            }
+
             listing.DrawGroupHeader("TKUtils.PawnCommands.Gear".Localize(), false);
             listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".Localize(), ref TempInGear);
             listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".Localize());
@@ -380,23 +396,6 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawDescription("TKUtils.PawnWork.Sort.Description".Localize());
             listing.CheckboxLabeled("TKUtils.PawnWork.Filter.Label".Localize(), ref FilterWorkPriorities);
             listing.DrawDescription("TKUtils.PawnWork.Filter.Description".Localize());
-
-
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Localize());
-
-            (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
-
-            if (Widgets.ButtonText(leaveRect, LeaveMethod))
-            {
-                Find.WindowStack.Add(new FloatMenu(_leaveMenuOptions));
-            }
-
-            if (!LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethods.Thanos)))
-            {
-                listing.CheckboxLabeled("TKUtils.Abandon.Gear.Label".Localize(), ref DropInventory);
-                listing.DrawDescription("TKUtils.Abandon.Gear.Description".Localize());
-            }
 
             GUI.EndGroup();
             listing.EndScrollView(ref viewPort);
