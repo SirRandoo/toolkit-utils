@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
     public enum Sorter { Name, Cost, Category, AddCost, RemoveCost }
 
-    public enum FilterTypes { Mod, Category, TechLevel }
+    public enum FilterTypes { Mod, Category, TechLevel, Stackable }
 
 
     [StaticConstructorOnStartup]
@@ -464,6 +464,22 @@ namespace SirRandoo.ToolkitUtils.Windows
                         () =>
                         {
                             InjectModFilter(item.Mod);
+                            Notify__SearchRequested();
+                        }
+                    ),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.Stackable".Localize(),
+                        () =>
+                        {
+                            InjectStackableFilter(true);
+                            Notify__SearchRequested();
+                        }
+                    ),
+                    new FloatMenuOption(
+                        "TKUtils.StoreMenu.NonStackable".Localize(),
+                        () =>
+                        {
+                            InjectStackableFilter(false);
                             Notify__SearchRequested();
                         }
                     ),
@@ -1115,6 +1131,31 @@ namespace SirRandoo.ToolkitUtils.Windows
             filter.Filter = t => FilterByTechLevel(t, techLevel);
         }
 
+        private void InjectStackableFilter(bool stackable)
+        {
+            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Stackable);
+
+            if (filter == null)
+            {
+                filters.Add(
+                    new StoreItemFilter
+                    {
+                        FilterType = FilterTypes.Stackable,
+                        Filter = t => stackable ? FilterByStackable(t) : FilterByNonStackable(t),
+                        Label = stackable
+                            ? "TKUtils.StoreMenu.Stackable".Localize()
+                            : "TKUtils.StoreMenu.NonStackable".Localize()
+                    }
+                );
+                return;
+            }
+
+            filter.Label = stackable
+                ? "TKUtils.StoreMenu.Stackable".Localize()
+                : "TKUtils.StoreMenu.NonStackable".Localize();
+            filter.Filter = t => stackable ? FilterByStackable(t) : FilterByNonStackable(t);
+        }
+
         private static List<ThingItem> FilterByCategory(IEnumerable<ThingItem> subject, string category)
         {
             return subject.Where(t => t.Category.Equals(category)).ToList();
@@ -1128,6 +1169,16 @@ namespace SirRandoo.ToolkitUtils.Windows
         private static List<ThingItem> FilterByTechLevel(IEnumerable<ThingItem> subject, TechLevel techLevel)
         {
             return subject.Where(t => t.Thing.techLevel == techLevel).ToList();
+        }
+
+        private static List<ThingItem> FilterByStackable(IEnumerable<ThingItem> subject)
+        {
+            return subject.Where(t => t.Thing.stackLimit > 1).ToList();
+        }
+
+        private static List<ThingItem> FilterByNonStackable(IEnumerable<ThingItem> subject)
+        {
+            return subject.Where(t => t.Thing.stackLimit == 1).ToList();
         }
     }
 

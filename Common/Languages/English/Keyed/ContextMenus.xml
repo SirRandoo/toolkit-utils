@@ -63,4 +63,6 @@
     <TKUtils.StoreMenu.Disable>Disable "{0}"</TKUtils.StoreMenu.Disable>
     <TKUtils.StoreMenu.Toggle>Toggle "{0}"</TKUtils.StoreMenu.Toggle>
     <TKUtils.StoreMenu.Technology>Filter by tech level "{0}"</TKUtils.StoreMenu.Technology>
+    <TKUtils.StoreMenu.Stackable>Filter by stackables</TKUtils.StoreMenu.Stackable>
+    <TKUtils.StoreMenu.NonStackable>Filter by non-stackables</TKUtils.StoreMenu.NonStackable>
 </LanguageData>
