@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit;
-using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
 
@@ -14,9 +13,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     public class TraitConfigDialog : Window
     {
         private const float LineScale = 1.25f;
-        private readonly KarmaType addKarmaType;
         private readonly List<TraitItem> cache = Data.Traits;
-        private readonly KarmaType removeKarmaType;
         private string addCostText;
         private string addKarmaTypeText;
         private string bypassLimitText;
@@ -53,9 +50,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             optionalTitle = titleText;
             cache?.SortBy(t => t.Name);
-
-            addKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("AddTrait").karmaType;
-            removeKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("RemoveTrait").karmaType;
         }
 
         public override Vector2 InitialSize => new Vector2(1024f, Screen.height * 0.9f);

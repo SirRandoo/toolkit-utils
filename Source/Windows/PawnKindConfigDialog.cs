@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit;
-using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
 
@@ -15,7 +14,6 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private const float LineScale = 1.25f;
         private readonly List<PawnKindItem> cache = Data.PawnKinds;
-        private readonly KarmaType pawnKarmaType;
         private string applyText;
 
         private bool control;
@@ -53,8 +51,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             optionalTitle = titleText;
             cache?.SortBy(r => r.Name);
-
-            pawnKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("BuyPawn").karmaType;
         }
 
         public override Vector2 InitialSize => new Vector2(640f, 740f);
@@ -397,7 +393,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawKindSettings(Rect inRect)
         {
-            expanded.Data ??= new PawnKindData {KarmaType = pawnKarmaType};
             string removeKarma = expanded.Data.KarmaType == null
                 ? noCustomKarmaText
                 : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaType);
