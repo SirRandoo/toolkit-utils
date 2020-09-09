@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             string message = twitchMessage.Message;
 
-            if (message.StartsWith(TkSettings.Prefix))
+            if (message.StartsWith(TkSettings.Prefix, StringComparison.InvariantCultureIgnoreCase))
             {
                 message = message.Substring(TkSettings.Prefix.Length);
             }

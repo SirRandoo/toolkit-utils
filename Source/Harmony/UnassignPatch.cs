@@ -73,10 +73,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             Pawn pawn = component.PawnAssignedToUser(username);
 
-            if (pawn != null)
+            if (pawn != null && pawn.Name is NameTriple name)
             {
-                var name = pawn.Name as NameTriple;
-                pawn.Name = new NameTriple(name?.First, name?.Last, name?.Last);
+                pawn.Name = new NameTriple(name.First, name.Last, name.Last);
             }
 
             component.pawnHistory.Remove(username);

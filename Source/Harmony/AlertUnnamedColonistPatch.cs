@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                .Where(pawn => !pawn.IsUndead())
                .ToList();
 
-            if (container.Any())
+            if (container.Count > 0)
             {
                 __result = AlertReport.CulpritsAre(container);
             }
