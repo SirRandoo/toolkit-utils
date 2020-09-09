@@ -79,7 +79,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            Trait target = traits?.FirstOrDefault(t => TraitHelper.CompareToInput(traitQuery, t.Label));
+            Trait target =
+                traits?.FirstOrDefault(t => TraitHelper.CompareToInput(traitQuery.GetDefaultName(), t.Label));
 
             if (target == null)
             {
