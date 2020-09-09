@@ -10,6 +10,7 @@ using RimWorld.QuestGen;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
+using TwitchToolkit.PawnQueue;
 using TwitchToolkit.Store;
 using Verse;
 using Verse.Grammar;
@@ -54,6 +55,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             QuestScriptDef scriptDef = DefDatabase<QuestScriptDef>.GetNamed("TKUtilsViewerRescue");
             float threatPoints = StorytellerUtility.DefaultSiteThreatPointsNow();
+
+            var component = Current.Game.GetComponent<GameComponentPawns>();
+
+            if (component != null && component.pawnHistory.ContainsKey(Viewer.username.ToLower()))
+            {
+                component.pawnHistory.Remove(Viewer.username.ToLower());
+            }
 
             ViewerRescue.QueuedViewers.Enqueue(Viewer.username);
             QuestUtility.SendLetterQuestAvailable(QuestUtility.GenerateQuestAndMakeAvailable(scriptDef, threatPoints));
