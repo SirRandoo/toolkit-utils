@@ -46,16 +46,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static string GetSocialString(Pawn pawn, Pawn otherPawn, int opinion)
         {
-            List<PawnRelationDef> relations = pawn.GetRelations(otherPawn).ToList();
+            PawnRelationDef relations = pawn.GetMostImportantRelation(otherPawn);
 
-            if (relations.Count != 0)
+            if (relations != null)
             {
-                return relations.Aggregate(
-                    "",
-                    (current, relation) => current.NullOrEmpty()
-                        ? relation.GetGenderSpecificLabelCap(otherPawn)
-                        : current + ", " + relation.GetGenderSpecificLabel(otherPawn)
-                );
+                return relations.GetGenderSpecificLabelCap(otherPawn);
             }
 
             if (opinion < -20)
