@@ -6,6 +6,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.PawnQueue;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -32,11 +33,15 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             List<string> container = component.pawnHistory.Where(p => p.Value != pawn)
                .Select(
-                    pair => ResponseHelper.JoinPair(
-                        pair.Key.CapitalizeFirst(),
-                        GetSocialString(pawn, pair.Value, pawn.relations.OpinionOf(pair.Value))
-                    )
+                    pair =>
+                    {
+                        string relationString = GetSocialString(pawn, pair.Value, pawn.relations.OpinionOf(pair.Value));
+                        return relationString == null
+                            ? null
+                            : ResponseHelper.JoinPair(pair.Key.CapitalizeFirst(), relationString);
+                    }
                 )
+               .Where(s => s != null)
                .ToList();
 
             twitchMessage.Reply(
@@ -51,6 +56,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (relations != null)
             {
                 return relations.GetGenderSpecificLabelCap(otherPawn);
+            }
+
+            if (Mathf.Abs(opinion) >= TkSettings.OpinionMinimum)
+            {
+                return null;
             }
 
             if (opinion < -20)
