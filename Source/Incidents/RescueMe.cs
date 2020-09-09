@@ -2,12 +2,12 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using RimWorld.Planet;
 using RimWorld.QuestGen;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
@@ -20,24 +20,24 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class RescueMe : IncidentHelperVariables
     {
+        private KidnapReport report;
         public override Viewer Viewer { get; set; }
 
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
+            Viewer = viewer;
             Pawn pawn = CommandBase.GetOrFindPawn(viewer.username, true);
 
             if (pawn?.IsKidnapped() ?? false)
             {
+                report = new KidnapReport {Viewer = viewer.username, PawnIds = new List<string> {pawn.ThingID}};
                 return true;
             }
 
-            TkLogger.Warn("Rescue request received after disconnect! Scanning through kidnapped pawns...");
             try
             {
-                pawn = Faction.OfPlayer.kidnapped.KidnappedPawnsListForReading
-                   .Where(p => ((NameTriple) p.Name)?.Nick?.EqualsIgnoreCase(viewer.username) ?? false)
-                   .RandomElementWithFallback();
+                report = KidnapReport.KidnapReportFor(viewer.username);
             }
             catch (Exception e)
             {
@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            return pawn != null && !pawn.Dead && pawn.IsKidnapped();
+            return !report?.PawnIds.NullOrEmpty() ?? false;
         }
 
         public override void TryExecute()
@@ -63,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 component.pawnHistory.Remove(Viewer.username.ToLower());
             }
 
-            ViewerRescue.QueuedViewers.Enqueue(Viewer.username);
+            ViewerRescue.QueuedViewers.Enqueue(report);
             QuestUtility.SendLetterQuestAvailable(QuestUtility.GenerateQuestAndMakeAvailable(scriptDef, threatPoints));
         }
     }
@@ -71,7 +71,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class ViewerRescue : SitePartWorker
     {
-        internal static readonly ConcurrentQueue<string> QueuedViewers = new ConcurrentQueue<string>();
+        internal static readonly ConcurrentQueue<KidnapReport> QueuedViewers = new ConcurrentQueue<KidnapReport>();
 
         public override void PostDestroy(SitePart sitePart)
         {
@@ -89,16 +89,26 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             base.Notify_GeneratedByQuestGen(part, slate, outExtraDescriptionRules, outExtraDescriptionConstants);
 
-            if (!QueuedViewers.TryDequeue(out string nextViewer))
+            Pawn pawn = null;
+            if (!QueuedViewers.TryDequeue(out KidnapReport report))
             {
-                nextViewer = "";
+                report = null;
+            }
+            else
+            {
+                pawn = CommandBase.GetOrFindPawn(report.Viewer, true);
+
+                if (!pawn.IsKidnapped())
+                {
+                    pawn = null;
+                }
             }
 
-            Pawn pawn = CommandBase.GetOrFindPawn(nextViewer, true);
-            pawn ??= Faction.OfPlayer.kidnapped.KidnappedPawnsListForReading.FirstOrFallback(
-                p => ((NameTriple) p.Name)?.Nick.EqualsIgnoreCase(nextViewer) ?? false
+            pawn ??= report?.GetMostRecentKidnapping();
+            pawn ??= report?.GetPawns().RandomElementWithFallback();
+            pawn ??= PawnGenerator.GeneratePawn(
+                new PawnGenerationRequest(PawnKindDefOf.Colonist, Faction.OfPlayer, forceAddFreeWarmLayerIfNeeded: true)
             );
-            pawn ??= Faction.OfPlayer.kidnapped.KidnappedPawnsListForReading.RandomElementWithFallback();
 
             if (pawn != null)
             {
