@@ -363,6 +363,7 @@ namespace SirRandoo.ToolkitUtils
 
             (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
             Widgets.Label(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
+            listing.DrawDescription("TKUtils.Abandon.Method.Description".Localize());
 
             if (Widgets.ButtonText(leaveRect, LeaveMethod))
             {
