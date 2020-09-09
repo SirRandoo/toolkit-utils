@@ -45,6 +45,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
         public static bool HairColor = true;
+        public static int OpinionMinimum;
         public static int StoreBuildRate = 60;
         public static bool StoreState = true;
         public static bool Offload;
@@ -354,7 +355,7 @@ namespace SirRandoo.ToolkitUtils
         private static void DrawPawnCommandsTab(Rect canvas)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 32f);
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 38f);
 
             GUI.BeginGroup(canvas);
             listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
@@ -391,6 +392,14 @@ namespace SirRandoo.ToolkitUtils
             listing.CheckboxLabeled("TKUtils.PawnHealth.Surgeries.Label".Localize(), ref ShowSurgeries);
             listing.DrawDescription("TKUtils.PawnHealth.Surgeries.Description".Localize());
 
+
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Relations".Localize());
+            (Rect opinionLabel, Rect opinionField) = listing.GetRect(Text.LineHeight).ToForm();
+            var buffer = OpinionMinimum.ToString();
+
+            Widgets.Label(opinionLabel, "TKUtils.PawnRelations.OpinionThreshold.Label".Localize());
+            Widgets.TextFieldNumeric(opinionField, ref OpinionMinimum, ref buffer);
+            listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Localize());
 
             listing.DrawGroupHeader("TKUtils.PawnCommands.Work".Localize());
             listing.CheckboxLabeled("TKUtils.PawnWork.Sort.Label".Localize(), ref SortWorkPriorities);

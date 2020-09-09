@@ -115,6 +115,10 @@
     <TKUtils.PawnHealth.Surgeries.Label>Show queued surgeries in the pawn health command.</TKUtils.PawnHealth.Surgeries.Label>
     <TKUtils.PawnHealth.Surgeries.Description>Includes currently queued surgeries in the &lt;i&gt;!mypawnhealth&lt;/i&gt; command.</TKUtils.PawnHealth.Surgeries.Description>
     
+    <!-- Pawn Relations Command Group -->
+    <TKUtils.PawnRelations.OpinionThreshold.Label>Minimum opinion</TKUtils.PawnRelations.OpinionThreshold.Label>
+    <TKUtils.PawnRelations.OpinionThreshold.Description>The minimum opinion a pawn has to have of another before they'll show up in the command. The value will be used for both the negative (absolute) and positive opinion values</TKUtils.PawnRelations.OpinionThreshold.Description>
+    
     <!-- Pawn Work Command Group -->
     <TKUtils.PawnWork.Sort.Label>Sort work priorities in the pawn work command.</TKUtils.PawnWork.Sort.Label>
     <TKUtils.PawnWork.Sort.Description>If enabled, work priorities will be sorted like the Work tab in the &lt;i&gt;!mypawnwork&lt;/i&gt; command. This means work will be displayed as the Work tab from left to right.</TKUtils.PawnWork.Sort.Description>
