@@ -73,11 +73,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformAnimalLookup(string query)
         {
-            string[] results = DefDatabase<PawnKindDef>.AllDefs.Where(i => i.RaceProps.Animal)
+            string[] results = Data.Items.Where(i => i.Thing.race.Animal)
                .Where(
                     i =>
                     {
-                        string label = i.LabelCap.RawText.ToToolkit();
+                        string label = i.Name.ToToolkit();
                         string q = query.ToToolkit();
 
                         if (label.Contains(q) || label.EqualsIgnoreCase(q))
@@ -85,11 +85,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                             return true;
                         }
 
-                        return i.defName.ToToolkit().Contains(query.ToToolkit())
-                               || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
+                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-               .Select(i => i.defName.CapitalizeFirst())
+               .Select(i => i.Name.CapitalizeFirst())
                .ToArray();
 
             Notify__LookupComplete(query, results);
@@ -230,7 +230,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformSkillLookup(string query)
         {
-            string[] results = DefDatabase<SkillDef>.AllDefsListForReading.Where(
+            string[] results = DefDatabase<SkillDef>.AllDefs.Where(
                     i =>
                     {
                         string label = i.LabelCap.RawText.ToToolkit();
@@ -253,7 +253,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            string[] results = Data.Traits.Where(
+            string[] results = Data.Traits.Where(t => t.CanAdd || t.CanRemove)
+               .Where(
                     i =>
                     {
                         string label = i.Name.ToToolkit();
@@ -268,7 +269,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-               .Where(t => t.CanAdd || t.CanRemove)
                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                .ToArray();
 
