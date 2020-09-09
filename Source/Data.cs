@@ -68,6 +68,7 @@ namespace SirRandoo.ToolkitUtils
             ValidatePawnKinds();
             ValidateTraits();
             ValidateModList();
+            ValidateSurgeryList();
 
             if (TkSettings.Offload)
             {
@@ -84,6 +85,7 @@ namespace SirRandoo.ToolkitUtils
         public static Dictionary<string, ItemData> ItemData { get; private set; }
         public static ModItem[] Mods { get; private set; }
         public static List<ThingItem> Items { get; set; }
+        public static List<RecipeDef> Surgeries { get; set; }
 
         private static void MigrateFromLegacy(string path)
         {
@@ -256,8 +258,7 @@ namespace SirRandoo.ToolkitUtils
                         DefName = def.race.defName,
                         Enabled = true,
                         Name = def.race.label ?? def.race.defName,
-                        Cost = def.race.CalculateStorePrice(),
-                        Data = new PawnKindData()
+                        Cost = def.race.CalculateStorePrice()
                     }
                 );
             }
@@ -299,6 +300,11 @@ namespace SirRandoo.ToolkitUtils
                .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt")))
                .Select(ModItem.FromMetadata)
                .ToArray();
+        }
+
+        private static void ValidateSurgeryList()
+        {
+            Surgeries = DefDatabase<RecipeDef>.AllDefs.Where(r => r.IsSurgery).ToList();
         }
 
         public static void SaveLegacyShop(string path)
