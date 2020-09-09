@@ -22,6 +22,7 @@
     <TKUtils.PawnCommands.Abandon>Leave Command</TKUtils.PawnCommands.Abandon>
     <TKUtils.PawnCommands.Gear>Pawn Gear Command</TKUtils.PawnCommands.Gear>
     <TKUtils.PawnCommands.Health>Pawn Health Command</TKUtils.PawnCommands.Health>
+    <TKUtils.PawnCommands.Relations>Pawn Relations Command</TKUtils.PawnCommands.Relations>
     <TKUtils.PawnCommands.Work>Pawn Work Command</TKUtils.PawnCommands.Work>
     
     <TKUtils.PawnWork>Work Priorities</TKUtils.PawnWork>
@@ -110,11 +111,11 @@
     <TKUtils.PawnGear.Weapon.Label>Show currently equipped weapon in the pawn gear command.</TKUtils.PawnGear.Weapon.Label>
     <TKUtils.PawnGear.Weapon.Description>Includes the weapon a pawn is currently equipped with in the &lt;i&gt;!mypawngear&lt;/i&gt; command.</TKUtils.PawnGear.Weapon.Description>
     
-    <!-- Pawn Health -->
+    <!-- Pawn Health Command Group -->
     <TKUtils.PawnHealth.Surgeries.Label>Show queued surgeries in the pawn health command.</TKUtils.PawnHealth.Surgeries.Label>
     <TKUtils.PawnHealth.Surgeries.Description>Includes currently queued surgeries in the &lt;i&gt;!mypawnhealth&lt;/i&gt; command.</TKUtils.PawnHealth.Surgeries.Description>
     
-    <!-- Pawn Work -->
+    <!-- Pawn Work Command Group -->
     <TKUtils.PawnWork.Sort.Label>Sort work priorities in the pawn work command.</TKUtils.PawnWork.Sort.Label>
     <TKUtils.PawnWork.Sort.Description>If enabled, work priorities will be sorted like the Work tab in the &lt;i&gt;!mypawnwork&lt;/i&gt; command. This means work will be displayed as the Work tab from left to right.</TKUtils.PawnWork.Sort.Description>
     <TKUtils.PawnWork.Filter.Label>Filter work priorities in the pawn work command.</TKUtils.PawnWork.Filter.Label>
