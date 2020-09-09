@@ -359,7 +359,7 @@ namespace SirRandoo.ToolkitUtils
             GUI.BeginGroup(canvas);
             listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Localize());
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Localize(), false);
 
             (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
             Widgets.Label(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
@@ -375,7 +375,7 @@ namespace SirRandoo.ToolkitUtils
                 listing.DrawDescription("TKUtils.Abandon.Gear.Description".Localize());
             }
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Gear".Localize(), false);
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Gear".Localize());
             listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".Localize(), ref TempInGear);
             listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".Localize());
             listing.CheckboxLabeled("TKUtils.PawnGear.Apparel.Label".Localize(), ref ShowApparel);
