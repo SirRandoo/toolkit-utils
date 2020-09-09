@@ -91,7 +91,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            traitDef = DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(buyableTrait.DefName));
+            traitDef = buyableTrait.TraitDef;
 
             if (traitDef == null)
             {

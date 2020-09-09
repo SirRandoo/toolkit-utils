@@ -117,8 +117,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             List<TraitDef> traitDefs = DefDatabase<TraitDef>.AllDefsListForReading;
-            replaceThisTraitDef = traitDefs.FirstOrDefault(t => t.defName.Equals(replaceThisShop.DefName));
-            replaceThatTraitDef = traitDefs.FirstOrDefault(t => t.defName.Equals(replaceThatShop.DefName));
+            replaceThisTraitDef = replaceThisShop.TraitDef;
+            replaceThatTraitDef = replaceThatShop.TraitDef;
 
             if (replaceThisTraitDef == null)
             {
