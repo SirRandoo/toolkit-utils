@@ -70,11 +70,7 @@ Toolkit events.
 #### Traits & Races
 
 Like [Items](#items), you'll follow the same steps, except you'll be updating
-the `ShopExt.json` file. It's important to note that you **must** enable the
-setting [Shop File as Json]({{- "/settings/general#shop-file-as-json" | relative_url -}})
-before you'll see the `ShopExt.json` file. If the setting is enabled and you *don't* see the
-file, please open the trait or race config, then close it. Additionally, restarting
-RimWorld will generate a json file for Utils.
+the `ShopExt.json` file.
 
 #### Commands
 

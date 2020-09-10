@@ -26,6 +26,9 @@ clicked. This window allows you to set constraints for your purge.
 | <               | The value the constraint compares against must be less than the value of the constraint.                |
 | is              | This comparison is similar to `=` in that the values must match.                                        |
 | is not          | This comparison is the inverse of `is` in that the values must **not** match.                           |
+| contains        | This comparison checks to see if the constraint's value is _in_ the value.                              |
+| startswith      | This comparison checks to see if the value starts with the constraint's value.                          |
+| endswith        | This comparison checks to see if the value ends with the constraint's value.                            |
 
 ![Purge Window Review]({{- "/assets/viewers/purge_review.png" | relative_url -}})
 
