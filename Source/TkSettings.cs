@@ -15,7 +15,8 @@ namespace SirRandoo.ToolkitUtils
         CommandTweaks,
         PawnCommands,
         PawnWork,
-        PawnStats
+        PawnStats,
+        ModCompat
     }
 
     public enum LeaveMethods { Thanos, MentalBreak }
@@ -50,6 +51,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool StoreState = true;
         public static bool Offload;
         public static bool BuyItemBalance;
+        public static bool ClassChanges;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
         public static List<StatSetting> StatSettings = new List<StatSetting>();
@@ -125,12 +127,28 @@ namespace SirRandoo.ToolkitUtils
                 case Categories.PawnStats:
                     DrawPawnStatsTab(trueContentRect);
                     break;
+                case Categories.ModCompat:
+                    DrawModCompatTab(trueContentRect);
+                    break;
             }
 
             GUI.EndGroup();
 
 
             GUI.EndGroup();
+        }
+
+        private static void DrawModCompatTab(Rect canvas)
+        {
+            var listing = new Listing_Standard();
+            listing.Begin(canvas);
+
+            listing.DrawModGroupHeader("A RimWorld of Magic", 1201382956, false);
+            listing.CheckboxLabeled("TKUtils.TMagic.Classes.Label".Localize(), ref ClassChanges);
+            listing.DrawDescription("TKUtils.TMagic.Classes.Description".Localize());
+            listing.DrawDescription("TKUtils.TMagic.Warning".Localize(), new Color(1f, 0.53f, 0.76f));
+
+            listing.End();
         }
 
         private static void DrawDataTab(Rect canvas)
@@ -530,6 +548,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Collections.Look(ref StatSettings, "statSettings", LookMode.Deep);
 
             Scribe_Values.Look(ref Offload, "offload");
+            Scribe_Values.Look(ref ClassChanges, "classChanges");
         }
 
         internal static void ValidateDynamicSettings()

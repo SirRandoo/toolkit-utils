@@ -1,4 +1,5 @@
 using System;
+using Steamworks;
 using UnityEngine;
 using Verse;
 
@@ -317,6 +318,36 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             DrawSmallLabelAnchored(listing.GetRect(Text.LineHeight), heading, TextAnchor.LowerLeft);
+            listing.GapLine(6f);
+        }
+
+        public static void DrawModGroupHeader(this Listing listing, string modName, ulong modId, bool gapPrefix = true)
+        {
+            if (gapPrefix)
+            {
+                listing.Gap(Text.LineHeight * 1.25f);
+            }
+
+            Rect lineRect = listing.GetRect(Text.LineHeight);
+            DrawSmallLabelAnchored(lineRect, modName, TextAnchor.LowerLeft);
+
+            string modRequirementString = "TKUtils.ModRequirement".Localize(modName);
+            GUI.color = new Color(1f, 0.53f, 0.76f);
+
+            Text.Font = GameFont.Tiny;
+            float width = Text.CalcSize(modRequirementString).x;
+            var modRequirementRect = new Rect(lineRect.x + lineRect.width - width, lineRect.y, width, Text.LineHeight);
+            Text.Font = GameFont.Small;
+
+            DrawSmallLabelAnchored(lineRect, modRequirementString, TextAnchor.LowerRight);
+            GUI.color = Color.white;
+
+            Widgets.DrawHighlightIfMouseover(modRequirementRect);
+            if (Widgets.ButtonInvisible(modRequirementRect))
+            {
+                SteamUtility.OpenWorkshopPage(new PublishedFileId_t(modId));
+            }
+
             listing.GapLine(6f);
         }
     }

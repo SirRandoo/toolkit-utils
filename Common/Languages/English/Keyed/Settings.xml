@@ -28,9 +28,13 @@
     <TKUtils.PawnWork>Work Priorities</TKUtils.PawnWork>
     <TKUtils.PawnStats>Stats</TKUtils.PawnStats>
     
+    <TKUtils.ModCompat>Mod Compatibility</TKUtils.ModCompat>
+    
     
     <!-- Notices -->
     <TKUtils.Experimental>This setting is experimental and may change, or be removed, at any time.</TKUtils.Experimental>
+    <TKUtils.TMagic.Warning>A RimWorld of Magic does not support class changes. Lifting this restriction may lead to unexpected side-effects.</TKUtils.TMagic.Warning>
+    <TKUtils.ModRequirement>Requires {0}</TKUtils.ModRequirement>
     
     
     <!-- General Tab -->
@@ -124,4 +128,10 @@
     <TKUtils.PawnWork.Sort.Description>If enabled, work priorities will be sorted like the Work tab in the &lt;i&gt;!mypawnwork&lt;/i&gt; command. This means work will be displayed as the Work tab from left to right.</TKUtils.PawnWork.Sort.Description>
     <TKUtils.PawnWork.Filter.Label>Filter work priorities in the pawn work command.</TKUtils.PawnWork.Filter.Label>
     <TKUtils.PawnWork.Filter.Description>If enabled, disabled work priorities will be removed from the &lt;i&gt;!mypawnwork&lt;/i&gt; command's output. This means work priorities a pawn is incapable of doing, or is not assigned to, will be omitted from the command's response.</TKUtils.PawnWork.Filter.Description>
+    
+    
+    <!-- Mod Compatibility Tab -->
+    <!-- A RimWorld of Magic Group -->
+    <TKUtils.TMagic.Classes.Label>Allow viewers to change their classes.</TKUtils.TMagic.Classes.Label>
+    <TKUtils.TMagic.Classes.Description>If enabled, Utils will lift the restriction surrounding class changes in the trait events.</TKUtils.TMagic.Classes.Description>
 </LanguageData>

@@ -116,7 +116,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            List<TraitDef> traitDefs = DefDatabase<TraitDef>.AllDefsListForReading;
             replaceThisTraitDef = replaceThisShop.TraitDef;
             replaceThatTraitDef = replaceThatShop.TraitDef;
 
@@ -187,7 +186,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             if (MagicComp.Active
-                && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(replaceThisTrait.def.defName)) ?? false))
+                && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(replaceThisTrait.def.defName)) ?? false)
+                && !TkSettings.ClassChanges)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
