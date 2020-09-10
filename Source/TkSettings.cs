@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils
     {
         public static bool Commands;
         public static string Prefix = "!";
-        public static bool ToolkitStyleCommands;
+        public static bool ToolkitStyleCommands = true;
         public static bool DecorateUtils;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;
@@ -523,7 +523,7 @@ namespace SirRandoo.ToolkitUtils
         {
             Scribe_Values.Look(ref Commands, "commands", true);
             Scribe_Values.Look(ref Prefix, "prefix", "!");
-            Scribe_Values.Look(ref ToolkitStyleCommands, "toolkitStyleCommands");
+            Scribe_Values.Look(ref ToolkitStyleCommands, "toolkitStyleCommands", true);
 
             Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
