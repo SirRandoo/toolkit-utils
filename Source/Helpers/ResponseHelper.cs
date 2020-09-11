@@ -32,8 +32,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public const string PrincessGlyph = "👸";
         public const string PrinceGlyph = "🤴";
         public const string CrownGlyph = "👑";
-        public const string MaleGlyph = "♀";
-        public const string FemaleGlyph = "♂";
+        public const string MaleGlyph = "♂";
+        public const string FemaleGlyph = "♀";
         public const string GenderlessGlyph = "⚪";
 
         public static string JoinPair(string key, string value)
