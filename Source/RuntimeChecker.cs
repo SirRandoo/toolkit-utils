@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using JetBrains.Annotations;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -13,6 +15,7 @@ namespace SirRandoo.ToolkitUtils
         static RuntimeChecker()
         {
             TkSettings.ValidateDynamicSettings();
+            TkUtils.Context ??= SynchronizationContext.Current;
 
             var wereChanges = false;
 
@@ -35,6 +38,17 @@ namespace SirRandoo.ToolkitUtils
             {
                 Store_IncidentEditor.UpdatePriceSheet();
             }
+        }
+
+        internal static void ExecuteInMainThread(Action func)
+        {
+            if (TkSettings.MainThreadCommands && TkUtils.Context != null)
+            {
+                TkUtils.Context.Post(delegate { func(); }, null);
+                return;
+            }
+
+            func();
         }
     }
 }

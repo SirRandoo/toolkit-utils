@@ -18,25 +18,30 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
-            bool emojis = TkSettings.Emojis;
-
-            try
-            {
-                if (emojiOverride)
+            RuntimeChecker.ExecuteInMainThread(
+                delegate
                 {
-                    TkSettings.Emojis = false;
-                }
+                    bool emojis = TkSettings.Emojis;
 
-                command.RunCommand(message);
-            }
-            catch (Exception e)
-            {
-                TkLogger.Error($@"Command ""{command.command}"" threw an exception!", e);
-            }
-            finally
-            {
-                TkSettings.Emojis = emojis;
-            }
+                    try
+                    {
+                        if (emojiOverride)
+                        {
+                            TkSettings.Emojis = false;
+                        }
+
+                        command.RunCommand(message);
+                    }
+                    catch (Exception e)
+                    {
+                        TkLogger.Error($@"Command ""{command.command}"" threw an exception!", e);
+                    }
+                    finally
+                    {
+                        TkSettings.Emojis = emojis;
+                    }
+                }
+            );
         }
 
         internal static string ValidatePrefix(string prefix)

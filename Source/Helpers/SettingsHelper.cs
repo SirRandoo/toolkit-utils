@@ -288,6 +288,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return new Rect(region.x, region.y, width, region.height);
         }
 
+        public static void DrawExperimentalNotice(this Listing listing)
+        {
+            listing.DrawDescription("TKUtils.Experimental".Localize(), new Color(1f, 0.53f, 0.76f));
+        }
+
         public static void DrawDescription(this Listing listing, string description, Color color)
         {
             GameFont fontCache = Text.Font;

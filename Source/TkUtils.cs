@@ -1,3 +1,4 @@
+using System.Threading;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Settings;
@@ -10,6 +11,7 @@ namespace SirRandoo.ToolkitUtils
     public class TkUtils : Mod
     {
         public const string Id = "ToolkitUtils";
+        internal static SynchronizationContext Context;
 
         public TkUtils(ModContentPack content) : base(content)
         {

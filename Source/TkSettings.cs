@@ -48,6 +48,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool HairColor = true;
         public static int OpinionMinimum;
         public static int StoreBuildRate = 60;
+        public static bool MainThreadCommands;
         public static bool StoreState = true;
         public static bool Offload;
         public static bool BuyItemBalance;
@@ -146,7 +147,7 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawModGroupHeader("A RimWorld of Magic", 1201382956, false);
             listing.CheckboxLabeled("TKUtils.TMagic.Classes.Label".Localize(), ref ClassChanges);
             listing.DrawDescription("TKUtils.TMagic.Classes.Description".Localize());
-            listing.DrawDescription("TKUtils.TMagic.Warning".Localize(), new Color(1f, 0.53f, 0.76f));
+            listing.DrawExperimentalNotice();
 
             listing.End();
         }
@@ -169,7 +170,7 @@ namespace SirRandoo.ToolkitUtils
 
             listing.CheckboxLabeled("TKUtils.OffloadShop.Label".Localize(), ref Offload);
             listing.DrawDescription("TKUtils.OffloadShop.Description".Localize());
-            listing.DrawDescription("TKUtils.Experimental".Localize(), new Color(1f, 0.53f, 0.76f));
+            listing.DrawExperimentalNotice();
 
 
             listing.DrawGroupHeader("TKUtils.Data.LazyProcess".Localize());
@@ -309,7 +310,7 @@ namespace SirRandoo.ToolkitUtils
         private static void DrawCommandTweaksTab(Rect canvas)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 40f);
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 46f);
 
             GUI.BeginGroup(canvas);
             listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
@@ -336,6 +337,10 @@ namespace SirRandoo.ToolkitUtils
             {
                 listing.CheckboxLabeled("TKUtils.ToolkitStyleCommands.Label".Localize(), ref ToolkitStyleCommands);
                 listing.DrawDescription("TKUtils.ToolkitStyleCommands.Description".Localize());
+
+                listing.CheckboxLabeled("TKUtils.MainThreadCommands.Label".Localize(), ref MainThreadCommands);
+                listing.DrawDescription("TKUtils.MainThreadCommands.Description".Localize());
+                listing.DrawExperimentalNotice();
             }
 
 
@@ -524,6 +529,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref Commands, "commands", true);
             Scribe_Values.Look(ref Prefix, "prefix", "!");
             Scribe_Values.Look(ref ToolkitStyleCommands, "toolkitStyleCommands", true);
+            Scribe_Values.Look(ref MainThreadCommands, "mainThreadCommands");
 
             Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
