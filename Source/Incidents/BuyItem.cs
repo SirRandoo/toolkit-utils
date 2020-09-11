@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (product.Data != null && product.Data.QuantityLimit < amount)
+            if (product.Data != null && product.Data.QuantityLimit > 0 && product.Data.QuantityLimit < amount)
             {
                 amount = product.Data.QuantityLimit;
             }
