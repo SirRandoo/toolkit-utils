@@ -75,12 +75,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            PawnKindDef[] raceDefs = DefDatabase<PawnKindDef>.AllDefs
-               .Where(r => r.race.defName.Equals(kindItem.DefName))
-               .ToArray();
-
-            PawnKindDef raceDef = raceDefs.FirstOrDefault(r => r.defaultFactionType.isPlayer)
-                                  ?? raceDefs.RandomElementByWeightWithFallback(null);
+            PawnKindDef raceDef = kindItem.Kinds.FirstOrFallback(k => k.defaultFactionType.isPlayer)
+                                  ?? kindItem.Kinds.RandomElementWithFallback();
 
             if (raceDef == null)
             {
@@ -95,7 +91,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             kindDef = raceDef;
-            pawnKindItem = Data.PawnKinds.FirstOrDefault(r => r.DefName.Equals(kindDef.race.defName));
+            pawnKindItem = kindItem;
 
             if (pawnKindItem != null)
             {
