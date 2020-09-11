@@ -75,12 +75,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (product.Data != null && product.Data.QuantityLimit < amount)
+            {
+                amount = product.Data.QuantityLimit;
+            }
+
             purchaseRequest = new PurchaseRequest
             {
-                ItemData = product,
-                ThingDef = product.Thing,
-                Quantity = Mathf.Min(amount, product.Data?.QuantityLimit ?? 1000000),
-                Purchaser = Viewer
+                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = Viewer
             };
 
             if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
