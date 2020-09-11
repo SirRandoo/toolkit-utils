@@ -252,10 +252,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     Purchaser.username,
-                    "TKUtils.Item.CompleteMinimum".Localize(
+                    "TKUtils.Item.Complete".Localize(
                         Quantity.ToString("N0"),
                         Quantity > 1 ? ThingDef.label.Pluralize() : ThingDef.label,
-                        Price.ToString("N0")
+                        Price.ToString("N0"),
+                        Purchaser.GetViewerCoins().ToString("N0")
                     )
                 );
             }
@@ -263,11 +264,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     Purchaser.username,
-                    "TKUtils.Item.Complete".Localize(
+                    "TKUtils.Item.CompleteMinimum".Localize(
                         Quantity.ToString("N0"),
                         Quantity > 1 ? ThingDef.label.Pluralize() : ThingDef.label,
-                        Price.ToString("N0"),
-                        Purchaser.GetViewerCoins().ToString("N0")
+                        Price.ToString("N0")
                     )
                 );
             }
@@ -279,10 +279,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     Purchaser.username,
-                    "TKUtils.Item.CompleteMinimums".Localize(
+                    "TKUtils.Item.Complete".Localize(
                         Quantity.ToString("N0"),
                         Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
-                        Price.ToString("N0")
+                        Price.ToString("N0"),
+                        Purchaser.GetViewerCoins().ToString("N0")
                     )
                 );
             }
@@ -290,11 +291,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     Purchaser.username,
-                    "TKUtils.Item.Complete".Localize(
+                    "TKUtils.Item.CompleteMinimums".Localize(
                         Quantity.ToString("N0"),
                         Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
-                        Price.ToString("N0"),
-                        Purchaser.GetViewerCoins().ToString("N0")
+                        Price.ToString("N0")
                     )
                 );
             }
