@@ -83,7 +83,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             var listing = new Listing_Standard {maxOneColumn = true};
             listing.Begin(inRect);
 
-            (Rect titleRect, Rect buttonHeaderRect) = listing.GetRect(Text.LineHeight).ToForm(titleWidth);
+            (Rect titleRect, Rect buttonHeaderRect) =
+                listing.GetRect(Text.LineHeight).ToForm(titleWidth / inRect.width);
 
             Widgets.Label(titleRect, storeIncident.LabelCap);
             DrawButtonHeader(buttonHeaderRect);
