@@ -140,9 +140,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            Trait duplicateTrait = traits?.FirstOrDefault(
-                t => t.def.defName.Equals(traitDef.defName) && t.Degree == buyableTrait.Degree
-            );
+            Trait duplicateTrait = traits?.FirstOrDefault(t => t.def.defName.Equals(traitDef.defName));
             if (duplicateTrait != null)
             {
                 MessageHelper.ReplyToUser(
