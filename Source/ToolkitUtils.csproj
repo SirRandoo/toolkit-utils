@@ -363,6 +363,9 @@
         <Content Include="..\Common\Textures\UI\Icons\Edit.png">
             <Link>Common\Textures\UI\Icons\Edit.png</Link>
         </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Filter.png">
+            <Link>Common\Textures\UI\Icons\Filter.png</Link>
+        </Content>
         <Content Include="..\Common\Textures\UI\Icons\Gear.png">
             <Link>Common\Textures\UI\Icons\Gear.png</Link>
         </Content>
