@@ -54,16 +54,12 @@ namespace SirRandoo.ToolkitUtils
             {
                 case UserLevels.Anyone:
                     return true;
-
                 case UserLevels.Moderator:
                     return viewer.mod || viewer.username.EqualsIgnoreCase(ToolkitSettings.Channel);
-
                 case UserLevels.Subscriber:
                     return viewer.subscriber;
-
                 case UserLevels.Vip:
                     return viewer.vip;
-
                 default:
                     return false;
             }
