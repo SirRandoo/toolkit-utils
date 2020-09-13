@@ -188,16 +188,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static Rect ShiftLeft(this Rect region, float padding = 5f)
         {
-            region.x -= region.width + padding;
-
-            return region;
+            return new Rect(region.x - region.width - padding, region.y, region.width, region.height);
         }
 
         public static Rect ShiftRight(this Rect region, float padding = 5f)
         {
-            region.x += region.width + padding;
-
-            return region;
+            return new Rect(region.x + region.width + padding, region.y, region.width, region.height);
         }
 
         public static bool IsRegionVisible(this Rect region, Rect scrollView, Vector2 scrollPos)
