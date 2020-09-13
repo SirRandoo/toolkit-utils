@@ -895,7 +895,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (item.Thing != null)
             {
-                SettingsHelper.DrawLabelAnchored(labelRegion, item.Thing.LabelCap, TextAnchor.MiddleLeft);
+                SettingsHelper.DrawLabelAnchored(labelRegion, item.Name, TextAnchor.MiddleLeft);
                 Widgets.ThingIcon(iconRegion, item.Thing);
 
                 if (Widgets.ButtonInvisible(canvas, false))
