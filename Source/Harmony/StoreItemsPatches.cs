@@ -12,6 +12,7 @@ using StoreIncidentEditor = TwitchToolkit.Windows.StoreIncidentEditor;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class SettingsStorePatch
     {
         private static readonly ConstructorInfo OldClassConstructor =
@@ -23,14 +24,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
         private static readonly Type OldClassType = typeof(StoreItemsWindow);
         private static readonly Type NewClassType = typeof(StoreDialog);
 
-        [UsedImplicitly]
         public static IEnumerable<MethodBase> TargetMethods()
         {
             yield return AccessTools.Method(typeof(Settings_Store), "DoWindowContents");
             yield return AccessTools.Method(typeof(StoreIncidentEditor), "DoWindowContents");
         }
 
-        [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             foreach (CodeInstruction instruction in instructions)

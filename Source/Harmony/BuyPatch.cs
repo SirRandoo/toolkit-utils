@@ -12,11 +12,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Buy), "RunCommand")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class BuyPatch
     {
         private static string buyCommand;
 
-        [UsedImplicitly]
         public static bool Prefix(CommandDriver __instance, ITwitchMessage twitchMessage)
         {
             if (__instance == null)

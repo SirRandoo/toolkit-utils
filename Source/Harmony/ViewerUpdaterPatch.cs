@@ -10,9 +10,9 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(ViewerUpdater), "ParseMessage")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class ViewerUpdaterPatch
     {
-        [UsedImplicitly]
         public static bool Prefix(ITwitchMessage twitchMessage)
         {
             if (twitchMessage?.ChatMessage == null)

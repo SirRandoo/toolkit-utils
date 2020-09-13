@@ -6,9 +6,9 @@ using TwitchToolkit.PawnQueue;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(PawnCommands), "ParseMessage")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class PawnCommandsPatch
     {
-        [UsedImplicitly]
         public static bool Prefix(ITwitchMessage twitchMessage)
         {
             return false;

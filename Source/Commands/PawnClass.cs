@@ -9,7 +9,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnClass : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

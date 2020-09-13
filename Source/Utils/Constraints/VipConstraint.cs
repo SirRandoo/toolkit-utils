@@ -1,12 +1,10 @@
-﻿using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
+﻿using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
-    [UsedImplicitly]
     public class VipConstraint : ConstraintBase
     {
         private readonly string labelText;

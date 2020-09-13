@@ -14,9 +14,9 @@ using Command = TwitchToolkit.Command;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(CommandsHandler), "CheckCommand")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class CommandsHandlerPatch
     {
-        [UsedImplicitly]
         public static bool Prefix(ITwitchMessage twitchMessage)
         {
             if (!TkSettings.Commands)
@@ -67,7 +67,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return false;
         }
 
-        [UsedImplicitly]
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         public static Exception Finalizer(Exception __exception)
         {

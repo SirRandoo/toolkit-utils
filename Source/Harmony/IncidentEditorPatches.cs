@@ -10,6 +10,7 @@ using TwitchToolkit.Windows;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class StoreIncidentsWindowPatch
     {
         private static readonly ConstructorInfo OldClassConstructor = AccessTools.Constructor(
@@ -25,14 +26,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
         private static readonly Type OldClassType = typeof(StoreIncidentEditor);
         private static readonly Type NewClassType = typeof(Windows.StoreIncidentEditor);
 
-        [UsedImplicitly]
         public static IEnumerable<MethodBase> TargetMethods()
         {
             yield return AccessTools.Method(typeof(StoreIncidentsWindow), "DoRow");
             yield return AccessTools.Method(typeof(Window_Trackers), "DoWindowContents");
         }
 
-        [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             foreach (CodeInstruction instruction in instructions)

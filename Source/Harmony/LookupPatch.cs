@@ -6,9 +6,9 @@ using TwitchToolkit.Store;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Store_Lookup), "ParseMessage")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class LookupPatch
     {
-        [UsedImplicitly]
         public static bool Prefix(ITwitchMessage twitchMessage)
         {
             return false;

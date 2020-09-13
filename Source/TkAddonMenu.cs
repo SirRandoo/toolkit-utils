@@ -9,8 +9,8 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    [UsedImplicitly]
     [StaticConstructorOnStartup]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class TkAddonMenu : IAddonMenu
     {
         private static readonly List<FloatMenuOption> Options;
@@ -42,9 +42,6 @@ namespace SirRandoo.ToolkitUtils
             };
         }
 
-        public List<FloatMenuOption> MenuOptions()
-        {
-            return Options;
-        }
+        public List<FloatMenuOption> MenuOptions() => Options;
     }
 }

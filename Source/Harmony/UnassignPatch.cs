@@ -10,6 +10,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Window_Viewers), "DoWindowContents")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class UnassignPatch
     {
         private static readonly MethodInfo PawnHistoryRemove = AccessTools.Method(
@@ -30,7 +31,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         private static readonly FieldInfo ViewerComponentField = AccessTools.Field(typeof(Window_Viewers), "component");
 
-        [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var methodFound = false;

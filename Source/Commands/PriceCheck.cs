@@ -11,7 +11,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PriceCheck : CommandBase
     {
         private ITwitchMessage msg;

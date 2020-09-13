@@ -7,7 +7,7 @@ using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class Unstick : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

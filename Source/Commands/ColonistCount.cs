@@ -7,7 +7,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class ColonistCount : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

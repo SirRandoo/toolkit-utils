@@ -17,13 +17,13 @@ using Verse.Grammar;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
+    [SuppressMessage("ReSharper", "ParameterHidesMember")]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class RescueMe : IncidentHelperVariables
     {
         private KidnapReport report;
         public override Viewer Viewer { get; set; }
 
-        [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             Viewer = viewer;
@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         }
     }
 
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class ViewerRescue : SitePartWorker
     {
         internal static readonly ConcurrentQueue<KidnapReport> QueuedViewers = new ConcurrentQueue<KidnapReport>();

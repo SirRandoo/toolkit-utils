@@ -9,11 +9,11 @@ using TwitchToolkit.Settings;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Settings_Karma), "DoWindowContents")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class KarmaMinimumPatch
     {
         private static readonly FieldInfo SettingMarker = AccessTools.Field(typeof(ToolkitSettings), "KarmaMinimum");
 
-        [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var marker = false;

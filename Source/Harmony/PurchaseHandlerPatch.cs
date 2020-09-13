@@ -13,9 +13,9 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Purchase_Handler), "ResolvePurchase")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class PurchaseHandlerPatch
     {
-        [UsedImplicitly]
         public static bool Prefix(Viewer viewer, ITwitchMessage twitchMessage, bool separateChannel = false)
         {
             List<string> segments = CommandFilter.Parse(twitchMessage.Message).ToList();

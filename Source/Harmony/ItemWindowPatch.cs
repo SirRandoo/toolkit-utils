@@ -10,9 +10,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(StoreItemsWindow), "PostClose")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class ItemWindowPatch
     {
-        [UsedImplicitly]
         public static void Prefix(List<ThingDef> ___cachedTradeables, List<int> ___tradeablesPrices)
         {
             for (var i = 0; i < ___cachedTradeables.Count; i++)

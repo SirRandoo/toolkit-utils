@@ -13,9 +13,9 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Store_ItemEditor), "UpdateStoreItemList")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class StoreItemEditorPatch
     {
-        [UsedImplicitly]
         public static bool Prefix()
         {
             List<Item> inventory = StoreInventory.items;

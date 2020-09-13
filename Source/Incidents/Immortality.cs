@@ -10,14 +10,14 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
+    [SuppressMessage("ReSharper", "ParameterHidesMember")]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class Immortality : IncidentHelperVariables
     {
         private Pawn pawn;
 
         public override Viewer Viewer { get; set; }
 
-        [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             Viewer = viewer;

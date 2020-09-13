@@ -8,7 +8,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class InstalledMods : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

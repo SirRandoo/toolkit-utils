@@ -4,6 +4,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public enum EventTypes
     {
         None,
@@ -20,7 +21,6 @@ namespace SirRandoo.ToolkitUtils
         ///     viewer would be charged 3,500 coins at some point before the event
         ///     completes. The same can be said about removing the trait "brawler".
         /// </example>
-        [UsedImplicitly]
         Trait,
 
         /// <summary>
@@ -34,7 +34,6 @@ namespace SirRandoo.ToolkitUtils
         ///     and the android costs 13,333 coins, the viewer would be charged
         ///     13,333 coins at some point before the event completes.
         /// </example>
-        [UsedImplicitly]
         PawnKind,
 
         /// <summary>
@@ -49,7 +48,6 @@ namespace SirRandoo.ToolkitUtils
         ///     5,000 coins, the viewer would be charged 5,000 coins at some point
         ///     before the event completes.
         /// </example>
-        [UsedImplicitly]
         Item,
 
         /// <summary>
@@ -62,7 +60,6 @@ namespace SirRandoo.ToolkitUtils
         ///     default item list. Developers will have to convey this information
         ///     in another form.
         /// </remarks>
-        [UsedImplicitly]
         Misc,
 
         /// <summary>
@@ -75,26 +72,22 @@ namespace SirRandoo.ToolkitUtils
         ///     injuries, and the event costs 500 coins, the viewer would
         ///     be charged 2,500 coins at some point before the event completes.
         /// </example>
-        [UsedImplicitly]
         Variable
     }
 
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
     public class EventExtension : DefModExtension
     {
         [Description("A brief explanation of what the event does.")]
         [DefaultValue(null)]
-        [UsedImplicitly]
         public string Description;
 
         [Description("The product category this event's final price will be.")]
         [DefaultValue(EventTypes.None)]
-        [UsedImplicitly]
         public EventTypes EventType;
 
         [Description("The parameters this event can take.")]
         [DefaultValue(null)]
-        [UsedImplicitly]
         public List<Parameter> Parameters;
     }
 }

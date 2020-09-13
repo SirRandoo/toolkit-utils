@@ -14,18 +14,17 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
+    [SuppressMessage("ReSharper", "ParameterHidesMember")]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class BuyPawn : IncidentHelperVariables
     {
         private PawnKindDef kindDef = PawnKindDefOf.Colonist;
         private IntVec3 loc;
         private Map map;
-
         private PawnKindItem pawnKindItem;
 
         public override Viewer Viewer { get; set; }
 
-        [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             if (CommandBase.GetOrFindPawn(viewer.username) != null)

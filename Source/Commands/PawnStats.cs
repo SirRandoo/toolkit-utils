@@ -12,7 +12,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [StaticConstructorOnStartup]
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnStats : CommandBase
     {
         internal static readonly Dictionary<string, string> StatRegistry = new Dictionary<string, string>();

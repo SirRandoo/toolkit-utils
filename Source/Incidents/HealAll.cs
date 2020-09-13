@@ -7,7 +7,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class HealAll : IncidentHelper
     {
         private readonly List<Hediff> healQueue = new List<Hediff>();

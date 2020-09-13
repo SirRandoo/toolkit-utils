@@ -11,7 +11,7 @@ using Verse.AI;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnInsult : CommandBase
     {
         public override void RunCommand(ITwitchMessage twitchMessage)

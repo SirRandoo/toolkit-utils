@@ -15,7 +15,8 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
+    [SuppressMessage("ReSharper", "ParameterHidesMember")]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class AddTrait : IncidentHelperVariables
     {
         private TraitItem buyableTrait;
@@ -24,7 +25,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private TraitDef traitDef;
         public override Viewer Viewer { get; set; }
 
-        [SuppressMessage("ReSharper", "ParameterHidesMember")]
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             if (viewer == null)

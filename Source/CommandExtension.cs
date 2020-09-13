@@ -7,22 +7,19 @@ namespace SirRandoo.ToolkitUtils
 {
     public enum UserLevels { Anyone, Vip, Subscriber, Moderator }
 
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
     public class Parameter
     {
         [Description("The name of this parameter.")]
-        [UsedImplicitly]
         [DefaultValue(null)]
         public string Name;
 
         [Description("A list of names this parameter can be")]
-        [UsedImplicitly]
         [DefaultValue(null)]
         public List<string> Names;
 
         [Description("Whether or not this parameter can be omitted.")]
         [DefaultValue(false)]
-        [UsedImplicitly]
         public bool Optional;
 
         public override string ToString()
@@ -32,20 +29,17 @@ namespace SirRandoo.ToolkitUtils
         }
     }
 
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
     public class CommandExtension : DefModExtension
     {
         [Description("A brief overview of what the command does.")]
-        [UsedImplicitly]
         public string Description;
 
         [Description("The arguments this command can handle.")]
-        [UsedImplicitly]
         public List<Parameter> Parameters;
 
         [Description("The permission level a user must have before they can use the command.")]
         [DefaultValue(UserLevels.Anyone)]
-        [UsedImplicitly]
         public UserLevels UserLevel;
 
         public bool HasPermission(Viewer viewer)

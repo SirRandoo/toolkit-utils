@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using UnityEngine;
@@ -11,7 +10,6 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public enum TimeScales { Years, Months, Days, Hours }
 
-    [UsedImplicitly]
     public class TimeConstraint : ComparableConstraint
     {
         private readonly string labelText;

@@ -8,9 +8,9 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Store_IncidentEditor), "UpdatePriceSheet")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class StoreIncidentEditorPatch
     {
-        [UsedImplicitly]
         public static void Prefix()
         {
             foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs.Where(

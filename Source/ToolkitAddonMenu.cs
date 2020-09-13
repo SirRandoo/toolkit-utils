@@ -15,7 +15,7 @@ using Command = TwitchToolkit.Command;
 namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
-    [UsedImplicitly]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class ToolkitAddonMenu : IAddonMenu
     {
         private static readonly List<FloatMenuOption> Options;

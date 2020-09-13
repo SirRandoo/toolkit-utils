@@ -11,6 +11,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Settings_Store), "DoWindowContents")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class StorePatch
     {
         private static readonly MethodInfo UtilsInjectorMethod = AccessTools.Method(
@@ -21,7 +22,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
         private static readonly MethodInfo InjectionSiteMarkerMethod =
             AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
 
-        [UsedImplicitly]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var markerFound = false;

@@ -9,9 +9,9 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Window_Viewers), "DoWindowContents")]
+    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class ViewerWindowPatch
     {
-        [UsedImplicitly]
         public static void Postfix(Rect inRect)
         {
             string text = "TKUtils.Buttons.Purge".Localize();
