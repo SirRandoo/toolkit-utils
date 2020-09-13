@@ -892,19 +892,24 @@ namespace SirRandoo.ToolkitUtils.Windows
             var labelRegion = new Rect(iconRegion.width + 5f + 27f, canvas.y, canvas.width - 30f, canvas.height);
 
             Widgets.Checkbox(0f, canvas.y, ref item.IsEnabled, paintable: true);
-            SettingsHelper.DrawLabelAnchored(labelRegion, item.Name, TextAnchor.MiddleLeft);
 
             if (item.Thing != null)
             {
+                SettingsHelper.DrawLabelAnchored(labelRegion, item.Thing.LabelCap, TextAnchor.MiddleLeft);
                 Widgets.ThingIcon(iconRegion, item.Thing);
+
+                if (Widgets.ButtonInvisible(canvas, false))
+                {
+                    Find.WindowStack.Add(new Dialog_InfoCard(item.Thing));
+                }
+
+                return;
             }
 
-            if (Widgets.ButtonInvisible(canvas, false))
-            {
-                Find.WindowStack.Add(new Dialog_InfoCard(item.Thing));
-            }
-
-            Widgets.DrawHighlightIfMouseover(canvas);
+            GUI.color = Color.yellow;
+            SettingsHelper.DrawLabelAnchored(labelRegion, item.Name, TextAnchor.MiddleLeft);
+            GUI.color = Color.white;
+            GUI.DrawTexture(iconRegion, Textures.QuestionMark);
         }
 
         public override void PostClose()
