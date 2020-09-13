@@ -218,11 +218,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             var headingRect = new Rect(0f, Text.LineHeight * 4f, inRect.width, Text.LineHeight);
-            var nameHeadingRect = new Rect(Widgets.CheckboxSize + 5f, 0f, inRect.width * 0.45f, Text.LineHeight);
+            var nameHeadingRect = new Rect(Widgets.CheckboxSize + 5f, 0f, inRect.width * 0.509f, Text.LineHeight);
             var priceHeadingRect = new Rect(
                 nameHeadingRect.x + nameHeadingRect.width + 5f,
                 0f,
-                inRect.width - nameHeadingRect.width - Widgets.CheckboxSize * 2 - 20f,
+                inRect.width * 0.35f,
                 Text.LineHeight
             );
 
@@ -246,11 +246,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 Rect lineRect = listing.GetRect(Text.LineHeight * LineScale);
                 var stateRect = new Rect(0f, lineRect.y, Widgets.CheckboxSize, Text.LineHeight);
                 var nameRect = new Rect(Widgets.CheckboxSize + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
-                var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width - 16f, lineRect.height);
+                var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width, lineRect.height);
                 var settingsRect = new Rect(
                     priceRect.x + priceRect.width + 5f,
                     priceRect.y,
-                    Widgets.CheckboxSize,
+                    lineRect.height,
                     lineRect.height
                 );
 
