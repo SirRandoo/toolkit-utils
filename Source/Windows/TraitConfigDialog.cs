@@ -261,10 +261,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            float availableWidth = inRect.width - 30f * 3f;
+            float availableWidth = inRect.width - 30f * 2f - Text.LineHeight * LineScale;
             bool wrapped = Text.WordWrap;
             Text.WordWrap = false;
-            var nameHeaderRect = new Rect(0f, 0f, availableWidth * 0.45f - 5f, Text.LineHeight);
+            var nameHeaderRect = new Rect(0f, 0f, availableWidth * 0.43f - 5f, Text.LineHeight);
 
             float remainingWidth = availableWidth - nameHeaderRect.width;
 
@@ -272,11 +272,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             var addCostHeaderRect = new Rect(
                 addHeaderRect.x + addHeaderRect.width + 5f,
                 nameHeaderRect.y,
-                remainingWidth * 0.465f,
+                remainingWidth * 0.413f,
                 nameHeaderRect.height
             );
             var removeHeaderRect = new Rect(
-                addCostHeaderRect.x + addCostHeaderRect.width + 5f,
+                addCostHeaderRect.x + addCostHeaderRect.width + 60f,
                 nameHeaderRect.y,
                 24f,
                 nameHeaderRect.height
@@ -290,7 +290,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var expandHeaderRect = new Rect(
                 removeCostHeaderRect.x + removeCostHeaderRect.width + 5f,
                 nameHeaderRect.y,
-                24f,
+                Text.LineHeight * LineScale,
                 nameHeaderRect.height
             );
 
