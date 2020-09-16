@@ -119,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.Label(abbrLabel, codeText);
             storeIncident.abbreviation = Widgets.TextField(abbrField, storeIncident.abbreviation);
 
-            if (eventType == EventTypes.None)
+            if (eventType == EventTypes.None || eventType == EventTypes.Variable)
             {
                 (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
 
