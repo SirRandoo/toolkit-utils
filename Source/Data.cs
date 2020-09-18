@@ -372,7 +372,9 @@ namespace SirRandoo.ToolkitUtils
             }
             else
             {
-                trait = Traits.FirstOrDefault(t => t.Name.StripTags().EqualsIgnoreCase(input.StripTags()));
+                trait = Traits.FirstOrDefault(
+                    t => t.Name.ToToolkit().StripTags().EqualsIgnoreCase(input.ToToolkit().StripTags())
+                );
             }
 
             return trait != null;
@@ -388,7 +390,7 @@ namespace SirRandoo.ToolkitUtils
             }
             else
             {
-                kind = PawnKinds.FirstOrDefault(t => t.Name.EqualsIgnoreCase(input));
+                kind = PawnKinds.FirstOrDefault(t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit()));
             }
 
             return kind != null;
@@ -401,21 +403,21 @@ namespace SirRandoo.ToolkitUtils
                     t => t.Name.StripTags().StartsWith(input.StripTags(), StringComparison.InvariantCultureIgnoreCase)
                 )
                .Where(t => t.CanAdd || t.CanRemove)
-               .Select(t => t.Name);
+               .Select(t => t.Name.StripTags().ToToolkit());
         }
 
         public static IEnumerable<string> GetKindResults(string input)
         {
             return PawnKinds.Where(k => k.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
                .Where(k => k.Enabled)
-               .Select(k => k.Name);
+               .Select(k => k.Name.ToToolkit());
         }
 
         public static IEnumerable<string> GetItemResults(string input)
         {
             return Items.Where(i => i.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
                .Where(i => i.Price > 0)
-               .Select(i => i.Name);
+               .Select(i => i.Name.ToToolkit());
         }
 
         public static IEnumerable<string> GetEventResults(string input)

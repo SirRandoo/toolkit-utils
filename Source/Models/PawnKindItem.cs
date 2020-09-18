@@ -2,6 +2,7 @@
 using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -38,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public string GetDefaultName()
         {
-            return ColonistKindDef?.label ?? DefName;
+            return ColonistKindDef?.race.label.ToToolkit() ?? DefName;
         }
     }
 }
