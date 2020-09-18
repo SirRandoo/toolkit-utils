@@ -144,7 +144,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, toReplaceWith)
+                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.race.LabelCap, toReplaceWith)
                 );
                 return false;
             }
@@ -153,7 +153,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Kind".Localize(pawn.kindDef.LabelCap, replaceThisShop.Name)
+                    "TKUtils.RemoveTrait.Kind".Localize(pawn.kindDef.race.LabelCap, replaceThisShop.Name)
                 );
                 return false;
             }
@@ -162,7 +162,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, replaceThatShop.Name)
+                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.race.LabelCap, replaceThatShop.Name)
                 );
                 return false;
             }

@@ -92,7 +92,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Kind".Localize(pawn.kindDef.LabelCap, traitQuery.Name)
+                    "TKUtils.RemoveTrait.Kind".Localize(pawn.kindDef.race.LabelCap, traitQuery.Name)
                 );
                 return false;
             }

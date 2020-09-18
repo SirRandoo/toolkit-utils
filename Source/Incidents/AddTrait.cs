@@ -112,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, traitQuery)
+                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.race.LabelCap, traitQuery)
                 );
                 return false;
             }
@@ -121,7 +121,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.LabelCap, traitQuery)
+                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.race.LabelCap, traitQuery)
                 );
                 return false;
             }
