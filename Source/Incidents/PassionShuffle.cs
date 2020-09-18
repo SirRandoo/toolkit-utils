@@ -24,11 +24,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            if (!Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, storeIncident.cost))
-            {
-                return false;
-            }
-
             Pawn viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
 
             if (viewerPawn == null)
