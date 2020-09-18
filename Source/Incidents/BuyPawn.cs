@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return CanPurchaseRace(viewer, pawnKindItem);
             }
 
-            if (!Data.TryGetPawnKind(query.ToToolkit(), out PawnKindItem kindItem))
+            if (!Data.TryGetPawnKind(query, out PawnKindItem kindItem))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".Localize(query));
                 return false;
