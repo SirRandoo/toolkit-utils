@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using HarmonyLib;
+﻿using HarmonyLib;
 using JetBrains.Annotations;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -13,11 +12,16 @@ namespace SirRandoo.ToolkitUtils.Harmony
     {
         public static void Prefix()
         {
-            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs.Where(
-                i => (i.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None) != EventTypes.None
-            ))
+            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
             {
                 if (incident.cost <= 1)
+                {
+                    continue;
+                }
+
+                EventTypes type = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None;
+
+                if (type == EventTypes.None || type == EventTypes.Variable)
                 {
                     continue;
                 }
