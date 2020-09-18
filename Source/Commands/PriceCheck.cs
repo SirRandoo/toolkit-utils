@@ -102,8 +102,26 @@ namespace SirRandoo.ToolkitUtils.Commands
                         )
                     );
                     return;
-                default:
+                case EventTypes.Item:
+                case EventTypes.PawnKind:
+                case EventTypes.Trait:
                     Notify__LookupComplete(query, "TKUtils.Price.Overridden".Localize(eventType.ToString()));
+                    return;
+                case EventTypes.Misc:
+                    Notify__LookupComplete(query, "TKUtils.Price.External".Localize());
+                    return;
+                case EventTypes.Variable:
+                    Notify__LookupComplete(
+                        query,
+                        new[]
+                        {
+                            "TKUtils.Price.Variables".Localize(
+                                result.abbreviation.CapitalizeFirst(),
+                                result.cost.ToString("N0")
+                            ),
+                            "TKUtils.Price.External".Localize()
+                        }.GroupedJoin()
+                    );
                     return;
             }
         }

@@ -72,6 +72,8 @@
     <TKUtils.Price.RemoveTrait>{0} coins to remove</TKUtils.Price.RemoveTrait>
     <TKUtils.Price.Limited>{0} - {1} coins</TKUtils.Price.Limited>
     <TKUtils.Price.Overridden>This event pulls prices from the "{0}" category.</TKUtils.Price.Overridden>
+    <TKUtils.Price.External>This event's final price is determined by an external system.</TKUtils.Price.External>
+    <TKUtils.Price.Variables>{0} - {1} coins * X</TKUtils.Price.Variables>
     
     <!-- Toggle Store -->
     <TKUtils.ToggleStore.Enabled>Toolkit's store has been enabled.</TKUtils.ToggleStore.Enabled>
