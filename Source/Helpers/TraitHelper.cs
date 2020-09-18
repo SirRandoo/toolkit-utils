@@ -76,9 +76,30 @@ namespace SirRandoo.ToolkitUtils.Helpers
                .ToArray();
         }
 
+        // god dammit HAR
+        private static void ForciblyGivePawnTrait(Pawn pawn, Trait trait)
+        {
+            if (pawn.story.traits.HasTrait(trait.def))
+            {
+                return;
+            }
+
+            pawn.story.traits.allTraits.Add(trait);
+            trait.pawn = pawn;
+            pawn.Notify_DisabledWorkTypesChanged();
+            pawn.skills?.Notify_SkillDisablesChanged();
+
+            if (!pawn.Dead && pawn.RaceProps.Humanlike)
+            {
+                pawn.needs.mood?.thoughts.situational.Notify_SituationalThoughtsDirty();
+            }
+
+            MeditationFocusTypeAvailabilityCache.ClearFor(pawn);
+        }
+
         public static void GivePawnTrait(Pawn pawn, Trait trait)
         {
-            pawn.story.traits.GainTrait(trait);
+            ForciblyGivePawnTrait(pawn, trait);
 
             TraitDegreeData val = trait.CurrentData;
 

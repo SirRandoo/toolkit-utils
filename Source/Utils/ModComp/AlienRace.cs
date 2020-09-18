@@ -16,6 +16,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
         private static readonly FieldInfo AlienGeneralSettingsForcedTraits;
         private static readonly FieldInfo TraitEntryDefName;
         private static readonly FieldInfo TraitEntryDegree;
+        private static readonly FieldInfo TraitEntryChance;
         private static readonly FieldInfo AlienDisallowedTraits;
 
         static AlienRace()
@@ -37,6 +38,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     AlienGeneralSettingsForcedTraits = alienGeneralSettingsType.GetField("forcedRaceTraitEntries");
                     TraitEntryDefName = alienTraitEntry.GetField("defName");
                     TraitEntryDegree = alienTraitEntry.GetField("degree");
+                    TraitEntryChance = alienTraitEntry.GetField("chance");
                     AlienDisallowedTraits = alienGeneralSettingsType.GetField("disallowedTraits");
                     Enabled = true;
                 }
@@ -74,12 +76,17 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             foreach (object item in forcedTraits)
             {
-                if (!TryGetTraitEntry(item, out Tuple<string, int> pair))
+                if (!TryGetTraitEntry(item, out Tuple<string, int, float> pair))
                 {
                     continue;
                 }
 
-                if (pair.Item1.Equals(defName) && pair.Item2.Equals(degree))
+                if (!(pair.Item1.Equals(defName) && pair.Item2.Equals(degree)))
+                {
+                    continue;
+                }
+
+                if (pair.Item3 == 0 || pair.Item3 >= 100f)
                 {
                     return true;
                 }
@@ -136,13 +143,15 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return forcedTraits != null;
         }
 
-        private static bool TryGetTraitEntry(object entry, out Tuple<string, int> result)
+        private static bool TryGetTraitEntry(object entry, out Tuple<string, int, float> result)
         {
             var defName = TraitEntryDefName.GetValue(entry) as string;
             object itemDegree = TraitEntryDegree.GetValue(entry);
+            object itemChance = TraitEntryChance.GetValue(entry);
             int degree = itemDegree as int? ?? -10;
+            float chance = itemChance as float? ?? 100f;
 
-            result = new Tuple<string, int>(defName, degree);
+            result = new Tuple<string, int, float>(defName, degree, chance);
             return defName != null;
         }
 
@@ -155,7 +164,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             foreach (object item in disallowedTraits)
             {
-                if (!TryGetTraitEntry(item, out Tuple<string, int> pair))
+                if (!TryGetTraitEntry(item, out Tuple<string, int, float> pair))
                 {
                     continue;
                 }
