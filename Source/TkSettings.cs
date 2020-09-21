@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils
         public static int OpinionMinimum;
         public static int StoreBuildRate = 60;
         public static bool MainThreadCommands;
-        public static bool StoreState = true;
+        public static bool StoreState = true; // Used by !togglestore to temporarily disable Twitch Toolkit's store.
         public static bool Offload;
         public static bool BuyItemBalance;
         public static bool ClassChanges;
