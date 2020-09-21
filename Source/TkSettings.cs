@@ -378,7 +378,7 @@ namespace SirRandoo.ToolkitUtils
         private static void DrawPawnCommandsTab(Rect canvas)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 38f);
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 39f);
 
             GUI.BeginGroup(canvas);
             listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
