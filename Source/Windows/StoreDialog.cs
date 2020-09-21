@@ -782,7 +782,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var filterRect = new Rect(
                     filterSection.x + filterOffset,
                     filterSection.y,
-                    filter.LabelWidth + 22f,
+                    filter.LabelWidth + 20f,
                     filterSection.height
                 );
 
