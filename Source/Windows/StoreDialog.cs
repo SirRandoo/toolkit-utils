@@ -70,6 +70,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private List<ThingItem> results;
         private Vector2 scrollPos = Vector2.zero;
         private string searchText;
+        private Vector2 searchTextSize;
         private bool shftKeyDown;
         private Sorter sorter = Sorter.Name;
         private SortMode sortMode = SortMode.Ascending;
@@ -718,10 +719,18 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
-            var searchRect = new Rect(line.x, line.y, line.width * 0.25f, line.height);
+            var searchRect = new Rect(line.x, line.y, line.width * 0.18f, line.height);
+            Rect searchTextRect = searchRect.WithWidth(searchTextSize.x);
+            var searchFieldRect = new Rect(
+                searchTextRect.x + searchTextRect.width + 5f,
+                searchTextRect.y,
+                searchRect.width - searchTextRect.width - 5f,
+                searchTextRect.height
+            );
             List<ThingItem> workingList = results ?? Data.Items;
 
-            currentQuery = Widgets.TextEntryLabeled(searchRect, searchText, currentQuery);
+            Widgets.Label(searchTextRect, searchText);
+            currentQuery = Widgets.TextField(searchFieldRect, currentQuery);
 
             if (currentQuery.Length > 0 && SettingsHelper.DrawClearButton(searchRect))
             {
@@ -1050,6 +1059,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             resetAllTextSize = Text.CalcSize(resetAllText);
             enableAllTextSize = Text.CalcSize(enableAllText);
             disableAllTextSize = Text.CalcSize(disableAllText);
+            searchTextSize = Text.CalcSize(searchText);
         }
 
         private static IEnumerable<ThingItem> GenerateContainers()
