@@ -51,7 +51,7 @@
     <TKUtils.RemoveTrait.Kind>Your pawn is a(n) {0}, which forcibly have the trait "{1}".</TKUtils.RemoveTrait.Kind>
     
     <!-- Replace Trait -->
-    <TKUtils.ReplaceTrait.Complete>Replace {0} with {1}!</TKUtils.ReplaceTrait.Complete>
+    <TKUtils.ReplaceTrait.Complete>Replaced {0} with {1}.</TKUtils.ReplaceTrait.Complete>
     <TKUtils.ReplaceTrait.Violation>Replacing {0} with {1} would exceed the trait limit.</TKUtils.ReplaceTrait.Violation>
     
     <!-- Passion -->
