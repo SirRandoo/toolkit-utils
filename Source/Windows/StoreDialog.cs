@@ -903,10 +903,21 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return workingList;
             }
 
-            return workingList.Where(
-                    i => i.Name.ToToolkit().Contains(serialized!) || i.Name.ToToolkit().EqualsIgnoreCase(serialized)
-                )
-               .ToList();
+            return (serialized!.StartsWith($"{categoryHeader}:", StringComparison.InvariantCultureIgnoreCase)
+                ? GetCategorySearchResults(serialized.Substring($"{categoryHeader}:".Length), workingList)
+                : GetNameSearchResults(serialized, workingList)).ToList();
+        }
+
+        private static IEnumerable<ThingItem> GetCategorySearchResults(string input, IEnumerable<ThingItem> items)
+        {
+            return items.Where(
+                i => i.Category.ToToolkit().Contains(input) || i.Category.ToToolkit().EqualsIgnoreCase(input)
+            );
+        }
+
+        private static IEnumerable<ThingItem> GetNameSearchResults(string input, IEnumerable<ThingItem> items)
+        {
+            return items.Where(i => i.Name.ToToolkit().Contains(input) || i.Name.ToToolkit().EqualsIgnoreCase(input));
         }
 
         public override void PreClose()
