@@ -53,4 +53,19 @@
     <!-- Replace Trait -->
     <TKUtils.ReplaceTrait.Complete>Replace {0} with {1}!</TKUtils.ReplaceTrait.Complete>
     <TKUtils.ReplaceTrait.Violation>Replacing {0} with {1} would exceed the trait limit.</TKUtils.ReplaceTrait.Violation>
+    
+    <!-- Passion -->
+    <TKUtils.Passion.Full>Your pawn already has the highest passion possible in {0}.</TKUtils.Passion.Full>
+    <TKUtils.Passion.Complete>Your pawn's passion in {0} has grown.</TKUtils.Passion.Complete>
+    <TKUtils.Passion.Failed>You tried your best, but your passion in {0} stayed the same.</TKUtils.Passion.Failed>
+    <TKUtils.Passion.Decrease>Your pawn tried to be more passionate about {0}, but ended up losing some interest in it.</TKUtils.Passion.Decrease>
+    <TKUtils.Passion.Hopped>Your pawn grew their passion in {1} while attempting to grow it for {0}.</TKUtils.Passion.Hopped>
+    <TKUtils.Passion.DecreaseHopped>Your pawn's passion in {1} lessened while attempting to grow it for {0}.</TKUtils.Passion.DecreaseHopped>
+    
+    <!-- Remove Passion -->
+    <TKUtils.RemovePassion.None>Your pawn already has no passion in {0}.</TKUtils.RemovePassion.None>
+    <TKUtils.RemovePassion.Complete>Your pawn's passion in {0} has lessened.</TKUtils.RemovePassion.Complete>
+    <TKUtils.RemovePassion.Increase>Your pawn tried to be less passionate about {0}, but ended up gaining some interest in it.</TKUtils.RemovePassion.Increase>
+    <TKUtils.RemovePassion.Hopped>Your pawn lessened their passion in {1} while attempting to lessen it for {0}.</TKUtils.RemovePassion.Hopped>
+    <TKUtils.RemovePassion.IncreaseHopped>Your pawn's passion in {1} grew while attempting to lessen it for {0}.</TKUtils.RemovePassion.IncreaseHopped>
 </LanguageData>

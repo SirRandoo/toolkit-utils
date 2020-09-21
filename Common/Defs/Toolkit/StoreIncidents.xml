@@ -154,4 +154,50 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+    
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>AddPassion</defName>
+        <label>add passion</label>
+        <abbreviation>passion</abbreviation>
+        <cost>7000</cost>
+        <eventCap>3</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.AddPassion</incidentHelper>
+        <karmaType>Good</karmaType>
+        <variables>1</variables>
+        <customSettings>true</customSettings>
+        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.AddPassion</customSettingsHelper>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <Description>Upgrades a skill's passion.. sometimes.</Description>
+                <Parameters>
+                    <li>
+                        <Name>Skill</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
+    
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>RemovePassion</defName>
+        <label>remove passion</label>
+        <abbreviation>removepassion</abbreviation>
+        <cost>5000</cost>
+        <eventCap>3</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.RemovePassion</incidentHelper>
+        <karmaType>Good</karmaType>
+        <variables>1</variables>
+        <customSettings>true</customSettings>
+        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.RemovePassion</customSettingsHelper>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <Description>Downgrades a skill's passion.. sometimes.</Description>
+                <Parameters>
+                    <li>
+                        <Name>Skill</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>

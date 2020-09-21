@@ -137,4 +137,17 @@
     <!-- A RimWorld of Magic Group -->
     <TKUtils.TMagic.Classes.Label>Allow viewers to change their classes.</TKUtils.TMagic.Classes.Label>
     <TKUtils.TMagic.Classes.Description>If enabled, Utils will lift the restriction surrounding class changes in the trait events.</TKUtils.TMagic.Classes.Description>
+    
+    
+    <!-- Incident Settings -->
+    <!-- Passion Incidents -->
+    <TKUtils.Passion.Randomness.Label>Passion events</TKUtils.Passion.Randomness.Label>
+    <TKUtils.Passion.Randomness.Description>When enabled, this event will have a chance of inducing a random passion-related event, or fail completely.</TKUtils.Passion.Randomness.Description>
+    <TKUtils.Passion.FailChance.Label>Fail chance</TKUtils.Passion.FailChance.Label>
+    <TKUtils.Passion.FailChance.Description>The percentage, from 0 to 100, that this event will fail outright. Should the purchase fail, the viewer will still be charged.</TKUtils.Passion.FailChance.Description>
+    <TKUtils.Passion.HopChance.Label>Hop chance</TKUtils.Passion.HopChance.Label>
+    <TKUtils.Passion.HopChance.Description>The percentage, from 0 to 100, that this event will be applied to a random eligible skill instead of the specified skill.</TKUtils.Passion.HopChance.Description>
+    <TKUtils.Passion.DecreaseChance.Label>Catastrophic fail chance</TKUtils.Passion.DecreaseChance.Label>
+    <TKUtils.Passion.DecreaseChance.Description>The percentage, from 0 to 100, that this event will decrease the pawn's current passion instead of increasing it. This event can also happen along side the "passion hop event".</TKUtils.Passion.DecreaseChance.Description>
+    <TKUtils.Passion.IncreaseChance.Description>The percentage, from 0 to 100, that this event will increase the pawn's current passion instead of decreasing it. This event can also happen along side the "passion hop event".</TKUtils.Passion.IncreaseChance.Description>
 </LanguageData>
