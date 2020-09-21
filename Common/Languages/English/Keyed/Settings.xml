@@ -94,10 +94,6 @@
     <TKUtils.LookupLimit.Label>Maximum number of results in the lookup command.</TKUtils.LookupLimit.Label>
     <TKUtils.LookupLimit.Description>The maximum number of results that can be displayed in the &lt;i&gt;!lookup&lt;/i&gt; command. Setting this to higher values may result in walls of text if a viewer uses with broad terms.</TKUtils.LookupLimit.Description>
     
-    <!-- Pawn Purchases Group -->
-    <TKUtils.PawnKind.Label>Allow viewers to specify their pawn's kind when buying.</TKUtils.PawnKind.Label>
-    <TKUtils.PawnKind.Description>Completely disables the ability to specify a viewer's pawn kind when purchasing a pawn. Any pawn purchases will default to Human, even if it's disabled in the pawn kind config.</TKUtils.PawnKind.Description>
-    
     
     <!-- Pawn Commands Tab -->
     <!-- Leave Command Group -->
@@ -136,6 +132,10 @@
     
     
     <!-- Mod Compatibility Tab -->
+    <!-- Humanoid Alien Races Group -->
+    <TKUtils.HAR.PawnKinds.Label>Allow viewers to specify their pawn's kind when buying.</TKUtils.HAR.PawnKinds.Label>
+    <TKUtils.HAR.PawnKinds.Description>Completely disables the ability to specify a viewer's pawn kind when purchasing a pawn. Any pawn purchases will default to Human, even if it's disabled in the pawn kind config.</TKUtils.HAR.PawnKinds.Description>
+    
     <!-- A RimWorld of Magic Group -->
     <TKUtils.TMagic.Classes.Label>Allow viewers to change their classes.</TKUtils.TMagic.Classes.Label>
     <TKUtils.TMagic.Classes.Description>If enabled, Utils will lift the restriction surrounding class changes in the trait events.</TKUtils.TMagic.Classes.Description>

@@ -145,7 +145,11 @@ namespace SirRandoo.ToolkitUtils
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            listing.DrawModGroupHeader("A RimWorld of Magic", 1201382956, false);
+            listing.DrawModGroupHeader("Humanoid Alien Races", 839005762, false);
+            listing.CheckboxLabeled("TKUtils.HAR.PawnKinds.Label".Localize(), ref PurchasePawnKinds);
+            listing.DrawDescription("TKUtils.HAR.PawnKinds.Description".Localize());
+
+            listing.DrawModGroupHeader("A RimWorld of Magic", 1201382956);
             listing.CheckboxLabeled("TKUtils.TMagic.Classes.Label".Localize(), ref ClassChanges);
             listing.DrawDescription("TKUtils.TMagic.Classes.Description".Localize());
             listing.DrawExperimentalNotice();
@@ -311,7 +315,7 @@ namespace SirRandoo.ToolkitUtils
         private static void DrawCommandTweaksTab(Rect canvas)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 46f);
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 40f);
 
             GUI.BeginGroup(canvas);
             listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
@@ -366,11 +370,6 @@ namespace SirRandoo.ToolkitUtils
             Widgets.Label(lookupLimitLabel, "TKUtils.LookupLimit.Label".Localize());
             Widgets.TextFieldNumeric(lookupLimitField, ref LookupLimit, ref buffer);
             listing.DrawDescription("TKUtils.LookupLimit.Description".Localize());
-
-
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.BuyPawn".Localize());
-            listing.CheckboxLabeled("TKUtils.PawnKind.Label".Localize(), ref Race);
-            listing.DrawDescription("TKUtils.PawnKind.Description".Localize());
 
             GUI.EndGroup();
             listing.EndScrollView(ref viewPort);
