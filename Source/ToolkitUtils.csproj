@@ -306,42 +306,6 @@
         <Content Include="..\Common\Languages\English\Keyed\Workers.xml">
             <Link>Common\Languages\English\Keyed\Workers.xml</Link>
         </Content>
-        <Content Include="..\Common\Patches\AddonPatch.xml">
-            <Link>Common\Patches\AddonPatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\BalancePatch.xml">
-            <Link>Common\Patches\BalancePatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\CommandExtPatch.xml">
-            <Link>Common\Patches\CommandExtPatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\EventExtPatch.xml">
-            <Link>Common\Patches\EventExtPatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\Incidents\AddTraitPatch.xml">
-            <Link>Common\Patches\IncidentHelpers\AddTraitPatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\Incidents\BuyItemPatch.xml">
-            <Link>Common\Patches\Incidents\BuyItemPatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\Incidents\BuyPawnPatch.xml">
-            <Link>Common\Patches\IncidentHelpers\BuyPawnPatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\Incidents\ImmortalityPatch.xml">
-            <Link>Common\Patches\IncidentHelpers\ImmortalityPatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\Incidents\RandomRevivePatch.xml">
-            <Link>Common\Patches\IncidentHelpers\RandomRevivePatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\Incidents\RemoveTraitPatch.xml">
-            <Link>Common\Patches\IncidentHelpers\RemoveTraitPatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\InstalledModsPatch.xml">
-            <Link>Common\Patches\InstalledModsPatch.xml</Link>
-        </Content>
-        <Content Include="..\Common\Patches\PawnClassPatch.xml">
-            <Link>Common\Patches\PawnClassPatch.xml</Link>
-        </Content>
         <Content Update="..\Common\Languages\English\Keyed\TKUtils.Responses.xml">
             <Link>Common\Languages\English\Keyed\TKUtils.Responses.xml</Link>
         </Content>
@@ -360,6 +324,45 @@
         <Content Update="..\Common\Textures\UI\Trash.png">
             <Link>Common\Textures\UI\Trash.png</Link>
         </Content>
+        <Content Include="..\Common\Patches\ModComp\AndroidTiers.xml">
+            <Link>Common\Patches\ModComp\AndroidTiers.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\ModComp\Immortals.xml">
+            <Link>Common\Patches\ModComp\Immortals.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\ModComp\TMagic.xml">
+            <Link>Common\Patches\ModComp\TMagic.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\AddonMenuOverride.xml">
+            <Link>Common\Patches\TwitchToolkit\AddonMenuOverride.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\AddTraitOverride.xml">
+            <Link>Common\Patches\TwitchToolkit\AddTraitOverride.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\BalanceOverride.xml">
+            <Link>Common\Patches\TwitchToolkit\BalanceOverride.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\BuyItemOverride.xml">
+            <Link>Common\Patches\TwitchToolkit\BuyItemOverride.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\BuyPawnOverride.xml">
+            <Link>Common\Patches\TwitchToolkit\BuyPawnOverride.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\CommandExtensions.xml">
+            <Link>Common\Patches\TwitchToolkit\CommandExtensions.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\EventExtensions.xml">
+            <Link>Common\Patches\TwitchToolkit\EventExtensions.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\InstalledModsOverride.xml">
+            <Link>Common\Patches\TwitchToolkit\InstalledModsOverride.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\RandomReviveOverride.xml">
+            <Link>Common\Patches\TwitchToolkit\RandomReviveOverride.xml</Link>
+        </Content>
+        <Content Include="..\Common\Patches\TwitchToolkit\RemoveTraitOverride.xml">
+            <Link>Common\Patches\TwitchToolkit\RemoveTraitOverride.xml</Link>
+        </Content>
         <Content Include="..\Common\Textures\UI\Icons\Edit.png">
             <Link>Common\Textures\UI\Icons\Edit.png</Link>
         </Content>
@@ -371,6 +374,9 @@
         </Content>
         <Content Include="..\Common\Textures\UI\Icons\Hidden.png">
             <Link>Common\Textures\UI\Icons\Hidden.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\QuestionMark.png">
+            <Link>Common\Textures\UI\Icons\QuestionMark.png</Link>
         </Content>
         <Content Include="..\Common\Textures\UI\Icons\Refresh.png">
             <Link>Common\Textures\UI\Icons\Refresh.png</Link>
