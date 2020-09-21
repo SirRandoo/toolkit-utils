@@ -555,6 +555,7 @@ namespace SirRandoo.ToolkitUtils
 
             Scribe_Values.Look(ref Offload, "offload");
             Scribe_Values.Look(ref ClassChanges, "classChanges");
+            Scribe_Values.Look(ref OpinionMinimum, "minimumOpinion", 20);
         }
 
         internal static void ValidateDynamicSettings()
