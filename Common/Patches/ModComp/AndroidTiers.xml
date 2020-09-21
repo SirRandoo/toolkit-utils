@@ -6,72 +6,74 @@
         </mods>
         <match Class="PatchOperationSequence">
             <success>Always</success>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="ATPP_ConsciousnessUpload"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="ATPP_NoHost"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="ATPP_InRemoteControlMode"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="ATPP_BlankAndroid"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="ATPP_RemotelyControlled"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="ATPP_SolarFlareAndroidImpact"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="ATPP_LowNetworkSignal"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="ShutdownAndroid"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="RebootingSequenceAT"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="FreshReprogramming"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs/HediffDef[defName="BatteryChargeMech"]</xpath>
-                <value>
-                    <everCurableByItem>false</everCurableByItem>
-                </value>
-            </li>
+            <operations>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="ATPP_ConsciousnessUpload"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="ATPP_NoHost"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="ATPP_InRemoteControlMode"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="ATPP_BlankAndroid"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="ATPP_RemotelyControlled"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="ATPP_SolarFlareAndroidImpact"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="ATPP_LowNetworkSignal"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="ShutdownAndroid"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="RebootingSequenceAT"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="FreshReprogramming"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="BatteryChargeMech"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+            </operations>
         </match>
     </Operation>
 </Patch>

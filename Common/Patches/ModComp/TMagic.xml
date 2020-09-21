@@ -5,25 +5,22 @@
         <mods>
             <li>A RimWorld of Magic</li>
         </mods>
-        <match Class="PatchOperationSequence">
-            <success>Always</success>
-            <li Class="PatchOperationAdd">
-                <xpath>Defs</xpath>
-                <value>
-                    <TwitchToolkit.Command>
-                        <defName>MyPawnClass</defName>
-                        <label>viewer class</label>
-                        <command>mypawnclass</command>
-                        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnClass</commandDriver>
-                    
-                        <modExtensions>
-                            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                                <Description>Shows information about your current RimWorld of Magic class. This command will only be usable when RimWorld of Magic is installed.</Description>
-                            </li>
-                        </modExtensions>
-                    </TwitchToolkit.Command>
-                </value>
-            </li>
+        <match Class="PatchOperationAdd">
+            <xpath>Defs</xpath>
+            <value>
+                <TwitchToolkit.Command>
+                    <defName>MyPawnClass</defName>
+                    <label>viewer class</label>
+                    <command>mypawnclass</command>
+                    <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnClass</commandDriver>
+                
+                    <modExtensions>
+                        <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                            <Description>Shows information about your current RimWorld of Magic class. This command will only be usable when RimWorld of Magic is installed.</Description>
+                        </li>
+                    </modExtensions>
+                </TwitchToolkit.Command>
+            </value>
         </match>
     </Operation>
 </Patch>
