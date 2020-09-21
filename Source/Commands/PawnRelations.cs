@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return relations.GetGenderSpecificLabelCap(otherPawn);
             }
 
-            if (Mathf.Abs(opinion) >= TkSettings.OpinionMinimum)
+            if (TkSettings.MinimalRelations || Mathf.Abs(opinion) >= TkSettings.OpinionMinimum)
             {
                 return null;
             }

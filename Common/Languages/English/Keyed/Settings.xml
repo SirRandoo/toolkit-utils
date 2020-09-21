@@ -125,6 +125,8 @@
     <!-- Pawn Relations Command Group -->
     <TKUtils.PawnRelations.OpinionThreshold.Label>Minimum opinion</TKUtils.PawnRelations.OpinionThreshold.Label>
     <TKUtils.PawnRelations.OpinionThreshold.Description>The minimum opinion a pawn has to have of another before they'll show up in the command. The value will be used for both the negative (absolute) and positive opinion values</TKUtils.PawnRelations.OpinionThreshold.Description>
+    <TKUtils.PawnRelations.MinimalRelations.Label>Only show important relationships in the pawn relations command.</TKUtils.PawnRelations.MinimalRelations.Label>
+    <TKUtils.PawnRelations.MinimalRelations.Description>When enabled, only direct relationships will be shown in the &lt;i&gt;!mypawnrelations&lt;/i&gt; command. Opinion based relationships will be hidden, like friends and acquaintances.</TKUtils.PawnRelations.MinimalRelations.Description>
     
     <!-- Pawn Work Command Group -->
     <TKUtils.PawnWork.Sort.Label>Sort work priorities in the pawn work command.</TKUtils.PawnWork.Sort.Label>

@@ -53,6 +53,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool Offload;
         public static bool BuyItemBalance;
         public static bool ClassChanges;
+        public static bool MinimalRelations = true;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
         public static List<StatSetting> StatSettings = new List<StatSetting>();
@@ -420,9 +421,15 @@ namespace SirRandoo.ToolkitUtils
             (Rect opinionLabel, Rect opinionField) = listing.GetRect(Text.LineHeight).ToForm();
             var buffer = OpinionMinimum.ToString();
 
-            Widgets.Label(opinionLabel, "TKUtils.PawnRelations.OpinionThreshold.Label".Localize());
-            Widgets.TextFieldNumeric(opinionField, ref OpinionMinimum, ref buffer);
-            listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Localize());
+            if (!MinimalRelations)
+            {
+                Widgets.Label(opinionLabel, "TKUtils.PawnRelations.OpinionThreshold.Label".Localize());
+                Widgets.TextFieldNumeric(opinionField, ref OpinionMinimum, ref buffer);
+                listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Localize());
+            }
+
+            listing.CheckboxLabeled("TKUtils.PawnRelations.MinimalRelations.Label".Localize(), ref MinimalRelations);
+            listing.DrawDescription("TKUtils.PawnRelations.MinimalRelations.Description".Localize());
 
             listing.DrawGroupHeader("TKUtils.PawnCommands.Work".Localize());
             listing.CheckboxLabeled("TKUtils.PawnWork.Sort.Label".Localize(), ref SortWorkPriorities);
@@ -555,6 +562,7 @@ namespace SirRandoo.ToolkitUtils
 
             Scribe_Values.Look(ref Offload, "offload");
             Scribe_Values.Look(ref ClassChanges, "classChanges");
+            Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
             Scribe_Values.Look(ref OpinionMinimum, "minimumOpinion", 20);
         }
 
