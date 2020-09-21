@@ -168,7 +168,7 @@ namespace SirRandoo.ToolkitUtils
             Widgets.Label(dumpLabel, "TKUtils.DumpStyle.Label".Localize());
             listing.DrawDescription("TKUtils.DumpStyle.Description".Localize());
 
-            if (Widgets.ButtonText(dumpBtn, DumpStyle))
+            if (Widgets.ButtonText(dumpBtn, $"TKUtils.DumpStyle.{DumpStyle}".Localize()))
             {
                 Find.WindowStack.Add(new FloatMenu(_dumpStyleOptions));
             }
@@ -389,7 +389,7 @@ namespace SirRandoo.ToolkitUtils
             Widgets.Label(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
             listing.DrawDescription("TKUtils.Abandon.Method.Description".Localize());
 
-            if (Widgets.ButtonText(leaveRect, LeaveMethod))
+            if (Widgets.ButtonText(leaveRect, $"TKUtils.Abandon.Method.{LeaveMethod}".Localize()))
             {
                 Find.WindowStack.Add(new FloatMenu(_leaveMenuOptions));
             }
