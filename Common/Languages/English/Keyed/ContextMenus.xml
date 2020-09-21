@@ -65,4 +65,11 @@
     <TKUtils.StoreMenu.Technology>Filter by tech level "{0}"</TKUtils.StoreMenu.Technology>
     <TKUtils.StoreMenu.Stackable>Filter by stackables</TKUtils.StoreMenu.Stackable>
     <TKUtils.StoreMenu.NonStackable>Filter by non-stackables</TKUtils.StoreMenu.NonStackable>
+    <TKUtils.StoreMenu.Researched>Filter by researched</TKUtils.StoreMenu.Researched>
+    <TKUtils.StoreMenu.NotResearched>Filter by not researched</TKUtils.StoreMenu.NotResearched>
+    
+    <TKUtils.StoreFilters.Stackable>stackable</TKUtils.StoreFilters.Stackable>
+    <TKUtils.StoreFilters.NonStackable>non-stackables</TKUtils.StoreFilters.NonStackable>
+    <TKUtils.StoreFilters.Researched>researched</TKUtils.StoreFilters.Researched>
+    <TKUtils.StoreFilters.NotResearched>not researched</TKUtils.StoreFilters.NotResearched>
 </LanguageData>

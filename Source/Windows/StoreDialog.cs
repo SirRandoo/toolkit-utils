@@ -17,7 +17,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
     public enum Sorter { Name, Cost, Category, AddCost, RemoveCost }
 
-    public enum FilterTypes { Mod, Category, TechLevel, Stackable }
+    public enum FilterTypes { Mod, Category, TechLevel, Stackable, Research }
 
 
     [StaticConstructorOnStartup]
@@ -516,6 +516,32 @@ namespace SirRandoo.ToolkitUtils.Windows
                             () =>
                             {
                                 InjectTechLevelFilter(item.Thing.techLevel);
+                                Notify__SearchRequested();
+                            }
+                        )
+                    );
+                }
+
+                if (Current.Game != null)
+                {
+                    optionCache.Insert(
+                        1,
+                        new FloatMenuOption(
+                            "TKUtils.StoreMenu.NotResearched".Localize(),
+                            () =>
+                            {
+                                InjectResearchFilter(true);
+                                Notify__SearchRequested();
+                            }
+                        )
+                    );
+                    optionCache.Insert(
+                        1,
+                        new FloatMenuOption(
+                            "TKUtils.StoreMenu.Researched".Localize(),
+                            () =>
+                            {
+                                InjectResearchFilter(false);
                                 Notify__SearchRequested();
                             }
                         )
@@ -1148,17 +1174,42 @@ namespace SirRandoo.ToolkitUtils.Windows
                         FilterType = FilterTypes.Stackable,
                         Filter = t => stackable ? FilterByStackable(t) : FilterByNonStackable(t),
                         Label = stackable
-                            ? "TKUtils.StoreMenu.Stackable".Localize()
-                            : "TKUtils.StoreMenu.NonStackable".Localize()
+                            ? "TKUtils.StoreFilters.Stackable".Localize().CapitalizeFirst()
+                            : "TKUtils.StoreFilters.NonStackable".Localize().CapitalizeFirst()
                     }
                 );
                 return;
             }
 
             filter.Label = stackable
-                ? "TKUtils.StoreMenu.Stackable".Localize()
-                : "TKUtils.StoreMenu.NonStackable".Localize();
+                ? "TKUtils.StoreFilters.Stackable".Localize().CapitalizeFirst()
+                : "TKUtils.StoreFilters.NonStackable".Localize().CapitalizeFirst();
             filter.Filter = t => stackable ? FilterByStackable(t) : FilterByNonStackable(t);
+        }
+
+        private void InjectResearchFilter(bool invert)
+        {
+            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Research);
+
+            if (filter == null)
+            {
+                filters.Add(
+                    new StoreItemFilter
+                    {
+                        FilterType = FilterTypes.Research,
+                        Filter = t => invert ? FilterByNotResearched(t) : FilterByResearched(t),
+                        Label = invert
+                            ? "TKUtils.StoreFilters.NotResearched".Localize().CapitalizeFirst()
+                            : "TKUtils.StoreFilters.Researched".Localize().CapitalizeFirst()
+                    }
+                );
+                return;
+            }
+
+            filter.Label = invert
+                ? "TKUtils.StoreFilters.NotResearched".Localize().CapitalizeFirst()
+                : "TKUtils.StoreFilters.Researched".Localize().CapitalizeFirst();
+            filter.Filter = t => invert ? FilterByNotResearched(t) : FilterByResearched(t);
         }
 
         private static List<ThingItem> FilterByCategory(IEnumerable<ThingItem> subject, string category)
@@ -1184,6 +1235,20 @@ namespace SirRandoo.ToolkitUtils.Windows
         private static List<ThingItem> FilterByNonStackable(IEnumerable<ThingItem> subject)
         {
             return subject.Where(t => t.Thing.stackLimit == 1).ToList();
+        }
+
+        private static List<ThingItem> FilterByResearched(IEnumerable<ThingItem> subject)
+        {
+            return Current.Game == null
+                ? subject.ToList()
+                : subject.Where(t => t.Thing.GetUnfinishedPrerequisites().NullOrEmpty()).ToList();
+        }
+
+        private static List<ThingItem> FilterByNotResearched(IEnumerable<ThingItem> subject)
+        {
+            return Current.Game == null
+                ? subject.ToList()
+                : subject.Where(t => !t.Thing.GetUnfinishedPrerequisites().NullOrEmpty()).ToList();
         }
     }
 
