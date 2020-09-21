@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool ShowSurgeries = true;
         public static bool ShowWeapon = true;
         public static bool SortWorkPriorities;
-        public static bool Race = true;
+        public static bool PurchasePawnKinds = true;
         public static bool TempInGear;
         public static bool DropInventory;
         public static string LeaveMethod = nameof(LeaveMethods.MentalBreak);
@@ -552,7 +552,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref FilterWorkPriorities, "filterWork");
 
             Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
-            Scribe_Values.Look(ref Race, "race", true);
+            Scribe_Values.Look(ref PurchasePawnKinds, "race", true);
             Scribe_Values.Look(ref LeaveMethod, "leaveMethod", nameof(LeaveMethods.MentalBreak));
             Scribe_Values.Look(ref DumpStyle, "dumpStyle", nameof(DumpStyles.SingleFile));
             Scribe_Values.Look(ref DropInventory, "dropInventory");

@@ -55,7 +55,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             GetDefaultKind();
 
-            if (!TkSettings.Race)
+            if (!TkSettings.PurchasePawnKinds)
             {
                 return CanPurchaseRace(viewer, pawnKindItem);
             }
@@ -149,7 +149,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool CanPurchaseRace(Viewer viewer, PawnKindItem target)
         {
-            if (!target.Enabled && TkSettings.Race)
+            if (!target.Enabled && TkSettings.PurchasePawnKinds)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InformativeDisabledItem".Localize(target.Name));
                 return false;
