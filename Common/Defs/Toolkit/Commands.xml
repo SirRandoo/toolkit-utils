@@ -523,31 +523,31 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <!--    <TwitchToolkit.Command>-->
-    <!--        <defName>RimDatabase</defName>-->
-    <!--        <label>database</label>-->
-    <!--        <command>rwdata</command>-->
-    <!--        <commandDriver>SirRandoo.ToolkitUtils.Commands.Database</commandDriver>-->
-    <!--        -->
-    <!--        <modExtensions>-->
-    <!--            <li Class="SirRandoo.ToolkitUtils.CommandExtension">-->
-    <!--                <Description>Provides some information about supported things.</Description>-->
-    <!--                -->
-    <!--                <Parameters>-->
-    <!--                    <li>-->
-    <!--                        <Names>-->
-    <!--                            <li>Category</li>-->
-    <!--                            <li>WeaponName</li>-->
-    <!--                        </Names>-->
-    <!--                    </li>-->
-    <!--                    <li>-->
-    <!--                        <Names>-->
-    <!--                            <li>WeaponName</li>-->
-    <!--                        </Names>-->
-    <!--                        <Optional>true</Optional>-->
-    <!--                    </li>-->
-    <!--                </Parameters>-->
-    <!--            </li>-->
-    <!--        </modExtensions>-->
-    <!--    </TwitchToolkit.Command>-->
+    <TwitchToolkit.Command>
+        <defName>RimDatabase</defName>
+        <label>database</label>
+        <command>rwdata</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.Database</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Provides some information about supported things.</Description>
+                
+                <Parameters>
+                    <li>
+                        <Names>
+                            <li>Category</li>
+                            <li>WeaponName</li>
+                        </Names>
+                    </li>
+                    <li>
+                        <Names>
+                            <li>WeaponName</li>
+                        </Names>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
 </Defs>
