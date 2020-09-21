@@ -196,23 +196,27 @@ namespace SirRandoo.ToolkitUtils.Windows
                 storeIncident.cost = -10;
             }
 
-            buttonRect = buttonRect.ShiftLeft();
-            if (!storeIncident.defName.Equals("Item") && Widgets.ButtonText(buttonRect, resetText))
+            if (!storeIncident.defName.Equals("Item"))
             {
-                Store_IncidentEditor.LoadBackup(storeIncident);
+                buttonRect = buttonRect.ShiftLeft(0f);
 
-                if (storeIncident.cost < 1)
+                if (Widgets.ButtonText(buttonRect, resetText))
                 {
-                    storeIncident.cost = 50;
+                    Store_IncidentEditor.LoadBackup(storeIncident);
+
+                    if (storeIncident.cost < 1)
+                    {
+                        storeIncident.cost = 50;
+                    }
+
+                    MakeSureSaveExists();
                 }
 
-                MakeSureSaveExists();
+                buttonRect = buttonRect.ShiftLeft(0f);
             }
 
             if (storeIncidentVariables?.customSettings == true)
             {
-                buttonRect = buttonRect.ShiftLeft();
-
                 if (Widgets.ButtonText(buttonRect, settingsText))
                 {
                     storeIncidentVariables.settings.EditSettings();
