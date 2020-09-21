@@ -72,14 +72,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            if (Rand.Chance(IncidentSettings.AddPassion.ChanceToFail))
+            if (IncidentSettings.AddPassion.ChanceToFail.ToChance())
             {
                 ChargeViewer();
                 NotifyFailed(target);
                 return;
             }
 
-            if (Rand.Chance(IncidentSettings.AddPassion.ChanceToHop))
+            if (IncidentSettings.AddPassion.ChanceToHop.ToChance())
             {
                 SkillRecord skill = GetRandomEligibleSkill();
 
@@ -95,7 +95,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            if (Rand.Chance(IncidentSettings.AddPassion.ChanceToDecrease))
+            if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance())
             {
                 target.passion = (Passion) Mathf.Clamp((int) target.passion - 1, 0, 3);
                 ChargeViewer();
@@ -103,8 +103,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            if (Rand.Chance(IncidentSettings.AddPassion.ChanceToDecrease)
-                && Rand.Chance(IncidentSettings.AddPassion.ChanceToHop))
+            if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance()
+                && IncidentSettings.AddPassion.ChanceToHop.ToChance())
             {
                 SkillRecord skill = GetRandomEligibleSkillForDecrease();
 

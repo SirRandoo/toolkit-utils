@@ -68,5 +68,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             return Math.Max(1, Convert.ToInt32(d.BaseMarketValue * 10.0f / 6.0f));
         }
+
+        public static bool ToChance(this int value)
+        {
+            return value > 0 && Rand.Chance(value / 100f);
+        }
     }
 }
