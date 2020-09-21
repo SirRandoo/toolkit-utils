@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+    <Operation Class="PatchOperationSequence">
+        <success>Always</success>
+        <operations>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Raid" or defName="DropRaid" or defName="SapperRaid" or defName="SiegeRaid" or defName="MechanoidRaid" or defName="Infestation" or defName="ManhunterPack" or defName="Predators" or defName="RandomDisease"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                        <Parameters>
+                            <li>
+                                <Name>Wager</Name>
+                            </li>
+                        </Parameters>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="SpecificDisease"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                        <Parameters>
+                            <li>
+                                <Name>Disease</Name>
+                            </li>
+                            <li>
+                                <Name>Wager</Name>
+                            </li>
+                        </Parameters>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="BuyPawn"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                        <EventType>PawnKind</EventType>
+                        <Parameters>
+                            <li>
+                                <Name>PawnKind</Name>
+                                <Optional>true</Optional>
+                            </li>
+                        </Parameters>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="LevelPawn"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                        <Parameters>
+                            <li>
+                                <Name>Skill</Name>
+                            </li>
+                            <li>
+                                <Name>Wager</Name>
+                            </li>
+                        </Parameters>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="AddTrait"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                        <EventType>Trait</EventType>
+                        <Parameters>
+                            <li>
+                                <Name>Trait</Name>
+                            </li>
+                        </Parameters>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="RemoveTrait"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                        <EventType>Trait</EventType>
+                        <Parameters>
+                            <li>
+                                <Name>Trait</Name>
+                            </li>
+                        </Parameters>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                        <EventType>Item</EventType>
+                        <Parameters>
+                            <li>
+                                <Name>Item</Name>
+                            </li>
+                            <li>
+                                <Name>Quantity</Name>
+                                <Optional>true</Optional>
+                            </li>
+                        </Parameters>
+                    </li>
+                </value>
+            </li>
+        </operations>
+    </Operation>
+</Patch>
