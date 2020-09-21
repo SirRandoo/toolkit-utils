@@ -535,34 +535,33 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref Commands, "commands", true);
             Scribe_Values.Look(ref Prefix, "prefix", "!");
             Scribe_Values.Look(ref ToolkitStyleCommands, "toolkitStyleCommands", true);
-            Scribe_Values.Look(ref MainThreadCommands, "mainThreadCommands");
-
-            Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
-            Scribe_Values.Look(ref VersionedModList, "versionedModList");
-            Scribe_Values.Look(ref HairColor, "hairColor", true);
-            Scribe_Values.Look(ref BuyItemBalance, "buyItemBalance");
-
-            Scribe_Values.Look(ref ShowSurgeries, "surgeries", true);
-            Scribe_Values.Look(ref ShowArmor, "armor", true);
-            Scribe_Values.Look(ref ShowApparel, "apparel");
-            Scribe_Values.Look(ref TempInGear, "tempInGear");
-            Scribe_Values.Look(ref SortWorkPriorities, "sortWork");
+            Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref FilterWorkPriorities, "filterWork");
-
-            Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
+            Scribe_Values.Look(ref ShowApparel, "apparel");
+            Scribe_Values.Look(ref ShowArmor, "armor", true);
+            Scribe_Values.Look(ref ShowSurgeries, "surgeries", true);
+            Scribe_Values.Look(ref ShowWeapon, "weapon", true);
+            Scribe_Values.Look(ref SortWorkPriorities, "sortWork");
             Scribe_Values.Look(ref PurchasePawnKinds, "race", true);
+            Scribe_Values.Look(ref TempInGear, "tempInGear");
+            Scribe_Values.Look(ref DropInventory, "dropInventory");
             Scribe_Values.Look(ref LeaveMethod, "leaveMethod", nameof(LeaveMethods.MentalBreak));
             Scribe_Values.Look(ref DumpStyle, "dumpStyle", nameof(DumpStyles.SingleFile));
-            Scribe_Values.Look(ref DropInventory, "dropInventory");
+            Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
+            Scribe_Values.Look(ref VersionedModList, "versionedModList");
+            Scribe_Values.Look(ref ShowCoinRate, "balanceCoinRate", true);
+            Scribe_Values.Look(ref HairColor, "hairColor", true);
+            Scribe_Values.Look(ref OpinionMinimum, "minimumOpinion", 20);
+            Scribe_Values.Look(ref StoreBuildRate, "storeBuildRate", 60);
+            Scribe_Values.Look(ref MainThreadCommands, "mainThreadCommands");
+            Scribe_Values.Look(ref Offload, "offload");
+            Scribe_Values.Look(ref BuyItemBalance, "buyItemBalance");
+            Scribe_Values.Look(ref ClassChanges, "classChanges");
+            Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
             Scribe_Collections.Look(ref StatSettings, "statSettings", LookMode.Deep);
-
-            Scribe_Values.Look(ref Offload, "offload");
-            Scribe_Values.Look(ref ClassChanges, "classChanges");
-            Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
-            Scribe_Values.Look(ref OpinionMinimum, "minimumOpinion", 20);
         }
 
         internal static void ValidateDynamicSettings()
