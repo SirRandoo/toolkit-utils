@@ -511,7 +511,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 if (item.Thing.techLevel != TechLevel.Undefined)
                 {
                     optionCache.Insert(
-                        1,
+                        5,
                         new FloatMenuOption(
                             "TKUtils.StoreMenu.Technology".Localize(item.Thing.techLevel.ToString()),
                             () =>
@@ -526,7 +526,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 if (Current.Game != null)
                 {
                     optionCache.Insert(
-                        1,
+                        5,
                         new FloatMenuOption(
                             "TKUtils.StoreMenu.NotResearched".Localize(),
                             () =>
@@ -537,7 +537,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         )
                     );
                     optionCache.Insert(
-                        1,
+                        5,
                         new FloatMenuOption(
                             "TKUtils.StoreMenu.Researched".Localize(),
                             () =>
