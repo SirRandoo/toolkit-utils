@@ -264,6 +264,16 @@
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows your pawn's work priorities.</Description>
+                <Parameters>
+                    <li>
+                        <Name>WorkType=Priority</Name>
+                        <Optional>true</Optional>
+                    </li>
+                    <li>
+                        <Name>...</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
@@ -343,6 +353,12 @@
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows your pawn's relationships to other viewers.</Description>
+                <Parameters>
+                    <li>
+                        <Name>Viewer</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
