@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.PawnQueue;
 using UnityEngine;
@@ -31,6 +32,40 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
+            string viewer = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback();
+
+            if (!viewer.NullOrEmpty()
+                && component.pawnHistory.TryGetValue(viewer.ToLowerInvariant(), out Pawn viewerPawn))
+            {
+                int theirOpinion = viewerPawn.relations.OpinionOf(pawn);
+                int myOpinion = pawn.relations.OpinionOf(viewerPawn);
+
+                string relationship = GetSocialString(pawn, viewerPawn, myOpinion);
+
+                if (relationship.NullOrEmpty())
+                {
+                    return;
+                }
+
+                var container = new List<string>
+                {
+                    $"{myOpinion.ToStringWithSign()} ({twitchMessage.Username.ToLowerInvariant()})",
+                    $"{theirOpinion.ToStringWithSign()} ({viewer.ToLowerInvariant()})"
+                };
+
+                twitchMessage.Reply(new[] {relationship, container.SectionJoin()}.GroupedJoin());
+                return;
+            }
+
+            ShowRelationshipOverview(twitchMessage, component, pawn);
+        }
+
+        private static void ShowRelationshipOverview(
+            ITwitchMessage twitchMessage,
+            GameComponentPawns component,
+            Pawn pawn
+        )
+        {
             List<string> container = component.pawnHistory.Where(p => p.Value != pawn)
                .Select(
                     pair =>
