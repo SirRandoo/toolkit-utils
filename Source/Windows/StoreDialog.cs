@@ -831,6 +831,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     item.Item.abr = item.Thing.label.ToToolkit().Replace(@"\", "");
                     item.Item.price = item.Thing.CalculateStorePrice();
+                    item.Data.KarmaType = null;
+                    item.Data.CustomName = null;
+                    item.Data.QuantityLimit = -1;
                 }
             }
         }
