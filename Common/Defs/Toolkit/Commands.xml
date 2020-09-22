@@ -164,6 +164,86 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
+    <TwitchToolkit.Command ParentName="ShortcutBase">
+        <defName>BackpackShortcut</defName>
+        <labeL>backpack</labeL>
+        <command>backpack</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>It's like buy item, but it gets added to your inventory if possible.</Description>
+                
+                <Parameters>
+                    <li>
+                        <Name>Item</Name>
+                    </li>
+                    <li>
+                        <Name>Quantity</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>RemovePassionShortcut</defName>
+        <labeL>remove passion</labeL>
+        <command>removepassion</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Downgrades a skill's passion... sometimes.</Description>
+                <Parameters>
+                    <li>
+                        <Name>Skill</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>AddPassionShortcut</defName>
+        <labeL>add passion</labeL>
+        <command>passion</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Upgrades a skill's passion... sometimes.</Description>
+                <Parameters>
+                    <li>
+                        <Name>Skill</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>FullHealShortcut</defName>
+        <labeL>full heal</labeL>
+        <command>fullheal</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Heals all healable injuries your pawn currently has.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>RescueMeShortcut</defName>
+        <labeL>rescue me</labeL>
+        <command>rescueme</command>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>Creates a prisoner rescue quest for your most recent pawn.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+    
     <!-- Pawn Commands -->
     <TwitchToolkit.Command>
         <defName>MyPawnKills</defName>
