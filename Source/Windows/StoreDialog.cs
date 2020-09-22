@@ -42,6 +42,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private readonly KarmaType thingKarmaType;
         private string categoryHeader;
+        private Vector2 categoryHeaderSize;
+        private bool categorySearch;
         private bool closeCalled;
         private bool ctrlKeyDown;
 
@@ -669,10 +671,52 @@ namespace SirRandoo.ToolkitUtils.Windows
                 searchRect.height
             );
             DrawFilterButton(filterButtonRect);
+            DrawCategorySearchModifier(searchFieldRect, line);
 
             float buttonWidth = Mathf.Max(resetAllTextSize.x, enableAllTextSize.x, disableAllTextSize.x) + 16f;
             var buttonRect = new Rect(line.x + line.width - buttonWidth, line.y, buttonWidth, line.height);
 
+            DrawGlobalDisableButton(buttonRect, workingList);
+            buttonRect = buttonRect.ShiftLeft(1f);
+            DrawGlobalEnableButton(buttonRect, workingList);
+            buttonRect = buttonRect.ShiftLeft(1f);
+            DrawGlobalResetButton(buttonRect, workingList);
+
+            GUI.EndGroup();
+        }
+
+        private void DrawCategorySearchModifier(Rect searchFieldRect, Rect line)
+        {
+            var categoryLine = new Rect(
+                searchFieldRect.x,
+                Text.LineHeight + 1f,
+                categoryHeaderSize.x + 16f,
+                line.height
+            );
+            var categoryCheck = new Rect(categoryLine.x + 2f, categoryLine.y + 2f, 12f, 12f);
+            var categoryText = new Rect(
+                categoryCheck.x + 16f,
+                categoryLine.y,
+                categoryHeaderSize.x,
+                categoryLine.height
+            );
+
+            GUI.DrawTexture(categoryCheck, categorySearch ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
+            SettingsHelper.DrawSmallLabelAnchored(categoryText, categoryHeader, TextAnchor.UpperLeft);
+
+            if (Widgets.ButtonInvisible(categoryLine))
+            {
+                categorySearch = !categorySearch;
+
+                if (!currentQuery.NullOrEmpty())
+                {
+                    Notify__SearchRequested();
+                }
+            }
+        }
+
+        private void DrawGlobalDisableButton(Rect buttonRect, IEnumerable<ThingItem> workingList)
+        {
             if (Widgets.ButtonText(buttonRect, disableAllText))
             {
                 foreach (ThingItem item in workingList.Where(i => i.Item.price > 0))
@@ -681,14 +725,6 @@ namespace SirRandoo.ToolkitUtils.Windows
                     item.Update();
                 }
             }
-
-            buttonRect = buttonRect.ShiftLeft(1f);
-            DrawGlobalEnableButton(buttonRect, workingList);
-
-            buttonRect = buttonRect.ShiftLeft(1f);
-            DrawGlobalResetButton(buttonRect, workingList);
-
-            GUI.EndGroup();
         }
 
         private void DrawFilterButton(Rect region)
@@ -792,15 +828,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return workingList;
             }
 
-            return (serialized!.StartsWith($"{categoryHeader}:", StringComparison.InvariantCultureIgnoreCase)
+            return (categorySearch
                 ? GetCategorySearchResults(serialized, workingList)
                 : GetNameSearchResults(serialized, workingList)).ToList();
         }
 
-        private IEnumerable<ThingItem> GetCategorySearchResults(string input, IEnumerable<ThingItem> items)
+        private static IEnumerable<ThingItem> GetCategorySearchResults(string input, IEnumerable<ThingItem> items)
         {
-            input = input.Substring($"{categoryHeader}:".Length).TrimStart();
-
             return items.Where(
                 i => i.Category.ToToolkit().Contains(input) || i.Category.ToToolkit().EqualsIgnoreCase(input)
             );
@@ -972,6 +1006,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             enableAllTextSize = Text.CalcSize(enableAllText);
             disableAllTextSize = Text.CalcSize(disableAllText);
             searchTextSize = Text.CalcSize(searchText);
+            categoryHeaderSize = Text.CalcSize(categoryHeader);
         }
 
         private static IEnumerable<ThingItem> GenerateContainers()
