@@ -34,6 +34,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private List<PawnKindItem> results;
         private Vector2 scrollPos = Vector2.zero;
         private string searchText;
+        private Vector2 searchTextSize;
         private bool shift;
 
         private Sorter sorter = Sorter.Name;
@@ -69,6 +70,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             disableText = "TKUtils.Buttons.DisableAll".Localize();
             nameText = "TKUtils.Inputs.Name".Localize();
             karmaTypeText = "TKUtils.IncidentEditor.Karma".Localize();
+
+            searchTextSize = Text.CalcSize(searchText);
         }
 
         private void DrawHeader(Rect inRect)
@@ -77,8 +80,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             float midpoint = inRect.width / 2f;
             var searchRect = new Rect(inRect.x, inRect.y, inRect.width * 0.3f, Text.LineHeight);
-            Rect searchLabel = searchRect.LeftHalf();
-            Rect searchField = searchRect.RightHalf();
+            var searchLabel = new Rect(searchRect.x, searchRect.y, searchTextSize.x, searchRect.height);
+            var searchField = new Rect(
+                searchLabel.x + searchLabel.width + 5f,
+                searchRect.y,
+                searchRect.width - searchLabel.width - 5f,
+                searchRect.height
+            );
 
             Widgets.Label(searchLabel, searchText);
             currentQuery = Widgets.TextField(searchField, currentQuery);
