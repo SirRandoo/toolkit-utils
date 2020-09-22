@@ -89,6 +89,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             base.Notify_GeneratedByQuestGen(part, slate, outExtraDescriptionRules, outExtraDescriptionConstants);
 
             Pawn pawn = null;
+            var isNew = false;
             if (!QueuedViewers.TryDequeue(out KidnapReport report))
             {
                 report = null;
@@ -105,9 +106,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             pawn ??= report?.GetMostRecentKidnapping();
             pawn ??= report?.GetPawns().RandomElementWithFallback();
-            pawn ??= PawnGenerator.GeneratePawn(
-                new PawnGenerationRequest(PawnKindDefOf.Colonist, Faction.OfPlayer, forceAddFreeWarmLayerIfNeeded: true)
-            );
+
+            if (pawn == null)
+            {
+                pawn = PrisonerWillingToJoinQuestUtility.GeneratePrisoner(part.site.Tile, part.site.Faction);
+                isNew = true;
+            }
 
             if (pawn != null)
             {
@@ -126,7 +130,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 );
             }
 
-            part.things = new ThingOwner<Pawn>(part, true, LookMode.Reference);
+            part.things = new ThingOwner<Pawn>(part, true, isNew ? LookMode.Deep : LookMode.Reference);
             part.things.TryAdd(pawn);
 
             PawnRelationUtility.Notify_PawnsSeenByPlayer(
