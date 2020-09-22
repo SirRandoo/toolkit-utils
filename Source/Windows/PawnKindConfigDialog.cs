@@ -190,6 +190,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 item.Cost = kind.race.CalculateStorePrice();
+                item.Name = item.GetDefaultName();
+                item.Enabled = true;
+                item.Data.CustomName = false;
+                item.Data.KarmaType = null;
             }
         }
 

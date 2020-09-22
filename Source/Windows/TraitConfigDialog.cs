@@ -230,6 +230,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             ))
             {
                 expanded.Name = expanded.GetDefaultName();
+                expanded.CanAdd = true;
+                expanded.CanRemove = true;
                 expanded.Data!.CustomName = false;
                 expanded.Data.KarmaTypeForAdding = null;
                 expanded.Data.KarmaTypeForRemoving = null;
