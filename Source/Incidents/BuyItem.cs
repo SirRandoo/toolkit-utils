@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
             string item = segments.FirstOrFallback();
-            string quantity = segments.Skip(1).FirstOrFallback();
+            string quantity = segments.Skip(1).FirstOrFallback("1");
 
             if (item.NullOrEmpty())
             {
@@ -96,13 +96,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (purchaseRequest.Price > Viewer.GetViewerCoins())
+            if (purchaseRequest.Price > viewer.GetViewerCoins())
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".Localize(
                         purchaseRequest.Price.ToString("N0"),
-                        Viewer.GetViewerCoins().ToString("N0")
+                        viewer.GetViewerCoins().ToString("N0")
                     )
                 );
                 return false;
