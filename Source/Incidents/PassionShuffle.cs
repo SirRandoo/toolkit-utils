@@ -4,7 +4,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
@@ -24,15 +23,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            Pawn viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
-
-            if (viewerPawn == null)
+            if (PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
-            int passions = viewerPawn.skills.skills.Sum(skill => (int) skill.passion);
+            int passions = pawn.skills.skills.Sum(skill => (int) skill.passion);
 
             if (passions <= 0)
             {
@@ -44,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!query.NullOrEmpty())
             {
-                target = viewerPawn.skills.skills.FirstOrDefault(
+                target = pawn.skills.skills.FirstOrDefault(
                         s => s.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                              || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                              || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
@@ -58,9 +55,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            pawn = viewerPawn;
-            Viewer = viewer;
-            return viewerPawn.skills.skills.Any(s => (int) s.passion > (int) Passion.None);
+            return pawn.skills.skills.Any(s => (int) s.passion > (int) Passion.None);
         }
 
         public override void TryExecute()

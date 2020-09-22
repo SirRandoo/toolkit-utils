@@ -187,6 +187,7 @@
         <Compile Include="IncidentSettings\RemovePassion.cs"/>
         <Compile Include="Incidents\AddPassion.cs"/>
         <Compile Include="Incidents\AddTrait.cs"/>
+        <Compile Include="Incidents\Backpack.cs"/>
         <Compile Include="Incidents\BuyPawn.cs"/>
         <Compile Include="Incidents\BuySurgery.cs"/>
         <Compile Include="Incidents\FullHeal.cs"/>
@@ -204,6 +205,7 @@
         <Compile Include="Incidents\ReviveMe.cs"/>
         <Compile Include="Incidents\ReviveRandom.cs"/>
         <Compile Include="Models\KidnapReport.cs"/>
+        <Compile Include="Models\ThingItemFilter.cs"/>
         <Compile Include="RuntimeChecker.cs"/>
         <Compile Include="Models\CommandData.cs"/>
         <Compile Include="Models\CommandItem.cs"/>

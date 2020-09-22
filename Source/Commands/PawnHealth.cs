@@ -15,9 +15,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
-
-            if (pawn == null)
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
                 twitchMessage.Reply("TKUtils.NoPawn".TranslateSimple().WithHeader("TabHealth".Localize()));
                 return;
@@ -31,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            PawnCapacityDef capacity = DefDatabase<PawnCapacityDef>.AllDefsListForReading.FirstOrDefault(
+            PawnCapacityDef capacity = DefDatabase<PawnCapacityDef>.AllDefs.FirstOrDefault(
                 d => d.defName.EqualsIgnoreCase(segment)
                      || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
             );

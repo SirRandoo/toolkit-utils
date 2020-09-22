@@ -27,7 +27,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            Viewer = viewer;
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
             string item = segments.FirstOrFallback();
             string quantity = segments.Skip(1).FirstOrFallback();
@@ -82,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             purchaseRequest = new PurchaseRequest
             {
-                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = Viewer
+                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = viewer
             };
 
             if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)

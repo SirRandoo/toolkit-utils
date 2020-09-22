@@ -15,12 +15,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible()
         {
-            List<ColonistBar.Entry> entries = Find.ColonistBar.Entries;
-
-            foreach (ColonistBar.Entry e in entries)
+            foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder())
             {
-                Pawn pawn = e.pawn;
-
                 if (pawn.health.Dead)
                 {
                     continue;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -19,16 +18,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible()
         {
-            List<Pawn> list = Find.ColonistBar.GetColonistsInOrder()
+            pawn = Find.ColonistBar.GetColonistsInOrder()
                .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
-               .ToList();
-
-            if (!list.Any())
-            {
-                return false;
-            }
-
-            pawn = list.RandomElementWithFallback();
+               .RandomElementWithFallback();
 
             if (pawn == null)
             {

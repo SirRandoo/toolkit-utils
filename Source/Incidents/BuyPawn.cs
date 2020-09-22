@@ -33,7 +33,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            Viewer = viewer;
             map = Helper.AnyPlayerMap;
 
             if (map == null)

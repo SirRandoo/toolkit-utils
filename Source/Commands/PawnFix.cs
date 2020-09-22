@@ -11,9 +11,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
-
-            if (pawn == null)
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
                 twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;

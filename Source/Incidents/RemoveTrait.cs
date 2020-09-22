@@ -5,7 +5,6 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
@@ -25,13 +24,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            if (viewer == null)
-            {
-                return false;
-            }
-
-            Viewer = viewer;
-
             string query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (query.NullOrEmpty())
@@ -39,9 +31,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            pawn = CommandBase.GetOrFindPawn(viewer.username);
-
-            if (pawn == null)
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
@@ -67,13 +57,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!Viewer.CanAfford(traitQuery.CostToRemove))
+            if (!viewer.CanAfford(traitQuery.CostToRemove))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".Localize(
                         traitQuery.CostToRemove.ToString("N0"),
-                        Viewer.GetViewerCoins().ToString("N0")
+                        viewer.GetViewerCoins().ToString("N0")
                     )
                 );
                 return false;

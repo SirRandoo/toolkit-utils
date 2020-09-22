@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
@@ -22,23 +21,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            Viewer = viewer;
-
-            Pawn viewerPawn = CommandBase.GetOrFindPawn(viewer.username);
-
-            if (viewerPawn == null)
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
-            if (PawnTracker.pawnsToRevive.Contains(viewerPawn))
+            if (PawnTracker.pawnsToRevive.Contains(pawn))
             {
                 return false;
             }
 
-            pawn = viewerPawn;
-            PawnTracker.pawnsToRevive.Add(viewerPawn);
+            PawnTracker.pawnsToRevive.Add(pawn);
             return true;
         }
 

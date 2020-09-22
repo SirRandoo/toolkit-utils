@@ -14,9 +14,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             foreach (Viewer viewer in Viewers.All)
             {
-                Pawn pawn = GetOrFindPawn(viewer.username);
-
-                if (pawn == null)
+                if (!PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn))
                 {
                     continue;
                 }

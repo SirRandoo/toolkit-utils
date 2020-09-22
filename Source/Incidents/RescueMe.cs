@@ -26,7 +26,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            Viewer = viewer;
             Pawn pawn = CommandBase.GetOrFindPawn(viewer.username, true);
 
             if (pawn?.IsKidnapped() ?? false)

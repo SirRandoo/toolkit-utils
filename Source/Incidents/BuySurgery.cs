@@ -5,7 +5,6 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.Store;
@@ -28,9 +27,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
             string partQuery = segments.FirstOrFallback();
 
-            Pawn pawn = CommandBase.GetOrFindPawn(viewer.username);
-
-            if (pawn == null)
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
@@ -81,7 +78,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             map = Current.Game.AnyPlayerHomeMap;
-            Viewer = viewer;
 
             if (map != null)
             {

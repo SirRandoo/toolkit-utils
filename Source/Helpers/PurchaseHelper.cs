@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using Verse;
@@ -72,6 +73,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static bool ToChance(this int value)
         {
             return value > 0 && Rand.Chance(value / 100f);
+        }
+
+        public static bool TryGetPawn(string viewer, out Pawn pawn, bool kidnapped = false)
+        {
+            pawn = CommandBase.GetOrFindPawn(viewer.ToLowerInvariant(), kidnapped);
+            return pawn != null;
         }
     }
 }

@@ -30,9 +30,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
-            Pawn pawn = GetOrFindPawn(twitchMessage.Username);
-
-            if (pawn == null)
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
                 twitchMessage.Reply("TKUtils.NoPawn".Localize());
                 return;
@@ -50,8 +48,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            List<StatDef> stats = DefDatabase<StatDef>.AllDefsListForReading
-               .Where(d => d.showOnHumanlikes && d.showOnPawns)
+            List<StatDef> stats = DefDatabase<StatDef>.AllDefs.Where(d => d.showOnHumanlikes && d.showOnPawns)
                .Where(d => d.category != null && d.category.label.EqualsIgnoreCase(categoryDef))
                .ToList();
 
