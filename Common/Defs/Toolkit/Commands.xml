@@ -166,7 +166,7 @@
     
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>BackpackShortcut</defName>
-        <labeL>backpack</labeL>
+        <label>backpack</label>
         <command>backpack</command>
         
         <modExtensions>
@@ -188,7 +188,7 @@
     
     <TwitchToolkit.Command>
         <defName>RemovePassionShortcut</defName>
-        <labeL>remove passion</labeL>
+        <label>remove passion</label>
         <command>removepassion</command>
         
         <modExtensions>
@@ -205,7 +205,7 @@
     
     <TwitchToolkit.Command>
         <defName>AddPassionShortcut</defName>
-        <labeL>add passion</labeL>
+        <label>add passion</label>
         <command>passion</command>
         
         <modExtensions>
@@ -222,7 +222,7 @@
     
     <TwitchToolkit.Command>
         <defName>FullHealShortcut</defName>
-        <labeL>full heal</labeL>
+        <label>full heal</label>
         <command>fullheal</command>
         
         <modExtensions>
@@ -234,7 +234,7 @@
     
     <TwitchToolkit.Command>
         <defName>RescueMeShortcut</defName>
-        <labeL>rescue me</labeL>
+        <label>rescue me</label>
         <command>rescueme</command>
         
         <modExtensions>
