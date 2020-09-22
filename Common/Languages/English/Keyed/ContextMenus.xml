@@ -48,28 +48,6 @@
     
     
     <!-- Item Store Menu -->
-    <TKUtils.StoreMenu.Filters>Filters</TKUtils.StoreMenu.Filters>
-    <TKUtils.StoreMenu.Sorting>Sorting</TKUtils.StoreMenu.Sorting>
-    <TKUtils.StoreMenu.State>State</TKUtils.StoreMenu.State>
-    
-    <TKUtils.StoreMenu.Mod>Filter by mod "{0}"</TKUtils.StoreMenu.Mod>
-    <TKUtils.StoreMenu.Category>Filter by "{0}" category</TKUtils.StoreMenu.Category>
-    <TKUtils.StoreMenu.DisableCategory>Disable all in "{0}" category</TKUtils.StoreMenu.DisableCategory>
     <TKUtils.StoreMenu.EnableCategory>Enable all in "{0}" category</TKUtils.StoreMenu.EnableCategory>
-    <TKUtils.StoreMenu.Ascending>Sort ascending</TKUtils.StoreMenu.Ascending>
-    <TKUtils.StoreMenu.Descending>Sort descending</TKUtils.StoreMenu.Descending>
-    <TKUtils.StoreMenu.Info>Show information</TKUtils.StoreMenu.Info>
-    <TKUtils.StoreMenu.Enable>Enable "{0}"</TKUtils.StoreMenu.Enable>
-    <TKUtils.StoreMenu.Disable>Disable "{0}"</TKUtils.StoreMenu.Disable>
-    <TKUtils.StoreMenu.Toggle>Toggle "{0}"</TKUtils.StoreMenu.Toggle>
-    <TKUtils.StoreMenu.Technology>Filter by tech level "{0}"</TKUtils.StoreMenu.Technology>
-    <TKUtils.StoreMenu.Stackable>Filter by stackables</TKUtils.StoreMenu.Stackable>
-    <TKUtils.StoreMenu.NonStackable>Filter by non-stackables</TKUtils.StoreMenu.NonStackable>
-    <TKUtils.StoreMenu.Researched>Filter by researched</TKUtils.StoreMenu.Researched>
-    <TKUtils.StoreMenu.NotResearched>Filter by not researched</TKUtils.StoreMenu.NotResearched>
-    
-    <TKUtils.StoreFilters.Stackable>stackable</TKUtils.StoreFilters.Stackable>
-    <TKUtils.StoreFilters.NonStackable>non-stackables</TKUtils.StoreFilters.NonStackable>
-    <TKUtils.StoreFilters.Researched>researched</TKUtils.StoreFilters.Researched>
-    <TKUtils.StoreFilters.NotResearched>not researched</TKUtils.StoreFilters.NotResearched>
+    <TKUtils.StoreMenu.DisableCategory>Disable all in "{0}" category</TKUtils.StoreMenu.DisableCategory>
 </LanguageData>
