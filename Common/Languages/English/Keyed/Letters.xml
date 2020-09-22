@@ -11,6 +11,9 @@
     <TKUtils.ItemLetter.Animal>{0} join</TKUtils.ItemLetter.Animal>
     <TKUtils.ItemLetter.ItemDescription>{0} {1} purchased by {2}</TKUtils.ItemLetter.ItemDescription>
     
+    <!-- Backpack -->
+    <TKUtils.BackpackLetter.Description>{0} {1} materialized inside of {2}'s inventory.</TKUtils.BackpackLetter.Description>
+    
     <!-- Pawn -->
     <TKUtils.PawnLetter.Title>Viewer Joins</TKUtils.PawnLetter.Title>
     <TKUtils.PawnLetter.Description>A new pawn has been purchased by {0}, let's welcome them to the colony.</TKUtils.PawnLetter.Description>

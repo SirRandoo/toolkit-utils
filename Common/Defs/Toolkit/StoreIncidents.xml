@@ -200,4 +200,30 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+    
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>Backpack</defName>
+        <label>backpack</label>
+        <abbreviation>backpack</abbreviation>
+        <cost>1</cost>
+        <eventCap>6</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Backpack</incidentHelper>
+        <karmaType>Neutral</karmaType>
+        <variables>2</variables>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <EventType>Item</EventType>
+                <Description>It's like buying an item, but it'll show up in your inventory if there's space.</Description>
+                <Parameters>
+                    <li>
+                        <Name>Item</Name>
+                    </li>
+                    <li>
+                        <Name>Amount</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>
