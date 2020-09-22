@@ -17,8 +17,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
     public enum Sorter { Name, Cost, Category, AddCost, RemoveCost }
 
-    public enum FilterTypes { Mod, Category, TechLevel, Stackable, Research }
-
 
     [StaticConstructorOnStartup]
     public class StoreDialog : Window
@@ -34,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private readonly Dictionary<ThingItem, List<FloatMenuOption>> catCtxCache =
             new Dictionary<ThingItem, List<FloatMenuOption>>();
 
-        private readonly List<StoreItemFilter> filters = new List<StoreItemFilter>();
+        private readonly List<ThingItemFilter> filters = new List<ThingItemFilter>();
 
         private readonly Dictionary<ThingItem, List<FloatMenuOption>> infoCtxCache =
             new Dictionary<ThingItem, List<FloatMenuOption>>();
@@ -785,8 +783,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
 
             var filterOffset = 0f;
-            StoreItemFilter toCull = null;
-            foreach (StoreItemFilter filter in filters)
+            ThingItemFilter toCull = null;
+            foreach (ThingItemFilter filter in filters)
             {
                 var filterRect = new Rect(
                     filterSection.x + filterOffset,
@@ -1127,12 +1125,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void InjectCategoryFilter(string category)
         {
-            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Category);
+            ThingItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Category);
 
             if (filter == null)
             {
                 filters.Add(
-                    new StoreItemFilter
+                    new ThingItemFilter
                     {
                         FilterType = FilterTypes.Category,
                         Filter = t => FilterByCategory(t, category),
@@ -1148,12 +1146,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void InjectModFilter(string mod)
         {
-            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Mod);
+            ThingItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Mod);
 
             if (filter == null)
             {
                 filters.Add(
-                    new StoreItemFilter {FilterType = FilterTypes.Mod, Filter = t => FilterByMod(t, mod), Label = mod}
+                    new ThingItemFilter {FilterType = FilterTypes.Mod, Filter = t => FilterByMod(t, mod), Label = mod}
                 );
                 return;
             }
@@ -1164,12 +1162,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void InjectTechLevelFilter(TechLevel techLevel)
         {
-            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.TechLevel);
+            ThingItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.TechLevel);
 
             if (filter == null)
             {
                 filters.Add(
-                    new StoreItemFilter
+                    new ThingItemFilter
                     {
                         FilterType = FilterTypes.TechLevel,
                         Filter = t => FilterByTechLevel(t, techLevel),
@@ -1185,12 +1183,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void InjectStackableFilter(bool stackable)
         {
-            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Stackable);
+            ThingItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Stackable);
 
             if (filter == null)
             {
                 filters.Add(
-                    new StoreItemFilter
+                    new ThingItemFilter
                     {
                         FilterType = FilterTypes.Stackable,
                         Filter = t => stackable ? FilterByStackable(t) : FilterByNonStackable(t),
@@ -1210,12 +1208,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void InjectResearchFilter(bool invert)
         {
-            StoreItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Research);
+            ThingItemFilter filter = filters.FirstOrDefault(f => f.FilterType == FilterTypes.Research);
 
             if (filter == null)
             {
                 filters.Add(
-                    new StoreItemFilter
+                    new ThingItemFilter
                     {
                         FilterType = FilterTypes.Research,
                         Filter = t => invert ? FilterByNotResearched(t) : FilterByResearched(t),
@@ -1271,38 +1269,5 @@ namespace SirRandoo.ToolkitUtils.Windows
                 ? subject.ToList()
                 : subject.Where(t => !t.Thing.GetUnfinishedPrerequisites().NullOrEmpty()).ToList();
         }
-    }
-
-    internal class StoreItemFilter
-    {
-        private string label;
-        private float labelWidth = -1;
-
-        public FilterTypes FilterType { get; set; }
-
-        public string Label
-        {
-            get => label;
-            set
-            {
-                label = $" {value}";
-                labelWidth = Text.CalcSize(label).x;
-            }
-        }
-
-        public float LabelWidth
-        {
-            get
-            {
-                if (labelWidth <= -1)
-                {
-                    labelWidth = Text.CalcSize(Label).x;
-                }
-
-                return labelWidth;
-            }
-        }
-
-        public Func<List<ThingItem>, List<ThingItem>> Filter { get; set; }
     }
 }
