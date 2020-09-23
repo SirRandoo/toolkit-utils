@@ -193,9 +193,9 @@ namespace SirRandoo.ToolkitUtils.Models
                     continue;
                 }
 
-                var canvas = new Rect(lineRect.x + 8f, lineRect.y, lineRect.width - 8f, lineRect.height);
-                var checkRect = new Rect(canvas.x + 3f, canvas.y + 3f, 12f, 12f);
-                var textRect = new Rect(checkRect.x + 16f, canvas.y, canvas.width - 16f, canvas.height);
+                var canvas = new Rect(lineRect.x + 16f, lineRect.y, lineRect.width - 16f, lineRect.height);
+                var checkRect = new Rect(canvas.x + 4f, canvas.y + 4f, 12f, 12f);
+                var textRect = new Rect(checkRect.x + 12f, canvas.y, canvas.width - 12f, canvas.height);
 
                 GUI.DrawTexture(checkRect, filter.Active ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
 
