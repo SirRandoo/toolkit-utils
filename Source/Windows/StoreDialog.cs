@@ -869,6 +869,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SettingsHelper.DrawLabelAnchored(labelRegion, item.Name, TextAnchor.MiddleLeft);
                 Widgets.ThingIcon(iconRegion, item.Thing);
 
+                if (Current.Game == null)
+                {
+                    return;
+                }
+
+                Widgets.DrawHighlightIfMouseover(canvas);
+
                 if (Widgets.ButtonInvisible(canvas, false))
                 {
                     Find.WindowStack.Add(new Dialog_InfoCard(item.Thing));
