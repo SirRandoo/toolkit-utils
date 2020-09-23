@@ -62,7 +62,19 @@
                     </value>
                 </li>
                 <li Class="PatchOperationAdd">
+                    <xpath>Defs/NoFreeWillAT</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
                     <xpath>Defs/HediffDef[defName="FreshReprogramming"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>OverclockedAndroid</xpath>
                     <value>
                         <everCurableByItem>false</everCurableByItem>
                     </value>
@@ -72,6 +84,39 @@
                     <value>
                         <everCurableByItem>false</everCurableByItem>
                     </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="SGelandroid"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="AFreezeandroid"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="MechSwarmandroid"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="FractalPillAndroid"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="RegenAndroid"]</xpath>
+                    <value>
+                        <everCurableByItem>false</everCurableByItem>
+                    </value>
+                </li>
+                <li Class="PatchOperationAdd">
+                    <xpath>Defs/HediffDef[defName="</xpath>
                 </li>
             </operations>
         </match>
