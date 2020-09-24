@@ -81,7 +81,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             purchaseRequest = new PurchaseRequest
             {
-                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = viewer
+                ItemData = product,
+                ThingDef = product.Thing,
+                Quantity = amount,
+                Purchaser = viewer,
+                Map = Helper.AnyPlayerMap
             };
 
             if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
@@ -108,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            return true;
+            return purchaseRequest.Map != null;
         }
 
         public override void TryExecute()
@@ -132,6 +136,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public ThingItem ItemData { get; set; }
         public ThingDef ThingDef { get; set; }
         public Viewer Purchaser { get; set; }
+        public Map Map { get; set; }
 
         public void Spawn()
         {
@@ -168,7 +173,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 true
             ) {def = IncidentDef.Named("FarmAnimalsWanderIn")};
 
-            worker.TryExecute(StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, Helper.AnyPlayerMap));
+            worker.TryExecute(StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, Map));
         }
 
         private void SpawnItem()
@@ -191,8 +196,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 ItemHelper.setItemQualityRandom(thing);
             }
 
-            Map map = Helper.AnyPlayerMap;
-            IntVec3 position = DropCellFinder.TradeDropSpot(map);
+            IntVec3 position = DropCellFinder.TradeDropSpot(Map);
 
             if (ThingDef.Minifiable)
             {
@@ -200,12 +204,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
                 minifiedThing.InnerThing = thing;
                 minifiedThing.stackCount = Quantity;
-                TradeUtility.SpawnDropPod(position, map, minifiedThing);
+                TradeUtility.SpawnDropPod(position, Map, minifiedThing);
             }
             else
             {
                 thing.stackCount = Quantity;
-                TradeUtility.SpawnDropPod(position, map, thing);
+                TradeUtility.SpawnDropPod(position, Map, thing);
             }
 
             Find.LetterStack.ReceiveLetter(

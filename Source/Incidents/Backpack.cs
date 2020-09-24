@@ -115,7 +115,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            return true;
+            return purchaseRequest.Map != null;
         }
 
         public override void TryExecute()
@@ -141,6 +141,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public ThingItem ItemData { get; set; }
         public ThingDef ThingDef { get; set; }
         public Viewer Purchaser { get; set; }
+        public Map Map => Pawn.Map;
         public Pawn Pawn => pawn ??= CommandBase.GetOrFindPawn(Purchaser.username);
 
         public void Spawn()
@@ -191,9 +192,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void CarryOrSpawn(Thing thing)
         {
-            if (!Pawn.inventory.innerContainer.TryAdd(thing))
+            if (!Pawn.inventory.innerContainer.TryAdd(thing) && pawn.Spawned)
             {
-                TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(Pawn.Map), Pawn.Map, thing);
+                TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(Map), Map, thing);
             }
         }
 
