@@ -611,7 +611,7 @@
         
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Provides some information about supported things.</Description>
+                <Description>Provides some information about supported things. Supported categories are: weapons</Description>
                 
                 <Parameters>
                     <li>
