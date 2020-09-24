@@ -208,7 +208,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
                     || h is Hediff_MissingPart
                     || h is Hediff_Addiction
                     || h is Hediff_AddedPart
-                    || onlyIfCanKill && !CanEverKill(h))
+                    || onlyIfCanKill && !CanEverKill(h)
+                    || (!h.def.GetModExtension<HealExtension>()?.ShouldHeal ?? false))
                 {
                     continue;
                 }
@@ -242,7 +243,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
                     && h2.IsPermanent()
                     && h2.def.everCurableByItem
                     && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))
-                    && (injury == null || h2.Severity > injury.Severity))
+                    && (injury == null || h2.Severity > injury.Severity)
+                    && (h.def.GetModExtension<HealExtension>()?.ShouldHeal ?? true))
                 {
                     injury = h2;
                 }

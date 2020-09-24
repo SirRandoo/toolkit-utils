@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿﻿<?xml version="1.0" encoding="utf-8"?>
 <Patch>
     <Operation Class="PatchOperationFindMod">
         <mods>
@@ -7,116 +7,149 @@
         <match Class="PatchOperationSequence">
             <success>Always</success>
             <operations>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtensionModExtension">
                     <xpath>Defs/HediffDef[defName="ATPP_ConsciousnessUpload"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtensionModExtension">
                     <xpath>Defs/HediffDef[defName="ATPP_NoHost"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="ATPP_InRemoteControlMode"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="ATPP_BlankAndroid"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="ATPP_RemotelyControlled"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="ATPP_SolarFlareAndroidImpact"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="ATPP_LowNetworkSignal"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="ShutdownAndroid"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="RebootingSequenceAT"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/NoFreeWillAT</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="FreshReprogramming"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>OverclockedAndroid</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="BatteryChargeMech"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="SGelandroid"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="AFreezeandroid"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="MechSwarmandroid"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="FractalPillAndroid"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAdd">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="RegenAndroid"]</xpath>
                     <value>
-                        <everCurableByItem>false</everCurableByItem>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
                     </value>
-                </li>
-                <li Class="PatchOperationAdd">
-                    <xpath>Defs/HediffDef[defName="</xpath>
                 </li>
             </operations>
         </match>

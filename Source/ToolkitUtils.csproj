@@ -176,6 +176,7 @@
         <Compile Include="Harmony\UnassignPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
+        <Compile Include="HealExtension.cs"/>
         <Compile Include="Helpers\CommandHelper.cs"/>
         <Compile Include="Helpers\HealHelper.cs"/>
         <Compile Include="Helpers\MessageHelper.cs"/>
