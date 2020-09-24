@@ -39,12 +39,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             string message = twitchMessage.Message;
 
-            if (message.StartsWith(TkSettings.Prefix, StringComparison.InvariantCultureIgnoreCase))
+            if (!message.StartsWith(TkSettings.Prefix, StringComparison.InvariantCultureIgnoreCase))
             {
-                message = message.Substring(TkSettings.Prefix.Length);
+                return false;
             }
 
-            List<string> segments = CommandFilter.Parse(message).ToList();
+            List<string> segments = CommandFilter.Parse(message.Substring(TkSettings.Prefix.Length)).ToList();
             bool unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"));
 
             if (segments.Count <= 0)
