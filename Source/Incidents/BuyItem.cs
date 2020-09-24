@@ -267,7 +267,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     Purchaser.username,
-                    "TKUtils.Item.CompleteMinimum".Localize(
+                    "TKUtils.Item.CompleteMinimal".Localize(
                         Quantity.ToString("N0"),
                         Quantity > 1 ? ThingDef.label.Pluralize() : ThingDef.label,
                         Price.ToString("N0")
