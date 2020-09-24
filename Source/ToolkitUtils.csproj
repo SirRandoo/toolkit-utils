@@ -270,8 +270,8 @@
         <Content Include="..\About\Preview.png">
             <Link>About\Preview.png</Link>
         </Content>
-        <Content Include="..\About\PublishedFileId.txt">
-            <Link>About\PublishedFileId.txt</Link>
+        <Content Include="..\About\PublishedFileId_testing.txt">
+            <Link>About\PublishedFileId_testing.txt</Link>
         </Content>
         <Content Include="..\Common\Defs\ViewerRescue.xml">
             <Link>Common\Defs\ViewerRescue.xml</Link>
