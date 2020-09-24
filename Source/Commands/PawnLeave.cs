@@ -34,6 +34,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 twitchMessage.Reply("TKUtils.Leave.Undead".Localize());
                 component?.pawnHistory.Remove(twitchMessage.Username);
+
+                if (pawn.Name is NameTriple name)
+                {
+                    pawn.Name = new NameTriple(name.First ?? "", name.Last ?? "", name.Last ?? "");
+                }
+
                 return;
             }
 
