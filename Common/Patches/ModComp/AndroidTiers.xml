@@ -7,7 +7,7 @@
         <match Class="PatchOperationSequence">
             <success>Always</success>
             <operations>
-                <li Class="PatchOperationAddModExtensionModExtension">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="ATPP_ConsciousnessUpload"]</xpath>
                     <value>
                         <li Class="SirRandoo.ToolkitUtils.HealExtension">
@@ -15,7 +15,7 @@
                         </li>
                     </value>
                 </li>
-                <li Class="PatchOperationAddModExtensionModExtension">
+                <li Class="PatchOperationAddModExtension">
                     <xpath>Defs/HediffDef[defName="ATPP_NoHost"]</xpath>
                     <value>
                         <li Class="SirRandoo.ToolkitUtils.HealExtension">
