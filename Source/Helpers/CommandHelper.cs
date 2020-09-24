@@ -13,7 +13,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
-            if (command.requiresMod && (!message.ChatMessage.IsModerator || !message.ChatMessage.IsBroadcaster))
+            if (command.requiresMod && (!message.ChatMessage.IsModerator && !message.ChatMessage.IsBroadcaster))
             {
                 return;
             }
