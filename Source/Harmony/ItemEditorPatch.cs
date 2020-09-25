@@ -3,7 +3,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Store;
-using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
@@ -13,12 +12,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
     {
         public static void Postfix()
         {
-            if (!Data.Items.NullOrEmpty())
+            if (Data.Items?.Count >= StoreInventory.items.Count)
             {
                 return;
             }
 
-            TkLogger.Info("ToolkitUtils' item containers were null or empty; regenerating...");
+            TkLogger.Info("ToolkitUtils' item containers were incomplete; rebuilding...");
             Data.Items = StoreDialog.GenerateContainers().ToList();
         }
     }
