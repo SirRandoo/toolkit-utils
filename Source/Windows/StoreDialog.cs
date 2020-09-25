@@ -195,6 +195,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
             }
 
+            if (Data.Items.NullOrEmpty())
+            {
+                return;
+            }
+
             foreach (string modName in Data.Items.Select(i => i.Mod).Distinct())
             {
                 filterManager.RegisterFilter(
@@ -1016,7 +1021,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             categoryHeaderSize = Text.CalcSize(categoryHeader);
         }
 
-        private static IEnumerable<ThingItem> GenerateContainers()
+        internal static IEnumerable<ThingItem> GenerateContainers()
         {
             IEnumerable<ThingDef> things = GetTradeables();
             var builder = new StringBuilder();
