@@ -10,14 +10,24 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [HarmonyPatch(typeof(Store_ItemEditor), nameof(Store_ItemEditor.UpdateStoreItemList))]
     public static class ItemEditorPatch
     {
-        public static void Postfix()
+        public static void Finalizer()
         {
-            if (Data.Items?.Count >= StoreInventory.items.Count)
+            int? itemCount = Data.Items?.Count;
+            int ttkItemCount = StoreInventory.items.Count;
+
+            if (itemCount >= ttkItemCount)
             {
+                if (itemCount > ttkItemCount)
+                {
+                    Data.Items = Data.Items.Where(i => StoreInventory.items.Contains(i.Item)).ToList();
+                }
+
                 return;
             }
 
-            TkLogger.Info("ToolkitUtils' item containers were incomplete; rebuilding...");
+            TkLogger.Info(
+                "ToolkitUtils' item container count didn't match what Twitch Toolkit found; rebuilding list..."
+            );
             Data.Items = StoreDialog.GenerateContainers().ToList();
         }
     }

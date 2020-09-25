@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 Data.SaveItemData(Paths.ItemDataFilePath);
             }
 
-            return true;
+            return false;
         }
 
         private static IEnumerable<ToolkitItem> PrepareItems(HashSet<ThingDef> tradeables)
