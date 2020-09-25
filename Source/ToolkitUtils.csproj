@@ -161,6 +161,7 @@
         <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
         <Compile Include="Harmony\BuyPatch.cs"/>
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
+        <Compile Include="Harmony\ItemEditorPatch.cs"/>
         <Compile Include="Harmony\PatchRunner.cs"/>
         <Compile Include="Harmony\IncidentEditorPatches.cs"/>
         <Compile Include="Harmony\KarmaMinimumPatch.cs"/>
