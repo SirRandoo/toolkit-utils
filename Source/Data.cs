@@ -56,7 +56,15 @@ namespace SirRandoo.ToolkitUtils
             if (File.Exists(Paths.LegacyShopFilePath) && (PawnKinds.NullOrEmpty() || Traits.NullOrEmpty()))
             {
                 MigrateFromLegacy(Paths.LegacyShopFilePath);
-                File.Move(Paths.LegacyShopFilePath, Path.ChangeExtension(Paths.LegacyShopFilePath, ".bak")!);
+
+                try
+                {
+                    File.Move(Paths.LegacyShopFilePath, Path.ChangeExtension(Paths.LegacyShopFilePath, ".bak")!);
+                }
+                catch (IOException)
+                {
+                    TkLogger.Warn("Could not move old shop file; a similar one exists.");
+                }
             }
 
             if (ItemData == null || ItemData.Count <= 0)
