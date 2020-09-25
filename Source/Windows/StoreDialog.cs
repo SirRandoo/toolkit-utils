@@ -105,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private List<ThingItem> CurrentWorkingList => results ?? Data.Items;
+        private List<ThingItem> CurrentWorkingList => results ?? (Data.Items ??= new List<ThingItem>());
 
         private Sorter Sorter
         {
@@ -803,6 +803,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     continue;
                 }
+
+                Data.Items ??= new List<ThingItem>();
 
                 if (Data.Items.Any(c => c.Thing.defName.Equals(latest.Thing.defName)))
                 {
