@@ -176,7 +176,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case "traits":
                     PerformTraitLookup(query);
                     return;
-                case "races":
+                case "kinds":
                     PerformKindLookup(query);
                     return;
             }
