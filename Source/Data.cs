@@ -43,14 +43,27 @@ namespace SirRandoo.ToolkitUtils
 
         static Data()
         {
-            if (Traits.NullOrEmpty())
+            switch (TkSettings.DumpStyle)
             {
-                LoadTraits(Paths.TraitFilePath, true);
-            }
+                case "MultiFile":
+                {
+                    if (Traits.NullOrEmpty())
+                    {
+                        LoadTraits(Paths.TraitFilePath, true);
+                    }
 
-            if (PawnKinds.NullOrEmpty())
-            {
-                LoadPawnKinds(Paths.PawnKindFilePath, true);
+                    if (PawnKinds.NullOrEmpty())
+                    {
+                        LoadPawnKinds(Paths.PawnKindFilePath, true);
+                    }
+
+                    break;
+                }
+                case "SingleFile":
+                {
+                    LoadFromLegacy(Paths.LegacyShopDumpFilePath);
+                    break;
+                }
             }
 
             if (File.Exists(Paths.LegacyShopFilePath) && PawnKinds.NullOrEmpty() && Traits.NullOrEmpty())
@@ -115,6 +128,26 @@ namespace SirRandoo.ToolkitUtils
 
             Traits = data.Traits.Select(TraitItem.MigrateFrom).ToList();
             PawnKinds = data.Races.Select(PawnKindItem.MigrateFrom).ToList();
+        }
+
+        private static void LoadFromLegacy(string path)
+        {
+            var contents = LoadJson<ShopLegacy>(path, true);
+
+            if (contents == null)
+            {
+                return;
+            }
+
+            if (Traits.NullOrEmpty())
+            {
+                Traits = contents.Traits;
+            }
+
+            if (PawnKinds.NullOrEmpty())
+            {
+                PawnKinds = contents.Races;
+            }
         }
 
         [CanBeNull]
@@ -241,6 +274,9 @@ namespace SirRandoo.ToolkitUtils
 
                 if (traitItems.Length > 0)
                 {
+                    TkLogger.Info(
+                        $"Adding {traitItems.Length} new items: {traitItems.Select(t => t.Name).ToStringSafeEnumerable()}"
+                    );
                     Traits.AddRange(traitItems);
                 }
             }
