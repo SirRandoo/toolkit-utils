@@ -184,12 +184,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformKindLookup(string query)
         {
-            PawnKindItem result = Data.PawnKinds.FirstOrDefault(
-                i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                     || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-            );
-
-            if (result == null)
+            if (!Data.TryGetPawnKind(query, out PawnKindItem result))
             {
                 return;
             }
@@ -202,12 +197,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            TraitItem result = Data.Traits.FirstOrDefault(
-                i => i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                     || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-            );
-
-            if (result == null)
+            if (!Data.TryGetTrait(query, out TraitItem result))
             {
                 return;
             }
