@@ -23,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Models
             kinds ??= DefDatabase<PawnKindDef>.AllDefs.Where(k => k.race.defName.Equals(DefName)).ToList();
 
         [JsonIgnore]
-        private PawnKindDef ColonistKindDef =>
+        public PawnKindDef ColonistKindDef =>
             Kinds.FirstOrDefault(k => k.defaultFactionType.isPlayer) ?? Kinds.FirstOrFallback();
 
         public PawnKindData Data => data ??= new PawnKindData();

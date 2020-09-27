@@ -73,8 +73,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            PawnKindDef raceDef = kindItem.Kinds.FirstOrFallback(k => k.defaultFactionType.isPlayer)
-                                  ?? kindItem.Kinds.RandomElementWithFallback();
+            PawnKindDef raceDef = kindItem.ColonistKindDef;
 
             if (raceDef == null)
             {
@@ -186,9 +185,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            kindDef = DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(
-                k => k.race.defName.EqualsIgnoreCase(randomKind.DefName)
-            );
+            kindDef = randomKind.ColonistKindDef;
             pawnKindItem = randomKind;
         }
     }
