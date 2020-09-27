@@ -46,7 +46,7 @@
     <!-- Pawn Health -->
     <TKUtils.PawnHealth.InvalidCapacity>No capacity by the name of "{0}" could be found.</TKUtils.PawnHealth.InvalidCapacity>
     <TKUtils.PawnHealth.IncapableOfCapacity>Your pawn does not have the capacity "{0}".</TKUtils.PawnHealth.IncapableOfCapacity>
-    <TKUtils.PawnHealth.QueuedSugeries>Queued sugeries</TKUtils.PawnHealth.QueuedSugeries>
+    <TKUtils.PawnHealth.QueuedSurgeries>Queued sugeries</TKUtils.PawnHealth.QueuedSurgeries>
     <TKUtils.PawnHealth.OverallHealth>Overall health</TKUtils.PawnHealth.OverallHealth>
     <TKUtils.PawnHealth.AffectedBy>Affected by</TKUtils.PawnHealth.AffectedBy>
     
