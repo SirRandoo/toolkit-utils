@@ -170,7 +170,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void GetDefaultKind()
         {
-            if (Data.TryGetPawnKind($"!{PawnKindDefOf.Colonist.race.defName}", out PawnKindItem human) && human.Enabled)
+            if (Data.TryGetPawnKind($"${PawnKindDefOf.Colonist.race.defName}", out PawnKindItem human)
+                && (human.Enabled || !TkSettings.PurchasePawnKinds))
             {
                 kindDef = PawnKindDefOf.Colonist;
                 pawnKindItem = human;
