@@ -53,7 +53,7 @@ namespace SirRandoo.ToolkitUtils
                 LoadPawnKinds(Paths.PawnKindFilePath, true);
             }
 
-            if (File.Exists(Paths.LegacyShopFilePath) && (PawnKinds.NullOrEmpty() || Traits.NullOrEmpty()))
+            if (File.Exists(Paths.LegacyShopFilePath) && PawnKinds.NullOrEmpty() && Traits.NullOrEmpty())
             {
                 MigrateFromLegacy(Paths.LegacyShopFilePath);
 
