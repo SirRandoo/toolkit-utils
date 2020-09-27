@@ -29,6 +29,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {"races", "kinds"},
             {"kinds", "kinds"},
             {"kind", "kinds"},
+            {"pawnkinds", "kinds"},
             {"disease", "diseases"},
             {"diseases", "diseases"},
             {"animal", "animals"},
