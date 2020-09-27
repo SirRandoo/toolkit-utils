@@ -37,8 +37,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 int theirOpinion = viewerPawn.relations.OpinionOf(pawn);
                 int myOpinion = pawn.relations.OpinionOf(viewerPawn);
-
-                string relationship = GetSocialString(pawn, viewerPawn, myOpinion);
+                string relationship = GetSocialString(pawn, viewerPawn, myOpinion, true);
 
                 if (relationship.NullOrEmpty())
                 {
@@ -82,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
         }
 
-        private static string GetSocialString(Pawn pawn, Pawn otherPawn, int opinion)
+        private static string GetSocialString(Pawn pawn, Pawn otherPawn, int opinion, bool overrideSettings = false)
         {
             PawnRelationDef relations = pawn.GetMostImportantRelation(otherPawn);
 
@@ -91,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return relations.GetGenderSpecificLabelCap(otherPawn);
             }
 
-            if (TkSettings.MinimalRelations || Mathf.Abs(opinion) >= TkSettings.OpinionMinimum)
+            if (!overrideSettings && (TkSettings.MinimalRelations || Mathf.Abs(opinion) < TkSettings.OpinionMinimum))
             {
                 return null;
             }
