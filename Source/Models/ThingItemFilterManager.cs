@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
@@ -9,29 +8,26 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ThingItemFilterManager
     {
-        private static readonly List<FilterTypes> KnownFilters = Enum.GetNames(typeof(FilterTypes))
-           .Select(f => (FilterTypes) Enum.Parse(typeof(FilterTypes), f))
-           .ToList();
-
-        private readonly List<FilterTypes> expanded = new List<FilterTypes>();
-        private readonly Dictionary<FilterTypes, List<ThingItemFilter>> filters;
+        private readonly List<ThingItemFilterCategory> filters;
         private Vector2 scrollPos = Vector2.zero;
 
         public ThingItemFilterManager()
         {
-            filters = new Dictionary<FilterTypes, List<ThingItemFilter>>();
+            filters = new List<ThingItemFilterCategory>();
         }
 
         public List<FilterTypes> UniqueFilters { get; set; }
 
         public IEnumerable<ThingItemFilter> FiltersForType(FilterTypes type)
         {
-            if (!filters.TryGetValue(type, out List<ThingItemFilter> activeFilters))
+            ThingItemFilterCategory result = filters.FirstOrDefault(f => f.FilterType == type);
+
+            if (result == null)
             {
                 yield break;
             }
 
-            foreach (ThingItemFilter filter in activeFilters)
+            foreach (ThingItemFilter filter in result.Filters)
             {
                 yield return filter;
             }
@@ -39,9 +35,9 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public IEnumerable<ThingItem> FilterItems(IEnumerable<ThingItem> input)
         {
-            List<ThingItem> result = KnownFilters.Aggregate(
+            List<ThingItem> result = filters.Aggregate(
                     input,
-                    (current, category) => FilterItemsByType(category, current)
+                    (current, category) => FilterItemsByType(category.FilterType, current)
                 )
                .ToList();
 
@@ -50,11 +46,13 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public IEnumerable<ThingItem> FilterItemsByType(FilterTypes type, IEnumerable<ThingItem> input)
         {
-            if (!filters.TryGetValue(type, out List<ThingItemFilter> itemFilters))
+            ThingItemFilterCategory result = filters.FirstOrDefault(f => f.FilterType == type);
+
+            if (result == null)
             {
-                foreach (ThingItem thingItem in input)
+                foreach (ThingItem item in input)
                 {
-                    yield return thingItem;
+                    yield return item;
                 }
 
                 yield break;
@@ -63,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.Models
             var container = new List<ThingItem>();
             List<ThingItem> workingList = input.ToList();
 
-            foreach (ThingItemFilter filter in itemFilters.Where(f => f.Active))
+            foreach (ThingItemFilter filter in result.Filters.Where(f => f.Active))
             {
                 container.AddRange(filter.Filter(workingList));
             }
@@ -81,21 +79,27 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void RegisterFilter(FilterTypes type, ThingItemFilter filter)
         {
-            if (!filters.TryGetValue(type, out List<ThingItemFilter> itemFilters))
+            ThingItemFilterCategory result = filters.FirstOrDefault(f => f.FilterType == type);
+
+            if (result == null)
             {
-                filters[type] = new List<ThingItemFilter> {filter};
+                var category = new ThingItemFilterCategory {FilterType = type};
+                category.Filters.Add(filter);
+                filter.Category = category;
+
+                filters.Add(category);
                 return;
             }
 
-            if (itemFilters.Count > 0 && UniqueFilters.Contains(type))
+            if (result.Filters.Count > 0 && UniqueFilters.Contains(type))
             {
-                foreach (ThingItemFilter itemFilter in itemFilters)
+                foreach (ThingItemFilter itemFilter in result.Filters)
                 {
                     itemFilter.Active = false;
                 }
             }
 
-            ThingItemFilter storedFilter = itemFilters.FirstOrDefault(f => f.Id.Equals(filter.Id));
+            ThingItemFilter storedFilter = result.Filters.FirstOrDefault(f => f.Id.Equals(filter.Id));
 
             if (storedFilter != null)
             {
@@ -103,17 +107,14 @@ namespace SirRandoo.ToolkitUtils.Models
                 return;
             }
 
-            itemFilters.Add(filter);
+            filter.Category = result;
+            result.Filters.Add(filter);
         }
 
         public void UnregisterFilter(FilterTypes type, string filterId)
         {
-            if (!filters.TryGetValue(type, out List<ThingItemFilter> itemFilters))
-            {
-                return;
-            }
-
-            ThingItemFilter filter = itemFilters.FirstOrDefault(f => f.Id.Equals(filterId));
+            ThingItemFilterCategory result = filters.FirstOrDefault(f => f.FilterType == type);
+            ThingItemFilter filter = result?.Filters.FirstOrDefault(f => f.Id.Equals(filterId));
 
             if (filter == null)
             {
@@ -127,64 +128,79 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             GUI.BeginGroup(canvas);
             var listing = new Listing_Standard();
-            var viewPort = new Rect(canvas.x, canvas.y, canvas.width - 16f, Text.LineHeight * KnownFilters.Count);
-
-            foreach (FilterTypes type in expanded)
-            {
-                if (!filters.TryGetValue(type, out List<ThingItemFilter> itemFilters))
-                {
-                    continue;
-                }
-
-                viewPort.height += Text.LineHeight * itemFilters.Count;
-            }
+            var viewPort = new Rect(canvas.x, canvas.y, canvas.width - 16f, filters.Sum(f => f.Height));
 
             listing.BeginScrollView(canvas, ref scrollPos, ref viewPort);
 
-            foreach (FilterTypes filterType in KnownFilters)
+            foreach (ThingItemFilterCategory category in filters)
             {
                 Rect lineRect = listing.GetRect(Text.LineHeight);
 
-                if (!lineRect.IsRegionVisible(viewPort, scrollPos) && !expanded.Contains(filterType))
+                if (!lineRect.IsRegionVisible(viewPort, scrollPos) && !category.Expanded)
                 {
                     continue;
                 }
 
-                bool isExpanded = expanded.Contains(filterType);
-                Widgets.Label(lineRect, (isExpanded ? " - " : " + ") + $"TKUtils.FilterTypes.{filterType}".Localize());
+                Rect arrowIconRect =
+                    new Rect(lineRect.x, lineRect.y, lineRect.height, lineRect.height).ContractedBy(4f);
+                Rect checkStateRect = new Rect(
+                    arrowIconRect.x + arrowIconRect.width,
+                    lineRect.y,
+                    lineRect.height,
+                    lineRect.height
+                ).ContractedBy(4f);
+                var categoryTextRect = new Rect(
+                    checkStateRect.x + checkStateRect.width + 5f,
+                    lineRect.y,
+                    lineRect.width - 5f - arrowIconRect.width - checkStateRect.width,
+                    lineRect.height
+                );
 
-                if (Widgets.ButtonInvisible(lineRect))
+                GUI.DrawTexture(
+                    arrowIconRect.ContractedBy(2f),
+                    category.Expanded ? Textures.ExpandedArrow : Textures.CollapsedArrow
+                );
+
+                MultiCheckboxState state = Widgets.CheckboxMulti(checkStateRect, category.CheckState, true);
+
+                if (state != category.CheckState)
                 {
-                    if (isExpanded)
+                    category.CheckState = state;
+
+                    foreach (ThingItemFilter filter in category.Filters)
                     {
-                        expanded.Remove(filterType);
-                    }
-                    else
-                    {
-                        expanded.Add(filterType);
+                        switch (category.CheckState)
+                        {
+                            case MultiCheckboxState.Off:
+                                filter.Active = false;
+                                break;
+                            case MultiCheckboxState.On:
+                                filter.Active = true;
+                                break;
+                        }
                     }
                 }
 
-                if (isExpanded)
+                Widgets.Label(categoryTextRect, $"TKUtils.FilterTypes.{category.FilterType}".Localize());
+
+                if (Widgets.ButtonInvisible(arrowIconRect))
                 {
-                    DrawFiltersFor(filterType, listing, viewPort);
+                    category.Expanded = !category.Expanded;
                 }
 
-                Widgets.DrawHighlightIfMouseover(lineRect);
+                if (category.Expanded)
+                {
+                    DrawFiltersFor(category, listing, viewPort);
+                }
             }
 
             GUI.EndGroup();
             listing.EndScrollView(ref viewPort);
         }
 
-        private void DrawFiltersFor(FilterTypes type, Listing listing, Rect viewPort)
+        private void DrawFiltersFor(ThingItemFilterCategory category, Listing listing, Rect viewPort)
         {
-            if (!filters.TryGetValue(type, out List<ThingItemFilter> itemFilters))
-            {
-                return;
-            }
-
-            foreach (ThingItemFilter filter in itemFilters)
+            foreach (ThingItemFilter filter in category.Filters)
             {
                 Rect lineRect = listing.GetRect(Text.LineHeight);
 

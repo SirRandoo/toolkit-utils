@@ -11,8 +11,10 @@ namespace SirRandoo.ToolkitUtils.Models
 
     public class ThingItemFilter
     {
+        private bool active;
         private string label;
         private float labelWidth = -1;
+        public ThingItemFilterCategory Category { get; set; }
 
         internal string Id { get; set; }
 
@@ -39,7 +41,15 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool Active { get; set; }
+        public bool Active
+        {
+            get => active;
+            set
+            {
+                active = value;
+                Category?.MarkDirty();
+            }
+        }
 
         public Func<IEnumerable<ThingItem>, List<ThingItem>> Filter { get; set; }
 

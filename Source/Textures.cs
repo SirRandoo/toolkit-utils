@@ -19,6 +19,8 @@ namespace SirRandoo.ToolkitUtils
         internal static readonly Texture2D Reset;
         internal static readonly Texture2D QuestionMark;
         internal static readonly Texture2D Filter;
+        internal static readonly Texture2D CollapsedArrow;
+        internal static readonly Texture2D ExpandedArrow;
 
         static Textures()
         {
@@ -33,6 +35,8 @@ namespace SirRandoo.ToolkitUtils
             Reset = ContentFinder<Texture2D>.Get("UI/Icons/Reset");
             Filter = ContentFinder<Texture2D>.Get("UI/Icons/Filter");
             QuestionMark = ContentFinder<Texture2D>.Get("UI/Icons/QuestionMark");
+            CollapsedArrow = ContentFinder<Texture2D>.Get("UI/Icons/CollapsedArrow");
+            ExpandedArrow = ContentFinder<Texture2D>.Get("UI/Icons/ExpandedArrow");
         }
     }
 }

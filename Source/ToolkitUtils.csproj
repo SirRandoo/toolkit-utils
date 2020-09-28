@@ -212,6 +212,7 @@
         <Compile Include="Incidents\ReviveRandom.cs"/>
         <Compile Include="Models\KidnapReport.cs"/>
         <Compile Include="Models\ThingItemFilter.cs"/>
+        <Compile Include="Models\ThingItemFilterCategory.cs"/>
         <Compile Include="Models\ThingItemFilterManager.cs"/>
         <Compile Include="RuntimeChecker.cs"/>
         <Compile Include="Models\CommandData.cs"/>
@@ -404,6 +405,12 @@
         </Content>
         <Content Include="..\Common\Textures\UI\Icons\Visible.png">
             <Link>Common\Textures\UI\Icons\Visible.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\ExpandedArrow.png">
+            <Link>Common\Textures\UI\Icons\ExpandedArrow.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\CollapsedArrow.png">
+            <Link>Common\Textures\UI\Icons\CollapsedArrow.png</Link>
         </Content>
         <Content Include="..\LoadFolders.xml">
             <Link>LoadFolders.xml</Link>
