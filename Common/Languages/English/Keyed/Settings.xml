@@ -5,11 +5,11 @@
     <TKUtils.General>General</TKUtils.General>
     <TKUtils.General.Emojis>Emojis</TKUtils.General.Emojis>
     <TKUtils.General.Viewer>Viewer Pawn Tweaks</TKUtils.General.Viewer>
-    
+
     <TKUtils.Data>Data</TKUtils.Data>
     <TKUtils.Data.LazyProcess>Item Store Processing</TKUtils.Data.LazyProcess>
     <TKUtils.Data.Files>Toolkit Data</TKUtils.Data.Files>
-    
+
     <TKUtils.CommandTweaks>Command Tweaks</TKUtils.CommandTweaks>
     <TKUtils.CommandTweaks.Balance>Balance Command</TKUtils.CommandTweaks.Balance>
     <TKUtils.CommandTweaks.Handler>Commands Handler</TKUtils.CommandTweaks.Handler>
@@ -17,17 +17,17 @@
     <TKUtils.CommandTweaks.BuyItem>Item Purchases</TKUtils.CommandTweaks.BuyItem>
     <TKUtils.CommandTweaks.Lookup>Lookup Command</TKUtils.CommandTweaks.Lookup>
     <TKUtils.CommandTweaks.BuyPawn>Pawn Purchases</TKUtils.CommandTweaks.BuyPawn>
-    
+
     <TKUtils.PawnCommands>Pawn Commands</TKUtils.PawnCommands>
     <TKUtils.PawnCommands.Abandon>Leave Command</TKUtils.PawnCommands.Abandon>
     <TKUtils.PawnCommands.Gear>Pawn Gear Command</TKUtils.PawnCommands.Gear>
     <TKUtils.PawnCommands.Health>Pawn Health Command</TKUtils.PawnCommands.Health>
     <TKUtils.PawnCommands.Relations>Pawn Relations Command</TKUtils.PawnCommands.Relations>
     <TKUtils.PawnCommands.Work>Pawn Work Command</TKUtils.PawnCommands.Work>
-    
+
     <TKUtils.PawnWork>Work Priorities</TKUtils.PawnWork>
     <TKUtils.PawnStats>Stats</TKUtils.PawnStats>
-    
+
     <TKUtils.ModCompat>Mod Compatibility</TKUtils.ModCompat>
     
     

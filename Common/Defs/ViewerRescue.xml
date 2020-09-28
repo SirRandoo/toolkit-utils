@@ -16,7 +16,7 @@
             <li>TKUtilsViewerRescue</li>
         </tags>
     </SitePartDef>
-    
+
     <GenStepDef>
         <defName>TKUtilsViewerRescue</defName>
         <linkWithSite>TKUtilsViewerRescue</linkWithSite>
@@ -45,15 +45,13 @@
         </questNameRules>
         <questDescriptionRules>
             <rulesStrings>
-                <li>questDescription->A viewer being held by [siteFaction_name] has managed to steal a radio and call you!
-                    \n[prisoner_nameDef] is being held at a camp near [map_definite][underArmedGuard]. [prisoner_pronoun] is a [prisoner_age]-year-old [prisoner_title]. [prisoner_pronoun] says that
-                    [allSitePartsDescriptionsExceptFirst][formerColonistInfo][prisonerFullRelationInfo]
-                    \nIf you miss this opportunity, you may never hear from [prisoner_nameDef] again.
+                <li>
+                    questDescription->A viewer being held by [siteFaction_name] has managed to steal a radio and call you! \n[prisoner_nameDef] is being held at a camp near [map_definite][underArmedGuard]. [prisoner_pronoun] is a [prisoner_age]-year-old [prisoner_title]. [prisoner_pronoun] says that [allSitePartsDescriptionsExceptFirst][formerColonistInfo][prisonerFullRelationInfo] \nIf you miss this opportunity, you may never hear from [prisoner_nameDef] again.
                 </li>
-                
+        
                 <li>formerColonistInfo(priority=1)->\n\n[prisoner_formerlyColonistInfo]</li>
                 <li>formerColonistInfo-></li>
-                
+        
                 <li>underArmedGuard(allowViolentQuests==true,priority=1)-> under armed guard</li>
                 <li>underArmedGuard-></li>
             </rulesStrings>
@@ -75,7 +73,7 @@
                     <storeAs>siteTile</storeAs>
                     <preferCloserTiles>true</preferCloserTiles>
                 </li>
-                
+    
                 <li Class="QuestNode_ViolentQuestsAllowed">
                     <node Class="QuestNode_Set">
                         <name>siteThreatChance</name>
@@ -86,7 +84,7 @@
                         <value>0</value>
                     </elseNode>
                 </li>
-                
+    
                 <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
                     <storeAs>sitePartDefs</storeAs>
                     <storeFactionAs>siteFaction</storeFactionAs>
@@ -100,26 +98,26 @@
                         </li>
                     </sitePartsTags>
                 </li>
-                
+    
                 <li Class="QuestNode_GetDefaultSitePartsParams">
                     <tile>$siteTile</tile>
                     <faction>$siteFaction</faction>
                     <sitePartDefs>$sitePartDefs</sitePartDefs>
                     <storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
                 </li>
-                
+    
                 <li Class="QuestNode_SubScript">
                     <def>Util_GenerateSite</def>
                     <parms>
                         <hiddenSitePartsPossible>true</hiddenSitePartsPossible>
                     </parms>
                 </li>
-                
+    
                 <li Class="QuestNode_SpawnWorldObjects">
                     <worldObjects>$site</worldObjects>
                     <defsToExcludeFromHyperlinks>Human</defsToExcludeFromHyperlinks>
                 </li>
-                
+    
                 <li Class="QuestNode_WorldObjectTimeout">
                     <worldObject>$site</worldObject>
                     <isQuestTimeout>true</isQuestTimeout>
@@ -130,13 +128,13 @@
                         <sendStandardLetter>true</sendStandardLetter>
                     </node>
                 </li>
-                
+    
                 <li Class="QuestNode_AddPawnReward">
                     <pawn>$prisoner</pawn>
                     <inSignalChoiceUsed>site.MapGenerated</inSignalChoiceUsed>
                     <rewardDetailsHidden>true</rewardDetailsHidden>
                 </li>
-                
+    
                 <li Class="QuestNode_NoWorldObject">
                     <worldObject>$site</worldObject>
                     <node Class="QuestNode_End"/>

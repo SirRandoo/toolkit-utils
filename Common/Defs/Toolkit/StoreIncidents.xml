@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Defs>
     <TwitchToolkit.Incidents.StoreIncidentSimple>
@@ -60,7 +60,7 @@
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuySurgery</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>2</variables>
-    
+        
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">
                 <EventType>Item</EventType>

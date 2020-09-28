@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Defs>
     <TwitchToolkit.Command Name="ShortcutBase" Abstract="true">
@@ -10,7 +10,7 @@
         <defName>ReviveAllShortcut</defName>
         <label>revive all</label>
         <command>reviveall</command>
-        
+    
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A colony wide resurrector mech serum.</Description>
@@ -123,7 +123,7 @@
         <defName>ReviveAnyPawnShortcut</defName>
         <label>revive any pawn</label>
         <command>reviveanypawn</command>
-    
+        
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A resurrector mech serum for a random dead colonist.</Description>
@@ -135,7 +135,7 @@
         <defName>HealAnyPawnShortcut</defName>
         <label>heal any pawn</label>
         <command>healanypawn</command>
-    
+        
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>A healer mech serum for a random colonist.</Description>
@@ -151,7 +151,7 @@
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Replaces a trait with a different trait.</Description>
-                
+    
                 <Parameters>
                     <li>
                         <Name>Old</Name>
@@ -172,7 +172,7 @@
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>It's like buy item, but it gets added to your inventory if possible.</Description>
-                
+    
                 <Parameters>
                     <li>
                         <Name>Item</Name>
@@ -250,7 +250,7 @@
         <label>viewer kill count</label>
         <command>mypawnkills</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnKills</commandDriver>
-        
+    
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows your current kill count.</Description>
@@ -416,7 +416,7 @@
         <label>abandon pawn</label>
         <command>leave</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnLeave</commandDriver>
-    
+        
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Makes your pawn leave the colony.</Description>
@@ -449,7 +449,7 @@
         <label>factions</label>
         <command>factions</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Factions</commandDriver>
-        
+    
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows an overview of the colony's current faction relations.</Description>
@@ -485,7 +485,7 @@
         <label>lookup</label>
         <command>lookup</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Lookup</commandDriver>
-        
+    
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows the first few results for the query in the given category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', 'skills', and 'stats'.</Description>
@@ -536,7 +536,7 @@
         <command>unstick</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Unstick</commandDriver>
         <requiresMod>true</requiresMod>
-    
+        
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Removes viewers that were stuck in the "game paused" limbo.</Description>
@@ -582,7 +582,7 @@
         <label>colony wealth</label>
         <command>wealth</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Wealth</commandDriver>
-    
+        
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows the colony's current wealth. This command uses the same value the storyteller will use.</Description>
@@ -595,7 +595,7 @@
         <label>colonist count</label>
         <command>colonists</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.ColonistCount</commandDriver>
-    
+        
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Shows the current number of colonists remaining in the colony.</Description>
@@ -612,7 +612,7 @@
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Description>Provides some information about supported things. Supported categories are: weapons</Description>
-                
+    
                 <Parameters>
                     <li>
                         <Names>

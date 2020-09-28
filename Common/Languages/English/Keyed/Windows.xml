@@ -39,13 +39,13 @@
     <TKUtils.ItemStore.Title>Store Inventory</TKUtils.ItemStore.Title>
     <TKUtils.ItemStore.Category>Category</TKUtils.ItemStore.Category>
     <TKUtils.ItemStore.Stuff>Can be stuff?</TKUtils.ItemStore.Stuff>
-    
+
     <TKUtils.FilterTypes.Mod>Mods</TKUtils.FilterTypes.Mod>
     <TKUtils.FilterTypes.Category>Categories</TKUtils.FilterTypes.Category>
     <TKUtils.FilterTypes.TechLevel>Technology Level</TKUtils.FilterTypes.TechLevel>
     <TKUtils.FilterTypes.Stackable>Stackability</TKUtils.FilterTypes.Stackable>
     <TKUtils.FilterTypes.Research>Research Status</TKUtils.FilterTypes.Research>
-    
+
     <TKUtils.StoreFilters.Stackable>stackable</TKUtils.StoreFilters.Stackable>
     <TKUtils.StoreFilters.NonStackable>non-stackables</TKUtils.StoreFilters.NonStackable>
     <TKUtils.StoreFilters.Researched>researched</TKUtils.StoreFilters.Researched>

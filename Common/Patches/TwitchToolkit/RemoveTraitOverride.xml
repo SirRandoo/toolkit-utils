@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Patch>
     <Operation Class="PatchOperationSequence">
@@ -11,7 +11,8 @@
                 <success>Invert</success>
             </li>
             <li Class="PatchOperationReplace">
-                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="RemoveTrait"]/incidentHelper
+                <xpath>
+                    /Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="RemoveTrait"]/incidentHelper
                 </xpath>
                 <value>
                     <incidentHelper>SirRandoo.ToolkitUtils.Incidents.RemoveTrait</incidentHelper>
