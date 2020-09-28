@@ -62,6 +62,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string nameHeader;
         private string noCustomKarmaText;
         private string priceHeader;
+        private string quantityLimitText;
         private string resetAllText;
 
         private Vector2 resetAllTextSize;
@@ -267,6 +268,23 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
             }
 
+
+            listing.GapLine(4f);
+            listing.CheckboxLabeled(quantityLimitText, ref expanded.Data.HasQuantityLimit);
+
+            if (expanded.Data.HasQuantityLimit)
+            {
+                (Rect _, Rect quantityLimitField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
+                var quantityLimitBuffer = expanded.Data.QuantityLimit.ToString();
+                Widgets.TextFieldNumeric(
+                    quantityLimitField,
+                    ref expanded.Data.QuantityLimit,
+                    ref quantityLimitBuffer,
+                    1f
+                );
+            }
+
+
             if (expanded.Thing.IsStuff)
             {
                 listing.Gap(2f);
@@ -306,6 +324,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 expanded.Data.CustomName = expanded.GetDefaultName();
                 expanded.Data.KarmaType = null;
+                expanded.Data.HasQuantityLimit = false;
+                expanded.Data.QuantityLimit = -1;
             }
 
             listing.End();
@@ -318,9 +338,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             Rect expandedDialog = new Rect(
                 center.x - expandedWidth / 2f,
-                center.y - Text.LineHeight * LineScale * 4f,
+                center.y - Text.LineHeight * LineScale * 5f,
                 expandedWidth,
-                Text.LineHeight * LineScale * 8f
+                Text.LineHeight * LineScale * 10f
             ).ExpandedBy(StandardMargin * 2f);
 
             Widgets.DrawBoxSolid(expandedDialog, OverlayBackgroundColor);
@@ -1015,6 +1035,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             karmaTypeText = "TKUtils.IncidentEditor.Karma".Localize();
             localize = "TKUtils.Headers.FilterDialog".Localize();
             stuffText = "TKUtils.ItemStore.Stuff".Localize();
+            quantityLimitText = "TKUtils.ItemStore.QuantityLimit".Localize();
 
             resetAllTextSize = Text.CalcSize(resetAllText);
             enableAllTextSize = Text.CalcSize(enableAllText);

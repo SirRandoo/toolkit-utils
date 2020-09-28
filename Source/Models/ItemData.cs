@@ -8,6 +8,8 @@ namespace SirRandoo.ToolkitUtils.Models
     public class ItemData
     {
         [DefaultValue(null)] public string CustomName;
+
+        public bool HasQuantityLimit;
         public bool IsMelee;
         public bool IsRanged;
         [DefaultValue(true)] public bool IsStuffAllowed;
@@ -15,7 +17,6 @@ namespace SirRandoo.ToolkitUtils.Models
         [DefaultValue(null)] public KarmaType? KarmaType;
 
         public string Mod;
-
         [DefaultValue(-1)] public int QuantityLimit;
     }
 }

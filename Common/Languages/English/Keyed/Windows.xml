@@ -39,6 +39,7 @@
     <TKUtils.ItemStore.Title>Store Inventory</TKUtils.ItemStore.Title>
     <TKUtils.ItemStore.Category>Category</TKUtils.ItemStore.Category>
     <TKUtils.ItemStore.Stuff>Can be stuff?</TKUtils.ItemStore.Stuff>
+    <TKUtils.ItemStore.QuantityLimit>Quantity limit</TKUtils.ItemStore.QuantityLimit>
 
     <TKUtils.FilterTypes.Mod>Mods</TKUtils.FilterTypes.Mod>
     <TKUtils.FilterTypes.Category>Categories</TKUtils.FilterTypes.Category>
