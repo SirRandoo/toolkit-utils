@@ -85,7 +85,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             pawn.story.traits.allTraits.Add(trait);
+        #if !RW11
             trait.pawn = pawn;
+        #endif
             pawn.Notify_DisabledWorkTypesChanged();
             pawn.skills?.Notify_SkillDisablesChanged();
 
