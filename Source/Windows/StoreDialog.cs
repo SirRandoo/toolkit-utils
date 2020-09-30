@@ -79,7 +79,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         static StoreDialog()
         {
-            Data.Items = GenerateContainers().Where(c => c != null).ToList();
             _validator = GenerateContainers().GetEnumerator();
         }
 
