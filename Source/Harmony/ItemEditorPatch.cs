@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             TkLogger.Info(
                 "ToolkitUtils' item container count didn't match what Twitch Toolkit found; rebuilding list..."
             );
-            Data.Items = StoreDialog.GenerateContainers().ToList();
+            Data.Items = StoreDialog.ValidateContainers().ToList();
         }
     }
 }

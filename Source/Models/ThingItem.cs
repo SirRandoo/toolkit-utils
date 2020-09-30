@@ -10,11 +10,36 @@ namespace SirRandoo.ToolkitUtils.Models
         private ItemData data;
 
         public bool IsEnabled;
-        public string DefName => Item.defname;
-        public string Name => Data?.CustomName ?? Item.abr;
-        public int Price => Item.price;
+        private Item item;
+        public string DefName => Item?.defname ?? Thing.defName;
+        public string Name => Data?.CustomName ?? Item?.abr ?? "Fetching...";
+        public int Price => Item?.price ?? -10;
 
-        public Item Item { get; set; }
+        public Item Item
+        {
+            get
+            {
+                if (item != null)
+                {
+                    return item;
+                }
+
+                item = StoreInventory.items.Find(i => i.defname.Equals(Thing.defName));
+
+                if (item == null)
+                {
+                    item = new Item(Thing.CalculateStorePrice(), Thing.label.ToToolkit(), Thing.defName);
+                    StoreInventory.items.Add(item);
+                }
+                else
+                {
+                    IsEnabled = item.price > 0;
+                }
+
+                return item;
+            }
+            set => item = value;
+        }
 
         public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
         public ThingDef Thing { get; set; }
@@ -60,6 +85,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Update()
         {
+            if (Item == null)
+            {
+                return;
+            }
+
             if (Item.price == 0)
             {
                 IsEnabled = false;

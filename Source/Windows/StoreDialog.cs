@@ -77,7 +77,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         static StoreDialog()
         {
-            _validator = GenerateContainers().GetEnumerator();
+            _validator = ValidateContainers().GetEnumerator();
         }
 
         public StoreDialog()
@@ -560,7 +560,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 lineRect.height
             );
 
-            if (item.Item.price > 0)
+            if (item.Item?.price > 0)
             {
                 SettingsHelper.DrawPriceField(priceRect, ref item.Item.price, ref ctrlKeyDown, ref shftKeyDown);
             }
@@ -1040,23 +1040,23 @@ namespace SirRandoo.ToolkitUtils.Windows
             categoryHeaderSize = Text.CalcSize(categoryHeader);
         }
 
-        internal static IEnumerable<ThingItem> GenerateContainers()
+        internal static IEnumerable<ThingItem> ValidateContainers()
         {
-            IEnumerable<ThingDef> things = GetTradeables();
             var builder = new StringBuilder();
 
-            foreach (ThingDef thing in things)
+            foreach (ThingDef thing in GetTradeables())
             {
                 if (thing?.defName == null)
                 {
                     continue;
                 }
 
-                ThingItem thingItem = null;
+                ThingItem thingItem = Data.Items.Find(i => i.DefName.Equals(thing.defName))
+                                      ?? new ThingItem {Thing = thing};
 
                 try
                 {
-                    Item item = StoreInventory.items.FirstOrDefault(i => i?.defname?.Equals(thing.defName) ?? false);
+                    Item item = StoreInventory.items.Find(i => i?.defname?.Equals(thing.defName) ?? false);
 
                     if (item == null)
                     {
@@ -1073,7 +1073,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                         item.abr ??= thing.label?.ToToolkit() ?? thing.defName;
                     }
 
-                    thingItem = ThingItem.FromData(item, thing);
+                    thingItem.IsEnabled = item.price > 0;
+                    thingItem.Item = item;
+                    thingItem.Update();
                 }
                 catch (Exception e)
                 {
@@ -1088,7 +1090,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 yield break;
             }
 
-            builder.Insert(0, "The following containers failed to generate:\n");
+            builder.Insert(0, "The following containers couldn't be validated:\n");
             TkLogger.Warn(builder.ToString());
         }
     }

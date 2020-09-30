@@ -11,6 +11,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Models;
 using TwitchToolkit;
 using TwitchToolkit.Store;
@@ -85,6 +86,7 @@ namespace SirRandoo.ToolkitUtils
                 LoadItemData(Paths.ItemDataFilePath);
             }
 
+            ValidateItems();
             ValidateItemData();
             ValidatePawnKinds();
             ValidateTraits();
@@ -107,6 +109,11 @@ namespace SirRandoo.ToolkitUtils
         public static ModItem[] Mods { get; private set; }
         public static List<ThingItem> Items { get; set; }
         public static List<RecipeDef> Surgeries { get; set; }
+
+        private static void ValidateItems()
+        {
+            Items = StoreDialog.GetTradeables().Select(t => new ThingItem {Thing = t}).ToList();
+        }
 
         private static void MigrateFromLegacy(string path)
         {
