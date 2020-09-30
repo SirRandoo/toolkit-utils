@@ -136,6 +136,8 @@ namespace SirRandoo.ToolkitUtils
 
             if (contents == null)
             {
+                Traits = new List<TraitItem>();
+                PawnKinds = new List<PawnKindItem>();
                 return;
             }
 
