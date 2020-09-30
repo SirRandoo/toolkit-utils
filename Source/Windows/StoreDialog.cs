@@ -6,7 +6,6 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit;
-using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -40,7 +39,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private readonly ThingItemFilterManager filterManager =
             new ThingItemFilterManager() {UniqueFilters = new List<FilterTypes> {FilterTypes.Stackable}};
 
-        private readonly KarmaType thingKarmaType;
         private string categoryHeader;
         private Vector2 categoryHeaderSize;
         private bool categorySearch;
@@ -88,7 +86,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GetTranslationStrings();
             optionalTitle = title;
-            thingKarmaType = DefDatabase<StoreIncidentVariables>.GetNamedSilentFail("Item").karmaType;
         }
 
         public bool FilterMenuActive
@@ -229,7 +226,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawThingSettings(Rect inRect)
         {
-            expanded.Data ??= new ItemData {KarmaType = thingKarmaType};
+            expanded.Data ??= new ItemData();
             string removeKarma = expanded.Data.KarmaType == null
                 ? noCustomKarmaText
                 : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaType);
