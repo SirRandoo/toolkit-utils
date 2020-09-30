@@ -276,9 +276,6 @@ namespace SirRandoo.ToolkitUtils
 
                 if (traitItems.Length > 0)
                 {
-                    TkLogger.Info(
-                        $"Adding {traitItems.Length} new items: {traitItems.Select(t => t.Name).ToStringSafeEnumerable()}"
-                    );
                     Traits.AddRange(traitItems);
                 }
             }
