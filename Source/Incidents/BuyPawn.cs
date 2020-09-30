@@ -162,7 +162,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 viewer.username,
                 "TKUtils.InsufficientBalance".Localize(
                     target.Cost.ToString("N0"),
-                    Viewer.GetViewerCoins().ToString("N0")
+                    viewer.GetViewerCoins().ToString("N0")
                 )
             );
             return false;
