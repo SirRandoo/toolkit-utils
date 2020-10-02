@@ -231,7 +231,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private SkillRecord GetRandomEligibleSkillForDecrease()
         {
             return pawn.skills.skills.Where(s => !s.TotallyDisabled)
-               .Where(s => (int) s.passion is { } passion && passion <= 3 && passion > 0)
+               .Where(s => (int) s.passion is { } passion && passion <= 2 && passion > 0)
                .RandomElementWithFallback();
         }
     }
