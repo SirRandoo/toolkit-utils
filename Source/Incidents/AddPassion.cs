@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!IncidentSettings.AddPassion.Randomness)
             {
-                target.passion = (Passion) Mathf.Clamp((int) target.passion + 1, 0, 3);
+                target.passion = (Passion) Mathf.Clamp((int) target.passion + 1, 0, 2);
                 return;
             }
 
@@ -86,7 +86,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     return;
                 }
 
-                skill.passion = (Passion) Mathf.Clamp((int) skill.passion + 1, 0, 3);
+                skill.passion = (Passion) Mathf.Clamp((int) skill.passion + 1, 0, 2);
                 ChargeViewer();
                 NotifyHopped(target, skill);
                 return;
@@ -94,7 +94,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance())
             {
-                target.passion = (Passion) Mathf.Clamp((int) target.passion - 1, 0, 3);
+                target.passion = (Passion) Mathf.Clamp((int) target.passion - 1, 0, 2);
                 ChargeViewer();
                 NotifyDecrease(target);
                 return;
@@ -111,13 +111,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     return;
                 }
 
-                skill.passion = (Passion) Mathf.Clamp((int) skill.passion - 1, 0, 3);
+                skill.passion = (Passion) Mathf.Clamp((int) skill.passion - 1, 0, 2);
                 ChargeViewer();
                 NotifyDecreaseHopped(target, skill);
                 return;
             }
 
-            target.passion = (Passion) Mathf.Clamp((int) target.passion + 1, 0, 3);
+            target.passion = (Passion) Mathf.Clamp((int) target.passion + 1, 0, 2);
             ChargeViewer();
             NotifySuccess(target);
         }
