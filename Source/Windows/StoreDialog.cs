@@ -485,7 +485,21 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                DrawThingItem(lineRect, infoHeaderRect, item, priceHeaderRect, categoryHeaderRect);
+                try
+                {
+                    DrawThingItem(lineRect, infoHeaderRect, item, priceHeaderRect, categoryHeaderRect);
+                }
+                catch (Exception e)
+                {
+                    SettingsHelper.DrawLabelAnchored(
+                        lineRect,
+                        "An error has occurred while drawing this",
+                        TextAnchor.MiddleLeft
+                    );
+                    TkLogger.Warn(
+                        $@"Could not draw item @ ""{item.DefName ?? "null"}"" | Exception: {e.GetType().Name}({e.Message})\n\n{e.StackTrace}"
+                    );
+                }
 
                 if (!closeCalled)
                 {
@@ -789,7 +803,17 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (_validator != null)
             {
-                AdvanceValidator();
+                try
+                {
+                    AdvanceValidator();
+                }
+                catch (Exception e)
+                {
+                    TkLogger.Warn(
+                        $"Validator encountered an error! | Exception: {e.GetType().Name}({e.Message})\n{e.StackTrace}"
+                    );
+                    _validator = null;
+                }
             }
 
             if (lastQuery.Equals(currentQuery))
@@ -870,11 +894,22 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreClose()
         {
-            foreach (ThingItem c in Data.Items.Where(c => c.Item == null))
+            try
             {
-                c.Item = new Item(c.Thing.CalculateStorePrice(), c.Thing.LabelCap.RawText.ToToolkit(), c.Thing.defName);
+                foreach (ThingItem c in Data.Items.Where(c => c.Item == null))
+                {
+                    c.Item = new Item(
+                        c.Thing.CalculateStorePrice(),
+                        c.Thing.LabelCap.RawText.ToToolkit(),
+                        c.Thing.defName
+                    );
 
-                StoreInventory.items.Add(c.Item);
+                    StoreInventory.items.Add(c.Item);
+                }
+            }
+            catch (Exception e)
+            {
+                TkLogger.Error("Could not polyfill Twitch Toolkit's items...", e);
             }
 
             base.PreClose();
@@ -907,8 +942,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
+            Item tItem = item.Item;
             GUI.color = Color.yellow;
-            SettingsHelper.DrawLabelAnchored(labelRegion, item.Name, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabelAnchored(labelRegion, tItem?.abr ?? "?", TextAnchor.MiddleLeft);
             GUI.color = Color.white;
             GUI.DrawTexture(iconRegion, Textures.QuestionMark);
         }
