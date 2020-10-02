@@ -24,7 +24,12 @@ namespace SirRandoo.ToolkitUtils.Models
                     return item;
                 }
 
-                item = StoreInventory.items.Find(i => i.defname.Equals(Thing.defName));
+                if (Thing == null)
+                {
+                    return null;
+                }
+
+                item = StoreInventory.items.Find(i => i?.defname?.Equals(Thing.defName) ?? false);
 
                 if (item == null)
                 {
