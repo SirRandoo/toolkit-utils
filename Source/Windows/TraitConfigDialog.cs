@@ -179,11 +179,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 expanded.Data!.CustomName = false;
             }
 
-            SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(nameLabel, nameText);
 
             listing.GapLine(Text.LineHeight * LineScale);
             (Rect addKarmaLabel, Rect addKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
-            SettingsHelper.DrawLabelAnchored(addKarmaLabel, addKarmaTypeText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(addKarmaLabel, addKarmaTypeText);
             if (Widgets.ButtonText(addKarmaField, addKarma))
             {
                 Find.WindowStack.Add(
@@ -201,7 +201,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.Gap(1f);
             (Rect removeKarmaLabel, Rect removeKarmaField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
-            SettingsHelper.DrawLabelAnchored(removeKarmaLabel, removeKarmaTypeText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(removeKarmaLabel, removeKarmaTypeText);
             if (Widgets.ButtonText(removeKarmaField, removeKarma))
             {
                 Find.WindowStack.Add(
@@ -358,7 +358,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     }
                 }
 
-                SettingsHelper.DrawLabelAnchored(nameRect, trait.Name, TextAnchor.MiddleLeft);
+                SettingsHelper.DrawLabel(nameRect, trait.Name);
                 Widgets.Checkbox(addRect.position, ref trait.CanAdd, paintable: true);
                 SettingsHelper.DrawPriceField(addCostRect, ref trait.CostToAdd, ref control, ref shift);
                 Widgets.Checkbox(removeRect.position, ref trait.CanRemove, paintable: true);

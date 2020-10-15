@@ -233,7 +233,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     lineRect.height
                 );
 
-                SettingsHelper.DrawLabelAnchored(labelRect, viewer.username, TextAnchor.MiddleLeft);
+                SettingsHelper.DrawLabel(labelRect, viewer.username);
                 if (!Widgets.ButtonText(exemptRect, exemptText))
                 {
                     continue;

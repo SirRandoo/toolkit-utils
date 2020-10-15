@@ -331,10 +331,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawKindItem(Rect nameRect, PawnKindItem item, Rect stateRect, Rect priceRect, Rect settingsRect)
         {
-            SettingsHelper.DrawLabelAnchored(
+            SettingsHelper.DrawLabel(
                 nameRect,
-                item.Name.ToLowerInvariant().Equals(item.Name) ? item.Name.CapitalizeFirst() : item.Name,
-                TextAnchor.MiddleLeft
+                item.Name.ToLowerInvariant().Equals(item.Name) ? item.Name.CapitalizeFirst() : item.Name
             );
 
             Widgets.Checkbox(stateRect.x, stateRect.y, ref item.Enabled, paintable: true);
@@ -423,11 +422,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 expanded.Data!.CustomName = false;
             }
 
-            SettingsHelper.DrawLabelAnchored(nameLabel, nameText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(nameLabel, nameText);
 
             listing.Gap(4f);
             (Rect karmaTypeLabel, Rect karmaTypeField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.45f);
-            SettingsHelper.DrawLabelAnchored(karmaTypeLabel, karmaTypeText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(karmaTypeLabel, karmaTypeText);
             if (Widgets.ButtonText(karmaTypeField, removeKarma))
             {
                 Find.WindowStack.Add(

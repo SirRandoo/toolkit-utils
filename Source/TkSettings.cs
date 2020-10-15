@@ -255,7 +255,7 @@ namespace SirRandoo.ToolkitUtils
                 Widgets.DrawLineVertical(currentTabCanvas.x + entry.Width, currentTabCanvas.y, currentTabCanvas.height);
 
                 GUI.color = cache;
-                SettingsHelper.DrawLabelAnchored(currentTabCanvas, entry.Label, TextAnchor.MiddleCenter);
+                SettingsHelper.DrawLabel(currentTabCanvas, entry.Label, TextAnchor.MiddleCenter);
 
                 if (Widgets.ButtonInvisible(currentTabCanvas))
                 {

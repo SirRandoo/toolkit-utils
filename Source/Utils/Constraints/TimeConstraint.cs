@@ -63,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             inputRect.width -= buttonRect.width - 5f;
 
-            SettingsHelper.DrawLabelAnchored(labelRect, labelText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(labelRect, labelText);
             DrawButton(buttonRect);
             Widgets.TextFieldNumeric(inputRect, ref value, ref buffer);
 

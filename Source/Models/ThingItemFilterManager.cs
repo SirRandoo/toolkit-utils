@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
@@ -124,6 +125,7 @@ namespace SirRandoo.ToolkitUtils.Models
             filter.Active = false;
         }
 
+        [SuppressMessage("ReSharper", "CognitiveComplexity")]
         public void DrawFilters(Rect canvas)
         {
             GUI.BeginGroup(canvas);
@@ -217,7 +219,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 if (textRect.width < filter.LabelWidth)
                 {
-                    SettingsHelper.DrawSmallLabelAnchored(textRect, filter.Label, TextAnchor.MiddleLeft);
+                    SettingsHelper.DrawLabel(textRect, filter.Label, fontScale: GameFont.Tiny);
                 }
                 else
                 {

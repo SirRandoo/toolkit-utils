@@ -22,7 +22,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
             (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
 
-            SettingsHelper.DrawLabelAnchored(labelRect, labelText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(labelRect, labelText);
             DrawButton(buttonRect);
             Widgets.TextFieldNumeric(inputRect, ref karma, ref buffer);
         }

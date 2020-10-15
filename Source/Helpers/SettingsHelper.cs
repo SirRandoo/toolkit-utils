@@ -1,4 +1,8 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using HarmonyLib;
+using RimWorld;
 using Steamworks;
 using UnityEngine;
 using Verse;
@@ -7,6 +11,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class SettingsHelper
     {
+        private static readonly FieldInfo SelectedModField = AccessTools.Field(typeof(Dialog_ModSettings), "selMod");
+
         public static bool DrawClearButton(Rect canvas)
         {
             var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
@@ -23,6 +29,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return true;
         }
 
+        [SuppressMessage("ReSharper", "CognitiveComplexity")]
         public static void DrawPriceField(Rect canvas, ref int price, ref bool control, ref bool shift)
         {
             const float buttonWidth = 50f;
@@ -165,7 +172,17 @@ namespace SirRandoo.ToolkitUtils.Helpers
             GUI.FocusControl(null);
         }
 
+        public static bool WasLeftClicked(this Rect region)
+        {
+            return WasMouseButtonClicked(region, 0);
+        }
+
         public static bool WasRightClicked(this Rect region)
+        {
+            return WasMouseButtonClicked(region, 1);
+        }
+
+        public static bool WasMouseButtonClicked(this Rect region, int mouseButton)
         {
             if (!Mouse.IsOver(region))
             {
@@ -173,7 +190,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             Event current = Event.current;
-            bool was = current.button == 1;
+            bool was = current.button == mouseButton;
 
             switch (current.type)
             {
@@ -211,31 +228,86 @@ namespace SirRandoo.ToolkitUtils.Helpers
             GUI.color = old;
         }
 
-        public static void DrawLabelAnchored(Rect region, string text, TextAnchor anchor)
+        public static void DrawLabel(
+            Rect region,
+            string text,
+            TextAnchor anchor = TextAnchor.MiddleLeft,
+            GameFont fontScale = GameFont.Small,
+            bool vertical = false
+        )
         {
-            TextAnchor cache = Text.Anchor;
-
             Text.Anchor = anchor;
+            Text.Font = fontScale;
+
+            if (vertical)
+            {
+                region.y += region.width;
+                GUIUtility.RotateAroundPivot(-90f, region.position);
+            }
+
             Widgets.Label(region, text);
-            Text.Anchor = cache;
+
+            if (vertical)
+            {
+                GUI.matrix = Matrix4x4.identity;
+            }
+
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
         }
 
-        public static void DrawBigLabelAnchored(Rect region, string text, TextAnchor anchor)
+        public static bool DrawTabButton(
+            Rect region,
+            string text,
+            TextAnchor anchor = TextAnchor.MiddleLeft,
+            GameFont fontScale = GameFont.Small,
+            bool vertical = false,
+            bool selected = false
+        )
         {
-            GameFont cache = Text.Font;
+            Text.Anchor = anchor;
+            Text.Font = fontScale;
 
-            Text.Font = GameFont.Medium;
-            DrawLabelAnchored(region, text, anchor);
-            Text.Font = cache;
+            if (vertical)
+            {
+                region.y += region.width;
+                GUIUtility.RotateAroundPivot(-90f, region.position);
+            }
+
+            GUI.color = selected ? new Color(0.46f, 0.49f, 0.5f) : new Color(0.21f, 0.23f, 0.24f);
+            Widgets.DrawHighlight(region);
+            GUI.color = Color.white;
+
+            if (!selected && Mouse.IsOver(region))
+            {
+                Widgets.DrawLightHighlight(region);
+            }
+
+            Widgets.Label(region, text);
+            bool pressed = Widgets.ButtonInvisible(region);
+
+            if (vertical)
+            {
+                GUI.matrix = Matrix4x4.identity;
+            }
+
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            return pressed;
         }
 
-        public static void DrawSmallLabelAnchored(Rect region, string text, TextAnchor anchor)
+        public static void DrawColoredLabel(
+            Rect region,
+            string text,
+            Color color,
+            TextAnchor anchor = TextAnchor.MiddleLeft,
+            GameFont fontScale = GameFont.Small,
+            bool vertical = false
+        )
         {
-            GameFont cache = Text.Font;
-
-            Text.Font = GameFont.Tiny;
-            DrawLabelAnchored(region, text, anchor);
-            Text.Font = cache;
+            GUI.color = color;
+            DrawLabel(region, text, anchor, fontScale, vertical);
+            GUI.color = Color.white;
         }
 
         public static Tuple<Rect, Rect> ToForm(this Rect region, float factor = 0.8f)
@@ -274,6 +346,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Widgets.DrawHighlightIfMouseover(region);
         }
 
+        public static void OpenSettingsMenuFor(Mod modInstance)
+        {
+            var settings = new Dialog_ModSettings();
+            SelectedModField.SetValue(settings, modInstance);
+
+            Find.WindowStack.Add(settings);
+        }
+
         public static Rect TrimLeft(this Rect region, float amount)
         {
             return new Rect(region.x + amount, region.y, region.width - amount, region.height);
@@ -295,10 +375,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
             GUI.color = color;
             Text.Font = GameFont.Tiny;
             float height = Text.CalcHeight(description, listing.ColumnWidth * 0.7f);
-            DrawSmallLabelAnchored(
+            DrawLabel(
                 listing.GetRect(height).TrimLeft(10f).WithWidth(listing.ColumnWidth * 0.7f),
                 description,
-                TextAnchor.UpperLeft
+                TextAnchor.UpperLeft,
+                GameFont.Tiny
             );
             GUI.color = Color.white;
             Text.Font = fontCache;
@@ -318,7 +399,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 listing.Gap(Text.LineHeight * 1.25f);
             }
 
-            DrawSmallLabelAnchored(listing.GetRect(Text.LineHeight), heading, TextAnchor.LowerLeft);
+            DrawLabel(listing.GetRect(Text.LineHeight), heading, TextAnchor.LowerLeft, GameFont.Tiny);
             listing.GapLine(6f);
         }
 
@@ -330,7 +411,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             Rect lineRect = listing.GetRect(Text.LineHeight);
-            DrawSmallLabelAnchored(lineRect, modName, TextAnchor.LowerLeft);
+            DrawLabel(lineRect, modName, TextAnchor.LowerLeft, GameFont.Tiny);
 
             string modRequirementString = "TKUtils.ModRequirement".Localize(modName);
             GUI.color = new Color(1f, 0.53f, 0.76f);
@@ -340,7 +421,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             var modRequirementRect = new Rect(lineRect.x + lineRect.width - width, lineRect.y, width, Text.LineHeight);
             Text.Font = GameFont.Small;
 
-            DrawSmallLabelAnchored(lineRect, modRequirementString, TextAnchor.LowerRight);
+            DrawLabel(lineRect, modRequirementString, TextAnchor.LowerRight, GameFont.Tiny);
             GUI.color = Color.white;
 
             Widgets.DrawHighlightIfMouseover(modRequirementRect);

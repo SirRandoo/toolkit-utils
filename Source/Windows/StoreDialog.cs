@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             new Dictionary<ThingItem, List<FloatMenuOption>>();
 
         private readonly ThingItemFilterManager filterManager =
-            new ThingItemFilterManager() {UniqueFilters = new List<FilterTypes> {FilterTypes.Stackable}};
+            new ThingItemFilterManager {UniqueFilters = new List<FilterTypes> {FilterTypes.Stackable}};
 
         private string categoryHeader;
         private Vector2 categoryHeaderSize;
@@ -244,11 +244,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 expanded.Data.CustomName = null;
             }
 
-            SettingsHelper.DrawLabelAnchored(nameLabel, customNameText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(nameLabel, customNameText);
 
             listing.Gap(4f);
             (Rect karmaTypeLabel, Rect karmaTypeField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
-            SettingsHelper.DrawLabelAnchored(karmaTypeLabel, karmaTypeText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(karmaTypeLabel, karmaTypeText);
             if (Widgets.ButtonText(karmaTypeField, removeKarma))
             {
                 Find.WindowStack.Add(
@@ -299,7 +299,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     stuffLineRect.height
                 );
 
-                SettingsHelper.DrawLabelAnchored(stuffLineRect, stuffText, TextAnchor.MiddleLeft);
+                SettingsHelper.DrawLabel(stuffLineRect, stuffText);
                 Widgets.Checkbox(
                     stuffCheckRect.position,
                     ref expanded.Data.IsStuffAllowed,
@@ -491,10 +491,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
                 catch (Exception e)
                 {
-                    SettingsHelper.DrawLabelAnchored(
-                        lineRect,
-                        "An error has occurred while drawing this",
-                        TextAnchor.MiddleLeft
+                    SettingsHelper.DrawLabel(
+                        new Rect(30f, lineRect.y, lineRect.width - 30f, lineRect.height),
+                        "An error has occurred while drawing this"
                     );
                     TkLogger.Warn(
                         $@"Could not draw item @ ""{item.DefName ?? "null"}"" | Exception: {e.GetType().Name}({e.Message})\n\n{e.StackTrace}"
@@ -586,7 +585,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 lineRect.height
             );
 
-            SettingsHelper.DrawLabelAnchored(categoryRect, item.Category, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(categoryRect, item.Category);
             DrawCategoryCtxFor(categoryRect, item);
 
             var settingsRect = new Rect(categoryRect.x + categoryRect.width + 5f, lineRect.y, 27f, lineRect.height);
@@ -737,7 +736,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
 
             GUI.DrawTexture(categoryCheck, categorySearch ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
-            SettingsHelper.DrawSmallLabelAnchored(categoryText, categoryHeader, TextAnchor.UpperLeft);
+            SettingsHelper.DrawLabel(categoryText, categoryHeader, TextAnchor.UpperLeft, GameFont.Tiny);
 
             if (Widgets.ButtonInvisible(categoryLine))
             {
@@ -924,7 +923,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (item.Thing != null)
             {
-                SettingsHelper.DrawLabelAnchored(labelRegion, item.Name, TextAnchor.MiddleLeft);
+                SettingsHelper.DrawLabel(labelRegion, item.Name);
                 Widgets.ThingIcon(iconRegion, item.Thing);
 
                 if (Current.Game == null)
@@ -943,9 +942,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             Item tItem = item.Item;
-            GUI.color = Color.yellow;
-            SettingsHelper.DrawLabelAnchored(labelRegion, tItem?.abr ?? "?", TextAnchor.MiddleLeft);
-            GUI.color = Color.white;
+            SettingsHelper.DrawColoredLabel(labelRegion, tItem?.abr ?? "?", Color.yellow);
             GUI.DrawTexture(iconRegion, Textures.QuestionMark);
         }
 

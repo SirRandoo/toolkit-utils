@@ -16,7 +16,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public override void Draw(Rect canvas)
         {
-            SettingsHelper.DrawLabelAnchored(canvas, labelText, TextAnchor.MiddleLeft);
+            SettingsHelper.DrawLabel(canvas, labelText);
         }
 
         public override bool ShouldPurge(Viewer viewer)
