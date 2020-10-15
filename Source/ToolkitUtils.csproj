@@ -260,7 +260,6 @@
         <Compile Include="Utils\ModComp\TMagic.cs"/>
         <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
         <Compile Include="Utils\ShopExpansion.cs"/>
-        <Compile Include="Utils\TabWorker.cs"/>
         <Compile Include="Utils\Unrichify.cs"/>
         <Compile Include="Windows\AddPassionDialog.cs"/>
         <Compile Include="Windows\ToolkitEditor.cs"/>
@@ -272,6 +271,7 @@
         <Compile Include="Windows\StoreIncidentEditor.cs"/>
         <Compile Include="Windows\TkUtilsWindow.cs"/>
         <Compile Include="Windows\TraitConfigDialog.cs"/>
+        <Compile Include="Workers\TabWorker.cs"/>
     </ItemGroup>
     <ItemGroup>
         <Content Include="..\About\About.xml">
