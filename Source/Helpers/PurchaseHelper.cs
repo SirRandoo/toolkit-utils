@@ -52,6 +52,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 projects.AddRange(thing.recipeMaker.researchPrerequisites.Where(p => !p.IsFinished));
             }
 
+            if (thing.researchPrerequisites?.Any(p => !p.IsFinished) ?? false)
+            {
+                projects.AddRange(thing.researchPrerequisites.Where(p => !p.IsFinished));
+            }
+
+            projects.RemoveDuplicates();
             return projects;
         }
 
