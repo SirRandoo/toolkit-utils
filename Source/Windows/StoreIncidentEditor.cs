@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 listing.GetRect(Text.LineHeight).ToForm(titleWidth / inRect.width);
 
             Widgets.Label(titleRect, storeIncident.LabelCap);
-            DrawButtonHeader(buttonHeaderRect);
+            DrawButtonHeader(buttonHeaderRect.Rounded());
             listing.GapLine(Text.LineHeight * 3);
 
             if (storeIncident.cost > 0)
@@ -191,15 +191,18 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(inRect);
 
-            if (storeIncident.cost > 0 && Widgets.ButtonText(buttonRect, disableText))
+            if (storeIncident.cost > 0)
             {
-                storeIncident.cost = -10;
+                if (Widgets.ButtonText(buttonRect, disableText))
+                {
+                    storeIncident.cost = -10;
+                }
+
+                buttonRect = buttonRect.ShiftLeft(0f);
             }
 
             if (!storeIncident.defName.Equals("Item"))
             {
-                buttonRect = buttonRect.ShiftLeft(0f);
-
                 if (Widgets.ButtonText(buttonRect, resetText))
                 {
                     Store_IncidentEditor.LoadBackup(storeIncident);

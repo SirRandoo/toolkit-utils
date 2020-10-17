@@ -315,8 +315,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             var left = new Rect(region.x, region.y, region.width * factor - 2f, region.height);
 
             return new Tuple<Rect, Rect>(
-                left,
-                new Rect(left.x + left.width + 2f, left.y, region.width - left.width - 2f, left.height)
+                left.Rounded(),
+                new Rect(left.x + left.width + 2f, left.y, region.width - left.width - 2f, left.height).Rounded()
             );
         }
 

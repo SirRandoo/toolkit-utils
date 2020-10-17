@@ -230,13 +230,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             var headingRect = new Rect(0f, Text.LineHeight * 4f, inRect.width, Text.LineHeight);
-            var nameHeadingRect = new Rect(Widgets.CheckboxSize + 5f, 0f, inRect.width * 0.509f, Text.LineHeight);
-            var priceHeadingRect = new Rect(
+            Rect nameHeadingRect =
+                new Rect(Widgets.CheckboxSize + 5f, 0f, inRect.width * 0.509f, Text.LineHeight).Rounded();
+            Rect priceHeadingRect = new Rect(
                 nameHeadingRect.x + nameHeadingRect.width + 5f,
                 0f,
                 inRect.width * 0.35f,
                 Text.LineHeight
-            );
+            ).Rounded();
 
             GUI.BeginGroup(headingRect);
             Widgets.DrawHighlightIfMouseover(nameHeadingRect);
@@ -247,7 +248,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             List<PawnKindItem> effectiveList = results ?? cache;
             int total = effectiveList.Count;
-            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * LineScale * total);
+            Rect viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * LineScale * total).Rounded();
             var races = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
@@ -255,7 +256,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             for (var index = 0; index < effectiveList.Count; index++)
             {
                 PawnKindItem item = effectiveList[index];
-                Rect lineRect = listing.GetRect(Text.LineHeight * LineScale);
+                Rect lineRect = listing.GetRect(Text.LineHeight * LineScale).Rounded();
                 var stateRect = new Rect(0f, lineRect.y, Widgets.CheckboxSize, Text.LineHeight);
                 var nameRect = new Rect(Widgets.CheckboxSize + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
                 var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width, lineRect.height);
@@ -312,7 +313,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SortCurrentWorkingList();
             }
 
-            var position = new Rect(0f, nameHeadingRect.y + Text.LineHeight / 2f - 4f, 8f, 8f);
+            Rect position = new Rect(0f, nameHeadingRect.y + Text.LineHeight / 2f - 4f, 8f, 8f).Rounded();
             switch (sorter)
             {
                 case Sorter.Name:
@@ -364,11 +365,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             Vector2 center = contentArea.center;
 
             Rect expandedDialog = new Rect(
-                center.x - expandedWidth / 2f,
-                center.y - Text.LineHeight * LineScale * 4f,
-                expandedWidth,
-                Text.LineHeight * LineScale * 8f
-            ).ExpandedBy(StandardMargin * 2f);
+                    center.x - expandedWidth / 2f,
+                    center.y - Text.LineHeight * LineScale * 4f,
+                    expandedWidth,
+                    Text.LineHeight * LineScale * 8f
+                ).ExpandedBy(StandardMargin * 2f)
+               .Rounded();
 
             Widgets.DrawBoxSolid(expandedDialog, new Color(0.13f, 0.16f, 0.17f));
             Widgets.Label(
@@ -377,12 +379,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                     expandedDialog.y + 5f,
                     expandedDialog.width - 30f,
                     Text.LineHeight * LineScale
-                ),
+                ).Rounded(),
                 "TKUtils.Headers.DataDialog".Localize(expanded.Name)
             );
 
             Widgets.DrawHighlight(
                 new Rect(expandedDialog.position, new Vector2(expandedDialog.width, Text.LineHeight * LineScale))
+                   .Rounded()
             );
 
             GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
@@ -442,12 +445,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
             }
 
-            var lastLine = new Rect(
+            Rect lastLine = new Rect(
                 0f,
                 inRect.height - Text.LineHeight * LineScale,
                 inRect.width,
                 Text.LineHeight * LineScale
-            );
+            ).Rounded();
 
             if (Widgets.ButtonText(
                 new Rect(lastLine.x + 10f, lastLine.y, lastLine.width - 20f, lastLine.height),

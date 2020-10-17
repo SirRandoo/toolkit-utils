@@ -217,12 +217,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
             }
 
-            var lastLine = new Rect(
+            Rect lastLine = new Rect(
                 0f,
                 inRect.height - Text.LineHeight * LineScale,
                 inRect.width,
                 Text.LineHeight * LineScale
-            );
+            ).Rounded();
 
             if (Widgets.ButtonText(
                 new Rect(lastLine.x + 10f, lastLine.y, lastLine.width - 20f, lastLine.height),
@@ -266,17 +266,17 @@ namespace SirRandoo.ToolkitUtils.Windows
             float availableWidth = inRect.width - 30f * 2f - Text.LineHeight * LineScale;
             bool wrapped = Text.WordWrap;
             Text.WordWrap = false;
-            var nameHeaderRect = new Rect(0f, 0f, availableWidth * 0.43f - 5f, Text.LineHeight);
+            Rect nameHeaderRect = new Rect(0f, 0f, availableWidth * 0.43f - 5f, Text.LineHeight).Rounded();
 
             float remainingWidth = availableWidth - nameHeaderRect.width;
 
             var addHeaderRect = new Rect(nameHeaderRect.width + 5f, nameHeaderRect.y, 24f, nameHeaderRect.height);
-            var addCostHeaderRect = new Rect(
+            Rect addCostHeaderRect = new Rect(
                 addHeaderRect.x + addHeaderRect.width + 5f,
                 nameHeaderRect.y,
                 remainingWidth * 0.413f,
                 nameHeaderRect.height
-            );
+            ).Rounded();
             var removeHeaderRect = new Rect(
                 addCostHeaderRect.x + addCostHeaderRect.width + 60f,
                 nameHeaderRect.y,
@@ -289,12 +289,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                 addCostHeaderRect.width,
                 nameHeaderRect.height
             );
-            var expandHeaderRect = new Rect(
+            Rect expandHeaderRect = new Rect(
                 removeCostHeaderRect.x + removeCostHeaderRect.width + 5f,
                 nameHeaderRect.y,
                 Text.LineHeight * LineScale,
                 nameHeaderRect.height
-            );
+            ).Rounded();
 
             GUI.BeginGroup(new Rect(0f, Text.LineHeight * 3f, inRect.width, Text.LineHeight));
             Widgets.DrawHighlightIfMouseover(nameHeaderRect);
@@ -310,7 +310,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             List<TraitItem> effectiveList = results ?? cache;
             int total = effectiveList.Count;
             float maxHeight = lineHeight * total;
-            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight);
+            Rect viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight).Rounded();
             var traits = new Rect(0f, 0f, contentArea.width, contentArea.height);
             GameFont font = Text.Font;
 
@@ -321,7 +321,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             for (var index = 0; index < effectiveList.Count; index++)
             {
                 TraitItem trait = effectiveList[index];
-                Rect fullLineRect = listing.GetRect(lineHeight);
+                Rect fullLineRect = listing.GetRect(lineHeight).Rounded();
                 var lineRect = new Rect(fullLineRect.x, fullLineRect.y, fullLineRect.width, lineHeight);
 
                 if (!fullLineRect.IsRegionVisible(traits, scrollPos))
@@ -419,7 +419,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawHeaderSortingIcon(Rect nameHeaderRect, Rect addCostHeaderRect, Rect removeCostHeaderRect)
         {
-            var position = new Rect(0f, nameHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f);
+            Rect position = new Rect(0f, nameHeaderRect.y + Text.LineHeight / 2f - 4f, 8f, 8f).Rounded();
             switch (sorter)
             {
                 case Sorter.Name:
@@ -445,11 +445,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             Vector2 center = inRect.center;
 
             Rect expandedDialog = new Rect(
-                center.x - expandedWidth / 2f,
-                center.y - Text.LineHeight * LineScale * 4f,
-                expandedWidth,
-                Text.LineHeight * LineScale * 8f
-            ).ExpandedBy(StandardMargin * 2f);
+                    center.x - expandedWidth / 2f,
+                    center.y - Text.LineHeight * LineScale * 4f,
+                    expandedWidth,
+                    Text.LineHeight * LineScale * 8f
+                ).ExpandedBy(StandardMargin * 2f)
+               .Rounded();
 
             Widgets.DrawBoxSolid(expandedDialog, new Color(0.13f, 0.16f, 0.17f));
             Widgets.Label(
@@ -458,12 +459,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                     expandedDialog.y + 5f,
                     expandedDialog.width - 30f,
                     Text.LineHeight * LineScale
-                ),
+                ).Rounded(),
                 "TKUtils.Headers.DataDialog".Localize(expanded.Name)
             );
 
             Widgets.DrawHighlight(
                 new Rect(expandedDialog.position, new Vector2(expandedDialog.width, Text.LineHeight * LineScale))
+                   .Rounded()
             );
 
             GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));

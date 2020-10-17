@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void DoWindowContents(Rect inRect)
         {
-            var menuRect = new Rect(0f, 0f, inRect.width * 0.3333f, inRect.height * .7f);
+            Rect menuRect = new Rect(0f, 0f, inRect.width * 0.3333f, inRect.height * .7f).Rounded();
             var contentRect = new Rect(menuRect.width + 10f, 0f, inRect.width - 10f - menuRect.width, inRect.height);
 
             GUI.BeginGroup(menuRect);
@@ -102,7 +102,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             var listing = new Listing_Standard();
             float randomBtnWidth = Text.CalcSize(randomText).x + 16f;
-            var adjustedLineRect = new Rect(0f, Text.LineHeight * 4f, contentRect.width * 0.95f - 2f, Text.LineHeight);
+            Rect adjustedLineRect = new Rect(0f, Text.LineHeight * 4f, contentRect.width * 0.95f - 2f, Text.LineHeight)
+               .Rounded();
             var queueNoticeRect = new Rect(
                 0f,
                 Text.LineHeight * 4f,
@@ -202,7 +203,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             float widthMidpoint = canvas.width / 2f;
             float arrowMax = Mathf.Max(TexUI.ArrowTexLeft.width, TexUI.ArrowTexRight.width) * 0.6f;
             var colonistRect = new Rect(widthMidpoint - 50f, 5f, 100f, 140f);
-            var previousRect = new Rect(5f, 5f + colonistRect.height / 2 - arrowMax / 2f, arrowMax, arrowMax);
+            Rect previousRect = new Rect(
+                5f,
+                5f + colonistRect.height / 2 - arrowMax / 2f,
+                arrowMax,
+                arrowMax
+            ).Rounded();
             var nextRect = new Rect(
                 canvas.width - arrowMax - 5f,
                 previousRect.y,

@@ -89,12 +89,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(inRect);
 
             string buttonText = showingAffected ? confirmText : showAffectedText;
-            var buttonRect = new Rect(
+            Rect buttonRect = new Rect(
                 inRect.center.x - bottomButtonWidth / 2f,
                 inRect.height - 30f,
                 bottomButtonWidth,
                 28f
-            );
+            ).Rounded();
             var headerArea = new Rect(inRect.x, inRect.y, inRect.width, 28f);
             var contentArea = new Rect(
                 inRect.x,
@@ -146,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             ConstraintBase toRemove = null;
             var listing = new Listing_Standard();
             int totalConstraints = constraints.Count;
-            var viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * totalConstraints);
+            Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * totalConstraints).Rounded();
 
             listing.BeginScrollView(inRect, ref constraintsScrollPos, ref viewRect);
             for (var i = 0; i < constraints.Count; i++)
@@ -200,7 +200,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             var listing = new Listing_Standard();
-            var viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * affectedViewersCount);
+            Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * affectedViewersCount).Rounded();
 
             listing.BeginScrollView(inRect, ref affectedScrollPos, ref viewRect);
 

@@ -314,7 +314,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     inRect.height - Text.LineHeight * LineScale,
                     inRect.width - 20f,
                     Text.LineHeight * LineScale
-                ),
+                ).Rounded(),
                 resetText
             ))
             {
@@ -333,11 +333,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             Vector2 center = inRect.center;
 
             Rect expandedDialog = new Rect(
-                center.x - expandedWidth / 2f,
-                center.y - Text.LineHeight * LineScale * 5f,
-                expandedWidth,
-                Text.LineHeight * LineScale * 10f
-            ).ExpandedBy(StandardMargin * 2f);
+                    center.x - expandedWidth / 2f,
+                    center.y - Text.LineHeight * LineScale * 5f,
+                    expandedWidth,
+                    Text.LineHeight * LineScale * 10f
+                ).ExpandedBy(StandardMargin * 2f)
+               .Rounded();
 
             Widgets.DrawBoxSolid(expandedDialog, OverlayBackgroundColor);
             Widgets.Label(
@@ -346,12 +347,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                     expandedDialog.y + 5f,
                     expandedDialog.width - 30f,
                     Text.LineHeight * LineScale
-                ),
+                ).Rounded(),
                 "TKUtils.Headers.DataDialog".Localize(expanded.Name)
             );
 
             Widgets.DrawHighlight(
                 new Rect(expandedDialog.position, new Vector2(expandedDialog.width, Text.LineHeight * LineScale))
+                   .Rounded()
             );
 
             GUI.BeginGroup(expandedDialog.ContractedBy(StandardMargin * 2f));
@@ -373,7 +375,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private (Rect, Rect, Rect) DoStoreHeaders(Rect inRect)
         {
-            var infoHeaderRect = new Rect(30f, 0f, inRect.width * 0.4f - 15f, Text.LineHeight);
+            Rect infoHeaderRect = new Rect(30f, 0f, inRect.width * 0.4f - 15f, Text.LineHeight).Rounded();
             var priceHeaderRect = new Rect(
                 infoHeaderRect.width + 35f,
                 infoHeaderRect.y,
@@ -465,7 +467,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             List<ThingItem> effectiveWorkingList = CurrentWorkingList;
             int total = effectiveWorkingList.Count;
 
-            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * LineScale * total);
+            Rect viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * LineScale * total).Rounded();
             var items = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
@@ -473,7 +475,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             for (var index = 0; index < total; index++)
             {
                 ThingItem item = effectiveWorkingList[index];
-                Rect lineRect = listing.GetRect(Text.LineHeight * LineScale);
+                Rect lineRect = listing.GetRect(Text.LineHeight * LineScale).Rounded();
 
                 if (!lineRect.IsRegionVisible(items, scrollPos))
                 {
@@ -522,11 +524,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             Vector2 center = canvas.center;
 
             Rect filterDialog = new Rect(
-                center.x - filterWidth / 2f,
-                center.y - canvas.height * 0.75f / 2f,
-                filterWidth,
-                canvas.height * 0.75f
-            ).ExpandedBy(StandardMargin * 2f);
+                    center.x - filterWidth / 2f,
+                    center.y - canvas.height * 0.75f / 2f,
+                    filterWidth,
+                    canvas.height * 0.75f
+                ).ExpandedBy(StandardMargin * 2f)
+               .Rounded();
 
             Widgets.DrawBoxSolid(filterDialog, OverlayBackgroundColor);
             Widgets.Label(
@@ -535,12 +538,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                     filterDialog.y + 5f,
                     filterDialog.width - 30f,
                     Text.LineHeight * LineScale
-                ),
+                ).Rounded(),
                 localize
             );
 
             Widgets.DrawHighlight(
-                new Rect(filterDialog.x, filterDialog.y, filterDialog.width, Text.LineHeight * LineScale)
+                new Rect(filterDialog.x, filterDialog.y, filterDialog.width, Text.LineHeight * LineScale).Rounded()
             );
 
             GUI.BeginGroup(filterDialog.ContractedBy(StandardMargin * 2f));
@@ -604,7 +607,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawSortIcon(float y, float infoX, float priceX, float categoryX)
         {
-            var position = new Rect(0f, y + Text.LineHeight / 2f - 4f, 8f, 8f);
+            Rect position = new Rect(0f, y + Text.LineHeight / 2f - 4f, 8f, 8f).Rounded();
 
             switch (Sorter)
             {
@@ -670,7 +673,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
-            var searchRect = new Rect(line.x, line.y, line.width * 0.18f, line.height);
+            Rect searchRect = new Rect(line.x, line.y, line.width * 0.18f, line.height).Rounded();
             Rect searchTextRect = searchRect.WithWidth(searchTextSize.x);
             var searchFieldRect = new Rect(
                 searchTextRect.x + searchTextRect.width + 5f,
