@@ -2,6 +2,9 @@
 using System.Linq;
 using System.Threading;
 using JetBrains.Annotations;
+using MoonSharp.Interpreter;
+using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Proxies;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
@@ -16,6 +19,12 @@ namespace SirRandoo.ToolkitUtils
         {
             TkSettings.ValidateDynamicSettings();
             TkUtils.Context ??= SynchronizationContext.Current;
+            UserData.RegisterProxyType<ThingItemProxy, ThingItem>(thingItem => new ThingItemProxy(thingItem));
+            UserData.RegisterProxyType<StoreIncidentProxy, StoreIncident>(incident => new StoreIncidentProxy(incident));
+            UserData.RegisterProxyType<TraitItemProxy, TraitItem>(traitItem => new TraitItemProxy(traitItem));
+            UserData.RegisterProxyType<PawnKindItemProxy, PawnKindItem>(
+                pawnKindItem => new PawnKindItemProxy(pawnKindItem)
+            );
 
             var wereChanges = false;
 
