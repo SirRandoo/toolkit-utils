@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (product.Data != null && product.Data.HasQuantityLimit)
             {
-                amount = product.Data.QuantityLimit;
+                amount = Mathf.Min(amount, product.Data.QuantityLimit);
             }
 
             purchaseRequest = new PurchaseRequest
