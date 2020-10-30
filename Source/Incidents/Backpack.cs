@@ -192,10 +192,37 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void CarryOrSpawn(Thing thing)
         {
+            if (thing.def.equipmentType != EquipmentType.None && thing is ThingWithComps && TryEquipWeapon(thing))
+            {
+                return;
+            }
+
+            if (thing.def.IsApparel && thing is Apparel)
+            {
+                EquipApparel(thing);
+                return;
+            }
+
             if (!Pawn.inventory.innerContainer.TryAdd(thing) && pawn.Spawned)
             {
                 TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(Map), Map, thing);
             }
+        }
+
+        private void EquipApparel(Thing thing)
+        {
+            pawn.apparel.Wear(thing as Apparel);
+        }
+
+        private bool TryEquipWeapon(Thing thing)
+        {
+            if (!pawn.equipment.TryTransferEquipmentToContainer(pawn.equipment.Primary, pawn.inventory.innerContainer))
+            {
+                return false;
+            }
+
+            pawn.equipment.AddEquipment(thing as ThingWithComps);
+            return pawn.equipment.Primary == thing;
         }
 
         public void CompletePurchase(StoreIncident incident)
