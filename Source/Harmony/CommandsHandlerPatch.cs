@@ -6,6 +6,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore.Utilities;
+using TwitchLib.Client.Models;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using Verse;
@@ -53,7 +54,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             List<string> segments = CommandFilter.Parse(prefixless).ToList();
-            bool unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"));
+            bool unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"))
+                           || (twitchMessage is ChatMessage chatMessage
+                               && chatMessage.BotUsername.Equals(
+                                   "puppeteer",
+                                   StringComparison.InvariantCultureIgnoreCase
+                               ));
 
             if (segments.Count <= 0)
             {
