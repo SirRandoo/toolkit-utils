@@ -231,7 +231,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Purchaser.TakeViewerCoins(Price);
             }
 
-            Purchaser.CalculateNewKarma(ItemData.Data?.KarmaType ?? incident.karmaType, Price);
+            Purchaser.CalculateNewKarma(
+                ItemData.Data?.KarmaType ?? incident.karmaType,
+                Mathf.CeilToInt(Price * (ItemData.Data?.Weight ?? 1f))
+            );
 
 
             if (!ToolkitSettings.PurchaseConfirmations)

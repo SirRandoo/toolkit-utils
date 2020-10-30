@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using RimWorld;
@@ -74,6 +75,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private SortMode sortMode = SortMode.Ascending;
         private string stuffText;
         private string title;
+        private string weightText;
 
         static StoreDialog()
         {
@@ -279,6 +281,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                     1f
                 );
             }
+
+            listing.GapLine(2f);
+            (Rect weightLabel, Rect weightField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
+            var weightBuffer = expanded.Data.Weight.ToString(CultureInfo.InvariantCulture);
+            SettingsHelper.DrawLabel(weightLabel, weightText);
+            Widgets.TextFieldNumeric(weightField, ref expanded.Data.Weight, ref weightBuffer, 1f, 100f);
 
 
             if (expanded.Thing.IsStuff)
@@ -1067,6 +1075,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             karmaTypeText = "TKUtils.IncidentEditor.Karma".Localize();
             localize = "TKUtils.Headers.FilterDialog".Localize();
             stuffText = "TKUtils.ItemStore.Stuff".Localize();
+            weightText = "TKUtils.ItemStore.Weight".Localize();
             quantityLimitText = "TKUtils.ItemStore.QuantityLimit".Localize();
 
             resetAllTextSize = Text.CalcSize(resetAllText);

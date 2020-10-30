@@ -40,6 +40,7 @@
     <TKUtils.ItemStore.Category>Category</TKUtils.ItemStore.Category>
     <TKUtils.ItemStore.Stuff>Can be stuff?</TKUtils.ItemStore.Stuff>
     <TKUtils.ItemStore.QuantityLimit>Quantity limit</TKUtils.ItemStore.QuantityLimit>
+    <TKUtils.ItemStore.Weight>Purchase weight</TKUtils.ItemStore.Weight>
 
     <TKUtils.FilterTypes.Mod>Mods</TKUtils.FilterTypes.Mod>
     <TKUtils.FilterTypes.Category>Categories</TKUtils.FilterTypes.Category>

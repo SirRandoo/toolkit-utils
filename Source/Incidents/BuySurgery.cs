@@ -121,7 +121,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Viewer.CalculateNewKarma(
                 appointment.Item.Data?.KarmaType ?? storeIncident.karmaType,
-                appointment.Item.Price * appointment.Quantity
+                Mathf.CeilToInt(appointment.Item.Price * appointment.Quantity * (appointment.Item.Data?.Weight ?? 1f))
             );
 
             if (ToolkitSettings.PurchaseConfirmations)

@@ -35,6 +35,9 @@ namespace SirRandoo.ToolkitUtils.Models
         [System.ComponentModel.DefaultValue(null)]
         public List<string> ResearchProjects;
 
+        [System.ComponentModel.DefaultValue(1f)]
+        public float Weight;
+
         public IEnumerable<ResearchProjectDef> GetResearchProjects()
         {
             if (ResearchProjects.NullOrEmpty() || researchProjectDefs.NullOrEmpty())
