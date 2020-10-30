@@ -11,14 +11,14 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
         public static bool Randomness = true;
         public static int ChanceToFail = 20;
         public static int ChanceToHop = 10;
-        public static int ChangeToIncrease = 5;
+        public static int ChanceToIncrease = 5;
 
         public override void ExposeData()
         {
             Scribe_Values.Look(ref Randomness, "removePassionRandomness", true);
             Scribe_Values.Look(ref ChanceToFail, "removePassionFailChance", 20);
             Scribe_Values.Look(ref ChanceToHop, "removePassionHopChance", 10);
-            Scribe_Values.Look(ref ChangeToIncrease, "removePassionIncreaseChance", 5);
+            Scribe_Values.Look(ref ChanceToIncrease, "removePassionIncreaseChance", 5);
         }
 
         public override void EditSettings()

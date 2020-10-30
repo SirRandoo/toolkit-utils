@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.Label(increaseLabel, increaseChanceLabel);
             Widgets.TextFieldNumeric(
                 increaseField,
-                ref RemovePassion.ChangeToIncrease,
+                ref RemovePassion.ChanceToIncrease,
                 ref increaseChanceBuffer,
                 max: 100f
             );

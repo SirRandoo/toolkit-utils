@@ -86,7 +86,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            if (IncidentSettings.RemovePassion.ChangeToIncrease.ToChance()
+            if (IncidentSettings.RemovePassion.ChanceToIncrease.ToChance()
                 && (int) target.passion < (int) Passion.Major)
             {
                 target.passion = (Passion) Mathf.Clamp((int) target.passion - 1, 0, 2);
@@ -95,7 +95,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            if (IncidentSettings.RemovePassion.ChangeToIncrease.ToChance()
+            if (IncidentSettings.RemovePassion.ChanceToIncrease.ToChance()
                 && IncidentSettings.RemovePassion.ChanceToHop.ToChance()
                 && TryGetEligibleSkill(out skill))
             {
