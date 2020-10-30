@@ -73,6 +73,9 @@
     <TKUtils.CommandPrefix.Label>Command prefix</TKUtils.CommandPrefix.Label>
     <TKUtils.CommandPrefix.Description>The prefix to use for all Twitch Toolkit commands.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.CommandPrefix.Description>
     
+    <TKUtils.PurchasePrefix.Label>Purchase prefix</TKUtils.PurchasePrefix.Label>
+    <TKUtils.PurchasePrefix.Description>The prefix to use as a substitue for &gt;i&lt;!buy&gt;/i&lt;.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.PurchasePrefix.Description>
+    
     <TKUtils.ToolkitStyleCommands.Label>Locate commands similar to how Twitch Toolkit does.</TKUtils.ToolkitStyleCommands.Label>
     <TKUtils.ToolkitStyleCommands.Description>Twitch Toolkit compares commands by checking to see if a message starts with a command, while ToolkitUtils checks to see if the first "word" is a command. If this is enabled, ToolkitUtils will mimic the old behavior, with the exception of case insensitivity. TL;DR: this lets !balloon be a valid form of the !bal command.</TKUtils.ToolkitStyleCommands.Description>
     

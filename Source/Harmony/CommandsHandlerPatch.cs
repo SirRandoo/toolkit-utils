@@ -39,12 +39,20 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             string message = twitchMessage.Message;
 
-            if (!message.StartsWith(TkSettings.Prefix, StringComparison.InvariantCultureIgnoreCase))
+            if (!message.StartsWith(TkSettings.Prefix, StringComparison.InvariantCultureIgnoreCase)
+                && !message.StartsWith(TkSettings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
 
-            List<string> segments = CommandFilter.Parse(message.Substring(TkSettings.Prefix.Length)).ToList();
+            string prefixless = GetCommandString(message);
+
+            if (prefixless == null)
+            {
+                return false;
+            }
+
+            List<string> segments = CommandFilter.Parse(prefixless).ToList();
             bool unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"));
 
             if (segments.Count <= 0)
@@ -123,6 +131,23 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             return input.EqualsIgnoreCase(command);
+        }
+
+        private static string GetCommandString(string message)
+        {
+            if (message.StartsWith("/w"))
+            {
+                message = message.Substring(3);
+            }
+
+            if (message.StartsWith(TkSettings.Prefix, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return message.Substring(TkSettings.Prefix.Length);
+            }
+
+            return message.StartsWith(TkSettings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase)
+                ? $"{DefDatabase<Command>.GetNamed("Buy").command} {message.Substring(TkSettings.BuyPrefix.Length)}"
+                : null;
         }
     }
 }

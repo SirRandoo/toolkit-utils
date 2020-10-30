@@ -28,6 +28,7 @@ namespace SirRandoo.ToolkitUtils
     {
         public static bool Commands;
         public static string Prefix = "!";
+        public static string BuyPrefix = "$";
         public static bool ToolkitStyleCommands = true;
         public static bool DecorateUtils;
         public static bool Emojis = true;
@@ -315,7 +316,7 @@ namespace SirRandoo.ToolkitUtils
         private static void DrawCommandTweaksTab(Rect canvas)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 40f);
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 43f);
 
             GUI.BeginGroup(canvas);
             listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
@@ -333,6 +334,11 @@ namespace SirRandoo.ToolkitUtils
                 Widgets.Label(prefixLabel, "TKUtils.CommandPrefix.Label".Localize());
                 listing.DrawDescription("TKUtils.CommandPrefix.Description".Localize());
                 Prefix = CommandHelper.ValidatePrefix(Widgets.TextField(prefixField, Prefix));
+
+                (Rect buyPrefixLabel, Rect buyPrefixField) = listing.GetRect(Text.LineHeight).ToForm();
+                Widgets.Label(buyPrefixLabel, "TKUtils.PurchasePrefix.Label".Localize());
+                listing.DrawDescription("TKUtils.PurchasePrefix.Description".Localize());
+                BuyPrefix = CommandHelper.ValidatePrefix(Widgets.TextField(buyPrefixField, BuyPrefix));
             }
 
             listing.CheckboxLabeled("TKUtils.CommandParser.Label".Localize(), ref Commands);
@@ -534,6 +540,7 @@ namespace SirRandoo.ToolkitUtils
         {
             Scribe_Values.Look(ref Commands, "commands", true);
             Scribe_Values.Look(ref Prefix, "prefix", "!");
+            Scribe_Values.Look(ref BuyPrefix, "buyPrefix", "$");
             Scribe_Values.Look(ref ToolkitStyleCommands, "toolkitStyleCommands", true);
             Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
             Scribe_Values.Look(ref Emojis, "emojis", true);
