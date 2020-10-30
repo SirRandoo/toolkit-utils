@@ -357,6 +357,9 @@
         <Content Include="..\Common\Patches\ModComp\TMagic.xml">
             <Link>Common\Patches\ModComp\TMagic.xml</Link>
         </Content>
+        <Content Include="..\Common\Patches\ModComp\Vampires.xml">
+            <Link>Common\Patches\ModComp\Vampires.xml</Link>
+        </Content>
         <Content Include="..\Common\Patches\TwitchToolkit\AddonMenuOverride.xml">
             <Link>Common\Patches\TwitchToolkit\AddonMenuOverride.xml</Link>
         </Content>
