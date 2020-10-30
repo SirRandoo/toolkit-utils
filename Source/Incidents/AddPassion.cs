@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -76,23 +77,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            if (IncidentSettings.AddPassion.ChanceToHop.ToChance())
+            if (IncidentSettings.AddPassion.ChanceToHop.ToChance() && TryGetEligibleSkill(out SkillRecord skill))
             {
-                SkillRecord skill = GetRandomEligibleSkill();
-
-                if (skill == null)
-                {
-                    NotifyFailed(target);
-                    return;
-                }
-
                 skill.passion = (Passion) Mathf.Clamp((int) skill.passion + 1, 0, 2);
                 ChargeViewer();
                 NotifyHopped(target, skill);
                 return;
             }
 
-            if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance())
+            if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance()
+                && (target.passion == Passion.Minor || target.passion == Passion.Major))
             {
                 target.passion = (Passion) Mathf.Clamp((int) target.passion - 1, 0, 2);
                 ChargeViewer();
@@ -101,16 +95,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance()
-                && IncidentSettings.AddPassion.ChanceToHop.ToChance())
+                && IncidentSettings.AddPassion.ChanceToHop.ToChance()
+                && TryGetEligibleSkill(out skill, true))
             {
-                SkillRecord skill = GetRandomEligibleSkillForDecrease();
-
-                if (skill == null)
-                {
-                    NotifyFailed(target);
-                    return;
-                }
-
                 skill.passion = (Passion) Mathf.Clamp((int) skill.passion - 1, 0, 2);
                 ChargeViewer();
                 NotifyDecreaseHopped(target, skill);
@@ -120,6 +107,23 @@ namespace SirRandoo.ToolkitUtils.Incidents
             target.passion = (Passion) Mathf.Clamp((int) target.passion + 1, 0, 2);
             ChargeViewer();
             NotifySuccess(target);
+        }
+
+        private bool TryGetEligibleSkill(out SkillRecord skill, bool forDecrease = false)
+        {
+            IEnumerable<SkillRecord> filters = pawn.skills.skills.Where(s => s != target && !s.TotallyDisabled);
+
+            skill = (forDecrease
+                ? filters.Where(
+                    s =>
+                    {
+                        var passionInt = (int) s.passion;
+
+                        return passionInt > 0 && passionInt <= (int) Passion.Major;
+                    }
+                )
+                : filters.Where(s => (int) s.passion < (int) Passion.Major)).RandomElement();
+            return skill != null;
         }
 
         private void ChargeViewer()
@@ -219,20 +223,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 LetterDefOf.NeutralEvent,
                 pawn
             );
-        }
-
-        private SkillRecord GetRandomEligibleSkill()
-        {
-            return pawn.skills.skills.Where(s => !s.TotallyDisabled)
-               .Where(s => (int) s.passion < 3)
-               .RandomElementWithFallback();
-        }
-
-        private SkillRecord GetRandomEligibleSkillForDecrease()
-        {
-            return pawn.skills.skills.Where(s => !s.TotallyDisabled)
-               .Where(s => (int) s.passion is { } passion && passion <= 2 && passion > 0)
-               .RandomElementWithFallback();
         }
     }
 }
