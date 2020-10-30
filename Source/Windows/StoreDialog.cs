@@ -977,19 +977,19 @@ namespace SirRandoo.ToolkitUtils.Windows
                     results = workingList;
                     return;
                 case Sorter.Cost when SortMode == SortMode.Ascending:
-                    workingList.SortBy(i => i.Price);
+                    workingList = workingList.OrderBy(i => i.Price).ThenBy(i => i.Name).ToList();
                     results = workingList;
                     return;
                 case Sorter.Cost when SortMode == SortMode.Descending:
-                    workingList.SortByDescending(i => i.Price);
+                    workingList = workingList.OrderByDescending(i => i.Price).ThenByDescending(i => i.Name).ToList();
                     results = workingList;
                     return;
                 case Sorter.Category when SortMode == SortMode.Ascending:
-                    workingList.SortBy(i => i.Category);
+                    workingList = workingList.OrderBy(i => i.Category).ThenBy(i => i.Name).ToList();
                     results = workingList;
                     return;
                 case Sorter.Category when SortMode == SortMode.Descending:
-                    workingList.SortByDescending(i => i.Category);
+                    workingList = workingList.OrderByDescending(i => i.Category).ThenByDescending(i => i.Name).ToList();
                     results = workingList;
                     return;
                 default:
