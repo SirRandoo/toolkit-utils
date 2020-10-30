@@ -17,25 +17,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static bool IsResearched(this ThingDef thing)
         {
-            // ReSharper disable once ReplaceWithSingleAssignment.True
-            var researched = true;
-
-            if (!thing.recipeMaker?.researchPrerequisite?.IsFinished ?? false)
-            {
-                researched = false;
-            }
-
-            if (thing.recipeMaker?.researchPrerequisites?.All(p => !p.IsFinished) ?? false)
-            {
-                researched = false;
-            }
-
-            if (!thing.IsResearchFinished)
-            {
-                researched = false;
-            }
-
-            return BuyItemSettings.mustResearchFirst && researched;
+            return BuyItemSettings.mustResearchFirst && thing.GetUnfinishedPrerequisites().Count <= 0;
         }
 
         public static List<ResearchProjectDef> GetUnfinishedPrerequisites(this ThingDef thing)
