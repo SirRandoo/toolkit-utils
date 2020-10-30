@@ -166,7 +166,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 if (int.TryParse(multi, out int quantity))
                 {
-                    appointment.Quantity = Mathf.Clamp(quantity, 0, 100);
+                    appointment.Quantity = multi.Equals("*") ? 100 : Mathf.Clamp(quantity, 0, 100);
                     appointment.LocateSurgery();
                     appointment.TryFillQuota();
                     appointment.Quantity = appointment.BodyParts.Count;

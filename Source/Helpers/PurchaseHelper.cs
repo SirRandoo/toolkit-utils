@@ -4,6 +4,7 @@ using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers
@@ -67,6 +68,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             pawn = CommandBase.GetOrFindPawn(viewer.ToLowerInvariant(), kidnapped);
             return pawn != null;
+        }
+
+        public static int GetMaximumPurchaseAmount(this Viewer viewer, int cost)
+        {
+            return Mathf.FloorToInt(viewer.GetViewerCoins() / (float) cost);
         }
     }
 }

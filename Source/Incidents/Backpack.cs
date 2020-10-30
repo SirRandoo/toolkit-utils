@@ -88,7 +88,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             purchaseRequest = new PurchaseBackpackRequest
             {
-                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = viewer
+                ItemData = product,
+                ThingDef = product.Thing,
+                Quantity = quantity.Equals("*") ? viewer.GetMaximumPurchaseAmount(product.Price) : amount,
+                Purchaser = viewer
             };
 
             if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)

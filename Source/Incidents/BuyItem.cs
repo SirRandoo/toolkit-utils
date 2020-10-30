@@ -83,7 +83,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 ItemData = product,
                 ThingDef = product.Thing,
-                Quantity = amount,
+                Quantity = quantity.Equals("*") ? viewer.GetMaximumPurchaseAmount(product.Price) : amount,
                 Purchaser = viewer,
                 Map = Helper.AnyPlayerMap
             };
