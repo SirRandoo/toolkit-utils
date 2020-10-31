@@ -6,6 +6,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
     public static class ResponseHelper
     {
         public const string OuterGroupSeparator = "⎮";
+        public const string OuterGroupSeparatorAlt = "|";
         public const string InfinityGlyph = "∞";
         public const string CoinGlyph = "💰";
         public const string KarmaGlyph = "⚖";
@@ -48,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static string GroupedJoin(this IEnumerable<string> l)
         {
-            return string.Join(OuterGroupSeparator, l);
+            return string.Join(OuterGroupSeparator.AltText(OuterGroupSeparatorAlt), l);
         }
 
         public static string SectionJoin(this IEnumerable<string> l)
