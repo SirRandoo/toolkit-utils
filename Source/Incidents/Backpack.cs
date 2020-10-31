@@ -81,6 +81,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (quantity.Equals("*"))
+            {
+                amount = viewer.GetMaximumPurchaseAmount(product.Price);
+            }
+
             if (product.Data != null && product.Data.HasQuantityLimit)
             {
                 amount = Mathf.Min(amount, product.Data.QuantityLimit);
@@ -88,10 +93,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             purchaseRequest = new PurchaseBackpackRequest
             {
-                ItemData = product,
-                ThingDef = product.Thing,
-                Quantity = quantity.Equals("*") ? viewer.GetMaximumPurchaseAmount(product.Price) : amount,
-                Purchaser = viewer
+                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = viewer
             };
 
             if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)

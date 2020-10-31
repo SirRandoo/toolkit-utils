@@ -74,6 +74,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (quantity.Equals("*"))
+            {
+                amount = viewer.GetMaximumPurchaseAmount(product.Price);
+            }
+
             if (product.Data != null && product.Data.HasQuantityLimit)
             {
                 amount = Mathf.Min(amount, product.Data.QuantityLimit);
@@ -83,7 +88,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 ItemData = product,
                 ThingDef = product.Thing,
-                Quantity = quantity.Equals("*") ? viewer.GetMaximumPurchaseAmount(product.Price) : amount,
+                Quantity = amount,
                 Purchaser = viewer,
                 Map = Helper.AnyPlayerMap
             };
