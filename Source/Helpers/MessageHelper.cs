@@ -1,18 +1,11 @@
-﻿using SirRandoo.ToolkitUtils.Utils;
-using TwitchLib.Client.Interfaces;
+﻿using ToolkitCore;
 using TwitchLib.Client.Models;
 using TwitchLib.Client.Models.Interfaces;
-using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class MessageHelper
     {
-        internal static void Reply(this ITwitchCommand m, string message)
-        {
-            ReplyToUser(m.Username, message);
-        }
-
         internal static void Reply(this ITwitchMessage m, string message)
         {
             ReplyToUser(m.Username, message);
@@ -20,17 +13,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         internal static string WithHeader(this string s, string header)
         {
-            return $"【{header}】 {s}";
-        }
-
-        internal static string WithHeader(this TaggedString s, string header)
-        {
-            return $"【{header}】 {s.ToString()}";
+            return $"【{header}】 {s}".AltText($"[{header}] {s}");
         }
 
         internal static void ReplyToUser(string user, string message)
         {
-            CommandBase.SendMessage($"@{user} → {message}");
+            TwitchWrapper.SendChatMessage($"@{user} → {message}");
         }
 
         internal static string AltText(this string emoji, string alt = null)
