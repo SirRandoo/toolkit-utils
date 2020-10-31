@@ -166,7 +166,7 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawGroupHeader("TKUtils.Data.Files".Localize(), false);
 
             (Rect dumpLabel, Rect dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(dumpLabel, "TKUtils.DumpStyle.Label".Localize());
+            SettingsHelper.DrawLabel(dumpLabel, "TKUtils.DumpStyle.Label".Localize());
             listing.DrawDescription("TKUtils.DumpStyle.Description".Localize());
 
             if (Widgets.ButtonText(dumpBtn, $"TKUtils.DumpStyle.{DumpStyle}".Localize()))
@@ -182,7 +182,7 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawGroupHeader("TKUtils.Data.LazyProcess".Localize());
 
             (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(storeLabel, "TKUtils.StoreRate.Label".Localize());
+            SettingsHelper.DrawLabel(storeLabel, "TKUtils.StoreRate.Label".Localize());
             listing.DrawDescription("TKUtils.StoreRate.Description".Localize());
 
             var storeBuffer = StoreBuildRate.ToString();
@@ -331,12 +331,12 @@ namespace SirRandoo.ToolkitUtils
             if (Commands)
             {
                 (Rect prefixLabel, Rect prefixField) = listing.GetRect(Text.LineHeight).ToForm();
-                Widgets.Label(prefixLabel, "TKUtils.CommandPrefix.Label".Localize());
+                SettingsHelper.DrawLabel(prefixLabel, "TKUtils.CommandPrefix.Label".Localize());
                 listing.DrawDescription("TKUtils.CommandPrefix.Description".Localize());
                 Prefix = CommandHelper.ValidatePrefix(Widgets.TextField(prefixField, Prefix));
 
                 (Rect buyPrefixLabel, Rect buyPrefixField) = listing.GetRect(Text.LineHeight).ToForm();
-                Widgets.Label(buyPrefixLabel, "TKUtils.PurchasePrefix.Label".Localize());
+                SettingsHelper.DrawLabel(buyPrefixLabel, "TKUtils.PurchasePrefix.Label".Localize());
                 listing.DrawDescription("TKUtils.PurchasePrefix.Description".Localize());
                 BuyPrefix = CommandHelper.ValidatePrefix(Widgets.TextField(buyPrefixField, BuyPrefix));
             }
@@ -373,7 +373,7 @@ namespace SirRandoo.ToolkitUtils
             (Rect lookupLimitLabel, Rect lookupLimitField) = listing.GetRect(Text.LineHeight).ToForm();
             var buffer = LookupLimit.ToString();
 
-            Widgets.Label(lookupLimitLabel, "TKUtils.LookupLimit.Label".Localize());
+            SettingsHelper.DrawLabel(lookupLimitLabel, "TKUtils.LookupLimit.Label".Localize());
             Widgets.TextFieldNumeric(lookupLimitField, ref LookupLimit, ref buffer);
             listing.DrawDescription("TKUtils.LookupLimit.Description".Localize());
 
@@ -392,7 +392,7 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Localize(), false);
 
             (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
+            SettingsHelper.DrawLabel(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
             listing.DrawDescription("TKUtils.Abandon.Method.Description".Localize());
 
             if (Widgets.ButtonText(leaveRect, $"TKUtils.Abandon.Method.{LeaveMethod}".Localize()))
@@ -428,7 +428,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (!MinimalRelations)
             {
-                Widgets.Label(opinionLabel, "TKUtils.PawnRelations.OpinionThreshold.Label".Localize());
+                SettingsHelper.DrawLabel(opinionLabel, "TKUtils.PawnRelations.OpinionThreshold.Label".Localize());
                 Widgets.TextFieldNumeric(opinionField, ref OpinionMinimum, ref buffer);
                 listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Localize());
             }
