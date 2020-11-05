@@ -197,12 +197,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void CarryOrSpawn(Thing thing)
         {
-            if (thing.def.equipmentType != EquipmentType.None && thing is ThingWithComps && TryEquipWeapon(thing))
+            if (IncidentSettings.Backpack.AutoEquip
+                && thing.def.equipmentType != EquipmentType.None
+                && thing is ThingWithComps
+                && TryEquipWeapon(thing))
             {
                 return;
             }
 
-            if (thing.def.IsApparel && thing is Apparel)
+            if (IncidentSettings.Backpack.AutoEquip && thing.def.IsApparel && thing is Apparel)
             {
                 EquipApparel(thing);
                 return;

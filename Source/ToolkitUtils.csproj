@@ -194,8 +194,10 @@
         <Compile Include="Helpers\SettingsHelper.cs"/>
         <Compile Include="Helpers\TraitHelper.cs"/>
         <Compile Include="IncidentSettings\AddPassion.cs"/>
+        <Compile Include="IncidentSettings\Backpack.cs"/>
         <Compile Include="IncidentSettings\RemovePassion.cs"/>
         <Compile Include="IncidentSettings\Windows\AddPassionDialog.cs"/>
+        <Compile Include="IncidentSettings\Windows\BackpackDialog.cs"/>
         <Compile Include="IncidentSettings\Windows\RemovePassionDialog.cs"/>
         <Compile Include="Incidents\AddPassion.cs"/>
         <Compile Include="Incidents\AddTrait.cs"/>
