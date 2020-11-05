@@ -182,6 +182,7 @@
         <Compile Include="Harmony\ItemWindowPatch.cs"/>
         <Compile Include="Harmony\CommandEditorPatch.cs"/>
         <Compile Include="Harmony\LookupPatch.cs"/>
+        <Compile Include="Harmony\SendChatMessagePatch.cs"/>
         <Compile Include="Harmony\UnassignPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
