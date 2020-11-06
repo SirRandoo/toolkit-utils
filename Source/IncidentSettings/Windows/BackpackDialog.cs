@@ -26,12 +26,12 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
         {
             var listing = new Listing_Standard();
 
-            GUI.BeginGroup(inRect);
+            listing.Begin(inRect);
 
             listing.CheckboxLabeled(autoEquipLabel, ref Backpack.AutoEquip);
             listing.DrawDescription(autoEquipDescription);
 
-            GUI.EndGroup();
+            listing.End();
         }
     }
 }
