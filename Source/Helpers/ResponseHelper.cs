@@ -6,7 +6,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
     public static class ResponseHelper
     {
         public const string OuterGroupSeparator = "⎮";
-        public const string OuterGroupSeparatorAlt = "|";
+        public const string OuterGroupSeparatorAlt = " | ";
         public const string InfinityGlyph = "∞";
         public const string CoinGlyph = "💰";
         public const string KarmaGlyph = "⚖";
