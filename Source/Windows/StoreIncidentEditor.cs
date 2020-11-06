@@ -100,8 +100,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             switch (eventType)
             {
                 case EventTypes.Item:
-                    DrawItemEventSettings(listing);
-                    break;
                 case EventTypes.PawnKind:
                 case EventTypes.Trait:
                     (Rect _, Rect buttonRect) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
@@ -169,20 +167,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 Find.WindowStack.Add(new FloatMenu(karmaTypeOptions));
             }
-        }
-
-        private void DrawItemEventSettings(Listing listing)
-        {
-            listing.Gap(6f);
-
-            (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
-            var timesBuffer = storeIncident.eventCap.ToString();
-            Widgets.Label(timesLabel, timesText);
-            Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 200f);
-
-            listing.Gap();
-            (Rect _, Rect buttonRect) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
-            DrawEditButtonFor(EventTypes.Item, buttonRect);
         }
 
         private void DrawButtonHeader(Rect inRect)
