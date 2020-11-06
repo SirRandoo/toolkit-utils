@@ -210,6 +210,8 @@
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Backpack</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>2</variables>
+        <customSettings>true</customSettings>
+        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.Backpack</customSettingsHelper>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">
                 <EventType>Item</EventType>
