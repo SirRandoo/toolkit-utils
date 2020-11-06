@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var container = new List<string>();
             string coins = ToolkitSettings.UnlimitedCoins
-                ? ResponseHelper.InfinityGlyph
+                ? ResponseHelper.InfinityGlyph.AltText(int.MaxValue.ToString("N0"))
                 : viewer.GetViewerCoins().ToString("N0");
             var karma = (viewer.GetViewerKarma() / 100f).ToString("P0");
 
