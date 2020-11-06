@@ -136,7 +136,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.Gap();
             Widgets.Label(timesLabel, timesText);
-            Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 60f);
+            Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 200f);
 
             if (storeIncidentVariables?.maxWager > 0)
             {
