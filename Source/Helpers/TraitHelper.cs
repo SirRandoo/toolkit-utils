@@ -122,12 +122,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
+            pawn.Notify_DisabledWorkTypesChanged();
             foreach (WorkTypeDef workType in disabledWorkTypes.Where(workType => !pawn.WorkTypeIsDisabled(workType)))
             {
                 pawn.workSettings.Disable(workType);
             }
-
-            pawn.Notify_DisabledWorkTypesChanged();
         }
 
         public static void RemoveTraitFromPawn(Pawn pawn, Trait trait)
@@ -153,12 +152,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
-            foreach (WorkTypeDef workType in disabledWorkTypes.Where(pawn.WorkTypeIsDisabled))
+            pawn.Notify_DisabledWorkTypesChanged();
+            foreach (WorkTypeDef workType in disabledWorkTypes)
             {
                 pawn.workSettings.SetPriority(workType, 3);
             }
-
-            pawn.Notify_DisabledWorkTypesChanged();
         }
 
         public static Backstory IsDisallowedByBackstory(this TraitDef trait, Pawn pawn, int degree)
