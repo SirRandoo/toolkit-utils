@@ -1,172 +1,174 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<Operation Class="PatchOperationFindMod">
-    <mods>
-        <li>Rim of Madness - Vampires</li>
-    </mods>
-    <match Class="PatchOperationSequence">
-        <success>Always</success>
-        <operations>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_Generations_Caine"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_Generations_TheThree"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_Generations_Antediluvian"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_Generations_Methuselah"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_Generations_Elder"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_Generations_Ancillae"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_Generations_Neonate"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_Generations_Thinblood"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_GhoulHediff"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_Vampirism"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_VampirismRandom"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_VampirismTzimisce"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_VampirismLasombra"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_VampirismTremere"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_VampirismPijavica"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_VampirismGargoyle"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_VampirismVentrue"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_VampirismGangrel"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROM_VampirismNosferatu"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/HediffDef[defName="ROMV_TheBeast"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
-                        <ShouldHeal>false</ShouldHeal>
-                    </li>
-                </value>
-            </li>
-        </operations>
-    </match>
-</Operation>
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Rim of Madness - Vampires</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_Generations_Caine"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_Generations_TheThree"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_Generations_Antediluvian"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_Generations_Methuselah"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_Generations_Elder"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_Generations_Ancillae"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_Generations_Neonate"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_Generations_Thinblood"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_GhoulHediff"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_Vampirism"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_VampirismRandom"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_VampirismTzimisce"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_VampirismLasombra"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_VampirismTremere"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_VampirismPijavica"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_VampirismGargoyle"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_VampirismVentrue"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_VampirismGangrel"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROM_VampirismNosferatu"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ROMV_TheBeast"]</xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+            </operations>
+        </match>
+    </Operation>
+</Patch>
