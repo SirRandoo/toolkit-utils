@@ -224,7 +224,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool TryEquipWeapon(Thing thing)
         {
-            if (!pawn.equipment.TryTransferEquipmentToContainer(pawn.equipment.Primary, pawn.inventory.innerContainer))
+            if (pawn.equipment.Primary != null
+                && !pawn.equipment.TryTransferEquipmentToContainer(
+                    pawn.equipment.Primary,
+                    pawn.inventory.innerContainer
+                ))
             {
                 return false;
             }
