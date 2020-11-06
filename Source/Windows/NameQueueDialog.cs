@@ -4,6 +4,7 @@ using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
+using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using UnityEngine;
 using Verse;
@@ -364,11 +365,41 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (pawnComponent != null)
             {
+                ReconnectViewers();
                 return;
             }
 
             TkLogger.Warn("Pawn game component was null!");
             Close();
+        }
+
+        private void ReconnectViewers()
+        {
+            foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder())
+            {
+                string maybeViewer = (pawn.Name as NameTriple)?.Nick;
+
+                if (maybeViewer.NullOrEmpty())
+                {
+                    continue;
+                }
+
+                Viewer viewer = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(maybeViewer));
+
+                if (viewer == null)
+                {
+                    string assignment = pawnComponent.UserAssignedToPawn(pawn);
+
+                    if (assignment != null)
+                    {
+                        pawnComponent.pawnHistory.Remove(assignment);
+                    }
+
+                    continue;
+                }
+
+                pawnComponent.pawnHistory[viewer.username] = pawn;
+            }
         }
     }
 }
