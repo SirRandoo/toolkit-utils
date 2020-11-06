@@ -384,7 +384,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                     continue;
                 }
 
-                Viewer viewer = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(maybeViewer));
+                Viewer viewer = Viewers.All.FirstOrDefault(
+                    v => v.username.Equals(maybeViewer, StringComparison.InvariantCultureIgnoreCase)
+                );
 
                 if (viewer == null)
                 {
@@ -399,6 +401,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 pawnComponent.pawnHistory[viewer.username] = pawn;
+                pawnComponent.viewerNameQueue.RemoveAll(
+                    u => u.Equals(viewer.username, StringComparison.InvariantCultureIgnoreCase)
+                );
             }
         }
     }
