@@ -54,6 +54,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool Offload;
         public static bool BuyItemBalance;
         public static bool ClassChanges;
+        public static bool ResetClass;
         public static bool MinimalRelations = true;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
@@ -154,6 +155,13 @@ namespace SirRandoo.ToolkitUtils
             listing.CheckboxLabeled("TKUtils.TMagic.Classes.Label".Localize(), ref ClassChanges);
             listing.DrawDescription("TKUtils.TMagic.Classes.Description".Localize());
             listing.DrawExperimentalNotice();
+
+            if (ClassChanges)
+            {
+                listing.CheckboxLabeled("TKUtils.TMagic.ResetClass.Label".Localize(), ref ResetClass);
+                listing.DrawDescription("TKUtils.TMagic.ResetClass.Description".Localize());
+                listing.DrawExperimentalNotice();
+            }
 
             listing.End();
         }
@@ -565,6 +573,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref Offload, "offload");
             Scribe_Values.Look(ref BuyItemBalance, "buyItemBalance");
             Scribe_Values.Look(ref ClassChanges, "classChanges");
+            Scribe_Values.Look(ref ResetClass, "resetClass");
             Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);

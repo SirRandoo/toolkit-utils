@@ -107,7 +107,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            TraitHelper.RemoveTraitFromPawn(pawn, trait);
+            if (MagicComp.Active
+                && TkSettings.ClassChanges
+                && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(trait.def.defName)) ?? false))
+            {
+                CharacterData characterData = MagicComp.GetCharacterData(pawn);
+                TraitHelper.RemoveTraitFromPawn(pawn, trait);
+                characterData?.Reset();
+            }
+            else
+            {
+                TraitHelper.RemoveTraitFromPawn(pawn, trait);
+            }
 
             if (!ToolkitSettings.UnlimitedCoins)
             {

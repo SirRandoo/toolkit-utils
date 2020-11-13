@@ -142,6 +142,8 @@
     <!-- A RimWorld of Magic Group -->
     <TKUtils.TMagic.Classes.Label>Allow viewers to change their classes.</TKUtils.TMagic.Classes.Label>
     <TKUtils.TMagic.Classes.Description>If enabled, Utils will lift the restriction surrounding class changes in the trait events.</TKUtils.TMagic.Classes.Description>
+    <TKUtils.TMagic.ResetClass.Label>Reset class abilities when changed</TKUtils.TMagic.ResetClass.Label>
+    <TKUtils.TMagic.ResetClass.Description>If enabled, Utils will reset the viewer's abilities prior to giving them their new class. This means the mod will clear their old classes' abilities, then give their pawn the new class.</TKUtils.TMagic.ResetClass.Description>
     
     
     <!-- Incident Settings -->
