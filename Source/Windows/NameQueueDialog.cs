@@ -26,6 +26,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string titleText;
         private string unassignedText;
         private string username;
+        private Rect usernameFieldPosition;
         private string usernameText;
 
         public NameQueueDialog()
@@ -75,22 +76,22 @@ namespace SirRandoo.ToolkitUtils.Windows
             float buttonWidth = Text.CalcSize(applyText).x + 16f;
 
             Rect usernameFieldHalf = usernameRect.RightHalf();
-            var usernameField = new Rect(
+            usernameFieldPosition = new Rect(
                 usernameFieldHalf.x,
                 usernameFieldHalf.y,
                 usernameFieldHalf.width - buttonWidth - 5f,
                 usernameFieldHalf.height
             );
-            username = Widgets.TextField(usernameField, username);
+            username = Widgets.TextField(usernameFieldPosition, username);
 
-            if (username.Length > 0 && SettingsHelper.DrawClearButton(usernameField))
+            if (username.Length > 0 && SettingsHelper.DrawClearButton(usernameFieldPosition))
             {
                 username = "";
             }
 
             var usernameApply = new Rect(
-                usernameField.x + usernameField.width + 5f,
-                usernameField.y,
+                usernameFieldPosition.x + usernameFieldPosition.width + 5f,
+                usernameFieldPosition.y,
                 buttonWidth,
                 Text.LineHeight
             );
@@ -405,6 +406,18 @@ namespace SirRandoo.ToolkitUtils.Windows
                     u => u.Equals(viewer.username, StringComparison.InvariantCultureIgnoreCase)
                 );
             }
+        }
+
+        public override void OnAcceptKeyPressed()
+        {
+            if (GUIUtility.keyboardControl == GUIUtility.GetControlID(FocusType.Keyboard, usernameFieldPosition))
+            {
+                AssignColonist();
+                GUIUtility.keyboardControl = 0;
+                return;
+            }
+
+            base.OnAcceptKeyPressed();
         }
     }
 }
