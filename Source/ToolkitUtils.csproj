@@ -164,6 +164,7 @@
         <Compile Include="Commands\ShopToggle.cs"/>
         <Compile Include="Commands\Research.cs"/>
         <Compile Include="Commands\Unstick.cs"/>
+        <Compile Include="Commands\UnstickMe.cs"/>
         <Compile Include="Commands\Wealth.cs"/>
         <Compile Include="EventExtension.cs"/>
         <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>

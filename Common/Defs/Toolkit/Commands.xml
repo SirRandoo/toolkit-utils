@@ -630,4 +630,17 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>UnstickMe</defName>
+        <label>i'm stuck</label>
+        <command>imstuck</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickMe</commandDriver>
+        
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Description>It's like unstick, but safe for viewers to use.</Description>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
 </Defs>

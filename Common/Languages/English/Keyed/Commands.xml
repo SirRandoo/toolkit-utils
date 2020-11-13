@@ -85,4 +85,7 @@
     
     <!-- Unstick -->
     <TKUtils.Unstick>Unstuck {0} viewers.</TKUtils.Unstick>
+    
+    <!-- Unstick Me -->
+    <TKUtils.UnstickMe>You've been unstuck.</TKUtils.UnstickMe>
 </LanguageData>
