@@ -103,8 +103,17 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return false;
             }
 
-            settings = AlienSettingsField.GetValue(pawn.kindDef.race);
-            return true;
+            try
+            {
+                settings = AlienSettingsField.GetValue(pawn.kindDef.race);
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                // The def does not contain any unique settings
+                settings = null;
+                return false;
+            }
         }
 
         private static bool TryGetGeneralSettings(Pawn pawn, out object generalSettings)
