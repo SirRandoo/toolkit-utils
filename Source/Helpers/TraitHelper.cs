@@ -112,7 +112,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (KeyValuePair<SkillDef, int> skillGain in val.skillGains)
             {
-                pawn.skills.GetSkill(skillGain.Key).Level = TraitHelpers.FinalLevelOfSkill(pawn, skillGain.Key);
+                SkillRecord skill = pawn.skills.GetSkill(skillGain.Key);
+
+                if (skill.TotallyDisabled)
+                {
+                    continue;
+                }
+
+                skill.Level += skillGain.Value;
             }
 
             List<WorkTypeDef> disabledWorkTypes = trait.GetDisabledWorkTypes().ToList();
