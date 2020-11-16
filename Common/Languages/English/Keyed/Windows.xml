@@ -28,7 +28,13 @@
     
     
     <!-- Name Queue -->
-    <TKUtils.NameQueue.Title>Name Queue</TKUtils.NameQueue.Title>
+    <TKUtils.NameQueue.Tooltips.Random>Select a random viewer from the queue.\n\nShortcut: R</TKUtils.NameQueue.Tooltips.Random>
+    <TKUtils.NameQueue.Tooltips.Pawn>Show information about this pawn\n\nShortcut: F2</TKUtils.NameQueue.Tooltips.Pawn>
+    <TKUtils.NameQueue.Tooltips.Next>Next colonist\n\nShortcuts:\nRight Arrow - Next colonist\nControl + Right Arrow - Next unnamed colonist</TKUtils.NameQueue.Tooltips.Next>
+    <TKUtils.NameQueue.Tooltips.Previous>Previous colonist\n\nShortcuts:\nLeft Arrow - Previous colonist\nControl + Left Arrow - Previous unnamed colonist</TKUtils.NameQueue.Tooltips.Previous>
+    <TKUtils.NameQueue.Tooltips.ViewerName>Click to populate the username field on the right with this name</TKUtils.NameQueue.Tooltips.ViewerName>
+    <TKUtils.NameQueue.Tooltips.Unassigned>Click to assign</TKUtils.NameQueue.Tooltips.Unassigned>
+    <TKUtils.NameQueue.Tooltips.Assigned>Click to unassign</TKUtils.NameQueue.Tooltips.Assigned>
     <TKUtils.NameQueue.None>The name queue is empty!</TKUtils.NameQueue.None>
     <TKUtils.NameQueue.Count>viewer(s) wainting in queue</TKUtils.NameQueue.Count>
     <TKUtils.NameQueue.Unassigned>unassigned</TKUtils.NameQueue.Unassigned>

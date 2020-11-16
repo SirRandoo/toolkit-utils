@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using Verse;
 
@@ -21,6 +22,13 @@ namespace SirRandoo.ToolkitUtils
         internal static readonly Texture2D Filter;
         internal static readonly Texture2D CollapsedArrow;
         internal static readonly Texture2D ExpandedArrow;
+        internal static readonly Texture2D DiceSideOne;
+        internal static readonly Texture2D DiceSideTwo;
+        internal static readonly Texture2D DiceSideThree;
+        internal static readonly Texture2D DiceSideFour;
+        internal static readonly Texture2D DiceSideFive;
+        internal static readonly Texture2D DiceSideSix;
+        internal static readonly List<Texture2D> DiceSides;
 
         static Textures()
         {
@@ -37,6 +45,22 @@ namespace SirRandoo.ToolkitUtils
             QuestionMark = ContentFinder<Texture2D>.Get("UI/Icons/QuestionMark");
             CollapsedArrow = ContentFinder<Texture2D>.Get("UI/Icons/CollapsedArrow");
             ExpandedArrow = ContentFinder<Texture2D>.Get("UI/Icons/ExpandedArrow");
+            DiceSideOne = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideOne");
+            DiceSideTwo = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideTwo");
+            DiceSideThree = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideThree");
+            DiceSideFour = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideFour");
+            DiceSideFive = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideFive");
+            DiceSideSix = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideSix");
+
+            DiceSides = new List<Texture2D>
+            {
+                DiceSideOne,
+                DiceSideTwo,
+                DiceSideThree,
+                DiceSideFour,
+                DiceSideFive,
+                DiceSideSix
+            };
         }
     }
 }
