@@ -270,19 +270,24 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             float remainingWidth = availableWidth - nameHeaderRect.width;
 
-            var addHeaderRect = new Rect(nameHeaderRect.width + 5f, nameHeaderRect.y, 24f, nameHeaderRect.height);
+            Rect addHeaderRect = new Rect(
+                nameHeaderRect.width + 5f,
+                nameHeaderRect.y,
+                Text.LineHeight * LineScale,
+                nameHeaderRect.height
+            ).Rounded();
             Rect addCostHeaderRect = new Rect(
                 addHeaderRect.x + addHeaderRect.width + 5f,
                 nameHeaderRect.y,
                 remainingWidth * 0.413f,
                 nameHeaderRect.height
             ).Rounded();
-            var removeHeaderRect = new Rect(
+            Rect removeHeaderRect = new Rect(
                 addCostHeaderRect.x + addCostHeaderRect.width + 60f,
                 nameHeaderRect.y,
-                24f,
+                Text.LineHeight * LineScale,
                 nameHeaderRect.height
-            );
+            ).Rounded();
             var removeCostHeaderRect = new Rect(
                 removeHeaderRect.x + removeHeaderRect.width + 5f,
                 nameHeaderRect.y,
@@ -312,7 +317,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             float maxHeight = lineHeight * total;
             Rect viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight).Rounded();
             var traits = new Rect(0f, 0f, contentArea.width, contentArea.height);
-            GameFont font = Text.Font;
 
             GUI.BeginGroup(contentArea);
             listing.BeginScrollView(traits, ref scrollPos, ref viewPort);
@@ -359,9 +363,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 SettingsHelper.DrawLabel(nameRect, trait.Name);
-                Widgets.Checkbox(addRect.position, ref trait.CanAdd, paintable: true);
+                Widgets.Checkbox(addRect.position, ref trait.CanAdd, addRect.height, paintable: true);
                 SettingsHelper.DrawPriceField(addCostRect, ref trait.CostToAdd, ref control, ref shift);
-                Widgets.Checkbox(removeRect.position, ref trait.CanRemove, paintable: true);
+                Widgets.Checkbox(removeRect.position, ref trait.CanRemove, removeRect.width, paintable: true);
                 SettingsHelper.DrawPriceField(removeCostRect, ref trait.CostToRemove, ref control, ref shift);
             }
 
@@ -369,7 +373,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.EndScrollView(ref viewPort);
             GUI.EndGroup();
 
-            Text.Font = font;
             Text.WordWrap = wrapped;
         }
 
