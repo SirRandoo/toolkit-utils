@@ -324,7 +324,7 @@ namespace SirRandoo.ToolkitUtils
         private static void DrawCommandTweaksTab(Rect canvas)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 43f);
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 45f);
 
             GUI.BeginGroup(canvas);
             listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
