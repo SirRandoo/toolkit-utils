@@ -257,8 +257,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 PawnKindItem item = effectiveList[index];
                 Rect lineRect = listing.GetRect(Text.LineHeight * LineScale).Rounded();
-                var stateRect = new Rect(0f, lineRect.y, Widgets.CheckboxSize, Text.LineHeight);
-                var nameRect = new Rect(Widgets.CheckboxSize + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
+                var stateRect = new Rect(0f, lineRect.y, Text.LineHeight, Text.LineHeight);
+                var nameRect = new Rect(Text.LineHeight + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
                 var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width, lineRect.height);
                 var settingsRect = new Rect(
                     priceRect.x + priceRect.width + 5f,
@@ -337,7 +337,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 item.Name.ToLowerInvariant().Equals(item.Name) ? item.Name.CapitalizeFirst() : item.Name
             );
 
-            Widgets.Checkbox(stateRect.x, stateRect.y, ref item.Enabled, paintable: true);
+            Widgets.Checkbox(stateRect.x, stateRect.y, ref item.Enabled, stateRect.height, paintable: true);
 
             if (!item.Enabled)
             {
