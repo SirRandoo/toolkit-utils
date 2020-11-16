@@ -520,6 +520,8 @@ namespace SirRandoo.ToolkitUtils
                 }
 
                 Rect line = listing.GetRect(Text.LineHeight);
+                var labelRect = new Rect(line.x, line.y, line.width - line.height - 5f, line.height);
+                var checkRect = new Rect(line.x + line.width - line.height, line.y, line.height, line.height);
 
                 if (!line.IsRegionVisible(content, _statScrollPos))
                 {
@@ -531,12 +533,8 @@ namespace SirRandoo.ToolkitUtils
                     Widgets.DrawLightHighlight(line);
                 }
 
-                Widgets.CheckboxLabeled(
-                    line,
-                    statDef.LabelForFullStatListCap ?? statDef.LabelCap,
-                    ref statSetting.Enabled
-                );
-
+                SettingsHelper.DrawLabel(labelRect, statDef.LabelForFullStatListCap ?? statDef.LabelCap);
+                Widgets.Checkbox(checkRect.position, ref statSetting.Enabled, line.height, paintable: true);
                 Widgets.DrawHighlightIfMouseover(line);
             }
 
