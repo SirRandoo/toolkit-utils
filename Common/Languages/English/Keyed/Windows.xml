@@ -36,7 +36,7 @@
     <TKUtils.NameQueue.Tooltips.Unassigned>Click to assign</TKUtils.NameQueue.Tooltips.Unassigned>
     <TKUtils.NameQueue.Tooltips.Assigned>Click to unassign</TKUtils.NameQueue.Tooltips.Assigned>
     <TKUtils.NameQueue.None>The name queue is empty!</TKUtils.NameQueue.None>
-    <TKUtils.NameQueue.Count>viewer(s) wainting in queue</TKUtils.NameQueue.Count>
+    <TKUtils.NameQueue.Count>viewer(s) waiting in queue</TKUtils.NameQueue.Count>
     <TKUtils.NameQueue.Unassigned>unassigned</TKUtils.NameQueue.Unassigned>
     <TKUtils.NameQueue.Assigned>assigned</TKUtils.NameQueue.Assigned>
     
