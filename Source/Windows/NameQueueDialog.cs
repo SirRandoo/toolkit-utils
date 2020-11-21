@@ -180,7 +180,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawNameQueue(Listing listing)
         {
-            for (int index = pawnComponent.ViewerNameQueue.Count - 1; index >= 0; index--)
+            for (var index = 0; index < pawnComponent.ViewerNameQueue.Count; index++)
             {
                 string name = pawnComponent.ViewerNameQueue[index];
 
