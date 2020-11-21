@@ -35,115 +35,110 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return true;
         }
 
-        [SuppressMessage("ReSharper", "CognitiveComplexity")]
-        public static void DrawPriceField(Rect canvas, ref int price, ref bool control, ref bool shift)
+        public static void DrawPriceField(Rect canvas, ref int price)
         {
             const float buttonWidth = 50f;
 
             var reduceRect = new Rect(canvas.x, canvas.y, buttonWidth, canvas.height);
             var raiseRect = new Rect(canvas.x + canvas.width - buttonWidth, canvas.y, buttonWidth, canvas.height);
             var fieldRect = new Rect(
-                canvas.x + buttonWidth + 5f,
+                canvas.x + buttonWidth + 2f,
                 canvas.y,
-                canvas.width - buttonWidth * 2 - 10f,
+                canvas.width - buttonWidth * 2 - 4f,
                 canvas.height
             );
-            Event currentEvent = Event.current;
             var buffer = price.ToString();
-
-            if (currentEvent.type == EventType.Used || currentEvent.type == EventType.KeyDown)
-            {
-                switch (currentEvent.keyCode)
-                {
-                    case KeyCode.LeftShift:
-                    case KeyCode.RightShift:
-                        shift = true;
-                        break;
-                    case KeyCode.LeftControl:
-                    case KeyCode.RightControl:
-                        control = true;
-                        break;
-                }
-            }
-            else if (currentEvent.type == EventType.KeyUp)
-            {
-                switch (currentEvent.keyCode)
-                {
-                    case KeyCode.LeftShift:
-                    case KeyCode.RightShift:
-                        shift = false;
-                        break;
-                    case KeyCode.LeftControl:
-                    case KeyCode.RightControl:
-                        control = false;
-                        break;
-                }
-            }
-            else if (currentEvent.type == EventType.Repaint || currentEvent.type == EventType.Layout)
-            {
-                shift = currentEvent.shift;
-            }
+            bool shift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            bool control = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
 
 
             if (control && shift)
             {
-                if (Widgets.ButtonText(reduceRect, "-1000"))
-                {
-                    price -= 1000;
-                    buffer = price.ToString();
-                }
-
-                if (Widgets.ButtonText(raiseRect, "+1000"))
-                {
-                    price += 1000;
-                    buffer = price.ToString();
-                }
+                buffer = DrawControlShiftPriceBtns(ref price, reduceRect, buffer, raiseRect);
             }
             else if (control)
             {
-                if (Widgets.ButtonText(reduceRect, "-100"))
-                {
-                    price -= 100;
-                    buffer = price.ToString();
-                }
-
-                if (Widgets.ButtonText(raiseRect, "+100"))
-                {
-                    price += 100;
-                    buffer = price.ToString();
-                }
+                buffer = DrawControlPriceBtns(ref price, reduceRect, buffer, raiseRect);
             }
             else if (shift)
             {
-                if (Widgets.ButtonText(reduceRect, "-10"))
-                {
-                    price -= 10;
-                    buffer = price.ToString();
-                }
-
-                if (Widgets.ButtonText(raiseRect, "+10"))
-                {
-                    price += 10;
-                    buffer = price.ToString();
-                }
+                buffer = DrawShiftPriceBtns(ref price, reduceRect, buffer, raiseRect);
             }
             else
             {
-                if (Widgets.ButtonText(reduceRect, "-1"))
-                {
-                    price -= 1;
-                    buffer = price.ToString();
-                }
-
-                if (Widgets.ButtonText(raiseRect, "+1"))
-                {
-                    price += 1;
-                    buffer = price.ToString();
-                }
+                buffer = DrawBasePriceBtns(ref price, reduceRect, buffer, raiseRect);
             }
 
 
             Widgets.TextFieldNumeric(fieldRect, ref price, ref buffer);
+        }
+
+        private static string DrawControlShiftPriceBtns(ref int price, Rect reduceRect, string buffer, Rect raiseRect)
+        {
+            if (Widgets.ButtonText(reduceRect, "-1000"))
+            {
+                price -= 1000;
+                buffer = price.ToString();
+            }
+
+            if (Widgets.ButtonText(raiseRect, "+1000"))
+            {
+                price += 1000;
+                buffer = price.ToString();
+            }
+
+            return buffer;
+        }
+
+        private static string DrawControlPriceBtns(ref int price, Rect reduceRect, string buffer, Rect raiseRect)
+        {
+            if (Widgets.ButtonText(reduceRect, "-100"))
+            {
+                price -= 100;
+                buffer = price.ToString();
+            }
+
+            if (Widgets.ButtonText(raiseRect, "+100"))
+            {
+                price += 100;
+                buffer = price.ToString();
+            }
+
+            return buffer;
+        }
+
+        private static string DrawShiftPriceBtns(ref int price, Rect reduceRect, string buffer, Rect raiseRect)
+        {
+            if (Widgets.ButtonText(reduceRect, "-10"))
+            {
+                price -= 10;
+                buffer = price.ToString();
+            }
+
+            if (Widgets.ButtonText(raiseRect, "+10"))
+            {
+                price += 10;
+                buffer = price.ToString();
+            }
+
+            return buffer;
+        }
+
+        private static string DrawBasePriceBtns(ref int price, Rect reduceRect, string buffer, Rect raiseRect)
+        {
+            if (Widgets.ButtonText(reduceRect, "-1"))
+            {
+                price -= 1;
+                buffer = price.ToString();
+            }
+
+            if (Widgets.ButtonText(raiseRect, "+1"))
+            {
+                price += 1;
+                buffer = price.ToString();
+            }
+
+            return buffer;
         }
 
         public static bool DrawDoneButton(Rect canvas)

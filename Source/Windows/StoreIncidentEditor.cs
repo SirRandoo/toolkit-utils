@@ -17,7 +17,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private readonly string[] karmaTypeStrings = Enum.GetNames(typeof(KarmaType));
         private string codeText;
         private string costText;
-        private bool ctrl;
 
         private string disableText;
         private string editItemsText;
@@ -28,7 +27,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string karmaText;
         private string resetText;
         private string settingsText;
-        private bool shft;
         private string timesText;
         private float titleWidth;
         private string wagerText;
@@ -123,7 +121,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 listing.Gap();
                 Widgets.Label(costLabel, costText);
-                SettingsHelper.DrawPriceField(costField, ref storeIncident.cost, ref ctrl, ref shft);
+                SettingsHelper.DrawPriceField(costField, ref storeIncident.cost);
 
                 if (storeIncident.cost == 0)
                 {
@@ -144,7 +142,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 (Rect wagerLabel, Rect wagerField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
                 Widgets.Label(wagerLabel, wagerText);
-                SettingsHelper.DrawPriceField(wagerField, ref storeIncidentVariables.maxWager, ref ctrl, ref shft);
+                SettingsHelper.DrawPriceField(wagerField, ref storeIncidentVariables.maxWager);
 
                 if (storeIncidentVariables.maxWager > 20000)
                 {

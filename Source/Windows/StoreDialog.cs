@@ -44,7 +44,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Vector2 categoryHeaderSize;
         private bool categorySearch;
         private bool closeCalled;
-        private bool ctrlKeyDown;
 
         private string currentQuery = "";
         private string customNameText;
@@ -70,7 +69,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Vector2 scrollPos = Vector2.zero;
         private string searchText;
         private Vector2 searchTextSize;
-        private bool shftKeyDown;
         private Sorter sorter = Sorter.Name;
         private SortMode sortMode = SortMode.Ascending;
         private string stuffText;
@@ -586,7 +584,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (item.Item?.price > 0)
             {
-                SettingsHelper.DrawPriceField(priceRect, ref item.Item.price, ref ctrlKeyDown, ref shftKeyDown);
+                SettingsHelper.DrawPriceField(priceRect, ref item.Item.price);
             }
 
             var categoryRect = new Rect(

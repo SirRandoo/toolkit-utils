@@ -18,7 +18,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string addKarmaTypeText;
         private string bypassLimitText;
 
-        private bool control;
         private string currentQuery = "";
         private string disableAllText;
         private string enableAllText;
@@ -36,7 +35,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private List<TraitItem> results;
         private Vector2 scrollPos = Vector2.zero;
         private string searchText;
-        private bool shift;
         private Sorter sorter = Sorter.Name;
         private SortMode sortMode = SortMode.Ascending;
         private string titleText;
@@ -59,8 +57,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             titleText = "TKUtils.TraitStore.Title".Localize();
             nameHeaderText = "TKUtils.Headers.Name".Localize();
             searchText = "TKUtils.Buttons.Search".Localize();
-            enableAllText = "TKUtils.Buttons.EnableAll".Localize();
-            disableAllText = "TKUtils.Buttons.DisableAll".Localize();
             addCostText = "TKUtils.TraitStore.AddCost".Localize();
             removeCostText = "TKUtils.TraitStore.RemoveCost".Localize();
             addKarmaTypeText = "TKUtils.TraitStore.AddKarmaType".Localize();
@@ -92,14 +88,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
 
-            float controlWidth = Mathf.Max(Text.CalcSize(enableAllText).x, Text.CalcSize(disableAllText).x) + 10f;
-            var enableRect = new Rect(inRect.width - controlWidth, 0f, controlWidth, Text.LineHeight);
-            var disableRect = new Rect(inRect.width - controlWidth, Text.LineHeight, controlWidth, Text.LineHeight);
-
-            DrawGlobalStateButtons(enableRect, disableRect);
-
-            var globalAddRect = new Rect(enableRect.x - 5f - 200f, 0f, 200f, Text.LineHeight);
-            var globalRemoveRect = new Rect(disableRect.x - 5f - 200f, Text.LineHeight, 200f, Text.LineHeight);
+            var globalAddRect = new Rect(inRect.width - 5f - 200f, 0f, 200f, Text.LineHeight);
+            var globalRemoveRect = new Rect(inRect.width - 5f - 200f, Text.LineHeight, 200f, Text.LineHeight);
 
             var globalAddBuffer = globalAddCost.ToString();
             Widgets.Label(globalAddRect.LeftHalf(), addCostText);
@@ -364,9 +354,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 SettingsHelper.DrawLabel(nameRect, trait.Name);
                 Widgets.Checkbox(addRect.position, ref trait.CanAdd, addRect.height, paintable: true);
-                SettingsHelper.DrawPriceField(addCostRect, ref trait.CostToAdd, ref control, ref shift);
+                SettingsHelper.DrawPriceField(addCostRect, ref trait.CostToAdd);
                 Widgets.Checkbox(removeRect.position, ref trait.CanRemove, removeRect.width, paintable: true);
-                SettingsHelper.DrawPriceField(removeCostRect, ref trait.CostToRemove, ref control, ref shift);
+                SettingsHelper.DrawPriceField(removeCostRect, ref trait.CostToRemove);
             }
 
             GUI.EndGroup();

@@ -16,7 +16,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private readonly List<PawnKindItem> cache = Data.PawnKinds;
         private string applyText;
 
-        private bool control;
         private string currentQuery = "";
         private string disableText;
         private string enableText;
@@ -35,7 +34,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Vector2 scrollPos = Vector2.zero;
         private string searchText;
         private Vector2 searchTextSize;
-        private bool shift;
 
         private Sorter sorter = Sorter.Name;
         private SortMode sortMode = SortMode.Ascending;
@@ -344,7 +342,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            SettingsHelper.DrawPriceField(priceRect, ref item.Cost, ref control, ref shift);
+            SettingsHelper.DrawPriceField(priceRect, ref item.Cost);
 
             GUI.DrawTexture(settingsRect, Textures.Gear);
 
