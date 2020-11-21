@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using RimWorld;
@@ -12,6 +13,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
     public static class SettingsHelper
     {
         private static readonly FieldInfo SelectedModField = AccessTools.Field(typeof(Dialog_ModSettings), "selMod");
+
+        private static readonly GameFont[] GameFonts = Enum.GetNames(typeof(GameFont))
+           .Select(f => (GameFont) Enum.Parse(typeof(GameFont), f))
+           .OrderByDescending(f => (int) f)
+           .ToArray();
 
         public static bool DrawClearButton(Rect canvas)
         {
@@ -308,6 +314,49 @@ namespace SirRandoo.ToolkitUtils.Helpers
             GUI.color = color;
             DrawLabel(region, text, anchor, fontScale, vertical);
             GUI.color = Color.white;
+        }
+
+        public static void DrawFittedLabel(
+            Rect region,
+            string text,
+            TextAnchor anchor = TextAnchor.MiddleLeft,
+            GameFont maxScale = GameFont.Small,
+            bool vertical = false
+        )
+        {
+            Text.Anchor = anchor;
+
+            if (vertical)
+            {
+                region.y += region.width;
+                GUIUtility.RotateAroundPivot(-90f, region.position);
+            }
+
+            var maxFontScale = (int) maxScale;
+            foreach (GameFont f in GameFonts)
+            {
+                if ((int) f > maxFontScale)
+                {
+                    continue;
+                }
+
+                Text.Font = f;
+
+                if (Text.CalcSize(text).x <= region.width)
+                {
+                    break;
+                }
+            }
+
+            Widgets.Label(region, text);
+
+            if (vertical)
+            {
+                GUI.matrix = Matrix4x4.identity;
+            }
+
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
         }
 
         public static Tuple<Rect, Rect> ToForm(this Rect region, float factor = 0.8f)
