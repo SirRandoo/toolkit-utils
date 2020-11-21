@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return false;
             }
 
-            GUI.FocusControl(null);
+            GUIUtility.keyboardControl = 0;
             return true;
         }
 
