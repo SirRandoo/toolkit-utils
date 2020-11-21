@@ -364,6 +364,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
             );
         }
 
+        public static Tuple<Rect, Rect> GetRectAsForm(this Listing listing, float factor = 0.8f)
+        {
+            return listing.GetRect(Text.LineHeight).ToForm(factor);
+        }
+
         public static string Tagged(this string s, string tag)
         {
             return $"<{tag}>{s}</{tag}>";
@@ -420,7 +425,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Text.Font = GameFont.Tiny;
             float height = Text.CalcHeight(description, listing.ColumnWidth * 0.7f);
             DrawLabel(
-                listing.GetRect(height).TrimLeft(10f).WithWidth(listing.ColumnWidth * 0.7f),
+                listing.GetRect(height).TrimLeft(10f).WithWidth(listing.ColumnWidth * 0.7f).Rounded(),
                 description,
                 TextAnchor.UpperLeft,
                 GameFont.Tiny
@@ -440,7 +445,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             if (gapPrefix)
             {
-                listing.Gap(Text.LineHeight * 1.25f);
+                listing.Gap(Mathf.CeilToInt(Text.LineHeight * 1.25f));
             }
 
             DrawLabel(listing.GetRect(Text.LineHeight), heading, TextAnchor.LowerLeft, GameFont.Tiny);
@@ -451,7 +456,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             if (gapPrefix)
             {
-                listing.Gap(Text.LineHeight * 1.25f);
+                listing.Gap(Mathf.CeilToInt(Text.LineHeight * 1.25f));
             }
 
             Rect lineRect = listing.GetRect(Text.LineHeight);
