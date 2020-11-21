@@ -129,27 +129,28 @@ namespace SirRandoo.ToolkitUtils.Windows
                .Rounded();
             var queueNoticeRect = new Rect(
                 0f,
-                Text.LineHeight * 4f,
+                Text.LineHeight * 5f,
                 adjustedLineRect.width - Text.LineHeight - 5f,
                 Text.LineHeight
             );
             var queueRandomRect = new Rect(
                 adjustedLineRect.x + adjustedLineRect.width - Text.LineHeight,
-                Text.LineHeight * 4f,
+                Text.LineHeight * 5f,
                 Text.LineHeight,
                 Text.LineHeight
             );
             var queueRect = new Rect(
                 0f,
-                Text.LineHeight * 5f,
+                Text.LineHeight * 6f,
                 contentRect.width,
-                contentRect.height - Text.LineHeight * 5f
+                contentRect.height - Text.LineHeight * 6f
             );
+            var queueInnerRect = new Rect(0f, 0f, queueRect.width, queueRect.height);
             var queueView = new Rect(
                 0f,
-                queueRect.y,
-                queueRect.width * 0.9f,
-                Text.LineHeight * pawnComponent.viewerNameQueue.Count + 40f
+                0f,
+                queueRect.width - 16f,
+                Text.LineHeight * pawnComponent.viewerNameQueue.Count
             );
 
             if (pawnComponent.ViewerNameQueue.Count <= 0)
@@ -168,15 +169,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             GUI.BeginGroup(queueRect);
-            ;
-            listing.BeginScrollView(queueRect, ref scrollPos, ref queueView);
-            listing.Gap(Text.LineHeight * 5f);
+            listing.BeginScrollView(queueInnerRect, ref scrollPos, ref queueView);
             DrawNameQueue(listing);
 
-            listing.EndScrollView(ref queueView);
-
             GUI.EndGroup();
-
+            listing.EndScrollView(ref queueView);
+            GUI.EndGroup();
             Text.Font = GameFont.Small;
         }
 
@@ -197,10 +195,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (name.EqualsIgnoreCase(username))
                 {
-                    Widgets.DrawHighlightSelected(nameRect);
+                    Widgets.DrawHighlightSelected(line);
                 }
 
-                Widgets.DrawHighlightIfMouseover(nameRect);
+                Widgets.DrawHighlightIfMouseover(line);
                 DrawNameFromQueue(nameRect, name, buttonRect, index);
             }
         }
