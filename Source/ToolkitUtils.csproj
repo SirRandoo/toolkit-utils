@@ -292,48 +292,6 @@
         <Content Include="..\About\Preview.png">
             <Link>About\Preview.png</Link>
         </Content>
-        <Content Include="..\Common\Defs\ViewerRescue.xml">
-            <Link>Common\Defs\ViewerRescue.xml</Link>
-        </Content>
-        <Content Include="..\Common\Defs\Toolkit\Addons.xml">
-            <Link>Common\Defs\Toolkit\Addons.xml</Link>
-        </Content>
-        <Content Include="..\Common\Defs\Toolkit\Commands.xml">
-            <Link>Common\Defs\Toolkit\Commands.xml</Link>
-        </Content>
-        <Content Include="..\Common\Defs\Toolkit\StoreIncidents.xml">
-            <Link>Common\Defs\Toolkit\StoreIncidents.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\Buttons.xml">
-            <Link>Common\Languages\English\Keyed\Buttons.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\Commands.xml">
-            <Link>Common\Languages\English\Keyed\Commands.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\ErrorResponses.xml">
-            <Link>Common\Languages\English\Keyed\ErrorResponses.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\Incidents.xml">
-            <Link>Common\Languages\English\Keyed\Incidents.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\Letters.xml">
-            <Link>Common\Languages\English\Keyed\Letters.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\ContextMenus.xml">
-            <Link>Common\Languages\English\Keyed\ContextMenus.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\Responses.xml">
-            <Link>Common\Languages\English\Keyed\Responses.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\Settings.xml">
-            <Link>Common\Languages\English\Keyed\Settings.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\Windows.xml">
-            <Link>Common\Languages\English\Keyed\Windows.xml</Link>
-        </Content>
-        <Content Include="..\Common\Languages\English\Keyed\Workers.xml">
-            <Link>Common\Languages\English\Keyed\Workers.xml</Link>
-        </Content>
         <Content Update="..\Common\Languages\English\Keyed\TKUtils.Responses.xml">
             <Link>Common\Languages\English\Keyed\TKUtils.Responses.xml</Link>
         </Content>
@@ -351,6 +309,51 @@
         </Content>
         <Content Update="..\Common\Textures\UI\Trash.png">
             <Link>Common\Textures\UI\Trash.png</Link>
+        </Content>
+        <Content Include="..\Common\Defs\Toolkit\Addons.xml">
+            <Link>Common\Defs\Toolkit\Addons.xml</Link>
+        </Content>
+        <Content Include="..\Common\Defs\Toolkit\Commands.xml">
+            <Link>Common\Defs\Toolkit\Commands.xml</Link>
+        </Content>
+        <Content Include="..\Common\Defs\Toolkit\StoreIncidents.xml">
+            <Link>Common\Defs\Toolkit\StoreIncidents.xml</Link>
+        </Content>
+        <Content Include="..\Common\Defs\ViewerRescue.xml">
+            <Link>Common\Defs\ViewerRescue.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Buttons.xml">
+            <Link>Common\Languages\English\Keyed\Buttons.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Commands.xml">
+            <Link>Common\Languages\English\Keyed\Commands.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\ContextMenus.xml">
+            <Link>Common\Languages\English\Keyed\ContextMenus.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Editor.xml">
+            <Link>Common\Languages\English\Keyed\Editor.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\ErrorResponses.xml">
+            <Link>Common\Languages\English\Keyed\ErrorResponses.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Incidents.xml">
+            <Link>Common\Languages\English\Keyed\Incidents.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Letters.xml">
+            <Link>Common\Languages\English\Keyed\Letters.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Responses.xml">
+            <Link>Common\Languages\English\Keyed\Responses.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Settings.xml">
+            <Link>Common\Languages\English\Keyed\Settings.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Windows.xml">
+            <Link>Common\Languages\English\Keyed\Windows.xml</Link>
+        </Content>
+        <Content Include="..\Common\Languages\English\Keyed\Workers.xml">
+            <Link>Common\Languages\English\Keyed\Workers.xml</Link>
         </Content>
         <Content Include="..\Common\Patches\ModComp\AndroidTiers.xml">
             <Link>Common\Patches\ModComp\AndroidTiers.xml</Link>
@@ -394,6 +397,27 @@
         <Content Include="..\Common\Patches\TwitchToolkit\RemoveTraitOverride.xml">
             <Link>Common\Patches\TwitchToolkit\RemoveTraitOverride.xml</Link>
         </Content>
+        <Content Include="..\Common\Textures\UI\Icons\CollapsedArrow.png">
+            <Link>Common\Textures\UI\Icons\CollapsedArrow.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\DiceSideFive.png">
+            <Link>Common\Textures\UI\Icons\DiceSideFive.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\DiceSideFour.png">
+            <Link>Common\Textures\UI\Icons\DiceSideFour.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\DiceSideOne.png">
+            <Link>Common\Textures\UI\Icons\DiceSideOne.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\DiceSideSix.png">
+            <Link>Common\Textures\UI\Icons\DiceSideSix.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\DiceSideThree.png">
+            <Link>Common\Textures\UI\Icons\DiceSideThree.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\DiceSideTwo.png">
+            <Link>Common\Textures\UI\Icons\DiceSideTwo.png</Link>
+        </Content>
         <Content Include="..\Common\Textures\UI\Icons\Edit.png">
             <Link>Common\Textures\UI\Icons\Edit.png</Link>
         </Content>
@@ -420,12 +444,6 @@
         </Content>
         <Content Include="..\Common\Textures\UI\Icons\Visible.png">
             <Link>Common\Textures\UI\Icons\Visible.png</Link>
-        </Content>
-        <Content Include="..\Common\Textures\UI\Icons\ExpandedArrow.png">
-            <Link>Common\Textures\UI\Icons\ExpandedArrow.png</Link>
-        </Content>
-        <Content Include="..\Common\Textures\UI\Icons\CollapsedArrow.png">
-            <Link>Common\Textures\UI\Icons\CollapsedArrow.png</Link>
         </Content>
         <Content Include="..\LoadFolders.xml">
             <Link>LoadFolders.xml</Link>
