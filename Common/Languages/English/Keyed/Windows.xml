@@ -39,6 +39,7 @@
     <TKUtils.NameQueue.Count>viewer(s) waiting in queue</TKUtils.NameQueue.Count>
     <TKUtils.NameQueue.Unassigned>unassigned</TKUtils.NameQueue.Unassigned>
     <TKUtils.NameQueue.Assigned>assigned</TKUtils.NameQueue.Assigned>
+    <TKUtils.NameQueue.AssignedTo>Assigned to</TKUtils.NameQueue.AssignedTo>
     
     
     <!-- Item Store -->
