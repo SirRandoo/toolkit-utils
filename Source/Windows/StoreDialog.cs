@@ -197,7 +197,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            foreach (string modName in Data.Items.Select(i => i.Mod).Distinct())
+            foreach (string modName in Data.Items.OrderBy(i => i.Mod).Select(i => i.Mod).Distinct())
             {
                 filterManager.RegisterFilter(
                     FilterTypes.Mod,
