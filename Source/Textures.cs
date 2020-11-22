@@ -29,6 +29,8 @@ namespace SirRandoo.ToolkitUtils
         internal static readonly Texture2D DiceSideFive;
         internal static readonly Texture2D DiceSideSix;
         internal static readonly List<Texture2D> DiceSides;
+        internal static readonly Texture2D Hammer;
+        internal static readonly Texture2D DropdownArrow;
 
         static Textures()
         {
@@ -51,6 +53,8 @@ namespace SirRandoo.ToolkitUtils
             DiceSideFour = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideFour");
             DiceSideFive = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideFive");
             DiceSideSix = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideSix");
+            Hammer = ContentFinder<Texture2D>.Get("UI/Icons/Hammer");
+            DropdownArrow = ContentFinder<Texture2D>.Get("UI/Icons/DropdownArrow");
 
             DiceSides = new List<Texture2D>
             {

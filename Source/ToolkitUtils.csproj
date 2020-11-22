@@ -421,6 +421,12 @@
         <Content Include="..\Common\Textures\UI\Icons\Edit.png">
             <Link>Common\Textures\UI\Icons\Edit.png</Link>
         </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Hammer.png">
+            <Link>Common\Textures\UI\Icons\Hammer.png</Link>
+        </Content>
+        <Content Include="..\Common\Textures\UI\Icons\DropdownArrow.png">
+            <Link>Common\Textures\UI\Icons\DropdownArrow.png</Link>
+        </Content>
         <Content Include="..\Common\Textures\UI\Icons\ExpandedArrow.png">
             <Link>Common\Textures\UI\Icons\ExpandedArrow.png</Link>
         </Content>
