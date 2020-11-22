@@ -210,7 +210,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
             }
 
-            foreach (string category in Data.Items.Select(i => i.Category).Distinct())
+            foreach (string category in Data.Items.OrderBy(i => i.Category).Select(i => i.Category).Distinct())
             {
                 filterManager.RegisterFilter(
                     FilterTypes.Category,
