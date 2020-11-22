@@ -386,10 +386,19 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             container.AddRange(GetMagicClasses());
             container.AddRange(GetMightClasses());
+            container.AddRange(GetMissingClasses(container));
             container = container.Where(c => c != null).ToList();
             container.SortBy(t => t.label ?? t.defName);
 
             return container;
+        }
+
+        private static IEnumerable<TraitDef> GetMissingClasses(List<TraitDef> container)
+        {
+            if (!container.Any(t => t.defName.Equals("DeathKnight")))
+            {
+                yield return TraitDef.Named("DeathKnight");
+            }
         }
 
         internal static void ResetCharacterData(object data, ClassTypes classType)
