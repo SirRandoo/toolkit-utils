@@ -243,7 +243,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             buttonTemplateRect = buttonTemplateRect.ShiftRight(0f);
 
-            bool remove = false;
+            var remove = false;
             if (Widgets.ButtonImage(buttonTemplateRect, Textures.Hammer))
             {
                 Viewers.GetViewer(name).BanViewer();
@@ -354,7 +354,9 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void OpenInfoDialog()
         {
             var infoCard = new Dialog_InfoCard(current);
+        #if RW12
             infoCard.SetTab(Dialog_InfoCard.InfoCardTab.Character);
+        #endif
             Find.WindowStack.Add(infoCard);
         }
 
