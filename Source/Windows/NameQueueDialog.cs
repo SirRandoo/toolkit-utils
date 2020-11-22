@@ -6,6 +6,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
+using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
 
@@ -20,6 +21,8 @@ namespace SirRandoo.ToolkitUtils.Windows
         private float applyTextWidth;
         private string assignedText;
         private string assignedTooltip;
+        private string assignedToText;
+        private float assignedToTextWidth;
         private string countText;
         private Pawn current;
 
@@ -36,7 +39,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string unassignedTooltip;
         private string username;
         private Rect usernameFieldPosition;
-        private string usernameText;
         private string viewerTooltip;
 
         public NameQueueDialog()
@@ -54,7 +56,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             Notify__CurrentPawnChanged();
         }
 
-        public override Vector2 InitialSize => new Vector2(550f, 500f);
+        public override Vector2 InitialSize => new Vector2(485, 430);
+
 
         private void GetTranslations()
         {
@@ -62,7 +65,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             assignedText = "TKUtils.NameQueue.Assigned".Localize();
             unassignedText = "TKUtils.NameQueue.Unassigned".Localize();
             applyText = "TKUtils.Buttons.Apply".Localize();
-            usernameText = "TKUtils.Inputs.Username".Localize();
             countText = "TKUtils.NameQueue.Count".Localize();
             viewerTooltip = "TKUtils.NameQueue.Tooltips.ViewerName".Localize();
             unassignedTooltip = "TKUtils.NameQueue.Tooltips.Unassigned".Localize();
@@ -71,8 +73,10 @@ namespace SirRandoo.ToolkitUtils.Windows
             previousTooltip = "TKUtils.NameQueue.Tooltips.Previous".Localize();
             pawnTooltip = "TKUtils.NameQueue.Tooltips.Pawn".Localize();
             randomTooltip = "TKUtils.NameQueue.Tooltips.Random".Localize();
+            assignedToText = "TKUtils.NameQueue.AssignedTo".Localize();
 
             applyTextWidth = Text.CalcSize(applyText).x + 16f;
+            assignedToTextWidth = Text.CalcSize(assignedToText).x;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -82,11 +86,18 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
+            GUI.BeginGroup(inRect);
             Text.Font = GameFont.Small;
 
             ProcessShortcutKeys();
             Rect pawnRect = new Rect(0f, 0f, inRect.width * 0.3333f, 152f + Text.LineHeight).Rounded();
-            var contentRect = new Rect(pawnRect.width + 10f, 0f, inRect.width - 15f - pawnRect.width, inRect.height);
+            var contentRect = new Rect(
+                pawnRect.width + 10f,
+                0f,
+                inRect.width - pawnRect.width - Margin,
+                pawnRect.height
+            );
+            var queueRect = new Rect(0f, pawnRect.height + 10f, inRect.width, inRect.height - pawnRect.height - 10f);
 
             GUI.BeginGroup(pawnRect);
             DrawPawnSection(pawnRect);
@@ -95,9 +106,16 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(contentRect);
             var usernameRect = new Rect(0f, 0f, contentRect.width, Text.LineHeight);
-            Widgets.Label(usernameRect.LeftHalf(), usernameText);
+            Rect usernameLabel = usernameRect.WithWidth(assignedToTextWidth);
+            var usernameField = new Rect(
+                usernameLabel.width + 5f,
+                usernameRect.y,
+                usernameRect.width - usernameLabel.width - 5f,
+                usernameRect.height
+            );
+            Widgets.Label(usernameLabel, assignedToText);
 
-            Rect usernameFieldHalf = usernameRect.RightHalf();
+            Rect usernameFieldHalf = usernameField;
             usernameFieldPosition = new Rect(
                 usernameFieldHalf.x,
                 usernameFieldHalf.y,
@@ -123,59 +141,59 @@ namespace SirRandoo.ToolkitUtils.Windows
                 AssignColonist();
             }
 
+            GUI.EndGroup();
 
+            GUI.BeginGroup(queueRect);
             var listing = new Listing_Standard();
-            Rect adjustedLineRect = new Rect(0f, Text.LineHeight * 4f, contentRect.width * 0.95f - 2f, Text.LineHeight)
-               .Rounded();
-            var queueNoticeRect = new Rect(
-                0f,
-                Text.LineHeight * 5f,
-                adjustedLineRect.width - Text.LineHeight - 5f,
-                Text.LineHeight
-            );
-            var queueRandomRect = new Rect(
-                adjustedLineRect.x + adjustedLineRect.width - Text.LineHeight,
-                Text.LineHeight * 5f,
+            var noticeRect = new Rect(0f, 0f, queueRect.width - Text.LineHeight - 5f, Text.LineHeight);
+            var randomRect = new Rect(
+                queueRect.width - Text.LineHeight,
+                noticeRect.y,
                 Text.LineHeight,
                 Text.LineHeight
             );
-            var queueRect = new Rect(
+            var nameQueueRect = new Rect(
                 0f,
-                Text.LineHeight * 6f,
-                contentRect.width,
-                contentRect.height - Text.LineHeight * 6f
+                noticeRect.height + 5f,
+                queueRect.width,
+                queueRect.height - Text.LineHeight - 5f
             );
-            var queueInnerRect = new Rect(0f, 0f, queueRect.width, queueRect.height);
+            var queueInnerRect = new Rect(0f, 0f, nameQueueRect.width, nameQueueRect.height);
             var queueView = new Rect(
                 0f,
                 0f,
-                queueRect.width - 16f,
+                nameQueueRect.width - 16f,
                 Text.LineHeight * pawnComponent.viewerNameQueue.Count
             );
 
+            if (queueView.height <= nameQueueRect.height)
+            {
+                queueView.height += 16;
+            }
+
             if (pawnComponent.ViewerNameQueue.Count <= 0)
             {
-                Widgets.Label(queueNoticeRect, emptyQueueText);
+                Widgets.Label(noticeRect, emptyQueueText);
                 GUI.EndGroup();
                 return;
             }
 
-            Widgets.Label(queueNoticeRect, $"{pawnComponent.ViewerNameQueue.Count:N0} {countText}");
-            TooltipHandler.TipRegion(queueRandomRect, randomTooltip);
+            Widgets.Label(noticeRect, $"{pawnComponent.ViewerNameQueue.Count:N0} {countText}");
+            TooltipHandler.TipRegion(randomRect, randomTooltip);
 
-            if (Widgets.ButtonImage(queueRandomRect, currentDiceSide))
+            if (Widgets.ButtonImage(randomRect, currentDiceSide))
             {
                 username = pawnComponent.ViewerNameQueue.RandomElement();
             }
 
-            GUI.BeginGroup(queueRect);
+            GUI.BeginGroup(nameQueueRect);
             listing.BeginScrollView(queueInnerRect, ref scrollPos, ref queueView);
             DrawNameQueue(listing);
 
             GUI.EndGroup();
             listing.EndScrollView(ref queueView);
             GUI.EndGroup();
-            Text.Font = GameFont.Small;
+            GUI.EndGroup();
         }
 
         private void DrawNameQueue(Listing listing)
@@ -185,7 +203,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                 string name = pawnComponent.ViewerNameQueue[index];
 
                 Rect line = listing.GetRect(Text.LineHeight);
-                var buttonRect = new Rect(line.x + line.width - line.height, line.y, line.height, line.height);
+                var buttonRect = new Rect(
+                    line.x + line.width - line.height * 3f,
+                    line.y,
+                    line.height * 3f,
+                    line.height
+                );
                 var nameRect = new Rect(line.x, line.y, line.width - buttonRect.width - 5f, line.height);
 
                 if (index % 2 == 0)
@@ -205,6 +228,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawNameFromQueue(Rect nameRect, string name, Rect buttonRect, int index)
         {
+            var buttonTemplateRect = new Rect(buttonRect.x, buttonRect.y, buttonRect.height, buttonRect.height);
             Widgets.Label(nameRect, name);
 
             if (Widgets.ButtonInvisible(nameRect))
@@ -212,16 +236,41 @@ namespace SirRandoo.ToolkitUtils.Windows
                 username = name.ToLowerInvariant();
             }
 
-            if (!Widgets.ButtonImage(buttonRect, Widgets.CheckboxOffTex))
+            if (Widgets.ButtonImage(buttonTemplateRect, Textures.Gear))
             {
-                return;
+                OpenViewerDetailsFor(name);
             }
 
-            try
+            buttonTemplateRect = buttonTemplateRect.ShiftRight(0f);
+
+            bool remove = false;
+            if (Widgets.ButtonImage(buttonTemplateRect, Textures.Hammer))
             {
-                pawnComponent.ViewerNameQueue.RemoveAt(index);
+                Viewers.GetViewer(name).BanViewer();
+                remove = true;
             }
-            catch (IndexOutOfRangeException) { }
+
+            buttonTemplateRect = buttonTemplateRect.ShiftRight(0f);
+            if (Widgets.ButtonImage(buttonTemplateRect, Widgets.CheckboxOffTex))
+            {
+                remove = true;
+            }
+
+            if (remove)
+            {
+                try
+                {
+                    pawnComponent.ViewerNameQueue.RemoveAt(index);
+                }
+                catch (IndexOutOfRangeException) { }
+            }
+        }
+
+        private static void OpenViewerDetailsFor(string name)
+        {
+            var viewers = new Window_Viewers();
+            viewers.SelectViewer(Viewers.GetViewer(name));
+            Find.WindowStack.Add(viewers);
         }
 
         private void DrawPawnSection(Rect canvas)
@@ -473,23 +522,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (pawnComponent != null)
             {
                 ReconnectViewers();
-                // TODO: Remove name queue dummy data
-                pawnComponent.viewerNameQueue.AddRange(
-                    new[]
-                    {
-                        "scavenging_mechanic",
-                        "ericcode",
-                        "crystalroseeve",
-                        "bogrin",
-                        "reishella",
-                        "hodlhodl",
-                        "dramravett",
-                        "itanshi",
-                        "winterbrass",
-                        "nightbot",
-                        "sasachi"
-                    }
-                );
                 return;
             }
 
