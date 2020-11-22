@@ -526,7 +526,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DoFilterMenu(Rect canvas)
         {
-            float filterWidth = canvas.width * 0.284f;
+            float filterWidth = canvas.width * 0.5f;
             Vector2 center = canvas.center;
 
             Rect filterDialog = new Rect(
