@@ -46,6 +46,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                .Where(pawn => !pawn.IsBorrowedByAnyFaction())
                 // RimWorld of Magic
                .Where(pawn => !pawn.IsUndead())
+               .Where(pawn => !component.pawnHistory.ContainsKey(pawn.Name.ToStringShort))
                .ToList();
 
             if (container.Count > 0)
