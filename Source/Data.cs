@@ -354,7 +354,7 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidateSurgeryList()
         {
-            Surgeries = DefDatabase<RecipeDef>.AllDefs.Where(r => r.IsSurgery).ToList();
+            Surgeries = DefDatabase<RecipeDef>.AllDefs.Where(r => r.IsSurgery && r.workerClass != null).ToList();
         }
 
         public static void SaveLegacyShop(string path)
