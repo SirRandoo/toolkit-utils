@@ -14,14 +14,6 @@
         <Deterministic>true</Deterministic>
         <LangVersion>default</LangVersion>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>..\1.1\Assemblies\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.2 release|AnyCPU' ">
         <OutputPath>..\1.2\Assemblies</OutputPath>
         <DefineConstants>TRACE;RW12</DefineConstants>
