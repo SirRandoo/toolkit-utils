@@ -41,12 +41,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            List<Pawn> container = colonistsSpawned.Where(c => !component.HasPawnBeenNamed(c))
+            List<Pawn> container = colonistsSpawned.Where(c => !component.pawnHistory.ContainsKey(c.Name.ToStringShort))
                 // Questing
                .Where(pawn => !pawn.IsBorrowedByAnyFaction())
                 // RimWorld of Magic
                .Where(pawn => !pawn.IsUndead())
-               .Where(pawn => !component.pawnHistory.ContainsKey(pawn.Name.ToStringShort))
                .ToList();
 
             if (container.Count > 0)
