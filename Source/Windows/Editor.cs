@@ -11,6 +11,8 @@ namespace SirRandoo.ToolkitUtils.Windows
     public class Editor : Window
     {
         private ScriptEngine engine;
+
+        private bool maximized;
         private TabWorker tabWorker;
 
         private string title;
@@ -26,7 +28,10 @@ namespace SirRandoo.ToolkitUtils.Windows
         protected override float Margin => 0f;
 
         public override Vector2 InitialSize =>
-            new Vector2(Mathf.Min(UI.screenWidth, 800f), Mathf.FloorToInt(UI.screenHeight * 0.8f));
+            new Vector2(
+                maximized ? UI.screenWidth : Mathf.Min(UI.screenWidth, 800f),
+                maximized ? UI.screenHeight : Mathf.FloorToInt(UI.screenHeight * 0.8f)
+            );
 
         public override void PreOpen()
         {
@@ -59,17 +64,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             tabWorker.AddTab(
                 new TabItem {Label = "TKUtils.EditorTabs.PawnKinds".Localize(), ContentDrawer = DrawPawnKindsTab}
             );
-            tabWorker.AddTab(
-                new TabItem
-                {
-                    Label = "TKUtils.EditorTabs.GetHelp".Localize(),
-                    Clicked = () =>
-                    {
-                        Application.OpenURL("https://sirrandoo.github.io/toolkit-utils/editor");
-                        return false;
-                    }
-                }
-            );
         }
 
         private void DrawTraitsTab(Rect obj) { }
@@ -82,11 +76,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void DoWindowContents(Rect canvas)
         {
-            Rect tabRect = new Rect(0f, 0f, canvas.width, Text.LineHeight * 1.75f).Rounded();
-            var contentRect = new Rect(tabRect.height, 0f, canvas.width - tabRect.height, canvas.height);
+            Rect tabRect = new Rect(0f, 0f, canvas.width, Text.LineHeight * 2f).Rounded();
+            var contentRect = new Rect(0f, tabRect.height, canvas.width, canvas.height - tabRect.height);
 
             GUI.BeginGroup(canvas);
-            tabWorker.Draw(tabRect, true);
+            tabWorker.Draw(tabRect);
+            DrawWindowDecorations(tabRect);
 
 
             GUI.BeginGroup(contentRect);
@@ -94,6 +89,33 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.EndGroup();
 
             GUI.EndGroup();
+        }
+
+        private void DrawWindowDecorations(Rect tabRect)
+        {
+            var butRect = new Rect(
+                tabRect.x + tabRect.width - tabRect.height + 14f,
+                14f,
+                tabRect.height - 28f,
+                tabRect.height - 28f
+            );
+
+            if (Widgets.ButtonImage(butRect, Textures.CloseButton))
+            {
+                Close();
+            }
+
+            butRect = butRect.ShiftLeft();
+            if (Widgets.ButtonImage(butRect, maximized ? Textures.RestoreWindow : Textures.MaximizeWindow))
+            {
+                maximized = !maximized;
+                SetInitialSizeAndPosition();
+            }
+
+            if (Widgets.ButtonImage(butRect.ShiftLeft(), Textures.QuestionMark))
+            {
+                Application.OpenURL("https://sirrandoo.github.io/toolkit-utils/editor");
+            }
         }
 
         private void DrawEditorMenu() { }
