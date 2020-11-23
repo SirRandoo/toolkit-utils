@@ -43,6 +43,11 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void Notify__LookupComplete(string result)
         {
+            if (result.NullOrEmpty())
+            {
+                return;
+            }
+
             msg.Reply(result);
         }
 
