@@ -32,6 +32,8 @@ namespace SirRandoo.ToolkitUtils
         public static readonly Texture2D Hammer;
         public static readonly Texture2D DropdownArrow;
         public static readonly Texture2D CloseButton;
+        public static readonly Texture2D MaximizeWindow;
+        public static readonly Texture2D RestoreWindow;
 
         static Textures()
         {
@@ -57,6 +59,8 @@ namespace SirRandoo.ToolkitUtils
             Hammer = ContentFinder<Texture2D>.Get("UI/Icons/Hammer");
             DropdownArrow = ContentFinder<Texture2D>.Get("UI/Icons/DropdownArrow");
             CloseButton = ContentFinder<Texture2D>.Get("UI/Widgets/CloseXSmall");
+            MaximizeWindow = ContentFinder<Texture2D>.Get("UI/Icons/MaximizeWindow");
+            RestoreWindow = ContentFinder<Texture2D>.Get("UI/Icons/RestoreWindow");
 
             DiceSides = new List<Texture2D>
             {
