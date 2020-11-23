@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
     public static class TkLogger
     {
+        [Conditional("DEBUG")]
         public static void Debug(string message)
         {
-            if (Prefs.DevMode)
-            {
-                Log("DEBUG", message);
-            }
+            Log("DEBUG", message);
         }
 
         public static void Error(string message, Exception exception)
