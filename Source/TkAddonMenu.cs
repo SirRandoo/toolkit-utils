@@ -23,6 +23,9 @@ namespace SirRandoo.ToolkitUtils
                     "TKUtils.AddonMenu.Settings".Localize(),
                     () => Find.WindowStack.Add(new Window_ModSettings(LoadedModManager.GetMod<TkUtils>()))
                 ),
+            #if DEBUG
+                new FloatMenuOption("TKUtils.AddonMenu.Editor".Localize(), () => Find.WindowStack.Add(new Editor())),
+            #endif
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.PawnKind".Localize(),
                     () => Find.WindowStack.Add(new PawnKindConfigDialog())
