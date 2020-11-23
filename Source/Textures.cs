@@ -7,30 +7,31 @@ namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public static class Textures
+    internal static class Textures
     {
-        internal static readonly Texture2D SortingAscend;
-        internal static readonly Texture2D SortingDescend;
-        internal static readonly Texture2D Gear;
-        internal static readonly Texture2D Trash;
-        internal static readonly Texture2D Refresh;
-        internal static readonly Texture2D Edit;
-        internal static readonly Texture2D Visible;
-        internal static readonly Texture2D Hidden;
-        internal static readonly Texture2D Reset;
-        internal static readonly Texture2D QuestionMark;
-        internal static readonly Texture2D Filter;
-        internal static readonly Texture2D CollapsedArrow;
-        internal static readonly Texture2D ExpandedArrow;
-        internal static readonly Texture2D DiceSideOne;
-        internal static readonly Texture2D DiceSideTwo;
-        internal static readonly Texture2D DiceSideThree;
-        internal static readonly Texture2D DiceSideFour;
-        internal static readonly Texture2D DiceSideFive;
-        internal static readonly Texture2D DiceSideSix;
-        internal static readonly List<Texture2D> DiceSides;
-        internal static readonly Texture2D Hammer;
-        internal static readonly Texture2D DropdownArrow;
+        public static readonly Texture2D SortingAscend;
+        public static readonly Texture2D SortingDescend;
+        public static readonly Texture2D Gear;
+        public static readonly Texture2D Trash;
+        public static readonly Texture2D Refresh;
+        public static readonly Texture2D Edit;
+        public static readonly Texture2D Visible;
+        public static readonly Texture2D Hidden;
+        public static readonly Texture2D Reset;
+        public static readonly Texture2D QuestionMark;
+        public static readonly Texture2D Filter;
+        public static readonly Texture2D CollapsedArrow;
+        public static readonly Texture2D ExpandedArrow;
+        public static readonly Texture2D DiceSideOne;
+        public static readonly Texture2D DiceSideTwo;
+        public static readonly Texture2D DiceSideThree;
+        public static readonly Texture2D DiceSideFour;
+        public static readonly Texture2D DiceSideFive;
+        public static readonly Texture2D DiceSideSix;
+        public static readonly List<Texture2D> DiceSides;
+        public static readonly Texture2D Hammer;
+        public static readonly Texture2D DropdownArrow;
+        public static readonly Texture2D CloseButton;
 
         static Textures()
         {
@@ -55,6 +56,7 @@ namespace SirRandoo.ToolkitUtils
             DiceSideSix = ContentFinder<Texture2D>.Get("UI/Icons/DiceSideSix");
             Hammer = ContentFinder<Texture2D>.Get("UI/Icons/Hammer");
             DropdownArrow = ContentFinder<Texture2D>.Get("UI/Icons/DropdownArrow");
+            CloseButton = ContentFinder<Texture2D>.Get("UI/Widgets/CloseXSmall");
 
             DiceSides = new List<Texture2D>
             {
