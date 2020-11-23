@@ -52,15 +52,7 @@
         <DebugType>full</DebugType>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
         <Reference Include="Assembly-CSharp, Version=1.2.7558.21380, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW12'))">
-            <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Assembly-CSharp, Version=1.1.7459.20184, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW11'))">
             <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
             <Private>False</Private>
         </Reference>
@@ -457,6 +449,10 @@
         <Content Include="..\LoadFolders.xml">
             <Link>LoadFolders.xml</Link>
         </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Lib.Harmony" Version="2.0.4" ExcludeAssets="runtime"/>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.1.2654" Condition="$(DefineConstants.Contains('RW11'))"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
