@@ -41,9 +41,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             PerformLookup(category, query, quantity);
         }
 
-        private void Notify__LookupComplete(string query, string result)
+        private void Notify__LookupComplete(string result)
         {
-            msg.Reply("TKUtils.Lookup".Localize(query, result));
+            msg.Reply(result);
         }
 
         private void PerformAnimalLookup(string query, int quantity)
@@ -67,7 +67,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             Notify__LookupComplete(
-                query,
                 "TKUtils.Price.Quantity".Localize(
                     result.defName.CapitalizeFirst(),
                     item.Price.ToString("N0"),
@@ -95,7 +94,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 case EventTypes.None:
                     Notify__LookupComplete(
-                        query,
                         "TKUtils.Price.Limited".Localize(
                             result.abbreviation.CapitalizeFirst(),
                             result.cost.ToString("N0")
@@ -105,14 +103,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case EventTypes.Item:
                 case EventTypes.PawnKind:
                 case EventTypes.Trait:
-                    Notify__LookupComplete(query, "TKUtils.Price.Overridden".Localize(eventType.ToString()));
+                    Notify__LookupComplete("TKUtils.Price.Overridden".Localize(eventType.ToString()));
                     return;
                 case EventTypes.Misc:
-                    Notify__LookupComplete(query, "TKUtils.Price.External".Localize());
+                    Notify__LookupComplete("TKUtils.Price.External".Localize());
                     return;
                 case EventTypes.Variable:
                     Notify__LookupComplete(
-                        query,
                         new[]
                         {
                             "TKUtils.Price.Variables".Localize(
@@ -140,7 +137,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             Notify__LookupComplete(
-                query,
                 "TKUtils.Price.Quantity".Localize(
                     result.Name.CapitalizeFirst(),
                     result.Price.ToString("N0"),
@@ -190,7 +186,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             Notify__LookupComplete(
-                query,
                 "TKUtils.Price.Limited".Localize(result.Name.ToToolkit().CapitalizeFirst(), result.Cost.ToString("N0"))
             );
         }
@@ -219,7 +214,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 parts.Add("TKUtils.Price.RemoveTrait".Localize(result.CostToRemove.ToString("N0")));
             }
 
-            Notify__LookupComplete(query, $"{result.Name.ToToolkit().CapitalizeFirst()} - {parts.Join(" / ")}");
+            Notify__LookupComplete($"{result.Name.ToToolkit().CapitalizeFirst()} - {parts.Join(" / ")}");
         }
     }
 }
