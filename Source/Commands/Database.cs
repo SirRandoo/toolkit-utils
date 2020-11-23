@@ -25,14 +25,6 @@ namespace SirRandoo.ToolkitUtils.Commands
             {"clubs", "weapons"},
             {"knife", "weapons"},
             {"knives", "weapons"},
-            {"pawn", "kinds"},
-            {"pawns", "kinds"},
-            {"race", "kinds"},
-            {"races", "kinds"},
-            {"kinds", "kinds"},
-            {"kind", "kinds"},
-            {"trait", "traits"},
-            {"traits", "traits"}
         };
 
         private ITwitchMessage msg;
@@ -108,80 +100,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case "weapons":
                     PerformWeaponLookup(query);
                     return;
-                case "traits":
-                    PerformTraitLookup(query);
-                    return;
-                case "kinds":
-                    PerformKindLookup(query);
-                    return;
             }
-        }
-
-        private void PerformKindLookup(string query)
-        {
-            PawnKindDef kind = DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(
-                t => t.race.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                     || t.race.defName.ToToolkit().EqualsIgnoreCase(query)
-            );
-
-            if (kind == null)
-            {
-                return;
-            }
-
-            var result = new List<string>();
-
-            if (!kind.disallowedTraits.NullOrEmpty())
-            {
-                var container = new List<string>();
-            }
-
-            string[] results = Data.PawnKinds.Where(
-                    i =>
-                    {
-                        string label = i.Name.ToToolkit();
-                        string q = query.ToToolkit();
-
-                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
-                        {
-                            return true;
-                        }
-
-                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
-                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
-                    }
-                )
-               .Where(r => r.Enabled)
-               .Select(i => i.Name.ToToolkit().CapitalizeFirst())
-               .ToArray();
-
-            Notify__LookupComplete(result.GroupedJoin());
-        }
-
-        private void PerformTraitLookup(string query)
-        {
-            string[] results = Data.Traits.Where(
-                    i =>
-                    {
-                        string label = i.Name.ToToolkit();
-                        string q = query.ToToolkit();
-
-                        if (label.Contains(q) || label.EqualsIgnoreCase(q))
-                        {
-                            return true;
-                        }
-
-                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
-                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
-                    }
-                )
-               .Where(t => t.CanAdd || t.CanRemove)
-               .Select(i => i.Name.ToToolkit().CapitalizeFirst())
-               .ToArray();
-
-            var container = new List<string>();
-
-            Notify__LookupComplete(container.GroupedJoin());
         }
     }
 }
