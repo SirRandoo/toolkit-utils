@@ -205,9 +205,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             private void LocateSurgery()
             {
-                Surgery = DefDatabase<RecipeDef>.AllDefs.Where(r => r.IsSurgery)
-                   .Where(r => r.Worker != null)
-                   .Where(r => r.IsIngredient(ThingDef))
+                Surgery = Data.Surgeries.Where(r => r.IsIngredient(ThingDef))
                    .Where(r => r.AvailableOnNow(Patient))
                    .Where(
                         r => r.Worker.GetPartsToApplyOn(Patient, r)
