@@ -928,7 +928,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var iconRegion = new Rect(27f, canvas.y, 27f, canvas.height);
             var labelRegion = new Rect(iconRegion.width + 5f + 27f, canvas.y, canvas.width - 30f, canvas.height);
 
-            Widgets.Checkbox(0f, canvas.y, ref item.IsEnabled, paintable: true);
+            Widgets.Checkbox(0f, canvas.y, ref item.IsEnabled, canvas.height, paintable: true);
 
             if (item.Thing != null)
             {
