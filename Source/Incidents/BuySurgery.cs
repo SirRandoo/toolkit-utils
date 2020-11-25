@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!viewer.CanAfford(appointment.Item.Price))
+            if (!viewer.CanAfford(appointment.Cost))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -116,12 +116,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!ToolkitSettings.UnlimitedCoins)
             {
-                Viewer.TakeViewerCoins(appointment.Item.Price * appointment.Quantity);
+                Viewer.TakeViewerCoins(appointment.Cost);
             }
 
             Viewer.CalculateNewKarma(
                 appointment.Item.Data?.KarmaType ?? storeIncident.karmaType,
-                Mathf.CeilToInt(appointment.Item.Price * appointment.Quantity * (appointment.Item.Data?.Weight ?? 1f))
+                Mathf.CeilToInt(appointment.Cost * (appointment.Item.Data?.Weight ?? 1f))
             );
 
             if (ToolkitSettings.PurchaseConfirmations)
@@ -151,6 +151,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             public ThingItem Item { get; set; }
             public ThingDef ThingDef { get; set; }
             public int Quantity { get; set; }
+            public int Cost => Item.Price * Quantity;
 
             public static Appointment ParseInput(Pawn patient, string[] segments)
             {
