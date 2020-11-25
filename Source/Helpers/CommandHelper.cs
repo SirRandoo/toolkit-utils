@@ -19,6 +19,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             RuntimeChecker.ExecuteInMainThread(
+                $"{command.command}[{message.Message}]",
                 delegate
                 {
                     bool emojis = TkSettings.Emojis;

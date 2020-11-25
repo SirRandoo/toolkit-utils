@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using JetBrains.Annotations;
@@ -49,15 +50,38 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        internal static void ExecuteInMainThread(Action func)
+        internal static void ExecuteInMainThread(string command, Action func)
         {
             if (TkSettings.MainThreadCommands && TkUtils.Context != null)
             {
-                TkUtils.Context.Post(delegate { func(); }, null);
+                TkUtils.Context.Post(
+                    delegate
+                    {
+                        Action action = func;
+                        string commandInput = command;
+                        Execute(commandInput, action);
+                    },
+                    null
+                );
                 return;
             }
 
+            Execute(command, func);
+        }
+
+        private static void Execute(string command, Action func)
+        {
+        #if DEBUG
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+        #endif
+
             func();
+
+        #if DEBUG
+            stopwatch.Stop();
+            TkLogger.Debug($"Command {command} finished in {stopwatch.ElapsedMilliseconds}ms");
+        #endif
         }
     }
 }
