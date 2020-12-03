@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!int.TryParse(quantity, out int amount))
+            if (!int.TryParse(quantity, out int amount) || amount < 0)
             {
                 amount = 1;
             }
