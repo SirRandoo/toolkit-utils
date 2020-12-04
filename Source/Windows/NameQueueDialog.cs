@@ -28,7 +28,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private Texture2D currentDiceSide;
         private string emptyQueueText;
+        private string lastSeenText;
         private string nextTooltip;
+        private string notifyText;
+        private float notifyTextWidth;
+        private string notSeenText;
         private string pawnTooltip;
         private string previousTooltip;
         private string randomTooltip;
@@ -37,8 +41,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private string unassignedText;
         private string unassignedTooltip;
+        private bool userFromButton;
         private string username;
         private Rect usernameFieldPosition;
+        private Viewer viewer;
+        private string viewerDrawnText;
         private string viewerTooltip;
 
         public NameQueueDialog()
@@ -56,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Notify__CurrentPawnChanged();
         }
 
-        public override Vector2 InitialSize => new Vector2(485, 430);
+        public override Vector2 InitialSize => new Vector2(500, 450);
 
 
         private void GetTranslations()
@@ -74,9 +81,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             pawnTooltip = "TKUtils.NameQueue.Tooltips.Pawn".Localize();
             randomTooltip = "TKUtils.NameQueue.Tooltips.Random".Localize();
             assignedToText = "TKUtils.NameQueue.AssignedTo".Localize();
+            notifyText = "TKUtils.Buttons.Notify".Localize();
+            notSeenText = "TKUtils.NameQueue.NotSeen".Localize();
+            viewerDrawnText = "TKUtils.ViewerDrawn".Localize();
 
             applyTextWidth = Text.CalcSize(applyText).x + 16f;
-            assignedToTextWidth = Text.CalcSize(assignedToText).x;
+            notifyTextWidth = Text.CalcSize(notifyText).x + 16f;
+            assignedToTextWidth = Text.CalcSize(assignedToText).x + 16f;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -97,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 inRect.width - pawnRect.width - Margin,
                 pawnRect.height
             );
-            var queueRect = new Rect(0f, pawnRect.height + 10f, inRect.width, inRect.height - pawnRect.height - 10f);
+            var queueRect = new Rect(0f, pawnRect.height + 50f, inRect.width, inRect.height - pawnRect.height - 50f);
 
             GUI.BeginGroup(pawnRect);
             DrawPawnSection(pawnRect);
@@ -105,42 +116,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
 
             GUI.BeginGroup(contentRect);
-            var usernameRect = new Rect(0f, 0f, contentRect.width, Text.LineHeight);
-            Rect usernameLabel = usernameRect.WithWidth(assignedToTextWidth);
-            var usernameField = new Rect(
-                usernameLabel.width + 5f,
-                usernameRect.y,
-                usernameRect.width - usernameLabel.width - 5f,
-                usernameRect.height
-            );
-            Widgets.Label(usernameLabel, assignedToText);
-
-            Rect usernameFieldHalf = usernameField;
-            usernameFieldPosition = new Rect(
-                usernameFieldHalf.x,
-                usernameFieldHalf.y,
-                usernameFieldHalf.width - applyTextWidth - 5f,
-                usernameFieldHalf.height
-            );
-            username = Widgets.TextField(usernameFieldPosition, username).ToToolkit();
-
-            if (username.Length > 0 && SettingsHelper.DrawClearButton(usernameFieldPosition))
-            {
-                username = "";
-            }
-
-            var usernameApply = new Rect(
-                usernameFieldPosition.x + usernameFieldPosition.width + 5f,
-                usernameFieldPosition.y,
-                applyTextWidth,
-                Text.LineHeight
-            );
-
-            if (Widgets.ButtonText(usernameApply, applyText))
-            {
-                AssignColonist();
-            }
-
+            DrawContent(contentRect.AtZero());
             GUI.EndGroup();
 
             GUI.BeginGroup(queueRect);
@@ -184,6 +160,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (Widgets.ButtonImage(randomRect, currentDiceSide))
             {
                 username = pawnComponent.ViewerNameQueue.RandomElement();
+                userFromButton = true;
+                viewer = Viewers.GetViewer(username);
+                UpdateLastSeenText();
             }
 
             GUI.BeginGroup(nameQueueRect);
@@ -194,6 +173,83 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.EndScrollView(ref queueView);
             GUI.EndGroup();
             GUI.EndGroup();
+        }
+
+        private void UpdateLastSeenText()
+        {
+            lastSeenText = viewer?.last_seen == null
+                ? notSeenText
+                : "TKUtils.NameQueue.LastSeen".Localize((DateTime.Now - viewer.last_seen).TotalMinutes.ToString("N2"));
+        }
+
+        private void DrawContent(Rect contentRect)
+        {
+            var listing = new Listing_Standard(GameFont.Small);
+            listing.Begin(contentRect);
+
+            Rect usernameRect = listing.GetRect(Text.LineHeight);
+            (Rect usernameLabel, Rect usernameFieldHalf) =
+                usernameRect.ToForm(assignedToTextWidth / usernameRect.width);
+            SettingsHelper.DrawLabel(usernameLabel, assignedToText);
+
+            usernameFieldPosition = new Rect(
+                usernameFieldHalf.x,
+                usernameFieldHalf.y,
+                usernameFieldHalf.width - applyTextWidth - 5f,
+                usernameFieldHalf.height
+            );
+            username = Widgets.TextField(usernameFieldPosition, username).ToToolkit();
+
+            if (username.Length > 0 && SettingsHelper.DrawClearButton(usernameFieldPosition))
+            {
+                username = "";
+                userFromButton = false;
+                viewer = null;
+                lastSeenText = null;
+            }
+
+            if (viewer != null && !viewer.username.EqualsIgnoreCase(username))
+            {
+                userFromButton = false;
+                viewer = null;
+                lastSeenText = null;
+            }
+
+            var usernameApply = new Rect(
+                usernameFieldPosition.x + usernameFieldPosition.width + 5f,
+                usernameFieldPosition.y,
+                applyTextWidth,
+                Text.LineHeight
+            );
+
+            if (Widgets.ButtonText(usernameApply, applyText))
+            {
+                AssignColonist();
+            }
+
+            if (!userFromButton || viewer == null)
+            {
+                listing.End();
+                return;
+            }
+
+            listing.GapLine(36f);
+            Rect seenAtLine = listing.GetRect(Text.LineHeight);
+            seenAtLine = seenAtLine.WithWidth(seenAtLine.width - 5f - notifyTextWidth);
+            var notifyButton = new Rect(
+                seenAtLine.x + seenAtLine.width + 5f,
+                seenAtLine.y,
+                notifyTextWidth,
+                seenAtLine.height
+            );
+            SettingsHelper.DrawLabel(seenAtLine, lastSeenText);
+
+            if (Widgets.ButtonText(notifyButton, notifyText))
+            {
+                MessageHelper.ReplyToUser(viewer.username, viewerDrawnText);
+            }
+
+            listing.End();
         }
 
         private void DrawNameQueue(Listing listing)
@@ -508,13 +564,20 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.WindowUpdate();
 
             int startup = Mathf.FloorToInt(Time.time);
-            if (timestamp >= startup || startup % 5 >= 1)
+            if (timestamp >= startup || startup % 3 >= 1)
             {
                 return;
             }
 
             currentDiceSide = Textures.DiceSides.RandomElement();
             timestamp = startup;
+
+            if (viewer == null)
+            {
+                return;
+            }
+
+            UpdateLastSeenText();
         }
 
         public override void PreOpen()
@@ -547,11 +610,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                     continue;
                 }
 
-                Viewer viewer = Viewers.All.FirstOrDefault(
+                Viewer tempViewer = Viewers.All.FirstOrDefault(
                     v => v.username.Equals(pawnName.Nick, StringComparison.InvariantCultureIgnoreCase)
                 );
 
-                if (viewer == null)
+                if (tempViewer == null)
                 {
                     string assignment = pawnComponent.UserAssignedToPawn(pawn);
 
@@ -564,9 +627,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                     continue;
                 }
 
-                pawnComponent.pawnHistory[viewer.username] = pawn;
+                pawnComponent.pawnHistory[tempViewer.username] = pawn;
                 pawnComponent.viewerNameQueue.RemoveAll(
-                    u => u.Equals(viewer.username, StringComparison.InvariantCultureIgnoreCase)
+                    u => u.Equals(tempViewer.username, StringComparison.InvariantCultureIgnoreCase)
                 );
             }
         }

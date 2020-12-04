@@ -40,7 +40,8 @@
     <TKUtils.NameQueue.Unassigned>unassigned</TKUtils.NameQueue.Unassigned>
     <TKUtils.NameQueue.Assigned>assigned</TKUtils.NameQueue.Assigned>
     <TKUtils.NameQueue.AssignedTo>Assigned to</TKUtils.NameQueue.AssignedTo>
-    
+    <TKUtils.NameQueue.LastSeen>Last seen {0} minute(s) ago.</TKUtils.NameQueue.LastSeen>
+    <TKUtils.NameQueue.NotSeen>Not seen recently.</TKUtils.NameQueue.NotSeen>
     
     <!-- Item Store -->
     <TKUtils.ItemStore.Title>Store Inventory</TKUtils.ItemStore.Title>
@@ -48,7 +49,7 @@
     <TKUtils.ItemStore.Stuff>Can be stuff?</TKUtils.ItemStore.Stuff>
     <TKUtils.ItemStore.QuantityLimit>Quantity limit</TKUtils.ItemStore.QuantityLimit>
     <TKUtils.ItemStore.Weight>Purchase weight</TKUtils.ItemStore.Weight>
-
+    
     <TKUtils.FilterTypes.Mod>Mods</TKUtils.FilterTypes.Mod>
     <TKUtils.FilterTypes.Category>Categories</TKUtils.FilterTypes.Category>
     <TKUtils.FilterTypes.TechLevel>Technology Level</TKUtils.FilterTypes.TechLevel>
