@@ -72,6 +72,15 @@ namespace SirRandoo.ToolkitUtils.Harmony
             {
                 Find.WindowStack.Add(new PawnKindConfigDialog());
             }
+
+        #if DEBUG
+            optionsListing.Gap();
+            optionsListing.GapLine();
+            if (optionsListing.ButtonTextLabeled("Editor", "TKUtils.Buttons.Open".Localize()))
+            {
+                Find.WindowStack.Add(new LuaEditorWindow("Untitled.lua"));
+            }
+        #endif
         }
     }
 }
