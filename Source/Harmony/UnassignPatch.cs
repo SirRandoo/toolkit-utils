@@ -73,7 +73,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             Pawn pawn = component.PawnAssignedToUser(username);
 
-            if (pawn != null && pawn.Name is NameTriple name)
+            if (pawn?.Name is NameTriple name)
             {
                 pawn.Name = new NameTriple(name.First, name.Last, name.Last);
             }
