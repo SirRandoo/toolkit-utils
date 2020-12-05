@@ -905,22 +905,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreClose()
         {
-            try
+            foreach (ThingItem c in Data.Items.Where(c => c.Item == null && c.Thing != null))
             {
-                foreach (ThingItem c in Data.Items.Where(c => c.Item == null))
-                {
-                    c.Item = new Item(
-                        c.Thing.CalculateStorePrice(),
-                        c.Thing.LabelCap.RawText.ToToolkit(),
-                        c.Thing.defName
-                    );
+                c.Item = new Item(c.Thing.CalculateStorePrice(), c.Thing.label.ToToolkit(), c.Thing.defName);
 
-                    StoreInventory.items.Add(c.Item);
-                }
-            }
-            catch (Exception e)
-            {
-                TkLogger.Error("Could not polyfill Twitch Toolkit's items...", e);
+                StoreInventory.items.Add(c.Item);
             }
 
             base.PreClose();
