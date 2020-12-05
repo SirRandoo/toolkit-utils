@@ -12,7 +12,7 @@
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <Deterministic>true</Deterministic>
-        <LangVersion>default</LangVersion>
+        <LangVersion>8</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.2 release|AnyCPU' ">
         <OutputPath>..\1.2\Assemblies</OutputPath>
