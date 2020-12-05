@@ -800,7 +800,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                     item.Item.price = item.Thing.CalculateStorePrice();
                     item.Data.KarmaType = null;
                     item.Data.CustomName = null;
-                    item.Data.QuantityLimit = -1;
+                    item.Data.HasQuantityLimit = false;
+                    item.Data.Weight = 1f;
+                    item.Data.IsStuffAllowed = true;
+                    item.Data.QuantityLimit = 1;
                 }
             }
         }
