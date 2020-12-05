@@ -21,7 +21,7 @@
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
     
-    <TwitchToolkit.Incidents.StoreIncidentSimple>
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealAll</defName>
         <label>heal all</label>
         <abbreviation>healall</abbreviation>
@@ -29,9 +29,11 @@
         <eventCap>2</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.HealAll</incidentHelper>
         <karmaType>Good</karmaType>
-    </TwitchToolkit.Incidents.StoreIncidentSimple>
+        <customSettings>true</customSettings>
+        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.HealAll</customSettingsHelper>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
     
-    <TwitchToolkit.Incidents.StoreIncidentSimple>
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealRandomPawn</defName>
         <label>heal random pawn</label>
         <abbreviation>healanypawn</abbreviation>
@@ -39,7 +41,9 @@
         <eventCap>2</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.HealRandom</incidentHelper>
         <karmaType>Good</karmaType>
-    </TwitchToolkit.Incidents.StoreIncidentSimple>
+        <customSettings>true</customSettings>
+        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.HealRandom</customSettingsHelper>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
     
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealMe</defName>
@@ -49,6 +53,8 @@
         <eventCap>2</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.HealMe</incidentHelper>
         <karmaType>Good</karmaType>
+        <customSettings>true</customSettings>
+        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.HealMe</customSettingsHelper>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
     
     <TwitchToolkit.Incidents.StoreIncidentVariables>
@@ -147,6 +153,8 @@
         <eventCap>5</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.FullHeal</incidentHelper>
         <karmaType>Good</karmaType>
+        <customSettings>true</customSettings>
+        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.FullHeal</customSettingsHelper>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">
                 <Description>Heals all healable injuries your pawn currently has.</Description>

@@ -25,6 +25,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (IncidentSettings.HealMe.FairFights
+                && (pawn.mindState.lastAttackTargetTick < 1800 || pawn.mindState.lastAttackTargetTick <= 0))
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
+                return false;
+            }
+
             object result = HealHelper.GetPawnHealable(pawn);
 
             switch (result)

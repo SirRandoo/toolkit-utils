@@ -161,4 +161,8 @@
     <!-- Backpack -->
     <TKUtils.Backpack.AutoEquip.Label>Auto-equip purchased gear</TKUtils.Backpack.AutoEquip.Label>
     <TKUtils.Backpack.AutoEquip.Description>Whether or not pawns will automatically swap out their current gear for the ones purchased.</TKUtils.Backpack.AutoEquip.Description>
+    
+    <!-- Heal Incidents -->
+    <TKUtils.Heal.FairFights.Label>Fair fights</TKUtils.Heal.FairFights.Label>
+    <TKUtils.Heal.FairFights.Description>Whether or not viewers can use this heal event while in combat.</TKUtils.Heal.FairFights.Description>
 </LanguageData>

@@ -1,27 +1,40 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using TwitchToolkit;
 using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
+    [SuppressMessage("ReSharper", "ParameterHidesMember")]
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class HealRandom : IncidentHelper
+    public class HealRandom : IncidentHelperVariables
     {
         private Pawn target;
         private Hediff toHeal;
         private BodyPartRecord toRestore;
 
-        public override bool IsPossible()
+        public override Viewer Viewer { get; set; }
+
+        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
             List<Pawn> list = Find.ColonistBar.GetColonistsInOrder().Where(p => !p.Dead).ToList();
 
             if (!list.Any())
             {
                 return false;
+            }
+
+            if (IncidentSettings.HealRandom.FairFights)
+            {
+                list = list.Where(
+                        p => p.mindState.lastAttackTargetTick >= 1800 || p.mindState.lastAttackTargetTick <= 0
+                    )
+                   .ToList();
             }
 
             List<Pair<Pawn, object>> container = list
