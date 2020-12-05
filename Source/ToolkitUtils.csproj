@@ -53,7 +53,7 @@
             <Private>False</Private>
         </Reference>
         <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8">
-            <HintPath>..\..\..\..\..\workshop\content\294100\1718525787\v1.1\Assemblies\MoonSharp.Interpreter.dll</HintPath>
+            <HintPath>..\..\..\..\..\workshop\content\294100\1718525787\v1.2\Assemblies\MoonSharp.Interpreter.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -89,7 +89,7 @@
             <Private>False</Private>
         </Reference>
         <Reference Include="TwitchToolkit, Version=2.0.10.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\..\workshop\content\294100\1718525787\v1.1\Assemblies\TwitchToolkit.dll</HintPath>
+            <HintPath>..\..\..\..\..\workshop\content\294100\1718525787\v1.2\Assemblies\TwitchToolkit.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="UnityEngine" Condition="$(DefineConstants.Contains('RW12'))">
