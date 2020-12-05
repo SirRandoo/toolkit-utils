@@ -1,10 +1,9 @@
 ﻿using System;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.IncidentSettings;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Windows
+namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
 {
     public class AddPassionDialog : Window
     {

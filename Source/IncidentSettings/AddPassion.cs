@@ -1,5 +1,5 @@
 ﻿using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Windows;
+using SirRandoo.ToolkitUtils.IncidentSettings.Windows;
 using TwitchToolkit.Incidents;
 using Verse;
 
