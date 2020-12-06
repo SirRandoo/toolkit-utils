@@ -26,7 +26,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             if (IncidentSettings.HealMe.FairFights
-                && (pawn.mindState.lastAttackTargetTick < 1800 || pawn.mindState.lastAttackTargetTick <= 0))
+                && (Find.TickManager.TicksGame >= pawn.mindState.lastAttackTargetTick + 1800
+                    || pawn.mindState.lastAttackTargetTick <= 0))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
                 return false;

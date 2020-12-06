@@ -32,7 +32,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (IncidentSettings.HealRandom.FairFights)
             {
                 list = list.Where(
-                        p => p.mindState.lastAttackTargetTick >= 1800 || p.mindState.lastAttackTargetTick <= 0
+                        p => Find.TickManager.TicksGame >= p.mindState.lastAttackTargetTick + 1800
+                             || p.mindState.lastAttackTargetTick <= 0
                     )
                    .ToList();
             }
