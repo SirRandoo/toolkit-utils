@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 if (IncidentSettings.HealAll.FairFights
-                    && (Find.TickManager.TicksGame >= pawn.mindState.lastAttackTargetTick + 1800
+                    && (Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800
                         || pawn.mindState.lastAttackTargetTick <= 0))
                 {
                     continue;
