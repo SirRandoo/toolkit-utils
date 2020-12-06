@@ -90,6 +90,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void Notify__Success(string affected)
         {
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                Viewer.TakeViewerCoins(storeIncident.cost);
+            }
+
             var description = "";
 
             if (toHeal != null)

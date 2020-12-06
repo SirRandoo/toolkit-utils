@@ -61,6 +61,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 part.First.health.RestorePart(part.Second);
             }
 
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                Viewer.TakeViewerCoins(storeIncident.cost);
+            }
+
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.MassHealLetter.Title".Localize(),
                 "TKUtils.MassHealLetter.Description".Localize(),
