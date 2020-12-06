@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
             var listing = new Listing_Standard();
             listing.Begin(inRect);
 
-            listing.CheckboxLabeled(fairFightsLabel, ref HealMe.FairFights);
+            listing.CheckboxLabeled(fairFightsLabel, ref FullHeal.FairFights);
             listing.DrawDescription(fairFightsDescription);
 
             listing.End();
