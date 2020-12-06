@@ -45,6 +45,11 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                    || pawn.RaceProps.FleshType.defName.EqualsIgnoreCase(MechFlesh.defName);
         }
 
+        public static bool IsAndroidSurgery(RecipeDef recipe)
+        {
+            return recipe.workerClass == AndroidSurgery || recipe.workerClass.IsSubclassOf(AndroidSurgery);
+        }
+
         public static bool IsSurgeryUsable(Pawn pawn, RecipeDef recipe)
         {
             if (!Active)
@@ -52,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return false;
             }
 
-            return IsAndroid(pawn) && recipe.Worker.GetType().IsSubclassOf(AndroidSurgery);
+            return IsAndroid(pawn) && IsAndroidSurgery(recipe);
         }
     }
 }

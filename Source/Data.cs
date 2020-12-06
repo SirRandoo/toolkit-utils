@@ -11,6 +11,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Models;
 using TwitchToolkit;
@@ -108,7 +109,7 @@ namespace SirRandoo.ToolkitUtils
         public static Dictionary<string, ItemData> ItemData { get; private set; }
         public static ModItem[] Mods { get; private set; }
         public static List<ThingItem> Items { get; set; }
-        public static List<RecipeDef> Surgeries { get; set; }
+        public static List<SurgeryItem> Surgeries { get; set; }
 
         private static void ValidateItems()
         {
@@ -354,7 +355,18 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidateSurgeryList()
         {
-            Surgeries = DefDatabase<RecipeDef>.AllDefs.Where(r => r.IsSurgery && r.workerClass != null).ToList();
+            Surgeries = new List<SurgeryItem>();
+            foreach (RecipeDef recipe in DefDatabase<RecipeDef>.AllDefs)
+            {
+                if (Androids.Active && Androids.IsAndroidSurgery(recipe))
+                {
+                    Surgeries.Add(new SurgeryItem {IsForAndroids = true, Surgery = recipe});
+                }
+                else if (recipe.IsSurgery)
+                {
+                    Surgeries.Add(new SurgeryItem {IsForAndroids = false, Surgery = recipe});
+                }
+            }
         }
 
         public static void SaveLegacyShop(string path)
@@ -494,7 +506,7 @@ namespace SirRandoo.ToolkitUtils
                .Where(c => c.command.EqualsIgnoreCase(input))
                .Where(
                     c => viewer != null
-                         && Viewers.GetViewer(viewer.ToLowerInvariant()) is {} v
+                         && Viewers.GetViewer(viewer.ToLowerInvariant()) is { } v
                          && (v.mod && c.requiresMod || v.username == ToolkitSettings.Channel && c.requiresAdmin)
                 )
                .Select(c => c.command);
