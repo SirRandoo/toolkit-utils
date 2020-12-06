@@ -113,11 +113,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
+            string descriptionTranslated = description.Localize(target.LabelShort.CapitalizeFirst(), affected);
+            if (ToolkitSettings.PurchaseConfirmations)
+            {
+                MessageHelper.ReplyToUser(Viewer.username, descriptionTranslated);
+                ;
+            }
+
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.HealLetter.Title".Localize(),
-                description.Localize(target.LabelCap, affected),
+                descriptionTranslated,
                 LetterDefOf.PositiveEvent,
-                affected
+                target
             );
         }
     }

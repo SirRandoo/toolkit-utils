@@ -67,6 +67,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Viewer.TakeViewerCoins(storeIncident.cost);
             }
 
+            if (ToolkitSettings.PurchaseConfirmations)
+            {
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.MassHealLetter.Description".Localize());
+            }
+
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.MassHealLetter.Title".Localize(),
                 "TKUtils.MassHealLetter.Description".Localize(),
