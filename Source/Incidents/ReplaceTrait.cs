@@ -139,6 +139,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (RationalRomance.Active && RationalRomance.IsTraitDisabled(replaceThisTraitDef))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.RemoveTrait.Disabled".Localize(replaceThisShop.Name.CapitalizeFirst())
+                );
+                return false;
+            }
+
             if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, replaceThisShop.DefName, replaceThisShop.Degree))
             {
                 MessageHelper.ReplyToUser(

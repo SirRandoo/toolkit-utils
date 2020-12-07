@@ -265,6 +265,7 @@
         <Compile Include="Utils\ModComp\Androids.cs"/>
         <Compile Include="Utils\ModComp\Immortals.cs"/>
         <Compile Include="Utils\ModComp\Interests.cs"/>
+        <Compile Include="Utils\ModComp\RationalRomance.cs"/>
         <Compile Include="Utils\ModComp\TMagic.cs"/>
         <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
         <Compile Include="Utils\ShopExpansion.cs"/>

@@ -78,6 +78,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (RationalRomance.Active && RationalRomance.IsTraitDisabled(target.def))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.RemoveTrait.Disabled".Localize(traitQuery.Name.CapitalizeFirst())
+                );
+                return false;
+            }
+
             if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, target.def.defName, target.Degree))
             {
                 MessageHelper.ReplyToUser(
