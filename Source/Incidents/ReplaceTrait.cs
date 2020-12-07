@@ -83,9 +83,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (replaceThisShop.BypassLimit
-                && !replaceThatShop.BypassLimit
-                && pawn.story.traits.allTraits.Count > AddTraitSettings.maxTraits)
+            if (pawn.story.traits.allTraits.Count > AddTraitSettings.maxTraits
+                && (replaceThisShop.BypassLimit && !replaceThatShop.BypassLimit
+                    || !replaceThisShop.BypassLimit && !replaceThatShop.BypassLimit))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
