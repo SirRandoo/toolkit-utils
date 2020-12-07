@@ -26,7 +26,7 @@ namespace SirRandoo.ToolkitUtils
     [StaticConstructorOnStartup]
     public class TkSettings : ModSettings
     {
-        public static bool Commands;
+        public static bool Commands = true;
         public static string Prefix = "!";
         public static string BuyPrefix = "$";
         public static bool ToolkitStyleCommands = true;
