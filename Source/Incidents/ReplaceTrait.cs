@@ -139,11 +139,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (RationalRomance.Active && RationalRomance.IsTraitDisabled(replaceThisTraitDef))
+            if (RationalRomance.Active
+                && RationalRomance.IsTraitDisabled(replaceThisTraitDef)
+                && !RationalRomance.IsTraitDisabled(replaceThatTraitDef))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Disabled".Localize(replaceThisShop.Name.CapitalizeFirst())
+                    "TKUtils.RemoveTrait.RationalRomance".Localize(
+                        replaceThisShop.Name.CapitalizeFirst(),
+                        replaceThatShop.Name.CapitalizeFirst()
+                    )
                 );
                 return false;
             }
