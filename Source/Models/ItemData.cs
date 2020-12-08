@@ -18,7 +18,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public bool IsRanged;
 
         [System.ComponentModel.DefaultValue(true)]
-        public bool IsStuffAllowed;
+        public bool IsStuffAllowed = true;
 
         public bool IsWeapon;
 
@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public string Mod;
 
         [System.ComponentModel.DefaultValue(-1)]
-        public int QuantityLimit;
+        public int QuantityLimit = 1;
 
         [JsonIgnore] private List<ResearchProjectDef> researchProjectDefs;
 
@@ -36,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public List<string> ResearchProjects;
 
         [System.ComponentModel.DefaultValue(1f)]
-        public float Weight;
+        public float Weight = 1f;
 
         public IEnumerable<ResearchProjectDef> GetResearchProjects()
         {
