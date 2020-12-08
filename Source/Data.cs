@@ -340,6 +340,11 @@ namespace SirRandoo.ToolkitUtils
                     IsStuffAllowed = true
                 };
             }
+
+            foreach (ItemData data in ItemData.Values.Where(data => data.Weight <= 0))
+            {
+                data.Weight = 1f;
+            }
         }
 
         private static void ValidateModList()
