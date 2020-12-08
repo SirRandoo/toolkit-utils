@@ -284,7 +284,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             (Rect weightLabel, Rect weightField) = listing.GetRect(Text.LineHeight * LineScale).ToForm(0.52f);
             var weightBuffer = expanded.Data.Weight.ToString(CultureInfo.InvariantCulture);
             SettingsHelper.DrawLabel(weightLabel, weightText);
-            Widgets.TextFieldNumeric(weightField, ref expanded.Data.Weight, ref weightBuffer, 1f, 100f);
+            Widgets.TextFieldNumeric(weightField, ref expanded.Data.Weight, ref weightBuffer, 0f, 100f);
 
 
             if (expanded.Thing.IsStuff)
