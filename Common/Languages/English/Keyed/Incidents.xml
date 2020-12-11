@@ -49,11 +49,12 @@
     <TKUtils.RemoveTrait.Disabled>The trait "{0}" has been restricted from being removed from pawns.</TKUtils.RemoveTrait.Disabled>
     <TKUtils.RemoveTrait.Class>Class changes are forbidden.</TKUtils.RemoveTrait.Class>
     <TKUtils.RemoveTrait.Kind>Your pawn is a(n) {0}, which forcibly have the trait "{1}".</TKUtils.RemoveTrait.Kind>
+    <TKUtils.RemoveTrait.RationalRomance>The trait "{0}" can only be replaced, not removed.</TKUtils.RemoveTrait.RationalRomance>
     
     <!-- Replace Trait -->
     <TKUtils.ReplaceTrait.Complete>Replaced {0} with {1}.</TKUtils.ReplaceTrait.Complete>
     <TKUtils.ReplaceTrait.Violation>Replacing {0} with {1} would exceed the trait limit.</TKUtils.ReplaceTrait.Violation>
-    <TKUtils.ReplaceTrait.RationalRomance>The trait {0} can only be replaced with another of the same type.</TKUtils.ReplaceTrait.RationalRomance>
+    <TKUtils.ReplaceTrait.RationalRomance>The trait "{0}" can only be replaced with another of the same type.</TKUtils.ReplaceTrait.RationalRomance>
     
     <!-- Passion -->
     <TKUtils.Passion.Full>Your pawn already has the highest passion possible in {0}.</TKUtils.Passion.Full>

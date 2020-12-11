@@ -145,10 +145,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.RationalRomance".Localize(
-                        replaceThisShop.Name.CapitalizeFirst(),
-                        replaceThatShop.Name.CapitalizeFirst()
-                    )
+                    "TKUtils.ReplaceTrait.RationalRomance".Localize(replaceThisShop.Name.CapitalizeFirst())
                 );
                 return false;
             }

@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Disabled".Localize(traitQuery.Name.CapitalizeFirst())
+                    "TKUtils.RemoveTrait.RationalRomance".Localize(traitQuery.Name.CapitalizeFirst())
                 );
                 return false;
             }
