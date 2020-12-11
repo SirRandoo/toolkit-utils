@@ -75,6 +75,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         private void PerformAnimalLookup(string query)
         {
             string[] results = Data.Items.Where(i => i.Thing.race.Animal)
+               .Where(i => i.Price > 0)
                .Where(
                     i =>
                     {
@@ -207,7 +208,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformKindLookup(string query)
         {
-            string[] results = Data.PawnKinds.Where(
+            string[] results = Data.PawnKinds.Where(i => i.Enabled)
+               .Where(
                     i =>
                     {
                         string label = i.Name.ToToolkit();
@@ -222,7 +224,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                                || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
                     }
                 )
-               .Where(r => r.Enabled)
                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                .ToArray();
 
