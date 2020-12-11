@@ -41,21 +41,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = 1;
             }
 
-            ThingItem product = Data.Items.FirstOrDefault(i => i.Name.EqualsIgnoreCase(item));
+            ThingItem product = Data.Items.Where(i => i.Price > 0).FirstOrDefault(i => i.Name.EqualsIgnoreCase(item));
 
-            if (product == null)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(item));
-                return false;
-            }
-
-            if (product.Price <= 0)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".Localize(product.Name));
-                return false;
-            }
-
-            if (product.Thing == null)
+            if (product?.Thing == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(item));
                 return false;
