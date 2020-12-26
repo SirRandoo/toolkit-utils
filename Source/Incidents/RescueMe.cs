@@ -34,6 +34,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (pawn?.IsBorrowedByAnyFaction() ?? false)
+            {
+                return false;
+            }
+
             if (isKidnapped ?? false)
             {
                 report = new KidnapReport {Viewer = viewer.username, PawnIds = new List<string> {pawn.ThingID}};
