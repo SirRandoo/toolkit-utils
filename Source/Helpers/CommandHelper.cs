@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                     }
                     catch (Exception e)
                     {
-                        TkLogger.Error($@"Command ""{command.command}"" threw an exception!", e);
+                        LogHelper.Error($@"Command ""{command.command}"" threw an exception!", e);
                     }
                     finally
                     {

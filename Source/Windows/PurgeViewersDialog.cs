@@ -293,7 +293,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             int count = affectedViewers.Count(viewer => Viewers.All.Remove(viewer));
 
-            TkLogger.Warn($"Purged {count:N0} viewers out of the requested {affectedViewersCount:N0}!");
+            LogHelper.Warn($"Purged {count:N0} viewers out of the requested {affectedViewersCount:N0}!");
             ResetState();
         }
 

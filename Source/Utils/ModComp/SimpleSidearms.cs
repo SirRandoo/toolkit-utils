@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
@@ -43,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
             catch (Exception e)
             {
-                TkLogger.Error("Compatibility class for Simple Sidearms failed!", e);
+                LogHelper.Error("Compatibility class for Simple Sidearms failed!", e);
             }
         }
 

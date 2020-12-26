@@ -117,7 +117,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                TkLogger.Warn($"Buy item failed to execute with error message: {e.Message}");
+                LogHelper.Warn($"Buy item failed to execute with error message: {e.Message}");
             }
         }
     }
@@ -146,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (ThingDef.race.Humanlike)
             {
-                TkLogger.Warn("Tried to spawn a humanlike -- Humanlikes should be spawned via !buy pawn");
+                LogHelper.Warn("Tried to spawn a humanlike -- Humanlikes should be spawned via !buy pawn");
                 return;
             }
 
@@ -178,7 +178,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                    .Where(t => !PawnWeaponGenerator.IsDerpWeapon(ThingDef, t))
                    .TryRandomElementByWeight(t => t.stuffProps.commonality, out result))
             {
-                TkLogger.Warn("Could not generate stuff for item! Falling back to a random stuff...");
+                LogHelper.Warn("Could not generate stuff for item! Falling back to a random stuff...");
                 result = GenStuff.RandomStuffByCommonalityFor(ThingDef);
             }
 

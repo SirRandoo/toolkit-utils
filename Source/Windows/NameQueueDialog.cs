@@ -590,7 +590,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            TkLogger.Warn("Pawn game component was null!");
+            LogHelper.Warn("Pawn game component was null!");
             Close();
         }
 

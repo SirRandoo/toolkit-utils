@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     && (val = pawn.SpawnedParentOrMe as Pawn) != null
                     && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out Thing _))
                 {
-                    TkLogger.Warn(
+                    LogHelper.Warn(
                         $"Submit this bug to ToolkitUtils issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"
                     );
                     return;
@@ -66,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
                 catch (NullReferenceException)
                 {
-                    TkLogger.Warn("Failed to revive with side effects!");
+                    LogHelper.Warn("Failed to revive with side effects!");
                     ResurrectionUtility.Resurrect(pawn);
                 }
 
@@ -80,7 +80,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception ex)
             {
-                TkLogger.Error("Could not execute reviveme", ex);
+                LogHelper.Error("Could not execute reviveme", ex);
             }
         }
     }

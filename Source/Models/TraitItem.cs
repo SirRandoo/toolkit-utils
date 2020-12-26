@@ -148,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
                 catch (Exception e)
                 {
-                    TkLogger.Warn(
+                    LogHelper.Warn(
                         $"Could not serialize stat offsets for the trait {degreeData.label}! -- {e.GetType().Name}({e.Message})"
                     );
                 }
@@ -165,7 +165,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
                 catch (Exception e)
                 {
-                    TkLogger.Warn(
+                    LogHelper.Warn(
                         $"Could not serialize stat factors for the {degreeData.label}! -- {e.GetType().Name}({e.Message})"
                     );
                 }

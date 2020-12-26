@@ -503,7 +503,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         new Rect(30f, lineRect.y, lineRect.width - 30f, lineRect.height),
                         "An error has occurred while drawing this"
                     );
-                    TkLogger.Warn(
+                    LogHelper.Warn(
                         $@"Could not draw item @ ""{item.DefName ?? "null"}"" | Exception: {e.GetType().Name}({e.Message})\n\n{e.StackTrace}"
                     );
                 }
@@ -820,7 +820,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
                 catch (Exception e)
                 {
-                    TkLogger.Warn(
+                    LogHelper.Warn(
                         $"Validator encountered an error! | Exception: {e.GetType().Name}({e.Message})\n{e.StackTrace}"
                     );
                     _validator = null;
@@ -1126,7 +1126,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             builder.Insert(0, "The following containers couldn't be validated:\n");
-            TkLogger.Warn(builder.ToString());
+            LogHelper.Warn(builder.ToString());
         }
     }
 }

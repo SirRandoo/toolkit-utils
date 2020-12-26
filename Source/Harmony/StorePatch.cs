@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (optionsListing == null)
             {
-                TkLogger.Warn("Could not inject Utils' shop buttons into Toolkit's store.  You should report this.");
+                LogHelper.Warn("Could not inject Utils' shop buttons into Toolkit's store.  You should report this.");
                 return;
             }
 

@@ -120,7 +120,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                TkLogger.Warn($"Backpack failed to execute with error message: {e.Message}");
+                LogHelper.Warn($"Backpack failed to execute with error message: {e.Message}");
             }
         }
     }
@@ -146,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                    .Where(t => !PawnWeaponGenerator.IsDerpWeapon(ThingDef, t))
                    .TryRandomElementByWeight(t => t.stuffProps.commonality, out result))
             {
-                TkLogger.Warn("Could not generate stuff for item! Falling back to a random stuff...");
+                LogHelper.Warn("Could not generate stuff for item! Falling back to a random stuff...");
                 result = GenStuff.RandomStuffByCommonalityFor(ThingDef);
             }
 

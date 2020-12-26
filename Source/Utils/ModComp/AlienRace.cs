@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Reflection;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
@@ -44,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 }
                 catch (Exception e)
                 {
-                    TkLogger.Error("Compatibility class for Humanoid Alien Races failed!", e);
+                    LogHelper.Error("Compatibility class for Humanoid Alien Races failed!", e);
                 }
             }
         }

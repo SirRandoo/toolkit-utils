@@ -67,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                TkLogger.Warn("Exceeded the maximum number of iterations during full heal.");
+                LogHelper.Warn("Exceeded the maximum number of iterations during full heal.");
                 break;
             }
 

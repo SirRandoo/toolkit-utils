@@ -86,7 +86,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (__exception != null)
             {
-                TkLogger.Error("Command parser encountered an error", __exception);
+                LogHelper.Error("Command parser encountered an error", __exception);
             }
 
             return null;

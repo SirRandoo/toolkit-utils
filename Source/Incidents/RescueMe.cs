@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                TkLogger.Error(
+                LogHelper.Error(
                     $"An error was thrown while trying to find {viewer.username}'s pawn in the kidnapped pawn list! Try again later.",
                     e
                 );

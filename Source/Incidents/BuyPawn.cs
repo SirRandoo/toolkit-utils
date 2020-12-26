@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 out loc
             ))
             {
-                TkLogger.Warn("No reachable location to spawn a viewer pawn!");
+                LogHelper.Warn("No reachable location to spawn a viewer pawn!");
                 return false;
             }
 
@@ -114,7 +114,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 if (!(pawn.Name is NameTriple name))
                 {
-                    TkLogger.Warn("Pawn name is not a name triple!");
+                    LogHelper.Warn("Pawn name is not a name triple!");
                     return;
                 }
 
@@ -141,7 +141,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                TkLogger.Error("Could not execute buy pawn", e);
+                LogHelper.Error("Could not execute buy pawn", e);
             }
         }
 
@@ -182,7 +182,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (randomKind == null)
             {
-                TkLogger.Warn("Could not get next enabled race!");
+                LogHelper.Warn("Could not get next enabled race!");
                 return;
             }
 

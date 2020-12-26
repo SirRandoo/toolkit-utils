@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Store;
 
@@ -25,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return;
             }
 
-            TkLogger.Info(
+            LogHelper.Info(
                 "ToolkitUtils' item container count didn't match what Twitch Toolkit found; rebuilding list..."
             );
             Data.Items = StoreDialog.ValidateContainers().ToList();

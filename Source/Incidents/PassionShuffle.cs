@@ -143,7 +143,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                TkLogger.Warn("Exceeded 100 iterations while shuffling interests!");
+                LogHelper.Warn("Exceeded 100 iterations while shuffling interests!");
                 return;
             }
         }
@@ -171,7 +171,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                TkLogger.Warn("Exceeded 100 iterations while shuffling passions!");
+                LogHelper.Warn("Exceeded 100 iterations while shuffling passions!");
                 return false;
             }
 

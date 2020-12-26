@@ -2,10 +2,12 @@
 using System.Diagnostics;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Helpers
 {
-    public static class TkLogger
+    public static class LogHelper
     {
+        private const string WarnColor = "#ff6b00";
+
         [Conditional("DEBUG")]
         public static void Debug(string message)
         {
@@ -33,7 +35,7 @@ namespace SirRandoo.ToolkitUtils
 
         public static void Warn(string message)
         {
-            Log("WARN", message, "#ff8080");
+            Log("WARN", message, WarnColor);
         }
     }
 }

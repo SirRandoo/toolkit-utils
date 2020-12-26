@@ -1,4 +1,5 @@
 ﻿using MoonSharp.Interpreter;
+using SirRandoo.ToolkitUtils.Helpers;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -23,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         private void PrintPassthrough(string message)
         {
-            TkLogger.Info($"[ScriptEngine] {id} :: {message}");
+            LogHelper.Info($"[ScriptEngine] {id} :: {message}");
         }
 
         public static ScriptEngine CreateInstance(string id)
@@ -39,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
             catch (InterpreterException e)
             {
-                TkLogger.Error(
+                LogHelper.Error(
                     $"Could not invoke script with code! Reason: {e.DecoratedMessage}\n\nPassed code:\n{code}",
                     e
                 );

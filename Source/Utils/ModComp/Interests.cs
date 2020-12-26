@@ -61,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 }
                 catch (Exception e)
                 {
-                    TkLogger.Error("Compatibility class for Interests failed!", e);
+                    LogHelper.Error("Compatibility class for Interests failed!", e);
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
@@ -25,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 }
                 catch (Exception e)
                 {
-                    TkLogger.Error("Compatibility class for Immortals failed!", e);
+                    LogHelper.Error("Compatibility class for Immortals failed!", e);
                 }
             }
         }
@@ -39,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
             catch (Exception e)
             {
-                TkLogger.Error($"Could not grant immortality to {pawn.LabelCap}", e);
+                LogHelper.Error($"Could not grant immortality to {pawn.LabelCap}", e);
                 return false;
             }
         }

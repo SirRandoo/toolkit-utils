@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using Verse;
 
@@ -135,7 +136,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 }
                 catch (Exception e)
                 {
-                    TkLogger.Error("Compatiblity class for RimWorld of Magic failed!", e);
+                    LogHelper.Error("Compatiblity class for RimWorld of Magic failed!", e);
                 }
             }
         }

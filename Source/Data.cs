@@ -78,7 +78,7 @@ namespace SirRandoo.ToolkitUtils
                 }
                 catch (IOException)
                 {
-                    TkLogger.Warn("Could not move old shop file; a similar one exists.");
+                    LogHelper.Warn("Could not move old shop file; a similar one exists.");
                 }
             }
 
@@ -125,7 +125,7 @@ namespace SirRandoo.ToolkitUtils
             }
             catch (IOException e)
             {
-                TkLogger.Error("Could not read legacy old data!", e);
+                LogHelper.Error("Could not read legacy old data!", e);
                 return;
             }
 
@@ -166,7 +166,7 @@ namespace SirRandoo.ToolkitUtils
         {
             if (!File.Exists(path) && !ignoreErrors)
             {
-                TkLogger.Warn($"Could not load file at {path} -- Does not exist!");
+                LogHelper.Warn($"Could not load file at {path} -- Does not exist!");
                 return null;
             }
 
@@ -187,7 +187,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 if (!ignoreErrors)
                 {
-                    TkLogger.Error($"Could not load file at {path}", e);
+                    LogHelper.Error($"Could not load file at {path}", e);
                 }
 
                 return null;
@@ -229,7 +229,7 @@ namespace SirRandoo.ToolkitUtils
             }
             catch (IOException e)
             {
-                TkLogger.Error($"Could not save json to path {path}", e);
+                LogHelper.Error($"Could not save json to path {path}", e);
             }
         }
 
