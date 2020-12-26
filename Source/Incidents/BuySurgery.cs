@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".Localize(
-                        appointment.Item.Price.ToString("N0"),
+                        appointment.Cost.ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
                 );
