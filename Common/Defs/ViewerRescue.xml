@@ -29,7 +29,7 @@
     
     <QuestScriptDef>
         <defName>TKUtilsViewerRescue</defName>
-        <rootSelectionWeight>1</rootSelectionWeight>
+        <rootSelectionWeight>0</rootSelectionWeight>
         <rootMinPoints>0</rootMinPoints>
         <rootIncreasesPopulation>true</rootIncreasesPopulation>
         <autoAccept>true</autoAccept>
