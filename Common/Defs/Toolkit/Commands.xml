@@ -269,7 +269,11 @@
                 <Description>Shows your current stats within a given category.</Description>
                 <Parameters>
                     <li>
-                        <Name>Category</Name>
+                        <Name>Stat1</Name>
+                        <Optional>true</Optional>
+                    </li>
+                    <li>
+                        <Name>Stat2</Name>
                         <Optional>true</Optional>
                     </li>
                 </Parameters>
@@ -488,7 +492,7 @@
     
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows the first few results for the query in the given category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', 'skills', and 'stats'.</Description>
+                <Description>Shows the first few results for the query in the given category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', and 'skills'.</Description>
                 <Parameters>
                     <li>
                         <Names>
