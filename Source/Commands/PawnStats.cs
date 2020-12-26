@@ -14,6 +14,17 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnStats : CommandBase
     {
+        private static readonly List<string> DefaultStats = new List<string>
+        {
+            "MeleeDPS",
+            "MeleeHitChance",
+            "MeleeArmorPenetration",
+            "MeleeDodgeChance",
+            "ShootingAccuracyPawn",
+            "AimingDelayFactor",
+            "IncomingDamageFactor"
+        };
+
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
@@ -27,7 +38,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (queries.Count <= 0)
             {
-                return;
+                queries.AddRange(DefaultStats);
+                ;
             }
 
             var container = new List<StatDef>();
@@ -36,8 +48,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 StatDef stat = DefDatabase<StatDef>.AllDefs.Where(d => d.showOnHumanlikes && d.showOnPawns)
                    .FirstOrDefault(
-                        d => d.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                             || d.labelForFullStatList.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                        d => d.label.ToToolkit().EqualsIgnoreCase(query) || d.defName.EqualsIgnoreCase(query)
                     );
 
                 if (stat != null)
