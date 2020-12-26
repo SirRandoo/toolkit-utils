@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
 using Verse;
@@ -64,10 +63,8 @@ namespace SirRandoo.ToolkitUtils
         private static TabEntry[] _tabEntries;
 
         private static WorkTypeDef[] _workTypeDefs;
-        private static StatDef[] _statDefs;
 
         private static Vector2 _workScrollPos = Vector2.zero;
-        private static Vector2 _statScrollPos = Vector2.zero;
         private static Vector2 _commandTweaksPos = Vector2.zero;
 
         static TkSettings()
@@ -75,11 +72,6 @@ namespace SirRandoo.ToolkitUtils
             if (_workTypeDefs.NullOrEmpty())
             {
                 _workTypeDefs = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToArray();
-            }
-
-            if (_statDefs.NullOrEmpty())
-            {
-                _statDefs = DefDatabase<StatDef>.AllDefsListForReading.ToArray();
             }
         }
 
