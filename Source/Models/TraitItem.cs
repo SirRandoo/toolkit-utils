@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
@@ -138,12 +139,36 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (!degreeData.statOffsets.NullOrEmpty())
             {
-                container.AddRange(degreeData.statOffsets.Select(o => $"{o.ValueToStringAsOffset} {o.stat.label}"));
+                try
+                {
+                    container.AddRange(
+                        degreeData.statOffsets.Where(s => s?.stat?.Worker != null)
+                           .Select(o => $"{o.ValueToStringAsOffset} {o.stat.label}")
+                    );
+                }
+                catch (Exception e)
+                {
+                    TkLogger.Warn(
+                        $"Could not serialize stat offsets for the trait {degreeData.label}! -- {e.GetType().Name}({e.Message})"
+                    );
+                }
             }
 
             if (!degreeData.statFactors.NullOrEmpty())
             {
-                container.AddRange(degreeData.statFactors.Select(f => $"{f.ToStringAsFactor} {f.stat.label}"));
+                try
+                {
+                    container.AddRange(
+                        degreeData.statFactors.Where(s => s?.stat?.Worker != null)
+                           .Select(f => $"{f.ToStringAsFactor} {f.stat.label}")
+                    );
+                }
+                catch (Exception e)
+                {
+                    TkLogger.Warn(
+                        $"Could not serialize stat factors for the {degreeData.label}! -- {e.GetType().Name}({e.Message})"
+                    );
+                }
             }
 
             Data.Stats = container.ToArray();
