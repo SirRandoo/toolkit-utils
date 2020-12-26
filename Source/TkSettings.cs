@@ -15,7 +15,6 @@ namespace SirRandoo.ToolkitUtils
         CommandTweaks,
         PawnCommands,
         PawnWork,
-        PawnStats,
         ModCompat
     }
 
@@ -58,7 +57,6 @@ namespace SirRandoo.ToolkitUtils
         public static bool MinimalRelations = true;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
-        public static List<StatSetting> StatSettings = new List<StatSetting>();
 
         private static Categories _category = Categories.General;
         private static List<FloatMenuOption> _leaveMenuOptions;
@@ -127,9 +125,6 @@ namespace SirRandoo.ToolkitUtils
                     break;
                 case Categories.PawnWork:
                     DrawPawnWorkTab(trueContentRect);
-                    break;
-                case Categories.PawnStats:
-                    DrawPawnStatsTab(trueContentRect);
                     break;
                 case Categories.ModCompat:
                     DrawModCompatTab(trueContentRect);
@@ -498,50 +493,6 @@ namespace SirRandoo.ToolkitUtils
             listing.EndScrollView(ref view);
         }
 
-        private static void DrawPawnStatsTab(Rect canvas)
-        {
-            GUI.BeginGroup(canvas);
-
-            var listing = new Listing_Standard();
-            var content = new Rect(0f, 0f, canvas.width, canvas.height);
-            var view = new Rect(0f, 0f, canvas.width - 16f, _statDefs.Length * Text.LineHeight);
-
-            listing.BeginScrollView(content, ref _statScrollPos, ref view);
-            for (var index = 0; index < _statDefs.Length; index++)
-            {
-                StatDef statDef = _statDefs[index];
-                StatSetting statSetting = StatSettings.FirstOrDefault(w => w.StatDef.EqualsIgnoreCase(statDef.defName));
-
-                if (statSetting == null)
-                {
-                    statSetting = new StatSetting {Enabled = true, StatDef = statDef.defName};
-
-                    StatSettings.Add(statSetting);
-                }
-
-                Rect line = listing.GetRect(Text.LineHeight);
-                var labelRect = new Rect(line.x, line.y, line.width - line.height - 5f, line.height);
-                var checkRect = new Rect(line.x + line.width - line.height, line.y, line.height, line.height);
-
-                if (!line.IsRegionVisible(content, _statScrollPos))
-                {
-                    continue;
-                }
-
-                if (index % 2 == 0)
-                {
-                    Widgets.DrawLightHighlight(line);
-                }
-
-                SettingsHelper.DrawLabel(labelRect, statDef.LabelForFullStatListCap ?? statDef.LabelCap);
-                Widgets.Checkbox(checkRect.position, ref statSetting.Enabled, line.height, paintable: true);
-                Widgets.DrawHighlightIfMouseover(line);
-            }
-
-            GUI.EndGroup();
-            listing.EndScrollView(ref view);
-        }
-
         public override void ExposeData()
         {
             Scribe_Values.Look(ref Commands, "commands", true);
@@ -575,7 +526,6 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
-            Scribe_Collections.Look(ref StatSettings, "statSettings", LookMode.Deep);
         }
 
         internal static void ValidateDynamicSettings()
@@ -585,14 +535,8 @@ namespace SirRandoo.ToolkitUtils
                 _workTypeDefs = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToArray();
             }
 
-            if (_statDefs.NullOrEmpty())
-            {
-                _statDefs = DefDatabase<StatDef>.AllDefsListForReading.ToArray();
-            }
-
 
             WorkSettings ??= new List<WorkSetting>();
-            StatSettings ??= new List<StatSetting>();
 
 
             foreach (WorkTypeDef workType in _workTypeDefs.Where(
@@ -600,12 +544,6 @@ namespace SirRandoo.ToolkitUtils
             ))
             {
                 WorkSettings.Add(new WorkSetting {Enabled = true, WorkTypeDef = workType.defName});
-            }
-
-            foreach (StatDef stat in _statDefs.Where(d => !StatSettings.Any(s => s.StatDef.EqualsIgnoreCase(d.defName)))
-            )
-            {
-                StatSettings.Add(new StatSetting {Enabled = true, StatDef = stat.defName});
             }
         }
 
@@ -620,21 +558,6 @@ namespace SirRandoo.ToolkitUtils
             public void ExposeData()
             {
                 Scribe_Values.Look(ref WorkTypeDef, "defName");
-                Scribe_Values.Look(ref Enabled, "enabled", true);
-            }
-        }
-
-        public class StatSetting : IExposable
-        {
-            [Description("Whether or not the stat will be shown in !mypawnstats")]
-            public bool Enabled;
-
-            [Description("The def name of the stat instance.")]
-            public string StatDef;
-
-            public void ExposeData()
-            {
-                Scribe_Values.Look(ref StatDef, "defName");
                 Scribe_Values.Look(ref Enabled, "enabled", true);
             }
         }

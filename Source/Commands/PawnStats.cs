@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -58,34 +57,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            HideDisabledStats(stats);
-
             string[] parts = stats
                .Select(s => ResponseHelper.JoinPair(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
                .ToArray();
 
             twitchMessage.Reply(parts.SectionJoin());
-        }
-
-        private static void HideDisabledStats(IList<StatDef> stats)
-        {
-            for (var index = 0; index < stats.Count; index++)
-            {
-                StatDef stat = stats[index];
-                TkSettings.StatSetting setting =
-                    TkSettings.StatSettings.FirstOrDefault(s => s.StatDef.EqualsIgnoreCase(stat.defName));
-
-                if (setting == null || setting.Enabled)
-                {
-                    continue;
-                }
-
-                try
-                {
-                    stats.RemoveAt(index);
-                }
-                catch (IndexOutOfRangeException) { }
-            }
         }
     }
 }
