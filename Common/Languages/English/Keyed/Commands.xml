@@ -59,9 +59,6 @@
     <!-- Pawn Needs -->
     <TKUtils.PawnNeeds.None>Your pawn has no needs.</TKUtils.PawnNeeds.None>
     
-    <!-- Pawn Stats -->
-    <TKUtils.PawnStats.None>Your pawn has no stats in the specified category.</TKUtils.PawnStats.None>
-    
     <!-- Pawn Work -->
     <TKUtils.PawnWork.Header>Work priorities</TKUtils.PawnWork.Header>
     <TKUtils.PawnWork.None>Your pawn cannot do any work.</TKUtils.PawnWork.None>

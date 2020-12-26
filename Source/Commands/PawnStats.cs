@@ -14,19 +14,6 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnStats : CommandBase
     {
-        internal static readonly Dictionary<string, string> StatRegistry = new Dictionary<string, string>();
-
-        static PawnStats()
-        {
-            List<StatCategoryDef> stats = DefDatabase<StatCategoryDef>.AllDefsListForReading;
-
-            foreach (StatCategoryDef stat in stats)
-            {
-                StatRegistry[stat.defName.ToToolkit().ToLowerInvariant()] = stat.label;
-                StatRegistry[stat.label.ToToolkit().ToLowerInvariant()] = stat.label;
-            }
-        }
-
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
@@ -35,29 +22,36 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            string category = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
+            List<string> queries =
+                CommandFilter.Parse(twitchMessage.Message).Skip(1).Select(q => q.ToToolkit()).ToList();
 
-            if (category.NullOrEmpty())
-            {
-                category = "combat";
-            }
-
-            if (!StatRegistry.TryGetValue(category.ToToolkit().ToLowerInvariant(), out string categoryDef))
+            if (queries.Count <= 0)
             {
                 return;
             }
 
-            List<StatDef> stats = DefDatabase<StatDef>.AllDefs.Where(d => d.showOnHumanlikes && d.showOnPawns)
-               .Where(d => d.category != null && d.category.label.EqualsIgnoreCase(categoryDef))
-               .ToList();
+            var container = new List<StatDef>();
 
-            if (!stats.Any())
+            foreach (string query in queries)
             {
-                twitchMessage.Reply("TKUtils.PawnStats.None".Localize());
+                StatDef stat = DefDatabase<StatDef>.AllDefs.Where(d => d.showOnHumanlikes && d.showOnPawns)
+                   .FirstOrDefault(
+                        d => d.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                             || d.labelForFullStatList.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                    );
+
+                if (stat != null)
+                {
+                    container.Add(stat);
+                }
+            }
+
+            if (!container.Any())
+            {
                 return;
             }
 
-            string[] parts = stats
+            string[] parts = container
                .Select(s => ResponseHelper.JoinPair(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
                .ToArray();
 
