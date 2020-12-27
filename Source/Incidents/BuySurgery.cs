@@ -225,14 +225,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     return;
                 }
 
+                Pawn_HealthTracker pHealth = Patient.health;
                 foreach (BodyPartRecord part in Surgery.Worker.GetPartsToApplyOn(Patient, Surgery))
                 {
-                    if (Patient.health.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part == part))
+                    if (pHealth.surgeryBills.Bills.Any(
+                        b => b is Bill_Medical bill && bill.Part == part && bill.recipe == Surgery
+                    ))
                     {
                         continue;
                     }
 
-                    if (Patient.health.hediffSet.hediffs.Where(h => h.def.defName == Surgery.addsHediff.defName)
+                    if (pHealth.hediffSet.hediffs.Where(h => h.def.defName == Surgery.addsHediff.defName)
                        .Any(h => h.Part == part))
                     {
                         continue;
