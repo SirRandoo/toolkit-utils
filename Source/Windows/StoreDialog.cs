@@ -957,7 +957,37 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public static IEnumerable<ThingDef> GetTradeables()
         {
-            return Store_ItemEditor.GetDefaultItems();
+            foreach (ThingDef t in DefDatabase<ThingDef>.AllDefs.Where(t => t != null))
+            {
+                if (!t.tradeability.TraderCanSell() && !ThingSetMakerUtility.CanGenerate(t))
+                {
+                    continue;
+                }
+
+                if (t.building != null && !t.Minifiable && !ToolkitSettings.MinifiableBuildings)
+                {
+                    continue;
+                }
+
+                if (t.FirstThingCategory == null && t.race == null)
+                {
+                    continue;
+                }
+
+                try
+                {
+                    if (!(t.BaseMarketValue > 0.0))
+                    {
+                        continue;
+                    }
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+
+                if (t.defName != "Human") yield return t;
+            }
         }
 
         private void SortCurrentWorkingList()

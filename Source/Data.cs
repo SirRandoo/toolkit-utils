@@ -317,7 +317,7 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidateItemData()
         {
-            List<string> tradeables = Store_ItemEditor.GetDefaultItems().Select(t => t.defName).ToList();
+            List<string> tradeables = StoreDialog.GetTradeables().Select(t => t.defName).ToList();
             List<string> toCull = ItemData.Keys.Where(dataKey => !tradeables.Contains(dataKey.CapitalizeFirst()))
                .ToList();
 
