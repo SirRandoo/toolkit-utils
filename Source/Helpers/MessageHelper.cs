@@ -16,9 +16,16 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return $"【{header}】 {s}".AltText($"[{header}] {s}");
         }
 
-        internal static void ReplyToUser(string user, string message)
+        internal static void ReplyToUser(string user, string message, bool bypassPuppeteer = false)
         {
-            TwitchWrapper.SendChatMessage($"@{user} → {message}");
+            if (!bypassPuppeteer)
+            {
+                TwitchWrapper.SendChatMessage($"@{user} → {message}");
+            }
+            else
+            {
+                TwitchWrapper.Client?.SendMessage(ToolkitCoreSettings.channel_username, $"@{user} → {message}");
+            }
         }
 
         internal static string AltText(this string emoji, string alt = null)
