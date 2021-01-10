@@ -279,6 +279,7 @@
         <Compile Include="Windows\TkUtilsWindow.cs"/>
         <Compile Include="Windows\TraitConfigDialog.cs"/>
         <Compile Include="Workers\TabWorker.cs"/>
+        <Compile Include="Workers\TableWorker.cs"/>
     </ItemGroup>
     <ItemGroup>
         <Content Include="..\About\About.xml">
