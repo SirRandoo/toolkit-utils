@@ -50,7 +50,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             cache?.SortBy(t => t.Name);
         }
 
-        public override Vector2 InitialSize => new Vector2(1024f, Screen.height * 0.9f);
+        public override Vector2 InitialSize => new Vector2(1024f, UI.screenHeight * 0.9f);
 
         private void GetTranslations()
         {
