@@ -334,7 +334,7 @@ namespace SirRandoo.ToolkitUtils
                     IsMelee = item.IsMeleeWeapon,
                     IsRanged = item.IsRangedWeapon,
                     IsWeapon = item.IsWeapon,
-                    Mod = item.modContentPack?.Name ?? "Unknown",
+                    Mod = item.modContentPack.IsCoreMod ? "RimWorld" : item.modContentPack?.Name ?? "Unknown",
                     KarmaType = KarmaType.Neutral,
                     QuantityLimit = -1,
                     IsStuffAllowed = true
