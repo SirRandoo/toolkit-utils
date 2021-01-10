@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Workers;
 using Steamworks;
 using UnityEngine;
 using Verse;
@@ -32,6 +33,24 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             GUIUtility.keyboardControl = 0;
             return true;
+        }
+
+        public static void DrawSortIndicator(Rect canvas, SortOrder order)
+        {
+            var region = new Rect(canvas.x + canvas.width - 12f, canvas.y + 4f, canvas.height - 8f, canvas.height - 8f);
+
+            switch (order)
+            {
+                case SortOrder.Ascending:
+                    GUI.DrawTexture(region, Textures.SortingAscend);
+                    return;
+                case SortOrder.Descending:
+                    GUI.DrawTexture(region, Textures.SortingDescend);
+                    return;
+                default:
+                    GUI.DrawTexture(region, Textures.QuestionMark);
+                    return;
+            }
         }
 
         public static void DrawPriceField(Rect canvas, ref int price)
