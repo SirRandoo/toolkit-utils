@@ -193,7 +193,7 @@
         <cost>5000</cost>
         <eventCap>3</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.RemovePassion</incidentHelper>
-        <karmaType>Good</karmaType>
+        <karmaType>Neutral</karmaType>
         <variables>1</variables>
         <customSettings>true</customSettings>
         <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.RemovePassion</customSettingsHelper>
