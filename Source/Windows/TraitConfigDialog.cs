@@ -301,31 +301,27 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.EndGroup();
 
 
-            float lineHeight = Text.LineHeight * LineScale;
+            float lineHeight = Mathf.RoundToInt(Text.LineHeight * LineScale);
             List<TraitItem> effectiveList = results ?? cache;
             int total = effectiveList.Count;
-            float maxHeight = lineHeight * total;
-            Rect viewPort = new Rect(0f, 0f, contentArea.width - 16f, maxHeight).Rounded();
+            var viewPort = new Rect(0f, 0f, contentArea.width - 16f, lineHeight * total);
             var traits = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
             listing.BeginScrollView(traits, ref scrollPos, ref viewPort);
-
-            Text.Font = GameFont.Small;
             for (var index = 0; index < effectiveList.Count; index++)
             {
                 TraitItem trait = effectiveList[index];
-                Rect fullLineRect = listing.GetRect(lineHeight).Rounded();
-                var lineRect = new Rect(fullLineRect.x, fullLineRect.y, fullLineRect.width, lineHeight);
+                Rect lineRect = listing.GetRect(lineHeight);
 
-                if (!fullLineRect.IsRegionVisible(traits, scrollPos))
+                if (!lineRect.IsRegionVisible(traits, scrollPos))
                 {
                     continue;
                 }
 
                 if (index % 2 == 1)
                 {
-                    Widgets.DrawLightHighlight(fullLineRect);
+                    Widgets.DrawLightHighlight(lineRect);
                 }
 
                 var nameRect = new Rect(nameHeaderRect.x, lineRect.y, nameHeaderRect.width, lineRect.height);
@@ -355,7 +351,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SettingsHelper.DrawLabel(nameRect, trait.Name);
                 Widgets.Checkbox(addRect.position, ref trait.CanAdd, addRect.height, paintable: true);
                 SettingsHelper.DrawPriceField(addCostRect, ref trait.CostToAdd);
-                Widgets.Checkbox(removeRect.position, ref trait.CanRemove, removeRect.width, paintable: true);
+                Widgets.Checkbox(removeRect.position, ref trait.CanRemove, removeRect.height, paintable: true);
                 SettingsHelper.DrawPriceField(removeCostRect, ref trait.CostToRemove);
             }
 

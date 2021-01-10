@@ -228,8 +228,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             var headingRect = new Rect(0f, Text.LineHeight * 4f, inRect.width, Text.LineHeight);
-            Rect nameHeadingRect =
-                new Rect(Widgets.CheckboxSize + 5f, 0f, inRect.width * 0.509f, Text.LineHeight).Rounded();
+            Rect nameHeadingRect = new Rect(
+                Mathf.RoundToInt(Text.LineHeight * LineScale) + 5f,
+                0f,
+                inRect.width * 0.509f,
+                Text.LineHeight
+            ).Rounded();
             Rect priceHeadingRect = new Rect(
                 nameHeadingRect.x + nameHeadingRect.width + 5f,
                 0f,
@@ -246,7 +250,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             List<PawnKindItem> effectiveList = results ?? cache;
             int total = effectiveList.Count;
-            Rect viewPort = new Rect(0f, 0f, contentArea.width - 16f, Text.LineHeight * LineScale * total).Rounded();
+            var viewPort = new Rect(
+                0f,
+                0f,
+                contentArea.width - 16f,
+                Mathf.RoundToInt(Text.LineHeight * LineScale * total)
+            );
             var races = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
             GUI.BeginGroup(contentArea);
@@ -254,9 +263,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             for (var index = 0; index < effectiveList.Count; index++)
             {
                 PawnKindItem item = effectiveList[index];
-                Rect lineRect = listing.GetRect(Text.LineHeight * LineScale).Rounded();
-                var stateRect = new Rect(0f, lineRect.y, Text.LineHeight, Text.LineHeight);
-                var nameRect = new Rect(Text.LineHeight + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
+                Rect lineRect = listing.GetRect(Mathf.RoundToInt(Text.LineHeight * LineScale));
+                var stateRect = new Rect(0f, lineRect.y, lineRect.height, lineRect.height);
+                var nameRect = new Rect(stateRect.height + 5f, lineRect.y, nameHeadingRect.width, lineRect.height);
                 var priceRect = new Rect(priceHeadingRect.x, lineRect.y, priceHeadingRect.width, lineRect.height);
                 var settingsRect = new Rect(
                     priceRect.x + priceRect.width + 5f,
