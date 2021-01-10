@@ -69,7 +69,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
 
-            Widgets.TextFieldNumeric(fieldRect, ref price, ref buffer);
+            Widgets.TextFieldNumeric(fieldRect, ref price, ref buffer, 1f);
         }
 
         private static string DrawControlShiftPriceBtns(ref int price, Rect reduceRect, string buffer, Rect raiseRect)
