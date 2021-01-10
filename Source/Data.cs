@@ -341,9 +341,9 @@ namespace SirRandoo.ToolkitUtils
                 };
             }
 
-            foreach (ItemData data in ItemData.Values.Where(data => data.Weight <= 0))
+            foreach (ItemData data in ItemData.Values.Where(data => data.Mod.EqualsIgnoreCase("core")))
             {
-                data.Weight = 1f;
+                data.Mod = "RimWorld";
             }
         }
 
