@@ -72,23 +72,24 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         private static bool TryFindVariableIncident(string query, out StoreIncidentVariables incidentVariables)
         {
-            incidentVariables =
-                Purchase_Handler.allStoreIncidentsVariables.FirstOrDefault(i => query.EqualsIgnoreCase(i.abbreviation));
+            incidentVariables = Purchase_Handler.allStoreIncidentsVariables
+               .Where(i => i.cost > 0 || i.defName.Equals("Item"))
+               .FirstOrDefault(i => query.EqualsIgnoreCase(i.abbreviation));
 
             return incidentVariables != null;
         }
 
         private static bool TryFindSimpleIncident(string query, out StoreIncidentSimple incidentSimple)
         {
-            incidentSimple =
-                Purchase_Handler.allStoreIncidentsSimple.FirstOrDefault(i => query.EqualsIgnoreCase(i.abbreviation));
+            incidentSimple = Purchase_Handler.allStoreIncidentsSimple.Where(i => i.cost > 0 || i.defName.Equals("Item"))
+               .FirstOrDefault(i => query.EqualsIgnoreCase(i.abbreviation));
 
             return incidentSimple != null;
         }
 
         private static bool TryFindItem(string query, out ThingItem item)
         {
-            item = Data.Items.FirstOrDefault(i => query.EqualsIgnoreCase(i.Name));
+            item = Data.Items.Where(i => i.Price > 0).FirstOrDefault(i => query.EqualsIgnoreCase(i.Name));
             return item != null;
         }
     }
