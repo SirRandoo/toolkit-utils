@@ -456,6 +456,9 @@
         <Content Include="..\Common\Textures\UI\Icons\MaximizeWindow.png">
             <Link>Common\Textures\UI\Icons\MaximizeWindow.png</Link>
         </Content>
+        <Content Include="..\Common\Textures\UI\Icons\Stack.png">
+            <Link>Common\Textures\UI\Icons\Stack.png</Link>
+        </Content>
         <Content Include="..\LoadFolders.xml">
             <Link>LoadFolders.xml</Link>
         </Content>

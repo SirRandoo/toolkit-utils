@@ -17,6 +17,7 @@ namespace SirRandoo.ToolkitUtils
         public static readonly Texture2D Edit;
         public static readonly Texture2D Visible;
         public static readonly Texture2D Hidden;
+        public static readonly Texture2D Stack;
         public static readonly Texture2D Reset;
         public static readonly Texture2D QuestionMark;
         public static readonly Texture2D Filter;
@@ -61,6 +62,7 @@ namespace SirRandoo.ToolkitUtils
             CloseButton = ContentFinder<Texture2D>.Get("UI/Widgets/CloseXSmall");
             MaximizeWindow = ContentFinder<Texture2D>.Get("UI/Icons/MaximizeWindow");
             RestoreWindow = ContentFinder<Texture2D>.Get("UI/Icons/RestoreWindow");
+            Stack = ContentFinder<Texture2D>.Get("UI/Icons/Stack");
 
             DiceSides = new List<Texture2D>
             {

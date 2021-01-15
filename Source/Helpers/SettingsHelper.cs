@@ -19,10 +19,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
            .OrderByDescending(f => (int) f)
            .ToArray();
 
-        public static bool DrawClearButton(Rect canvas)
+        public static bool DrawFieldButton(Rect canvas, string label)
         {
-            var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
-            Widgets.ButtonText(region, "×", false);
+            var region = new Rect(canvas.x + canvas.width - canvas.height, canvas.y, canvas.height, canvas.height);
+            Widgets.ButtonText(region, label, false);
 
             bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
 
@@ -33,6 +33,27 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             GUIUtility.keyboardControl = 0;
             return true;
+        }
+
+        public static bool DrawFieldButton(Rect canvas, Texture2D icon)
+        {
+            var region = new Rect(canvas.x + canvas.width - canvas.height, canvas.y, canvas.height, canvas.height);
+            Widgets.ButtonImage(region, icon);
+
+            bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
+
+            if (!clicked)
+            {
+                return false;
+            }
+
+            GUIUtility.keyboardControl = 0;
+            return true;
+        }
+
+        public static bool DrawClearButton(Rect canvas)
+        {
+            return DrawFieldButton(canvas, "×");
         }
 
         public static void DrawSortIndicator(Rect canvas, SortOrder order)
@@ -161,34 +182,15 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static bool DrawDoneButton(Rect canvas)
         {
-            var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
-            Widgets.ButtonText(region, "✔", false);
-
-            bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
-
-            if (!clicked)
-            {
-                return false;
-            }
-
-            GUI.FocusControl(null);
-            return true;
+            return DrawFieldButton(canvas, "✔");
         }
 
         public static void DrawShowButton(Rect canvas, ref bool state)
         {
-            var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
-            Widgets.ButtonImageFitted(region, state ? Textures.Hidden : Textures.Visible);
-
-            bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
-
-            if (!clicked)
+            if (DrawFieldButton(canvas, state ? Textures.Hidden : Textures.Visible))
             {
-                return;
+                state = !state;
             }
-
-            state = !state;
-            GUI.FocusControl(null);
         }
 
         public static bool WasLeftClicked(this Rect region)
@@ -498,6 +500,16 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             listing.GapLine(6f);
+        }
+
+        public static bool DrawCheckbox(Rect canvas, ref bool state)
+        {
+            bool proxy = state;
+            Widgets.Checkbox(canvas.position, ref proxy, Mathf.Min(canvas.width, canvas.height), paintable: true);
+
+            bool changed = proxy != state;
+            state = proxy;
+            return changed;
         }
     }
 }

@@ -278,6 +278,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                     ref quantityLimitBuffer,
                     1f
                 );
+
+                if (SettingsHelper.DrawFieldButton(quantityLimitField, Textures.Stack))
+                {
+                    expanded.Data.QuantityLimit = expanded.Thing?.stackLimit ?? expanded.Data.QuantityLimit;
+                    quantityLimitBuffer = expanded.Data.QuantityLimit.ToString();
+                }
             }
 
             listing.GapLine(2f);
@@ -287,7 +293,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.TextFieldNumeric(weightField, ref expanded.Data.Weight, ref weightBuffer, 0f, 100f);
 
 
-            if (expanded.Thing.IsStuff)
+            if (expanded.Thing?.IsStuff ?? false)
             {
                 listing.Gap(2f);
                 listing.GapLine();
