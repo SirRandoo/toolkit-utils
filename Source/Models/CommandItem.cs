@@ -37,7 +37,10 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public static CommandItem FromToolkitCore(ToolkitChatCommand command)
         {
-            var result = new CommandItem {Name = command.LabelCap.RawText, Usage = $"!{command.commandText}"};
+            var result = new CommandItem
+            {
+                Name = command.LabelCap.RawText ?? command.commandText, Usage = $"!{command.commandText}"
+            };
             result.PullFromExtension(command);
 
             if (command.requiresBroadcaster || command.requiresMod)
