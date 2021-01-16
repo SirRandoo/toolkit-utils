@@ -78,7 +78,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             optionsListing.GapLine();
             if (optionsListing.ButtonTextLabeled("Editor", "TKUtils.Buttons.Open".Localize()))
             {
-                Find.WindowStack.Add(new LuaEditorWindow("Untitled.lua"));
+                // Find.WindowStack.Add(new LuaEditorWindow("Untitled.lua"));
             }
         #endif
         }
