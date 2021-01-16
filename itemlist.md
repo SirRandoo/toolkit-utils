@@ -45,6 +45,8 @@ Setting up Utils' item list is simliar to Toolkit's initial set up:
 #### Items
 
 1. Navigate to Toolkit's save directory
+  - If you have trouble locating this directory, you can simply click the `Save data folder` button in RimWorld's
+    options menu, or if you're on Windows you can navigate to `%AppData%\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\TwitchToolkit`.
 2. Open `StoreItems.json` in any editor
 3. Copy its contents
 4. On your item list, navigate to the `_data` directory
@@ -92,9 +94,9 @@ file in the root directory.
 
 ![Edit the _config.yml file]({{- "/assets/itemlist/personalize_config.png" | relative_url -}})
 
-Here you have the option of editing `title` on line `21`, `description` on line
-`23`, `email` on line `26`, `twitter_username` on line `29`, `github_username`
-on line `30`, and `baseurl` on line `27`.
+Here you have the option of editing `title` on line `2`, `description` on line
+`4`, `twitter_username` on line `9`, `github_username`
+on line `10`, and `baseurl` on line `7`.
 
 #### Base Url
 
