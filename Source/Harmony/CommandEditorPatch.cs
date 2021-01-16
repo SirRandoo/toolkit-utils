@@ -13,11 +13,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (TkSettings.Offload)
             {
-                Task.Run(Data.SaveCommands);
+                Task.Run(Data.DumpCommands);
             }
             else
             {
-                Data.SaveCommands();
+                Data.DumpCommands();
             }
         }
     }

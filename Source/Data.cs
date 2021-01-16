@@ -383,7 +383,7 @@ namespace SirRandoo.ToolkitUtils
         {
             SaveItemData(Paths.ItemDataFilePath);
             SaveModList();
-            SaveCommands();
+            DumpCommands();
 
             if (TkSettings.DumpStyle.Equals("SingleFile"))
             {
@@ -396,7 +396,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        public static void SaveCommands()
+        public static void DumpCommands()
         {
             List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled)
                .Select(CommandItem.FromToolkit)
