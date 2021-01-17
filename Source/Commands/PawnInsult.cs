@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -55,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (job.CanBeginNow(pawn))
             {
-                data.SetViewerKarma(data.karma - 15);
+                data.SetViewerKarma(Math.Max(data.karma - 15, ToolkitSettings.KarmaMinimum));
 
                 pawn.jobs.StartJob(job, JobCondition.InterruptForced);
             }
