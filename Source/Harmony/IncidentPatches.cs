@@ -45,6 +45,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         private static readonly Type[] AltPatchTypes = {typeof(DropRaid)};
 
+        public static bool Prepare()
+        {
+            return ModLister.GetActiveModWithIdentifier("brrainz.puppeteer") != null;
+        }
+
         public static IEnumerable<MethodBase> TargetMethods()
         {
             return DefDatabase<StoreIncidentVariables>.AllDefs
