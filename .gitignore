@@ -412,8 +412,8 @@ MigrationBackup/
 /\[Stable\] ToolkitUtils.zip
 /1.2/Assemblies/
 /ToolkitUtils.zip
-/About/*-testing
-/About/*-stable
+/About/* - Testing.*
+/About/* - Stable.*
 /_PublisherPlus.xml
 /Scripts/
 /Source/ToolkitUtils/ToolkitUtils.csproj.DotSettings
