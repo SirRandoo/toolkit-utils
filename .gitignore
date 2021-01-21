@@ -416,3 +416,4 @@ MigrationBackup/
 /About/*-stable
 /_PublisherPlus.xml
 /Scripts/
+/Source/ToolkitUtils/ToolkitUtils.csproj.DotSettings

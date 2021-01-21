@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if ((int) target.passion is {} passion && passion > 0 && passion < 3)
+            if ((int) target.passion is { } passion && passion > 0 && passion < 3)
             {
                 return true;
             }

@@ -364,6 +364,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                     expandedName = expanded.Name;
                 }
             }
+
+            nameRect.TipRegion(item.ColonistKindDef.modContentPack?.Name);
         }
 
         private void DoExpandedDialog(Rect contentArea)

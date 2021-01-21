@@ -157,7 +157,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return traitQuery != null && buyableTrait != null;
             }
 
-            if (!(pawn.GetAnyClass() is {} tClass))
+            if (!(pawn.GetAnyClass() is { } tClass))
             {
                 return traitQuery != null && buyableTrait != null;
             }

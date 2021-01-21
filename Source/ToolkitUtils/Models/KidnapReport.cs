@@ -13,7 +13,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public static KidnapReport KidnapReportFor(string username)
         {
-            if (CommandBase.GetOrFindPawn(username) is {} linkedPawn)
+            if (CommandBase.GetOrFindPawn(username) is { } linkedPawn)
             {
                 return new KidnapReport {Viewer = username, PawnIds = new List<string> {linkedPawn.ThingID}};
             }
