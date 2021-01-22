@@ -86,6 +86,12 @@ names, versions, authors, and the steam id of the mod. Utils' item list will
 automatically generate links to the mod's workshop page if a steam id was found,
 or a link with the mod's name as a search query.
 
+### Item Data
+
+Same process, but now it's the `itemdata.json` file. This file is responsible
+for supplying various metadata about RimWorld items, including Utils-specific
+data.
+
 ### Personalizing
 
 You'll quickingly notice that the item list has some references to `SirRandoo`
