@@ -23,6 +23,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public const string LightningGlyph = "⚡";
         public const string AboutToBreakGlyph = "🤬";
         public const string OnEdgeGlyph = "😠";
+        public const string MagicGlyph = "🔮";
         public const string StressedGlyph = "😣";
         public const string NeutralGlyph = "😐";
         public const string ContentGlyph = "🙂";

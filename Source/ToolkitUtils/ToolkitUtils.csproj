@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{03518130-CE79-47FD-9273-36B2C61CD05C}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
+        <AssemblyName>ToolkitUtils</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <Deterministic>true</Deterministic>
+        <LangVersion>8</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.2 release|AnyCPU' ">
+        <OutputPath>..\..\1.2\Assemblies</OutputPath>
+        <DefineConstants>TRACE;RW12</DefineConstants>
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.2 debug|AnyCPU' ">
+        <OutputPath>..\..\1.2\Assemblies</OutputPath>
+        <DefineConstants>DEBUG;TRACE;RW12</DefineConstants>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Xml.Linq"/>
+        <Reference Include="System.Data.DataSetExtensions"/>
+        <Reference Include="Microsoft.CSharp"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Net.Http"/>
+        <Reference Include="System.Xml"/>
+        <Reference Include="TwitchToolkit, Version=2.0.10.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.2\Assemblies\TwitchToolkit.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="CommandExtension.cs"/>
+        <Compile Include="Commands\Balance.cs"/>
+        <Compile Include="Commands\Database.cs"/>
+        <Compile Include="Commands\Factions.cs"/>
+        <Compile Include="Commands\InstalledMods.cs"/>
+        <Compile Include="Commands\ColonistCount.cs"/>
+        <Compile Include="Commands\PawnInsult.cs"/>
+        <Compile Include="Commands\PawnLeave.cs"/>
+        <Compile Include="Commands\Lookup.cs"/>
+        <Compile Include="Commands\PawnBody.cs"/>
+        <Compile Include="Commands\PawnFixAll.cs"/>
+        <Compile Include="Commands\PawnFix.cs"/>
+        <Compile Include="Commands\PawnGear.cs"/>
+        <Compile Include="Commands\PawnHealth.cs"/>
+        <Compile Include="Commands\PawnKills.cs"/>
+        <Compile Include="Commands\PawnNeeds.cs"/>
+        <Compile Include="Commands\PawnRelations.cs"/>
+        <Compile Include="Commands\PawnSkills.cs"/>
+        <Compile Include="Commands\PawnStats.cs"/>
+        <Compile Include="Commands\PawnStory.cs"/>
+        <Compile Include="Commands\PawnWork.cs"/>
+        <Compile Include="Commands\PriceCheck.cs"/>
+        <Compile Include="Commands\ShopToggle.cs"/>
+        <Compile Include="Commands\Research.cs"/>
+        <Compile Include="Commands\Unstick.cs"/>
+        <Compile Include="Commands\UnstickMe.cs"/>
+        <Compile Include="Commands\Wealth.cs"/>
+        <Compile Include="EventExtension.cs"/>
+        <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
+        <Compile Include="Harmony\BuyPatch.cs"/>
+        <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
+        <Compile Include="Harmony\IncidentPatches.cs"/>
+        <Compile Include="Harmony\ItemEditorPatch.cs"/>
+        <Compile Include="Harmony\PatchRunner.cs"/>
+        <Compile Include="Harmony\IncidentEditorPatches.cs"/>
+        <Compile Include="Harmony\KarmaMinimumPatch.cs"/>
+        <Compile Include="Harmony\PawnCommandsPatch.cs"/>
+        <Compile Include="Harmony\PurchaseHandlerPatch.cs"/>
+        <Compile Include="Harmony\StoreIncidentEditorPatch.cs"/>
+        <Compile Include="Harmony\StoreItemEditorPatch.cs"/>
+        <Compile Include="Harmony\StoreItemsPatches.cs"/>
+        <Compile Include="Harmony\StorePatch.cs"/>
+        <Compile Include="Harmony\ItemWindowPatch.cs"/>
+        <Compile Include="Harmony\CommandEditorPatch.cs"/>
+        <Compile Include="Harmony\LookupPatch.cs"/>
+        <Compile Include="Harmony\SendChatMessagePatch.cs"/>
+        <Compile Include="Harmony\UnassignPatch.cs"/>
+        <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
+        <Compile Include="Harmony\ViewerWindowPatch.cs"/>
+        <Compile Include="HealExtension.cs"/>
+        <Compile Include="Helpers\CommandHelper.cs"/>
+        <Compile Include="Helpers\HealHelper.cs"/>
+        <Compile Include="Helpers\LogHelper.cs"/>
+        <Compile Include="Helpers\MessageHelper.cs"/>
+        <Compile Include="Helpers\PurchaseHelper.cs"/>
+        <Compile Include="Helpers\ResponseHelper.cs"/>
+        <Compile Include="Helpers\SettingsHelper.cs"/>
+        <Compile Include="Helpers\TraitHelper.cs"/>
+        <Compile Include="IncidentSettings\AddPassion.cs"/>
+        <Compile Include="IncidentSettings\Backpack.cs"/>
+        <Compile Include="IncidentSettings\FullHeal.cs"/>
+        <Compile Include="IncidentSettings\HealAll.cs"/>
+        <Compile Include="IncidentSettings\HealMe.cs"/>
+        <Compile Include="IncidentSettings\HealRandom.cs"/>
+        <Compile Include="IncidentSettings\RemovePassion.cs"/>
+        <Compile Include="IncidentSettings\Windows\AddPassionDialog.cs"/>
+        <Compile Include="IncidentSettings\Windows\BackpackDialog.cs"/>
+        <Compile Include="IncidentSettings\Windows\FullHealDialog.cs"/>
+        <Compile Include="IncidentSettings\Windows\HealAllDialog.cs"/>
+        <Compile Include="IncidentSettings\Windows\HealMeDialog.cs"/>
+        <Compile Include="IncidentSettings\Windows\HealRandomDialog.cs"/>
+        <Compile Include="IncidentSettings\Windows\RemovePassionDialog.cs"/>
+        <Compile Include="Incidents\AddPassion.cs"/>
+        <Compile Include="Incidents\AddTrait.cs"/>
+        <Compile Include="Incidents\Backpack.cs"/>
+        <Compile Include="Incidents\BuyPawn.cs"/>
+        <Compile Include="Incidents\BuySurgery.cs"/>
+        <Compile Include="Incidents\FullHeal.cs"/>
+        <Compile Include="Incidents\HealAll.cs"/>
+        <Compile Include="Incidents\HealMe.cs"/>
+        <Compile Include="Incidents\HealRandom.cs"/>
+        <Compile Include="Incidents\Immortality.cs"/>
+        <Compile Include="Incidents\BuyItem.cs"/>
+        <Compile Include="Incidents\PassionShuffle.cs"/>
+        <Compile Include="Incidents\RemovePassion.cs"/>
+        <Compile Include="Incidents\RemoveTrait.cs"/>
+        <Compile Include="Incidents\ReplaceTrait.cs"/>
+        <Compile Include="Incidents\RescueMe.cs"/>
+        <Compile Include="Incidents\ReviveAll.cs"/>
+        <Compile Include="Incidents\ReviveMe.cs"/>
+        <Compile Include="Models\ScriptEngine.cs"/>
+        <Compile Include="Models\SurgeryItem.cs"/>
+        <Compile Include="Incidents\ReviveRandom.cs"/>
+        <Compile Include="Models\ItemEntry.cs"/>
+        <Compile Include="Models\KidnapReport.cs"/>
+        <Compile Include="Models\PawnKindEntry.cs"/>
+        <Compile Include="Models\Scripting\Definitions.cs"/>
+        <Compile Include="Models\Scripting\Token.cs"/>
+        <Compile Include="Models\TabItem.cs"/>
+        <Compile Include="Models\Tables\ItemTableItem.cs"/>
+        <Compile Include="Models\Tables\PawnTableItem.cs"/>
+        <Compile Include="Models\Tables\TableItem.cs"/>
+        <Compile Include="Models\Tables\TraitTableItem.cs"/>
+        <Compile Include="Models\ThingItemFilter.cs"/>
+        <Compile Include="Models\ThingItemFilterCategory.cs"/>
+        <Compile Include="Models\ThingItemFilterManager.cs"/>
+        <Compile Include="Models\TraitEntry.cs"/>
+        <Compile Include="Proxies\PawnKindItemProxy.cs"/>
+        <Compile Include="Proxies\StoreIncidentProxy.cs"/>
+        <Compile Include="Proxies\ThingItemProxy.cs"/>
+        <Compile Include="Proxies\TraitItemProxy.cs"/>
+        <Compile Include="RuntimeChecker.cs"/>
+        <Compile Include="Models\CommandData.cs"/>
+        <Compile Include="Models\CommandItem.cs"/>
+        <Compile Include="Models\CharacterData.cs"/>
+        <Compile Include="Models\ToolkitItem.cs"/>
+        <Compile Include="Models\ItemData.cs"/>
+        <Compile Include="Models\ThingItem.cs"/>
+        <Compile Include="Models\ItemList.cs"/>
+        <Compile Include="Models\ModItem.cs"/>
+        <Compile Include="Models\PawnKindData.cs"/>
+        <Compile Include="Models\PawnKindItem.cs"/>
+        <Compile Include="Models\ShopLegacy.cs"/>
+        <Compile Include="Models\TraitData.cs"/>
+        <Compile Include="Models\TraitItem.cs"/>
+        <Compile Include="Models\XmlRace.cs"/>
+        <Compile Include="Models\XmlShop.cs"/>
+        <Compile Include="Models\XmlTrait.cs"/>
+        <Compile Include="Paths.cs"/>
+        <Compile Include="Data.cs"/>
+        <Compile Include="Textures.cs"/>
+        <Compile Include="TkAddonMenu.cs"/>
+        <Compile Include="TkSettings.cs"/>
+        <Compile Include="TkUtils.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="ToolkitAddonMenu.cs"/>
+        <Compile Include="Utils\CommandBase.cs"/>
+        <Compile Include="Utils\CommandParser.cs"/>
+        <Compile Include="Utils\Constraints\BannedConstraint.cs"/>
+        <Compile Include="Utils\Constraints\CoinConstraint.cs"/>
+        <Compile Include="Utils\Constraints\KarmaConstraint.cs"/>
+        <Compile Include="Utils\Constraints\ModConstraint.cs"/>
+        <Compile Include="Utils\Constraints\NameConstraint.cs"/>
+        <Compile Include="Utils\Constraints\SubscriberConstraint.cs"/>
+        <Compile Include="Utils\Constraints\TimeConstraint.cs"/>
+        <Compile Include="Utils\Constraints\ComparableConstraint.cs"/>
+        <Compile Include="Utils\Constraints\ConstraintBase.cs"/>
+        <Compile Include="Utils\Constraints\VipConstraint.cs"/>
+        <Compile Include="Utils\ModComp\AlienRace.cs"/>
+        <Compile Include="Utils\ModComp\Androids.cs"/>
+        <Compile Include="Utils\ModComp\Immortals.cs"/>
+        <Compile Include="Utils\ModComp\Interests.cs"/>
+        <Compile Include="Utils\ModComp\RationalRomance.cs"/>
+        <Compile Include="Utils\ModComp\TMagic.cs"/>
+        <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
+        <Compile Include="Utils\ObservableProperty.cs"/>
+        <Compile Include="Utils\ShopExpansion.cs"/>
+        <Compile Include="Utils\Unrichify.cs"/>
+        <Compile Include="Windows\Editor.cs"/>
+        <Compile Include="Windows\NameQueueDialog.cs"/>
+        <Compile Include="Windows\PurgeViewersDialog.cs"/>
+        <Compile Include="Windows\PawnKindConfigDialog.cs"/>
+        <Compile Include="Windows\StoreDialog.cs"/>
+        <Compile Include="Windows\StoreIncidentEditor.cs"/>
+        <Compile Include="Windows\TkUtilsWindow.cs"/>
+        <Compile Include="Windows\TraitConfigDialog.cs"/>
+        <Compile Include="Workers\ItemTableWorker.cs"/>
+        <Compile Include="Workers\ItemWorker.cs"/>
+        <Compile Include="Workers\LuaEditorWorker.cs"/>
+        <Compile Include="Workers\TabWorker.cs"/>
+        <Compile Include="Workers\TableWorker.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runetime"/>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2753" ExcludeAssets="runtime"/>
+        <PackageReference Include="Lib.Harmony" Version="2.0.4" ExcludeAssets="runtime"/>
+        <PackageReference Include="MoonSharp" Version="2.0.0" ExcludeAssets="runtime"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\About\*">
+            <Link>About\%(FileName)%(Extension)</Link>
+        </Content>
+        <Content Include="..\..\Common\**\*.*">
+            <Link>Common\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        </Content>
+        <Content Include="..\..\LICENSE">
+            <Link>LICENSE</Link>
+        </Content>
+        <Content Include="..\..\LoadFolders.xml">
+            <Link>LoadFolders.xml</Link>
+        </Content>
+        <Content Include="..\..\README.md">
+            <Link>README.md</Link>
+        </Content>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+</Project>

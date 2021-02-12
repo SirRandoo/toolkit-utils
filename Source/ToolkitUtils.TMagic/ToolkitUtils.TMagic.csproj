@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{D0B7C9CD-F49D-413D-8EDC-32989742F3C3}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>SirRandoo.ToolkitUtils.TMagic</RootNamespace>
+        <AssemblyName>ToolkitUtils.TMagic</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <LangVersion>8</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>..\..\Compatibility\TMagic\1.2</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>..\..\Compatibility\TMagic\1.2</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="0JecsTools, Version=1.1.2.2, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\2195729899\1.2\Assemblies\0JecsTools.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="AbilityUser, Version=1.1.2.2, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\2195729899\1.2\Assemblies\AbilityUser.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.Core"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Xml"/>
+        <Reference Include="TorannMagic, Version=2.5.4.9, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\1201382956\Assemblies\TorannMagic.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="TwitchToolkit, Version=2.0.10.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.2\Assemblies\TwitchToolkit.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Commands\PawnClass.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj">
+            <Project>{03518130-ce79-47fd-9273-36b2c61cd05c}</Project>
+            <Name>ToolkitUtils</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11"/>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2753"/>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>
