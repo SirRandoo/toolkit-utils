@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -326,19 +327,33 @@ namespace SirRandoo.ToolkitUtils
                 ItemData.Remove(defName);
             }
 
+            var builder = new StringBuilder();
             foreach (ThingDef item in tradeables.Where(t => !ItemData.ContainsKey(t))
                .Select(i => DefDatabase<ThingDef>.GetNamed(i)))
             {
-                ItemData[item.defName] = new ItemData
+                ModContentPack contentPack = item.modContentPack;
+                var data = new ItemData {QuantityLimit = -1, IsStuffAllowed = true};
+
+                if (contentPack != null)
                 {
-                    IsMelee = item.IsMeleeWeapon,
-                    IsRanged = item.IsRangedWeapon,
-                    IsWeapon = item.IsWeapon,
-                    Mod = item.modContentPack.IsCoreMod ? "RimWorld" : item.modContentPack?.Name ?? "Unknown",
-                    KarmaType = KarmaType.Neutral,
-                    QuantityLimit = -1,
-                    IsStuffAllowed = true
-                };
+                    data.Mod = contentPack.IsCoreMod ? "RimWorld" : contentPack.Name ?? "Unknown";
+                }
+
+                ItemData[item.defName] = data;
+
+                try
+                {
+                    data.IsMelee = item.IsMeleeWeapon;
+                    data.IsRanged = item.IsRangedWeapon;
+                    data.IsWeapon = item.IsWeapon;
+                }
+                catch (Exception e)
+                {
+                    builder.Append(
+                        $"Failed to gather weapon data for item '{item?.label ?? "Unknown"}' from mod '{item?.modContentPack?.Name ?? "Unknown"}'"
+                    );
+                    builder.AppendLine($" -- Exception: {e.GetType().Name}({e.Message ?? "No message"})");
+                }
             }
 
             foreach (ItemData data in ItemData.Values.Where(data => data.Mod.EqualsIgnoreCase("core")))
