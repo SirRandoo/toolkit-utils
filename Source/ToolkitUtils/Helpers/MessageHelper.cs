@@ -6,12 +6,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class MessageHelper
     {
-        internal static void Reply(this ITwitchMessage m, string message)
+        public static void Reply(this ITwitchMessage m, string message)
         {
             ReplyToUser(m.Username, message);
         }
 
-        internal static string WithHeader(this string s, string header)
+        public static string WithHeader(this string s, string header)
         {
             return $"【{header}】 {s}".AltText($"[{header}] {s}");
         }
