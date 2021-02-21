@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -34,9 +33,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (!__instance.command.defName.Equals("Buy"))
             {
-                buyCommand ??= Verse.DefDatabase<Command>.AllDefs.FirstOrDefault(c => c.defName.Equals("Buy"))?.command
-                               ?? "buy";
-
+                buyCommand ??= Verse.DefDatabase<Command>.GetNamed("Buy", false).command;
                 message = twitchMessage.WithMessage($"!{buyCommand} {twitchMessage.Message.Substring(1)}");
             }
             else
