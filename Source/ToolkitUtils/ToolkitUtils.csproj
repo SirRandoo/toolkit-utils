@@ -41,7 +41,6 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="CommandExtension.cs"/>
         <Compile Include="Commands\Balance.cs"/>
         <Compile Include="Commands\Database.cs"/>
         <Compile Include="Commands\Factions.cs"/>
@@ -68,7 +67,9 @@
         <Compile Include="Commands\Unstick.cs"/>
         <Compile Include="Commands\UnstickMe.cs"/>
         <Compile Include="Commands\Wealth.cs"/>
-        <Compile Include="EventExtension.cs"/>
+        <Compile Include="Defs\CommandExtension.cs"/>
+        <Compile Include="Defs\EventExtension.cs"/>
+        <Compile Include="Defs\HealExtension.cs"/>
         <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
         <Compile Include="Harmony\BuyPatch.cs"/>
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
@@ -90,7 +91,6 @@
         <Compile Include="Harmony\UnassignPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
-        <Compile Include="HealExtension.cs"/>
         <Compile Include="Helpers\CommandHelper.cs"/>
         <Compile Include="Helpers\HealHelper.cs"/>
         <Compile Include="Helpers\LogHelper.cs"/>
