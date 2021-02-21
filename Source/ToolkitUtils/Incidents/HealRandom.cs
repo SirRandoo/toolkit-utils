@@ -22,33 +22,21 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            List<Pawn> list = Find.ColonistBar.GetColonistsInOrder().Where(p => !p.Dead).ToList();
-
-            if (!list.Any())
-            {
-                return false;
-            }
-
-            if (IncidentSettings.HealRandom.FairFights)
-            {
-                list = list.Where(
-                        p => p.mindState.lastAttackTargetTick > 0
-                             && Find.TickManager.TicksGame < p.mindState.lastAttackTargetTick + 1800
-                    )
-                   .ToList();
-            }
-
-            List<Pair<Pawn, object>> container = list
-               .Select(p => new Pair<Pawn, object>(p, HealHelper.GetPawnHealable(p)))
-               .Where(r => r.Second != null)
+            List<Pawn> pawns = Find.ColonistBar.GetColonistsInOrder()
+               .Where(p => !p.Dead)
+               .Where(
+                    pawn => !IncidentSettings.HealRandom.FairFights
+                            || pawn.mindState.lastAttackTargetTick > 0
+                            && Find.TickManager.TicksGame <= pawn.mindState.lastAttackTargetTick + 1800
+                )
                .ToList();
 
-            if (!container.Any())
+            if (!pawns.Select(p => new Pair<Pawn, object>(p, HealHelper.GetPawnHealable(p)))
+               .Where(r => r.Second != null)
+               .TryRandomElement(out Pair<Pawn, object> random))
             {
                 return false;
             }
-
-            Pair<Pawn, object> random = container.RandomElementWithFallback();
 
             if (random.First == null || random.Second == null)
             {
