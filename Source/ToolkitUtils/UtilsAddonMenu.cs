@@ -11,11 +11,11 @@ namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class TkAddonMenu : IAddonMenu
+    public class UtilsAddonMenu : IAddonMenu
     {
         private static readonly List<FloatMenuOption> Options;
 
-        static TkAddonMenu()
+        static UtilsAddonMenu()
         {
             Options = new List<FloatMenuOption>
             {
