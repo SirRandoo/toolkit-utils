@@ -13,21 +13,25 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class Database : CommandBase
     {
-        private static readonly Dictionary<string, string> Index = new Dictionary<string, string>
-        {
-            {"weapon", "weapons"},
-            {"weapons", "weapons"},
-            {"gun", "weapons"},
-            {"sword", "weapons"},
-            {"melee", "weapons"},
-            {"ranged", "weapons"},
-            {"club", "weapons"},
-            {"clubs", "weapons"},
-            {"knife", "weapons"},
-            {"knives", "weapons"},
-        };
-
+        private static readonly Dictionary<string, string> Index;
         private ITwitchMessage msg;
+
+        static Database()
+        {
+            Index = new Dictionary<string, string>
+            {
+                {"weapon", "weapons"},
+                {"weapons", "weapons"},
+                {"gun", "weapons"},
+                {"sword", "weapons"},
+                {"melee", "weapons"},
+                {"ranged", "weapons"},
+                {"club", "weapons"},
+                {"clubs", "weapons"},
+                {"knife", "weapons"},
+                {"knives", "weapons"}
+            };
+        }
 
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

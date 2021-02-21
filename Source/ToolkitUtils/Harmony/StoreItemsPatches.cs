@@ -15,14 +15,18 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class SettingsStorePatch
     {
-        private static readonly ConstructorInfo OldClassConstructor =
-            typeof(StoreItemsWindow).GetConstructor(new Type[] { });
+        private static readonly ConstructorInfo OldClassConstructor;
+        private static readonly ConstructorInfo NewClassConstructor;
+        private static readonly Type OldClassType;
+        private static readonly Type NewClassType;
 
-        private static readonly ConstructorInfo
+        static SettingsStorePatch()
+        {
+            NewClassType = typeof(StoreDialog);
+            OldClassType = typeof(StoreItemsWindow);
             NewClassConstructor = typeof(StoreDialog).GetConstructor(new Type[] { });
-
-        private static readonly Type OldClassType = typeof(StoreItemsWindow);
-        private static readonly Type NewClassType = typeof(StoreDialog);
+            OldClassConstructor = typeof(StoreItemsWindow).GetConstructor(new Type[] { });
+        }
 
         public static IEnumerable<MethodBase> TargetMethods()
         {

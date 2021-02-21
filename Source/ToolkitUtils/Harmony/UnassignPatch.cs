@@ -13,23 +13,22 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class UnassignPatch
     {
-        private static readonly MethodInfo PawnHistoryRemove = AccessTools.Method(
-            typeof(Dictionary<string, Pawn>),
-            nameof(Dictionary<string, Pawn>.Remove),
-            new[] {typeof(string)}
-        );
+        private static readonly MethodInfo PawnHistoryRemove;
+        private static readonly FieldInfo PawnHistoryField;
+        private static readonly MethodInfo RenameAndRemoveMethod;
+        private static readonly FieldInfo ViewerComponentField;
 
-        private static readonly FieldInfo PawnHistoryField = AccessTools.Field(
-            typeof(GameComponentPawns),
-            nameof(GameComponentPawns.pawnHistory)
-        );
-
-        private static readonly MethodInfo RenameAndRemoveMethod = AccessTools.Method(
-            typeof(UnassignPatch),
-            nameof(RenameAndRemove)
-        );
-
-        private static readonly FieldInfo ViewerComponentField = AccessTools.Field(typeof(Window_Viewers), "component");
+        static UnassignPatch()
+        {
+            ViewerComponentField = AccessTools.Field(typeof(Window_Viewers), "component");
+            RenameAndRemoveMethod = AccessTools.Method(typeof(UnassignPatch), nameof(RenameAndRemove));
+            PawnHistoryField = AccessTools.Field(typeof(GameComponentPawns), nameof(GameComponentPawns.pawnHistory));
+            PawnHistoryRemove = AccessTools.Method(
+                typeof(Dictionary<string, Pawn>),
+                nameof(Dictionary<string, Pawn>.Remove),
+                new[] {typeof(string)}
+            );
+        }
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

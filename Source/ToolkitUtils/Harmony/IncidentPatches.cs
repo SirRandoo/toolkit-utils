@@ -19,31 +19,30 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class IncidentPatches
     {
-        private static readonly MethodInfo PurchaseMessageMethod = AccessTools.Method(
-            typeof(VariablesHelpers),
-            "SendPurchaseMessage"
-        );
+        private static readonly MethodInfo PurchaseMessageMethod;
+        private static readonly MethodInfo ViewerProperty;
+        private static readonly FieldInfo UsernameField;
+        private static readonly MethodInfo FormatMessageMethod;
+        private static readonly MethodInfo FormatMessageMethodAlt;
+        private static readonly Type[] AltPatchTypes;
 
-        private static readonly MethodInfo ViewerProperty = AccessTools.PropertyGetter(
-            typeof(IncidentHelperVariables),
-            "Viewer"
-        );
-
-        private static readonly FieldInfo UsernameField = AccessTools.Field(typeof(Viewer), "username");
-
-        private static readonly MethodInfo FormatMessageMethod = AccessTools.Method(
-            typeof(IncidentPatches),
-            "FormatMessage",
-            new[] {typeof(string), typeof(string)}
-        );
-
-        private static readonly MethodInfo FormatMessageMethodAlt = AccessTools.Method(
-            typeof(IncidentPatches),
-            "FormatMessage",
-            new[] {typeof(string), typeof(bool), typeof(string)}
-        );
-
-        private static readonly Type[] AltPatchTypes = {typeof(DropRaid)};
+        static IncidentPatches()
+        {
+            AltPatchTypes = new[] {typeof(DropRaid)};
+            FormatMessageMethodAlt = AccessTools.Method(
+                typeof(IncidentPatches),
+                "FormatMessage",
+                new[] {typeof(string), typeof(bool), typeof(string)}
+            );
+            FormatMessageMethod = AccessTools.Method(
+                typeof(IncidentPatches),
+                "FormatMessage",
+                new[] {typeof(string), typeof(string)}
+            );
+            UsernameField = AccessTools.Field(typeof(Viewer), "username");
+            ViewerProperty = AccessTools.PropertyGetter(typeof(IncidentHelperVariables), "Viewer");
+            PurchaseMessageMethod = AccessTools.Method(typeof(VariablesHelpers), "SendPurchaseMessage");
+        }
 
         public static bool Prepare()
         {

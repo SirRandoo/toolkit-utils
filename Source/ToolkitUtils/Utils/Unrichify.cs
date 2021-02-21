@@ -6,7 +6,12 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public static class Unrichify
     {
-        private static readonly string[] SupportedTags = {"b", "i", "size", "color", "material", "quad"};
+        private static readonly string[] SupportedTags;
+
+        static Unrichify()
+        {
+            SupportedTags = new[] {"b", "i", "size", "color", "material", "quad"};
+        }
 
         public static bool IsRichText(string input)
         {

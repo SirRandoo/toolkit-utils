@@ -14,13 +14,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class StorePatch
     {
-        private static readonly MethodInfo UtilsInjectorMethod = AccessTools.Method(
-            typeof(StorePatch),
-            nameof(DrawUtilsContents)
-        );
+        private static readonly MethodInfo UtilsInjectorMethod;
+        private static readonly MethodInfo InjectionSiteMarkerMethod;
 
-        private static readonly MethodInfo InjectionSiteMarkerMethod =
-            AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
+        static StorePatch()
+        {
+            UtilsInjectorMethod = AccessTools.Method(typeof(StorePatch), nameof(DrawUtilsContents));
+            InjectionSiteMarkerMethod = AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
+        }
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

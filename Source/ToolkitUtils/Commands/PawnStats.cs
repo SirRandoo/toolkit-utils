@@ -14,16 +14,21 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnStats : CommandBase
     {
-        private static readonly List<string> DefaultStats = new List<string>
+        private static readonly List<string> DefaultStats;
+
+        static PawnStats()
         {
-            "MeleeDPS",
-            "MeleeHitChance",
-            "MeleeArmorPenetration",
-            "MeleeDodgeChance",
-            "ShootingAccuracyPawn",
-            "AimingDelayFactor",
-            "IncomingDamageFactor"
-        };
+            DefaultStats = new List<string>
+            {
+                "MeleeDPS",
+                "MeleeHitChance",
+                "MeleeArmorPenetration",
+                "MeleeDodgeChance",
+                "ShootingAccuracyPawn",
+                "AimingDelayFactor",
+                "IncomingDamageFactor"
+            };
+        }
 
         public override void RunCommand(ITwitchMessage twitchMessage)
         {

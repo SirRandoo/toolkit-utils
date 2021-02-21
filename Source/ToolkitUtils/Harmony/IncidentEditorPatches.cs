@@ -6,6 +6,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Windows;
+using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
@@ -13,18 +14,21 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class StoreIncidentsWindowPatch
     {
-        private static readonly ConstructorInfo OldClassConstructor = AccessTools.Constructor(
-            typeof(StoreIncidentEditor),
-            new[] {typeof(StoreIncident)}
-        );
+        private static readonly ConstructorInfo OldClassConstructor;
+        private static readonly ConstructorInfo NewClassConstructor;
+        private static readonly Type OldClassType;
+        private static readonly Type NewClassType;
 
-        private static readonly ConstructorInfo NewClassConstructor = AccessTools.Constructor(
-            typeof(Windows.StoreIncidentEditor),
-            new[] {typeof(StoreIncident)}
-        );
-
-        private static readonly Type OldClassType = typeof(StoreIncidentEditor);
-        private static readonly Type NewClassType = typeof(Windows.StoreIncidentEditor);
+        static StoreIncidentsWindowPatch()
+        {
+            NewClassType = typeof(StoreIncidentEditor);
+            OldClassType = typeof(TwitchToolkit.Windows.StoreIncidentEditor);
+            NewClassConstructor = AccessTools.Constructor(typeof(StoreIncidentEditor), new[] {typeof(StoreIncident)});
+            OldClassConstructor = AccessTools.Constructor(
+                typeof(TwitchToolkit.Windows.StoreIncidentEditor),
+                new[] {typeof(StoreIncident)}
+            );
+        }
 
         public static IEnumerable<MethodBase> TargetMethods()
         {

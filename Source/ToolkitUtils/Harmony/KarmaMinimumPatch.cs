@@ -12,7 +12,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class KarmaMinimumPatch
     {
-        private static readonly FieldInfo SettingMarker = AccessTools.Field(typeof(ToolkitSettings), "KarmaMinimum");
+        private static readonly FieldInfo SettingMarker;
+
+        static KarmaMinimumPatch()
+        {
+            SettingMarker = AccessTools.Field(typeof(ToolkitSettings), "KarmaMinimum");
+        }
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

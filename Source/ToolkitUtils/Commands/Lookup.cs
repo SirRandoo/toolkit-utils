@@ -14,32 +14,36 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class Lookup : CommandBase
     {
-        internal static readonly Dictionary<string, string> Index = new Dictionary<string, string>
-        {
-            {"item", "items"},
-            {"items", "items"},
-            {"incident", "events"},
-            {"incidents", "events"},
-            {"event", "events"},
-            {"events", "events"},
-            {"pawn", "kinds"},
-            {"pawns", "kinds"},
-            {"race", "kinds"},
-            {"races", "kinds"},
-            {"kinds", "kinds"},
-            {"kind", "kinds"},
-            {"pawnkinds", "kinds"},
-            {"disease", "diseases"},
-            {"diseases", "diseases"},
-            {"animal", "animals"},
-            {"animals", "animals"},
-            {"skill", "skills"},
-            {"skills", "skills"},
-            {"trait", "traits"},
-            {"traits", "traits"}
-        };
-
+        internal static readonly Dictionary<string, string> Index;
         private ITwitchMessage msg;
+
+        static Lookup()
+        {
+            Index = new Dictionary<string, string>
+            {
+                {"item", "items"},
+                {"items", "items"},
+                {"incident", "events"},
+                {"incidents", "events"},
+                {"event", "events"},
+                {"events", "events"},
+                {"pawn", "kinds"},
+                {"pawns", "kinds"},
+                {"race", "kinds"},
+                {"races", "kinds"},
+                {"kinds", "kinds"},
+                {"kind", "kinds"},
+                {"pawnkinds", "kinds"},
+                {"disease", "diseases"},
+                {"diseases", "diseases"},
+                {"animal", "animals"},
+                {"animals", "animals"},
+                {"skill", "skills"},
+                {"skills", "skills"},
+                {"trait", "traits"},
+                {"traits", "traits"}
+            };
+        }
 
         public override void RunCommand(ITwitchMessage twitchMessage)
         {
