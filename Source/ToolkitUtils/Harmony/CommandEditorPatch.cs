@@ -13,7 +13,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (TkSettings.Offload)
             {
-                Task.Run(Data.DumpCommands);
+                Task.Run(Data.DumpCommands).ConfigureAwait(false);
             }
             else
             {

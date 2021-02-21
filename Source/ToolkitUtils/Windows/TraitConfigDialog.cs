@@ -551,19 +551,20 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (TkSettings.Offload)
             {
                 Task.Run(
-                    () =>
-                    {
-                        switch (TkSettings.DumpStyle)
+                        () =>
                         {
-                            case "MultiFile":
-                                Data.SaveTraits(Paths.TraitFilePath);
-                                return;
-                            case "SingleFile":
-                                Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
-                                return;
+                            switch (TkSettings.DumpStyle)
+                            {
+                                case "MultiFile":
+                                    Data.SaveTraits(Paths.TraitFilePath);
+                                    return;
+                                case "SingleFile":
+                                    Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                                    return;
+                            }
                         }
-                    }
-                );
+                    )
+                   .ConfigureAwait(false);
             }
             else
             {
