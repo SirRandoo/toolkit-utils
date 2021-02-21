@@ -105,7 +105,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (ToolkitSettings.PurchaseConfirmations)
             {
                 MessageHelper.ReplyToUser(Viewer.username, descriptionTranslated);
-                ;
             }
 
             Current.Game.letterStack.ReceiveLetter(
