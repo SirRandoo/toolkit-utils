@@ -29,9 +29,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 && pawn.mindState.lastAttackTargetTick > 0
                 && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
             {
-                LogHelper.Info(
-                    $"Last attack target tick: {pawn.mindState.lastAttackTargetTick}\nCurrent game tick: {Find.TickManager.TicksGame}\nCombat cooldown tick: {pawn.mindState.lastAttackTargetTick + 1800}"
-                );
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
                 return false;
             }
