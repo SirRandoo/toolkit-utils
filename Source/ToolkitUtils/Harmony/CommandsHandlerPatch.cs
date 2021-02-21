@@ -55,11 +55,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             List<string> segments = CommandFilter.Parse(prefixless).ToList();
             bool unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"))
-                           || (twitchMessage is ChatMessage chatMessage
-                               && chatMessage.BotUsername.Equals(
-                                   "puppeteer",
-                                   StringComparison.InvariantCultureIgnoreCase
-                               ));
+                           || twitchMessage is ChatMessage chatMessage
+                           && chatMessage.BotUsername.Equals("puppeteer", StringComparison.InvariantCultureIgnoreCase);
 
             if (segments.Count <= 0)
             {
