@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using TwitchToolkit.IncidentHelpers.Special;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers
@@ -359,6 +361,46 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Hediff_Injury injury4 = FindPermanentInjury(pawn);
 
             return injury4 ?? FindInjury(pawn);
+        }
+
+        public static void Resurrect(this Pawn pawn)
+        {
+            try
+            {
+                ResurrectionUtility.ResurrectWithSideEffects(pawn);
+            }
+            catch (NullReferenceException)
+            {
+                LogHelper.Warn("Failed to revive with side effects -- falling back to a regular revive");
+                ResurrectionUtility.Resurrect(pawn);
+            }
+
+            PawnTracker.pawnsToRevive.Remove(pawn);
+        }
+
+        public static bool TryResurrect(this Pawn pawn)
+        {
+            try
+            {
+                Pawn val;
+
+                if (pawn.SpawnedParentOrMe != pawn.Corpse
+                    && (val = pawn.SpawnedParentOrMe as Pawn) != null
+                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out Thing _))
+                {
+                    LogHelper.Warn($"Could not drop {pawn} at {val.Position.ToString()} from {val.LabelShort}");
+                    return false;
+                }
+
+                pawn.ClearAllReservations();
+                pawn.Resurrect();
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error($"Could not revive {pawn.LabelShort}", e);
+                return false;
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -37,43 +36,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void TryExecute()
         {
-            var wasAnyRevived = false;
-            foreach (Pawn pawn in pawns)
-            {
-                try
-                {
-                    Pawn val;
-                    if (pawn.SpawnedParentOrMe != pawn.Corpse
-                        && (val = pawn.SpawnedParentOrMe as Pawn) != null
-                        && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out Thing _))
-                    {
-                        LogHelper.Warn(
-                            $"Submit this bug to ToolkitUtils' issue tracker: Could not drop {pawn} at {val.Position.ToString()} from {val}"
-                        );
-                        continue;
-                    }
-
-                    pawn.ClearAllReservations();
-
-                    try
-                    {
-                        ResurrectionUtility.ResurrectWithSideEffects(pawn);
-                    }
-                    catch (NullReferenceException)
-                    {
-                        ResurrectionUtility.Resurrect(pawn);
-                    }
-
-                    PawnTracker.pawnsToRevive.Remove(pawn);
-                    wasAnyRevived = true;
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Error($"Could not revive {pawn.LabelCap}", ex);
-                }
-            }
-
-            if (!wasAnyRevived)
+            if (!pawns.Any(HealHelper.TryResurrect))
             {
                 return;
             }
