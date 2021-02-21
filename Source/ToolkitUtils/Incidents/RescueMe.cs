@@ -75,6 +75,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             ViewerRescue.QueuedViewers.Enqueue(report);
             QuestUtility.SendLetterQuestAvailable(QuestUtility.GenerateQuestAndMakeAvailable(scriptDef, threatPoints));
+            Viewer.Charge(storeIncident);
         }
     }
 

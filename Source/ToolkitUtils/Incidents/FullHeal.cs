@@ -71,15 +71,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 break;
             }
 
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    healed > 1
-                        ? "TKUtils.FullHeal.CompletePlural".Localize(healed.ToString("N0"))
-                        : "TKUtils.FullHeal.Complete".Localize()
-                );
-            }
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                healed > 1
+                    ? "TKUtils.FullHeal.CompletePlural".Localize(healed.ToString("N0"))
+                    : "TKUtils.FullHeal.Complete".Localize()
+            );
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.FullHealLetter.Title".Localize(),
@@ -97,23 +94,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     HealHelper.Cure(hediff);
                     healed += 1;
 
-                    if (!ToolkitSettings.UnlimitedCoins)
-                    {
-                        Viewer.TakeViewerCoins(storeIncident.cost);
-                    }
-
-                    Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost * healed);
+                    Viewer.Charge(storeIncident, healed);
                     break;
                 case BodyPartRecord record:
                     pawn.health.RestorePart(record);
                     healed += 1;
 
-                    if (!ToolkitSettings.UnlimitedCoins)
-                    {
-                        Viewer.TakeViewerCoins(storeIncident.cost);
-                    }
-
-                    Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost * healed);
+                    Viewer.Charge(storeIncident, healed);
                     break;
             }
 

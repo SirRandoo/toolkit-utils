@@ -111,11 +111,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void TryExecute()
         {
-            if (pawn == null || trait == null)
-            {
-                return;
-            }
-
             if (MagicComp.Active
                 && TkSettings.ClassChanges
                 && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(trait.def.defName)) ?? false))
@@ -129,20 +124,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 TraitHelper.RemoveTraitFromPawn(pawn, trait);
             }
 
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(buyable.CostToRemove);
-            }
-
-            Viewer.CalculateNewKarma(
-                buyable.Data?.KarmaTypeForRemoving ?? storeIncident.karmaType,
-                buyable.CostToRemove
-            );
-
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap));
-            }
+            Viewer.Charge(buyable.CostToRemove, buyable.Data?.KarmaTypeForRemoving ?? storeIncident.karmaType);
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap));
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),

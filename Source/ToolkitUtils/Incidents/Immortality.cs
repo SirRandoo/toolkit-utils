@@ -40,15 +40,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(storeIncident.cost);
-            }
-
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Immortality".Localize());
-            }
+            Viewer.Charge(storeIncident);
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Immortality".Localize());
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.ImmortalityLetter.Title".Localize(),

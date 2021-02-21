@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -20,13 +21,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder())
+            foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder().Where(p => !p.Dead))
             {
-                if (pawn.health.Dead)
-                {
-                    continue;
-                }
-
                 if (IncidentSettings.HealAll.FairFights
                     && pawn.mindState.lastAttackTargetTick > 0
                     && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
@@ -62,15 +58,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 part.First.health.RestorePart(part.Second);
             }
 
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(storeIncident.cost);
-            }
-
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.MassHealLetter.Description".Localize());
-            }
+            Viewer.Charge(storeIncident);
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.MassHealLetter.Description".Localize());
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.MassHealLetter.Title".Localize(),

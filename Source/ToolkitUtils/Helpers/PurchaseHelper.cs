@@ -4,6 +4,7 @@ using System.Linq;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
+using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
 
@@ -73,6 +74,46 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static int GetMaximumPurchaseAmount(this Viewer viewer, int cost)
         {
             return Mathf.FloorToInt(viewer.GetViewerCoins() / (float) cost);
+        }
+
+        public static void Charge(this Viewer viewer, StoreIncident incident)
+        {
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                viewer.TakeViewerCoins(incident.cost);
+            }
+
+            viewer.CalculateNewKarma(incident.karmaType, incident.cost);
+        }
+
+        public static void Charge(this Viewer viewer, StoreIncident incident, float weight)
+        {
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                viewer.TakeViewerCoins(incident.cost);
+            }
+
+            viewer.CalculateNewKarma(incident.karmaType, Mathf.CeilToInt(incident.cost * weight));
+        }
+
+        public static void Charge(this Viewer viewer, int cost, KarmaType karmaType)
+        {
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                viewer.TakeViewerCoins(cost);
+            }
+
+            viewer.CalculateNewKarma(karmaType, cost);
+        }
+
+        public static void Charge(this Viewer viewer, int cost, float weight, KarmaType karmaType)
+        {
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                viewer.TakeViewerCoins(cost);
+            }
+
+            viewer.CalculateNewKarma(karmaType, Mathf.CeilToInt(cost * weight));
         }
     }
 }

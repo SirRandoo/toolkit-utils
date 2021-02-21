@@ -1,6 +1,7 @@
 ﻿using ToolkitCore;
 using TwitchLib.Client.Models;
 using TwitchLib.Client.Models.Interfaces;
+using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Helpers
 {
@@ -26,6 +27,16 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 TwitchWrapper.Client?.SendMessage(ToolkitCoreSettings.channel_username, $"@{user} → {message}");
             }
+        }
+
+        internal static void SendConfirmation(string user, string message)
+        {
+            if (!ToolkitSettings.PurchaseConfirmations)
+            {
+                return;
+            }
+
+            ReplyToUser(user, message);
         }
 
         internal static string AltText(this string emoji, string alt = null)

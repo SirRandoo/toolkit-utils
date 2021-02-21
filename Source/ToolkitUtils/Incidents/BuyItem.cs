@@ -219,21 +219,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public void CompletePurchase(StoreIncident incident)
         {
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Purchaser.TakeViewerCoins(Price);
-            }
-
-            Purchaser.CalculateNewKarma(
-                ItemData.Data?.KarmaType ?? incident.karmaType,
-                Mathf.CeilToInt(Price * (ItemData.Data?.Weight ?? 1f))
-            );
-
-
-            if (!ToolkitSettings.PurchaseConfirmations)
-            {
-                return;
-            }
+            Purchaser.Charge(Price, ItemData.Data?.Weight ?? 1f, ItemData.Data?.KarmaType ?? incident.karmaType);
 
             if (ThingDef.race != null)
             {
@@ -249,7 +235,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (TkSettings.BuyItemBalance)
             {
-                MessageHelper.ReplyToUser(
+                MessageHelper.SendConfirmation(
                     Purchaser.username,
                     "TKUtils.Item.Complete".Localize(
                         Quantity.ToString("N0"),
@@ -261,7 +247,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             else
             {
-                MessageHelper.ReplyToUser(
+                MessageHelper.SendConfirmation(
                     Purchaser.username,
                     "TKUtils.Item.CompleteMinimal".Localize(
                         Quantity.ToString("N0"),
@@ -276,7 +262,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (TkSettings.BuyItemBalance)
             {
-                MessageHelper.ReplyToUser(
+                MessageHelper.SendConfirmation(
                     Purchaser.username,
                     "TKUtils.Item.Complete".Localize(
                         Quantity.ToString("N0"),
@@ -288,7 +274,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             else
             {
-                MessageHelper.ReplyToUser(
+                MessageHelper.SendConfirmation(
                     Purchaser.username,
                     "TKUtils.Item.CompleteMinimal".Localize(
                         Quantity.ToString("N0"),

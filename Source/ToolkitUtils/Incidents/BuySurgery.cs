@@ -113,24 +113,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             appointment.BookSurgeries();
-
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(appointment.Cost);
-            }
-
-            Viewer.CalculateNewKarma(
-                appointment.Item.Data?.KarmaType ?? storeIncident.karmaType,
-                Mathf.CeilToInt(appointment.Cost * (appointment.Item.Data?.Weight ?? 1f))
+            Viewer.Charge(
+                appointment.Cost,
+                appointment.ItemData?.Weight ?? 1f,
+                appointment.ItemData?.KarmaType ?? storeIncident.karmaType
             );
 
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    "TKUtils.Surgery.Complete".Localize(appointment.ThingDef.LabelCap)
-                );
-            }
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                "TKUtils.Surgery.Complete".Localize(appointment.ThingDef.LabelCap)
+            );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.SurgeryLetter.Title".Localize(),
@@ -149,6 +141,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             public RecipeDef Surgery { get; set; }
             public List<BodyPartRecord> BodyParts { get; set; }
             public ThingItem Item { get; set; }
+            public ItemData ItemData => Item.Data;
             public ThingDef ThingDef { get; set; }
             public int Quantity { get; set; }
             public int Cost => Item.Price * Quantity;

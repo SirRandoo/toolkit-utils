@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             target = pawn.skills.skills.Where(s => !s.TotallyDisabled)
                .FirstOrDefault(
-                    s => s.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                    s => s.def.defName.EqualsIgnoreCase(query.ToToolkit())
                          || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                          || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                 );
@@ -59,11 +59,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void TryExecute()
         {
-            if (Viewer == null || pawn == null || target == null)
-            {
-                return;
-            }
-
             if (!IncidentSettings.RemovePassion.Randomness)
             {
                 target.passion = (Passion) Mathf.Clamp((int) target.passion - 1, 0, 2);
@@ -72,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (IncidentSettings.RemovePassion.ChanceToFail.ToChance())
             {
-                ChargeViewer();
+                Viewer.Charge(storeIncident);
                 NotifyFailed(target);
                 return;
             }
@@ -81,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 && TryGetEligibleSkill(out SkillRecord skill, true))
             {
                 skill.passion = (Passion) Mathf.Clamp((int) skill.passion - 1, 0, 2);
-                ChargeViewer();
+                Viewer.Charge(storeIncident);
                 NotifyHopped(target, skill);
                 return;
             }
@@ -90,7 +85,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 && (int) target.passion < (int) Passion.Major)
             {
                 target.passion = (Passion) Mathf.Clamp((int) target.passion - 1, 0, 2);
-                ChargeViewer();
+                Viewer.Charge(storeIncident);
                 NotifyIncrease(target);
                 return;
             }
@@ -100,32 +95,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 && TryGetEligibleSkill(out skill))
             {
                 skill.passion = (Passion) Mathf.Clamp((int) skill.passion - 1, 0, 2);
-                ChargeViewer();
+                Viewer.Charge(storeIncident);
                 NotifyIncreaseHopped(target, skill);
                 return;
             }
 
             target.passion = (Passion) Mathf.Clamp((int) target.passion + 1, 0, 2);
-            ChargeViewer();
+            Viewer.Charge(storeIncident);
             NotifySuccess(target);
-        }
-
-        private void ChargeViewer()
-        {
-            if (ToolkitSettings.UnlimitedCoins)
-            {
-                return;
-            }
-
-            Viewer.TakeViewerCoins(storeIncident.cost);
         }
 
         private void NotifySuccess(SkillRecord skill)
         {
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemovePassion.Complete".Localize(skill.def.label));
-            }
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemovePassion.Complete".Localize(skill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
@@ -137,10 +119,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyIncrease(SkillRecord skill)
         {
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemovePassion.Increase".Localize(skill.def.label));
-            }
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemovePassion.Increase".Localize(skill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
@@ -152,10 +131,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyFailed(SkillRecord skill)
         {
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Passion.Failed".Localize(skill.def.label));
-            }
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Failed".Localize(skill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
@@ -167,13 +143,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyHopped(SkillRecord viewerSkill, SkillRecord randomSkill)
         {
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    "TKUtils.RemovePassion.Hopped".Localize(viewerSkill.def.label, randomSkill.def.label)
-                );
-            }
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                "TKUtils.RemovePassion.Hopped".Localize(viewerSkill.def.label, randomSkill.def.label)
+            );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
@@ -189,13 +162,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyIncreaseHopped(SkillRecord viewerSkill, SkillRecord randomSkill)
         {
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    "TKUtils.RemovePassion.IncreaseHopped".Localize(viewerSkill.def.label, randomSkill.def.label)
-                );
-            }
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                "TKUtils.RemovePassion.IncreaseHopped".Localize(viewerSkill.def.label, randomSkill.def.label)
+            );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),

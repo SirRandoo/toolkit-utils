@@ -39,32 +39,29 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             string query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
-            if (!query.NullOrEmpty())
+            if (query.NullOrEmpty())
             {
-                target = pawn.skills.skills.FirstOrDefault(
-                        s => s.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                             || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
-                             || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
-                    )
-                  ?.def;
-
-                if (target == null)
-                {
-                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".Localize(query));
-                    return false;
-                }
+                return pawn.skills.skills.Any(s => (int) s.passion > (int) Passion.None);
             }
 
-            return pawn.skills.skills.Any(s => (int) s.passion > (int) Passion.None);
+            target = pawn.skills.skills.FirstOrDefault(
+                    s => s.def.defName.EqualsIgnoreCase(query.ToToolkit())
+                         || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
+                         || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
+                )
+              ?.def;
+
+            if (target != null)
+            {
+                return pawn.skills.skills.Any(s => (int) s.passion > (int) Passion.None);
+            }
+
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".Localize(query));
+            return false;
         }
 
         public override void TryExecute()
         {
-            if (pawn == null)
-            {
-                return;
-            }
-
             if (Interests.Active)
             {
                 ShuffleWithInterests();
@@ -74,17 +71,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Shuffle();
             }
 
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(storeIncident.cost);
-            }
-
-            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
-
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.PassionShuffle.Complete".Localize());
-            }
+            Viewer.Charge(storeIncident);
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.PassionShuffle.Complete".Localize());
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionShuffleLetter.Title".Localize(),

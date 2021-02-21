@@ -26,11 +26,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
         {
-            if (viewer == null)
-            {
-                return false;
-            }
-
             string traitQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
             if (traitQuery.NullOrEmpty())
@@ -169,21 +164,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override void TryExecute()
         {
             TraitHelper.GivePawnTrait(pawn, trait);
-
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(buyableTrait.CostToAdd);
-            }
-
-            Viewer.CalculateNewKarma(
-                buyableTrait.Data?.KarmaTypeForAdding ?? storeIncident.karmaType,
-                buyableTrait.CostToAdd
-            );
-
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Trait.Complete".Localize(trait.Label));
-            }
+            Viewer.Charge(buyableTrait.CostToAdd, buyableTrait.Data?.KarmaTypeForAdding ?? storeIncident.karmaType);
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Trait.Complete".Localize(trait.Label));
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),

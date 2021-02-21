@@ -209,11 +209,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void TryExecute()
         {
-            if (pawn == null || replaceThisTrait == null)
-            {
-                return;
-            }
-
             if (MagicComp.Active
                 && TkSettings.ClassChanges
                 && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(replaceThisTrait.def.defName)) ?? false))
@@ -227,37 +222,23 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 TraitHelper.RemoveTraitFromPawn(pawn, replaceThisTrait);
             }
 
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(replaceThisShop.CostToRemove);
-            }
-
-            Viewer.CalculateNewKarma(
-                replaceThisShop.Data?.KarmaTypeForRemoving ?? storeIncident.karmaType,
-                replaceThisShop.CostToRemove
+            Viewer.Charge(
+                replaceThisShop.CostToRemove,
+                replaceThisShop.Data?.KarmaTypeForRemoving ?? storeIncident.karmaType
             );
 
 
             TraitHelper.GivePawnTrait(pawn, replaceThatTrait);
 
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(replaceThatShop.CostToAdd);
-            }
-
-            Viewer.CalculateNewKarma(
-                replaceThatShop.Data?.KarmaTypeForAdding ?? storeIncident.karmaType,
-                replaceThatShop.CostToAdd
+            Viewer.Charge(
+                replaceThatShop.CostToAdd,
+                replaceThatShop.Data?.KarmaTypeForAdding ?? storeIncident.karmaType
             );
 
-
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    "TKUtils.ReplaceTrait.Complete".Localize(replaceThisTrait.LabelCap, replaceThatTrait.LabelCap)
-                );
-            }
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                "TKUtils.ReplaceTrait.Complete".Localize(replaceThisTrait.LabelCap, replaceThatTrait.LabelCap)
+            );
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),

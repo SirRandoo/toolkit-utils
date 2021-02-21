@@ -127,17 +127,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
                 Current.Game.GetComponent<GameComponentPawns>().AssignUserToPawn(Viewer.username, pawn);
 
-                if (!ToolkitSettings.UnlimitedCoins)
-                {
-                    Viewer.TakeViewerCoins(pawnKindItem!.Cost);
-                }
-
-                Viewer.CalculateNewKarma(pawnKindItem!.Data?.KarmaType ?? storeIncident.karmaType, pawnKindItem!.Cost);
-
-                if (ToolkitSettings.PurchaseConfirmations)
-                {
-                    MessageHelper.ReplyToUser(Viewer.username, "TKUtils.BuyPawn.Confirmation".Localize());
-                }
+                Viewer.Charge(pawnKindItem.Cost, pawnKindItem.Data?.KarmaType ?? storeIncident.karmaType);
+                MessageHelper.SendConfirmation(Viewer.username, "TKUtils.BuyPawn.Confirmation".Localize());
             }
             catch (Exception e)
             {

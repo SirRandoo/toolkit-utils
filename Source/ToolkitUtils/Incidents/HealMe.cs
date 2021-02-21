@@ -53,14 +53,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (toHeal != null)
             {
                 HealHelper.Cure(toHeal);
-
-                if (!ToolkitSettings.UnlimitedCoins)
-                {
-                    Viewer.TakeViewerCoins(storeIncident.cost);
-                }
-
-                Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
-
+                Viewer.Charge(storeIncident);
                 Notify__Success(toHeal.LabelCap);
             }
 
@@ -70,14 +63,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             pawn.health.RestorePart(toRestore);
-
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(storeIncident.cost);
-            }
-
-            Viewer.CalculateNewKarma(storeIncident.karmaType, storeIncident.cost);
-
+            Viewer.Charge(storeIncident);
             Notify__Success(toRestore.Label);
         }
 

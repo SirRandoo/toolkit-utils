@@ -79,10 +79,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void Notify__Success(string affected)
         {
-            if (!ToolkitSettings.UnlimitedCoins)
-            {
-                Viewer.TakeViewerCoins(storeIncident.cost);
-            }
+            Viewer.Charge(storeIncident);
 
             var description = "";
 
@@ -102,10 +99,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             string descriptionTranslated = description.Localize(target.LabelShort.CapitalizeFirst(), affected);
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, descriptionTranslated);
-            }
+            MessageHelper.SendConfirmation(Viewer.username, descriptionTranslated);
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.HealLetter.Title".Localize(),
