@@ -41,8 +41,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            Viewer.Charge(storeIncident);
-
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.MassRevivalLetter.Title".Localize(),
                 "TKUtils.MassRevivalLetter.Description".Localize(),

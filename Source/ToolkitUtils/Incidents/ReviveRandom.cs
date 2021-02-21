@@ -32,7 +32,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override void TryExecute()
         {
             pawn.TryResurrect();
-            Viewer.Charge(storeIncident);
         }
     }
 }

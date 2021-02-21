@@ -38,6 +38,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             pawn.TryResurrect();
             Viewer.Charge(storeIncident);
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.ReviveMe.Complete".Localize());
         }
     }
 }
