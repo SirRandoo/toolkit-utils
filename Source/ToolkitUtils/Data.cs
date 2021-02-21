@@ -350,7 +350,7 @@ namespace SirRandoo.ToolkitUtils
                 catch (Exception e)
                 {
                     builder.Append(
-                        $"Failed to gather weapon data for item '{item?.label ?? "Unknown"}' from mod '{item?.modContentPack?.Name ?? "Unknown"}'"
+                        $"Failed to gather weapon data for item '{item.label ?? "Unknown"}' from mod '{item.modContentPack?.Name ?? "Unknown"}'"
                     );
                     builder.AppendLine($" -- Exception: {e.GetType().Name}({e.Message ?? "No message"})");
                 }
