@@ -29,6 +29,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private Rect categoryHeaderRect = Rect.zero;
         private string categoryHeaderText;
         private Rect categoryHeaderTextRect = Rect.zero;
+        private Rect expandedHeaderInnerRect = Rect.zero;
         private Rect expandedHeaderRect = Rect.zero;
         private Rect nameHeaderRect = Rect.zero;
         private string nameHeaderText;
@@ -39,6 +40,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private Vector2 scrollPos = Vector2.zero;
         private SortKey sortKey = SortKey.Name;
         private SortOrder sortOrder = SortOrder.Descending;
+        private Rect stateHeaderInnerRect = Rect.zero;
 
         private Rect stateHeaderRect = Rect.zero;
 
@@ -46,8 +48,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void DrawHeaders(Rect canvas)
         {
-            if (Widgets.ButtonImage(
+            if (SettingsHelper.DrawTableHeader(
                 stateHeaderRect,
+                stateHeaderInnerRect,
                 stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
             ))
             {
@@ -55,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 stateKey = stateKey == StateKey.Enable ? StateKey.Disable : StateKey.Enable;
             }
 
-            if (Widgets.ButtonImage(expandedHeaderRect, Textures.Gear))
+            if (SettingsHelper.DrawTableHeader(expandedHeaderRect, expandedHeaderInnerRect, Textures.Gear))
             {
                 NotifyGlobalSettingsCollapse();
             }
@@ -239,8 +242,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void NotifyResolutionChanged(Rect canvas)
         {
-            float distributedWidth = Mathf.FloorToInt((canvas.width - LineHeight * 2f) * 0.333f) - 4f;
+            float distributedWidth = Mathf.FloorToInt((canvas.width - 16f - LineHeight * 2f) * 0.333f);
             stateHeaderRect = new Rect(0f, 0f, LineHeight, LineHeight);
+            stateHeaderInnerRect = stateHeaderRect.ContractedBy(2f);
             nameHeaderRect = new Rect(LineHeight + 1f, 0f, distributedWidth, LineHeight);
             nameHeaderTextRect = new Rect(
                 nameHeaderRect.x + 4f,
@@ -263,6 +267,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 categoryHeaderRect.height
             );
             expandedHeaderRect = new Rect(categoryHeaderRect.x + categoryHeaderRect.width, 0f, LineHeight, LineHeight);
+            expandedHeaderInnerRect = expandedHeaderRect.ContractedBy(2f);
         }
 
         protected override void FilterDataBySearch(string query)

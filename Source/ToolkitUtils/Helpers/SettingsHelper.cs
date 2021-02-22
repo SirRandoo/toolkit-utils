@@ -356,6 +356,34 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return pressed;
         }
 
+        public static bool DrawTableHeader(Rect backgroundRect, Rect iconRect, Texture2D icon, bool vertical = false)
+        {
+            if (vertical)
+            {
+                backgroundRect.y += backgroundRect.width;
+                GUIUtility.RotateAroundPivot(-90f, backgroundRect.position);
+            }
+
+            GUI.color = new Color(0.21f, 0.23f, 0.24f);
+            Widgets.DrawHighlight(backgroundRect);
+            GUI.color = Color.white;
+
+            if (Mouse.IsOver(backgroundRect))
+            {
+                Widgets.DrawLightHighlight(backgroundRect);
+            }
+
+            GUI.DrawTexture(iconRect, icon);
+            bool pressed = Widgets.ButtonInvisible(backgroundRect);
+
+            if (vertical)
+            {
+                GUI.matrix = Matrix4x4.identity;
+            }
+
+            return pressed;
+        }
+
         public static bool DrawTabButton(
             Rect region,
             string text,
