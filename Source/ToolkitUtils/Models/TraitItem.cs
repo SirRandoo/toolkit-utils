@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using RimWorld;
@@ -69,7 +70,7 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 if (Data.Stats.NullOrEmpty())
                 {
-                    FetchStats();
+                    UpdateStats();
                 }
 
                 return Data.Stats;
@@ -83,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 if (Data.Conflicts.NullOrEmpty())
                 {
-                    FetchConflicts();
+                    UpdateConflicts();
                 }
 
                 return Data.Conflicts;
@@ -96,101 +97,157 @@ namespace SirRandoo.ToolkitUtils.Models
         public TraitDef TraitDef =>
             traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
 
-        private void FetchStats()
+        private void UpdateStats()
         {
             var container = new List<string>();
+            var builder = new StringBuilder();
 
             TraitDegreeData degreeData = TraitDef.DataAtDegree(Degree);
 
-            if (!degreeData.disallowedInspirations.NullOrEmpty())
+            container.AddRange(GetDisallowedInspirations(degreeData));
+            container.AddRange(GetDisallowedMentalStates(degreeData));
+            container.AddRange(GetDisallowedMeditationTypes(degreeData));
+            container.AddRange(GetAllowedMeditationTypes(degreeData));
+            container.AddRange(GetOnlyAllowedMentalBreaks(degreeData));
+            container.AddRange(GetSkillGains(degreeData));
+            container.AddRange(GetStatOffsets(degreeData, builder));
+            container.AddRange(GetStatFactors(degreeData, builder));
+
+            if (builder.Length > 0)
             {
-                container.AddRange(
-                    degreeData.disallowedInspirations.Select(i => "TKUtils.Trait.Inspiration".Localize(i.LabelCap))
+                builder.Insert(
+                    0,
+                    $@"Could not obtain all data for the trait ""{Name}"" -- Below are the errors encountered:\n"
                 );
-            }
-
-            if (!degreeData.disallowedMentalStates.NullOrEmpty())
-            {
-                container.AddRange(
-                    degreeData.disallowedMentalStates.Select(b => "TKUtils.Trait.MentalState".Localize(b.LabelCap))
-                );
-            }
-
-            if (ModLister.RoyaltyInstalled)
-            {
-                if (!degreeData.disallowedMeditationFocusTypes.NullOrEmpty())
-                {
-                    container.AddRange(
-                        degreeData.disallowedMeditationFocusTypes.Select(
-                            f => "TKUtils.Trait.MeditationDisabled".Localize(f.LabelCap)
-                        )
-                    );
-                }
-
-                if (!degreeData.allowedMeditationFocusTypes.NullOrEmpty())
-                {
-                    container.AddRange(
-                        degreeData.allowedMeditationFocusTypes.Select(
-                            f => "TKUtils.Trait.MeditationEnabled".Localize(f.LabelCap)
-                        )
-                    );
-                }
-            }
-
-            if (!degreeData.theOnlyAllowedMentalBreaks.NullOrEmpty())
-            {
-                container.AddRange(
-                    degreeData.theOnlyAllowedMentalBreaks.Select(
-                        b => "TKUtils.Trait.MentalBreak".Localize(b.ToString())
-                    )
-                );
-            }
-
-            if (degreeData.skillGains.Count > 0)
-            {
-                container.AddRange(
-                    degreeData.skillGains.Select(pair => $"{pair.Value.ToStringWithSign()} {pair.Key.skillLabel}")
-                );
-            }
-
-            if (!degreeData.statOffsets.NullOrEmpty())
-            {
-                try
-                {
-                    container.AddRange(
-                        degreeData.statOffsets.Where(s => s?.stat?.Worker != null)
-                           .Select(o => $"{o.ValueToStringAsOffset} {o.stat.label}")
-                    );
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Warn(
-                        $"Could not serialize stat offsets for the trait {degreeData.label}! -- {e.GetType().Name}({e.Message})"
-                    );
-                }
-            }
-
-            if (!degreeData.statFactors.NullOrEmpty())
-            {
-                try
-                {
-                    container.AddRange(
-                        degreeData.statFactors.Where(s => s?.stat?.Worker != null)
-                           .Select(f => $"{f.ToStringAsFactor} {f.stat.label}")
-                    );
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Warn(
-                        $"Could not serialize stat factors for the {degreeData.label}! -- {e.GetType().Name}({e.Message})"
-                    );
-                }
+                LogHelper.Warn(builder.ToString());
             }
 
             Data.Stats = container.ToArray();
         }
 
-        private void FetchConflicts()
+        private static IEnumerable<string> GetDisallowedInspirations(TraitDegreeData data)
+        {
+            return data.disallowedInspirations?.Select(
+                       def => "TKUtils.Trait.Inspiration".Localize(def.label?.CapitalizeFirst() ?? def.defName)
+                   )
+                   ?? new string[0];
+        }
+
+        private static IEnumerable<string> GetDisallowedMentalStates(TraitDegreeData data)
+        {
+            return data.disallowedMentalStates?.Select(
+                       def => "TKUtils.Trait.MentalState".Localize(def.label?.CapitalizeFirst() ?? def.defName)
+                   )
+                   ?? new string[0];
+        }
+
+        private static IEnumerable<string> GetDisallowedMeditationTypes(TraitDegreeData data)
+        {
+            if (!ModLister.RoyaltyInstalled || data.disallowedMentalStates.NullOrEmpty())
+            {
+                yield break;
+            }
+
+            foreach (string s in data.disallowedMeditationFocusTypes.Select(
+                def => "TKUtils.Trait.MeditationDisabled".Localize(def.label?.CapitalizeFirst() ?? def.defName)
+            ))
+            {
+                yield return s;
+            }
+        }
+
+        private static IEnumerable<string> GetAllowedMeditationTypes(TraitDegreeData data)
+        {
+            if (!ModLister.RoyaltyInstalled || data.allowedMeditationFocusTypes.NullOrEmpty())
+            {
+                yield break;
+            }
+
+            foreach (string s in data.allowedMeditationFocusTypes.Select(
+                def => "TKUtils.Trait.MeditationEnabled".Localize(def.label?.CapitalizeFirst() ?? def.defName)
+            ))
+            {
+                yield return s;
+            }
+        }
+
+        private static IEnumerable<string> GetOnlyAllowedMentalBreaks(TraitDegreeData data)
+        {
+            return data.theOnlyAllowedMentalBreaks?.Select(
+                       def => "TKUtils.Trait.MentalBreak".Localize(def.label ?? def.defName)
+                   )
+                   ?? new string[0];
+        }
+
+        private static IEnumerable<string> GetSkillGains(TraitDegreeData data)
+        {
+            return data.skillGains?.Select(
+                       pair => $"{pair.Value.ToStringWithSign()} {pair.Key.skillLabel ?? pair.Key.defName}"
+                   )
+                   ?? new string[0];
+        }
+
+        private static IEnumerable<string> GetStatOffsets(TraitDegreeData data, StringBuilder messages)
+        {
+            if (data.statOffsets.NullOrEmpty())
+            {
+                yield break;
+            }
+
+            foreach (StatModifier modifier in data.statOffsets.Where(o => o?.stat?.Worker != null))
+            {
+                string m;
+
+                try
+                {
+                    m = $"{modifier.ValueToStringAsOffset} {modifier.stat.label ?? modifier.stat.defName}";
+                }
+                catch (Exception e)
+                {
+                    messages.AppendLine(
+                        $"  - Could not get stat offsets for the trait {data.label} -> {e.GetType().Name}({e.Message})"
+                    );
+                    messages.AppendLine(
+                        $"    - Malformed stat: {modifier?.stat?.label ?? modifier?.stat?.defName ?? "{{NULL}}"}"
+                    );
+                    continue;
+                }
+
+                yield return m;
+            }
+        }
+
+        private static IEnumerable<string> GetStatFactors(TraitDegreeData data, StringBuilder messages)
+        {
+            if (data.statFactors.NullOrEmpty())
+            {
+                yield break;
+            }
+
+            foreach (StatModifier modifier in data.statFactors.Where(s => s?.stat?.Worker != null))
+            {
+                string m;
+
+                try
+                {
+                    m = $"{modifier.ToStringAsFactor} {modifier.stat.label ?? modifier.stat.defName}";
+                }
+                catch (Exception e)
+                {
+                    messages.AppendLine(
+                        $"  - Could not get stat factors for the trait {data.label} -> {e.GetType().Name}({e.Message})"
+                    );
+                    messages.AppendLine(
+                        $"    - Malformed stat: {modifier?.stat?.label ?? modifier?.stat?.defName ?? "{{NULL}}"}"
+                    );
+                    continue;
+                }
+
+                yield return m;
+            }
+        }
+
+        private void UpdateConflicts()
         {
             var container = new List<string>();
 
