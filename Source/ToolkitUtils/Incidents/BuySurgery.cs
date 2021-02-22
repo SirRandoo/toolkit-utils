@@ -7,6 +7,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
+using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -47,7 +48,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (appointment.ThingDef.GetUnfinishedPrerequisites() is { } projects && projects.Count > 0)
+            if (BuyItemSettings.mustResearchFirst
+                && appointment.ThingDef.GetUnfinishedPrerequisites() is { } projects
+                && projects.Count > 0)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
