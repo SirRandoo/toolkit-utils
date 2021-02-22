@@ -59,14 +59,14 @@
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj">
+        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false">
             <Project>{03518130-ce79-47fd-9273-36b2c61cd05c}</Project>
             <Name>ToolkitUtils</Name>
         </ProjectReference>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2753" ExcludeAssets="runtime"/>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2900" ExcludeAssets="runtime"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
