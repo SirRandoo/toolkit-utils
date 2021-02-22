@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
 
         public override void EditSettings()
         {
-            Find.WindowStack.Add(new HealMeDialog());
+            Find.WindowStack.Add(new FullHealDialog());
         }
     }
 }
