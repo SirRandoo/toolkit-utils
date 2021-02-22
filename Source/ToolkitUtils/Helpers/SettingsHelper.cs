@@ -345,7 +345,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             if (Mouse.IsOver(backgroundRect))
             {
+                GUI.color = Color.grey;
                 Widgets.DrawLightHighlight(backgroundRect);
+                GUI.color = Color.white;
             }
 
             Widgets.Label(textRect, text);
@@ -375,7 +377,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             if (Mouse.IsOver(backgroundRect))
             {
+                GUI.color = Color.gray;
                 Widgets.DrawLightHighlight(backgroundRect);
+                GUI.color = Color.white;
             }
 
             GUI.DrawTexture(iconRect, icon);
