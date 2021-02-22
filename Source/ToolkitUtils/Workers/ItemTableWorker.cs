@@ -290,7 +290,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             foreach (ItemTableItem item in Data)
             {
-                item.IsHidden = !item.Data.Name.Equals(query, StringComparison.InvariantCultureIgnoreCase);
+                item.IsHidden = !query.NullOrEmpty() && !item.Data.Name.ToLower().Contains(query.ToLower());
             }
         }
 
