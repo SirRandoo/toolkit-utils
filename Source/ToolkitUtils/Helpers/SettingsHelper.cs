@@ -255,10 +255,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return new Rect(region.x + region.width + padding, region.y, region.width, region.height);
         }
 
-        public static bool IsRegionVisible(this Rect region, Rect scrollView, Vector2 scrollPos)
+        public static bool IsRegionVisible(this Rect region, Rect scrollRect, Vector2 scrollPos)
         {
             return (region.y >= scrollPos.y || region.y + region.height - 1f >= scrollPos.y)
-                   && region.y <= scrollPos.y + scrollView.height;
+                   && region.y <= scrollPos.y + scrollRect.height;
         }
 
         public static void DrawColored(this Texture2D t, Rect region, Color color)
