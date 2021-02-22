@@ -97,7 +97,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (TkSettings.Offload)
             {
-                Task.Run(DumpAllData);
+                Task.Run(DumpAllData).ConfigureAwait(false);
             }
             else
             {
@@ -424,7 +424,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (TkSettings.Offload)
             {
-                Task.Run(() => SaveJson(container, Paths.CommandListFilePath));
+                Task.Run(() => SaveJson(container, Paths.CommandListFilePath)).ConfigureAwait(false);
             }
             else
             {
@@ -436,7 +436,7 @@ namespace SirRandoo.ToolkitUtils
         {
             if (TkSettings.Offload)
             {
-                Task.Run(() => SaveJson(Mods, Paths.ModListFilePath));
+                Task.Run(() => SaveJson(Mods, Paths.ModListFilePath)).ConfigureAwait(false);
             }
             else
             {
