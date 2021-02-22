@@ -321,6 +321,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
+        public static bool DrawTextField(Rect region, string content, out string newContent)
+        {
+            string text = Widgets.TextField(region, content);
+
+            newContent = !text.Equals(content) ? text : null;
+            return newContent != null;
+        }
+
         public static bool DrawTableHeader(
             Rect backgroundRect,
             Rect textRect,
