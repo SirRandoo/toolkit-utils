@@ -81,20 +81,24 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void DrawSortableHeaders()
         {
+            var anyClicked = false;
             SortKey previousKey = sortKey;
             if (SettingsHelper.DrawTabButton(nameHeaderRect, nameHeaderText))
             {
                 sortKey = SortKey.Name;
+                anyClicked = true;
             }
 
             if (SettingsHelper.DrawTabButton(priceHeaderRect, priceHeaderText))
             {
                 sortKey = SortKey.Price;
+                anyClicked = true;
             }
 
             if (SettingsHelper.DrawTabButton(categoryHeaderRect, categoryHeaderText))
             {
                 sortKey = SortKey.Category;
+                anyClicked = true;
             }
 
             if (sortKey != previousKey)
@@ -102,7 +106,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 sortOrder = SortOrder.Descending;
                 NotifySortRequested();
             }
-            else
+            else if (anyClicked)
             {
                 InvertSortOrder();
                 NotifySortRequested();
