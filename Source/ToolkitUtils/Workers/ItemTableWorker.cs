@@ -185,7 +185,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             nameHeaderText = "TKUtils.Headers.Name".Localize();
             priceHeaderText = "TKUtils.Headers.Price".Localize();
-            categoryHeaderText = "TKUtils.ItemStore.Category".Localize();
+            categoryHeaderText = "TKUtils.Headers.Category".Localize();
         }
 
         public override void NotifySortRequested()

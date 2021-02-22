@@ -1,9 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <LanguageData>
     <!-- General Headers -->
-    <TKUtils.Headers.Name>Name</TKUtils.Headers.Name>
-    <TKUtils.Headers.Price>Price</TKUtils.Headers.Price>
     <TKUtils.Headers.DataDialog>Editing data for "{0}"</TKUtils.Headers.DataDialog>
     <TKUtils.Headers.FilterDialog>Editing item filters</TKUtils.Headers.FilterDialog>
     
@@ -45,7 +61,6 @@
     
     <!-- Item Store -->
     <TKUtils.ItemStore.Title>Store Inventory</TKUtils.ItemStore.Title>
-    <TKUtils.ItemStore.Category>Category</TKUtils.ItemStore.Category>
     <TKUtils.ItemStore.Stuff>Can be stuff?</TKUtils.ItemStore.Stuff>
     <TKUtils.ItemStore.QuantityLimit>Quantity limit</TKUtils.ItemStore.QuantityLimit>
     <TKUtils.ItemStore.Weight>Purchase weight</TKUtils.ItemStore.Weight>

@@ -1,23 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <LanguageData>
-    <!-- ToolkitCore Addon Menu -->
-    <TKUtils.AddonMenu.Settings>Settings</TKUtils.AddonMenu.Settings>
-    <TKUtils.AddonMenu.PawnKind>Pawn Kind Config</TKUtils.AddonMenu.PawnKind>
-    <TKUtils.AddonMenu.Trait>Trait Config</TKUtils.AddonMenu.Trait>
-    <TKUtils.AddonMenu.Purge>Purge Viewers</TKUtils.AddonMenu.Purge>
-    <TKUtils.AddonMenu.Editor>Editor</TKUtils.AddonMenu.Editor>
-    <TKUtils.AddonMenu.Events>Events</TKUtils.AddonMenu.Events>
-    <TKUtils.AddonMenu.Items>Items</TKUtils.AddonMenu.Items>
-    <TKUtils.AddonMenu.Commands>Commands</TKUtils.AddonMenu.Commands>
-    <TKUtils.AddonMenu.Viewers>Viewers</TKUtils.AddonMenu.Viewers>
-    <TKUtils.AddonMenu.NameQueue>Name queue</TKUtils.AddonMenu.NameQueue>
-    <TKUtils.AddonMenu.Tracker>Tracker</TKUtils.AddonMenu.Tracker>
-    <TKUtils.AddonMenu.ToggleCoinEarning>Toggle earning coins</TKUtils.AddonMenu.ToggleCoinEarning>
-    <TKUtils.AddonMenu.DebugFix>Debug fix</TKUtils.AddonMenu.DebugFix>
-    <TKUtils.AddonMenu.GiftCoins>Toggle coin gifting</TKUtils.AddonMenu.GiftCoins>
-    
-    
     <!-- Purge Menu -->
     <!-- Constraints Menu -->
     <TKUtils.PurgeMenu.Coins>coins</TKUtils.PurgeMenu.Coins>

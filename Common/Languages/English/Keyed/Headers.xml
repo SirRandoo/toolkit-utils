@@ -19,12 +19,9 @@
   -->
 
 <LanguageData>
-    <!-- Toolkit Addon Menu -->
-    <TKUtils.CoinEarningEnabled>Earning coins has been enabled</TKUtils.CoinEarningEnabled>
-    <TKUtils.CoinEarningDisabled>Earning coins has been disabled</TKUtils.CoinEarningDisabled>
-    <TKUtils.GiftCoinsEnabled>Gift coins has been enabled</TKUtils.GiftCoinsEnabled>
-    <TKUtils.GiftCoinsDisabled>Gift coins has been disabled</TKUtils.GiftCoinsDisabled>
-    
-    <!-- Name Queue -->
-    <TKUtils.ViewerDrawn>You've been picked from the name queue! Respond in chat so you can claim the current pawn.</TKUtils.ViewerDrawn>
+    <TKUtils.Headers.Name>Name</TKUtils.Headers.Name>
+    <TKUtils.Headers.Price>Price</TKUtils.Headers.Price>
+    <TKUtils.Headers.Category>Category</TKUtils.Headers.Category>
+    <TKUtils.Headers.AddPrice>Add Price</TKUtils.Headers.AddPrice>
+    <TKUtils.Headers.RemovePrice>Remove Price</TKUtils.Headers.RemovePrice>
 </LanguageData>
