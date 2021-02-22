@@ -96,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (purchaseRequest.Price > viewer.GetViewerCoins())
+            if (!viewer.CanAfford(purchaseRequest.Price))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
