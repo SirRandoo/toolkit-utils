@@ -293,6 +293,69 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Text.Font = GameFont.Small;
         }
 
+        public static void DrawTabBackground(Rect region, bool vertical = false, bool selected = false)
+        {
+            if (vertical)
+            {
+                region.y += region.width;
+                GUIUtility.RotateAroundPivot(-90f, region.position);
+            }
+
+            GUI.color = selected ? new Color(0.46f, 0.49f, 0.5f) : new Color(0.21f, 0.23f, 0.24f);
+            Widgets.DrawHighlight(region);
+            GUI.color = Color.white;
+
+            if (!selected && Mouse.IsOver(region))
+            {
+                Widgets.DrawLightHighlight(region);
+            }
+
+            if (vertical)
+            {
+                GUI.matrix = Matrix4x4.identity;
+            }
+        }
+
+        public static bool DrawTableHeader(
+            Rect backgroundRect,
+            Rect textRect,
+            string text,
+            TextAnchor anchor = TextAnchor.MiddleLeft,
+            GameFont fontScale = GameFont.Small,
+            bool vertical = false
+        )
+        {
+            Text.Anchor = anchor;
+            Text.Font = fontScale;
+
+            if (vertical)
+            {
+                backgroundRect.y += backgroundRect.width;
+                GUIUtility.RotateAroundPivot(-90f, backgroundRect.position);
+            }
+
+            GUI.color = new Color(0.21f, 0.23f, 0.24f);
+            Widgets.DrawHighlight(backgroundRect);
+            GUI.color = Color.white;
+
+            if (Mouse.IsOver(backgroundRect))
+            {
+                Widgets.DrawLightHighlight(backgroundRect);
+            }
+
+            Widgets.Label(textRect, text);
+            bool pressed = Widgets.ButtonInvisible(backgroundRect);
+
+            if (vertical)
+            {
+                GUI.matrix = Matrix4x4.identity;
+            }
+
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            return pressed;
+        }
+
         public static bool DrawTabButton(
             Rect region,
             string text,

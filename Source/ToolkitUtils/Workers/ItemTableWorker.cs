@@ -28,11 +28,14 @@ namespace SirRandoo.ToolkitUtils.Workers
     {
         private Rect categoryHeaderRect = Rect.zero;
         private string categoryHeaderText;
+        private Rect categoryHeaderTextRect = Rect.zero;
         private Rect expandedHeaderRect = Rect.zero;
         private Rect nameHeaderRect = Rect.zero;
         private string nameHeaderText;
+        private Rect nameHeaderTextRect = Rect.zero;
         private Rect priceHeaderRect = Rect.zero;
         private string priceHeaderText;
+        private Rect priceHeaderTextRect = Rect.zero;
         private Vector2 scrollPos = Vector2.zero;
         private SortKey sortKey = SortKey.Name;
         private SortOrder sortOrder = SortOrder.Descending;
@@ -83,19 +86,19 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var anyClicked = false;
             SortKey previousKey = sortKey;
-            if (SettingsHelper.DrawTabButton(nameHeaderRect, nameHeaderText))
+            if (SettingsHelper.DrawTableHeader(nameHeaderRect, nameHeaderTextRect, nameHeaderText))
             {
                 sortKey = SortKey.Name;
                 anyClicked = true;
             }
 
-            if (SettingsHelper.DrawTabButton(priceHeaderRect, priceHeaderText))
+            if (SettingsHelper.DrawTableHeader(priceHeaderRect, priceHeaderTextRect, priceHeaderText))
             {
                 sortKey = SortKey.Price;
                 anyClicked = true;
             }
 
-            if (SettingsHelper.DrawTabButton(categoryHeaderRect, categoryHeaderText))
+            if (SettingsHelper.DrawTableHeader(categoryHeaderRect, categoryHeaderTextRect, categoryHeaderText))
             {
                 sortKey = SortKey.Category;
                 anyClicked = true;
@@ -236,11 +239,29 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void NotifyResolutionChanged(Rect canvas)
         {
-            float distributedWidth = Mathf.FloorToInt((canvas.width - LineHeight * 2f) * 0.333f);
+            float distributedWidth = Mathf.FloorToInt((canvas.width - LineHeight * 2f) * 0.333f) - 4f;
             stateHeaderRect = new Rect(0f, 0f, LineHeight, LineHeight);
-            nameHeaderRect = new Rect(LineHeight, 0f, distributedWidth, LineHeight);
-            priceHeaderRect = nameHeaderRect.ShiftRight(0f);
-            categoryHeaderRect = priceHeaderRect.ShiftRight(0f);
+            nameHeaderRect = new Rect(LineHeight + 1f, 0f, distributedWidth, LineHeight);
+            nameHeaderTextRect = new Rect(
+                nameHeaderRect.x + 4f,
+                nameHeaderRect.y,
+                nameHeaderRect.width - 8f,
+                nameHeaderRect.height
+            );
+            priceHeaderRect = nameHeaderRect.ShiftRight(1f);
+            priceHeaderTextRect = new Rect(
+                priceHeaderRect.x + 4f,
+                priceHeaderRect.y,
+                priceHeaderRect.width - 8f,
+                priceHeaderRect.height
+            );
+            categoryHeaderRect = priceHeaderRect.ShiftRight(1f);
+            categoryHeaderTextRect = new Rect(
+                categoryHeaderRect.x + 4f,
+                categoryHeaderRect.y,
+                categoryHeaderRect.width - 8f,
+                categoryHeaderRect.height
+            );
             expandedHeaderRect = new Rect(categoryHeaderRect.x + categoryHeaderRect.width, 0f, LineHeight, LineHeight);
         }
 
