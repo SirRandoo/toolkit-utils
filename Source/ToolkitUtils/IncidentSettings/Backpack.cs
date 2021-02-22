@@ -25,14 +25,10 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
     public class Backpack : IncidentHelperVariablesSettings
     {
         public static bool AutoEquip = true;
-        // public static bool AutoUse = true;
-        // public static bool AutoIngest;
 
         public override void ExposeData()
         {
             Scribe_Values.Look(ref AutoEquip, "backpackAutoEquip", true);
-            // Scribe_Values.Look(ref AutoUse, "backpackAutoUse", true);
-            // Scribe_Values.Look(ref AutoIngest, "backpackAutoIngest");
         }
 
         public override void EditSettings()
