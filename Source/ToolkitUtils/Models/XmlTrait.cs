@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
+    [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
     public class XmlTrait
     {
         public int AddPrice;

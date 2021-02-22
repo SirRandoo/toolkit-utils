@@ -15,9 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
+    [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
     public class XmlRace
     {
         [XmlAttribute] public string DefName;
