@@ -22,8 +22,6 @@ using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;
 
-#pragma warning disable 618
-
 namespace SirRandoo.ToolkitUtils.Incidents
 {
     [SuppressMessage("ReSharper", "ParameterHidesMember")]
