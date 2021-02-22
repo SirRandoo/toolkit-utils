@@ -74,7 +74,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static void DrawSortIndicator(Rect canvas, SortOrder order)
         {
-            var region = new Rect(canvas.x + canvas.width - 12f, canvas.y + 4f, canvas.height - 8f, canvas.height - 8f);
+            var region = new Rect(
+                canvas.x + canvas.width - canvas.height + 3f,
+                canvas.y + 8f,
+                canvas.height - 9f,
+                canvas.height - 16f
+            );
 
             switch (order)
             {
