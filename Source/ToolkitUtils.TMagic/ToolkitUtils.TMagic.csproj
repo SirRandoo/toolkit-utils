@@ -65,8 +65,8 @@
         </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11"/>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2753"/>
+        <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2753" ExcludeAssets="runtime"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
