@@ -28,6 +28,7 @@ namespace SirRandoo.ToolkitUtils
         public static string Prefix = "!";
         public static string BuyPrefix = "$";
         public static bool ToolkitStyleCommands = true;
+        public static bool MinifyData = false;
         public static bool DecorateUtils;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;
@@ -168,6 +169,9 @@ namespace SirRandoo.ToolkitUtils
             {
                 Find.WindowStack.Add(new FloatMenu(_dumpStyleOptions));
             }
+
+            listing.CheckboxLabeled("TKUtils.MinifyData.Label".Localize(), ref MinifyData);
+            listing.DrawDescription("TKUtils.MinifyData.Description".Localize());
 
             listing.CheckboxLabeled("TKUtils.OffloadShop.Label".Localize(), ref Offload);
             listing.DrawDescription("TKUtils.OffloadShop.Description".Localize());

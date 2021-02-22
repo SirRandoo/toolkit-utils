@@ -171,6 +171,8 @@ namespace SirRandoo.ToolkitUtils
                 return null;
             }
 
+            JsonSerializer s = serializer ?? JsonSerializer;
+
             try
             {
                 using (FileStream file = File.Open(path, FileMode.Open, FileAccess.Read))
@@ -179,7 +181,11 @@ namespace SirRandoo.ToolkitUtils
                     {
                         using (JsonReader jReader = new JsonTextReader(reader))
                         {
-                            return (T) (serializer ?? JsonSerializer).Deserialize(jReader, typeof(T));
+                            s.Formatting = TkSettings.MinifyData ? Formatting.None : Formatting.Indented;
+                            var data = (T) s.Deserialize(jReader, typeof(T));
+                            s.Formatting = Formatting.Indented;
+
+                            return data;
                         }
                     }
                 }
@@ -205,6 +211,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             string tempPath = Path.GetTempFileName();
+            JsonSerializer s = serializer ?? JsonSerializer;
 
             try
             {
@@ -214,7 +221,9 @@ namespace SirRandoo.ToolkitUtils
                     {
                         using (JsonWriter jWriter = new JsonTextWriter(streamWriter))
                         {
-                            (serializer ?? JsonSerializer).Serialize(jWriter, obj);
+                            s.Formatting = TkSettings.MinifyData ? Formatting.Indented : Formatting.None;
+                            s.Serialize(jWriter, obj);
+                            s.Formatting = Formatting.Indented;
                         }
                     }
                 }

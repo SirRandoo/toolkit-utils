@@ -1,5 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
 <LanguageData>
     <!-- Groups -->
     <TKUtils.General>General</TKUtils.General>
@@ -53,6 +71,9 @@
     <TKUtils.DumpStyle.Description>How ToolkitUtils will store its data. When single file is selected, all data will be merged into one massive file originally known as &lt;i&gt;ShopExt.json&lt;/i&gt;. When multi-file is selected, all data will be stored in separate files for every unique set of data.</TKUtils.DumpStyle.Description>
     <TKUtils.DumpStyle.SingleFile>Single file</TKUtils.DumpStyle.SingleFile>
     <TKUtils.DumpStyle.MultiFile>Multi-file</TKUtils.DumpStyle.MultiFile>
+    
+    <TKUtils.MinifyData.Label>Minify the shop data files.</TKUtils.MinifyData.Label>
+    <TKUtils.MinifyData.Description>When enabled, the mod will save the shop data files with as little extra characters as possible. This typically means the file will be a single line, without any indentions.</TKUtils.MinifyData.Description>
     
     <TKUtils.OffloadShop.Label>Offload saving shop data to a separate thread.</TKUtils.OffloadShop.Label>
     <TKUtils.OffloadShop.Description>By default, all data is saved on the game's thread. As a result, this tends to block the game's thread when large amounts of data needs to be written to disk. Enabling this setting instructs the mod to save all data using a separate thread.</TKUtils.OffloadShop.Description>
