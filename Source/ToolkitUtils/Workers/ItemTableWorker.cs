@@ -148,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 if (!lineRect.IsRegionVisible(viewPort, scrollPos))
                 {
-                    return;
+                    continue;
                 }
 
                 DrawItem(lineRect, item);
