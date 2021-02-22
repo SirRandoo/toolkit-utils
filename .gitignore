@@ -412,3 +412,4 @@ MigrationBackup/
 /_PublisherPlus.xml
 /Scripts/
 /Source/ToolkitUtils/ToolkitUtils\.csproj.DotSettings
+/Compatibility/TMagic/1.2/
