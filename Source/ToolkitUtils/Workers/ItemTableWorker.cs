@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -143,29 +142,46 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void DrawTableContents(Rect canvas)
         {
-            var viewPort = new Rect(
-                0f,
-                0f,
-                canvas.width - 16f,
-                RowLineHeight * Data.Where(i => !i.IsHidden).Sum(i => i.SettingsVisible ? 5f : 1f)
-            );
+            float expectedLines = Data.Where(i => !i.IsHidden).Sum(i => i.SettingsVisible ? 5f : 1f);
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, RowLineHeight * expectedLines + (expectedLines - 1));
 
-            var listing = new Listing_Standard();
-            listing.BeginScrollView(canvas, ref scrollPos, ref viewPort);
+            var index = 0;
+            var alternate = false;
+            GUI.BeginGroup(canvas);
+            scrollPos = GUI.BeginScrollView(canvas, scrollPos, viewPort);
 
             foreach (ItemTableItem item in Data.Where(i => !i.IsHidden))
             {
-                Rect lineRect = listing.GetRect(RowLineHeight * (item.SettingsVisible ? 5f : 1f));
+                var lineRect = new Rect(
+                    0f,
+                    index * RowLineHeight + index,
+                    canvas.width - 16f,
+                    item.SettingsVisible ? RowLineHeight * 5f : RowLineHeight
+                );
 
-                if (!lineRect.IsRegionVisible(viewPort, scrollPos))
+                if (!lineRect.IsRegionVisible(canvas, scrollPos))
                 {
+                    index++;
                     continue;
                 }
 
-                DrawItem(lineRect, item);
+                GUI.BeginGroup(lineRect);
+                Rect rect = lineRect.AtZero();
+
+                if (alternate)
+                {
+                    Widgets.DrawLightHighlight(rect);
+                }
+
+                DrawItem(rect, item);
+                GUI.EndGroup();
+
+                alternate = !alternate;
+                index++;
             }
 
-            listing.EndScrollView(ref viewPort);
+            GUI.EndScrollView();
+            GUI.EndGroup();
         }
 
         private void DrawItem(Rect canvas, ItemTableItem item)
