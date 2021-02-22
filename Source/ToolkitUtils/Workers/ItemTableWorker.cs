@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models.Tables;
@@ -165,6 +166,9 @@ namespace SirRandoo.ToolkitUtils.Workers
         public override void Prepare()
         {
             LoadTranslations();
+
+            Data ??= new List<ItemTableItem>();
+            Data.AddRange(ToolkitUtils.Data.Items.Select(i => new ItemTableItem {Data = i}));
         }
 
         private void LoadTranslations()
