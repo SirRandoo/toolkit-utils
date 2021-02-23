@@ -25,23 +25,23 @@ namespace SirRandoo.ToolkitUtils.Workers
 {
     public class ItemTableWorker : TableWorker<ItemTableItem>
     {
-        private Rect categoryHeaderRect = Rect.zero;
+        private protected Rect categoryHeaderRect = Rect.zero;
         private string categoryHeaderText;
-        private Rect categoryHeaderTextRect = Rect.zero;
-        private Rect expandedHeaderInnerRect = Rect.zero;
-        private Rect expandedHeaderRect = Rect.zero;
-        private Rect nameHeaderRect = Rect.zero;
+        private protected Rect categoryHeaderTextRect = Rect.zero;
+        private protected Rect expandedHeaderInnerRect = Rect.zero;
+        private protected Rect expandedHeaderRect = Rect.zero;
+        private protected Rect nameHeaderRect = Rect.zero;
         private string nameHeaderText;
-        private Rect nameHeaderTextRect = Rect.zero;
-        private Rect priceHeaderRect = Rect.zero;
+        private protected Rect nameHeaderTextRect = Rect.zero;
+        private protected Rect priceHeaderRect = Rect.zero;
         private string priceHeaderText;
-        private Rect priceHeaderTextRect = Rect.zero;
-        private Vector2 scrollPos = Vector2.zero;
+        private protected Rect priceHeaderTextRect = Rect.zero;
+        private protected Vector2 scrollPos = Vector2.zero;
         private SortKey sortKey = SortKey.Name;
         private SortOrder sortOrder = SortOrder.Descending;
-        private Rect stateHeaderInnerRect = Rect.zero;
+        private protected Rect stateHeaderInnerRect = Rect.zero;
 
-        private Rect stateHeaderRect = Rect.zero;
+        private protected Rect stateHeaderRect = Rect.zero;
 
         private StateKey stateKey = StateKey.Enable;
 
@@ -66,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             DrawSortableHeaderIcon();
         }
 
-        private void DrawSortableHeaderIcon()
+        private protected void DrawSortableHeaderIcon()
         {
             switch (sortKey)
             {
@@ -84,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        private void DrawSortableHeaders()
+        private protected void DrawSortableHeaders()
         {
             var anyClicked = false;
             SortKey previousKey = sortKey;
@@ -190,7 +190,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawItem(Rect canvas, ItemTableItem item)
+        protected virtual void DrawItem(Rect canvas, ItemTableItem item)
         {
             var checkboxRect = new Rect(stateHeaderRect.x, canvas.y, stateHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(nameHeaderRect.x, canvas.y, nameHeaderRect.width, RowLineHeight);

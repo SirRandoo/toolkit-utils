@@ -208,6 +208,7 @@
         <Compile Include="Windows\TkUtilsWindow.cs"/>
         <Compile Include="Windows\TraitConfigDialog.cs"/>
         <Compile Include="Workers\ItemTableWorker.cs"/>
+        <Compile Include="Workers\ItemViewWorker.cs"/>
         <Compile Include="Workers\ItemWorker.cs"/>
         <Compile Include="Workers\LuaEditorWorker.cs"/>
         <Compile Include="Workers\TabWorker.cs"/>
