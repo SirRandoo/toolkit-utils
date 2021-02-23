@@ -155,7 +155,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 var lineRect = new Rect(
                     0f,
-                    index * RowLineHeight + index + (RowLineHeight * 4f * expanded),
+                    index * RowLineHeight + index + RowLineHeight * 4f * expanded,
                     canvas.width - 16f,
                     item.SettingsVisible ? RowLineHeight * 5f : RowLineHeight
                 );
