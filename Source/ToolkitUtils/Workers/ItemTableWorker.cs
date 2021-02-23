@@ -146,6 +146,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             var viewPort = new Rect(0f, 0f, canvas.width - 16f, RowLineHeight * expectedLines + (expectedLines - 1));
 
             var index = 0;
+            var expanded = 0;
             var alternate = false;
             GUI.BeginGroup(canvas);
             scrollPos = GUI.BeginScrollView(canvas, scrollPos, viewPort);
@@ -154,7 +155,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 var lineRect = new Rect(
                     0f,
-                    index * RowLineHeight + index,
+                    index * RowLineHeight + index + (RowLineHeight * 4f * expanded),
                     canvas.width - 16f,
                     item.SettingsVisible ? RowLineHeight * 5f : RowLineHeight
                 );
@@ -178,6 +179,11 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 alternate = !alternate;
                 index++;
+
+                if (item.SettingsVisible)
+                {
+                    expanded++;
+                }
             }
 
             GUI.EndScrollView();
