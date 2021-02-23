@@ -227,7 +227,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             LoadTranslations();
 
             Data ??= new List<ItemTableItem>();
-            Data.AddRange(ToolkitUtils.Data.Items.Select(i => new ItemTableItem {Data = i}));
+            Data.AddRange(ToolkitUtils.Data.Items.OrderBy(i => i.Name).Select(i => new ItemTableItem {Data = i}));
         }
 
         private void LoadTranslations()
