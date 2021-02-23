@@ -213,7 +213,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                 item.Data.Name,
                 item.Data.Thing == null ? Color.yellow : Color.white
             );
-            SettingsHelper.DrawPriceField(priceRect, ref item.Data.Item.price);
+
+            if (item.Data.Price > 0)
+            {
+                SettingsHelper.DrawPriceField(priceRect, ref item.Data.Item.price);
+            }
+
             SettingsHelper.DrawLabel(categoryRect, item.Data.Category);
 
             if (Widgets.ButtonImage(settingRect, Textures.Gear))
