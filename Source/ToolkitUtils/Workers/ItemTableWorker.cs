@@ -192,7 +192,34 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void DrawItem(Rect canvas, ItemTableItem item)
         {
-            var checkboxRect = new Rect(stateHeaderRect.x, canvas.y, stateHeaderRect.width, canvas.height);
+            var checkboxRect = new Rect(stateHeaderRect.x, canvas.y, stateHeaderRect.width, RowLineHeight);
+            var nameRect = new Rect(nameHeaderRect.x, canvas.y, nameHeaderRect.width, RowLineHeight);
+            var priceRect = new Rect(priceHeaderRect.x, canvas.y, priceHeaderRect.width, RowLineHeight);
+            var categoryRect = new Rect(categoryHeaderRect.x, canvas.y, categoryHeaderRect.width, RowLineHeight);
+            var settingRect = new Rect(
+                expandedHeaderRect.x,
+                canvas.y + Mathf.FloorToInt(Mathf.Abs(expandedHeaderRect.width - RowLineHeight) / 2f),
+                expandedHeaderRect.width,
+                expandedHeaderRect.width
+            );
+
+            if (SettingsHelper.DrawCheckbox(checkboxRect, ref item.Data.IsEnabled))
+            {
+                item.Data.Update();
+            }
+
+            SettingsHelper.DrawColoredLabel(
+                nameRect,
+                item.Data.Name,
+                item.Data.Thing == null ? Color.yellow : Color.white
+            );
+            SettingsHelper.DrawPriceField(priceRect, ref item.Data.Item.price);
+            SettingsHelper.DrawLabel(categoryRect, item.Data.Category);
+
+            if (Widgets.ButtonImage(settingRect, Textures.Gear))
+            {
+                item.SettingsVisible = !item.SettingsVisible;
+            }
         }
 
         public override void Prepare()
