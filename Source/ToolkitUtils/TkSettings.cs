@@ -44,7 +44,7 @@ namespace SirRandoo.ToolkitUtils
         public static string Prefix = "!";
         public static string BuyPrefix = "$";
         public static bool ToolkitStyleCommands = true;
-        public static bool MinifyData = false;
+        public static bool MinifyData;
         public static bool DecorateUtils;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;

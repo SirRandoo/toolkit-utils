@@ -61,6 +61,9 @@ namespace SirRandoo.ToolkitUtils
             };
         }
 
-        public List<FloatMenuOption> MenuOptions() => Options;
+        public List<FloatMenuOption> MenuOptions()
+        {
+            return Options;
+        }
     }
 }

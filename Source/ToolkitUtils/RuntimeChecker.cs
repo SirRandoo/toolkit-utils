@@ -24,10 +24,10 @@ using SirRandoo.ToolkitUtils.Proxies;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
-
 #if DEBUG
 using SirRandoo.ToolkitUtils.Helpers;
 using System.Diagnostics;
+
 #endif
 
 namespace SirRandoo.ToolkitUtils
