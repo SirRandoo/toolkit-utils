@@ -472,7 +472,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             NameHeaderTextRect = new Rect(
                 NameHeaderRect.x + 4f,
                 NameHeaderRect.y,
-                NameHeaderRect.width - 8f,
+                NameHeaderRect.width,
                 NameHeaderRect.height
             );
             PriceHeaderRect = new Rect(NameHeaderRect.x + NameHeaderRect.width + 1f, 0f, remainingWidth, LineHeight);
