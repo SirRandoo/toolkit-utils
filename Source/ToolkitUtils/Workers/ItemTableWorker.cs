@@ -194,9 +194,14 @@ namespace SirRandoo.ToolkitUtils.Workers
         protected virtual void DrawItem(Rect canvas, ItemTableItem item)
         {
             var checkboxRect = new Rect(stateHeaderRect.x, canvas.y, stateHeaderRect.width, RowLineHeight);
-            var nameRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
-            var priceRect = new Rect(PriceHeaderRect.x, canvas.y, PriceHeaderRect.width, RowLineHeight);
-            var categoryRect = new Rect(CategoryHeaderRect.x, canvas.y, CategoryHeaderRect.width, RowLineHeight);
+            var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
+            var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
+            var categoryRect = new Rect(
+                CategoryHeaderTextRect.x,
+                canvas.y,
+                CategoryHeaderTextRect.width,
+                RowLineHeight
+            );
             var settingRect = new Rect(
                 expandedHeaderRect.x,
                 canvas.y + Mathf.FloorToInt(Mathf.Abs(expandedHeaderRect.width - RowLineHeight) / 2f),
