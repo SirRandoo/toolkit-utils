@@ -35,10 +35,15 @@ namespace SirRandoo.ToolkitUtils.Helpers
            .OrderByDescending(f => (int) f)
            .ToArray();
 
-        public static bool DrawFieldButton(Rect canvas, string label)
+        public static bool DrawFieldButton(Rect canvas, string label, string tooltip = null)
         {
             var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
             Widgets.ButtonText(region, label, false);
+
+            if (!tooltip.NullOrEmpty())
+            {
+                TooltipHandler.TipRegion(region, tooltip);
+            }
 
             bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
 
@@ -51,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return true;
         }
 
-        public static bool DrawFieldButton(Rect canvas, Texture2D icon)
+        public static bool DrawFieldButton(Rect canvas, Texture2D icon, string tooltip = null)
         {
             var region = new Rect(
                 canvas.x + canvas.width - canvas.height + 3f,
@@ -60,6 +65,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 canvas.height - 6f
             );
             Widgets.ButtonImage(region, icon);
+
+            if (!tooltip.NullOrEmpty())
+            {
+                TooltipHandler.TipRegion(region, tooltip);
+            }
 
             bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
 
