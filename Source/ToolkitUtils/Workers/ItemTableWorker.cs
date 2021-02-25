@@ -209,11 +209,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 item.Data.Update();
             }
 
-            SettingsHelper.DrawColoredLabel(
-                nameRect,
-                item.Data.Name,
-                item.Data.Thing == null ? Color.yellow : Color.white
-            );
+            DrawConfigurableItemName(nameRect, item);
 
             if (item.Data.Price > 0)
             {
@@ -228,6 +224,35 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        private static void DrawConfigurableItemName(Rect canvas, ItemTableItem item)
+        {
+            if (item.EditingName)
+            {
+                string text = item.Data.Name;
+
+                if (SettingsHelper.DrawTextField(canvas, text, out string result))
+                {
+                    item.Data.Data.CustomName = result;
+                }
+            }
+            else
+            {
+                SettingsHelper.DrawColoredLabel(
+                    canvas,
+                    item.Data.Name,
+                    item.Data.Thing == null ? Color.yellow : Color.white
+                );
+            }
+
+            GUI.color = new Color(1f, 1f, 1f, 0.7f);
+            if (SettingsHelper.DrawFieldButton(canvas, item.EditingName ? Widgets.CheckboxOnTex : Textures.Edit))
+            {
+                item.EditingName = !item.EditingName;
+            }
+
+            GUI.color = Color.white;
+        }
+
         public override void Prepare()
         {
             LoadTranslations();
@@ -235,6 +260,19 @@ namespace SirRandoo.ToolkitUtils.Workers
             _data ??= new List<ItemTableItem>();
             _data.AddRange(ToolkitUtils.Data.Items.OrderBy(i => i.Name).Select(i => new ItemTableItem {Data = i}));
         }
+
+        private void DrawExpandedSettings(Rect canvas, ItemTableItem item)
+        {
+            float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 6f;
+            var leftColumnRect = new Rect(canvas.x, canvas.y, columnWidth, canvas.height);
+            var rightColumnRect = new Rect(canvas.x + leftColumnRect.width + 6f, canvas.y, columnWidth, canvas.height);
+
+            GUI.BeginGroup(leftColumnRect);
+            DrawLeftExpandedSettingsColumn(leftColumnRect.AtZero(), item);
+            GUI.EndGroup();
+        }
+
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, ItemTableItem item) { }
 
         public override void EnsureExists(ItemTableItem data)
         {

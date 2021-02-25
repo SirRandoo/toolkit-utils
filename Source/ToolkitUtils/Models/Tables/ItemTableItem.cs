@@ -18,6 +18,7 @@ namespace SirRandoo.ToolkitUtils.Models.Tables
 {
     public class ItemTableItem : TableItem<ThingItem>
     {
+        public bool EditingName { get; set; }
         public bool SettingsVisible { get; set; }
     }
 }
