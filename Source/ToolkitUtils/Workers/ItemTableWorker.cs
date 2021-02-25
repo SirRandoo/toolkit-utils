@@ -26,20 +26,28 @@ namespace SirRandoo.ToolkitUtils.Workers
 {
     public class ItemTableWorker : TableWorker<ItemTableItem>
     {
+        private const float ExpandedLineSpan = 3f;
         private protected Rect CategoryHeaderRect = Rect.zero;
         private string categoryHeaderText;
         private protected Rect CategoryHeaderTextRect = Rect.zero;
+        private string defaultKarmaTypeText;
         private Rect expandedHeaderInnerRect = Rect.zero;
         private Rect expandedHeaderRect = Rect.zero;
+        private string isStuffText;
+
+        private string karmaTypeText;
         private protected Rect NameHeaderRect = Rect.zero;
         private string nameHeaderText;
         private protected Rect NameHeaderTextRect = Rect.zero;
         private protected Rect PriceHeaderRect = Rect.zero;
         private string priceHeaderText;
         private protected Rect PriceHeaderTextRect = Rect.zero;
+        private string purchaseWeightText;
+        private string quantityLimitText;
         private Vector2 scrollPos = Vector2.zero;
         private SortKey sortKey = SortKey.Name;
         private SortOrder sortOrder = SortOrder.Descending;
+        private string stackLimitTooltip;
         private Rect stateHeaderInnerRect = Rect.zero;
 
         private Rect stateHeaderRect = Rect.zero;
@@ -143,7 +151,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void DrawTableContents(Rect canvas)
         {
-            float expectedLines = Data.Where(i => !i.IsHidden).Sum(i => i.SettingsVisible ? 5f : 1f);
+            float expectedLines = Data.Where(i => !i.IsHidden).Sum(i => i.SettingsVisible ? ExpandedLineSpan + 1f : 1f);
             var viewPort = new Rect(0f, 0f, canvas.width - 16f, RowLineHeight * expectedLines + (expectedLines - 1));
 
             var index = 0;
@@ -156,9 +164,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 var lineRect = new Rect(
                     0f,
-                    index * RowLineHeight + index + RowLineHeight * 4f * expanded,
+                    index * RowLineHeight + index + RowLineHeight * ExpandedLineSpan * expanded,
                     canvas.width - 16f,
-                    item.SettingsVisible ? RowLineHeight * 5f : RowLineHeight
+                    RowLineHeight * (item.SettingsVisible ? ExpandedLineSpan + 1f : 1f)
                 );
 
                 if (!lineRect.IsRegionVisible(canvas, scrollPos))
@@ -227,6 +235,22 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 item.SettingsVisible = !item.SettingsVisible;
             }
+
+            if (!item.SettingsVisible)
+            {
+                return;
+            }
+
+            var expandedRect = new Rect(
+                NameHeaderRect.x + 10f,
+                canvas.y + RowLineHeight + 10f,
+                canvas.width - checkboxRect.width - settingRect.width - 20f,
+                canvas.height - RowLineHeight - 20f
+            );
+
+            GUI.BeginGroup(expandedRect);
+            DrawExpandedSettings(expandedRect.AtZero(), item);
+            GUI.EndGroup();
         }
 
         private static void DrawConfigurableItemName(Rect canvas, ItemTableItem item)
@@ -268,16 +292,84 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void DrawExpandedSettings(Rect canvas, ItemTableItem item)
         {
-            float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 6f;
+            float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 26f;
             var leftColumnRect = new Rect(canvas.x, canvas.y, columnWidth, canvas.height);
-            var rightColumnRect = new Rect(canvas.x + leftColumnRect.width + 6f, canvas.y, columnWidth, canvas.height);
+            var rightColumnRect = new Rect(canvas.x + leftColumnRect.width + 52f, canvas.y, columnWidth, canvas.height);
+
+            Widgets.DrawLineVertical(Mathf.FloorToInt(canvas.width / 2f), 0f, canvas.height - 5f);
 
             GUI.BeginGroup(leftColumnRect);
             DrawLeftExpandedSettingsColumn(leftColumnRect.AtZero(), item);
             GUI.EndGroup();
+
+            GUI.BeginGroup(rightColumnRect);
+            DrawRightExpandedSettingsColumn(rightColumnRect.AtZero(), item);
+            GUI.EndGroup();
         }
 
-        private void DrawLeftExpandedSettingsColumn(Rect canvas, ItemTableItem item) { }
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, ItemTableItem item)
+        {
+            (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm();
+            SettingsHelper.DrawLabel(karmaLabel, karmaTypeText);
+            if (Widgets.ButtonText(
+                karmaField,
+                item.Data.Data.KarmaType == null ? defaultKarmaTypeText : item.Data.Data.KarmaType.ToString()
+            ))
+            {
+                Find.WindowStack.Add(
+                    new FloatMenu(
+                        ToolkitUtils.Data.KarmaTypes.Select(
+                                i => new FloatMenuOption(i.ToString(), () => item.Data.Data.KarmaType = i)
+                            )
+                           .ToList()
+                    )
+                );
+            }
+
+            var weightBuffer = item.Data.Data.Weight.ToString("N1");
+            (Rect weightLabel, Rect weightField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).ToForm();
+            SettingsHelper.DrawLabel(weightLabel, purchaseWeightText);
+            Widgets.TextFieldNumeric(weightField, ref item.Data.Data.Weight, ref weightBuffer);
+        }
+
+        private void DrawRightExpandedSettingsColumn(Rect canvas, ItemTableItem item)
+        {
+            Widgets.CheckboxLabeled(
+                new Rect(0f, 0f, canvas.width, RowLineHeight),
+                isStuffText,
+                ref item.Data.Data.IsStuffAllowed
+            );
+
+            Widgets.CheckboxLabeled(
+                new Rect(
+                    0f,
+                    RowLineHeight,
+                    canvas.width - (item.Data.Data.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 4f : 0f),
+                    RowLineHeight
+                ),
+                quantityLimitText,
+                ref item.Data.Data.HasQuantityLimit
+            );
+
+            if (!item.Data.Data.HasQuantityLimit)
+            {
+                return;
+            }
+
+            var quantityBuffer = item.Data.Data.QuantityLimit.ToString();
+            var quantityField = new Rect(
+                Mathf.FloorToInt(canvas.width * 0.8f),
+                RowLineHeight,
+                Mathf.FloorToInt(canvas.width * 0.2f),
+                RowLineHeight
+            );
+            Widgets.TextFieldNumeric(quantityField, ref item.Data.Data.QuantityLimit, ref quantityBuffer, 1f);
+
+            if (SettingsHelper.DrawFieldButton(quantityField, Textures.Stack, stackLimitTooltip))
+            {
+                item.Data.Data.QuantityLimit = item.Data.Thing?.stackLimit ?? item.Data.Data.QuantityLimit;
+            }
+        }
 
         public override void EnsureExists(ItemTableItem data)
         {
@@ -292,6 +384,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             nameHeaderText = "TKUtils.Headers.Name".Localize();
             priceHeaderText = "TKUtils.Headers.Price".Localize();
             categoryHeaderText = "TKUtils.Headers.Category".Localize();
+
+            quantityLimitText = "TKUtils.Fields.QuantityLimit".Localize();
+            isStuffText = "TKUtils.Fields.CanBeStuff".Localize();
+            karmaTypeText = "TKUtils.Fields.KarmaType".Localize();
+            purchaseWeightText = "TKUtils.Fields.Weight".Localize();
+            defaultKarmaTypeText = "TKUtils.Fields.DefaultKarmaType".Localize();
+
+            stackLimitTooltip = "TKUtils.ItemTableTooltips.ToStackLimit".Localize();
         }
 
         public override void NotifySortRequested()
