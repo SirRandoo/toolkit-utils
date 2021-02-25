@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <TKUtils.NameQueueTooltips.Random>Select a random viewer from the queue.\n\nShortcut: R</TKUtils.NameQueueTooltips.Random>
+    <TKUtils.NameQueueTooltips.Pawn>Show information about this pawn\n\nShortcut: F2</TKUtils.NameQueueTooltips.Pawn>
+    <TKUtils.NameQueueTooltips.Next>Next colonist\n\nShortcuts:\nRight Arrow - Next colonist\nControl + Right Arrow - Next unnamed colonist</TKUtils.NameQueueTooltips.Next>
+    <TKUtils.NameQueueTooltips.Previous>Previous colonist\n\nShortcuts:\nLeft Arrow - Previous colonist\nControl + Left Arrow - Previous unnamed colonist</TKUtils.NameQueueTooltips.Previous>
+    <TKUtils.NameQueueTooltips.ViewerName>Click to populate the username field on the right with this name</TKUtils.NameQueueTooltips.ViewerName>
+    <TKUtils.NameQueueTooltips.Unassigned>Click to assign</TKUtils.NameQueueTooltips.Unassigned>
+    <TKUtils.NameQueueTooltips.Assigned>Click to unassign</TKUtils.NameQueueTooltips.Assigned>
+</LanguageData>
