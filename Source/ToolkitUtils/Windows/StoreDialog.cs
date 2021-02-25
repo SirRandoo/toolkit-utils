@@ -88,7 +88,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        public override Vector2 InitialSize => new Vector2(1024f, UI.screenHeight * 0.9f);
+        public override Vector2 InitialSize => new Vector2(900f, Mathf.FloorToInt(UI.screenHeight * 0.9f));
         protected override float Margin => 22f;
 
         private void NotifySearchRequested()
