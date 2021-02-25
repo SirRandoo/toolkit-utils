@@ -48,10 +48,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private bool categorySearch;
         private string categorySearchText;
         private Vector2 categorySearchTextSize;
-        private string disableAllText;
-        private Vector2 disableAllTextSize;
-        private string enableAllText;
-        private Vector2 enableAllTextSize;
         private bool filterMenuActive;
         private float lastSearchTick;
         private string localize;
@@ -360,13 +356,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             DrawFilterButton(filterButtonRect);
             DrawCategorySearchModifier(searchFieldRect, line);
 
-            float buttonWidth = Mathf.Max(resetAllTextSize.x, enableAllTextSize.x, disableAllTextSize.x) + 16f;
+            float buttonWidth = resetAllTextSize.x + 16f;
             var buttonRect = new Rect(line.x + line.width - buttonWidth, line.y, buttonWidth, line.height);
 
-            DrawGlobalDisableButton(buttonRect, worker.Data);
-            buttonRect = buttonRect.ShiftLeft(1f);
-            DrawGlobalEnableButton(buttonRect, worker.Data);
-            buttonRect = buttonRect.ShiftLeft(1f);
             DrawGlobalResetButton(buttonRect, worker.Data);
 
             GUI.EndGroup();
@@ -404,39 +396,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private void DrawGlobalDisableButton(Rect buttonRect, IEnumerable<ItemTableItem> workingList)
-        {
-            if (!Widgets.ButtonText(buttonRect, disableAllText))
-            {
-                return;
-            }
-
-            foreach (ItemTableItem item in workingList.Where(i => i.Data.Price > 0))
-            {
-                item.Data.IsEnabled = false;
-                item.Data.Update();
-            }
-        }
-
         private void DrawFilterButton(Rect region)
         {
             if (Widgets.ButtonImage(region, Textures.Filter))
             {
                 FilterMenuActive = true;
-            }
-        }
-
-        private void DrawGlobalEnableButton(Rect buttonRect, IEnumerable<ItemTableItem> workingList)
-        {
-            if (!Widgets.ButtonText(buttonRect, enableAllText))
-            {
-                return;
-            }
-
-            foreach (ItemTableItem item in workingList.Where(i => i.Data.Price < 0))
-            {
-                item.Data.IsEnabled = true;
-                item.Data.Update();
             }
         }
 
@@ -614,13 +578,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             categorySearchText = "TKUtils.Fields.CategorySearch".Localize();
             searchText = "TKUtils.Buttons.Search".Localize();
             resetAllText = "TKUtils.Buttons.ResetAll".Localize();
-            enableAllText = "TKUtils.Buttons.EnableAll".Localize();
-            disableAllText = "TKUtils.Buttons.DisableAll".Localize();
             localize = "TKUtils.Headers.FilterDialog".Localize();
 
             resetAllTextSize = Text.CalcSize(resetAllText);
-            enableAllTextSize = Text.CalcSize(enableAllText);
-            disableAllTextSize = Text.CalcSize(disableAllText);
             searchTextSize = Text.CalcSize(searchText);
             categorySearchTextSize = Text.CalcSize(categorySearchText);
         }
