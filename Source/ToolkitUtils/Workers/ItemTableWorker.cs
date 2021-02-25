@@ -126,7 +126,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyGlobalSettingsCollapse()
         {
-            foreach (ItemTableItem item in Data)
+            foreach (ItemTableItem item in Data.Where(i => !i.IsHidden))
             {
                 item.SettingsVisible = false;
             }
@@ -134,7 +134,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyGlobalStateChanged(StateKey newState)
         {
-            foreach (ItemTableItem item in Data)
+            foreach (ItemTableItem item in Data.Where(i => !i.IsHidden))
             {
                 item.Data.IsEnabled = newState == StateKey.Enable;
                 item.Data.Update();
