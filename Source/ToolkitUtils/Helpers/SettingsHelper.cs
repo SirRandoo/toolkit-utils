@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static bool DrawFieldButton(Rect canvas, string label)
         {
-            var region = new Rect(canvas.x + canvas.width - canvas.height, canvas.y, canvas.height, canvas.height);
+            var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
             Widgets.ButtonText(region, label, false);
 
             bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
