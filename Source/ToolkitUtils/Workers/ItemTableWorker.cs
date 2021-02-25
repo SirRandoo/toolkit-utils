@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -25,23 +26,23 @@ namespace SirRandoo.ToolkitUtils.Workers
 {
     public class ItemTableWorker : TableWorker<ItemTableItem>
     {
-        private protected Rect categoryHeaderRect = Rect.zero;
+        private protected Rect CategoryHeaderRect = Rect.zero;
         private string categoryHeaderText;
-        private protected Rect categoryHeaderTextRect = Rect.zero;
-        private protected Rect expandedHeaderInnerRect = Rect.zero;
-        private protected Rect expandedHeaderRect = Rect.zero;
-        private protected Rect nameHeaderRect = Rect.zero;
+        private protected Rect CategoryHeaderTextRect = Rect.zero;
+        private Rect expandedHeaderInnerRect = Rect.zero;
+        private Rect expandedHeaderRect = Rect.zero;
+        private protected Rect NameHeaderRect = Rect.zero;
         private string nameHeaderText;
-        private protected Rect nameHeaderTextRect = Rect.zero;
-        private protected Rect priceHeaderRect = Rect.zero;
+        private protected Rect NameHeaderTextRect = Rect.zero;
+        private protected Rect PriceHeaderRect = Rect.zero;
         private string priceHeaderText;
-        private protected Rect priceHeaderTextRect = Rect.zero;
-        private protected Vector2 scrollPos = Vector2.zero;
+        private protected Rect PriceHeaderTextRect = Rect.zero;
+        private Vector2 scrollPos = Vector2.zero;
         private SortKey sortKey = SortKey.Name;
         private SortOrder sortOrder = SortOrder.Descending;
-        private protected Rect stateHeaderInnerRect = Rect.zero;
+        private Rect stateHeaderInnerRect = Rect.zero;
 
-        private protected Rect stateHeaderRect = Rect.zero;
+        private Rect stateHeaderRect = Rect.zero;
 
         private StateKey stateKey = StateKey.Enable;
 
@@ -71,13 +72,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (sortKey)
             {
                 case SortKey.Name:
-                    SettingsHelper.DrawSortIndicator(nameHeaderRect, sortOrder);
+                    SettingsHelper.DrawSortIndicator(NameHeaderRect, sortOrder);
                     return;
                 case SortKey.Price:
-                    SettingsHelper.DrawSortIndicator(priceHeaderRect, sortOrder);
+                    SettingsHelper.DrawSortIndicator(PriceHeaderRect, sortOrder);
                     return;
                 case SortKey.Category:
-                    SettingsHelper.DrawSortIndicator(categoryHeaderRect, sortOrder);
+                    SettingsHelper.DrawSortIndicator(CategoryHeaderRect, sortOrder);
                     return;
                 default:
                     return;
@@ -88,19 +89,19 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var anyClicked = false;
             SortKey previousKey = sortKey;
-            if (SettingsHelper.DrawTableHeader(nameHeaderRect, nameHeaderTextRect, nameHeaderText))
+            if (SettingsHelper.DrawTableHeader(NameHeaderRect, NameHeaderTextRect, nameHeaderText))
             {
                 sortKey = SortKey.Name;
                 anyClicked = true;
             }
 
-            if (SettingsHelper.DrawTableHeader(priceHeaderRect, priceHeaderTextRect, priceHeaderText))
+            if (SettingsHelper.DrawTableHeader(PriceHeaderRect, PriceHeaderTextRect, priceHeaderText))
             {
                 sortKey = SortKey.Price;
                 anyClicked = true;
             }
 
-            if (SettingsHelper.DrawTableHeader(categoryHeaderRect, categoryHeaderTextRect, categoryHeaderText))
+            if (SettingsHelper.DrawTableHeader(CategoryHeaderRect, CategoryHeaderTextRect, categoryHeaderText))
             {
                 sortKey = SortKey.Category;
                 anyClicked = true;
@@ -193,9 +194,9 @@ namespace SirRandoo.ToolkitUtils.Workers
         protected virtual void DrawItem(Rect canvas, ItemTableItem item)
         {
             var checkboxRect = new Rect(stateHeaderRect.x, canvas.y, stateHeaderRect.width, RowLineHeight);
-            var nameRect = new Rect(nameHeaderRect.x, canvas.y, nameHeaderRect.width, RowLineHeight);
-            var priceRect = new Rect(priceHeaderRect.x, canvas.y, priceHeaderRect.width, RowLineHeight);
-            var categoryRect = new Rect(categoryHeaderRect.x, canvas.y, categoryHeaderRect.width, RowLineHeight);
+            var nameRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
+            var priceRect = new Rect(PriceHeaderRect.x, canvas.y, PriceHeaderRect.width, RowLineHeight);
+            var categoryRect = new Rect(CategoryHeaderRect.x, canvas.y, CategoryHeaderRect.width, RowLineHeight);
             var settingRect = new Rect(
                 expandedHeaderRect.x,
                 canvas.y + Mathf.FloorToInt(Mathf.Abs(expandedHeaderRect.width - RowLineHeight) / 2f),
@@ -231,8 +232,16 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             LoadTranslations();
 
-            Data ??= new List<ItemTableItem>();
-            Data.AddRange(ToolkitUtils.Data.Items.OrderBy(i => i.Name).Select(i => new ItemTableItem {Data = i}));
+            _data ??= new List<ItemTableItem>();
+            _data.AddRange(ToolkitUtils.Data.Items.OrderBy(i => i.Name).Select(i => new ItemTableItem {Data = i}));
+        }
+
+        public override void EnsureExists(ItemTableItem data)
+        {
+            if (!_data.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
+            {
+                _data.Add(data);
+            }
         }
 
         private void LoadTranslations()
@@ -262,13 +271,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (sortKey)
             {
                 case SortKey.Price:
-                    Data = Data.OrderByDescending(i => i.Data.Price).ThenByDescending(i => i.Data.Name).ToList();
+                    _data = _data.OrderBy(i => i.Data.Price).ThenBy(i => i.Data.Name).ToList();
                     return;
                 case SortKey.Category:
-                    Data = Data.OrderByDescending(i => i.Data.Category).ThenByDescending(i => i.Data.Name).ToList();
+                    _data = _data.OrderBy(i => i.Data.Category).ThenBy(i => i.Data.Name).ToList();
                     return;
                 default:
-                    Data = Data.OrderByDescending(i => i.Data.Name).ToList();
+                    _data = _data.OrderBy(i => i.Data.Name).ToList();
                     return;
             }
         }
@@ -278,13 +287,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (sortKey)
             {
                 case SortKey.Price:
-                    Data = Data.OrderBy(i => i.Data.Price).ThenBy(i => i.Data.Name).ToList();
+                    _data = _data.OrderByDescending(i => i.Data.Price).ThenByDescending(i => i.Data.Name).ToList();
                     return;
                 case SortKey.Category:
-                    Data = Data.OrderBy(i => i.Data.Category).ThenBy(i => i.Data.Name).ToList();
+                    _data = _data.OrderByDescending(i => i.Data.Category).ThenByDescending(i => i.Data.Name).ToList();
                     return;
                 default:
-                    Data = Data.OrderBy(i => i.Data.Name).ToList();
+                    _data = _data.OrderByDescending(i => i.Data.Name).ToList();
                     return;
             }
         }
@@ -299,29 +308,37 @@ namespace SirRandoo.ToolkitUtils.Workers
             float distributedWidth = Mathf.FloorToInt((canvas.width - 16f - LineHeight * 2f) * 0.333f);
             stateHeaderRect = new Rect(0f, 0f, LineHeight, LineHeight);
             stateHeaderInnerRect = stateHeaderRect.ContractedBy(2f);
-            nameHeaderRect = new Rect(LineHeight + 1f, 0f, distributedWidth, LineHeight);
-            nameHeaderTextRect = new Rect(
-                nameHeaderRect.x + 4f,
-                nameHeaderRect.y,
-                nameHeaderRect.width - 8f,
-                nameHeaderRect.height
+            NameHeaderRect = new Rect(LineHeight + 1f, 0f, distributedWidth, LineHeight);
+            NameHeaderTextRect = new Rect(
+                NameHeaderRect.x + 4f,
+                NameHeaderRect.y,
+                NameHeaderRect.width - 8f,
+                NameHeaderRect.height
             );
-            priceHeaderRect = nameHeaderRect.ShiftRight(1f);
-            priceHeaderTextRect = new Rect(
-                priceHeaderRect.x + 4f,
-                priceHeaderRect.y,
-                priceHeaderRect.width - 8f,
-                priceHeaderRect.height
+            PriceHeaderRect = NameHeaderRect.ShiftRight(1f);
+            PriceHeaderTextRect = new Rect(
+                PriceHeaderRect.x + 4f,
+                PriceHeaderRect.y,
+                PriceHeaderRect.width - 8f,
+                PriceHeaderRect.height
             );
-            categoryHeaderRect = priceHeaderRect.ShiftRight(1f);
-            categoryHeaderTextRect = new Rect(
-                categoryHeaderRect.x + 4f,
-                categoryHeaderRect.y,
-                categoryHeaderRect.width - 8f,
-                categoryHeaderRect.height
+            CategoryHeaderRect = PriceHeaderRect.ShiftRight(1f);
+            CategoryHeaderTextRect = new Rect(
+                CategoryHeaderRect.x + 4f,
+                CategoryHeaderRect.y,
+                CategoryHeaderRect.width - 8f,
+                CategoryHeaderRect.height
             );
-            expandedHeaderRect = new Rect(categoryHeaderRect.x + categoryHeaderRect.width, 0f, LineHeight, LineHeight);
+            expandedHeaderRect = new Rect(CategoryHeaderRect.x + CategoryHeaderRect.width, 0f, LineHeight, LineHeight);
             expandedHeaderInnerRect = expandedHeaderRect.ContractedBy(2f);
+        }
+
+        public override void NotifyCustomSearchRequested(Func<ItemTableItem, bool> worker)
+        {
+            foreach (ItemTableItem item in Data)
+            {
+                item.IsHidden = !worker(item);
+            }
         }
 
         protected override void FilterDataBySearch(string query)

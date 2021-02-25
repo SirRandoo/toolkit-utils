@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -59,6 +60,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         public List<ThingItemFilter> Filters { get; set; } = new List<ThingItemFilter>();
+        public IEnumerable<ThingItemFilter> ActiveFilters => Filters.Where(i => i.Active);
 
         public float Height => (Expanded ? Filters.Count : 1) * Text.LineHeight;
 
@@ -79,6 +81,11 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 checkboxState = MultiCheckboxState.On;
             }
+        }
+
+        public bool IsFiltered(ItemTableItem item)
+        {
+            return ActiveFilters.Any() && ActiveFilters.All(i => !i.IsUnfilteredFunc(item));
         }
     }
 }

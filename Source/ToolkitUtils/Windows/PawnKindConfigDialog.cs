@@ -459,7 +459,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 Find.WindowStack.Add(
                     new FloatMenu(
-                        StoreDialog.KarmaTypes.Select(
+                        Data.KarmaTypes.Select(
                                 k => new FloatMenuOption(
                                     Enum.GetName(typeof(KarmaType), k),
                                     () => expanded.Data.KarmaType = k

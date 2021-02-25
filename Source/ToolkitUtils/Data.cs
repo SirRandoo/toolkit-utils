@@ -60,6 +60,14 @@ namespace SirRandoo.ToolkitUtils
             Formatting = Formatting.Indented
         };
 
+        internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType))
+           .Select(i => (KarmaType) Enum.Parse(typeof(KarmaType), i))
+           .ToList();
+
+        internal static readonly List<TechLevel> TechLevels = Enum.GetNames(typeof(TechLevel))
+           .Select(t => (TechLevel) Enum.Parse(typeof(TechLevel), t))
+           .ToList();
+
         static Data()
         {
             switch (TkSettings.DumpStyle)

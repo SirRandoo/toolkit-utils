@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
@@ -35,62 +36,22 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public List<FilterTypes> UniqueFilters { get; set; }
 
-        public IEnumerable<ThingItemFilter> FiltersForType(FilterTypes type)
+        public void FilterItems(IEnumerable<ItemTableItem> input)
         {
-            ThingItemFilterCategory result = filters.FirstOrDefault(f => f.FilterType == type);
-
-            if (result == null)
+            if (filters.All(i => !i.ActiveFilters.Any()))
             {
-                yield break;
+                return;
             }
 
-            foreach (ThingItemFilter filter in result.Filters)
+            foreach (ItemTableItem item in input)
             {
-                yield return filter;
-            }
-        }
-
-        public IEnumerable<ThingItem> FilterItems(IEnumerable<ThingItem> input)
-        {
-            List<ThingItem> result = filters.Aggregate(
-                    input,
-                    (current, category) => FilterItemsByType(category.FilterType, current)
-                )
-               .ToList();
-
-            return result.Distinct();
-        }
-
-        public IEnumerable<ThingItem> FilterItemsByType(FilterTypes type, IEnumerable<ThingItem> input)
-        {
-            ThingItemFilterCategory result = filters.FirstOrDefault(f => f.FilterType == type);
-
-            if (result == null)
-            {
-                foreach (ThingItem item in input)
+                var hidden = false;
+                foreach (ThingItemFilterCategory unused in filters.Where(filter => filter.IsFiltered(item)))
                 {
-                    yield return item;
+                    hidden = true;
                 }
 
-                yield break;
-            }
-
-            var container = new List<ThingItem>();
-            List<ThingItem> workingList = input.ToList();
-
-            foreach (ThingItemFilter filter in result.Filters.Where(f => f.Active))
-            {
-                container.AddRange(filter.Filter(workingList));
-            }
-
-            if (container.Count <= 0)
-            {
-                container = workingList;
-            }
-
-            foreach (ThingItem thingItem in container.Distinct())
-            {
-                yield return thingItem;
+                item.IsHidden = hidden;
             }
         }
 

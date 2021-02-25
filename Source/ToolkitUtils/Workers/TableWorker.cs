@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -24,11 +25,13 @@ namespace SirRandoo.ToolkitUtils.Workers
 
     public abstract class TableWorker<T>
     {
-        protected List<T> Data;
+        private protected List<T> _data;
 
         protected float LineHeight => Mathf.FloorToInt(Text.LineHeight);
 
         protected float RowLineHeight => Mathf.FloorToInt(Text.LineHeight * 1.333f);
+
+        public IEnumerable<T> Data => _data;
 
         public void Draw(Rect canvas)
         {
@@ -52,10 +55,11 @@ namespace SirRandoo.ToolkitUtils.Workers
         public abstract void DrawHeaders(Rect canvas);
         public abstract void DrawTableContents(Rect canvas);
         public abstract void Prepare();
-
+        public abstract void EnsureExists(T data);
         public abstract void NotifySortRequested();
         public abstract void NotifySearchRequested(string query);
         public abstract void NotifyResolutionChanged(Rect canvas);
+        public abstract void NotifyCustomSearchRequested(Func<T, bool> worker);
         protected abstract void FilterDataBySearch(string query);
     }
 }

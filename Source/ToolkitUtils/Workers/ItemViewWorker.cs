@@ -30,9 +30,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected override void DrawItem(Rect canvas, ItemTableItem item)
         {
-            var nameRect = new Rect(nameHeaderRect.x, canvas.y, nameHeaderRect.width, RowLineHeight);
-            var priceRect = new Rect(priceHeaderRect.x, canvas.y, priceHeaderRect.width, RowLineHeight);
-            var categoryRect = new Rect(categoryHeaderRect.x, canvas.y, categoryHeaderRect.width, RowLineHeight);
+            var nameRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
+            var priceRect = new Rect(PriceHeaderRect.x, canvas.y, PriceHeaderRect.width, RowLineHeight);
+            var categoryRect = new Rect(CategoryHeaderRect.x, canvas.y, CategoryHeaderRect.width, RowLineHeight);
 
             SettingsHelper.DrawColoredLabel(
                 nameRect,
@@ -51,26 +51,26 @@ namespace SirRandoo.ToolkitUtils.Workers
         public override void NotifyResolutionChanged(Rect canvas)
         {
             float distributedWidth = Mathf.FloorToInt((canvas.width - 16f) * 0.333f);
-            nameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
-            nameHeaderTextRect = new Rect(
-                nameHeaderRect.x + 4f,
-                nameHeaderRect.y,
-                nameHeaderRect.width - 8f,
-                nameHeaderRect.height
+            NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
+            NameHeaderTextRect = new Rect(
+                NameHeaderRect.x + 4f,
+                NameHeaderRect.y,
+                NameHeaderRect.width - 8f,
+                NameHeaderRect.height
             );
-            priceHeaderRect = nameHeaderRect.ShiftRight(1f);
-            priceHeaderTextRect = new Rect(
-                priceHeaderRect.x + 4f,
-                priceHeaderRect.y,
-                priceHeaderRect.width - 8f,
-                priceHeaderRect.height
+            PriceHeaderRect = NameHeaderRect.ShiftRight(1f);
+            PriceHeaderTextRect = new Rect(
+                PriceHeaderRect.x + 4f,
+                PriceHeaderRect.y,
+                PriceHeaderRect.width - 8f,
+                PriceHeaderRect.height
             );
-            categoryHeaderRect = priceHeaderRect.ShiftRight(1f);
-            categoryHeaderTextRect = new Rect(
-                categoryHeaderRect.x + 4f,
-                categoryHeaderRect.y,
-                categoryHeaderRect.width - 8f,
-                categoryHeaderRect.height
+            CategoryHeaderRect = PriceHeaderRect.ShiftRight(1f);
+            CategoryHeaderTextRect = new Rect(
+                CategoryHeaderRect.x + 4f,
+                CategoryHeaderRect.y,
+                CategoryHeaderRect.width - 8f,
+                CategoryHeaderRect.height
             );
         }
     }

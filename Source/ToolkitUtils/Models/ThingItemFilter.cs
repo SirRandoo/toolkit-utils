@@ -15,10 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -67,45 +66,45 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public Func<IEnumerable<ThingItem>, List<ThingItem>> Filter { get; set; }
+        public Func<ItemTableItem, bool> IsUnfilteredFunc { get; set; }
 
-        public static List<ThingItem> FilterByCategory(IEnumerable<ThingItem> subject, string category)
+        public static bool IsCategoryRelevant(ItemTableItem subject, string category)
         {
-            return subject.Where(t => t.Category.Equals(category)).ToList();
+            return subject.Data.Category.Equals(category);
         }
 
-        public static List<ThingItem> FilterByMod(IEnumerable<ThingItem> subject, string mod)
+        public static bool IsModRelevant(ItemTableItem subject, string mod)
         {
-            return subject.Where(t => t.Mod.Equals(mod)).ToList();
+            return subject.Data.Mod.Equals(mod);
         }
 
-        public static List<ThingItem> FilterByTechLevel(IEnumerable<ThingItem> subject, TechLevel techLevel)
+        public static bool IsTechLevelRelevant(ItemTableItem subject, TechLevel techLevel)
         {
-            return subject.Where(t => t.Thing.techLevel == techLevel).ToList();
+            return subject.Data.Thing != null && subject.Data.Thing.techLevel == techLevel;
         }
 
-        public static List<ThingItem> FilterByStackable(IEnumerable<ThingItem> subject)
+        public static bool FilterByStackable(ItemTableItem subject)
         {
-            return subject.Where(t => t.Thing.stackLimit > 1).ToList();
+            return subject.Data.Thing != null && subject.Data.Thing.stackLimit > 1;
         }
 
-        public static List<ThingItem> FilterByNonStackable(IEnumerable<ThingItem> subject)
+        public static bool FilterByNonStackable(ItemTableItem subject)
         {
-            return subject.Where(t => t.Thing.stackLimit == 1).ToList();
+            return subject.Data.Thing != null && subject.Data.Thing.stackLimit == 1;
         }
 
-        public static List<ThingItem> FilterByResearched(IEnumerable<ThingItem> subject)
+        public static bool FilterByResearched(ItemTableItem subject)
         {
-            return Current.Game == null
-                ? subject.ToList()
-                : subject.Where(t => t.Thing.GetUnfinishedPrerequisites().NullOrEmpty()).ToList();
+            return Current.Game != null
+                   && subject.Data.Thing != null
+                   && subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
         }
 
-        public static List<ThingItem> FilterByNotResearched(IEnumerable<ThingItem> subject)
+        public static bool FilterByNotResearched(ItemTableItem subject)
         {
-            return Current.Game == null
-                ? subject.ToList()
-                : subject.Where(t => !t.Thing.GetUnfinishedPrerequisites().NullOrEmpty()).ToList();
+            return Current.Game != null
+                   && subject.Data.Thing != null
+                   && !subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
         }
     }
 }
