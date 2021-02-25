@@ -34,8 +34,6 @@ namespace SirRandoo.ToolkitUtils.Models
             filters = new List<ThingItemFilterCategory>();
         }
 
-        public List<FilterTypes> UniqueFilters { get; set; }
-
         public void FilterItems(IEnumerable<ItemTableItem> input)
         {
             if (filters.All(i => !i.ActiveFilters.Any()))
@@ -67,14 +65,6 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 filters.Add(category);
                 return;
-            }
-
-            if (result.Filters.Count > 0 && UniqueFilters.Contains(type))
-            {
-                foreach (ThingItemFilter itemFilter in result.Filters)
-                {
-                    itemFilter.Active = false;
-                }
             }
 
             ThingItemFilter storedFilter = result.Filters.FirstOrDefault(f => f.Id.Equals(filter.Id));

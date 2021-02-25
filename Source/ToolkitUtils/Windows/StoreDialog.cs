@@ -42,9 +42,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private static IEnumerator<ThingItem> _validator;
         private static readonly Color OverlayBackgroundColor = new Color(0.13f, 0.16f, 0.17f);
 
-        private readonly ThingItemFilterManager filterManager =
-            new ThingItemFilterManager {UniqueFilters = new List<FilterTypes> {FilterTypes.Stackable}};
-
+        private readonly ThingItemFilterManager filterManager = new ThingItemFilterManager();
         private readonly ItemTableWorker worker;
 
         private bool categorySearch;
