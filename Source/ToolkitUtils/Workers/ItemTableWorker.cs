@@ -54,8 +54,8 @@ namespace SirRandoo.ToolkitUtils.Workers
                 stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
             ))
             {
-                NotifyGlobalStateChanged(stateKey);
                 stateKey = stateKey == StateKey.Enable ? StateKey.Disable : StateKey.Enable;
+                NotifyGlobalStateChanged(stateKey);
             }
 
             if (SettingsHelper.DrawTableHeader(expandedHeaderRect, expandedHeaderInnerRect, Textures.Gear))
