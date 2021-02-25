@@ -348,7 +348,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void NotifyResolutionChanged(Rect canvas)
         {
-            float distributedWidth = Mathf.FloorToInt((canvas.width - 16f - LineHeight * 2f) * 0.333f);
+            float consumedWidth = canvas.width - 16f - LineHeight * 2f; // Icon buttons
+            float distributedWidth = Mathf.FloorToInt(consumedWidth * 0.36f);
+            float remainingWidth = consumedWidth - distributedWidth * 2f;
             stateHeaderRect = new Rect(0f, 0f, LineHeight, LineHeight);
             stateHeaderInnerRect = stateHeaderRect.ContractedBy(2f);
             NameHeaderRect = new Rect(LineHeight + 1f, 0f, distributedWidth, LineHeight);
@@ -358,14 +360,19 @@ namespace SirRandoo.ToolkitUtils.Workers
                 NameHeaderRect.width - 8f,
                 NameHeaderRect.height
             );
-            PriceHeaderRect = NameHeaderRect.ShiftRight(1f);
+            PriceHeaderRect = new Rect(NameHeaderRect.x + NameHeaderRect.width + 1f, 0f, remainingWidth, LineHeight);
             PriceHeaderTextRect = new Rect(
                 PriceHeaderRect.x + 4f,
                 PriceHeaderRect.y,
                 PriceHeaderRect.width - 8f,
                 PriceHeaderRect.height
             );
-            CategoryHeaderRect = PriceHeaderRect.ShiftRight(1f);
+            CategoryHeaderRect = new Rect(
+                PriceHeaderRect.x + PriceHeaderRect.width + 1f,
+                0f,
+                distributedWidth,
+                LineHeight
+            );
             CategoryHeaderTextRect = new Rect(
                 CategoryHeaderRect.x + 4f,
                 CategoryHeaderRect.y,
