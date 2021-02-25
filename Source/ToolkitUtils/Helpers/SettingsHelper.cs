@@ -362,7 +362,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 GUIUtility.RotateAroundPivot(-90f, backgroundRect.position);
             }
 
-            GUI.color = new Color(0.21f, 0.23f, 0.24f);
+            GUI.color = new Color(0.62f, 0.65f, 0.66f);
             Widgets.DrawHighlight(backgroundRect);
             GUI.color = Color.white;
 
@@ -394,13 +394,13 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 GUIUtility.RotateAroundPivot(-90f, backgroundRect.position);
             }
 
-            GUI.color = new Color(0.21f, 0.23f, 0.24f);
+            GUI.color = new Color(0.62f, 0.65f, 0.66f);
             Widgets.DrawHighlight(backgroundRect);
             GUI.color = Color.white;
 
             if (Mouse.IsOver(backgroundRect))
             {
-                GUI.color = Color.gray;
+                GUI.color = Color.grey;
                 Widgets.DrawLightHighlight(backgroundRect);
                 GUI.color = Color.white;
             }
