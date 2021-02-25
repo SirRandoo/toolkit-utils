@@ -204,7 +204,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected virtual void DrawItem(Rect canvas, ItemTableItem item)
         {
-            var checkboxRect = new Rect(stateHeaderRect.x, canvas.y, stateHeaderRect.width, RowLineHeight);
+            Rect checkboxRect = SettingsHelper.RectForIcon(
+                new Rect(stateHeaderRect.x + 2f, canvas.y + 2f, stateHeaderRect.width - 4f, RowLineHeight - 4f)
+            );
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
             var categoryRect = new Rect(
@@ -213,11 +215,13 @@ namespace SirRandoo.ToolkitUtils.Workers
                 CategoryHeaderTextRect.width,
                 RowLineHeight
             );
-            var settingRect = new Rect(
-                expandedHeaderRect.x,
-                canvas.y + Mathf.FloorToInt(Mathf.Abs(expandedHeaderRect.width - RowLineHeight) / 2f),
-                expandedHeaderRect.width,
-                expandedHeaderRect.width
+            Rect settingRect = SettingsHelper.RectForIcon(
+                new Rect(
+                    expandedHeaderRect.x + 2f,
+                    canvas.y + Mathf.FloorToInt(Mathf.Abs(expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
+                    expandedHeaderRect.width - 4f,
+                    expandedHeaderRect.width - 4f
+                )
             );
 
             if (SettingsHelper.DrawCheckbox(checkboxRect, ref item.Data.IsEnabled))

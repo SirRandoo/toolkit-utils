@@ -572,6 +572,20 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return new Rect(region.x, region.y, width, region.height);
         }
 
+        public static Rect RectForIcon(Rect region)
+        {
+            float shortest = Mathf.Min(region.width, region.height);
+            float half = Mathf.FloorToInt(shortest / 2f);
+            Vector2 center = region.center;
+
+            return new Rect(
+                Mathf.Clamp(center.x - half, region.x, region.x + region.width),
+                Mathf.Clamp(center.y - half, region.y, region.y + region.height),
+                shortest,
+                shortest
+            );
+        }
+
         public static void DrawExperimentalNotice(this Listing listing)
         {
             listing.DrawDescription("TKUtils.Experimental".Localize(), new Color(1f, 0.53f, 0.76f));
