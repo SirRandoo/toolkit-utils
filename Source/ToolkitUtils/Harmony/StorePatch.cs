@@ -70,12 +70,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return;
             }
 
+            string openText = "TKUtils.Buttons.Open".Localize();
+
             optionsListing.Gap();
             optionsListing.GapLine();
-            if (optionsListing.ButtonTextLabeled(
-                $"[ToolkitUtils] {"Traits".Localize()}",
-                "TKUtils.Buttons.Open".Localize()
-            ))
+            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Traits".Localize()}", openText))
             {
                 Find.WindowStack.Add(new TraitConfigDialog());
             }
@@ -84,7 +83,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             optionsListing.GapLine();
             if (optionsListing.ButtonTextLabeled(
                 Find.ActiveLanguageWorker.Pluralize($"[ToolkitUtils] {"Race".Localize().Pluralize()}"),
-                "TKUtils.Buttons.Open".Localize()
+                openText
             ))
             {
                 Find.WindowStack.Add(new PawnKindConfigDialog());
