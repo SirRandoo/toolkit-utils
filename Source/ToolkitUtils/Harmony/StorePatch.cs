@@ -72,31 +72,31 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             string openText = "TKUtils.Buttons.Open".Localize();
 
-            optionsListing.Gap();
-            optionsListing.GapLine();
+            DoButtonSeparator(optionsListing);
             if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Traits".Localize()}", openText))
             {
                 Find.WindowStack.Add(new TraitConfigDialog());
             }
 
-            optionsListing.Gap();
-            optionsListing.GapLine();
-            if (optionsListing.ButtonTextLabeled(
-                Find.ActiveLanguageWorker.Pluralize($"[ToolkitUtils] {"Race".Localize().Pluralize()}"),
-                openText
-            ))
+            DoButtonSeparator(optionsListing);
+            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Race".Localize().Pluralize()}", openText))
             {
                 Find.WindowStack.Add(new PawnKindConfigDialog());
             }
 
         #if DEBUG
-            optionsListing.Gap();
-            optionsListing.GapLine();
-            if (optionsListing.ButtonTextLabeled("Editor", "TKUtils.Buttons.Open".Localize()))
+            DoButtonSeparator(optionsListing);
+            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"TKUtils.Editor.Title".Localize()}", openText))
             {
                 Find.WindowStack.Add(new Editor());
             }
         #endif
+        }
+
+        private static void DoButtonSeparator(Listing_Standard optionsListing)
+        {
+            optionsListing.Gap();
+            optionsListing.GapLine();
         }
     }
 }
