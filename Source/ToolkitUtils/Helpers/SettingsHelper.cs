@@ -53,7 +53,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static bool DrawFieldButton(Rect canvas, Texture2D icon)
         {
-            var region = new Rect(canvas.x + canvas.width - canvas.height, canvas.y, canvas.height, canvas.height);
+            var region = new Rect(
+                canvas.x + canvas.width - canvas.height + 3f,
+                canvas.y + 3f,
+                canvas.height - 6f,
+                canvas.height - 6f
+            );
             Widgets.ButtonImage(region, icon);
 
             bool clicked = Mouse.IsOver(region) && Event.current.type == EventType.Used && Input.GetMouseButtonDown(0);
