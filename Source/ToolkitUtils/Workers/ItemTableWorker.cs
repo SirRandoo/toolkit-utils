@@ -30,7 +30,9 @@ namespace SirRandoo.ToolkitUtils.Workers
         private protected Rect CategoryHeaderRect = Rect.zero;
         private string categoryHeaderText;
         private protected Rect CategoryHeaderTextRect = Rect.zero;
+        private string closeItemNameTooltip;
         private string defaultKarmaTypeText;
+        private string editItemNameTooltip;
         private Rect expandedHeaderInnerRect = Rect.zero;
         private Rect expandedHeaderRect = Rect.zero;
         private string isStuffText;
@@ -44,6 +46,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private protected Rect PriceHeaderTextRect = Rect.zero;
         private string purchaseWeightText;
         private string quantityLimitText;
+        private string resetItemNameTooltip;
         private Vector2 scrollPos = Vector2.zero;
         private SortKey sortKey = SortKey.Name;
         private SortOrder sortOrder = SortOrder.Descending;
@@ -253,15 +256,20 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private static void DrawConfigurableItemName(Rect canvas, ItemTableItem item)
+        private void DrawConfigurableItemName(Rect canvas, ItemTableItem item)
         {
             if (item.EditingName)
             {
-                string text = item.Data.Name;
+                var fieldRect = new Rect(canvas.x, canvas.y, canvas.width - canvas.height, canvas.height);
 
-                if (SettingsHelper.DrawTextField(canvas, text, out string result))
+                if (SettingsHelper.DrawTextField(fieldRect, item.Data.Name, out string result))
                 {
                     item.Data.Data.CustomName = result;
+                }
+
+                if (SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetItemNameTooltip))
+                {
+                    item.Data.Data.CustomName = null;
                 }
             }
             else
@@ -274,7 +282,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             GUI.color = new Color(1f, 1f, 1f, 0.7f);
-            if (SettingsHelper.DrawFieldButton(canvas, item.EditingName ? Widgets.CheckboxOnTex : Textures.Edit))
+            if (SettingsHelper.DrawFieldButton(
+                canvas,
+                item.EditingName ? Widgets.CheckboxOffTex : Textures.Edit,
+                item.EditingName ? closeItemNameTooltip : editItemNameTooltip
+            ))
             {
                 item.EditingName = !item.EditingName;
             }
@@ -392,6 +404,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             defaultKarmaTypeText = "TKUtils.Fields.DefaultKarmaType".Localize();
 
             stackLimitTooltip = "TKUtils.ItemTableTooltips.ToStackLimit".Localize();
+            editItemNameTooltip = "TKUtils.ItemTableTooltips.EditItemName".Localize();
+            closeItemNameTooltip = "TKUtils.ItemTableTooltips.CloseItemName".Localize();
+            resetItemNameTooltip = "TKUtils.ItemTableTooltips.ResetItemName".Localize();
         }
 
         public override void NotifySortRequested()
