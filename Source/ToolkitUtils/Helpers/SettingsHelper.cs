@@ -59,10 +59,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static bool DrawFieldButton(Rect canvas, Texture2D icon, string tooltip = null)
         {
             var region = new Rect(
-                canvas.x + canvas.width - canvas.height + 3f,
-                canvas.y + 3f,
-                canvas.height - 6f,
-                canvas.height - 6f
+                canvas.x + canvas.width - canvas.height + 6f,
+                canvas.y + 6f,
+                canvas.height - 12f,
+                canvas.height - 12f
             );
             Widgets.ButtonImage(region, icon);
 
