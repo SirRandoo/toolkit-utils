@@ -33,6 +33,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string applyText;
 
         private string currentQuery = "";
+        private string defaultKarmaText;
         private string disableText;
         private string enableText;
         private PawnKindItem expanded;
@@ -42,7 +43,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string lastQuery = "";
         private string nameHeaderText;
         private string nameText;
-        private string noCustomKarmaText;
         private string priceHeaderText;
         private string priceText;
         private string resetText;
@@ -74,16 +74,16 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             titleText = "TKUtils.PawnKindStore.Title".Localize();
             nameHeaderText = "TKUtils.Headers.Name".Localize();
-            priceText = "TKUtils.Inputs.Price".Localize();
+            priceText = "TKUtils.Fields.Price".Localize();
             priceHeaderText = "TKUtils.Headers.Price".Localize();
             applyText = "TKUtils.Buttons.Apply".Localize();
             searchText = "TKUtils.Buttons.Search".Localize();
             resetText = "TKUtils.Buttons.ResetAll".Localize();
             enableText = "TKUtils.Buttons.EnableAll".Localize();
-            noCustomKarmaText = "TKUtils.TraitStore.NoCustomKarmaType".Localize();
+            defaultKarmaText = "TKUtils.Fields.DefaultKarmaType".Localize();
             disableText = "TKUtils.Buttons.DisableAll".Localize();
-            nameText = "TKUtils.Inputs.Name".Localize();
-            karmaTypeText = "TKUtils.IncidentEditor.Karma".Localize();
+            nameText = "TKUtils.Fields.Name".Localize();
+            karmaTypeText = "TKUtils.Fields.KarmaType".Localize();
 
             searchTextSize = Text.CalcSize(searchText);
         }
@@ -433,7 +433,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void DrawKindSettings(Rect inRect)
         {
             string removeKarma = expanded.Data.KarmaType == null
-                ? noCustomKarmaText
+                ? defaultKarmaText
                 : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaType);
 
 

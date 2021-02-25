@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <TKUtils.Fields.QuantityLimit>Quantity limit</TKUtils.Fields.QuantityLimit>
+    <TKUtils.Fields.Weight>Purchase weight</TKUtils.Fields.Weight>
+    <TKUtils.Fields.KarmaType>Karma type</TKUtils.Fields.KarmaType>
+    <TKUtils.Fields.Wager>Maximum coin wager</TKUtils.Fields.Wager>
+    <TKUtils.Fields.Price>Price</TKUtils.Fields.Price>
+    <TKUtils.Fields.PurchaseCode>Purchase code</TKUtils.Fields.PurchaseCode>
+    <TKUtils.Fields.IncidentTimes>Max times per {0} in-game day(s)</TKUtils.Fields.IncidentTimes>
+    <TKUtils.Fields.Username>Username</TKUtils.Fields.Username>
+    <TKUtils.Fields.Name>Name</TKUtils.Fields.Name>
+    <TKUtils.Fields.CanBeStuff>Can be stuff?</TKUtils.Fields.CanBeStuff>
+    <TKUtils.Fields.AddPrice>Add price</TKUtils.Fields.AddPrice>
+    <TKUtils.Fields.RemovePrice>Remove price</TKUtils.Fields.RemovePrice>
+    <TKUtils.Fields.BypassTraitLimit>Bypass trait limit</TKUtils.Fields.BypassTraitLimit>
+    <TKUtils.Fields.AddKarmaType>Karma type for adding</TKUtils.Fields.AddKarmaType>
+    <TKUtils.Fields.RemoveKarmaType>Karma type for removing</TKUtils.Fields.RemoveKarmaType>
+    <TKUtils.Fields.DefaultKarmaType>(Default)</TKUtils.Fields.DefaultKarmaType>
+    <TKUtils.Fields.CategorySearch>Category search</TKUtils.Fields.CategorySearch>
+</LanguageData>

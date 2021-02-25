@@ -32,7 +32,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private readonly List<FloatMenuOption> karmaTypeOptions;
         private readonly string[] karmaTypeStrings = Enum.GetNames(typeof(KarmaType));
         private string codeText;
-        private string costText;
 
         private string disableText;
         private string editItemsText;
@@ -41,6 +40,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private float headerButtonWidth;
         private string karmaText;
+        private string priceText;
         private string resetText;
         private string settingsText;
         private string timesText;
@@ -73,11 +73,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             disableText = "TKUtils.Buttons.Disable".Localize();
             resetText = "TKUtils.Buttons.Reset".Localize();
             settingsText = "TKUtils.Buttons.Settings".Localize();
-            codeText = "TKUtils.IncidentEditor.Code".Localize();
-            costText = "TKUtils.IncidentEditor.Cost".Localize();
-            wagerText = "TKUtils.IncidentEditor.Wager".Localize();
-            karmaText = "TKUtils.IncidentEditor.Karma".Localize();
-            timesText = "TKUtils.IncidentEditor.Times".Localize(ToolkitSettings.EventCooldownInterval);
+            codeText = "TKUtils.Fields.PurchaseCode".Localize();
+            priceText = "TKUtils.Fields.Price".Localize();
+            wagerText = "TKUtils.Fields.Wager".Localize();
+            karmaText = "TKUtils.Fields.Karma".Localize();
+            timesText = "TKUtils.Fields.IncidentTimes".Localize(ToolkitSettings.EventCooldownInterval);
             editItemsText = "TKUtils.Buttons.EditItems".Localize();
             editTraitsText = "TKUtils.Buttons.EditTraits".Localize();
             editPawnsText = "TKUtils.Buttons.EditPawns".Localize();
@@ -136,7 +136,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
 
                 listing.Gap();
-                Widgets.Label(costLabel, costText);
+                Widgets.Label(costLabel, priceText);
                 SettingsHelper.DrawPriceField(costField, ref storeIncident.cost);
 
                 if (storeIncident.cost == 0)

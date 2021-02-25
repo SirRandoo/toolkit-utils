@@ -35,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string bypassLimitText;
 
         private string currentQuery = "";
+        private string defaultKarmaText;
         private string disableAllText;
         private string enableAllText;
         private TraitItem expanded;
@@ -44,7 +45,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string lastQuery = "";
         private string nameHeaderText;
         private string nameText;
-        private string noCustomKarmaText;
         private string removeCostText;
         private string removeKarmaTypeText;
         private string resetText;
@@ -73,13 +73,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             titleText = "TKUtils.TraitStore.Title".Localize();
             nameHeaderText = "TKUtils.Headers.Name".Localize();
             searchText = "TKUtils.Buttons.Search".Localize();
-            addCostText = "TKUtils.TraitStore.AddCost".Localize();
-            removeCostText = "TKUtils.TraitStore.RemoveCost".Localize();
-            addKarmaTypeText = "TKUtils.TraitStore.AddKarmaType".Localize();
-            removeKarmaTypeText = "TKUtils.TraitStore.RemoveKarmaType".Localize();
-            bypassLimitText = "TKUtils.TraitStore.BypassLimit".Localize();
+            addCostText = "TKUtils.Fields.AddPrice".Localize();
+            removeCostText = "TKUtils.Fields.RemovePrice".Localize();
+            addKarmaTypeText = "TKUtils.Fields.AddKarmaType".Localize();
+            removeKarmaTypeText = "TKUtils.Fields.RemoveKarmaType".Localize();
+            bypassLimitText = "TKUtils.Fields.BypassTraitLimit".Localize();
             resetText = "TKUtils.Buttons.Reset".Localize();
-            noCustomKarmaText = "TKUtils.TraitStore.NoCustomKarmaType".Localize();
+            defaultKarmaText = "TKUtils.Fields.DefaultKarmaType".Localize();
             nameText = "TKUtils.Inputs.Name".Localize();
         }
 
@@ -158,10 +158,10 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void DrawTraitSettings(Rect inRect)
         {
             string addKarma = expanded.Data.KarmaTypeForAdding == null
-                ? noCustomKarmaText
+                ? defaultKarmaText
                 : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaTypeForAdding);
             string removeKarma = expanded.Data.KarmaTypeForRemoving == null
-                ? noCustomKarmaText
+                ? defaultKarmaText
                 : Enum.GetName(typeof(KarmaType), expanded.Data.KarmaTypeForRemoving);
 
 

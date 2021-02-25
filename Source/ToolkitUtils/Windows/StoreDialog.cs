@@ -611,7 +611,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void GetTranslationStrings()
         {
             title = "TKUtils.ItemStore.Title".Localize();
-            categorySearchText = "TKUtils.Buttons.CategorySearch".Localize();
+            categorySearchText = "TKUtils.Fields.CategorySearch".Localize();
             searchText = "TKUtils.Buttons.Search".Localize();
             resetAllText = "TKUtils.Buttons.ResetAll".Localize();
             enableAllText = "TKUtils.Buttons.EnableAll".Localize();
