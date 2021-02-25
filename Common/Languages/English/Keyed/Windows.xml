@@ -70,11 +70,14 @@
     <TKUtils.FilterTypes.TechLevel>Technology Level</TKUtils.FilterTypes.TechLevel>
     <TKUtils.FilterTypes.Stackable>Stackability</TKUtils.FilterTypes.Stackable>
     <TKUtils.FilterTypes.Research>Research Status</TKUtils.FilterTypes.Research>
-
+    <TKUtils.FilterTypes.State>State</TKUtils.FilterTypes.State>
+    
     <TKUtils.StoreFilters.Stackable>stackable</TKUtils.StoreFilters.Stackable>
     <TKUtils.StoreFilters.NonStackable>non-stackables</TKUtils.StoreFilters.NonStackable>
     <TKUtils.StoreFilters.Researched>researched</TKUtils.StoreFilters.Researched>
     <TKUtils.StoreFilters.NotResearched>not researched</TKUtils.StoreFilters.NotResearched>
+    <TKUtils.StoreFilters.Enabled>enabled</TKUtils.StoreFilters.Enabled>
+    <TKUtils.StoreFilters.Disabled>disabled</TKUtils.StoreFilters.Disabled>
     
     
     <!-- Trait Store -->

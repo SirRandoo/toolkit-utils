@@ -22,7 +22,15 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public enum FilterTypes { Mod, Category, TechLevel, Stackable, Research }
+    public enum FilterTypes
+    {
+        Mod,
+        Category,
+        TechLevel,
+        Stackable,
+        Research,
+        State
+    }
 
     public class ThingItemFilter
     {
@@ -105,6 +113,16 @@ namespace SirRandoo.ToolkitUtils.Models
             return Current.Game != null
                    && subject.Data.Thing != null
                    && !subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
+        }
+
+        public static bool FilterByEnabled(ItemTableItem subject)
+        {
+            return subject.Data.Price > 0;
+        }
+
+        public static bool FilterByDisabled(ItemTableItem subject)
+        {
+            return subject.Data.Price <= 0;
         }
     }
 }

@@ -173,6 +173,26 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
+            filterManager.RegisterFilter(
+                FilterTypes.State,
+                new ThingItemFilter
+                {
+                    Id = "Disabled",
+                    IsUnfilteredFunc = ThingItemFilter.FilterByDisabled,
+                    Label = "TKUtils.StoreFilters.Disabled".Localize().CapitalizeFirst()
+                }
+            );
+
+            filterManager.RegisterFilter(
+                FilterTypes.State,
+                new ThingItemFilter
+                {
+                    Id = "Enabled",
+                    IsUnfilteredFunc = ThingItemFilter.FilterByEnabled,
+                    Label = "TKUtils.StoreFilters.Enabled".Localize().CapitalizeFirst()
+                }
+            );
+
             foreach (TechLevel techLevel in Data.TechLevels)
             {
                 filterManager.RegisterFilter(
