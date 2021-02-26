@@ -361,7 +361,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void DrawRightExpandedSettingsColumn(Rect canvas, ItemTableItem item)
         {
-            Widgets.CheckboxLabeled(
+            SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(
                     0f,
                     0,

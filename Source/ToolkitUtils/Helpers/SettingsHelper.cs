@@ -664,5 +664,19 @@ namespace SirRandoo.ToolkitUtils.Helpers
             state = proxy;
             return changed;
         }
+
+        public static bool LabeledPaintableCheckbox(Rect canvas, string label, ref bool state)
+        {
+            var labelRect = new Rect(canvas.x, canvas.y, canvas.width - canvas.height - 2f, canvas.height);
+            var checkPos = new Vector2(canvas.x + canvas.width - canvas.height + 2f, canvas.y);
+            bool proxy = state;
+
+            DrawLabel(labelRect, label);
+            Widgets.Checkbox(checkPos, ref proxy, canvas.height, paintable: true);
+
+            bool changed = proxy != state;
+            state = proxy;
+            return changed;
+        }
     }
 }
