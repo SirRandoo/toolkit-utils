@@ -362,15 +362,9 @@ namespace SirRandoo.ToolkitUtils.Workers
         private void DrawRightExpandedSettingsColumn(Rect canvas, ItemTableItem item)
         {
             Widgets.CheckboxLabeled(
-                new Rect(0f, 0f, canvas.width, RowLineHeight),
-                isStuffText,
-                ref item.Data.Data.IsStuffAllowed
-            );
-
-            Widgets.CheckboxLabeled(
                 new Rect(
                     0f,
-                    RowLineHeight,
+                    0,
                     canvas.width - (item.Data.Data.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 4f : 0f),
                     RowLineHeight
                 ),
@@ -378,24 +372,33 @@ namespace SirRandoo.ToolkitUtils.Workers
                 ref item.Data.Data.HasQuantityLimit
             );
 
-            if (!item.Data.Data.HasQuantityLimit)
+            if (item.Data.Data.HasQuantityLimit)
+            {
+                var quantityBuffer = item.Data.Data.QuantityLimit.ToString();
+                var quantityField = new Rect(
+                    Mathf.FloorToInt(canvas.width * 0.8f),
+                    RowLineHeight,
+                    Mathf.FloorToInt(canvas.width * 0.2f),
+                    RowLineHeight
+                );
+                Widgets.TextFieldNumeric(quantityField, ref item.Data.Data.QuantityLimit, ref quantityBuffer, 1f);
+
+                if (SettingsHelper.DrawFieldButton(quantityField, Textures.Stack, stackLimitTooltip))
+                {
+                    item.Data.Data.QuantityLimit = item.Data.Thing?.stackLimit ?? item.Data.Data.QuantityLimit;
+                }
+            }
+
+            if (item.Data.Thing == null || !item.Data.Thing.IsStuff)
             {
                 return;
             }
 
-            var quantityBuffer = item.Data.Data.QuantityLimit.ToString();
-            var quantityField = new Rect(
-                Mathf.FloorToInt(canvas.width * 0.8f),
-                RowLineHeight,
-                Mathf.FloorToInt(canvas.width * 0.2f),
-                RowLineHeight
+            Widgets.CheckboxLabeled(
+                new Rect(0f, RowLineHeight, canvas.width, RowLineHeight),
+                isStuffText,
+                ref item.Data.Data.IsStuffAllowed
             );
-            Widgets.TextFieldNumeric(quantityField, ref item.Data.Data.QuantityLimit, ref quantityBuffer, 1f);
-
-            if (SettingsHelper.DrawFieldButton(quantityField, Textures.Stack, stackLimitTooltip))
-            {
-                item.Data.Data.QuantityLimit = item.Data.Thing?.stackLimit ?? item.Data.Data.QuantityLimit;
-            }
         }
 
         public override void EnsureExists(ItemTableItem data)
