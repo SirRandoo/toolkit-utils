@@ -49,13 +49,14 @@ namespace SirRandoo.ToolkitUtils.Workers
         private string resetItemKarmaTooltip;
         private string resetItemNameTooltip;
         private Vector2 scrollPos = Vector2.zero;
+
+        private SettingsKey settingsKey = SettingsKey.Expand;
         private SortKey sortKey = SortKey.Name;
         private SortOrder sortOrder = SortOrder.Descending;
         private string stackLimitTooltip;
         private Rect stateHeaderInnerRect = Rect.zero;
 
         private Rect stateHeaderRect = Rect.zero;
-
         private StateKey stateKey = StateKey.Enable;
 
         public override void DrawHeaders(Rect canvas)
@@ -72,7 +73,8 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (SettingsHelper.DrawTableHeader(expandedHeaderRect, expandedHeaderInnerRect, Textures.Gear))
             {
-                NotifyGlobalSettingsCollapse();
+                settingsKey = settingsKey == SettingsKey.Expand ? SettingsKey.Collapse : SettingsKey.Expand;
+                NotifyGlobalSettingsChanged(settingsKey);
             }
 
             DrawSortableHeaders();
@@ -136,11 +138,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             sortOrder = sortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
 
-        private void NotifyGlobalSettingsCollapse()
+        private void NotifyGlobalSettingsChanged(SettingsKey newState)
         {
             foreach (ItemTableItem item in Data.Where(i => !i.IsHidden))
             {
-                item.SettingsVisible = false;
+                item.SettingsVisible = newState == SettingsKey.Expand;
             }
         }
 
@@ -532,6 +534,8 @@ namespace SirRandoo.ToolkitUtils.Workers
         }
 
         private enum StateKey { Enable, Disable }
+
+        private enum SettingsKey { Expand, Collapse }
 
         private enum SortKey { Name, Price, Category }
     }
