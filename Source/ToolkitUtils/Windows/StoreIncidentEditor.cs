@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             codeText = "TKUtils.Fields.PurchaseCode".Localize();
             priceText = "TKUtils.Fields.Price".Localize();
             wagerText = "TKUtils.Fields.Wager".Localize();
-            karmaText = "TKUtils.Fields.Karma".Localize();
+            karmaText = "TKUtils.Fields.KarmaType".Localize();
             timesText = "TKUtils.Fields.IncidentTimes".Localize(ToolkitSettings.EventCooldownInterval);
             editItemsText = "TKUtils.Buttons.EditItems".Localize();
             editTraitsText = "TKUtils.Buttons.EditTraits".Localize();
