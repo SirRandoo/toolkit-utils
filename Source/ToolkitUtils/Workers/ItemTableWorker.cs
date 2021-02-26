@@ -158,7 +158,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public override void DrawTableContents(Rect canvas)
         {
             float expectedLines = Data.Where(i => !i.IsHidden).Sum(i => i.SettingsVisible ? ExpandedLineSpan + 1f : 1f);
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, RowLineHeight * expectedLines + (expectedLines - 1));
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, RowLineHeight * expectedLines);
 
             var index = 0;
             var expanded = 0;
@@ -170,7 +170,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 var lineRect = new Rect(
                     0f,
-                    index * RowLineHeight + index + RowLineHeight * ExpandedLineSpan * expanded,
+                    index * RowLineHeight + RowLineHeight * ExpandedLineSpan * expanded,
                     canvas.width - 16f,
                     RowLineHeight * (item.SettingsVisible ? ExpandedLineSpan + 1f : 1f)
                 );
@@ -178,6 +178,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (!lineRect.IsRegionVisible(canvas, scrollPos))
                 {
                     index++;
+                    expanded += item.SettingsVisible ? 1 : 0;
                     continue;
                 }
 
