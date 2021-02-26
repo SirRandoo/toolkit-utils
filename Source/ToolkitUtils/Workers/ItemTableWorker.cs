@@ -46,6 +46,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private protected Rect PriceHeaderTextRect = Rect.zero;
         private string purchaseWeightText;
         private string quantityLimitText;
+        private string resetItemKarmaTooltip;
         private string resetItemNameTooltip;
         private Vector2 scrollPos = Vector2.zero;
         private SortKey sortKey = SortKey.Name;
@@ -342,6 +343,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                 );
             }
 
+            if (item.Data.Data.KarmaType != null
+                && SettingsHelper.DrawFieldButton(karmaLabel, Textures.Reset, resetItemKarmaTooltip))
+            {
+                item.Data.Data.KarmaType = null;
+            }
+
             var weightBuffer = item.Data.Data.Weight.ToString("N1");
             (Rect weightLabel, Rect weightField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).ToForm();
             SettingsHelper.DrawLabel(weightLabel, purchaseWeightText);
@@ -411,6 +418,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             editItemNameTooltip = "TKUtils.ItemTableTooltips.EditItemName".Localize();
             closeItemNameTooltip = "TKUtils.ItemTableTooltips.CloseItemName".Localize();
             resetItemNameTooltip = "TKUtils.ItemTableTooltips.ResetItemName".Localize();
+            resetItemKarmaTooltip = "TKUtils.ItemTableTooltips.ResetItemKarma".Localize();
         }
 
         public override void NotifySortRequested()

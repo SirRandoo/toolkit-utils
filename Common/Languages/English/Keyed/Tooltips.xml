@@ -31,4 +31,5 @@
     <TKUtils.ItemTableTooltips.EditItemName>Customize the name of this item.</TKUtils.ItemTableTooltips.EditItemName>
     <TKUtils.ItemTableTooltips.CloseItemName>Close the item name editor.</TKUtils.ItemTableTooltips.CloseItemName>
     <TKUtils.ItemTableTooltips.ResetItemName>Reset the item's name to its default value.</TKUtils.ItemTableTooltips.ResetItemName>
+    <TKUtils.ItemTableTooltips.ResetItemKarma>Reset the item's karma type to its default value.</TKUtils.ItemTableTooltips.ResetItemKarma>
 </LanguageData>
