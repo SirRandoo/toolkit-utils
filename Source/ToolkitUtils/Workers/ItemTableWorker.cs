@@ -275,7 +275,8 @@ namespace SirRandoo.ToolkitUtils.Workers
                     item.Data.Data.CustomName = result;
                 }
 
-                if (SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetItemNameTooltip))
+                if (item.Data.Data.CustomName != null
+                    && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetItemNameTooltip))
                 {
                     item.Data.Data.CustomName = null;
                 }
