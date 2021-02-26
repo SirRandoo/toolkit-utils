@@ -272,7 +272,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 if (SettingsHelper.DrawTextField(fieldRect, item.Data.Name, out string result))
                 {
-                    item.Data.Data.CustomName = result;
+                    item.Data.Data.CustomName = result.ToToolkit();
                 }
 
                 if (item.Data.Data.CustomName != null
