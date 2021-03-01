@@ -245,7 +245,7 @@ namespace SirRandoo.ToolkitUtils
                     {
                         using (JsonWriter jWriter = new JsonTextWriter(streamWriter))
                         {
-                            s.Formatting = TkSettings.MinifyData ? Formatting.Indented : Formatting.None;
+                            s.Formatting = TkSettings.MinifyData ? Formatting.None : Formatting.Indented;
                             s.Serialize(jWriter, obj);
                             s.Formatting = Formatting.Indented;
                         }
