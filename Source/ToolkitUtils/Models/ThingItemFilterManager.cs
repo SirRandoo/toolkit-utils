@@ -178,9 +178,19 @@ namespace SirRandoo.ToolkitUtils.Models
                     continue;
                 }
 
-                var canvas = new Rect(lineRect.x + 16f, lineRect.y, lineRect.width - 16f, lineRect.height);
+                var canvas = new Rect(
+                    lineRect.x + lineRect.height * 2f,
+                    lineRect.y,
+                    lineRect.width - lineRect.height * 2f - 8,
+                    lineRect.height
+                );
                 var checkRect = new Rect(canvas.x + 4f, canvas.y + 4f, 12f, 12f);
-                var textRect = new Rect(checkRect.x + 12f, canvas.y, canvas.width - 12f, canvas.height);
+                var textRect = new Rect(
+                    checkRect.x + checkRect.width,
+                    canvas.y,
+                    canvas.width - checkRect.width,
+                    canvas.height
+                );
 
                 GUI.DrawTexture(checkRect, filter.Active ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
 
