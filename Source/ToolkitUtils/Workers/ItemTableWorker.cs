@@ -377,7 +377,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 var quantityBuffer = item.Data.Data.QuantityLimit.ToString();
                 var quantityField = new Rect(
                     Mathf.FloorToInt(canvas.width * 0.8f),
-                    RowLineHeight,
+                    0,
                     Mathf.FloorToInt(canvas.width * 0.2f),
                     RowLineHeight
                 );
