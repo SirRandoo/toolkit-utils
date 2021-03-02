@@ -216,14 +216,18 @@ namespace SirRandoo.ToolkitUtils.Workers
                 stateHeaderRect.width - 4f,
                 RowLineHeight - 4f
             );
-            Rect iconRect = SettingsHelper.RectForIcon(
-                new Rect(NameHeaderRect.x + 4f, canvas.y + 4f, RowLineHeight - 8f, RowLineHeight - 8f)
-            );
+            var iconRect = new Rect(NameHeaderRect.x + 4f, canvas.y + 4f, RowLineHeight - 8f, RowLineHeight - 8f);
             var nameRect = new Rect(
                 hasIcon ? NameHeaderRect.x + RowLineHeight : NameHeaderTextRect.x,
                 canvas.y,
                 hasIcon ? NameHeaderRect.width - RowLineHeight - 4f : NameHeaderTextRect.width,
                 RowLineHeight
+            );
+            var thingRect = new Rect(
+                hasIcon ? NameHeaderRect.x : NameHeaderTextRect.x,
+                canvas.y,
+                hasIcon ? NameHeaderRect.width - nameRect.height - 4f : NameHeaderTextRect.width,
+                nameRect.height
             );
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
             var categoryRect = new Rect(
@@ -252,6 +256,16 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             DrawConfigurableItemName(nameRect, item);
+
+            if (!item.EditingName && item.Data.Thing != null && Current.Game != null)
+            {
+                Widgets.DrawHighlightIfMouseover(thingRect);
+
+                if (Widgets.ButtonInvisible(thingRect))
+                {
+                    Find.WindowStack.Add(new Dialog_InfoCard(item.Data.Thing));
+                }
+            }
 
             if (item.Data.Price > 0)
             {
