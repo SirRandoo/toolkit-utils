@@ -394,7 +394,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            Widgets.CheckboxLabeled(
+            SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(0f, RowLineHeight, canvas.width, RowLineHeight),
                 isStuffText,
                 ref item.Data.Data.IsStuffAllowed
