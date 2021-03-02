@@ -364,8 +364,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(
                     0f,
-                    0,
-                    canvas.width - (item.Data.Data.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 4f : 0f),
+                    0f,
+                    canvas.width - (item.Data.Data.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 2f : 0f),
                     RowLineHeight
                 ),
                 quantityLimitText,
