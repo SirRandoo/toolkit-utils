@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public List<ThingItemFilter> Filters { get; set; } = new List<ThingItemFilter>();
         public IEnumerable<ThingItemFilter> ActiveFilters => Filters.Where(i => i.Active);
 
-        public float Height => (Expanded ? Filters.Count : 1) * Text.LineHeight;
+        public float Height => (Expanded ? Filters.Count + 1 : 1) * Text.LineHeight;
 
         public void MarkDirty()
         {
