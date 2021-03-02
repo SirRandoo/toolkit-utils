@@ -50,6 +50,7 @@
     <TKUtils.FilterTypes.Stackable>Stackability</TKUtils.FilterTypes.Stackable>
     <TKUtils.FilterTypes.Research>Research Status</TKUtils.FilterTypes.Research>
     <TKUtils.FilterTypes.State>State</TKUtils.FilterTypes.State>
+    <TKUtils.FilterTypes.Stuff>Stuff</TKUtils.FilterTypes.Stuff>
     
     <TKUtils.StoreFilters.Stackable>stackable</TKUtils.StoreFilters.Stackable>
     <TKUtils.StoreFilters.NonStackable>non-stackables</TKUtils.StoreFilters.NonStackable>
@@ -57,6 +58,8 @@
     <TKUtils.StoreFilters.NotResearched>not researched</TKUtils.StoreFilters.NotResearched>
     <TKUtils.StoreFilters.Enabled>enabled</TKUtils.StoreFilters.Enabled>
     <TKUtils.StoreFilters.Disabled>disabled</TKUtils.StoreFilters.Disabled>
+    <TKUtils.StoreFilters.Stuff>is stuff</TKUtils.StoreFilters.Stuff>
+    <TKUtils.StoreFilters.NotStuff>is not stuff</TKUtils.StoreFilters.NotStuff>
     
     
     <!-- Trait Store -->

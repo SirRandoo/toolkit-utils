@@ -29,7 +29,8 @@ namespace SirRandoo.ToolkitUtils.Models
         TechLevel,
         Stackable,
         Research,
-        State
+        State,
+        Stuff
     }
 
     public class ThingItemFilter
@@ -89,6 +90,16 @@ namespace SirRandoo.ToolkitUtils.Models
         public static bool IsTechLevelRelevant(ItemTableItem subject, TechLevel techLevel)
         {
             return subject.Data.Thing != null && subject.Data.Thing.techLevel == techLevel;
+        }
+
+        public static bool FilterByStuff(ItemTableItem subject)
+        {
+            return subject.Data.Thing != null && subject.Data.Thing.IsStuff;
+        }
+
+        public static bool FilterByNotStuff(ItemTableItem subject)
+        {
+            return subject.Data.Thing != null && !subject.Data.Thing.IsStuff;
         }
 
         public static bool FilterByStackable(ItemTableItem subject)

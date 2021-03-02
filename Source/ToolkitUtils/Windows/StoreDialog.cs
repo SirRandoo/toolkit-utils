@@ -159,6 +159,26 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
 
             filterManager.RegisterFilter(
+                FilterTypes.Stuff,
+                new ThingItemFilter
+                {
+                    Id = "Stuff",
+                    IsUnfilteredFunc = ThingItemFilter.FilterByStuff,
+                    Label = "TKUtils.StoreFilters.Stuff".Localize().CapitalizeFirst()
+                }
+            );
+
+            filterManager.RegisterFilter(
+                FilterTypes.Stuff,
+                new ThingItemFilter
+                {
+                    Id = "NotStuff",
+                    IsUnfilteredFunc = ThingItemFilter.FilterByNotStuff,
+                    Label = "TKUtils.StoreFilters.NotStuff".Localize()
+                }
+            );
+
+            filterManager.RegisterFilter(
                 FilterTypes.Stackable,
                 new ThingItemFilter
                 {
