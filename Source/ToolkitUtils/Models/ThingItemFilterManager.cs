@@ -150,7 +150,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     }
                 }
 
-                Widgets.Label(categoryTextRect, $"TKUtils.FilterTypes.{category.FilterType}".Localize());
+                SettingsHelper.DrawLabel(categoryTextRect, $"TKUtils.FilterTypes.{category.FilterType}".Localize());
 
                 if (Widgets.ButtonInvisible(arrowIconRect))
                 {
@@ -190,7 +190,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
                 else
                 {
-                    Widgets.Label(textRect, filter.Label);
+                    SettingsHelper.DrawLabel(textRect, filter.Label);
                 }
 
                 if (Widgets.ButtonInvisible(canvas))
