@@ -17,6 +17,7 @@
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
@@ -30,15 +31,21 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected override void DrawItem(Rect canvas, ItemTableItem item)
         {
-            var nameRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
+            bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
+
+            var infoRect = new Rect(
+                hasIcon ? NameHeaderRect.x : NameHeaderTextRect.x,
+                canvas.y,
+                hasIcon ? NameHeaderRect.width : NameHeaderTextRect.width,
+                canvas.height
+            );
             var priceRect = new Rect(PriceHeaderRect.x, canvas.y, PriceHeaderRect.width, RowLineHeight);
             var categoryRect = new Rect(CategoryHeaderRect.x, canvas.y, CategoryHeaderRect.width, RowLineHeight);
 
-            SettingsHelper.DrawColoredLabel(
-                nameRect,
-                item.Data.Name,
-                item.Data.Thing == null ? Color.yellow : Color.white
-            );
+            if (item.Data.Thing != null && hasIcon)
+            {
+                SettingsHelper.DrawThing(infoRect, item.Data.Thing, item.Data.Name, !item.EditingName);
+            }
 
             if (item.Data.Price > 0)
             {

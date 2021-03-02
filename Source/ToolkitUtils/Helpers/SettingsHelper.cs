@@ -685,5 +685,26 @@ namespace SirRandoo.ToolkitUtils.Helpers
             state = proxy;
             return changed;
         }
+
+        public static void DrawThing(Rect canvas, ThingDef def, string labelOverride = null, bool infoCard = true)
+        {
+            var iconRect = new Rect(canvas.x + 2f, canvas.y + 2f, canvas.height - 4f, canvas.height - 4f);
+            var labelRect = new Rect(iconRect.x + canvas.height, canvas.y, canvas.width - canvas.height, canvas.height);
+
+            Widgets.ThingIcon(iconRect, def);
+            DrawLabel(labelRect, labelOverride ?? def.label?.CapitalizeFirst() ?? def.defName);
+
+            if (Current.Game == null || !infoCard)
+            {
+                return;
+            }
+
+            if (Widgets.ButtonInvisible(canvas))
+            {
+                Find.WindowStack.Add(new Dialog_InfoCard(def));
+            }
+
+            Widgets.DrawHighlightIfMouseover(canvas);
+        }
     }
 }
