@@ -208,10 +208,23 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected virtual void DrawItem(Rect canvas, ItemTableItem item)
         {
-            Rect checkboxRect = SettingsHelper.RectForIcon(
-                new Rect(stateHeaderRect.x + 2f, canvas.y + 2f, stateHeaderRect.width - 4f, RowLineHeight - 4f)
+            bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
+
+            var checkboxRect = new Rect(
+                stateHeaderRect.x + 2f,
+                canvas.y + 2f,
+                stateHeaderRect.width - 4f,
+                RowLineHeight - 4f
             );
-            var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
+            Rect iconRect = SettingsHelper.RectForIcon(
+                new Rect(NameHeaderRect.x + 4f, canvas.y + 4f, RowLineHeight - 8f, RowLineHeight - 8f)
+            );
+            var nameRect = new Rect(
+                hasIcon ? NameHeaderRect.x + RowLineHeight : NameHeaderTextRect.x,
+                canvas.y,
+                hasIcon ? NameHeaderRect.width - RowLineHeight - 4f : NameHeaderTextRect.width,
+                RowLineHeight
+            );
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
             var categoryRect = new Rect(
                 CategoryHeaderTextRect.x,
@@ -231,6 +244,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             if (SettingsHelper.DrawCheckbox(checkboxRect, ref item.Data.IsEnabled))
             {
                 item.Data.Update();
+            }
+
+            if (hasIcon)
+            {
+                Widgets.ThingIcon(iconRect, item.Data.Thing);
             }
 
             DrawConfigurableItemName(nameRect, item);
