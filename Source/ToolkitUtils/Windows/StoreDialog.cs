@@ -69,8 +69,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         public StoreDialog()
         {
             doCloseX = true;
-            optionalTitle = title;
-
             worker = new ItemTableWorker();
         }
 
@@ -124,6 +122,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GenerateFilters();
             GetTranslationStrings();
             worker.Prepare();
+            optionalTitle = title;
         }
 
         private void GenerateFilters()
