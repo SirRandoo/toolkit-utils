@@ -178,6 +178,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (!lineRect.IsRegionVisible(canvas, scrollPos))
                 {
                     index++;
+                    alternate = !alternate;
                     expanded += item.SettingsVisible ? 1 : 0;
                     continue;
                 }
