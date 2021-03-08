@@ -431,7 +431,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            foreach (ItemTableItem item in workingList)
+            foreach (ItemTableItem item in worker.Data.Where(i => !i.IsHidden))
             {
                 item.Data.Item.abr = item.Data.Thing.label.ToToolkit();
                 item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
