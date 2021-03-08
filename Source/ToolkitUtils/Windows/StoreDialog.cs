@@ -379,7 +379,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             float buttonWidth = resetAllTextSize.x + 16f;
             var buttonRect = new Rect(line.x + line.width - buttonWidth, line.y, buttonWidth, line.height);
 
-            DrawGlobalResetButton(buttonRect, worker.Data);
+            DrawGlobalResetButton(buttonRect);
 
             GUI.EndGroup();
         }
@@ -424,9 +424,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
-        private void DrawGlobalResetButton(Rect buttonRect, IEnumerable<ItemTableItem> workingList)
+        private void DrawGlobalResetButton(Rect canvas)
         {
-            if (!Widgets.ButtonText(buttonRect, resetAllText))
+            if (!Widgets.ButtonText(canvas, resetAllText))
             {
                 return;
             }
