@@ -50,7 +50,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private string resetItemNameTooltip;
         private Vector2 scrollPos = Vector2.zero;
 
-        private SettingsKey settingsKey = SettingsKey.Expand;
+        private SettingsKey settingsKey = SettingsKey.Collapse;
         private SortKey sortKey = SortKey.Name;
         private SortOrder sortOrder = SortOrder.Descending;
         private string stackLimitTooltip;
