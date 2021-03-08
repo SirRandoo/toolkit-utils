@@ -211,11 +211,8 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
 
-            var checkboxRect = new Rect(
-                stateHeaderRect.x + 2f,
-                canvas.y + 2f,
-                stateHeaderRect.width - 4f,
-                RowLineHeight - 4f
+            Rect checkboxRect = SettingsHelper.RectForIcon(
+                new Rect(stateHeaderRect.x + 2f, canvas.y + 2f, stateHeaderRect.width - 4f, RowLineHeight - 4f)
             );
             var iconRect = new Rect(NameHeaderRect.x + 4f, canvas.y + 4f, RowLineHeight - 8f, RowLineHeight - 8f);
             var nameRect = new Rect(
