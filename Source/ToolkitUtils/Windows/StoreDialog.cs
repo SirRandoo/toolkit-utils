@@ -288,7 +288,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (shouldResizeTable)
             {
                 worker.NotifyResolutionChanged(contentArea.AtZero());
-                shouldResizeTable = true;
+                shouldResizeTable = false;
             }
 
             worker.Draw(contentArea.AtZero());
