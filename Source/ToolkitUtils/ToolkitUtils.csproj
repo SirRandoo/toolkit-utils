@@ -212,9 +212,11 @@
         <Compile Include="Workers\ItemWorker.cs"/>
         <Compile Include="Workers\LuaEditorWorker.cs"/>
         <Compile Include="Workers\PawnTableWorker.cs"/>
+        <Compile Include="Workers\PawnViewWorker.cs"/>
         <Compile Include="Workers\TabWorker.cs"/>
         <Compile Include="Workers\TableWorker.cs"/>
         <Compile Include="Workers\TraitTableWorker.cs"/>
+        <Compile Include="Workers\TraitViewWorker.cs"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
