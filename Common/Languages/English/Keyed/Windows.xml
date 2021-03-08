@@ -24,10 +24,6 @@
     <TKUtils.Headers.FilterDialog>Editing item filters</TKUtils.Headers.FilterDialog>
     
     
-    <!-- General Input -->
-    <TKUtils.Inputs.CustomName>Custom name</TKUtils.Inputs.CustomName>
-    
-    
     <!-- Purge Dialog -->
     <TKUtils.Purge.Affected>viewers affected</TKUtils.Purge.Affected>
     
