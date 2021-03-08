@@ -260,6 +260,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             GUI.BeginGroup(inRect);
+            var headerRect = new Rect(0f, 0f, inRect.width, Text.LineHeight * 2f);
             var contentArea = new Rect(
                 inRect.x,
                 Text.LineHeight * 3f,
@@ -269,7 +270,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GameFont fontCache = Text.Font;
             Text.Font = GameFont.Small;
 
-            DrawStoreHeader(inRect);
+            DrawStoreHeader(headerRect);
             Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 2f, inRect.width);
 
             if (FilterMenuActive)
