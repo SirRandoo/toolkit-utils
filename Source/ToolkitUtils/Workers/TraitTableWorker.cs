@@ -334,8 +334,8 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 if (SettingsHelper.DrawTextField(fieldRect, trait.Data.Name, out string result))
                 {
+                    trait.Data.Name = result.ToToolkit();
                     trait.Data.Data.CustomName = true;
-                    trait.Data.Name = result;
                 }
 
                 if (trait.Data.Data.CustomName
