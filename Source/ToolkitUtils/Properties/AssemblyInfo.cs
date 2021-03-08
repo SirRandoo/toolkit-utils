@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ToolkitUtils")]
-[assembly: AssemblyCopyright("Copyright © SirRandoo 2020")]
+[assembly: AssemblyCopyright("Copyright © SirRandoo 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
