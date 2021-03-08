@@ -226,6 +226,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected virtual void DrawTrait(Rect canvas, TraitTableItem trait)
         {
+            var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
             Rect addCheckRect = SettingsHelper.RectForIcon(
                 new Rect(addStateHeaderRect.x + 2f, canvas.y + 2f, addStateHeaderRect.width - 4f, RowLineHeight - 4f)
@@ -263,7 +264,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (!trait.EditingName)
             {
-                Widgets.DrawHighlightIfMouseover(nameRect);
+                Widgets.DrawHighlightIfMouseover(nameMouseOverRect);
 
                 var builder = new StringBuilder();
                 builder.AppendLine(trait.Data.Description);
@@ -274,7 +275,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     builder.AppendLine($"- {i}");
                 }
 
-                TooltipHandler.TipRegion(nameRect, builder.ToString());
+                TooltipHandler.TipRegion(nameMouseOverRect, builder.ToString());
             }
 
             Widgets.Checkbox(
