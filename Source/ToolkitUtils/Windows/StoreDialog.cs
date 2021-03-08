@@ -282,7 +282,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             bool wrapped = Text.WordWrap;
             Text.WordWrap = false;
-            GUI.EndGroup();
 
             GUI.BeginGroup(contentArea);
 
