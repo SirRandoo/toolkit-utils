@@ -32,4 +32,9 @@
     <TKUtils.ItemTableTooltips.CloseItemName>Close the item name editor.</TKUtils.ItemTableTooltips.CloseItemName>
     <TKUtils.ItemTableTooltips.ResetItemName>Reset the item's name to its default value.</TKUtils.ItemTableTooltips.ResetItemName>
     <TKUtils.ItemTableTooltips.ResetItemKarma>Reset the item's karma type to its default value.</TKUtils.ItemTableTooltips.ResetItemKarma>
+    
+    <TKUtils.TraitTableTooltips.EditTraitName>Customize the name of this trait.</TKUtils.TraitTableTooltips.EditTraitName>
+    <TKUtils.TraitTableTooltips.CloseTraitName>Close the trait name editor.</TKUtils.TraitTableTooltips.CloseTraitName>
+    <TKUtils.TraitTableTooltips.ResetTraitName>Reset the trait's name to its default value.</TKUtils.TraitTableTooltips.ResetTraitName>
+    <TKUtils.TraitTableTooltips.ResetTraitKarma>Reset the trait's karma type to its default value.</TKUtils.TraitTableTooltips.ResetTraitKarma>
 </LanguageData>
