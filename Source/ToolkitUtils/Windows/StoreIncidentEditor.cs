@@ -30,7 +30,6 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private readonly EventTypes eventType;
         private readonly List<FloatMenuOption> karmaTypeOptions;
-        private readonly string[] karmaTypeStrings = Enum.GetNames(typeof(KarmaType));
         private string codeText;
 
         private string disableText;
@@ -52,11 +51,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             onlyOneOfTypeAllowed = true;
             eventType = storeIncident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None;
 
-            karmaTypeOptions = karmaTypeStrings.Select(
-                    t => new FloatMenuOption(
-                        t,
-                        () => storeIncident.karmaType = (KarmaType) Enum.Parse(typeof(KarmaType), t)
-                    )
+            karmaTypeOptions = Data.KarmaTypes.Select(
+                    t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)
                 )
                .ToList();
         }
