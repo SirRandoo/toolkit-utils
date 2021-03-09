@@ -417,7 +417,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             (Rect removeKarmaLabel, Rect removeKarmaField) =
                 new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).ToForm();
-            SettingsHelper.DrawLabel(removeKarmaLabel, addKarmaTypeText);
+            SettingsHelper.DrawLabel(removeKarmaLabel, removeKarmaTypeText);
             if (Widgets.ButtonText(
                 removeKarmaField,
                 trait.Data.Data.KarmaTypeForRemoving == null
