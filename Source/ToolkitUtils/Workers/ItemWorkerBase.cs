@@ -25,11 +25,11 @@ namespace SirRandoo.ToolkitUtils.Workers
         private protected Rect SelectorRect = Rect.zero;
 
         private protected Rect TableRect = Rect.zero;
-        private ItemTableWorker worker;
+        private protected ItemTableWorker Worker;
 
         protected ItemWorkerBase()
         {
-            worker = new ItemTableWorker();
+            Worker = new ItemTableWorker();
         }
 
         public void Draw()
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
 
             GUI.BeginGroup(TableRect);
-            worker.Draw(TableRect);
+            Worker.Draw(TableRect.AtZero());
             GUI.EndGroup();
         }
 
