@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible(TableItem<ThingItem> item)
         {
-            return item.Data.ItemData.IsStuffAllowed == state;
+            return item.Data.Thing?.IsStuff == state;
         }
     }
 }
