@@ -19,17 +19,27 @@
   -->
 
 <LanguageData>
+    <TKUtils.Fields.HasQuantityLimit>Has quantity limit?</TKUtils.Fields.HasQuantityLimit>
     <TKUtils.Fields.QuantityLimit>Quantity limit</TKUtils.Fields.QuantityLimit>
     <TKUtils.Fields.Weight>Purchase weight</TKUtils.Fields.Weight>
     <TKUtils.Fields.KarmaType>Karma type</TKUtils.Fields.KarmaType>
+    <TKUtils.Fields.State>Is enabled?</TKUtils.Fields.State>
+    <TKUtils.Fields.Mod>Mod</TKUtils.Fields.Mod>
     <TKUtils.Fields.Wager>Maximum coin wager</TKUtils.Fields.Wager>
     <TKUtils.Fields.Price>Price</TKUtils.Fields.Price>
     <TKUtils.Fields.PurchaseCode>Purchase code</TKUtils.Fields.PurchaseCode>
     <TKUtils.Fields.IncidentTimes>Max times per {0} in-game day(s)</TKUtils.Fields.IncidentTimes>
     <TKUtils.Fields.Username>Username</TKUtils.Fields.Username>
     <TKUtils.Fields.Name>Name</TKUtils.Fields.Name>
+    <TKUtils.Fields.Category>Category</TKUtils.Fields.Category>
+    <TKUtils.Fields.IsWeapon>Is weapon?</TKUtils.Fields.IsWeapon>
+    <TKUtils.Fields.DefName>Def name</TKUtils.Fields.DefName>
     <TKUtils.Fields.CanBeStuff>Can be stuff?</TKUtils.Fields.CanBeStuff>
+    <TKUtils.Fields.IsMeleeWeapon>Is melee weapon?</TKUtils.Fields.IsMeleeWeapon>
+    <TKUtils.Fields.IsRangedWeapon>Is ranged weapon?</TKUtils.Fields.IsRangedWeapon>
     <TKUtils.Fields.AddPrice>Add price</TKUtils.Fields.AddPrice>
+    <TKUtils.Fields.CanAdd>Can add trait</TKUtils.Fields.CanAdd>
+    <TKUtils.Fields.CanRemove>Can remove trait</TKUtils.Fields.CanRemove>
     <TKUtils.Fields.RemovePrice>Remove price</TKUtils.Fields.RemovePrice>
     <TKUtils.Fields.BypassTraitLimit>Bypass trait limit</TKUtils.Fields.BypassTraitLimit>
     <TKUtils.Fields.AddKarmaType>Karma type for adding</TKUtils.Fields.AddKarmaType>
