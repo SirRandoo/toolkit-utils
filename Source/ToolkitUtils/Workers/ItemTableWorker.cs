@@ -265,7 +265,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 }
             }
 
-            if (item.Data.Price > 0)
+            if (item.Data.Cost > 0)
             {
                 SettingsHelper.DrawPriceField(priceRect, ref item.Data.Item.price);
             }
@@ -478,7 +478,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (sortKey)
             {
                 case SortKey.Price:
-                    _data = _data.OrderBy(i => i.Data.Price).ThenBy(i => i.Data.Name).ToList();
+                    _data = _data.OrderBy(i => i.Data.Cost).ThenBy(i => i.Data.Name).ToList();
                     return;
                 case SortKey.Category:
                     _data = _data.OrderBy(i => i.Data.Category).ThenBy(i => i.Data.Name).ToList();
@@ -494,7 +494,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (sortKey)
             {
                 case SortKey.Price:
-                    _data = _data.OrderByDescending(i => i.Data.Price).ThenByDescending(i => i.Data.Name).ToList();
+                    _data = _data.OrderByDescending(i => i.Data.Cost).ThenByDescending(i => i.Data.Name).ToList();
                     return;
                 case SortKey.Category:
                     _data = _data.OrderByDescending(i => i.Data.Category).ThenByDescending(i => i.Data.Name).ToList();

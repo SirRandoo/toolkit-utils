@@ -531,7 +531,7 @@ namespace SirRandoo.ToolkitUtils
         public static IEnumerable<string> GetItemResults(string input)
         {
             return Items.Where(i => i.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
-               .Where(i => i.Price > 0)
+               .Where(i => i.Cost > 0)
                .Select(i => i.Name.ToToolkit());
         }
 

@@ -47,9 +47,9 @@ namespace SirRandoo.ToolkitUtils.Workers
                 SettingsHelper.DrawThing(infoRect, item.Data.Thing, item.Data.Name, !item.EditingName);
             }
 
-            if (item.Data.Price > 0)
+            if (item.Data.Cost > 0)
             {
-                SettingsHelper.DrawLabel(priceRect, item.Data.Price.ToString("N0"));
+                SettingsHelper.DrawLabel(priceRect, item.Data.Cost.ToString("N0"));
             }
 
             SettingsHelper.DrawLabel(categoryRect, item.Data.Category);

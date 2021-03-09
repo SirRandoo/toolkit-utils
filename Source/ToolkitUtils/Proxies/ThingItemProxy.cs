@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Proxies
         public bool IsEnabled => thingItem.IsEnabled;
         public string DefName => thingItem.DefName;
         public string Name => thingItem.Name;
-        public int Price => thingItem.Price;
+        public int Cost => thingItem.Cost;
         public string Abr => thingItem.Item?.abr;
         public string Abbreviation => thingItem.Item?.abr;
         public string Mod => thingItem.Mod;

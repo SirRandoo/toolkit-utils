@@ -128,12 +128,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public static bool FilterByEnabled(ItemTableItem subject)
         {
-            return subject.Data.Price > 0;
+            return subject.Data.Cost > 0;
         }
 
         public static bool FilterByDisabled(ItemTableItem subject)
         {
-            return subject.Data.Price <= 0;
+            return subject.Data.Cost <= 0;
         }
     }
 }

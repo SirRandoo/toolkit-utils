@@ -163,7 +163,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             public ItemData ItemData => Item.Data;
             public ThingDef ThingDef { get; set; }
             public int Quantity { get; set; }
-            public int Cost => Item.Price * Quantity;
+            public int Cost => Item.Cost * Quantity;
 
             public static Appointment ParseInput(Pawn patient, string[] segments)
             {
@@ -196,7 +196,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             private void ParseThingDef(string input)
             {
-                Item = Data.Items.Where(i => i.Price > 0)
+                Item = Data.Items.Where(i => i.Cost > 0)
                    .FirstOrDefault(
                         t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
                              || t.DefName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())

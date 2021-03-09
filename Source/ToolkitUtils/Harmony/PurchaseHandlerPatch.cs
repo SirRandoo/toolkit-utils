@@ -105,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         private static bool TryFindItem(string query, out ThingItem item)
         {
-            item = Data.Items.Where(i => i.Price > 0).FirstOrDefault(i => query.EqualsIgnoreCase(i.Name));
+            item = Data.Items.Where(i => i.Cost > 0).FirstOrDefault(i => query.EqualsIgnoreCase(i.Name));
             return item != null;
         }
     }

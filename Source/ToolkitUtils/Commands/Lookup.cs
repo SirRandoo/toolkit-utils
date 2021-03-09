@@ -92,7 +92,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         private void PerformAnimalLookup(string query)
         {
             string[] results = Data.Items.Where(i => i.Thing.race.Animal)
-               .Where(i => i.Price > 0)
+               .Where(i => i.Cost > 0)
                .Where(
                     i =>
                     {
@@ -165,7 +165,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformItemLookup(string query)
         {
-            string[] results = Data.Items.Where(i => i.Price > 0)
+            string[] results = Data.Items.Where(i => i.Cost > 0)
                .Where(
                     i =>
                     {

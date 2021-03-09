@@ -444,11 +444,15 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void DrawRightExpandedSettingsColumn(Rect canvas, TraitTableItem trait)
         {
-            SettingsHelper.LabeledPaintableCheckbox(
+            bool proxy = trait.Data.Data.CanBypassLimit;
+            if (SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(0f, 0f, canvas.width, RowLineHeight),
                 bypassLimitText,
-                ref trait.Data.Data.CanBypassLimit
-            );
+                ref proxy
+            ))
+            {
+                trait.Data.Data.CanBypassLimit = proxy;
+            }
         }
 
         public override void EnsureExists(TraitTableItem data)

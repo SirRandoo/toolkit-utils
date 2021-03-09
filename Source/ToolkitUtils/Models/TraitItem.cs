@@ -27,26 +27,22 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public class TraitItem
+    public class TraitItem : ShopItemBase<TraitData>
     {
         public bool CanAdd;
         public bool CanRemove;
+        [JsonIgnore] private int cost;
         [JsonProperty("addPrice")] public int CostToAdd;
         [JsonProperty("removePrice")] public int CostToRemove;
         [JsonIgnore] private string defaultName;
 
-        public string DefName;
         public int Degree;
         [JsonIgnore] private string finalDescription;
-        public string Name;
-        [JsonIgnore] private TraitData traitData;
         [JsonIgnore] private TraitDef traitDef;
 
-        public TraitData Data => traitData ??= new TraitData();
-
         // Legacy support
-        [UsedImplicitly]
         public string Description
         {
             get
@@ -63,7 +59,6 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [UsedImplicitly]
         public string[] Stats
         {
             get
@@ -77,7 +72,6 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [UsedImplicitly]
         public string[] Conflicts
         {
             get
@@ -96,6 +90,22 @@ namespace SirRandoo.ToolkitUtils.Models
         [JsonIgnore]
         public TraitDef TraitDef =>
             traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
+
+        public override string Name { get; set; }
+
+        [JsonIgnore]
+        public override int Cost
+        {
+            get => cost;
+            set
+            {
+                CostToAdd = value;
+                CostToRemove = value;
+                cost = value;
+            }
+        }
+
+        public override TraitData Data { get; set; }
 
         private void UpdateStats()
         {
@@ -270,7 +280,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 DefName = trait.DefName,
                 Degree = trait.Degree,
                 Name = trait.Name,
-                traitData = new TraitData
+                Data = new TraitData
                 {
                     CanBypassLimit = trait.BypassLimit,
                     Conflicts = new string[] { },

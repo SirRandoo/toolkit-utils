@@ -23,16 +23,10 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    [UsedImplicitly]
-    public class PawnKindItem
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public class PawnKindItem : ShopItemBase<PawnKindData>
     {
-        [JsonProperty("price")] public int Cost;
-        [JsonIgnore] private PawnKindData data;
-
-        public string DefName;
-        public bool Enabled;
         [JsonIgnore] private List<PawnKindDef> kinds;
-        public string Name;
 
         [JsonIgnore]
         public IEnumerable<PawnKindDef> Kinds =>
@@ -42,7 +36,10 @@ namespace SirRandoo.ToolkitUtils.Models
         public PawnKindDef ColonistKindDef =>
             Kinds.FirstOrDefault(k => k.defaultFactionType.isPlayer) ?? Kinds.FirstOrFallback();
 
-        public PawnKindData Data => data ??= new PawnKindData();
+        public override string Name { get; set; }
+
+        [JsonProperty("price")] public override int Cost { get; set; }
+        public override PawnKindData Data { get; set; }
 
 
         public static PawnKindItem MigrateFrom(XmlRace race)

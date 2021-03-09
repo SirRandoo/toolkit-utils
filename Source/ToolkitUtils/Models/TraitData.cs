@@ -14,25 +14,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public class TraitData
+    public class TraitData : ShopDataBase
     {
-        public bool CanBypassLimit;
-        [DefaultValue(new string[] { })] public string[] Conflicts;
-        public bool CustomName;
+        public string[] Conflicts = { };
 
-        [DefaultValue(null)] public KarmaType? KarmaTypeForAdding;
+        public string[] Stats = { };
+        public bool CanBypassLimit { get; set; }
+        public bool CustomName { get; set; }
 
-        [DefaultValue(null)] public KarmaType? KarmaTypeForRemoving;
+        public KarmaType? KarmaTypeForAdding
+        {
+            get => KarmaType;
+            set => KarmaType = value;
+        }
 
-        [DefaultValue(new string[] { })] public string[] Stats;
+        public KarmaType? KarmaTypeForRemoving { get; set; }
+
+        [JsonProperty("karmaTypeForAdding")] public override KarmaType? KarmaType { get; set; }
     }
 }

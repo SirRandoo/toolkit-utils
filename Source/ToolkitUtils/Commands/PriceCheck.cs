@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             ThingItem item = Data.Items.FirstOrDefault(i => i.DefName.EqualsIgnoreCase(result.defName));
 
-            if (item == null || item.Price <= 0)
+            if (item == null || item.Cost <= 0)
             {
                 return;
             }
@@ -90,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             Notify__LookupComplete(
                 "TKUtils.Price.Quantity".Localize(
                     result.defName.CapitalizeFirst(),
-                    item.Price.ToString("N0"),
+                    item.Cost.ToString("N0"),
                     item.Item.CalculatePrice(quantity).ToString("N0"),
                     quantity
                 )
@@ -147,7 +147,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         private void PerformItemLookup(string query, int quantity)
         {
             ThingItem result = Data.Items.FirstOrDefault(
-                i => i.Price > 0
+                i => i.Cost > 0
                      && (i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                          || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
             );
@@ -160,7 +160,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             Notify__LookupComplete(
                 "TKUtils.Price.Quantity".Localize(
                     result.Name.CapitalizeFirst(),
-                    result.Price.ToString("N0"),
+                    result.Cost.ToString("N0"),
                     result.Item.CalculatePrice(quantity).ToString("N0"),
                     quantity
                 )

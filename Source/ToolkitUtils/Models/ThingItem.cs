@@ -14,22 +14,40 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Data;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class ThingItem
+    public class ThingItem : ShopItemBase<ItemData>
     {
         private string categoryCached;
         private ItemData data;
 
         public bool IsEnabled;
         private Item item;
-        public string DefName => Item?.defname ?? Thing.defName;
-        public string Name => Data?.CustomName ?? Item?.abr ?? "Fetching...";
-        public int Price => Item?.price ?? -10;
+
+        public override string DefName
+        {
+            get => Item?.defname ?? Thing.defName;
+            set => throw new ReadOnlyException();
+        }
+
+        public override string Name
+        {
+            get => Data?.CustomName ?? Item?.abr ?? "Fetching...";
+            set => throw new ReadOnlyException();
+        }
+
+        [JsonProperty("price")]
+        public override int Cost
+        {
+            get => Item?.price ?? -10;
+            set => throw new ReadOnlyException();
+        }
 
         public Item Item
         {
@@ -65,7 +83,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
         public ThingDef Thing { get; set; }
 
-        public ItemData Data
+        public override ItemData Data
         {
             get
             {

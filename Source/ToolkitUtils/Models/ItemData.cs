@@ -23,36 +23,28 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    [UsedImplicitly]
-    public class ItemData
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public class ItemData : ShopDataBase
     {
-        [System.ComponentModel.DefaultValue(null)]
         public string CustomName;
 
         public bool HasQuantityLimit;
         public bool IsMelee;
         public bool IsRanged;
 
-        [System.ComponentModel.DefaultValue(true)]
         public bool IsStuffAllowed = true;
 
         public bool IsWeapon;
 
-        [System.ComponentModel.DefaultValue(null)]
-        public KarmaType? KarmaType;
-
-        public string Mod;
-
-        [System.ComponentModel.DefaultValue(-1)]
         public int QuantityLimit = 1;
 
         [JsonIgnore] private List<ResearchProjectDef> researchProjectDefs;
 
-        [System.ComponentModel.DefaultValue(null)]
         public List<string> ResearchProjects;
 
-        [System.ComponentModel.DefaultValue(1f)]
         public float Weight = 1f;
+
+        public override KarmaType? KarmaType { get; set; }
 
         public IEnumerable<ResearchProjectDef> GetResearchProjects()
         {

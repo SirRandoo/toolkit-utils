@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = 1;
             }
 
-            ThingItem product = Data.Items.Where(i => i.Price > 0).FirstOrDefault(i => i.Name.EqualsIgnoreCase(item));
+            ThingItem product = Data.Items.Where(i => i.Cost > 0).FirstOrDefault(i => i.Name.EqualsIgnoreCase(item));
 
             if (product?.Thing == null)
             {
@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (quantity.Equals("*"))
             {
-                amount = viewer.GetMaximumPurchaseAmount(product.Price);
+                amount = viewer.GetMaximumPurchaseAmount(product.Cost);
             }
 
             if (product.Data != null && product.Data.HasQuantityLimit)
@@ -145,7 +145,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     {
         private Pawn pawn;
 
-        public int Price => Mathf.Clamp(ItemData.Price * Quantity, 0, int.MaxValue);
+        public int Price => Mathf.Clamp(ItemData.Cost * Quantity, 0, int.MaxValue);
         public int Quantity { get; set; }
         public ThingItem ItemData { get; set; }
         public ThingDef ThingDef { get; set; }

@@ -206,19 +206,19 @@ namespace SirRandoo.ToolkitUtils.Workers
                 )
             );
 
-            Widgets.Checkbox(
-                checkboxRect.x,
-                checkboxRect.y,
-                ref item.Data.Enabled,
-                checkboxRect.width,
-                paintable: true
-            );
+            bool proxy = item.Data.Enabled;
+            if (SettingsHelper.DrawCheckbox(checkboxRect, ref proxy))
+            {
+                item.Data.Enabled = proxy;
+            }
 
             DrawConfigurableItemName(nameRect, item);
 
             if (item.Data.Enabled)
             {
-                SettingsHelper.DrawPriceField(priceRect, ref item.Data.Cost);
+                int cost = item.Data.Cost;
+                SettingsHelper.DrawPriceField(priceRect, ref cost);
+                item.Data.Cost = cost;
             }
 
             if (Widgets.ButtonImage(settingRect, Textures.Gear))

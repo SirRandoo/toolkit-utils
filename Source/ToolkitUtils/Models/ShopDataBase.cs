@@ -14,16 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using JetBrains.Annotations;
 using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public class PawnKindData : ShopDataBase
+    public abstract class ShopDataBase
     {
-        public bool CustomName;
-
-        public override KarmaType? KarmaType { get; set; }
+        public string Mod { get; set; }
+        public abstract KarmaType? KarmaType { get; set; }
     }
 }
