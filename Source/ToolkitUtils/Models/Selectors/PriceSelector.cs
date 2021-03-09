@@ -61,10 +61,10 @@ namespace SirRandoo.ToolkitUtils.Models
 
             price = newCost;
             priceBuffer = newCost.ToString();
-            Dirty = true;
+            Dirty.Set(true);
         }
 
-        public bool Dirty { get; set; }
+        public ObservableProperty<bool> Dirty { get; set; }
 
         public bool IsVisible(TableItem<T> item)
         {

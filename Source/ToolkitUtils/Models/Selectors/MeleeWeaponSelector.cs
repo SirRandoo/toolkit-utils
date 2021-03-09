@@ -16,6 +16,7 @@
 
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -34,11 +35,11 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             if (SettingsHelper.LabeledPaintableCheckbox(canvas, meleeWeaponText, ref state))
             {
-                Dirty = true;
+                Dirty.Set(true);
             }
         }
 
-        public bool Dirty { get; set; }
+        public ObservableProperty<bool> Dirty { get; set; }
 
         public bool IsVisible(TableItem<ThingItem> item)
         {

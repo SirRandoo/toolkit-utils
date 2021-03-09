@@ -17,6 +17,7 @@
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
@@ -45,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Models
             if (SettingsHelper.DrawTextField(field, defName, out string input))
             {
                 defName = input;
-                Dirty = true;
+                Dirty.Set(true);
             }
 
             if (!SettingsHelper.DrawFieldButton(
@@ -58,10 +59,10 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             exclude = !exclude;
-            Dirty = true;
+            Dirty.Set(true);
         }
 
-        public bool Dirty { get; set; }
+        public ObservableProperty<bool> Dirty { get; set; }
 
         public bool IsVisible(TableItem<T> item)
         {

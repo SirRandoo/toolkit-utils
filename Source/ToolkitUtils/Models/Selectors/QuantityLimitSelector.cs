@@ -66,10 +66,10 @@ namespace SirRandoo.ToolkitUtils.Models
 
             quantityLimitCost = newCost;
             quantityLimitCostBuffer = newCost.ToString();
-            Dirty = true;
+            Dirty.Set(true);
         }
 
-        public bool Dirty { get; set; }
+        public ObservableProperty<bool> Dirty { get; set; }
 
         public bool IsVisible(TableItem<ThingItem> item)
         {
