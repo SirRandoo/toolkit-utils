@@ -38,10 +38,10 @@ namespace SirRandoo.ToolkitUtils.Proxies
         public string DefName => traitItem.DefName;
         public int Degree => traitItem.Degree;
         public string Name => traitItem.Name;
-        public string[] Conflicts => traitItem.Data.Conflicts;
-        public bool CanBypassLimit => traitItem.Data.CanBypassLimit;
-        public string AddKarmaType => traitItem.Data.KarmaTypeForAdding.ToString();
-        public string RemoveKarmaType => traitItem.Data.KarmaTypeForRemoving.ToString();
-        public bool HasCustomName => traitItem.Data.CustomName;
+        public string[] Conflicts => traitItem.TraitData.Conflicts;
+        public bool CanBypassLimit => traitItem.TraitData.CanBypassLimit;
+        public string AddKarmaType => traitItem.Data.KarmaType.ToString();
+        public string RemoveKarmaType => traitItem.TraitData.KarmaTypeForRemoving.ToString();
+        public bool HasCustomName => traitItem.TraitData.CustomName;
     }
 }

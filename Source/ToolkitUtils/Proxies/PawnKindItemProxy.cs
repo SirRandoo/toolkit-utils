@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Proxies
         public string Name => pawnKindItem.Name;
         public bool Enabled => pawnKindItem.Enabled;
         public int Cost => pawnKindItem.Cost;
-        public bool HasCustomName => pawnKindItem.Data.CustomName;
+        public bool HasCustomName => pawnKindItem.PawnData.CustomName;
         public string KarmaType => pawnKindItem.Data.KarmaType.ToString();
     }
 }

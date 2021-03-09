@@ -22,23 +22,23 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class WeightMutator : MutatorBase<ThingItem>
+    public class WeightMutator : IMutatorBase<ThingItem>
     {
         private float weight = 1f;
         private string weightBuffer = "1";
         private string weightText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             weightText = "TKUtils.Fields.Weight".Localize();
         }
 
-        public override void Mutate(TableItem<ThingItem> item)
+        public void Mutate(TableItem<ThingItem> item)
         {
-            item.Data.Data.Weight = weight;
+            item.Data.ItemData.Weight = weight;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, weightText);

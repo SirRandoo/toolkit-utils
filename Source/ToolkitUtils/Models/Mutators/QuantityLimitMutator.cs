@@ -22,23 +22,23 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class QuantityLimitMutator : MutatorBase<ThingItem>
+    public class QuantityLimitMutator : IMutatorBase<ThingItem>
     {
         private int limit = 1;
         private string limitBuffer = "1";
         private string quantityLimitText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             quantityLimitText = "TKUtils.Fields.QuantityLimit".Localize();
         }
 
-        public override void Mutate(TableItem<ThingItem> item)
+        public void Mutate(TableItem<ThingItem> item)
         {
-            item.Data.Data.QuantityLimit = limit;
+            item.Data.ItemData.QuantityLimit = limit;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, quantityLimitText);

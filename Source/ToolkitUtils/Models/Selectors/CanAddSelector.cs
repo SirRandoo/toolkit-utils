@@ -20,17 +20,17 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class CanAddSelector : SelectorBase<TraitItem>
+    public class CanAddSelector : ISelectorBase<TraitItem>
     {
         private string canAddText;
         private bool state = true;
 
-        public override void Prepare()
+        public void Prepare()
         {
             canAddText = "TKUtils.Fields.CanAdd".Localize();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             if (SettingsHelper.LabeledPaintableCheckbox(canvas, canAddText, ref state))
             {
@@ -38,7 +38,9 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public override bool IsVisible(TableItem<TraitItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<TraitItem> item)
         {
             return item.Data.CanAdd == state;
         }

@@ -20,17 +20,17 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class CanRemoveSelector : SelectorBase<TraitItem>
+    public class CanRemoveSelector : ISelectorBase<TraitItem>
     {
         private string canRemoveText;
         private bool state = true;
 
-        public override void Prepare()
+        public void Prepare()
         {
             canRemoveText = "TKUtils.Fields.CanRemove".Localize();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             if (SettingsHelper.LabeledPaintableCheckbox(canvas, canRemoveText, ref state))
             {
@@ -38,7 +38,9 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public override bool IsVisible(TableItem<TraitItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<TraitItem> item)
         {
             return item.Data.CanRemove == state;
         }

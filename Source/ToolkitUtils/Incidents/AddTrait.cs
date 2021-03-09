@@ -180,7 +180,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override void TryExecute()
         {
             TraitHelper.GivePawnTrait(pawn, trait);
-            Viewer.Charge(buyableTrait.CostToAdd, buyableTrait.Data?.KarmaTypeForAdding ?? storeIncident.karmaType);
+            Viewer.Charge(buyableTrait.CostToAdd, buyableTrait.Data?.KarmaType ?? storeIncident.karmaType);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Trait.Complete".Localize(trait.Label));
 
             Current.Game.letterStack.ReceiveLetter(

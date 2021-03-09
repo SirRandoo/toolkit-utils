@@ -22,27 +22,27 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class ItemNameMutator : MutatorBase<ThingItem>
+    public class ItemNameMutator : IMutatorBase<ThingItem>
     {
         private string name = "";
         private string nameText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             nameText = "TKUtils.Fields.Name".Localize();
         }
 
-        public override void Mutate(TableItem<ThingItem> item)
+        public void Mutate(TableItem<ThingItem> item)
         {
             if (name.NullOrEmpty())
             {
                 return;
             }
 
-            item.Data.Data.CustomName = name;
+            item.Data.ItemData.CustomName = name;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, nameText);

@@ -22,23 +22,23 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class PawnPriceMutator : MutatorBase<ShopItemBase<ShopDataBase>>
+    public class PawnPriceMutator : IMutatorBase<IShopItemBase>
     {
         private int price = 1;
         private string priceBuffer = "1";
         private string priceText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             priceText = "TKUtils.Fields.Price".Localize();
         }
 
-        public override void Mutate(TableItem<ShopItemBase<ShopDataBase>> item)
+        public void Mutate(TableItem<IShopItemBase> item)
         {
             item.Data.Cost = price;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, priceText);

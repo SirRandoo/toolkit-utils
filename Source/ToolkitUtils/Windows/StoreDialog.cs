@@ -436,11 +436,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 item.Data.Item.abr = item.Data.Thing.label.ToToolkit();
                 item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
                 item.Data.Data.KarmaType = null;
-                item.Data.Data.CustomName = null;
-                item.Data.Data.HasQuantityLimit = false;
-                item.Data.Data.Weight = 1f;
-                item.Data.Data.IsStuffAllowed = true;
-                item.Data.Data.QuantityLimit = 1;
+                item.Data.ItemData.CustomName = null;
+                item.Data.ItemData.HasQuantityLimit = false;
+                item.Data.ItemData.Weight = 1f;
+                item.Data.ItemData.IsStuffAllowed = true;
+                item.Data.ItemData.QuantityLimit = 1;
             }
         }
 
@@ -638,7 +638,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         item.abr ??= thing.label?.ToToolkit() ?? thing.defName;
                     }
 
-                    thingItem.IsEnabled = item.price > 0;
+                    thingItem.Enabled = item.price > 0;
                     thingItem.Item = item;
                     thingItem.Update();
                 }

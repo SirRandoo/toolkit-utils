@@ -20,22 +20,22 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class CanRemoveMutator : MutatorBase<TraitItem>
+    public class CanRemoveMutator : IMutatorBase<TraitItem>
     {
         private string canRemoveText;
         private bool state;
 
-        public override void Prepare()
+        public void Prepare()
         {
             canRemoveText = "TKUtils.Fields.CanRemove".Localize();
         }
 
-        public override void Mutate(TableItem<TraitItem> item)
+        public void Mutate(TableItem<TraitItem> item)
         {
             item.Data.CanRemove = state;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             SettingsHelper.LabeledPaintableCheckbox(canvas, canRemoveText, ref state);
         }

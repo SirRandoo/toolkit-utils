@@ -156,13 +156,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private class Appointment
         {
-            public Pawn Patient { get; set; }
-            public RecipeDef Surgery { get; set; }
-            public List<BodyPartRecord> BodyParts { get; set; }
-            public ThingItem Item { get; set; }
-            public ItemData ItemData => Item.Data;
-            public ThingDef ThingDef { get; set; }
-            public int Quantity { get; set; }
+            private Pawn Patient { get; set; }
+            public RecipeDef Surgery { get; private set; }
+            public List<BodyPartRecord> BodyParts { get; private set; }
+            public ThingItem Item { get; private set; }
+            public ItemData ItemData => Item.ItemData;
+            public ThingDef ThingDef { get; private set; }
+            public int Quantity { get; private set; }
             public int Cost => Item.Cost * Quantity;
 
             public static Appointment ParseInput(Pawn patient, string[] segments)

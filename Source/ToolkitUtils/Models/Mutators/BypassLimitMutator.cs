@@ -20,22 +20,22 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class BypassLimitMutator : MutatorBase<TraitItem>
+    public class BypassLimitMutator : IMutatorBase<TraitItem>
     {
         private string bypassLimitText;
         private bool state;
 
-        public override void Prepare()
+        public void Prepare()
         {
             bypassLimitText = "TKUtils.Fields.BypassTraitLimit".Localize();
         }
 
-        public override void Mutate(TableItem<TraitItem> item)
+        public void Mutate(TableItem<TraitItem> item)
         {
-            item.Data.Data.CanBypassLimit = state;
+            item.Data.TraitData.CanBypassLimit = state;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             SettingsHelper.LabeledPaintableCheckbox(canvas, bypassLimitText, ref state);
         }

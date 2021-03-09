@@ -252,13 +252,13 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (SettingsHelper.DrawTextField(fieldRect, item.Data.Name, out string result))
                 {
                     item.Data.Name = result.ToToolkit();
-                    item.Data.Data.CustomName = true;
+                    item.Data.PawnData.CustomName = true;
                 }
 
-                if (item.Data.Data.CustomName
+                if (item.Data.PawnData.CustomName
                     && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetPawnNameTooltip))
                 {
-                    item.Data.Data.CustomName = false;
+                    item.Data.PawnData.CustomName = false;
                 }
             }
             else

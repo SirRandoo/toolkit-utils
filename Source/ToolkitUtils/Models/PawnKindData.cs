@@ -20,10 +20,11 @@ using TwitchToolkit;
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public class PawnKindData : ShopDataBase
+    public class PawnKindData : IShopDataBase
     {
         public bool CustomName;
 
-        public override KarmaType? KarmaType { get; set; }
+        public string Mod { get; set; }
+        public KarmaType? KarmaType { get; set; }
     }
 }

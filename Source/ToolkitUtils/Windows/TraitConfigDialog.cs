@@ -130,10 +130,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 trait.Data.CanRemove = true;
                 trait.Data.CostToRemove = 5500;
                 trait.Data.Name = trait.Data.GetDefaultName();
-                trait.Data.Data.CustomName = false;
-                trait.Data.Data.CanBypassLimit = false;
-                trait.Data.Data.KarmaTypeForAdding = null;
-                trait.Data.Data.KarmaTypeForRemoving = null;
+                trait.Data.TraitData.CustomName = false;
+                trait.Data.TraitData.CanBypassLimit = false;
+                trait.Data.Data.KarmaType = null;
+                trait.Data.TraitData.KarmaTypeForRemoving = null;
             }
         }
 

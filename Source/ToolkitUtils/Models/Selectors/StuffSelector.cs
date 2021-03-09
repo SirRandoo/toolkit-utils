@@ -20,17 +20,17 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class StuffSelector : SelectorBase<ThingItem>
+    public class StuffSelector : ISelectorBase<ThingItem>
     {
         private bool state = true;
         private string stuffText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             stuffText = "TKUtils.Fields.CanBeStuff".Localize();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             if (SettingsHelper.LabeledPaintableCheckbox(canvas, stuffText, ref state))
             {
@@ -38,9 +38,11 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public override bool IsVisible(TableItem<ThingItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<ThingItem> item)
         {
-            return item.Data.Data.IsStuffAllowed == state;
+            return item.Data.ItemData.IsStuffAllowed == state;
         }
     }
 }

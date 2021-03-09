@@ -150,7 +150,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             foreach (ItemTableItem item in Data.Where(i => !i.IsHidden))
             {
-                item.Data.IsEnabled = newState == StateKey.Enable;
+                item.Data.Enabled = newState == StateKey.Enable;
                 item.Data.Update();
             }
         }
@@ -243,8 +243,10 @@ namespace SirRandoo.ToolkitUtils.Workers
                 )
             );
 
-            if (SettingsHelper.DrawCheckbox(checkboxRect, ref item.Data.IsEnabled))
+            bool proxy = item.Data.Enabled;
+            if (SettingsHelper.DrawCheckbox(checkboxRect, ref proxy))
             {
+                item.Data.Enabled = proxy;
                 item.Data.Update();
             }
 
@@ -302,13 +304,13 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 if (SettingsHelper.DrawTextField(fieldRect, item.Data.Name, out string result))
                 {
-                    item.Data.Data.CustomName = result.ToToolkit();
+                    item.Data.ItemData.CustomName = result.ToToolkit();
                 }
 
-                if (item.Data.Data.CustomName != null
+                if (item.Data.ItemData.CustomName != null
                     && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetItemNameTooltip))
                 {
-                    item.Data.Data.CustomName = null;
+                    item.Data.ItemData.CustomName = null;
                 }
             }
             else
@@ -383,10 +385,10 @@ namespace SirRandoo.ToolkitUtils.Workers
                 item.Data.Data.KarmaType = null;
             }
 
-            var weightBuffer = item.Data.Data.Weight.ToString("N1");
+            var weightBuffer = item.Data.ItemData.Weight.ToString("N1");
             (Rect weightLabel, Rect weightField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).ToForm();
             SettingsHelper.DrawLabel(weightLabel, purchaseWeightText);
-            Widgets.TextFieldNumeric(weightField, ref item.Data.Data.Weight, ref weightBuffer);
+            Widgets.TextFieldNumeric(weightField, ref item.Data.ItemData.Weight, ref weightBuffer);
         }
 
         private void DrawRightExpandedSettingsColumn(Rect canvas, ItemTableItem item)
@@ -395,27 +397,28 @@ namespace SirRandoo.ToolkitUtils.Workers
                 new Rect(
                     0f,
                     0f,
-                    canvas.width - (item.Data.Data.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 2f : 0f),
+                    canvas.width
+                    - (item.Data.ItemData.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 2f : 0f),
                     RowLineHeight
                 ),
                 quantityLimitText,
-                ref item.Data.Data.HasQuantityLimit
+                ref item.Data.ItemData.HasQuantityLimit
             );
 
-            if (item.Data.Data.HasQuantityLimit)
+            if (item.Data.ItemData.HasQuantityLimit)
             {
-                var quantityBuffer = item.Data.Data.QuantityLimit.ToString();
+                var quantityBuffer = item.Data.ItemData.QuantityLimit.ToString();
                 var quantityField = new Rect(
                     Mathf.FloorToInt(canvas.width * 0.8f),
                     0,
                     Mathf.FloorToInt(canvas.width * 0.2f),
                     RowLineHeight
                 );
-                Widgets.TextFieldNumeric(quantityField, ref item.Data.Data.QuantityLimit, ref quantityBuffer, 1f);
+                Widgets.TextFieldNumeric(quantityField, ref item.Data.ItemData.QuantityLimit, ref quantityBuffer, 1f);
 
                 if (SettingsHelper.DrawFieldButton(quantityField, Textures.Stack, stackLimitTooltip))
                 {
-                    item.Data.Data.QuantityLimit = item.Data.Thing?.stackLimit ?? item.Data.Data.QuantityLimit;
+                    item.Data.ItemData.QuantityLimit = item.Data.Thing?.stackLimit ?? item.Data.ItemData.QuantityLimit;
                 }
             }
 
@@ -427,7 +430,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(0f, RowLineHeight, canvas.width, RowLineHeight),
                 isStuffText,
-                ref item.Data.Data.IsStuffAllowed
+                ref item.Data.ItemData.IsStuffAllowed
             );
         }
 

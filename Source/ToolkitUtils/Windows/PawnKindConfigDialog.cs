@@ -118,7 +118,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 item.Data.Cost = item.Data.ColonistKindDef.race.CalculateStorePrice();
                 item.Data.Name = item.Data.GetDefaultName();
                 item.Data.Enabled = true;
-                item.Data.Data.CustomName = false;
+                item.Data.PawnData.CustomName = false;
                 item.Data.Data.KarmaType = null;
             }
         }

@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Proxies
             this.thingItem = thingItem;
         }
 
-        public bool IsEnabled => thingItem.IsEnabled;
+        public bool IsEnabled => thingItem.Enabled;
         public string DefName => thingItem.DefName;
         public string Name => thingItem.Name;
         public int Cost => thingItem.Cost;
@@ -58,9 +58,9 @@ namespace SirRandoo.ToolkitUtils.Proxies
         public bool IsNonMedicalDrug => thingItem.Thing.IsNonMedicalDrug;
         public bool IsPleasureDrug => thingItem.Thing.IsPleasureDrug;
 
-        public bool HasQuantityLimit => thingItem.Data.HasQuantityLimit;
-        public int QuantityLimit => thingItem.Data.QuantityLimit;
+        public bool HasQuantityLimit => thingItem.ItemData.HasQuantityLimit;
+        public int QuantityLimit => thingItem.ItemData.QuantityLimit;
         public string KarmaType => thingItem.Data.KarmaType.ToString();
-        public bool CanBeStuff => thingItem.Data.IsStuffAllowed;
+        public bool CanBeStuff => thingItem.ItemData.IsStuffAllowed;
     }
 }

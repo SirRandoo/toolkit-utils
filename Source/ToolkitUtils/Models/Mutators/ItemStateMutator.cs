@@ -20,9 +20,9 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class StateSelector<T> : ISelectorBase<T> where T : IShopItemBase
+    public class ItemStateMutator : IMutatorBase<ThingItem>
     {
-        private bool state = true;
+        private bool state;
         private string stateText;
 
         public void Prepare()
@@ -32,17 +32,20 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, stateText, ref state))
-            {
-                Dirty = true;
-            }
+            SettingsHelper.LabeledPaintableCheckbox(canvas, stateText, ref state);
         }
 
-        public bool Dirty { get; set; }
-
-        public bool IsVisible(TableItem<T> item)
+        public void Mutate(TableItem<ThingItem> item)
         {
-            return item.Data.Enabled == state;
+            switch (state)
+            {
+                case true when !item.Data.Enabled:
+                    item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
+                    break;
+                case false when item.Data.Enabled:
+                    item.Data.Item.price = -10;
+                    break;
+            }
         }
     }
 }

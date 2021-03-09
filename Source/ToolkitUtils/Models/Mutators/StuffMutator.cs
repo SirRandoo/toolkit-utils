@@ -20,27 +20,27 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class StuffMutator : MutatorBase<ThingItem>
+    public class StuffMutator : IMutatorBase<ThingItem>
     {
         private bool state;
         private string stuffText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             stuffText = "TKUtils.Fields.CanBeStuff".Localize();
         }
 
-        public override void Mutate(TableItem<ThingItem> item)
+        public void Mutate(TableItem<ThingItem> item)
         {
             if (!item.Data.Thing?.IsStuff ?? true)
             {
                 return;
             }
 
-            item.Data.Data.IsStuffAllowed = state;
+            item.Data.ItemData.IsStuffAllowed = state;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             SettingsHelper.LabeledPaintableCheckbox(canvas, stuffText, ref state);
         }

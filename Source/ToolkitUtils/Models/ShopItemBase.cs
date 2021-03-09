@@ -16,12 +16,12 @@
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public abstract class ShopItemBase<T>
+    public interface IShopItemBase
     {
-        public virtual string DefName { get; set; }
-        public virtual bool Enabled { get; set; }
-        public abstract string Name { get; set; }
-        public abstract int Cost { get; set; }
-        public abstract T Data { get; set; }
+        string DefName { get; set; }
+        bool Enabled { get; set; }
+        string Name { get; set; }
+        int Cost { get; set; }
+        IShopDataBase Data { get; set; }
     }
 }

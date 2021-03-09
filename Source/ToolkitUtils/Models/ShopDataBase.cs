@@ -18,9 +18,9 @@ using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public abstract class ShopDataBase
+    public interface IShopDataBase
     {
-        public string Mod { get; set; }
-        public abstract KarmaType? KarmaType { get; set; }
+        string Mod { get; set; }
+        KarmaType? KarmaType { get; set; }
     }
 }

@@ -22,20 +22,20 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class NameSelector : SelectorBase<ShopItemBase<ShopDataBase>>
+    public class NameSelector<T> : ISelectorBase<T> where T : IShopItemBase
     {
         private bool invert;
         private string invertTooltip;
         private string name = "";
         private string nameText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             nameText = "TKUtils.Fields.Name".Localize();
             invertTooltip = "TKUtils.SelectorTooltips.Invert".Localize();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, nameText);
@@ -46,17 +46,16 @@ namespace SirRandoo.ToolkitUtils.Models
                 Dirty = true;
             }
 
-            GUI.color = invert ? Color.yellow : Color.white;
-            if (SettingsHelper.DrawFieldButton(field, "I", invertTooltip))
+            if (SettingsHelper.DrawFieldButton(field, invert ? "==" : "!=", invertTooltip))
             {
                 invert = !invert;
                 Dirty = true;
             }
-
-            GUI.color = Color.white;
         }
 
-        public override bool IsVisible(TableItem<ShopItemBase<ShopDataBase>> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<T> item)
         {
             if (name.NullOrEmpty())
             {

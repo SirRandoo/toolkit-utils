@@ -20,17 +20,17 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class HasQuantityLimitSelector : SelectorBase<ThingItem>
+    public class HasQuantityLimitSelector : ISelectorBase<ThingItem>
     {
         private string quantityLimitText;
         private bool state = true;
 
-        public override void Prepare()
+        public void Prepare()
         {
             quantityLimitText = "TKUtils.Fields.HasQuantityLimit".Localize();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             if (SettingsHelper.LabeledPaintableCheckbox(canvas, quantityLimitText, ref state))
             {
@@ -38,9 +38,11 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public override bool IsVisible(TableItem<ThingItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<ThingItem> item)
         {
-            return item.Data.Data.HasQuantityLimit == state;
+            return item.Data.ItemData.HasQuantityLimit == state;
         }
     }
 }

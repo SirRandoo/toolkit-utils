@@ -25,7 +25,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class AddPriceSelector : SelectorBase<TraitItem>
+    public class AddPriceSelector : ISelectorBase<TraitItem>
     {
         private int addPrice;
         private string addPriceBuffer = "0";
@@ -33,16 +33,16 @@ namespace SirRandoo.ToolkitUtils.Models
         private ComparisonTypes comparison = ComparisonTypes.Equal;
         private List<FloatMenuOption> comparisonOptions;
 
-        public override void Prepare()
+        public void Prepare()
         {
             addPriceText = "TKUtils.Fields.AddPrice".Localize();
-            comparisonOptions = ToolkitUtils.Data.ComparisonTypes.Select(
+            comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption($"TKUtils.PurgeMenu.{i.ToString()}".Localize(), () => comparison = i)
                 )
                .ToList();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, addPriceText);
@@ -64,7 +64,9 @@ namespace SirRandoo.ToolkitUtils.Models
             Dirty = true;
         }
 
-        public override bool IsVisible(TableItem<TraitItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<TraitItem> item)
         {
             switch (comparison)
             {

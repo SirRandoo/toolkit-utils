@@ -22,32 +22,11 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class ThingItem : ShopItemBase<ItemData>
+    public class ThingItem : IShopItemBase
     {
         private string categoryCached;
         private ItemData data;
-
-        public bool IsEnabled;
         private Item item;
-
-        public override string DefName
-        {
-            get => Item?.defname ?? Thing.defName;
-            set => throw new ReadOnlyException();
-        }
-
-        public override string Name
-        {
-            get => Data?.CustomName ?? Item?.abr ?? "Fetching...";
-            set => throw new ReadOnlyException();
-        }
-
-        [JsonProperty("price")]
-        public override int Cost
-        {
-            get => Item?.price ?? -10;
-            set => throw new ReadOnlyException();
-        }
 
         public Item Item
         {
@@ -72,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
                 else
                 {
-                    IsEnabled = item.price > 0;
+                    Enabled = item.price > 0;
                 }
 
                 return item;
@@ -83,22 +62,11 @@ namespace SirRandoo.ToolkitUtils.Models
         public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
         public ThingDef Thing { get; set; }
 
-        public override ItemData Data
+        [JsonProperty("data")]
+        public ItemData ItemData
         {
-            get
-            {
-                if (data == null && ToolkitUtils.Data.ItemData.TryGetValue(Thing.defName, out ItemData result))
-                {
-                    data = result;
-                }
-
-                return data;
-            }
-            set
-            {
-                ToolkitUtils.Data.ItemData[Item.defname] = value;
-                data = value;
-            }
+            get => data ??= (ItemData) Data;
+            set => Data = data = value;
         }
 
         public string Category
@@ -122,6 +90,42 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
+        public string DefName
+        {
+            get => Item?.defname ?? Thing.defName;
+            set => throw new ReadOnlyException();
+        }
+
+        public bool Enabled { get; set; }
+
+        public string Name
+        {
+            get => ItemData?.CustomName ?? Item?.abr ?? "Fetching...";
+            set => throw new ReadOnlyException();
+        }
+
+        [JsonProperty("price")]
+        public int Cost
+        {
+            get => Item?.price ?? -10;
+            set => throw new ReadOnlyException();
+        }
+
+        [JsonIgnore]
+        public IShopDataBase Data
+        {
+            get
+            {
+                if (data == null && ToolkitUtils.Data.ItemData.TryGetValue(Thing.defName, out ItemData result))
+                {
+                    data = result;
+                }
+
+                return data;
+            }
+            set => ToolkitUtils.Data.ItemData[Item.defname] = data = (ItemData) value;
+        }
+
         public void Update()
         {
             if (Item == null)
@@ -131,21 +135,22 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (Item.price == 0)
             {
-                IsEnabled = false;
+                Enabled = false;
                 Item.price = -10;
                 return;
             }
 
-            if (IsEnabled && Item.price < 0)
+            switch (Enabled)
             {
-                Item.price = Thing.CalculateStorePrice();
-            }
-            else if (!IsEnabled && Item.price > 0)
-            {
-                Item.price = -10;
+                case true when Item.price < 0:
+                    Item.price = Thing.CalculateStorePrice();
+                    break;
+                case false when Item.price > 0:
+                    Item.price = -10;
+                    break;
             }
 
-            IsEnabled = Item.price > 0;
+            Enabled = Item.price > 0;
         }
 
         public override string ToString()
@@ -163,7 +168,7 @@ namespace SirRandoo.ToolkitUtils.Models
             container += "  ),\n";
 
             container += $"  Mod={Mod},\n";
-            container += $"  Enabled={IsEnabled}\n";
+            container += $"  Enabled={Enabled}\n";
             container += ")";
 
             return container;
@@ -176,8 +181,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public static ThingItem FromData(Item item, ThingDef thing)
         {
-            var thingItem = new ThingItem {Item = item, Thing = thing, IsEnabled = item.price > 0};
-            ItemData _ = thingItem.Data;
+            var thingItem = new ThingItem {Item = item, Thing = thing, Enabled = item.price > 0};
+            ItemData _ = thingItem.ItemData;
             thingItem.Update();
 
             return thingItem;

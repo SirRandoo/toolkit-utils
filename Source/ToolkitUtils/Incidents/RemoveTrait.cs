@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 TraitHelper.RemoveTraitFromPawn(pawn, trait);
             }
 
-            Viewer.Charge(buyable.CostToRemove, buyable.Data?.KarmaTypeForRemoving ?? storeIncident.karmaType);
+            Viewer.Charge(buyable.CostToRemove, buyable.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap));
 
             Current.Game.letterStack.ReceiveLetter(

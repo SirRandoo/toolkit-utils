@@ -22,23 +22,23 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class RemovePriceMutator : MutatorBase<TraitItem>
+    public class RemovePriceMutator : IMutatorBase<TraitItem>
     {
         private int removePrice = 1;
         private string removePriceBuffer = "1";
         private string removePriceText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             removePriceText = "TKUtils.Fields.RemovePrice".Localize();
         }
 
-        public override void Mutate(TableItem<TraitItem> item)
+        public void Mutate(TableItem<TraitItem> item)
         {
             item.Data.CostToRemove = removePrice;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, removePriceText);

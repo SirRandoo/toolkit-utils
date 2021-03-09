@@ -20,17 +20,17 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class RangedWeaponSelector : SelectorBase<ThingItem>
+    public class RangedWeaponSelector : ISelectorBase<ThingItem>
     {
         private string rangedWeaponText;
         private bool state = true;
 
-        public override void Prepare()
+        public void Prepare()
         {
             rangedWeaponText = "TKUtils.Fields.IsRangedWeapon".Localize();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             if (SettingsHelper.LabeledPaintableCheckbox(canvas, rangedWeaponText, ref state))
             {
@@ -38,9 +38,11 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public override bool IsVisible(TableItem<ThingItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<ThingItem> item)
         {
-            return item.Data.Data.IsRanged == state;
+            return item.Data.ItemData.IsRanged == state;
         }
     }
 }

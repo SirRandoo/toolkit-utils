@@ -240,16 +240,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Viewer.Charge(
                 replaceThisShop.CostToRemove,
-                replaceThisShop.Data?.KarmaTypeForRemoving ?? storeIncident.karmaType
+                replaceThisShop.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType
             );
 
 
             TraitHelper.GivePawnTrait(pawn, replaceThatTrait);
 
-            Viewer.Charge(
-                replaceThatShop.CostToAdd,
-                replaceThatShop.Data?.KarmaTypeForAdding ?? storeIncident.karmaType
-            );
+            Viewer.Charge(replaceThatShop.CostToAdd, replaceThatShop.Data?.KarmaType ?? storeIncident.karmaType);
 
             MessageHelper.SendConfirmation(
                 Viewer.username,

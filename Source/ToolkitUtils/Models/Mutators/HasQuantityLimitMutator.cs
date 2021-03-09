@@ -20,22 +20,22 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class HasQuantityLimitMutator : MutatorBase<ThingItem>
+    public class HasQuantityLimitMutator : IMutatorBase<ThingItem>
     {
         private string hasQuantityLimitText;
         private bool state;
 
-        public override void Prepare()
+        public void Prepare()
         {
             hasQuantityLimitText = "TKUtils.Fields.HasQuantityLimit".Localize();
         }
 
-        public override void Mutate(TableItem<ThingItem> item)
+        public void Mutate(TableItem<ThingItem> item)
         {
-            item.Data.Data.HasQuantityLimit = state;
+            item.Data.ItemData.HasQuantityLimit = state;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             SettingsHelper.LabeledPaintableCheckbox(canvas, hasQuantityLimitText, ref state);
         }

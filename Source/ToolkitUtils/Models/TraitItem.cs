@@ -30,26 +30,22 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public class TraitItem : ShopItemBase<TraitData>
+    public class TraitItem : IShopItemBase
     {
         public bool CanAdd;
         public bool CanRemove;
         [JsonIgnore] private int cost;
         [JsonProperty("addPrice")] public int CostToAdd;
         [JsonProperty("removePrice")] public int CostToRemove;
+        [JsonIgnore] private TraitData data;
         [JsonIgnore] private string defaultName;
 
         public int Degree;
         [JsonIgnore] private string finalDescription;
         [JsonIgnore] private TraitDef traitDef;
 
-        public override bool Enabled
-        {
-            get => CanAdd || CanRemove;
-            set => throw new ReadOnlyException();
-        }
-
         // Legacy support
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public string Description
         {
             get
@@ -70,12 +66,12 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (Data.Stats.NullOrEmpty())
+                if (TraitData.Stats.NullOrEmpty())
                 {
                     UpdateStats();
                 }
 
-                return Data.Stats;
+                return TraitData.Stats;
             }
         }
 
@@ -83,25 +79,41 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (Data.Conflicts.NullOrEmpty())
+                if (TraitData.Conflicts.NullOrEmpty())
                 {
                     UpdateConflicts();
                 }
 
-                return Data.Conflicts;
+                return TraitData.Conflicts;
             }
         }
 
-        public bool BypassLimit => Data.CanBypassLimit;
+        public bool BypassLimit => TraitData.CanBypassLimit;
 
         [JsonIgnore]
         public TraitDef TraitDef =>
             traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
 
-        public override string Name { get; set; }
+        [JsonProperty("data")]
+        public TraitData TraitData
+        {
+            get => data ??= new TraitData();
+            set => data = value;
+        }
+
+        /// <inheritdoc />
+        public string DefName { get; set; }
+
+        public bool Enabled
+        {
+            get => CanAdd || CanRemove;
+            set => throw new ReadOnlyException();
+        }
+
+        public string Name { get; set; }
 
         [JsonIgnore]
-        public override int Cost
+        public int Cost
         {
             get => cost;
             set
@@ -112,7 +124,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public override TraitData Data { get; set; }
+        [JsonIgnore] public IShopDataBase Data { get; set; }
 
         private void UpdateStats()
         {
@@ -139,7 +151,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 LogHelper.Warn(builder.ToString());
             }
 
-            Data.Stats = container.ToArray();
+            TraitData.Stats = container.ToArray();
         }
 
         private static IEnumerable<string> GetDisallowedInspirations(TraitDegreeData data)
@@ -273,7 +285,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 container.AddRange(conflict.ToTraitItems().Select(t => t.Name));
             }
 
-            Data.Conflicts = container.ToArray();
+            TraitData.Conflicts = container.ToArray();
         }
 
         public static TraitItem MigrateFrom(XmlTrait trait)

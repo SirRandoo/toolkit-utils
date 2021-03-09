@@ -20,22 +20,22 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class CanAddMutator : MutatorBase<TraitItem>
+    public class CanAddMutator : IMutatorBase<TraitItem>
     {
         private string canAddText;
         private bool state;
 
-        public override void Prepare()
+        public void Prepare()
         {
             canAddText = "TKUtils.Fields.CanAdd".Localize();
         }
 
-        public override void Mutate(TableItem<TraitItem> item)
+        public void Mutate(TableItem<TraitItem> item)
         {
             item.Data.CanAdd = state;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             SettingsHelper.LabeledPaintableCheckbox(canvas, canAddText, ref state);
         }

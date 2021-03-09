@@ -335,13 +335,13 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (SettingsHelper.DrawTextField(fieldRect, trait.Data.Name, out string result))
                 {
                     trait.Data.Name = result.ToToolkit();
-                    trait.Data.Data.CustomName = true;
+                    trait.Data.TraitData.CustomName = true;
                 }
 
-                if (trait.Data.Data.CustomName
+                if (trait.Data.TraitData.CustomName
                     && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetTraitNameTooltip))
                 {
-                    trait.Data.Data.CustomName = false;
+                    trait.Data.TraitData.CustomName = false;
                     trait.Data.Name = trait.Data.GetDefaultName();
                 }
             }
@@ -394,25 +394,23 @@ namespace SirRandoo.ToolkitUtils.Workers
             SettingsHelper.DrawLabel(addKarmaLabel, addKarmaTypeText);
             if (Widgets.ButtonText(
                 addKarmaField,
-                trait.Data.Data.KarmaTypeForAdding == null
-                    ? defaultKarmaTypeText
-                    : trait.Data.Data.KarmaTypeForAdding.ToString()
+                trait.Data.Data.KarmaType == null ? defaultKarmaTypeText : trait.Data.Data.KarmaType.ToString()
             ))
             {
                 Find.WindowStack.Add(
                     new FloatMenu(
                         ToolkitUtils.Data.KarmaTypes.Select(
-                                i => new FloatMenuOption(i.ToString(), () => trait.Data.Data.KarmaTypeForAdding = i)
+                                i => new FloatMenuOption(i.ToString(), () => trait.Data.Data.KarmaType = i)
                             )
                            .ToList()
                     )
                 );
             }
 
-            if (trait.Data.Data.KarmaTypeForAdding != null
+            if (trait.Data.Data.KarmaType != null
                 && SettingsHelper.DrawFieldButton(addKarmaLabel, Textures.Reset, resetTraitKarmaTooltip))
             {
-                trait.Data.Data.KarmaTypeForAdding = null;
+                trait.Data.Data.KarmaType = null;
             }
 
             (Rect removeKarmaLabel, Rect removeKarmaField) =
@@ -420,38 +418,41 @@ namespace SirRandoo.ToolkitUtils.Workers
             SettingsHelper.DrawLabel(removeKarmaLabel, removeKarmaTypeText);
             if (Widgets.ButtonText(
                 removeKarmaField,
-                trait.Data.Data.KarmaTypeForRemoving == null
+                trait.Data.TraitData.KarmaTypeForRemoving == null
                     ? defaultKarmaTypeText
-                    : trait.Data.Data.KarmaTypeForRemoving.ToString()
+                    : trait.Data.TraitData.KarmaTypeForRemoving.ToString()
             ))
             {
                 Find.WindowStack.Add(
                     new FloatMenu(
                         ToolkitUtils.Data.KarmaTypes.Select(
-                                i => new FloatMenuOption(i.ToString(), () => trait.Data.Data.KarmaTypeForRemoving = i)
+                                i => new FloatMenuOption(
+                                    i.ToString(),
+                                    () => trait.Data.TraitData.KarmaTypeForRemoving = i
+                                )
                             )
                            .ToList()
                     )
                 );
             }
 
-            if (trait.Data.Data.KarmaTypeForRemoving != null
+            if (trait.Data.TraitData.KarmaTypeForRemoving != null
                 && SettingsHelper.DrawFieldButton(removeKarmaLabel, Textures.Reset, resetTraitKarmaTooltip))
             {
-                trait.Data.Data.KarmaTypeForRemoving = null;
+                trait.Data.TraitData.KarmaTypeForRemoving = null;
             }
         }
 
         private void DrawRightExpandedSettingsColumn(Rect canvas, TraitTableItem trait)
         {
-            bool proxy = trait.Data.Data.CanBypassLimit;
+            bool proxy = trait.Data.TraitData.CanBypassLimit;
             if (SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(0f, 0f, canvas.width, RowLineHeight),
                 bypassLimitText,
                 ref proxy
             ))
             {
-                trait.Data.Data.CanBypassLimit = proxy;
+                trait.Data.TraitData.CanBypassLimit = proxy;
             }
         }
 

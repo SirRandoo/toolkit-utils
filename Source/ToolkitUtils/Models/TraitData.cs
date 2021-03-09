@@ -23,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public class TraitData : ShopDataBase
+    public class TraitData : IShopDataBase
     {
         public string[] Conflicts = { };
 
@@ -31,14 +31,9 @@ namespace SirRandoo.ToolkitUtils.Models
         public bool CanBypassLimit { get; set; }
         public bool CustomName { get; set; }
 
-        public KarmaType? KarmaTypeForAdding
-        {
-            get => KarmaType;
-            set => KarmaType = value;
-        }
-
         public KarmaType? KarmaTypeForRemoving { get; set; }
 
-        [JsonProperty("karmaTypeForAdding")] public override KarmaType? KarmaType { get; set; }
+        public string Mod { get; set; }
+        [JsonProperty("karmaTypeForAdding")] public KarmaType? KarmaType { get; set; }
     }
 }

@@ -25,7 +25,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class WeightSelector : SelectorBase<ThingItem>
+    public class WeightSelector : ISelectorBase<ThingItem>
     {
         private ComparisonTypes comparison = ComparisonTypes.Equal;
         private List<FloatMenuOption> comparisonOptions;
@@ -33,16 +33,16 @@ namespace SirRandoo.ToolkitUtils.Models
         private string weightBuffer = "0";
         private string weightText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             weightText = "TKUtils.Fields.Weight".Localize();
-            comparisonOptions = ToolkitUtils.Data.ComparisonTypes.Select(
+            comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption($"TKUtils.PurgeMenu.{i.ToString()}".Localize(), () => comparison = i)
                 )
                .ToList();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, weightText);
@@ -64,20 +64,22 @@ namespace SirRandoo.ToolkitUtils.Models
             Dirty = true;
         }
 
-        public override bool IsVisible(TableItem<ThingItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<ThingItem> item)
         {
             switch (comparison)
             {
                 case ComparisonTypes.Greater:
-                    return item.Data.Data.Weight > weight;
+                    return item.Data.ItemData.Weight > weight;
                 case ComparisonTypes.Equal:
-                    return Math.Abs(item.Data.Data.Weight - weight) < 0.0003;
+                    return Math.Abs(item.Data.ItemData.Weight - weight) < 0.0003;
                 case ComparisonTypes.Less:
-                    return item.Data.Data.Weight < weight;
+                    return item.Data.ItemData.Weight < weight;
                 case ComparisonTypes.GreaterEqual:
-                    return item.Data.Data.Weight >= weight;
+                    return item.Data.ItemData.Weight >= weight;
                 case ComparisonTypes.LessEqual:
-                    return item.Data.Data.Weight <= weight;
+                    return item.Data.ItemData.Weight <= weight;
                 default:
                     return false;
             }

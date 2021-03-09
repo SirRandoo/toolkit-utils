@@ -20,22 +20,22 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class StateMutator : MutatorBase<ShopItemBase<ShopDataBase>>
+    public class StateMutator : IMutatorBase<IShopItemBase>
     {
         private bool state;
         private string stateText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             stateText = "TKUtils.Fields.State".Localize();
         }
 
-        public override void Mutate(TableItem<ShopItemBase<ShopDataBase>> item)
+        public void Mutate(TableItem<IShopItemBase> item)
         {
             item.Data.Enabled = state;
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             SettingsHelper.LabeledPaintableCheckbox(canvas, stateText, ref state);
         }

@@ -90,9 +90,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = viewer.GetMaximumPurchaseAmount(product.Cost);
             }
 
-            if (product.Data != null && product.Data.HasQuantityLimit)
+            if (product.Data != null && product.ItemData.HasQuantityLimit)
             {
-                amount = Mathf.Clamp(amount, 1, product.Data.QuantityLimit);
+                amount = Mathf.Clamp(amount, 1, product.ItemData.QuantityLimit);
             }
 
             purchaseRequest = new PurchaseBackpackRequest
@@ -151,7 +151,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public ThingDef ThingDef { get; set; }
         public Viewer Purchaser { get; set; }
         public Map Map => Pawn.Map;
-        public Pawn Pawn => pawn ??= CommandBase.GetOrFindPawn(Purchaser.username);
+        private Pawn Pawn => pawn ??= CommandBase.GetOrFindPawn(Purchaser.username);
 
         public void Spawn()
         {
@@ -243,7 +243,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public void CompletePurchase(StoreIncident incident)
         {
-            Purchaser.Charge(Price, ItemData.Data?.Weight ?? 1f, ItemData.Data?.KarmaType ?? incident.karmaType);
+            Purchaser.Charge(Price, ItemData.ItemData?.Weight ?? 1f, ItemData.Data?.KarmaType ?? incident.karmaType);
             Notify_ItemPurchaseComplete();
         }
 

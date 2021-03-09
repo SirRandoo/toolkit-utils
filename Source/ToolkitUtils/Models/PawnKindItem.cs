@@ -24,8 +24,9 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public class PawnKindItem : ShopItemBase<PawnKindData>
+    public class PawnKindItem : IShopItemBase
     {
+        [JsonIgnore] private PawnKindData data;
         [JsonIgnore] private List<PawnKindDef> kinds;
 
         [JsonIgnore]
@@ -36,10 +37,20 @@ namespace SirRandoo.ToolkitUtils.Models
         public PawnKindDef ColonistKindDef =>
             Kinds.FirstOrDefault(k => k.defaultFactionType.isPlayer) ?? Kinds.FirstOrFallback();
 
-        public override string Name { get; set; }
+        public PawnKindData PawnData
+        {
+            get => data ??= (PawnKindData) Data;
+            set => Data = data = value;
+        }
 
-        [JsonProperty("price")] public override int Cost { get; set; }
-        public override PawnKindData Data { get; set; }
+        public string DefName { get; set; }
+
+        public bool Enabled { get; set; }
+        public string Name { get; set; }
+
+        [JsonProperty("price")] public int Cost { get; set; }
+
+        public IShopDataBase Data { get; set; }
 
 
         public static PawnKindItem MigrateFrom(XmlRace race)

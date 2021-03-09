@@ -25,7 +25,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class QuantityLimitSelector : SelectorBase<ThingItem>
+    public class QuantityLimitSelector : ISelectorBase<ThingItem>
     {
         private ComparisonTypes comparison = ComparisonTypes.Equal;
         private List<FloatMenuOption> comparisonOptions;
@@ -33,16 +33,16 @@ namespace SirRandoo.ToolkitUtils.Models
         private string quantityLimitCostBuffer = "0";
         private string quantityLimitCostText;
 
-        public override void Prepare()
+        public void Prepare()
         {
             quantityLimitCostText = "TKUtils.Fields.QuantityLimit".Localize();
-            comparisonOptions = ToolkitUtils.Data.ComparisonTypes.Select(
+            comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption($"TKUtils.PurgeMenu.{i.ToString()}".Localize(), () => comparison = i)
                 )
                .ToList();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, quantityLimitCostText);
@@ -69,20 +69,22 @@ namespace SirRandoo.ToolkitUtils.Models
             Dirty = true;
         }
 
-        public override bool IsVisible(TableItem<ThingItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<ThingItem> item)
         {
             switch (comparison)
             {
                 case ComparisonTypes.Greater:
-                    return item.Data.Data.QuantityLimit > quantityLimitCost;
+                    return item.Data.ItemData.QuantityLimit > quantityLimitCost;
                 case ComparisonTypes.Equal:
-                    return item.Data.Data.QuantityLimit == quantityLimitCost;
+                    return item.Data.ItemData.QuantityLimit == quantityLimitCost;
                 case ComparisonTypes.Less:
-                    return item.Data.Data.QuantityLimit < quantityLimitCost;
+                    return item.Data.ItemData.QuantityLimit < quantityLimitCost;
                 case ComparisonTypes.GreaterEqual:
-                    return item.Data.Data.QuantityLimit >= quantityLimitCost;
+                    return item.Data.ItemData.QuantityLimit >= quantityLimitCost;
                 case ComparisonTypes.LessEqual:
-                    return item.Data.Data.QuantityLimit <= quantityLimitCost;
+                    return item.Data.ItemData.QuantityLimit <= quantityLimitCost;
                 default:
                     return false;
             }

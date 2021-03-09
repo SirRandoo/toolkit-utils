@@ -83,9 +83,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = viewer.GetMaximumPurchaseAmount(product.Cost);
             }
 
-            if (product.Data != null && product.Data.HasQuantityLimit)
+            if (product.Data != null && product.ItemData.HasQuantityLimit)
             {
-                amount = Mathf.Clamp(amount, 1, product.Data.QuantityLimit);
+                amount = Mathf.Clamp(amount, 1, product.ItemData.QuantityLimit);
             }
 
             purchaseRequest = new PurchaseRequest
@@ -162,6 +162,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (ThingDef.race.Humanlike)
             {
+                // ReSharper disable once StringLiteralTypo
                 LogHelper.Warn("Tried to spawn a humanlike -- Humanlikes should be spawned via !buy pawn");
                 return;
             }
@@ -235,7 +236,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public void CompletePurchase(StoreIncident incident)
         {
-            Purchaser.Charge(Price, ItemData.Data?.Weight ?? 1f, ItemData.Data?.KarmaType ?? incident.karmaType);
+            Purchaser.Charge(Price, ItemData.ItemData?.Weight ?? 1f, ItemData.Data?.KarmaType ?? incident.karmaType);
 
             if (ThingDef.race != null)
             {

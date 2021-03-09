@@ -20,17 +20,17 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class BypassLimitSelector : SelectorBase<TraitItem>
+    public class BypassLimitSelector : ISelectorBase<TraitItem>
     {
         private string bypassText;
         private bool state = true;
 
-        public override void Prepare()
+        public void Prepare()
         {
             bypassText = "TKUtils.Fields.BypassTraitLimit".Localize();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             if (SettingsHelper.LabeledPaintableCheckbox(canvas, bypassText, ref state))
             {
@@ -38,9 +38,11 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public override bool IsVisible(TableItem<TraitItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<TraitItem> item)
         {
-            return item.Data.Data.CanBypassLimit == state;
+            return item.Data.TraitData.CanBypassLimit == state;
         }
     }
 }

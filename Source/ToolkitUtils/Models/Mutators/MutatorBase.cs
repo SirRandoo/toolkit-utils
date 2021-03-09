@@ -19,10 +19,10 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public abstract class MutatorBase<T>
+    public interface IMutatorBase<T> where T : IShopItemBase
     {
-        public abstract void Prepare();
-        public abstract void Mutate(TableItem<T> item);
-        public abstract void Draw(Rect canvas);
+        public void Prepare();
+        public void Draw(Rect canvas);
+        public void Mutate(TableItem<T> item);
     }
 }

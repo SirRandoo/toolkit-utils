@@ -19,12 +19,11 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public abstract class SelectorBase<T>
+    public interface ISelectorBase<T> where T : IShopItemBase
     {
-        public bool Dirty { get; set; }
-
-        public abstract void Prepare();
-        public abstract void Draw(Rect canvas);
-        public abstract bool IsVisible(TableItem<T> item);
+        bool Dirty { get; set; }
+        void Prepare();
+        void Draw(Rect canvas);
+        bool IsVisible(TableItem<T> item);
     }
 }

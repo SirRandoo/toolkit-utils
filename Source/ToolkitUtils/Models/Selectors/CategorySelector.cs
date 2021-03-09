@@ -22,20 +22,20 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class CategorySelector : SelectorBase<ThingItem>
+    public class CategorySelector : ISelectorBase<ThingItem>
     {
         private string category = "";
         private string categoryText;
         private bool invert;
         private string invertTooltip;
 
-        public override void Prepare()
+        public void Prepare()
         {
             categoryText = "TKUtils.Fields.Category".Localize();
             invertTooltip = "TKUtils.SelectorTooltips.Invert".Localize();
         }
 
-        public override void Draw(Rect canvas)
+        public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, categoryText);
@@ -56,7 +56,9 @@ namespace SirRandoo.ToolkitUtils.Models
             GUI.color = Color.white;
         }
 
-        public override bool IsVisible(TableItem<ThingItem> item)
+        public bool Dirty { get; set; }
+
+        public bool IsVisible(TableItem<ThingItem> item)
         {
             if (category.NullOrEmpty())
             {

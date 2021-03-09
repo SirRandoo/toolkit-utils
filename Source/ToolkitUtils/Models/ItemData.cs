@@ -24,7 +24,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public class ItemData : ShopDataBase
+    public class ItemData : IShopDataBase
     {
         public string CustomName;
 
@@ -44,7 +44,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public float Weight = 1f;
 
-        public override KarmaType? KarmaType { get; set; }
+        public string Mod { get; set; }
+        public KarmaType? KarmaType { get; set; }
 
         public IEnumerable<ResearchProjectDef> GetResearchProjects()
         {
