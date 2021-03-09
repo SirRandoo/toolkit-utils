@@ -68,6 +68,10 @@ namespace SirRandoo.ToolkitUtils
            .Select(t => (TechLevel) Enum.Parse(typeof(TechLevel), t))
            .ToList();
 
+        internal static readonly IEnumerable<ComparisonTypes> ComparisonTypes = Enum.GetNames(typeof(ComparisonTypes))
+           .Select(i => (ComparisonTypes) Enum.Parse(typeof(ComparisonTypes), i))
+           .ToList();
+
         static Data()
         {
             switch (TkSettings.DumpStyle)

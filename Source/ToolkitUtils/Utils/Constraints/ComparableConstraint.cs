@@ -35,12 +35,8 @@ namespace SirRandoo.ToolkitUtils.Utils
         protected ComparableConstraint()
         {
             Comparison = ComparisonTypes.Equal;
-            comparisonOptions = Enum.GetNames(typeof(ComparisonTypes))
-               .Select(
-                    t => new FloatMenuOption(
-                        $"TKUtils.PurgeMenu.{t}".Localize(),
-                        () => Comparison = (ComparisonTypes) Enum.Parse(typeof(ComparisonTypes), t)
-                    )
+            comparisonOptions = Data.ComparisonTypes.Select(
+                    t => new FloatMenuOption($"TKUtils.PurgeMenu.{t.ToString()}".Localize(), () => Comparison = t)
                 )
                .ToList();
         }
