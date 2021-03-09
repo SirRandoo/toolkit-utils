@@ -32,6 +32,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             Worker = new ItemTableWorker();
         }
 
+        public abstract void Prepare();
+
         public void Draw()
         {
             GUI.BeginGroup(SelectorRect);
@@ -58,5 +60,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             TableRect = new Rect(0f, userRect.y + 4f, canvas.width, canvas.height - userRect.height - 4f);
         }
+
+        public abstract void NotifyWindowUpdate();
     }
 }
