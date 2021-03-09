@@ -52,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public abstract void DrawSelectorMenu(Rect canvas);
         public abstract void DrawMutatorMenu(Rect canvas);
 
-        public void NotifyResolutionChanged(Rect canvas)
+        public virtual void NotifyResolutionChanged(Rect canvas)
         {
             var userRect = new Rect(0f, 0f, canvas.width, Mathf.FloorToInt(canvas.height / 2f) - 2f);
             SelectorRect = new Rect(0f, 0f, Mathf.FloorToInt(userRect.width / 2f) - 2f, userRect.height);
