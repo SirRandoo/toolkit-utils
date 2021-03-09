@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
 
             GUI.BeginGroup(ModifierRect);
-            DrawModifierMenu(ModifierRect.AtZero());
+            DrawMutatorMenu(ModifierRect.AtZero());
             GUI.EndGroup();
 
             GUI.BeginGroup(TableRect);
@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         }
 
         public abstract void DrawSelectorMenu(Rect canvas);
-        public abstract void DrawModifierMenu(Rect canvas);
+        public abstract void DrawMutatorMenu(Rect canvas);
 
         public void NotifyResolutionChanged(Rect canvas)
         {
