@@ -133,7 +133,5 @@ namespace SirRandoo.ToolkitUtils.Windows
                 Application.OpenURL("https://sirrandoo.github.io/toolkit-utils/editor");
             }
         }
-
-        private void DrawEditorMenu() { }
     }
 }
