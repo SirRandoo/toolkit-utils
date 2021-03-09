@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -41,6 +42,12 @@ namespace SirRandoo.ToolkitUtils.Models
         public int Degree;
         [JsonIgnore] private string finalDescription;
         [JsonIgnore] private TraitDef traitDef;
+
+        public override bool Enabled
+        {
+            get => CanAdd || CanRemove;
+            set => throw new ReadOnlyException();
+        }
 
         // Legacy support
         public string Description
