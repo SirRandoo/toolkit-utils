@@ -24,15 +24,17 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ModSelector<T> : ISelectorBase<T> where T : IShopItemBase
     {
-        private bool invert;
-        private string invertTooltip;
+        private bool exclude = true;
+        private string excludeTooltip;
+        private string includeTooltip;
         private string mod = "";
         private string modText;
 
         public void Prepare()
         {
             modText = "TKUtils.Fields.Mod".Localize();
-            invertTooltip = "TKUtils.SelectorTooltips.Invert".Localize();
+            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".Localize();
+            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".Localize();
         }
 
         public void Draw(Rect canvas)
@@ -46,14 +48,17 @@ namespace SirRandoo.ToolkitUtils.Models
                 Dirty = true;
             }
 
-            GUI.color = invert ? Color.yellow : Color.white;
-            if (SettingsHelper.DrawFieldButton(field, "I", invertTooltip))
+            if (!SettingsHelper.DrawFieldButton(
+                field,
+                exclude ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex,
+                exclude ? includeTooltip : excludeTooltip
+            ))
             {
-                invert = !invert;
-                Dirty = true;
+                return;
             }
 
-            GUI.color = Color.white;
+            exclude = !exclude;
+            Dirty = true;
         }
 
         public bool Dirty { get; set; }
@@ -68,7 +73,7 @@ namespace SirRandoo.ToolkitUtils.Models
             bool shouldShow = item.Data.Data.Mod.EqualsIgnoreCase(mod)
                               || item.Data.Data.Mod.ToLower().Contains(mod.ToLower());
 
-            return invert ? !shouldShow : shouldShow;
+            return exclude ? !shouldShow : shouldShow;
         }
     }
 }

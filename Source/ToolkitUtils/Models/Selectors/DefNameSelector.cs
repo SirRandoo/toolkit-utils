@@ -26,13 +26,15 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         private string defName = "";
         private string defNameText;
-        private bool invert;
-        private string invertTooltip;
+        private bool exclude = true;
+        private string excludeTooltip;
+        private string includeTooltip;
 
         public void Prepare()
         {
             defNameText = "TKUtils.Fields.DefName".Localize();
-            invertTooltip = "TKUtils.SelectorTooltips.Invert".Localize();
+            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".Localize();
+            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".Localize();
         }
 
         public void Draw(Rect canvas)
@@ -46,14 +48,17 @@ namespace SirRandoo.ToolkitUtils.Models
                 Dirty = true;
             }
 
-            GUI.color = invert ? Color.yellow : Color.white;
-            if (SettingsHelper.DrawFieldButton(field, "I", invertTooltip))
+            if (!SettingsHelper.DrawFieldButton(
+                field,
+                exclude ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex,
+                exclude ? includeTooltip : excludeTooltip
+            ))
             {
-                invert = !invert;
-                Dirty = true;
+                return;
             }
 
-            GUI.color = Color.white;
+            exclude = !exclude;
+            Dirty = true;
         }
 
         public bool Dirty { get; set; }
@@ -67,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             bool shouldShow = item.Data.DefName.Equals(defName);
 
-            return invert ? !shouldShow : shouldShow;
+            return exclude ? !shouldShow : shouldShow;
         }
     }
 }
