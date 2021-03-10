@@ -41,9 +41,11 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 case true when !item.Data.Enabled:
                     item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
+                    item.Data.Enabled = true;
                     break;
                 case false when item.Data.Enabled:
                     item.Data.Item.price = -10;
+                    item.Data.Enabled = false;
                     break;
             }
         }
