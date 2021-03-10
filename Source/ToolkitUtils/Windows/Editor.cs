@@ -17,6 +17,7 @@
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
+using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
 
@@ -143,6 +144,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 Application.OpenURL("https://sirrandoo.github.io/toolkit-utils/editor");
             }
+        }
+
+        public override void PreClose()
+        {
+            base.PreClose();
+
+            Store_ItemEditor.UpdateStoreItemList();
         }
     }
 }
