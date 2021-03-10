@@ -58,11 +58,11 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public virtual void NotifyResolutionChanged(Rect canvas)
         {
-            var userRect = new Rect(0f, 0f, canvas.width, Mathf.FloorToInt(canvas.height / 2f) - 2f);
-            SelectorRect = new Rect(0f, 0f, Mathf.FloorToInt(userRect.width / 2f) - 2f, userRect.height);
-            ModifierRect = new Rect(SelectorRect.x + SelectorRect.width + 4f, 0f, SelectorRect.width, userRect.height);
+            var userRect = new Rect(0f, 0f, canvas.width, Mathf.FloorToInt(canvas.height / 2f) - 4f);
+            SelectorRect = new Rect(0f, 0f, Mathf.FloorToInt(userRect.width / 2f) - 8f, userRect.height);
+            ModifierRect = new Rect(SelectorRect.x + SelectorRect.width + 16f, 0f, SelectorRect.width, userRect.height);
 
-            TableRect = new Rect(0f, userRect.height + 4f, canvas.width, canvas.height - userRect.height - 4f);
+            TableRect = new Rect(0f, userRect.height + 8f, canvas.width, canvas.height - userRect.height - 8f);
         }
 
         public abstract void NotifyWindowUpdate();
