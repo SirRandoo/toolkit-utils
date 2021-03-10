@@ -42,4 +42,6 @@
     <TKUtils.Buttons.Apply>Apply</TKUtils.Buttons.Apply>
     <TKUtils.Buttons.Random>Random</TKUtils.Buttons.Random>
     <TKUtils.Buttons.Notify>Notify</TKUtils.Buttons.Notify>
+    <TKUtils.Buttons.AddSelector>Add selector</TKUtils.Buttons.AddSelector>
+    <TKUtils.Buttons.AddMutator>Add mutator</TKUtils.Buttons.AddMutator>
 </LanguageData>
