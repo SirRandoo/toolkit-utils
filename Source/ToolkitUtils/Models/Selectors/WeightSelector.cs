@@ -37,7 +37,14 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             weightText = "TKUtils.Fields.Weight".Localize();
             comparisonOptions = Data.ComparisonTypes.Select(
-                    i => new FloatMenuOption($"TKUtils.PurgeMenu.{i.ToString()}".Localize(), () => comparison = i)
+                    i => new FloatMenuOption(
+                        i.AsOperator(),
+                        () =>
+                        {
+                            comparison = i;
+                            Dirty.Set(true);
+                        }
+                    )
                 )
                .ToList();
         }
@@ -47,9 +54,9 @@ namespace SirRandoo.ToolkitUtils.Models
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, weightText);
 
-            (Rect button, Rect input) = field.ToForm(0.25f);
+            (Rect button, Rect input) = field.ToForm(0.3f);
 
-            if (Widgets.ButtonText(button, comparison.ToString()))
+            if (Widgets.ButtonText(button, comparison.AsOperator()))
             {
                 Find.WindowStack.Add(new FloatMenu(comparisonOptions));
             }

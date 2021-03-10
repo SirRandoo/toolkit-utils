@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using SirRandoo.ToolkitUtils.Utils;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers
@@ -92,6 +93,25 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static string Pluralize(this string s)
         {
             return Find.ActiveLanguageWorker?.Pluralize(s) ?? s;
+        }
+
+        public static string AsOperator(this ComparisonTypes type)
+        {
+            switch (type)
+            {
+                case ComparisonTypes.Greater:
+                    return ">";
+                case ComparisonTypes.Equal:
+                    return "==";
+                case ComparisonTypes.Less:
+                    return "<";
+                case ComparisonTypes.GreaterEqual:
+                    return ">=";
+                case ComparisonTypes.LessEqual:
+                    return "<=";
+                default:
+                    return null;
+            }
         }
     }
 }
