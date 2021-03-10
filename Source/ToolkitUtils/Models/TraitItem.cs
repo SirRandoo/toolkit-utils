@@ -101,7 +101,6 @@ namespace SirRandoo.ToolkitUtils.Models
             set => data = value;
         }
 
-        /// <inheritdoc />
         public string DefName { get; set; }
 
         public bool Enabled
