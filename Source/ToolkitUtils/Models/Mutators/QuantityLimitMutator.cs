@@ -27,15 +27,20 @@ namespace SirRandoo.ToolkitUtils.Models
         private int limit = 1;
         private string limitBuffer = "1";
         private string quantityLimitText;
+        private bool toLimit;
+        private string toLimitTooltip;
+        private string toValueTooltip;
 
         public void Prepare()
         {
             quantityLimitText = "TKUtils.Fields.QuantityLimit".Localize();
+            toLimitTooltip = "TKUtils.SelectorTooltips.StackMode".Localize();
+            toValueTooltip = "TKUtils.SelectorTooltips.FixedMode".Localize();
         }
 
         public void Mutate(TableItem<ThingItem> item)
         {
-            item.Data.ItemData.QuantityLimit = limit;
+            item.Data.ItemData.QuantityLimit = toLimit ? item.Data.Thing?.stackLimit ?? 1 : limit;
         }
 
         public void Draw(Rect canvas)
@@ -43,6 +48,15 @@ namespace SirRandoo.ToolkitUtils.Models
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, quantityLimitText);
             Widgets.TextFieldNumeric(field, ref limit, ref limitBuffer, 1f);
+
+            if (SettingsHelper.DrawFieldButton(
+                field,
+                toLimit ? Textures.Stack : Textures.Edit,
+                toLimit ? toLimitTooltip : toValueTooltip
+            ))
+            {
+                toLimit = !toLimit;
+            }
         }
     }
 }

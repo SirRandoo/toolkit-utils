@@ -40,4 +40,6 @@
     
     <TKUtils.SelectorTooltips.ExcludeItem>Click to make this selector exclude results containing this text.</TKUtils.SelectorTooltips.ExcludeItem>
     <TKUtils.SelectorTooltips.IncludeItem>Click to make this selector include results containing this text.</TKUtils.SelectorTooltips.IncludeItem>
+    <TKUtils.SelectorTooltips.StackMode>Click to make this selector set all results to the given value.</TKUtils.SelectorTooltips.StackMode>
+    <TKUtils.SelectorTooltips.FixedMode>Click to make this selector set all results to their stack limit.</TKUtils.SelectorTooltips.FixedMode>
 </LanguageData>
