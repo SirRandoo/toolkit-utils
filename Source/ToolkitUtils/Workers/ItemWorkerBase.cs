@@ -36,6 +36,10 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public void Draw()
         {
+            GUI.color = new Color(1f, 1f, 1f, 0.15f);
+            Widgets.DrawLineVertical(ModifierRect.x - 8f, ModifierRect.y + 10f, ModifierRect.height - 20f);
+            GUI.color = Color.white;
+
             GUI.BeginGroup(SelectorRect);
             DrawSelectorMenu(SelectorRect.AtZero());
             GUI.EndGroup();
