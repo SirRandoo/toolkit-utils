@@ -28,6 +28,8 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private ScriptEngine engine;
 
+        private ItemWorker itemWorker;
+
         private bool maximized;
         private TabWorker tabWorker;
 
@@ -39,6 +41,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             doCloseButton = false;
             forcePause = true;
             draggable = true;
+
+            itemWorker = new ItemWorker();
         }
 
         protected override float Margin => 0f;
@@ -57,6 +61,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             engine = ScriptEngine.CreateInstance("tkutils.editor");
             InitializeTabs();
             ProcessTranslations();
+            itemWorker.Prepare();
         }
 
         private void ProcessTranslations()
@@ -71,24 +76,25 @@ namespace SirRandoo.ToolkitUtils.Windows
                 new TabItem {Label = "TKUtils.EditorTabs.Items".Localize(), ContentDrawer = DrawItemsTab};
 
             tabWorker.AddTab(tabWorker.SelectedTab);
-            tabWorker.AddTab(
-                new TabItem {Label = "TKUtils.EditorTabs.Events".Localize(), ContentDrawer = DrawEventsTab}
-            );
+        #if DEBUG
             tabWorker.AddTab(
                 new TabItem {Label = "TKUtils.EditorTabs.Traits".Localize(), ContentDrawer = DrawTraitsTab}
             );
             tabWorker.AddTab(
                 new TabItem {Label = "TKUtils.EditorTabs.PawnKinds".Localize(), ContentDrawer = DrawPawnKindsTab}
             );
+        #endif
         }
 
         private void DrawTraitsTab(Rect obj) { }
 
         private void DrawPawnKindsTab(Rect obj) { }
 
-        private void DrawEventsTab(Rect obj) { }
-
-        private void DrawItemsTab(Rect obj) { }
+        private void DrawItemsTab(Rect obj)
+        {
+            itemWorker.NotifyResolutionChanged(obj);
+            itemWorker.Draw();
+        }
 
         public override void DoWindowContents(Rect canvas)
         {
@@ -105,6 +111,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.EndGroup();
 
             GUI.EndGroup();
+        }
+
+        public override void WindowUpdate()
+        {
+            itemWorker.NotifyWindowUpdate();
         }
 
         private void DrawWindowDecorations(Rect tabRect)
