@@ -84,13 +84,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 Find.WindowStack.Add(new PawnKindConfigDialog());
             }
 
-        #if DEBUG
             DoButtonSeparator(optionsListing);
             if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"TKUtils.Editor.Title".Localize()}", openText))
             {
                 Find.WindowStack.Add(new Editor());
             }
-        #endif
         }
 
         private static void DoButtonSeparator(Listing_Standard optionsListing)
