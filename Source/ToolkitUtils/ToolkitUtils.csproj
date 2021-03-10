@@ -158,6 +158,7 @@
         <Compile Include="Models\Selectors\QuantityLimitSelector.cs"/>
         <Compile Include="Models\Selectors\RangedWeaponSelector.cs"/>
         <Compile Include="Models\Selectors\SelectorBase.cs"/>
+        <Compile Include="Models\Selectors\StackabilitySelector.cs"/>
         <Compile Include="Models\Selectors\StateSelector.cs"/>
         <Compile Include="Models\Selectors\AddPriceSelector.cs"/>
         <Compile Include="Models\Selectors\RemovePriceSelector.cs"/>
