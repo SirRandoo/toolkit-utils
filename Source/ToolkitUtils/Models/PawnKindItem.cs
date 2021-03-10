@@ -37,6 +37,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public PawnKindDef ColonistKindDef =>
             Kinds.FirstOrDefault(k => k.defaultFactionType.isPlayer) ?? Kinds.FirstOrFallback();
 
+        [JsonProperty("data")]
         public PawnKindData PawnData
         {
             get => data ??= (PawnKindData) Data;
@@ -50,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         [JsonProperty("price")] public int Cost { get; set; }
 
-        public IShopDataBase Data { get; set; }
+        [JsonIgnore] public IShopDataBase Data { get; set; }
 
 
         public static PawnKindItem MigrateFrom(XmlRace race)
