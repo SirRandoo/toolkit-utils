@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore;
 using TwitchLib.Client.Models;
 using TwitchLib.Client.Models.Interfaces;
@@ -37,7 +38,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             if (!bypassPuppeteer)
             {
-                TwitchWrapper.SendChatMessage($"@{user} → {message}");
+                if (Puppeteer.ShouldRedirect(user))
+                {
+                    Puppeteer.SendMessage(user, message);
+                }
+                else
+                {
+                    TwitchWrapper.SendChatMessage($"@{user} → {message}");
+                }
             }
             else
             {
