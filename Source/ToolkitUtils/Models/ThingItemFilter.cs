@@ -17,7 +17,6 @@
 using System;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -75,63 +74,63 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public Func<ItemTableItem, bool> IsUnfilteredFunc { get; set; }
+        public Func<TableSettingsItem<ThingItem>, bool> IsUnfilteredFunc { get; set; }
 
-        public static bool IsCategoryRelevant(ItemTableItem subject, string category)
+        public static bool IsCategoryRelevant(TableSettingsItem<ThingItem> subject, string category)
         {
             return subject.Data.Category.Equals(category);
         }
 
-        public static bool IsModRelevant(ItemTableItem subject, string mod)
+        public static bool IsModRelevant(TableSettingsItem<ThingItem> subject, string mod)
         {
             return subject.Data.Mod.Equals(mod);
         }
 
-        public static bool IsTechLevelRelevant(ItemTableItem subject, TechLevel techLevel)
+        public static bool IsTechLevelRelevant(TableSettingsItem<ThingItem> subject, TechLevel techLevel)
         {
             return subject.Data.Thing != null && subject.Data.Thing.techLevel == techLevel;
         }
 
-        public static bool FilterByStuff(ItemTableItem subject)
+        public static bool FilterByStuff(TableSettingsItem<ThingItem> subject)
         {
             return subject.Data.Thing != null && subject.Data.Thing.IsStuff;
         }
 
-        public static bool FilterByNotStuff(ItemTableItem subject)
+        public static bool FilterByNotStuff(TableSettingsItem<ThingItem> subject)
         {
             return subject.Data.Thing != null && !subject.Data.Thing.IsStuff;
         }
 
-        public static bool FilterByStackable(ItemTableItem subject)
+        public static bool FilterByStackable(TableSettingsItem<ThingItem> subject)
         {
             return subject.Data.Thing != null && subject.Data.Thing.stackLimit > 1;
         }
 
-        public static bool FilterByNonStackable(ItemTableItem subject)
+        public static bool FilterByNonStackable(TableSettingsItem<ThingItem> subject)
         {
             return subject.Data.Thing != null && subject.Data.Thing.stackLimit == 1;
         }
 
-        public static bool FilterByResearched(ItemTableItem subject)
+        public static bool FilterByResearched(TableSettingsItem<ThingItem> subject)
         {
             return Current.Game != null
                    && subject.Data.Thing != null
                    && subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
         }
 
-        public static bool FilterByNotResearched(ItemTableItem subject)
+        public static bool FilterByNotResearched(TableSettingsItem<ThingItem> subject)
         {
             return Current.Game != null
                    && subject.Data.Thing != null
                    && !subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
         }
 
-        public static bool FilterByEnabled(ItemTableItem subject)
+        public static bool FilterByEnabled(TableSettingsItem<ThingItem> subject)
         {
             return subject.Data.Cost > 0;
         }
 
-        public static bool FilterByDisabled(ItemTableItem subject)
+        public static bool FilterByDisabled(TableSettingsItem<ThingItem> subject)
         {
             return subject.Data.Cost <= 0;
         }

@@ -18,7 +18,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
 using Verse;
@@ -123,7 +123,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            foreach (TraitTableItem trait in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> trait in worker.Data.Where(i => !i.IsHidden))
             {
                 trait.Data.CanAdd = true;
                 trait.Data.CostToAdd = 3500;
@@ -148,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            foreach (TraitTableItem trait in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> trait in worker.Data.Where(i => !i.IsHidden))
             {
                 trait.Data.CostToRemove = globalRemoveCost;
             }
@@ -165,7 +165,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            foreach (TraitTableItem trait in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> trait in worker.Data.Where(i => !i.IsHidden))
             {
                 trait.Data.CostToAdd = globalAddCost;
             }

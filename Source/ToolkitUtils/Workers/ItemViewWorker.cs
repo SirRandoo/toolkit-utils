@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
 
@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             DrawSortableHeaderIcon();
         }
 
-        protected override void DrawItem(Rect canvas, ItemTableItem item)
+        protected override void DrawItem(Rect canvas, TableSettingsItem<ThingItem> item)
         {
             bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
 

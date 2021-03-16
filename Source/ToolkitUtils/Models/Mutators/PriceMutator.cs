@@ -16,13 +16,12 @@
 
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class PawnPriceMutator : IMutatorBase<IShopItemBase>
+    public class PriceMutator<T> : IMutatorBase<T> where T : class, IShopItemBase
     {
         private int price = 1;
         private string priceBuffer = "1";
@@ -33,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Models
             priceText = "TKUtils.Fields.Price".Localize();
         }
 
-        public void Mutate(TableItem<IShopItemBase> item)
+        public void Mutate(TableSettingsItem<T> item)
         {
             item.Data.Cost = price;
         }

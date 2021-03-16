@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils.Models.Tables
+namespace SirRandoo.ToolkitUtils.Models
 {
-    public abstract class TableItem<T>
+    public abstract class TableItem<T> where T : class, IShopItemBase
     {
         public T Data { get; set; }
         public bool IsHidden { get; set; }

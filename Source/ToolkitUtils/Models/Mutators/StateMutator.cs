@@ -15,12 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class StateMutator : IMutatorBase<IShopItemBase>
+    public class StateMutator<T> : IMutatorBase<T> where T : class, IShopItemBase
     {
         private bool state;
         private string stateText;
@@ -30,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Models
             stateText = "TKUtils.Fields.State".Localize();
         }
 
-        public void Mutate(TableItem<IShopItemBase> item)
+        public void Mutate(TableSettingsItem<T> item)
         {
             item.Data.Enabled = state;
         }

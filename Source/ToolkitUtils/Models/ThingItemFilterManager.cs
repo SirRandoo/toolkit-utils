@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
@@ -34,14 +33,14 @@ namespace SirRandoo.ToolkitUtils.Models
             filters = new List<ThingItemFilterCategory>();
         }
 
-        public void FilterItems(IEnumerable<ItemTableItem> input)
+        public void FilterItems(IEnumerable<TableSettingsItem<ThingItem>> input)
         {
             if (filters.All(i => !i.ActiveFilters.Any()))
             {
                 return;
             }
 
-            foreach (ItemTableItem item in input)
+            foreach (TableSettingsItem<ThingItem> item in input)
             {
                 var hidden = false;
                 foreach (ThingItemFilterCategory unused in filters.Where(filter => filter.IsFiltered(item)))

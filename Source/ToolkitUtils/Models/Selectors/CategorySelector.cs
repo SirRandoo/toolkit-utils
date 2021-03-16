@@ -16,7 +16,6 @@
 
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
@@ -64,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible(TableItem<ThingItem> item)
+        public bool IsVisible(TableSettingsItem<ThingItem> item)
         {
             if (category.NullOrEmpty())
             {

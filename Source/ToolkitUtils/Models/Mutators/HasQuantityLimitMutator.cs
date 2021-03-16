@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -30,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Models
             hasQuantityLimitText = "TKUtils.Fields.HasQuantityLimit".Localize();
         }
 
-        public void Mutate(TableItem<ThingItem> item)
+        public void Mutate(TableSettingsItem<ThingItem> item)
         {
             item.Data.ItemData.HasQuantityLimit = state;
         }

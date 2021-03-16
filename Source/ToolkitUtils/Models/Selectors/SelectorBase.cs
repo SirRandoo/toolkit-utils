@@ -14,17 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public interface ISelectorBase<T> where T : IShopItemBase
+    public interface ISelectorBase<T> where T : class, IShopItemBase
     {
         ObservableProperty<bool> Dirty { get; set; }
         void Prepare();
         void Draw(Rect canvas);
-        bool IsVisible(TableItem<T> item);
+        bool IsVisible(TableSettingsItem<T> item);
     }
 }

@@ -15,13 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class StateSelector<T> : ISelectorBase<T> where T : IShopItemBase
+    public class StateSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     {
         private bool state = true;
         private string stateText;
@@ -41,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible(TableItem<T> item)
+        public bool IsVisible(TableSettingsItem<T> item)
         {
             return item.Data.Enabled == state;
         }

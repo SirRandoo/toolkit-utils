@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -83,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool IsFiltered(ItemTableItem item)
+        public bool IsFiltered(TableSettingsItem<ThingItem> item)
         {
             return ActiveFilters.Any() && ActiveFilters.All(i => !i.IsUnfilteredFunc(item));
         }

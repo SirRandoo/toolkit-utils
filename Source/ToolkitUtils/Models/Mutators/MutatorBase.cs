@@ -14,15 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public interface IMutatorBase<T> where T : IShopItemBase
+    public interface IMutatorBase<T> where T : class, IShopItemBase
     {
         public void Prepare();
         public void Draw(Rect canvas);
-        public void Mutate(TableItem<T> item);
+        public void Mutate(TableSettingsItem<T> item);
     }
 }

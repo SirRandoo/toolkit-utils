@@ -16,7 +16,6 @@
 
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
@@ -33,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Models
             priceText = "TKUtils.Fields.Price".Localize();
         }
 
-        public void Mutate(TableItem<ThingItem> item)
+        public void Mutate(TableSettingsItem<ThingItem> item)
         {
             item.Data.Item.price = price;
         }

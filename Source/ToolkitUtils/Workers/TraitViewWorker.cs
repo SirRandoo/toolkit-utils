@@ -16,7 +16,7 @@
 
 using System.Text;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
 
@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             DrawSortableHeaderIcon();
         }
 
-        protected override void DrawTrait(Rect canvas, TraitTableItem trait)
+        protected override void DrawTrait(Rect canvas, TableSettingsItem<TraitItem> trait)
         {
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);

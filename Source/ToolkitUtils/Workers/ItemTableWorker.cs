@@ -18,13 +18,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
-    public class ItemTableWorker : TableWorker<ItemTableItem>
+    public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
     {
         private const float ExpandedLineSpan = 3f;
         private protected Rect CategoryHeaderRect = Rect.zero;
@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyGlobalSettingsChanged(SettingsKey newState)
         {
-            foreach (ItemTableItem item in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<ThingItem> item in Data.Where(i => !i.IsHidden))
             {
                 item.SettingsVisible = newState == SettingsKey.Expand;
             }
@@ -148,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyGlobalStateChanged(StateKey newState)
         {
-            foreach (ItemTableItem item in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<ThingItem> item in Data.Where(i => !i.IsHidden))
             {
                 item.Data.Enabled = newState == StateKey.Enable;
                 item.Data.Update();
@@ -166,7 +166,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.BeginGroup(canvas);
             scrollPos = GUI.BeginScrollView(canvas, scrollPos, viewPort);
 
-            foreach (ItemTableItem item in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<ThingItem> item in Data.Where(i => !i.IsHidden))
             {
                 var lineRect = new Rect(
                     0f,
@@ -207,7 +207,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        protected virtual void DrawItem(Rect canvas, ItemTableItem item)
+        protected virtual void DrawItem(Rect canvas, TableSettingsItem<ThingItem> item)
         {
             bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
 
@@ -296,7 +296,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawConfigurableItemName(Rect canvas, ItemTableItem item)
+        private void DrawConfigurableItemName(Rect canvas, TableSettingsItem<ThingItem> item)
         {
             if (item.EditingName)
             {
@@ -339,11 +339,13 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             LoadTranslations();
 
-            _data ??= new List<ItemTableItem>();
-            _data.AddRange(ToolkitUtils.Data.Items.OrderBy(i => i.Name).Select(i => new ItemTableItem {Data = i}));
+            _data ??= new List<TableSettingsItem<ThingItem>>();
+            _data.AddRange(
+                ToolkitUtils.Data.Items.OrderBy(i => i.Name).Select(i => new TableSettingsItem<ThingItem> {Data = i})
+            );
         }
 
-        private void DrawExpandedSettings(Rect canvas, ItemTableItem item)
+        private void DrawExpandedSettings(Rect canvas, TableSettingsItem<ThingItem> item)
         {
             float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 26f;
             var leftColumnRect = new Rect(canvas.x, canvas.y, columnWidth, canvas.height);
@@ -360,7 +362,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawLeftExpandedSettingsColumn(Rect canvas, ItemTableItem item)
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, TableSettingsItem<ThingItem> item)
         {
             (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm();
             SettingsHelper.DrawLabel(karmaLabel, karmaTypeText);
@@ -391,7 +393,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             Widgets.TextFieldNumeric(weightField, ref item.Data.ItemData.Weight, ref weightBuffer);
         }
 
-        private void DrawRightExpandedSettingsColumn(Rect canvas, ItemTableItem item)
+        private void DrawRightExpandedSettingsColumn(Rect canvas, TableSettingsItem<ThingItem> item)
         {
             SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(
@@ -434,7 +436,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
         }
 
-        public override void EnsureExists(ItemTableItem data)
+        public override void EnsureExists(TableSettingsItem<ThingItem> data)
         {
             if (!_data.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
             {
@@ -555,9 +557,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             expandedHeaderInnerRect = expandedHeaderRect.ContractedBy(2f);
         }
 
-        public override void NotifyCustomSearchRequested(Func<ItemTableItem, bool> worker)
+        public override void NotifyCustomSearchRequested(Func<TableSettingsItem<ThingItem>, bool> worker)
         {
-            foreach (ItemTableItem item in Data)
+            foreach (TableSettingsItem<ThingItem> item in Data)
             {
                 item.IsHidden = !worker(item);
             }
@@ -565,7 +567,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected override void FilterDataBySearch(string query)
         {
-            foreach (ItemTableItem item in Data)
+            foreach (TableSettingsItem<ThingItem> item in Data)
             {
                 item.IsHidden = !query.NullOrEmpty() && !item.Data.Name.ToLower().Contains(query.ToLower());
             }

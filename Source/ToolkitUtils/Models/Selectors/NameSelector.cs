@@ -16,14 +16,13 @@
 
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class NameSelector<T> : ISelectorBase<T> where T : IShopItemBase
+    public class NameSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     {
         private bool exclude = true;
         private string excludeTooltip;
@@ -64,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible(TableItem<T> item)
+        public bool IsVisible(TableSettingsItem<T> item)
         {
             if (name.NullOrEmpty())
             {

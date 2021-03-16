@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 
@@ -41,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible(TableItem<TraitItem> item)
+        public bool IsVisible(TableSettingsItem<TraitItem> item)
         {
             return item.Data.CanAdd == state;
         }

@@ -16,7 +16,6 @@
 
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
@@ -32,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Models
             nameText = "TKUtils.Fields.Name".Localize();
         }
 
-        public void Mutate(TableItem<PawnKindItem> item)
+        public void Mutate(TableSettingsItem<PawnKindItem> item)
         {
             if (name.NullOrEmpty())
             {

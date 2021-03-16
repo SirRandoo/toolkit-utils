@@ -18,13 +18,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
-    public class PawnTableWorker : TableWorker<PawnTableItem>
+    public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
     {
         private const float ExpandedLineSpan = 2f;
 
@@ -124,7 +124,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyGlobalSettingsChanged(SettingsKey newState)
         {
-            foreach (PawnTableItem item in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<PawnKindItem> item in Data.Where(i => !i.IsHidden))
             {
                 item.SettingsVisible = newState == SettingsKey.Expand;
             }
@@ -132,7 +132,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyGlobalStateChanged(StateKey newState)
         {
-            foreach (PawnTableItem item in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<PawnKindItem> item in Data.Where(i => !i.IsHidden))
             {
                 item.Data.Enabled = newState == StateKey.Enable;
             }
@@ -149,7 +149,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.BeginGroup(canvas);
             scrollPos = GUI.BeginScrollView(canvas, scrollPos, viewPort);
 
-            foreach (PawnTableItem item in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<PawnKindItem> item in Data.Where(i => !i.IsHidden))
             {
                 var lineRect = new Rect(
                     0f,
@@ -190,7 +190,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        protected virtual void DrawKind(Rect canvas, PawnTableItem item)
+        protected virtual void DrawKind(Rect canvas, TableSettingsItem<PawnKindItem> item)
         {
             Rect checkboxRect = SettingsHelper.RectForIcon(
                 new Rect(stateHeaderRect.x + 2f, canvas.y + 2f, stateHeaderRect.width - 4f, RowLineHeight - 4f)
@@ -243,7 +243,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawConfigurableItemName(Rect canvas, PawnTableItem item)
+        private void DrawConfigurableItemName(Rect canvas, TableSettingsItem<PawnKindItem> item)
         {
             if (item.EditingName)
             {
@@ -283,11 +283,14 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             LoadTranslations();
 
-            _data ??= new List<PawnTableItem>();
-            _data.AddRange(ToolkitUtils.Data.PawnKinds.OrderBy(i => i.Name).Select(i => new PawnTableItem {Data = i}));
+            _data ??= new List<TableSettingsItem<PawnKindItem>>();
+            _data.AddRange(
+                ToolkitUtils.Data.PawnKinds.OrderBy(i => i.Name)
+                   .Select(i => new TableSettingsItem<PawnKindItem> {Data = i})
+            );
         }
 
-        private void DrawExpandedSettings(Rect canvas, PawnTableItem item)
+        private void DrawExpandedSettings(Rect canvas, TableSettingsItem<PawnKindItem> item)
         {
             float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 26f;
             var leftColumnRect = new Rect(canvas.x, canvas.y, columnWidth, canvas.height);
@@ -304,7 +307,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawLeftExpandedSettingsColumn(Rect canvas, PawnTableItem item)
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, TableSettingsItem<PawnKindItem> item)
         {
             (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm(0.6f);
             SettingsHelper.DrawLabel(karmaLabel, karmaTypeText);
@@ -330,12 +333,12 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        private void DrawRightExpandedSettingsColumn(Rect canvas, PawnTableItem item)
+        private void DrawRightExpandedSettingsColumn(Rect canvas, TableSettingsItem<PawnKindItem> item)
         {
             // unused
         }
 
-        public override void EnsureExists(PawnTableItem data)
+        public override void EnsureExists(TableSettingsItem<PawnKindItem> data)
         {
             if (!_data.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
             {
@@ -431,9 +434,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             expandedHeaderInnerRect = expandedHeaderRect.ContractedBy(2f);
         }
 
-        public override void NotifyCustomSearchRequested(Func<PawnTableItem, bool> worker)
+        public override void NotifyCustomSearchRequested(Func<TableSettingsItem<PawnKindItem>, bool> worker)
         {
-            foreach (PawnTableItem item in Data)
+            foreach (TableSettingsItem<PawnKindItem> item in Data)
             {
                 item.IsHidden = !worker(item);
             }
@@ -441,7 +444,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected override void FilterDataBySearch(string query)
         {
-            foreach (PawnTableItem item in Data)
+            foreach (TableSettingsItem<PawnKindItem> item in Data)
             {
                 item.IsHidden = !query.NullOrEmpty() && !item.Data.Name.ToLower().Contains(query.ToLower());
             }

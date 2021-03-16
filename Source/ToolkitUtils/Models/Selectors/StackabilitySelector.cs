@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 
@@ -40,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool IsVisible(TableItem<ThingItem> item)
+        public bool IsVisible(TableSettingsItem<ThingItem> item)
         {
             if (item.Data.Thing == null)
             {

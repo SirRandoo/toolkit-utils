@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -30,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Models
             bypassLimitText = "TKUtils.Fields.BypassTraitLimit".Localize();
         }
 
-        public void Mutate(TableItem<TraitItem> item)
+        public void Mutate(TableSettingsItem<TraitItem> item)
         {
             item.Data.TraitData.CanBypassLimit = state;
         }

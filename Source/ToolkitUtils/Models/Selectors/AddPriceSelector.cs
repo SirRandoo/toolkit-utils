@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
@@ -73,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible(TableItem<TraitItem> item)
+        public bool IsVisible(TableSettingsItem<TraitItem> item)
         {
             if (!item.Data.Enabled)
             {

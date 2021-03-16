@@ -17,7 +17,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
 using Verse;
@@ -112,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            foreach (PawnTableItem item in worker.Data.Where(i => !i.IsHidden)
+            foreach (TableSettingsItem<PawnKindItem> item in worker.Data.Where(i => !i.IsHidden)
                .Where(i => i.Data.ColonistKindDef != null))
             {
                 item.Data.Cost = item.Data.ColonistKindDef.race.CalculateStorePrice();

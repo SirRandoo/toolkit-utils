@@ -21,7 +21,6 @@ using System.Text;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Workers;
 using TwitchToolkit;
 using TwitchToolkit.Store;
@@ -96,7 +95,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void UpdateItemView()
         {
-            foreach (ItemTableItem item in worker.Data)
+            foreach (TableSettingsItem<ThingItem> item in worker.Data)
             {
                 item.IsHidden = false;
             }
@@ -108,7 +107,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            foreach (ItemTableItem item in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<ThingItem> item in worker.Data.Where(i => !i.IsHidden))
             {
                 item.IsHidden = categorySearch
                     ? !item.Data.Category.ToLower().Contains(query.ToLower())
@@ -431,7 +430,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            foreach (ItemTableItem item in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<ThingItem> item in worker.Data.Where(i => !i.IsHidden))
             {
                 item.Data.Item.abr = item.Data.Thing.label.ToToolkit();
                 item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
@@ -498,7 +497,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 Data.Items.Add(latest);
-                worker.EnsureExists(new ItemTableItem {Data = latest});
+                worker.EnsureExists(new TableSettingsItem<ThingItem> {Data = latest});
             }
 
             worker.NotifySortRequested();

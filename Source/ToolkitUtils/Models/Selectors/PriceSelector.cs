@@ -18,14 +18,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class PriceSelector<T> : ISelectorBase<T> where T : IShopItemBase
+    public class PriceSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     {
         private ComparisonTypes comparison = ComparisonTypes.Equal;
         private List<FloatMenuOption> comparisonOptions;
@@ -73,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible(TableItem<T> item)
+        public bool IsVisible(TableSettingsItem<T> item)
         {
             switch (comparison)
             {

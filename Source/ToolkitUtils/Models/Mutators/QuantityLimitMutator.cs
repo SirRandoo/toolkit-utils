@@ -16,7 +16,6 @@
 
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
@@ -38,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Models
             toValueTooltip = "TKUtils.SelectorTooltips.FixedMode".Localize();
         }
 
-        public void Mutate(TableItem<ThingItem> item)
+        public void Mutate(TableSettingsItem<ThingItem> item)
         {
             item.Data.ItemData.QuantityLimit = toLimit ? item.Data.Thing?.stackLimit ?? 1 : limit;
         }

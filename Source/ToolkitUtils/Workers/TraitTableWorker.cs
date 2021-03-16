@@ -19,13 +19,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
-    public class TraitTableWorker : TableWorker<TraitTableItem>
+    public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
     {
         private const float ExpandedLineSpan = 3f;
         private string addKarmaTypeText;
@@ -150,7 +150,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyGlobalSettingsChanged(SettingsKey newState)
         {
-            foreach (TraitTableItem item in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> item in Data.Where(i => !i.IsHidden))
             {
                 item.SettingsVisible = newState == SettingsKey.Expand;
             }
@@ -158,7 +158,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyGlobalAddStateChanged(StateKey newState)
         {
-            foreach (TraitTableItem item in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> item in Data.Where(i => !i.IsHidden))
             {
                 item.Data.CanAdd = newState == StateKey.Enable;
             }
@@ -166,7 +166,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyGlobalRemoveStateChanged(StateKey newState)
         {
-            foreach (TraitTableItem item in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> item in Data.Where(i => !i.IsHidden))
             {
                 item.Data.CanRemove = newState == StateKey.Enable;
             }
@@ -183,7 +183,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.BeginGroup(canvas);
             scrollPos = GUI.BeginScrollView(canvas, scrollPos, viewPort);
 
-            foreach (TraitTableItem trait in Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> trait in Data.Where(i => !i.IsHidden))
             {
                 var lineRect = new Rect(
                     0f,
@@ -224,7 +224,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        protected virtual void DrawTrait(Rect canvas, TraitTableItem trait)
+        protected virtual void DrawTrait(Rect canvas, TableSettingsItem<TraitItem> trait)
         {
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
@@ -326,7 +326,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawConfigurableTraitName(Rect canvas, TraitTableItem trait)
+        private void DrawConfigurableTraitName(Rect canvas, TableSettingsItem<TraitItem> trait)
         {
             if (trait.EditingName)
             {
@@ -367,11 +367,13 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             LoadTranslations();
 
-            _data ??= new List<TraitTableItem>();
-            _data.AddRange(ToolkitUtils.Data.Traits.OrderBy(i => i.Name).Select(i => new TraitTableItem {Data = i}));
+            _data ??= new List<TableSettingsItem<TraitItem>>();
+            _data.AddRange(
+                ToolkitUtils.Data.Traits.OrderBy(i => i.Name).Select(i => new TableSettingsItem<TraitItem> {Data = i})
+            );
         }
 
-        private void DrawExpandedSettings(Rect canvas, TraitTableItem trait)
+        private void DrawExpandedSettings(Rect canvas, TableSettingsItem<TraitItem> trait)
         {
             float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 26f;
             var leftColumnRect = new Rect(canvas.x, canvas.y, columnWidth, canvas.height);
@@ -388,7 +390,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawLeftExpandedSettingsColumn(Rect canvas, TraitTableItem trait)
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, TableSettingsItem<TraitItem> trait)
         {
             (Rect addKarmaLabel, Rect addKarmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm();
             SettingsHelper.DrawLabel(addKarmaLabel, addKarmaTypeText);
@@ -443,7 +445,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        private void DrawRightExpandedSettingsColumn(Rect canvas, TraitTableItem trait)
+        private void DrawRightExpandedSettingsColumn(Rect canvas, TableSettingsItem<TraitItem> trait)
         {
             bool proxy = trait.Data.TraitData.CanBypassLimit;
             if (SettingsHelper.LabeledPaintableCheckbox(
@@ -456,7 +458,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        public override void EnsureExists(TraitTableItem data)
+        public override void EnsureExists(TableSettingsItem<TraitItem> data)
         {
             if (!_data.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
             {
@@ -589,9 +591,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             expandedHeaderInnerRect = expandedHeaderRect.ContractedBy(2f);
         }
 
-        public override void NotifyCustomSearchRequested(Func<TraitTableItem, bool> worker)
+        public override void NotifyCustomSearchRequested(Func<TableSettingsItem<TraitItem>, bool> worker)
         {
-            foreach (TraitTableItem item in Data)
+            foreach (TableSettingsItem<TraitItem> item in Data)
             {
                 item.IsHidden = !worker(item);
             }
@@ -599,7 +601,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected override void FilterDataBySearch(string query)
         {
-            foreach (TraitTableItem item in Data)
+            foreach (TableSettingsItem<TraitItem> item in Data)
             {
                 item.IsHidden = !query.NullOrEmpty() && !item.Data.Name.ToLower().Contains(query.ToLower());
             }

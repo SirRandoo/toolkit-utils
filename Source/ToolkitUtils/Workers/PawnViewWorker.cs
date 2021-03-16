@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
+using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Workers
@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             DrawSortableHeaderIcon();
         }
 
-        protected override void DrawKind(Rect canvas, PawnTableItem item)
+        protected override void DrawKind(Rect canvas, TableSettingsItem<PawnKindItem> item)
         {
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);

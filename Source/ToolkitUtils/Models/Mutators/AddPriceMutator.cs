@@ -16,7 +16,6 @@
 
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
@@ -33,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Models
             addPriceText = "TKUtils.Fields.AddPrice".Localize();
         }
 
-        public void Mutate(TableItem<TraitItem> item)
+        public void Mutate(TableSettingsItem<TraitItem> item)
         {
             item.Data.CostToAdd = addPrice;
         }
