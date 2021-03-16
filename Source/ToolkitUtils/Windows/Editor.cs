@@ -27,15 +27,16 @@ namespace SirRandoo.ToolkitUtils.Windows
 
     public class Editor : Window
     {
+        private readonly ItemWorker itemWorker;
+        private readonly PawnWorker pawnWorker;
+        private readonly TraitWorker traitWorker;
+        private bool dirty;
         private ScriptEngine engine;
-
-        private ItemWorker itemWorker;
 
         private bool maximized;
         private TabWorker tabWorker;
 
         private string title;
-        private float titleWidth;
 
         public Editor()
         {
@@ -44,6 +45,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             draggable = true;
 
             itemWorker = new ItemWorker();
+            traitWorker = new TraitWorker();
+            pawnWorker = new PawnWorker();
         }
 
         protected override float Margin => 0f;
@@ -59,16 +62,18 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PreOpen();
 
             tabWorker = TabWorker.CreateInstance();
+            // ReSharper disable once StringLiteralTypo
             engine = ScriptEngine.CreateInstance("tkutils.editor");
             InitializeTabs();
             ProcessTranslations();
             itemWorker.Prepare();
+
+            optionalTitle = title;
         }
 
         private void ProcessTranslations()
         {
             title = "TKUtils.Editor.Title".Localize();
-            titleWidth = Text.CalcSize(title).x;
         }
 
         private void InitializeTabs()
@@ -77,14 +82,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                 new TabItem {Label = "TKUtils.EditorTabs.Items".Localize(), ContentDrawer = DrawItemsTab};
 
             tabWorker.AddTab(tabWorker.SelectedTab);
-        #if DEBUG
             tabWorker.AddTab(
                 new TabItem {Label = "TKUtils.EditorTabs.Traits".Localize(), ContentDrawer = DrawTraitsTab}
             );
             tabWorker.AddTab(
                 new TabItem {Label = "TKUtils.EditorTabs.PawnKinds".Localize(), ContentDrawer = DrawPawnKindsTab}
             );
-        #endif
         }
 
         private void DrawTraitsTab(Rect obj) { }
@@ -93,7 +96,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawItemsTab(Rect obj)
         {
-            itemWorker.NotifyResolutionChanged(obj);
             itemWorker.Draw();
         }
 
@@ -108,15 +110,20 @@ namespace SirRandoo.ToolkitUtils.Windows
 
 
             GUI.BeginGroup(contentRect);
-            tabWorker.SelectedTab?.Draw(new Rect(0f, 0f, contentRect.width, contentRect.height));
+            var innerRect = new Rect(0f, 0f, contentRect.width, contentRect.height);
+
+            if (dirty)
+            {
+                itemWorker.NotifyResolutionChanged(innerRect);
+                traitWorker.NotifyResolutionChanged(innerRect);
+                pawnWorker.NotifyResolutionChanged(innerRect);
+                dirty = false;
+            }
+
+            tabWorker.SelectedTab?.Draw(innerRect);
             GUI.EndGroup();
 
             GUI.EndGroup();
-        }
-
-        public override void WindowUpdate()
-        {
-            itemWorker.NotifyWindowUpdate();
         }
 
         private void DrawWindowDecorations(Rect tabRect)
@@ -151,6 +158,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PreClose();
 
             Store_ItemEditor.UpdateStoreItemList();
+        }
+
+        public override void Notify_ResolutionChanged()
+        {
+            base.Notify_ResolutionChanged();
+            dirty = true;
         }
     }
 }

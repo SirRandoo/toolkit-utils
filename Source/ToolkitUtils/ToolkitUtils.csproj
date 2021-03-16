@@ -176,10 +176,8 @@
         <Compile Include="Models\Scripting\Definitions.cs"/>
         <Compile Include="Models\Scripting\Token.cs"/>
         <Compile Include="Models\TabItem.cs"/>
-        <Compile Include="Models\Tables\ItemTableItem.cs"/>
-        <Compile Include="Models\Tables\PawnTableItem.cs"/>
         <Compile Include="Models\Tables\TableItem.cs"/>
-        <Compile Include="Models\Tables\TraitTableItem.cs"/>
+        <Compile Include="Models\Tables\TableSettingsItem.cs"/>
         <Compile Include="Models\ThingItemFilter.cs"/>
         <Compile Include="Models\ThingItemFilterCategory.cs"/>
         <Compile Include="Models\ThingItemFilterManager.cs"/>
@@ -251,10 +249,13 @@
         <Compile Include="Workers\LuaEditorWorker.cs"/>
         <Compile Include="Workers\PawnTableWorker.cs"/>
         <Compile Include="Workers\PawnViewWorker.cs"/>
+        <Compile Include="Workers\PawnWorker.cs"/>
+        <Compile Include="Workers\TableWorkerBase.cs"/>
         <Compile Include="Workers\TabWorker.cs"/>
         <Compile Include="Workers\TableWorker.cs"/>
         <Compile Include="Workers\TraitTableWorker.cs"/>
         <Compile Include="Workers\TraitViewWorker.cs"/>
+        <Compile Include="Workers\TraitWorker.cs"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
