@@ -36,8 +36,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private bool maximized;
         private TabWorker tabWorker;
 
-        private string title;
-
         public Editor()
         {
             doCloseButton = false;
@@ -65,15 +63,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             // ReSharper disable once StringLiteralTypo
             engine = ScriptEngine.CreateInstance("tkutils.editor");
             InitializeTabs();
-            ProcessTranslations();
             itemWorker.Prepare();
-
-            optionalTitle = title;
-        }
-
-        private void ProcessTranslations()
-        {
-            title = "TKUtils.Editor.Title".Localize();
+            traitWorker.Prepare();
+            pawnWorker.Prepare();
         }
 
         private void InitializeTabs()
