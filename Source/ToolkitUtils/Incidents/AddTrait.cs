@@ -21,7 +21,6 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -56,7 +55,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             int maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
-            List<Trait> traits = pawn.story.traits.allTraits;
+            List<Trait> traits = pawn!.story.traits.allTraits;
 
             if (!Data.TryGetTrait(traitQuery, out buyableTrait))
             {
@@ -64,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!buyableTrait.CanAdd)
+            if (!buyableTrait!.CanAdd)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -156,24 +155,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!MagicComp.Active)
+            if (CompatRegistry.Magic == null || !CompatRegistry.Magic.IsClassTrait(traitDef))
             {
                 return traitQuery != null && buyableTrait != null;
             }
 
-            List<TraitDef> classes = MagicComp.GetAllClasses().ToList();
-
-            if (!classes.Any(c => c.defName.Equals(traitDef.defName)))
+            if (!CompatRegistry.Magic.HasClass(pawn))
             {
                 return traitQuery != null && buyableTrait != null;
             }
 
-            if (!(pawn.GetAnyClass() is { } tClass))
-            {
-                return traitQuery != null && buyableTrait != null;
-            }
-
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize(tClass.LabelCap, trait.LabelCap));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize());
             return false;
         }
 

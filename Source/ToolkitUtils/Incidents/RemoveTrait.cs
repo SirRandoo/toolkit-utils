@@ -53,7 +53,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            List<Trait> traits = pawn.story.traits.allTraits;
+            List<Trait> traits = pawn!.story.traits.allTraits;
 
             if (traits?.Count <= 0)
             {
@@ -67,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!traitQuery.CanRemove)
+            if (!traitQuery!.CanRemove)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Disabled".Localize(query));
                 return false;
@@ -112,9 +112,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (MagicComp.Active
-                && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(target.def.defName)) ?? false)
-                && !TkSettings.ClassChanges)
+            if ((CompatRegistry.Magic?.IsClassTrait(target.def) ?? false) && !TkSettings.ClassChanges)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Class".Localize(query));
                 return false;
@@ -127,13 +125,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void TryExecute()
         {
-            if (MagicComp.Active
-                && TkSettings.ClassChanges
-                && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(trait.def.defName)) ?? false))
+            if ((CompatRegistry.Magic?.IsClassTrait(trait.def) ?? false) && TkSettings.ClassChanges)
             {
-                CharacterData characterData = MagicComp.GetCharacterData(pawn);
-                TraitHelper.RemoveTraitFromPawn(pawn, trait);
-                characterData?.Reset();
+                CompatRegistry.Magic.ResetClass(pawn); // TMagic manually removes its trait(s)
             }
             else
             {

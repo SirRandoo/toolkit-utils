@@ -56,6 +56,8 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Commands\PawnClass.cs"/>
+        <Compile Include="MagicCompat.cs"/>
+        <Compile Include="StaticRunner.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>

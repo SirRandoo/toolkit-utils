@@ -81,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!replaceThisShop.CanRemove)
+            if (!replaceThisShop!.CanRemove)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -90,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!replaceThatShop.CanAdd)
+            if (!replaceThatShop!.CanAdd)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -99,7 +99,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (pawn.story.traits.allTraits.Count > AddTraitSettings.maxTraits
+            if (pawn!.story.traits.allTraits.Count > AddTraitSettings.maxTraits
                 && (replaceThisShop.BypassLimit && !replaceThatShop.BypassLimit
                     || !replaceThisShop.BypassLimit && !replaceThatShop.BypassLimit))
             {
@@ -202,9 +202,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (MagicComp.Active
-                && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(replaceThisTrait.def.defName)) ?? false)
-                && !TkSettings.ClassChanges)
+            if ((CompatRegistry.Magic?.IsClassTrait(replaceThisTraitDef) ?? false) && !TkSettings.ClassChanges)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -225,13 +223,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void TryExecute()
         {
-            if (MagicComp.Active
-                && TkSettings.ClassChanges
-                && (MagicComp.GetAllClasses()?.Any(c => c.defName.Equals(replaceThisTrait.def.defName)) ?? false))
+            if ((CompatRegistry.Magic?.IsClassTrait(replaceThisTraitDef) ?? false) && TkSettings.ClassChanges)
             {
-                CharacterData characterData = MagicComp.GetCharacterData(pawn);
-                TraitHelper.RemoveTraitFromPawn(pawn, replaceThisTrait);
-                characterData?.Reset();
+                CompatRegistry.Magic.ResetClass(pawn); // TMagic manually removes its trait(s).
             }
             else
             {

@@ -64,6 +64,8 @@
         <Compile Include="Commands\Unstick.cs"/>
         <Compile Include="Commands\UnstickMe.cs"/>
         <Compile Include="Commands\Wealth.cs"/>
+        <Compile Include="CompatRegistry.cs"/>
+        <Compile Include="Compat\MagicCompat.cs"/>
         <Compile Include="Defs\CommandExtension.cs"/>
         <Compile Include="Defs\EventExtension.cs"/>
         <Compile Include="Defs\HealExtension.cs"/>
