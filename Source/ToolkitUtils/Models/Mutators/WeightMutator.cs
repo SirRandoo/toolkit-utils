@@ -24,6 +24,9 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class WeightMutator : IMutatorBase<ThingItem>
     {
+        private bool percentage;
+        private string percentTooltip;
+        private string valueTooltip;
         private float weight = 1f;
         private string weightBuffer = "1";
         private string weightText;
@@ -31,11 +34,14 @@ namespace SirRandoo.ToolkitUtils.Models
         public void Prepare()
         {
             weightText = "TKUtils.Fields.Weight".Localize();
+            valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".Localize();
+            percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".Localize();
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
-            item.Data.ItemData.Weight = weight;
+            item.Data.ItemData.Weight =
+                percentage ? Mathf.CeilToInt(item.Data.ItemData.Weight * (weight / 100f)) : weight;
         }
 
         public void Draw(Rect canvas)
@@ -43,6 +49,15 @@ namespace SirRandoo.ToolkitUtils.Models
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, weightText);
             Widgets.TextFieldNumeric(field, ref weight, ref weightBuffer);
+
+            if (SettingsHelper.DrawFieldButton(
+                field,
+                percentage ? "%" : "#",
+                percentage ? percentTooltip : valueTooltip
+            ))
+            {
+                percentage = !percentage;
+            }
         }
     }
 }

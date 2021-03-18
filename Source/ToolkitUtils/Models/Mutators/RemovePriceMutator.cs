@@ -24,25 +24,40 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class RemovePriceMutator : IMutatorBase<TraitItem>
     {
+        private bool percentage;
+        private string percentTooltip;
         private int removePrice = 1;
         private string removePriceBuffer = "1";
         private string removePriceText;
+        private string valueTooltip;
 
         public void Prepare()
         {
             removePriceText = "TKUtils.Fields.RemovePrice".Localize();
+            valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".Localize();
+            percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".Localize();
         }
 
         public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
         {
-            item.Data.CostToRemove = removePrice;
+            item.Data.CostToRemove =
+                percentage ? Mathf.CeilToInt(item.Data.CostToRemove * (removePrice / 100f)) : removePrice;
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, removePriceText);
-            Widgets.TextFieldNumeric(field, ref removePrice, ref removePriceBuffer, 1f);
+            Widgets.TextFieldNumeric(field, ref removePrice, ref removePriceBuffer, percentage ? -100f : 1f);
+
+            if (SettingsHelper.DrawFieldButton(
+                field,
+                percentage ? "%" : "#",
+                percentage ? percentTooltip : valueTooltip
+            ))
+            {
+                percentage = !percentage;
+            }
         }
     }
 }

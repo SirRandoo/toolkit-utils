@@ -34,8 +34,8 @@ namespace SirRandoo.ToolkitUtils.Models
         public void Prepare()
         {
             quantityLimitText = "TKUtils.Fields.QuantityLimit".Localize();
-            toLimitTooltip = "TKUtils.SelectorTooltips.StackMode".Localize();
-            toValueTooltip = "TKUtils.SelectorTooltips.FixedMode".Localize();
+            toLimitTooltip = "TKUtils.MutatorTooltips.StackMode".Localize();
+            toValueTooltip = "TKUtils.MutatorTooltips.ValueMode".Localize();
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
@@ -49,11 +49,7 @@ namespace SirRandoo.ToolkitUtils.Models
             SettingsHelper.DrawLabel(label, quantityLimitText);
             Widgets.TextFieldNumeric(field, ref limit, ref limitBuffer, 1f);
 
-            if (SettingsHelper.DrawFieldButton(
-                field,
-                toLimit ? Textures.Stack : Textures.Edit,
-                toLimit ? toLimitTooltip : toValueTooltip
-            ))
+            if (SettingsHelper.DrawFieldButton(field, toLimit ? "S" : "#", toLimit ? toLimitTooltip : toValueTooltip))
             {
                 toLimit = !toLimit;
             }

@@ -40,6 +40,9 @@
     
     <TKUtils.SelectorTooltips.ExcludeItem>Click to make this selector exclude results containing this text.</TKUtils.SelectorTooltips.ExcludeItem>
     <TKUtils.SelectorTooltips.IncludeItem>Click to make this selector include results containing this text.</TKUtils.SelectorTooltips.IncludeItem>
-    <TKUtils.SelectorTooltips.StackMode>Click to make this selector set all results to the given value.</TKUtils.SelectorTooltips.StackMode>
-    <TKUtils.SelectorTooltips.FixedMode>Click to make this selector set all results to their stack limit.</TKUtils.SelectorTooltips.FixedMode>
+    
+    <TKUtils.MutatorTooltips.StackMode>Click to make this mutator mutate all results to a fixed value.</TKUtils.MutatorTooltips.StackMode>
+    <TKUtils.MutatorTooltips.ValueMode>Click to make this mutator mutate all results to their stack limit.</TKUtils.MutatorTooltips.ValueMode>
+    <TKUtils.MutatorTooltips.PercentPrice>Click to make this mutator mutate all results to a fixed value.</TKUtils.MutatorTooltips.PercentPrice>
+    <TKUtils.MutatorTooltips.ValuePrice>Click to make this mutator mutate all results with a percentage of its current value.</TKUtils.MutatorTooltips.ValuePrice>
 </LanguageData>

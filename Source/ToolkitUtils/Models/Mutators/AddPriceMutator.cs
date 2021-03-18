@@ -27,22 +27,36 @@ namespace SirRandoo.ToolkitUtils.Models
         private int addPrice = 1;
         private string addPriceBuffer = "1";
         private string addPriceText;
+        private bool percentage;
+        private string percentTooltip;
+        private string valueTooltip;
 
         public void Prepare()
         {
             addPriceText = "TKUtils.Fields.AddPrice".Localize();
+            valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".Localize();
+            percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".Localize();
         }
 
         public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
         {
-            item.Data.CostToAdd = addPrice;
+            item.Data.CostToAdd = percentage ? Mathf.CeilToInt(item.Data.CostToAdd * (addPrice / 100f)) : addPrice;
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, addPriceText);
-            Widgets.TextFieldNumeric(field, ref addPrice, ref addPriceBuffer, 1f);
+            Widgets.TextFieldNumeric(field, ref addPrice, ref addPriceBuffer, percentage ? -100f : 1f);
+
+            if (SettingsHelper.DrawFieldButton(
+                field,
+                percentage ? "%" : "#",
+                percentage ? percentTooltip : valueTooltip
+            ))
+            {
+                percentage = !percentage;
+            }
         }
     }
 }
