@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.TMagic
                 return state;
             }
 
-            return !TM_Data.AllClassTraits.Any(i => i.Equals(traitDef)) || state;
+            return TM_Data.AllClassTraits.Any(i => i.Equals(traitDef)) && state;
         }
     }
 }
