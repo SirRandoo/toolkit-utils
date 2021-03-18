@@ -44,11 +44,12 @@
     <TKUtils.Lookup>Results for "{0}": {1}</TKUtils.Lookup>
     
     <!-- Pawn Class -->
-    <TKUtils.PawnClass.Class>class</TKUtils.PawnClass.Class>
-    <TKUtils.PawnClass.Experience>xp</TKUtils.PawnClass.Experience>
-    <TKUtils.PawnClass.Level>level</TKUtils.PawnClass.Level>
-    <TKUtils.PawnClass.Stamina>stamina</TKUtils.PawnClass.Stamina>
-    <TKUtils.PawnClass.Mana>mana</TKUtils.PawnClass.Mana>
+    <TKUtils.PawnClass.Might>Might</TKUtils.PawnClass.Might>
+    <TKUtils.PawnClass.Magic>Magic</TKUtils.PawnClass.Magic>
+    <TKUtils.PawnClass.Experience>EXP {0}/{1}</TKUtils.PawnClass.Experience>
+    <TKUtils.PawnClass.Level>Level {0}</TKUtils.PawnClass.Level>
+    <TKUtils.PawnClass.Stamina>Stamina</TKUtils.PawnClass.Stamina>
+    <TKUtils.PawnClass.Mana>Mana</TKUtils.PawnClass.Mana>
     <TKUtils.PawnClass.None>You do not have a class.</TKUtils.PawnClass.None>
     <TKUtils.PawnClass.Points>{0} point(s) available.</TKUtils.PawnClass.Points>
     
