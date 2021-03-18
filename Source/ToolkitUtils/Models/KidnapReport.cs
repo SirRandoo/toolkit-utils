@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using Verse;
@@ -27,6 +28,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public string Viewer { get; set; }
         public List<string> PawnIds { get; set; }
 
+        [CanBeNull]
         public static KidnapReport KidnapReportFor(string username)
         {
             if (CommandBase.GetOrFindPawn(username) is { } linkedPawn)
@@ -59,12 +61,14 @@ namespace SirRandoo.ToolkitUtils.Models
             return report;
         }
 
+        [NotNull]
         public IEnumerable<Pawn> GetPawns()
         {
             return Find.FactionManager.AllFactions.SelectMany(f => f.kidnapped.KidnappedPawnsListForReading)
                .Where(kidnapped => PawnIds.Contains(kidnapped.ThingID));
         }
 
+        [CanBeNull]
         public Pawn GetMostRecentKidnapping()
         {
             Tale_DoublePawn currentTale = null;

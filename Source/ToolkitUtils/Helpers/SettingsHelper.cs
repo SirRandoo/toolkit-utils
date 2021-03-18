@@ -18,6 +18,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Workers;
 using Steamworks;
@@ -35,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
            .OrderByDescending(f => (int) f)
            .ToArray();
 
-        public static bool DrawFieldButton(Rect canvas, string label, string tooltip = null)
+        public static bool DrawFieldButton(Rect canvas, string label, [CanBeNull] string tooltip = null)
         {
             var region = new Rect(canvas.x + canvas.width - 16f, canvas.y, 16f, canvas.height);
             Widgets.ButtonText(region, label, false);
@@ -56,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return true;
         }
 
-        public static bool DrawFieldButton(Rect canvas, Texture2D icon, string tooltip = null)
+        public static bool DrawFieldButton(Rect canvas, Texture2D icon, [CanBeNull] string tooltip = null)
         {
             var region = new Rect(
                 canvas.x + canvas.width - canvas.height + 6f,
@@ -336,7 +337,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
-        public static bool DrawTextField(Rect region, string content, out string newContent)
+        public static bool DrawTextField(Rect region, string content, [CanBeNull] out string newContent)
         {
             string text = Widgets.TextField(region, content);
 
@@ -529,6 +530,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Text.Font = GameFont.Small;
         }
 
+        [NotNull]
         public static Tuple<Rect, Rect> ToForm(this Rect region, float factor = 0.8f)
         {
             var left = new Rect(region.x, region.y, region.width * factor - 2f, region.height);
@@ -539,16 +541,19 @@ namespace SirRandoo.ToolkitUtils.Helpers
             );
         }
 
-        public static Tuple<Rect, Rect> GetRectAsForm(this Listing listing, float factor = 0.8f)
+        [NotNull]
+        public static Tuple<Rect, Rect> GetRectAsForm([NotNull] this Listing listing, float factor = 0.8f)
         {
             return listing.GetRect(Text.LineHeight).ToForm(factor);
         }
 
+        [NotNull]
         public static string Tagged(this string s, string tag)
         {
             return $"<{tag}>{s}</{tag}>";
         }
 
+        [NotNull]
         public static string ColorTagged(this string s, string hex)
         {
             if (!hex.StartsWith("#"))
@@ -559,6 +564,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return $@"<color=""{hex}"">{s}</color>";
         }
 
+        [NotNull]
         public static string ColorTagged(this string s, Color color)
         {
             return ColorTagged(s, ColorUtility.ToHtmlStringRGB(color));
@@ -607,7 +613,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             listing.DrawDescription("TKUtils.Experimental".Localize(), new Color(1f, 0.53f, 0.76f));
         }
 
-        public static void DrawDescription(this Listing listing, string description, Color color)
+        public static void DrawDescription([NotNull] this Listing listing, string description, Color color)
         {
             GameFont fontCache = Text.Font;
             GUI.color = color;
@@ -625,12 +631,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
             listing.Gap(6f);
         }
 
-        public static void DrawDescription(this Listing listing, string description)
+        public static void DrawDescription([NotNull] this Listing listing, string description)
         {
             DrawDescription(listing, description, new Color(0.72f, 0.72f, 0.72f));
         }
 
-        public static void DrawGroupHeader(this Listing listing, string heading, bool gapPrefix = true)
+        public static void DrawGroupHeader([NotNull] this Listing listing, string heading, bool gapPrefix = true)
         {
             if (gapPrefix)
             {
@@ -641,7 +647,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
             listing.GapLine(6f);
         }
 
-        public static void DrawModGroupHeader(this Listing listing, string modName, ulong modId, bool gapPrefix = true)
+        public static void DrawModGroupHeader(
+            [NotNull] this Listing listing,
+            string modName,
+            ulong modId,
+            bool gapPrefix = true
+        )
         {
             if (gapPrefix)
             {
@@ -702,7 +713,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return changed;
         }
 
-        public static void DrawThing(Rect canvas, ThingDef def, string labelOverride = null, bool infoCard = true)
+        public static void DrawThing(
+            Rect canvas,
+            ThingDef def,
+            [CanBeNull] string labelOverride = null,
+            bool infoCard = true
+        )
         {
             var iconRect = new Rect(canvas.x + 2f, canvas.y + 2f, canvas.height - 4f, canvas.height - 4f);
             var labelRect = new Rect(iconRect.x + canvas.height, canvas.y, canvas.width - canvas.height, canvas.height);

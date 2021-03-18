@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnHealth : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
@@ -70,7 +70,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private static string GetMoodFriendly(Pawn subject)
+        private static string GetMoodFriendly([NotNull] Pawn subject)
         {
             if (subject.MentalStateDef != null)
             {
@@ -105,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 : ResponseHelper.HappyGlyph.AltText("(" + "Mood_Happy".Localize() + ")");
         }
 
-        private static string HealthCapacityReport(Pawn pawn, PawnCapacityDef capacity)
+        private static string HealthCapacityReport([NotNull] Pawn pawn, [NotNull] PawnCapacityDef capacity)
         {
             if (!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
             {
@@ -132,9 +132,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             return segments.GroupedJoin();
         }
 
+        [NotNull]
         private static IEnumerable<string> GetImpactorsForPawn(
             Pawn pawn,
-            IReadOnlyCollection<PawnCapacityUtility.CapacityImpactor> impactors
+            [NotNull] IReadOnlyCollection<PawnCapacityUtility.CapacityImpactor> impactors
         )
         {
             List<string> parts = impactors.OfType<PawnCapacityUtility.CapacityImpactorHediff>()
@@ -152,7 +153,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             return parts;
         }
 
-        private static string HealthReport(Pawn pawn)
+        private static string HealthReport([NotNull] Pawn pawn)
         {
             var segments = new List<string>
             {
@@ -226,7 +227,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             return segments.GroupedJoin();
         }
 
-        private static IEnumerable<PawnCapacityDef> GetCapacitiesForPawn(Thing pawn)
+        [NotNull]
+        private static IEnumerable<PawnCapacityDef> GetCapacitiesForPawn([NotNull] Thing pawn)
         {
             IEnumerable<PawnCapacityDef> capacityDefs = DefDatabase<PawnCapacityDef>.AllDefs;
 

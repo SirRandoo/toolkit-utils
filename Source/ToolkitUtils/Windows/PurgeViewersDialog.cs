@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -298,6 +299,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        [CanBeNull]
         private Viewer[] GetAffectedViewers()
         {
             return constraints.Count <= 0

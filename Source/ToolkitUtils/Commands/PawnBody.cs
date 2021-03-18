@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnBody : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
@@ -39,12 +39,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             twitchMessage.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Localize()));
         }
 
-        private static float GetListPriority(BodyPartRecord record)
+        private static float GetListPriority([CanBeNull] BodyPartRecord record)
         {
             return record == null ? 9999999f : (float) record.height * 10000 + record.coverageAbsWithChildren;
         }
 
-        private static string GetPawnBody(Pawn target)
+        private static string GetPawnBody([NotNull] Pawn target)
         {
             List<Hediff> hediffs = target.health.hediffSet.hediffs;
 
@@ -102,12 +102,13 @@ namespace SirRandoo.ToolkitUtils.Commands
             return parts.GroupedJoin();
         }
 
+        [NotNull]
         private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder(Pawn pawn)
         {
             return GetVisibleHediffs(pawn).GroupBy(x => x.Part).OrderByDescending(x => GetListPriority(x.First().Part));
         }
 
-        private static IEnumerable<Hediff> GetVisibleHediffs(Pawn pawn)
+        private static IEnumerable<Hediff> GetVisibleHediffs([NotNull] Pawn pawn)
         {
             List<Hediff_MissingPart> missing = pawn.health.hediffSet.GetMissingPartsCommonAncestors();
 

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
 using MoonSharp.Interpreter;
 using SirRandoo.ToolkitUtils.Helpers;
 
@@ -43,12 +44,13 @@ namespace SirRandoo.ToolkitUtils.Models
             LogHelper.Info($"[ScriptEngine] {id} :: {message}");
         }
 
+        [NotNull]
         public static ScriptEngine CreateInstance(string id)
         {
             return new ScriptEngine(id);
         }
 
-        public DynValue Invoke(string code, Table global = null)
+        public DynValue Invoke(string code, [CanBeNull] Table global = null)
         {
             try
             {

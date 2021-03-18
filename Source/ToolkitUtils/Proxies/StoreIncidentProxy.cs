@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Proxies
 
         public int Cost => storeIncident.cost;
         public int EventCap => storeIncident.eventCap;
-        public string KarmaType => storeIncident.karmaType.ToString();
+        [NotNull] public string KarmaType => storeIncident.karmaType.ToString();
         public string Abbreviation => storeIncident.abbreviation;
         public string Abr => storeIncident.abbreviation;
 

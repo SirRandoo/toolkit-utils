@@ -36,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private SkillRecord target;
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
         {
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
@@ -120,7 +120,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             NotifySuccess(target);
         }
 
-        private bool TryGetEligibleSkill(out SkillRecord skill, bool forDecrease = false)
+        private bool TryGetEligibleSkill([CanBeNull] out SkillRecord skill, bool forDecrease = false)
         {
             IEnumerable<SkillRecord> filters = pawn.skills.skills.Where(s => s != target && !s.TotallyDisabled);
 
@@ -137,7 +137,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return skill != null;
         }
 
-        private void NotifySuccess(SkillRecord skill)
+        private void NotifySuccess([NotNull] SkillRecord skill)
         {
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Complete".Localize(skill.def.label));
 
@@ -149,7 +149,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
 
-        private void NotifyDecrease(SkillRecord skill)
+        private void NotifyDecrease([NotNull] SkillRecord skill)
         {
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Decrease".Localize(skill.def.label));
 
@@ -161,7 +161,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
 
-        private void NotifyFailed(SkillRecord skill)
+        private void NotifyFailed([NotNull] SkillRecord skill)
         {
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Failed".Localize(skill.def.label));
 
@@ -173,7 +173,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
 
-        private void NotifyHopped(SkillRecord viewerSkill, SkillRecord randomSkill)
+        private void NotifyHopped([NotNull] SkillRecord viewerSkill, [NotNull] SkillRecord randomSkill)
         {
             MessageHelper.SendConfirmation(
                 Viewer.username,
@@ -192,7 +192,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
 
-        private void NotifyDecreaseHopped(SkillRecord viewerSkill, SkillRecord randomSkill)
+        private void NotifyDecreaseHopped([NotNull] SkillRecord viewerSkill, [NotNull] SkillRecord randomSkill)
         {
             MessageHelper.SendConfirmation(
                 Viewer.username,

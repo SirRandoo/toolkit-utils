@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
@@ -207,7 +208,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        protected virtual void DrawItem(Rect canvas, TableSettingsItem<ThingItem> item)
+        protected virtual void DrawItem(Rect canvas, [NotNull] TableSettingsItem<ThingItem> item)
         {
             bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
 
@@ -296,7 +297,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawConfigurableItemName(Rect canvas, TableSettingsItem<ThingItem> item)
+        private void DrawConfigurableItemName(Rect canvas, [NotNull] TableSettingsItem<ThingItem> item)
         {
             if (item.EditingName)
             {
@@ -362,7 +363,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawLeftExpandedSettingsColumn(Rect canvas, TableSettingsItem<ThingItem> item)
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<ThingItem> item)
         {
             (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm();
             SettingsHelper.DrawLabel(karmaLabel, karmaTypeText);
@@ -393,7 +394,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             Widgets.TextFieldNumeric(weightField, ref item.Data.ItemData.Weight, ref weightBuffer);
         }
 
-        private void DrawRightExpandedSettingsColumn(Rect canvas, TableSettingsItem<ThingItem> item)
+        private void DrawRightExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<ThingItem> item)
         {
             SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(

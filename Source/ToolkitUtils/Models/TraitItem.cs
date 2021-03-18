@@ -46,11 +46,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         // Legacy support
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
+        [CanBeNull]
         public string Description
         {
             get
             {
-                return finalDescription ??= TraitDef.DataAtDegree(Degree)
+                return finalDescription ??= TraitDef?.DataAtDegree(Degree)
                    .description.Replace("PAWN_nameDef", "Timmy")
                    .Replace("PAWN_pronoun", "Prohe".Localize())
                    .Replace("PAWN_objective", "ProhimObj".Localize())
@@ -62,39 +63,43 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
+        [NotNull]
         public string[] Stats
         {
             get
             {
-                if (TraitData.Stats.NullOrEmpty())
+                if (TraitData?.Stats.NullOrEmpty() ?? true)
                 {
                     UpdateStats();
                 }
 
-                return TraitData.Stats;
+                return TraitData?.Stats ?? new string[0];
             }
         }
 
+        [NotNull]
         public string[] Conflicts
         {
             get
             {
-                if (TraitData.Conflicts.NullOrEmpty())
+                if (TraitData?.Conflicts.NullOrEmpty() ?? false)
                 {
                     UpdateConflicts();
                 }
 
-                return TraitData.Conflicts;
+                return TraitData?.Conflicts ?? new string[0];
             }
         }
 
-        public bool BypassLimit => TraitData.CanBypassLimit;
+        public bool BypassLimit => TraitData?.CanBypassLimit ?? false;
 
         [JsonIgnore]
+        [CanBeNull]
         public TraitDef TraitDef =>
             traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
 
         [JsonProperty("data")]
+        [CanBeNull]
         public TraitData TraitData
         {
             get => data ??= new TraitData();
@@ -123,10 +128,21 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [JsonIgnore] public IShopDataBase Data { get; set; }
+        [JsonIgnore]
+        public IShopDataBase Data
+        {
+            get => data;
+            set => data = value as TraitData;
+        }
 
         private void UpdateStats()
         {
+            if (TraitDef == null)
+            {
+                return;
+            }
+
+            TraitData ??= new TraitData();
             var container = new List<string>();
             var builder = new StringBuilder();
 
@@ -153,7 +169,8 @@ namespace SirRandoo.ToolkitUtils.Models
             TraitData.Stats = container.ToArray();
         }
 
-        private static IEnumerable<string> GetDisallowedInspirations(TraitDegreeData data)
+        [NotNull]
+        private static IEnumerable<string> GetDisallowedInspirations([NotNull] TraitDegreeData data)
         {
             return data.disallowedInspirations?.Select(
                        def => "TKUtils.Trait.Inspiration".Localize(def.label?.CapitalizeFirst() ?? def.defName)
@@ -161,7 +178,8 @@ namespace SirRandoo.ToolkitUtils.Models
                    ?? new string[0];
         }
 
-        private static IEnumerable<string> GetDisallowedMentalStates(TraitDegreeData data)
+        [NotNull]
+        private static IEnumerable<string> GetDisallowedMentalStates([NotNull] TraitDegreeData data)
         {
             return data.disallowedMentalStates?.Select(
                        def => "TKUtils.Trait.MentalState".Localize(def.label?.CapitalizeFirst() ?? def.defName)
@@ -199,7 +217,8 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        private static IEnumerable<string> GetOnlyAllowedMentalBreaks(TraitDegreeData data)
+        [NotNull]
+        private static IEnumerable<string> GetOnlyAllowedMentalBreaks([NotNull] TraitDegreeData data)
         {
             return data.theOnlyAllowedMentalBreaks?.Select(
                        def => "TKUtils.Trait.MentalBreak".Localize(def.label ?? def.defName)
@@ -207,7 +226,8 @@ namespace SirRandoo.ToolkitUtils.Models
                    ?? new string[0];
         }
 
-        private static IEnumerable<string> GetSkillGains(TraitDegreeData data)
+        [NotNull]
+        private static IEnumerable<string> GetSkillGains([NotNull] TraitDegreeData data)
         {
             return data.skillGains?.Select(
                        pair => $"{pair.Value.ToStringWithSign()} {pair.Key.skillLabel ?? pair.Key.defName}"
@@ -215,7 +235,7 @@ namespace SirRandoo.ToolkitUtils.Models
                    ?? new string[0];
         }
 
-        private static IEnumerable<string> GetStatOffsets(TraitDegreeData data, StringBuilder messages)
+        private static IEnumerable<string> GetStatOffsets([NotNull] TraitDegreeData data, StringBuilder messages)
         {
             if (data.statOffsets.NullOrEmpty())
             {
@@ -245,7 +265,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        private static IEnumerable<string> GetStatFactors(TraitDegreeData data, StringBuilder messages)
+        private static IEnumerable<string> GetStatFactors([NotNull] TraitDegreeData data, StringBuilder messages)
         {
             if (data.statFactors.NullOrEmpty())
             {
@@ -277,6 +297,13 @@ namespace SirRandoo.ToolkitUtils.Models
 
         private void UpdateConflicts()
         {
+            TraitData ??= new TraitData();
+
+            if (TraitDef == null)
+            {
+                return;
+            }
+
             var container = new List<string>();
 
             foreach (TraitDef conflict in TraitDef.conflictingTraits)
@@ -287,7 +314,8 @@ namespace SirRandoo.ToolkitUtils.Models
             TraitData.Conflicts = container.ToArray();
         }
 
-        public static TraitItem MigrateFrom(XmlTrait trait)
+        [NotNull]
+        public static TraitItem MigrateFrom([NotNull] XmlTrait trait)
         {
             return new TraitItem
             {
@@ -308,6 +336,7 @@ namespace SirRandoo.ToolkitUtils.Models
             };
         }
 
+        [CanBeNull]
         public string GetDefaultName(bool invalidate = false)
         {
             if (defaultName != null && !invalidate)
@@ -315,7 +344,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return defaultName;
             }
 
-            defaultName = TraitDef.DataAtDegree(Degree).label.StripTags().ToToolkit();
+            defaultName = TraitDef?.DataAtDegree(Degree).label.StripTags().ToToolkit();
             return defaultName;
         }
     }

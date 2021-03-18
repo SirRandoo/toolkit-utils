@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Data;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
@@ -28,6 +29,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private ItemData data;
         private Item item;
 
+        [CanBeNull]
         public Item Item
         {
             get
@@ -59,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.Models
             set => item = value;
         }
 
-        public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
+        [NotNull] public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
         public ThingDef Thing { get; set; }
 
         [JsonProperty("data")]
@@ -98,6 +100,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool Enabled { get; set; }
 
+        [NotNull]
         public string Name
         {
             get => ItemData?.CustomName ?? Item?.abr ?? "Fetching...";
@@ -112,6 +115,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [JsonIgnore]
+        [CanBeNull]
         public IShopDataBase Data
         {
             get
@@ -174,12 +178,14 @@ namespace SirRandoo.ToolkitUtils.Models
             return container;
         }
 
+        [NotNull]
         public string GetDefaultName()
         {
             return Thing.label.ToToolkit();
         }
 
-        public static ThingItem FromData(Item item, ThingDef thing)
+        [NotNull]
+        public static ThingItem FromData([NotNull] Item item, ThingDef thing)
         {
             var thingItem = new ThingItem {Item = item, Thing = thing, Enabled = item.price > 0};
             ItemData _ = thingItem.ItemData;

@@ -16,6 +16,7 @@
 
 using System;
 using System.Diagnostics;
+using JetBrains.Annotations;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers
@@ -30,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Log("DEBUG", message);
         }
 
-        public static void Error(string message, Exception exception)
+        public static void Error(string message, [NotNull] Exception exception)
         {
             Verse.Log.Error($"{message}: {exception.GetType().Name}({exception.Message})\n{exception.StackTrace}");
         }
@@ -40,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Log("INFO", message);
         }
 
-        private static void Log(string level, string message, string color = null)
+        private static void Log([NotNull] string level, string message, [CanBeNull] string color = null)
         {
             Verse.Log.Message(
                 color.NullOrEmpty()

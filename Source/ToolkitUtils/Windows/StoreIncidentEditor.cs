@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
@@ -46,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private float titleWidth;
         private string wagerText;
 
-        public StoreIncidentEditor(StoreIncident storeIncident) : base(storeIncident)
+        public StoreIncidentEditor([NotNull] StoreIncident storeIncident) : base(storeIncident)
         {
             onlyOneOfTypeAllowed = true;
             eventType = storeIncident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None;
@@ -120,7 +121,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.End();
         }
 
-        private void DrawGeneralSettings(Listing listing)
+        private void DrawGeneralSettings([NotNull] Listing listing)
         {
             (Rect abbrLabel, Rect abbrField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
 

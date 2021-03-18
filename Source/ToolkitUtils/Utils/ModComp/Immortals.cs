@@ -16,6 +16,7 @@
 
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
@@ -47,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
-        public static bool TryGrantImmortality(Pawn pawn)
+        public static bool TryGrantImmortality([NotNull] Pawn pawn)
         {
             try
             {

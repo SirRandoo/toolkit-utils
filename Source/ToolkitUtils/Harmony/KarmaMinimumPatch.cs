@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             SettingMarker = AccessTools.Field(typeof(ToolkitSettings), "KarmaMinimum");
         }
 
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             var marker = false;
 

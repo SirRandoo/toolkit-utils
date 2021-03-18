@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
@@ -224,7 +225,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        protected virtual void DrawTrait(Rect canvas, TableSettingsItem<TraitItem> trait)
+        protected virtual void DrawTrait(Rect canvas, [NotNull] TableSettingsItem<TraitItem> trait)
         {
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
@@ -326,7 +327,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawConfigurableTraitName(Rect canvas, TableSettingsItem<TraitItem> trait)
+        private void DrawConfigurableTraitName(Rect canvas, [NotNull] TableSettingsItem<TraitItem> trait)
         {
             if (trait.EditingName)
             {
@@ -390,7 +391,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawLeftExpandedSettingsColumn(Rect canvas, TableSettingsItem<TraitItem> trait)
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<TraitItem> trait)
         {
             (Rect addKarmaLabel, Rect addKarmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm();
             SettingsHelper.DrawLabel(addKarmaLabel, addKarmaTypeText);
@@ -445,7 +446,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        private void DrawRightExpandedSettingsColumn(Rect canvas, TableSettingsItem<TraitItem> trait)
+        private void DrawRightExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<TraitItem> trait)
         {
             bool proxy = trait.Data.TraitData.CanBypassLimit;
             if (SettingsHelper.LabeledPaintableCheckbox(

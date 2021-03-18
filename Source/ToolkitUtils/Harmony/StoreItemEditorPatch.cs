@@ -71,6 +71,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return false;
         }
 
+        [NotNull]
         private static IEnumerable<ToolkitItem> PrepareItems(HashSet<ThingDef> tradeables)
         {
             var items = new List<ToolkitItem>();
@@ -127,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
         }
 
-        private static void DisableKinds(List<Item> inventory)
+        private static void DisableKinds([NotNull] List<Item> inventory)
         {
             foreach (Item item in inventory.Where(item => !item.defname.NullOrEmpty())
                .Where(item => item.price >= 0)

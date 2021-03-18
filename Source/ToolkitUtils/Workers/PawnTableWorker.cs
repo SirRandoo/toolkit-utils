@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
@@ -190,7 +191,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        protected virtual void DrawKind(Rect canvas, TableSettingsItem<PawnKindItem> item)
+        protected virtual void DrawKind(Rect canvas, [NotNull] TableSettingsItem<PawnKindItem> item)
         {
             Rect checkboxRect = SettingsHelper.RectForIcon(
                 new Rect(stateHeaderRect.x + 2f, canvas.y + 2f, stateHeaderRect.width - 4f, RowLineHeight - 4f)
@@ -243,7 +244,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawConfigurableItemName(Rect canvas, TableSettingsItem<PawnKindItem> item)
+        private void DrawConfigurableItemName(Rect canvas, [NotNull] TableSettingsItem<PawnKindItem> item)
         {
             if (item.EditingName)
             {
@@ -307,7 +308,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawLeftExpandedSettingsColumn(Rect canvas, TableSettingsItem<PawnKindItem> item)
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<PawnKindItem> item)
         {
             (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm(0.6f);
             SettingsHelper.DrawLabel(karmaLabel, karmaTypeText);

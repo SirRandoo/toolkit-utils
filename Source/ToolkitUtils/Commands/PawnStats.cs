@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             };
         }
 
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {

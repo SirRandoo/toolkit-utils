@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -28,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class PurchaseHelper
     {
-        public static bool CanAfford(this Viewer v, int price)
+        public static bool CanAfford([NotNull] this Viewer v, int price)
         {
             return v.GetViewerCoins() >= price || ToolkitSettings.UnlimitedCoins;
         }
@@ -38,7 +39,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return BuyItemSettings.mustResearchFirst && thing.GetUnfinishedPrerequisites().Count <= 0;
         }
 
-        public static List<ResearchProjectDef> GetUnfinishedPrerequisites(this ThingDef thing)
+        [NotNull]
+        public static List<ResearchProjectDef> GetUnfinishedPrerequisites([NotNull] this ThingDef thing)
         {
             var projects = new List<ResearchProjectDef>();
 
@@ -61,17 +63,18 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return projects;
         }
 
-        public static bool Stackable(this ThingDef thing)
+        public static bool Stackable([NotNull] this ThingDef thing)
         {
             return thing.stackLimit > 1;
         }
 
-        public static string ToToolkit(this string t)
+        [NotNull]
+        public static string ToToolkit([NotNull] this string t)
         {
             return t.Replace(" ", "").ToLower();
         }
 
-        public static int CalculateStorePrice(this ThingDef d)
+        public static int CalculateStorePrice([NotNull] this ThingDef d)
         {
             return Math.Max(1, Convert.ToInt32(d.BaseMarketValue * 10.0f / 6.0f));
         }
@@ -81,18 +84,18 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return value > 0 && Rand.Chance(value / 100f);
         }
 
-        public static bool TryGetPawn(string viewer, out Pawn pawn, bool kidnapped = false)
+        public static bool TryGetPawn([NotNull] string viewer, [CanBeNull] out Pawn pawn, bool kidnapped = false)
         {
             pawn = CommandBase.GetOrFindPawn(viewer.ToLowerInvariant(), kidnapped);
             return pawn != null;
         }
 
-        public static int GetMaximumPurchaseAmount(this Viewer viewer, int cost)
+        public static int GetMaximumPurchaseAmount([NotNull] this Viewer viewer, int cost)
         {
             return Mathf.FloorToInt(viewer.GetViewerCoins() / (float) cost);
         }
 
-        public static void Charge(this Viewer viewer, StoreIncident incident)
+        public static void Charge([NotNull] this Viewer viewer, [NotNull] StoreIncident incident)
         {
             if (!ToolkitSettings.UnlimitedCoins)
             {
@@ -102,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             viewer.CalculateNewKarma(incident.karmaType, incident.cost);
         }
 
-        public static void Charge(this Viewer viewer, StoreIncident incident, float weight)
+        public static void Charge([NotNull] this Viewer viewer, [NotNull] StoreIncident incident, float weight)
         {
             if (!ToolkitSettings.UnlimitedCoins)
             {
@@ -112,7 +115,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             viewer.CalculateNewKarma(incident.karmaType, Mathf.CeilToInt(incident.cost * weight));
         }
 
-        public static void Charge(this Viewer viewer, int cost, KarmaType karmaType)
+        public static void Charge([NotNull] this Viewer viewer, int cost, KarmaType karmaType)
         {
             if (!ToolkitSettings.UnlimitedCoins)
             {
@@ -122,7 +125,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             viewer.CalculateNewKarma(karmaType, cost);
         }
 
-        public static void Charge(this Viewer viewer, int cost, float weight, KarmaType karmaType)
+        public static void Charge([NotNull] this Viewer viewer, int cost, float weight, KarmaType karmaType)
         {
             if (!ToolkitSettings.UnlimitedCoins)
             {

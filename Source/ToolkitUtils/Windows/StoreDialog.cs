@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
@@ -528,12 +529,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PostClose();
         }
 
+        [NotNull]
         public static IEnumerable<ThingDef> GetTradeables()
         {
             return DefDatabase<ThingDef>.AllDefs.Where(t => t != null).Where(IsTradeable);
         }
 
-        private static bool IsTradeable(ThingDef t)
+        private static bool IsTradeable([NotNull] ThingDef t)
         {
             if (!t.tradeability.TraderCanSell() && !ThingSetMakerUtility.CanGenerate(t))
             {

@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class Balance : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
 
@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             twitchMessage.Reply(container.GroupedJoin());
         }
 
-        private static int CalculateCoinAward(Viewer viewer)
+        private static int CalculateCoinAward([NotNull] Viewer viewer)
         {
             int baseCoins = ToolkitSettings.CoinAmount;
             float multiplier = viewer.GetViewerKarma() / 100f;

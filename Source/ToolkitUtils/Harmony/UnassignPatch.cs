@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             );
         }
 
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             var methodFound = false;
             var componentFound = false;
@@ -79,7 +79,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
         }
 
-        private static void RenameAndRemove(GameComponentPawns component, string username)
+        private static void RenameAndRemove([CanBeNull] GameComponentPawns component, [CanBeNull] string username)
         {
             if (username == null || component == null)
             {

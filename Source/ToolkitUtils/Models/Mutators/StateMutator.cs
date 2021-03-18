@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Models
             stateText = "TKUtils.Fields.State".Localize();
         }
 
-        public void Mutate(TableSettingsItem<T> item)
+        public void Mutate([NotNull] TableSettingsItem<T> item)
         {
             item.Data.Enabled = state;
         }

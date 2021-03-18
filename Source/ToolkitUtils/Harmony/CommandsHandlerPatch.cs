@@ -95,7 +95,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
         }
 
         [SuppressMessage("ReSharper", "InconsistentNaming")]
-        public static Exception Finalizer(Exception __exception)
+        [CanBeNull]
+        public static Exception Finalizer([CanBeNull] Exception __exception)
         {
             if (__exception != null)
             {
@@ -105,7 +106,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return null;
         }
 
-        private static string CombineSegments(IEnumerable<string> segments)
+        [NotNull]
+        private static string CombineSegments([NotNull] IEnumerable<string> segments)
         {
             return string.Join(
                 " ",
@@ -113,6 +115,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             );
         }
 
+        [CanBeNull]
         private static Command LocateCommand(string[] query)
         {
             foreach (Command commandDef in DefDatabase<Command>.AllDefs.Where(c => c.enabled))
@@ -152,6 +155,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return input.EqualsIgnoreCase(command);
         }
 
+        [CanBeNull]
         private static string GetCommandString(string message)
         {
             if (message.StartsWith("/w"))

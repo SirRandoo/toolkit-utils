@@ -16,6 +16,7 @@
 
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
@@ -62,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                    || pawn.RaceProps.FleshType.defName.EqualsIgnoreCase(MechFlesh.defName);
         }
 
-        public static bool IsAndroidSurgery(RecipeDef recipe)
+        public static bool IsAndroidSurgery([NotNull] RecipeDef recipe)
         {
             return recipe.workerClass == AndroidSurgery || recipe.workerClass.IsSubclassOf(AndroidSurgery);
         }

@@ -19,6 +19,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
@@ -34,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
         private static FieldInfo _thingFromPair;
         private static FieldInfo _stuffFromPair;
 
-        private static void DeferredInitialization(ThingWithComps catalyst)
+        private static void DeferredInitialization([NotNull] ThingWithComps catalyst)
         {
             _pendingInit = false;
 
@@ -64,6 +65,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
+        [CanBeNull]
         public static IEnumerable<Thing> GetSidearms(Pawn pawn)
         {
             if (_pendingInit)
@@ -98,14 +100,14 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
-        private static bool TryGetSidearmComp(ThingWithComps pawn, out ThingComp comp)
+        private static bool TryGetSidearmComp([NotNull] ThingWithComps pawn, [CanBeNull] out ThingComp comp)
         {
             comp = pawn.AllComps.FirstOrFallback(c => c.GetType() == _compSidearmMemory);
 
             return comp != null;
         }
 
-        private static bool TryGetSidearmMemory(ThingWithComps pawn, out IList weapons)
+        private static bool TryGetSidearmMemory([NotNull] ThingWithComps pawn, [CanBeNull] out IList weapons)
         {
             if (!TryGetSidearmComp(pawn, out ThingComp comp))
             {

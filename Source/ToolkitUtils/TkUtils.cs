@@ -40,6 +40,7 @@ namespace SirRandoo.ToolkitUtils
             TkSettings.DoWindowContents(inRect);
         }
 
+        [NotNull]
         public override string SettingsCategory()
         {
             return Id;

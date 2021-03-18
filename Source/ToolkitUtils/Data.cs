@@ -190,8 +190,11 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [CanBeNull]
-        internal static T LoadJson<T>(string path, bool ignoreErrors = false, JsonSerializer serializer = null)
-            where T : class
+        internal static T LoadJson<T>(
+            string path,
+            bool ignoreErrors = false,
+            [CanBeNull] JsonSerializer serializer = null
+        ) where T : class
         {
             if (!File.Exists(path) && !ignoreErrors)
             {
@@ -229,7 +232,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        internal static void SaveJson<T>(T obj, string path, JsonSerializer serializer = null)
+        internal static void SaveJson<T>(T obj, string path, [CanBeNull] JsonSerializer serializer = null)
         {
             string directory = Path.GetDirectoryName(path);
 
@@ -481,7 +484,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        public static bool TryGetTrait(string input, out TraitItem trait)
+        public static bool TryGetTrait(string input, [CanBeNull] out TraitItem trait)
         {
             if (input.StartsWith("$"))
             {
@@ -499,7 +502,7 @@ namespace SirRandoo.ToolkitUtils
             return trait != null;
         }
 
-        public static bool TryGetPawnKind(string input, out PawnKindItem kind)
+        public static bool TryGetPawnKind(string input, [CanBeNull] out PawnKindItem kind)
         {
             if (input.StartsWith("$"))
             {
@@ -515,6 +518,7 @@ namespace SirRandoo.ToolkitUtils
             return kind != null;
         }
 
+        [NotNull]
         public static IEnumerable<string> GetTraitResults(string input)
         {
             return Traits
@@ -525,6 +529,7 @@ namespace SirRandoo.ToolkitUtils
                .Select(t => t.Name.StripTags().ToToolkit());
         }
 
+        [NotNull]
         public static IEnumerable<string> GetKindResults(string input)
         {
             return PawnKinds.Where(k => k.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
@@ -532,6 +537,7 @@ namespace SirRandoo.ToolkitUtils
                .Select(k => k.Name.ToToolkit());
         }
 
+        [NotNull]
         public static IEnumerable<string> GetItemResults(string input)
         {
             return Items.Where(i => i.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
@@ -539,6 +545,7 @@ namespace SirRandoo.ToolkitUtils
                .Select(i => i.Name.ToToolkit());
         }
 
+        [NotNull]
         public static IEnumerable<string> GetEventResults(string input)
         {
             foreach (string simpleIncidentName in Purchase_Handler.allStoreIncidentsSimple.Where(i => i.cost > 0)
@@ -557,7 +564,8 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        public static IEnumerable<string> GetCommandResults(string input, string viewer = null)
+        [NotNull]
+        public static IEnumerable<string> GetCommandResults(string input, [CanBeNull] string viewer = null)
         {
             return DefDatabase<Command>.AllDefs.Where(c => c.enabled)
                .Where(c => c.command.EqualsIgnoreCase(input))
@@ -569,7 +577,8 @@ namespace SirRandoo.ToolkitUtils
                .Select(c => c.command);
         }
 
-        public static string GetViewerColorCode(string viewer)
+        [CanBeNull]
+        public static string GetViewerColorCode([NotNull] string viewer)
         {
             return !ToolkitSettings.ViewerColorCodes.TryGetValue(viewer.ToLowerInvariant(), out string color)
                 ? null

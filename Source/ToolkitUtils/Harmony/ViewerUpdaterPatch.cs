@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class ViewerUpdaterPatch
     {
-        public static bool Prefix(ITwitchMessage twitchMessage)
+        public static bool Prefix([CanBeNull] ITwitchMessage twitchMessage)
         {
             if (twitchMessage?.ChatMessage == null)
             {

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
 using Verse;
 
@@ -55,22 +56,26 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public const string FemaleGlyph = "♀";
         public const string GenderlessGlyph = "⚪";
 
+        [NotNull]
         public static string JoinPair(string key, string value)
         {
             return $"{key}: {value}";
         }
 
-        public static string Join(this IEnumerable<string> l, string separator)
+        [NotNull]
+        public static string Join([NotNull] this IEnumerable<string> l, string separator)
         {
             return string.Join(separator, l);
         }
 
-        public static string GroupedJoin(this IEnumerable<string> l)
+        [NotNull]
+        public static string GroupedJoin([NotNull] this IEnumerable<string> l)
         {
             return string.Join(OuterGroupSeparator.AltText(OuterGroupSeparatorAlt), l);
         }
 
-        public static string SectionJoin(this IEnumerable<string> l)
+        [NotNull]
+        public static string SectionJoin([NotNull] this IEnumerable<string> l)
         {
             return string.Join(", ", l);
         }
@@ -95,6 +100,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return Find.ActiveLanguageWorker?.Pluralize(s) ?? s;
         }
 
+        [CanBeNull]
         public static string AsOperator(this ComparisonTypes type)
         {
             switch (type)

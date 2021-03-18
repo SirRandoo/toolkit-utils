@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return false;
         }
 
-        private static IEnumerable<string> SplitMessages(string message)
+        private static IEnumerable<string> SplitMessages([NotNull] string message)
         {
             if (message.Length < MessageLimit)
             {

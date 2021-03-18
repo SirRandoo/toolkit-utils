@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         private ITwitchMessage msg;
 
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             msg = twitchMessage;
             string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
@@ -167,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
         }
 
-        private void PerformLookup(string category, string query, string amount)
+        private void PerformLookup([NotNull] string category, string query, string amount)
         {
             if (!int.TryParse(amount, out int quantity))
             {

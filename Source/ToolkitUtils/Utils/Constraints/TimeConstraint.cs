@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using UnityEngine;
@@ -91,7 +92,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             Find.WindowStack.Add(new FloatMenu(scaleOptions));
         }
 
-        public override bool ShouldPurge(Viewer viewer)
+        public override bool ShouldPurge([NotNull] Viewer viewer)
         {
             int seconds = value * ScaleToInt(TimeScale);
             TimeSpan span = DateTime.Now - viewer.last_seen;

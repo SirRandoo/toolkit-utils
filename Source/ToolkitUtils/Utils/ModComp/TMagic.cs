@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
@@ -157,6 +158,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
+        [CanBeNull]
         public static CharacterData GetCharacterData(Pawn pawn)
         {
             return !Active ? null : CharacterData.CreateInstance(pawn).FindClass().PullData();
@@ -182,6 +184,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return (bool) IsMightUserProperty.GetValue(mightData);
         }
 
+        [CanBeNull]
         internal static string GetMightClassName(object mightData, Pawn parent)
         {
             object result = MightCustomClass.GetValue(mightData);
@@ -208,6 +211,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return null;
         }
 
+        [CanBeNull]
         internal static string GetMagicClassName(object magicData, Pawn parent)
         {
             object result = MagicCustomClass.GetValue(magicData);
@@ -335,6 +339,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return -1f;
         }
 
+        [CanBeNull]
         internal static Need GetResourceFor(Pawn pawn, ClassTypes classType)
         {
             switch (classType)
@@ -353,6 +358,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return Active && (bool) IsUndeadMethod.Invoke(null, new object[] {pawn});
         }
 
+        [NotNull]
         internal static IEnumerable<TraitDef> GetMagicClasses()
         {
             List<TraitDef> container = MagicTraits.GetValue(null) as List<TraitDef> ?? new List<TraitDef>();
@@ -375,6 +381,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return container.Where(t => !t.defName.Equals("Gifted"));
         }
 
+        [NotNull]
         internal static IEnumerable<TraitDef> GetMightClasses()
         {
             List<TraitDef> container = MightTraits.GetValue(null) as List<TraitDef> ?? new List<TraitDef>();
@@ -397,6 +404,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return container.Where(t => !t.defName.Equals("PhysicalProdigy"));
         }
 
+        [NotNull]
         internal static IEnumerable<TraitDef> GetAllClasses()
         {
             var container = new List<TraitDef>();

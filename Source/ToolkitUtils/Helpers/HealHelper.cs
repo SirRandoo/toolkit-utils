@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using TwitchToolkit.IncidentHelpers.Special;
 using Verse;
@@ -28,12 +29,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static float HandCoverageAbsWithChildren =>
             ThingDefOf.Human.race.body.GetPartsWithDef(BodyPartDefOf.Hand).First().coverageAbsWithChildren;
 
-        private static bool CanEverKill(Hediff hediff)
+        private static bool CanEverKill([NotNull] Hediff hediff)
         {
             return hediff.def.stages?.Any(s => s.lifeThreatening) ?? hediff.def.lethalSeverity >= 0f;
         }
 
-        public static void Cure(Hediff hediff)
+        public static void Cure([NotNull] Hediff hediff)
         {
             Pawn pawn = hediff.pawn;
             pawn.health.RemoveHediff(hediff);
@@ -66,7 +67,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
-        public static Hediff_Addiction FindAddiction(Pawn pawn)
+        [CanBeNull]
+        public static Hediff_Addiction FindAddiction([NotNull] Pawn pawn)
         {
             List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
@@ -81,7 +83,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return null;
         }
 
-        public static BodyPartRecord FindBiggestMissingBodyPart(Pawn pawn, float minCoverage = 0f)
+        [CanBeNull]
+        public static BodyPartRecord FindBiggestMissingBodyPart([NotNull] Pawn pawn, float minCoverage = 0f)
         {
             BodyPartRecord record = null;
 
@@ -98,7 +101,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return record;
         }
 
-        public static Hediff FindImmunizableHediffWhichCanKill(Pawn pawn)
+        [CanBeNull]
+        public static Hediff FindImmunizableHediffWhichCanKill([NotNull] Pawn pawn)
         {
             Hediff hediff = null;
             float num = -1f;
@@ -129,7 +133,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return hediff;
         }
 
-        public static Hediff_Injury FindInjury(Pawn pawn, IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
+        [CanBeNull]
+        public static Hediff_Injury FindInjury(
+            [NotNull] Pawn pawn,
+            [CanBeNull] IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null
+        )
         {
             Hediff_Injury injury = null;
             List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
@@ -149,7 +157,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return injury;
         }
 
-        public static Hediff FindLifeThreateningHediff(Pawn pawn)
+        [CanBeNull]
+        public static Hediff FindLifeThreateningHediff([NotNull] Pawn pawn)
         {
             Hediff hediff = null;
             float num = -1f;
@@ -184,7 +193,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return hediff;
         }
 
-        public static Hediff FindMostBleedingHediff(Pawn pawn)
+        [CanBeNull]
+        public static Hediff FindMostBleedingHediff([NotNull] Pawn pawn)
         {
             var num = 0f;
             Hediff hediff = null;
@@ -211,7 +221,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return hediff;
         }
 
-        public static Hediff FindNonInjuryMiscBadHediff(Pawn pawn, bool onlyIfCanKill)
+        [CanBeNull]
+        public static Hediff FindNonInjuryMiscBadHediff([NotNull] Pawn pawn, bool onlyIfCanKill)
         {
             Hediff hediff = null;
             var num = 1f;
@@ -246,9 +257,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return hediff;
         }
 
+        [CanBeNull]
         public static Hediff_Injury FindPermanentInjury(
-            Pawn pawn,
-            IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null
+            [NotNull] Pawn pawn,
+            [CanBeNull] IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null
         )
         {
             Hediff_Injury injury = null;
@@ -271,7 +283,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return injury;
         }
 
-        public static float GetAverageHealthOfPart(Pawn pawn, BodyPartRecord part)
+        public static float GetAverageHealthOfPart(Pawn pawn, [NotNull] BodyPartRecord part)
         {
             var container = new List<float>();
 
@@ -287,7 +299,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return container.Average();
         }
 
-        public static object GetPawnHealable(Pawn pawn)
+        [CanBeNull]
+        public static object GetPawnHealable([NotNull] Pawn pawn)
         {
             Hediff hediff = FindLifeThreateningHediff(pawn);
             if (hediff != null)
@@ -394,7 +407,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             PawnTracker.pawnsToRevive.Remove(pawn);
         }
 
-        public static bool TryResurrect(this Pawn pawn)
+        public static bool TryResurrect([NotNull] this Pawn pawn)
         {
             try
             {

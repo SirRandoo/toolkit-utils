@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
@@ -25,6 +26,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class CommandBase : CommandDriver
     {
+        [CanBeNull]
         private static Pawn FindPawn(string username)
         {
             return Find.ColonistBar.GetColonistsInOrder()
@@ -32,6 +34,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                .FirstOrDefault(c => ((NameTriple) c.Name)?.Nick.EqualsIgnoreCase(username) ?? false);
         }
 
+        [CanBeNull]
         public static Pawn GetOrFindPawn(string username, bool allowKidnapped = false)
         {
             Pawn safe = GetPawn(username);
@@ -61,6 +64,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             return result;
         }
 
+        [CanBeNull]
         public static Pawn GetPawn(string username)
         {
             var component = Current.Game.GetComponent<GameComponentPawns>();

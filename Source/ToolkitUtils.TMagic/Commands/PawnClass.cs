@@ -13,7 +13,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnClass : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
             twitchMessage.Reply(container.GroupedJoin());
         }
 
-        private IEnumerable<string> ExtractMightData(Pawn pawn, CompAbilityUserMight might)
+        private IEnumerable<string> ExtractMightData(Pawn pawn, [NotNull] CompAbilityUserMight might)
         {
             yield return "TKUtils.PawnClass.Level".Localize(might.MightUserLevel.ToString("N0"))
                .WithHeader(ResponseHelper.DaggerGlyph);
@@ -70,7 +70,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
             }
         }
 
-        private IEnumerable<string> ExtractMagicData(Pawn pawn, CompAbilityUserMagic magic)
+        private IEnumerable<string> ExtractMagicData(Pawn pawn, [NotNull] CompAbilityUserMagic magic)
         {
             yield return "TKUtils.PawnClass.Level".Localize(magic.MagicUserLevel.ToString("N0"))
                .WithHeader(ResponseHelper.MagicGlyph);

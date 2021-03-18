@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Models
             SettingsHelper.LabeledPaintableCheckbox(canvas, stateText, ref state);
         }
 
-        public void Mutate(TableSettingsItem<ThingItem> item)
+        public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
             switch (state)
             {

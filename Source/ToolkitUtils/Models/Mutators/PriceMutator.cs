@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
 using Verse;
@@ -32,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Models
             priceText = "TKUtils.Fields.Price".Localize();
         }
 
-        public void Mutate(TableSettingsItem<T> item)
+        public void Mutate([NotNull] TableSettingsItem<T> item)
         {
             item.Data.Cost = price;
         }

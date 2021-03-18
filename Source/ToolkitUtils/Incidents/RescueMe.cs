@@ -40,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private KidnapReport report;
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
         {
             Pawn pawn = CommandBase.GetOrFindPawn(viewer.username, true);
             bool? isKidnapped = pawn?.IsKidnapped();
@@ -100,7 +100,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     {
         internal static readonly ConcurrentQueue<KidnapReport> QueuedViewers = new ConcurrentQueue<KidnapReport>();
 
-        public override void PostDestroy(SitePart sitePart)
+        public override void PostDestroy([NotNull] SitePart sitePart)
         {
             (sitePart.things.FirstOrFallback() as Pawn)?.mindState.JoinColonyBecauseRescuedBy(
                 sitePart.site.Map.PlayerPawnsForStoryteller.RandomElementWithFallback()
@@ -108,9 +108,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
         }
 
         public override void Notify_GeneratedByQuestGen(
-            SitePart part,
-            Slate slate,
-            List<Rule> outExtraDescriptionRules,
+            [NotNull] SitePart part,
+            [NotNull] Slate slate,
+            [NotNull] List<Rule> outExtraDescriptionRules,
             Dictionary<string, string> outExtraDescriptionConstants
         )
         {
@@ -176,7 +176,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             outExtraDescriptionRules.Add(new Rule_String("prisonerFullRelationInfo", output));
         }
 
-        public override string GetPostProcessedThreatLabel(Site site, SitePart sitePart)
+        public override string GetPostProcessedThreatLabel([NotNull] Site site, [NotNull] SitePart sitePart)
         {
             string str = base.GetPostProcessedThreatLabel(site, sitePart);
             if (sitePart.things != null && sitePart.things.Any)

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Text;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using UnityEngine;
@@ -44,13 +45,15 @@ namespace SirRandoo.ToolkitUtils.Models
         private object CompData { get; set; }
         private object Data { get; set; }
 
-        public string ExperienceString => $"{CurrentExp:N0} / {ExpToNextLevel:N0}";
+        [NotNull] public string ExperienceString => $"{CurrentExp:N0} / {ExpToNextLevel:N0}";
 
+        [NotNull]
         public static CharacterData CreateInstance(Pawn pawn)
         {
             return new CharacterData {Parent = pawn};
         }
 
+        [NotNull]
         internal CharacterData FindClass()
         {
             FindClassType();
@@ -59,6 +62,7 @@ namespace SirRandoo.ToolkitUtils.Models
             return this;
         }
 
+        [NotNull]
         internal CharacterData PullData()
         {
             PullFromData();

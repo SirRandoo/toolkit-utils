@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
@@ -26,12 +27,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class TraitHelper
     {
-        public static bool IsSexualityTrait(this Trait trait)
+        public static bool IsSexualityTrait([NotNull] this Trait trait)
         {
             return IsSexualityTrait(trait.def);
         }
 
-        public static bool IsSexualityTrait(this TraitDef trait)
+        public static bool IsSexualityTrait([NotNull] this TraitDef trait)
         {
             if (trait.exclusionTags.Contains("SexualOrientation"))
             {
@@ -43,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                    || trait.Equals(TraitDefOf.Asexual);
         }
 
-        public static bool CompareToInput(TraitItem trait, string input)
+        public static bool CompareToInput([NotNull] TraitItem trait, string input)
         {
             return Unrichify.StripTags(trait.Name)
                .ToToolkit()
@@ -57,7 +58,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
                .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
         }
 
-        public static IEnumerable<TraitItem> ToTraitItems(this TraitDef trait)
+        [NotNull]
+        public static IEnumerable<TraitItem> ToTraitItems([NotNull] this TraitDef trait)
         {
             if (trait.degreeDatas == null)
             {
@@ -92,7 +94,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         // god dammit HAR
-        private static void ForciblyGivePawnTrait(Pawn pawn, Trait trait)
+        private static void ForciblyGivePawnTrait([NotNull] Pawn pawn, [NotNull] Trait trait)
         {
             if (pawn.story.traits.HasTrait(trait.def))
             {
@@ -114,7 +116,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             MeditationFocusTypeAvailabilityCache.ClearFor(pawn);
         }
 
-        public static void GivePawnTrait(Pawn pawn, Trait trait)
+        public static void GivePawnTrait([NotNull] Pawn pawn, [NotNull] Trait trait)
         {
             ForciblyGivePawnTrait(pawn, trait);
 
@@ -151,7 +153,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
-        public static void RemoveTraitFromPawn(Pawn pawn, Trait trait)
+        public static void RemoveTraitFromPawn([NotNull] Pawn pawn, [NotNull] Trait trait)
         {
             pawn.story.traits.allTraits.Remove(trait);
 
@@ -188,12 +190,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
-        public static Backstory IsDisallowedByBackstory(this TraitDef trait, Pawn pawn, int degree)
+        public static Backstory IsDisallowedByBackstory(this TraitDef trait, [NotNull] Pawn pawn, int degree)
         {
             return pawn.story.AllBackstories.FirstOrFallback(s => s.DisallowsTrait(trait, degree));
         }
 
-        public static Backstory IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree)
+        public static Backstory IsDisallowedByBackstory([NotNull] this Trait trait, [NotNull] Pawn pawn, int degree)
         {
             return trait.def.IsDisallowedByBackstory(pawn, degree);
         }

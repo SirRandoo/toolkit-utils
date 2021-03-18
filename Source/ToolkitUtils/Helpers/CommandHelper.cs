@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using JetBrains.Annotations;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 
@@ -22,7 +23,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class CommandHelper
     {
-        public static void Execute(this Command command, ITwitchMessage message, bool emojiOverride = false)
+        public static void Execute(
+            [NotNull] this Command command,
+            [NotNull] ITwitchMessage message,
+            bool emojiOverride = false
+        )
         {
             if (command.requiresAdmin && !message.ChatMessage.IsBroadcaster)
             {
@@ -61,6 +66,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             );
         }
 
+        [NotNull]
         internal static string ValidatePrefix(string prefix)
         {
             if (prefix.StartsWith("/") || prefix.StartsWith("."))

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.IO;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Windows;
 
@@ -39,6 +40,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public ItemTargets Target { get; set; }
 
 
+        [CanBeNull]
         public static ItemEntry LoadScriptFromFile(string file)
         {
             if (!File.Exists(file))

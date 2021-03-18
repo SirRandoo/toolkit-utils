@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using RimWorld;
 using Verse;
 
@@ -33,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             Active = ModLister.GetModWithIdentifier("Mlie.RationalRomance") != null;
         }
 
-        public static bool IsTraitDisabled(TraitDef traitDef)
+        public static bool IsTraitDisabled([NotNull] TraitDef traitDef)
         {
             return TraitDefs.Contains(traitDef.defName);
         }

@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     {
         private static string buyCommand;
 
-        public static bool Prefix(CommandDriver __instance, ITwitchMessage twitchMessage)
+        public static bool Prefix([CanBeNull] CommandDriver __instance, ITwitchMessage twitchMessage)
         {
             if (__instance == null)
             {

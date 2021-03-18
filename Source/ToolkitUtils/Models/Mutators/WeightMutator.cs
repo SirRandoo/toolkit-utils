@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
 using Verse;
@@ -32,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Models
             weightText = "TKUtils.Fields.Weight".Localize();
         }
 
-        public void Mutate(TableSettingsItem<ThingItem> item)
+        public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
             item.Data.ItemData.Weight = weight;
         }

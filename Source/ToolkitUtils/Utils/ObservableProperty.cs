@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
+
 namespace SirRandoo.ToolkitUtils.Utils
 {
     public class ObservableProperty<T>
@@ -29,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public event ChangeEvent Changed;
 
-        public void Set(T val)
+        public void Set([NotNull] T val)
         {
             if (val.Equals(value))
             {
@@ -46,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             return value;
         }
 
-        public static implicit operator T(ObservableProperty<T> prop)
+        public static implicit operator T([NotNull] ObservableProperty<T> prop)
         {
             return prop.value;
         }

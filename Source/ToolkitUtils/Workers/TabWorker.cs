@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
@@ -29,12 +30,14 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public TabItem SelectedTab { get; set; }
 
+        [NotNull]
         public static TabWorker CreateInstance()
         {
             return new TabWorker();
         }
 
-        public static TabWorker CreateInstance(IEnumerable<TabItem> tabs)
+        [NotNull]
+        public static TabWorker CreateInstance([NotNull] IEnumerable<TabItem> tabs)
         {
             var worker = new TabWorker();
             worker.tabItems.AddRange(tabs);
@@ -57,6 +60,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        [CanBeNull]
         public TabItem GetTab(string label)
         {
             return tabItems.FirstOrDefault(t => t.Label.Equals(label, StringComparison.InvariantCulture));

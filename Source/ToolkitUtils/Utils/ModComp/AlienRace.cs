@@ -18,6 +18,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
@@ -112,7 +113,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return false;
         }
 
-        private static bool TryGetRaceSettings(Pawn pawn, out object settings)
+        private static bool TryGetRaceSettings([NotNull] Pawn pawn, out object settings)
         {
             if (pawn.kindDef?.race == null)
             {
@@ -133,7 +134,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
-        private static bool TryGetGeneralSettings(Pawn pawn, out object generalSettings)
+        private static bool TryGetGeneralSettings([NotNull] Pawn pawn, out object generalSettings)
         {
             if (!TryGetRaceSettings(pawn, out object settings))
             {
@@ -145,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return true;
         }
 
-        private static bool TryGetDisallowedTraits(Pawn pawn, out IList disallowedTraits)
+        private static bool TryGetDisallowedTraits([NotNull] Pawn pawn, [CanBeNull] out IList disallowedTraits)
         {
             if (!TryGetGeneralSettings(pawn, out object settings))
             {
@@ -157,7 +158,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return disallowedTraits != null;
         }
 
-        private static bool TryGetForcedTraits(Pawn pawn, out IList forcedTraits)
+        private static bool TryGetForcedTraits([NotNull] Pawn pawn, [CanBeNull] out IList forcedTraits)
         {
             if (!TryGetGeneralSettings(pawn, out object settings))
             {
@@ -169,7 +170,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return forcedTraits != null;
         }
 
-        private static bool TryGetTraitEntry(object entry, out Tuple<string, int, float> result)
+        private static bool TryGetTraitEntry(object entry, [NotNull] out Tuple<string, int, float> result)
         {
             var defName = TraitEntryDefName.GetValue(entry) as string;
             object itemDegree = TraitEntryDegree.GetValue(entry);
@@ -181,7 +182,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return defName != null;
         }
 
-        internal static bool IsTraitDisallowed(Pawn pawn, string defName, int degree)
+        internal static bool IsTraitDisallowed([NotNull] Pawn pawn, string defName, int degree)
         {
             if (!TryGetDisallowedTraits(pawn, out IList disallowedTraits))
             {

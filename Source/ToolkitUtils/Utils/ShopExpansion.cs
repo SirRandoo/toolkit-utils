@@ -16,12 +16,13 @@
 
 using System.IO;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
     public static class ShopExpansion
     {
-        public static T LoadData<T>(string filePath)
+        public static T LoadData<T>([NotNull] string filePath)
         {
             string directory = Path.GetDirectoryName(filePath);
 

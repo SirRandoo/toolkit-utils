@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnLeave : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
@@ -63,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             component.pawnHistory.Remove(twitchMessage.Username);
         }
 
-        private static void ForceLeave(ITwitchMessage twitchMessage, Pawn pawn)
+        private static void ForceLeave(ITwitchMessage twitchMessage, [NotNull] Pawn pawn)
         {
             if (TkSettings.LeaveMethod.EqualsIgnoreCase("Thanos")
                 && FilthMaker.TryMakeFilth(

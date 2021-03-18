@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 using Verse;
 
@@ -29,14 +30,15 @@ namespace SirRandoo.ToolkitUtils.Utils
             SupportedTags = new[] {"b", "i", "size", "color", "material", "quad"};
         }
 
-        public static bool IsRichText(string input)
+        public static bool IsRichText([NotNull] string input)
         {
             string lowered = input.ToLowerInvariant();
 
             return SupportedTags.Any(tag => lowered.Contains($"<{tag}") && lowered.Contains($"</{tag}>"));
         }
 
-        public static string StripTags(string input)
+        [NotNull]
+        public static string StripTags([NotNull] string input)
         {
             string container = input;
             var i = 0;

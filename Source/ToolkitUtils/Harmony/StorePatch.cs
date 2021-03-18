@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             InjectionSiteMarkerMethod = AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
         }
 
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             var markerFound = false;
 
@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
         }
 
-        private static void DrawUtilsContents(Listing_Standard optionsListing)
+        private static void DrawUtilsContents([CanBeNull] Listing_Standard optionsListing)
         {
             if (optionsListing == null)
             {
@@ -91,7 +91,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
         }
 
-        private static void DoButtonSeparator(Listing_Standard optionsListing)
+        private static void DoButtonSeparator([NotNull] Listing_Standard optionsListing)
         {
             optionsListing.Gap();
             optionsListing.GapLine();

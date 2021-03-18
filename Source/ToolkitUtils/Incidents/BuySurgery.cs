@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
         {
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
             string partQuery = segments.FirstOrFallback();
@@ -165,7 +165,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             public int Quantity { get; private set; }
             public int Cost => Item.Cost * Quantity;
 
-            public static Appointment ParseInput(Pawn patient, string[] segments)
+            [NotNull]
+            public static Appointment ParseInput(Pawn patient, [NotNull] string[] segments)
             {
                 var appointment = new Appointment {Patient = patient};
                 appointment.ParseThingDef(segments.FirstOrFallback());
@@ -260,6 +261,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 BodyParts = BodyParts.Take(Quantity).ToList();
             }
 
+            [NotNull]
             private IEnumerable<Bill_Medical> GenerateSurgeries()
             {
                 return BodyParts.Select(p => new Bill_Medical(Surgery) {Part = p});

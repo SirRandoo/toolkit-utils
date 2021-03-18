@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible(TableSettingsItem<ThingItem> item)
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
         {
             return item.Data.ItemData.HasQuantityLimit == state;
         }

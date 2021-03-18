@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class PurchaseHandlerPatch
     {
-        public static bool Prefix(Viewer viewer, ITwitchMessage twitchMessage, bool separateChannel = false)
+        public static bool Prefix(Viewer viewer, [NotNull] ITwitchMessage twitchMessage, bool separateChannel = false)
         {
             List<string> segments = CommandFilter.Parse(twitchMessage.Message).ToList();
             string query = segments.Skip(1).FirstOrFallback("");
@@ -86,7 +86,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return false;
         }
 
-        private static bool TryFindVariableIncident(string query, out StoreIncidentVariables incidentVariables)
+        private static bool TryFindVariableIncident(
+            string query,
+            [CanBeNull] out StoreIncidentVariables incidentVariables
+        )
         {
             incidentVariables = Purchase_Handler.allStoreIncidentsVariables
                .Where(i => i.cost > 0 || i.defName.Equals("Item"))
@@ -95,7 +98,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return incidentVariables != null;
         }
 
-        private static bool TryFindSimpleIncident(string query, out StoreIncidentSimple incidentSimple)
+        private static bool TryFindSimpleIncident(string query, [CanBeNull] out StoreIncidentSimple incidentSimple)
         {
             incidentSimple = Purchase_Handler.allStoreIncidentsSimple.Where(i => i.cost > 0 || i.defName.Equals("Item"))
                .FirstOrDefault(i => query.EqualsIgnoreCase(i.abbreviation));
@@ -103,7 +106,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return incidentSimple != null;
         }
 
-        private static bool TryFindItem(string query, out ThingItem item)
+        private static bool TryFindItem(string query, [CanBeNull] out ThingItem item)
         {
             item = Data.Items.Where(i => i.Cost > 0).FirstOrDefault(i => query.EqualsIgnoreCase(i.Name));
             return item != null;

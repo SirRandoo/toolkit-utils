@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             };
         }
 
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             msg = twitchMessage;
             string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
@@ -108,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             Notify__LookupComplete(ResponseHelper.JoinPair(weapon.Name, result.GroupedJoin()));
         }
 
-        private void PerformLookup(string category, string query)
+        private void PerformLookup([NotNull] string category, string query)
         {
             if (!Index.TryGetValue(category.ToLowerInvariant(), out string result))
             {

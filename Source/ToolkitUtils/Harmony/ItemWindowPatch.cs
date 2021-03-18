@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class ItemWindowPatch
     {
-        public static void Prefix(List<ThingDef> ___cachedTradeables, List<int> ___tradeablesPrices)
+        public static void Prefix([NotNull] List<ThingDef> ___cachedTradeables, List<int> ___tradeablesPrices)
         {
             for (var i = 0; i < ___cachedTradeables.Count; i++)
             {

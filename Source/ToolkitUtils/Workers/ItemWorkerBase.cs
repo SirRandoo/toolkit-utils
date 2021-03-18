@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
@@ -211,7 +212,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        protected void AddSelector(ISelectorBase<TU> selector)
+        protected void AddSelector([NotNull] ISelectorBase<TU> selector)
         {
             selector.Prepare();
             selector.Dirty ??= new ObservableProperty<bool>(false);
@@ -220,7 +221,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             UpdateView(true);
         }
 
-        protected void AddMutator(IMutatorBase<TU> mutator)
+        protected void AddMutator([NotNull] IMutatorBase<TU> mutator)
         {
             mutator.Prepare();
             mutators.Add(mutator);

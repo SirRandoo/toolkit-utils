@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
 using Verse;
@@ -166,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Models
             listing.EndScrollView(ref viewPort);
         }
 
-        private void DrawFiltersFor(ThingItemFilterCategory category, Listing listing, Rect viewPort)
+        private void DrawFiltersFor([NotNull] ThingItemFilterCategory category, Listing listing, Rect viewPort)
         {
             foreach (ThingItemFilter filter in category.Filters)
             {

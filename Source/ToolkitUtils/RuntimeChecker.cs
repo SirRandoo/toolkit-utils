@@ -24,6 +24,7 @@ using SirRandoo.ToolkitUtils.Proxies;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
+
 #if DEBUG
 using SirRandoo.ToolkitUtils.Helpers;
 using System.Diagnostics;
@@ -89,7 +90,7 @@ namespace SirRandoo.ToolkitUtils
             Execute(command, func);
         }
 
-        private static void Execute(string command, Action func)
+        private static void Execute(string command, [NotNull] Action func)
         {
         #if DEBUG
             var stopwatch = new Stopwatch();

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Models
             canRemoveText = "TKUtils.Fields.CanRemove".Localize();
         }
 
-        public void Mutate(TableSettingsItem<TraitItem> item)
+        public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
         {
             item.Data.CanRemove = state;
         }

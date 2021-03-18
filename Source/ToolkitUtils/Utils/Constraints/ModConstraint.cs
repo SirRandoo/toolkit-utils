@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using UnityEngine;
@@ -35,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             SettingsHelper.DrawLabel(canvas, labelText);
         }
 
-        public override bool ShouldPurge(Viewer viewer)
+        public override bool ShouldPurge([NotNull] Viewer viewer)
         {
             return !viewer.mod;
         }

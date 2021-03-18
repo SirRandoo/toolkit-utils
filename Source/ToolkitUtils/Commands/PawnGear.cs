@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnGear : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             twitchMessage.Reply(GetPawnGear(pawn).WithHeader("TabGear".Localize()));
         }
 
-        private static float CalculateArmorRating(Pawn pawn, StatDef stat)
+        private static float CalculateArmorRating([NotNull] Pawn pawn, StatDef stat)
         {
             var rating = 0f;
             float value = Mathf.Clamp01(pawn.GetStatValue(stat) / 2f);
@@ -101,7 +101,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             return !parts.Any() ? "None".Localize() : parts.GroupedJoin();
         }
 
-        private static void GetWeaponData(Pawn pawn, ICollection<string> parts)
+        private static void GetWeaponData([NotNull] Pawn pawn, ICollection<string> parts)
         {
             List<Thing> sidearms = SimpleSidearms.GetSidearms(pawn)?.ToList();
             var weapons = new List<string>();
@@ -139,7 +139,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private static void GetTemperatureValues(Thing pawn, ICollection<string> parts)
+        private static void GetTemperatureValues(Thing pawn, [NotNull] ICollection<string> parts)
         {
             string tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
             string tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
@@ -185,7 +185,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         private static void GetSidearms(
             ICollection<Thing> sidearms,
             ICollection<string> weapons,
-            IEnumerable<Thing> inventory,
+            [NotNull] IEnumerable<Thing> inventory,
             ICollection<Thing> usedInventory,
             Thing sidearm
         )
@@ -205,7 +205,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         private static bool GetEquipmentFromSidearmData(
-            IEnumerable<ThingWithComps> equipment,
+            [NotNull] IEnumerable<ThingWithComps> equipment,
             IList<string> weapons,
             Thing sidearm
         )
@@ -219,7 +219,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             return false;
         }
 
-        private static void GetArmorValues(Pawn pawn, ICollection<string> parts)
+        private static void GetArmorValues([NotNull] Pawn pawn, ICollection<string> parts)
         {
             float sharp = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
             float blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Blunt);

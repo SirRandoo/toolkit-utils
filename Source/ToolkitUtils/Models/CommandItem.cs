@@ -33,7 +33,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool Shortcut => Data?.IsShortcut ?? false;
 
-        public static CommandItem FromToolkit(Command command)
+        [NotNull]
+        public static CommandItem FromToolkit([NotNull] Command command)
         {
             var result = new CommandItem {Name = command.LabelCap.RawText, Usage = $"!{command.command}"};
             result.PullFromExtension(command);
@@ -51,7 +52,8 @@ namespace SirRandoo.ToolkitUtils.Models
             return result;
         }
 
-        public static CommandItem FromToolkitCore(ToolkitChatCommand command)
+        [NotNull]
+        public static CommandItem FromToolkitCore([NotNull] ToolkitChatCommand command)
         {
             var result = new CommandItem
             {
@@ -69,7 +71,7 @@ namespace SirRandoo.ToolkitUtils.Models
             return result;
         }
 
-        private void PullFromExtension(Def command)
+        private void PullFromExtension([NotNull] Def command)
         {
             var extension = command.GetModExtension<CommandExtension>();
 

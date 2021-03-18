@@ -30,6 +30,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [JsonIgnore] private List<PawnKindDef> kinds;
 
         [JsonIgnore]
+        [NotNull]
         public IEnumerable<PawnKindDef> Kinds =>
             kinds ??= DefDatabase<PawnKindDef>.AllDefs.Where(k => k.race.defName.Equals(DefName)).ToList();
 
@@ -54,7 +55,8 @@ namespace SirRandoo.ToolkitUtils.Models
         [JsonIgnore] public IShopDataBase Data { get; set; }
 
 
-        public static PawnKindItem MigrateFrom(XmlRace race)
+        [NotNull]
+        public static PawnKindItem MigrateFrom([NotNull] XmlRace race)
         {
             return new PawnKindItem
             {

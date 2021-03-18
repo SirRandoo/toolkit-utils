@@ -40,8 +40,8 @@ namespace SirRandoo.ToolkitUtils.Proxies
         public string Name => traitItem.Name;
         public string[] Conflicts => traitItem.TraitData.Conflicts;
         public bool CanBypassLimit => traitItem.TraitData.CanBypassLimit;
-        public string AddKarmaType => traitItem.Data.KarmaType.ToString();
-        public string RemoveKarmaType => traitItem.TraitData.KarmaTypeForRemoving.ToString();
+        [NotNull] public string AddKarmaType => traitItem.Data.KarmaType.ToString();
+        [NotNull] public string RemoveKarmaType => traitItem.TraitData.KarmaTypeForRemoving.ToString();
         public bool HasCustomName => traitItem.TraitData.CustomName;
     }
 }

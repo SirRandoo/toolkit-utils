@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
         {
             if (CommandBase.GetOrFindPawn(viewer.username) != null)
             {
@@ -152,7 +152,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
         }
 
-        private bool CanPurchaseRace(Viewer viewer, PawnKindItem target)
+        private bool CanPurchaseRace([NotNull] Viewer viewer, [NotNull] PawnKindItem target)
         {
             if (!target.Enabled && TkSettings.PurchasePawnKinds)
             {

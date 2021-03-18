@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnRelations : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static void ShowRelationshipOverview(
             ITwitchMessage twitchMessage,
-            GameComponentPawns component,
+            [NotNull] GameComponentPawns component,
             Pawn pawn
         )
         {

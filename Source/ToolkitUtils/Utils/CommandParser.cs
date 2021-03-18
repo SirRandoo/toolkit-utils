@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using ToolkitCore.Utilities;
 using Verse;
 
@@ -29,7 +30,8 @@ namespace SirRandoo.ToolkitUtils.Utils
             return ParseKeyed(CommandFilter.Parse(input));
         }
 
-        public static List<KeyValuePair<string, string>> ParseKeyed(IEnumerable<string> input)
+        [NotNull]
+        public static List<KeyValuePair<string, string>> ParseKeyed([NotNull] IEnumerable<string> input)
         {
             var cache = new List<KeyValuePair<string, string>>();
 

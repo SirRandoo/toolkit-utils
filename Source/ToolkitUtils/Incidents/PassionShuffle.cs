@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
         {
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
@@ -182,7 +182,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return true;
         }
 
-        private static void IncreasePassionFor(SkillRecord skill)
+        private static void IncreasePassionFor([NotNull] SkillRecord skill)
         {
             switch (skill.passion)
             {

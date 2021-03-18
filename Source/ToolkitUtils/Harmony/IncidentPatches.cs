@@ -66,6 +66,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return ModLister.GetActiveModWithIdentifier("brrainz.puppeteer") != null;
         }
 
+        [NotNull]
         public static IEnumerable<MethodBase> TargetMethods()
         {
             return DefDatabase<StoreIncidentVariables>.AllDefs
@@ -73,8 +74,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                .Where(method => method != null);
         }
 
+        [NotNull]
         public static IEnumerable<CodeInstruction> Transpiler(
-            IEnumerable<CodeInstruction> instructions,
+            [NotNull] IEnumerable<CodeInstruction> instructions,
             MethodBase original
         )
         {
@@ -105,7 +107,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return transpiler;
         }
 
-        public static Exception Cleanup(MethodBase original, Exception exception)
+        [CanBeNull]
+        public static Exception Cleanup([CanBeNull] MethodBase original, [CanBeNull] Exception exception)
         {
             if (original == null || exception == null)
             {
@@ -123,7 +126,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return FormatMessage(message, username);
         }
 
-        private static string FormatMessage(string message, string username)
+        [NotNull]
+        private static string FormatMessage([NotNull] string message, string username)
         {
             if (!message.StartsWith($"@{username}") || !message.StartsWith(username))
             {

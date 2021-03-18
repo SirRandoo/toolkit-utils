@@ -33,11 +33,11 @@ namespace SirRandoo.ToolkitUtils.Proxies
 
         public bool IsEnabled => thingItem.Enabled;
         public string DefName => thingItem.DefName;
-        public string Name => thingItem.Name;
+        [NotNull] public string Name => thingItem.Name;
         public int Cost => thingItem.Cost;
-        public string Abr => thingItem.Item?.abr;
-        public string Abbreviation => thingItem.Item?.abr;
-        public string Mod => thingItem.Mod;
+        [CanBeNull] public string Abr => thingItem.Item?.abr;
+        [CanBeNull] public string Abbreviation => thingItem.Item?.abr;
+        [NotNull] public string Mod => thingItem.Mod;
         public string Category => thingItem.Category;
 
         public string Label => thingItem.Thing.label;
@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Proxies
 
         public bool HasQuantityLimit => thingItem.ItemData.HasQuantityLimit;
         public int QuantityLimit => thingItem.ItemData.QuantityLimit;
-        public string KarmaType => thingItem.Data.KarmaType.ToString();
+        [NotNull] public string KarmaType => thingItem.Data.KarmaType.ToString();
         public bool CanBeStuff => thingItem.ItemData.IsStuffAllowed;
     }
 }

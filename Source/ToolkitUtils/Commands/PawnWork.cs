@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnWork : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
@@ -63,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             twitchMessage.Reply(summary.WithHeader("TKUtils.PawnWork.Header".Localize()));
         }
 
-        private static void ProcessChangeRequests(Pawn pawn, List<KeyValuePair<string, string>> rawChanges)
+        private static void ProcessChangeRequests(Pawn pawn, [NotNull] List<KeyValuePair<string, string>> rawChanges)
         {
             List<WorkTypeDef> priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder
                .Where(w => !pawn.WorkTypeIsDisabled(w))
@@ -82,6 +82,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
+        [CanBeNull]
         private static string GetWorkPrioritySummary(Pawn pawn)
         {
             List<WorkTypeDef> priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToList();
@@ -109,7 +110,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             return container.Count > 0 ? container.SectionJoin() : null;
         }
 
-        private static void HideDisabledWork(IList<WorkTypeDef> priorities)
+        private static void HideDisabledWork([NotNull] IList<WorkTypeDef> priorities)
         {
             for (int index = priorities.Count - 1; index >= 0; index--)
             {
@@ -135,6 +136,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
+        [NotNull]
         private static List<WorkTypeDef> SortPriorities(List<WorkTypeDef> priorities, Pawn pawn)
         {
             priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore;
 using TwitchLib.Client.Models;
@@ -24,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class MessageHelper
     {
-        public static void Reply(this ITwitchMessage m, string message)
+        public static void Reply([NotNull] this ITwitchMessage m, string message)
         {
             ReplyToUser(m.Username, message);
         }
@@ -70,7 +71,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return TkSettings.Emojis ? emoji : alt;
         }
 
-        internal static ITwitchMessage WithMessage(this ITwitchMessage m, string message)
+        [CanBeNull]
+        internal static ITwitchMessage WithMessage([NotNull] this ITwitchMessage m, string message)
         {
             if (m.WhisperMessage != null)
             {
