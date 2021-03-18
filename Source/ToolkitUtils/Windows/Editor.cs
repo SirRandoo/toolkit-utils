@@ -70,25 +70,21 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void InitializeTabs()
         {
-            tabWorker.SelectedTab =
-                new TabItem {Label = "TKUtils.EditorTabs.Items".Localize(), ContentDrawer = DrawItemsTab};
+            tabWorker.SelectedTab = new TabItem
+            {
+                Label = "TKUtils.EditorTabs.Items".Localize(), ContentDrawer = rect => itemWorker.Draw()
+            };
 
             tabWorker.AddTab(tabWorker.SelectedTab);
             tabWorker.AddTab(
-                new TabItem {Label = "TKUtils.EditorTabs.Traits".Localize(), ContentDrawer = DrawTraitsTab}
+                new TabItem {Label = "TKUtils.EditorTabs.Traits".Localize(), ContentDrawer = rect => traitWorker.Draw()}
             );
             tabWorker.AddTab(
-                new TabItem {Label = "TKUtils.EditorTabs.PawnKinds".Localize(), ContentDrawer = DrawPawnKindsTab}
+                new TabItem
+                {
+                    Label = "TKUtils.EditorTabs.PawnKinds".Localize(), ContentDrawer = rect => pawnWorker.Draw()
+                }
             );
-        }
-
-        private void DrawTraitsTab(Rect obj) { }
-
-        private void DrawPawnKindsTab(Rect obj) { }
-
-        private void DrawItemsTab(Rect obj)
-        {
-            itemWorker.Draw();
         }
 
         public override void DoWindowContents(Rect canvas)
