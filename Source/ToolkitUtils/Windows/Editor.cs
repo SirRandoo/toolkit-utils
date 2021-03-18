@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private readonly ItemWorker itemWorker;
         private readonly PawnWorker pawnWorker;
         private readonly TraitWorker traitWorker;
-        private bool dirty;
+        private bool dirty = true;
         private ScriptEngine engine;
 
         private bool maximized;
