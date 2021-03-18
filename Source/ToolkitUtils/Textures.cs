@@ -51,6 +51,8 @@ namespace SirRandoo.ToolkitUtils
         public static readonly Texture2D CloseButton;
         public static readonly Texture2D MaximizeWindow;
         public static readonly Texture2D RestoreWindow;
+        public static readonly Texture2D CopySettings;
+        public static readonly Texture2D PasteSettings;
 
         static Textures()
         {
@@ -79,6 +81,8 @@ namespace SirRandoo.ToolkitUtils
             MaximizeWindow = ContentFinder<Texture2D>.Get("UI/Icons/MaximizeWindow");
             RestoreWindow = ContentFinder<Texture2D>.Get("UI/Icons/RestoreWindow");
             Stack = ContentFinder<Texture2D>.Get("UI/Icons/Stack");
+            CopySettings = ContentFinder<Texture2D>.Get("UI/Commands/CopySettings");
+            PasteSettings = ContentFinder<Texture2D>.Get("UI/Commands/PasteSettings");
 
             DiceSides = new List<Texture2D>
             {

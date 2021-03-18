@@ -137,10 +137,19 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SetInitialSizeAndPosition();
             }
 
-            if (Widgets.ButtonImage(butRect.ShiftLeft(), Textures.QuestionMark))
+            butRect = butRect.ShiftLeft();
+            if (Widgets.ButtonImage(butRect, Textures.QuestionMark))
             {
                 Application.OpenURL("https://sirrandoo.github.io/toolkit-utils/editor");
             }
+
+        #if DEBUG
+            butRect = butRect.ShiftLeft();
+            if (Widgets.ButtonImage(butRect, Textures.PasteSettings)){}
+
+            butRect = butRect.ShiftLeft();
+            if (Widgets.ButtonImage(butRect, Textures.CopySettings)) {}
+        #endif
         }
 
         public override void PreClose()
