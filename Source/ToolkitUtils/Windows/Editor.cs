@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
@@ -147,6 +148,36 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PreClose();
 
             Store_ItemEditor.UpdateStoreItemList();
+            Task.Run(
+                    async () =>
+                    {
+                        switch (TkSettings.DumpStyle)
+                        {
+                            case "SingleFile":
+                                await Task.Run(() => Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath))
+                                   .ConfigureAwait(false);
+                                return;
+                            case "MultiFile":
+                                await Task.Run(() => Data.SaveTraits(Paths.TraitFilePath)).ConfigureAwait(false);
+                                await Task.Run(() => Data.SavePawnKinds(Paths.PawnKindFilePath)).ConfigureAwait(false);
+                                return;
+                        }
+                    }
+                )
+               .ConfigureAwait(false);
+        }
+
+        protected override void SetInitialSizeAndPosition()
+        {
+            base.SetInitialSizeAndPosition();
+
+            Rect tabRect = new Rect(0f, 0f, windowRect.width, Text.LineHeight * 2f).Rounded();
+            Rect contentRect = new Rect(0f, tabRect.height, windowRect.width, windowRect.height - tabRect.height)
+               .ContractedBy(16f);
+
+            itemWorker.NotifyResolutionChanged(contentRect);
+            traitWorker.NotifyResolutionChanged(contentRect);
+            pawnWorker.NotifyResolutionChanged(contentRect);
         }
 
         public override void Notify_ResolutionChanged()
