@@ -47,4 +47,5 @@
     <TKUtils.Fields.RemoveKarmaType>Karma type for removing</TKUtils.Fields.RemoveKarmaType>
     <TKUtils.Fields.DefaultKarmaType>(Default)</TKUtils.Fields.DefaultKarmaType>
     <TKUtils.Fields.CategorySearch>Category search</TKUtils.Fields.CategorySearch>
+    <TKUtils.Fields.Class>Is class</TKUtils.Fields.Class>
 </LanguageData>
