@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item)
         {
-            return item.Data.TraitData.CanBypassLimit == state;
+            return item.Data.TraitData?.CanBypassLimit == state;
         }
     }
 }
