@@ -119,7 +119,9 @@ namespace SirRandoo.ToolkitUtils
             ValidateItems();
             ValidateItemData();
             ValidatePawnKinds();
+            ValidatePawnKindData();
             ValidateTraits();
+            ValidateTraitData();
             ValidateModList();
             ValidateSurgeryList();
 
@@ -330,6 +332,15 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
+        private static void ValidateTraitData()
+        {
+            foreach (TraitItem trait in Traits)
+            {
+                trait.TraitData ??= new TraitData();
+                trait.TraitData.Mod = trait.TraitDef?.modContentPack.Name?.Replace("Core", "RimWorld");
+            }
+        }
+
         private static void ValidatePawnKinds()
         {
             List<PawnKindDef> kindDefs = DefDatabase<PawnKindDef>.AllDefs.Where(k => k.RaceProps.Humanlike).ToList();
@@ -353,6 +364,15 @@ namespace SirRandoo.ToolkitUtils
                         Cost = def.race.CalculateStorePrice()
                     }
                 );
+            }
+        }
+
+        private static void ValidatePawnKindData()
+        {
+            foreach (PawnKindItem pawn in PawnKinds)
+            {
+                pawn.PawnData ??= new PawnKindData();
+                pawn.PawnData.Mod = pawn.ColonistKindDef?.modContentPack.Name?.Replace("Core", "RimWorld");
             }
         }
 
