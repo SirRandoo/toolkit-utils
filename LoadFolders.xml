@@ -3,7 +3,7 @@
 <loadFolders>
     <v1.2>
         <li>Common</li>
-        <li IsModActive="Torann.ARimworldOfMagic">Compatibility/TMagic/1.2</li>
         <li>1.2</li>
+        <li IsModActive="Torann.ARimworldOfMagic">Compatibility/TMagic/1.2</li>
     </v1.2>
 </loadFolders>
