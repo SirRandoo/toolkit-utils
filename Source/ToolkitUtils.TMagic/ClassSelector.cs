@@ -20,17 +20,52 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Reflection;
+using JetBrains.Annotations;
+using RimWorld;
+using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
+using TorannMagic;
+using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.TMagic.Patches
+namespace SirRandoo.ToolkitUtils.TMagic
 {
-    [StaticConstructorOnStartup]
-    public static class Runner
+    public class ClassSelector : ISelectorBase<TraitItem>
     {
-        static Runner()
+        private string classText;
+        private bool state = true;
+
+        public ObservableProperty<bool> Dirty { get; set; }
+
+        public void Prepare()
         {
-            new HarmonyLib.Harmony("com.sirrandoo.tkutils.tmagic").PatchAll(Assembly.GetExecutingAssembly());
+            classText = "TKUtils.Fields.Class".Localize();
+        }
+
+        public void Draw(Rect canvas)
+        {
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, classText, ref state))
+            {
+                Dirty.Set(true);
+            }
+        }
+
+        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item)
+        {
+            TraitDef traitDef = item.Data.TraitDef;
+
+            if (traitDef == null)
+            {
+                return false;
+            }
+
+            if (traitDef.Equals(TorannMagicDefOf.DeathKnight))
+            {
+                return state;
+            }
+
+            return !TM_Data.AllClassTraits.Any(i => i.Equals(traitDef)) || state;
         }
     }
 }

@@ -55,10 +55,13 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="ClassSelector.cs"/>
         <Compile Include="Commands\PawnClass.cs"/>
         <Compile Include="MagicCompat.cs"/>
+        <Compile Include="Patches\ClassSelectorPatch.cs"/>
         <Compile Include="StaticRunner.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="Patches\Runner.cs"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false">
