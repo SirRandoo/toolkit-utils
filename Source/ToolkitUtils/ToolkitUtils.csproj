@@ -265,7 +265,7 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include="..\..\About\*">
-            <Link>About\%(FileName)%(Extension)</Link>
+            <Link>About\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Content>
         <Content Include="..\..\Common\**\*.*">
             <Link>Common\%(RecursiveDir)%(FileName)%(Extension)</Link>
