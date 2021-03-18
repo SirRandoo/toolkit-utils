@@ -106,9 +106,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (dirty)
             {
-                itemWorker.NotifyResolutionChanged(innerRect);
-                traitWorker.NotifyResolutionChanged(innerRect);
-                pawnWorker.NotifyResolutionChanged(innerRect);
+                Rect innerResolution = innerRect.ContractedBy(16f);
+                itemWorker.NotifyResolutionChanged(innerResolution);
+                traitWorker.NotifyResolutionChanged(innerResolution);
+                pawnWorker.NotifyResolutionChanged(innerResolution);
                 dirty = false;
             }
 
