@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -24,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Models
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class ShopLegacy
     {
-        public List<TraitItem> Traits { get; set; }
-        public List<PawnKindItem> Races { get; set; }
+        [DataMember(Name = "traits")] public List<TraitItem> Traits { get; set; }
+        [DataMember(Name = "races")] public List<PawnKindItem> Races { get; set; }
     }
 }

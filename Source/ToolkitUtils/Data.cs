@@ -21,9 +21,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
@@ -33,6 +30,7 @@ using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Models;
 using TwitchToolkit;
 using TwitchToolkit.Store;
+using Utf8Json;
 using Verse;
 using Command = TwitchToolkit.Command;
 using Viewers = TwitchToolkit.Viewers;
@@ -42,24 +40,6 @@ namespace SirRandoo.ToolkitUtils
     [StaticConstructorOnStartup]
     public static class Data
     {
-        private static readonly JsonSerializer JsonSerializer = new JsonSerializer
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            Converters = {new StringEnumConverter()},
-            Formatting = Formatting.Indented
-        };
-
-        private static readonly JsonSerializer AltJsonSerializer = new JsonSerializer
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            ContractResolver = new DefaultContractResolver(),
-            Converters = {new StringEnumConverter()},
-            Formatting = Formatting.Indented
-        };
-
         internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType))
            .Select(i => (KarmaType) Enum.Parse(typeof(KarmaType), i))
            .ToList();
@@ -192,11 +172,7 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [CanBeNull]
-        internal static T LoadJson<T>(
-            string path,
-            bool ignoreErrors = false,
-            [CanBeNull] JsonSerializer serializer = null
-        ) where T : class
+        internal static T LoadJson<T>(string path, bool ignoreErrors = false) where T : class
         {
             if (!File.Exists(path) && !ignoreErrors)
             {
@@ -204,23 +180,11 @@ namespace SirRandoo.ToolkitUtils
                 return null;
             }
 
-            JsonSerializer s = serializer ?? JsonSerializer;
-
             try
             {
                 using (FileStream file = File.Open(path, FileMode.Open, FileAccess.Read))
                 {
-                    using (var reader = new StreamReader(file))
-                    {
-                        using (JsonReader jReader = new JsonTextReader(reader))
-                        {
-                            s.Formatting = TkSettings.MinifyData ? Formatting.None : Formatting.Indented;
-                            var data = (T) s.Deserialize(jReader, typeof(T));
-                            s.Formatting = Formatting.Indented;
-
-                            return data;
-                        }
-                    }
+                    return JsonSerializer.Deserialize<T>(file);
                 }
             }
             catch (Exception e)
@@ -234,7 +198,33 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        internal static void SaveJson<T>(T obj, string path, [CanBeNull] JsonSerializer serializer = null)
+        internal static async Task<T> LoadJsonAsync<T>(string path, bool ignoreErrors = false) where T : class
+        {
+            if (!File.Exists(path) && !ignoreErrors)
+            {
+                LogHelper.Warn($"Could not load file at {path} -- Does not exist!");
+                return null;
+            }
+
+            try
+            {
+                using (FileStream file = File.Open(path, FileMode.Open, FileAccess.Read))
+                {
+                    return await JsonSerializer.DeserializeAsync<T>(file);
+                }
+            }
+            catch (Exception e)
+            {
+                if (!ignoreErrors)
+                {
+                    LogHelper.Error($"Could not load file at {path}", e);
+                }
+
+                return null;
+            }
+        }
+
+        internal static void SaveJson<T>(T obj, string path) where T : class
         {
             string directory = Path.GetDirectoryName(path);
 
@@ -244,20 +234,61 @@ namespace SirRandoo.ToolkitUtils
             }
 
             string tempPath = Path.GetTempFileName();
-            JsonSerializer s = serializer ?? JsonSerializer;
 
             try
             {
                 using (FileStream writer = File.Open(tempPath, FileMode.Create, FileAccess.Write))
                 {
-                    using (var streamWriter = new StreamWriter(writer))
+                    if (!TkSettings.MinifyData)
                     {
-                        using (JsonWriter jWriter = new JsonTextWriter(streamWriter))
+                        using (var sWriter = new StreamWriter(writer, Encoding.UTF8))
                         {
-                            s.Formatting = TkSettings.MinifyData ? Formatting.None : Formatting.Indented;
-                            s.Serialize(jWriter, obj);
-                            s.Formatting = Formatting.Indented;
+                            sWriter.Write(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
                         }
+                    }
+                    else
+                    {
+                        JsonSerializer.Serialize(writer, obj);
+                    }
+                }
+
+                if (File.Exists(path))
+                {
+                    File.Replace(tempPath, path, null);
+                }
+                else
+                {
+                    File.Move(tempPath, path);
+                }
+            }
+            catch (IOException e)
+            {
+                LogHelper.Error($"Could not save json to path {path}", e);
+            }
+        }
+
+        internal static async Task SaveJsonAsync<T>(T obj, string path) where T : class
+        {
+            string directory = Path.GetDirectoryName(path);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory!);
+            }
+
+            string tempPath = Path.GetTempFileName();
+
+            try
+            {
+                using (FileStream writer = File.Open(tempPath, FileMode.Create, FileAccess.Write))
+                {
+                    if (!TkSettings.MinifyData)
+                    {
+                        await writer.WriteAsync(JsonSerializer.PrettyPrintByteArray(JsonSerializer.ToJsonString(obj)));
+                    }
+                    else
+                    {
+                        await JsonSerializer.SerializeAsync(writer, obj);
                     }
                 }
 
@@ -298,13 +329,12 @@ namespace SirRandoo.ToolkitUtils
 
         public static void LoadItemData(string path)
         {
-            ItemData = LoadJson<Dictionary<string, ItemData>>(path, true, AltJsonSerializer)
-                       ?? new Dictionary<string, ItemData>();
+            ItemData = LoadJson<Dictionary<string, ItemData>>(path, true) ?? new Dictionary<string, ItemData>();
         }
 
         public static void SaveItemData(string path)
         {
-            SaveJson(ItemData, path, AltJsonSerializer);
+            SaveJson(ItemData, path);
         }
 
         private static void ValidateTraits()

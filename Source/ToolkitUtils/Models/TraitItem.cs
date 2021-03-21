@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
@@ -34,19 +34,19 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         public bool CanAdd;
         public bool CanRemove;
-        [JsonIgnore] private int cost;
-        [JsonProperty("addPrice")] public int CostToAdd;
-        [JsonProperty("removePrice")] public int CostToRemove;
-        [JsonIgnore] private TraitData data;
-        [JsonIgnore] private string defaultName;
+        [IgnoreDataMember] private int cost;
+        [DataMember(Name = "addPrice")] public int CostToAdd;
+        [DataMember(Name = "removePrice")] public int CostToRemove;
+        [IgnoreDataMember] private TraitData data;
+        [IgnoreDataMember] private string defaultName;
 
         public int Degree;
-        [JsonIgnore] private string finalDescription;
-        [JsonIgnore] private TraitDef traitDef;
+        [IgnoreDataMember] private string finalDescription;
+        [IgnoreDataMember] private TraitDef traitDef;
 
         // Legacy support
-        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         [CanBeNull]
+        [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public string Description
         {
             get
@@ -93,13 +93,13 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool BypassLimit => TraitData?.CanBypassLimit ?? false;
 
-        [JsonIgnore]
         [CanBeNull]
+        [IgnoreDataMember]
         public TraitDef TraitDef =>
             traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
 
-        [JsonProperty("data")]
         [CanBeNull]
+        [DataMember(Name = "data")]
         public TraitData TraitData
         {
             get => data ??= new TraitData();
@@ -116,7 +116,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public string Name { get; set; }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public int Cost
         {
             get => cost;
@@ -128,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public IShopDataBase Data
         {
             get => data;

@@ -36,6 +36,9 @@
             <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.2\Assemblies\TwitchToolkit.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="Utf8Json, Version=1.3.7.0, Culture=neutral, PublicKeyToken=8a73d3ba7e392e27">
+            <HintPath>..\libs\0Utf8Json.dll</HintPath>
+        </Reference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Commands\Balance.cs"/>
@@ -191,7 +194,6 @@
         <Compile Include="RuntimeChecker.cs"/>
         <Compile Include="Models\CommandData.cs"/>
         <Compile Include="Models\CommandItem.cs"/>
-        <Compile Include="Models\CharacterData.cs"/>
         <Compile Include="Models\ToolkitItem.cs"/>
         <Compile Include="Models\ItemData.cs"/>
         <Compile Include="Models\ThingItem.cs"/>
@@ -231,7 +233,6 @@
         <Compile Include="Utils\ModComp\Interests.cs"/>
         <Compile Include="Utils\ModComp\Puppeteer.cs"/>
         <Compile Include="Utils\ModComp\RationalRomance.cs"/>
-        <Compile Include="Utils\ModComp\TMagic.cs"/>
         <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
         <Compile Include="Utils\ObservableProperty.cs"/>
         <Compile Include="Utils\ShopExpansion.cs"/>

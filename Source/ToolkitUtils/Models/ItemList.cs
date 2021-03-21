@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -22,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class ItemList
     {
-        public List<ToolkitItem> Items;
-        public int Total => Items.Count;
+        [DataMember(Name = "items")] public List<ToolkitItem> Items;
+        [DataMember(Name = "total")] public int Total => Items.Count;
     }
 }

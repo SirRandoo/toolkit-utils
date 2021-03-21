@@ -14,20 +14,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly]
     public class ToolkitItem
     {
-        [JsonProperty("abr")] public string Abr;
+        [DataMember(Name = "abr")] public string Abr;
 
-        [JsonProperty("category")] public string Category;
+        [DataMember(Name = "category")] public string Category;
 
-        [JsonProperty("defname")] public string DefName;
+        [DataMember(Name = "defname")] public string DefName;
 
-        [JsonProperty("price")] public int Price;
+        [DataMember(Name = "price")] public int Price;
     }
 }

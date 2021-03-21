@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Data;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using Verse;
@@ -64,7 +64,8 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull] public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
         public ThingDef Thing { get; set; }
 
-        [JsonProperty("data")]
+        [CanBeNull]
+        [DataMember(Name = "data")]
         public ItemData ItemData
         {
             get => data ??= (ItemData) Data;
@@ -107,15 +108,15 @@ namespace SirRandoo.ToolkitUtils.Models
             set => throw new ReadOnlyException();
         }
 
-        [JsonProperty("price")]
+        [DataMember(Name = "price")]
         public int Cost
         {
             get => Item?.price ?? -10;
             set => throw new ReadOnlyException();
         }
 
-        [JsonIgnore]
         [CanBeNull]
+        [IgnoreDataMember]
         public IShopDataBase Data
         {
             get
@@ -127,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 return data;
             }
-            set => ToolkitUtils.Data.ItemData[Item.defname] = data = (ItemData) value;
+            set => ToolkitUtils.Data.ItemData[Item!.defname] = data = (ItemData) value;
         }
 
         public void Update()
@@ -162,9 +163,9 @@ namespace SirRandoo.ToolkitUtils.Models
             var container = "ThingItem(\n";
 
             container += "  Item(\n";
-            container += $"    defName={Item.defname}\n";
-            container += $"    abr={Item.abr.ToStringSafe()}\n";
-            container += $"    price={Item.price.ToStringSafe()}\n";
+            container += $"    defName={Item?.defname}\n";
+            container += $"    abr={Item?.abr.ToStringSafe()}\n";
+            container += $"    price={Item?.price.ToStringSafe()}\n";
             container += "  ),\n";
 
             container += "  Thing(\n";

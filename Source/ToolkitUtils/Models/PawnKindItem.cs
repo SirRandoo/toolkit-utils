@@ -16,8 +16,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
@@ -26,19 +26,19 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class PawnKindItem : IShopItemBase
     {
-        [JsonIgnore] private PawnKindData data;
-        [JsonIgnore] private List<PawnKindDef> kinds;
+        [IgnoreDataMember] private PawnKindData data;
+        [IgnoreDataMember] private List<PawnKindDef> kinds;
 
-        [JsonIgnore]
         [NotNull]
+        [IgnoreDataMember]
         public IEnumerable<PawnKindDef> Kinds =>
             kinds ??= DefDatabase<PawnKindDef>.AllDefs.Where(k => k.race.defName.Equals(DefName)).ToList();
 
-        [JsonIgnore]
+        [IgnoreDataMember]
         public PawnKindDef ColonistKindDef =>
             Kinds.FirstOrDefault(k => k.defaultFactionType.isPlayer) ?? Kinds.FirstOrFallback();
 
-        [JsonProperty("data")]
+        [DataMember(Name = "data")]
         public PawnKindData PawnData
         {
             get => data ??= (PawnKindData) Data;
@@ -50,9 +50,9 @@ namespace SirRandoo.ToolkitUtils.Models
         public bool Enabled { get; set; }
         public string Name { get; set; }
 
-        [JsonProperty("price")] public int Cost { get; set; }
+        [DataMember(Name = "price")] public int Cost { get; set; }
 
-        [JsonIgnore] public IShopDataBase Data { get; set; }
+        [IgnoreDataMember] public IShopDataBase Data { get; set; }
 
 
         [NotNull]

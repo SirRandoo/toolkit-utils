@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -34,6 +34,8 @@ namespace SirRandoo.ToolkitUtils.Models
         public KarmaType? KarmaTypeForRemoving { get; set; }
 
         public string Mod { get; set; }
-        [JsonProperty("karmaTypeForAdding")] public KarmaType? KarmaType { get; set; }
+
+        [DataMember(Name = "karmaTypeForAdding")]
+        public KarmaType? KarmaType { get; set; }
     }
 }

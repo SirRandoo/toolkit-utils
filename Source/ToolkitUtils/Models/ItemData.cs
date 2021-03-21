@@ -16,8 +16,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using TwitchToolkit;
 using Verse;
 
@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int QuantityLimit = 1;
 
-        [JsonIgnore] private List<ResearchProjectDef> researchProjectDefs;
+        [IgnoreDataMember] private List<ResearchProjectDef> researchProjectDefs;
 
         public List<string> ResearchProjects;
 
