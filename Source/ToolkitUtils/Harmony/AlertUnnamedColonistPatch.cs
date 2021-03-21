@@ -20,7 +20,6 @@ using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using Verse;
@@ -61,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 // Questing
                .Where(pawn => !pawn.IsBorrowedByAnyFaction())
                 // RimWorld of Magic
-               .Where(pawn => !pawn.IsUndead())
+               .Where(pawn => !CompatRegistry.Magic?.IsUndead(pawn) ?? false)
                .ToList();
 
             if (container.Count > 0)

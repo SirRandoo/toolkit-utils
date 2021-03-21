@@ -19,7 +19,6 @@ using RimWorld;
 using RimWorld.Planet;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
-using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.PawnQueue;
 using UnityEngine;
@@ -38,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            if (pawn.IsCaravanMember())
+            if (pawn!.IsCaravanMember())
             {
                 twitchMessage.Reply("TKUtils.Leave.Caravan".Localize());
                 return;
@@ -46,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var component = Current.Game.GetComponent<GameComponentPawns>();
 
-            if (pawn.IsUndead())
+            if (CompatRegistry.Magic?.IsUndead(pawn) ?? false)
             {
                 twitchMessage.Reply("TKUtils.Leave.Undead".Localize());
                 component?.pawnHistory.Remove(twitchMessage.Username);
@@ -63,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             component.pawnHistory.Remove(twitchMessage.Username);
         }
 
-        private static void ForceLeave(ITwitchMessage twitchMessage, [NotNull] Pawn pawn)
+        private static void ForceLeave([NotNull] ITwitchMessage twitchMessage, [NotNull] Pawn pawn)
         {
             if (TkSettings.LeaveMethod.EqualsIgnoreCase("Thanos")
                 && FilthMaker.TryMakeFilth(

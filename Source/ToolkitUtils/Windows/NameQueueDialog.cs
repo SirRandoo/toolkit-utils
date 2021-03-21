@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using TwitchToolkit.Windows;
@@ -551,7 +550,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void NextUnnamedColonist()
         {
-            current = allPawns.Where(p => !p.IsUndead())
+            current = allPawns.Where(p => !CompatRegistry.Magic?.IsUndead(p) ?? false)
                .FirstOrDefault(p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current);
 
             if (current == null)
@@ -564,7 +563,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void PreviousUnnamedColonist()
         {
-            current = allPawns.Where(p => !p.IsUndead())
+            current = allPawns.Where(p => !CompatRegistry.Magic?.IsUndead(p) ?? false)
                .LastOrDefault(p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current);
 
             if (current == null)

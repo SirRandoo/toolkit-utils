@@ -39,5 +39,10 @@ namespace SirRandoo.ToolkitUtils.Compat
         }
 
         public virtual void ResetClass([NotNull] Pawn pawn) { }
+
+        public virtual bool IsUndead([NotNull] Pawn pawn)
+        {
+            return false;
+        }
     }
 }
