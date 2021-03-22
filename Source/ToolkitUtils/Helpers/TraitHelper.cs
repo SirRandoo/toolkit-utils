@@ -164,16 +164,16 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
-            foreach (KeyValuePair<SkillDef, int> skillGain in val.skillGains)
+            foreach ((SkillDef skillDef, int value) in val.skillGains)
             {
-                SkillRecord skill = pawn.skills.GetSkill(skillGain.Key);
+                SkillRecord skill = pawn.skills.GetSkill(skillDef);
 
                 if (skill.TotallyDisabled)
                 {
                     continue;
                 }
 
-                skill.Level -= skillGain.Value;
+                skill.Level -= value;
             }
 
             List<WorkTypeDef> disabledWorkTypes = trait.GetDisabledWorkTypes().ToList();
