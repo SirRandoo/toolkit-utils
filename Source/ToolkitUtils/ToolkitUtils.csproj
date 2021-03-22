@@ -133,6 +133,8 @@
         <Compile Include="Incidents\RescueMe.cs"/>
         <Compile Include="Incidents\ReviveAll.cs"/>
         <Compile Include="Incidents\ReviveMe.cs"/>
+        <Compile Include="Models\FileData.cs"/>
+        <Compile Include="Models\PartialData.cs"/>
         <Compile Include="Models\Mutators\AddPriceMutator.cs"/>
         <Compile Include="Models\Mutators\BypassLimitMutator.cs"/>
         <Compile Include="Models\Mutators\CanAddMutator.cs"/>
@@ -238,6 +240,7 @@
         <Compile Include="Utils\ShopExpansion.cs"/>
         <Compile Include="Utils\Unrichify.cs"/>
         <Compile Include="Windows\Editor.cs"/>
+        <Compile Include="Windows\PartialManager.cs"/>
         <Compile Include="Windows\NameQueueDialog.cs"/>
         <Compile Include="Windows\PurgeViewersDialog.cs"/>
         <Compile Include="Windows\PawnKindConfigDialog.cs"/>

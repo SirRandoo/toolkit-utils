@@ -145,12 +145,22 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         #if DEBUG
             butRect = butRect.ShiftLeft();
-            if (Widgets.ButtonImage(butRect, Textures.PasteSettings)){}
+            if (Widgets.ButtonImage(butRect, Textures.PasteSettings))
+            {
+                SavePartial();
+            }
 
             butRect = butRect.ShiftLeft();
-            if (Widgets.ButtonImage(butRect, Textures.CopySettings)) {}
+            if (Widgets.ButtonImage(butRect, Textures.CopySettings))
+            {
+                LoadPartial();
+            }
         #endif
         }
+
+        private void LoadPartial() { }
+
+        private void SavePartial() { }
 
         public override void PreClose()
         {

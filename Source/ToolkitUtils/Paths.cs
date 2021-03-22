@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.IO;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Utilities;
 
 namespace SirRandoo.ToolkitUtils
@@ -29,6 +31,8 @@ namespace SirRandoo.ToolkitUtils
         public static readonly string CommandListFilePath;
         public static readonly string LegacyShopDumpFilePath;
         public static readonly string ToolkitItemFilePath;
+        public static readonly string EditorPath;
+        public static readonly string PartialPath;
 
         static Paths()
         {
@@ -40,6 +44,27 @@ namespace SirRandoo.ToolkitUtils
             LegacyShopFilePath = Path.Combine(SaveHelper.dataPath, "ShopExt_1.xml");
             ModListFilePath = Path.Combine(SaveHelper.dataPath, "modlist.json");
             TraitFilePath = Path.Combine(SaveHelper.dataPath, "traits.json");
+
+            EditorPath = Path.Combine(SaveHelper.dataPath, "Editor");
+            PartialPath = Path.Combine(EditorPath, "Partials");
+
+            if (Directory.Exists(PartialPath))
+            {
+                return;
+            }
+
+            try
+            {
+                Directory.CreateDirectory(PartialPath);
+            }
+            catch (IOException e)
+            {
+                LogHelper.Error($"Could not create partial directory @ {PartialPath}", e);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                LogHelper.Error($"Could not create partial directory @ {PartialPath} -- Insufficient permissions", e);
+            }
         }
     }
 }
