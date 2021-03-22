@@ -282,6 +282,9 @@
         <Content Include="..\..\README.md">
             <Link>README.md</Link>
         </Content>
+        <Content Update="..\..\Common\Patches\ModComp\GenSeed.xml">
+            <Link>Common\Patches\ModComp\GenSeed.xml</Link>
+        </Content>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
