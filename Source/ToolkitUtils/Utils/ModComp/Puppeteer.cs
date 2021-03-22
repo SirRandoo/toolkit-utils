@@ -101,7 +101,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             object stateInstance = StateInstance.GetValue(State);
             object puppet = PuppeteerForViewerName.Invoke(stateInstance, new object[] {viewer});
 
-            return puppet != null && (!(IsConnected.GetValue(puppet) is bool state) || state);
+            return puppet != null && IsConnected.GetValue(puppet) is bool state && state;
         }
     }
 }
