@@ -44,14 +44,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
                    || trait.Equals(TraitDefOf.Asexual);
         }
 
-        public static bool CompareToInput([NotNull] TraitItem trait, string input)
+        public static bool CompareToInput([NotNull] TraitItem trait, [NotNull] string input)
         {
             return Unrichify.StripTags(trait.Name)
                .ToToolkit()
                .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
         }
 
-        public static bool CompareToInput(string traitName, string input)
+        public static bool CompareToInput([NotNull] string traitName, [NotNull] string input)
         {
             return Unrichify.StripTags(traitName)
                .ToToolkit()
@@ -198,11 +198,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static Backstory IsDisallowedByBackstory([NotNull] this Trait trait, [NotNull] Pawn pawn, int degree)
         {
             return trait.def.IsDisallowedByBackstory(pawn, degree);
-        }
-
-        public static TraitDef GetAnyClass(this Pawn pawn)
-        {
-            return MagicComp.GetAllClasses().FirstOrFallback(t => pawn.story.traits.GetTrait(t) != null);
         }
 
         public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree)
