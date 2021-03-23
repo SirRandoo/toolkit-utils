@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -21,6 +22,6 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class CommandData
     {
-        public bool IsShortcut;
+        [DataMember(Name = "isShortcut")] public bool IsShortcut;
     }
 }

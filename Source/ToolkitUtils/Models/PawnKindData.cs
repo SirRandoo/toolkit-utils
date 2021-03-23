@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using TwitchToolkit;
 
@@ -22,9 +23,8 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class PawnKindData : IShopDataBase
     {
-        public bool CustomName;
-
-        public string Mod { get; set; }
-        public KarmaType? KarmaType { get; set; }
+        [DataMember(Name = "customName")] public bool CustomName;
+        [DataMember(Name = "mod")] public string Mod { get; set; }
+        [DataMember(Name = "karmaType")] public KarmaType? KarmaType { get; set; }
     }
 }

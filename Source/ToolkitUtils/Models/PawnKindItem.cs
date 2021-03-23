@@ -45,11 +45,9 @@ namespace SirRandoo.ToolkitUtils.Models
             set => Data = data = value;
         }
 
-        public string DefName { get; set; }
-
-        public bool Enabled { get; set; }
-        public string Name { get; set; }
-
+        [DataMember(Name = "defName")] public string DefName { get; set; }
+        [DataMember(Name = "enabled")] public bool Enabled { get; set; }
+        [DataMember(Name = "name")] public string Name { get; set; }
         [DataMember(Name = "price")] public int Cost { get; set; }
 
         [IgnoreDataMember] public IShopDataBase Data { get; set; }

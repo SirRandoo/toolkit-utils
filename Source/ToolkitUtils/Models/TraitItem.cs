@@ -32,20 +32,21 @@ namespace SirRandoo.ToolkitUtils.Models
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class TraitItem : IShopItemBase
     {
-        public bool CanAdd;
-        public bool CanRemove;
+        [DataMember(Name = "canAdd")] public bool CanAdd;
+        [DataMember(Name = "canRemove")] public bool CanRemove;
         [IgnoreDataMember] private int cost;
         [DataMember(Name = "addPrice")] public int CostToAdd;
         [DataMember(Name = "removePrice")] public int CostToRemove;
         [IgnoreDataMember] private TraitData data;
         [IgnoreDataMember] private string defaultName;
 
-        public int Degree;
+        [DataMember(Name = "degree")] public int Degree;
         [IgnoreDataMember] private string finalDescription;
         [IgnoreDataMember] private TraitDef traitDef;
 
         // Legacy support
         [CanBeNull]
+        [DataMember(Name = "description")]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public string Description
         {
@@ -64,6 +65,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [NotNull]
+        [DataMember(Name = "stats")]
         public string[] Stats
         {
             get
@@ -78,6 +80,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [NotNull]
+        [DataMember(Name = "conflicts")]
         public string[] Conflicts
         {
             get
@@ -91,7 +94,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool BypassLimit => TraitData?.CanBypassLimit ?? false;
+        [DataMember(Name = "bypassLimit")] public bool BypassLimit => TraitData?.CanBypassLimit ?? false;
 
         [CanBeNull]
         [IgnoreDataMember]
@@ -106,15 +109,16 @@ namespace SirRandoo.ToolkitUtils.Models
             set => data = value;
         }
 
-        public string DefName { get; set; }
+        [DataMember(Name = "defName")] public string DefName { get; set; }
 
+        [IgnoreDataMember]
         public bool Enabled
         {
             get => CanAdd || CanRemove;
             set => throw new ReadOnlyException();
         }
 
-        public string Name { get; set; }
+        [DataMember(Name = "name")] public string Name { get; set; }
 
         [IgnoreDataMember]
         public int Cost

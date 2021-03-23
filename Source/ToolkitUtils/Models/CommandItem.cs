@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Linq;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using ToolkitCore.Models;
 using Verse;
@@ -25,13 +26,16 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class CommandItem
     {
-        [CanBeNull] public CommandData Data;
-        public string Description;
-        public string Name;
-        public string Usage;
-        public UserLevels UserLevel;
+        [CanBeNull]
+        [DataMember(Name = "data")]
+        public CommandData Data;
 
-        public bool Shortcut => Data?.IsShortcut ?? false;
+        [DataMember(Name = "description")] public string Description;
+        [DataMember(Name = "name")] public string Name;
+        [DataMember(Name = "usage")] public string Usage;
+        [DataMember(Name = "userLevel")] public UserLevels UserLevel;
+
+        [DataMember(Name = "shortcut")] public bool Shortcut => Data?.IsShortcut ?? false;
 
         [NotNull]
         public static CommandItem FromToolkit([NotNull] Command command)

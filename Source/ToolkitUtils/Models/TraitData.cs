@@ -25,15 +25,15 @@ namespace SirRandoo.ToolkitUtils.Models
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class TraitData : IShopDataBase
     {
-        public string[] Conflicts = { };
+        [DataMember(Name = "conflicts")] public string[] Conflicts = { };
+        [DataMember(Name = "stats")] public string[] Stats = { };
+        [DataMember(Name = "canBypassLimit")] public bool CanBypassLimit { get; set; }
+        [DataMember(Name = "customName")] public bool CustomName { get; set; }
 
-        public string[] Stats = { };
-        public bool CanBypassLimit { get; set; }
-        public bool CustomName { get; set; }
-
+        [DataMember(Name = "karmaTypeForRemoving")]
         public KarmaType? KarmaTypeForRemoving { get; set; }
 
-        public string Mod { get; set; }
+        [DataMember(Name = "mod")] public string Mod { get; set; }
 
         [DataMember(Name = "karmaTypeForAdding")]
         public KarmaType? KarmaType { get; set; }
