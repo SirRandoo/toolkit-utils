@@ -45,7 +45,7 @@
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
         <Reference Include="System.Xml"/>
-        <Reference Include="TorannMagic, Version=2.5.4.9, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="TorannMagic, Version=2.5.4.10, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\1201382956\Assemblies\TorannMagic.dll</HintPath>
             <Private>False</Private>
         </Reference>
