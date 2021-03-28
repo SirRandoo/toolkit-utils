@@ -20,23 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections.Generic;
-using SirRandoo.ToolkitUtils.Compat;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
-using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Models
 {
-    [StaticConstructorOnStartup]
-    public static class CompatRegistry
+    public class AndroidSurgeryHandler : ISurgeryHandler
     {
-        static CompatRegistry()
+        [NotNull] public string Id => "tkutils.androids";
+
+        public bool IsSurgery([NotNull] RecipeDef recipe)
         {
-            SurgeryHandlers = new List<ISurgeryHandler> {new DefaultSurgeryHandler(), new AndroidSurgeryHandler()};
+            return Androids.IsAndroidSurgery(recipe);
         }
 
-        public static MagicCompat Magic { get; set; }
-        public static List<ISurgeryHandler> SurgeryHandlers { get; }
+        public bool CanScheduleFor(RecipeDef recipe, Pawn pawn)
+        {
+            return Androids.IsSurgeryUsable(pawn, recipe);
+        }
     }
 }

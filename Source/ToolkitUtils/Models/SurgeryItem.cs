@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Utils.ModComp;
+using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -22,16 +22,11 @@ namespace SirRandoo.ToolkitUtils.Models
     public class SurgeryItem
     {
         public RecipeDef Surgery { get; set; }
-        public bool IsForAndroids { get; set; }
+        public ISurgeryHandler Handler { get; set; }
 
-        public bool IsAvailableOn(Pawn pawn)
+        public bool CanScheduleFor(Pawn pawn)
         {
-            if (IsForAndroids && Androids.IsAndroid(pawn))
-            {
-                return true;
-            }
-
-            return Surgery.AvailableOnNow(pawn);
+            return Handler.CanScheduleFor(Surgery, pawn);
         }
     }
 }

@@ -218,7 +218,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             private void LocateSurgery()
             {
                 Surgery = Data.Surgeries.Where(r => r.Surgery.IsIngredient(ThingDef))
-                   .Where(r => r.IsAvailableOn(Patient))
+                   .Where(r => r.CanScheduleFor(Patient))
                    .Where(
                         r => r.Surgery.Worker.GetPartsToApplyOn(Patient, r.Surgery)
                            .Any(p => BodyParts?.Any(b => b.def.defName.Equals(p.def.defName)) ?? true)

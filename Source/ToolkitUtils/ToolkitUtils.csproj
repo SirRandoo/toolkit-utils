@@ -134,6 +134,7 @@
         <Compile Include="Incidents\ReviveAll.cs"/>
         <Compile Include="Incidents\ReviveMe.cs"/>
         <Compile Include="Models\FileData.cs"/>
+        <Compile Include="Interfaces\ISurgeryHandler.cs"/>
         <Compile Include="Models\PartialData.cs"/>
         <Compile Include="Models\Mutators\AddPriceMutator.cs"/>
         <Compile Include="Models\Mutators\BypassLimitMutator.cs"/>
@@ -175,6 +176,8 @@
         <Compile Include="Models\ShopDataBase.cs"/>
         <Compile Include="Models\ScriptEngine.cs"/>
         <Compile Include="Models\ShopItemBase.cs"/>
+        <Compile Include="Models\SurgeryHandlers\AndroidSurgeryHandler.cs"/>
+        <Compile Include="Models\SurgeryHandlers\DefaultSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryItem.cs"/>
         <Compile Include="Incidents\ReviveRandom.cs"/>
         <Compile Include="Models\ItemEntry.cs"/>

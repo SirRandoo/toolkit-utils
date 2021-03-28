@@ -1,17 +1,17 @@
 ﻿// MIT License
-// 
+//
 // Copyright (c) 2021 SirRandoo
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,23 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections.Generic;
-using SirRandoo.ToolkitUtils.Compat;
-using SirRandoo.ToolkitUtils.Interfaces;
-using SirRandoo.ToolkitUtils.Models;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Interfaces
 {
-    [StaticConstructorOnStartup]
-    public static class CompatRegistry
+    public interface ISurgeryHandler
     {
-        static CompatRegistry()
-        {
-            SurgeryHandlers = new List<ISurgeryHandler> {new DefaultSurgeryHandler(), new AndroidSurgeryHandler()};
-        }
-
-        public static MagicCompat Magic { get; set; }
-        public static List<ISurgeryHandler> SurgeryHandlers { get; }
+        string Id { get; }
+        bool IsSurgery(RecipeDef recipe);
+        bool CanScheduleFor(RecipeDef recipe, Pawn pawn);
     }
 }

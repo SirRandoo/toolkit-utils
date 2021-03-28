@@ -23,9 +23,9 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
-using SirRandoo.ToolkitUtils.Utils.ModComp;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Models;
 using TwitchToolkit;
@@ -469,14 +469,14 @@ namespace SirRandoo.ToolkitUtils
             Surgeries = new List<SurgeryItem>();
             foreach (RecipeDef recipe in DefDatabase<RecipeDef>.AllDefs)
             {
-                if (Androids.Active && Androids.IsAndroidSurgery(recipe))
+                ISurgeryHandler handler = CompatRegistry.SurgeryHandlers.FirstOrDefault(i => i.IsSurgery(recipe));
+
+                if (handler == null)
                 {
-                    Surgeries.Add(new SurgeryItem {IsForAndroids = true, Surgery = recipe});
+                    continue;
                 }
-                else if (recipe.IsSurgery)
-                {
-                    Surgeries.Add(new SurgeryItem {IsForAndroids = false, Surgery = recipe});
-                }
+
+                Surgeries.Add(new SurgeryItem {Surgery = recipe, Handler = handler});
             }
         }
 
