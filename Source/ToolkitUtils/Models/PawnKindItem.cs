@@ -62,6 +62,14 @@ namespace SirRandoo.ToolkitUtils.Models
             };
         }
 
+        public void UpdateStats()
+        {
+            PawnData.Stats = ColonistKindDef.race.statBases.Select(
+                    def => $"{def.ValueToStringAsOffset} {def.stat.label?.CapitalizeFirst() ?? def.stat.defName}"
+                )
+               .ToArray();
+        }
+
         public string GetDefaultName()
         {
             return ColonistKindDef?.race.label.ToToolkit() ?? DefName;

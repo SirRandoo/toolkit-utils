@@ -24,6 +24,7 @@ namespace SirRandoo.ToolkitUtils.Models
     public class PawnKindData : IShopDataBase
     {
         [DataMember(Name = "customName")] public bool CustomName;
+        [DataMember(Name = "stats")] public string[] Stats { get; set; } = { };
         [DataMember(Name = "mod")] public string Mod { get; set; }
         [DataMember(Name = "karmaType")] public KarmaType? KarmaType { get; set; }
     }

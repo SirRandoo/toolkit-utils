@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
@@ -196,6 +197,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             Rect checkboxRect = SettingsHelper.RectForIcon(
                 new Rect(stateHeaderRect.x + 2f, canvas.y + 2f, stateHeaderRect.width - 4f, RowLineHeight - 4f)
             );
+            var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
             Rect settingRect = SettingsHelper.RectForIcon(
@@ -214,6 +216,26 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             DrawConfigurableItemName(nameRect, item);
+
+            if (!item.EditingName)
+            {
+                Widgets.DrawHighlightIfMouseover(nameMouseOverRect);
+
+                var builder = new StringBuilder();
+
+                if (!item.Data.ColonistKindDef?.race?.description?.NullOrEmpty() ?? false)
+                {
+                    builder.AppendLine(item.Data.ColonistKindDef.race.description);
+                    builder.AppendLine();
+                }
+
+                foreach (string i in item.Data.PawnData.Stats)
+                {
+                    builder.AppendLine(i);
+                }
+
+                TooltipHandler.TipRegion(nameMouseOverRect, builder.ToString());
+            }
 
             if (item.Data.Enabled)
             {

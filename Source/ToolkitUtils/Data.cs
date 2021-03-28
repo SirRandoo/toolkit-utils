@@ -403,6 +403,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 pawn.PawnData ??= new PawnKindData();
                 pawn.PawnData.Mod = pawn.ColonistKindDef?.modContentPack.Name?.Replace("Core", "RimWorld");
+                pawn.UpdateStats();
             }
         }
 
