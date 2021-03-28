@@ -223,9 +223,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 var builder = new StringBuilder();
 
-                if (!item.Data.ColonistKindDef?.race?.description?.NullOrEmpty() ?? false)
+                if (!item.Data.Description.NullOrEmpty())
                 {
-                    builder.AppendLine(item.Data.ColonistKindDef.race.description);
+                    builder.AppendLine(item.Data.Description);
                     builder.AppendLine();
                 }
 

@@ -28,6 +28,7 @@ namespace SirRandoo.ToolkitUtils.Models
     public class PawnKindItem : IShopItemBase
     {
         [IgnoreDataMember] private PawnKindData data;
+        [IgnoreDataMember] private string description;
         [IgnoreDataMember] private List<PawnKindDef> kinds;
 
         [NotNull]
@@ -44,6 +45,13 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get => data ??= (PawnKindData) Data;
             set => Data = data = value;
+        }
+
+        [CanBeNull]
+        [DataMember(Name = "description")]
+        public string Description
+        {
+            get { return description ??= ColonistKindDef?.race?.description; }
         }
 
         [DataMember(Name = "defName")] public string DefName { get; set; }
