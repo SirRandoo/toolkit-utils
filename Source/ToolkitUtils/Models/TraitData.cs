@@ -17,6 +17,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models

@@ -20,6 +20,7 @@ using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models

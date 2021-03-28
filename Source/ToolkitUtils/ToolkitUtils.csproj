@@ -133,6 +133,10 @@
         <Compile Include="Incidents\RescueMe.cs"/>
         <Compile Include="Incidents\ReviveAll.cs"/>
         <Compile Include="Incidents\ReviveMe.cs"/>
+        <Compile Include="Interfaces\IMutatorBase.cs"/>
+        <Compile Include="Interfaces\ISelectorBase.cs"/>
+        <Compile Include="Interfaces\IShopDataBase.cs"/>
+        <Compile Include="Interfaces\IShopItemBase.cs"/>
         <Compile Include="Models\FileData.cs"/>
         <Compile Include="Interfaces\ISurgeryHandler.cs"/>
         <Compile Include="Models\PartialData.cs"/>
@@ -143,7 +147,6 @@
         <Compile Include="Models\Mutators\HasQuantityLimitMutator.cs"/>
         <Compile Include="Models\Mutators\ItemPriceMutator.cs"/>
         <Compile Include="Models\Mutators\ItemStateMutator.cs"/>
-        <Compile Include="Models\Mutators\MutatorBase.cs"/>
         <Compile Include="Models\Mutators\ItemNameMutator.cs"/>
         <Compile Include="Models\Mutators\PawnNameMutator.cs"/>
         <Compile Include="Models\Mutators\PriceMutator.cs"/>
@@ -165,7 +168,6 @@
         <Compile Include="Models\Selectors\NameSelector.cs"/>
         <Compile Include="Models\Selectors\QuantityLimitSelector.cs"/>
         <Compile Include="Models\Selectors\RangedWeaponSelector.cs"/>
-        <Compile Include="Models\Selectors\SelectorBase.cs"/>
         <Compile Include="Models\Selectors\StackabilitySelector.cs"/>
         <Compile Include="Models\Selectors\StateSelector.cs"/>
         <Compile Include="Models\Selectors\AddPriceSelector.cs"/>
@@ -173,9 +175,7 @@
         <Compile Include="Models\Selectors\StuffSelector.cs"/>
         <Compile Include="Models\Selectors\WeaponSelector.cs"/>
         <Compile Include="Models\Selectors\WeightSelector.cs"/>
-        <Compile Include="Models\ShopDataBase.cs"/>
         <Compile Include="Models\ScriptEngine.cs"/>
-        <Compile Include="Models\ShopItemBase.cs"/>
         <Compile Include="Models\SurgeryHandlers\AndroidSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryHandlers\DefaultSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryItem.cs"/>

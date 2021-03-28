@@ -22,6 +22,7 @@
 
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using SirRandoo.ToolkitUtils.Interfaces;
 
 namespace SirRandoo.ToolkitUtils.Models
 {

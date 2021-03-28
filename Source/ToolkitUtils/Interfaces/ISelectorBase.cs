@@ -14,13 +14,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using TwitchToolkit;
+using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
+using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Interfaces
 {
-    public interface IShopDataBase
+    public interface ISelectorBase<T> where T : class, IShopItemBase
     {
-        string Mod { get; set; }
-        KarmaType? KarmaType { get; set; }
+        ObservableProperty<bool> Dirty { get; set; }
+        void Prepare();
+        void Draw(Rect canvas);
+        bool IsVisible(TableSettingsItem<T> item);
     }
 }

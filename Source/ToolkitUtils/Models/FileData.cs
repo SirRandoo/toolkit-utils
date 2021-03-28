@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models

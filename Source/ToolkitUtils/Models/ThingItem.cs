@@ -18,6 +18,7 @@ using System.Data;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Store;
 using Verse;
 
