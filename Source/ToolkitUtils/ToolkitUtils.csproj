@@ -133,6 +133,7 @@
         <Compile Include="Incidents\RescueMe.cs"/>
         <Compile Include="Incidents\ReviveAll.cs"/>
         <Compile Include="Incidents\ReviveMe.cs"/>
+        <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>
         <Compile Include="Interfaces\ISelectorBase.cs"/>
         <Compile Include="Interfaces\IShopDataBase.cs"/>

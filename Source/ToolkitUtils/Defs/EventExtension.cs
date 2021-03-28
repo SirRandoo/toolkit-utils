@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Verse;
@@ -101,5 +102,9 @@ namespace SirRandoo.ToolkitUtils
         [Description("The parameters this event can take.")]
         [DefaultValue(null)]
         public List<Parameter> Parameters;
+
+        [Description("A class used to embed event settings in the Editor.")]
+        [DefaultValue(null)]
+        public Type SettingsEmbed;
     }
 }

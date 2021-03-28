@@ -15,16 +15,36 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.IncidentSettings.Windows;
+using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Incidents;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentSettings
 {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
-    public class Backpack : IncidentHelperVariablesSettings
+    public class Backpack : IncidentHelperVariablesSettings, IEventSettings
     {
         public static bool AutoEquip = true;
+
+        public int LineSpan => 1;
+
+        public void Draw(Rect canvas)
+        {
+            var listing = new Listing_Standard();
+
+            listing.Begin(canvas);
+
+            listing.CheckboxLabeled(
+                "TKUtils.Backpack.AutoEquip.Label".Localize(),
+                ref AutoEquip,
+                "TKUtils.Backpack.AutoEquip.Description".Localize()
+            );
+
+            listing.End();
+        }
 
         public override void ExposeData()
         {
