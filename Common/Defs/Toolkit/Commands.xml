@@ -10,58 +10,37 @@
         <defName>ReviveAllShortcut</defName>
         <label>revive all</label>
         <command>reviveall</command>
-    
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A colony wide resurrector mech serum.</Description>
-            </li>
-        </modExtensions>
+        <description>A colony wide resurrector mech serum.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveMeShortcut</defName>
         <label>revive me</label>
         <command>reviveme</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A personal resurrector mech serum.</Description>
-            </li>
-        </modExtensions>
+        <description>A personal resurrector mech serum.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealMeShortcut</defName>
         <label>heal me</label>
         <command>healme</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A personal healer mech serum/</Description>
-            </li>
-        </modExtensions>
+        <description>A personal healer mech serum.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealAllShortcut</defName>
         <label>healall</label>
         <command>healall</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A colony wide healer mech serum.</Description>
-            </li>
-        </modExtensions>
+        <description>A colony wide healer mech serum.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>PassionShuffleShortcut</defName>
         <label>passion shuffle</label>
         <command>passionshuffle</command>
-        
+        <description>Shuffles your passions. If a skill is specified, you'll be guaranteed a minor passion in it.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shuffles your passions. If a skill is specified, you'll be guaranteed a minor passion in it.</Description>
                 <Parameters>
                     <li>
                         <Name>Skill</Name>
@@ -76,10 +55,9 @@
         <defName>SurgeryShortcut</defName>
         <label>surgery</label>
         <command>surgery</command>
-        
+        <description>Purchases the part specified and queues it for surgery on your pawn.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Purchases the part specified and queues it for surgery on your pawn.</Description>
                 <Parameters>
                     <li>
                         <Name>Item</Name>
@@ -99,59 +77,37 @@
         <defName>TraitShortcut</defName>
         <label>add trait</label>
         <command>trait</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Adds a trait for your pawn.</Description>
-            </li>
-        </modExtensions>
+        <description>Adds a trait for your pawn.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>RemoveTraitShortcut</defName>
         <label>remove trait</label>
         <command>removetrait</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Removes a trait from our pawn.</Description>
-            </li>
-        </modExtensions>
+        <description>Removes a trait from your pawn.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveAnyPawnShortcut</defName>
         <label>revive any pawn</label>
         <command>reviveanypawn</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A resurrector mech serum for a random dead colonist.</Description>
-            </li>
-        </modExtensions>
+        <description>A resurrector mech serum for a random deceased colonist.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealAnyPawnShortcut</defName>
         <label>heal any pawn</label>
         <command>healanypawn</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>A healer mech serum for a random colonist.</Description>
-            </li>
-        </modExtensions>
+        <description>A healer mech serum for a random colonist.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReplaceTraitShortcut</defName>
         <label>replace trait</label>
         <command>replacetrait</command>
-        
+        <description>Replaces a trait with a different trait.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Replaces a trait with a different trait.</Description>
-    
                 <Parameters>
                     <li>
                         <Name>Old</Name>
@@ -168,11 +124,9 @@
         <defName>BackpackShortcut</defName>
         <label>backpack</label>
         <command>backpack</command>
-        
+        <description>It's like buy item, but it gets added to your inventory if possible.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>It's like buy item, but it gets added to your inventory if possible.</Description>
-    
                 <Parameters>
                     <li>
                         <Name>Item</Name>
@@ -190,10 +144,9 @@
         <defName>RemovePassionShortcut</defName>
         <label>remove passion</label>
         <command>removepassion</command>
-        
+        <description>Downgrades a skill's passion... sometimes.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Downgrades a skill's passion... sometimes.</Description>
                 <Parameters>
                     <li>
                         <Name>Skill</Name>
@@ -207,10 +160,9 @@
         <defName>AddPassionShortcut</defName>
         <label>add passion</label>
         <command>passion</command>
-        
+        <description>Upgrades a skill's passion... sometimes.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Upgrades a skill's passion... sometimes.</Description>
                 <Parameters>
                     <li>
                         <Name>Skill</Name>
@@ -224,24 +176,14 @@
         <defName>FullHealShortcut</defName>
         <label>full heal</label>
         <command>fullheal</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Heals all healable injuries your pawn currently has.</Description>
-            </li>
-        </modExtensions>
+        <description>Heals all healable injuries your pawn currently has.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
         <defName>RescueMeShortcut</defName>
         <label>rescue me</label>
         <command>rescueme</command>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Creates a prisoner rescue quest for your most recent pawn.</Description>
-            </li>
-        </modExtensions>
+        <description>Creates a prisoner rescue quest for your most recently kidnapped pawn.</description>
     </TwitchToolkit.Command>
     
     <!-- Pawn Commands -->
@@ -250,12 +192,7 @@
         <label>viewer kill count</label>
         <command>mypawnkills</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnKills</commandDriver>
-    
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows your current kill count.</Description>
-            </li>
-        </modExtensions>
+        <description>Shows your current kill count.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -263,10 +200,9 @@
         <label>viewer stats</label>
         <command>mypawnstats</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStats</commandDriver>
-        
+        <description>Shows your current stats within a given category.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows your current stats within a given category.</Description>
                 <Parameters>
                     <li>
                         <Name>Stat1</Name>
@@ -286,10 +222,9 @@
         <label>viewer health</label>
         <command>mypawnhealth</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnHealth</commandDriver>
-        
+        <description>Shows an overview of your pawn's health. If a capacity is specified, it'll show what's affecting it.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows an overview of your pawn's health. If a capacity is specified, it'll show what's affecting it.</Description>
                 <Parameters>
                     <li>
                         <Name>Capacity</Name>
@@ -305,12 +240,7 @@
         <label>viewer needs</label>
         <command>mypawnneeds</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnNeeds</commandDriver>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows an overview of your pawn's needs.</Description>
-            </li>
-        </modExtensions>
+        <description>Shows an overview of your pawn's needs.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -318,12 +248,7 @@
         <label>viewer gear</label>
         <command>mypawngear</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnGear</commandDriver>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows an overview of your pawn's gear.</Description>
-            </li>
-        </modExtensions>
+        <description>Shows an overview of your pawn's gear.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -331,12 +256,7 @@
         <label>viewer body</label>
         <command>mypawnbody</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnBody</commandDriver>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows an overview of your pawn's body.</Description>
-            </li>
-        </modExtensions>
+        <description>Shows an overview of your pawn's body.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -344,10 +264,9 @@
         <label>viewer work</label>
         <command>mypawnwork</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnWork</commandDriver>
-        
+        <description>Shows your pawn's work priorities.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows your pawn's work priorities.</Description>
                 <Parameters>
                     <li>
                         <Name>WorkType=Priority</Name>
@@ -367,12 +286,7 @@
         <label>viewer story</label>
         <command>mypawnstory</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStory</commandDriver>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows your pawn's bio.</Description>
-            </li>
-        </modExtensions>
+        <description>Shows your pawn's bio.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -380,12 +294,7 @@
         <label>viewer skills</label>
         <command>mypawnskills</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnSkills</commandDriver>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows your pawn's current skills and their passions.</Description>
-            </li>
-        </modExtensions>
+        <description>Shows your pawn's current skills and their passions.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -393,12 +302,7 @@
         <label>fix viewer pawn</label>
         <command>fixmypawn</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFix</commandDriver>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Attempts to relink your pawn to you. (Doesn't work for Puppeteer)</Description>
-            </li>
-        </modExtensions>
+        <description>Attempts to relink your pawn to your. (Doesn't work for Puppeteer)</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -407,12 +311,7 @@
         <command>fixallpawns</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFixAll</commandDriver>
         <requiresMod>true</requiresMod>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Attempts to relink all pawns to their respective viewers. (Doesn't work for Puppeteer)</Description>
-            </li>
-        </modExtensions>
+        <description>Attempts to relink all pawns to their respective viewers. (Doesn't work for Puppeteer)</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -420,12 +319,7 @@
         <label>abandon pawn</label>
         <command>leave</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnLeave</commandDriver>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Makes your pawn leave the colony.</Description>
-            </li>
-        </modExtensions>
+        <description>Makes your pawn leave the colony.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -433,10 +327,9 @@
         <label>viewer relations</label>
         <command>mypawnrelations</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnRelations</commandDriver>
-        
+        <description>Shows your pawn's relationships to other viewers.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows your pawn's relationships to other viewers.</Description>
                 <Parameters>
                     <li>
                         <Name>Viewer</Name>
@@ -453,12 +346,7 @@
         <label>factions</label>
         <command>factions</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Factions</commandDriver>
-    
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows an overview of the colony's current faction relations.</Description>
-            </li>
-        </modExtensions>
+        <description>Shows an overview of the colony's current faction relations.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -466,10 +354,9 @@
         <label>research</label>
         <command>research</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Research</commandDriver>
-        
+        <description>Shows the current research progress. If a project is specified, it'll show the progress of that instead.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows the current research progress. If a project is specified, it'll show the progress of that instead.</Description>
                 <Parameters>
                     <li>
                         <Names>
@@ -489,10 +376,9 @@
         <label>lookup</label>
         <command>lookup</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Lookup</commandDriver>
-    
+        <description>Shows the first few results for the query in the given category. Valid categories are: 'pawns', 'traits', 'items', 'events', 'diseases', 'animals', and 'skills'.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows the first few results for the query in the given category. Valid categories are: 'races', 'traits', 'items', 'events', 'diseases', 'animals', and 'skills'.</Description>
                 <Parameters>
                     <li>
                         <Names>
@@ -514,10 +400,9 @@
         <label>price check</label>
         <command>price</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PriceCheck</commandDriver>
-        
+        <description>Similar to the lookup command, except it'll show the price for the first valid match.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Similar to the lookup command, except it'll show the price for the first valid match.</Description>
                 <Parameters>
                     <li>
                         <Names>
@@ -540,12 +425,7 @@
         <command>unstick</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Unstick</commandDriver>
         <requiresMod>true</requiresMod>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Removes viewers that were stuck in the "game paused" limbo.</Description>
-            </li>
-        </modExtensions>
+        <description>Removes viewers that were stuck in the "game paused" limbo.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -554,12 +434,7 @@
         <command>togglestore</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.ShopToggle</commandDriver>
         <requiresMod>true</requiresMod>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Toggles whether or not viewers can actively purchase things from the store.</Description>
-            </li>
-        </modExtensions>
+        <description>Toggles whether or not viewers can actively purchase things from the store.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -567,10 +442,9 @@
         <label>insult</label>
         <command>insult</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnInsult</commandDriver>
-        
+        <description>Makes your pawn insult a random viewer. If a viewer is specified, you'll insult them instead.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Makes your pawn insult a random viewer. If a viewer is specified, you'll insult them instead.</Description>
                 <Parameters>
                     <li>
                         <Name>Target</Name>
@@ -586,12 +460,7 @@
         <label>colony wealth</label>
         <command>wealth</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Wealth</commandDriver>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows the colony's current wealth. This command uses the same value the storyteller will use.</Description>
-            </li>
-        </modExtensions>
+        <description>Shows the colony's current wealth. This command uses the same value the storyteller will use.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -599,12 +468,7 @@
         <label>colonist count</label>
         <command>colonists</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.ColonistCount</commandDriver>
-        
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Shows the current number of colonists remaining in the colony.</Description>
-            </li>
-        </modExtensions>
+        <description>Shows the current number of colonists remaining in the colony.</description>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -612,11 +476,9 @@
         <label>database</label>
         <command>rwdata</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Database</commandDriver>
-        
+        <description>Provides some information about supported things. Supported categories are: 'weapons'</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>Provides some information about supported things. Supported categories are: weapons</Description>
-    
                 <Parameters>
                     <li>
                         <Names>
@@ -640,11 +502,6 @@
         <label>unstick me</label>
         <command>unstickme</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickMe</commandDriver>
-    
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <Description>It's like unstick, but safe for viewers to use.</Description>
-            </li>
-        </modExtensions>
+        <description>It's like unstick, but safer for viewers to use.</description>
     </TwitchToolkit.Command>
 </Defs>

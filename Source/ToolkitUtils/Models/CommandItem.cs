@@ -84,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return;
             }
 
-            Description = extension.Description;
+            Description = command.description;
             UserLevel = extension.UserLevel;
 
             if (extension.Parameters.NullOrEmpty())

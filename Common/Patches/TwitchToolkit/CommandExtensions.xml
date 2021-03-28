@@ -8,7 +8,6 @@
                 <xpath>Defs/TwitchToolkit.Command[defName="RefreshViewers"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Updates the current list of active viewers.</Description>
                         <UserLevel>Moderator</UserLevel>
                     </li>
                 </value>
@@ -17,7 +16,6 @@
                 <xpath>Defs/TwitchToolkit.Command[defName="KarmaRound"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Awards all active viewers coins.</Description>
                         <UserLevel>Moderator</UserLevel>
                     </li>
                 </value>
@@ -26,7 +24,6 @@
                 <xpath>Defs/TwitchToolkit.Command[defName="GiveAllCoins"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Gives everyone coins.</Description>
                         <UserLevel>Moderator</UserLevel>
                         <Parameters>
                             <li>
@@ -40,7 +37,6 @@
                 <xpath>Defs/TwitchToolkit.Command[defName="GiveCoins"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Gives a viewer coins.</Description>
                         <UserLevel>Moderator</UserLevel>
                         <Parameters>
                             <li>
@@ -57,7 +53,6 @@
                 <xpath>Defs/TwitchToolkit.Command[defName="CheckUser"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Shows the balance of a given user.</Description>
                         <UserLevel>Moderator</UserLevel>
                         <Parameters>
                             <li>
@@ -71,7 +66,6 @@
                 <xpath>Defs/TwitchToolkit.Command[defName="SetKarma"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Sets the current karma for a given user.</Description>
                         <UserLevel>Moderator</UserLevel>
                         <Parameters>
                             <li>
@@ -88,32 +82,7 @@
                 <xpath>Defs/TwitchToolkit.Command[defName="ToggleCoins"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Toggles coin generation.</Description>
                         <UserLevel>Moderator</UserLevel>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="CheckBalance"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Shows your current balance, karma, and, optionally, the amount of coins earned per cycle.</Description>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="WhatIsKarma"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Gives an overview of what karma is in relation to Twitch Toolkit.</Description>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="PurchaseList"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Directs you here!</Description>
                     </li>
                 </value>
             </li>
@@ -121,7 +90,6 @@
                 <xpath>Defs/TwitchToolkit.Command[defName="GiftCoins"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Gives a viewer some of your coins.</Description>
                         <Parameters>
                             <li>
                                 <Name>Viewer</Name>
@@ -134,34 +102,9 @@
                 </value>
             </li>
             <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="JoinQueue"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Adds you to the name queue.</Description>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="ModInfo"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Shows you information about Twitch Toolkit.</Description>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="Buy"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Lets you buy things from the store.</Description>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
                 <xpath>Defs/TwitchToolkit.Command[defName="LevelSkillShortcut"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Lets you wager coins to level up a skill of your choosing.</Description>
                         <Parameters>
                             <li>
                                 <Name>Skill</Name>
@@ -170,38 +113,6 @@
                                 <Name>Coins</Name>
                             </li>
                         </Parameters>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="ModSettings"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Shows you important settings for Twitch Toolkit, like the karma cap.</Description>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="Instructions"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Gives you a brief set of instructions on how to use Twitch Toolkit.</Description>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="AvailableCommands"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Shows you the current list of commands, which may or may not be this list.</Description>
-                    </li>
-                </value>
-            </li>
-            <li Class="PatchOperationAddModExtension">
-                <xpath>Defs/TwitchToolkit.Command[defName="InstalledMods"]</xpath>
-                <value>
-                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                        <Description>Shows you the complete list of installed mods.</Description>
                     </li>
                 </value>
             </li>

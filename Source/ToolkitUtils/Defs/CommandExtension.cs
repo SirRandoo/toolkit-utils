@@ -48,9 +48,6 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
     public class CommandExtension : DefModExtension
     {
-        [Description("A brief overview of what the command does.")]
-        public string Description;
-
         [Description("The arguments this command can handle.")]
         public List<Parameter> Parameters;
 

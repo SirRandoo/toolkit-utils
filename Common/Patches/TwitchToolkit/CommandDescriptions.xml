@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+    <Operation Class="PatchOperationSequence">
+        <success>Always</success>
+        <operations>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="RefreshViewers"]</xpath>
+                <value>
+                    <description>Updates the current list of active viewers.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="KarmaRound"]</xpath>
+                <value>
+                    <description>Awards all active viewers coins.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="GiveAllCoins"]</xpath>
+                <value>
+                    <description>Gives eveyrone coins.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="GiveCoins"]</xpath>
+                <value>
+                    <description>Gives a viewer coins.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="CheckUser"]</xpath>
+                <value>
+                    <description>Shows the balance of a given user.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="SetKarma"]</xpath>
+                <value>
+                    <description>Sets the current karma for a given user.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="ToggleCoins"]</xpath>
+                <value>
+                    <description>Toggles coin generation.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="CheckBalance"]</xpath>
+                <value>
+                    <description>Shows your current balance, karma, and optionally, the amount of coins earned per cycle.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="WhatIsKarma"]</xpath>
+                <value>
+                    <description>Gives an overview of what karma is in relation to Twitch Toolkit.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="PurchaseList"]</xpath>
+                <value>
+                    <description>Directs you here!</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="GiftCoins"]</xpath>
+                <value>
+                    <description>Gives a viewer some of your coins.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="JoinQueue"]</xpath>
+                <value>
+                    <description>Adds you to the name queue.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="ModInfo"]</xpath>
+                <value>
+                    <description>Shows you information about Twitch Toolkit.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="Buy"]</xpath>
+                <value>
+                    <description>Lets your buy things from the store.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="LevelSkillShortcut"]</xpath>
+                <value>
+                    <description>Lets you wager coins to level up a skill of your choosing.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="ModSettings"]</xpath>
+                <value>
+                    <description>Shows your important settings for Twitch Toolkit, like the karma cap.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="Instructions"]</xpath>
+                <value>
+                    <description>Gives you a brief set of instructions on how to use Twitch Toolkit.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="AvailableCommands"]</xpath>
+                <value>
+                    <description>Shwos you the current list of commands, which may or may not be this list.</description>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="InstalledMods"]</xpath>
+                <value>
+                    <description>Shows you the complete list of installed mods.</description>
+                </value>
+            </li>
+        </operations>
+    </Operation>
+</Patch>
