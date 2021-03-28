@@ -180,9 +180,7 @@
         <Compile Include="Models\SurgeryHandlers\DefaultSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryItem.cs"/>
         <Compile Include="Incidents\ReviveRandom.cs"/>
-        <Compile Include="Models\ItemEntry.cs"/>
         <Compile Include="Models\KidnapReport.cs"/>
-        <Compile Include="Models\PawnKindEntry.cs"/>
         <Compile Include="Models\Scripting\Definitions.cs"/>
         <Compile Include="Models\Scripting\Token.cs"/>
         <Compile Include="Models\TabItem.cs"/>
@@ -191,11 +189,6 @@
         <Compile Include="Models\ThingItemFilter.cs"/>
         <Compile Include="Models\ThingItemFilterCategory.cs"/>
         <Compile Include="Models\ThingItemFilterManager.cs"/>
-        <Compile Include="Models\TraitEntry.cs"/>
-        <Compile Include="Proxies\PawnKindItemProxy.cs"/>
-        <Compile Include="Proxies\StoreIncidentProxy.cs"/>
-        <Compile Include="Proxies\ThingItemProxy.cs"/>
-        <Compile Include="Proxies\TraitItemProxy.cs"/>
         <Compile Include="RuntimeChecker.cs"/>
         <Compile Include="Models\CommandData.cs"/>
         <Compile Include="Models\CommandItem.cs"/>

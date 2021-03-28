@@ -24,15 +24,12 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
-    public enum FieldTypes { Script, Calculation, Setter }
-
     public class Editor : Window
     {
         private readonly ItemWorker itemWorker;
         private readonly PawnWorker pawnWorker;
         private readonly TraitWorker traitWorker;
         private bool dirty = true;
-        private ScriptEngine engine;
 
         private bool maximized;
         private TabWorker tabWorker;
@@ -61,8 +58,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PreOpen();
 
             tabWorker = TabWorker.CreateInstance();
-            // ReSharper disable once StringLiteralTypo
-            engine = ScriptEngine.CreateInstance("tkutils.editor");
             InitializeTabs();
             itemWorker.Prepare();
             traitWorker.Prepare();
