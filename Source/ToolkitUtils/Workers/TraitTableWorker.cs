@@ -273,7 +273,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 foreach (string i in trait.Data.Stats)
                 {
-                    builder.AppendLine($"- {i}");
+                    builder.AppendLine(i);
                 }
 
                 TooltipHandler.TipRegion(nameMouseOverRect, builder.ToString());
