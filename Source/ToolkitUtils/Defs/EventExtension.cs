@@ -94,10 +94,6 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
     public class EventExtension : DefModExtension
     {
-        [Description("A brief explanation of what the event does.")]
-        [DefaultValue(null)]
-        public string Description;
-
         [Description("The product category this event's final price will be.")]
         [DefaultValue(EventTypes.None)]
         public EventTypes EventType;

@@ -5,6 +5,7 @@
         <defName>ReviveAll</defName>
         <label>revive all</label>
         <abbreviation>reviveall</abbreviation>
+        <description>Revives all deceased colonists in the colony.</description>
         <cost>22664</cost>
         <eventCap>2</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReviveAll</incidentHelper>
@@ -14,6 +15,7 @@
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>ReviveMe</defName>
         <label>reviveme</label>
+        <description>Revives the purchaser's pawn, assuming they have one.</description>
         <abbreviation>reviveme</abbreviation>
         <cost>2833</cost>
         <eventCap>2</eventCap>
@@ -24,6 +26,7 @@
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealAll</defName>
         <label>heal all</label>
+        <description>Heals one affliction on all colonists.</description>
         <abbreviation>healall</abbreviation>
         <cost>17336</cost>
         <eventCap>2</eventCap>
@@ -36,6 +39,7 @@
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealRandomPawn</defName>
         <label>heal random pawn</label>
+        <description>Heals one affliction on a random pawn in the colony.</description>
         <abbreviation>healanypawn</abbreviation>
         <cost>2000</cost>
         <eventCap>2</eventCap>
@@ -48,6 +52,7 @@
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealMe</defName>
         <label>healme</label>
+        <description>Heals one affliction on the purchaser's pawn, assuming they have one.</description>
         <abbreviation>healme</abbreviation>
         <cost>2167</cost>
         <eventCap>2</eventCap>
@@ -60,6 +65,7 @@
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>BuySurgery</defName>
         <label>surgery</label>
+        <description>Buys and queues a surgery on the purchaser's pawn, assuming they have one.</description>
         <abbreviation>surgery</abbreviation>
         <cost>500</cost>
         <eventCap>5</eventCap>
@@ -89,6 +95,7 @@
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>PassionShuffle</defName>
         <label>passion shuffle</label>
+        <description>Shuffles the purchaser's pawn's passions, assuming they have one. If the Interests mod is active, this command also shuffles their interests.</description>
         <abbreviation>passionshuffle</abbreviation>
         <cost>2000</cost>
         <eventCap>4</eventCap>
@@ -110,6 +117,7 @@
         <defName>ReplaceTrait</defName>
         <label>replace trait</label>
         <abbreviation>replacetrait</abbreviation>
+        <description>Replaces a trait on the purchaser's pawn, assuming they have one, with the specified trait.</description>
         <cost>1</cost>
         <eventCap>6</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReplaceTrait</incidentHelper>
@@ -134,15 +142,11 @@
         <defName>RescueMe</defName>
         <label>rescue me</label>
         <abbreviation>rescueme</abbreviation>
+        <description>Creates a quest where the objective is to rescue the purchaser's most recent colonist from their kidnappers.</description>
         <cost>800</cost>
         <eventCap>5</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.RescueMe</incidentHelper>
         <karmaType>Neutral</karmaType>
-        <modExtensions>
-            <li Class="SirRandoo.ToolkitUtils.EventExtension">
-                <Description>Creates a prisoner rescue quest for your kidnapped pawn.</Description>
-            </li>
-        </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
     
     <TwitchToolkit.Incidents.StoreIncidentVariables>
@@ -150,6 +154,7 @@
         <label>full heal</label>
         <abbreviation>fullheal</abbreviation>
         <cost>2167</cost>
+        <description>Heals all afflictions on the purchaser's pawn, assuming they have one. The purchaser will be charged for each affliction removed.</description>
         <eventCap>5</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.FullHeal</incidentHelper>
         <karmaType>Good</karmaType>
@@ -157,7 +162,6 @@
         <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.FullHeal</customSettingsHelper>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">
-                <Description>Heals all healable injuries your pawn currently has.</Description>
                 <EventType>Variable</EventType>
             </li>
         </modExtensions>
@@ -167,6 +171,7 @@
         <defName>AddPassion</defName>
         <label>add passion</label>
         <abbreviation>passion</abbreviation>
+        <description>Deepens the purchaser's pawn's passion in the specified skill. Depending on the settings, the event's effect may differ from purchase to purchase.</description>
         <cost>7000</cost>
         <eventCap>3</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.AddPassion</incidentHelper>
@@ -176,7 +181,6 @@
         <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.AddPassion</customSettingsHelper>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">
-                <Description>Upgrades a skill's passion.. sometimes.</Description>
                 <Parameters>
                     <li>
                         <Name>Skill</Name>
@@ -189,6 +193,7 @@
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>RemovePassion</defName>
         <label>remove passion</label>
+        <description>Lessens the purchaser's pawn's passion in the specified skill. Depending on the settings, the event's effect may differ from purchase to purchase.</description>
         <abbreviation>removepassion</abbreviation>
         <cost>5000</cost>
         <eventCap>3</eventCap>
@@ -199,7 +204,6 @@
         <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.RemovePassion</customSettingsHelper>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">
-                <Description>Downgrades a skill's passion.. sometimes.</Description>
                 <Parameters>
                     <li>
                         <Name>Skill</Name>
@@ -212,6 +216,7 @@
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>Backpack</defName>
         <label>backpack</label>
+        <description>Purchases an item and puts it in the purchaser's pawn's inventory. If the item is equippable, the item will instead be equipped as a weapon, or as apparel.</description>
         <abbreviation>backpack</abbreviation>
         <cost>1</cost>
         <eventCap>6</eventCap>
@@ -223,7 +228,6 @@
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">
                 <EventType>Item</EventType>
-                <Description>It's like buying an item, but it'll show up in your inventory if there's space.</Description>
                 <Parameters>
                     <li>
                         <Name>Item</Name>
