@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -28,21 +27,19 @@ using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Incidents;
-using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class Backpack : IncidentHelperVariables
+    [UsedImplicitly]
+    public class Backpack : IncidentVariablesBase
     {
         private PurchaseBackpackRequest purchaseRequest;
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, Viewer viewer)
         {
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
             string item = segments.FirstOrFallback();
@@ -90,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = viewer.GetMaximumPurchaseAmount(product.Cost);
             }
 
-            if (product.Data != null && product.ItemData.HasQuantityLimit)
+            if (product.Data != null && product.ItemData!.HasQuantityLimit)
             {
                 amount = Mathf.Clamp(amount, 1, product.ItemData.QuantityLimit);
             }
@@ -127,7 +124,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return purchaseRequest.Map != null;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             try
             {
@@ -229,7 +226,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             pawn.apparel.Wear(thing as Apparel);
         }
 
-        private bool TryEquipWeapon(Thing thing)
+        private bool TryEquipWeapon([NotNull] Thing thing)
         {
             if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, thing, thing.stackCount)
                 || pawn.equipment.Primary != null

@@ -14,25 +14,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class FullHeal : IncidentHelperVariables
+    [UsedImplicitly]
+    public class FullHeal : IncidentVariablesBase
     {
         private Pawn pawn;
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
@@ -41,14 +39,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             if (IncidentSettings.FullHeal.FairFights
-                && pawn.mindState.lastAttackTargetTick > 0
+                && pawn!.mindState.lastAttackTargetTick > 0
                 && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
                 return false;
             }
 
-            if (HealHelper.GetPawnHealable(pawn) != null)
+            if (HealHelper.GetPawnHealable(pawn!) != null)
             {
                 return true;
             }
@@ -57,7 +55,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return false;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             var healed = 0;
             var iterations = 0;

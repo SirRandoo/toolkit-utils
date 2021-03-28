@@ -15,29 +15,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class PassionShuffle : IncidentHelperVariables
+    [UsedImplicitly]
+    public class PassionShuffle : IncidentVariablesBase
     {
         private Pawn pawn;
         private SkillDef target;
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
@@ -45,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            int passions = pawn.skills.skills.Sum(skill => (int) skill.passion);
+            int passions = pawn!.skills.skills.Sum(skill => (int) skill.passion);
 
             if (passions <= 0)
             {
@@ -61,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             target = pawn.skills.skills.FirstOrDefault(
-                    s => s.def.defName.EqualsIgnoreCase(query.ToToolkit())
+                    s => s.def.defName.EqualsIgnoreCase(query!.ToToolkit())
                          || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                          || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                 )
@@ -76,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return false;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             if (Interests.Active)
             {

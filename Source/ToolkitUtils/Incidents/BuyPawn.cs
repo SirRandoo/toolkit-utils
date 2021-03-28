@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -25,14 +24,12 @@ using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class BuyPawn : IncidentHelperVariables
+    [UsedImplicitly]
+    public class BuyPawn : IncidentVariablesBase
     {
         private PawnKindDef kindDef = PawnKindDefOf.Colonist;
         private IntVec3 loc;
@@ -41,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             if (CommandBase.GetOrFindPawn(viewer.username) != null)
             {
@@ -89,7 +86,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            PawnKindDef raceDef = kindItem.ColonistKindDef;
+            PawnKindDef raceDef = kindItem!.ColonistKindDef;
 
             if (raceDef == null)
             {
@@ -115,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return false;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             try
             {
@@ -178,7 +175,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private void GetDefaultKind()
         {
             if (Data.TryGetPawnKind($"${PawnKindDefOf.Colonist.race.defName}", out PawnKindItem human)
-                && (human.Enabled || !TkSettings.PurchasePawnKinds))
+                && (human!.Enabled || !TkSettings.PurchasePawnKinds))
             {
                 kindDef = PawnKindDefOf.Colonist;
                 pawnKindItem = human;

@@ -15,28 +15,25 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
-using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class AddPassion : IncidentHelperVariables
+    [UsedImplicitly]
+    public class AddPassion : IncidentVariablesBase
     {
         private Pawn pawn;
         private SkillRecord target;
-        public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
@@ -51,9 +48,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            target = pawn.skills.skills.Where(s => !s.TotallyDisabled)
+            target = pawn!.skills.skills.Where(s => !s.TotallyDisabled)
                .FirstOrDefault(
-                    s => s.def.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                    s => s.def.defName.ToToolkit().EqualsIgnoreCase(query!.ToToolkit())
                          || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                          || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                 );
@@ -73,7 +70,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return false;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             if (!IncidentSettings.AddPassion.Randomness)
             {
@@ -90,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (IncidentSettings.AddPassion.ChanceToHop.ToChance() && TryGetEligibleSkill(out SkillRecord skill))
             {
-                skill.passion = (Passion) Mathf.Clamp((int) skill.passion + 1, 0, 2);
+                skill!.passion = (Passion) Mathf.Clamp((int) skill.passion + 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifyHopped(target, skill);
                 return;
@@ -109,7 +106,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 && IncidentSettings.AddPassion.ChanceToHop.ToChance()
                 && TryGetEligibleSkill(out skill, true))
             {
-                skill.passion = (Passion) Mathf.Clamp((int) skill.passion - 1, 0, 2);
+                skill!.passion = (Passion) Mathf.Clamp((int) skill.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifyDecreaseHopped(target, skill);
                 return;

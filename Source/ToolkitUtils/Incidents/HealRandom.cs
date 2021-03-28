@@ -15,20 +15,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class HealRandom : IncidentHelperVariables
+    [UsedImplicitly]
+    public class HealRandom : IncidentVariablesBase
     {
         private Pawn target;
         private Hediff toHeal;
@@ -36,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, Viewer viewer)
         {
             List<Pawn> pawns = Find.ColonistBar.GetColonistsInOrder()
                .Where(p => !p.Dead)
@@ -74,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return target != null && (toHeal != null || toRestore != null);
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             if (toHeal != null)
             {

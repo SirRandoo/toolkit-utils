@@ -229,6 +229,7 @@
         <Compile Include="Utils\Constraints\ComparableConstraint.cs"/>
         <Compile Include="Utils\Constraints\ConstraintBase.cs"/>
         <Compile Include="Utils\Constraints\VipConstraint.cs"/>
+        <Compile Include="Utils\IncidentVariablesBase.cs"/>
         <Compile Include="Utils\ModComp\AlienRace.cs"/>
         <Compile Include="Utils\ModComp\Androids.cs"/>
         <Compile Include="Utils\ModComp\Immortals.cs"/>

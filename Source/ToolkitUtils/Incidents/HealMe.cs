@@ -14,26 +14,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class HealMe : IncidentHelperVariables
+    [UsedImplicitly]
+    public class HealMe : IncidentVariablesBase
     {
         private Pawn pawn;
         private Hediff toHeal;
         private BodyPartRecord toRestore;
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
@@ -42,14 +40,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             if (IncidentSettings.HealMe.FairFights
-                && pawn.mindState.lastAttackTargetTick > 0
+                && pawn!.mindState.lastAttackTargetTick > 0
                 && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
                 return false;
             }
 
-            object result = HealHelper.GetPawnHealable(pawn);
+            object result = HealHelper.GetPawnHealable(pawn!);
 
             switch (result)
             {
@@ -64,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return toHeal != null || toRestore != null;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             if (toHeal != null)
             {

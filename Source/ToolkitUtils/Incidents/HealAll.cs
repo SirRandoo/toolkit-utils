@@ -15,27 +15,25 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class HealAll : IncidentHelperVariables
+    [UsedImplicitly]
+    public class HealAll : IncidentVariablesBase
     {
         private readonly List<Hediff> healQueue = new List<Hediff>();
         private readonly List<Pair<Pawn, BodyPartRecord>> restoreQueue = new List<Pair<Pawn, BodyPartRecord>>();
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, Viewer viewer)
         {
             foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder().Where(p => !p.Dead))
             {
@@ -62,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return healQueue.Any(i => i != null) || restoreQueue.Any(i => i.Second != null);
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             foreach (Hediff hediff in healQueue)
             {

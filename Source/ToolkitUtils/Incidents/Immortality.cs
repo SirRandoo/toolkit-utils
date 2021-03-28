@@ -14,26 +14,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class Immortality : IncidentHelperVariables
+    [UsedImplicitly]
+    public class Immortality : IncidentVariablesBase
     {
         private Pawn pawn;
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
@@ -46,10 +44,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            return !pawn.health.hediffSet.HasHediff(Immortals.ImmortalHediffDef);
+            return !pawn!.health.hediffSet.HasHediff(Immortals.ImmortalHediffDef);
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             if (!Immortals.TryGrantImmortality(pawn))
             {

@@ -15,30 +15,28 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class RemoveTrait : IncidentHelperVariables
+    [UsedImplicitly]
+    public class RemoveTrait : IncidentVariablesBase
     {
         private TraitItem buyable;
         private Pawn pawn;
         private Trait trait;
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, Viewer viewer)
         {
             string query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
@@ -86,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             Trait target =
-                traits?.FirstOrDefault(t => TraitHelper.CompareToInput(traitQuery.GetDefaultName(), t.Label));
+                traits?.FirstOrDefault(t => TraitHelper.CompareToInput(traitQuery.GetDefaultName()!, t.Label));
 
             if (target == null)
             {
@@ -123,7 +121,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return true;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             if ((CompatRegistry.Magic?.IsClassTrait(trait.def) ?? false) && TkSettings.ClassChanges)
             {

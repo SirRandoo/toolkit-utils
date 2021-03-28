@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 using RimWorld.Planet;
@@ -27,20 +26,18 @@ using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
-using TwitchToolkit.Store;
 using Verse;
 using Verse.Grammar;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class RescueMe : IncidentHelperVariables
+    [UsedImplicitly]
+    public class RescueMe : IncidentVariablesBase
     {
         private KidnapReport report;
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, [NotNull] Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             Pawn pawn = CommandBase.GetOrFindPawn(viewer.username, true);
             bool? isKidnapped = pawn?.IsKidnapped();
@@ -77,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return !report?.PawnIds.NullOrEmpty() ?? false;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             QuestScriptDef scriptDef = DefDatabase<QuestScriptDef>.GetNamed("TKUtilsViewerRescue");
             float threatPoints = StorytellerUtility.DefaultSiteThreatPointsNow();

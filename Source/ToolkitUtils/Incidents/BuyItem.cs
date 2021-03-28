@@ -16,32 +16,30 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Incidents;
-using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class BuyItem : IncidentHelperVariables
+    [UsedImplicitly]
+    public class BuyItem : IncidentVariablesBase
     {
         private PurchaseRequest purchaseRequest;
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, Viewer viewer)
         {
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
             string item = segments.FirstOrFallback();
@@ -83,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = viewer.GetMaximumPurchaseAmount(product.Cost);
             }
 
-            if (product.Data != null && product.ItemData.HasQuantityLimit)
+            if (product.Data != null && product.ItemData!.HasQuantityLimit)
             {
                 amount = Mathf.Clamp(amount, 1, product.ItemData.QuantityLimit);
             }
@@ -124,7 +122,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return purchaseRequest.Map != null;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             try
             {

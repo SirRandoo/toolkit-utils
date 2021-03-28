@@ -15,24 +15,22 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class ReplaceTrait : IncidentHelperVariables
+    [UsedImplicitly]
+    public class ReplaceTrait : IncidentVariablesBase
     {
         private Pawn pawn;
         private TraitItem replaceThatShop;
@@ -46,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, Viewer viewer)
         {
             string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
 
@@ -193,7 +191,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             replaceThisTrait = traits?.FirstOrDefault(
-                t => TraitHelper.CompareToInput(replaceThisShop.GetDefaultName(), t.Label)
+                t => TraitHelper.CompareToInput(replaceThisShop.GetDefaultName()!, t.Label)
             );
 
             if (replaceThisTrait == null)
@@ -211,7 +209,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (traits?.Find(s => TraitHelper.CompareToInput(replaceThatShop.GetDefaultName(), s.Label)) == null)
+            if (traits?.Find(s => TraitHelper.CompareToInput(replaceThatShop.GetDefaultName()!, s.Label)) == null)
             {
                 replaceThatTrait = new Trait(replaceThatTraitDef, replaceThatShop.Degree);
                 return true;
@@ -221,7 +219,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return false;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             if ((CompatRegistry.Magic?.IsClassTrait(replaceThisTraitDef) ?? false) && TkSettings.ClassChanges)
             {

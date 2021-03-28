@@ -15,23 +15,21 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
-using TwitchToolkit.Store;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [SuppressMessage("ReSharper", "ParameterHidesMember")]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
-    public class AddTrait : IncidentHelperVariables
+    [UsedImplicitly]
+    public class AddTrait : IncidentVariablesBase
     {
         private TraitItem buyableTrait;
         private Pawn pawn;
@@ -39,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private TraitDef traitDef;
         public override Viewer Viewer { get; set; }
 
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
+        public override bool CanHappen(string msg, Viewer viewer)
         {
             string traitQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
 
@@ -169,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return false;
         }
 
-        public override void TryExecute()
+        public override void Execute()
         {
             TraitHelper.GivePawnTrait(pawn, trait);
             Viewer.Charge(buyableTrait.CostToAdd, buyableTrait.Data?.KarmaType ?? storeIncident.karmaType);
