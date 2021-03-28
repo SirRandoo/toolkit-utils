@@ -201,9 +201,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void CarryOrSpawn(Thing thing)
         {
+            bool canCarry = MassUtility.CanEverCarryAnything(pawn);
+
             if (IncidentSettings.Backpack.AutoEquip
                 && thing.def.equipmentType != EquipmentType.None
                 && thing is ThingWithComps
+                && canCarry
                 && TryEquipWeapon(thing))
             {
                 return;
@@ -215,7 +218,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            if (!Pawn.inventory.innerContainer.TryAdd(thing) && pawn.Spawned)
+            if (!canCarry || pawn.Spawned && !Pawn.inventory.innerContainer.TryAdd(thing))
             {
                 TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(Map), Map, thing);
             }
@@ -228,7 +231,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool TryEquipWeapon(Thing thing)
         {
-            if (pawn.equipment.Primary != null
+            if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, thing, thing.stackCount)
+                || pawn.equipment.Primary != null
                 && !pawn.equipment.TryTransferEquipmentToContainer(
                     pawn.equipment.Primary,
                     pawn.inventory.innerContainer
