@@ -14,12 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using TwitchToolkit;
-using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -38,37 +34,9 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int QuantityLimit = 1;
 
-        [IgnoreDataMember] private List<ResearchProjectDef> researchProjectDefs;
-
-        public List<string> ResearchProjects;
-
         public float Weight = 1f;
 
         public string Mod { get; set; }
         public KarmaType? KarmaType { get; set; }
-
-        public IEnumerable<ResearchProjectDef> GetResearchProjects()
-        {
-            if (ResearchProjects.NullOrEmpty() || researchProjectDefs.NullOrEmpty())
-            {
-                yield break;
-            }
-
-            if (researchProjectDefs.Count <= 0)
-            {
-                researchProjectDefs ??= new List<ResearchProjectDef>();
-                foreach (ResearchProjectDef projectDef in DefDatabase<ResearchProjectDef>.AllDefs.Where(
-                    r => ResearchProjects.Contains(r.defName)
-                ))
-                {
-                    researchProjectDefs.Add(projectDef);
-                }
-            }
-
-            foreach (ResearchProjectDef projectDef in researchProjectDefs)
-            {
-                yield return projectDef;
-            }
-        }
     }
 }
