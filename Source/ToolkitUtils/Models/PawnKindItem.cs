@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
@@ -36,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         [IgnoreDataMember]
         public PawnKindDef ColonistKindDef =>
-            Kinds.FirstOrDefault(k => k.defaultFactionType.isPlayer) ?? Kinds.FirstOrFallback();
+            Kinds.FirstOrDefault(k => k.defaultFactionType == FactionDefOf.PlayerColony) ?? Kinds.FirstOrFallback();
 
         [DataMember(Name = "data")]
         public PawnKindData PawnData
