@@ -29,5 +29,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public abstract void EnsureExists(T data);
         public abstract void NotifyCustomSearchRequested(Func<T, bool> worker);
+
+        protected enum StateKey { Enable, Disable }
+
+        protected enum SettingsKey { Expand, Collapse }
     }
 }

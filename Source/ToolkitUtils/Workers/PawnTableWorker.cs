@@ -474,9 +474,5 @@ namespace SirRandoo.ToolkitUtils.Workers
         }
 
         private enum SortKey { Name, Price }
-
-        private enum StateKey { Enable, Disable }
-
-        private enum SettingsKey { Expand, Collapse }
     }
 }
