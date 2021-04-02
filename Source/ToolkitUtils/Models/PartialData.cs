@@ -26,11 +26,11 @@ using SirRandoo.ToolkitUtils.Interfaces;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public enum Type { Items, Events, Traits, Pawns }
+    public enum PartialType { Items, Events, Traits, Pawns }
 
     public class PartialData<T> where T : class, IShopItemBase
     {
-        [DataMember(Name = "type")] public Type PartialType { get; set; }
+        [DataMember(Name = "type")] public PartialType PartialType { get; set; }
         [DataMember(Name = "data")] public List<T> Data { get; set; }
         [DataMember(Name = "description")] public string Description { get; set; }
     }
