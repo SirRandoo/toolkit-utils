@@ -33,12 +33,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsSurgery([NotNull] RecipeDef recipe)
         {
-            return Androids.IsAndroidSurgery(recipe);
+            return Androids.Active && Androids.IsAndroidSurgery(recipe);
         }
 
         public bool CanScheduleFor(RecipeDef recipe, Pawn pawn)
         {
-            return Androids.IsSurgeryUsable(pawn, recipe);
+            return Androids.Active && Androids.IsSurgeryUsable(pawn, recipe);
         }
     }
 }
