@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".Localize());
 
             (Rect increaseLabel, Rect increaseField) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(increaseLabel, "TKUtils.Passion.IncreaseChance.Label".Localize());
+            Widgets.Label(increaseLabel, "TKUtils.Passion.DecreaseChance.Label".Localize());
             Widgets.TextFieldNumeric(increaseField, ref ChanceToIncrease, ref increaseChanceBuffer, max: 100f);
             increaseLabel.TipRegion("TKUtils.Passion.IncreaseChance.Description".Localize());
 

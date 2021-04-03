@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
             failChanceDescription = "TKUtils.Passion.FailChance.Description".Localize();
             hopChanceLabel = "TKUtils.Passion.HopChance.Label".Localize();
             hopChanceDescription = "TKUtils.Passion.HopChance.Description".Localize();
-            increaseChanceLabel = "TKUtils.Passion.IncreaseChance.Label".Localize();
+            increaseChanceLabel = "TKUtils.Passion.DecreaseChance.Label".Localize();
             increaseChanceDescription = "TKUtils.Passion.IncreaseChance.Description".Localize();
         }
 
