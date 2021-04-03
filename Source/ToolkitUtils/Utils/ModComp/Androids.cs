@@ -65,7 +65,8 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         public static bool IsAndroidSurgery([NotNull] RecipeDef recipe)
         {
-            return recipe.workerClass == AndroidSurgery || recipe.workerClass.IsSubclassOf(AndroidSurgery);
+            return recipe.workerClass != null
+                   && (recipe.workerClass == AndroidSurgery || recipe.workerClass.IsSubclassOf(AndroidSurgery));
         }
 
         public static bool IsSurgeryUsable(Pawn pawn, RecipeDef recipe)
