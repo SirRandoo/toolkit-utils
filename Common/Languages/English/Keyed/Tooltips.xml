@@ -38,6 +38,10 @@
     <TKUtils.TraitTableTooltips.ResetTraitName>Reset the trait's name to its default value.</TKUtils.TraitTableTooltips.ResetTraitName>
     <TKUtils.TraitTableTooltips.ResetTraitKarma>Reset the trait's karma type to its default value.</TKUtils.TraitTableTooltips.ResetTraitKarma>
     
+    <TKUtils.EventTableTooltips.EditEventName>Customize the purchase code of this event.</TKUtils.EventTableTooltips.EditEventName>
+    <TKUtils.EventTableTooltips.CloseEventName>Close the purchase code editor.</TKUtils.EventTableTooltips.CloseEventName>
+    <TKUtils.EventTableTooltips.ResetEventName>Reset the event's purchase code to its default value.</TKUtils.EventTableTooltips.ResetEventName>
+    
     <TKUtils.SelectorTooltips.ExcludeItem>Click to make this selector exclude results containing this text.</TKUtils.SelectorTooltips.ExcludeItem>
     <TKUtils.SelectorTooltips.IncludeItem>Click to make this selector include results containing this text.</TKUtils.SelectorTooltips.IncludeItem>
     

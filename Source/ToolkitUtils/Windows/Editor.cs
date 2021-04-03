@@ -26,6 +26,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class Editor : Window
     {
+        private readonly EventWorker eventWorker;
         private readonly ItemWorker itemWorker;
         private readonly PawnWorker pawnWorker;
         private readonly TraitWorker traitWorker;
@@ -43,6 +44,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             itemWorker = new ItemWorker();
             traitWorker = new TraitWorker();
             pawnWorker = new PawnWorker();
+            eventWorker = new EventWorker();
         }
 
         protected override float Margin => 0f;
@@ -62,16 +64,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             itemWorker.Prepare();
             traitWorker.Prepare();
             pawnWorker.Prepare();
+            eventWorker.Prepare();
         }
 
         private void InitializeTabs()
         {
-            tabWorker.SelectedTab = new TabItem
-            {
-                Label = "TKUtils.EditorTabs.Items".Localize(), ContentDrawer = rect => itemWorker.Draw()
-            };
-
-            tabWorker.AddTab(tabWorker.SelectedTab);
+            tabWorker.AddTab(
+                new TabItem {Label = "TKUtils.EditorTabs.Items".Localize(), ContentDrawer = rect => itemWorker.Draw()}
+            );
             tabWorker.AddTab(
                 new TabItem {Label = "TKUtils.EditorTabs.Traits".Localize(), ContentDrawer = rect => traitWorker.Draw()}
             );
@@ -80,6 +80,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     Label = "TKUtils.EditorTabs.PawnKinds".Localize(), ContentDrawer = rect => pawnWorker.Draw()
                 }
+            );
+            tabWorker.AddTab(
+                new TabItem {Label = "TKUtils.EditorTabs.Events".Localize(), ContentDrawer = rect => eventWorker.Draw()}
             );
         }
 
@@ -102,6 +105,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 itemWorker.NotifyResolutionChanged(innerResolution);
                 traitWorker.NotifyResolutionChanged(innerResolution);
                 pawnWorker.NotifyResolutionChanged(innerResolution);
+                eventWorker.NotifyResolutionChanged(innerResolution);
                 dirty = false;
             }
 
@@ -162,6 +166,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PreClose();
 
             Store_ItemEditor.UpdateStoreItemList();
+            Store_IncidentEditor.UpdatePriceSheet();
             Task.Run(
                     async () =>
                     {
@@ -192,6 +197,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             itemWorker.NotifyResolutionChanged(contentRect);
             traitWorker.NotifyResolutionChanged(contentRect);
             pawnWorker.NotifyResolutionChanged(contentRect);
+            eventWorker.NotifyResolutionChanged(contentRect);
         }
 
         public override void Notify_ResolutionChanged()

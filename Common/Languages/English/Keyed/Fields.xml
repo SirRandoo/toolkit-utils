@@ -46,6 +46,9 @@
     <TKUtils.Fields.AddKarmaType>Karma type for adding</TKUtils.Fields.AddKarmaType>
     <TKUtils.Fields.RemoveKarmaType>Karma type for removing</TKUtils.Fields.RemoveKarmaType>
     <TKUtils.Fields.DefaultKarmaType>(Default)</TKUtils.Fields.DefaultKarmaType>
+    <TKUtils.Fields.EventCap>Event cap</TKUtils.Fields.EventCap>
+    <TKUtils.Fields.MaxWager>Max wager</TKUtils.Fields.MaxWager>
+    <TKUtils.Fields.SettingEmbed>Has setting embed?</TKUtils.Fields.SettingEmbed>
     <TKUtils.Fields.CategorySearch>Category search</TKUtils.Fields.CategorySearch>
     <TKUtils.Fields.Class>Is class</TKUtils.Fields.Class>
 </LanguageData>

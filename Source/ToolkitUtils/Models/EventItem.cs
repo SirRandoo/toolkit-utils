@@ -21,21 +21,40 @@
 // SOFTWARE.
 
 using System;
+using System.Linq;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
+using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     public class EventItem : IShopItemBase
     {
+        private bool checkedVariables;
         private EventData data;
-        private bool? isVariables;
+        private StoreIncident incident;
         private IEventSettings settingsEmbed;
         private StoreIncidentVariables variables;
 
-        public StoreIncident Incident { get; set; }
+        public StoreIncident Incident
+        {
+            get => incident;
+            set
+            {
+                incident = value;
+                _ = IsVariables;
+
+                if (IsVariables)
+                {
+                    _ = SettingsEmbed;
+                }
+
+                EventType = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None;
+            }
+        }
 
         [CanBeNull] public StoreIncidentVariables Variables => IsVariables ? variables : null;
 
@@ -43,22 +62,20 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (!isVariables.HasValue && Incident is StoreIncidentVariables var)
+                if (!checkedVariables && Incident is StoreIncidentVariables var)
                 {
                     variables = var;
-                    isVariables = true;
-                }
-                else
-                {
-                    isVariables = false;
                 }
 
-                return isVariables.Value;
+                checkedVariables = true;
+                return variables != null;
             }
         }
 
-        public bool HasSettings => Variables!.customSettings && Variables!.customSettingsHelper != null;
-        public bool HasSettingsEmbed => Variables!.GetModExtension<EventExtension>()?.SettingsEmbed != null;
+        public bool HasSettings => (Variables?.customSettings ?? false) && Variables?.customSettingsHelper != null;
+
+        public bool HasSettingsEmbed =>
+            settingsEmbed != null || Variables?.GetModExtension<EventExtension>()?.SettingsEmbed != null;
 
         public IncidentHelperVariablesSettings Settings
         {
@@ -78,14 +95,25 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (Settings is IEventSettings s)
+                if (DefName.Equals("FullHeal"))
+                {
+                    LogHelper.Info($"Full heal has settings embed -> {Settings is IEventSettings}");
+                }
+
+                if (settingsEmbed == null && Settings is IEventSettings s)
                 {
                     settingsEmbed = s;
                 }
 
-                return settingsEmbed ??= (IEventSettings) Activator.CreateInstance(
-                    Variables!.GetModExtension<EventExtension>().SettingsEmbed
-                );
+                if (settingsEmbed != null)
+                {
+                    return settingsEmbed;
+                }
+
+                Type ext = Variables?.GetModExtension<EventExtension>()?.SettingsEmbed;
+                settingsEmbed = ext == null ? null : (IEventSettings) Activator.CreateInstance(ext);
+
+                return settingsEmbed;
             }
         }
 
@@ -113,6 +141,7 @@ namespace SirRandoo.ToolkitUtils.Models
             set => Variables!.maxWager = value;
         }
 
+        public bool CostEditable => EventType == EventTypes.None || EventType == EventTypes.Variable;
         public EventTypes EventType { get; set; } = EventTypes.None;
 
         public int Cost
@@ -132,17 +161,33 @@ namespace SirRandoo.ToolkitUtils.Models
         public bool Enabled
         {
             get => Incident.defName.Equals("Item") ? Incident.cost >= 0 : Incident.cost > 0;
-            set
-            {
-                Incident.cost = 1;
-                _ = value;
-            }
+            set => Incident.cost = value ? GetDefaultPrice() : -10;
         }
 
         public string Name
         {
             get => Incident.abbreviation;
             set => Incident.abbreviation = value;
+        }
+
+        public string GetDefaultAbbreviation()
+        {
+            return (IsVariables
+                       ? Store_IncidentEditor.variableIncidentsBackup
+                       : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident) i))
+                  .FirstOrDefault(i => i.defName.Equals(DefName))
+                 ?.abbreviation
+                   ?? Name;
+        }
+
+        private int GetDefaultPrice()
+        {
+            return (IsVariables
+                       ? Store_IncidentEditor.variableIncidentsBackup
+                       : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident) i))
+                  .FirstOrDefault(i => i.defName.Equals(DefName))
+                 ?.cost
+                   ?? 50;
         }
     }
 }

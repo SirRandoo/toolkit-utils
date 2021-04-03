@@ -29,6 +29,7 @@ using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Models;
 using TwitchToolkit;
+using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Utf8Json;
 using Verse;
@@ -104,6 +105,8 @@ namespace SirRandoo.ToolkitUtils
             ValidateTraitData();
             ValidateModList();
             ValidateSurgeryList();
+            ValidateEventList();
+            ValidateEventData();
 
             if (TkSettings.Offload)
             {
@@ -121,6 +124,7 @@ namespace SirRandoo.ToolkitUtils
         public static ModItem[] Mods { get; private set; }
         public static List<ThingItem> Items { get; set; }
         public static List<SurgeryItem> Surgeries { get; set; }
+        public static List<EventItem> Events { get; set; }
 
         private static void ValidateItems()
         {
@@ -477,6 +481,21 @@ namespace SirRandoo.ToolkitUtils
                 }
 
                 Surgeries.Add(new SurgeryItem {Surgery = recipe, Handler = handler});
+            }
+        }
+
+        private static void ValidateEventList()
+        {
+            Store_IncidentEditor.EditorPathExists(); // Just to ensure the actual incidents are loaded.
+            Events = DefDatabase<StoreIncident>.AllDefs.Select(i => new EventItem {Incident = i}).ToList();
+        }
+
+        private static void ValidateEventData()
+        {
+            foreach (EventItem ev in Events)
+            {
+                ev.EventData ??= new EventData();
+                ev.EventData.Mod = ev.Incident.modContentPack?.Name;
             }
         }
 

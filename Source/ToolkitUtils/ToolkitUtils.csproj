@@ -138,8 +138,11 @@
         <Compile Include="Interfaces\ISelectorBase.cs"/>
         <Compile Include="Interfaces\IShopDataBase.cs"/>
         <Compile Include="Interfaces\IShopItemBase.cs"/>
+        <Compile Include="Models\EventData.cs"/>
+        <Compile Include="Models\EventItem.cs"/>
         <Compile Include="Models\FileData.cs"/>
         <Compile Include="Interfaces\ISurgeryHandler.cs"/>
+        <Compile Include="Models\Mutators\EventKarmaMutator.cs"/>
         <Compile Include="Models\PartialData.cs"/>
         <Compile Include="Models\Mutators\AddPriceMutator.cs"/>
         <Compile Include="Models\Mutators\BypassLimitMutator.cs"/>
@@ -161,6 +164,8 @@
         <Compile Include="Models\Selectors\CanAddSelector.cs"/>
         <Compile Include="Models\Selectors\CanRemoveSelector.cs"/>
         <Compile Include="Models\Selectors\CategorySelector.cs"/>
+        <Compile Include="Models\Selectors\EventKarmaSelector.cs"/>
+        <Compile Include="Models\Selectors\EventSettingEmbedSelector.cs"/>
         <Compile Include="Models\Selectors\PriceSelector.cs"/>
         <Compile Include="Models\Selectors\DefNameSelector.cs"/>
         <Compile Include="Models\Selectors\HasQuantityLimitSelector.cs"/>
@@ -246,6 +251,9 @@
         <Compile Include="Windows\StoreIncidentEditor.cs"/>
         <Compile Include="Windows\TkUtilsWindow.cs"/>
         <Compile Include="Windows\TraitConfigDialog.cs"/>
+        <Compile Include="Workers\EventTableWorker.cs"/>
+        <Compile Include="Workers\EventViewWorker.cs"/>
+        <Compile Include="Workers\EventWorker.cs"/>
         <Compile Include="Workers\ItemTableWorker.cs"/>
         <Compile Include="Workers\ItemViewWorker.cs"/>
         <Compile Include="Workers\ItemWorker.cs"/>

@@ -21,6 +21,7 @@
 <LanguageData>
     <TKUtils.Headers.Name>Name</TKUtils.Headers.Name>
     <TKUtils.Headers.Price>Price</TKUtils.Headers.Price>
+    <TKUtils.Headers.Karma>Karma Type</TKUtils.Headers.Karma>
     <TKUtils.Headers.Category>Category</TKUtils.Headers.Category>
     <TKUtils.Headers.AddPrice>Add Price</TKUtils.Headers.AddPrice>
     <TKUtils.Headers.RemovePrice>Remove Price</TKUtils.Headers.RemovePrice>
