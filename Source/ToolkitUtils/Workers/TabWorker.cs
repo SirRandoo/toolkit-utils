@@ -48,6 +48,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public void AddTab(TabItem tab)
         {
             tabItems.Add(tab);
+            SelectedTab ??= tab;
         }
 
         public void RemoveTab(string label)
