@@ -228,7 +228,6 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (!ev.Data.Enabled && proxy)
                 {
                     Store_IncidentEditor.LoadBackup(ev.Data.Incident);
-                    LogHelper.Info("Backup loaded");
                 }
 
                 ev.Data.Enabled = proxy;
