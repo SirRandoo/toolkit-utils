@@ -484,7 +484,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void NotifyResolutionChanged(Rect canvas)
         {
-            float consumedWidth = canvas.width - 10f - LineHeight * 2f; // Icon buttons
+            float consumedWidth = canvas.width - 20f - LineHeight * 2f; // Icon buttons
             float labelWidth = Mathf.FloorToInt(consumedWidth * 0.4f);
             float remainingWidth = consumedWidth - labelWidth;
             float distributedWidth = Mathf.FloorToInt(remainingWidth / 2f);
