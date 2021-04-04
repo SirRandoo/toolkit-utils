@@ -52,6 +52,10 @@ namespace SirRandoo.ToolkitUtils.Workers
                 new FloatMenuOption(
                     "TKUtils.Fields.SettingEmbed".Localize(),
                     () => AddSelector(new EventSettingEmbedSelector())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.Fields.HasSettings".Localize(),
+                    () => AddSelector(new EventSettingSelector())
                 )
             };
 
