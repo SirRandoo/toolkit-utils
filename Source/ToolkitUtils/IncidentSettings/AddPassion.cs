@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
 
         public int LineSpan => 4;
 
-        public void Draw(Rect canvas)
+        public void Draw(Rect canvas, float preferredHeight)
         {
             var listing = new Listing_Standard();
 
@@ -51,17 +51,17 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
                 "TKUtils.Passion.Randomness.Description".Localize()
             );
 
-            (Rect failLabel, Rect failField) = listing.GetRect(Text.LineHeight).ToForm();
+            (Rect failLabel, Rect failField) = listing.GetRect(preferredHeight).ToForm();
             Widgets.Label(failLabel, "TKUtils.Passion.FailChance.Label".Localize());
             Widgets.TextFieldNumeric(failField, ref ChanceToFail, ref failChanceBuffer, max: 100f);
             failLabel.TipRegion("TKUtils.Passion.FailChance.Description".Localize());
 
-            (Rect hopLabel, Rect hopField) = listing.GetRect(Text.LineHeight).ToForm();
+            (Rect hopLabel, Rect hopField) = listing.GetRect(preferredHeight).ToForm();
             Widgets.Label(hopLabel, "TKUtils.Passion.HopChance.Label".Localize());
             Widgets.TextFieldNumeric(hopField, ref ChanceToHop, ref hopChanceBuffer, max: 100f);
             hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".Localize());
 
-            (Rect decreaseLabel, Rect decreaseField) = listing.GetRect(Text.LineHeight).ToForm();
+            (Rect decreaseLabel, Rect decreaseField) = listing.GetRect(preferredHeight).ToForm();
             Widgets.Label(decreaseLabel, "TKUtils.Passion.DecreaseChance.Label".Localize());
             Widgets.TextFieldNumeric(decreaseField, ref ChanceToDecrease, ref decreaseChanceBuffer, max: 100f);
             decreaseLabel.TipRegion("TKUtils.Passion.DecreaseChance.Description".Localize());

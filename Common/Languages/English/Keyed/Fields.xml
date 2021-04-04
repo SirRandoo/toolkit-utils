@@ -51,4 +51,7 @@
     <TKUtils.Fields.SettingEmbed>Has setting embed?</TKUtils.Fields.SettingEmbed>
     <TKUtils.Fields.CategorySearch>Category search</TKUtils.Fields.CategorySearch>
     <TKUtils.Fields.Class>Is class?</TKUtils.Fields.Class>
+    <TKUtils.Fields.RequiresResearch>Should items be researched before being buyable?</TKUtils.Fields.RequiresResearch>
+    <TKUtils.Fields.TraitLimit>Maximum traits</TKUtils.Fields.TraitLimit>
+    <TKUtils.Fields.LevelSkillMultiplier>XP multiplier</TKUtils.Fields.LevelSkillMultiplier>
 </LanguageData>

@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
 
         public int LineSpan => 1;
 
-        public void Draw(Rect canvas)
+        public void Draw(Rect canvas, float preferredHeight)
         {
             var listing = new Listing_Standard();
 

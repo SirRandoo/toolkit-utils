@@ -49,6 +49,7 @@
                 <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="LevelPawn"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                        <SettingsEmbed>SirRandoo.ToolkitUtils.IncidentSettings.Embeds.LevelPawnSettingEmbed</SettingsEmbed>
                         <Parameters>
                             <li>
                                 <Name>Skill</Name>
@@ -65,6 +66,7 @@
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.EventExtension">
                         <EventType>Trait</EventType>
+                        <SettingsEmbed>SirRandoo.ToolkitUtils.IncidentSettings.Embeds.AddTraitSettingEmbed</SettingsEmbed>
                         <Parameters>
                             <li>
                                 <Name>Trait</Name>
@@ -90,6 +92,7 @@
                 <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                        <SettingsEmbed>SirRandoo.ToolkitUtils.IncidentSettings.Embeds.ItemSettingEmbed</SettingsEmbed>
                         <EventType>Item</EventType>
                         <Parameters>
                             <li>
