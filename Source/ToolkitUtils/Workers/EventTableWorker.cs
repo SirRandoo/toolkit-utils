@@ -284,7 +284,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private void DrawExpandedSettings(Rect canvas, [NotNull] TableItem<EventItem> ev)
         {
             float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 26f;
-            float columnHeight = BaseExpandedLineSpan * RowLineHeight;
+            float columnHeight = (BaseExpandedLineSpan - 1) * RowLineHeight;
             var leftColumnRect = new Rect(canvas.x, canvas.y, columnWidth, columnHeight);
             var rightColumnRect = new Rect(canvas.x + leftColumnRect.width + 52f, canvas.y, columnWidth, columnHeight);
             var embedRect = new Rect(canvas.x, canvas.y + columnHeight, canvas.width, canvas.height - columnHeight);
@@ -305,7 +305,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             GUI.BeginGroup(embedRect);
-            ev.Data.SettingsEmbed!.Draw(embedRect.AtZero());
+            ev.Data.SettingsEmbed!.Draw(embedRect.AtZero(), RowLineHeight);
             GUI.EndGroup();
         }
 
@@ -557,7 +557,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             return ev.Data.HasSettingsEmbed
-                ? Mathf.RoundToInt(ev.Data.SettingsEmbed!.LineSpan + BaseExpandedLineSpan + 2)
+                ? Mathf.RoundToInt(ev.Data.SettingsEmbed!.LineSpan + BaseExpandedLineSpan + 1)
                 : Mathf.RoundToInt(BaseExpandedLineSpan + 1);
         }
 

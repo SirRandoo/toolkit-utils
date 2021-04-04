@@ -361,6 +361,22 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return proxy != value;
         }
 
+        public static bool DrawNumberField(
+            Rect region,
+            ref float value,
+            ref string buffer,
+            out float newValue,
+            float min = 0f,
+            float max = 1E+09F
+        )
+        {
+            float proxy = value;
+            Widgets.TextFieldNumeric(region, ref proxy, ref buffer, min, max);
+
+            newValue = proxy;
+            return Math.Abs(proxy - value) > 0.0001f;
+        }
+
         public static bool DrawTableHeader(
             Rect backgroundRect,
             Rect textRect,

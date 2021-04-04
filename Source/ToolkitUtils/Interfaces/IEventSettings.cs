@@ -27,6 +27,6 @@ namespace SirRandoo.ToolkitUtils.Interfaces
     public interface IEventSettings
     {
         int LineSpan { get; }
-        void Draw(Rect canvas);
+        void Draw(Rect canvas, float preferredHeight);
     }
 }

@@ -103,6 +103,9 @@
         <Compile Include="Helpers\TraitHelper.cs"/>
         <Compile Include="IncidentSettings\AddPassion.cs"/>
         <Compile Include="IncidentSettings\Backpack.cs"/>
+        <Compile Include="IncidentSettings\Embeds\AddTraitSettingEmbed.cs"/>
+        <Compile Include="IncidentSettings\Embeds\ItemSettingEmbed.cs"/>
+        <Compile Include="IncidentSettings\Embeds\LevelPawnSettingEmbed.cs"/>
         <Compile Include="IncidentSettings\FullHeal.cs"/>
         <Compile Include="IncidentSettings\HealAll.cs"/>
         <Compile Include="IncidentSettings\HealMe.cs"/>
