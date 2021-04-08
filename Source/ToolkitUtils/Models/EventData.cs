@@ -22,6 +22,7 @@
 
 using System;
 using System.Data;
+using System.Runtime.Serialization;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 
@@ -29,8 +30,10 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class EventData : IShopDataBase
     {
+        public EventTypes EventType { get; set; }
         public string Mod { get; set; }
 
+        [IgnoreDataMember]
         public KarmaType? KarmaType
         {
             get => throw new NotSupportedException();

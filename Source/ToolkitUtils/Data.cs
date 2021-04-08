@@ -341,6 +341,11 @@ namespace SirRandoo.ToolkitUtils
             SaveJson(ItemData, path);
         }
 
+        public static void SaveEventData(string path)
+        {
+            SaveJson(Events.ToDictionary(e => e.DefName, e => e.EventData), path);
+        }
+
         private static void ValidateTraits()
         {
             List<TraitDef> traitDefs = DefDatabase<TraitDef>.AllDefsListForReading;
@@ -496,6 +501,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 ev.EventData ??= new EventData();
                 ev.EventData.Mod = ev.Incident.modContentPack?.Name;
+                ev.EventData.EventType = ev.Incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
             }
         }
 
@@ -507,6 +513,7 @@ namespace SirRandoo.ToolkitUtils
         public static void DumpAllData()
         {
             SaveItemData(Paths.ItemDataFilePath);
+            SaveEventData(Paths.EventDataFilePath);
             SaveModList();
             DumpCommands();
 
