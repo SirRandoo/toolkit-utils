@@ -135,6 +135,7 @@
         <Compile Include="Incidents\ReplaceTrait.cs"/>
         <Compile Include="Incidents\RescueMe.cs"/>
         <Compile Include="Incidents\ReviveAll.cs"/>
+        <Compile Include="Incidents\SetTraits.cs"/>
         <Compile Include="Incidents\ReviveMe.cs"/>
         <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>

@@ -240,4 +240,16 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+    
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>SetTraits</defName>
+        <label>set traits</label>
+        <description>Sets the purchaser's pawn's traits to the traits specified. Every trait change will be charged individually according to the settings for said trait.</description>
+        <abbreviation>settraits</abbreviation>
+        <cost>1</cost>
+        <eventCap>6</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.SetTraits</incidentHelper>
+        <karmaType>Neutral</karmaType>
+        <variables>4</variables>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>
