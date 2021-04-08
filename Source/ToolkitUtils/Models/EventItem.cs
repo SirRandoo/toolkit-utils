@@ -52,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     _ = SettingsEmbed;
                 }
 
-                EventType = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None;
+                EventType = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
             }
         }
 
@@ -141,8 +141,8 @@ namespace SirRandoo.ToolkitUtils.Models
             set => Variables!.maxWager = value;
         }
 
-        public bool CostEditable => EventType == EventTypes.None || EventType == EventTypes.Variable;
-        public EventTypes EventType { get; set; } = EventTypes.None;
+        public bool CostEditable => EventType == EventTypes.Default || EventType == EventTypes.Variable;
+        public EventTypes EventType { get; set; } = EventTypes.Default;
 
         public int Cost
         {

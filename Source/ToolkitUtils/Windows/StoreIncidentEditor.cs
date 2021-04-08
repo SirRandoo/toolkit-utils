@@ -50,7 +50,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         public StoreIncidentEditor([NotNull] StoreIncident storeIncident) : base(storeIncident)
         {
             onlyOneOfTypeAllowed = true;
-            eventType = storeIncident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None;
+            eventType = storeIncident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
 
             karmaTypeOptions = Data.KarmaTypes.Select(
                     t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)
@@ -128,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.Label(abbrLabel, codeText);
             storeIncident.abbreviation = Widgets.TextField(abbrField, storeIncident.abbreviation);
 
-            if (eventType == EventTypes.None || eventType == EventTypes.Variable)
+            if (eventType == EventTypes.Default || eventType == EventTypes.Variable)
             {
                 (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
 

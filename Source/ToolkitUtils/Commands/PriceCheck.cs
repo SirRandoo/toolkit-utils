@@ -110,10 +110,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            EventTypes eventType = result.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None;
+            EventTypes eventType = result.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
             switch (eventType)
             {
-                case EventTypes.None:
+                case EventTypes.Default:
                     Notify__LookupComplete(
                         "TKUtils.Price.Limited".Localize(
                             result.abbreviation.CapitalizeFirst(),

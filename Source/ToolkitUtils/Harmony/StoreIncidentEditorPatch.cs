@@ -35,9 +35,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     continue;
                 }
 
-                EventTypes type = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.None;
+                EventTypes type = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
 
-                if (type == EventTypes.None || type == EventTypes.Variable)
+                if (type == EventTypes.Default || type == EventTypes.Variable)
                 {
                     continue;
                 }

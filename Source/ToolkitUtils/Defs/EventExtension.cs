@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public enum EventTypes
     {
-        None,
+        Default,
 
         /// <summary>
         ///     Refers to events whose cost depends on the trait a user supplies
@@ -96,7 +96,7 @@ namespace SirRandoo.ToolkitUtils
     public class EventExtension : DefModExtension
     {
         [Description("The product category this event's final price will be.")]
-        [DefaultValue(EventTypes.None)]
+        [DefaultValue(EventTypes.Default)]
         public EventTypes EventType;
 
         [Description("The parameters this event can take.")]
