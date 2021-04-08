@@ -11,7 +11,7 @@
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReviveAll</incidentHelper>
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentSimple>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>ReviveMe</defName>
         <label>reviveme</label>
@@ -22,7 +22,7 @@
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReviveMe</incidentHelper>
         <karmaType>Good</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealAll</defName>
         <label>heal all</label>
@@ -35,7 +35,7 @@
         <customSettings>true</customSettings>
         <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.HealAll</customSettingsHelper>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealRandomPawn</defName>
         <label>heal random pawn</label>
@@ -48,7 +48,7 @@
         <customSettings>true</customSettings>
         <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.HealRandom</customSettingsHelper>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>HealMe</defName>
         <label>healme</label>
@@ -61,7 +61,7 @@
         <customSettings>true</customSettings>
         <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.HealMe</customSettingsHelper>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>BuySurgery</defName>
         <label>surgery</label>
@@ -72,7 +72,7 @@
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuySurgery</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>2</variables>
-        
+
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.EventExtension">
                 <EventType>Item</EventType>
@@ -91,7 +91,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>PassionShuffle</defName>
         <label>passion shuffle</label>
@@ -112,7 +112,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>ReplaceTrait</defName>
         <label>replace trait</label>
@@ -137,7 +137,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>RescueMe</defName>
         <label>rescue me</label>
@@ -148,7 +148,7 @@
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.RescueMe</incidentHelper>
         <karmaType>Neutral</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>FullHeal</defName>
         <label>full heal</label>
@@ -166,7 +166,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>AddPassion</defName>
         <label>add passion</label>
@@ -189,7 +189,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>RemovePassion</defName>
         <label>remove passion</label>
@@ -212,7 +212,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>Backpack</defName>
         <label>backpack</label>
@@ -240,13 +240,11 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>SetTraits</defName>
         <label>set traits</label>
-        <description>Sets the purchaser's pawn's traits to the traits specified. Every trait change will be charged
-            individually according to the settings for said trait.
-        </description>
+        <description>Sets the purchaser's pawn's traits to the traits specified. Every trait change will be charged individually according to the settings for said trait.</description>
         <abbreviation>settraits</abbreviation>
         <cost>1</cost>
         <eventCap>6</eventCap>
@@ -264,13 +262,11 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
-    
+
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>ClearTraits</defName>
         <label>clear traits</label>
-        <description>Removes all the purchaser's pawn's traits. Every removal will be charged individually according to
-            the settings for said trait.
-        </description>
+        <description>Removes all the purchaser's pawn's traits. Every removal will be charged individually according to the settings for said trait.</description>
         <abbreviation>cleartraits</abbreviation>
         <cost>1</cost>
         <eventCap>6</eventCap>
