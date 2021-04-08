@@ -61,6 +61,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             foreach ((Trait trait, TraitItem item) in traits)
             {
+                if (CompatRegistry.Magic?.IsClassTrait(trait.def) ?? false)
+                {
+                    CompatRegistry.Magic?.ResetClass(pawn);
+                }
+
                 TraitHelper.RemoveTraitFromPawn(pawn, trait);
 
                 if (!(item is null))

@@ -201,6 +201,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     return;
                 }
 
+                if (CompatRegistry.Magic?.IsClassTrait(Trait.def) ?? false)
+                {
+                    CompatRegistry.Magic.ResetClass(pawn);
+                }
+
                 TraitHelper.RemoveTraitFromPawn(pawn, Trait);
             }
         }
