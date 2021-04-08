@@ -125,12 +125,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if ((CompatRegistry.Magic?.IsClassTrait(trait.def) ?? false) && TkSettings.ClassChanges)
             {
-                CompatRegistry.Magic.ResetClass(pawn); // TMagic manually removes its trait(s)
+                CompatRegistry.Magic.ResetClass(pawn);
             }
-            else
-            {
-                TraitHelper.RemoveTraitFromPawn(pawn, trait);
-            }
+
+            TraitHelper.RemoveTraitFromPawn(pawn, trait);
 
             Viewer.Charge(buyable.CostToRemove, buyable.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap));

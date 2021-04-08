@@ -223,12 +223,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if ((CompatRegistry.Magic?.IsClassTrait(replaceThisTraitDef) ?? false) && TkSettings.ClassChanges)
             {
-                CompatRegistry.Magic.ResetClass(pawn); // TMagic manually removes its trait(s).
+                CompatRegistry.Magic.ResetClass(pawn);
             }
-            else
-            {
-                TraitHelper.RemoveTraitFromPawn(pawn, replaceThisTrait);
-            }
+
+            TraitHelper.RemoveTraitFromPawn(pawn, replaceThisTrait);
 
             Viewer.Charge(
                 replaceThisShop.CostToRemove,
