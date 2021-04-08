@@ -123,6 +123,7 @@
         <Compile Include="Incidents\Backpack.cs"/>
         <Compile Include="Incidents\BuyPawn.cs"/>
         <Compile Include="Incidents\BuySurgery.cs"/>
+        <Compile Include="Incidents\ClearTraits.cs"/>
         <Compile Include="Incidents\FullHeal.cs"/>
         <Compile Include="Incidents\HealAll.cs"/>
         <Compile Include="Incidents\HealMe.cs"/>

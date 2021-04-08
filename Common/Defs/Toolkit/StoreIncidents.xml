@@ -244,12 +244,43 @@
     <TwitchToolkit.Incidents.StoreIncidentVariables>
         <defName>SetTraits</defName>
         <label>set traits</label>
-        <description>Sets the purchaser's pawn's traits to the traits specified. Every trait change will be charged individually according to the settings for said trait.</description>
+        <description>Sets the purchaser's pawn's traits to the traits specified. Every trait change will be charged
+            individually according to the settings for said trait.
+        </description>
         <abbreviation>settraits</abbreviation>
         <cost>1</cost>
         <eventCap>6</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.SetTraits</incidentHelper>
         <karmaType>Neutral</karmaType>
         <variables>4</variables>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <EventType>Trait</EventType>
+                <Parameters>
+                    <li>
+                        <Name>Trait(s)</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
+    
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>ClearTraits</defName>
+        <label>clear traits</label>
+        <description>Removes all the purchaser's pawn's traits. Every removal will be charged individually according to
+            the settings for said trait.
+        </description>
+        <abbreviation>cleartraits</abbreviation>
+        <cost>1</cost>
+        <eventCap>6</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ClearTraits</incidentHelper>
+        <karmaType>Neutral</karmaType>
+        <variables>0</variables>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <EventType>Trait</EventType>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>
