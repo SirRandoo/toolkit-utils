@@ -61,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             foreach ((Trait trait, TraitItem item) in traits)
             {
-                if (CompatRegistry.Magic?.IsClassTrait(trait.def) ?? false)
+                if ((CompatRegistry.Magic?.IsClassTrait(trait.def) ?? false) && TkSettings.ResetClass)
                 {
                     CompatRegistry.Magic?.ResetClass(pawn);
                 }

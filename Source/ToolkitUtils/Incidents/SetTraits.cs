@@ -201,7 +201,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     return;
                 }
 
-                if (CompatRegistry.Magic?.IsClassTrait(Trait.def) ?? false)
+                if ((CompatRegistry.Magic?.IsClassTrait(Trait.def) ?? false) && TkSettings.ResetClass)
                 {
                     CompatRegistry.Magic.ResetClass(pawn);
                 }
