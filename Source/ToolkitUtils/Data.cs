@@ -491,7 +491,7 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidateEventList()
         {
-            Store_IncidentEditor.EditorPathExists(); // Just to ensure the actual incidents are loaded.
+            Store_IncidentEditor.LoadCopies(); // Just to ensure the actual incidents are loaded.
             Events = DefDatabase<StoreIncident>.AllDefs.Select(i => new EventItem {Incident = i}).ToList();
         }
 
