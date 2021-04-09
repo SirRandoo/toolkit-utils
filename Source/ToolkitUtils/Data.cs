@@ -123,8 +123,8 @@ namespace SirRandoo.ToolkitUtils
         public static Dictionary<string, ItemData> ItemData { get; private set; }
         public static ModItem[] Mods { get; private set; }
         public static List<ThingItem> Items { get; set; }
-        public static List<SurgeryItem> Surgeries { get; set; }
-        public static List<EventItem> Events { get; set; }
+        public static List<SurgeryItem> Surgeries { get; private set; }
+        public static List<EventItem> Events { get; private set; }
 
         private static void ValidateItems()
         {
