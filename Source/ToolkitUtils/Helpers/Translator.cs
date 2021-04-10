@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             try
             {
-                return string.Format(LocalizeKeyed(key), args);
+                return string.Format(Localize(key), args);
             }
             catch (Exception)
             {
