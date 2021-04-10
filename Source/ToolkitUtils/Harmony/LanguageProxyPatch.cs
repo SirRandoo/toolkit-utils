@@ -57,6 +57,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             Translator.Invalidate();
+            Translator.CopyKeys();
         }
     }
 }

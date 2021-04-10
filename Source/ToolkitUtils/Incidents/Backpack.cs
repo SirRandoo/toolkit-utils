@@ -61,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (product?.Thing == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(item));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(item));
                 return false;
             }
 
@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.ResearchRequired".Localize(
+                    "TKUtils.ResearchRequired".LocalizeKeyed(
                         product.Thing.LabelCap.RawText,
                         projects.Select(p => p.LabelCap.RawText).SectionJoin()
                     )
@@ -103,7 +103,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Item.MinimumViolation".Localize(
+                    "TKUtils.Item.MinimumViolation".LocalizeKeyed(
                         purchaseRequest.Price.ToString("N0"),
                         ToolkitSettings.MinimumPurchasePrice.ToString("N0")
                     )
@@ -118,7 +118,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             MessageHelper.ReplyToUser(
                 viewer.username,
-                "TKUtils.InsufficientBalance".Localize(
+                "TKUtils.InsufficientBalance".LocalizeKeyed(
                     purchaseRequest.Price.ToString("N0"),
                     viewer.GetViewerCoins().ToString("N0")
                 )
@@ -193,7 +193,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 Find.LetterStack.ReceiveLetter(
                     (Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name).Truncate(15, true).CapitalizeFirst(),
-                    "TKUtils.BackpackLetter.Description".Localize(
+                    "TKUtils.BackpackLetter.Description".LocalizeKeyed(
                         Quantity.ToString("N0"),
                         Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
                         Purchaser.username
@@ -265,7 +265,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 {
                     MessageHelper.SendConfirmation(
                         Purchaser.username,
-                        "TKUtils.Item.Complete".Localize(
+                        "TKUtils.Item.Complete".LocalizeKeyed(
                             Quantity.ToString("N0"),
                             Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
                             Price.ToString("N0"),
@@ -277,7 +277,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 {
                     MessageHelper.SendConfirmation(
                         Purchaser.username,
-                        "TKUtils.Item.CompleteMinimal".Localize(
+                        "TKUtils.Item.CompleteMinimal".LocalizeKeyed(
                             Quantity.ToString("N0"),
                             Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
                             Price.ToString("N0")

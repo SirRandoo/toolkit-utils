@@ -70,7 +70,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return pawn.skills.skills.Any(s => (int) s.passion > (int) Passion.None);
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".Localize(query));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(query));
             return false;
         }
 

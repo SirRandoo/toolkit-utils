@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!Data.TryGetPawnKind(query, out PawnKindItem kindItem))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".Localize(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".LocalizeKeyed(query));
                 return false;
             }
 
@@ -90,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (raceDef == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".Localize(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".LocalizeKeyed(query));
                 return false;
             }
 
@@ -108,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return CanPurchaseRace(viewer, pawnKindItem);
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".Localize(query));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".LocalizeKeyed(query));
             return false;
         }
 
@@ -164,7 +164,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             MessageHelper.ReplyToUser(
                 viewer.username,
-                "TKUtils.InsufficientBalance".Localize(
+                "TKUtils.InsufficientBalance".LocalizeKeyed(
                     target.Cost.ToString("N0"),
                     viewer.GetViewerCoins().ToString("N0")
                 )

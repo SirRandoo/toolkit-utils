@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Text;
 using JetBrains.Annotations;
 using Verse;
 
@@ -29,11 +30,41 @@ namespace SirRandoo.ToolkitUtils.Helpers
         static Translator()
         {
             TranslationProxy = new ConcurrentDictionary<string, string>();
+            CopyKeys();
         }
 
         internal static void Invalidate()
         {
             TranslationProxy.Clear();
+        }
+
+        internal static void CopyKeys()
+        {
+            LoadedLanguage active = LanguageDatabase.activeLanguage;
+
+            if (active == null)
+            {
+                return;
+            }
+
+            var builder = new StringBuilder();
+            foreach ((string key, LoadedLanguage.KeyedReplacement value) in active.keyedReplacements)
+            {
+                if (!TranslationProxy.TryAdd(key, value.value))
+                {
+                    builder.AppendLine($"- {key}");
+                }
+            }
+
+            if (builder.Length <= 0)
+            {
+                return;
+            }
+
+            builder.Insert(0, "Could not copy the following translations:");
+            builder.AppendLine();
+            builder.AppendLine("You may experience translation errors!");
+            LogHelper.Warn(builder.ToString());
         }
 
         public static string Localize([NotNull] this string key)
@@ -52,11 +83,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [NotNull]
-        public static string Localize([NotNull] this string key, params object[] args)
+        public static string LocalizeKeyed([NotNull] this string key, params object[] args)
         {
             try
             {
-                return string.Format(Localize(key), args);
+                return string.Format(LocalizeKeyed(key), args);
             }
             catch (Exception)
             {
@@ -65,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [NotNull]
-        public static string Localize([NotNull] this string key, string backup, params object[] args)
+        public static string LocalizeKeyed([NotNull] this string key, string backup, params object[] args)
         {
             try
             {

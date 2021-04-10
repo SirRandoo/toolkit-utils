@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (target == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".Localize(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(query));
                 return false;
             }
 
@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.SuccessDescription".Localize(Viewer.username, skill.def.label),
+                "TKUtils.PassionLetter.SuccessDescription".LocalizeKeyed(Viewer.username, skill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -152,7 +152,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.DecreaseDescription".Localize(Viewer.username, skill.def.label),
+                "TKUtils.PassionLetter.DecreaseDescription".LocalizeKeyed(Viewer.username, skill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -164,7 +164,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.FailedDescription".Localize(Viewer.username, skill.def.label),
+                "TKUtils.PassionLetter.FailedDescription".LocalizeKeyed(Viewer.username, skill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -174,12 +174,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             MessageHelper.SendConfirmation(
                 Viewer.username,
-                "TKUtils.Passion.Hopped".Localize(viewerSkill.def.label, randomSkill.def.label)
+                "TKUtils.Passion.Hopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label)
             );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.HoppedDescription".Localize(
+                "TKUtils.PassionLetter.HoppedDescription".LocalizeKeyed(
                     Viewer.username,
                     viewerSkill.def.label,
                     randomSkill.def.label
@@ -193,12 +193,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             MessageHelper.SendConfirmation(
                 Viewer.username,
-                "TKUtils.Passion.DecreaseHopped".Localize(viewerSkill.def.label, randomSkill.def.label)
+                "TKUtils.Passion.DecreaseHopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label)
             );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.DecreaseHoppedDescription".Localize(
+                "TKUtils.PassionLetter.DecreaseHoppedDescription".LocalizeKeyed(
                     Viewer.username,
                     viewerSkill.def.label,
                     randomSkill.def.label

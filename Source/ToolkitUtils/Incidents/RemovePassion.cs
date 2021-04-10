@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (target == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".Localize(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(query));
                 return false;
             }
 
@@ -121,11 +121,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifySuccess([NotNull] SkillRecord skill)
         {
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemovePassion.Complete".Localize(skill.def.label));
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                "TKUtils.RemovePassion.Complete".LocalizeKeyed(skill.def.label)
+            );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.SuccessDescription".Localize(Viewer.username, skill.def.label),
+                "TKUtils.PassionLetter.SuccessDescription".LocalizeKeyed(Viewer.username, skill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -133,11 +136,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyIncrease([NotNull] SkillRecord skill)
         {
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemovePassion.Increase".Localize(skill.def.label));
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                "TKUtils.RemovePassion.Increase".LocalizeKeyed(skill.def.label)
+            );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.IncreaseDescription".Localize(Viewer.username, skill.def.label),
+                "TKUtils.PassionLetter.IncreaseDescription".LocalizeKeyed(Viewer.username, skill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -145,11 +151,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyFailed([NotNull] SkillRecord skill)
         {
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Failed".Localize(skill.def.label));
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Failed".LocalizeKeyed(skill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.FailedDescription".Localize(Viewer.username, skill.def.label),
+                "TKUtils.PassionLetter.FailedDescription".LocalizeKeyed(Viewer.username, skill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -159,12 +165,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             MessageHelper.SendConfirmation(
                 Viewer.username,
-                "TKUtils.RemovePassion.Hopped".Localize(viewerSkill.def.label, randomSkill.def.label)
+                "TKUtils.RemovePassion.Hopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label)
             );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.RemoveHoppedDescription".Localize(
+                "TKUtils.PassionLetter.RemoveHoppedDescription".LocalizeKeyed(
                     Viewer.username,
                     viewerSkill.def.label,
                     randomSkill.def.label
@@ -178,12 +184,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             MessageHelper.SendConfirmation(
                 Viewer.username,
-                "TKUtils.RemovePassion.IncreaseHopped".Localize(viewerSkill.def.label, randomSkill.def.label)
+                "TKUtils.RemovePassion.IncreaseHopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label)
             );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.IncreaseHoppedDescription".Localize(
+                "TKUtils.PassionLetter.IncreaseHoppedDescription".LocalizeKeyed(
                     Viewer.username,
                     viewerSkill.def.label,
                     randomSkill.def.label

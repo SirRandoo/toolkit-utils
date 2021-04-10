@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 twitchMessage.Reply(
                     (!query.NullOrEmpty()
-                        ? "TKUtils.Research.InvalidQuery".Localize(query)
+                        ? "TKUtils.Research.InvalidQuery".LocalizeKeyed(query)
                         : "TKUtils.Research.None".Localize()).WithHeader("Research".Localize())
                 );
                 return;

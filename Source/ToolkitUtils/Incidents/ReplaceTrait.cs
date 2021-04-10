@@ -69,13 +69,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!Data.TryGetTrait(toReplace, out replaceThisShop))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplace));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(toReplace));
                 return false;
             }
 
             if (!Data.TryGetTrait(toReplaceWith, out replaceThatShop))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplaceWith));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(toReplaceWith));
                 return false;
             }
 
@@ -83,7 +83,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Disabled".Localize(replaceThisShop.Name.CapitalizeFirst())
+                    "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(replaceThisShop.Name.CapitalizeFirst())
                 );
                 return false;
             }
@@ -103,7 +103,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.ReplaceTrait.Violation".Localize(replaceThisShop.Name, replaceThatShop.Name)
+                    "TKUtils.ReplaceTrait.Violation".LocalizeKeyed(replaceThisShop.Name, replaceThatShop.Name)
                 );
                 return false;
             }
@@ -112,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.InsufficientBalance".Localize(
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(
                         (replaceThisShop.CostToRemove + replaceThatShop.CostToAdd).ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
@@ -125,13 +125,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (replaceThisTraitDef == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplace));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(toReplace));
                 return false;
             }
 
             if (replaceThatTraitDef == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(toReplaceWith));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(toReplaceWith));
                 return false;
             }
 
@@ -139,7 +139,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Trait.RestrictedByBackstory".Localize(thatBackstory.identifier, toReplaceWith)
+                    "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(thatBackstory.identifier, toReplaceWith)
                 );
                 return false;
             }
@@ -148,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.race.LabelCap, toReplaceWith)
+                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, toReplaceWith)
                 );
                 return false;
             }
@@ -168,7 +168,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Kind".Localize(pawn.kindDef.race.LabelCap, replaceThisShop.Name)
+                    "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, replaceThisShop.Name)
                 );
                 return false;
             }
@@ -177,7 +177,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".Localize(pawn.kindDef.race.LabelCap, replaceThatShop.Name)
+                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, replaceThatShop.Name)
                 );
                 return false;
             }
@@ -196,7 +196,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (replaceThisTrait == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Missing".Localize(toReplace));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Missing".LocalizeKeyed(toReplace));
                 return false;
             }
 
@@ -204,7 +204,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Class".Localize(replaceThisTrait.Label)
+                    "TKUtils.RemoveTrait.Class".LocalizeKeyed(replaceThisTrait.Label)
                 );
                 return false;
             }
@@ -215,7 +215,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return true;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".Localize(toReplaceWith));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".LocalizeKeyed(toReplaceWith));
             return false;
         }
 
@@ -240,12 +240,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             MessageHelper.SendConfirmation(
                 Viewer.username,
-                "TKUtils.ReplaceTrait.Complete".Localize(replaceThisTrait.LabelCap, replaceThatTrait.LabelCap)
+                "TKUtils.ReplaceTrait.Complete".LocalizeKeyed(replaceThisTrait.LabelCap, replaceThatTrait.LabelCap)
             );
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),
-                "TKUtils.TraitLetter.ReplaceDescription".Localize(
+                "TKUtils.TraitLetter.ReplaceDescription".LocalizeKeyed(
                     Viewer.username,
                     replaceThisTrait.LabelCap,
                     replaceThatTrait.LabelCap

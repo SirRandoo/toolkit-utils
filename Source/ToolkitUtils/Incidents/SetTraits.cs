@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 if (!Data.TryGetTrait(query, out TraitItem trait))
                 {
-                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(query));
+                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(query));
                     yield break;
                 }
 
@@ -108,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                             return new TraitEvent
                             {
-                                Type = EventType.Noop, Error = "TKUtils.RemoveTrait.Disabled".Localize(trait.Name)
+                                Type = EventType.Noop, Error = "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(trait.Name)
                             };
                         }
                     )
@@ -131,7 +131,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                             return new TraitEvent
                             {
-                                Type = EventType.Noop, Error = "TKUtils.Trait.Disabled".Localize(t.Name)
+                                Type = EventType.Noop, Error = "TKUtils.Trait.Disabled".LocalizeKeyed(t.Name)
                             };
                         }
                     )

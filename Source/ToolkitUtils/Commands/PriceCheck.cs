@@ -88,7 +88,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             Notify__LookupComplete(
-                "TKUtils.Price.Quantity".Localize(
+                "TKUtils.Price.Quantity".LocalizeKeyed(
                     result.defName.CapitalizeFirst(),
                     item.Cost.ToString("N0"),
                     item.Item!.CalculatePrice(quantity).ToString("N0"),
@@ -115,7 +115,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 case EventTypes.Default:
                     Notify__LookupComplete(
-                        "TKUtils.Price.Limited".Localize(
+                        "TKUtils.Price.Limited".LocalizeKeyed(
                             result.abbreviation.CapitalizeFirst(),
                             result.cost.ToString("N0")
                         )
@@ -133,7 +133,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     Notify__LookupComplete(
                         new[]
                         {
-                            "TKUtils.Price.Variables".Localize(
+                            "TKUtils.Price.Variables".LocalizeKeyed(
                                 result.abbreviation.CapitalizeFirst(),
                                 result.cost.ToString("N0")
                             ),
@@ -158,7 +158,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             Notify__LookupComplete(
-                "TKUtils.Price.Quantity".Localize(
+                "TKUtils.Price.Quantity".LocalizeKeyed(
                     result.Name.CapitalizeFirst(),
                     result.Cost.ToString("N0"),
                     result.Item!.CalculatePrice(quantity).ToString("N0"),
@@ -207,7 +207,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             Notify__LookupComplete(
-                "TKUtils.Price.Limited".Localize(result!.Name.ToToolkit().CapitalizeFirst(), result.Cost.ToString("N0"))
+                "TKUtils.Price.Limited".LocalizeKeyed(
+                    result!.Name.ToToolkit().CapitalizeFirst(),
+                    result.Cost.ToString("N0")
+                )
             );
         }
 

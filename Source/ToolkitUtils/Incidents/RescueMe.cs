@@ -167,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             string output = pawnRelationsInfo.NullOrEmpty()
                 ? ""
-                : $"\n\n{"PawnHasRelationshipsWithColonists".Localize(pawn?.LabelShort, pawn)}\n\n{pawnRelationsInfo}";
+                : $"\n\n{"PawnHasRelationshipsWithColonists".LocalizeKeyed(pawn?.LabelShort, pawn)}\n\n{pawnRelationsInfo}";
             slate.Set("prisoner", pawn);
 
             outExtraDescriptionRules.Add(new Rule_String("prisonerFullRelationInfo", output));
@@ -184,7 +184,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (site.HasWorldObjectTimeout)
             {
                 str +=
-                    $" ({"DurationLeft".Localize((NamedArgument) site.WorldObjectTimeoutTicksLeft.ToStringTicksToPeriod())})";
+                    $" ({"DurationLeft".LocalizeKeyed((NamedArgument) site.WorldObjectTimeoutTicksLeft.ToStringTicksToPeriod())})";
             }
 
             return str;

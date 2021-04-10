@@ -61,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
             builder.Append("TKUtils.PawnClass.Level".Localize(might.MightUserLevel.ToString("N0")));
             builder.Append(", ");
             builder.Append(
-                "TKUtils.PawnClass.Experience".Localize(
+                "TKUtils.PawnClass.Experience".LocalizeKeyed(
                     might.MightUserXP.ToString("N0"),
                     might.MightUserXPTillNextLevel.ToString("N0")
                 )
@@ -100,7 +100,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
             builder.Append("TKUtils.PawnClass.Level".Localize(magic.MagicUserLevel.ToString("N0")));
             builder.Append(", ");
             builder.Append(
-                "TKUtils.PawnClass.Experience".Localize(
+                "TKUtils.PawnClass.Experience".LocalizeKeyed(
                     magic.MagicUserXP.ToString("N0"),
                     magic.MagicUserXPTillNextLevel.ToString("N0")
                 )

@@ -99,7 +99,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 if (!response.NullOrEmpty())
                 {
-                    MessageHelper.ReplyToUser(Viewer.username, response.Localize(target));
+                    MessageHelper.ReplyToUser(Viewer.username, response.LocalizeKeyed(target));
                 }
             }
 
@@ -119,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 Current.Game.letterStack.ReceiveLetter(
                     "TKUtils.HealLetter.Title".Localize(),
-                    description.Localize(Viewer.username, target),
+                    description.LocalizeKeyed(Viewer.username, target),
                     LetterDefOf.PositiveEvent,
                     pawn
                 );

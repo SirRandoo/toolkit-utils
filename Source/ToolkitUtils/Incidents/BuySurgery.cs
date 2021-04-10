@@ -52,13 +52,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (appointment.ThingDef == null || appointment.Item == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".Localize(partQuery));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(partQuery));
                 return false;
             }
 
             if (appointment.ThingDef.IsMedicine || appointment.Surgery == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".Localize(partQuery));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".LocalizeKeyed(partQuery));
                 return false;
             }
 
@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.ResearchRequired".Localize(
+                    "TKUtils.ResearchRequired".LocalizeKeyed(
                         appointment.ThingDef.LabelCap.RawText,
                         projects.Select(p => p.LabelCap.RawText).SectionJoin()
                     )
@@ -80,7 +80,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.InsufficientBalance".Localize(
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(
                         appointment.Cost.ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
@@ -143,7 +143,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.SurgeryLetter.Title".Localize(),
-                "TKUtils.SurgeryLetter.Description".Localize(
+                "TKUtils.SurgeryLetter.Description".LocalizeKeyed(
                     Viewer.username,
                     Find.ActiveLanguageWorker.WithDefiniteArticle(thing.LabelCap)
                 ),

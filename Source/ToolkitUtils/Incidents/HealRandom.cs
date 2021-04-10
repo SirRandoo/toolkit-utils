@@ -112,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            string descriptionTranslated = description.Localize(target.LabelShort.CapitalizeFirst(), affected);
+            string descriptionTranslated = description.LocalizeKeyed(target.LabelShort.CapitalizeFirst(), affected);
             MessageHelper.SendConfirmation(Viewer.username, descriptionTranslated);
 
             Current.Game.letterStack.ReceiveLetter(

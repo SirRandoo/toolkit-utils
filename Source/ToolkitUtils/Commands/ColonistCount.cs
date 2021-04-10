@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            twitchMessage.Reply("TKUtils.ColonistCount.Any".Localize(colonists.Count.ToString("N0")));
+            twitchMessage.Reply("TKUtils.ColonistCount.Any".LocalizeKeyed(colonists.Count.ToString("N0")));
         }
     }
 }

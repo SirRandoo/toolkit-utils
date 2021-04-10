@@ -61,13 +61,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!Data.TryGetTrait(query, out TraitItem traitQuery))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".Localize(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(query));
                 return false;
             }
 
             if (!traitQuery!.CanRemove)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Disabled".Localize(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(query));
                 return false;
             }
 
@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.InsufficientBalance".Localize(
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(
                         traitQuery.CostToRemove.ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
@@ -88,7 +88,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (target == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Missing".Localize(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Missing".LocalizeKeyed(query));
                 return false;
             }
 
@@ -105,14 +105,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Kind".Localize(pawn.kindDef.race.LabelCap, traitQuery.Name)
+                    "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, traitQuery.Name)
                 );
                 return false;
             }
 
             if ((CompatRegistry.Magic?.IsClassTrait(target.def) ?? false) && !TkSettings.ClassChanges)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Class".Localize(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Class".LocalizeKeyed(query));
                 return false;
             }
 
@@ -135,7 +135,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),
-                "TKUtils.TraitLetter.RemoveDescription".Localize(Viewer.username, trait.LabelCap),
+                "TKUtils.TraitLetter.RemoveDescription".LocalizeKeyed(Viewer.username, trait.LabelCap),
                 LetterDefOf.NeutralEvent,
                 new LookTargets(pawn)
             );

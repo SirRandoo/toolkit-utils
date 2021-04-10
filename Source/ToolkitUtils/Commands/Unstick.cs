@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
 
-            twitchMessage.Reply("TKUtils.Unstick".Localize(stuck.ToString()));
+            twitchMessage.Reply("TKUtils.Unstick".LocalizeKeyed(stuck.ToString()));
         }
     }
 }

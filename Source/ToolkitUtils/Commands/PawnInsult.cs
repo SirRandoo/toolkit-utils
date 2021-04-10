@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (target == null)
                 {
-                    twitchMessage.Reply("TKUtils.PawnNotFound".Localize(query));
+                    twitchMessage.Reply("TKUtils.PawnNotFound".LocalizeKeyed(query));
                     return;
                 }
             }

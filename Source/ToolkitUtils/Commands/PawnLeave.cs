@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 twitchMessage.Reply("TKUtils.Leave.Thanos".Localize());
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.LeaveLetter.ThanosTitle".Localize(),
-                    "TKUtils.LeaveLetter.ThanosDescription".Localize(pawn.LabelShortCap),
+                    "TKUtils.LeaveLetter.ThanosDescription".LocalizeKeyed(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
                 );
@@ -92,7 +92,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 twitchMessage.Reply("TKUtils.Leave.Generic".Localize());
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.LeaveLetter.GenericTitle".Localize(),
-                    "TKUtils.LeaveLetter.GenericDescription".Localize(pawn.LabelShortCap),
+                    "TKUtils.LeaveLetter.GenericDescription".LocalizeKeyed(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
                 );

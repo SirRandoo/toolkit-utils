@@ -678,7 +678,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Rect lineRect = listing.GetRect(Text.LineHeight);
             DrawLabel(lineRect, modName, TextAnchor.LowerLeft, GameFont.Tiny);
 
-            string modRequirementString = "TKUtils.ModRequirement".Localize(modName);
+            string modRequirementString = "TKUtils.ModRequirement".LocalizeKeyed(modName);
             GUI.color = new Color(1f, 0.53f, 0.76f);
 
             Text.Font = GameFont.Tiny;
