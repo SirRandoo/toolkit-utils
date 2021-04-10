@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (h is Hediff_Addiction a && a.Visible && a.def.everCurableByItem)
+                if (h is Hediff_Addiction {Visible: true} a && a.def.everCurableByItem)
                 {
                     return a;
                 }
@@ -144,8 +144,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (h is Hediff_Injury h2
-                    && h2.Visible
+                if (h is Hediff_Injury {Visible: true} h2
                     && h2.def.everCurableByItem
                     && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))
                     && (injury == null || h2.Severity > injury.Severity))
@@ -268,8 +267,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (h is Hediff_Injury h2
-                    && h2.Visible
+                if (h is Hediff_Injury {Visible: true} h2
                     && h2.IsPermanent()
                     && h2.def.everCurableByItem
                     && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))

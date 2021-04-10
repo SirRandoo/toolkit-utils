@@ -624,7 +624,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             );
         }
 
-        public static void DrawExperimentalNotice(this Listing listing)
+        public static void DrawExperimentalNotice([NotNull] this Listing listing)
         {
             listing.DrawDescription("TKUtils.Experimental".Localize(), new Color(1f, 0.53f, 0.76f));
         }

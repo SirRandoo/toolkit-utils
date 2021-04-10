@@ -70,12 +70,15 @@ namespace SirRandoo.ToolkitUtils.Commands
             target ??= Find.ColonistBar.Entries.RandomElement().pawn;
             Job job = JobMaker.MakeJob(JobDefOf.Insult, target);
 
-            if (job.CanBeginNow(pawn))
+            if (!job.CanBeginNow(pawn))
             {
-                data.SetViewerKarma(Math.Max(data.karma - 15, ToolkitSettings.KarmaMinimum));
-
-                pawn.jobs.StartJob(job, JobCondition.InterruptForced);
+                return;
             }
+
+            data.SetViewerKarma(
+                Math.Max(data.karma - (int) Math.Ceiling(data.karma * 0.1), ToolkitSettings.KarmaMinimum)
+            );
+            pawn!.jobs.StartJob(job, JobCondition.InterruptForced);
         }
     }
 }

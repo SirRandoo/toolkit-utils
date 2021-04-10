@@ -26,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class Unstick : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             int stuck = Purchase_Handler.viewerNamesDoingVariableCommands.Count;
 

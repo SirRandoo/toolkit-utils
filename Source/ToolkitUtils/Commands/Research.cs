@@ -40,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             else
             {
                 project = DefDatabase<ResearchProjectDef>.AllDefs.FirstOrDefault(
-                    p => p.defName.EqualsIgnoreCase(query) || p.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                    p => p.defName.EqualsIgnoreCase(query) || p.label.ToToolkit().EqualsIgnoreCase(query!.ToToolkit())
                 );
 
 
@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     ThingDef thing = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(
                         t => t.defName.EqualsIgnoreCase(query)
-                             || t.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
+                             || t.label.ToToolkit().EqualsIgnoreCase(query!.ToToolkit())
                     );
 
                     project = thing?.recipeMaker?.researchPrerequisite;

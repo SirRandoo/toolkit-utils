@@ -44,17 +44,17 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             var projects = new List<ResearchProjectDef>();
 
-            if (!thing.recipeMaker?.researchPrerequisite?.IsFinished ?? false)
+            if (thing.recipeMaker?.researchPrerequisite?.IsFinished == false)
             {
                 projects.Add(thing.recipeMaker.researchPrerequisite);
             }
 
-            if (thing.recipeMaker?.researchPrerequisites?.Any(p => !p.IsFinished) ?? false)
+            if (thing.recipeMaker?.researchPrerequisites?.Any(p => !p.IsFinished) == true)
             {
                 projects.AddRange(thing.recipeMaker.researchPrerequisites.Where(p => !p.IsFinished));
             }
 
-            if (thing.researchPrerequisites?.Any(p => !p.IsFinished) ?? false)
+            if (thing.researchPrerequisites?.Any(p => !p.IsFinished) == true)
             {
                 projects.AddRange(thing.researchPrerequisites.Where(p => !p.IsFinished));
             }

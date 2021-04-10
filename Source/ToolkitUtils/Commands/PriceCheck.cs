@@ -91,7 +91,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 "TKUtils.Price.Quantity".Localize(
                     result.defName.CapitalizeFirst(),
                     item.Cost.ToString("N0"),
-                    item.Item.CalculatePrice(quantity).ToString("N0"),
+                    item.Item!.CalculatePrice(quantity).ToString("N0"),
                     quantity
                 )
             );
@@ -161,7 +161,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 "TKUtils.Price.Quantity".Localize(
                     result.Name.CapitalizeFirst(),
                     result.Cost.ToString("N0"),
-                    result.Item.CalculatePrice(quantity).ToString("N0"),
+                    result.Item!.CalculatePrice(quantity).ToString("N0"),
                     quantity
                 )
             );
@@ -207,7 +207,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             Notify__LookupComplete(
-                "TKUtils.Price.Limited".Localize(result.Name.ToToolkit().CapitalizeFirst(), result.Cost.ToString("N0"))
+                "TKUtils.Price.Limited".Localize(result!.Name.ToToolkit().CapitalizeFirst(), result.Cost.ToString("N0"))
             );
         }
 
@@ -218,7 +218,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            if (!result.CanAdd && !result.CanRemove)
+            if (!result!.CanAdd && !result.CanRemove)
             {
                 return;
             }

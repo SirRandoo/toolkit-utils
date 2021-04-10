@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class InstalledMods : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             twitchMessage.Reply(
                 (TkSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).WithHeader(
@@ -36,11 +36,13 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
         }
 
+        [NotNull]
         private static string GetModListString()
         {
             return Data.Mods.Select(m => m.Name).SectionJoin();
         }
 
+        [NotNull]
         private static string GetModListStringVersioned()
         {
             return Data.Mods.Select(

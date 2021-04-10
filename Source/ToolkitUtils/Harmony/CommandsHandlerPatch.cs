@@ -62,17 +62,17 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            string prefixless = GetCommandString(message);
+            string sanitized = GetCommandString(message);
 
-            if (prefixless == null)
+            if (sanitized == null)
             {
                 return false;
             }
 
-            List<string> segments = CommandFilter.Parse(prefixless).ToList();
-            bool unemoji = segments.Any(i => i.EqualsIgnoreCase("--text"))
-                           || twitchMessage is ChatMessage chatMessage
-                           && chatMessage.BotUsername.Equals("puppeteer", StringComparison.InvariantCultureIgnoreCase);
+            List<string> segments = CommandFilter.Parse(sanitized).ToList();
+            bool text = segments.Any(i => i.EqualsIgnoreCase("--text"))
+                        || twitchMessage is ChatMessage chatMessage
+                        && chatMessage.BotUsername.Equals("puppeteer", StringComparison.InvariantCultureIgnoreCase);
 
             if (segments.Count <= 0)
             {
@@ -84,13 +84,13 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 segments = segments.Skip(1).ToList();
             }
 
-            if (unemoji)
+            if (text)
             {
                 segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToList();
             }
 
             LocateCommand(segments.ToArray())
-              ?.Execute(twitchMessage.WithMessage("!" + CombineSegments(segments).Trim()), unemoji);
+              ?.Execute(twitchMessage.WithMessage("!" + CombineSegments(segments).Trim())!, text);
             return false;
         }
 
@@ -169,7 +169,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             return message.StartsWith(TkSettings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase)
-                ? $"{DefDatabase<Command>.GetNamed("Buy").command} {message.Substring(TkSettings.BuyPrefix.Length)}"
+                ? $"{CommandDefOf.Buy.command} {message.Substring(TkSettings.BuyPrefix.Length)}"
                 : null;
         }
     }

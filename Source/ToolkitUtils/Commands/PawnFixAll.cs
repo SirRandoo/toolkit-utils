@@ -26,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnFixAll : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             foreach (Viewer viewer in Viewers.All)
             {
@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     continue;
                 }
 
-                var name = pawn.Name as NameTriple;
+                var name = pawn!.Name as NameTriple;
 
                 if (name?.Nick != viewer.username)
                 {

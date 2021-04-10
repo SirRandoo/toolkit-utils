@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var parts = new List<string>
             {
-                $"{"Backstory".Localize()}: {pawn.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).SectionJoin()}"
+                $"{"Backstory".Localize()}: {pawn!.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).SectionJoin()}"
             };
 
             if (!pawn.story.title.NullOrEmpty())

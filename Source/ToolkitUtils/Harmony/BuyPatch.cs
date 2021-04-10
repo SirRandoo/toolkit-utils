@@ -26,12 +26,10 @@ using TwitchToolkit.Store;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch(typeof(Buy), "RunCommand")]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
     public static class BuyPatch
     {
-        private static string buyCommand;
-
         public static bool Prefix([CanBeNull] CommandDriver __instance, ITwitchMessage twitchMessage)
         {
             if (__instance == null)
@@ -49,15 +47,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (!__instance.command.defName.Equals("Buy"))
             {
-                buyCommand ??= Verse.DefDatabase<Command>.GetNamed("Buy", false).command;
-                message = twitchMessage.WithMessage($"!{buyCommand} {twitchMessage.Message.Substring(1)}");
-            }
-            else
-            {
-                buyCommand = __instance.command.command;
+                message = twitchMessage.WithMessage(
+                    $"!{CommandDefOf.Buy.command} {twitchMessage.Message.Substring(1)}"
+                );
             }
 
-            if (message.Message.Split(' ').Length < 2)
+            if (message!.Message.Split(' ').Length < 2)
             {
                 return false;
             }

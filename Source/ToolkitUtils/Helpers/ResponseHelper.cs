@@ -80,21 +80,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return string.Join(", ", l);
         }
 
-        public static string Localize(this string key, params NamedArgument[] args)
-        {
-            if (args.NullOrEmpty())
-            {
-                return key.TranslateSimple();
-            }
-
-            return key.Translate(args);
-        }
-
-        public static string LocalizeWithBackup(this string key, string backup)
-        {
-            return key.CanTranslate() ? key.TranslateSimple() : backup.TranslateSimple();
-        }
-
         public static string Pluralize(this string s)
         {
             return Find.ActiveLanguageWorker?.Pluralize(s) ?? s;

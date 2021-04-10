@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var parts = new List<string>();
-            List<SkillRecord> skills = pawn.skills.skills;
+            List<SkillRecord> skills = pawn!.skills.skills;
 
             foreach (SkillRecord skill in skills)
             {

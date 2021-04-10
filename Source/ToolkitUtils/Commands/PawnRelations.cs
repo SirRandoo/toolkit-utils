@@ -52,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 && component.pawnHistory.TryGetValue(viewer.ToLowerInvariant(), out Pawn viewerPawn))
             {
                 int theirOpinion = viewerPawn.relations.OpinionOf(pawn);
-                int myOpinion = pawn.relations.OpinionOf(viewerPawn);
+                int myOpinion = pawn!.relations.OpinionOf(viewerPawn);
                 string relationship = GetSocialString(pawn, viewerPawn, myOpinion, true);
 
                 if (relationship.NullOrEmpty())
@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         private static void ShowRelationshipOverview(
-            ITwitchMessage twitchMessage,
+            [NotNull] ITwitchMessage twitchMessage,
             [NotNull] GameComponentPawns component,
             Pawn pawn
         )

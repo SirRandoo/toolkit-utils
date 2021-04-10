@@ -110,7 +110,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             List<Thing> inventory = pawn.inventory.innerContainer.InnerListForReading ?? new List<Thing>();
             var usedInventory = new List<Thing>();
 
-            if (sidearms?.Any() ?? false)
+            if (sidearms?.Count > 0)
             {
                 GetSidearmData(sidearms, equipmentCount, equipment, weapons, inventory, usedInventory);
             }
@@ -118,7 +118,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 Pawn_EquipmentTracker e = pawn.equipment;
 
-                if (e != null && e.AllEquipmentListForReading?.Count > 0)
+                if (e?.AllEquipmentListForReading?.Count > 0)
                 {
                     IEnumerable<string> equip = e.AllEquipmentListForReading.Select(eq => eq.LabelCap);
 
@@ -126,17 +126,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            if (weapons.Any())
+            if (weapons.Count <= 0)
             {
-                string section = "Stat_Weapon_Name".Localize();
-
-                if (weapons.Count > 1)
-                {
-                    section = section.Pluralize();
-                }
-
-                parts.Add($"{section}: {weapons.SectionJoin()}");
+                return;
             }
+
+            string section = "Stat_Weapon_Name".Localize();
+
+            parts.Add($"{(weapons.Count > 1 ? section.Pluralize() : section)}: {weapons.SectionJoin()}");
         }
 
         private static void GetTemperatureValues(Thing pawn, [NotNull] ICollection<string> parts)
@@ -145,7 +142,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             string tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
             parts.Add(
-                $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize() + " ")}{tempMin}~{tempMax}"
+                $"{ResponseHelper.TemperatureGlyph.AltText($"{"ComfyTemperatureRange".Localize()} ")}{tempMin}~{tempMax}"
             );
         }
 
@@ -161,7 +158,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             var loops = 0;
             var equipmentUsed = false;
 
-            while (sidearms.Any() && loops <= 50)
+            while (sidearms.Count > 0 && loops <= 50)
             {
                 Thing sidearm = sidearms.Take(1).FirstOrDefault();
 
@@ -229,18 +226,18 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (sharp > 0)
             {
                 stats.Add(
-                    $"{ResponseHelper.DaggerGlyph.AltText("ArmorSharp".Localize() + " ")}{sharp.ToStringPercent()}"
+                    $"{ResponseHelper.DaggerGlyph.AltText($"{"ArmorSharp".Localize()} ")}{sharp.ToStringPercent()}"
                 );
             }
 
             if (blunt > 0)
             {
-                stats.Add($"{ResponseHelper.PanGlyph.AltText("ArmorBlunt".Localize() + " ")}{blunt.ToStringPercent()}");
+                stats.Add($"{ResponseHelper.PanGlyph.AltText($"{"ArmorBlunt".Localize()} ")}{blunt.ToStringPercent()}");
             }
 
             if (heat > 0)
             {
-                stats.Add($"{ResponseHelper.FireGlyph.AltText("ArmorHeat".Localize() + " ")}{heat.ToStringPercent()}");
+                stats.Add($"{ResponseHelper.FireGlyph.AltText($"{"ArmorHeat".Localize()} ")}{heat.ToStringPercent()}");
             }
 
             if (stats.Any())

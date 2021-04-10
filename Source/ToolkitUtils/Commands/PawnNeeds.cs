@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            if (pawn.needs?.AllNeeds == null)
+            if (pawn!.needs?.AllNeeds == null)
             {
                 twitchMessage.Reply("TKUtils.PawnNeeds.None".Localize().WithHeader("TabNeeds".Localize()));
                 return;

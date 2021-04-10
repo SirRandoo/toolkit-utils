@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            if (pawn.workSettings == null || (!pawn.workSettings?.EverWork ?? true))
+            if (pawn!.workSettings?.EverWork == false)
             {
                 twitchMessage.Reply(
                     "TKUtils.PawnWork.None".Localize().WithHeader("TKUtils.PawnWork.Header".Localize())

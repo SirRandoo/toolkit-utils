@@ -103,7 +103,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         [NotNull]
-        private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder(Pawn pawn)
+        private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder([NotNull] Pawn pawn)
         {
             return GetVisibleHediffs(pawn).GroupBy(x => x.Part).OrderByDescending(x => GetListPriority(x.First().Part));
         }

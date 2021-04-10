@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            int totalKills = pawn.records.GetAsInt(RecordDefOf.Kills);
+            int totalKills = pawn!.records.GetAsInt(RecordDefOf.Kills);
             int animalKills = pawn.records.GetAsInt(RecordDefOf.KillsAnimals);
             int humanLikeKills = pawn.records.GetAsInt(RecordDefOf.KillsHumanlikes);
             int mechanoidKills = pawn.records.GetAsInt(RecordDefOf.KillsMechanoids);

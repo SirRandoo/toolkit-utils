@@ -45,7 +45,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
             string item = segments.FirstOrFallback();
             string quantity = segments.Skip(1).FirstOrFallback("1");
 
-            if (item.NullOrEmpty() || (!CommandBase.GetOrFindPawn(viewer.username)?.Spawned ?? true))
+            if (item.NullOrEmpty()
+                || !PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn)
+                || (!pawn?.Spawned ?? true))
             {
                 return false;
             }
@@ -94,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             purchaseRequest = new PurchaseBackpackRequest
             {
-                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = viewer
+                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = viewer, Pawn = pawn
             };
 
             if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
@@ -109,19 +111,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!viewer.CanAfford(purchaseRequest.Price))
+            if (viewer.CanAfford(purchaseRequest.Price))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InsufficientBalance".Localize(
-                        purchaseRequest.Price.ToString("N0"),
-                        viewer.GetViewerCoins().ToString("N0")
-                    )
-                );
-                return false;
+                return purchaseRequest.Map != null;
             }
 
-            return purchaseRequest.Map != null;
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.InsufficientBalance".Localize(
+                    purchaseRequest.Price.ToString("N0"),
+                    viewer.GetViewerCoins().ToString("N0")
+                )
+            );
+            return false;
         }
 
         public override void Execute()
@@ -136,142 +138,152 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 LogHelper.Warn($"Backpack failed to execute with error message: {e.Message}");
             }
         }
-    }
 
-    internal class PurchaseBackpackRequest
-    {
-        private Pawn pawn;
-
-        public int Price => Mathf.Clamp(ItemData.Cost * Quantity, 0, int.MaxValue);
-        public int Quantity { get; set; }
-        public ThingItem ItemData { get; set; }
-        public ThingDef ThingDef { get; set; }
-        public Viewer Purchaser { get; set; }
-        public Map Map => Pawn.Map;
-        private Pawn Pawn => pawn ??= CommandBase.GetOrFindPawn(Purchaser.username);
-
-        public void Spawn()
+        private class PurchaseBackpackRequest
         {
-            ThingDef result = null;
-            if (ThingDef.MadeFromStuff
-                && !GenStuff.AllowedStuffsFor(ThingDef)
-                   .Where(t => Data.ItemData.TryGetValue(t.defName, out ItemData data) && data.IsStuffAllowed)
-                   .Where(t => !PawnWeaponGenerator.IsDerpWeapon(ThingDef, t))
-                   .TryRandomElementByWeight(t => t.stuffProps.commonality, out result))
+            private Pawn pawn;
+
+            public int Price => Mathf.Clamp(ItemData.Cost * Quantity, 0, int.MaxValue);
+            public int Quantity { get; set; }
+            public ThingItem ItemData { get; set; }
+            public ThingDef ThingDef { get; set; }
+            public Viewer Purchaser { get; set; }
+            [CanBeNull] public Map Map => Pawn?.Map;
+
+            [CanBeNull]
+            public Pawn Pawn
             {
-                LogHelper.Warn("Could not generate stuff for item! Falling back to a random stuff...");
-                result = GenStuff.RandomStuffByCommonalityFor(ThingDef);
+                get => pawn ??= CommandBase.GetOrFindPawn(Purchaser.username);
+                set => pawn = value;
             }
 
-            Thing thing = ThingMaker.MakeThing(ThingDef, result);
-
-            if (thing.TryGetQuality(out QualityCategory _))
+            public void Spawn()
             {
-                ItemHelper.setItemQualityRandom(thing);
-            }
+                ThingDef result = null;
+                if (ThingDef.MadeFromStuff
+                    && !GenStuff.AllowedStuffsFor(ThingDef)
+                       .Where(t => Data.ItemData.TryGetValue(t.defName, out ItemData data) && data.IsStuffAllowed)
+                       .Where(t => !PawnWeaponGenerator.IsDerpWeapon(ThingDef, t))
+                       .TryRandomElementByWeight(t => t.stuffProps.commonality, out result))
+                {
+                    LogHelper.Warn("Could not generate stuff for item! Falling back to a random stuff...");
+                    result = GenStuff.RandomStuffByCommonalityFor(ThingDef);
+                }
 
-            if (ThingDef.Minifiable)
-            {
-                ThingDef minifiedDef = ThingDef.minifiedDef;
-                var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
-                minifiedThing.InnerThing = thing;
-                minifiedThing.stackCount = Quantity;
-                CarryOrSpawn(minifiedThing);
-            }
-            else
-            {
-                thing.stackCount = Quantity;
-                CarryOrSpawn(thing);
-            }
+                Thing thing = ThingMaker.MakeThing(ThingDef, result);
 
-            Find.LetterStack.ReceiveLetter(
-                (Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name).Truncate(15, true).CapitalizeFirst(),
-                "TKUtils.BackpackLetter.Description".Localize(
-                    Quantity.ToString("N0"),
-                    Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
-                    Purchaser.username
-                ),
-                ItemHelper.GetLetterFromValue(Price),
-                thing
-            );
-        }
+                if (thing.TryGetQuality(out QualityCategory _))
+                {
+                    ItemHelper.setItemQualityRandom(thing);
+                }
 
-        private void CarryOrSpawn(Thing thing)
-        {
-            bool canCarry = MassUtility.CanEverCarryAnything(pawn);
+                if (ThingDef.Minifiable)
+                {
+                    ThingDef minifiedDef = ThingDef.minifiedDef;
+                    var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
+                    minifiedThing.InnerThing = thing;
+                    minifiedThing.stackCount = Quantity;
+                    CarryOrSpawn(minifiedThing);
+                }
+                else
+                {
+                    thing.stackCount = Quantity;
+                    CarryOrSpawn(thing);
+                }
 
-            if (IncidentSettings.Backpack.AutoEquip
-                && thing.def.equipmentType != EquipmentType.None
-                && thing is ThingWithComps
-                && canCarry
-                && TryEquipWeapon(thing))
-            {
-                return;
-            }
-
-            if (IncidentSettings.Backpack.AutoEquip && thing.def.IsApparel && thing is Apparel)
-            {
-                EquipApparel(thing);
-                return;
-            }
-
-            if (!canCarry || pawn.Spawned && !Pawn.inventory.innerContainer.TryAdd(thing))
-            {
-                TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(Map), Map, thing);
-            }
-        }
-
-        private void EquipApparel(Thing thing)
-        {
-            pawn.apparel.Wear(thing as Apparel);
-        }
-
-        private bool TryEquipWeapon([NotNull] Thing thing)
-        {
-            if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, thing, thing.stackCount)
-                || pawn.equipment.Primary != null
-                && !pawn.equipment.TryTransferEquipmentToContainer(
-                    pawn.equipment.Primary,
-                    pawn.inventory.innerContainer
-                ))
-            {
-                return false;
-            }
-
-            pawn.equipment.AddEquipment(thing as ThingWithComps);
-            return pawn.equipment.Primary == thing;
-        }
-
-        public void CompletePurchase(StoreIncident incident)
-        {
-            Purchaser.Charge(Price, ItemData.ItemData?.Weight ?? 1f, ItemData.Data?.KarmaType ?? incident.karmaType);
-            Notify_ItemPurchaseComplete();
-        }
-
-        private void Notify_ItemPurchaseComplete()
-        {
-            if (TkSettings.BuyItemBalance)
-            {
-                MessageHelper.SendConfirmation(
-                    Purchaser.username,
-                    "TKUtils.Item.Complete".Localize(
+                Find.LetterStack.ReceiveLetter(
+                    (Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name).Truncate(15, true).CapitalizeFirst(),
+                    "TKUtils.BackpackLetter.Description".Localize(
                         Quantity.ToString("N0"),
                         Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
-                        Price.ToString("N0"),
-                        Purchaser.GetViewerCoins().ToString("N0")
-                    )
+                        Purchaser.username
+                    ),
+                    ItemHelper.GetLetterFromValue(Price),
+                    thing
                 );
             }
-            else
+
+            private void CarryOrSpawn(Thing thing)
             {
-                MessageHelper.SendConfirmation(
-                    Purchaser.username,
-                    "TKUtils.Item.CompleteMinimal".Localize(
-                        Quantity.ToString("N0"),
-                        Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
-                        Price.ToString("N0")
-                    )
+                bool canCarry = MassUtility.CanEverCarryAnything(pawn);
+
+                if (IncidentSettings.Backpack.AutoEquip
+                    && thing.def.equipmentType != EquipmentType.None
+                    && thing is ThingWithComps
+                    && canCarry
+                    && TryEquipWeapon(thing))
+                {
+                    return;
+                }
+
+                if (IncidentSettings.Backpack.AutoEquip && thing.def.IsApparel && thing is Apparel)
+                {
+                    EquipApparel(thing);
+                    return;
+                }
+
+                if (!canCarry || pawn.Spawned && !pawn.inventory.innerContainer.TryAdd(thing))
+                {
+                    TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(Map), Map, thing);
+                }
+            }
+
+            private void EquipApparel(Thing thing)
+            {
+                pawn.apparel.Wear(thing as Apparel);
+            }
+
+            private bool TryEquipWeapon([NotNull] Thing thing)
+            {
+                if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, thing, thing.stackCount)
+                    || pawn.equipment.Primary != null
+                    && !pawn.equipment.TryTransferEquipmentToContainer(
+                        pawn.equipment.Primary,
+                        pawn.inventory.innerContainer
+                    ))
+                {
+                    return false;
+                }
+
+                pawn.equipment.AddEquipment(thing as ThingWithComps);
+                return pawn.equipment.Primary == thing;
+            }
+
+            public void CompletePurchase(StoreIncident incident)
+            {
+                Purchaser.Charge(
+                    Price,
+                    ItemData.ItemData?.Weight ?? 1f,
+                    ItemData.Data?.KarmaType ?? incident.karmaType
                 );
+                Notify_ItemPurchaseComplete();
+            }
+
+            private void Notify_ItemPurchaseComplete()
+            {
+                if (TkSettings.BuyItemBalance)
+                {
+                    MessageHelper.SendConfirmation(
+                        Purchaser.username,
+                        "TKUtils.Item.Complete".Localize(
+                            Quantity.ToString("N0"),
+                            Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                            Price.ToString("N0"),
+                            Purchaser.GetViewerCoins().ToString("N0")
+                        )
+                    );
+                }
+                else
+                {
+                    MessageHelper.SendConfirmation(
+                        Purchaser.username,
+                        "TKUtils.Item.CompleteMinimal".Localize(
+                            Quantity.ToString("N0"),
+                            Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                            Price.ToString("N0")
+                        )
+                    );
+                }
             }
         }
     }

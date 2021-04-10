@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var name = pawn.Name as NameTriple;
+            var name = pawn!.Name as NameTriple;
 
             if (name?.Nick != twitchMessage.Username)
             {

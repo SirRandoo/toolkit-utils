@@ -115,13 +115,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return null;
             }
 
-            LogHelper.Warn(
-                $"Could not patch method {original.DeclaringType?.FullName}.{original.Name}! Reason: {exception.Message}\n\nFull stacktrace: {exception}"
-            );
+            LogHelper.Error($"Could not patch method {original.DeclaringType?.FullName}.{original.Name}!", exception);
             return null;
         }
 
-        private static string FormatMessage(string message, bool _, string username)
+        [NotNull]
+        private static string FormatMessage([NotNull] string message, bool _, string username)
         {
             return FormatMessage(message, username);
         }

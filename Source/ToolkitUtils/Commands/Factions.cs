@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class Factions : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             List<Faction> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder
                .Where(i => !i.IsPlayer)
