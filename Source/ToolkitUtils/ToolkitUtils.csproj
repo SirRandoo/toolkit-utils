@@ -77,6 +77,7 @@
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
         <Compile Include="Harmony\IncidentPatches.cs"/>
         <Compile Include="Harmony\ItemEditorPatch.cs"/>
+        <Compile Include="Harmony\LanguageProxyPatch.cs"/>
         <Compile Include="Harmony\PatchRunner.cs"/>
         <Compile Include="Harmony\IncidentEditorPatches.cs"/>
         <Compile Include="Harmony\KarmaMinimumPatch.cs"/>
@@ -101,6 +102,7 @@
         <Compile Include="Helpers\ResponseHelper.cs"/>
         <Compile Include="Helpers\SettingsHelper.cs"/>
         <Compile Include="Helpers\TraitHelper.cs"/>
+        <Compile Include="Helpers\Translator.cs"/>
         <Compile Include="IncidentSettings\AddPassion.cs"/>
         <Compile Include="IncidentSettings\Backpack.cs"/>
         <Compile Include="IncidentSettings\Embeds\AddTraitSettingEmbed.cs"/>
