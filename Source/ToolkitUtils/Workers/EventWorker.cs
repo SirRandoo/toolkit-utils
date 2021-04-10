@@ -62,10 +62,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             MutateAdders = new List<FloatMenuOption>
             {
                 new FloatMenuOption(
-                    "TKUtils.Field.Price".Localize(),
+                    "TKUtils.Fields.Price".Localize(),
                     () => AddMutator(new PriceMutator<EventItem>())
                 ),
-                new FloatMenuOption("TKUtils.Field.KarmaType".Localize(), () => AddMutator(new EventKarmaMutator()))
+                new FloatMenuOption(
+                    "TKUtils.Fields.KarmaType".Localize(),
+                    () => AddMutator(new EventKarmaMutator())
+                )
             };
         }
     }
