@@ -58,7 +58,7 @@
     <!-- General Tab -->
     <!-- Emoji Group -->
     <TKUtils.Emojis.Label>Use emojis in some commands.</TKUtils.Emojis.Label>
-    <TKUtils.Emojis.Description>Emojis are used in place of text to help provide quick, easy, and compact information in dense commands, such as &lt;i&gt;!mypawnhealth&lt;/i&gt;.</TKUtils.Emojis.Description>
+    <TKUtils.Emojis.Description>Emojis are used in place of text to help provide quick, easy, and compact information in dense commands, such as &lt;b&gt;!mypawnhealth&lt;/b&gt;.</TKUtils.Emojis.Description>
     
     <!-- Viewer Group -->
     <TKUtils.HairColor.Label>Dye viewer's hair color to match their chat color.</TKUtils.HairColor.Label>
@@ -68,7 +68,7 @@
     <!-- Data Tab -->
     <!-- Toolkit Data Group -->
     <TKUtils.DumpStyle.Label>Json output style</TKUtils.DumpStyle.Label>
-    <TKUtils.DumpStyle.Description>How ToolkitUtils will store its data. When single file is selected, all data will be merged into one massive file originally known as &lt;i&gt;ShopExt.json&lt;/i&gt;. When multi-file is selected, all data will be stored in separate files for every unique set of data.</TKUtils.DumpStyle.Description>
+    <TKUtils.DumpStyle.Description>How ToolkitUtils will store its data. When single file is selected, all data will be merged into one massive file originally known as &lt;b&gt;ShopExt.json&lt;/b&gt;. When multi-file is selected, all data will be stored in separate files for every unique set of data.</TKUtils.DumpStyle.Description>
     <TKUtils.DumpStyle.SingleFile>Single file</TKUtils.DumpStyle.SingleFile>
     <TKUtils.DumpStyle.MultiFile>Multi-file</TKUtils.DumpStyle.MultiFile>
     
@@ -95,7 +95,7 @@
     <TKUtils.CommandPrefix.Description>The prefix to use for all Twitch Toolkit commands.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.CommandPrefix.Description>
     
     <TKUtils.PurchasePrefix.Label>Purchase prefix</TKUtils.PurchasePrefix.Label>
-    <TKUtils.PurchasePrefix.Description>The prefix to use as a substitue for &gt;i&lt;!buy&gt;/i&lt;.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.PurchasePrefix.Description>
+    <TKUtils.PurchasePrefix.Description>The prefix to use as a substitue for &lt;b&gt;!buy&lt;/b&gt;.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.PurchasePrefix.Description>
     
     <TKUtils.ToolkitStyleCommands.Label>Locate commands similar to how Twitch Toolkit does.</TKUtils.ToolkitStyleCommands.Label>
     <TKUtils.ToolkitStyleCommands.Description>Twitch Toolkit compares commands by checking to see if a message starts with a command, while ToolkitUtils checks to see if the first "word" is a command. If this is enabled, ToolkitUtils will mimic the old behavior, with the exception of case insensitivity. TL;DR: this lets !balloon be a valid form of the !bal command.</TKUtils.ToolkitStyleCommands.Description>
@@ -108,7 +108,7 @@
     <TKUtils.DecorateUtils.Description>because why not?</TKUtils.DecorateUtils.Description>
     
     <TKUtils.VersionedModList.Label>Include mod versions in the mod list command.</TKUtils.VersionedModList.Label>
-    <TKUtils.VersionedModList.Description>Inserts mod versions, if Utils could find one, into the &lt;i&gt;!installedmods&lt;/i&gt; command's output.</TKUtils.VersionedModList.Description>
+    <TKUtils.VersionedModList.Description>Inserts mod versions, if Utils could find one, into the &lt;b&gt;!installedmods&lt;/b&gt; command's output.</TKUtils.VersionedModList.Description>
     
     <!-- Item Purchases Group -->
     <TKUtils.BuyItemBalance.Label>Show a viewer's remaining balance after buying an item.</TKUtils.BuyItemBalance.Label>
@@ -116,43 +116,43 @@
     
     <!-- Lookup Command Group -->
     <TKUtils.LookupLimit.Label>Maximum number of results in the lookup command.</TKUtils.LookupLimit.Label>
-    <TKUtils.LookupLimit.Description>The maximum number of results that can be displayed in the &lt;i&gt;!lookup&lt;/i&gt; command. Setting this to higher values may result in walls of text if a viewer uses with broad terms.</TKUtils.LookupLimit.Description>
+    <TKUtils.LookupLimit.Description>The maximum number of results that can be displayed in the &lt;b&gt;!lookup&lt;/b&gt; command. Setting this to higher values may result in walls of text if a viewer uses with broad terms.</TKUtils.LookupLimit.Description>
     
     
     <!-- Pawn Commands Tab -->
     <!-- Leave Command Group -->
     <TKUtils.Abandon.Method.Label>How pawns should leave when the leave command is invoked.</TKUtils.Abandon.Method.Label>
-    <TKUtils.Abandon.Method.Description>The type of leave method that'll be used when a viewer uses the &lt;i&gt;!leave&lt;/i&gt; command. The "Mental break" method will force the colonist to leave the colony, while the "Thanos" method will turn the colonist to dust.</TKUtils.Abandon.Method.Description>
+    <TKUtils.Abandon.Method.Description>The type of leave method that'll be used when a viewer uses the &lt;b&gt;!leave&lt;/b&gt; command. The "Mental break" method will force the colonist to leave the colony, while the "Thanos" method will turn the colonist to dust.</TKUtils.Abandon.Method.Description>
     <TKUtils.Abandon.Method.Thanos>Thanos</TKUtils.Abandon.Method.Thanos>
     <TKUtils.Abandon.Method.MentalBreak>Mental break</TKUtils.Abandon.Method.MentalBreak>
     <TKUtils.Abandon.Gear.Label>Colonists that leave by the leave command drop their inventory.</TKUtils.Abandon.Gear.Label>
-    <TKUtils.Abandon.Gear.Description>If a viewer chooses to leave the colony via the &lt;i&gt;!leave&lt;/i&gt; command, the mod will strip their equipment before they depart.</TKUtils.Abandon.Gear.Description>
+    <TKUtils.Abandon.Gear.Description>If a viewer chooses to leave the colony via the &lt;b&gt;!leave&lt;/b&gt; command, the mod will strip their equipment before they depart.</TKUtils.Abandon.Gear.Description>
     
     <!-- Pawn Gear Command Group -->
     <TKUtils.PawnGear.Temperature.Label>Show temperature information in the pawn gear command.</TKUtils.PawnGear.Temperature.Label>
-    <TKUtils.PawnGear.Temperature.Description>Include a pawn's temperature tolerance range in the &lt;i&gt;!mypawngear&lt;/i&gt; command. Enabling this removes temperature information from &lt;i&gt;!mypawnbody&lt;/i&gt;.</TKUtils.PawnGear.Temperature.Description>
+    <TKUtils.PawnGear.Temperature.Description>Include a pawn's temperature tolerance range in the &lt;b&gt;!mypawngear&lt;/b&gt; command. Enabling this removes temperature information from &lt;b&gt;!mypawnbody&lt;/b&gt;.</TKUtils.PawnGear.Temperature.Description>
     <TKUtils.PawnGear.Apparel.Label>Show currently equipped apparel in the pawn gear command.</TKUtils.PawnGear.Apparel.Label>
-    <TKUtils.PawnGear.Apparel.Description>Include a pawn's current apparel in the &lt;i&gt;!mypawngear&lt;/i&gt; command.</TKUtils.PawnGear.Apparel.Description>
+    <TKUtils.PawnGear.Apparel.Description>Include a pawn's current apparel in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Apparel.Description>
     <TKUtils.PawnGear.Armor.Label>Show armor values in the pawn gear command.</TKUtils.PawnGear.Armor.Label>
-    <TKUtils.PawnGear.Armor.Description>Include armor protection values in the &lt;i&gt;!mypawngear&lt;/i&gt; command.</TKUtils.PawnGear.Armor.Description>
+    <TKUtils.PawnGear.Armor.Description>Include armor protection values in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Armor.Description>
     <TKUtils.PawnGear.Weapon.Label>Show currently equipped weapon in the pawn gear command.</TKUtils.PawnGear.Weapon.Label>
-    <TKUtils.PawnGear.Weapon.Description>Includes the weapon a pawn is currently equipped with in the &lt;i&gt;!mypawngear&lt;/i&gt; command.</TKUtils.PawnGear.Weapon.Description>
+    <TKUtils.PawnGear.Weapon.Description>Includes the weapon a pawn is currently equipped with in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Weapon.Description>
     
     <!-- Pawn Health Command Group -->
     <TKUtils.PawnHealth.Surgeries.Label>Show queued surgeries in the pawn health command.</TKUtils.PawnHealth.Surgeries.Label>
-    <TKUtils.PawnHealth.Surgeries.Description>Includes currently queued surgeries in the &lt;i&gt;!mypawnhealth&lt;/i&gt; command.</TKUtils.PawnHealth.Surgeries.Description>
+    <TKUtils.PawnHealth.Surgeries.Description>Includes currently queued surgeries in the &lt;b&gt;!mypawnhealth&lt;/b&gt; command.</TKUtils.PawnHealth.Surgeries.Description>
     
     <!-- Pawn Relations Command Group -->
     <TKUtils.PawnRelations.OpinionThreshold.Label>Minimum opinion</TKUtils.PawnRelations.OpinionThreshold.Label>
     <TKUtils.PawnRelations.OpinionThreshold.Description>The minimum opinion a pawn has to have of another before they'll show up in the command. The value will be used for both the negative (absolute) and positive opinion values</TKUtils.PawnRelations.OpinionThreshold.Description>
     <TKUtils.PawnRelations.MinimalRelations.Label>Only show important relationships in the pawn relations command.</TKUtils.PawnRelations.MinimalRelations.Label>
-    <TKUtils.PawnRelations.MinimalRelations.Description>When enabled, only direct relationships will be shown in the &lt;i&gt;!mypawnrelations&lt;/i&gt; command. Opinion based relationships will be hidden, like friends and acquaintances.</TKUtils.PawnRelations.MinimalRelations.Description>
+    <TKUtils.PawnRelations.MinimalRelations.Description>When enabled, only direct relationships will be shown in the &lt;b&gt;!mypawnrelations&lt;/b&gt; command. Opinion based relationships will be hidden, like friends and acquaintances.</TKUtils.PawnRelations.MinimalRelations.Description>
     
     <!-- Pawn Work Command Group -->
     <TKUtils.PawnWork.Sort.Label>Sort work priorities in the pawn work command.</TKUtils.PawnWork.Sort.Label>
-    <TKUtils.PawnWork.Sort.Description>If enabled, work priorities will be sorted like the Work tab in the &lt;i&gt;!mypawnwork&lt;/i&gt; command. This means work will be displayed as the Work tab from left to right.</TKUtils.PawnWork.Sort.Description>
+    <TKUtils.PawnWork.Sort.Description>If enabled, work priorities will be sorted like the Work tab in the &lt;b&gt;!mypawnwork&lt;/b&gt; command. This means work will be displayed as the Work tab from left to right.</TKUtils.PawnWork.Sort.Description>
     <TKUtils.PawnWork.Filter.Label>Filter work priorities in the pawn work command.</TKUtils.PawnWork.Filter.Label>
-    <TKUtils.PawnWork.Filter.Description>If enabled, disabled work priorities will be removed from the &lt;i&gt;!mypawnwork&lt;/i&gt; command's output. This means work priorities a pawn is incapable of doing, or is not assigned to, will be omitted from the command's response.</TKUtils.PawnWork.Filter.Description>
+    <TKUtils.PawnWork.Filter.Description>If enabled, disabled work priorities will be removed from the &lt;b&gt;!mypawnwork&lt;/b&gt; command's output. This means work priorities a pawn is incapable of doing, or is not assigned to, will be omitted from the command's response.</TKUtils.PawnWork.Filter.Description>
     
     
     <!-- Mod Compatibility Tab -->
