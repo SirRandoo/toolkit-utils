@@ -96,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [NotNull]
-        public static string LocalizeKeyed([NotNull] this string key, string backup, params object[] args)
+        public static string LocalizeKeyedBackup([NotNull] this string key, string backup, params object[] args)
         {
             try
             {
