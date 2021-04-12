@@ -115,11 +115,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
 
             container.AddRange(
-                subject.story.traits.allTraits.Where(t => defNames.Contains(t.def.defName))
-                   .Select(t => new TraitEvent {Type = EventType.Noop})
-            );
-
-            container.AddRange(
                 traitItems.Where(t => !subject.story.traits.HasTrait(t.TraitDef))
                    .Select(
                         t =>
