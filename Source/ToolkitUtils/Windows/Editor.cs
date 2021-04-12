@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
+using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -167,6 +168,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             Store_ItemEditor.UpdateStoreItemList();
             Store_IncidentEditor.UpdatePriceSheet();
+            Toolkit.Mod.WriteSettings();
             Task.Run(
                     async () =>
                     {
