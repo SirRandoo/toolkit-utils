@@ -14,9 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -24,38 +26,26 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class InstalledMods : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            twitchMessage.Reply(
-                (TkSettings.VersionedModList ? GetModListStringVersioned() : GetModListString()).WithHeader(
-                    $"Toolkit v{Toolkit.Mod.Version}"
-                )
-            );
+            msg.Reply(Data.Mods.Select(FormatMod).SectionJoin().WithHeader($"Toolkit v{Toolkit.Mod.Version}"));
         }
 
         [NotNull]
-        private static string GetModListString()
+        private static string FormatMod([NotNull] ModItem mod)
         {
-            return Data.Mods.Select(m => m.Name).SectionJoin();
+            return mod.Version.NullOrEmpty() ? DecorateMod(mod) : $"{DecorateMod(mod)} (v{mod.Version})";
         }
 
-        [NotNull]
-        private static string GetModListStringVersioned()
+        private static string DecorateMod([NotNull] ModItem mod)
         {
-            return Data.Mods.Select(
-                    m => m.Version.NullOrEmpty()
-                        ? $"{TryFavoriteMod(m.Name)}"
-                        : $"{TryFavoriteMod(m.Name)} (v{m.Version})"
-                )
-               .SectionJoin();
-        }
-
-        private static string TryFavoriteMod(string mod)
-        {
-            return !TkSettings.DecorateUtils || !mod.EqualsIgnoreCase(TkUtils.Id) ? mod : $"{"★".AltText("*")}{mod}";
+            return !TkSettings.DecorateMods
+                   || !mod.Author.Equals("sirrandoo", StringComparison.InvariantCultureIgnoreCase)
+                ? mod.Name
+                : $"{"★".AltText("*")}{mod.Name}";
         }
     }
 }

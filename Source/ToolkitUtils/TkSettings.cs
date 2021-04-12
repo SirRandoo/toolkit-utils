@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils
         public static string BuyPrefix = "$";
         public static bool ToolkitStyleCommands = true;
         public static bool MinifyData;
-        public static bool DecorateUtils;
+        public static bool DecorateMods;
         public static bool Emojis = true;
         public static bool FilterWorkPriorities;
         public static bool ShowApparel;
@@ -371,7 +371,7 @@ namespace SirRandoo.ToolkitUtils
 
 
             listing.DrawGroupHeader("TKUtils.CommandTweaks.InstalledMods".Localize());
-            listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".Localize(), ref DecorateUtils);
+            listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".Localize(), ref DecorateMods);
             listing.DrawDescription("TKUtils.DecorateUtils.Description".Localize());
 
             listing.CheckboxLabeled("TKUtils.VersionedModList.Label".Localize(), ref VersionedModList);
@@ -511,7 +511,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref Prefix, "prefix", "!");
             Scribe_Values.Look(ref BuyPrefix, "buyPrefix", "$");
             Scribe_Values.Look(ref ToolkitStyleCommands, "toolkitStyleCommands", true);
-            Scribe_Values.Look(ref DecorateUtils, "decorateUtils");
+            Scribe_Values.Look(ref DecorateMods, "decorateUtils");
             Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref FilterWorkPriorities, "filterWork");
             Scribe_Values.Look(ref ShowApparel, "apparel");
