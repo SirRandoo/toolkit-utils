@@ -279,4 +279,30 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>UseItem</defName>
+        <label>use item</label>
+        <description>Purchases an item and uses it on the purchaser's pawn.</description>
+        <abbreviation>use</abbreviation>
+        <cost>1</cost>
+        <eventCap>6</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Use</incidentHelper>
+        <karmaType>Neutral</karmaType>
+        <variables>1</variables>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <EventType>Item</EventType>
+                <Parameters>
+                    <li>
+                        <Name>Item</Name>
+                    </li>
+                    <li>
+                        <Name>Quantity</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>
