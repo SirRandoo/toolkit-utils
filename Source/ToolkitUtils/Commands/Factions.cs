@@ -17,7 +17,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
@@ -25,24 +24,20 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class Factions : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            List<Faction> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder
-               .Where(i => !i.IsPlayer)
+            List<string> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder
+               .Where(f => !f.IsPlayer)
+               .Select(f => ResponseHelper.JoinPair(f.GetCallLabel(), f.PlayerGoodwill.ToStringWithSign()))
                .ToList();
 
-            if (!factions.Any())
-            {
-                twitchMessage.Reply("TKUtils.Factions.None".Localize().WithHeader("WorldFactionsTab".Localize()));
-                return;
-            }
-
-            twitchMessage.Reply(
-                factions.Select(f => ResponseHelper.JoinPair(f.GetCallLabel(), f.PlayerGoodwill.ToStringWithSign()))
-                   .SectionJoin()
+            msg.Reply(
+                (factions.Count <= 0 ? "TKUtils.Factions.None".Localize() : factions.SectionJoin()).WithHeader(
+                    "WorldFactionsTab".Localize()
+                )
             );
         }
     }

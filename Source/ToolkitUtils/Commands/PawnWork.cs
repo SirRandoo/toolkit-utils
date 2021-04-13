@@ -27,26 +27,24 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PawnWork : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
+                msg.Reply("TKUtils.NoPawn".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
                 return;
             }
 
             if (pawn!.workSettings?.EverWork == false)
             {
-                twitchMessage.Reply(
-                    "TKUtils.PawnWork.None".Localize().WithHeader("TKUtils.PawnWork.Header".Localize())
-                );
+                msg.Reply("TKUtils.PawnWork.None".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
                 return;
             }
 
-            List<KeyValuePair<string, string>> newPriorities = CommandParser.ParseKeyed(twitchMessage.Message);
+            List<KeyValuePair<string, string>> newPriorities = CommandParser.ParseKeyed(msg.Message);
 
             if (!newPriorities.NullOrEmpty())
             {
@@ -60,10 +58,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            twitchMessage.Reply(summary.WithHeader("TKUtils.PawnWork.Header".Localize()));
+            msg.Reply(summary.WithHeader("TKUtils.PawnWork.Header".Localize()));
         }
 
-        private static void ProcessChangeRequests(Pawn pawn, [NotNull] List<KeyValuePair<string, string>> rawChanges)
+        private static void ProcessChangeRequests(
+            Pawn pawn,
+            [NotNull] IEnumerable<KeyValuePair<string, string>> rawChanges
+        )
         {
             List<WorkTypeDef> priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder
                .Where(w => !pawn.WorkTypeIsDisabled(w))
@@ -137,13 +138,12 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         [NotNull]
-        private static List<WorkTypeDef> SortPriorities(List<WorkTypeDef> priorities, Pawn pawn)
+        private static List<WorkTypeDef> SortPriorities([NotNull] IEnumerable<WorkTypeDef> priorities, Pawn pawn)
         {
-            priorities = priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
+            return priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
                .ThenBy(p => p.naturalPriority)
                .Reverse()
                .ToList();
-            return priorities;
         }
     }
 }

@@ -23,25 +23,25 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class UnstickMe : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            if (!Purchase_Handler.viewerNamesDoingVariableCommands.Contains(twitchMessage.Username.ToLowerInvariant()))
+            if (!Purchase_Handler.viewerNamesDoingVariableCommands.Contains(msg.Username))
             {
                 return;
             }
 
             if (Find.TickManager?.Paused ?? true)
             {
-                twitchMessage.Reply("TKUtils.Paused".Localize());
+                msg.Reply("TKUtils.Paused".Localize());
                 return;
             }
 
-            if (Purchase_Handler.viewerNamesDoingVariableCommands.Remove(twitchMessage.Username.ToLowerInvariant()))
+            if (Purchase_Handler.viewerNamesDoingVariableCommands.Remove(msg.Username))
             {
-                twitchMessage.Reply("TKUtils.UnstickMe".Localize());
+                msg.Reply("TKUtils.UnstickMe".Localize());
             }
         }
     }

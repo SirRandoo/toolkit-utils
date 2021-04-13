@@ -22,17 +22,17 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class Wealth : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand(ITwitchMessage msg)
         {
             if (Current.Game?.CurrentMap == null)
             {
                 return;
             }
 
-            twitchMessage.Reply(
+            msg.Reply(
                 ResponseHelper.JoinPair(
                     "ThisMapColonyWealthTotal".Localize(),
                     Current.Game.CurrentMap.wealthWatcher.WealthTotal.ToString("N0")

@@ -23,25 +23,18 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class ColonistCount : CommandBase
     {
-        public override void RunCommand(ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            if (Find.ColonistBar == null)
-            {
-                return;
-            }
+            List<Pawn> colonists = Find.ColonistBar?.GetColonistsInOrder();
 
-            List<Pawn> colonists = Find.ColonistBar.GetColonistsInOrder();
-
-            if (colonists.Count <= 0)
-            {
-                twitchMessage.Reply("TKUtils.ColonistCount.None".Localize());
-                return;
-            }
-
-            twitchMessage.Reply("TKUtils.ColonistCount.Any".LocalizeKeyed(colonists.Count.ToString("N0")));
+            msg.Reply(
+                colonists == null || colonists.Count <= 0
+                    ? "TKUtils.ColonistCount.None".Localize()
+                    : "TKUtils.ColonistCount.Any".LocalizeKeyed(colonists.Count.ToString("N0"))
+            );
         }
     }
 }

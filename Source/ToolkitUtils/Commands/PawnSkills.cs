@@ -26,14 +26,14 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PawnSkills : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize());
+                msg.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 parts.Add(container);
             }
 
-            twitchMessage.Reply(parts.SectionJoin().WithHeader("StatsReport_Skills".Localize()));
+            msg.Reply(parts.SectionJoin().WithHeader("StatsReport_Skills".Localize()));
         }
     }
 }

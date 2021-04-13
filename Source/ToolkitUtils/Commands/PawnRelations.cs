@@ -28,14 +28,14 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PawnRelations : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize());
+                msg.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            string viewer = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback();
+            string viewer = CommandFilter.Parse(msg.Message).Skip(1).FirstOrFallback();
 
             if (!viewer.NullOrEmpty()
                 && component.pawnHistory.TryGetValue(viewer.ToLowerInvariant(), out Pawn viewerPawn))
@@ -62,15 +62,15 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 var container = new List<string>
                 {
-                    $"{myOpinion.ToStringWithSign()} ({twitchMessage.Username.ToLowerInvariant()})",
+                    $"{myOpinion.ToStringWithSign()} ({msg.Username.ToLowerInvariant()})",
                     $"{theirOpinion.ToStringWithSign()} ({viewer.ToLowerInvariant()})"
                 };
 
-                twitchMessage.Reply(new[] {relationship, container.SectionJoin()}.GroupedJoin());
+                msg.Reply(new[] {relationship, container.SectionJoin()}.GroupedJoin());
                 return;
             }
 
-            ShowRelationshipOverview(twitchMessage, component, pawn);
+            ShowRelationshipOverview(msg, component, pawn);
         }
 
         private static void ShowRelationshipOverview(

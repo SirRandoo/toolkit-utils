@@ -27,15 +27,15 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PriceCheck : CommandBase
     {
-        private ITwitchMessage msg;
+        private string invoker;
 
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            msg = twitchMessage;
-            string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
+            invoker = msg.Username;
+            string[] segments = CommandFilter.Parse(msg.Message).Skip(1).ToArray();
             string category = segments.FirstOrFallback("");
             string query = segments.Skip(1).FirstOrFallback("");
             string quantity = segments.Skip(2).FirstOrFallback("1");
@@ -57,14 +57,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             PerformLookup(category, query, quantity);
         }
 
-        private void Notify__LookupComplete(string result)
+        private void NotifyLookupComplete(string result)
         {
             if (result.NullOrEmpty())
             {
                 return;
             }
 
-            msg.Reply(result);
+            MessageHelper.ReplyToUser(invoker, result);
         }
 
         private void PerformAnimalLookup(string query, int quantity)
@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            Notify__LookupComplete(
+            NotifyLookupComplete(
                 "TKUtils.Price.Quantity".LocalizeKeyed(
                     result.defName.CapitalizeFirst(),
                     item.Cost.ToString("N0"),
@@ -114,7 +114,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             switch (eventType)
             {
                 case EventTypes.Default:
-                    Notify__LookupComplete(
+                    NotifyLookupComplete(
                         "TKUtils.Price.Limited".LocalizeKeyed(
                             result.abbreviation.CapitalizeFirst(),
                             result.cost.ToString("N0")
@@ -124,13 +124,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case EventTypes.Item:
                 case EventTypes.PawnKind:
                 case EventTypes.Trait:
-                    Notify__LookupComplete("TKUtils.Price.Overridden".Localize(eventType.ToString()));
+                    NotifyLookupComplete("TKUtils.Price.Overridden".Localize(eventType.ToString()));
                     return;
                 case EventTypes.Misc:
-                    Notify__LookupComplete("TKUtils.Price.External".Localize());
+                    NotifyLookupComplete("TKUtils.Price.External".Localize());
                     return;
                 case EventTypes.Variable:
-                    Notify__LookupComplete(
+                    NotifyLookupComplete(
                         new[]
                         {
                             "TKUtils.Price.Variables".LocalizeKeyed(
@@ -157,7 +157,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            Notify__LookupComplete(
+            NotifyLookupComplete(
                 "TKUtils.Price.Quantity".LocalizeKeyed(
                     result.Name.CapitalizeFirst(),
                     result.Cost.ToString("N0"),
@@ -206,7 +206,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            Notify__LookupComplete(
+            NotifyLookupComplete(
                 "TKUtils.Price.Limited".LocalizeKeyed(
                     result!.Name.ToToolkit().CapitalizeFirst(),
                     result.Cost.ToString("N0")
@@ -238,7 +238,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 parts.Add("TKUtils.Price.RemoveTrait".Localize(result.CostToRemove.ToString("N0")));
             }
 
-            Notify__LookupComplete($"{result.Name.ToToolkit().CapitalizeFirst()} - {parts.Join(" / ")}");
+            NotifyLookupComplete($"{result.Name.ToToolkit().CapitalizeFirst()} - {parts.Join(" / ")}");
         }
     }
 }

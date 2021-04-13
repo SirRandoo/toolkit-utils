@@ -26,20 +26,20 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PawnLeave : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize());
+                msg.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
             if (pawn!.IsCaravanMember())
             {
-                twitchMessage.Reply("TKUtils.Leave.Caravan".Localize());
+                msg.Reply("TKUtils.Leave.Caravan".Localize());
                 return;
             }
 
@@ -47,8 +47,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (CompatRegistry.Magic?.IsUndead(pawn) ?? false)
             {
-                twitchMessage.Reply("TKUtils.Leave.Undead".Localize());
-                component?.pawnHistory.Remove(twitchMessage.Username);
+                msg.Reply("TKUtils.Leave.Undead".Localize());
+                component?.pawnHistory.Remove(msg.Username);
 
                 if (pawn.Name is NameTriple name)
                 {
@@ -58,8 +58,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            ForceLeave(twitchMessage, pawn);
-            component.pawnHistory.Remove(twitchMessage.Username);
+            ForceLeave(msg, pawn);
+            component.pawnHistory.Remove(msg.Username);
         }
 
         private static void ForceLeave([NotNull] ITwitchMessage twitchMessage, [NotNull] Pawn pawn)

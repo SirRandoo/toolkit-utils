@@ -26,11 +26,11 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class Database : CommandBase
     {
         private static readonly Dictionary<string, string> Index;
-        private ITwitchMessage msg;
+        private string invoker;
 
         static Database()
         {
@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            msg = twitchMessage;
+            invoker = twitchMessage.Username;
             string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
             string category = segments.FirstOrFallback("");
             string query = segments.Skip(1).FirstOrFallback("");
@@ -72,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            msg.Reply(result);
+            MessageHelper.ReplyToUser(invoker, result);
         }
 
         private void PerformWeaponLookup(string query)

@@ -23,24 +23,24 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PawnNeeds : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize());
+                msg.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
             if (pawn!.needs?.AllNeeds == null)
             {
-                twitchMessage.Reply("TKUtils.PawnNeeds.None".Localize().WithHeader("TabNeeds".Localize()));
+                msg.Reply("TKUtils.PawnNeeds.None".Localize().WithHeader("TabNeeds".Localize()));
                 return;
             }
 
-            twitchMessage.Reply(
+            msg.Reply(
                 pawn.needs.AllNeeds.Select(
                         n => ResponseHelper.JoinPair(n.LabelCap, n.CurLevelPercentage.ToStringPercent())
                     )

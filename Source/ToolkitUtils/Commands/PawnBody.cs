@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -25,7 +26,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PawnBody : CommandBase
     {
         public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
@@ -36,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            twitchMessage.Reply(GetPawnBody(pawn).WithHeader("HealthOverview".Localize()));
+            twitchMessage.Reply(GetPawnBody(pawn!).WithHeader("HealthOverview".Localize()));
         }
 
         private static float GetListPriority([CanBeNull] BodyPartRecord record)
@@ -46,60 +47,76 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static string GetPawnBody([NotNull] Pawn target)
         {
-            List<Hediff> hediffs = target.health.hediffSet.hediffs;
-
-            if (hediffs == null || !hediffs.Any())
+            if (target.health?.hediffSet?.hediffs?.Count <= 0)
             {
                 return "NoHealthConditions".Localize().CapitalizeFirst();
             }
 
             IEnumerable<IGrouping<BodyPartRecord, Hediff>> hediffsGrouped = GetVisibleHediffGroupsInOrder(target);
-            var parts = new List<string>();
+            var builder = new StringBuilder();
 
             if (!TkSettings.TempInGear)
             {
-                string tempMin = target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
-                string tempMax = target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
-
-                parts.Add(
-                    $"{ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize() + " ")}{tempMin}~{tempMax}"
-                );
+                builder.Append(ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize()));
+                builder.Append(" ");
+                builder.Append(target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature());
+                builder.Append(target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature());
+                builder.Append(ResponseHelper.OuterGroupSeparator.AltText(ResponseHelper.OuterGroupSeparatorAlt));
             }
 
             foreach (IGrouping<BodyPartRecord, Hediff> item in hediffsGrouped)
             {
-                string bodyPart = item.Key?.LabelCap ?? "WholeBody".Localize();
-                var bits = new List<string>();
+                builder.Append(item.Key?.LabelCap ?? "WholeBody".Localize());
+                builder.Append(": ");
+
+                var index = 0;
+                int total = item.Count();
 
                 foreach (IGrouping<int, Hediff> group in item.GroupBy(h => h.UIGroupKey))
                 {
                     Hediff affliction = group.First();
-                    string display = affliction.LabelCap;
-                    int total = group.Count();
-
-                    if (total != 1)
-                    {
-                        display += $" x{total.ToString()}";
-                    }
 
                     if (group.Count(i => i.Bleeding) > 0)
                     {
-                        display = ResponseHelper.BleedingGlyph.AltText("(" + "BleedingRate".Localize() + ") ")
-                                  + display;
+                        builder.Append("(");
+
+                        if (TkSettings.Emojis)
+                        {
+                            builder.Append(ResponseHelper.BleedingGlyph);
+                        }
+                        else
+                        {
+                            builder.Append("BleedingRate".Localize());
+                            builder.Append(" ");
+                        }
+
+                        builder.Append(")");
                     }
 
                     if (group.All(i => i.IsTended()))
                     {
-                        display = ResponseHelper.BandageGlyph.AltText("") + display;
+                        builder.Append(ResponseHelper.BandageGlyph.AltText(""));
                     }
 
-                    bits.Add(display);
-                }
+                    builder.Append(affliction.LabelCap);
+                    int gTotal = group.Count();
 
-                parts.Add(ResponseHelper.JoinPair(bodyPart, bits.SectionJoin()));
+                    if (gTotal != 1)
+                    {
+                        builder.Append(" x");
+                        builder.Append(gTotal.ToString());
+                    }
+
+                    if (index < total)
+                    {
+                        builder.Append(", ");
+                    }
+
+                    index++;
+                }
             }
 
-            return parts.GroupedJoin();
+            return builder.ToString();
         }
 
         [NotNull]

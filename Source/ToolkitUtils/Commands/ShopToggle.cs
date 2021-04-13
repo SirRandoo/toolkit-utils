@@ -21,7 +21,7 @@ using TwitchLib.Client.Models.Interfaces;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class ShopToggle : CommandBase
     {
         public override void RunCommand([NotNull] ITwitchMessage twitchMessage)

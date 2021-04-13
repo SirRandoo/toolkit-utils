@@ -26,8 +26,8 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
+    [UsedImplicitly]
     [StaticConstructorOnStartup]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnStats : CommandBase
     {
         private static readonly List<string> DefaultStats;
@@ -46,39 +46,32 @@ namespace SirRandoo.ToolkitUtils.Commands
             };
         }
 
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize());
+                msg.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
-            List<string> queries =
-                CommandFilter.Parse(twitchMessage.Message).Skip(1).Select(q => q.ToToolkit()).ToList();
+            List<string> queries = CommandFilter.Parse(msg.Message).Skip(1).Select(q => q.ToToolkit()).ToList();
 
             if (queries.Count <= 0)
             {
                 queries.AddRange(DefaultStats);
-                ;
             }
 
-            var container = new List<StatDef>();
+            List<StatDef> container = queries
+               .Select(
+                    query => DefDatabase<StatDef>.AllDefs.Where(d => d.showOnHumanlikes && d.showOnPawns)
+                       .FirstOrDefault(
+                            d => d.label.ToToolkit().EqualsIgnoreCase(query) || d.defName.EqualsIgnoreCase(query)
+                        )
+                )
+               .Where(stat => stat != null)
+               .ToList();
 
-            foreach (string query in queries)
-            {
-                StatDef stat = DefDatabase<StatDef>.AllDefs.Where(d => d.showOnHumanlikes && d.showOnPawns)
-                   .FirstOrDefault(
-                        d => d.label.ToToolkit().EqualsIgnoreCase(query) || d.defName.EqualsIgnoreCase(query)
-                    );
-
-                if (stat != null)
-                {
-                    container.Add(stat);
-                }
-            }
-
-            if (!container.Any())
+            if (container.Count <= 0)
             {
                 return;
             }
@@ -87,7 +80,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Select(s => ResponseHelper.JoinPair(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
                .ToArray();
 
-            twitchMessage.Reply(parts.SectionJoin());
+            msg.Reply(parts.SectionJoin());
         }
     }
 }

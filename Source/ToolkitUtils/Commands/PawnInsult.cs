@@ -28,20 +28,20 @@ using Verse.AI;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PawnInsult : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            Viewer data = Viewers.GetViewer(twitchMessage.Username);
+            Viewer data = Viewers.GetViewer(msg.Username);
 
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize());
+                msg.Reply("TKUtils.NoPawn".Localize());
                 return;
             }
 
-            string query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
+            string query = CommandFilter.Parse(msg.Message).Skip(1).FirstOrFallback("");
             Pawn target = null;
 
             if (!query.NullOrEmpty())
@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (target == null)
                 {
-                    twitchMessage.Reply("TKUtils.PawnNotFound".LocalizeKeyed(query));
+                    msg.Reply("TKUtils.PawnNotFound".LocalizeKeyed(query));
                     return;
                 }
             }

@@ -27,7 +27,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PawnGear : CommandBase
     {
         public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
@@ -147,7 +147,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         private static void GetSidearmData(
-            List<Thing> sidearms,
+            [NotNull] ICollection<Thing> sidearms,
             int equipmentCount,
             IReadOnlyCollection<ThingWithComps> equipment,
             IList<string> weapons,

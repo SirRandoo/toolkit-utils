@@ -23,7 +23,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly]
     public class PawnFixAll : CommandBase
     {
         public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
