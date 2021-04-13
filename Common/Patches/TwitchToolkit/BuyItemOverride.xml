@@ -10,11 +10,22 @@
                 </xpath>
                 <success>Invert</success>
             </li>
-            <li Class="PatchOperationReplace">
-                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]/incidentHelper</xpath>
-                <value>
-                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuyItem</incidentHelper>
-                </value>
+            <li Class="PatchOperationSequence">
+                <success>Always</success>
+                <operations>
+                    <li Class="PatchOperationReplace">
+                        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]/incidentHelper</xpath>
+                        <value>
+                            <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuyItem</incidentHelper>
+                        </value>
+                    </li>
+                    <li Class="PatchOperationReplace">
+                        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="item"]/customSettingsHelper</xpath>
+                        <value>
+                            <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.Item</customSettingsHelper>
+                        </value>
+                    </li>
+                </operations>
             </li>
         </operations>
     </Operation>

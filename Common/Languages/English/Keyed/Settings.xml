@@ -178,12 +178,20 @@
     <TKUtils.Passion.DecreaseChance.Label>Catastrophic fail chance</TKUtils.Passion.DecreaseChance.Label>
     <TKUtils.Passion.DecreaseChance.Description>The percentage, from 0 to 100, that this event will decrease the pawn's current passion instead of increasing it. This event can also happen along side the "passion hop event".</TKUtils.Passion.DecreaseChance.Description>
     <TKUtils.Passion.IncreaseChance.Description>The percentage, from 0 to 100, that this event will increase the pawn's current passion instead of decreasing it. This event can also happen along side the "passion hop event".</TKUtils.Passion.IncreaseChance.Description>
-    
+
     <!-- Backpack Incident -->
     <TKUtils.Backpack.AutoEquip.Label>Auto-equip purchased gear</TKUtils.Backpack.AutoEquip.Label>
     <TKUtils.Backpack.AutoEquip.Description>Whether or not pawns will automatically swap out their current gear for the ones purchased.</TKUtils.Backpack.AutoEquip.Description>
-    
+
     <!-- Heal Incidents -->
     <TKUtils.Heal.FairFights.Label>Fair fights</TKUtils.Heal.FairFights.Label>
     <TKUtils.Heal.FairFights.Description>Whether or not viewers can use this heal event while in combat.</TKUtils.Heal.FairFights.Description>
+
+    <!-- Item Incident -->
+    <TKUtils.Item.Quality.Label>Specify quality</TKUtils.Item.Quality.Label>
+    <TKUtils.Item.Quality.Description>Whether or not viewers can specify the quality of their purchase, if applicable.</TKUtils.Item.Quality.Description>
+    <TKUtils.Item.Stuff.Label>Specify stuff</TKUtils.Item.Stuff.Label>
+    <TKUtils.Item.Stuff.Description>Whether or not viewers can specify the material of their purchase, if applicable.</TKUtils.Item.Stuff.Description>
+    <TKUtils.Item.Research.Label>Research required</TKUtils.Item.Research.Label>
+    <TKUtils.Item.Research.Description>Whether or not viewers can only purcahse items that have been researched, assuming the item has a research prerequisites.</TKUtils.Item.Research.Description>
 </LanguageData>

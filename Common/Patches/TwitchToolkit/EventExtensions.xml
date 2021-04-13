@@ -92,7 +92,6 @@
                 <xpath>Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]</xpath>
                 <value>
                     <li Class="SirRandoo.ToolkitUtils.EventExtension">
-                        <SettingsEmbed>SirRandoo.ToolkitUtils.IncidentSettings.Embeds.ItemSettingEmbed</SettingsEmbed>
                         <EventType>Item</EventType>
                         <Parameters>
                             <li>
