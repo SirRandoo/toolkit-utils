@@ -78,21 +78,7 @@ namespace SirRandoo.ToolkitUtils
                 }
             }
 
-            if (File.Exists(Paths.LegacyShopFilePath) && PawnKinds.NullOrEmpty() && Traits.NullOrEmpty())
-            {
-                MigrateFromLegacy(Paths.LegacyShopFilePath);
-
-                try
-                {
-                    File.Move(Paths.LegacyShopFilePath, Path.ChangeExtension(Paths.LegacyShopFilePath, ".bak")!);
-                }
-                catch (IOException)
-                {
-                    LogHelper.Warn("Could not move old shop file; a similar one exists.");
-                }
-            }
-
-            if (ItemData == null || ItemData.Count <= 0)
+            if (ItemData?.Count <= 0)
             {
                 LoadItemData(Paths.ItemDataFilePath);
             }
@@ -129,28 +115,6 @@ namespace SirRandoo.ToolkitUtils
         private static void ValidateItems()
         {
             Items = StoreDialog.GetTradeables().Select(t => new ThingItem {Thing = t}).ToList();
-        }
-
-        private static void MigrateFromLegacy(string path)
-        {
-            XmlShop data;
-            try
-            {
-                data = ShopExpansion.LoadData<XmlShop>(path);
-            }
-            catch (IOException e)
-            {
-                LogHelper.Error("Could not read legacy old data!", e);
-                return;
-            }
-
-            if (data == null)
-            {
-                return;
-            }
-
-            Traits = data.Traits.Select(TraitItem.MigrateFrom).ToList();
-            PawnKinds = data.Races.Select(PawnKindItem.MigrateFrom).ToList();
         }
 
         private static void LoadFromLegacy(string path)

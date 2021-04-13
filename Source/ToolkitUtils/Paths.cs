@@ -25,7 +25,6 @@ namespace SirRandoo.ToolkitUtils
     {
         public static readonly string TraitFilePath;
         public static readonly string ModListFilePath;
-        public static readonly string LegacyShopFilePath;
         public static readonly string ItemDataFilePath;
         public static readonly string EventDataFilePath;
         public static readonly string PawnKindFilePath;
@@ -43,7 +42,6 @@ namespace SirRandoo.ToolkitUtils
             PawnKindFilePath = Path.Combine(SaveHelper.dataPath, "pawnkinds.json");
             ItemDataFilePath = Path.Combine(SaveHelper.dataPath, "itemdata.json");
             EventDataFilePath = Path.Combine(SaveHelper.dataPath, "eventdata.json");
-            LegacyShopFilePath = Path.Combine(SaveHelper.dataPath, "ShopExt_1.xml");
             ModListFilePath = Path.Combine(SaveHelper.dataPath, "modlist.json");
             TraitFilePath = Path.Combine(SaveHelper.dataPath, "traits.json");
 
