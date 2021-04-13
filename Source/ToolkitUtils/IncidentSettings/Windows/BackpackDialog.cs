@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Helpers;
+using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using UnityEngine;
 using Verse;
 
@@ -24,6 +25,8 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
     {
         private string autoEquipDescription;
         private string autoEquipLabel;
+        private string researchDescription;
+        private string researchLabel;
 
         public BackpackDialog()
         {
@@ -34,7 +37,9 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
         {
             base.PreOpen();
 
+            researchLabel = "TKUtils.Item.Research.Label".Localize();
             autoEquipLabel = "TKUtils.Backpack.AutoEquip.Label".Localize();
+            researchDescription = "TKUtils.Item.Research.Description".Localize();
             autoEquipDescription = "TKUtils.Backpack.AutoEquip.Description".Localize();
         }
 
@@ -44,6 +49,8 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
 
             listing.Begin(inRect);
 
+            listing.CheckboxLabeled(researchLabel, ref BuyItemSettings.mustResearchFirst);
+            listing.DrawDescription(researchDescription);
             listing.CheckboxLabeled(autoEquipLabel, ref Backpack.AutoEquip);
             listing.DrawDescription(autoEquipDescription);
 

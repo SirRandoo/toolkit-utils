@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.IncidentSettings.Windows;
 using SirRandoo.ToolkitUtils.Interfaces;
+using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
@@ -38,6 +39,12 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             listing.Begin(canvas);
 
             listing.CheckboxLabeled(
+                "TKUtils.Item.Research.Label".Localize(),
+                ref BuyItemSettings.mustResearchFirst,
+                "TKUtils.Item.Research.Description".Localize()
+            );
+
+            listing.CheckboxLabeled(
                 "TKUtils.Backpack.AutoEquip.Label".Localize(),
                 ref AutoEquip,
                 "TKUtils.Backpack.AutoEquip.Description".Localize()
@@ -49,6 +56,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
         public override void ExposeData()
         {
             Scribe_Values.Look(ref AutoEquip, "backpackAutoEquip", true);
+            Scribe_Values.Look(ref BuyItemSettings.mustResearchFirst, "BuyItemSettings.mustResearchFirst", true);
         }
 
         public override void EditSettings()
