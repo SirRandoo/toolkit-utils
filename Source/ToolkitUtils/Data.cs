@@ -45,6 +45,10 @@ namespace SirRandoo.ToolkitUtils
            .Select(i => (KarmaType) Enum.Parse(typeof(KarmaType), i))
            .ToList();
 
+        internal static readonly Dictionary<string, QualityCategory> Qualities = Enum.GetNames(typeof(QualityCategory))
+           .Select(q => (q, (QualityCategory) Enum.Parse(typeof(QualityCategory), q)))
+           .ToDictionary(p => p.q, q => q.Item2);
+
         internal static readonly List<TechLevel> TechLevels = Enum.GetNames(typeof(TechLevel))
            .Select(t => (TechLevel) Enum.Parse(typeof(TechLevel), t))
            .ToList();

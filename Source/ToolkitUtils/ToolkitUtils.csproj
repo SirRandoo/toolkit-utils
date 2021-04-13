@@ -259,6 +259,7 @@
         <Compile Include="Windows\StoreIncidentEditor.cs"/>
         <Compile Include="Windows\TkUtilsWindow.cs"/>
         <Compile Include="Windows\TraitConfigDialog.cs"/>
+        <Compile Include="Workers\ArgWorker.cs"/>
         <Compile Include="Workers\EventTableWorker.cs"/>
         <Compile Include="Workers\EventViewWorker.cs"/>
         <Compile Include="Workers\EventWorker.cs"/>
