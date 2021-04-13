@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -34,43 +34,27 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private TraitItem buyableTrait;
         private Pawn pawn;
         private Trait trait;
-        private TraitDef traitDef;
         public override Viewer Viewer { get; set; }
 
-        public override bool CanHappen(string msg, Viewer viewer)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            string traitQuery = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
-
-            if (traitQuery.NullOrEmpty())
-            {
-                return false;
-            }
-
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
-            int maxTraits = AddTraitSettings.maxTraits > 0 ? AddTraitSettings.maxTraits : 4;
-            List<Trait> traits = pawn!.story.traits.allTraits;
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
 
-            if (!Data.TryGetTrait(traitQuery, out buyableTrait))
+            if (!worker.TryGetNextAsTrait(out buyableTrait)
+                || buyableTrait?.CanAdd == false
+                || buyableTrait?.TraitDef == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(traitQuery));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(worker.GetLast()));
                 return false;
             }
 
-            if (!buyableTrait!.CanAdd)
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.Disabled".Localize(buyableTrait.Name.CapitalizeFirst())
-                );
-                return false;
-            }
-
-            if (!viewer.CanAfford(buyableTrait.CostToAdd))
+            if (!viewer.CanAfford(buyableTrait!.CostToAdd))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -82,58 +66,67 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (traits != null)
-            {
-                int tally = traits.Count(t => !t.IsSexualityTrait());
-                bool canBypassLimit = buyableTrait.BypassLimit;
+            int total = pawn!.story?.traits?.allTraits?.Count ?? 0;
 
-                if (tally >= maxTraits && !canBypassLimit)
+            if (total >= AddTraitSettings.maxTraits && buyableTrait.TraitData?.CanBypassLimit == false)
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.LimitReached".LocalizeKeyed(AddTraitSettings.maxTraits)
+                );
+                return false;
+            }
+
+            if (!PassesCharacterChecks(viewer, worker))
+            {
+                return false;
+            }
+
+            trait = new Trait(buyableTrait.TraitDef, buyableTrait.Degree);
+
+            if (!PassesValidationChecks(viewer))
+            {
+                return false;
+            }
+
+            if (PassesModChecks(viewer, worker, out bool canHappen))
+            {
+                return canHappen;
+            }
+
+            return worker.GetLast() != null && buyableTrait != null;
+        }
+
+        private bool PassesModChecks(Viewer viewer, ArgWorker worker, out bool canHappen)
+        {
+            if (CompatRegistry.Magic == null || !CompatRegistry.Magic.IsClassTrait(buyableTrait.TraitDef!))
+            {
                 {
-                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.LimitReached".LocalizeKeyed(maxTraits));
-                    return false;
+                    canHappen = worker.GetLast() != null && buyableTrait != null;
+                    return true;
                 }
             }
 
-            traitDef = buyableTrait.TraitDef;
-
-            if (traitDef == null)
+            if (CompatRegistry.Magic.HasClass(pawn))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(traitQuery));
-                return false;
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize());
+                {
+                    canHappen = false;
+                    return true;
+                }
             }
 
-            if (traitDef.IsDisallowedByBackstory(pawn, buyableTrait.Degree) is { } backstory)
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, traitQuery)
-                );
-                return false;
-            }
+            canHappen = false;
+            return false;
+        }
 
-            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(traitDef.defName)) ?? false)
+        private bool PassesValidationChecks(Viewer viewer)
+        {
+            if (pawn.story.traits.allTraits != null)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, traitQuery)
-                );
-                return false;
-            }
-
-            if (traitDef.IsDisallowedByKind(pawn, buyableTrait.Degree))
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, traitQuery)
-                );
-                return false;
-            }
-
-            trait = new Trait(traitDef, buyableTrait.Degree);
-
-            if (traits != null)
-            {
-                foreach (Trait t in traits.Where(t => t.def.ConflictsWith(trait) || traitDef.ConflictsWith(t)))
+                foreach (Trait t in pawn.story.traits.allTraits.Where(
+                    t => t.def.ConflictsWith(trait) || buyableTrait.TraitDef!.ConflictsWith(t)
+                ))
                 {
                     MessageHelper.ReplyToUser(
                         viewer.username,
@@ -143,7 +136,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            Trait duplicateTrait = traits?.FirstOrDefault(t => t.def.defName.Equals(traitDef.defName));
+            Trait duplicateTrait =
+                pawn.story.traits.allTraits?.FirstOrDefault(t => t.def.defName.Equals(buyableTrait.TraitDef!.defName));
             if (duplicateTrait != null)
             {
                 MessageHelper.ReplyToUser(
@@ -153,18 +147,39 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (CompatRegistry.Magic == null || !CompatRegistry.Magic.IsClassTrait(traitDef))
+            return true;
+        }
+
+        private bool PassesCharacterChecks(Viewer viewer, ArgWorker worker)
+        {
+            if (buyableTrait.TraitDef.IsDisallowedByBackstory(pawn!, buyableTrait.Degree, out Backstory backstory))
             {
-                return traitQuery != null && buyableTrait != null;
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, worker.GetLast())
+                );
+                return false;
             }
 
-            if (!CompatRegistry.Magic.HasClass(pawn))
+            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(buyableTrait.TraitDef!.defName)) == true)
             {
-                return traitQuery != null && buyableTrait != null;
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, worker.GetLast())
+                );
+                return false;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize());
-            return false;
+            if (buyableTrait.TraitDef.IsDisallowedByKind(pawn, buyableTrait.Degree))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, worker.GetLast())
+                );
+                return false;
+            }
+
+            return true;
         }
 
         public override void Execute()

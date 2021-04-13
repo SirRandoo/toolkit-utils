@@ -190,14 +190,25 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
-        public static Backstory IsDisallowedByBackstory(this TraitDef trait, [NotNull] Pawn pawn, int degree)
+        public static bool IsDisallowedByBackstory(
+            this TraitDef trait,
+            [NotNull] Pawn pawn,
+            int degree,
+            [NotNull] out Backstory backstory
+        )
         {
-            return pawn.story.AllBackstories.FirstOrFallback(s => s.DisallowsTrait(trait, degree));
+            backstory = pawn.story.AllBackstories.FirstOrFallback(s => s.DisallowsTrait(trait, degree));
+            return backstory != null;
         }
 
-        public static Backstory IsDisallowedByBackstory([NotNull] this Trait trait, [NotNull] Pawn pawn, int degree)
+        public static bool IsDisallowedByBackstory(
+            [NotNull] this Trait trait,
+            [NotNull] Pawn pawn,
+            int degree,
+            [NotNull] out Backstory backstory
+        )
         {
-            return trait.def.IsDisallowedByBackstory(pawn, degree);
+            return IsDisallowedByBackstory(trait.def, pawn, degree, out backstory);
         }
 
         public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree)

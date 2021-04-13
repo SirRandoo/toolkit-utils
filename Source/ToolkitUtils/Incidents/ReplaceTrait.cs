@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -22,10 +21,14 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
-using Verse;
+using Current = Verse.Current;
+using GenText = Verse.GenText;
+using LookTargets = Verse.LookTargets;
+using Pawn = Verse.Pawn;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
@@ -33,226 +36,219 @@ namespace SirRandoo.ToolkitUtils.Incidents
     public class ReplaceTrait : IncidentVariablesBase
     {
         private Pawn pawn;
-        private TraitItem replaceThatShop;
+        private TraitItem thatShop;
+        private Trait thatTrait;
+        private TraitItem thisShop;
 
-        private Trait replaceThatTrait;
-        private TraitDef replaceThatTraitDef;
-        private TraitItem replaceThisShop;
+        private Trait thisTrait;
 
-        private Trait replaceThisTrait;
-        private TraitDef replaceThisTraitDef;
 
         public override Viewer Viewer { get; set; }
 
-        public override bool CanHappen(string msg, Viewer viewer)
+        private int TotalPrice => thisShop.CostToRemove + thatShop.CostToAdd;
+
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
-
-            if (segments.Length < 2)
-            {
-                return false;
-            }
-
-            string toReplace = segments.FirstOrDefault();
-            string toReplaceWith = segments.Skip(1).FirstOrDefault();
-
-            if (toReplace.NullOrEmpty() || toReplaceWith.NullOrEmpty())
-            {
-                return false;
-            }
-
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
                 return false;
             }
 
-            if (!Data.TryGetTrait(toReplace, out replaceThisShop))
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
+
+            if (!worker.TryGetNextAsTrait(out thisShop) || !worker.TryGetNextAsTrait(out thatShop))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(toReplace));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(worker.GetLast()));
                 return false;
             }
 
-            if (!Data.TryGetTrait(toReplaceWith, out replaceThatShop))
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(toReplaceWith));
-                return false;
-            }
-
-            if (!replaceThisShop!.CanRemove)
+            if (IsUsable(thisShop, thatShop))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(replaceThisShop.Name.CapitalizeFirst())
+                    "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(
+                        GenText.CapitalizeFirst((thisShop!.CanRemove ? thisShop : thatShop)?.Name)
+                    )
                 );
                 return false;
             }
 
-            if (!replaceThatShop!.CanAdd)
+            if (pawn!.story.traits.allTraits.Count > AddTraitSettings.maxTraits && WouldExceedLimit())
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Trait.Disabled".Localize(replaceThatShop.Name.CapitalizeFirst())
+                    "TKUtils.ReplaceTrait.Violation".LocalizeKeyed(thisShop.Name, thatShop.Name)
                 );
                 return false;
             }
 
-            if (pawn!.story.traits.allTraits.Count > AddTraitSettings.maxTraits
-                && (replaceThisShop.BypassLimit && !replaceThatShop.BypassLimit
-                    || !replaceThisShop.BypassLimit && !replaceThatShop.BypassLimit))
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.ReplaceTrait.Violation".LocalizeKeyed(replaceThisShop.Name, replaceThatShop.Name)
-                );
-                return false;
-            }
-
-            if (!viewer.CanAfford(replaceThisShop.CostToRemove + replaceThatShop.CostToAdd))
+            if (!viewer.CanAfford(TotalPrice))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        (replaceThisShop.CostToRemove + replaceThatShop.CostToAdd).ToString("N0"),
+                        TotalPrice.ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
                 );
                 return false;
             }
 
-            replaceThisTraitDef = replaceThisShop.TraitDef;
-            replaceThatTraitDef = replaceThatShop.TraitDef;
-
-            if (replaceThisTraitDef == null)
+            if (!PassesCharacterCheck(viewer))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(toReplace));
                 return false;
             }
 
-            if (replaceThatTraitDef == null)
+            if (!PassesModCheck(viewer))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(toReplaceWith));
                 return false;
             }
 
-            if (replaceThatTraitDef.IsDisallowedByBackstory(pawn, replaceThatShop.Degree) is { } thatBackstory)
+            if (!PassesValidationCheck(viewer))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(thatBackstory.identifier, toReplaceWith)
-                );
                 return false;
             }
 
-            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(replaceThatTraitDef.defName)) ?? false)
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, toReplaceWith)
-                );
-                return false;
-            }
+            thatTrait = new Trait(thatShop.TraitDef, thatShop.Degree);
+            return true;
+        }
 
-            if (RationalRomance.Active
-                && RationalRomance.IsTraitDisabled(replaceThisTraitDef)
-                && !RationalRomance.IsTraitDisabled(replaceThatTraitDef))
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.ReplaceTrait.RationalRomance".Localize(replaceThisShop.Name.CapitalizeFirst())
-                );
-                return false;
-            }
-
-            if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, replaceThisShop.DefName, replaceThisShop.Degree))
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, replaceThisShop.Name)
-                );
-                return false;
-            }
-
-            if (replaceThatTraitDef.IsDisallowedByKind(pawn, replaceThatShop.Degree))
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, replaceThatShop.Name)
-                );
-                return false;
-            }
-
-            List<Trait> traits = pawn.story.traits.allTraits;
-
-            if (traits?.Count <= 0)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.None".Localize());
-                return false;
-            }
-
-            replaceThisTrait = traits?.FirstOrDefault(
-                t => TraitHelper.CompareToInput(replaceThisShop.GetDefaultName()!, t.Label)
+        private bool PassesValidationCheck(Viewer viewer)
+        {
+            thisTrait = pawn.story.traits.allTraits.Find(
+                t => TraitHelper.CompareToInput(thisShop.GetDefaultName()!, t.Label)
             );
 
-            if (replaceThisTrait == null)
+            if (thisTrait == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Missing".LocalizeKeyed(toReplace));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Missing".LocalizeKeyed(thisShop!.Name));
                 return false;
             }
 
-            if ((CompatRegistry.Magic?.IsClassTrait(replaceThisTraitDef) ?? false) && !TkSettings.ClassChanges)
+            if (pawn.story.traits.allTraits.Any(t => TraitHelper.CompareToInput(thatShop.GetDefaultName()!, t.Label)))
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".LocalizeKeyed(thatShop.Name));
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool PassesCharacterCheck(Viewer viewer)
+        {
+            if (thatShop!.TraitDef.IsDisallowedByBackstory(pawn, thatShop.Degree, out Backstory backstory))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Class".LocalizeKeyed(replaceThisTrait.Label)
+                    "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, thisShop!.Name)
                 );
                 return false;
             }
 
-            if (traits?.Find(s => TraitHelper.CompareToInput(replaceThatShop.GetDefaultName()!, s.Label)) == null)
+            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(thatShop.TraitDef!.defName)) == true)
             {
-                replaceThatTrait = new Trait(replaceThatTraitDef, replaceThatShop.Degree);
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, thatShop.Name)
+                );
+                return false;
+            }
+
+            if (thatShop.TraitDef.IsDisallowedByKind(pawn, thatShop.Degree))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, thatShop.Name)
+                );
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool PassesModCheck(Viewer viewer)
+        {
+            if (RationalRomance.Active
+                && RationalRomance.IsTraitDisabled(thisShop!.TraitDef!)
+                && !RationalRomance.IsTraitDisabled(thatShop.TraitDef!))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.ReplaceTrait.RationalRomance".Localize(GenText.CapitalizeFirst(thisShop.Name))
+                );
+                return false;
+            }
+
+            if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, thisShop!.DefName, thisShop.Degree))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, thisShop.Name)
+                );
+                return false;
+            }
+
+            if (CompatRegistry.Magic?.IsClassTrait(thisShop!.TraitDef!) != true || TkSettings.ClassChanges)
+            {
                 return true;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".LocalizeKeyed(toReplaceWith));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Class".LocalizeKeyed(thisTrait.Label));
             return false;
         }
 
         public override void Execute()
         {
-            if ((CompatRegistry.Magic?.IsClassTrait(replaceThisTraitDef) ?? false) && TkSettings.ResetClass)
+            if ((CompatRegistry.Magic?.IsClassTrait(thisShop.TraitDef!) ?? false) && TkSettings.ResetClass)
             {
                 CompatRegistry.Magic.ResetClass(pawn);
             }
 
-            TraitHelper.RemoveTraitFromPawn(pawn, replaceThisTrait);
+            TraitHelper.RemoveTraitFromPawn(pawn, thisTrait);
 
-            Viewer.Charge(
-                replaceThisShop.CostToRemove,
-                replaceThisShop.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType
-            );
+            Viewer.Charge(thisShop.CostToRemove, thisShop.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType);
 
 
-            TraitHelper.GivePawnTrait(pawn, replaceThatTrait);
+            TraitHelper.GivePawnTrait(pawn, thatTrait);
 
-            Viewer.Charge(replaceThatShop.CostToAdd, replaceThatShop.Data?.KarmaType ?? storeIncident.karmaType);
+            Viewer.Charge(thatShop.CostToAdd, thatShop.Data?.KarmaType ?? storeIncident.karmaType);
 
             MessageHelper.SendConfirmation(
                 Viewer.username,
-                "TKUtils.ReplaceTrait.Complete".LocalizeKeyed(replaceThisTrait.LabelCap, replaceThatTrait.LabelCap)
+                "TKUtils.ReplaceTrait.Complete".LocalizeKeyed(thisTrait.LabelCap, thatTrait.LabelCap)
             );
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),
                 "TKUtils.TraitLetter.ReplaceDescription".LocalizeKeyed(
                     Viewer.username,
-                    replaceThisTrait.LabelCap,
-                    replaceThatTrait.LabelCap
+                    thisTrait.LabelCap,
+                    thatTrait.LabelCap
                 ),
                 LetterDefOf.NeutralEvent,
                 new LookTargets(pawn)
             );
+        }
+
+        private bool WouldExceedLimit()
+        {
+            if (thisShop.TraitData?.CanBypassLimit == true && thatShop.TraitData?.CanBypassLimit == false)
+            {
+                return true;
+            }
+
+            return thisShop.TraitData?.CanBypassLimit == false && !thatShop.TraitData?.CanBypassLimit == false;
+        }
+
+        private static bool IsUsable([CanBeNull] TraitItem t1, [CanBeNull] TraitItem t2)
+        {
+            if (t1?.TraitDef == null || t2?.TraitDef == null)
+            {
+                return false;
+            }
+
+            return t1.CanRemove && t2.CanAdd;
         }
     }
 }

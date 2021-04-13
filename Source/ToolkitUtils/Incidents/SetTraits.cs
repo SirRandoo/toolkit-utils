@@ -21,6 +21,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using Verse;
@@ -47,10 +48,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
             }
 
-            List<TraitItem> items = FindTraits(viewer, traitQueries).ToList();
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
+            List<TraitItem> items = worker.GetAllAsTrait().ToList();
 
-            if (items.Count < traitQueries.Length)
+            if (worker.HasNext() && !worker.GetLast().NullOrEmpty())
             {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(worker.GetLast()));
                 return false;
             }
 

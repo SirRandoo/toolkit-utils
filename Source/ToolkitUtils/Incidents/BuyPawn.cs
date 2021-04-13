@@ -19,8 +19,10 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
@@ -72,43 +74,27 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return CanPurchaseRace(viewer, pawnKindItem);
             }
 
-            string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
-            string query = segments.FirstOrDefault();
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
 
-            if (query.NullOrEmpty())
+            if (!worker.TryGetNextAsPawn(out pawnKindItem) || pawnKindItem?.ColonistKindDef == null)
+            {
+                if (worker.GetLast().NullOrEmpty())
+                {
+                    return CanPurchaseRace(viewer, pawnKindItem!);
+                }
+
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".LocalizeKeyed(worker.GetLast()));
+                return false;
+            }
+
+            kindDef = pawnKindItem.ColonistKindDef;
+
+            if (kindDef.RaceProps.Humanlike)
             {
                 return CanPurchaseRace(viewer, pawnKindItem);
             }
 
-            if (!Data.TryGetPawnKind(query, out PawnKindItem kindItem))
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".LocalizeKeyed(query));
-                return false;
-            }
-
-            PawnKindDef raceDef = kindItem!.ColonistKindDef;
-
-            if (raceDef == null)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".LocalizeKeyed(query));
-                return false;
-            }
-
-            if (!raceDef.RaceProps.Humanlike)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.BuyPawn.Humanlike".Localize());
-                return false;
-            }
-
-            kindDef = raceDef;
-            pawnKindItem = kindItem;
-
-            if (pawnKindItem != null)
-            {
-                return CanPurchaseRace(viewer, pawnKindItem);
-            }
-
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".LocalizeKeyed(query));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.BuyPawn.Humanlike".Localize());
             return false;
         }
 
@@ -134,7 +120,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 GenSpawn.Spawn(pawn, loc, map);
                 pawn.Name = new NameTriple(name.First ?? string.Empty, Viewer.username, name.Last ?? string.Empty);
                 TaggedString title = "TKUtils.PawnLetter.Title".Localize();
-                TaggedString text = "TKUtils.PawnLetter.Description".Localize(Viewer.username);
+                TaggedString text = "TKUtils.PawnLetter.Description".LocalizeKeyed(Viewer.username);
                 PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref title, pawn);
 
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
@@ -149,11 +135,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
         }
 
-        private bool CanPurchaseRace([NotNull] Viewer viewer, [NotNull] PawnKindItem target)
+        private static bool CanPurchaseRace([NotNull] Viewer viewer, [NotNull] IShopItemBase target)
         {
             if (!target.Enabled && TkSettings.PurchasePawnKinds)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InformativeDisabledItem".Localize(target.Name));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InformativeDisabledItem".LocalizeKeyed(target.Name)
+                );
                 return false;
             }
 

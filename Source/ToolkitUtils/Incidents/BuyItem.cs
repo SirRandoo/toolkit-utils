@@ -22,6 +22,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -37,59 +38,45 @@ namespace SirRandoo.ToolkitUtils.Incidents
     {
         private PurchaseRequest purchaseRequest;
 
-        public override Viewer Viewer { get; set; }
-
-        public override bool CanHappen(string msg, Viewer viewer)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
-            string item = segments.FirstOrFallback();
-            string quantity = segments.Skip(1).FirstOrFallback("1");
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
 
-            if (item.NullOrEmpty())
+            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy product) || product?.Thing == null)
             {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
                 return false;
             }
 
-            if (!int.TryParse(quantity, out int amount) || amount < 0)
-            {
-                amount = 1;
-            }
+            int amount = worker.GetNextAsInt(1, product!.Thing.ItemData?.QuantityLimit ?? int.MaxValue);
 
-            ThingItem product = Data.Items.Where(i => i.Cost > 0).FirstOrDefault(i => i.Name.EqualsIgnoreCase(item));
-
-            if (product?.Thing == null)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(item));
-                return false;
-            }
-
-            List<ResearchProjectDef> projects = product.Thing.GetUnfinishedPrerequisites();
+            List<ResearchProjectDef> projects = product!.Thing.Thing.GetUnfinishedPrerequisites();
             if (BuyItemSettings.mustResearchFirst && projects.Count > 0)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.ResearchRequired".LocalizeKeyed(
-                        product.Thing.LabelCap.RawText,
+                        product.Thing.Thing.LabelCap.RawText,
                         projects.Select(p => p.LabelCap.RawText).SectionJoin()
                     )
                 );
                 return false;
             }
 
-            if (quantity.Equals("*"))
+            if (worker.GetLast()?.Equals("*") ?? false)
             {
-                amount = viewer.GetMaximumPurchaseAmount(product.Cost);
+                amount = viewer.GetMaximumPurchaseAmount(product.Thing.Cost);
             }
 
-            if (product.Data != null && product.ItemData!.HasQuantityLimit)
+            if (product.Thing.Data != null && product.Thing.ItemData!.HasQuantityLimit)
             {
-                amount = Mathf.Clamp(amount, 1, product.ItemData.QuantityLimit);
+                amount = Mathf.Clamp(amount, 1, product.Thing.ItemData.QuantityLimit);
             }
 
             purchaseRequest = new PurchaseRequest
             {
-                ItemData = product,
-                ThingDef = product.Thing,
+                ItemData = product.Thing,
+                ThingDef = product.Thing.Thing,
                 Quantity = amount,
                 Purchaser = viewer,
                 Map = Helper.AnyPlayerMap
@@ -107,19 +94,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!viewer.CanAfford(purchaseRequest.Price))
+            if (viewer.CanAfford(purchaseRequest.Price))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        purchaseRequest.Price.ToString("N0"),
-                        viewer.GetViewerCoins().ToString("N0")
-                    )
-                );
-                return false;
+                return purchaseRequest.Map != null;
             }
 
-            return purchaseRequest.Map != null;
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.InsufficientBalance".LocalizeKeyed(
+                    purchaseRequest.Price.ToString("N0"),
+                    viewer.GetViewerCoins().ToString("N0")
+                )
+            );
+            return false;
         }
 
         public override void Execute()

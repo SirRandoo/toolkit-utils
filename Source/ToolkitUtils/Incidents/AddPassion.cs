@@ -20,6 +20,7 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using UnityEngine;
@@ -41,23 +42,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            string query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
 
-            if (query.NullOrEmpty())
+            if (!worker.TryGetNextAsSkill(out SkillDef skillDef))
             {
                 return false;
             }
 
-            target = pawn!.skills.skills.Where(s => !s.TotallyDisabled)
-               .FirstOrDefault(
-                    s => s.def.defName.ToToolkit().EqualsIgnoreCase(query!.ToToolkit())
-                         || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
-                         || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
-                );
+            target = pawn!.skills.skills.Where(s => !s.TotallyDisabled).FirstOrDefault(s => s.def.Equals(skillDef));
 
             if (target == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(query));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(worker.GetLast()));
                 return false;
             }
 

@@ -47,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (pawn?.IsBorrowedByAnyFaction() ?? false)
+            if (pawn?.IsBorrowedByAnyFaction() == true)
             {
                 return false;
             }
@@ -176,7 +176,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override string GetPostProcessedThreatLabel([NotNull] Site site, [NotNull] SitePart sitePart)
         {
             string str = base.GetPostProcessedThreatLabel(site, sitePart);
-            if (sitePart.things != null && sitePart.things.Any)
+            if (sitePart.things is {Any: true})
             {
                 str = str + ": " + sitePart.things[0].LabelShortCap;
             }
