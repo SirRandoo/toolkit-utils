@@ -108,7 +108,6 @@
         <Compile Include="IncidentSettings\AddPassion.cs"/>
         <Compile Include="IncidentSettings\Backpack.cs"/>
         <Compile Include="IncidentSettings\Embeds\AddTraitSettingEmbed.cs"/>
-        <Compile Include="IncidentSettings\Embeds\ItemSettingEmbed.cs"/>
         <Compile Include="IncidentSettings\Embeds\LevelPawnSettingEmbed.cs"/>
         <Compile Include="IncidentSettings\FullHeal.cs"/>
         <Compile Include="IncidentSettings\HealAll.cs"/>
@@ -250,7 +249,6 @@
         <Compile Include="Utils\ModComp\RationalRomance.cs"/>
         <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
         <Compile Include="Utils\ObservableProperty.cs"/>
-        <Compile Include="Utils\ShopExpansion.cs"/>
         <Compile Include="Utils\Unrichify.cs"/>
         <Compile Include="Windows\Editor.cs"/>
         <Compile Include="Windows\PartialManager.cs"/>
