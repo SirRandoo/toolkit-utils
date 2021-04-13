@@ -229,15 +229,15 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (TkSettings.Offload)
             {
                 Task.Run(
-                        () =>
+                        async () =>
                         {
                             switch (TkSettings.DumpStyle)
                             {
                                 case "MultiFile":
-                                    Data.SaveTraits(Paths.TraitFilePath);
+                                    await Data.SaveTraitsAsync(Paths.TraitFilePath);
                                     return;
                                 case "SingleFile":
-                                    Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                                    await Data.SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
                                     return;
                             }
                         }

@@ -96,7 +96,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (TkSettings.Offload)
             {
-                Task.Run(DumpAllData).ConfigureAwait(false);
+                Task.Run(async () => await DumpAllDataAsync()).ConfigureAwait(false);
             }
             else
             {
@@ -280,9 +280,19 @@ namespace SirRandoo.ToolkitUtils
             Traits = LoadJson<List<TraitItem>>(path, ignoreErrors) ?? new List<TraitItem>();
         }
 
+        public static async Task LoadTraitsAsync(string path, bool ignoreErrors = false)
+        {
+            Traits = await LoadJsonAsync<List<TraitItem>>(path, ignoreErrors) ?? new List<TraitItem>();
+        }
+
         public static void SaveTraits(string path)
         {
             SaveJson(Traits, path);
+        }
+
+        public static async Task SaveTraitsAsync(string path)
+        {
+            await SaveJsonAsync(Traits, path);
         }
 
         public static void LoadPawnKinds(string path, bool ignoreErrors = false)
@@ -290,9 +300,19 @@ namespace SirRandoo.ToolkitUtils
             PawnKinds = LoadJson<List<PawnKindItem>>(path, ignoreErrors) ?? new List<PawnKindItem>();
         }
 
+        public static async Task LoadPawnKindsAsync(string path, bool ignoreErrors = false)
+        {
+            PawnKinds = await LoadJsonAsync<List<PawnKindItem>>(path, ignoreErrors) ?? new List<PawnKindItem>();
+        }
+
         public static void SavePawnKinds(string path)
         {
             SaveJson(PawnKinds, path);
+        }
+
+        public static async Task SavePawnKindsAsync(string path)
+        {
+            await SaveJsonAsync(PawnKinds, path);
         }
 
         public static void LoadItemData(string path)
@@ -300,14 +320,30 @@ namespace SirRandoo.ToolkitUtils
             ItemData = LoadJson<Dictionary<string, ItemData>>(path, true) ?? new Dictionary<string, ItemData>();
         }
 
+        public static async Task LoadItemDataAsync(string path)
+        {
+            ItemData = await LoadJsonAsync<Dictionary<string, ItemData>>(path, true)
+                       ?? new Dictionary<string, ItemData>();
+        }
+
         public static void SaveItemData(string path)
         {
             SaveJson(ItemData, path);
         }
 
+        public static async Task SaveItemDataAsync(string path)
+        {
+            await SaveJsonAsync(ItemData, path);
+        }
+
         public static void SaveEventData(string path)
         {
             SaveJson(Events.ToDictionary(e => e.DefName, e => e.EventData), path);
+        }
+
+        public static async Task SaveEventDataAsync(string path)
+        {
+            await SaveJsonAsync(Events.ToDictionary(e => e.DefName, e => e.EventData), path);
         }
 
         private static void ValidateTraits()
@@ -474,6 +510,11 @@ namespace SirRandoo.ToolkitUtils
             SaveJson(new ShopLegacy {Races = PawnKinds, Traits = Traits}, path);
         }
 
+        public static async Task SaveLegacyShopAsync(string path)
+        {
+            await SaveJsonAsync(new ShopLegacy {Races = PawnKinds, Traits = Traits}, path);
+        }
+
         public static void DumpAllData()
         {
             SaveItemData(Paths.ItemDataFilePath);
@@ -492,6 +533,25 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
+        public static async Task DumpAllDataAsync()
+        {
+            await SaveItemDataAsync(Paths.ItemDataFilePath);
+            await SaveEventDataAsync(Paths.EventDataFilePath);
+            await SaveModListAsync();
+            await DumpCommandsAsync();
+
+            switch (TkSettings.DumpStyle)
+            {
+                case "SingleFile":
+                    await SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
+                    break;
+                default:
+                    await SaveTraitsAsync(Paths.TraitFilePath);
+                    await SavePawnKindsAsync(Paths.PawnKindFilePath);
+                    break;
+            }
+        }
+
         public static void DumpCommands()
         {
             List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled)
@@ -503,26 +563,30 @@ namespace SirRandoo.ToolkitUtils
                    .Select(CommandItem.FromToolkitCore)
             );
 
-            if (TkSettings.Offload)
-            {
-                Task.Run(() => SaveJson(container, Paths.CommandListFilePath)).ConfigureAwait(false);
-            }
-            else
-            {
-                SaveJson(container, Paths.CommandListFilePath);
-            }
+            SaveJson(container, Paths.CommandListFilePath);
+        }
+
+        public static async Task DumpCommandsAsync()
+        {
+            List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled)
+               .Select(CommandItem.FromToolkit)
+               .ToList();
+
+            container.AddRange(
+                DefDatabase<ToolkitChatCommand>.AllDefs.Where(c => c.enabled).Select(CommandItem.FromToolkitCore)
+            );
+
+            await SaveJsonAsync(container, Paths.CommandListFilePath);
         }
 
         public static void SaveModList()
         {
-            if (TkSettings.Offload)
-            {
-                Task.Run(() => SaveJson(Mods, Paths.ModListFilePath)).ConfigureAwait(false);
-            }
-            else
-            {
-                SaveJson(Mods, Paths.ModListFilePath);
-            }
+            SaveJson(Mods, Paths.ModListFilePath);
+        }
+
+        public static async Task SaveModListAsync()
+        {
+            await SaveJsonAsync(Mods, Paths.ModListFilePath);
         }
 
         public static bool TryGetTrait(string input, [CanBeNull] out TraitItem trait)

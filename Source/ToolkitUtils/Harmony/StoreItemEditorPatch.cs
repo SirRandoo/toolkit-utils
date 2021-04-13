@@ -54,10 +54,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (TkSettings.Offload)
             {
                 Task.Run(
-                        () =>
+                        async () =>
                         {
-                            Data.SaveJson(new ItemList {Items = items}, Paths.ToolkitItemFilePath);
-                            Data.SaveItemData(Paths.ItemDataFilePath);
+                            await Data.SaveJsonAsync(new ItemList {Items = items}, Paths.ToolkitItemFilePath);
+                            await Data.SaveItemDataAsync(Paths.ItemDataFilePath);
                         }
                     )
                    .ConfigureAwait(false);

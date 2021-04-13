@@ -181,15 +181,15 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (TkSettings.Offload)
             {
                 Task.Run(
-                        () =>
+                        async () =>
                         {
                             switch (TkSettings.DumpStyle)
                             {
                                 case "MultiFile":
-                                    Data.SavePawnKinds(Paths.PawnKindFilePath);
+                                    await Data.SavePawnKindsAsync(Paths.PawnKindFilePath);
                                     return;
                                 case "SingleFile":
-                                    Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                                    await Data.SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
                                     return;
                             }
                         }

@@ -175,12 +175,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                         switch (TkSettings.DumpStyle)
                         {
                             case "SingleFile":
-                                await Task.Run(() => Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath))
-                                   .ConfigureAwait(false);
+                                await Data.SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
                                 return;
                             case "MultiFile":
-                                await Task.Run(() => Data.SaveTraits(Paths.TraitFilePath)).ConfigureAwait(false);
-                                await Task.Run(() => Data.SavePawnKinds(Paths.PawnKindFilePath)).ConfigureAwait(false);
+                                await Data.SaveTraitsAsync(Paths.TraitFilePath);
+                                await Data.SavePawnKindsAsync(Paths.PawnKindFilePath);
                                 return;
                         }
                     }
