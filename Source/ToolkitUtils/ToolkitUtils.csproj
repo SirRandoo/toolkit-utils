@@ -270,7 +270,6 @@
         <Compile Include="Workers\ItemViewWorker.cs"/>
         <Compile Include="Workers\ItemWorker.cs"/>
         <Compile Include="Workers\ItemWorkerBase.cs"/>
-        <Compile Include="Workers\LuaEditorWorker.cs"/>
         <Compile Include="Workers\PawnTableWorker.cs"/>
         <Compile Include="Workers\PawnViewWorker.cs"/>
         <Compile Include="Workers\PawnWorker.cs"/>
