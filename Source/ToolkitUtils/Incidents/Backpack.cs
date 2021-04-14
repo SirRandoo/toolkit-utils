@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool CanHappen(string msg, Viewer viewer)
         {
-            string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
+            string[] segments = CommandFilter.Parse(msg).Skip(2).ToArray();
             string item = segments.FirstOrFallback();
             string quantity = segments.Skip(1).FirstOrFallback("1");
 

@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            string query = CommandFilter.Parse(message).Skip(2).FirstOrDefault();
+            string query = CommandFilter.Parse(msg).Skip(2).FirstOrDefault();
 
             if (query.NullOrEmpty())
             {

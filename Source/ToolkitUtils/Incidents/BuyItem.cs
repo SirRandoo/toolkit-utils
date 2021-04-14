@@ -40,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
             if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy product) || product?.Thing == null)
             {

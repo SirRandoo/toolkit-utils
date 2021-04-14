@@ -42,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
             if (!worker.TryGetNextAsSkill(out SkillDef skillDef))
             {

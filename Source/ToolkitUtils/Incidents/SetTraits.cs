@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
             }
 
-            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
             List<TraitItem> items = worker.GetAllAsTrait().ToList();
 
             if (worker.HasNext() && !worker.GetLast().NullOrEmpty())

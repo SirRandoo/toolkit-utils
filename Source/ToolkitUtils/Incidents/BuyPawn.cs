@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return CanPurchaseRace(viewer, pawnKindItem);
             }
 
-            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message).Skip(2));
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
             if (!worker.TryGetNextAsPawn(out pawnKindItem) || pawnKindItem?.ColonistKindDef == null)
             {

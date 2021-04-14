@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            string[] segments = CommandFilter.Parse(message).Skip(2).ToArray();
+            string[] segments = CommandFilter.Parse(msg).Skip(2).ToArray();
             string partQuery = segments.FirstOrFallback();
 
             if (!PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn))
