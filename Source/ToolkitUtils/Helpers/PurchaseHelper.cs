@@ -18,6 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using RimWorld;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -133,6 +135,80 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             viewer.CalculateNewKarma(karmaType, Mathf.CeilToInt(cost * weight));
+        }
+
+        public static bool TryGetUnfinishedPrerequisites(
+            [NotNull] ThingDef thing,
+            [NotNull] out List<ResearchProjectDef> projects
+        )
+        {
+            projects = thing.GetUnfinishedPrerequisites();
+            return BuyItemSettings.mustResearchFirst && projects.Count > 0;
+        }
+
+        public static bool CanBeStuff(this ThingDef thing, [CanBeNull] ThingDef stuff)
+        {
+            if (stuff == null)
+            {
+                return false;
+            }
+
+            foreach (ThingDef possible in GenStuff.AllowedStuffsFor(thing).Where(s => s.defName.Equals(stuff.defName)))
+            {
+                if (!Data.ItemData.TryGetValue(possible.defName, out ItemData data))
+                {
+                    return true;
+                }
+
+                if (data!.IsStuffAllowed)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static int GetItemPrice([NotNull] this ThingItem thing, [CanBeNull] ThingItem stuff)
+        {
+            return stuff == null
+                ? thing.Cost
+                : Mathf.CeilToInt(
+                    (thing.Thing.MadeFromStuff ? thing.Thing.costStuffCount * stuff.Cost : thing.Cost) * 1.05f
+                );
+        }
+
+        public static int GetItemPrice(
+            [NotNull] this ThingItem thing,
+            [CanBeNull] ThingItem stuff,
+            QualityCategory quality
+        )
+        {
+            int price = GetItemPrice(thing, stuff);
+
+            switch (quality)
+            {
+                case QualityCategory.Awful:
+                    price = Mathf.CeilToInt(price * 0.5f);
+                    break;
+                case QualityCategory.Poor:
+                    price = Mathf.CeilToInt(price * 0.75f);
+                    break;
+                case QualityCategory.Good:
+                    price = Mathf.CeilToInt(price * 1.25f);
+                    break;
+                case QualityCategory.Excellent:
+                    price = Mathf.CeilToInt(price * 1.5f);
+                    break;
+                case QualityCategory.Masterwork:
+                    price = Mathf.CeilToInt(price * 2.5f);
+                    break;
+                case QualityCategory.Legendary:
+                    price = Mathf.CeilToInt(price * 5);
+                    break;
+            }
+
+            return Mathf.CeilToInt(price * 1.1f);
         }
     }
 }

@@ -129,6 +129,7 @@
         <Compile Include="Incidents\BuyPawn.cs"/>
         <Compile Include="Incidents\BuySurgery.cs"/>
         <Compile Include="Incidents\ClearTraits.cs"/>
+        <Compile Include="Incidents\Equip.cs"/>
         <Compile Include="Incidents\FullHeal.cs"/>
         <Compile Include="Incidents\HealAll.cs"/>
         <Compile Include="Incidents\HealMe.cs"/>
@@ -144,6 +145,7 @@
         <Compile Include="Incidents\SetTraits.cs"/>
         <Compile Include="Incidents\ReviveMe.cs"/>
         <Compile Include="Incidents\Use.cs"/>
+        <Compile Include="Incidents\Wear.cs"/>
         <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>
         <Compile Include="Interfaces\ISelectorBase.cs"/>

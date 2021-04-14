@@ -20,11 +20,10 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
-using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Incidents;
 using UnityEngine;
@@ -37,66 +36,51 @@ namespace SirRandoo.ToolkitUtils.Incidents
     {
         private PurchaseBackpackRequest purchaseRequest;
 
-        public override Viewer Viewer { get; set; }
-
-        public override bool CanHappen(string msg, Viewer viewer)
+        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            string[] segments = CommandFilter.Parse(msg).Skip(2).ToArray();
-            string item = segments.FirstOrFallback();
-            string quantity = segments.Skip(1).FirstOrFallback("1");
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (item.NullOrEmpty()
-                || !PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn)
-                || (!pawn?.Spawned ?? true))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn) || !pawn!.Spawned)
             {
                 return false;
             }
 
-            if (!int.TryParse(quantity, out int amount) || amount < 0)
+            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy proxy) || proxy!.Thing.Thing.race != null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
+                return false;
+            }
+
+            if (!worker.TryGetNextAsInt(out int amount, 1, Viewer.GetMaximumPurchaseAmount(proxy!.Thing.Cost)))
             {
                 amount = 1;
             }
 
-            ThingItem product = Data.Items.Where(i => i.Cost > 0).FirstOrDefault(i => i.Name.EqualsIgnoreCase(item));
-
-            if (product?.Thing == null)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(item));
-                return false;
-            }
-
-            if (product.Thing.race != null)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoAnimals".Localize());
-                return false;
-            }
-
-            List<ResearchProjectDef> projects = product.Thing.GetUnfinishedPrerequisites();
-            if (BuyItemSettings.mustResearchFirst && projects.Count > 0)
+            if (PurchaseHelper.TryGetUnfinishedPrerequisites(proxy.Thing.Thing, out List<ResearchProjectDef> projects))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.ResearchRequired".LocalizeKeyed(
-                        product.Thing.LabelCap.RawText,
+                        proxy.Thing.Thing.LabelCap.RawText,
                         projects.Select(p => p.LabelCap.RawText).SectionJoin()
                     )
                 );
                 return false;
             }
 
-            if (quantity.Equals("*"))
+            if (worker.GetLast().Equals("*"))
             {
-                amount = viewer.GetMaximumPurchaseAmount(product.Cost);
+                amount = viewer.GetMaximumPurchaseAmount(proxy.Thing.Cost);
             }
 
-            if (product.Data != null && product.ItemData!.HasQuantityLimit)
+            if (proxy.Thing.ItemData?.HasQuantityLimit == true)
             {
-                amount = Mathf.Clamp(amount, 1, product.ItemData.QuantityLimit);
+                amount = Mathf.Clamp(amount, 1, proxy.Thing.ItemData.QuantityLimit);
             }
 
             purchaseRequest = new PurchaseBackpackRequest
             {
-                ItemData = product, ThingDef = product.Thing, Quantity = amount, Purchaser = viewer, Pawn = pawn
+                Proxy = proxy, Quantity = amount, Purchaser = viewer, Pawn = pawn
             };
 
             if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
@@ -143,10 +127,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             private Pawn pawn;
 
-            public int Price => Mathf.Clamp(ItemData.Cost * Quantity, 0, int.MaxValue);
             public int Quantity { get; set; }
-            public ThingItem ItemData { get; set; }
-            public ThingDef ThingDef { get; set; }
+            public ArgWorker.ItemProxy Proxy { get; set; }
+
+            public int Price =>
+                Proxy.Quality.HasValue
+                    ? Proxy.Thing.GetItemPrice(Proxy.Stuff, Proxy.Quality.Value)
+                    : Proxy.Thing.GetItemPrice(Proxy.Stuff);
+
             public Viewer Purchaser { get; set; }
             [CanBeNull] public Map Map => Pawn?.Map;
 
@@ -159,27 +147,22 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             public void Spawn()
             {
-                ThingDef result = null;
-                if (ThingDef.MadeFromStuff
-                    && !GenStuff.AllowedStuffsFor(ThingDef)
-                       .Where(t => Data.ItemData.TryGetValue(t.defName, out ItemData data) && data.IsStuffAllowed)
-                       .Where(t => !PawnWeaponGenerator.IsDerpWeapon(ThingDef, t))
-                       .TryRandomElementByWeight(t => t.stuffProps.commonality, out result))
+                ThingDef result = Proxy.Stuff.Thing;
+                if (!Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff.Thing))
                 {
-                    LogHelper.Warn("Could not generate stuff for item! Falling back to a random stuff...");
-                    result = GenStuff.RandomStuffByCommonalityFor(ThingDef);
+                    result = GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing);
                 }
 
-                Thing thing = ThingMaker.MakeThing(ThingDef, result);
+                Thing thing = ThingMaker.MakeThing(Proxy.Thing.Thing, result);
+                thing.TryGetComp<CompQuality>()
+                  ?.SetQuality(
+                        Proxy.Quality ?? QualityUtility.GenerateQualityTraderItem(),
+                        ArtGenerationContext.Outsider
+                    );
 
-                if (thing.TryGetQuality(out QualityCategory _))
+                if (Proxy.Thing.Thing.Minifiable)
                 {
-                    ItemHelper.setItemQualityRandom(thing);
-                }
-
-                if (ThingDef.Minifiable)
-                {
-                    ThingDef minifiedDef = ThingDef.minifiedDef;
+                    ThingDef minifiedDef = Proxy.Thing.Thing.minifiedDef;
                     var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
                     minifiedThing.InnerThing = thing;
                     minifiedThing.stackCount = Quantity;
@@ -192,10 +175,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 Find.LetterStack.ReceiveLetter(
-                    (Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name).Truncate(15, true).CapitalizeFirst(),
+                    (Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name).Truncate(15, true)
+                   .CapitalizeFirst(),
                     "TKUtils.BackpackLetter.Description".LocalizeKeyed(
                         Quantity.ToString("N0"),
-                        Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                        Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
                         Purchaser.username
                     ),
                     ItemHelper.GetLetterFromValue(Price),
@@ -205,56 +189,22 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             private void CarryOrSpawn(Thing thing)
             {
-                bool canCarry = MassUtility.CanEverCarryAnything(pawn);
-
-                if (IncidentSettings.Backpack.AutoEquip
-                    && thing.def.equipmentType != EquipmentType.None
-                    && thing is ThingWithComps
-                    && canCarry
-                    && TryEquipWeapon(thing))
-                {
-                    return;
-                }
-
-                if (IncidentSettings.Backpack.AutoEquip && thing.def.IsApparel && thing is Apparel)
-                {
-                    EquipApparel(thing);
-                    return;
-                }
-
-                if (!canCarry || pawn.Spawned && !pawn.inventory.innerContainer.TryAdd(thing))
+                if (!MassUtility.CanEverCarryAnything(pawn)
+                    || MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, thing, Quantity))
                 {
                     TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(Map), Map, thing);
-                }
-            }
-
-            private void EquipApparel(Thing thing)
-            {
-                pawn.apparel.Wear(thing as Apparel);
-            }
-
-            private bool TryEquipWeapon([NotNull] Thing thing)
-            {
-                if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, thing, thing.stackCount)
-                    || pawn.equipment.Primary != null
-                    && !pawn.equipment.TryTransferEquipmentToContainer(
-                        pawn.equipment.Primary,
-                        pawn.inventory.innerContainer
-                    ))
-                {
-                    return false;
+                    return;
                 }
 
-                pawn.equipment.AddEquipment(thing as ThingWithComps);
-                return pawn.equipment.Primary == thing;
+                pawn.inventory.innerContainer.TryAdd(thing);
             }
 
             public void CompletePurchase(StoreIncident incident)
             {
                 Purchaser.Charge(
                     Price,
-                    ItemData.ItemData?.Weight ?? 1f,
-                    ItemData.Data?.KarmaType ?? incident.karmaType
+                    Proxy.Thing.ItemData?.Weight ?? 1f,
+                    Proxy.Thing.Data?.KarmaType ?? incident.karmaType
                 );
                 Notify_ItemPurchaseComplete();
             }
@@ -267,7 +217,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                         Purchaser.username,
                         "TKUtils.Item.Complete".LocalizeKeyed(
                             Quantity.ToString("N0"),
-                            Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                            Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
                             Price.ToString("N0"),
                             Purchaser.GetViewerCoins().ToString("N0")
                         )
@@ -279,7 +229,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                         Purchaser.username,
                         "TKUtils.Item.CompleteMinimal".LocalizeKeyed(
                             Quantity.ToString("N0"),
-                            Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                            Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
                             Price.ToString("N0")
                         )
                     );
