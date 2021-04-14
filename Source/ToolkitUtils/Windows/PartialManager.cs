@@ -93,7 +93,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         data.IsPartial = true;
                         data.Description = partial.Description;
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         // ignored
                     }
