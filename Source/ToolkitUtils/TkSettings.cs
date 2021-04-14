@@ -40,6 +40,7 @@ namespace SirRandoo.ToolkitUtils
     [StaticConstructorOnStartup]
     public class TkSettings : ModSettings
     {
+        private static string ModVersion;
         public static bool Commands = true;
         public static string Prefix = "!";
         public static string BuyPrefix = "$";
@@ -248,6 +249,17 @@ namespace SirRandoo.ToolkitUtils
             Color cache = GUI.color;
             float distributedWidth = canvas.width / _tabEntries.Length;
             var currentTabCanvas = new Rect(0f, 0f, distributedWidth, canvas.height);
+
+            ModVersion ??= Data.Mods?.FirstOrDefault(
+                                   m => m.Name.StartsWith("ToolkitUtils", StringComparison.InvariantCultureIgnoreCase)
+                               )
+                             ?.Version
+                           ?? "";
+
+            if (!ModVersion.NullOrEmpty())
+            {
+                SettingsHelper.DrawColoredLabel(canvas, $"v{ModVersion}  ", Color.gray, TextAnchor.MiddleRight);
+            }
 
             GUI.color = Color.black;
             Widgets.DrawLineVertical(currentTabCanvas.x, currentTabCanvas.y, currentTabCanvas.height);
