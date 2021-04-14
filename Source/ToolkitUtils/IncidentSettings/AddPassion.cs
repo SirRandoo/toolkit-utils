@@ -52,17 +52,17 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             );
 
             (Rect failLabel, Rect failField) = listing.GetRect(preferredHeight).ToForm();
-            Widgets.Label(failLabel, "TKUtils.Passion.FailChance.Label".Localize());
+            SettingsHelper.DrawLabel(failLabel, "TKUtils.Passion.FailChance.Label".Localize());
             Widgets.TextFieldNumeric(failField, ref ChanceToFail, ref failChanceBuffer, max: 100f);
             failLabel.TipRegion("TKUtils.Passion.FailChance.Description".Localize());
 
             (Rect hopLabel, Rect hopField) = listing.GetRect(preferredHeight).ToForm();
-            Widgets.Label(hopLabel, "TKUtils.Passion.HopChance.Label".Localize());
+            SettingsHelper.DrawLabel(hopLabel, "TKUtils.Passion.HopChance.Label".Localize());
             Widgets.TextFieldNumeric(hopField, ref ChanceToHop, ref hopChanceBuffer, max: 100f);
             hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".Localize());
 
             (Rect decreaseLabel, Rect decreaseField) = listing.GetRect(preferredHeight).ToForm();
-            Widgets.Label(decreaseLabel, "TKUtils.Passion.DecreaseChance.Label".Localize());
+            SettingsHelper.DrawLabel(decreaseLabel, "TKUtils.Passion.DecreaseChance.Label".Localize());
             Widgets.TextFieldNumeric(decreaseField, ref ChanceToDecrease, ref decreaseChanceBuffer, max: 100f);
             decreaseLabel.TipRegion("TKUtils.Passion.DecreaseChance.Description".Localize());
 

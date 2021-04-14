@@ -64,17 +64,17 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
             listing.DrawDescription(randomnessDescription);
 
             (Rect failLabel, Rect failField) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(failLabel, failChanceLabel);
+            SettingsHelper.DrawLabel(failLabel, failChanceLabel);
             Widgets.TextFieldNumeric(failField, ref AddPassion.ChanceToFail, ref failChanceBuffer, max: 100f);
             listing.DrawDescription(failChanceDescription);
 
             (Rect hopLabel, Rect hopField) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(hopLabel, hopChanceLabel);
+            SettingsHelper.DrawLabel(hopLabel, hopChanceLabel);
             Widgets.TextFieldNumeric(hopField, ref AddPassion.ChanceToHop, ref hopChanceBuffer, max: 100f);
             listing.DrawDescription(hopChanceDescription);
 
             (Rect decreaseLabel, Rect decreaseField) = listing.GetRect(Text.LineHeight).ToForm();
-            Widgets.Label(decreaseLabel, decreaseChanceLabel);
+            SettingsHelper.DrawLabel(decreaseLabel, decreaseChanceLabel);
             Widgets.TextFieldNumeric(
                 decreaseField,
                 ref AddPassion.ChanceToDecrease,

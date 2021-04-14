@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Embeds
 
         public void Draw(Rect canvas, float preferredHeight)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.65f);
+            (Rect label, Rect field) = new Rect(canvas.x, canvas.y, canvas.width, preferredHeight).ToForm(0.65f);
             SettingsHelper.DrawLabel(label, "TKUtils.Fields.TraitLimit".Localize());
             if (SettingsHelper.DrawNumberField(
                 field,
