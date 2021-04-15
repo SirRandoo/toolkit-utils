@@ -23,7 +23,6 @@
 using System;
 using System.Linq;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
@@ -95,11 +94,6 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (DefName.Equals("FullHeal"))
-                {
-                    LogHelper.Info($"Full heal has settings embed -> {Settings is IEventSettings}");
-                }
-
                 if (settingsEmbed == null && Settings is IEventSettings s)
                 {
                     settingsEmbed = s;
