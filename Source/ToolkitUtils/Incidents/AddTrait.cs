@@ -46,8 +46,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
             if (!worker.TryGetNextAsTrait(out buyableTrait)
-                || buyableTrait?.CanAdd == false
-                || buyableTrait?.TraitDef == null)
+                || buyableTrait.CanAdd == false
+                || buyableTrait.TraitDef == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(worker.GetLast()));
                 return false;
@@ -169,16 +169,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (buyableTrait.TraitDef.IsDisallowedByKind(pawn, buyableTrait.Degree))
+            if (!buyableTrait.TraitDef.IsDisallowedByKind(pawn, buyableTrait.Degree))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, worker.GetLast())
-                );
-                return false;
+                return true;
             }
 
-            return true;
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, worker.GetLast())
+            );
+            return false;
         }
 
         public override void Execute()
