@@ -58,19 +58,28 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (TryProcessTraits(pawn!, items, out events))
+            if (!TryProcessTraits(pawn!, items, out events))
+            {
+                TraitEvent errored = events.FirstOrDefault(e => !e.Error.NullOrEmpty());
+
+                if (errored != null)
+                {
+                    MessageHelper.ReplyToUser(viewer.username, errored.Error);
+                }
+
+                return true;
+            }
+
+            if (events.Count(e => e.Type == EventType.Noop || e.Type == EventType.Add) <= AddTraitSettings.maxTraits)
             {
                 return true;
             }
 
-            TraitEvent errored = events.FirstOrDefault(e => !e.Error.NullOrEmpty());
-
-            if (errored != null)
-            {
-                MessageHelper.ReplyToUser(viewer.username, errored.Error);
-            }
-
-            return true;
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.Trait.LimitReached".LocalizeKeyed(AddTraitSettings.maxTraits)
+            );
+            return false;
         }
 
         private IEnumerable<TraitItem> FindTraits(Viewer viewer, [NotNull] params string[] traits)
@@ -143,7 +152,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            foreach (TraitEvent ev in events.Take(AddTraitSettings.maxTraits))
+            foreach (TraitEvent ev in events)
             {
                 ev.Execute(pawn);
 
@@ -160,6 +169,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
                         break;
                 }
             }
+
+            string traitString = pawn.story.traits.allTraits.Select(t => t.Label ?? t.def.defName).ToCommaList(true);
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.SetTraits.Complete".LocalizeKeyed(traitString));
+
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.TraitLetter.Title".Localize(),
+                "TKUtils.TraitLetter.SetDescription".LocalizeKeyed(Viewer.username, traitString),
+                LetterDefOf.NeutralEvent,
+                pawn
+            );
         }
 
         private enum EventType { Remove, Add, Noop }

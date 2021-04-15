@@ -24,22 +24,38 @@
     <TKUtils.TraitLetter.AddDescription>{0} purchased trait {1}</TKUtils.TraitLetter.AddDescription>
     <TKUtils.TraitLetter.RemoveDescription>{0} removed trait {1}</TKUtils.TraitLetter.RemoveDescription>
     <TKUtils.TraitLetter.ReplaceDescription>{0} replaced {1} with {2}</TKUtils.TraitLetter.ReplaceDescription>
-    
+    <TKUtils.TraitLetter.ClearDescription>{0} removed all their traits</TKUtils.TraitLetter.ClearDescription>
+    <TKUtils.TraitLetter.SetDescription>{0} set their traits to: {1}</TKUtils.TraitLetter.SetDescription>
+
     <!-- Item -->
     <TKUtils.ItemLetter.Animal>{0} join</TKUtils.ItemLetter.Animal>
     <TKUtils.ItemLetter.ItemDescription>{0} {1} purchased by {2}</TKUtils.ItemLetter.ItemDescription>
-    
+
     <!-- Backpack -->
-    <TKUtils.BackpackLetter.Description>{0} {1} materialized inside of {2}'s inventory.</TKUtils.BackpackLetter.Description>
-    
+    <TKUtils.BackpackLetter.Description>{0} {1} materialized inside of {2}'s inventory</TKUtils.BackpackLetter.Description>
+
+    <!-- Equip -->
+    <TKUtils.EquipLetter.Title>Equip</TKUtils.EquipLetter.Title>
+    <TKUtils.EquipLetter.Description>{0} equipped a(n) {1}</TKUtils.EquipLetter.Description>
+    <TKUtils.EquipLetter.SpawnedDescription>{0} couldn't carry their {1}, so it was spawned in instead</TKUtils.EquipLetter.SpawnedDescription>
+
+    <!-- Use -->
+    <TKUtils.UseLetter.Title>Use</TKUtils.UseLetter.Title>
+    <TKUtils.UseLetter.Description>{0} used a(n) {1}</TKUtils.UseLetter.Description>
+
+    <!-- Wear -->
+    <TKUtils.WearLetter.Title>Wear</TKUtils.WearLetter.Title>
+    <TKUtils.WearLetter.Description>{0} put on a(n) {1}</TKUtils.WearLetter.Description>
+    <TKUtils.WearLetter.SpawnedDescription>{0} couldn't put on their {1}, so it was spawned instead</TKUtils.WearLetter.SpawnedDescription>
+
     <!-- Pawn -->
     <TKUtils.PawnLetter.Title>Viewer Joins</TKUtils.PawnLetter.Title>
     <TKUtils.PawnLetter.Description>A new pawn has been purchased by {0}, let's welcome them to the colony.</TKUtils.PawnLetter.Description>
-    
+
     <!-- Surgery -->
     <TKUtils.SurgeryLetter.Title>Surgery Scheduled</TKUtils.SurgeryLetter.Title>
     <TKUtils.SurgeryLetter.Description>{0} has scheduled a(n) {1} to be installed on their pawn</TKUtils.SurgeryLetter.Description>
-    
+
     <!-- Mass Heal -->
     <TKUtils.MassHealLetter.Title>Mass Heal</TKUtils.MassHealLetter.Title>
     <TKUtils.MassHealLetter.Description>All pawns have recovered from an affliction.</TKUtils.MassHealLetter.Description>

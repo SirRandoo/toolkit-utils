@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = 1;
             }
 
-            if (!Viewer.CanAfford(buyableItem.Cost * amount))
+            if (!viewer.CanAfford(buyableItem.Cost * amount))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -110,15 +110,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            if (ToolkitSettings.PurchaseConfirmations)
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Use.Complete".Localize());
-            }
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Use.Complete".Localize());
 
             Viewer.Charge(
                 buyableItem.Cost,
                 buyableItem.ItemData?.Weight ?? 1f,
                 buyableItem.ItemData?.KarmaType ?? storeIncident.karmaType
+            );
+
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.UseLetter.Title".Localize(),
+                "TKUtils.UseLetter.Description".LocalizeKeyed(Viewer.username, thing.LabelCap ?? thing.def.defName),
+                LetterDefOf.NeutralEvent,
+                pawn
             );
         }
     }

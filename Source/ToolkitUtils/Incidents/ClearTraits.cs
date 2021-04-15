@@ -73,6 +73,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     Viewer.Charge(item.CostToRemove, item.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType);
                 }
             }
+
+            MessageHelper.SendConfirmation(
+                message,
+                "TKUtils.ClearTraits.Complete".LocalizeKeyed(traits.Count.ToString("N0"))
+            );
+
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.TraitLetter.Title".Localize(),
+                "TKUtils.TraitLetter.ClearDescription".LocalizeKeyed(Viewer.username),
+                LetterDefOf.NeutralEvent,
+                pawn
+            );
         }
     }
 }

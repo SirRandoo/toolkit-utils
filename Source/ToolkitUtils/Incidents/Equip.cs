@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 ? item.Thing.GetItemPrice(item.Stuff, item.Quality.Value)
                 : item.Thing.GetItemPrice(item.Stuff);
 
-            if (!Viewer.CanAfford(cost))
+            if (!viewer.CanAfford(cost))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -70,24 +70,31 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!item.Thing.Thing.MadeFromStuff)
+            if (!item.Thing.Thing.MadeFromStuff || item.Stuff == null || item.Thing.Thing.CanBeStuff(item.Stuff.Thing))
             {
                 return true;
             }
 
-            return item.Thing.Thing.stuffCategories
-               .Select(category => item.Stuff.Thing.stuffCategories.Any(c => c.Equals(category)))
-               .Any(valid => valid);
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.Item.MaterialViolation".LocalizeKeyed(item.Thing.Name, item.Stuff.Name)
+            );
+            return false;
         }
 
         public override void Execute()
         {
             if (!((item.Stuff == null || !item.Thing.Thing.MadeFromStuff
-                ? ThingMaker.MakeThing(item.Thing.Thing)
+                ? ThingMaker.MakeThing(item.Thing.Thing, GenStuff.RandomStuffByCommonalityFor(item.Thing.Thing))
                 : ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)) is ThingWithComps weapon))
             {
                 LogHelper.Warn("Tried to equip a null weapon.");
                 return;
+            }
+
+            if (item.Quality.HasValue)
+            {
+                weapon.GetComp<CompQuality>()?.SetQuality(item.Quality.Value, ArtGenerationContext.Outsider);
             }
 
             if (!EquipmentUtility.CanEquip(weapon, pawn) || !MassUtility.CanEverCarryAnything(pawn))
@@ -103,7 +110,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             ThingWithComps old = null;
             if (pawn.equipment.Primary != null
-                || !pawn.equipment.TryTransferEquipmentToContainer(
+                && !pawn.equipment.TryTransferEquipmentToContainer(
                     pawn.equipment.Primary,
                     pawn.inventory.innerContainer
                 )
@@ -121,6 +128,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     item.Thing.ItemData?.Weight ?? 1f,
                     item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
                 );
+                NotifyComplete(weapon, true);
                 return;
             }
 
@@ -129,6 +137,27 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 cost,
                 item.Thing.ItemData?.Weight ?? 1f,
                 item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+            );
+            NotifyComplete(weapon);
+        }
+
+        private void NotifyComplete([NotNull] Thing thing, bool spawned = false)
+        {
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                (spawned ? "TKUtils.Equip.Spawned" : "TKUtils.Equip.Complete").LocalizeKeyed(
+                    thing.LabelCap ?? thing.def.defName
+                )
+            );
+
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.EquipLetter.Title".Localize(),
+                (spawned ? "TKUtils.EquipLetter.SpawnedDescription" : "TKUtils.EquipLetter.Description").LocalizeKeyed(
+                    Viewer.username,
+                    thing.LabelCap ?? thing.def.defName
+                ),
+                LetterDefOf.NeutralEvent,
+                spawned ? thing : pawn
             );
         }
     }

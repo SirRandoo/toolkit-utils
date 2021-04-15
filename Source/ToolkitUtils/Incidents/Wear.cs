@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 ? item.Thing.GetItemPrice(item.Stuff, item.Quality.Value)
                 : item.Thing.GetItemPrice(item.Stuff);
 
-            if (!Viewer.CanAfford(cost))
+            if (!viewer.CanAfford(cost))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -70,24 +70,34 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!item.Thing.Thing.MadeFromStuff)
+            if (!item.Thing.Thing.MadeFromStuff || item.Stuff == null || item.Thing.Thing.CanBeStuff(item.Stuff.Thing))
             {
                 return true;
             }
 
-            return item.Thing.Thing.stuffCategories
-               .Select(category => item.Stuff.Thing.stuffCategories.Any(c => c.Equals(category)))
-               .Any(valid => valid);
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.Item.MaterialViolation".LocalizeKeyed(item.Thing.Name, item.Stuff.Name)
+            );
+            return false;
         }
 
         public override void Execute()
         {
-            if (!((item.Stuff == null || !item.Thing.Thing.MadeFromStuff
-                ? ThingMaker.MakeThing(item.Thing.Thing)
-                : ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)) is Apparel apparel))
+            if (!((item.Stuff != null && item.Thing.Thing.MadeFromStuff
+                ? ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)
+                : ThingMaker.MakeThing(
+                    item.Thing.Thing,
+                    GenStuff.RandomStuffByCommonalityFor(item.Thing.Thing)
+                )) is Apparel apparel))
             {
                 LogHelper.Warn("Tried to wear a null apparel.");
                 return;
+            }
+
+            if (item.Quality.HasValue)
+            {
+                apparel.GetComp<CompQuality>()?.SetQuality(item.Quality.Value, ArtGenerationContext.Outsider);
             }
 
             if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, apparel, 1)
@@ -100,6 +110,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     item.Thing.ItemData?.Weight ?? 1f,
                     item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
                 );
+                NotifyComplete(apparel, true);
                 return;
             }
 
@@ -108,6 +119,27 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 cost,
                 item.Thing.ItemData?.Weight ?? 1f,
                 item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+            );
+            NotifyComplete(apparel);
+        }
+
+        private void NotifyComplete([NotNull] Thing thing, bool spawned = false)
+        {
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                (spawned ? "TKUtils.Wear.Spawned" : "TKUtils.Wear.Complete").LocalizeKeyed(
+                    thing.Label ?? thing.def.defName
+                )
+            );
+
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.WearLetter.Title".Localize(),
+                (spawned ? "TKUtils.WearLetter.SpawnedDescription" : "TKUtils.WearLetter.Description").LocalizeKeyed(
+                    Viewer.username,
+                    thing.Label ?? thing.def.defName
+                ),
+                LetterDefOf.NeutralEvent,
+                spawned ? thing : pawn
             );
         }
     }
