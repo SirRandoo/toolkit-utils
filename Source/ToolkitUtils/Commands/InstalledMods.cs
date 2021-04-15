@@ -37,7 +37,9 @@ namespace SirRandoo.ToolkitUtils.Commands
         [NotNull]
         private static string FormatMod([NotNull] ModItem mod)
         {
-            return mod.Version.NullOrEmpty() ? DecorateMod(mod) : $"{DecorateMod(mod)} (v{mod.Version})";
+            return mod.Version.NullOrEmpty() && !TkSettings.VersionedModList
+                ? DecorateMod(mod)
+                : $"{DecorateMod(mod)} (v{mod.Version})";
         }
 
         private static string DecorateMod([NotNull] ModItem mod)
