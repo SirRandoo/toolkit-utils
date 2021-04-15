@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (!worker.TryGetNextAsPawn(out pawnKindItem) || pawnKindItem?.ColonistKindDef == null)
+            if (!worker.TryGetNextAsPawn(out PawnKindItem temp) || pawnKindItem?.ColonistKindDef == null)
             {
                 if (worker.GetLast().NullOrEmpty())
                 {
@@ -85,6 +85,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            pawnKindItem = temp;
             kindDef = pawnKindItem.ColonistKindDef;
 
             if (kindDef.RaceProps.Humanlike)
