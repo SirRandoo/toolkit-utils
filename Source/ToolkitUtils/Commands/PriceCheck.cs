@@ -20,6 +20,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Incidents;
@@ -92,7 +93,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     result.defName.CapitalizeFirst(),
                     item.Cost.ToString("N0"),
                     item.Item!.CalculatePrice(quantity).ToString("N0"),
-                    quantity
+                    quantity.ToString("N0")
                 )
             );
         }
@@ -124,7 +125,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case EventTypes.Item:
                 case EventTypes.PawnKind:
                 case EventTypes.Trait:
-                    NotifyLookupComplete("TKUtils.Price.Overridden".Localize(eventType.ToString()));
+                    NotifyLookupComplete("TKUtils.Price.Overridden".LocalizeKeyed(eventType.ToString()));
                     return;
                 case EventTypes.Misc:
                     NotifyLookupComplete("TKUtils.Price.External".Localize());
@@ -144,25 +145,24 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private void PerformItemLookup(string query, int quantity)
+        private void PerformItemLookup([NotNull] string query, int quantity)
         {
-            ThingItem result = Data.Items.FirstOrDefault(
-                i => i.Cost > 0
-                     && (i.Name.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
-            );
+            var worker = ArgWorker.CreateInstance(query);
 
-            if (result == null)
+            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item))
             {
                 return;
             }
 
+            int price = item.Quality.HasValue
+                ? item.Thing.GetItemPrice(item.Stuff, item.Quality.Value)
+                : item.Thing.GetItemPrice(item.Stuff);
             NotifyLookupComplete(
                 "TKUtils.Price.Quantity".LocalizeKeyed(
-                    result.Name.CapitalizeFirst(),
-                    result.Cost.ToString("N0"),
-                    result.Item!.CalculatePrice(quantity).ToString("N0"),
-                    quantity
+                    item.Thing.Name.CapitalizeFirst(),
+                    price.ToString("N0"),
+                    (price * quantity).ToString("N0"),
+                    quantity.ToString("N0")
                 )
             );
         }
@@ -230,12 +230,12 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (result.CanAdd)
             {
-                parts.Add("TKUtils.Price.AddTrait".Localize(result.CostToAdd.ToString("N0")));
+                parts.Add("TKUtils.Price.AddTrait".LocalizeKeyed(result.CostToAdd.ToString("N0")));
             }
 
             if (result.CanRemove)
             {
-                parts.Add("TKUtils.Price.RemoveTrait".Localize(result.CostToRemove.ToString("N0")));
+                parts.Add("TKUtils.Price.RemoveTrait".LocalizeKeyed(result.CostToRemove.ToString("N0")));
             }
 
             NotifyLookupComplete($"{result.Name.ToToolkit().CapitalizeFirst()} - {parts.Join(" / ")}");
