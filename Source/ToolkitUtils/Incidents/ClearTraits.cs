@@ -26,6 +26,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using TwitchToolkit;
 using Verse;
 
@@ -39,6 +40,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
+            Viewer = viewer;
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
@@ -50,6 +52,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             foreach (Trait trait in pawn!.story.traits.allTraits)
             {
                 TraitItem item = Data.Traits.Find(t => t.DefName.Equals(trait.def.defName) && t.Degree == trait.Degree);
+
+                if (item == null || !CanRemove(item))
+                {
+                    continue;
+                }
 
                 traits.Add((trait, item));
             }
@@ -85,6 +92,35 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 LetterDefOf.NeutralEvent,
                 pawn
             );
+        }
+
+        private bool CanRemove(TraitItem trait)
+        {
+            if (RationalRomance.Active && RationalRomance.IsTraitDisabled(trait.TraitDef!))
+            {
+                MessageHelper.ReplyToUser(
+                    Viewer.username,
+                    "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(trait.Name.CapitalizeFirst())
+                );
+                return false;
+            }
+
+            if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, trait.DefName, trait.Degree))
+            {
+                MessageHelper.ReplyToUser(
+                    Viewer.username,
+                    "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name)
+                );
+                return false;
+            }
+
+            if (CompatRegistry.Magic?.IsClassTrait(trait.TraitDef!) != true || TkSettings.ClassChanges)
+            {
+                return true;
+            }
+
+            MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Class".LocalizeKeyed(trait.Name));
+            return false;
         }
     }
 }
