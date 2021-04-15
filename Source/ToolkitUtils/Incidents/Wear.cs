@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            if (!((item.Stuff == null
+            if (!((item.Stuff == null || !item.Thing.Thing.MadeFromStuff
                 ? ThingMaker.MakeThing(item.Thing.Thing)
                 : ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)) is Apparel apparel))
             {

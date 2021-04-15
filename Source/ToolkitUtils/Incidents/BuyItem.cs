@@ -20,7 +20,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
@@ -42,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy product) || product?.Thing == null)
+            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy product) || product.Thing == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
                 return false;
@@ -75,11 +74,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             purchaseRequest = new PurchaseRequest
             {
-                ItemData = product.Thing,
-                ThingDef = product.Thing.Thing,
-                Quantity = amount,
-                Purchaser = viewer,
-                Map = Helper.AnyPlayerMap
+                Proxy = product, Quantity = amount, Purchaser = viewer, Map = Helper.AnyPlayerMap
             };
 
             if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
@@ -125,16 +120,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
     internal class PurchaseRequest
     {
-        public int Price => Mathf.Clamp(ItemData.Cost * Quantity, 0, int.MaxValue);
+        public int Price =>
+            Proxy.Quality.HasValue
+                ? Proxy.Thing.GetItemPrice(Proxy.Stuff, Proxy.Quality.Value)
+                : Proxy.Thing.GetItemPrice(Proxy.Stuff);
+
         public int Quantity { get; set; }
-        public ThingItem ItemData { get; set; }
-        public ThingDef ThingDef { get; set; }
+        public ArgWorker.ItemProxy Proxy { get; set; }
         public Viewer Purchaser { get; set; }
         public Map Map { get; set; }
 
         public void Spawn()
         {
-            if (ThingDef.race != null)
+            if (Proxy.Thing.Thing.race != null)
             {
                 SpawnAnimal();
                 return;
@@ -145,14 +143,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void SpawnAnimal()
         {
-            if (ThingDef.race.Humanlike)
+            if (Proxy.Thing.Thing.race.Humanlike)
             {
                 // ReSharper disable once StringLiteralTypo
                 LogHelper.Warn("Tried to spawn a humanlike -- Humanlikes should be spawned via !buy pawn");
                 return;
             }
 
-            string animal = ThingDef.label.CapitalizeFirst();
+            string animal = Proxy.Thing.Thing.label.CapitalizeFirst();
 
             if (Quantity > 1)
             {
@@ -161,7 +159,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var worker = new IncidentWorker_SpecificAnimalsWanderIn(
                 "TKUtils.ItemLetter.Animal".Localize(Quantity > 1 ? animal.Pluralize() : animal),
-                PawnKindDef.Named(ThingDef.defName),
+                PawnKindDef.Named(Proxy.Thing.Thing.defName),
                 true,
                 Quantity,
                 false,
@@ -173,18 +171,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void SpawnItem()
         {
-            ThingDef result = null;
-            if (ThingDef.MadeFromStuff
-                && !GenStuff.AllowedStuffsFor(ThingDef)
-                   .Where(t => Data.ItemData.TryGetValue(t.defName, out ItemData data) && data.IsStuffAllowed)
-                   .Where(t => !PawnWeaponGenerator.IsDerpWeapon(ThingDef, t))
-                   .TryRandomElementByWeight(t => t.stuffProps.commonality, out result))
+            ThingDef result = Proxy.Stuff.Thing;
+            if (!Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff.Thing))
             {
-                LogHelper.Warn("Could not generate stuff for item! Falling back to a random stuff...");
-                result = GenStuff.RandomStuffByCommonalityFor(ThingDef);
+                result = GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing);
             }
 
-            Thing thing = ThingMaker.MakeThing(ThingDef, result);
+            Thing thing = ThingMaker.MakeThing(Proxy.Thing.Thing, result);
+            thing.TryGetComp<CompQuality>()
+              ?.SetQuality(Proxy.Quality ?? QualityUtility.GenerateQualityTraderItem(), ArtGenerationContext.Outsider);
 
             if (thing.TryGetQuality(out QualityCategory _))
             {
@@ -193,9 +188,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             IntVec3 position = DropCellFinder.TradeDropSpot(Map);
 
-            if (ThingDef.Minifiable)
+            if (Proxy.Thing.Thing.Minifiable)
             {
-                ThingDef minifiedDef = ThingDef.minifiedDef;
+                ThingDef minifiedDef = Proxy.Thing.Thing.minifiedDef;
                 var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
                 minifiedThing.InnerThing = thing;
                 minifiedThing.stackCount = Quantity;
@@ -208,10 +203,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             Find.LetterStack.ReceiveLetter(
-                (Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name).Truncate(15, true).CapitalizeFirst(),
+                (Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name).Truncate(15, true).CapitalizeFirst(),
                 "TKUtils.ItemLetter.ItemDescription".LocalizeKeyed(
                     Quantity.ToString("N0"),
-                    Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                    Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
                     Purchaser.username
                 ),
                 ItemHelper.GetLetterFromValue(Price),
@@ -221,9 +216,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public void CompletePurchase(StoreIncident incident)
         {
-            Purchaser.Charge(Price, ItemData.ItemData?.Weight ?? 1f, ItemData.Data?.KarmaType ?? incident.karmaType);
+            Purchaser.Charge(
+                Price,
+                Proxy.Thing.ItemData?.Weight ?? 1f,
+                Proxy.Thing.Data?.KarmaType ?? incident.karmaType
+            );
 
-            if (ThingDef.race != null)
+            if (Proxy.Thing.Thing.race != null)
             {
                 NotifyAnimalPurchaseComplete();
             }
@@ -241,7 +240,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     Purchaser.username,
                     "TKUtils.Item.Complete".LocalizeKeyed(
                         Quantity.ToString("N0"),
-                        Quantity > 1 ? ThingDef.label.Pluralize() : ThingDef.label,
+                        Quantity > 1 ? Proxy.Thing.Thing.label.Pluralize() : Proxy.Thing.Thing.label,
                         Price.ToString("N0"),
                         Purchaser.GetViewerCoins().ToString("N0")
                     )
@@ -253,7 +252,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     Purchaser.username,
                     "TKUtils.Item.CompleteMinimal".LocalizeKeyed(
                         Quantity.ToString("N0"),
-                        Quantity > 1 ? ThingDef.label.Pluralize() : ThingDef.label,
+                        Quantity > 1 ? Proxy.Thing.Thing.label.Pluralize() : Proxy.Thing.Thing.label,
                         Price.ToString("N0")
                     )
                 );
@@ -268,7 +267,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     Purchaser.username,
                     "TKUtils.Item.Complete".LocalizeKeyed(
                         Quantity.ToString("N0"),
-                        Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                        Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
                         Price.ToString("N0"),
                         Purchaser.GetViewerCoins().ToString("N0")
                     )
@@ -280,7 +279,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     Purchaser.username,
                     "TKUtils.Item.CompleteMinimal".LocalizeKeyed(
                         Quantity.ToString("N0"),
-                        Quantity > 1 ? ItemData.Name.Pluralize() : ItemData.Name,
+                        Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
                         Price.ToString("N0")
                     )
                 );

@@ -29,6 +29,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Equip : IncidentVariablesBase
     {
+        private int cost;
         private ArgWorker.ItemProxy item;
         private Pawn pawn;
 
@@ -48,8 +49,24 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (item?.Thing.Thing == null || !item.Thing.Thing.IsWeapon)
+            if (!(item.Thing.Thing is {IsWeapon: true}))
             {
+                return false;
+            }
+
+            cost = item.Quality.HasValue
+                ? item.Thing.GetItemPrice(item.Stuff, item.Quality.Value)
+                : item.Thing.GetItemPrice(item.Stuff);
+
+            if (!Viewer.CanAfford(cost))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(
+                        cost.ToString("N0"),
+                        viewer.GetViewerCoins().ToString("N0")
+                    )
+                );
                 return false;
             }
 
@@ -65,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            if (!((item.Stuff == null
+            if (!((item.Stuff == null || !item.Thing.Thing.MadeFromStuff
                 ? ThingMaker.MakeThing(item.Thing.Thing)
                 : ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)) is ThingWithComps weapon))
             {
@@ -76,6 +93,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!EquipmentUtility.CanEquip(weapon, pawn) || !MassUtility.CanEverCarryAnything(pawn))
             {
                 TradeUtility.SpawnDropPod(pawn.Position, pawn.Map, weapon);
+                Viewer.Charge(
+                    cost,
+                    item.Thing.ItemData?.Weight ?? 1f,
+                    item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+                );
                 return;
             }
 
@@ -93,10 +115,21 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, weapon, 1) && old != null)
             {
                 pawn.equipment.AddEquipment(old);
+                TradeUtility.SpawnDropPod(pawn.Position, pawn.Map, weapon);
+                Viewer.Charge(
+                    cost,
+                    item.Thing.ItemData?.Weight ?? 1f,
+                    item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+                );
                 return;
             }
 
             pawn.equipment.AddEquipment(weapon);
+            Viewer.Charge(
+                cost,
+                item.Thing.ItemData?.Weight ?? 1f,
+                item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+            );
         }
     }
 }
