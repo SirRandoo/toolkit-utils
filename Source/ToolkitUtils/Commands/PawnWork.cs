@@ -70,11 +70,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Where(w => !pawn.WorkTypeIsDisabled(w))
                .ToList();
 
-            foreach (KeyValuePair<string, string> pair in rawChanges)
+            foreach ((string key, string value) in rawChanges)
             {
-                WorkTypeDef workTypeDef = priorities.FirstOrDefault(w => w.label.EqualsIgnoreCase(pair.Key));
+                WorkTypeDef workTypeDef = priorities.FirstOrDefault(w => w.label.EqualsIgnoreCase(key));
 
-                if (workTypeDef == null || !int.TryParse(pair.Value, out int parsed))
+                if (workTypeDef == null || !int.TryParse(value, out int parsed))
                 {
                     continue;
                 }
