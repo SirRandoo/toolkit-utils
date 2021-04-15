@@ -24,6 +24,7 @@ using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
+using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
@@ -59,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (TryProcessTraits(pawn!, items, out events))
             {
-                return events != null;
+                return true;
             }
 
             TraitEvent errored = events.FirstOrDefault(e => !e.Error.NullOrEmpty());
@@ -69,7 +70,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 MessageHelper.ReplyToUser(viewer.username, errored.Error);
             }
 
-            return events != null;
+            return true;
         }
 
         private IEnumerable<TraitItem> FindTraits(Viewer viewer, [NotNull] params string[] traits)
@@ -86,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
         }
 
-        [ContractAnnotation("=> true,traitEvents:notnull; => false,traitEvents:null")]
+        [ContractAnnotation("=> true,traitEvents:notnull; => false,traitEvents:notnull")]
         private bool TryProcessTraits(
             [NotNull] Pawn subject,
             [NotNull] IEnumerable<TraitItem> traits,
@@ -142,7 +143,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            foreach (TraitEvent ev in events)
+            foreach (TraitEvent ev in events.Take(AddTraitSettings.maxTraits))
             {
                 ev.Execute(pawn);
 
