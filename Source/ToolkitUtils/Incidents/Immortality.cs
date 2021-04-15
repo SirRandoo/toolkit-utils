@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.ImmortalityLetter.Title".Localize(),
-                "TKUtils.ImmortalityLetter.Description".Localize(Viewer.username),
+                "TKUtils.ImmortalityLetter.Description".LocalizeKeyed(Viewer.username),
                 LetterDefOf.NeutralEvent,
                 pawn
             );

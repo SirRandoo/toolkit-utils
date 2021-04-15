@@ -86,13 +86,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
             MessageHelper.SendConfirmation(
                 Viewer.username,
                 healed > 1
-                    ? "TKUtils.FullHeal.CompletePlural".Localize(healed.ToString("N0"))
+                    ? "TKUtils.FullHeal.CompletePlural".LocalizeKeyed(healed.ToString("N0"))
                     : "TKUtils.FullHeal.Complete".Localize()
             );
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.FullHealLetter.Title".Localize(),
-                "TKUtils.FullHealLetter.Description".Localize(Viewer.username),
+                "TKUtils.FullHealLetter.Description".LocalizeKeyed(Viewer.username),
                 LetterDefOf.PositiveEvent,
                 pawn
             );

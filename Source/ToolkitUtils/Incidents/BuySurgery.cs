@@ -136,7 +136,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             MessageHelper.SendConfirmation(
                 Viewer.username,
-                "TKUtils.Surgery.Complete".Localize(appointment.ThingDef.LabelCap)
+                "TKUtils.Surgery.Complete".LocalizeKeyed(appointment.ThingDef.LabelCap)
             );
 
             Find.LetterStack.ReceiveLetter(

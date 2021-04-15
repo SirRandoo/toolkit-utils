@@ -185,7 +185,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             TraitHelper.GivePawnTrait(pawn, trait);
             Viewer.Charge(buyableTrait.CostToAdd, buyableTrait.Data?.KarmaType ?? storeIncident.karmaType);
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Trait.Complete".Localize(trait.Label));
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Trait.Complete".LocalizeKeyed(trait.Label));
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),

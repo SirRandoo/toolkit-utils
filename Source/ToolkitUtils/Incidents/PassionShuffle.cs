@@ -88,7 +88,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionShuffleLetter.Title".Localize(),
-                "TKUtils.PassionShuffleLetter.Description".Localize(Viewer.username),
+                "TKUtils.PassionShuffleLetter.Description".LocalizeKeyed(Viewer.username),
                 LetterDefOf.NeutralEvent,
                 pawn
             );

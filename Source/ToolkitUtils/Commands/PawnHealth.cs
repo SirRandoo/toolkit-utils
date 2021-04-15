@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
-                twitchMessage.Reply("TKUtils.NoPawn".TranslateSimple().WithHeader("TabHealth".Localize()));
+                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TabHealth".Localize()));
                 return;
             }
 
@@ -109,7 +109,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             if (!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
             {
-                return "TKUtils.PawnHealth.IncapableOfCapacity".Localize(capacity.GetLabelFor(pawn));
+                return "TKUtils.PawnHealth.IncapableOfCapacity".LocalizeKeyed(capacity.GetLabelFor(pawn));
             }
 
             var impactors = new List<PawnCapacityUtility.CapacityImpactor>();
@@ -204,7 +204,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
             else
             {
-                segments.Add("TKUtils.Responses.UnsupportedRace".Localize(pawn.kindDef.race.defName));
+                segments.Add("TKUtils.Responses.UnsupportedRace".LocalizeKeyed(pawn.kindDef.race.defName));
             }
 
             if (!TkSettings.ShowSurgeries)

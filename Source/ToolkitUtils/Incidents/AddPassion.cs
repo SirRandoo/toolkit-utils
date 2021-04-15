@@ -133,7 +133,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifySuccess([NotNull] SkillRecord skill)
         {
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Complete".Localize(skill.def.label));
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Complete".LocalizeKeyed(skill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
@@ -145,7 +145,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyDecrease([NotNull] SkillRecord skill)
         {
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Decrease".Localize(skill.def.label));
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Decrease".LocalizeKeyed(skill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
@@ -157,7 +157,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyFailed([NotNull] SkillRecord skill)
         {
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Failed".Localize(skill.def.label));
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Failed".LocalizeKeyed(skill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),

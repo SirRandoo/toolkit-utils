@@ -107,7 +107,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.RationalRomance".Localize(buyable.Name.CapitalizeFirst())
+                    "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(buyable.Name.CapitalizeFirst())
                 );
                 return false;
             }
@@ -140,7 +140,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
             TraitHelper.RemoveTraitFromPawn(pawn, trait);
 
             Viewer.Charge(buyable.CostToRemove, buyable.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType);
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemoveTrait.Complete".Localize(trait.LabelCap));
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                "TKUtils.RemoveTrait.Complete".LocalizeKeyed(trait.LabelCap)
+            );
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),

@@ -172,7 +172,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.ReplaceTrait.RationalRomance".Localize(GenText.CapitalizeFirst(thisShop.Name))
+                    "TKUtils.ReplaceTrait.RationalRomance".LocalizeKeyed(GenText.CapitalizeFirst(thisShop.Name))
                 );
                 return false;
             }

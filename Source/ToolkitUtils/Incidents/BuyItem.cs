@@ -158,7 +158,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             var worker = new IncidentWorker_SpecificAnimalsWanderIn(
-                "TKUtils.ItemLetter.Animal".Localize(Quantity > 1 ? animal.Pluralize() : animal),
+                "TKUtils.ItemLetter.Animal".LocalizeKeyed(Quantity > 1 ? animal.Pluralize() : animal),
                 PawnKindDef.Named(Proxy.Thing.Thing.defName),
                 true,
                 Quantity,
