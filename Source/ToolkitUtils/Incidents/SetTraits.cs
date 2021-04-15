@@ -21,6 +21,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
@@ -115,15 +116,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
                             TraitItem trait =
                                 Data.Traits.Find(i => i.DefName.Equals(t.def.defName) && i.Degree == t.Degree);
 
-                            if (trait.CanRemove)
+                            if (!trait.CanRemove)
                             {
-                                return new TraitEvent {Type = EventType.Remove, Trait = t, Item = trait};
+                                return new TraitEvent
+                                {
+                                    Type = EventType.Noop,
+                                    Error = "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(trait.Name)
+                                };
                             }
 
-                            return new TraitEvent
-                            {
-                                Type = EventType.Noop, Error = "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(trait.Name)
-                            };
+                            return !IsTraitRemovable(trait, out string error)
+                                ? new TraitEvent {Type = EventType.Noop, Error = error}
+                                : new TraitEvent {Type = EventType.Remove, Trait = t, Item = trait};
                         }
                     )
             );
@@ -133,15 +137,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
                    .Select(
                         t =>
                         {
-                            if (t.CanAdd)
+                            if (!t.CanAdd)
                             {
-                                return new TraitEvent {Type = EventType.Add, Item = t};
+                                return new TraitEvent
+                                {
+                                    Type = EventType.Noop, Error = "TKUtils.Trait.Disabled".LocalizeKeyed(t.Name)
+                                };
                             }
 
-                            return new TraitEvent
-                            {
-                                Type = EventType.Noop, Error = "TKUtils.Trait.Disabled".LocalizeKeyed(t.Name)
-                            };
+                            return !IsTraitAddable(t, out string error)
+                                ? new TraitEvent {Type = EventType.Noop, Error = error}
+                                : new TraitEvent {Type = EventType.Add, Item = t};
                         }
                     )
             );
@@ -179,6 +185,56 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 LetterDefOf.NeutralEvent,
                 pawn
             );
+        }
+
+        [ContractAnnotation("=> false,error:notnull; => true,error:null")]
+        private bool IsTraitRemovable(TraitItem trait, out string error)
+        {
+            if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, trait.DefName, trait.Degree))
+            {
+                error = "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name);
+                return false;
+            }
+
+            if (RationalRomance.Active && RationalRomance.IsTraitDisabled(trait.TraitDef!))
+            {
+                error = "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(trait.Name.CapitalizeFirst());
+                return false;
+            }
+
+            if (CompatRegistry.Magic?.IsClassTrait(trait.TraitDef!) == true && !TkSettings.ClassChanges)
+            {
+                error = "TKUtils.RemoveTrait.Class".LocalizeKeyed(trait.Name);
+                return false;
+            }
+
+            error = null;
+            return true;
+        }
+
+        [ContractAnnotation("=> true,error:null; => false,error:notnull")]
+        private bool IsTraitAddable([NotNull] TraitItem trait, out string error)
+        {
+            if (trait.TraitDef.IsDisallowedByBackstory(pawn, trait.Degree, out Backstory backstory))
+            {
+                error = "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, trait.Name);
+                return false;
+            }
+
+            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(trait.DefName)) == true)
+            {
+                error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name);
+                return false;
+            }
+
+            if (trait.TraitDef.IsDisallowedByKind(pawn, trait.Degree))
+            {
+                error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name);
+                return false;
+            }
+
+            error = null;
+            return true;
         }
 
         private enum EventType { Remove, Add, Noop }
