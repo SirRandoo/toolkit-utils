@@ -305,4 +305,48 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>WearItem</defName>
+        <label>wear item</label>
+        <description>Purchases an item and puts it on the purchaser's pawn.</description>
+        <abbreviation>wear</abbreviation>
+        <cost>1</cost>
+        <eventCap>6</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Wear</incidentHelper>
+        <karmaType>Neutral</karmaType>
+        <variables>1</variables>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <EventType>Item</EventType>
+                <Parameters>
+                    <li>
+                        <Name>Item</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
+
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>EquipWeapon</defName>
+        <label>equip weapon</label>
+        <description>Purchases a weapon and equips it on the purchaser's pawn.</description>
+        <abbreviation>equip</abbreviation>
+        <cost>1</cost>
+        <eventCap>6</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Equip</incidentHelper>
+        <karmaType>Neutral</karmaType>
+        <variables>1</variables>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.EventExtension">
+                <EventType>Item</EventType>
+                <Parameters>
+                    <li>
+                        <Name>Item</Name>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>
