@@ -46,7 +46,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
             if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item)
-                || !item!.Thing.Thing.HasComp(typeof(CompUseEffect)))
+                || !item!.Thing.Thing.HasComp(typeof(CompUseEffect))
+                || !item.IsValid())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(item!.Thing.Name));
                 return false;

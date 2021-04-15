@@ -102,23 +102,25 @@
     
     <TKUtils.MainThreadCommands.Label>Run commands in the game's main thread.</TKUtils.MainThreadCommands.Label>
     <TKUtils.MainThreadCommands.Description>By default, Twitch Toolkit runs all commands in a separate thread. This can lead to a host of problems when addons try to manipulate what the game does, like:\n - access exceptions\n - race conditions</TKUtils.MainThreadCommands.Description>
-    
+
     <!-- Installed Mods Command Group -->
     <TKUtils.DecorateUtils.Label>Add a little star beside Utils in the mod list command.</TKUtils.DecorateUtils.Label>
     <TKUtils.DecorateUtils.Description>because why not?</TKUtils.DecorateUtils.Description>
-    
+
     <TKUtils.VersionedModList.Label>Include mod versions in the mod list command.</TKUtils.VersionedModList.Label>
     <TKUtils.VersionedModList.Description>Inserts mod versions, if Utils could find one, into the &lt;b&gt;!installedmods&lt;/b&gt; command's output.</TKUtils.VersionedModList.Description>
-    
+
     <!-- Item Purchases Group -->
     <TKUtils.BuyItemBalance.Label>Show a viewer's remaining balance after buying an item.</TKUtils.BuyItemBalance.Label>
     <TKUtils.BuyItemBalance.Description>Inserts the viewer's new balance after successfully buying an item. This does not work when the "confirmation messages" setting is disabled in Twitch Toolkit.</TKUtils.BuyItemBalance.Description>
-    
+    <TKUtils.BuyItemFullSyntax.Label>Require viewers to use the mod's full item syntax before they can purchase an item.</TKUtils.BuyItemFullSyntax.Label>
+    <TKUtils.BuyItemFullSyntax.Description>If enabled, viewers will not be able to purchase items that require a material and/or quality unless both are specified (if applicable)</TKUtils.BuyItemFullSyntax.Description>
+
     <!-- Lookup Command Group -->
     <TKUtils.LookupLimit.Label>Maximum number of results in the lookup command.</TKUtils.LookupLimit.Label>
     <TKUtils.LookupLimit.Description>The maximum number of results that can be displayed in the &lt;b&gt;!lookup&lt;/b&gt; command. Setting this to higher values may result in walls of text if a viewer uses with broad terms.</TKUtils.LookupLimit.Description>
-    
-    
+
+
     <!-- Pawn Commands Tab -->
     <!-- Leave Command Group -->
     <TKUtils.Abandon.Method.Label>How pawns should leave when the leave command is invoked.</TKUtils.Abandon.Method.Label>

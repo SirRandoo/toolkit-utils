@@ -40,7 +40,8 @@ namespace SirRandoo.ToolkitUtils
     [StaticConstructorOnStartup]
     public class TkSettings : ModSettings
     {
-        private static string ModVersion;
+        private static string _modVersion;
+        public static bool ForceFullItem;
         public static bool Commands = true;
         public static string Prefix = "!";
         public static string BuyPrefix = "$";
@@ -250,15 +251,15 @@ namespace SirRandoo.ToolkitUtils
             float distributedWidth = canvas.width / _tabEntries.Length;
             var currentTabCanvas = new Rect(0f, 0f, distributedWidth, canvas.height);
 
-            ModVersion ??= Data.Mods?.FirstOrDefault(
-                                   m => m.Name.StartsWith("ToolkitUtils", StringComparison.InvariantCultureIgnoreCase)
-                               )
-                             ?.Version
-                           ?? "";
+            _modVersion ??= Data.Mods?.FirstOrDefault(
+                                    m => m.Name.StartsWith("ToolkitUtils", StringComparison.InvariantCultureIgnoreCase)
+                                )
+                              ?.Version
+                            ?? "";
 
-            if (!ModVersion.NullOrEmpty())
+            if (!_modVersion.NullOrEmpty())
             {
-                SettingsHelper.DrawColoredLabel(canvas, $"v{ModVersion}  ", Color.gray, TextAnchor.MiddleRight);
+                SettingsHelper.DrawColoredLabel(canvas, $"v{_modVersion}  ", Color.gray, TextAnchor.MiddleRight);
             }
 
             GUI.color = Color.black;
@@ -343,7 +344,7 @@ namespace SirRandoo.ToolkitUtils
         private static void DrawCommandTweaksTab(Rect canvas)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 45f);
+            var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 48f);
 
             GUI.BeginGroup(canvas);
             listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
@@ -393,6 +394,8 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawGroupHeader("TKUtils.CommandTweaks.BuyItem".Localize());
             listing.CheckboxLabeled("TKUtils.BuyItemBalance.Label".Localize(), ref BuyItemBalance);
             listing.DrawDescription("TKUtils.BuyItemBalance.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.BuyItemFullSyntax.Label".Localize(), ref ForceFullItem);
+            listing.DrawDescription("TKUtils.BuyItemFullSyntax.Description".Localize());
 
 
             listing.DrawGroupHeader("TKUtils.CommandTweaks.Lookup".Localize());

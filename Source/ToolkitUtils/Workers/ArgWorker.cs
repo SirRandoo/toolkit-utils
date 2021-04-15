@@ -242,7 +242,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             return !(def is null);
         }
 
-        private ThingItem GetItemRaw(string input)
+        private static ThingItem GetItemRaw(string input)
         {
             return Data.Items.Find(
                 i => i.DefName.Equals(input) || i.Name.Equals(input, StringComparison.InvariantCultureIgnoreCase)
@@ -484,7 +484,27 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             public bool IsValid()
             {
-                return Thing != null && Stuff != null && Quality != null;
+                if (Thing == null)
+                {
+                    return false;
+                }
+
+                if (!TkSettings.ForceFullItem)
+                {
+                    return true;
+                }
+
+                if (Thing.Thing.MadeFromStuff && Stuff == null)
+                {
+                    return false;
+                }
+
+                if (Thing.Thing.HasComp(typeof(CompQuality)) && Quality == null)
+                {
+                    return false;
+                }
+
+                return true;
             }
         }
     }

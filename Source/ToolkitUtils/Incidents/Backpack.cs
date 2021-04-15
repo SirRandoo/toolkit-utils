@@ -45,7 +45,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy proxy) || proxy!.Thing.Thing.race != null)
+            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy proxy)
+                || proxy!.Thing.Thing.race != null
+                || !proxy.IsValid())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
                 return false;
@@ -61,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.ResearchRequired".LocalizeKeyed(
-                        proxy.Thing.Thing.LabelCap.RawText,
+                        proxy.Thing.Thing!.LabelCap.RawText,
                         projects.Select(p => p.LabelCap.RawText).SectionJoin()
                     )
                 );
