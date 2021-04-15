@@ -29,7 +29,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private Pawn pawn;
         private Hediff toHeal;
         private BodyPartRecord toRestore;
-        public override Viewer Viewer { get; set; }
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
@@ -68,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 HealHelper.Cure(toHeal);
                 Viewer.Charge(storeIncident);
-                Notify__Success(toHeal.LabelCap);
+                NotifySuccess(toHeal.LabelCap);
             }
 
             if (toRestore == null)
@@ -78,10 +77,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             pawn.health.RestorePart(toRestore);
             Viewer.Charge(storeIncident);
-            Notify__Success(toRestore.Label);
+            NotifySuccess(toRestore.Label);
         }
 
-        private void Notify__Success(string target)
+        private void NotifySuccess(string target)
         {
             if (ToolkitSettings.PurchaseConfirmations)
             {

@@ -77,7 +77,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             PerformLookup(category, query);
         }
 
-        private void Notify__LookupComplete(string query, [NotNull] IReadOnlyCollection<string> results)
+        private void NotifyLookupComplete(string query, [NotNull] IReadOnlyCollection<string> results)
         {
             if (results.Count <= 0)
             {
@@ -111,7 +111,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Select(i => i.Name.CapitalizeFirst())
                .ToArray();
 
-            Notify__LookupComplete(query, results);
+            NotifyLookupComplete(query, results);
         }
 
         private void PerformDiseaseLookup(string query)
@@ -136,7 +136,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Select(i => i.LabelCap.RawText.ToToolkit().CapitalizeFirst())
                .ToArray();
 
-            Notify__LookupComplete(query, results);
+            NotifyLookupComplete(query, results);
         }
 
         private void PerformEventLookup(string query)
@@ -160,7 +160,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Select(i => i.abbreviation.ToToolkit().CapitalizeFirst())
                .ToArray();
 
-            Notify__LookupComplete(query, results);
+            NotifyLookupComplete(query, results);
         }
 
         private void PerformItemLookup(string query)
@@ -184,7 +184,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                .ToArray();
 
-            Notify__LookupComplete(query, results);
+            NotifyLookupComplete(query, results);
         }
 
         private void PerformLookup([NotNull] string category, string query)
@@ -241,7 +241,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                .ToArray();
 
-            Notify__LookupComplete(query, results);
+            NotifyLookupComplete(query, results);
         }
 
         private void PerformSkillLookup(string query)
@@ -264,7 +264,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Select(i => i.defName.ToLower().CapitalizeFirst())
                .ToArray();
 
-            Notify__LookupComplete(query, results);
+            NotifyLookupComplete(query, results);
         }
 
         private void PerformTraitLookup(string query)
@@ -288,7 +288,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
                .ToArray();
 
-            Notify__LookupComplete(query, results);
+            NotifyLookupComplete(query, results);
         }
     }
 }

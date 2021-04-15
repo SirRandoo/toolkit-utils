@@ -128,7 +128,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             return trait;
         }
 
-        public bool TryGetNextAsTrait([CanBeNull] out TraitItem trait)
+        [ContractAnnotation("=> true,trait:notnull; => false,trait:null")]
+        public bool TryGetNextAsTrait(out TraitItem trait)
         {
             trait = GetNextAsTrait();
             return !(trait is null);
@@ -160,7 +161,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             return pawn;
         }
 
-        public bool TryGetNextAsPawn([CanBeNull] out PawnKindItem pawn)
+        [ContractAnnotation("=> true,pawn:notnull; => false,pawn:null")]
+        public bool TryGetNextAsPawn(out PawnKindItem pawn)
         {
             pawn = GetNextAsPawn();
             return !(pawn is null);
@@ -196,7 +198,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             return command;
         }
 
-        public bool TryGetNextAsCommand([CanBeNull] out Command command)
+        [ContractAnnotation("=> true,command:notnull; => false,command:null")]
+        public bool TryGetNextAsCommand(out Command command)
         {
             command = GetNextAsCommand();
             return !(command is null);
@@ -232,7 +235,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             return skill;
         }
 
-        public bool TryGetNextAsSkill([CanBeNull] out SkillDef def)
+        [ContractAnnotation("=> true,def:notnull; => false,def:null")]
+        public bool TryGetNextAsSkill(out SkillDef def)
         {
             def = GetNextAsSkill();
             return !(def is null);
@@ -294,7 +298,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             return item;
         }
 
-        public bool TryGetNextAsItem([CanBeNull] out ItemProxy item)
+        [ContractAnnotation("=> true,item:notnull; => false,item:null")]
+        public bool TryGetNextAsItem(out ItemProxy item)
         {
             item = GetNextAsItem();
             return !(item is null);
@@ -329,7 +334,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             return capacityDef;
         }
 
-        public bool TryGetNextAsCapacity([CanBeNull] out PawnCapacityDef capacity)
+        [ContractAnnotation("=> true,capacity:notnull; => false,capacity:null")]
+        public bool TryGetNextAsCapacity(out PawnCapacityDef capacity)
         {
             capacity = GetNextAsCapacity();
             return !(capacity is null);
@@ -365,7 +371,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             return stat;
         }
 
-        public bool TryGetNextAsStat([CanBeNull] out StatDef stat)
+        [ContractAnnotation("=> true,stat:notnull; => false,stat:null")]
+        public bool TryGetNextAsStat(out StatDef stat)
         {
             stat = GetNextAsStat();
             return !(stat is null);
@@ -400,7 +407,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             return proj;
         }
 
-        public bool TryGetNextAsResearch([CanBeNull] out ResearchProjectDef project)
+        [ContractAnnotation("=> true,project:notnull; => false,project:null")]
+        public bool TryGetNextAsResearch(out ResearchProjectDef project)
         {
             project = GetNextAsResearch();
             return !(project is null);

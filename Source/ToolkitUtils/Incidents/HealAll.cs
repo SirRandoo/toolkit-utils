@@ -31,8 +31,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private readonly List<Hediff> healQueue = new List<Hediff>();
         private readonly List<Pair<Pawn, BodyPartRecord>> restoreQueue = new List<Pair<Pawn, BodyPartRecord>>();
 
-        public override Viewer Viewer { get; set; }
-
         public override bool CanHappen(string msg, Viewer viewer)
         {
             foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder().Where(p => !p.Dead))

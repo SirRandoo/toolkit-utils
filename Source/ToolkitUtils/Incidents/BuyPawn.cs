@@ -38,8 +38,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private Map map;
         private PawnKindItem pawnKindItem;
 
-        public override Viewer Viewer { get; set; }
-
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             if (CommandBase.GetOrFindPawn(viewer.username) != null)

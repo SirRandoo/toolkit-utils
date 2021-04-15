@@ -35,7 +35,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
     public class RescueMe : IncidentVariablesBase
     {
         private KidnapReport report;
-        public override Viewer Viewer { get; set; }
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {

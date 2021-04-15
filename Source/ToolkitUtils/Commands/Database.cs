@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             PerformLookup(category, query);
         }
 
-        private void Notify__LookupComplete(string result)
+        private void NotifyLookupComplete(string result)
         {
             if (result.NullOrEmpty())
             {
@@ -105,7 +105,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 result.AddRange(weapon.Thing.damageMultipliers.Select(m => $"{m.damageDef.LabelCap} x{m.multiplier}"));
             }
 
-            Notify__LookupComplete(ResponseHelper.JoinPair(weapon.Name, result.GroupedJoin()));
+            NotifyLookupComplete(ResponseHelper.JoinPair(weapon.Name, result.GroupedJoin()));
         }
 
         private void PerformLookup([NotNull] string category, string query)

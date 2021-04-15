@@ -206,10 +206,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     Proxy.Thing.ItemData?.Weight ?? 1f,
                     Proxy.Thing.Data?.KarmaType ?? incident.karmaType
                 );
-                Notify_ItemPurchaseComplete();
+                NotifyItemPurchaseComplete();
             }
 
-            private void Notify_ItemPurchaseComplete()
+            private void NotifyItemPurchaseComplete()
             {
                 if (TkSettings.BuyItemBalance)
                 {

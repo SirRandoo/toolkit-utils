@@ -225,15 +225,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (ThingDef.race != null)
             {
-                Notify_AnimalPurchaseComplete();
+                NotifyAnimalPurchaseComplete();
             }
             else
             {
-                Notify_ItemPurchaseComplete();
+                NotifyItemPurchaseComplete();
             }
         }
 
-        private void Notify_AnimalPurchaseComplete()
+        private void NotifyAnimalPurchaseComplete()
         {
             if (TkSettings.BuyItemBalance)
             {
@@ -260,7 +260,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
         }
 
-        private void Notify_ItemPurchaseComplete()
+        private void NotifyItemPurchaseComplete()
         {
             if (TkSettings.BuyItemBalance)
             {

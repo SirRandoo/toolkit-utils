@@ -113,7 +113,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             NotifySuccess(target);
         }
 
-        private bool TryGetEligibleSkill([CanBeNull] out SkillRecord skill, bool forDecrease = false)
+        [ContractAnnotation("=> true,skill:notnull; => false,skill:null")]
+        private bool TryGetEligibleSkill(out SkillRecord skill, bool forDecrease = false)
         {
             IEnumerable<SkillRecord> filters = pawn.skills.skills.Where(s => s != target && !s.TotallyDisabled);
 

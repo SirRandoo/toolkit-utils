@@ -32,8 +32,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private Hediff toHeal;
         private BodyPartRecord toRestore;
 
-        public override Viewer Viewer { get; set; }
-
         public override bool CanHappen(string msg, Viewer viewer)
         {
             List<Pawn> pawns = Find.ColonistBar.GetColonistsInOrder()
@@ -78,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 HealHelper.Cure(toHeal);
 
-                Notify__Success(toHeal.LabelCap);
+                NotifySuccess(toHeal.LabelCap);
             }
 
             if (toRestore == null)
@@ -88,10 +86,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             target.health.RestorePart(toRestore);
 
-            Notify__Success(toRestore.Label);
+            NotifySuccess(toRestore.Label);
         }
 
-        private void Notify__Success(string affected)
+        private void NotifySuccess(string affected)
         {
             Viewer.Charge(storeIncident);
 

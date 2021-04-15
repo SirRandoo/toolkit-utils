@@ -27,7 +27,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
     public class ReviveMe : IncidentVariablesBase
     {
         private Pawn pawn;
-        public override Viewer Viewer { get; set; }
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {

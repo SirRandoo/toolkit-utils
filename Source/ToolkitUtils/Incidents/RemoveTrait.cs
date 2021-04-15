@@ -35,7 +35,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private TraitItem buyable;
         private Pawn pawn;
         private Trait trait;
-        public override Viewer Viewer { get; set; }
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {

@@ -35,8 +35,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private Appointment appointment;
         private Map map;
 
-        public override Viewer Viewer { get; set; }
-
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             string[] segments = CommandFilter.Parse(msg).Skip(2).ToArray();
@@ -158,7 +156,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             public RecipeDef Surgery { get; private set; }
             public List<BodyPartRecord> BodyParts { get; private set; }
             public ThingItem Item { get; private set; }
-            public ItemData ItemData => Item.ItemData;
+            [CanBeNull] public ItemData ItemData => Item.ItemData;
             public ThingDef ThingDef { get; private set; }
             public int Quantity { get; private set; }
             public int Cost => Item.Cost * Quantity;

@@ -100,14 +100,16 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
-        private static bool TryGetSidearmComp([NotNull] ThingWithComps pawn, [CanBeNull] out ThingComp comp)
+        [ContractAnnotation("=> true,comp:notnull; => false,comp:null")]
+        private static bool TryGetSidearmComp([NotNull] ThingWithComps pawn, out ThingComp comp)
         {
             comp = pawn.AllComps.FirstOrFallback(c => c.GetType() == _compSidearmMemory);
 
             return comp != null;
         }
 
-        private static bool TryGetSidearmMemory([NotNull] ThingWithComps pawn, [CanBeNull] out IList weapons)
+        [ContractAnnotation("=> true,weapons:notnull; => false,weapons:null")]
+        private static bool TryGetSidearmMemory([NotNull] ThingWithComps pawn, out IList weapons)
         {
             if (!TryGetSidearmComp(pawn, out ThingComp comp))
             {
@@ -125,6 +127,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return true;
         }
 
+        [ContractAnnotation("=> true,weapon:notnull; => false,weapon:null")]
         private static bool TryGetWeapon(object weaponPair, out Thing weapon)
         {
             object thingValue = _thingFromPair.GetValue(weaponPair);

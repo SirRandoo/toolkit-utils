@@ -42,9 +42,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private Trait thisTrait;
 
-
-        public override Viewer Viewer { get; set; }
-
         private int TotalPrice => thisShop.CostToRemove + thatShop.CostToAdd;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)

@@ -102,9 +102,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             pawn.story.traits.allTraits.Add(trait);
-        #if !RW11
-            trait.pawn = pawn;
-        #endif
             pawn.Notify_DisabledWorkTypesChanged();
             pawn.skills?.Notify_SkillDisablesChanged();
 
@@ -190,23 +187,19 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
-        public static bool IsDisallowedByBackstory(
-            this TraitDef trait,
-            [NotNull] Pawn pawn,
-            int degree,
-            [NotNull] out Backstory backstory
-        )
+        [ContractAnnotation(
+            "trait:notnull,pawn:notnull => true,backstory:notnull; trait:notnull,pawn:notnull => false,backstory:null"
+        )]
+        public static bool IsDisallowedByBackstory(this TraitDef trait, Pawn pawn, int degree, out Backstory backstory)
         {
             backstory = pawn.story.AllBackstories.FirstOrFallback(s => s.DisallowsTrait(trait, degree));
             return backstory != null;
         }
 
-        public static bool IsDisallowedByBackstory(
-            [NotNull] this Trait trait,
-            [NotNull] Pawn pawn,
-            int degree,
-            [NotNull] out Backstory backstory
-        )
+        [ContractAnnotation(
+            "trait:notnull,pawn:notnull => true,backstory:notnull; trait:notnull,pawn:notnull => false,backstory:null"
+        )]
+        public static bool IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree, out Backstory backstory)
         {
             return IsDisallowedByBackstory(trait.def, pawn, degree, out backstory);
         }

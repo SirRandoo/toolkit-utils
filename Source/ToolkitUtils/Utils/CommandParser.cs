@@ -25,6 +25,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public static class CommandParser
     {
+        [NotNull]
         public static List<KeyValuePair<string, string>> ParseKeyed(string input)
         {
             return ParseKeyed(CommandFilter.Parse(input));
@@ -99,33 +100,28 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return false;
             }
 
-            if (input.Equals("👍")
-                || input.Equals("✔️")
-                || input.Equals("☑️")
-                || input.Equals("✅")
-                || input.Equals("🆗"))
+            switch (input)
             {
-                return true;
+                case "👍":
+                case "✔️":
+                case "☑️":
+                case "✅":
+                case "🆗":
+                    return true;
+                case "👎":
+                case "🛑":
+                case "🚫":
+                case "⛔":
+                case "⏹️":
+                case "⏏️":
+                case "❌":
+                case "❎":
+                    return false;
+                case "🎲":
+                    return new Random().Next(1) == 1;
+                default:
+                    return defaultValue;
             }
-
-            if (input.Equals("👎")
-                || input.Equals("🛑")
-                || input.Equals("🚫")
-                || input.Equals("⛔")
-                || input.Equals("⏹️")
-                || input.Equals("⏏️")
-                || input.Equals("❌")
-                || input.Equals("❎"))
-            {
-                return false;
-            }
-
-            if (input.Equals("🎲"))
-            {
-                return new Random().Next(1) == 1;
-            }
-
-            return defaultValue;
         }
     }
 }

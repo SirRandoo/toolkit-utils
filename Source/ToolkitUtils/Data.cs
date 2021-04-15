@@ -594,7 +594,8 @@ namespace SirRandoo.ToolkitUtils
             await SaveJsonAsync(Mods, Paths.ModListFilePath);
         }
 
-        public static bool TryGetTrait(string input, [CanBeNull] out TraitItem trait)
+        [ContractAnnotation("input:notnull => true,trait:notnull; input:notnull => false,trait:null")]
+        public static bool TryGetTrait(string input, out TraitItem trait)
         {
             if (input.StartsWith("$"))
             {
@@ -612,7 +613,8 @@ namespace SirRandoo.ToolkitUtils
             return trait != null;
         }
 
-        public static bool TryGetPawnKind(string input, [CanBeNull] out PawnKindItem kind)
+        [ContractAnnotation("input:notnull => true,kind:notnull; input:notnull => false,kind:null")]
+        public static bool TryGetPawnKind(string input, out PawnKindItem kind)
         {
             if (input.StartsWith("$"))
             {

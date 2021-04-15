@@ -86,7 +86,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return value > 0 && Rand.Chance(value / 100f);
         }
 
-        public static bool TryGetPawn([NotNull] string viewer, [CanBeNull] out Pawn pawn, bool kidnapped = false)
+        [ContractAnnotation("viewer:notnull => true,pawn:notnull; viewer:notnull => false,pawn:null")]
+        public static bool TryGetPawn(string viewer, out Pawn pawn, bool kidnapped = false)
         {
             pawn = CommandBase.GetOrFindPawn(viewer.ToLowerInvariant(), kidnapped);
             return pawn != null;
@@ -137,10 +138,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             viewer.CalculateNewKarma(karmaType, Mathf.CeilToInt(cost * weight));
         }
 
-        public static bool TryGetUnfinishedPrerequisites(
-            [NotNull] ThingDef thing,
-            [NotNull] out List<ResearchProjectDef> projects
-        )
+        [ContractAnnotation("thing:notnull => true,projects:notnull; thing:notnull => false,projects:null")]
+        public static bool TryGetUnfinishedPrerequisites(ThingDef thing, out List<ResearchProjectDef> projects)
         {
             projects = thing.GetUnfinishedPrerequisites();
             return BuyItemSettings.mustResearchFirst && projects.Count > 0;

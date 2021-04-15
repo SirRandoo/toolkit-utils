@@ -337,7 +337,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
-        public static bool DrawTextField(Rect region, string content, [CanBeNull] out string newContent)
+        [ContractAnnotation("=> true,newContent:notnull; => false,newContent:null")]
+        public static bool DrawTextField(Rect region, string content, out string newContent)
         {
             string text = Widgets.TextField(region, content);
 

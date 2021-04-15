@@ -85,7 +85,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
-        internal static bool IsTraitForced(Pawn pawn, string defName, int degree)
+        internal static bool IsTraitForced([NotNull] Pawn pawn, string defName, int degree)
         {
             if (!TryGetForcedTraits(pawn, out IList forcedTraits))
             {
@@ -113,6 +113,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return false;
         }
 
+        [ContractAnnotation("=> true,settings:notnull; => false,settings:null")]
         private static bool TryGetRaceSettings([NotNull] Pawn pawn, out object settings)
         {
             if (pawn.kindDef?.race == null)
@@ -134,6 +135,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
         }
 
+        [ContractAnnotation("=> true,generalSettings:notnull; => false,generalSettings:null")]
         private static bool TryGetGeneralSettings([NotNull] Pawn pawn, out object generalSettings)
         {
             if (!TryGetRaceSettings(pawn, out object settings))
@@ -146,7 +148,8 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return true;
         }
 
-        private static bool TryGetDisallowedTraits([NotNull] Pawn pawn, [CanBeNull] out IList disallowedTraits)
+        [ContractAnnotation("=> true,disallowedTraits:notnull; => false,disallowedTraits:null")]
+        private static bool TryGetDisallowedTraits([NotNull] Pawn pawn, out IList disallowedTraits)
         {
             if (!TryGetGeneralSettings(pawn, out object settings))
             {
@@ -158,7 +161,8 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return disallowedTraits != null;
         }
 
-        private static bool TryGetForcedTraits([NotNull] Pawn pawn, [CanBeNull] out IList forcedTraits)
+        [ContractAnnotation("=> true,forcedTraits:notnull; => false,forcedTraits:null")]
+        private static bool TryGetForcedTraits([NotNull] Pawn pawn, out IList forcedTraits)
         {
             if (!TryGetGeneralSettings(pawn, out object settings))
             {
@@ -170,7 +174,8 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             return forcedTraits != null;
         }
 
-        private static bool TryGetTraitEntry(object entry, [NotNull] out Tuple<string, int, float> result)
+        [ContractAnnotation("=> true,result:notnull; => false,result:null")]
+        private static bool TryGetTraitEntry(object entry, out Tuple<string, int, float> result)
         {
             var defName = TraitEntryDefName.GetValue(entry) as string;
             object itemDegree = TraitEntryDegree.GetValue(entry);

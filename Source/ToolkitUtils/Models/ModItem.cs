@@ -71,6 +71,7 @@ namespace SirRandoo.ToolkitUtils.Models
             return File.Exists(steamIdFile) ? File.ReadAllText(steamIdFile) : string.Empty;
         }
 
+        [CanBeNull]
         private static string GetModVersion([NotNull] Mod handle)
         {
             if (TryGetManifestVersion(handle.Content.RootDir, out string version))
@@ -100,6 +101,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 : handle.GetType().Module.Assembly.GetName().Version.ToString();
         }
 
+        [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetManifestVersion([NotNull] string rootDir, out string version)
         {
             string manifestFile = Path.Combine(rootDir, "About/Manifest.xml");
@@ -124,6 +126,7 @@ namespace SirRandoo.ToolkitUtils.Models
             return true;
         }
 
+        [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetInfoAssemblyVersion([NotNull] Assembly assembly, out string version)
         {
             var attribute = (AssemblyInformationalVersionAttribute) Attribute.GetCustomAttribute(
@@ -142,6 +145,7 @@ namespace SirRandoo.ToolkitUtils.Models
             return true;
         }
 
+        [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetAssemblyFileVersion([NotNull] Assembly assembly, out string version)
         {
             var attribute = (AssemblyFileVersionAttribute) Attribute.GetCustomAttribute(
@@ -160,6 +164,7 @@ namespace SirRandoo.ToolkitUtils.Models
             return true;
         }
 
+        [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetAssemblyVersion([NotNull] Assembly assembly, out string version)
         {
             var attribute = (AssemblyVersionAttribute) Attribute.GetCustomAttribute(

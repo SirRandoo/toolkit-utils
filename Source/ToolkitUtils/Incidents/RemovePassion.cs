@@ -32,7 +32,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
     {
         private Pawn pawn;
         private SkillRecord target;
-        public override Viewer Viewer { get; set; }
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
@@ -199,7 +198,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
 
-        private bool TryGetEligibleSkill([CanBeNull] out SkillRecord skill, bool forDecrease = false)
+        [ContractAnnotation("=> true,skill:notnull; => false,skill:null")]
+        private bool TryGetEligibleSkill(out SkillRecord skill, bool forDecrease = false)
         {
             IEnumerable<SkillRecord> filters = pawn.skills.skills.Where(s => s != target && !s.TotallyDisabled);
 

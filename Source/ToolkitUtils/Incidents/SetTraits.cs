@@ -86,10 +86,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
         }
 
+        [ContractAnnotation("=> true,traitEvents:notnull; => false,traitEvents:null")]
         private bool TryProcessTraits(
             [NotNull] Pawn subject,
             [NotNull] IEnumerable<TraitItem> traits,
-            [NotNull] out List<TraitEvent> traitEvents
+            out List<TraitEvent> traitEvents
         )
         {
             var container = new List<TraitEvent>();

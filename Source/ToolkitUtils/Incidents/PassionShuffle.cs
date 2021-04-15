@@ -33,8 +33,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private Pawn pawn;
         private SkillDef target;
 
-        public override Viewer Viewer { get; set; }
-
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
