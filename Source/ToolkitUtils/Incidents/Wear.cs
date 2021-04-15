@@ -29,6 +29,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Wear : IncidentVariablesBase
     {
+        private int cost;
         private ArgWorker.ItemProxy item;
         private Pawn pawn;
 
@@ -48,8 +49,24 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (item?.Thing.Thing == null || !item.Thing.Thing.IsApparel)
+            if (!(item.Thing.Thing is {IsApparel: true}))
             {
+                return false;
+            }
+
+            cost = item.Quality.HasValue
+                ? item.Thing.GetItemPrice(item.Stuff, item.Quality.Value)
+                : item.Thing.GetItemPrice(item.Stuff);
+
+            if (!Viewer.CanAfford(cost))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(
+                        cost.ToString("N0"),
+                        viewer.GetViewerCoins().ToString("N0")
+                    )
+                );
                 return false;
             }
 
@@ -78,10 +95,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 || !EquipmentUtility.CanEquip(apparel, pawn))
             {
                 TradeUtility.SpawnDropPod(pawn.Position, pawn.Map, apparel);
+                Viewer.Charge(
+                    cost,
+                    item.Thing.ItemData?.Weight ?? 1f,
+                    item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+                );
                 return;
             }
 
             pawn.apparel.Wear(apparel);
+            Viewer.Charge(
+                cost,
+                item.Thing.ItemData?.Weight ?? 1f,
+                item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+            );
         }
     }
 }
