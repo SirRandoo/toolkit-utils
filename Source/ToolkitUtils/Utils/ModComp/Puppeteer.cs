@@ -54,11 +54,11 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             {
                 Controller = AccessTools.TypeByName("Puppeteer.Controller");
                 ControllerInstance = AccessTools.Field(Controller, "instance");
-                SendChatMessage = AccessTools.Method("SendChatMessage");
+                SendChatMessage = AccessTools.Method("Puppeteer.Controller:SendChatMessage");
 
                 State = AccessTools.TypeByName("Puppeteer.State");
                 StateInstance = AccessTools.Property(State, "Instance");
-                PuppeteerForViewerName = AccessTools.Method("PuppeteerForViewerName");
+                PuppeteerForViewerName = AccessTools.Method("Puppeteer.State:PuppeteerForViewerName");
 
                 Type puppeteer = AccessTools.TypeByName("Puppeteer.State.Puppeteer");
                 ViewerId = AccessTools.Field(puppeteer, "vID");
