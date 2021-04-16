@@ -64,8 +64,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(
-                        GenText.CapitalizeFirst((thisShop!.CanRemove ? thisShop : thatShop)?.Name)
+                    $"TKUtils.{(thisShop.CanRemove ? "" : "Remove")}Trait.Disabled".LocalizeKeyed(
+                        GenText.CapitalizeFirst((thisShop.CanRemove ? thatShop : thisShop).Name)
                     )
                 );
                 return false;
@@ -123,13 +123,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (pawn.story.traits.allTraits.Any(t => TraitHelper.CompareToInput(thatShop.GetDefaultName()!, t.Label)))
+            Trait duplicate = pawn.story.traits.allTraits.Find(t => t.def.defName.Equals(thatShop.DefName));
+            if (duplicate == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".LocalizeKeyed(thatShop.Name));
-                return false;
+                return true;
             }
 
-            return true;
+            TraitItem item = Data.Traits.Find(
+                t => t.DefName.Equals(duplicate.def.defName) && t.Degree == duplicate.Degree
+            );
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.Trait.Duplicate".LocalizeKeyed(item?.Name ?? duplicate.Label, thatShop.Name)
+            );
+            return false;
         }
 
         private bool PassesCharacterCheck(Viewer viewer)
