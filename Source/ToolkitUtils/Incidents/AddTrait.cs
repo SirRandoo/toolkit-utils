@@ -88,35 +88,23 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (PassesModChecks(viewer, worker, out bool canHappen))
-            {
-                return canHappen;
-            }
-
-            return worker.GetLast() != null && buyableTrait != null;
+            return !PassesModChecks(viewer);
         }
 
-        private bool PassesModChecks(Viewer viewer, ArgWorker worker, out bool canHappen)
+        private bool PassesModChecks(Viewer viewer)
         {
             if (CompatRegistry.Magic == null || !CompatRegistry.Magic.IsClassTrait(buyableTrait.TraitDef!))
             {
-                {
-                    canHappen = worker.GetLast() != null && buyableTrait != null;
-                    return true;
-                }
+                return true;
             }
 
-            if (CompatRegistry.Magic.HasClass(pawn))
+            if (!CompatRegistry.Magic.HasClass(pawn))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize());
-                {
-                    canHappen = false;
-                    return true;
-                }
+                return true;
             }
 
-            canHappen = false;
-            return false;
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize());
+            return true;
         }
 
         private bool PassesValidationChecks(Viewer viewer)
