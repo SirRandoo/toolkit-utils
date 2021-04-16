@@ -47,7 +47,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            int amount = worker.GetNextAsInt(1, product!.Thing.ItemData?.QuantityLimit ?? int.MaxValue);
+            int amount = product.Thing.ItemData?.HasQuantityLimit == true
+                ? worker.GetNextAsInt(1, product.Thing.ItemData.QuantityLimit)
+                : worker.GetNextAsInt(1);
 
             List<ResearchProjectDef> projects = product!.Thing.Thing.GetUnfinishedPrerequisites();
             if (BuyItemSettings.mustResearchFirst && projects.Count > 0)
