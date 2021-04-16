@@ -20,6 +20,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
@@ -50,6 +51,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 || !proxy.IsValid())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
+                return false;
+            }
+
+            if (proxy.TryGetInvalidSelector(out ThingItem item))
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".LocalizeKeyed(item.Name));
                 return false;
             }
 

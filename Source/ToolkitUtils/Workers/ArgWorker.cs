@@ -506,6 +506,25 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 return true;
             }
+
+            [ContractAnnotation("=> false,item:null; => true,item:notnull")]
+            public bool TryGetInvalidSelector(out ThingItem item)
+            {
+                if (!Thing.Enabled)
+                {
+                    item = Thing;
+                    return true;
+                }
+
+                if (Stuff != null && (!Stuff.Enabled || Stuff.ItemData?.IsStuffAllowed != true))
+                {
+                    item = Stuff;
+                    return true;
+                }
+
+                item = null;
+                return false;
+            }
         }
     }
 }

@@ -53,6 +53,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (item.TryGetInvalidSelector(out ThingItem i))
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".LocalizeKeyed(i.Name));
+                return false;
+            }
+
             if (!worker.TryGetNextAsInt(out amount, 1, Viewer.GetMaximumPurchaseAmount(buyableItem.Cost)))
             {
                 amount = 1;
