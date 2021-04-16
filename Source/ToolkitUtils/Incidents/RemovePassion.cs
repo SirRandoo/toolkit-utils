@@ -66,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return true;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemovePassion.None".Localize());
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemovePassion.None".LocalizeKeyed(query));
             return false;
         }
 
