@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (IsUsable(thisShop, thatShop))
+            if (!IsUsable(thisShop, thatShop))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
