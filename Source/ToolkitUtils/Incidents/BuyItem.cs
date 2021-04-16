@@ -27,7 +27,6 @@ using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Incidents;
-using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
@@ -67,11 +66,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (worker.GetLast()?.Equals("*") ?? false)
             {
                 amount = viewer.GetMaximumPurchaseAmount(product.Thing.Cost);
-            }
-
-            if (product.Thing.Data != null && product.Thing.ItemData!.HasQuantityLimit)
-            {
-                amount = Mathf.Clamp(amount, 1, product.Thing.ItemData.QuantityLimit);
             }
 
             purchaseRequest = new PurchaseRequest
@@ -183,11 +177,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             Thing thing = ThingMaker.MakeThing(Proxy.Thing.Thing, result);
             thing.TryGetComp<CompQuality>()
               ?.SetQuality(Proxy.Quality ?? QualityUtility.GenerateQualityTraderItem(), ArtGenerationContext.Outsider);
-
-            if (thing.TryGetQuality(out QualityCategory _))
-            {
-                ItemHelper.setItemQualityRandom(thing);
-            }
 
             IntVec3 position = DropCellFinder.TradeDropSpot(Map);
 
