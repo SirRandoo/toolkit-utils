@@ -83,12 +83,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             trait = new Trait(buyableTrait.TraitDef, buyableTrait.Degree);
 
-            if (!PassesValidationChecks(viewer))
-            {
-                return false;
-            }
-
-            return !PassesModChecks(viewer);
+            return PassesValidationChecks(viewer) && PassesModChecks(viewer);
         }
 
         private bool PassesModChecks(Viewer viewer)
@@ -104,7 +99,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize());
-            return true;
+            return false;
         }
 
         private bool PassesValidationChecks(Viewer viewer)
