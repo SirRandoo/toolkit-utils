@@ -123,9 +123,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
     internal class PurchaseRequest
     {
         public int Price =>
-            Proxy.Quality.HasValue
+            (Proxy.Quality.HasValue
                 ? Proxy.Thing.GetItemPrice(Proxy.Stuff, Proxy.Quality.Value)
-                : Proxy.Thing.GetItemPrice(Proxy.Stuff);
+                : Proxy.Thing.GetItemPrice(Proxy.Stuff))
+            * Quantity;
 
         public int Quantity { get; set; }
         public ArgWorker.ItemProxy Proxy { get; set; }

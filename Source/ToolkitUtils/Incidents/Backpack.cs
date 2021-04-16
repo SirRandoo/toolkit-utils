@@ -133,9 +133,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
             public ArgWorker.ItemProxy Proxy { get; set; }
 
             public int Price =>
-                Proxy.Quality.HasValue
+                (Proxy.Quality.HasValue
                     ? Proxy.Thing.GetItemPrice(Proxy.Stuff, Proxy.Quality.Value)
-                    : Proxy.Thing.GetItemPrice(Proxy.Stuff);
+                    : Proxy.Thing.GetItemPrice(Proxy.Stuff))
+                * Quantity;
 
             public Viewer Purchaser { get; set; }
             [CanBeNull] public Map Map => Pawn?.Map;
