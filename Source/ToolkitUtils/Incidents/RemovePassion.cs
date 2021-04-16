@@ -113,7 +113,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            target.passion = (Passion) Mathf.Clamp((int) target.passion + 1, 0, 2);
+            target.passion = (Passion) Mathf.Clamp((int) target.passion - 1, 0, 2);
             Viewer.Charge(storeIncident);
             NotifySuccess(target);
         }
