@@ -47,8 +47,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy proxy)
-                || proxy!.Thing.Thing.race != null
-                || !proxy.IsValid())
+                || !proxy.IsValid()
+                || proxy!.Thing.Thing.race != null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
                 return false;
