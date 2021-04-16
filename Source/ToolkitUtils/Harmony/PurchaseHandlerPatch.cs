@@ -19,6 +19,7 @@ using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -34,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     {
         public static bool Prefix(Viewer viewer, [NotNull] ITwitchMessage twitchMessage, bool separateChannel = false)
         {
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
             List<string> segments = CommandFilter.Parse(twitchMessage.Message).ToList();
             string query = segments.Skip(1).FirstOrFallback("");
 
@@ -60,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             Helper.Log($"abr: {query} ");
-            if (!TryFindItem(query, out ThingItem _))
+            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy _))
             {
                 return false;
             }
