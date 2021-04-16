@@ -44,22 +44,31 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
+            LogHelper.Info(
+                Data.Items.Where(t => t.Thing != null && t.Thing.HasAssignableCompFrom(typeof(CompUseEffect)))
+                   .Select(t => t.Name)
+                   .ToCommaList(true)
+            );
 
             if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item)
-                || !item!.Thing.Thing.HasComp(typeof(CompUseEffect))
-                || !item.IsValid())
+                || !item.IsValid()
+                || !item.Thing.Thing.HasAssignableCompFrom(typeof(CompUseEffect)))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(item!.Thing.Name));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InvalidItemQuery".LocalizeKeyed(item?.Thing?.Name ?? worker.GetLast())
+                );
                 return false;
             }
 
+            buyableItem = item.Thing;
             if (item.TryGetInvalidSelector(out ThingItem i))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".LocalizeKeyed(i.Name));
                 return false;
             }
 
-            if (!worker.TryGetNextAsInt(out amount, 1, Viewer.GetMaximumPurchaseAmount(buyableItem.Cost)))
+            if (!worker.TryGetNextAsInt(out amount, 1, viewer.GetMaximumPurchaseAmount(buyableItem.Cost)))
             {
                 amount = 1;
             }
@@ -105,7 +114,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             try
             {
+                GenSpawn.Spawn(thing, pawn.Position, pawn.Map);
                 comp.DoEffect(pawn);
+
+                if (thing.Spawned)
+                {
+                    thing.DeSpawn();
+                }
             }
             catch (Exception e)
             {
@@ -116,7 +131,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Use.Complete".Localize());
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                "TKUtils.Use.Complete".LocalizeKeyed(thing.LabelCap ?? thing.def.defName)
+            );
 
             Viewer.Charge(
                 buyableItem.Cost,
