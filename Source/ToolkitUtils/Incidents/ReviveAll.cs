@@ -52,7 +52,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void TryExecute()
         {
-            if (!pawns.Any(HealHelper.TryResurrect))
+            var any = false;
+            foreach (Pawn pawn in pawns)
+            {
+                if (!pawn.TryResurrect())
+                {
+                    continue;
+                }
+
+                any = true;
+            }
+
+            if (!any)
             {
                 return;
             }

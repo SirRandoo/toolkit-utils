@@ -126,7 +126,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                             }
 
                             return !IsTraitRemovable(trait, out string error)
-                                ? new TraitEvent {Type = EventType.Noop, Error = error}
+                                ? new TraitEvent {Type = EventType.Noop, Error = error, Item = trait}
                                 : new TraitEvent {Type = EventType.Remove, Trait = t, Item = trait};
                         }
                     )
@@ -146,13 +146,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
                             }
 
                             return !IsTraitAddable(t, out string error)
-                                ? new TraitEvent {Type = EventType.Noop, Error = error}
+                                ? new TraitEvent {Type = EventType.Noop, Error = error, Item = t}
                                 : new TraitEvent {Type = EventType.Add, Item = t};
                         }
                     )
             );
 
-            traitEvents = container;
+            var final = new List<TraitEvent>(container.Where(e => e.Type == EventType.Remove));
+            final.AddRange(
+                container.Where(t => t.Type != EventType.Remove).GroupBy(t => t.Item.DefName).Select(e => e.First())
+            );
+
+            traitEvents = final;
             return true;
         }
 
