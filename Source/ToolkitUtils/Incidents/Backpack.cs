@@ -149,8 +149,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             public void Spawn()
             {
-                ThingDef result = Proxy.Stuff.Thing;
-                if (!Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff.Thing))
+                ThingDef result = Proxy.Stuff?.Thing;
+                if (Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff?.Thing) != true)
                 {
                     result = GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing);
                 }
