@@ -53,7 +53,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!worker.TryGetNextAsInt(out int amount, 1, Viewer.GetMaximumPurchaseAmount(proxy!.Thing.Cost)))
+            if (!worker.TryGetNextAsInt(out int amount, 1, viewer.GetMaximumPurchaseAmount(proxy!.Thing.Cost)))
             {
                 amount = 1;
             }
