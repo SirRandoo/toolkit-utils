@@ -75,6 +75,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!IncidentSettings.RemovePassion.Randomness)
             {
                 target.passion = (Passion) Mathf.Clamp((int) target.passion - 1, 0, 2);
+                Viewer.Charge(storeIncident);
+                NotifySuccess(target);
                 return;
             }
 
