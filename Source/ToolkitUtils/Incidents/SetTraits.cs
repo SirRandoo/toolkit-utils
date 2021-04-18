@@ -152,10 +152,21 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     )
             );
 
+            container.AddRange(
+                traitItems.Where(
+                        t => subject.story.traits.allTraits.Find(
+                                 i => i.def.defName.Equals(t.DefName) && i.Degree == t.Degree
+                             )
+                             != null
+                    )
+                   .Select(t => new TraitEvent {Type = EventType.Noop, Item = t})
+            );
+
             var final = new List<TraitEvent>(container.Where(e => e.Type == EventType.Remove));
             final.AddRange(
                 container.Where(t => t.Type != EventType.Remove).GroupBy(t => t.Item.DefName).Select(e => e.First())
             );
+
 
             traitEvents = final;
             return true;
