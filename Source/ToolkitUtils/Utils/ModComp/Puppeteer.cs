@@ -93,7 +93,6 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         public static bool ShouldRedirect(string viewer)
         {
-            return false;
             if (!Active)
             {
                 return false;
