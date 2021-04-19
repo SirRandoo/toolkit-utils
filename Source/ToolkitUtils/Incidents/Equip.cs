@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -23,6 +24,7 @@ using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
+using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
@@ -58,6 +60,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!(item.Thing.Thing is {IsWeapon: true}))
             {
+                return false;
+            }
+
+            List<ResearchProjectDef> prerequisites = item.Thing.Thing.GetUnfinishedPrerequisites();
+            if (BuyItemSettings.mustResearchFirst && prerequisites.Count > 0)
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.ResearchRequired".LocalizeKeyed(
+                        item.Thing.Thing.LabelCap.RawText,
+                        prerequisites.Select(p => p.LabelCap.RawText).SectionJoin()
+                    )
+                );
                 return false;
             }
 
