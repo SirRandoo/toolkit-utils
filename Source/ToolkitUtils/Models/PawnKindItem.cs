@@ -63,15 +63,6 @@ namespace SirRandoo.ToolkitUtils.Models
         [IgnoreDataMember] public IShopDataBase Data { get; set; }
 
 
-        [NotNull]
-        public static PawnKindItem MigrateFrom([NotNull] XmlRace race)
-        {
-            return new PawnKindItem
-            {
-                DefName = race.DefName, Enabled = race.Enabled, Name = race.Name, Cost = race.Price
-            };
-        }
-
         public void UpdateStats()
         {
             PawnData.Stats = ColonistKindDef.race.statBases.Select(

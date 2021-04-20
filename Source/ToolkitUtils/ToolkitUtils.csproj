@@ -222,9 +222,6 @@
         <Compile Include="Models\ShopLegacy.cs"/>
         <Compile Include="Models\TraitData.cs"/>
         <Compile Include="Models\TraitItem.cs"/>
-        <Compile Include="Models\XmlRace.cs"/>
-        <Compile Include="Models\XmlShop.cs"/>
-        <Compile Include="Models\XmlTrait.cs"/>
         <Compile Include="Paths.cs"/>
         <Compile Include="Data.cs"/>
         <Compile Include="Textures.cs"/>

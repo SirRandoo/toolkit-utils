@@ -319,28 +319,6 @@ namespace SirRandoo.ToolkitUtils.Models
             TraitData.Conflicts = container.ToArray();
         }
 
-        [NotNull]
-        public static TraitItem MigrateFrom([NotNull] XmlTrait trait)
-        {
-            return new TraitItem
-            {
-                CanAdd = trait.CanAdd,
-                CanRemove = trait.CanRemove,
-                CostToAdd = trait.AddPrice,
-                CostToRemove = trait.RemovePrice,
-                DefName = trait.DefName,
-                Degree = trait.Degree,
-                Name = trait.Name,
-                Data = new TraitData
-                {
-                    CanBypassLimit = trait.BypassLimit,
-                    Conflicts = new string[] { },
-                    CustomName = false,
-                    Stats = new string[] { }
-                }
-            };
-        }
-
         [CanBeNull]
         public string GetDefaultName(bool invalidate = false)
         {
