@@ -22,6 +22,6 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class CommandData
     {
-        [DataMember(Name = "isShortcut")] public bool IsShortcut;
+        [DataMember(Name = "isShortcut")] public bool IsShortcut { get; set; }
     }
 }

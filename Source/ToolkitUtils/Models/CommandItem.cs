@@ -28,12 +28,12 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         [CanBeNull]
         [DataMember(Name = "data")]
-        public CommandData Data;
+        public CommandData Data { get; set; }
 
-        [DataMember(Name = "description")] public string Description;
-        [DataMember(Name = "name")] public string Name;
-        [DataMember(Name = "usage")] public string Usage;
-        [DataMember(Name = "userLevel")] public UserLevels UserLevel;
+        [DataMember(Name = "description")] public string Description { get; set; }
+        [DataMember(Name = "name")] public string Name { get; set; }
+        [DataMember(Name = "usage")] public string Usage { get; set; }
+        [DataMember(Name = "userLevel")] public UserLevels UserLevel { get; set; }
 
         [DataMember(Name = "shortcut")] public bool Shortcut => Data?.IsShortcut ?? false;
 

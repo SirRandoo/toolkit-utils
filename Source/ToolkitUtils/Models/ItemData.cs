@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
@@ -23,21 +24,18 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class ItemData : IShopDataBase
     {
-        public string CustomName;
+        [DataMember(Name = "CustomName")] public string CustomName { get; set; }
 
-        public bool HasQuantityLimit;
-        public bool IsMelee;
-        public bool IsRanged;
+        [DataMember(Name = "HasQuantityLimit")]
+        public bool HasQuantityLimit { get; set; }
 
-        public bool IsStuffAllowed = true;
-
-        public bool IsWeapon;
-
-        public int QuantityLimit = 1;
-
-        public float Weight = 1f;
-
-        public string Mod { get; set; }
-        public KarmaType? KarmaType { get; set; }
+        [DataMember(Name = "IsMelee")] public bool IsMelee { get; set; }
+        [DataMember(Name = "IsRanged")] public bool IsRanged { get; set; }
+        [DataMember(Name = "IsStuffAllowed")] public bool IsStuffAllowed { get; set; }
+        [DataMember(Name = "IsWeapon")] public bool IsWeapon { get; set; }
+        [DataMember(Name = "QuantityLimit")] public int QuantityLimit { get; set; } = 1;
+        [DataMember(Name = "Weight")] public float Weight { get; set; } = 1f;
+        [DataMember(Name = "Mod")] public string Mod { get; set; }
+        [DataMember(Name = "KarmaType")] public KarmaType? KarmaType { get; set; }
     }
 }

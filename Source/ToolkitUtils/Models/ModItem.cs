@@ -29,10 +29,10 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class ModItem
     {
-        [DataMember(Name = "author")] public string Author;
-        [DataMember(Name = "name")] public string Name;
-        [DataMember(Name = "steamId")] public string SteamId;
-        [DataMember(Name = "version")] public string Version;
+        [DataMember(Name = "author")] public string Author { get; set; }
+        [DataMember(Name = "name")] public string Name { get; set; }
+        [DataMember(Name = "steamId")] public string SteamId { get; set; }
+        [DataMember(Name = "version")] public string Version { get; set; }
 
         [NotNull]
         public static ModItem FromMetadata([NotNull] ModMetaData mod)

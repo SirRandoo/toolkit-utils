@@ -23,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class ItemList
     {
-        [DataMember(Name = "items")] public List<ToolkitItem> Items;
+        [DataMember(Name = "items")] public List<ToolkitItem> Items { get; set; }
         [DataMember(Name = "total")] public int Total => Items.Count;
     }
 }

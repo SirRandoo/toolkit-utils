@@ -270,7 +270,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (item.Data.Cost > 0)
             {
-                SettingsHelper.DrawPriceField(priceRect, ref item.Data.Item.price);
+                SettingsHelper.DrawPriceField(priceRect, ref item.Data.Item!.price);
             }
 
             SettingsHelper.DrawLabel(categoryRect, item.Data.Category);
@@ -305,10 +305,10 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 if (SettingsHelper.DrawTextField(fieldRect, item.Data.Name, out string result))
                 {
-                    item.Data.ItemData.CustomName = result.ToToolkit();
+                    item.Data.ItemData!.CustomName = result.ToToolkit();
                 }
 
-                if (item.Data.ItemData.CustomName != null
+                if (item.Data.ItemData!.CustomName != null
                     && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetItemNameTooltip))
                 {
                     item.Data.ItemData.CustomName = null;
@@ -346,7 +346,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
         }
 
-        private void DrawExpandedSettings(Rect canvas, TableSettingsItem<ThingItem> item)
+        private void DrawExpandedSettings(Rect canvas, [NotNull] TableSettingsItem<ThingItem> item)
         {
             float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 26f;
             var leftColumnRect = new Rect(canvas.x, canvas.y, columnWidth, canvas.height);
@@ -369,7 +369,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             SettingsHelper.DrawLabel(karmaLabel, karmaTypeText);
             if (Widgets.ButtonText(
                 karmaField,
-                item.Data.Data.KarmaType == null ? defaultKarmaTypeText : item.Data.Data.KarmaType.ToString()
+                item.Data.Data!.KarmaType == null ? defaultKarmaTypeText : item.Data.Data.KarmaType.ToString()
             ))
             {
                 Find.WindowStack.Add(
@@ -388,25 +388,34 @@ namespace SirRandoo.ToolkitUtils.Workers
                 item.Data.Data.KarmaType = null;
             }
 
-            var weightBuffer = item.Data.ItemData.Weight.ToString("N1");
+            var weightBuffer = item.Data.ItemData!.Weight.ToString("N1");
             (Rect weightLabel, Rect weightField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).ToForm();
             SettingsHelper.DrawLabel(weightLabel, purchaseWeightText);
-            Widgets.TextFieldNumeric(weightField, ref item.Data.ItemData.Weight, ref weightBuffer);
+
+            float proxy = item.Data.ItemData.Weight;
+            if (SettingsHelper.DrawNumberField(weightField, ref proxy, ref weightBuffer, out float value))
+            {
+                item.Data.ItemData.Weight = value;
+            }
         }
 
         private void DrawRightExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<ThingItem> item)
         {
-            SettingsHelper.LabeledPaintableCheckbox(
+            bool proxy = item.Data.ItemData!.HasQuantityLimit;
+            if (SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(
                     0f,
                     0f,
                     canvas.width
-                    - (item.Data.ItemData.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 2f : 0f),
+                    - (item.Data.ItemData!.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 2f : 0f),
                     RowLineHeight
                 ),
                 quantityLimitText,
-                ref item.Data.ItemData.HasQuantityLimit
-            );
+                ref proxy
+            ))
+            {
+                item.Data.ItemData.HasQuantityLimit = proxy;
+            }
 
             if (item.Data.ItemData.HasQuantityLimit)
             {
@@ -417,7 +426,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                     Mathf.FloorToInt(canvas.width * 0.2f),
                     RowLineHeight
                 );
-                Widgets.TextFieldNumeric(quantityField, ref item.Data.ItemData.QuantityLimit, ref quantityBuffer, 1f);
+
+                int proxy2 = item.Data.ItemData.QuantityLimit;
+                if (SettingsHelper.DrawNumberField(quantityField, ref proxy2, ref quantityBuffer, out int newValue, 1f))
+                {
+                    item.Data.ItemData.QuantityLimit = newValue;
+                }
 
                 if (SettingsHelper.DrawFieldButton(quantityField, Textures.Stack, stackLimitTooltip))
                 {
@@ -430,11 +444,15 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            SettingsHelper.LabeledPaintableCheckbox(
+            bool proxy3 = item.Data.ItemData.IsStuffAllowed;
+            if (SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(0f, RowLineHeight, canvas.width, RowLineHeight),
                 isStuffText,
-                ref item.Data.ItemData.IsStuffAllowed
-            );
+                ref proxy3
+            ))
+            {
+                item.Data.ItemData.IsStuffAllowed = proxy3;
+            }
         }
 
         public override void EnsureExists(TableSettingsItem<ThingItem> data)
