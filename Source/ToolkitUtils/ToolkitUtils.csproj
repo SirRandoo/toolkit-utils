@@ -195,7 +195,6 @@
         <Compile Include="Models\Selectors\StuffSelector.cs"/>
         <Compile Include="Models\Selectors\WeaponSelector.cs"/>
         <Compile Include="Models\Selectors\WeightSelector.cs"/>
-        <Compile Include="Models\ScriptEngine.cs"/>
         <Compile Include="Models\SurgeryHandlers\AndroidSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryHandlers\DefaultSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryItem.cs"/>
