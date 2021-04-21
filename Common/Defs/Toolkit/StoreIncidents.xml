@@ -349,4 +349,26 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>RandomChildhood</defName>
+        <label>random childhood</label>
+        <abbreviation>randomchildhood</abbreviation>
+        <description>Changes the purchaser's pawn's childhood to a random compatible one. Compatibility to defined by whether or not the pawn's current traits aren't forbidden by the new childhood.</description>
+        <cost>3000</cost>
+        <eventCap>5</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Childhood</incidentHelper>
+        <karmaType>Neutral</karmaType>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
+
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>RandomAdulthood</defName>
+        <label>random adulthood</label>
+        <abbreviation>randomadulthood</abbreviation>
+        <description>Changes the purchaser's pawn's adulthood to a random compatible one. Compatibility to defined by whether or not the pawn's current traits aren't forbidden by the new adulthood.</description>
+        <cost>3000</cost>
+        <eventCap>5</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Adulthood</incidentHelper>
+        <karmaType>Neutral</karmaType>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>

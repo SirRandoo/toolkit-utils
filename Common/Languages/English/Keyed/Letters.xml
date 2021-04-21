@@ -59,24 +59,29 @@
     <!-- Mass Heal -->
     <TKUtils.MassHealLetter.Title>Mass Heal</TKUtils.MassHealLetter.Title>
     <TKUtils.MassHealLetter.Description>All pawns have recovered from an affliction.</TKUtils.MassHealLetter.Description>
-    
+
     <!-- Heal -->
     <TKUtils.HealLetter.Title>Heal</TKUtils.HealLetter.Title>
     <TKUtils.HealLetter.RecoveredDescription>{0} recovered from {1}</TKUtils.HealLetter.RecoveredDescription>
     <TKUtils.HealLetter.RestoredDescription>{0} had their {1} restored</TKUtils.HealLetter.RestoredDescription>
-    
+
     <!-- Full Heal -->
     <TKUtils.FullHealLetter.Title>Full Heal</TKUtils.FullHealLetter.Title>
     <TKUtils.FullHealLetter.Description>{0} has been fully healed.</TKUtils.FullHealLetter.Description>
-    
+
+    <!-- Backstory -->
+    <TKUtils.BackstoryLetter.Title>Backstory</TKUtils.BackstoryLetter.Title>
+    <TKUtils.BackstoryLetter.AdulthoodDescription>{0}'s adulthood was changed from {1} to {2}</TKUtils.BackstoryLetter.AdulthoodDescription>
+    <TKUtils.BackstoryLetter.ChildhoodDescription>{0}'s childhood was changed from {1} to {2}</TKUtils.BackstoryLetter.ChildhoodDescription>
+
     <!-- Immortality -->
     <TKUtils.ImmortalityLetter.Title>Immortality</TKUtils.ImmortalityLetter.Title>
     <TKUtils.ImmortalityLetter.Description>{0} has been granted immortality</TKUtils.ImmortalityLetter.Description>
-    
+
     <!-- Passion Shuffle -->
     <TKUtils.PassionShuffleLetter.Title>Passion Shuffle</TKUtils.PassionShuffleLetter.Title>
     <TKUtils.PassionShuffleLetter.Description>{0} has shuffled their pawn's passions</TKUtils.PassionShuffleLetter.Description>
-    
+
     <!-- Mass Revive -->
     <TKUtils.MassRevivalLetter.Title>Mass Revival</TKUtils.MassRevivalLetter.Title>
     <TKUtils.MassRevivalLetter.Description>Previously deceased pawns have been granted another chance at life.</TKUtils.MassRevivalLetter.Description>

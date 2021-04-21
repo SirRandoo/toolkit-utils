@@ -40,6 +40,12 @@
     <TKUtils.BuyPawn.Humanlike>Only humanlikes can be purchased.</TKUtils.BuyPawn.Humanlike>
     <TKUtils.BuyPawn.Confirmation>You've purchased a colonist and have now joined the colony.</TKUtils.BuyPawn.Confirmation>
 
+    <!-- Adulthood -->
+    <TKUtils.Adulthood.Complete>Your pawn's adulthood was changed to {0}.</TKUtils.Adulthood.Complete>
+
+    <!-- Childhood -->
+    <TKUtils.Childhood.Complete>Your pawn's childhood was changed to {0}.</TKUtils.Childhood.Complete>
+
     <!-- Surgery -->
     <TKUtils.Surgery.Complete>Your pawn has been queued for surgery.</TKUtils.Surgery.Complete>
     <TKUtils.Surgery.NoSlotAvailable>No suitable body part could be found.</TKUtils.Surgery.NoSlotAvailable>
