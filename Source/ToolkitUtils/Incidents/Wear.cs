@@ -137,6 +137,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             pawn.apparel.Wear(apparel);
+            pawn.outfits.forcedHandler.SetForced(apparel, true);
             Viewer.Charge(
                 cost,
                 item.Thing.ItemData?.Weight ?? 1f,
