@@ -527,6 +527,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref BuyPrefix, "buyPrefix", "$");
             Scribe_Values.Look(ref ToolkitStyleCommands, "toolkitStyleCommands", true);
             Scribe_Values.Look(ref DecorateMods, "decorateUtils");
+            Scribe_Values.Look(ref ForceFullItem, "forceFullItemSyntax");
             Scribe_Values.Look(ref Emojis, "emojis", true);
             Scribe_Values.Look(ref FilterWorkPriorities, "filterWork");
             Scribe_Values.Look(ref ShowApparel, "apparel");
