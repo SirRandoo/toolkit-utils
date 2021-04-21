@@ -42,6 +42,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
         private static readonly MethodInfo PuppeteerForViewerName;
         private static readonly FieldInfo ViewerId;
         private static readonly PropertyInfo IsConnected;
+        private static bool _disabled;
 
         static Puppeteer()
         {
@@ -99,12 +100,13 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                     912738
                 );
                 MessageHelper.ReplyToUser(viewer, message, true);
+                _disabled = true;
             }
         }
 
         public static bool ShouldRedirect(string viewer)
         {
-            if (!Active)
+            if (!Active || _disabled)
             {
                 return false;
             }
