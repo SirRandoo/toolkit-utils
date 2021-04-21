@@ -78,17 +78,28 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return;
             }
 
-            object stateInstance = StateInstance.GetValue(State);
-            object puppet = PuppeteerForViewerName.Invoke(stateInstance, new object[] {viewer});
-
-            if (puppet == null || IsConnected.GetValue(puppet) is bool state && !state)
+            try
             {
-                return;
-            }
+                object stateInstance = StateInstance.GetGetMethod().Invoke(State, new object[] { });
+                object puppet = PuppeteerForViewerName.Invoke(stateInstance, new object[] {viewer});
 
-            object viewerId = ViewerId.GetValue(puppet);
-            object controllerInstance = ControllerInstance.GetValue(Controller);
-            SendChatMessage.Invoke(controllerInstance, new[] {viewerId, message});
+                if (puppet == null || IsConnected.GetValue(puppet) is bool state && !state)
+                {
+                    return;
+                }
+
+                object viewerId = ViewerId.GetValue(puppet);
+                object controllerInstance = ControllerInstance.GetValue(Controller);
+                SendChatMessage.Invoke(controllerInstance, new[] {viewerId, message});
+            }
+            catch (Exception e)
+            {
+                Log.ErrorOnce(
+                    $"[ToolkitUtils] WARN :: Could not redirect {message} to {viewer}'s Puppeteer instance\n\nReason: {e.Message}\n\n{e.StackTrace}",
+                    912738
+                );
+                MessageHelper.ReplyToUser(viewer, message, true);
+            }
         }
 
         public static bool ShouldRedirect(string viewer)
@@ -98,7 +109,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
                 return false;
             }
 
-            object stateInstance = StateInstance.GetValue(State);
+            object stateInstance = StateInstance.GetGetMethod().Invoke(State, new object[] { });
             object puppet = PuppeteerForViewerName.Invoke(stateInstance, new object[] {viewer});
 
             return puppet != null && IsConnected.GetValue(puppet) is bool state && state;
