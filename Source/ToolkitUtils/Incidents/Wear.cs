@@ -124,7 +124,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, apparel, 1)
                 || pawn.apparel.WouldReplaceLockedApparel(apparel)
-                || !EquipmentUtility.CanEquip(apparel, pawn))
+                || !EquipmentUtility.CanEquip(apparel, pawn)
+                || !ApparelUtility.HasPartsToWear(pawn, item.Thing.Thing))
             {
                 TradeUtility.SpawnDropPod(pawn.Position, pawn.Map, apparel);
                 Viewer.Charge(
