@@ -33,9 +33,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Use : IncidentVariablesBase
     {
+        private static readonly HashSet<Type> CosmeticComps;
+
         private int amount = 1;
         private ThingItem buyableItem;
         private Pawn pawn;
+
+        static Use()
+        {
+            CosmeticComps = new HashSet<Type>
+            {
+                typeof(CompUseEffect_DestroySelf), typeof(CompUseEffect_PlaySound), typeof(CompUseEffect_StartWick)
+            };
+        }
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
@@ -106,8 +116,21 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
+            bool overriden = buyableItem.Thing.defName.Equals(ThingDefOf.FirefoamPopper.defName);
             Thing thing = ThingMaker.MakeThing(buyableItem.Thing);
-            var comp = thing.TryGetComp<CompUseEffect>();
+
+            if (!(thing is ThingWithComps withComps))
+            {
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Use.Unusable".LocalizeKeyed(buyableItem.Name));
+                LogHelper.Warn("Tried to use an item that can't have comps!");
+                return;
+            }
+
+            CompUseEffect comp = overriden
+                ? thing.TryGetComp<CompUseEffect_StartWick>()
+                : withComps.GetComps<CompUseEffect>()
+                   .FirstOrDefault(c => !CosmeticComps.Any(i => i.IsInstanceOfType(c)));
+
             string failReason = null;
 
             if (comp == null || !comp.CanBeUsedBy(pawn, out failReason))
@@ -127,7 +150,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 GenSpawn.Spawn(thing, pawn.Position, pawn.Map);
                 comp.DoEffect(pawn);
 
-                if (thing.Spawned)
+                if (!overriden && thing.Spawned)
                 {
                     thing.DeSpawn();
                 }
