@@ -500,7 +500,7 @@
     <TwitchToolkit.Command>
         <defName>UnstickMe</defName>
         <label>unstick me</label>
-        <command>unstickme</command>
+        <command>imstuck</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickMe</commandDriver>
         <description>It's like unstick, but safer for viewers to use.</description>
     </TwitchToolkit.Command>
