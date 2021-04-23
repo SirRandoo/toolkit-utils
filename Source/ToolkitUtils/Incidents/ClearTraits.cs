@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -59,6 +60,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 traits.Add((trait, item));
+            }
+
+            int total = traits.Sum(t => t.item.CostToRemove);
+            if (!viewer.CanAfford(total))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(
+                        total.ToString("N0"),
+                        viewer.GetViewerCoins().ToString("N0")
+                    )
+                );
+                return false;
             }
 
             return traits.Count > 0;
