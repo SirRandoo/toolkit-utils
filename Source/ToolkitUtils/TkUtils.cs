@@ -27,13 +27,17 @@ namespace SirRandoo.ToolkitUtils
     public class TkUtils : Mod
     {
         public const string Id = "ToolkitUtils";
-        internal static SynchronizationContext Context;
 
         public TkUtils(ModContentPack content) : base(content)
         {
-            GetSettings<TkSettings>();
+            Instance = this;
+            Settings = GetSettings<TkSettings>();
             Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(TkUtilsWindow)));
         }
+
+        internal static TkUtils Instance { get; private set; }
+        internal static SynchronizationContext Context { get; set; }
+        public TkSettings Settings { get; }
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
@@ -43,7 +47,7 @@ namespace SirRandoo.ToolkitUtils
         [NotNull]
         public override string SettingsCategory()
         {
-            return Id;
+            return Content.Name;
         }
     }
 }
