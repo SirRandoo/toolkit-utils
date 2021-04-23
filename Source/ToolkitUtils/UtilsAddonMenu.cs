@@ -19,14 +19,13 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Interfaces;
-using ToolkitCore.Windows;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
+    [UsedImplicitly]
     [StaticConstructorOnStartup]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class UtilsAddonMenu : IAddonMenu
     {
         private static readonly List<FloatMenuOption> Options;
@@ -37,7 +36,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Settings".Localize(),
-                    () => Find.WindowStack.Add(new Window_ModSettings(LoadedModManager.GetMod<TkUtils>()))
+                    SettingsHelper.OpenSettingsMenuFor<TkUtils>
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Editor".Localize(),

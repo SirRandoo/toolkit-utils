@@ -601,6 +601,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Find.WindowStack.Add(settings);
         }
 
+        public static void OpenSettingsMenuFor<T>() where T : Mod
+        {
+            var settings = new Dialog_ModSettings();
+            SelectedModField.SetValue(settings, LoadedModManager.GetMod<T>());
+
+            Find.WindowStack.Add(settings);
+        }
+
         public static Rect TrimLeft(this Rect region, float amount)
         {
             return new Rect(region.x + amount, region.y, region.width - amount, region.height);

@@ -20,7 +20,6 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Interfaces;
-using ToolkitCore.Windows;
 using TwitchToolkit;
 using TwitchToolkit.Commands;
 using TwitchToolkit.Store;
@@ -30,8 +29,8 @@ using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils
 {
+    [UsedImplicitly]
     [StaticConstructorOnStartup]
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class ToolkitAddonMenu : IAddonMenu
     {
         private static readonly List<FloatMenuOption> Options;
@@ -42,9 +41,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Settings".Localize(),
-                    () => Find.WindowStack.Add(
-                        new Window_ModSettings(LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>())
-                    )
+                    SettingsHelper.OpenSettingsMenuFor<TwitchToolkit.TwitchToolkit>
                 ),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Events".Localize(),
