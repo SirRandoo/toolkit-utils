@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -188,22 +189,25 @@ namespace SirRandoo.ToolkitUtils.Helpers
             switch (quality)
             {
                 case QualityCategory.Awful:
-                    price = Mathf.CeilToInt(price * 0.5f);
+                    price = Mathf.CeilToInt(price * Item.AwfulMultiplier);
                     break;
                 case QualityCategory.Poor:
-                    price = Mathf.CeilToInt(price * 0.75f);
+                    price = Mathf.CeilToInt(price * Item.PoorMultiplier);
+                    break;
+                case QualityCategory.Normal:
+                    price = Mathf.CeilToInt(price * Item.NormalMultiplier);
                     break;
                 case QualityCategory.Good:
-                    price = Mathf.CeilToInt(price * 1.25f);
+                    price = Mathf.CeilToInt(price * Item.GoodMultiplier);
                     break;
                 case QualityCategory.Excellent:
-                    price = Mathf.CeilToInt(price * 1.5f);
+                    price = Mathf.CeilToInt(price * Item.ExcellentMultiplier);
                     break;
                 case QualityCategory.Masterwork:
-                    price = Mathf.CeilToInt(price * 2.5f);
+                    price = Mathf.CeilToInt(price * Item.MasterworkMultiplier);
                     break;
                 case QualityCategory.Legendary:
-                    price = Mathf.CeilToInt(price * 5);
+                    price = Mathf.CeilToInt(price * Item.LegendaryMultiplier);
                     break;
             }
 

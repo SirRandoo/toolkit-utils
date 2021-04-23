@@ -196,4 +196,11 @@
     <TKUtils.Item.Stuff.Description>Whether or not viewers can specify the material of their purchase, if applicable.</TKUtils.Item.Stuff.Description>
     <TKUtils.Item.Research.Label>Research required</TKUtils.Item.Research.Label>
     <TKUtils.Item.Research.Description>Whether or not viewers can only purcahse items that have been researched, assuming the item has a research prerequisites.</TKUtils.Item.Research.Description>
+    <TKUtils.Item.AwfulMultiplier>Awful quality multiplier</TKUtils.Item.AwfulMultiplier>
+    <TKUtils.Item.PoorMultiplier>Poor quality multiplier</TKUtils.Item.PoorMultiplier>
+    <TKUtils.Item.NormalMultiplier>Normal quality multiplier</TKUtils.Item.NormalMultiplier>
+    <TKUtils.Item.GoodMultiplier>Good quality multiplier</TKUtils.Item.GoodMultiplier>
+    <TKUtils.Item.ExcellentMultiplier>Excellent quality multiplier</TKUtils.Item.ExcellentMultiplier>
+    <TKUtils.Item.MasterworkMultiplier>Masterwork quality multiplier</TKUtils.Item.MasterworkMultiplier>
+    <TKUtils.Item.LegendaryMultiplier>Legendary quality multiplier</TKUtils.Item.LegendaryMultiplier>
 </LanguageData>
