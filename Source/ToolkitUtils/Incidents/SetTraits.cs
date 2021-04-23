@@ -71,16 +71,43 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (events.Count(e => e.Type == EventType.Noop || e.Type == EventType.Add) <= AddTraitSettings.maxTraits)
+            if (events.Count(e => e.Type == EventType.Noop || e.Type == EventType.Add) > AddTraitSettings.maxTraits)
             {
-                return true;
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.LimitReached".LocalizeKeyed(AddTraitSettings.maxTraits)
+                );
+                return false;
             }
 
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                "TKUtils.Trait.LimitReached".LocalizeKeyed(AddTraitSettings.maxTraits)
+            int total = events.Sum(
+                i =>
+                {
+                    switch (i.Type)
+                    {
+                        case EventType.Add:
+                            return i.Item.CostToAdd;
+                        case EventType.Remove:
+                            return i.Item.CostToRemove;
+                        default:
+                            return 0;
+                    }
+                }
             );
-            return false;
+
+            if (!viewer.CanAfford(total))
+            {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(
+                        total.ToString("N0"),
+                        viewer.GetViewerCoins().ToString("N0")
+                    )
+                );
+                return false;
+            }
+
+            return true;
         }
 
         private IEnumerable<TraitItem> FindTraits(Viewer viewer, [NotNull] params string[] traits)
