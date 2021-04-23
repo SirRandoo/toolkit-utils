@@ -20,7 +20,7 @@
                         </value>
                     </li>
                     <li Class="PatchOperationReplace">
-                        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="item"]/customSettingsHelper</xpath>
+                        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]/customSettingsHelper</xpath>
                         <value>
                             <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.Item</customSettingsHelper>
                         </value>
