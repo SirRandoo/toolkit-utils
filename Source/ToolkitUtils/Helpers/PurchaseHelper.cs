@@ -209,5 +209,29 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             return Mathf.CeilToInt(price * 1.1f);
         }
+
+        public static void TrySetQuality(this Thing thing, QualityCategory? quality)
+        {
+            var comp = thing.TryGetComp<CompQuality>();
+            comp?.SetQuality(quality ?? QualityUtility.GenerateQualityTraderItem(), ArtGenerationContext.Outsider);
+        }
+
+        public static Thing MakeThing(ThingDef thing, ThingDef stuff, QualityCategory? quality)
+        {
+            Thing t = ThingMaker.MakeThing(thing, stuff);
+            TrySetQuality(t, quality);
+
+            return t;
+        }
+
+        public static Thing MakeThing(ThingDef thing, ThingDef stuff)
+        {
+            return ThingMaker.MakeThing(thing, stuff);
+        }
+
+        public static Thing MakeThing(ThingDef thing)
+        {
+            return ThingMaker.MakeThing(thing);
+        }
     }
 }

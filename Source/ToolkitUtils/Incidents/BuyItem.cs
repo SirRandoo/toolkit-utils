@@ -181,10 +181,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 result = GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing);
             }
 
-            Thing thing = ThingMaker.MakeThing(Proxy.Thing.Thing, result);
-            thing.TryGetComp<CompQuality>()
-              ?.SetQuality(Proxy.Quality ?? QualityUtility.GenerateQualityTraderItem(), ArtGenerationContext.Outsider);
-
+            Thing thing = PurchaseHelper.MakeThing(Proxy.Thing.Thing, result, Proxy.Quality);
             IntVec3 position = DropCellFinder.TradeDropSpot(Map);
 
             if (Proxy.Thing.Thing.Minifiable)
