@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     MessageHelper.ReplyToUser(viewer.username, errored.Error);
                 }
 
-                return true;
+                return false;
             }
 
             if (events.Count(e => e.Type == EventType.Noop || e.Type == EventType.Add) <= AddTraitSettings.maxTraits)
