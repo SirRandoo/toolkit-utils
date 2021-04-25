@@ -47,8 +47,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            Backstory previous = pawn.story.childhood;
-            pawn.story.childhood = backstory;
+            Backstory previous = pawn.story.adulthood;
+            pawn.story.adulthood = backstory;
             pawn.Notify_DisabledWorkTypesChanged();
             pawn.workSettings?.Notify_DisabledWorkTypesChanged();
             pawn.skills?.Notify_SkillDisablesChanged();
