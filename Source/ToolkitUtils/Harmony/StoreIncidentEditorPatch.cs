@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
 using TwitchToolkit.Incidents;
@@ -43,6 +44,18 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 }
 
                 incident.cost = 1;
+            }
+        }
+
+        public static void Postfix()
+        {
+            if (TkSettings.Offload)
+            {
+                Task.Run(async () => { await Data.SaveEventDataAsync(Paths.EventDataFilePath); });
+            }
+            else
+            {
+                Data.SaveEventData(Paths.EventDataFilePath);
             }
         }
     }
