@@ -182,6 +182,9 @@ namespace SirRandoo.ToolkitUtils.Windows
                                 await Data.SavePawnKindsAsync(Paths.PawnKindFilePath);
                                 return;
                         }
+
+                        await Data.SaveItemDataAsync(Paths.ItemDataFilePath);
+                        await Data.SaveEventDataAsync(Paths.EventDataFilePath);
                     }
                 )
                .ConfigureAwait(false);
