@@ -60,31 +60,88 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
             SettingsHelper.DrawLabel(awfulLabel, "TKUtils.Item.AwfulMultiplier".Localize());
             Widgets.TextFieldNumeric(awfulField, ref Item.AwfulMultiplier, ref Item.AwfulMultiplierBuffer);
 
+            if (SettingsHelper.DrawFieldButton(
+                awfulLabel,
+                Item.AwfulQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
+            ))
+            {
+                Item.AwfulQuality = !Item.AwfulQuality;
+            }
+
             (Rect poorLabel, Rect poorField) = listing.GetRectAsForm(0.7f);
             SettingsHelper.DrawLabel(poorLabel, "TKUtils.Item.PoorMultiplier".Localize());
             Widgets.TextFieldNumeric(poorField, ref Item.PoorMultiplier, ref Item.PoorMultiplierBuffer);
+
+            if (SettingsHelper.DrawFieldButton(
+                poorLabel,
+                Item.PoorQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
+            ))
+            {
+                Item.PoorQuality = !Item.PoorQuality;
+            }
 
             (Rect normalLabel, Rect normalField) = listing.GetRectAsForm(0.7f);
             SettingsHelper.DrawLabel(normalLabel, "TKUtils.Item.NormalMultiplier".Localize());
             Widgets.TextFieldNumeric(normalField, ref Item.NormalMultiplier, ref Item.NormalMultiplierBuffer);
 
+            if (SettingsHelper.DrawFieldButton(
+                normalLabel,
+                Item.NormalQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
+            ))
+            {
+                Item.NormalQuality = !Item.NormalQuality;
+            }
+
             (Rect goodLabel, Rect goodField) = listing.GetRectAsForm(0.7f);
             SettingsHelper.DrawLabel(goodLabel, "TKUtils.Item.GoodMultiplier".Localize());
             Widgets.TextFieldNumeric(goodField, ref Item.GoodMultiplier, ref Item.GoodMultiplierBuffer);
+
+            if (SettingsHelper.DrawFieldButton(
+                goodLabel,
+                Item.GoodQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
+            ))
+            {
+                Item.GoodQuality = !Item.GoodQuality;
+            }
 
             (Rect excLabel, Rect excField) = listing.GetRectAsForm(0.7f);
             SettingsHelper.DrawLabel(excLabel, "TKUtils.Item.ExcellentMultiplier".Localize());
             Widgets.TextFieldNumeric(excField, ref Item.ExcellentMultiplier, ref Item.ExcellentMultiplierBuffer);
 
+
+            if (SettingsHelper.DrawFieldButton(
+                excLabel,
+                Item.ExcellentQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
+            ))
+            {
+                Item.ExcellentQuality = !Item.ExcellentQuality;
+            }
+
             (Rect mWorkLabel, Rect mWorkField) = listing.GetRectAsForm(0.7f);
             SettingsHelper.DrawLabel(mWorkLabel, "TKUtils.Item.MasterworkMultiplier".Localize());
             Widgets.TextFieldNumeric(mWorkField, ref Item.MasterworkMultiplier, ref Item.MasterworkMultiplierBuffer);
+
+
+            if (SettingsHelper.DrawFieldButton(
+                mWorkLabel,
+                Item.MasterworkQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
+            ))
+            {
+                Item.MasterworkQuality = !Item.MasterworkQuality;
+            }
 
             (Rect legLabel, Rect legField) = listing.GetRectAsForm(0.7f);
             SettingsHelper.DrawLabel(legLabel, "TKUtils.Item.LegendaryMultiplier".Localize());
             Widgets.TextFieldNumeric(legField, ref Item.LegendaryMultiplier, ref Item.LegendaryMultiplierBuffer);
 
-            listing.GapLine();
+
+            if (SettingsHelper.DrawFieldButton(
+                legLabel,
+                Item.LegendaryQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
+            ))
+            {
+                Item.LegendaryQuality = !Item.LegendaryQuality;
+            }
 
             listing.CheckboxLabeled(stuffLabel, ref Item.Stuff);
             listing.DrawDescription(stuffDescription);

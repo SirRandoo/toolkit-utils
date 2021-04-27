@@ -21,6 +21,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore.Utilities;
 using Verse;
@@ -478,9 +479,33 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public class ItemProxy
         {
+            private QualityCategory? quality;
+
             public ThingItem Thing { get; set; }
             public ThingItem Stuff { get; set; }
-            public QualityCategory? Quality { get; set; }
+
+            public QualityCategory? Quality
+            {
+                get => quality;
+                set
+                {
+                    switch (value)
+                    {
+                        case QualityCategory.Legendary when Item.LegendaryQuality:
+                        case QualityCategory.Masterwork when Item.MasterworkQuality:
+                        case QualityCategory.Excellent when Item.ExcellentQuality:
+                        case QualityCategory.Good when Item.GoodQuality:
+                        case QualityCategory.Normal when Item.NormalQuality:
+                        case QualityCategory.Poor when Item.PoorQuality:
+                        case QualityCategory.Awful when Item.AwfulQuality:
+                            quality = value;
+                            break;
+                        default:
+                            quality = null;
+                            break;
+                    }
+                }
+            }
 
             public bool IsValid()
             {
