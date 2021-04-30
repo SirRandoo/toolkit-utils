@@ -166,12 +166,19 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
         {
             Scribe_Values.Look(ref Stuff, "buyItemMaterial", true);
             Scribe_Values.Look(ref Quality, "buyItemQuality", true);
+            Scribe_Values.Look(ref AwfulQuality, "awfulQuality", true);
             Scribe_Values.Look(ref AwfulMultiplier, "awfulQualityMultiplier", 0.5f);
+            Scribe_Values.Look(ref PoorQuality, "poorQuality", true);
             Scribe_Values.Look(ref PoorMultiplier, "poorQualityMultiplier", 0.75f);
+            Scribe_Values.Look(ref NormalQuality, "normalQuality", true);
             Scribe_Values.Look(ref NormalMultiplier, "normalQualityMultiplier", 1f);
+            Scribe_Values.Look(ref GoodQuality, "goodQuality", true);
             Scribe_Values.Look(ref GoodMultiplier, "goodQualityMultiplier", 1.25f);
+            Scribe_Values.Look(ref ExcellentQuality, "excellentQuality", true);
             Scribe_Values.Look(ref ExcellentMultiplier, "excellentQualityMultiplier", 1.5f);
+            Scribe_Values.Look(ref MasterworkQuality, "masterworkQuality", true);
             Scribe_Values.Look(ref MasterworkMultiplier, "masterworkQualityMultiplier", 2.5f);
+            Scribe_Values.Look(ref LegendaryQuality, "legendaryQuality", true);
             Scribe_Values.Look(ref LegendaryMultiplier, "legendaryQualityMultiplier", 5f);
             Scribe_Values.Look(ref BuyItemSettings.mustResearchFirst, "BuyItemSettings.mustResearchFirst", true);
         }
