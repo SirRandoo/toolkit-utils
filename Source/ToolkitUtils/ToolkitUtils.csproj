@@ -204,8 +204,6 @@
         <Compile Include="Models\SurgeryItem.cs"/>
         <Compile Include="Incidents\ReviveRandom.cs"/>
         <Compile Include="Models\KidnapReport.cs"/>
-        <Compile Include="Models\Scripting\Definitions.cs"/>
-        <Compile Include="Models\Scripting\Token.cs"/>
         <Compile Include="Models\TabItem.cs"/>
         <Compile Include="Models\Tables\TableItem.cs"/>
         <Compile Include="Models\Tables\TableSettingsItem.cs"/>
