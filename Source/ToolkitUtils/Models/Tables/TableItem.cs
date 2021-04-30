@@ -18,7 +18,7 @@ using SirRandoo.ToolkitUtils.Interfaces;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public abstract class TableItem<T> where T : class, IShopItemBase
+    public abstract class TableItem<T> : ITableItem<T> where T : class, IShopItemBase
     {
         public T Data { get; set; }
         public bool IsHidden { get; set; }

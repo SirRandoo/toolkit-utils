@@ -24,7 +24,7 @@ using SirRandoo.ToolkitUtils.Interfaces;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class TableSettingsItem<T> : TableItem<T> where T : class, IShopItemBase
+    public class TableSettingsItem<T> : TableItem<T>, IConfigurableTableItem<T> where T : class, IShopItemBase
     {
         public bool EditingName { get; set; }
         public bool SettingsVisible { get; set; }

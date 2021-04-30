@@ -148,11 +148,13 @@
         <Compile Include="Incidents\ReviveMe.cs"/>
         <Compile Include="Incidents\Use.cs"/>
         <Compile Include="Incidents\Wear.cs"/>
+        <Compile Include="Interfaces\IConfigurableTableItem.cs"/>
         <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>
         <Compile Include="Interfaces\ISelectorBase.cs"/>
         <Compile Include="Interfaces\IShopDataBase.cs"/>
         <Compile Include="Interfaces\IShopItemBase.cs"/>
+        <Compile Include="Interfaces\ITableItem.cs"/>
         <Compile Include="Models\EventData.cs"/>
         <Compile Include="Models\EventItem.cs"/>
         <Compile Include="Models\FileData.cs"/>
