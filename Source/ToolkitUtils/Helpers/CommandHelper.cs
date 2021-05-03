@@ -15,6 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -23,6 +25,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class CommandHelper
     {
+        internal static readonly HashSet<string> ModeratorBadges =
+            new HashSet<string> {"moderator", "admin", "broadcaster", "global_mod", "staff"};
+
         public static void Execute(
             [NotNull] this Command command,
             [NotNull] ITwitchMessage message,
@@ -34,7 +39,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
-            if (command.requiresMod && !message.ChatMessage.IsModerator && !message.ChatMessage.IsBroadcaster)
+            bool hasModBadge = message.ChatMessage.Badges.Select(p => p.Key).Any(i => ModeratorBadges.Contains(i));
+            if (command.requiresMod && !hasModBadge)
             {
                 return;
             }
