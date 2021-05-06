@@ -252,15 +252,18 @@ namespace SirRandoo.ToolkitUtils
 
             try
             {
-                using (FileStream writer = File.Open(tempPath, FileMode.Create, FileAccess.Write))
+                using (FileStream file = File.Open(tempPath, FileMode.Create, FileAccess.Write))
                 {
-                    if (!TkSettings.MinifyData)
+                    using (var writer = new StreamWriter(file))
                     {
-                        await writer.WriteAsync(JsonSerializer.PrettyPrintByteArray(JsonSerializer.ToJsonString(obj)));
-                    }
-                    else
-                    {
-                        await JsonSerializer.SerializeAsync(writer, obj);
+                        if (!TkSettings.MinifyData)
+                        {
+                            await writer.WriteAsync(JsonSerializer.ToJsonString(obj));
+                        }
+                        else
+                        {
+                            await JsonSerializer.SerializeAsync(file, obj);
+                        }
                     }
                 }
 
