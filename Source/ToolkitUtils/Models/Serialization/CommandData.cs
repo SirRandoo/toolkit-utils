@@ -14,12 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using TwitchToolkit;
+using System.Runtime.Serialization;
+using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Interfaces;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Models
 {
-    public interface IShopDataBase : IRimData
+    [UsedImplicitly]
+    public class CommandData : IRimData
     {
-        KarmaType? KarmaType { get; set; }
+        [DataMember(Name = "isShortcut")] public bool IsShortcut { get; set; }
+        [DataMember(Name = "mod")] public string Mod { get; set; }
     }
 }

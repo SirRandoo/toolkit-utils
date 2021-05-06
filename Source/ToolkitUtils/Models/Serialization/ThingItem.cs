@@ -31,6 +31,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private Item item;
 
         [CanBeNull]
+        [IgnoreDataMember]
         public Item Item
         {
             get
@@ -62,8 +63,9 @@ namespace SirRandoo.ToolkitUtils.Models
             set => item = value;
         }
 
-        [NotNull] public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
-        public ThingDef Thing { get; set; }
+        [NotNull] [DataMember(Name = "mod")] public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
+
+        [IgnoreDataMember] public ThingDef Thing { get; set; }
 
         [CanBeNull]
         [DataMember(Name = "data")]
@@ -73,6 +75,7 @@ namespace SirRandoo.ToolkitUtils.Models
             set => Data = data = value;
         }
 
+        [DataMember(Name = "category")]
         public string Category
         {
             get
@@ -94,15 +97,17 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
+        [DataMember(Name = "defName")]
         public string DefName
         {
             get => Item?.defname ?? Thing.defName;
             set => throw new ReadOnlyException();
         }
 
-        public bool Enabled { get; set; }
+        [IgnoreDataMember] public bool Enabled { get; set; }
 
         [NotNull]
+        [DataMember(Name = "name")]
         public string Name
         {
             get => ItemData?.CustomName ?? Item?.abr ?? "Fetching...";
