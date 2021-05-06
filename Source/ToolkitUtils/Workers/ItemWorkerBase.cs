@@ -47,6 +47,8 @@ namespace SirRandoo.ToolkitUtils.Workers
         private Rect tableRect = Rect.zero;
         private protected T Worker;
 
+        public IEnumerable<TableSettingsItem<TU>> Data => Worker.Data;
+
         public virtual void Prepare()
         {
             addMutatorText = "TKUtils.Buttons.AddMutator".Localize();
@@ -88,6 +90,11 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             tableRect = new Rect(0f, userRect.height + 8f, canvas.width, canvas.height - userRect.height - 8f);
             Worker?.NotifyResolutionChanged(tableRect);
+        }
+
+        internal void NotifyGlobalDataChanged()
+        {
+            Worker.NotifyGlobalDataChanged();
         }
 
         private void DrawSelectorMenu(Rect canvas)

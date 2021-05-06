@@ -536,6 +536,24 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        public override void NotifyGlobalDataChanged()
+        {
+            var wasDirty = false;
+            foreach (EventItem item in ToolkitUtils.Data.Events
+               .Select(item => new {item, existing = _data.Find(i => i.Data.Equals(item))})
+               .Where(t => t.existing == null)
+               .Select(t => t.item))
+            {
+                _data.Add(new TableSettingsItem<EventItem> {Data = item});
+                wasDirty = true;
+            }
+
+            if (wasDirty)
+            {
+                NotifySortRequested();
+            }
+        }
+
         public override void NotifyCustomSearchRequested(Func<TableSettingsItem<EventItem>, bool> worker)
         {
             foreach (TableSettingsItem<EventItem> ev in Data)

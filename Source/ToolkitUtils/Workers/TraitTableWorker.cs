@@ -467,6 +467,24 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        public override void NotifyGlobalDataChanged()
+        {
+            var wasDirty = false;
+            foreach (TraitItem item in ToolkitUtils.Data.Traits
+               .Select(item => new {item, existing = _data.Find(i => i.Data.Equals(item))})
+               .Where(t => t.existing == null)
+               .Select(t => t.item))
+            {
+                _data.Add(new TableSettingsItem<TraitItem> {Data = item});
+                wasDirty = true;
+            }
+
+            if (wasDirty)
+            {
+                NotifySortRequested();
+            }
+        }
+
         private void LoadTranslations()
         {
             nameHeaderText = "TKUtils.Headers.Name".Localize();

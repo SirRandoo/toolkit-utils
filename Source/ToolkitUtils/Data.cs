@@ -699,5 +699,134 @@ namespace SirRandoo.ToolkitUtils
                 ? null
                 : color;
         }
+
+        public static void ProcessItemPartial([NotNull] IEnumerable<ThingItem> partialData)
+        {
+            var builder = new StringBuilder();
+            foreach (ThingItem partial in partialData)
+            {
+                ThingItem existing = Items.Find(i => i.DefName.Equals(partial.DefName));
+
+                if (existing == null)
+                {
+                    partial.Thing = DefDatabase<ThingDef>.GetNamed(partial.DefName, false);
+
+                    if (partial.Thing == null || partial.Item == null)
+                    {
+                        builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+                        continue;
+                    }
+
+                    Items.Add(partial);
+                    continue;
+                }
+
+                existing.Data = partial.Data;
+                existing.Update();
+            }
+
+            if (builder.Length <= 0)
+            {
+                return;
+            }
+
+            builder.Insert(0, "The following items could not be loaded from the partial data provided:\n");
+            LogHelper.Warn(builder.ToString());
+        }
+
+        public static void ProcessEventPartial([NotNull] IEnumerable<EventItem> partialData)
+        {
+            var builder = new StringBuilder();
+            foreach (EventItem partial in partialData)
+            {
+                EventItem existing = Events.Find(i => i.DefName.Equals(partial.DefName));
+
+                if (existing == null)
+                {
+                    partial.Incident = DefDatabase<StoreIncident>.GetNamed(partial.DefName, false);
+
+                    if (partial.Incident == null)
+                    {
+                        builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+                        continue;
+                    }
+
+                    Events.Add(partial);
+                    continue;
+                }
+
+                existing.Data = partial.Data;
+            }
+
+            if (builder.Length <= 0)
+            {
+                return;
+            }
+
+            builder.Insert(0, "The following events could not be loaded from the partial data provided:\n");
+            LogHelper.Warn(builder.ToString());
+        }
+
+        public static void ProcessTraitPartial([NotNull] IEnumerable<TraitItem> partialData)
+        {
+            var builder = new StringBuilder();
+            foreach (TraitItem partial in partialData)
+            {
+                TraitItem existing = Traits.Find(i => i.DefName.Equals(partial.DefName));
+
+                if (existing == null)
+                {
+                    if (partial.TraitDef == null)
+                    {
+                        builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+                        continue;
+                    }
+
+                    Traits.Add(partial);
+                    continue;
+                }
+
+                existing.Name = partial.Name;
+                existing.CanAdd = partial.CanAdd;
+                existing.CostToAdd = partial.CostToAdd;
+                existing.CanRemove = partial.CanRemove;
+                existing.CostToRemove = partial.CostToRemove;
+                existing.Data = partial.Data;
+            }
+
+            if (builder.Length <= 0)
+            {
+                return;
+            }
+
+            builder.Insert(0, "The following traits could not be loaded from the partial data provided:\n");
+            LogHelper.Warn(builder.ToString());
+        }
+
+        public static void ProcessPawnPartial([NotNull] IEnumerable<PawnKindItem> partialData)
+        {
+            var builder = new StringBuilder();
+            foreach (PawnKindItem partial in partialData)
+            {
+                PawnKindItem existing = PawnKinds.Find(i => i.DefName.Equals(partial.DefName));
+
+                if (existing == null)
+                {
+                    if (partial.ColonistKindDef == null)
+                    {
+                        builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+                        continue;
+                    }
+
+                    PawnKinds.Add(partial);
+                    continue;
+                }
+
+                existing.Name = partial.Name;
+                existing.Cost = partial.Cost;
+                existing.Enabled = partial.Enabled;
+                existing.Data = partial.Data;
+            }
+        }
     }
 }

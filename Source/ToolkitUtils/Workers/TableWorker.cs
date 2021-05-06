@@ -28,6 +28,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public IEnumerable<T> Data => _data;
 
         public abstract void EnsureExists(T data);
+        public abstract void NotifyGlobalDataChanged();
         public abstract void NotifyCustomSearchRequested(Func<T, bool> worker);
 
         protected enum StateKey { Enable, Disable }
