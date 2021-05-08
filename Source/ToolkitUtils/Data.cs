@@ -700,28 +700,39 @@ namespace SirRandoo.ToolkitUtils
                 : color;
         }
 
-        public static void ProcessItemPartial([NotNull] IEnumerable<ThingItem> partialData)
+        public static void LoadItemPartial([NotNull] IEnumerable<ItemPartial> partialData)
         {
             var builder = new StringBuilder();
-            foreach (ThingItem partial in partialData)
+            foreach (ItemPartial partial in partialData)
             {
-                ThingItem existing = Items.Find(i => i.DefName.Equals(partial.DefName));
+                if (partial.DefName == null)
+                {
+                    builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+                    continue;
+                }
+
+                ThingItem existing = Items.Find(i => i.DefName!.Equals(partial.DefName));
+                LogHelper.Debug($"{partial.DefName.Equals("Thrumbo")},{existing},{existing?.Cost}/{partial.Cost}");
 
                 if (existing == null)
                 {
-                    partial.Thing = DefDatabase<ThingDef>.GetNamed(partial.DefName, false);
+                    ThingDef thing = DefDatabase<ThingDef>.GetNamed(partial.DefName, false);
+                    var item = Item.GetItemFromDefName(partial.DefName);
 
-                    if (partial.Thing == null || partial.Item == null)
+                    if (thing == null || item == null)
                     {
                         builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
                         continue;
                     }
 
-                    Items.Add(partial);
+                    item.price = partial.Cost;
+                    Items.Add(new ThingItem {Thing = thing, Item = item, ItemData = partial.ItemData});
                     continue;
                 }
 
-                existing.Data = partial.Data;
+                existing.Name = partial.Name;
+                existing.Cost = partial.Cost;
+                existing.ItemData = partial.ItemData;
                 existing.Update();
             }
 
@@ -734,28 +745,50 @@ namespace SirRandoo.ToolkitUtils
             LogHelper.Warn(builder.ToString());
         }
 
-        public static void ProcessEventPartial([NotNull] IEnumerable<EventItem> partialData)
+        public static void LoadEventPartial([NotNull] IEnumerable<EventPartial> partialData)
         {
             var builder = new StringBuilder();
-            foreach (EventItem partial in partialData)
+            foreach (EventPartial partial in partialData)
             {
                 EventItem existing = Events.Find(i => i.DefName.Equals(partial.DefName));
 
                 if (existing == null)
                 {
-                    partial.Incident = DefDatabase<StoreIncident>.GetNamed(partial.DefName, false);
+                    StoreIncident incident = DefDatabase<StoreIncident>.GetNamed(partial.DefName, false);
 
-                    if (partial.Incident == null)
+                    if (incident == null)
                     {
                         builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
                         continue;
                     }
 
-                    Events.Add(partial);
+                    var e = new EventItem {Incident = incident};
+                    e.Name = partial.Name;
+                    e.Cost = partial.Cost;
+                    e.EventCap = partial.EventCap;
+                    e.KarmaType = partial.KarmaType;
+
+                    if (e.IsVariables)
+                    {
+                        e.MaxWager = partial.MaxWager;
+                    }
+
+                    e.EventData = partial.EventData;
+                    Events.Add(e);
                     continue;
                 }
 
-                existing.Data = partial.Data;
+                existing.Name = partial.Name;
+                existing.Cost = partial.Cost;
+                existing.EventCap = partial.EventCap;
+                existing.KarmaType = partial.KarmaType;
+
+                if (existing.IsVariables)
+                {
+                    existing.MaxWager = partial.MaxWager;
+                }
+
+                existing.EventData = partial.EventData;
             }
 
             if (builder.Length <= 0)
@@ -767,18 +800,18 @@ namespace SirRandoo.ToolkitUtils
             LogHelper.Warn(builder.ToString());
         }
 
-        public static void ProcessTraitPartial([NotNull] IEnumerable<TraitItem> partialData)
+        public static void LoadTraitPartial([NotNull] IEnumerable<TraitItem> partialData)
         {
             var builder = new StringBuilder();
             foreach (TraitItem partial in partialData)
             {
-                TraitItem existing = Traits.Find(i => i.DefName.Equals(partial.DefName));
+                TraitItem existing = Traits.Find(i => i.DefName.Equals(partial.DefName) && i.Degree == partial.Degree);
 
                 if (existing == null)
                 {
                     if (partial.TraitDef == null)
                     {
-                        builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+                        builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}:{partial.Degree}\n");
                         continue;
                     }
 
@@ -803,7 +836,7 @@ namespace SirRandoo.ToolkitUtils
             LogHelper.Warn(builder.ToString());
         }
 
-        public static void ProcessPawnPartial([NotNull] IEnumerable<PawnKindItem> partialData)
+        public static void LoadPawnPartial([NotNull] IEnumerable<PawnKindItem> partialData)
         {
             var builder = new StringBuilder();
             foreach (PawnKindItem partial in partialData)

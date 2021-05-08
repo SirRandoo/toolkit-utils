@@ -20,13 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     public class FileData<T> where T : class, IShopItemBase
-
     {
         public string Name { get; set; }
         public bool IsDirectory { get; set; }
@@ -37,6 +37,6 @@ namespace SirRandoo.ToolkitUtils.Models
         public string FullName => Extension.NullOrEmpty() ? Name : $"{Name}.{Extension}";
         public PartialData<T> PartialData { get; set; }
 
-        public string Path => System.IO.Path.Combine(Paths.PartialPath, FullName);
+        [NotNull] public string Path => System.IO.Path.Combine(Paths.PartialPath, FullName);
     }
 }

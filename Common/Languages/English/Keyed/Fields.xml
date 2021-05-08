@@ -55,4 +55,5 @@
     <TKUtils.Fields.RequiresResearch>Should items be researched before being buyable?</TKUtils.Fields.RequiresResearch>
     <TKUtils.Fields.TraitLimit>Maximum traits</TKUtils.Fields.TraitLimit>
     <TKUtils.Fields.LevelSkillMultiplier>XP multiplier</TKUtils.Fields.LevelSkillMultiplier>
+    <TKUtils.Fields.Description>Description</TKUtils.Fields.Description>
 </LanguageData>

@@ -157,6 +157,7 @@
         <Compile Include="Interfaces\IShopItemBase.cs"/>
         <Compile Include="Interfaces\ITableItem.cs"/>
         <Compile Include="Interfaces\ISurgeryHandler.cs"/>
+        <Compile Include="Models\EventItem.cs"/>
         <Compile Include="Models\Mutators\EventKarmaMutator.cs"/>
         <Compile Include="Models\Mutators\AddPriceMutator.cs"/>
         <Compile Include="Models\Mutators\BypassLimitMutator.cs"/>
@@ -199,16 +200,17 @@
         <Compile Include="Models\Serialization\CommandData.cs"/>
         <Compile Include="Models\Serialization\CommandItem.cs"/>
         <Compile Include="Models\Serialization\EventData.cs"/>
-        <Compile Include="Models\Serialization\EventItem.cs"/>
+        <Compile Include="Models\Serialization\EventPartial.cs"/>
         <Compile Include="Models\Serialization\FileData.cs"/>
         <Compile Include="Models\Serialization\ItemData.cs"/>
         <Compile Include="Models\Serialization\ItemList.cs"/>
+        <Compile Include="Models\Serialization\ItemPartial.cs"/>
+        <Compile Include="Models\Serialization\ProxyPartial.cs"/>
         <Compile Include="Models\Serialization\ModItem.cs"/>
         <Compile Include="Models\Serialization\PartialData.cs"/>
         <Compile Include="Models\Serialization\PawnKindData.cs"/>
         <Compile Include="Models\Serialization\PawnKindItem.cs"/>
         <Compile Include="Models\Serialization\ShopLegacy.cs"/>
-        <Compile Include="Models\Serialization\ThingItem.cs"/>
         <Compile Include="Models\Serialization\ToolkitItem.cs"/>
         <Compile Include="Models\Serialization\TraitData.cs"/>
         <Compile Include="Models\Serialization\TraitItem.cs"/>
@@ -220,6 +222,7 @@
         <Compile Include="Models\TabItem.cs"/>
         <Compile Include="Models\Tables\TableItem.cs"/>
         <Compile Include="Models\Tables\TableSettingsItem.cs"/>
+        <Compile Include="Models\ThingItem.cs"/>
         <Compile Include="Models\ThingItemFilter.cs"/>
         <Compile Include="Models\ThingItemFilterCategory.cs"/>
         <Compile Include="Models\ThingItemFilterManager.cs"/>

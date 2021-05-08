@@ -44,4 +44,5 @@
     <TKUtils.Buttons.Notify>Notify</TKUtils.Buttons.Notify>
     <TKUtils.Buttons.AddSelector>Add selector</TKUtils.Buttons.AddSelector>
     <TKUtils.Buttons.AddMutator>Add mutator</TKUtils.Buttons.AddMutator>
+    <TKUtils.Buttons.Cancel>Cancel</TKUtils.Buttons.Cancel>
 </LanguageData>

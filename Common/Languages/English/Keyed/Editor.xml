@@ -27,8 +27,7 @@
     <TKUtils.EditorTabs.Events>Events</TKUtils.EditorTabs.Events>
     <TKUtils.EditorTabs.Traits>Traits</TKUtils.EditorTabs.Traits>
     <TKUtils.EditorTabs.PawnKinds>Pawn Kinds</TKUtils.EditorTabs.PawnKinds>
-    <TKUtils.EditorTabs.GetHelp>Get Help</TKUtils.EditorTabs.GetHelp>
-    
+
     <!-- Editor Target Types -->
     <TKUtils.EditorTargets.Global>Managed by Userscript</TKUtils.EditorTargets.Global>
     <TKUtils.EditorTargets.Name>Name</TKUtils.EditorTargets.Name>
@@ -45,13 +44,4 @@
     <TKUtils.EditorTargets.Karma>Karma Type for Purchasing</TKUtils.EditorTargets.Karma>
     <TKUtils.EditorTargets.AddKarma>Karma Type for Addition</TKUtils.EditorTargets.AddKarma>
     <TKUtils.EditorTargets.RemoveKarma>Karma Type for Removal</TKUtils.EditorTargets.RemoveKarma>
-    
-    <!-- Editor Field Types -->
-    <TKUtils.EditorFields.Script>Userscript</TKUtils.EditorFields.Script>
-    <TKUtils.EditorFields.Calculation>Math Expression</TKUtils.EditorFields.Calculation>
-    <TKUtils.EditorFields.Setter>Static Value</TKUtils.EditorFields.Setter>
-    
-    <!-- Context Menus -->
-    <TKUtils.EditorMenus.ImportScript>Import script...</TKUtils.EditorMenus.ImportScript>
-    <TKUtils.EditorMenus.ExportScript>Export script...</TKUtils.EditorMenus.ExportScript>
 </LanguageData>

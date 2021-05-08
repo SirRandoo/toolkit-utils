@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Data;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -46,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     return null;
                 }
 
-                item = StoreInventory.items.Find(i => i?.defname?.Equals(Thing.defName) ?? false);
+                item = StoreInventory.items.Find(i => i?.defname?.Equals(Thing.defName) == true);
 
                 if (item == null)
                 {
@@ -97,28 +96,49 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
+        [CanBeNull]
         [DataMember(Name = "defName")]
         public string DefName
         {
-            get => Item?.defname ?? Thing.defName;
-            set => throw new ReadOnlyException();
+            get => Item?.defname ?? Thing?.defName;
+            set
+            {
+                if (Item != null)
+                {
+                    Item.defname = value;
+                }
+
+                Thing = DefDatabase<ThingDef>.GetNamed(value, false);
+            }
         }
 
-        [IgnoreDataMember] public bool Enabled { get; set; }
+        [DataMember(Name = "enabled")] public bool Enabled { get; set; }
 
         [NotNull]
         [DataMember(Name = "name")]
         public string Name
         {
             get => ItemData?.CustomName ?? Item?.abr ?? "Fetching...";
-            set => throw new ReadOnlyException();
+            set
+            {
+                if (ItemData != null)
+                {
+                    ItemData.CustomName = value;
+                }
+            }
         }
 
         [DataMember(Name = "price")]
         public int Cost
         {
             get => Item?.price ?? -10;
-            set => throw new ReadOnlyException();
+            set
+            {
+                if (Item != null)
+                {
+                    Item.price = value;
+                }
+            }
         }
 
         [CanBeNull]
@@ -134,7 +154,15 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 return data;
             }
-            set => ToolkitUtils.Data.ItemData[Item!.defname] = data = (ItemData) value;
+            set
+            {
+                data = (ItemData) value;
+
+                if (Item?.defname != null)
+                {
+                    ToolkitUtils.Data.ItemData[Item!.defname] = data;
+                }
+            }
         }
 
         public void Update()
@@ -169,16 +197,16 @@ namespace SirRandoo.ToolkitUtils.Models
             var container = "ThingItem(\n";
 
             container += "  Item(\n";
-            container += $"    defName={Item?.defname}\n";
-            container += $"    abr={Item?.abr.ToStringSafe()}\n";
+            container += $"    defName={Item?.defname?.ToStringSafe()}\n";
+            container += $"    abr={Item?.abr?.ToStringSafe()}\n";
             container += $"    price={Item?.price.ToStringSafe()}\n";
             container += "  ),\n";
 
             container += "  Thing(\n";
-            container += $"    defName={Thing.defName.ToStringSafe()}\n";
+            container += $"    defName={Thing?.defName?.ToStringSafe()}\n";
             container += "  ),\n";
 
-            container += $"  Mod={Mod},\n";
+            container += $"  Mod={Mod?.ToStringSafe()},\n";
             container += $"  Enabled={Enabled}\n";
             container += ")";
 

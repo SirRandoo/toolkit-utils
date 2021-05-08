@@ -22,6 +22,7 @@
 
 using System;
 using System.Linq;
+using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
@@ -38,6 +39,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private IEventSettings settingsEmbed;
         private StoreIncidentVariables variables;
 
+        [IgnoreDataMember]
         public StoreIncident Incident
         {
             get => incident;
@@ -55,8 +57,9 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [CanBeNull] public StoreIncidentVariables Variables => IsVariables ? variables : null;
+        [CanBeNull] [IgnoreDataMember] public StoreIncidentVariables Variables => IsVariables ? variables : null;
 
+        [DataMember(Name = "isVariables")]
         public bool IsVariables
         {
             get
@@ -71,11 +74,14 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
+        [DataMember(Name = "hasSettings")]
         public bool HasSettings => (Variables?.customSettings ?? false) && Variables?.customSettingsHelper != null;
 
+        [IgnoreDataMember]
         public bool HasSettingsEmbed =>
             settingsEmbed != null || Variables?.GetModExtension<EventExtension>()?.SettingsEmbed != null;
 
+        [IgnoreDataMember]
         public IncidentHelperVariablesSettings Settings
         {
             get
@@ -90,6 +96,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [CanBeNull]
+        [IgnoreDataMember]
         public IEventSettings SettingsEmbed
         {
             get
@@ -111,53 +118,63 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
+        [DataMember(Name = "data")]
         public EventData EventData
         {
             get => data ??= (EventData) Data;
             set => Data = data = value;
         }
 
+        [DataMember(Name = "karmaType")]
         public KarmaType KarmaType
         {
             get => Incident.karmaType;
             set => Incident.karmaType = value;
         }
 
+        [DataMember(Name = "eventCap")]
         public int EventCap
         {
             get => Incident.eventCap;
             set => Incident.eventCap = value;
         }
 
+        [DataMember(Name = "maxWager")]
         public int MaxWager
         {
             get => Variables!.maxWager;
             set => Variables!.maxWager = value;
         }
 
+        [DataMember(Name = "hasFixedCost")]
         public bool CostEditable => EventType == EventTypes.Default || EventType == EventTypes.Variable;
-        public EventTypes EventType { get; set; } = EventTypes.Default;
 
+        [DataMember(Name = "eventType")] public EventTypes EventType { get; set; } = EventTypes.Default;
+
+        [DataMember(Name = "price")]
         public int Cost
         {
             get => Incident.cost;
             set => Incident.cost = value;
         }
 
-        public IShopDataBase Data { get; set; }
+        [IgnoreDataMember] public IShopDataBase Data { get; set; }
 
+        [DataMember(Name = "defName")]
         public string DefName
         {
             get => Incident.defName;
             set => Incident.defName = value;
         }
 
+        [DataMember(Name = "enabled")]
         public bool Enabled
         {
             get => Incident.defName.Equals("Item") ? Incident.cost >= 0 : Incident.cost > 0;
             set => Incident.cost = value ? GetDefaultPrice() : -10;
         }
 
+        [DataMember(Name = "abr")]
         public string Name
         {
             get => Incident.abbreviation;

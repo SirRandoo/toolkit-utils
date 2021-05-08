@@ -41,12 +41,19 @@
     <TKUtils.EventTableTooltips.EditEventName>Customize the purchase code of this event.</TKUtils.EventTableTooltips.EditEventName>
     <TKUtils.EventTableTooltips.CloseEventName>Close the purchase code editor.</TKUtils.EventTableTooltips.CloseEventName>
     <TKUtils.EventTableTooltips.ResetEventName>Reset the event's purchase code to its default value.</TKUtils.EventTableTooltips.ResetEventName>
-    
+
     <TKUtils.SelectorTooltips.ExcludeItem>Click to make this selector exclude results containing this text.</TKUtils.SelectorTooltips.ExcludeItem>
     <TKUtils.SelectorTooltips.IncludeItem>Click to make this selector include results containing this text.</TKUtils.SelectorTooltips.IncludeItem>
-    
+
     <TKUtils.MutatorTooltips.StackMode>Click to make this mutator mutate all results to a fixed value.</TKUtils.MutatorTooltips.StackMode>
     <TKUtils.MutatorTooltips.ValueMode>Click to make this mutator mutate all results to their stack limit.</TKUtils.MutatorTooltips.ValueMode>
     <TKUtils.MutatorTooltips.PercentPrice>Click to make this mutator mutate all results to a fixed value.</TKUtils.MutatorTooltips.PercentPrice>
     <TKUtils.MutatorTooltips.ValuePrice>Click to make this mutator mutate all results with a percentage of its current value.</TKUtils.MutatorTooltips.ValuePrice>
+
+    <TKUtils.PartialTooltips.DeletePartial>Click to delete this partial.</TKUtils.PartialTooltips.DeletePartial>
+    <TKUtils.PartialTooltips.LoadPartial>Click to load the data within this partial.</TKUtils.PartialTooltips.LoadPartial>
+
+    <TKUtils.EditorTooltips.ImportPartial>Import partial...</TKUtils.EditorTooltips.ImportPartial>
+    <TKUtils.EditorTooltips.ExportPartial>Export partial...</TKUtils.EditorTooltips.ExportPartial>
+    <TKUtils.EditorTooltips.GetHelp>Opens your browser to the help pages for the editor.</TKUtils.EditorTooltips.GetHelp>
 </LanguageData>
