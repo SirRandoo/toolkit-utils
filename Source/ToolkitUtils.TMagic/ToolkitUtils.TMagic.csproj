@@ -33,11 +33,11 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="0JecsTools, Version=1.1.2.2, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="0JecsTools, Version=1.1.2.3, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\2195729899\1.2\Assemblies\0JecsTools.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="AbilityUser, Version=1.1.2.2, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="AbilityUser, Version=1.1.2.3, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\2195729899\1.2\Assemblies\AbilityUser.dll</HintPath>
             <Private>False</Private>
         </Reference>
