@@ -371,4 +371,15 @@
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Adulthood</incidentHelper>
         <karmaType>Neutral</karmaType>
     </TwitchToolkit.Incidents.StoreIncidentVariables>
+
+    <TwitchToolkit.Incidents.StoreIncidentVariables>
+        <defName>Smite</defName>
+        <label>smite</label>
+        <abbreviation>smite</abbreviation>
+        <description>Smites the viewer's pawn the purchaser specifies.</description>
+        <cost>2500</cost>
+        <eventCap>2</eventCap>
+        <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Smite</incidentHelper>
+        <karmaType>Doom</karmaType>
+    </TwitchToolkit.Incidents.StoreIncidentVariables>
 </Defs>

@@ -146,6 +146,7 @@
         <Compile Include="Incidents\ReviveAll.cs"/>
         <Compile Include="Incidents\SetTraits.cs"/>
         <Compile Include="Incidents\ReviveMe.cs"/>
+        <Compile Include="Incidents\Smite.cs"/>
         <Compile Include="Incidents\Use.cs"/>
         <Compile Include="Incidents\Wear.cs"/>
         <Compile Include="Interfaces\IConfigurableTableItem.cs"/>
