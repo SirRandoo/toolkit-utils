@@ -194,7 +194,9 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             lastSeenText = viewer?.last_seen == null
                 ? notSeenText
-                : "TKUtils.NameQueue.LastSeen".Localize((DateTime.Now - viewer.last_seen).TotalMinutes.ToString("N2"));
+                : "TKUtils.NameQueue.LastSeen".LocalizeKeyed(
+                    (DateTime.Now - viewer.last_seen).TotalMinutes.ToString("N2")
+                );
         }
 
         private void DrawContent(Rect contentRect)
