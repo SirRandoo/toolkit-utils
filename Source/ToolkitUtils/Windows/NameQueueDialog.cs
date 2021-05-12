@@ -552,7 +552,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void NextUnnamedColonist()
         {
-            current = allPawns.Where(p => !CompatRegistry.Magic?.IsUndead(p) ?? false)
+            current = allPawns.Where(p => CompatRegistry.Magic?.IsUndead(p) != true)
                .FirstOrDefault(p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current);
 
             if (current == null)
