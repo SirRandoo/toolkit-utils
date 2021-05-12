@@ -22,12 +22,12 @@
     <!-- General Headers -->
     <TKUtils.Headers.DataDialog>Editing data for "{0}"</TKUtils.Headers.DataDialog>
     <TKUtils.Headers.FilterDialog>Editing item filters</TKUtils.Headers.FilterDialog>
-    
-    
+
+
     <!-- Purge Dialog -->
     <TKUtils.Purge.Affected>viewers affected</TKUtils.Purge.Affected>
-    
-    
+
+
     <!-- Name Queue -->
     <TKUtils.NameQueue.None>The name queue is empty!</TKUtils.NameQueue.None>
     <TKUtils.NameQueue.Count>viewer(s) waiting in queue</TKUtils.NameQueue.Count>
@@ -36,10 +36,10 @@
     <TKUtils.NameQueue.AssignedTo>Assigned to</TKUtils.NameQueue.AssignedTo>
     <TKUtils.NameQueue.LastSeen>Last seen {0} minute(s) ago.</TKUtils.NameQueue.LastSeen>
     <TKUtils.NameQueue.NotSeen>Not seen recently.</TKUtils.NameQueue.NotSeen>
-    
+
     <!-- Item Store -->
     <TKUtils.ItemStore.Title>Store Inventory</TKUtils.ItemStore.Title>
-    
+
     <TKUtils.FilterTypes.Mod>Mods</TKUtils.FilterTypes.Mod>
     <TKUtils.FilterTypes.Category>Categories</TKUtils.FilterTypes.Category>
     <TKUtils.FilterTypes.TechLevel>Technology Level</TKUtils.FilterTypes.TechLevel>
@@ -47,7 +47,8 @@
     <TKUtils.FilterTypes.Research>Research Status</TKUtils.FilterTypes.Research>
     <TKUtils.FilterTypes.State>State</TKUtils.FilterTypes.State>
     <TKUtils.FilterTypes.Stuff>Stuff</TKUtils.FilterTypes.Stuff>
-    
+    <TKUtils.FilterTypes.Manufacturable>Manufacturability</TKUtils.FilterTypes.Manufacturable>
+
     <TKUtils.StoreFilters.Stackable>stackable</TKUtils.StoreFilters.Stackable>
     <TKUtils.StoreFilters.NonStackable>non-stackables</TKUtils.StoreFilters.NonStackable>
     <TKUtils.StoreFilters.Researched>researched</TKUtils.StoreFilters.Researched>
@@ -56,6 +57,8 @@
     <TKUtils.StoreFilters.Disabled>disabled</TKUtils.StoreFilters.Disabled>
     <TKUtils.StoreFilters.Stuff>is stuff</TKUtils.StoreFilters.Stuff>
     <TKUtils.StoreFilters.NotStuff>is not stuff</TKUtils.StoreFilters.NotStuff>
+    <TKUtils.StoreFilters.Manufactured>is manufacturable</TKUtils.StoreFilters.Manufactured>
+    <TKUtils.StoreFilters.NonManufactured>is not manufacturable</TKUtils.StoreFilters.NonManufactured>
 
 
     <!-- Trait Store -->

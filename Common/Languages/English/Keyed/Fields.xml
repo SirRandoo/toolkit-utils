@@ -56,4 +56,5 @@
     <TKUtils.Fields.TraitLimit>Maximum traits</TKUtils.Fields.TraitLimit>
     <TKUtils.Fields.LevelSkillMultiplier>XP multiplier</TKUtils.Fields.LevelSkillMultiplier>
     <TKUtils.Fields.Description>Description</TKUtils.Fields.Description>
+    <TKUtils.Fields.Manufactured>Is manufacturable?</TKUtils.Fields.Manufactured>
 </LanguageData>

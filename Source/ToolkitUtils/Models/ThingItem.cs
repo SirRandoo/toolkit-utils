@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Linq;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -28,6 +29,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string categoryCached;
         private ItemData data;
         private Item item;
+        private ThingDef producedAt;
+        private bool productionIndexed;
 
         [CanBeNull]
         [IgnoreDataMember]
@@ -65,6 +68,32 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull] [DataMember(Name = "mod")] public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
 
         [IgnoreDataMember] public ThingDef Thing { get; set; }
+
+        [CanBeNull]
+        [IgnoreDataMember]
+        public ThingDef ProducedAt
+        {
+            get
+            {
+                if (!productionIndexed)
+                {
+                    producedAt = DefDatabase<RecipeDef>.AllDefs
+                       .Where(
+                            i => i.recipeUsers != null
+                                 && i.products.Count == 1
+                                 && i.products.Any(p => p.thingDef == Thing)
+                        )
+                       .SelectMany(i => i.recipeUsers)
+                       .Distinct()
+                       .OrderBy(i => (int) i.techLevel)
+                       .FirstOrDefault();
+
+                    productionIndexed = true;
+                }
+
+                return producedAt;
+            }
+        }
 
         [CanBeNull]
         [DataMember(Name = "data")]

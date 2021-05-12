@@ -183,6 +183,7 @@
         <Compile Include="Models\Selectors\EventKarmaSelector.cs"/>
         <Compile Include="Models\Selectors\EventSettingEmbedSelector.cs"/>
         <Compile Include="Models\Selectors\EventSettingSelector.cs"/>
+        <Compile Include="Models\Selectors\ManufacturedSelector.cs"/>
         <Compile Include="Models\Selectors\PriceSelector.cs"/>
         <Compile Include="Models\Selectors\DefNameSelector.cs"/>
         <Compile Include="Models\Selectors\HasQuantityLimitSelector.cs"/>

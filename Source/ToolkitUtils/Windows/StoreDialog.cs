@@ -148,6 +148,26 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
 
             filterManager.RegisterFilter(
+                FilterTypes.Manufacturable,
+                new ThingItemFilter
+                {
+                    Id = "Manufacturable",
+                    IsUnfilteredFunc = ThingItemFilter.FilterByManufactured,
+                    Label = "TKUtils.StoreFilters.Manufactured".Localize().CapitalizeFirst()
+                }
+            );
+
+            filterManager.RegisterFilter(
+                FilterTypes.Manufacturable,
+                new ThingItemFilter
+                {
+                    Id = "NonManufacturable",
+                    IsUnfilteredFunc = ThingItemFilter.FilterByNonManufactured,
+                    Label = "TKUtils.StoreFilters.NonManufactured".Localize().CapitalizeFirst()
+                }
+            );
+
+            filterManager.RegisterFilter(
                 FilterTypes.Stackable,
                 new ThingItemFilter
                 {

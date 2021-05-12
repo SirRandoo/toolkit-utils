@@ -77,6 +77,10 @@ namespace SirRandoo.ToolkitUtils.Workers
                 new FloatMenuOption(
                     "TKUtils.Fields.CanStack".Localize(),
                     () => AddSelector(new StackabilitySelector())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.Fields.Manufactured".Localize(),
+                    () => AddSelector(new ManufacturedSelector())
                 )
             };
 

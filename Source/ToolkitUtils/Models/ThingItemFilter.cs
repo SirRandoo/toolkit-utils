@@ -30,7 +30,8 @@ namespace SirRandoo.ToolkitUtils.Models
         Stackable,
         Research,
         State,
-        Stuff
+        Stuff,
+        Manufacturable
     }
 
     public class ThingItemFilter
@@ -134,6 +135,16 @@ namespace SirRandoo.ToolkitUtils.Models
         public static bool FilterByDisabled([NotNull] TableSettingsItem<ThingItem> subject)
         {
             return subject.Data.Cost <= 0;
+        }
+
+        public static bool FilterByManufactured([NotNull] TableSettingsItem<ThingItem> subject)
+        {
+            return subject.Data.ProducedAt != null;
+        }
+
+        public static bool FilterByNonManufactured([NotNull] TableSettingsItem<ThingItem> subject)
+        {
+            return subject.Data.ProducedAt == null;
         }
     }
 }
