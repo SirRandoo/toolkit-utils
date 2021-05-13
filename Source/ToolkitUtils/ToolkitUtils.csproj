@@ -179,6 +179,7 @@
         <Compile Include="Models\Selectors\BypassLimitSelector.cs"/>
         <Compile Include="Models\Selectors\CanAddSelector.cs"/>
         <Compile Include="Models\Selectors\CanRemoveSelector.cs"/>
+        <Compile Include="Models\Selectors\CategoriesSelector.cs"/>
         <Compile Include="Models\Selectors\CategorySelector.cs"/>
         <Compile Include="Models\Selectors\EventKarmaSelector.cs"/>
         <Compile Include="Models\Selectors\EventSettingEmbedSelector.cs"/>

@@ -69,6 +69,10 @@ namespace SirRandoo.ToolkitUtils.Workers
                     () => AddSelector(new CategorySelector())
                 ),
                 new FloatMenuOption(
+                    "TKUtils.Fields.Category".Localize().Pluralize(),
+                    () => AddSelector(new CategoriesSelector())
+                ),
+                new FloatMenuOption(
                     "TKUtils.Fields.State".Localize(),
                     () => AddSelector(new StateSelector<ThingItem>())
                 ),

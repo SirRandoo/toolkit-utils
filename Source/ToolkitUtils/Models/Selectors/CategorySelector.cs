@@ -25,9 +25,9 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class CategorySelector : ISelectorBase<ThingItem>
     {
-        private string category = "";
+        private protected string Category = "";
         private string categoryText;
-        private bool exclude = true;
+        private protected bool Exclude = true;
         private string excludeTooltip;
         private string includeTooltip;
 
@@ -43,38 +43,38 @@ namespace SirRandoo.ToolkitUtils.Models
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, categoryText);
 
-            if (SettingsHelper.DrawTextField(field, category, out string input))
+            if (SettingsHelper.DrawTextField(field, Category, out string input))
             {
-                category = input;
+                Category = input;
                 Dirty.Set(true);
             }
 
             if (!SettingsHelper.DrawFieldButton(
                 field,
-                exclude ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex,
-                exclude ? includeTooltip : excludeTooltip
+                Exclude ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex,
+                Exclude ? includeTooltip : excludeTooltip
             ))
             {
                 return;
             }
 
-            exclude = !exclude;
+            Exclude = !Exclude;
             Dirty.Set(true);
         }
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible(TableSettingsItem<ThingItem> item)
+        public virtual bool IsVisible(TableSettingsItem<ThingItem> item)
         {
-            if (category.NullOrEmpty())
+            if (Category.NullOrEmpty())
             {
                 return true;
             }
 
-            bool shouldShow = item.Data.Category.EqualsIgnoreCase(category)
-                              || item.Data.Category.ToLower().Equals(category.ToLower());
+            bool shouldShow = item.Data.Category.EqualsIgnoreCase(Category)
+                              || item.Data.Category.ToLower().Equals(Category.ToLower());
 
-            return exclude ? !shouldShow : shouldShow;
+            return Exclude ? !shouldShow : shouldShow;
         }
     }
 }
