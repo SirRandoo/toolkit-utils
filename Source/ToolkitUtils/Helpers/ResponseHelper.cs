@@ -55,6 +55,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public const string MaleGlyph = "♂";
         public const string FemaleGlyph = "♀";
         public const string GenderlessGlyph = "⚪";
+        public const string NotEqualGlyph = "≠";
 
         [NotNull]
         public static string JoinPair(string key, string value)

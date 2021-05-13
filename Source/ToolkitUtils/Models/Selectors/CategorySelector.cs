@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (!SettingsHelper.DrawFieldButton(
                 field,
-                Exclude ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex,
+                Exclude ? ResponseHelper.NotEqualGlyph : "=",
                 Exclude ? includeTooltip : excludeTooltip
             ))
             {
