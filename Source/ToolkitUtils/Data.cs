@@ -258,7 +258,7 @@ namespace SirRandoo.ToolkitUtils
                     {
                         if (!TkSettings.MinifyData)
                         {
-                            await writer.WriteAsync(JsonSerializer.ToJsonString(obj));
+                            await writer.WriteAsync(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
                         }
                         else
                         {
