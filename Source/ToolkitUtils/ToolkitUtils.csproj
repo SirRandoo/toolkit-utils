@@ -41,6 +41,14 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="CommandSettings\Balance.cs"/>
+        <Compile Include="CommandSettings\InstalledMods.cs"/>
+        <Compile Include="CommandSettings\Lookup.cs"/>
+        <Compile Include="CommandSettings\PawnGear.cs"/>
+        <Compile Include="CommandSettings\PawnHealth.cs"/>
+        <Compile Include="CommandSettings\PawnLeave.cs"/>
+        <Compile Include="CommandSettings\PawnRelations.cs"/>
+        <Compile Include="CommandSettings\PawnWork.cs"/>
         <Compile Include="Commands\Balance.cs"/>
         <Compile Include="Commands\Database.cs"/>
         <Compile Include="Commands\Factions.cs"/>
@@ -149,6 +157,7 @@
         <Compile Include="Incidents\Smite.cs"/>
         <Compile Include="Incidents\Use.cs"/>
         <Compile Include="Incidents\Wear.cs"/>
+        <Compile Include="Interfaces\ICommandSettings.cs"/>
         <Compile Include="Interfaces\IConfigurableTableItem.cs"/>
         <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>

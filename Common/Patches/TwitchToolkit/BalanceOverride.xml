@@ -16,6 +16,14 @@
                     <commandDriver>SirRandoo.ToolkitUtils.Commands.Balance</commandDriver>
                 </value>
             </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>/Defs/TwitchToolkit.Command[defName="CheckBalance"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                        <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.Balance</SettingsHandler>
+                    </li>
+                </value>
+            </li>
         </operations>
     </Operation>
 </Patch>

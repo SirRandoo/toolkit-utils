@@ -140,7 +140,7 @@
         </modExtensions>
     </TwitchToolkit.Command>
     
-    <TwitchToolkit.Command>
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>RemovePassionShortcut</defName>
         <label>remove passion</label>
         <command>removepassion</command>
@@ -155,8 +155,8 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command>
+
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>AddPassionShortcut</defName>
         <label>add passion</label>
         <command>passion</command>
@@ -171,15 +171,15 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command>
+
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>FullHealShortcut</defName>
         <label>full heal</label>
         <command>fullheal</command>
         <description>Heals all healable injuries your pawn currently has.</description>
     </TwitchToolkit.Command>
-    
-    <TwitchToolkit.Command>
+
+    <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>RescueMeShortcut</defName>
         <label>rescue me</label>
         <command>rescueme</command>
@@ -225,6 +225,7 @@
         <description>Shows an overview of your pawn's health. If a capacity is specified, it'll show what's affecting it.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.PawnHealth</SettingsHandler>
                 <Parameters>
                     <li>
                         <Name>Capacity</Name>
@@ -242,13 +243,19 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnNeeds</commandDriver>
         <description>Shows an overview of your pawn's needs.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>MyPawnGear</defName>
         <label>viewer gear</label>
         <command>mypawngear</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnGear</commandDriver>
         <description>Shows an overview of your pawn's gear.</description>
+
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.PawnGear</SettingsHandler>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -267,6 +274,7 @@
         <description>Shows your pawn's work priorities.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.PawnWork</SettingsHandler>
                 <Parameters>
                     <li>
                         <Name>WorkType=Priority</Name>
@@ -313,13 +321,19 @@
         <requiresMod>true</requiresMod>
         <description>Attempts to relink all pawns to their respective viewers. (Doesn't work for Puppeteer)</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>AbandonPawn</defName>
         <label>abandon pawn</label>
         <command>leave</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnLeave</commandDriver>
         <description>Makes your pawn leave the colony.</description>
+
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.PawnLeave</SettingsHandler>
+            </li>
+        </modExtensions>
     </TwitchToolkit.Command>
     
     <TwitchToolkit.Command>
@@ -330,6 +344,7 @@
         <description>Shows your pawn's relationships to other viewers.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.PawnRelations</SettingsHandler>
                 <Parameters>
                     <li>
                         <Name>Viewer</Name>
@@ -379,6 +394,7 @@
         <description>Shows the first few results for the query in the given category. Valid categories are: 'pawns', 'traits', 'items', 'events', 'diseases', 'animals', and 'skills'.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.Lookup</SettingsHandler>
                 <Parameters>
                     <li>
                         <Names>

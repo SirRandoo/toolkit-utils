@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using TwitchToolkit;
@@ -50,6 +51,10 @@ namespace SirRandoo.ToolkitUtils
     {
         [Description("The arguments this command can handle.")]
         public List<Parameter> Parameters;
+
+        [Description("A class for drawing the settings for the command.")]
+        [DefaultValue(null)]
+        public Type SettingsHandler;
 
         [Description("The permission level a user must have before they can use the command.")]
         [DefaultValue(UserLevels.Anyone)]

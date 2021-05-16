@@ -77,7 +77,7 @@ namespace SirRandoo.ToolkitUtils
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
 
         private static Categories _category = Categories.General;
-        private static List<FloatMenuOption> _leaveMenuOptions;
+        internal static List<FloatMenuOption> LeaveMenuOptions;
         private static List<FloatMenuOption> _dumpStyleOptions;
         private static TabEntry[] _tabEntries;
 
@@ -311,7 +311,7 @@ namespace SirRandoo.ToolkitUtils
                 )
             };
 
-            _leaveMenuOptions ??= new List<FloatMenuOption>
+            LeaveMenuOptions ??= new List<FloatMenuOption>
             {
                 new FloatMenuOption(
                     "TKUtils.Abandon.Method.Thanos".Localize(),
@@ -427,7 +427,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (Widgets.ButtonText(leaveRect, $"TKUtils.Abandon.Method.{LeaveMethod}".Localize()))
             {
-                Find.WindowStack.Add(new FloatMenu(_leaveMenuOptions));
+                Find.WindowStack.Add(new FloatMenu(LeaveMenuOptions));
             }
 
             if (!LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethods.Thanos)))

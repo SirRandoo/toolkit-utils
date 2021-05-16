@@ -16,6 +16,14 @@
                     <commandDriver>SirRandoo.ToolkitUtils.Commands.InstalledMods</commandDriver>
                 </value>
             </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>/Defs/TwitchToolkit.Command[defName="InstalledMods"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                        <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.InstalledMods</SettingsHandler>
+                    </li>
+                </value>
+            </li>
         </operations>
     </Operation>
 </Patch>
