@@ -211,7 +211,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            foreach (TableSettingsItem<TU> item in Worker.Data)
+            foreach (TableSettingsItem<TU> item in Worker.Data.Where(i => !i.IsHidden))
             {
                 foreach (IMutatorBase<TU> mutator in mutators)
                 {
