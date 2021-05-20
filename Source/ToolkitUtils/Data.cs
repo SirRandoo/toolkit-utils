@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils
                 }
             }
 
-            if (ItemData?.Count <= 0)
+            if (ItemData == null || ItemData.Count <= 0)
             {
                 LoadItemData(Paths.ItemDataFilePath);
             }
