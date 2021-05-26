@@ -32,7 +32,7 @@
             <artificialForMeditationPurposes>false</artificialForMeditationPurposes>
             <canPlaceOverWall>false</canPlaceOverWall>
             <repairable>false</repairable>
-            <deconstructible>true</deconstructible>
+            <deconstructible>false</deconstructible>
         </building>
         <inspectorTabs/>
     </ThingDef>
