@@ -48,5 +48,10 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             listing.End();
         }
+
+        public void Save()
+        {
+            TkUtils.Instance.WriteSettings();
+        }
     }
 }

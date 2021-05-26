@@ -20,6 +20,7 @@ namespace SirRandoo.ToolkitUtils.Interfaces
 {
     public interface ICommandSettings
     {
+        void Save();
         void Draw(Rect region);
     }
 }
