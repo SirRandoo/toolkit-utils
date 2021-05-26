@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class BuyPawn : IncidentVariablesBase
     {
-        private PawnKindDef kindDef = PawnKindDefOf.Colonist;
+        private PawnKindDef kindDef = RimWorld.PawnKindDefOf.Colonist;
         private IntVec3 loc;
         private Map map;
         private PawnKindItem pawnKindItem;
@@ -162,10 +162,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void GetDefaultKind()
         {
-            if (Data.TryGetPawnKind($"${PawnKindDefOf.Colonist.race.defName}", out PawnKindItem human)
+            if (Data.TryGetPawnKind($"${RimWorld.PawnKindDefOf.Colonist.race.defName}", out PawnKindItem human)
                 && (human!.Enabled || !TkSettings.PurchasePawnKinds))
             {
-                kindDef = PawnKindDefOf.Colonist;
+                kindDef = RimWorld.PawnKindDefOf.Colonist;
                 pawnKindItem = human;
                 return;
             }

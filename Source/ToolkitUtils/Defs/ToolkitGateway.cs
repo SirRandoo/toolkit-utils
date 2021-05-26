@@ -22,6 +22,21 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class ToolkitGateway : Building
     {
+        public override void TickLong()
+        {
+            bool shouldSpawnRat = Rand.Chance(0.01f);
+            bool shouldSpawnBoomRat = Rand.Chance(0.1f);
+
+            if (shouldSpawnRat)
+            {
+                GenSpawn.Spawn(
+                    PawnGenerator.GeneratePawn(shouldSpawnBoomRat ? PawnKindDefOf.Boomrat : PawnKindDefOf.Rat),
+                    Position,
+                    Map
+                );
+            }
+        }
+
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
             Current.Game.GetComponent<Coordinator>()?.RemovePortal(this);

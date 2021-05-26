@@ -16,6 +16,7 @@
             <WorkToBuild>0</WorkToBuild>
         </statBases>
         <scatterableOnMapGen>false</scatterableOnMapGen>
+        <tickerType>Long</tickerType>
         <useHitPoints>false</useHitPoints>
         <size>(1,2)</size>
         <designationCategory>Structure</designationCategory>
