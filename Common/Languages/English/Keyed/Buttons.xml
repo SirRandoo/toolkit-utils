@@ -45,4 +45,7 @@
     <TKUtils.Buttons.AddSelector>Add selector</TKUtils.Buttons.AddSelector>
     <TKUtils.Buttons.AddMutator>Add mutator</TKUtils.Buttons.AddMutator>
     <TKUtils.Buttons.Cancel>Cancel</TKUtils.Buttons.Cancel>
+    <TKUtils.Buttons.Enable>Enable</TKUtils.Buttons.Enable>
+    <TKUtils.Buttons.Delete>Delete</TKUtils.Buttons.Delete>
+    <TKUtils.Buttons.AreYouSure>Are you sure?</TKUtils.Buttons.AreYouSure>
 </LanguageData>

@@ -22,6 +22,7 @@
     <!-- General Headers -->
     <TKUtils.Headers.DataDialog>Editing data for "{0}"</TKUtils.Headers.DataDialog>
     <TKUtils.Headers.FilterDialog>Editing item filters</TKUtils.Headers.FilterDialog>
+    <TKUtils.Headers.RestartRequired>Restart required</TKUtils.Headers.RestartRequired>
 
 
     <!-- Purge Dialog -->
@@ -71,4 +72,11 @@
 
     <!-- Partial Manager -->
     <TKUtils.PartialManager.Indexing>Indexing...</TKUtils.PartialManager.Indexing>
+
+
+    <!-- Command Editor -->
+    <TKUtils.CommandEditor.Header>Editing command "{0}"</TKUtils.CommandEditor.Header>
+    <TKUtils.CommandEditor.UserLevel.Anyone>Anyone</TKUtils.CommandEditor.UserLevel.Anyone>
+    <TKUtils.CommandEditor.UserLevel.Moderator>Moderator</TKUtils.CommandEditor.UserLevel.Moderator>
+    <TKUtils.CommandEditor.UserLevel.Admin>Admin</TKUtils.CommandEditor.UserLevel.Admin>
 </LanguageData>
