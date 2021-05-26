@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -53,6 +54,9 @@ namespace SirRandoo.ToolkitUtils
         public static readonly Texture2D RestoreWindow;
         public static readonly Texture2D CopySettings;
         public static readonly Texture2D PasteSettings;
+        public static readonly Texture2D CloseGateway;
+        public static readonly Texture2D Snowman;
+        public static readonly Texture2D HumanMeat;
 
         static Textures()
         {
@@ -83,6 +87,8 @@ namespace SirRandoo.ToolkitUtils
             Stack = ContentFinder<Texture2D>.Get("UI/Icons/Stack");
             CopySettings = ContentFinder<Texture2D>.Get("UI/Commands/CopySettings");
             PasteSettings = ContentFinder<Texture2D>.Get("UI/Commands/PasteSettings");
+            CloseGateway = ContentFinder<Texture2D>.Get("UI/Icons/CloseGateway");
+            Snowman = ContentFinder<Texture2D>.Get("Things/Building/Art/Snowman/Snowman_D");
 
             DiceSides = new List<Texture2D>
             {
@@ -93,6 +99,19 @@ namespace SirRandoo.ToolkitUtils
                 DiceSideFive,
                 DiceSideSix
             };
+
+
+            ThingDef humanMeat = DefDatabase<ThingDef>.GetNamed("Meat_Human");
+            if (humanMeat.graphic is Graphic_Appearances graphic)
+            {
+                HumanMeat = graphic.SubGraphicFor(GenStuff.DefaultStuffFor(humanMeat))
+                   .MatAt(humanMeat.defaultPlacingRot)
+                   .GetMaskTexture();
+            }
+            else
+            {
+                HumanMeat = humanMeat.uiIcon;
+            }
         }
     }
 }

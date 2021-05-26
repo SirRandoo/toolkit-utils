@@ -25,22 +25,36 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class Coordinator : GameComponent
     {
-        private readonly List<Thing> portals = new List<Thing>();
+        private readonly List<ToolkitGateway> portals = new List<ToolkitGateway>();
 
         public Coordinator(Game game) { }
 
         internal bool HasActivePortals => portals.Count > 0;
 
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
-        internal bool TryGetRandomPortal(Map map, out Thing portal)
+        internal bool TryGetRandomPortal(Map map, out ToolkitGateway portal)
         {
             portals.Where(p => p.Map.Equals(map)).TryRandomElement(out portal);
             return portal != null;
         }
 
+        [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
+        internal bool TryGetRandomItemPortal(Map map, out ToolkitGateway portal)
+        {
+            portals.Where(p => p.ForItems).Where(p => p.Map.Equals(map)).TryRandomElement(out portal);
+            return portal != null;
+        }
+
+        [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
+        internal bool TryGetRandomPawnPortal(Map map, out ToolkitGateway portal)
+        {
+            portals.Where(p => p.ForPawns).Where(p => p.Map.Equals(map)).TryRandomElement(out portal);
+            return portal != null;
+        }
+
         internal bool TrySpawnItem(Map map, Thing item)
         {
-            if (!TryGetRandomPortal(map, out Thing portal))
+            if (!TryGetRandomItemPortal(map, out ToolkitGateway portal))
             {
                 return false;
             }
@@ -61,7 +75,7 @@ namespace SirRandoo.ToolkitUtils
 
         internal bool TrySpawnPawn(Map map, Pawn pawn)
         {
-            if (!TryGetRandomPortal(map, out Thing portal))
+            if (!TryGetRandomPawnPortal(map, out ToolkitGateway portal))
             {
                 return false;
             }
@@ -70,12 +84,12 @@ namespace SirRandoo.ToolkitUtils
             return true;
         }
 
-        internal void RemovePortal(Thing thing)
+        internal void RemovePortal(ToolkitGateway thing)
         {
             portals.Remove(thing);
         }
 
-        internal void RegisterPortal(Thing thing)
+        internal void RegisterPortal(ToolkitGateway thing)
         {
             portals.Add(thing);
         }

@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
@@ -22,6 +24,69 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class ToolkitGateway : Building
     {
+        private bool forItems = true;
+        private bool forPawns = true;
+        private List<Gizmo> gizmos;
+
+        public bool ForItems => forItems;
+        public bool ForPawns => forPawns;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+
+            Scribe_Values.Look(ref forItems, "forItems", true);
+            Scribe_Values.Look(ref forPawns, "forPawns", true);
+        }
+
+        public override IEnumerable<Gizmo> GetGizmos()
+        {
+            if (!gizmos.NullOrEmpty())
+            {
+                return gizmos;
+            }
+
+            gizmos ??= new List<Gizmo>();
+            gizmos.Add(
+                new Command_Action
+                {
+                    action = () => Destroy(),
+                    icon = Textures.CloseGateway,
+                    defaultLabel = "TKUtils.CloseGatewayGizmo.Label".Localize(),
+                    defaultDesc = "TKUtils.CloseGatewayGizmo.Description".Localize()
+                }
+            );
+
+            gizmos.Add(
+                new Command_Toggle
+                {
+                    icon = Textures.Snowman,
+                    defaultLabel = "TKUtils.TogglePawnGatewayGizmo.Label".Localize(),
+                    defaultDesc = "TKUtils.TogglePawnGatewayGizmo.Description".Localize(),
+                    isActive = () => forPawns,
+                    toggleAction = () => forPawns = !forPawns
+                }
+            );
+
+            gizmos.Add(
+                new Command_Toggle
+                {
+                    icon = Textures.HumanMeat,
+                    defaultLabel = "TKUtils.ToggleItemGatewayGizmo.Label".Localize(),
+                    defaultDesc = "TKUtils.ToggleItemGatewayGizmo.Description".Localize(),
+                    isActive = () => forItems,
+                    toggleAction = () => forItems = !forItems
+                }
+            );
+
+            foreach (Gizmo gizmo in base.GetGizmos())
+            {
+                gizmos.Add(gizmo);
+            }
+
+            return gizmos;
+        }
+
         public override void TickLong()
         {
             bool shouldSpawnRat = Rand.Chance(0.01f);

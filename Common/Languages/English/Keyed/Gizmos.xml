@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.CloseGatewayGizmo.Label>Close gateway</TKUtils.CloseGatewayGizmo.Label>
+    <TKUtils.CloseGatewayGizmo.Description>Permanently closes this gateway.</TKUtils.CloseGatewayGizmo.Description>
+
+    <TKUtils.TogglePawnGatewayGizmo.Label>Toggle pawns</TKUtils.TogglePawnGatewayGizmo.Label>
+    <TKUtils.TogglePawnGatewayGizmo.Description>Toggles whether or not purchased pawns will spawn at this gateway.</TKUtils.TogglePawnGatewayGizmo.Description>
+
+    <TKUtils.ToggleItemGatewayGizmo.Label>Toggle items</TKUtils.ToggleItemGatewayGizmo.Label>
+    <TKUtils.ToggleItemGatewayGizmo.Description>Toggles whether or not purchased items will spawn at this gateway.</TKUtils.ToggleItemGatewayGizmo.Description>
+</LanguageData>
