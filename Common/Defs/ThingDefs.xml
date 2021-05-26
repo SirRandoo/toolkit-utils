@@ -11,7 +11,7 @@
             <graphicClass>Graphic_Multi</graphicClass>
             <drawSize>(.7,1.7)</drawSize>
         </graphicData>
-        <altitudeLayer>FloorEmplacement</altitudeLayer>
+        <altitudeLayer>Building</altitudeLayer>
         <statBases>
             <WorkToBuild>0</WorkToBuild>
         </statBases>
