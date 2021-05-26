@@ -32,6 +32,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string weightBuffer = "1";
         private string weightText;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             weightText = "TKUtils.Fields.Weight".Localize();

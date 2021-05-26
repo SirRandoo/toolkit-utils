@@ -32,6 +32,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string priceText;
         private string valueTooltip;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             priceText = "TKUtils.Fields.Price".Localize();

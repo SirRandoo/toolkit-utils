@@ -26,6 +26,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string hasQuantityLimitText;
         private bool state;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             hasQuantityLimitText = "TKUtils.Fields.HasQuantityLimit".Localize();

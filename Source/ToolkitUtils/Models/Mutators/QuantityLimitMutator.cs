@@ -32,6 +32,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string toLimitTooltip;
         private string toValueTooltip;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             quantityLimitText = "TKUtils.Fields.QuantityLimit".Localize();

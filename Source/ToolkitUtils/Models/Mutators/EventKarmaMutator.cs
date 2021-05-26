@@ -35,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private KarmaType karmaType = KarmaType.Neutral;
         private string karmaTypeLabel;
 
+        public int Priority => 1;
 
         public void Prepare()
         {

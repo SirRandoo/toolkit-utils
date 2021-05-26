@@ -26,6 +26,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string bypassLimitText;
         private bool state;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             bypassLimitText = "TKUtils.Fields.BypassTraitLimit".Localize();

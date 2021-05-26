@@ -26,6 +26,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private bool state;
         private string stuffText;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             stuffText = "TKUtils.Fields.CanBeStuff".Localize();

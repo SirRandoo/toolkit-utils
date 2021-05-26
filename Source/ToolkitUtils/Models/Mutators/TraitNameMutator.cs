@@ -27,6 +27,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string name = "";
         private string nameText;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             nameText = "TKUtils.Fields.Name".Localize();

@@ -26,6 +26,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string canRemoveText;
         private bool state;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             canRemoveText = "TKUtils.Fields.CanRemove".Localize();

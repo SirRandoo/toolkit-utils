@@ -26,6 +26,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string canAddText;
         private bool state;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             canAddText = "TKUtils.Fields.CanAdd".Localize();

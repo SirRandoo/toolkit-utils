@@ -32,6 +32,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private string percentTooltip;
         private string valueTooltip;
 
+        public int Priority => 1;
+
         public void Prepare()
         {
             addPriceText = "TKUtils.Fields.AddPrice".Localize();

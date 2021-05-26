@@ -213,7 +213,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             foreach (TableSettingsItem<TU> item in Worker.Data.Where(i => !i.IsHidden))
             {
-                foreach (IMutatorBase<TU> mutator in mutators)
+                foreach (IMutatorBase<TU> mutator in mutators.OrderByDescending(m => m.Priority))
                 {
                     mutator.Mutate(item);
                 }
