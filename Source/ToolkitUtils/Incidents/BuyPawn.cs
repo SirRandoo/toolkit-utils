@@ -116,7 +116,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     return;
                 }
 
-                GenSpawn.Spawn(pawn, loc, map);
+                PurchaseHelper.SpawnPawn(pawn, loc, map);
                 pawn.Name = new NameTriple(name.First ?? string.Empty, Viewer.username, name.Last ?? string.Empty);
                 TaggedString title = "TKUtils.PawnLetter.Title".Localize();
                 TaggedString text = "TKUtils.PawnLetter.Description".LocalizeKeyed(Viewer.username);

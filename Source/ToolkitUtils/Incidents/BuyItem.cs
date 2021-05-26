@@ -190,12 +190,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
                 minifiedThing.InnerThing = thing;
                 minifiedThing.stackCount = Quantity;
-                TradeUtility.SpawnDropPod(position, Map, minifiedThing);
+                PurchaseHelper.SpawnItem(position, Map, minifiedThing);
             }
             else
             {
                 thing.stackCount = Quantity;
-                TradeUtility.SpawnDropPod(position, Map, thing);
+                PurchaseHelper.SpawnItem(position, Map, thing);
             }
 
             Find.LetterStack.ReceiveLetter(

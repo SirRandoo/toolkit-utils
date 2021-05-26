@@ -77,11 +77,13 @@
         <Compile Include="Commands\Wealth.cs"/>
         <Compile Include="CompatRegistry.cs"/>
         <Compile Include="Compat\MagicCompat.cs"/>
+        <Compile Include="Coordinator.cs"/>
         <Compile Include="Defs\CommandDefOf.cs"/>
         <Compile Include="Defs\CommandExtension.cs"/>
         <Compile Include="Defs\EventExtension.cs"/>
         <Compile Include="Defs\HealExtension.cs"/>
         <Compile Include="Defs\IncidentDefOf.cs"/>
+        <Compile Include="Defs\ToolkitGateway.cs"/>
         <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
         <Compile Include="Harmony\BuyPatch.cs"/>
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>

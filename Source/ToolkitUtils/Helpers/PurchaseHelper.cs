@@ -237,5 +237,46 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             return ThingMaker.MakeThing(thing);
         }
+
+        public static void SpawnItem(ThingDef thing, Map map, IntVec3 position)
+        {
+            SpawnItem(position, map, MakeThing(thing));
+        }
+
+        public static void SpawnItem(ThingDef thing, ThingDef stuff, Map map, IntVec3 position)
+        {
+            SpawnItem(position, map, MakeThing(thing, stuff));
+        }
+
+        public static void SpawnItem(
+            ThingDef thing,
+            ThingDef stuff,
+            QualityCategory? quality,
+            Map map,
+            IntVec3 position
+        )
+        {
+            SpawnItem(position, map, MakeThing(thing, stuff, quality));
+        }
+
+        public static void SpawnItem(IntVec3 position, Map map, Thing item)
+        {
+            if (Current.Game.GetComponent<Coordinator>()?.TrySpawnItem(map, item) == true)
+            {
+                return;
+            }
+
+            TradeUtility.SpawnDropPod(position, map, item);
+        }
+
+        public static void SpawnPawn(Pawn pawn, IntVec3 location, Map map)
+        {
+            if (Current.Game.GetComponent<Coordinator>()?.TrySpawnPawn(map, pawn) == true)
+            {
+                return;
+            }
+
+            GenSpawn.Spawn(pawn, location, map);
+        }
     }
 }

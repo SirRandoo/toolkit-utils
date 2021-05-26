@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ThingDef ParentName="BuildingBase">
+        <defName>ToolkitGateway</defName>
+        <label>toolkit gateway</label>
+        <description>A gateway to other worlds. Legend has it that rats may occasionally travel through here.</description>
+        <thingClass>SirRandoo.ToolkitUtils.ToolkitGateway</thingClass>
+        <graphicData>
+            <texPath>Things/ToolkitGateway</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>(.7,1.7)</drawSize>
+        </graphicData>
+        <altitudeLayer>FloorEmplacement</altitudeLayer>
+        <statBases>
+            <WorkToBuild>0</WorkToBuild>
+        </statBases>
+        <scatterableOnMapGen>false</scatterableOnMapGen>
+        <useHitPoints>false</useHitPoints>
+        <size>(1,2)</size>
+        <designationCategory>Structure</designationCategory>
+        <passability>Standable</passability>
+        <hasInteractionCell>false</hasInteractionCell>
+        <surfaceType>Item</surfaceType>
+        <building>
+            <isInert>true</isInert>
+            <claimable>false</claimable>
+            <canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
+            <ai_chillDestination>false</ai_chillDestination>
+            <ai_neverTrashThis>true</ai_neverTrashThis>
+            <artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+            <canPlaceOverWall>false</canPlaceOverWall>
+            <repairable>false</repairable>
+            <deconstructible>true</deconstructible>
+        </building>
+        <inspectorTabs/>
+    </ThingDef>
+</Defs>

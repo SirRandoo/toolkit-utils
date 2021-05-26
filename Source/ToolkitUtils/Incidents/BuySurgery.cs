@@ -119,12 +119,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
                 minifiedThing.InnerThing = thing;
                 minifiedThing.stackCount = appointment.Quantity;
-                TradeUtility.SpawnDropPod(spot, map, minifiedThing);
+                PurchaseHelper.SpawnItem(spot, map, minifiedThing);
             }
             else
             {
                 thing.stackCount = appointment.Quantity;
-                TradeUtility.SpawnDropPod(spot, map, thing);
+                PurchaseHelper.SpawnItem(spot, map, thing);
             }
 
             appointment.BookSurgeries();
