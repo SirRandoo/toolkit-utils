@@ -194,6 +194,34 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
+        public void ResetName()
+        {
+            if (ItemData != null)
+            {
+                ItemData.CustomName = null;
+            }
+        }
+
+        public void ResetPrice()
+        {
+            if (Thing == null)
+            {
+                return;
+            }
+
+            Cost = Thing.CalculateStorePrice();
+
+            if (!Enabled)
+            {
+                Enabled = true;
+            }
+        }
+
+        public void ResetData()
+        {
+            ItemData?.Reset();
+        }
+
         public void Update()
         {
             if (Item == null)
@@ -235,27 +263,11 @@ namespace SirRandoo.ToolkitUtils.Models
             container += $"    defName={Thing?.defName?.ToStringSafe()}\n";
             container += "  ),\n";
 
-            container += $"  Mod={Mod?.ToStringSafe()},\n";
+            container += $"  Mod={Mod.ToStringSafe()},\n";
             container += $"  Enabled={Enabled}\n";
             container += ")";
 
             return container;
-        }
-
-        [NotNull]
-        public string GetDefaultName()
-        {
-            return Thing.label.ToToolkit();
-        }
-
-        [NotNull]
-        public static ThingItem FromData([NotNull] Item item, ThingDef thing)
-        {
-            var thingItem = new ThingItem {Item = item, Thing = thing, Enabled = item.price > 0};
-            ItemData _ = thingItem.ItemData;
-            thingItem.Update();
-
-            return thingItem;
         }
     }
 }

@@ -39,5 +39,7 @@ namespace SirRandoo.ToolkitUtils.Models
             get => throw new NotSupportedException();
             set => throw new ReadOnlyException();
         }
+
+        public void Reset() { }
     }
 }

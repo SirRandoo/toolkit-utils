@@ -184,6 +184,11 @@
         <Compile Include="Models\Mutators\PriceMutator.cs"/>
         <Compile Include="Models\Mutators\QuantityLimitMutator.cs"/>
         <Compile Include="Models\Mutators\RemovePriceMutator.cs"/>
+        <Compile Include="Models\Mutators\ResetAddPriceMutator.cs"/>
+        <Compile Include="Models\Mutators\ResetDataMutator.cs"/>
+        <Compile Include="Models\Mutators\ResetNameMutator.cs"/>
+        <Compile Include="Models\Mutators\ResetPriceMutator.cs"/>
+        <Compile Include="Models\Mutators\ResetRemovePriceMutator.cs"/>
         <Compile Include="Models\Mutators\StateMutator.cs"/>
         <Compile Include="Models\Mutators\StuffMutator.cs"/>
         <Compile Include="Models\Mutators\TraitNameMutator.cs"/>

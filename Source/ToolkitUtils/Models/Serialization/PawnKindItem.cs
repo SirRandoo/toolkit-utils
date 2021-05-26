@@ -62,6 +62,29 @@ namespace SirRandoo.ToolkitUtils.Models
 
         [IgnoreDataMember] public IShopDataBase Data { get; set; }
 
+        public void ResetName()
+        {
+            if (ColonistKindDef != null)
+            {
+                Name = ColonistKindDef.label.ToToolkit();
+            }
+        }
+
+        public void ResetPrice()
+        {
+            PawnKindDef def = ColonistKindDef;
+
+            if (def?.race != null)
+            {
+                Cost = def.race.CalculateStorePrice();
+            }
+        }
+
+        public void ResetData()
+        {
+            PawnData.Reset();
+        }
+
 
         public void UpdateStats()
         {

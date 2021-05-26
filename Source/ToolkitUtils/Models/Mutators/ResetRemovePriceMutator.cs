@@ -1,38 +1,44 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
-using TwitchToolkit;
+using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public class PawnKindData : IShopDataBase
+    public class ResetRemovePriceMutator : IMutatorBase<TraitItem>
     {
-        [DataMember(Name = "customName")] public bool CustomName;
-        [DataMember(Name = "stats")] public string[] Stats { get; set; } = { };
-        [DataMember(Name = "mod")] public string Mod { get; set; }
-        [DataMember(Name = "karmaType")] public KarmaType? KarmaType { get; set; }
+        private string resetPriceText;
+        public int Priority => 10;
 
-        public void Reset()
+        public void Prepare()
         {
-            CustomName = false;
-            KarmaType = null;
+            resetPriceText = "TKUtils.EditorMutator.ResetRemovePrice".Localize();
+        }
+
+        public void Draw(Rect canvas)
+        {
+            SettingsHelper.DrawColoredLabel(canvas, resetPriceText, new Color(1f, 0.53f, 0.76f));
+        }
+
+        public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
+        {
+            item.Data.ResetAddPrice();
         }
     }
 }

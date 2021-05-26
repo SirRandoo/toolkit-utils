@@ -140,6 +140,35 @@ namespace SirRandoo.ToolkitUtils.Models
             set => data = value as TraitData;
         }
 
+        public void ResetName()
+        {
+            if (TraitDef != null)
+            {
+                Name = TraitDef.label.ToToolkit();
+            }
+        }
+
+        public void ResetPrice()
+        {
+            CostToAdd = 3500;
+            CostToRemove = 5500;
+        }
+
+        public void ResetData()
+        {
+            TraitData?.Reset();
+        }
+
+        public void ResetAddPrice()
+        {
+            CostToAdd = 3500;
+        }
+
+        public void ResetRemovePrice()
+        {
+            CostToRemove = 5500;
+        }
+
         private void UpdateStats()
         {
             if (TraitDef == null)

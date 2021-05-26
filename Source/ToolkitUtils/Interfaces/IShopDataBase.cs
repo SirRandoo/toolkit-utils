@@ -21,5 +21,7 @@ namespace SirRandoo.ToolkitUtils.Interfaces
     public interface IShopDataBase : IRimData
     {
         KarmaType? KarmaType { get; set; }
+
+        void Reset();
     }
 }

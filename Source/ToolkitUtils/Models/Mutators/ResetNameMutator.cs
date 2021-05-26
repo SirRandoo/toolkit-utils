@@ -14,18 +14,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils.Interfaces
-{
-    public interface IShopItemBase
-    {
-        string DefName { get; set; }
-        bool Enabled { get; set; }
-        string Name { get; set; }
-        int Cost { get; set; }
-        IShopDataBase Data { get; set; }
+using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
+using UnityEngine;
 
-        void ResetName();
-        void ResetPrice();
-        void ResetData();
+namespace SirRandoo.ToolkitUtils.Models
+{
+    public class ResetNameMutator<T> : IMutatorBase<T> where T : class, IShopItemBase
+    {
+        private string resetNameText;
+        public int Priority => 10;
+
+        public void Prepare()
+        {
+            resetNameText = "TKUtils.EditorMutator.ResetName".Localize();
+        }
+
+        public void Draw(Rect canvas)
+        {
+            SettingsHelper.DrawColoredLabel(canvas, resetNameText, new Color(1f, 0.53f, 0.76f));
+        }
+
+        public void Mutate([NotNull] TableSettingsItem<T> item)
+        {
+            item.Data.ResetName();
+        }
     }
 }

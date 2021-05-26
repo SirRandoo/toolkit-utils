@@ -21,27 +21,17 @@
 <LanguageData>
     <!-- Metadata -->
     <TKUtils.Editor.Title>Toolkit Editor</TKUtils.Editor.Title>
-    
+
     <!-- Editor Tabs -->
     <TKUtils.EditorTabs.Items>Items</TKUtils.EditorTabs.Items>
     <TKUtils.EditorTabs.Events>Events</TKUtils.EditorTabs.Events>
     <TKUtils.EditorTabs.Traits>Traits</TKUtils.EditorTabs.Traits>
     <TKUtils.EditorTabs.PawnKinds>Pawn Kinds</TKUtils.EditorTabs.PawnKinds>
 
-    <!-- Editor Target Types -->
-    <TKUtils.EditorTargets.Global>Managed by Userscript</TKUtils.EditorTargets.Global>
-    <TKUtils.EditorTargets.Name>Name</TKUtils.EditorTargets.Name>
-    <TKUtils.EditorTargets.State>State</TKUtils.EditorTargets.State>
-    <TKUtils.EditorTargets.Price>Purchase Cost</TKUtils.EditorTargets.Price>
-    <TKUtils.EditorTargets.AddPrice>Addition Cost</TKUtils.EditorTargets.AddPrice>
-    <TKUtils.EditorTargets.RemovePrice>Removal Cost</TKUtils.EditorTargets.RemovePrice>
-    <TKUtils.EditorTargets.Quantity>Quantity Limit</TKUtils.EditorTargets.Quantity>
-    <TKUtils.EditorTargets.Stuff>Stuff Permissions</TKUtils.EditorTargets.Stuff>
-    <TKUtils.EditorTargets.Research>Research Requirements</TKUtils.EditorTargets.Research>
-    <TKUtils.EditorTargets.CanAdd>Add Permissions</TKUtils.EditorTargets.CanAdd>
-    <TKUtils.EditorTargets.CanRemove>Remove Permissions</TKUtils.EditorTargets.CanRemove>
-    <TKUtils.EditorTargets.BypassLimit>Trait Limit Bypass</TKUtils.EditorTargets.BypassLimit>
-    <TKUtils.EditorTargets.Karma>Karma Type for Purchasing</TKUtils.EditorTargets.Karma>
-    <TKUtils.EditorTargets.AddKarma>Karma Type for Addition</TKUtils.EditorTargets.AddKarma>
-    <TKUtils.EditorTargets.RemoveKarma>Karma Type for Removal</TKUtils.EditorTargets.RemoveKarma>
+    <!-- Mutators -->
+    <TKUtils.EditorMutator.ResetName>Reset name</TKUtils.EditorMutator.ResetName>
+    <TKUtils.EditorMutator.ResetPrice>Reset price</TKUtils.EditorMutator.ResetPrice>
+    <TKUtils.EditorMutator.ResetData>Reset extended data</TKUtils.EditorMutator.ResetData>
+    <TKUtils.EditorMutator.ResetAddPrice>Reset add price</TKUtils.EditorMutator.ResetAddPrice>
+    <TKUtils.EditorMutator.ResetRemovePrice>Reset removal price</TKUtils.EditorMutator.ResetRemovePrice>
 </LanguageData>

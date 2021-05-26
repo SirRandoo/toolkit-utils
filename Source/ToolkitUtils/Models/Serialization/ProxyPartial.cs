@@ -26,5 +26,11 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "name")] public string Name { get; set; }
         [DataMember(Name = "price")] public int Cost { get; set; }
         [IgnoreDataMember] public IShopDataBase Data { get; set; }
+
+        public void ResetName() { }
+
+        public void ResetPrice() { }
+
+        public void ResetData() { }
     }
 }

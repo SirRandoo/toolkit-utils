@@ -48,6 +48,17 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "Mod")] public string Mod { get; set; }
         [DataMember(Name = "KarmaType")] public KarmaType? KarmaType { get; set; }
 
+        public void Reset()
+        {
+            KarmaType = null;
+            ResearchOverrides = null;
+            Weight = 1f;
+            QuantityLimit = 1;
+            IsStuffAllowed = true;
+            CustomName = null;
+            HasQuantityLimit = false;
+        }
+
         [CanBeNull]
         public List<ResearchProjectDef> GetResearchOverrides()
         {

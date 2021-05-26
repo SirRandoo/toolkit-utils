@@ -102,7 +102,19 @@ namespace SirRandoo.ToolkitUtils.Workers
                 ),
                 new FloatMenuOption("TKUtils.Fields.State".Localize(), () => AddMutator(new ItemStateMutator())),
                 new FloatMenuOption("TKUtils.Fields.CanBeStuff".Localize(), () => AddMutator(new StuffMutator())),
-                new FloatMenuOption("TKUtils.Fields.Weight".Localize(), () => AddMutator(new WeightMutator()))
+                new FloatMenuOption("TKUtils.Fields.Weight".Localize(), () => AddMutator(new WeightMutator())),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetName".Localize(),
+                    () => AddMutator(new ResetNameMutator<ThingItem>())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetPrice".Localize(),
+                    () => AddMutator(new ResetPriceMutator<ThingItem>())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetData".Localize(),
+                    () => AddMutator(new ResetDataMutator<ThingItem>())
+                )
             };
         }
     }

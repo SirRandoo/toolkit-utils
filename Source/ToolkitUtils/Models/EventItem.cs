@@ -160,6 +160,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         [IgnoreDataMember] public IShopDataBase Data { get; set; }
 
+        public void ResetName() { }
+
+        public void ResetPrice() { }
+
+        public void ResetData() { }
+
         [DataMember(Name = "defName")]
         public string DefName
         {

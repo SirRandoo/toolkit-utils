@@ -38,5 +38,13 @@ namespace SirRandoo.ToolkitUtils.Models
 
         [DataMember(Name = "karmaTypeForAdding")]
         public KarmaType? KarmaType { get; set; }
+
+        public void Reset()
+        {
+            CanBypassLimit = false;
+            CustomName = false;
+            KarmaType = null;
+            KarmaTypeForRemoving = null;
+        }
     }
 }

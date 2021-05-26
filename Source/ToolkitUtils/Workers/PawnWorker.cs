@@ -69,6 +69,18 @@ namespace SirRandoo.ToolkitUtils.Workers
                 new FloatMenuOption(
                     "TKUtils.Fields.State".Localize(),
                     () => AddMutator(new StateMutator<PawnKindItem>())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetName".Localize(),
+                    () => AddMutator(new ResetNameMutator<PawnKindItem>())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetPrice".Localize(),
+                    () => AddMutator(new ResetPriceMutator<PawnKindItem>())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetData".Localize(),
+                    () => AddMutator(new ResetDataMutator<PawnKindItem>())
                 )
             };
         }

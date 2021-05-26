@@ -84,6 +84,22 @@ namespace SirRandoo.ToolkitUtils.Workers
                 new FloatMenuOption(
                     "TKUtils.Fields.BypassTraitLimit".Localize(),
                     () => AddMutator(new BypassLimitMutator())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetName".Localize(),
+                    () => AddMutator(new ResetNameMutator<TraitItem>())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetAddPrice".Localize(),
+                    () => AddMutator(new ResetAddPriceMutator())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetRemovePrice".Localize(),
+                    () => AddMutator(new ResetRemovePriceMutator())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.EditorMutator.ResetData".Localize(),
+                    () => AddMutator(new ResetDataMutator<TraitItem>())
                 )
             };
         }
