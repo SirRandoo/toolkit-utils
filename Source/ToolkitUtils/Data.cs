@@ -563,6 +563,7 @@ namespace SirRandoo.ToolkitUtils
         public static void DumpCommands()
         {
             List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled)
+               .Where(c => !c.command.NullOrEmpty())
                .Select(CommandItem.FromToolkit)
                .ToList();
 
@@ -577,6 +578,7 @@ namespace SirRandoo.ToolkitUtils
         public static async Task DumpCommandsAsync()
         {
             List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled)
+               .Where(c => !c.command.NullOrEmpty())
                .Select(CommandItem.FromToolkit)
                .ToList();
 
