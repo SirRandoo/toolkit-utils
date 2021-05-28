@@ -87,13 +87,13 @@ namespace SirRandoo.ToolkitUtils
                 LoadItemData(Paths.ItemDataFilePath);
             }
 
+            ValidateModList();
             ValidateItems();
             ValidateItemData();
             ValidatePawnKinds();
             ValidatePawnKindData();
             ValidateTraits();
             ValidateTraitData();
-            ValidateModList();
             ValidateSurgeryList();
             ValidateEventList();
             ValidateEventData();
