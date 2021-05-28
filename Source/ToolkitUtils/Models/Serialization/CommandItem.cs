@@ -50,7 +50,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
             result.Data = new CommandData
             {
-                IsShortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy")
+                IsShortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
+                Mod = command.modContentPack?.Name
             };
 
             return result;
@@ -70,7 +71,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 result.UserLevel = UserLevels.Moderator;
             }
 
-            result.Data = new CommandData {IsShortcut = false};
+            result.Data = new CommandData {IsShortcut = false, Mod = command.modContentPack?.Name};
 
             return result;
         }
