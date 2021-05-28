@@ -19,7 +19,7 @@
         <tickerType>Long</tickerType>
         <useHitPoints>false</useHitPoints>
         <size>(1,1)</size>
-        <designationCategory>Structure</designationCategory>
+        <designationCategory>Misc</designationCategory>
         <passability>Standable</passability>
         <hasInteractionCell>false</hasInteractionCell>
         <surfaceType>Item</surfaceType>
