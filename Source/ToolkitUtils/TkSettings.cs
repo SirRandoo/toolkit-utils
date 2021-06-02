@@ -65,6 +65,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool ShowCoinRate = true;
         public static bool HairColor = true;
         public static int OpinionMinimum;
+        public static bool AsapPurchases;
         public static int StoreBuildRate = 60;
         public static bool MainThreadCommands;
         public static bool StoreState = true; // Used by !togglestore to temporarily disable Twitch Toolkit's store.
@@ -193,6 +194,10 @@ namespace SirRandoo.ToolkitUtils
 
             listing.CheckboxLabeled("TKUtils.OffloadShop.Label".Localize(), ref Offload);
             listing.DrawDescription("TKUtils.OffloadShop.Description".Localize());
+            listing.DrawExperimentalNotice();
+
+            listing.CheckboxLabeled("TKUtils.DoPurchasesAsap".Localize(), ref AsapPurchases);
+            listing.DrawDescription("TKUtils.DoPurchasesAsap".Localize());
             listing.DrawExperimentalNotice();
 
 
@@ -541,6 +546,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref LeaveMethod, "leaveMethod", nameof(LeaveMethods.MentalBreak));
             Scribe_Values.Look(ref DumpStyle, "dumpStyle", nameof(DumpStyles.SingleFile));
             Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
+            Scribe_Values.Look(ref AsapPurchases, "asapPurchases");
             Scribe_Values.Look(ref VersionedModList, "versionedModList");
             Scribe_Values.Look(ref ShowCoinRate, "balanceCoinRate", true);
             Scribe_Values.Look(ref HairColor, "hairColor", true);

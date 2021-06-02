@@ -278,5 +278,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             GenSpawn.Spawn(pawn, location, map);
         }
+
+        [NotNull]
+        public static ViewerState GetState([NotNull] this Viewer viewer)
+        {
+            return new ViewerState {Coins = viewer.GetViewerCoins(), Karma = viewer.GetViewerKarma()};
+        }
     }
 }

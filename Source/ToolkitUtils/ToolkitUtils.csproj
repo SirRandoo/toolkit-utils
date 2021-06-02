@@ -104,6 +104,7 @@
         <Compile Include="Harmony\CommandEditorPatch.cs"/>
         <Compile Include="Harmony\LookupPatch.cs"/>
         <Compile Include="Harmony\SendChatMessagePatch.cs"/>
+        <Compile Include="Harmony\TickerPatch.cs"/>
         <Compile Include="Harmony\UnassignPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
@@ -171,6 +172,7 @@
         <Compile Include="Interfaces\ITableItem.cs"/>
         <Compile Include="Interfaces\ISurgeryHandler.cs"/>
         <Compile Include="Models\EventItem.cs"/>
+        <Compile Include="Models\IncidentProxy.cs"/>
         <Compile Include="Models\Mutators\EventKarmaMutator.cs"/>
         <Compile Include="Models\Mutators\AddPriceMutator.cs"/>
         <Compile Include="Models\Mutators\BypassLimitMutator.cs"/>
@@ -246,6 +248,7 @@
         <Compile Include="Models\ThingItemFilter.cs"/>
         <Compile Include="Models\ThingItemFilterCategory.cs"/>
         <Compile Include="Models\ThingItemFilterManager.cs"/>
+        <Compile Include="Models\ViewerState.cs"/>
         <Compile Include="RuntimeChecker.cs"/>
         <Compile Include="Paths.cs"/>
         <Compile Include="Data.cs"/>

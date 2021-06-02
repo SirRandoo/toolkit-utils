@@ -18,8 +18,10 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
+using ToolkitCore;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -29,11 +31,17 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [HarmonyPatch(typeof(Purchase_Handler), "ResolvePurchase")]
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
+    [HarmonyPatch(typeof(Purchase_Handler))]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class PurchaseHandlerPatch
     {
-        public static bool Prefix(Viewer viewer, [NotNull] ITwitchMessage twitchMessage, bool separateChannel = false)
+        [HarmonyPrefix]
+        [HarmonyPatch("ResolvePurchase")]
+        public static bool ResolvePurchasePrefix(
+            Viewer viewer,
+            [NotNull] ITwitchMessage twitchMessage,
+            bool separateChannel = false
+        )
         {
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
             List<string> segments = CommandFilter.Parse(twitchMessage.Message).ToList();
@@ -86,6 +94,151 @@ namespace SirRandoo.ToolkitUtils.Harmony
             );
 
             return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch("ResolvePurchaseSimple")]
+        public static bool ResolvePurchaseSimplePrefix(
+            [NotNull] Viewer viewer,
+            ITwitchMessage twitchMessage,
+            StoreIncidentSimple incident,
+            string formattedMessage
+        )
+        {
+            if (Purchase_Handler.CheckIfViewerIsInVariableCommandList(viewer.username)
+                || !Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, incident.cost)
+                || Purchase_Handler.CheckIfKarmaTypeIsMaxed(incident, viewer.username)
+                || Purchase_Handler.CheckIfIncidentIsOnCooldown(incident, viewer.username))
+            {
+                return true;
+            }
+
+            if (!TryMakeIncident(incident, viewer, formattedMessage, out IncidentHelper inc))
+            {
+                LogHelper.Warn(@$"The incident ""{incident.defName}"" does not define an incident helper");
+                return true;
+            }
+
+            if (!inc.IsPossible())
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TwitchToolkitEventNotPossible".Localize());
+                return true;
+            }
+
+            if (!ToolkitSettings.UnlimitedCoins)
+            {
+                viewer.TakeViewerCoins(incident.cost);
+            }
+
+            var comp = Current.Game.GetComponent<Store_Component>();
+            var coordinator = Current.Game.GetComponent<Coordinator>();
+
+            coordinator.QueueIncident(new IncidentProxy {SimpleIncident = inc});
+            comp.LogIncident(incident);
+
+            if (!ToolkitSettings.PurchaseConfirmations)
+            {
+                return true;
+            }
+
+            TwitchWrapper.SendChatMessage(
+                Helper.ReplacePlaceholder(
+                    "TwitchToolkitEventPurchaseConfirm".Localize(),
+                    viewer: viewer.username,
+                    first: incident.label.CapitalizeFirst()
+                )
+            );
+            return true;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch("ResolvePurchaseVariables")]
+        public static bool ResolvePurchaseVariablesPrefix(
+            [NotNull] Viewer viewer,
+            ITwitchMessage twitchMessage,
+            StoreIncidentVariables incident,
+            string formattedMessage
+        )
+        {
+            if (Purchase_Handler.CheckIfViewerIsInVariableCommandList(viewer.username)
+                || !Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, incident.cost))
+            {
+                return true;
+            }
+
+            if (incident != StoreIncidentDefOf.Item
+                && (Purchase_Handler.CheckIfKarmaTypeIsMaxed(incident, viewer.username)
+                    || Purchase_Handler.CheckIfIncidentIsOnCooldown(incident, viewer.username)))
+            {
+                return true;
+            }
+
+            if (incident == StoreIncidentDefOf.Item && Purchase_Handler.CheckIfCarePackageIsOnCooldown(viewer.username))
+            {
+                return true;
+            }
+
+            if (!TryMakeIncident(incident, viewer, formattedMessage, out IncidentHelperVariables inc))
+            {
+                LogHelper.Warn(@$"The incident ""{incident.defName}"" does not define an incident helper");
+                return true;
+            }
+
+            Purchase_Handler.viewerNamesDoingVariableCommands.Add(viewer.username.ToLowerInvariant());
+
+            if (!inc.IsPossible(formattedMessage, viewer))
+            {
+                Purchase_Handler.viewerNamesDoingVariableCommands.Remove(viewer.username.ToLowerInvariant());
+                return true;
+            }
+
+            var comp = Current.Game.GetComponent<Store_Component>();
+            var coordinator = Current.Game.GetComponent<Coordinator>();
+
+            coordinator.QueueIncident(new IncidentProxy {VariablesIncident = inc});
+            Store_Logger.LogPurchase(viewer.username, twitchMessage.Message);
+            comp.LogIncident(incident);
+            return true;
+        }
+
+        [ContractAnnotation("=> true,incidentHelper:notnull; => false,incidentHelper:null")]
+        private static bool TryMakeIncident(
+            StoreIncidentSimple incident,
+            Viewer viewer,
+            string message,
+            out IncidentHelper incidentHelper
+        )
+        {
+            incidentHelper = StoreIncidentMaker.MakeIncident(incident);
+
+            if (incidentHelper == null)
+            {
+                return false;
+            }
+
+            incidentHelper.Viewer = viewer;
+            incidentHelper.message = message;
+            return true;
+        }
+
+        [ContractAnnotation("=> true,incidentHelper:notnull; => false,incidentHelper:null")]
+        private static bool TryMakeIncident(
+            StoreIncidentVariables incident,
+            Viewer viewer,
+            string message,
+            out IncidentHelperVariables incidentHelper
+        )
+        {
+            incidentHelper = StoreIncidentMaker.MakeIncidentVariables(incident);
+
+            if (incidentHelper == null)
+            {
+                return false;
+            }
+
+            incidentHelper.Viewer = viewer;
+            incidentHelper.message = message;
+            return true;
         }
 
         private static bool TryFindVariableIncident(

@@ -14,10 +14,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
+using TwitchToolkit;
+using TwitchToolkit.Votes;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
@@ -25,7 +32,10 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class Coordinator : GameComponent
     {
+        private readonly ConcurrentQueue<IncidentProxy> incidentQueue = new ConcurrentQueue<IncidentProxy>();
         private readonly List<ToolkitGateway> portals = new List<ToolkitGateway>();
+
+        private int lastRewardMinute;
 
         public Coordinator(Game game) { }
 
@@ -92,6 +102,89 @@ namespace SirRandoo.ToolkitUtils
         internal void RegisterPortal(ToolkitGateway thing)
         {
             portals.Add(thing);
+        }
+
+        internal void QueueIncident(IncidentProxy incident)
+        {
+            incidentQueue.Enqueue(incident);
+        }
+
+        public override void GameComponentUpdate()
+        {
+            VoteHandler.CheckForQueuedVotes();
+
+            if (!Viewers.jsonallviewers.NullOrEmpty() && ToolkitSettings.EarningCoins)
+            {
+                ProcessCoinReward();
+            }
+
+            if (TkSettings.AsapPurchases)
+            {
+                ProcessNextEvent();
+            }
+        }
+
+        private void ProcessCoinReward()
+        {
+            int currentMinute = GetCurrentMinute();
+
+            if (lastRewardMinute - currentMinute < ToolkitSettings.CoinInterval)
+            {
+                return;
+            }
+
+            lastRewardMinute = currentMinute;
+            Viewers.AwardViewersCoins();
+        }
+
+        public override void GameComponentTick()
+        {
+            ProcessNextIncident();
+            Toolkit.JobManager.CheckAllJobs();
+
+            if (TkSettings.AsapPurchases)
+            {
+                return;
+            }
+
+            ProcessNextEvent();
+        }
+
+        private static void ProcessNextIncident()
+        {
+            if (!Ticker.FiringIncidents.TryDequeue(out FiringIncident incident))
+            {
+                return;
+            }
+
+            try
+            {
+                incident.def.Worker.TryExecute(incident.parms);
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error($@"The incident ""{incident.def.defName}"" raised an exception", e);
+            }
+        }
+
+        private void ProcessNextEvent()
+        {
+            if (!incidentQueue.TryDequeue(out IncidentProxy incident))
+            {
+                return;
+            }
+
+            incident.TryExecute();
+        }
+
+        public override void ExposeData()
+        {
+            Scribe_Values.Look(ref lastRewardMinute, "lastRewardMinute", GetCurrentMinute());
+        }
+
+        private static int GetCurrentMinute()
+        {
+            return Mathf.FloorToInt(Time.unscaledTime / 60.0f);
         }
     }
 }

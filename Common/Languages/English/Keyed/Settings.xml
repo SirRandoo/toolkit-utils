@@ -71,22 +71,25 @@
     <TKUtils.DumpStyle.Description>How ToolkitUtils will store its data. When single file is selected, all data will be merged into one massive file originally known as &lt;b&gt;ShopExt.json&lt;/b&gt;. When multi-file is selected, all data will be stored in separate files for every unique set of data.</TKUtils.DumpStyle.Description>
     <TKUtils.DumpStyle.SingleFile>Single file</TKUtils.DumpStyle.SingleFile>
     <TKUtils.DumpStyle.MultiFile>Multi-file</TKUtils.DumpStyle.MultiFile>
-    
+
     <TKUtils.MinifyData.Label>Minify the shop data files.</TKUtils.MinifyData.Label>
     <TKUtils.MinifyData.Description>When enabled, the mod will save the shop data files with as little extra characters as possible. This typically means the file will be a single line, without any indentions.</TKUtils.MinifyData.Description>
-    
+
     <TKUtils.OffloadShop.Label>Offload saving shop data to a separate thread.</TKUtils.OffloadShop.Label>
     <TKUtils.OffloadShop.Description>By default, all data is saved on the game's thread. As a result, this tends to block the game's thread when large amounts of data needs to be written to disk. Enabling this setting instructs the mod to save all data using a separate thread.</TKUtils.OffloadShop.Description>
-    
+
+    <TKUtils.DoPurchasesAsap.Label>Complete purchases even if the game is paused.</TKUtils.DoPurchasesAsap.Label>
+    <TKUtils.DoPurchasesAsap.Description>When enabled, the mod will complete purchases even if the game is paused.</TKUtils.DoPurchasesAsap.Description>
+
     <!-- Item Store Processing Group -->
     <TKUtils.StoreRate.Label>The number of items the store will process per tick.</TKUtils.StoreRate.Label>
     <TKUtils.StoreRate.Description>With a previous update, Utils made Toolkit's store immediately visible. Utils runs a background task to ensure the store is up-to-date with the latest items in the game. This setting changes how many items it will process per tick until complete.</TKUtils.StoreRate.Description>
-    
+
     <!-- Command Tweaks Tab -->
     <!-- Balance Command Group -->
     <TKUtils.CoinRate.Label>Show a viewer's calculated coin rate in the balance command.</TKUtils.CoinRate.Label>
     <TKUtils.CoinRate.Description>When enabled, the balance command will include the viewer's income per coin reward cycle.</TKUtils.CoinRate.Description>
-    
+
     <!-- Command Handler Group -->
     <TKUtils.CommandParser.Label>Use Utils' flavor of command handling.</TKUtils.CommandParser.Label>
     <TKUtils.CommandParser.Description>Older users would remember this as its command parser.</TKUtils.CommandParser.Description>
