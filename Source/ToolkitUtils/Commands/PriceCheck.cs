@@ -216,6 +216,15 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
+            if (IncidentDefOf.AddTrait.cost <= 0
+                && IncidentDefOf.RemoveTrait.cost <= 0
+                && IncidentDefOf.ReplaceTrait.cost <= 0
+                && IncidentDefOf.ClearTraits.cost <= 0
+                && IncidentDefOf.SetTraits.cost <= 0)
+            {
+                return;
+            }
+
             if (!Data.TryGetTrait(query, out TraitItem result))
             {
                 return;
@@ -228,12 +237,19 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var parts = new List<string>();
 
-            if (result.CanAdd)
+            if (result.CanAdd
+                && (IncidentDefOf.AddTrait.cost > 0
+                    || IncidentDefOf.ReplaceTrait.cost > 0
+                    || IncidentDefOf.SetTraits.cost > 0))
             {
                 parts.Add("TKUtils.Price.AddTrait".LocalizeKeyed(result.CostToAdd.ToString("N0")));
             }
 
-            if (result.CanRemove)
+            if (result.CanRemove
+                && (IncidentDefOf.RemoveTrait.cost > 0
+                    || IncidentDefOf.ReplaceTrait.cost > 0
+                    || IncidentDefOf.ClearTraits.cost > 0
+                    || IncidentDefOf.SetTraits.cost > 0))
             {
                 parts.Add("TKUtils.Price.RemoveTrait".LocalizeKeyed(result.CostToRemove.ToString("N0")));
             }
