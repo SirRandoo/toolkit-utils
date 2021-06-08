@@ -114,6 +114,11 @@ namespace SirRandoo.ToolkitUtils
         {
             VoteHandler.CheckForQueuedVotes();
 
+            if (Viewers.jsonallviewers.NullOrEmpty())
+            {
+                Viewers.RefreshViewers();
+            }
+
             if (!Viewers.jsonallviewers.NullOrEmpty() && ToolkitSettings.EarningCoins)
             {
                 ProcessCoinReward();
@@ -143,6 +148,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             Viewers.AwardViewersCoins();
+            Viewers.RefreshViewers();
             rewardPeriodTracker = 0;
             LogHelper.Debug($"Awarded viewers coins @ {DateTime.Now:T}");
         }
