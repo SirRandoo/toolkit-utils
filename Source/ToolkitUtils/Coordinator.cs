@@ -35,7 +35,8 @@ namespace SirRandoo.ToolkitUtils
         private readonly ConcurrentQueue<IncidentProxy> incidentQueue = new ConcurrentQueue<IncidentProxy>();
         private readonly List<ToolkitGateway> portals = new List<ToolkitGateway>();
 
-        private int lastRewardMinute;
+        private int lastMinute;
+        private int rewardPeriodTracker;
 
         public Coordinator(Game game) { }
 
@@ -128,13 +129,21 @@ namespace SirRandoo.ToolkitUtils
         {
             int currentMinute = GetCurrentMinute();
 
-            if (lastRewardMinute - currentMinute < ToolkitSettings.CoinInterval)
+            if (lastMinute >= currentMinute || lastMinute < 1)
             {
                 return;
             }
 
-            lastRewardMinute = currentMinute;
+            rewardPeriodTracker += 1;
+            lastMinute = currentMinute;
+
+            if (rewardPeriodTracker < ToolkitSettings.CoinInterval)
+            {
+                return;
+            }
+
             Viewers.AwardViewersCoins();
+            rewardPeriodTracker = 0;
         }
 
         public override void GameComponentTick()
@@ -179,7 +188,7 @@ namespace SirRandoo.ToolkitUtils
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref lastRewardMinute, "lastRewardMinute", GetCurrentMinute());
+            Scribe_Values.Look(ref rewardPeriodTracker, "rewardPeriod", GetCurrentMinute());
         }
 
         private static int GetCurrentMinute()
