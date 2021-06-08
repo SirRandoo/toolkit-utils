@@ -129,7 +129,7 @@ namespace SirRandoo.ToolkitUtils
         {
             int currentMinute = GetCurrentMinute();
 
-            if (lastMinute >= currentMinute || lastMinute < 1)
+            if (currentMinute <= lastMinute || currentMinute < 1)
             {
                 return;
             }
@@ -144,6 +144,7 @@ namespace SirRandoo.ToolkitUtils
 
             Viewers.AwardViewersCoins();
             rewardPeriodTracker = 0;
+            LogHelper.Debug($"Awarded viewers coins @ {DateTime.Now:T}");
         }
 
         public override void GameComponentTick()
