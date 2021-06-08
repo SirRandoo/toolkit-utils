@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 map.GameConditionManager.RegisterCondition(
-                    GameConditionMaker.MakeCondition(GameConditionDefOf.Sanctuary, Rand.Range(1, 4) * 60000)
+                    GameConditionMaker.MakeCondition(GameConditionDefOf.Sanctuary, Rand.Range(2, 6) * 60000)
                 );
             }
 
