@@ -78,7 +78,8 @@ namespace SirRandoo.ToolkitUtils
 
         private static void DoEffectOn([NotNull] Pawn pawn)
         {
-            if (pawn.HostileTo(Faction.OfPlayer) || pawn.Faction == Faction.OfInsects)
+            if (pawn.HostileTo(Faction.OfPlayer)
+                || pawn.RaceProps.FleshType == FleshTypeDefOf.Insectoid && pawn.Faction != Faction.OfPlayer)
             {
                 ProcessHostilePawn(pawn);
                 return;
