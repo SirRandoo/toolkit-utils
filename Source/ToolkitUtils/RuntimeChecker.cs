@@ -16,12 +16,14 @@
 
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
+using HarmonyLib;
 using JetBrains.Annotations;
+using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
-
 #if DEBUG
 using SirRandoo.ToolkitUtils.Helpers;
 using System.Diagnostics;
@@ -38,6 +40,24 @@ namespace SirRandoo.ToolkitUtils
         {
             TkSettings.ValidateDynamicSettings();
             TkUtils.Context ??= SynchronizationContext.Current;
+
+            FieldInfo tickerField = AccessTools.Field(typeof(TwitchToolkit.TwitchToolkit), "ticker");
+
+            if (tickerField.GetValue(Toolkit.Mod) is Ticker ticker)
+            {
+                try
+                {
+                    (AccessTools.Field(typeof(Ticker), "_registerThread").GetValue(ticker) as Thread)?.Interrupt();
+                }
+                catch (Exception e)
+                {
+                    LogHelper.Error("Could not abort Toolkit's ticker thread", e);
+                }
+
+                ticker.timer?.Change(0, 0);
+                ticker.Discard(true);
+                tickerField.SetValue(Toolkit.Mod, null);
+            }
 
             var wereChanges = false;
 
