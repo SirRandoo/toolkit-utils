@@ -110,19 +110,19 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 || Purchase_Handler.CheckIfKarmaTypeIsMaxed(incident, viewer.username)
                 || Purchase_Handler.CheckIfIncidentIsOnCooldown(incident, viewer.username))
             {
-                return true;
+                return false;
             }
 
             if (!TryMakeIncident(incident, viewer, formattedMessage, out IncidentHelper inc))
             {
                 LogHelper.Warn(@$"The incident ""{incident.defName}"" does not define an incident helper");
-                return true;
+                return false;
             }
 
             if (!inc.IsPossible())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TwitchToolkitEventNotPossible".Localize());
-                return true;
+                return false;
             }
 
             if (!ToolkitSettings.UnlimitedCoins)
@@ -138,7 +138,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (!ToolkitSettings.PurchaseConfirmations)
             {
-                return true;
+                return false;
             }
 
             TwitchWrapper.SendChatMessage(
@@ -148,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     first: incident.label.CapitalizeFirst()
                 )
             );
-            return true;
+            return false;
         }
 
         [HarmonyPrefix]
@@ -163,25 +163,25 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (Purchase_Handler.CheckIfViewerIsInVariableCommandList(viewer.username)
                 || !Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, incident.cost))
             {
-                return true;
+                return false;
             }
 
             if (incident != StoreIncidentDefOf.Item
                 && (Purchase_Handler.CheckIfKarmaTypeIsMaxed(incident, viewer.username)
                     || Purchase_Handler.CheckIfIncidentIsOnCooldown(incident, viewer.username)))
             {
-                return true;
+                return false;
             }
 
             if (incident == StoreIncidentDefOf.Item && Purchase_Handler.CheckIfCarePackageIsOnCooldown(viewer.username))
             {
-                return true;
+                return false;
             }
 
             if (!TryMakeIncident(incident, viewer, formattedMessage, out IncidentHelperVariables inc))
             {
                 LogHelper.Warn(@$"The incident ""{incident.defName}"" does not define an incident helper");
-                return true;
+                return false;
             }
 
             Purchase_Handler.viewerNamesDoingVariableCommands.Add(viewer.username.ToLowerInvariant());
@@ -189,7 +189,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (!inc.IsPossible(formattedMessage, viewer))
             {
                 Purchase_Handler.viewerNamesDoingVariableCommands.Remove(viewer.username.ToLowerInvariant());
-                return true;
+                return false;
             }
 
             var comp = Current.Game.GetComponent<Store_Component>();
@@ -198,7 +198,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             coordinator.QueueIncident(new IncidentProxy {VariablesIncident = inc});
             Store_Logger.LogPurchase(viewer.username, twitchMessage.Message);
             comp.LogIncident(incident);
-            return true;
+            return false;
         }
 
         [ContractAnnotation("=> true,incidentHelper:notnull; => false,incidentHelper:null")]
