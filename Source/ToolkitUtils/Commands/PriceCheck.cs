@@ -201,7 +201,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformKindLookup(string query)
         {
-            if (!Data.TryGetPawnKind(query, out PawnKindItem result))
+            if (IncidentDefOf.BuyPawn.cost <= 0 || !Data.TryGetPawnKind(query, out PawnKindItem result))
             {
                 return;
             }
