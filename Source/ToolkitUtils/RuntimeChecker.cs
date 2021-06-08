@@ -20,10 +20,12 @@ using System.Reflection;
 using System.Threading;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
+
 #if DEBUG
 using SirRandoo.ToolkitUtils.Helpers;
 using System.Diagnostics;
