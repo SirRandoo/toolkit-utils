@@ -95,7 +95,7 @@
     <TKUtils.LeaveLetter.GenericTitle>Colonist Left</TKUtils.LeaveLetter.GenericTitle>
     <TKUtils.LeaveLetter.ThanosDescription>{0} was snapped out of existence</TKUtils.LeaveLetter.ThanosDescription>
     <TKUtils.LeaveLetter.GenericDescription>{0} chose to leave the colony</TKUtils.LeaveLetter.GenericDescription>
-    
+
     <!-- Passion -->
     <TKUtils.PassionLetter.Title>Passion</TKUtils.PassionLetter.Title>
     <TKUtils.PassionLetter.SuccessDescription>{0}'s passion in {1} has changed.</TKUtils.PassionLetter.SuccessDescription>
@@ -106,4 +106,8 @@
     <TKUtils.PassionLetter.IncreaseDescription>While trying to lessen their passion for {1}, {0} became more passionate about it.</TKUtils.PassionLetter.IncreaseDescription>
     <TKUtils.PassionLetter.DecreaseHoppedDescription>While trying to deepen their passion for {1}, {0} became less passionate about {2}.</TKUtils.PassionLetter.DecreaseHoppedDescription>
     <TKUtils.PassionLetter.IncreaseHoppedDescription>While trying to lessen their passion for {1}, {0} became more passionate about {2}.</TKUtils.PassionLetter.IncreaseHoppedDescription>
+
+    <!-- Sanctuary -->
+    <TKUtils.SanctuaryLetter.Title>Mysterious Light</TKUtils.SanctuaryLetter.Title>
+    <TKUtils.SanctuaryLetter.Description>The sky over your colony is filled with a mysterious light.</TKUtils.SanctuaryLetter.Description>
 </LanguageData>

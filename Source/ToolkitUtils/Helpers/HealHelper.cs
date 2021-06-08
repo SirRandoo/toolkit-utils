@@ -242,6 +242,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
                     continue;
                 }
 
+                if (h.def == HediffDefOf.BloodLoss || h.def == HediffDefOf.Malnutrition)
+                {
+                    continue;
+                }
+
                 float coverage = h.Part?.coverageAbsWithChildren ?? 999f;
 
                 if (hediff != null && !(coverage > num))

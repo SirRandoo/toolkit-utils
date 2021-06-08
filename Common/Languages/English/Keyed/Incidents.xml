@@ -113,7 +113,10 @@
     <TKUtils.RemovePassion.Increase>Your pawn tried to be less passionate about {0}, but ended up gaining some interest in it.</TKUtils.RemovePassion.Increase>
     <TKUtils.RemovePassion.Hopped>Your pawn lessened their passion in {1} while attempting to lessen it for {0}.</TKUtils.RemovePassion.Hopped>
     <TKUtils.RemovePassion.IncreaseHopped>Your pawn's passion in {1} grew while attempting to lessen it for {0}.</TKUtils.RemovePassion.IncreaseHopped>
-    
+
     <!-- Revive Me -->
     <TKUtils.ReviveMe.Complete>Your pawn has been revived.</TKUtils.ReviveMe.Complete>
+
+    <!-- Sanctuary -->
+    <TKUtils.Sanctuary.Complete>Purchase complete.</TKUtils.Sanctuary.Complete>
 </LanguageData>

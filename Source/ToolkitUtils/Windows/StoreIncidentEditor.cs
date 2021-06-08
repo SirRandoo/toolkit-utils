@@ -142,12 +142,15 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
-            var timesBuffer = storeIncident.eventCap.ToString();
+            if (!storeIncident.defName.Equals("Sanctuary"))
+            {
+                (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
+                var timesBuffer = storeIncident.eventCap.ToString();
 
-            listing.Gap();
-            Widgets.Label(timesLabel, timesText);
-            Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 200f);
+                listing.Gap();
+                Widgets.Label(timesLabel, timesText);
+                Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 200f);
+            }
 
             if (storeIncidentVariables?.maxWager > 0)
             {

@@ -81,9 +81,11 @@
         <Compile Include="Defs\CommandDefOf.cs"/>
         <Compile Include="Defs\CommandExtension.cs"/>
         <Compile Include="Defs\EventExtension.cs"/>
+        <Compile Include="Defs\GameConditionDefOf.cs"/>
         <Compile Include="Defs\HealExtension.cs"/>
         <Compile Include="Defs\IncidentDefOf.cs"/>
         <Compile Include="Defs\PawnKindDefOf.cs"/>
+        <Compile Include="Defs\SanctuaryGameCondition.cs"/>
         <Compile Include="Defs\ToolkitGateway.cs"/>
         <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
         <Compile Include="Harmony\BuyPatch.cs"/>
@@ -151,6 +153,7 @@
         <Compile Include="Incidents\Immortality.cs"/>
         <Compile Include="Incidents\BuyItem.cs"/>
         <Compile Include="Incidents\PassionShuffle.cs"/>
+        <Compile Include="Incidents\Sanctuary.cs"/>
         <Compile Include="Incidents\RemovePassion.cs"/>
         <Compile Include="Incidents\RemoveTrait.cs"/>
         <Compile Include="Incidents\ReplaceTrait.cs"/>
@@ -329,6 +332,12 @@
         </Content>
         <Content Include="..\..\README.md">
             <Link>README.md</Link>
+        </Content>
+        <Content Update="..\..\Common\Defs\GameConditionDefs.xml">
+            <Link>Common\Defs\GameConditionDefs.xml</Link>
+        </Content>
+        <Content Update="..\..\Common\Defs\HediffDefs.xml">
+            <Link>Common\Defs\HediffDefs.xml</Link>
         </Content>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>

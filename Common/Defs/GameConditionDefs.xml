@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <GameConditionDef>
+        <defName>Sanctuary</defName>
+        <conditionClass>SirRandoo.ToolkitUtils.SanctuaryGameCondition</conditionClass>
+        <label>Sanctuary</label>
+        <description>A mysterious glow encapsulates the planet. What's happening!?</description>
+        <endMessage>The mysterious glow fades away.</endMessage>
+        <letterText>A mysterious glow is slowly encapsulating the planet. Its effects seems to differ between colonists.</letterText>
+        <letterDef>PositiveEvent</letterDef>
+    </GameConditionDef>
+</Defs>
