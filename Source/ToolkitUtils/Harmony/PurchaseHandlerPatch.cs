@@ -130,6 +130,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 viewer.TakeViewerCoins(incident.cost);
             }
 
+            viewer.CalculateNewKarma(incident.karmaType, incident.cost);
             var comp = Current.Game.GetComponent<Store_Component>();
             var coordinator = Current.Game.GetComponent<Coordinator>();
 
