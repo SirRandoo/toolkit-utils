@@ -18,6 +18,7 @@ using System;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using TwitchToolkit.Store;
+using TwitchToolkit.Votes;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -34,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             try
             {
+                TryQueueNextMessage();
                 SimpleIncident?.TryExecute();
                 VariablesIncident?.TryExecute();
             }
@@ -48,7 +50,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 // being queued.
                 Viewer.SetViewerCoins(state.Coins);
                 Viewer.SetViewerKarma(state.Karma);
-                TryRemoveNextMessage();
+                Helper.playerMessages.Clear();
                 return false;
             }
 
@@ -59,15 +61,29 @@ namespace SirRandoo.ToolkitUtils.Models
                 );
             }
 
-            TryRemoveNextMessage();
+            Helper.playerMessages.Clear();
             return true;
         }
 
-        private static void TryRemoveNextMessage()
+        private void TryQueueNextMessage()
         {
-            if (Helper.playerMessages.Count > 0)
+            if (SimpleIncident is VotingHelper)
             {
-                Helper.playerMessages.RemoveAt(0);
+                return;
+            }
+
+            if (SimpleIncident != null)
+            {
+                Purchase_Handler.QueuePlayerMessage(SimpleIncident.Viewer, SimpleIncident.message);
+            }
+
+            if (VariablesIncident != null)
+            {
+                Purchase_Handler.QueuePlayerMessage(
+                    VariablesIncident.Viewer,
+                    VariablesIncident.message,
+                    VariablesIncident.storeIncident.variables
+                );
             }
         }
     }
