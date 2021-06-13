@@ -36,6 +36,7 @@ namespace SirRandoo.ToolkitUtils
         private readonly List<ToolkitGateway> portals = new List<ToolkitGateway>();
 
         private int lastMinute;
+        private int lastRefreshMinute;
         private int rewardPeriodTracker;
 
         public Coordinator(Game game) { }
@@ -134,6 +135,13 @@ namespace SirRandoo.ToolkitUtils
         {
             int currentMinute = GetCurrentMinute();
 
+            if (currentMinute > 0 && currentMinute % 5 == 0 && lastRefreshMinute != currentMinute)
+            {
+                Viewers.RefreshViewers();
+                lastRefreshMinute = currentMinute;
+                LogHelper.Debug($"Refreshed viewers @ {DateTime.Now:T}");
+            }
+
             if (currentMinute <= lastMinute || currentMinute < 1)
             {
                 return;
@@ -148,7 +156,6 @@ namespace SirRandoo.ToolkitUtils
             }
 
             Viewers.AwardViewersCoins();
-            Viewers.RefreshViewers();
             rewardPeriodTracker = 0;
             LogHelper.Debug($"Awarded viewers coins @ {DateTime.Now:T}");
         }
