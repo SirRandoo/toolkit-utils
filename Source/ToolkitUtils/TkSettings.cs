@@ -196,8 +196,8 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawDescription("TKUtils.OffloadShop.Description".Localize());
             listing.DrawExperimentalNotice();
 
-            listing.CheckboxLabeled("TKUtils.DoPurchasesAsap".Localize(), ref AsapPurchases);
-            listing.DrawDescription("TKUtils.DoPurchasesAsap".Localize());
+            listing.CheckboxLabeled("TKUtils.DoPurchasesAsap.Label".Localize(), ref AsapPurchases);
+            listing.DrawDescription("TKUtils.DoPurchasesAsap.Description".Localize());
             listing.DrawExperimentalNotice();
 
 
