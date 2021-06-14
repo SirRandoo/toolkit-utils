@@ -25,10 +25,7 @@ using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
-using Current = Verse.Current;
-using GenText = Verse.GenText;
-using LookTargets = Verse.LookTargets;
-using Pawn = Verse.Pawn;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
@@ -65,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     $"TKUtils.{(thisShop.CanRemove ? "" : "Remove")}Trait.Disabled".LocalizeKeyed(
-                        GenText.CapitalizeFirst((thisShop.CanRemove ? thatShop : thisShop).Name)
+                        (thisShop.CanRemove ? thatShop : thisShop).Name.CapitalizeFirst()
                     )
                 );
                 return false;
@@ -179,7 +176,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.ReplaceTrait.RationalRomance".LocalizeKeyed(GenText.CapitalizeFirst(thisShop.Name))
+                    "TKUtils.ReplaceTrait.RationalRomance".LocalizeKeyed(thisShop.Name.CapitalizeFirst())
                 );
                 return false;
             }
