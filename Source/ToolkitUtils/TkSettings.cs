@@ -74,6 +74,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool ClassChanges;
         public static bool ResetClass;
         public static bool MinimalRelations = true;
+        public static bool GatewayPuff = true;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
 
@@ -343,6 +344,10 @@ namespace SirRandoo.ToolkitUtils
             listing.CheckboxLabeled("TKUtils.HairColor.Label".Localize(), ref HairColor);
             listing.DrawDescription("TKUtils.HairColor.Description".Localize());
 
+            listing.DrawGroupHeader("TKUtils.General.Gateway".Localize());
+            listing.CheckboxLabeled("TKUtils.GatewayPuff.Label".Localize(), ref GatewayPuff);
+            listing.DrawDescription("TKUtils.GatewayPuff.Description".Localize());
+
             listing.End();
         }
 
@@ -558,6 +563,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref ClassChanges, "classChanges");
             Scribe_Values.Look(ref ResetClass, "resetClass");
             Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
+            Scribe_Values.Look(ref GatewayPuff, "gatewayPuff", true);
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
         }

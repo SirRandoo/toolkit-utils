@@ -76,11 +76,15 @@ namespace SirRandoo.ToolkitUtils
                 portal.Position,
                 portal.Map,
                 ThingPlaceMode.Near,
-                (thing, count) => MoteMaker.ThrowSmoke(
-                    thing.Position.ToVector3(),
-                    thing.Map,
-                    thing.Graphic.drawSize.magnitude
-                )
+                (thing, count) =>
+                {
+                    if (!TkSettings.GatewayPuff)
+                    {
+                        return;
+                    }
+
+                    MoteMaker.ThrowSmoke(thing.Position.ToVector3(), thing.Map, thing.Graphic.drawSize.magnitude);
+                }
             );
             return true;
         }
