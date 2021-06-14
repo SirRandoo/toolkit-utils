@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore;
 using TwitchLib.Client.Models;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers
 {
@@ -125,6 +127,26 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             return null;
+        }
+
+        public static bool HasBadges([CanBeNull] this ITwitchMessage message, params string[] badges)
+        {
+            if (message?.ChatMessage?.Badges.NullOrEmpty() == true)
+            {
+                return false;
+            }
+
+            foreach (string badge in badges)
+            {
+                if (message!.ChatMessage!.Badges.Any(
+                    p => p.Key.Equals(badge, StringComparison.InvariantCultureIgnoreCase)
+                ))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -16,6 +16,7 @@
 
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Models;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
@@ -49,23 +50,16 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 component.PawnAssignedToUser(twitchMessage.Username).story.hairColor = hairColor;
             }
 
-            if (twitchMessage.ChatMessage.IsModerator && !viewer.mod)
-            {
-                viewer.SetAsModerator();
-            }
+            UserData data = UserRegistry.UpdateData(twitchMessage);
 
-            if (twitchMessage.ChatMessage.IsSubscriber && !viewer.IsSub)
-            {
-                viewer.subscriber = true;
-            }
-
-            if (!twitchMessage.ChatMessage.IsVip || viewer.IsVIP)
+            if (data == null)
             {
                 return false;
             }
 
-            viewer.vip = true;
-
+            viewer.mod = data.IsModerator;
+            viewer.subscriber = data.IsSubscriber;
+            viewer.vip = data.IsVip;
             return false;
         }
     }
