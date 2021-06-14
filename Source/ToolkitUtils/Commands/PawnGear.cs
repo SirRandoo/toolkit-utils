@@ -97,7 +97,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             List<Apparel> apparel = a.WornApparel;
-            parts.Add($"{"Apparel".Localize()}: {apparel.Select(item => item.LabelCap).SectionJoin()}");
+            parts.Add(
+                $"{"Apparel".Localize()}: {apparel.Select(item => Unrichify.StripTags(item.LabelCap)).SectionJoin()}"
+            );
             return !parts.Any() ? "None".Localize() : parts.GroupedJoin();
         }
 
@@ -120,7 +122,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (e?.AllEquipmentListForReading?.Count > 0)
                 {
-                    IEnumerable<string> equip = e.AllEquipmentListForReading.Select(eq => eq.LabelCap);
+                    IEnumerable<string> equip =
+                        e.AllEquipmentListForReading.Select(eq => Unrichify.StripTags(eq.LabelCap));
 
                     weapons.AddRange(equip);
                 }
@@ -194,7 +197,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     continue;
                 }
 
-                weapons.Add(thing.LabelCap);
+                weapons.Add(Unrichify.StripTags(thing.LabelCap));
                 usedInventory.Add(thing);
                 sidearms.Remove(sidearm);
                 break;
@@ -209,7 +212,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             foreach (ThingWithComps equip in equipment.Where(equip => sidearm.def.defName.Equals(equip.def.defName)))
             {
-                weapons.Insert(0, equip.LabelCap);
+                weapons.Insert(0, Unrichify.StripTags(equip.LabelCap));
                 return true;
             }
 

@@ -116,7 +116,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             var segments = new List<string>
             {
                 ResponseHelper.JoinPair(
-                    capacity.LabelCap,
+                    Unrichify.StripTags(capacity.LabelCap),
                     PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
                        .ToStringPercent()
                 ),
@@ -194,7 +194,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                    .Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
                    .Select(
                         capacity => ResponseHelper.JoinPair(
-                            capacity.GetLabelFor(pawn).CapitalizeFirst(),
+                            Unrichify.StripTags(capacity.GetLabelFor(pawn)).CapitalizeFirst(),
                             HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First
                         )
                     )
@@ -219,7 +219,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return segments.GroupedJoin();
             }
 
-            string[] queued = surgeries!.Bills.Select(item => item.LabelCap).ToArray();
+            string[] queued = surgeries!.Bills.Select(item => Unrichify.StripTags(item.LabelCap)).ToArray();
 
             segments.Add(
                 ResponseHelper.JoinPair("TKUtils.PawnHealth.QueuedSurgeries".Localize(), queued.SectionJoin())

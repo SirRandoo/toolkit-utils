@@ -98,7 +98,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         builder.Append(ResponseHelper.BandageGlyph.AltText(""));
                     }
 
-                    builder.Append(affliction.LabelCap);
+                    builder.Append(Unrichify.StripTags(affliction.LabelCap));
                     int gTotal = group.Count();
 
                     if (gTotal != 1)

@@ -111,6 +111,7 @@
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
         <Compile Include="Helpers\CommandHelper.cs"/>
+        <Compile Include="Helpers\GameHelper.cs"/>
         <Compile Include="Helpers\HealHelper.cs"/>
         <Compile Include="Helpers\LogHelper.cs"/>
         <Compile Include="Helpers\MessageHelper.cs"/>
