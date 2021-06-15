@@ -251,13 +251,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             listing.GapLine(36f);
-            Rect seenAtLine = listing.GetRect(Text.LineHeight);
+            Rect seenAtLine = listing.GetRect(Text.LineHeight * 2f);
             seenAtLine = seenAtLine.WithWidth(seenAtLine.width - 5f - notifyTextWidth);
             var notifyButton = new Rect(
                 seenAtLine.x + seenAtLine.width + 5f,
                 seenAtLine.y,
                 notifyTextWidth,
-                seenAtLine.height
+                Mathf.FloorToInt(seenAtLine.height / 2f)
             );
             SettingsHelper.DrawLabel(seenAtLine, lastSeenText);
 
