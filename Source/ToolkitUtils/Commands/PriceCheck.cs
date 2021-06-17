@@ -89,11 +89,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             NotifyLookupComplete(
-                "TKUtils.Price.Quantity".LocalizeKeyed(
+                "TKUtils.Price.Limited".LocalizeKeyed(
                     result.defName.CapitalizeFirst(),
-                    item.Cost.ToString("N0"),
-                    item.Item!.CalculatePrice(quantity).ToString("N0"),
-                    quantity.ToString("N0")
+                    item.Item!.CalculatePrice(quantity).ToString("N0")
                 )
             );
         }
@@ -155,14 +153,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             int price = item.Quality.HasValue
-                ? item.Thing.GetItemPrice(item.Stuff, item.Quality.Value)
-                : item.Thing.GetItemPrice(item.Stuff);
+                ? item.Thing!.GetItemPrice(item.Stuff, item.Quality.Value)
+                : item.Thing!.GetItemPrice(item.Stuff);
             NotifyLookupComplete(
-                "TKUtils.Price.Quantity".LocalizeKeyed(
+                "TKUtils.Price.Limited".LocalizeKeyed(
                     item.Thing.Name.CapitalizeFirst(),
-                    price.ToString("N0"),
-                    (price * quantity).ToString("N0"),
-                    quantity.ToString("N0")
+                    (price * quantity).ToString("N0")
                 )
             );
         }
