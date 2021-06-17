@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
 
             builder.Append(TkSettings.Emojis ? ResponseHelper.DaggerGlyph : "TKUtils.PawnClass.Might".Localize());
             builder.Append(" ");
-            builder.Append("TKUtils.PawnClass.Level".Localize(might.MightUserLevel.ToString("N0")));
+            builder.Append("TKUtils.PawnClass.Level".LocalizeKeyed(might.MightUserLevel.ToString("N0")));
             builder.Append(", ");
             builder.Append(
                 "TKUtils.PawnClass.Experience".LocalizeKeyed(
@@ -85,7 +85,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
             }
 
             builder.Append(", ");
-            builder.Append("TKUtils.PawnClass.Points".Localize(might.MightData.MightAbilityPoints.ToString("N0")));
+            builder.Append("TKUtils.PawnClass.Points".LocalizeKeyed(might.MightData.MightAbilityPoints.ToString("N0")));
 
             return builder.ToString();
         }
@@ -97,7 +97,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
 
             builder.Append(TkSettings.Emojis ? ResponseHelper.MagicGlyph : "TKUtils.PawnClass.Magic".Localize());
             builder.Append(" ");
-            builder.Append("TKUtils.PawnClass.Level".Localize(magic.MagicUserLevel.ToString("N0")));
+            builder.Append("TKUtils.PawnClass.Level".LocalizeKeyed(magic.MagicUserLevel.ToString("N0")));
             builder.Append(", ");
             builder.Append(
                 "TKUtils.PawnClass.Experience".LocalizeKeyed(
@@ -125,7 +125,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
             }
 
             builder.Append(", ");
-            builder.Append("TKUtils.PawnClass.Points".Localize(magic.MagicData.MagicAbilityPoints.ToString("N0")));
+            builder.Append("TKUtils.PawnClass.Points".LocalizeKeyed(magic.MagicData.MagicAbilityPoints.ToString("N0")));
 
             return builder.ToString();
         }
