@@ -110,9 +110,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool PassesValidationCheck(Viewer viewer)
         {
-            thisTrait = pawn.story.traits.allTraits.Find(
-                t => TraitHelper.CompareToInput(thisShop.GetDefaultName()!, t.Label)
-            );
+            thisTrait = pawn.story.traits.allTraits.Find(t => t.def.defName.Equals(thisShop.DefName));
 
             if (thisTrait == null)
             {
@@ -121,19 +119,47 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             Trait duplicate = pawn.story.traits.allTraits.Find(t => t.def.defName.Equals(thatShop.DefName));
-            if (duplicate == null)
+            if (duplicate != null)
             {
-                return true;
+                TraitItem item = Data.Traits.Find(
+                    t => t.DefName.Equals(duplicate.def.defName) && t.Degree == duplicate.Degree
+                );
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Trait.Duplicate".LocalizeKeyed(item?.Name ?? duplicate.Label, thatShop.Name)
+                );
+                return false;
             }
 
-            TraitItem item = Data.Traits.Find(
-                t => t.DefName.Equals(duplicate.def.defName) && t.Degree == duplicate.Degree
-            );
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                "TKUtils.Trait.Duplicate".LocalizeKeyed(item?.Name ?? duplicate.Label, thatShop.Name)
-            );
-            return false;
+            TraitDef thatTraitDef = thatShop.TraitDef;
+
+            if (thatTraitDef == null)
+            {
+                return false;
+            }
+
+            foreach (Trait trait in pawn.story.traits.allTraits)
+            {
+                if (trait.def.ConflictsWith(thatTraitDef))
+                {
+                    MessageHelper.ReplyToUser(
+                        viewer.username,
+                        "TKUtils.Trait.Conflict".LocalizeKeyed(trait.Label, thatTraitDef.label ?? thatTraitDef.defName)
+                    );
+                    return false;
+                }
+            }
+
+            Trait @class =
+                pawn.story.traits.allTraits.FirstOrDefault(t => CompatRegistry.Magic?.IsClassTrait(t.def) == true);
+
+            if (@class != null && CompatRegistry.Magic?.IsClassTrait(thatTraitDef) == true)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize());
+                return false;
+            }
+
+            return true;
         }
 
         private bool PassesCharacterCheck(Viewer viewer)
@@ -190,13 +216,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (CompatRegistry.Magic?.IsClassTrait(thisShop!.TraitDef!) != true || TkSettings.ClassChanges)
+            if (CompatRegistry.Magic?.IsClassTrait(thisShop!.TraitDef!) == true && !TkSettings.ClassChanges)
             {
-                return true;
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Class".Localize());
+                return false;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Class".LocalizeKeyed(thisTrait.Label));
-            return false;
+            return true;
         }
 
         public override void Execute()
