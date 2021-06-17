@@ -764,11 +764,14 @@ namespace SirRandoo.ToolkitUtils
                         continue;
                     }
 
-                    var e = new EventItem {Incident = incident};
-                    e.Name = partial.Name;
-                    e.Cost = partial.Cost;
-                    e.EventCap = partial.EventCap;
-                    e.KarmaType = partial.KarmaType;
+                    var e = new EventItem
+                    {
+                        Incident = incident,
+                        Name = partial.Name,
+                        Cost = partial.Cost,
+                        EventCap = partial.EventCap,
+                        KarmaType = partial.KarmaType
+                    };
 
                     if (e.IsVariables)
                     {
