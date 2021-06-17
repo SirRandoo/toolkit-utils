@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
 
             var magic = pawn.TryGetComp<CompAbilityUserMagic>();
             var might = pawn.TryGetComp<CompAbilityUserMight>();
-            bool isMightUser = might?.IsMightUser ?? false;
-            bool isMagicUser = magic?.IsMagicUser ?? false;
+            bool isMightUser = might?.IsMightUser == true;
+            bool isMagicUser = magic?.IsMagicUser == true;
 
             if (!isMightUser && !isMagicUser)
             {
