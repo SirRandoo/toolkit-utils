@@ -13,12 +13,7 @@
                     <label>viewer class</label>
                     <command>mypawnclass</command>
                     <commandDriver>SirRandoo.ToolkitUtils.TMagic.Commands.PawnClass</commandDriver>
-    
-                    <modExtensions>
-                        <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                            <Description>Shows information about your current RimWorld of Magic class. This command will only be usable when RimWorld of Magic is installed.</Description>
-                        </li>
-                    </modExtensions>
+                    <description>Shows information about your current RimWorld of Magic class. This command will onyl be usable when RimWorld of Magic is installed.</description>
                 </TwitchToolkit.Command>
             </value>
         </match>
