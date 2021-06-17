@@ -319,7 +319,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     return;
                 }
 
-                if ((CompatRegistry.Magic?.IsClassTrait(Trait.def) ?? false) && TkSettings.ResetClass)
+                if (CompatRegistry.Magic?.IsClassTrait(Trait.def) == true && TkSettings.ResetClass)
                 {
                     CompatRegistry.Magic.ResetClass(pawn);
                 }

@@ -132,7 +132,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            if ((CompatRegistry.Magic?.IsClassTrait(trait.def) ?? false) && TkSettings.ResetClass)
+            if (CompatRegistry.Magic?.IsClassTrait(trait.def) == true && TkSettings.ResetClass)
             {
                 CompatRegistry.Magic.ResetClass(pawn);
             }

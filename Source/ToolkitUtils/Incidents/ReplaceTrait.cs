@@ -227,7 +227,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            if ((CompatRegistry.Magic?.IsClassTrait(thisShop.TraitDef!) ?? false) && TkSettings.ResetClass)
+            if (CompatRegistry.Magic?.IsClassTrait(thisShop.TraitDef!) == true && TkSettings.ResetClass)
             {
                 CompatRegistry.Magic.ResetClass(pawn);
             }
