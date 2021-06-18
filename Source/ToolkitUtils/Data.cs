@@ -345,12 +345,12 @@ namespace SirRandoo.ToolkitUtils
 
         public static void SaveEventData(string path)
         {
-            SaveJson(Events.ToDictionary(e => e.DefName, e => e.EventData), path);
+            SaveJson(Events.ToDictionary(e => e.Name, e => e.EventData), path);
         }
 
         public static async Task SaveEventDataAsync(string path)
         {
-            await SaveJsonAsync(Events.ToDictionary(e => e.DefName, e => e.EventData), path);
+            await SaveJsonAsync(Events.ToDictionary(e => e.Name, e => e.EventData), path);
         }
 
         private static void ValidateTraits()
