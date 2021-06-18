@@ -51,7 +51,9 @@ namespace SirRandoo.ToolkitUtils.Models
             result.Data = new CommandData
             {
                 IsShortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
-                Mod = command.modContentPack?.Name
+                Mod = command.modContentPack?.Name,
+                IsBalance = command == CommandDefOf.CheckBalance,
+                IsBuy = command == CommandDefOf.Buy
             };
 
             return result;

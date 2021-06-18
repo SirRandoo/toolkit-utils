@@ -24,6 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
     public class CommandData : IRimData
     {
         [DataMember(Name = "isShortcut")] public bool IsShortcut { get; set; }
+        [DataMember(Name = "isBuy")] public bool IsBuy { get; set; }
+        [DataMember(Name = "isBalance")] public bool IsBalance { get; set; }
         [DataMember(Name = "mod")] public string Mod { get; set; }
     }
 }
