@@ -1,21 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Patch>
-    <Operation Class="PatchOperationSequence">
-        <success>Always</success>
-        <operations>
-            <li Class="PatchOperationTest">
-                <xpath>
-                    /Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="AddTrait"]/incidentHelper[text()="SirRandoo.ToolkitUtils.Incidents.AddTrait"]
-                </xpath>
-                <success>Invert</success>
-            </li>
-            <li Class="PatchOperationReplace">
-                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="AddTrait"]/incidentHelper</xpath>
-                <value>
-                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.AddTrait</incidentHelper>
-                </value>
-            </li>
-        </operations>
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="AddTrait"]/incidentHelper</xpath>
+        <value>
+            <incidentHelper>SirRandoo.ToolkitUtils.Incidents.AddTrait</incidentHelper>
+        </value>
     </Operation>
 </Patch>

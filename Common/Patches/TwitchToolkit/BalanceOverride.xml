@@ -4,12 +4,6 @@
     <Operation Class="PatchOperationSequence">
         <success>Always</success>
         <operations>
-            <li Class="PatchOperationTest">
-                <xpath>
-                    /Defs/TwitchToolkit.Command[defName="CheckBalance"]/commandDriver[text()="SirRandoo.ToolkitUtils.Commands.BalanceCommand"]
-                </xpath>
-                <success>Invert</success>
-            </li>
             <li Class="PatchOperationReplace">
                 <xpath>/Defs/TwitchToolkit.Command[defName="CheckBalance"]/commandDriver</xpath>
                 <value>

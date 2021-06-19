@@ -4,12 +4,6 @@
     <Operation Class="PatchOperationSequence">
         <success>Always</success>
         <operations>
-            <li Class="PatchOperationTest">
-                <xpath>
-                    /Defs/TwitchToolkit.Command[defName="InstalledMods"]/commandDriver[text()="SirRandoo.ToolkitUtils.Commands.InstalledModsCommand"]
-                </xpath>
-                <success>Invert</success>
-            </li>
             <li Class="PatchOperationReplace">
                 <xpath>/Defs/TwitchToolkit.Command[defName="InstalledMods"]/commandDriver</xpath>
                 <value>

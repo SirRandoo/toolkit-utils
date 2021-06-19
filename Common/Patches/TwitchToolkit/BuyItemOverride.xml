@@ -4,28 +4,17 @@
     <Operation Class="PatchOperationSequence">
         <success>Always</success>
         <operations>
-            <li Class="PatchOperationTest">
-                <xpath>
-                    /Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]/incidentHelper[text()="SirRandoo.ToolkitUtils.Incidents.BuyItem"]
-                </xpath>
-                <success>Invert</success>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuyItem</incidentHelper>
+                </value>
             </li>
-            <li Class="PatchOperationSequence">
-                <success>Always</success>
-                <operations>
-                    <li Class="PatchOperationReplace">
-                        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]/incidentHelper</xpath>
-                        <value>
-                            <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuyItem</incidentHelper>
-                        </value>
-                    </li>
-                    <li Class="PatchOperationReplace">
-                        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]/customSettingsHelper</xpath>
-                        <value>
-                            <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.Item</customSettingsHelper>
-                        </value>
-                    </li>
-                </operations>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Item"]/customSettingsHelper</xpath>
+                <value>
+                    <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.Item</customSettingsHelper>
+                </value>
             </li>
         </operations>
     </Operation>

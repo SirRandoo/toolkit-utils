@@ -1,19 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Patch>
-    <Operation Class="PatchOperationSequence">
-        <success>Always</success>
-        <operations>
-            <li Class="PatchOperationTest">
-                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="ReviveRandomPawn"]/incidentHelper[text()="SirRandoo.ToolkitUtils.Incidents.ReviveRandom"]</xpath>
-                <success>Invert</success>
-            </li>
-            <li Class="PatchOperationReplace">
-                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="ReviveRandomPawn"]/incidentHelper</xpath>
-                <value>
-                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReviveRandom</incidentHelper>
-                </value>
-            </li>
-        </operations>
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="ReviveRandomPawn"]/incidentHelper</xpath>
+        <value>
+            <incidentHelper>SirRandoo.ToolkitUtils.Incidents.ReviveRandom</incidentHelper>
+        </value>
     </Operation>
 </Patch>

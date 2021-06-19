@@ -1,21 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Patch>
-    <Operation Class="PatchOperationSequence">
-        <success>Always</success>
-        <operations>
-            <li Class="PatchOperationTest">
-                <xpath>
-                    /Defs/ToolkitCore.Models.ToolkitAddon[defName="TwitchToolkit"]/menuClass[text()="SirRandoo.ToolkitUtils.ToolkitAddonMenu"]
-                </xpath>
-                <success>Invert</success>
-            </li>
-            <li Class="PatchOperationReplace">
-                <xpath>/Defs/ToolkitCore.Models.ToolkitAddon[defName="TwitchToolkit"]/menuClass</xpath>
-                <value>
-                    <menuClass>SirRandoo.ToolkitUtils.ToolkitAddonMenu</menuClass>
-                </value>
-            </li>
-        </operations>
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/ToolkitCore.Models.ToolkitAddon[defName="TwitchToolkit"]/menuClass</xpath>
+        <value>
+            <menuClass>SirRandoo.ToolkitUtils.ToolkitAddonMenu</menuClass>
+        </value>
     </Operation>
 </Patch>
