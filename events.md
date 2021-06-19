@@ -4,6 +4,8 @@ nav_order: 5
 layout: default
 ---
 
+# Events
+
 <details open markdown="block">
   <summary>
     Table of contents
@@ -13,94 +15,56 @@ layout: default
 {:toc}
 </details>
 
-### Surgery
+## Pawn Events
 
-Usage: `!buy surgery {part} [quantity]` OR `!buy surgery {part} [body part]`
+|------------------+---------------------------------------+--------------------------------------------|
+| Name             | Usage                                 | Description                                |
+|:-----------------+:--------------------------------------|:-------------------------------------------|
+| Backpack         | `!buy backpack <item> [quantity]`     | Purchases and shoves the specified item in the viewer's pawn's backpack. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Clear traits     | `!buy cleartraits`                    | Removes all eligible traits.               |
+|------------------+---------------------------------------+--------------------------------------------|
+| Equip weapon     | `!buy equip <item>`                   | Purchases and forces a viewer's pawn to equip the specified weapon. If the pawn already has a weapon equipped, it will be dropped on the floor. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Full heal        | `!buy fullheal`                       | Heals as many hediffs as a viewer can afford. When the command heals a hediff, the viewer will be charged. This process will repeat until there are no more hediffs, or the viewer can't afford another heal. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Heal any pawn    | `!buy healanypawn`                    | Heals one hediff on a random colonist.     |
+|------------------+---------------------------------------+--------------------------------------------|
+| Heal me          | `!buy healme`                         | Heals one hediff on the viewer's pawn.     |
+|------------------+---------------------------------------+--------------------------------------------|
+| Immortality      | `!buy immortality`                    | Gives a viewer's pawn the `immortal` hediff. Note: this event only gives you the base level, which is by default hidden until the pawn dies. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Passion shuffle  | `!buy passionshuffle [skill]`         | Shuffles a viewer's pawn's passions. If `skill` is specified, the pawn will have a guaranteed passion in that skill. If the [Interests](https://steamcommunity.com/workshop/filedetails/?id=2089938084) mod is enabled, interests will also be shuffled. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Random adulthood | `!buy randomadulthood`                | Replaces a viewer's pawn's adulthood with a random one. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Random childhood | `!buy randomchildhood`                | Replaces a viewer's pawn's childhood with a random one. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Replace trait    | `!buy replacetrait <old> <new>`       | Replaces the trait `old` with the trait `new`. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Rescue me        | `!buy rescueme`                       | Spawns a prisoner rescue somewhere in the world with the viewer's pawn as the captive. This event only works for kidnapped pawns. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Revive me        | `!buy reviveme`                       | Revives the viewer's pawn.                 |
+|------------------+---------------------------------------+--------------------------------------------|
+| Set traits       | `!buy settraits <trait> <trait> ...`  | Sets a viewer's pawn's traits to the list given if possible. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Smite            | `!buy smite <viewer>`                 | Smites the specified viewer's pawn.        |
+|------------------+---------------------------------------+--------------------------------------------|
+| Surgery          | `!buy surgery <item> [part/quantity]` | Queues a surgery on the viewer's pawn. The part to be installed is specified through `item`, whereas the body part to install it on is specified through `part`. Additionally, `part` can be replaced with a number to queue multiple surgeries at once (`quantity`). |
+|------------------+---------------------------------------+--------------------------------------------|
+| Use              | `!buy use <item>`                     | Purchases and forces a viewer's pawn to use the specified item. |
+|------------------+---------------------------------------+--------------------------------------------|
+| Wear             | `!buy wear <item>`                    | Purchases and forces a viewer's pawn to wear the specified item. |
+|------------------+---------------------------------------+--------------------------------------------|
 
-This event allows a viewer to purchase and queue an item from
-the shop for surgery. The part the surgery will queue on will
-always be the part with the least overall health, including any
-attached parts.
+## Colony Events
 
-This event's cost will be the same as the item being queued.
-For example, if a viewer wants an archotech leg to be installed,
-which hypothetically cost 3500 coins, the viewer will have
-to pay 3500 coins to queue the surgery.
-{: .info}
-
-### Full Heal
-
-Usage: `!buy fullheal`
-
-This event mimics `heal`, but continues to heal all your injuries so long as you can afford
-them. What this means is that for every part healed, it'll remove whatever amount this event
-costs from your current balance.
-
-For example, if you have 5 healable injuries, and this event
-costs 500 coins, you'll be charged 2500 coins when the command is finished. If you only have
-enough for 3 out of the 5 injuries, you'll only be charged 1500 coins.
-{: .info}
-
-### Heal All
-
-Usage: `!buy healall`
-
-This event is essentially a colony-wide healer mech serum.
-
-### Heal
-
-Usage: `!buy healme`
-
-This event is essentially a personal use healer mech serum.
-
-### Heal Any Pawn
-
-Usage: `!buy healanypawn`
-
-This event is essentially a healer mech serum for a random colonist.
-
-### Immortality
-
-Usage: `!buy immortality`
-
-This event grants the `immortality` hediff to the viewer's pawn upon purchase.
-While the hediff is applied, it'll remain hidden until the pawn dies and subsequently resurrects.
-
-This event is only purchasable when the Immortals mod is active.
-{: .warn}
-
-### Passion Shuffle
-
-Usage: `!buy passionshuffle [skill]`
-
-This event allows a viewer to shuffle their pawn's current passions.
-If a viewer specifies a skill, it'll have a guaranteed minor passion.
-
-### Replace Trait
-
-Usage: `!buy replacetrait {old_trait} {new_trait}`
-
-This event allows a viewer to join the `trait` event and the `removetrait` event.
-
-The price of this event will always be `1` as its real cost is the price for removing
-`old_trait` and adding `new_trait` combined.
-{: .info}
-
-### Rescue Me
-
-Usage: `!buy rescueme`
-
-This event creates a prisoner rescue quest with a kidnapped viewer's pawn as the captive.
-The pawn chosen will be the oldest pawn in the game's kidnapped list.
-
-### Revive All
-
-Usage: `!buy reviveall`
-
-This event is essentially a colony-wide resurrector mech serum.
-
-### Revive
-
-Usage: `!buy reviveme`
-
-This event is essentially a personal resurrector mech serum.
+|-----------------+---------------------------------------+--------------------------------------------|
+| Name            | Usage                                 | Description                                |
+|:----------------+:--------------------------------------|:-------------------------------------------|
+| Heal all        | `!buy healall`                        | Heals one hediff on every colonist.        |
+|-----------------+---------------------------------------+--------------------------------------------|
+| Sanctuary       | `!buy sanctuary`                      | Shrouds the colony in a mysterious light. While the light is over the colony, dead colonists are revived, healable hediffs are healed, hostile pawns are forced off the map or killed. |
+|-----------------+---------------------------------------+--------------------------------------------|
+| Revive all      | `!buy reviveall`                      | Revives all dead colonists.                |
+|-----------------+---------------------------------------+--------------------------------------------|

@@ -30,15 +30,34 @@ repository: sirrandoo/toolkit-utils
 
 # Build settings
 # theme: ""
-remote_theme: pmarsceill/just-the-docs
+remote_theme: sirrandoo/just-the-docs
 plugins:
-  - jekyll-feed
+  - 
 
 # Just The Docs
 search_enabled: true
 search_tokenizer_separator: /[\s/]+/
 heading_anchors: true
-color_scheme: 'light'
+color_scheme: 'dark'
+callouts:
+  important:
+    title: important
+    color: green
+  danger:
+    title: Danger
+    color: red
+  note:
+    title: Note
+    color: blue
+  tip:
+    title: Tip
+    color: grey-dk
+  warning:
+    title: Warning
+    color: red
+  caution:
+    title: Caution
+    color: yellow
 
 aux_links:
   'ToolkitUtils on Github':

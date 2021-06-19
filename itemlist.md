@@ -5,15 +5,15 @@ nav_order: 7
 permalink: /itemlist
 ---
 
-## ToolkitUtils and the Item List
-{: .no_toc .text-delta }
+# Utils' Item List
 
-With the addition of [trait]({{- "/tweaks/traits" | relative_url -}})
-and [race]({{- "/tweaks/races" | relative_url -}}) support, ToolkitUtils
-changed several aspects of Toolkit fundamentally. As a result, the item
-list used by users no longer accurately reflects how some events will function,
-like adding traits. To solve this problem, ToolkitUtils has its own
-[item list](https://github.com/sirrandoo/itemlist).
+As Utils grew in complexity, the mod ended up outgrowing the default Twitch Toolkit item list. As a result,
+the mod comes with its own item list that supports all the latest features within ToolkitUtils. In fact,
+it's mostly usable if you ever wanted to use it as a standard Twitch Toolkit item list too. In any case,
+the new list properly reflects the different types of events within the mod, like traits having their own
+dedicated pricing page. Below are a list of steps required to setup a custom item list for your stream.
+While these steps try to walk you through each step in the process, there may be some gaps. Any and all
+questions should be asked on the [Discord](https://discord.gg/ZPmkGnbfba).
 
 <details open markdown="block">
   <summary>
@@ -24,107 +24,118 @@ like adding traits. To solve this problem, ToolkitUtils has its own
 {:toc}
 </details>
 
-### Set Up
+## Prerequisites
 
-Setting up Utils' item list is simliar to Toolkit's initial set up:
+In order to setup your item list, you'll need a [Github](https://github.com/) account. If you already have
+an account, you can continue onto the next step. If you don't you can sign up for Github
+[here](https://github.com/signup).
 
-1. Fork the [item list](https://github.com/sirrandoo/itemlist) on Github.
-![Fork the list on Github]({{- "/assets/itemlist/fork.png" | relative_url -}})
+## Forking the Item List
 
-2. Go to your fork's settings
-![Forked list's settings]({{- "/assets/itemlist/settings.png" | relative_url -}})
+The first step in this process is forking the [item list](https://github.com/sirrandoo/itemlist) on Github.
+![Fork the item list on Github]({{- "/assets/itemlist/fork.png" | relative_url -}})
 
-3. (OPTIONAL) If you do ***not*** have a personal site, you can rename the repository to `YOUR_GITHUB_USERNAME.github.io`
-![Rename fork]({{- "/assets/itemlist/rename.png" | relative_url -}})
+## Configuring the Url
 
-4. Scroll down to the Github pages section and ensure the `master` branch is used for Github pages.
-![Fork pages]({{- "/assets/itemlist/pages.png" | relative_url -}})
+Once Github is finished forking your item list, you can navigate to the repository's settings page.
+![The repository settings tab]({{- "/assets/itemlist/settings.png" | relative_url -}})
 
-### Uploading Toolkit Files
+From the settings page, you can rename your repository by changing the text in `Repository name`, then
+clicking `Rename`.
+![Repository name field]({{- "/assets/itemlist/rename.png" | relative_url -}})
 
-#### Items
+If you've never used Github before or otherwise don't have an existing repository named
+`YOUR_GITHUB_USERNAME.github.io`, you can rename your item list that instead of 
+`YOUR_GITHUB_USERNAME.github.io/REPOSITORY_NAME`.
 
-1. Navigate to Toolkit's save directory
-  - If you have trouble locating this directory, you can simply click the `Save data folder` button in RimWorld's
-    options menu, or if you're on Windows you can navigate to `%AppData%\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\TwitchToolkit`.
-2. Open `StoreItems.json` in any editor
-3. Copy its contents
-4. On your item list, navigate to the `_data` directory
-![Fork's _data directory]({{- "/assets/itemlist/data_directory.png" | relative_url -}})
+## Verifying the Site Source
 
-5. Click your items file
-![Fork's item file]({{- "/assets/itemlist/store_items_file.png" | relative_url -}})
+Next we'll be ensuring the item list is pulling the right files for the site. In order to do that, we'll
+need to navigate to the `Pages` section in the list of pages on the left.
+![Pages settings in list]({{- "/assets/itemlist/pages_settings.png" | relative_url -}})
 
-6. Click the edit button
-![Edit fork's item file]({{- "/assets/itemlist/store_items_file-edit.png" | relative_url -}})
+Once we're in the pages settings, we can then look at the `Source` setting to ensure it's pulling from the
+`main` branch.
 
-7. Paste the contents from `StoreItems.json` into the editor
-8. Commit the changes
-![Commit fork's item file changes]({{- "/assets/itemlist/store_items_file-commit.png" | relative_url -}})
+![Ensure the main branch is set]({{- "/assets/itemlist/pages.png" | relative_url -}})
 
-#### Events
+The item list provides its own theme. You do not need to change it in the theme settings, and changing it
+may not have any meaningful effect.
+{: .note}
 
-Updating your events file is the same steps as your items file, but instead of
-updating `StoreItems.json`, you'll be updating `StoreIncidents.json`. Please
-refer to the [Items](#items) section for a walkthrough of how to upload your
-Toolkit events.
+## Using a Custom Domain
 
-#### Traits & Races
+In the Pages settings, you can scroll farther down to the `Custom domain` settings. In this field you can
+provide a custom domain to use instead of the `github.io` one from above. If you don't have a custom
+domain, you can simply skip to the next step.
+![Setting a custom domain]({{- "/assets/itemlist/custom_domain.png" | relative_url -}})
 
-Like [Items](#items), you'll follow the same steps, except you'll be updating
-the `ShopExt.json` file.
+## Configuring Your Item List
 
-#### Commands
+Now that you're done tinkering with the Github settings for your item list, you can move on changing the
+settings within your item list. To do this, you'll first need to return back to the "repository" view
+that you were first greeted with. You can do this by clicking the `Code` button in the ribbon at the top.
+![Return to code view]({{- "/assets/itemlist/repository_view.png" | relative_url -}})
 
-As with the other two, you'll follow the same steps on the `commands.json` file
-in your Toolkit directory.
+Within this view, you then need to click on the `_config.yml` file. You should be on a page that looks like
+this:
+![Config file contents]({{- "/assets/itemlist/config_file.png" | relative_url -}})
 
-#### Mod List
+Here, you can change the following fields:
 
-Same as before, but now it's on the `modlist.json` file. This file includes mod
-names, versions, authors, and the steam id of the mod. Utils' item list will
-automatically generate links to the mod's workshop page if a steam id was found,
-or a link with the mod's name as a search query.
+|--------|---------|-------------------------------------------------------------------------|
+| Line # | Type    | Description                                                             |
+|-------:|:--------|:------------------------------------------------------------------------|
+| 2      | string  | The title of the item list as it appears in your browser's tab.         |
+|--------+---------+-------------------------------------------------------------------------|
+| 4      | string  | The description of the item list as it appears in search engines.       |
+|--------+---------+-------------------------------------------------------------------------|
+| 7      | string  | The subpath of your site. If you've renamed your site to `YOUR_GITHUB_USERNAME.github.io`, you should change this field to `''`, else this should be a url friendly version of what you named your repository. |
+|--------+---------+-------------------------------------------------------------------------|
+| 8      | string  | The url of your site. If you used a custom domain, this should be that. |
+|--------+---------+-------------------------------------------------------------------------|
+| 9      | string  | Your Twitter username.                                                  |
+|--------+---------+-------------------------------------------------------------------------|
+| 10     | string  | Your Github username.                                                   |
+|--------+---------+-------------------------------------------------------------------------|
+| 13-50  | boolean | Changes various aspects of the store page. The comments above the settings themselves describe what they do. |
+|--------+---------+-------------------------------------------------------------------------|
+| 54-58  | boolean | Changes various aspects of the commands page. The comments above the settings themselves describe what they do. |
+|--------+---------+-------------------------------------------------------------------------|
+| 62-64  | boolean | Changes various aspects of the mods page. The comments above the settings themselves describe what they do. |
+|--------+---------+-------------------------------------------------------------------------|
 
-### Item Data
+## Personalizing Your Item List
 
-Same process, but now it's the `itemdata.json` file. This file is responsible
-for supplying various metadata about RimWorld items, including Utils-specific
-data.
+Next we'll be personalizing your item list. To do this, we'll need to navigate to the `_data` directory.
+![Navigate to _data directory]({{- "/assets/itemlist/data_directory.png" | relative_url -}})
 
-### Personalizing
+### Adding Social Icons
 
-You'll quickingly notice that the item list has some references to `SirRandoo`
-in some areas, like the header. You can change this by editing the `_config.yml`
-file in the root directory.
+From the `_data` directory, we'll navigate to the `social.yml` file.
+![Navigate to the social file]({{- "/assets/itemlist/social_file.png" | relative_url -}})
 
-![Edit the _config.yml file]({{- "/assets/itemlist/personalize_config.png" | relative_url -}})
+Everything in this file can be changed to your username on the given platform, with the exception being
+the bottom couple of settings. The bottom settings, while not used in the item list, must be either
+`true` or `false`.
 
-Here you have the option of editing `title` on line `2`, `description` on line
-`4`, `twitter_username` on line `9`, `github_username`
-on line `10`, and `baseurl` on line `7`.
+### Translating the Item List
 
-#### Base Url
+From the `_data` directory, we'll navigate to the `language.yml` file.
+![Navigate to the language file]({{- "/assets/itemlist/language_file.png" | relative_url -}})
 
-If you named your item list repository `YOUR_GITHUB_USERNAME.github.io` you'll
-want to replace this with an empty string (`''`). If you renamed your item list
-to something *other* than `itemlist`, you'll want to put in that instead. If
-your repository has spaces, you'll put dashes (`-`) in place of them. Generally,
-this should be how Github names your repository, which you can find in your
-url bar.
+Everything in this file can be translated to the language your target audience in most comfortable using.
 
-![Example url bar]({{- "/assets/itemlist/personalize_config-base_url.png" | relative_url -}})
+## Uploading Your Toolkit Files
 
-Not adjusting the base url to fit the criteria above **will** negatively impact
-how the site looks, or outright stop certain pages from being visible.
-{: .warn}
+From the `_data` directory, we'll navigate to the various Toolkit files to update their contents. For the
+sake of demonstration, we'll use the `StoreItems.json` file throughout these examples.
 
-### Social Icons
+First you should open the file you want to edit by clicking on it.
+![Open file]({{- "/assets/itemlist/items_file.png" | relative_url -}})
 
-At the bottom of the item list you'll find a little Twitch icon that points to
-`sirrandoo`'s profile. You can modify this, as well as add several others, in
-the `_data\social.yml` file. There won't be a walkthrough for this as *everything*
-in this file is personalizable. Just place your account handles in the relevant
-lines and commit.
+Then we'll edit the file by clicking the pencil on the right side of the document viewer.
+![Edit file]({{- "/assets/itemlist/edit_file.png" | relative_url -}})
 
-![Personalize social]({{- "/assets/itemlist/personalize_social.png" | relative_url -}})
+Lastly, we'll commit the changes by scrolling to the bottom of the page, then clicking `Commit changes`.
+![Commit changes]({{- "/assets/itemlist/commit_file.png" | relative_url -}})
