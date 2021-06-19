@@ -418,7 +418,8 @@ namespace SirRandoo.ToolkitUtils
             foreach (PawnKindItem pawn in PawnKinds)
             {
                 pawn.PawnData ??= new PawnKindData();
-                pawn.PawnData.Mod = pawn.ColonistKindDef?.modContentPack.Name?.Replace("Core", "RimWorld");
+                pawn.PawnData.Mod = pawn.ColonistKindDef?.modContentPack?.Name?.Replace("Core", "RimWorld")
+                                    ?? "Unknown";
                 pawn.UpdateStats();
             }
         }
