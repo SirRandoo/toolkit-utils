@@ -557,6 +557,16 @@ namespace SirRandoo.ToolkitUtils.Workers
                 item = null;
                 return false;
             }
+
+            [NotNull]
+            public string AsString(bool plural = false)
+            {
+                string name = plural ? Thing.Name.Pluralize() : Thing.Name;
+
+                return (Quality.HasValue
+                    ? $"{Stuff?.Name} {name} ({Quality.Value.ToString()}"
+                    : $"{Stuff?.Name} {name}").Trim();
+            }
         }
     }
 }

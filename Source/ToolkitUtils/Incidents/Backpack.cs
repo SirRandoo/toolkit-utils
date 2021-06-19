@@ -184,7 +184,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                    .CapitalizeFirst(),
                     "TKUtils.BackpackLetter.Description".LocalizeKeyed(
                         Quantity.ToString("N0"),
-                        Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
+                        Proxy.AsString(Quantity > 1),
                         Purchaser.username
                     ),
                     ItemHelper.GetLetterFromValue(Price),

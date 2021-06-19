@@ -202,7 +202,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 (Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name).Truncate(15, true).CapitalizeFirst(),
                 "TKUtils.ItemLetter.ItemDescription".LocalizeKeyed(
                     Quantity.ToString("N0"),
-                    Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
+                    Proxy.AsString(Quantity > 1),
                     Purchaser.username
                 ),
                 ItemHelper.GetLetterFromValue(Price),
