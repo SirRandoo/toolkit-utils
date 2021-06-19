@@ -277,6 +277,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                     }
 
                     proxy.Stuff = GetItemRaw(segment);
+
+                    if (proxy.Stuff == null && !proxy.Quality.HasValue)
+                    {
+                        proxy.ProcessError = true;
+                        break;
+                    }
                 }
 
                 return proxy;
@@ -483,6 +489,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             public ThingItem Thing { get; set; }
             public ThingItem Stuff { get; set; }
+            public bool ProcessError { get; set; }
 
             public QualityCategory? Quality
             {
@@ -509,7 +516,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             public bool IsValid()
             {
-                if (Thing == null)
+                if (Thing == null || ProcessError)
                 {
                     return false;
                 }
