@@ -197,7 +197,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 if (!MassUtility.CanEverCarryAnything(pawn)
                     || MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, thing, Quantity))
                 {
-                    TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(Map), Map, thing);
+                    PurchaseHelper.SpawnItem(DropCellFinder.TradeDropSpot(Map), Map, thing);
                     return;
                 }
 
