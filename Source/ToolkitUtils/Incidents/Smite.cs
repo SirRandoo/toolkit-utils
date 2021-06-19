@@ -18,6 +18,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using Verse;
@@ -31,6 +32,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool CanHappen([NotNull] string msg, Viewer viewer)
         {
+            UserData data = UserRegistry.GetData(viewer.username);
+
+            if (!(data is {IsModerator: true}))
+            {
+                return false;
+            }
+
             string target = msg.Split(' ').Take(2).FirstOrDefault();
 
             if (PurchaseHelper.TryGetPawn(target, out pawn))
