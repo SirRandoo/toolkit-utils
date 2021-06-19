@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+    <Operation Class="PatchOperationSequence">
+        <success>Always</success>
+        <operations>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Command[defName="GiveAllCoins"]/commandDriver</xpath>
+                <value>
+                    <commandDriver>SirRandoo.ToolkitUtils.Commands.GiveAll</commandDriver>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/TwitchToolkit.Command[defName="GiveAllCoins"]</xpath>
+                <value>
+                    <description>Gives all active viewers the specified number of coins.</description>
+                </value>
+            </li>
+        </operations>
+    </Operation>
+</Patch>

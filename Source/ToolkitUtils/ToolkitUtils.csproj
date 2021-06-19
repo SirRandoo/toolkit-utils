@@ -52,6 +52,7 @@
         <Compile Include="Commands\Balance.cs"/>
         <Compile Include="Commands\Database.cs"/>
         <Compile Include="Commands\Factions.cs"/>
+        <Compile Include="Commands\GiveAll.cs"/>
         <Compile Include="Commands\InstalledMods.cs"/>
         <Compile Include="Commands\ColonistCount.cs"/>
         <Compile Include="Commands\PawnInsult.cs"/>
@@ -341,6 +342,9 @@
         </Content>
         <Content Update="..\..\Common\Defs\HediffDefs.xml">
             <Link>Common\Defs\HediffDefs.xml</Link>
+        </Content>
+        <Content Update="..\..\Common\Patches\TwitchToolkit\GiveAllOverride.xml">
+            <Link>Common\Patches\TwitchToolkit\GiveAllOverride.xml</Link>
         </Content>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
