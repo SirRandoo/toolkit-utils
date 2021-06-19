@@ -144,7 +144,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, weapon, 1) && old != null)
             {
                 pawn.equipment.AddEquipment(old);
-                TradeUtility.SpawnDropPod(pawn.Position, pawn.Map, weapon);
+                PurchaseHelper.SpawnItem(pawn.Position, pawn.Map, weapon);
                 Viewer.Charge(
                     cost,
                     item.Thing.ItemData?.Weight ?? 1f,
