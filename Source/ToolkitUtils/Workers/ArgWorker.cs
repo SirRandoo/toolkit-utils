@@ -24,6 +24,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore.Utilities;
+using TwitchToolkit;
 using Verse;
 using Command = TwitchToolkit.Command;
 
@@ -346,6 +347,44 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             capacity = GetNextAsCapacity();
             return !(capacity is null);
+        }
+
+        [CanBeNull]
+        public Viewer GetNextAsViewer()
+        {
+            string next = GetNext();
+
+            if (next == null)
+            {
+                return null;
+            }
+
+            if (next.StartsWith("@"))
+            {
+                next = next.Substring(1);
+            }
+
+            return Viewers.All.Find(v => v.username.Equals(next, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [CanBeNull]
+        public Viewer GetNextAsViewer(Action<string> errorCallback)
+        {
+            Viewer viewer = GetNextAsViewer();
+
+            if (viewer == null)
+            {
+                errorCallback.Invoke(lastArgument);
+            }
+
+            return viewer;
+        }
+
+        [ContractAnnotation("=> true,viewer:notnull; => false,viewer:null")]
+        public bool TryGetNextAsViewer(out Viewer viewer)
+        {
+            viewer = GetNextAsViewer();
+            return viewer != null;
         }
 
         [CanBeNull]
