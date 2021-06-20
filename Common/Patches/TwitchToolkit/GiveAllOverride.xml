@@ -10,12 +10,6 @@
                     <commandDriver>SirRandoo.ToolkitUtils.Commands.GiveAll</commandDriver>
                 </value>
             </li>
-            <li Class="PatchOperationAdd">
-                <xpath>/Defs/TwitchToolkit.Command[defName="GiveAllCoins"]</xpath>
-                <value>
-                    <description>Gives all active viewers the specified number of coins.</description>
-                </value>
-            </li>
         </operations>
     </Operation>
 </Patch>
