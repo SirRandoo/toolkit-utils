@@ -81,7 +81,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            Trait target = traits?.FirstOrDefault(t => TraitHelper.CompareToInput(buyable.GetDefaultName()!, t.Label));
+            Trait target = traits?.FirstOrDefault(
+                t => TraitHelper.CompareToInput(buyable.GetDefaultName(pawn.gender)!, t.Label)
+            );
 
             if (target == null)
             {

@@ -39,6 +39,8 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "addPrice")] public int CostToAdd;
         [DataMember(Name = "removePrice")] public int CostToRemove;
         [IgnoreDataMember] private TraitData data;
+        [IgnoreDataMember] private string defaultFeminineName;
+        [IgnoreDataMember] private string defaultMasculineName;
         [IgnoreDataMember] private string defaultName;
 
         [DataMember(Name = "degree")] public int Degree;
@@ -349,15 +351,38 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [CanBeNull]
-        public string GetDefaultName(bool invalidate = false)
+        public string GetDefaultName(Gender? gender = null, bool invalidate = false)
         {
-            if (defaultName != null && !invalidate)
+            switch (gender)
             {
-                return defaultName;
-            }
+                case Gender.Male:
+                    if (invalidate || defaultMasculineName.NullOrEmpty())
+                    {
+                        defaultMasculineName = TraitDef?.DataAtDegree(Degree)
+                           .GetLabelFor(Gender.Male)
+                           .StripTags()
+                           .ToToolkit();
+                    }
 
-            defaultName = TraitDef?.DataAtDegree(Degree).label.StripTags().ToToolkit();
-            return defaultName;
+                    return defaultMasculineName;
+                case Gender.Female:
+                    if (invalidate || defaultFeminineName.NullOrEmpty())
+                    {
+                        defaultFeminineName = TraitDef?.DataAtDegree(Degree)
+                           .GetLabelFor(Gender.Female)
+                           .StripTags()
+                           .ToToolkit();
+                    }
+
+                    return defaultFeminineName;
+                default:
+                    if (invalidate || defaultName.NullOrEmpty())
+                    {
+                        defaultName = TraitDef?.DataAtDegree(Degree).GetLabelFor(Gender.None).StripTags().ToToolkit();
+                    }
+
+                    return defaultName;
+            }
         }
     }
 }
