@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+    <Operation Class="PatchOperationSequence">
+        <success>Always</success>
+        <operations>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="ClearWeather"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="WeatherRain"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="VomitRain"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="FoggyRain"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="RainyThunderStorm"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="DryThunderStorm"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="SnowGentle"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="SnowHard"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="Fog"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentSimple[defName="Flashstorm"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Weather</incidentHelper>
+                </value>
+            </li>
+        </operations>
+    </Operation>
+</Patch>
