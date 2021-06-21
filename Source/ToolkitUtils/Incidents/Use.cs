@@ -69,9 +69,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             buyableItem = item.Thing;
-            if (item.TryGetInvalidSelector(out ThingItem i))
+            if (item.TryGetError(out string error))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".LocalizeKeyed(i.Name));
+                MessageHelper.ReplyToUser(viewer.username, error);
                 return false;
             }
 

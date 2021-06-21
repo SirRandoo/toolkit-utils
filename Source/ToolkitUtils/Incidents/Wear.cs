@@ -19,7 +19,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
@@ -52,9 +51,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (item.TryGetInvalidSelector(out ThingItem i))
+            if (item.TryGetError(out string error))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.Disabled".Localize(i.Name));
+                MessageHelper.ReplyToUser(viewer.username, error);
                 return false;
             }
 

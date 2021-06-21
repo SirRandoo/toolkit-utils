@@ -579,15 +579,18 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             [ContractAnnotation("=> false,item:null; => true,item:notnull")]
-            public bool TryGetInvalidSelector(out ThingItem item)
+            private bool TryGetInvalidSelector(out ThingItem item)
             {
-                if (!Thing.Enabled)
+                if (Thing.Cost <= 0 || Thing.Thing == null)
                 {
                     item = Thing;
                     return true;
                 }
 
-                if (Stuff != null && (!Stuff.Enabled || Stuff.ItemData?.IsStuffAllowed != true))
+                if (Stuff != null
+                    && (Stuff.Cost <= 0
+                        || Stuff.ItemData?.IsStuffAllowed != true
+                        || !Thing.Thing.CanBeStuff(Stuff.Thing)))
                 {
                     item = Stuff;
                     return true;
@@ -605,6 +608,67 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return (Quality.HasValue
                     ? $"{Stuff?.Name} {name} ({Quality.Value.ToString()}"
                     : $"{Stuff?.Name} {name}").Trim();
+            }
+
+            public bool TryGetError([CanBeNull] out string error)
+            {
+                if (TryGetInvalidSelector(out ThingItem item))
+                {
+                    LogHelper.Debug("Found an invalid selector");
+                    if (item == Thing)
+                    {
+                        return TryGetThingError(out error);
+                    }
+
+                    if (item == Stuff)
+                    {
+                        return TryGetStuffError(out error);
+                    }
+
+                    error = null;
+                    return false;
+                }
+
+                if (Quality.HasValue && !Thing.Thing.HasComp(typeof(CompQuality)))
+                {
+                    error = "TKUtils.Item.QualityViolation".LocalizeKeyed(Thing.Name);
+                    return true;
+                }
+
+                error = null;
+                return false;
+            }
+
+            [ContractAnnotation("=> true,error:notnull; => false,error:null")]
+            private bool TryGetThingError(out string error)
+            {
+                if (Thing.Cost <= 0 || Thing.Thing == null)
+                {
+                    error = "TKUtils.Item.Disabled".LocalizeKeyed(Thing.Name);
+                    return true;
+                }
+
+                error = null;
+                return false;
+            }
+
+            [ContractAnnotation("=> true,error:notnull; => false,error:null")]
+            private bool TryGetStuffError(out string error)
+            {
+                if (Stuff.Cost <= 0 || Stuff.Thing == null)
+                {
+                    error = "TKUtils.Item.Disabled".LocalizeKeyed(Stuff.Name);
+                    return true;
+                }
+
+                if (!Thing.Thing.MadeFromStuff || !Thing.Thing.CanBeStuff(Stuff.Thing))
+                {
+                    error = "TKUtils.Item.MaterialViolation".LocalizeKeyed(Thing.Name, Stuff.Name);
+                    return true;
+                }
+
+                error = null;
+                return false;
             }
         }
     }

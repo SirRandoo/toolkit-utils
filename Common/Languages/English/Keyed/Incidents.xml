@@ -35,6 +35,7 @@
     <TKUtils.Item.Complete>You've purchased {0} {1} for {2} coins. Your new balance is {3} coins.</TKUtils.Item.Complete>
     <TKUtils.Item.CompleteMinimal>You've purchased {0} {1} for {2} coins.</TKUtils.Item.CompleteMinimal>
     <TKUtils.Item.MaterialViolation>The item "{0}" cannot be made of {1}.</TKUtils.Item.MaterialViolation>
+    <TKUtils.Item.QualityViolation>The item "{0}" cannot have a quality.</TKUtils.Item.QualityViolation>
 
     <!-- Buy Pawn -->
     <TKUtils.BuyPawn.Humanlike>Only humanlikes can be purchased.</TKUtils.BuyPawn.Humanlike>
