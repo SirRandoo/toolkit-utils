@@ -14,9 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -88,10 +90,37 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void UpdateStats()
         {
-            PawnData.Stats = ColonistKindDef.race.statBases.Select(
-                    def => $"{def.ValueToStringAsOffset} {def.stat.label?.CapitalizeFirst() ?? def.stat.defName}"
-                )
-               .ToArray();
+            PawnKindDef def = ColonistKindDef;
+
+            if (def?.race?.statBases == null)
+            {
+                return;
+            }
+
+            var builder = new StringBuilder();
+            var container = new List<string>();
+
+            foreach (StatModifier stat in def.race.statBases)
+            {
+                try
+                {
+                    container.Add(
+                        $"{stat.ValueToStringAsOffset} {stat.stat.label?.CapitalizeFirst() ?? stat.stat.defName}"
+                    );
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($"- {stat?.stat?.label ?? stat?.stat?.defName ?? "UNPROCESSABLE"}");
+                }
+            }
+
+            if (builder.Length > 0)
+            {
+                builder.Insert(0, $@"The following stats could not be processed for ""{def.label ?? def.defName}"":\n");
+                LogHelper.Warn(builder.ToString());
+            }
+
+            PawnData.Stats = container.ToArray();
         }
 
         public string GetDefaultName()
