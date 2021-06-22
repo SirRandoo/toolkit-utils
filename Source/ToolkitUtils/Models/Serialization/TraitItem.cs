@@ -256,10 +256,39 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         private static IEnumerable<string> GetOnlyAllowedMentalBreaks([NotNull] TraitDegreeData data)
         {
-            return data.theOnlyAllowedMentalBreaks?.Select(
-                       def => "TKUtils.Trait.MentalBreak".Localize(def.label ?? def.defName)
-                   )
-                   ?? new string[0];
+            if (data.theOnlyAllowedMentalBreaks == null)
+            {
+                yield break;
+            }
+
+            var builder = new StringBuilder();
+
+            foreach (MentalBreakDef def in data.theOnlyAllowedMentalBreaks)
+            {
+                string result = null;
+
+                try
+                {
+                    result = "TKUtils.Trait.MentalBreak".LocalizeKeyed(def.label ?? def.defName);
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {def.label ?? def.defName ?? "UNPROCESSABLE"}");
+                }
+
+                if (!result.NullOrEmpty())
+                {
+                    yield return result;
+                }
+            }
+
+            if (builder.Length <= 0)
+            {
+                yield break;
+            }
+
+            builder.Insert(0, $@"The following mental breaks could not be processed for ""{data.label}"":\n");
+            LogHelper.Warn(builder.ToString());
         }
 
         [NotNull]
