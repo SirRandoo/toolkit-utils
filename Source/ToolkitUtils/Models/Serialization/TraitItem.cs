@@ -265,10 +265,38 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         private static IEnumerable<string> GetSkillGains([NotNull] TraitDegreeData data)
         {
-            return data.skillGains?.Select(
-                       pair => $"{pair.Value.ToStringWithSign()} {pair.Key.skillLabel ?? pair.Key.defName}"
-                   )
-                   ?? new string[0];
+            if (data.skillGains == null)
+            {
+                yield break;
+            }
+
+            var builder = new StringBuilder();
+
+            foreach ((SkillDef skill, int value) in data.skillGains)
+            {
+                string result = null;
+                try
+                {
+                    result = $"{value.ToStringWithSign()} {skill.skillLabel ?? skill.defName}";
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {skill.skillLabel ?? skill.defName ?? "UNPROCESSABLE"}");
+                }
+
+                if (!result.NullOrEmpty())
+                {
+                    yield return result;
+                }
+            }
+
+            if (builder.Length <= 0)
+            {
+                yield break;
+            }
+
+            builder.Insert(0, $@"The following stats could not be processed for ""{data.label}"":\n");
+            LogHelper.Warn(builder.ToString());
         }
 
         private static IEnumerable<string> GetStatOffsets([NotNull] TraitDegreeData data, StringBuilder messages)
