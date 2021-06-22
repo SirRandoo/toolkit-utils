@@ -208,19 +208,77 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         private static IEnumerable<string> GetDisallowedInspirations([NotNull] TraitDegreeData data)
         {
-            return data.disallowedInspirations?.Select(
-                       def => "TKUtils.Trait.Inspiration".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName)
-                   )
-                   ?? new string[0];
+            if (data.disallowedInspirations == null)
+            {
+                yield break;
+            }
+
+            var builder = new StringBuilder();
+
+            foreach (InspirationDef def in data.disallowedInspirations)
+            {
+                string result = null;
+
+                try
+                {
+                    result = "TKUtils.Trait.Inspiration".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName);
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {def.label ?? def.defName ?? "UNPROCESSABLE"}");
+                }
+
+                if (!result.NullOrEmpty())
+                {
+                    yield return result;
+                }
+            }
+
+            if (builder.Length <= 0)
+            {
+                yield break;
+            }
+
+            builder.Insert(0, $@"The following inspirations could not be processed for ""{data.label}"":\n");
+            LogHelper.Warn(builder.ToString());
         }
 
         [NotNull]
         private static IEnumerable<string> GetDisallowedMentalStates([NotNull] TraitDegreeData data)
         {
-            return data.disallowedMentalStates?.Select(
-                       def => "TKUtils.Trait.MentalState".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName)
-                   )
-                   ?? new string[0];
+            if (data.disallowedMentalStates == null)
+            {
+                yield break;
+            }
+
+            var builder = new StringBuilder();
+
+            foreach (MentalStateDef def in data.disallowedMentalStates)
+            {
+                string result = null;
+
+                try
+                {
+                    result = "TKUtils.Trait.MentalState".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName);
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {def.label ?? def.defName ?? "UNPROCESSABLE"}");
+                }
+
+                if (!result.NullOrEmpty())
+                {
+                    yield return result;
+                }
+            }
+
+            if (builder.Length <= 0)
+            {
+                yield break;
+            }
+
+            builder.Insert(0, $@"The following mental states could not be processed for ""{data.label}"":\n");
+            LogHelper.Warn(builder.ToString());
         }
 
         private static IEnumerable<string> GetDisallowedMeditationTypes(TraitDegreeData data)
@@ -230,12 +288,39 @@ namespace SirRandoo.ToolkitUtils.Models
                 yield break;
             }
 
-            foreach (string s in data.disallowedMeditationFocusTypes.Select(
-                def => "TKUtils.Trait.MeditationDisabled".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName)
-            ))
+            var builder = new StringBuilder();
+
+            foreach (MeditationFocusDef def in data.disallowedMeditationFocusTypes)
             {
-                yield return s;
+                string result = null;
+
+                try
+                {
+                    result = "TKUtils.Trait.MeditationDisabled".LocalizeKeyed(
+                        def.label?.CapitalizeFirst() ?? def.defName
+                    );
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {def.label ?? def.defName ?? "UNPROCESSABLE"}");
+                }
+
+                if (!result.NullOrEmpty())
+                {
+                    yield return result;
+                }
             }
+
+            if (builder.Length <= 0)
+            {
+                yield break;
+            }
+
+            builder.Insert(
+                0,
+                $@"The following disallowed meditation types could not be processed for ""{data.label}"":\n"
+            );
+            LogHelper.Warn(builder.ToString());
         }
 
         private static IEnumerable<string> GetAllowedMeditationTypes(TraitDegreeData data)
@@ -245,12 +330,39 @@ namespace SirRandoo.ToolkitUtils.Models
                 yield break;
             }
 
-            foreach (string s in data.allowedMeditationFocusTypes.Select(
-                def => "TKUtils.Trait.MeditationEnabled".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName)
-            ))
+            var builder = new StringBuilder();
+
+            foreach (MeditationFocusDef def in data.allowedMeditationFocusTypes)
             {
-                yield return s;
+                string result = null;
+
+                try
+                {
+                    result = "TKUtils.Trait.MeditationEnabled".LocalizeKeyed(
+                        def.label?.CapitalizeFirst() ?? def.defName
+                    );
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {def.label ?? def.defName ?? "UNPROCESSABLE"}");
+                }
+
+                if (!result.NullOrEmpty())
+                {
+                    yield return result;
+                }
             }
+
+            if (builder.Length <= 0)
+            {
+                yield break;
+            }
+
+            builder.Insert(
+                0,
+                $@"The following allowed meditation types could not be processed for ""{data.label}"":\n"
+            );
+            LogHelper.Warn(builder.ToString());
         }
 
         [NotNull]
