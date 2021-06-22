@@ -209,7 +209,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private static IEnumerable<string> GetDisallowedInspirations([NotNull] TraitDegreeData data)
         {
             return data.disallowedInspirations?.Select(
-                       def => "TKUtils.Trait.Inspiration".Localize(def.label?.CapitalizeFirst() ?? def.defName)
+                       def => "TKUtils.Trait.Inspiration".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName)
                    )
                    ?? new string[0];
         }
@@ -218,7 +218,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private static IEnumerable<string> GetDisallowedMentalStates([NotNull] TraitDegreeData data)
         {
             return data.disallowedMentalStates?.Select(
-                       def => "TKUtils.Trait.MentalState".Localize(def.label?.CapitalizeFirst() ?? def.defName)
+                       def => "TKUtils.Trait.MentalState".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName)
                    )
                    ?? new string[0];
         }
