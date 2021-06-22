@@ -35,7 +35,6 @@ namespace SirRandoo.ToolkitUtils.Workers
     public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
     {
         private const float BaseExpandedLineSpan = 3f;
-        private string capBuffer;
         private string closeEventNameTooltip;
         private string editEventNameTooltip;
         private string eventCapText;
@@ -314,6 +313,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             (Rect capLabel, Rect capField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm(0.6f);
             SettingsHelper.DrawLabel(capLabel, eventCapText);
             int capProxy = ev.Data.EventCap;
+            var capBuffer = capProxy.ToString();
             if (SettingsHelper.DrawNumberField(capField, ref capProxy, ref capBuffer, out int newCap, 1f, 200f))
             {
                 ev.Data.EventCap = newCap;
