@@ -335,7 +335,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             TraitData ??= new TraitData();
 
-            if (TraitDef == null)
+            if (TraitDef?.conflictingTraits == null)
             {
                 return;
             }
