@@ -246,7 +246,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             foreach (string s in data.allowedMeditationFocusTypes.Select(
-                def => "TKUtils.Trait.MeditationEnabled".Localize(def.label?.CapitalizeFirst() ?? def.defName)
+                def => "TKUtils.Trait.MeditationEnabled".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName)
             ))
             {
                 yield return s;
