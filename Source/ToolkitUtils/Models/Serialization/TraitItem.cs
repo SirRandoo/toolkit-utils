@@ -225,13 +225,13 @@ namespace SirRandoo.ToolkitUtils.Models
 
         private static IEnumerable<string> GetDisallowedMeditationTypes(TraitDegreeData data)
         {
-            if (!ModLister.RoyaltyInstalled || data.disallowedMentalStates.NullOrEmpty())
+            if (!ModLister.RoyaltyInstalled || data.disallowedMeditationFocusTypes.NullOrEmpty())
             {
                 yield break;
             }
 
             foreach (string s in data.disallowedMeditationFocusTypes.Select(
-                def => "TKUtils.Trait.MeditationDisabled".Localize(def.label?.CapitalizeFirst() ?? def.defName)
+                def => "TKUtils.Trait.MeditationDisabled".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName)
             ))
             {
                 yield return s;
