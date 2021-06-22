@@ -23,6 +23,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit;
+using TwitchToolkit.Store;
 using TwitchToolkit.Votes;
 using UnityEngine;
 using Verse;
@@ -166,7 +167,11 @@ namespace SirRandoo.ToolkitUtils
 
         public override void GameComponentTick()
         {
-            ProcessNextIncident();
+            if (!TryProcessNextVoteIncident())
+            {
+                ProcessNextIncident();
+            }
+
             Toolkit.JobManager.CheckAllJobs();
 
             if (TkSettings.AsapPurchases)
@@ -175,6 +180,25 @@ namespace SirRandoo.ToolkitUtils
             }
 
             ProcessNextEvent();
+        }
+
+        private static bool TryProcessNextVoteIncident()
+        {
+            if (!Ticker.IncidentHelpers.TryDequeue(out IncidentHelper incident))
+            {
+                return false;
+            }
+
+            try
+            {
+                incident.TryExecute();
+                return true;
+            }
+            catch (Exception)
+            {
+                // unused
+                return false;
+            }
         }
 
         private static void ProcessNextIncident()
