@@ -52,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return "NoHealthConditions".Localize().CapitalizeFirst();
             }
 
-            IEnumerable<IGrouping<BodyPartRecord, Hediff>> hediffsGrouped = GetVisibleHediffGroupsInOrder(target);
+            List<IGrouping<BodyPartRecord, Hediff>> hediffsGrouped = GetVisibleHediffGroupsInOrder(target).ToList();
             var builder = new StringBuilder();
 
             if (!TkSettings.TempInGear)
@@ -64,13 +64,15 @@ namespace SirRandoo.ToolkitUtils.Commands
                 builder.Append(ResponseHelper.OuterGroupSeparator.AltText(ResponseHelper.OuterGroupSeparatorAlt));
             }
 
+            var hediffIndex = 0;
+            int hediffTotal = hediffsGrouped.Count - 1;
             foreach (IGrouping<BodyPartRecord, Hediff> item in hediffsGrouped)
             {
                 builder.Append(item.Key?.LabelCap ?? "WholeBody".Localize());
                 builder.Append(": ");
 
                 var index = 0;
-                int total = item.Count();
+                int total = item.Count() - 1;
 
                 foreach (IGrouping<int, Hediff> group in item.GroupBy(h => h.UIGroupKey))
                 {
@@ -78,19 +80,17 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                     if (group.Count(i => i.Bleeding) > 0)
                     {
-                        builder.Append("(");
-
                         if (TkSettings.Emojis)
                         {
                             builder.Append(ResponseHelper.BleedingGlyph);
                         }
                         else
                         {
+                            builder.Append("(");
                             builder.Append("BleedingRate".Localize());
                             builder.Append(" ");
+                            builder.Append(")");
                         }
-
-                        builder.Append(")");
                     }
 
                     if (group.All(i => i.IsTended()))
@@ -114,6 +114,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                     index++;
                 }
+
+                if (hediffIndex < hediffTotal)
+                {
+                    builder.Append(ResponseHelper.OuterGroupSeparator.AltText(ResponseHelper.OuterGroupSeparatorAlt));
+                }
+
+                hediffIndex++;
             }
 
             return builder.ToString();
