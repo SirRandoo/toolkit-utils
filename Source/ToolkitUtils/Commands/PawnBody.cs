@@ -117,7 +117,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (hediffIndex < hediffTotal)
                 {
-                    builder.Append(ResponseHelper.OuterGroupSeparator.AltText(ResponseHelper.OuterGroupSeparatorAlt));
+                    builder.Append(
+                        ResponseHelper.OuterGroupSeparator.AltText($" {ResponseHelper.OuterGroupSeparatorAlt} ")
+                    );
                 }
 
                 hediffIndex++;
