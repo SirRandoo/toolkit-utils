@@ -89,6 +89,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                         viewer.GetViewerCoins().ToString("N0")
                     )
                 );
+                return false;
             }
 
             List<ResearchProjectDef> prerequisites = item.Thing.Thing.GetUnfinishedPrerequisites();
