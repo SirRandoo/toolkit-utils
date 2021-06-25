@@ -104,13 +104,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            thatTrait = new Trait(thatShop.TraitDef, thatShop.Degree);
             return true;
         }
 
         private bool PassesValidationCheck(Viewer viewer)
         {
             thisTrait = pawn.story.traits.allTraits.Find(t => t.def.defName.Equals(thisShop.DefName));
+            thatTrait = new Trait(thatShop.TraitDef, thatShop.Degree);
 
             if (thisTrait == null)
             {
@@ -144,7 +144,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 {
                     MessageHelper.ReplyToUser(
                         viewer.username,
-                        "TKUtils.Trait.Conflict".LocalizeKeyed(trait.Label, thatTraitDef.label ?? thatTraitDef.defName)
+                        "TKUtils.Trait.Conflict".LocalizeKeyed(trait.Label, thatTrait.Label ?? thatTrait.def.defName)
                     );
                     return false;
                 }
