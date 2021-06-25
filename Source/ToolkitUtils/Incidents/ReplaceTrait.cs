@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             foreach (Trait trait in pawn.story.traits.allTraits)
             {
-                if (trait.def.ConflictsWith(thatTraitDef))
+                if (trait != thisTrait && trait.def.ConflictsWith(thatTraitDef))
                 {
                     MessageHelper.ReplyToUser(
                         viewer.username,
