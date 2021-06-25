@@ -151,7 +151,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             MessageHelper.SendConfirmation(
                 Viewer.username,
                 (spawned ? "TKUtils.Wear.Spawned" : "TKUtils.Wear.Complete").LocalizeKeyed(
-                    thing.Label ?? thing.def.defName
+                    thing.Label ?? thing.def.defName,
+                    cost.ToString("N0")
                 )
             );
 

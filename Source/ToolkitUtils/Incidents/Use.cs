@@ -167,7 +167,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             MessageHelper.SendConfirmation(
                 Viewer.username,
-                "TKUtils.Use.Complete".LocalizeKeyed(thing.LabelCap ?? thing.def.defName)
+                "TKUtils.Use.Complete".LocalizeKeyed(
+                    thing.LabelCap ?? thing.def.defName,
+                    buyableItem.Cost.ToString("N0")
+                )
             );
 
             Viewer.Charge(

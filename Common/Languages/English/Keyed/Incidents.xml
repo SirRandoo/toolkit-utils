@@ -54,16 +54,16 @@
     <TKUtils.Surgery.HasNoSurgery>The item "{0}" cannot be surgically attached.</TKUtils.Surgery.HasNoSurgery>
 
     <!-- Equip -->
-    <TKUtils.Equip.Complete>Your pawn has equipped a(n) {0}.</TKUtils.Equip.Complete>
-    <TKUtils.Equip.Spawned>Your pawn couldn't equip "{0}", so it was spawned instead.</TKUtils.Equip.Spawned>
+    <TKUtils.Equip.Complete>Your pawn has equipped a(n) {0} for {1} coins.</TKUtils.Equip.Complete>
+    <TKUtils.Equip.Spawned>Your pawn couldn't equip "{0}", so it was spawned for {1} coins instead.</TKUtils.Equip.Spawned>
 
     <!-- Use -->
-    <TKUtils.Use.Complete>Your pawn used a(n) {0}.</TKUtils.Use.Complete>
+    <TKUtils.Use.Complete>Your pawn used a(n) {0} for {1} coins.</TKUtils.Use.Complete>
     <TKUtils.Use.Unusable>The item "{0}" can't be used by your pawn.</TKUtils.Use.Unusable>
 
     <!-- Wear -->
-    <TKUtils.Wear.Complete>Your pawn put on a(n) {0}.</TKUtils.Wear.Complete>
-    <TKUtils.Wear.Spawned>Your pawn couldn't put on "{0}", so it was spawned instead.</TKUtils.Wear.Spawned>
+    <TKUtils.Wear.Complete>Your pawn put on a(n) {0} for {1} coins.</TKUtils.Wear.Complete>
+    <TKUtils.Wear.Spawned>Your pawn couldn't put on "{0}", so it was spawned for {1} coins instead.</TKUtils.Wear.Spawned>
 
     <!-- Heal Me -->
     <TKUtils.HealMe.Recovered>Your pawn has recovered from {0}.</TKUtils.HealMe.Recovered>

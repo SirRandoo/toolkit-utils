@@ -167,7 +167,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             MessageHelper.SendConfirmation(
                 Viewer.username,
                 (spawned ? "TKUtils.Equip.Spawned" : "TKUtils.Equip.Complete").LocalizeKeyed(
-                    thing.LabelCap ?? thing.def.defName
+                    thing.LabelCap ?? thing.def.defName,
+                    cost.ToString("N0")
                 )
             );
 
