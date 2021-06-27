@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             if (!bypassPuppeteer)
             {
-                if (Puppeteer.ShouldRedirect(user))
+                if (TkSettings.Puppeteer && Puppeteer.ShouldRedirect(user))
                 {
                     Puppeteer.SendMessage(user, message);
                 }
