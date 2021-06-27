@@ -29,6 +29,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
     [UsedImplicitly]
     public class Item : IncidentHelperVariablesSettings, IEventSettings
     {
+        public static bool Gender;
         public static bool Stuff = true;
         public static bool Quality = true;
 
@@ -154,6 +155,11 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
                 "TKUtils.Item.Quality.Description".Localize()
             );
             listing.CheckboxLabeled(
+                "TKUtils.Item.Gender.Label".Localize(),
+                ref Gender,
+                "TKUtils.Item.Gender.Description".Localize()
+            );
+            listing.CheckboxLabeled(
                 "TKUtils.Item.Research.Label".Localize(),
                 ref BuyItemSettings.mustResearchFirst,
                 "TKUtils.Item.Research.Description".Localize()
@@ -166,6 +172,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
         {
             Scribe_Values.Look(ref Stuff, "buyItemMaterial", true);
             Scribe_Values.Look(ref Quality, "buyItemQuality");
+            Scribe_Values.Look(ref Gender, "buyAnimalGender");
             Scribe_Values.Look(ref AwfulQuality, "awfulQuality", true);
             Scribe_Values.Look(ref AwfulMultiplier, "awfulQualityMultiplier", 0.5f);
             Scribe_Values.Look(ref PoorQuality, "poorQuality", true);

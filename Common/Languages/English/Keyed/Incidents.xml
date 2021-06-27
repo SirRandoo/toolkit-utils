@@ -36,6 +36,7 @@
     <TKUtils.Item.CompleteMinimal>You've purchased {0} {1} for {2} coins.</TKUtils.Item.CompleteMinimal>
     <TKUtils.Item.MaterialViolation>The item "{0}" cannot be made of {1}.</TKUtils.Item.MaterialViolation>
     <TKUtils.Item.QualityViolation>The item "{0}" cannot have a quality.</TKUtils.Item.QualityViolation>
+    <TKUtils.Item.GenderViolation>The animal "{0}" cannot have the gender {1}.</TKUtils.Item.GenderViolation>
 
     <!-- Buy Pawn -->
     <TKUtils.BuyPawn.Humanlike>Only humanlikes can be purchased.</TKUtils.BuyPawn.Humanlike>

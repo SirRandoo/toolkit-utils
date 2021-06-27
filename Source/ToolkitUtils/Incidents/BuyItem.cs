@@ -160,14 +160,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 animal = animal.Pluralize();
             }
 
-            var worker = new IncidentWorker_SpecificAnimalsWanderIn(
-                "TKUtils.ItemLetter.Animal".LocalizeKeyed(Quantity > 1 ? animal.Pluralize() : animal),
-                PawnKindDef.Named(Proxy.Thing.Thing.defName),
-                true,
-                Quantity,
-                false,
-                true
-            ) {def = IncidentDef.Named("FarmAnimalsWanderIn")};
+            var worker = new AnimalSpawnWorker
+            {
+                Label = "TKUtils.ItemLetter.Animal".Localize(Quantity > 1 ? animal.Pluralize() : animal),
+                AnimalDef = PawnKindDef.Named(Proxy.Thing.Thing.defName),
+                Gender = Proxy.Gender,
+                def = IncidentDef.Named("FarmAnimalsWanderIn"),
+                Quantity = Quantity,
+                SpawnTamed = true
+            };
 
             worker.TryExecute(StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.Misc, Map));
         }

@@ -202,6 +202,8 @@
     <TKUtils.Heal.FairFights.Description>Whether or not viewers can use this heal event while in combat.</TKUtils.Heal.FairFights.Description>
 
     <!-- Item Incident -->
+    <TKUtils.Item.Gender.Label>Specify gender</TKUtils.Item.Gender.Label>
+    <TKUtils.Item.Gender.Description>Whether or not viewers can specify the gender of animals they purchase, if applicable.</TKUtils.Item.Gender.Description>
     <TKUtils.Item.Quality.Label>Specify quality</TKUtils.Item.Quality.Label>
     <TKUtils.Item.Quality.Description>Whether or not viewers can specify the quality of their purchase, if applicable.</TKUtils.Item.Quality.Description>
     <TKUtils.Item.Stuff.Label>Specify stuff</TKUtils.Item.Stuff.Label>

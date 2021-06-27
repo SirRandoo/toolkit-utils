@@ -261,41 +261,72 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return null;
             }
 
-            var proxy = new ItemProxy();
-
             if (next.Contains("[") && next.Contains("]"))
             {
-                string details = next.Substring(next.IndexOf('[') + 1).TrimEnd(']');
-                string item = next.Replace($"[{details}]", "");
-                proxy.Thing = GetItemRaw(item);
-
-                foreach (string segment in details.Split(','))
-                {
-                    if (Item.Quality && Data.Qualities.TryGetValue(segment, out QualityCategory quality))
-                    {
-                        proxy.Quality = quality;
-                        continue;
-                    }
-
-                    if (Item.Stuff)
-                    {
-                        proxy.Stuff = GetItemRaw(segment);
-                    }
-
-                    if (proxy.Stuff != null || proxy.Quality.HasValue)
-                    {
-                        continue;
-                    }
-
-                    proxy.ProcessError = true;
-                    break;
-                }
-
-                return proxy;
+                return ProcessMetadata(next);
             }
 
-            proxy.Thing = GetItemRaw(next);
+            return new ItemProxy {Thing = GetItemRaw(next)};
+        }
+
+        [NotNull]
+        private static ItemProxy ProcessMetadata([NotNull] string next)
+        {
+            var proxy = new ItemProxy();
+
+            string details = next.Substring(next.IndexOf('[') + 1).TrimEnd(']');
+            string item = next.Replace($"[{details}]", "");
+            proxy.Thing = GetItemRaw(item);
+
+            foreach (string segment in details.Split(','))
+            {
+                if (proxy.Thing.Thing?.race.Animal == true && TryProcessAnimalMetadata(segment, proxy))
+                {
+                    continue;
+                }
+
+                if (TryProcessItemMetadata(segment, proxy))
+                {
+                    continue;
+                }
+
+                break;
+            }
+
             return proxy;
+        }
+
+        private static bool TryProcessItemMetadata(string segment, [NotNull] ItemProxy proxy)
+        {
+            if (Item.Quality && Data.Qualities.TryGetValue(segment, out QualityCategory quality))
+            {
+                proxy.Quality = quality;
+                return true;
+            }
+
+            if (Item.Stuff)
+            {
+                proxy.Stuff = GetItemRaw(segment);
+            }
+
+            if (proxy.Stuff != null || proxy.Quality.HasValue)
+            {
+                return true;
+            }
+
+            proxy.ProcessError = true;
+            return false;
+        }
+
+        private static bool TryProcessAnimalMetadata(string segment, [NotNull] ItemProxy proxy)
+        {
+            if (!Item.Gender || !Data.Genders.TryGetValue(segment, out Gender gender))
+            {
+                return false;
+            }
+
+            proxy.Gender = gender;
+            return true;
         }
 
         [CanBeNull]
@@ -558,6 +589,8 @@ namespace SirRandoo.ToolkitUtils.Workers
                 }
             }
 
+            public Gender? Gender { get; set; }
+
             public bool IsValid()
             {
                 if (Thing == null || ProcessError)
@@ -638,6 +671,16 @@ namespace SirRandoo.ToolkitUtils.Workers
                 {
                     error = "TKUtils.Item.QualityViolation".LocalizeKeyed(Thing.Name);
                     return true;
+                }
+
+                switch (Thing.Thing.race.hasGenders)
+                {
+                    case true when Gender is Verse.Gender.None:
+                        error = "TKUtils.Item.GenderViolation".LocalizeKeyed(Thing.Name, Gender.ToStringSafe());
+                        return true;
+                    case false when !(Gender is Verse.Gender.None):
+                        error = "TKUtils.Item.GenderViolation".LocalizeKeyed(Thing.Name, Gender.ToStringSafe());
+                        break;
                 }
 
                 error = null;

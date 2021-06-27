@@ -49,6 +49,10 @@ namespace SirRandoo.ToolkitUtils
            .Select(q => (q.ToLowerInvariant(), (QualityCategory) Enum.Parse(typeof(QualityCategory), q)))
            .ToDictionary(p => p.Item1, q => q.Item2);
 
+        internal static readonly Dictionary<string, Gender> Genders = Enum.GetNames(typeof(Gender))
+           .Select(g => (g.ToLowerInvariant(), (Gender) Enum.Parse(typeof(Gender), g)))
+           .ToDictionary(p => p.Item1, p => p.Item2);
+
         internal static readonly List<TechLevel> TechLevels = Enum.GetNames(typeof(TechLevel))
            .Select(t => (TechLevel) Enum.Parse(typeof(TechLevel), t))
            .ToList();
