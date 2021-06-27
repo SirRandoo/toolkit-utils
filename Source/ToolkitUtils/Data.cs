@@ -387,7 +387,7 @@ namespace SirRandoo.ToolkitUtils
             foreach (TraitItem trait in Traits)
             {
                 trait.TraitData ??= new TraitData();
-                trait.TraitData.Mod = trait.TraitDef?.modContentPack.Name?.Replace("Core", "RimWorld");
+                trait.TraitData.Mod = trait.TraitDef.TryGetModName();
             }
         }
 
@@ -422,8 +422,7 @@ namespace SirRandoo.ToolkitUtils
             foreach (PawnKindItem pawn in PawnKinds)
             {
                 pawn.PawnData ??= new PawnKindData();
-                pawn.PawnData.Mod = pawn.ColonistKindDef?.modContentPack?.Name?.Replace("Core", "RimWorld")
-                                    ?? "Unknown";
+                pawn.PawnData.Mod = pawn.ColonistKindDef.TryGetModName();
                 pawn.UpdateStats();
             }
         }
@@ -463,7 +462,7 @@ namespace SirRandoo.ToolkitUtils
                 catch (Exception e)
                 {
                     builder.Append(
-                        $"Failed to gather weapon data for item '{item.label ?? "Unknown"}' from mod '{item.modContentPack?.Name ?? "Unknown"}'"
+                        $"Failed to gather weapon data for item '{item.label ?? "Unknown"}' from mod '{item.TryGetModName()}'"
                     );
                     builder.AppendLine($" -- Exception: {e.GetType().Name}({e.Message ?? "No message"})");
                 }
@@ -513,7 +512,7 @@ namespace SirRandoo.ToolkitUtils
             foreach (EventItem ev in Events)
             {
                 ev.EventData ??= new EventData();
-                ev.EventData.Mod = ev.Incident.modContentPack?.Name;
+                ev.EventData.Mod = ev.Incident.TryGetModName();
                 ev.EventData.EventType = ev.Incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
             }
         }

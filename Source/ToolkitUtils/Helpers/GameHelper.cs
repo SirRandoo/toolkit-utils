@@ -33,5 +33,17 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             return thing.def?.label == null ? null : Unrichify.StripTags(thing.def.label);
         }
+
+        [NotNull]
+        public static string TryGetModName([CanBeNull] this ModContentPack content)
+        {
+            return content?.Name?.Replace("Core", "RimWorld") ?? "Unknown";
+        }
+
+        [NotNull]
+        public static string TryGetModName([CanBeNull] this Def def)
+        {
+            return def?.modContentPack?.TryGetModName() ?? "Unknown";
+        }
     }
 }

@@ -17,6 +17,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore.Models;
 using Verse;
 using Command = TwitchToolkit.Command;
@@ -51,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Models
             result.Data = new CommandData
             {
                 IsShortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
-                Mod = command.modContentPack?.Name,
+                Mod = command.TryGetModName(),
                 IsBalance = command == CommandDefOf.CheckBalance,
                 IsBuy = command == CommandDefOf.Buy
             };
@@ -73,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 result.UserLevel = UserLevels.Moderator;
             }
 
-            result.Data = new CommandData {IsShortcut = false, Mod = command.modContentPack?.Name};
+            result.Data = new CommandData {IsShortcut = false, Mod = command.TryGetModName()};
 
             return result;
         }

@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Models
             set => item = value;
         }
 
-        [NotNull] [DataMember(Name = "mod")] public string Mod => Data?.Mod ?? Thing.modContentPack?.Name ?? "Unknown";
+        [NotNull] [DataMember(Name = "mod")] public string Mod => Data?.Mod ?? Thing.TryGetModName();
 
         [IgnoreDataMember] public ThingDef Thing { get; set; }
 
