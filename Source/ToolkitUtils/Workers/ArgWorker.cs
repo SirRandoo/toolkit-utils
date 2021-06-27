@@ -271,19 +271,24 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 foreach (string segment in details.Split(','))
                 {
-                    if (Data.Qualities.TryGetValue(segment, out QualityCategory quality))
+                    if (Item.Quality && Data.Qualities.TryGetValue(segment, out QualityCategory quality))
                     {
                         proxy.Quality = quality;
                         continue;
                     }
 
-                    proxy.Stuff = GetItemRaw(segment);
-
-                    if (proxy.Stuff == null && !proxy.Quality.HasValue)
+                    if (Item.Stuff)
                     {
-                        proxy.ProcessError = true;
-                        break;
+                        proxy.Stuff = GetItemRaw(segment);
                     }
+
+                    if (proxy.Stuff != null || proxy.Quality.HasValue)
+                    {
+                        continue;
+                    }
+
+                    proxy.ProcessError = true;
+                    break;
                 }
 
                 return proxy;
