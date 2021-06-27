@@ -92,7 +92,6 @@
         <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
         <Compile Include="Harmony\BuyPatch.cs"/>
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
-        <Compile Include="Harmony\IncidentPatches.cs"/>
         <Compile Include="Harmony\ItemEditorPatch.cs"/>
         <Compile Include="Harmony\LanguageProxyPatch.cs"/>
         <Compile Include="Harmony\PatchRunner.cs"/>
