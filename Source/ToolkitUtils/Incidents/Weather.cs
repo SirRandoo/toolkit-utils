@@ -16,6 +16,8 @@
 
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using RimWorld;
+using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using Verse;
 
@@ -68,6 +70,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override void TryExecute()
         {
             map.weatherManager.TransitionTo(weather);
+
+            Find.LetterStack.ReceiveLetter(
+                weather.label ?? weather.defName,
+                "TKUtils.WeatherLetter.Description".LocalizeKeyed(Viewer.username, weather.label ?? weather.defName),
+                LetterDefOf.NeutralEvent
+            );
         }
     }
 }

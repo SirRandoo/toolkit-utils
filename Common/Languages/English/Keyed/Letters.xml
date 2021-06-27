@@ -110,4 +110,7 @@
     <!-- Sanctuary -->
     <TKUtils.SanctuaryLetter.Title>Mysterious Light</TKUtils.SanctuaryLetter.Title>
     <TKUtils.SanctuaryLetter.Description>The sky over your colony is filled with a mysterious light.</TKUtils.SanctuaryLetter.Description>
+
+    <!-- Weather -->
+    <TKUtils.WeatherLetter.Description>{0} changed the current weather to {1}.</TKUtils.WeatherLetter.Description>
 </LanguageData>
