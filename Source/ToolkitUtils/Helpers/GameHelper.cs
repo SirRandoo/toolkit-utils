@@ -37,7 +37,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
         [NotNull]
         public static string TryGetModName([CanBeNull] this ModContentPack content)
         {
-            return content?.Name?.Replace("Core", "RimWorld") ?? "Unknown";
+            if (content?.IsCoreMod == true)
+            {
+                return "RimWorld";
+            }
+
+            return content?.Name ?? "Unknown";
         }
 
         [NotNull]
