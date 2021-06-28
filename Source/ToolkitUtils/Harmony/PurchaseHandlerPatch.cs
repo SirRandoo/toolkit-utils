@@ -167,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            if ((incident != StoreIncidentDefOf.Item || incident != IncidentDefOf.Sanctuary)
+            if (incident != StoreIncidentDefOf.Item
                 && (Purchase_Handler.CheckIfKarmaTypeIsMaxed(incident, viewer.username)
                     && incident != IncidentDefOf.Sanctuary
                     || Purchase_Handler.CheckIfIncidentIsOnCooldown(incident, viewer.username)))
