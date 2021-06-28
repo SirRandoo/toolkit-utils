@@ -23,6 +23,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using Verse;
@@ -644,7 +645,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 string name = plural ? Thing.Name.Pluralize() : Thing.Name;
 
                 return (Quality.HasValue
-                    ? $"{Stuff?.Name} {name} ({Quality.Value.ToString()}"
+                    ? $"{Stuff?.Name} {name} ({Unrichify.StripTags(Quality.Value.ToString())}"
                     : $"{Stuff?.Name} {name}").Trim();
             }
 
