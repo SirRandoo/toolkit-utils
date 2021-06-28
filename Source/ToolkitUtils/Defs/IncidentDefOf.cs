@@ -94,6 +94,7 @@ namespace SirRandoo.ToolkitUtils
         public static StoreIncidentVariables SiegeRaid;
         public static StoreIncidentSimple ToxicFallout;
         public static StoreIncidentSimple VisitorGroup;
+        public static StoreIncidentVariables Sanctuary;
         public static StoreIncidentVariables SapperRaid;
         public static StoreIncidentSimple ShipChunkDrop;
         public static StoreIncidentSimple ThrumboPasses;
