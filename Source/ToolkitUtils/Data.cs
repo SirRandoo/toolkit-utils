@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ using Viewers = TwitchToolkit.Viewers;
 namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static class Data
     {
         internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType))
@@ -63,28 +65,7 @@ namespace SirRandoo.ToolkitUtils
 
         static Data()
         {
-            switch (TkSettings.DumpStyle)
-            {
-                case "MultiFile":
-                {
-                    if (Traits.NullOrEmpty())
-                    {
-                        LoadTraits(Paths.TraitFilePath, true);
-                    }
-
-                    if (PawnKinds.NullOrEmpty())
-                    {
-                        LoadPawnKinds(Paths.PawnKindFilePath, true);
-                    }
-
-                    break;
-                }
-                case "SingleFile":
-                {
-                    LoadFromLegacy(Paths.LegacyShopDumpFilePath);
-                    break;
-                }
-            }
+            LoadShopData();
 
             if (ItemData == null || ItemData.Count <= 0)
             {
@@ -119,6 +100,32 @@ namespace SirRandoo.ToolkitUtils
         public static List<ThingItem> Items { get; set; }
         public static List<SurgeryItem> Surgeries { get; private set; }
         public static List<EventItem> Events { get; private set; }
+
+        private static void LoadShopData()
+        {
+            switch (TkSettings.DumpStyle)
+            {
+                case "MultiFile":
+                {
+                    if (Traits.NullOrEmpty())
+                    {
+                        LoadTraits(Paths.TraitFilePath, true);
+                    }
+
+                    if (PawnKinds.NullOrEmpty())
+                    {
+                        LoadPawnKinds(Paths.PawnKindFilePath, true);
+                    }
+
+                    break;
+                }
+                case "SingleFile":
+                {
+                    LoadFromLegacy(Paths.LegacyShopDumpFilePath);
+                    break;
+                }
+            }
+        }
 
         private static void ValidateItems()
         {
@@ -384,11 +391,28 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidateTraitData()
         {
+            var builder = new StringBuilder();
             foreach (TraitItem trait in Traits)
             {
                 trait.TraitData ??= new TraitData();
-                trait.TraitData.Mod = trait.TraitDef.TryGetModName();
+
+                try
+                {
+                    trait.TraitData.Mod = trait.TraitDef.TryGetModName();
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {trait.Name ?? trait.DefName}");
+                }
             }
+
+            if (builder.Length <= 0)
+            {
+                return;
+            }
+
+            builder.Insert(0, "The following traits could not be processed:\n");
+            LogHelper.Warn(builder.ToString());
         }
 
         private static void ValidatePawnKinds()
@@ -419,12 +443,29 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidatePawnKindData()
         {
+            var builder = new StringBuilder();
             foreach (PawnKindItem pawn in PawnKinds)
             {
                 pawn.PawnData ??= new PawnKindData();
-                pawn.PawnData.Mod = pawn.ColonistKindDef.TryGetModName();
-                pawn.UpdateStats();
+
+                try
+                {
+                    pawn.PawnData.Mod = pawn.ColonistKindDef.TryGetModName();
+                    pawn.UpdateStats();
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {pawn.Name ?? pawn.DefName}");
+                }
             }
+
+            if (builder.Length <= 0)
+            {
+                return;
+            }
+
+            builder.Insert(0, "The following pawn kinds could not be processed:\n");
+            LogHelper.Warn(builder.ToString());
         }
 
         private static void ValidateItemData()
@@ -478,11 +519,34 @@ namespace SirRandoo.ToolkitUtils
         {
             List<ModMetaData> running = ModsConfig.ActiveModsInLoadOrder.ToList();
 
-            Mods = running.Where(m => m.Active)
+            var list = new List<ModItem>();
+            var builder = new StringBuilder();
+            foreach (ModMetaData metaData in running.Where(m => m.Active)
                .Where(mod => !mod.Official)
-               .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt")))
-               .Select(ModItem.FromMetadata)
-               .ToArray();
+               .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt"))))
+            {
+                ModItem item;
+
+                try
+                {
+                    item = ModItem.FromMetadata(metaData);
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {metaData?.Name ?? metaData?.FolderName}");
+                    continue;
+                }
+
+                list.Add(item);
+            }
+
+            if (builder.Length > 0)
+            {
+                builder.Insert(0, "The following mods could not be processed:\n");
+                LogHelper.Warn(builder.ToString());
+            }
+
+            Mods = list.ToArray();
         }
 
         private static void ValidateSurgeryList()
@@ -509,12 +573,30 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidateEventData()
         {
+            var builder = new StringBuilder();
             foreach (EventItem ev in Events)
             {
                 ev.EventData ??= new EventData();
-                ev.EventData.Mod = ev.Incident.TryGetModName();
-                ev.EventData.EventType = ev.Incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
+
+                try
+                {
+                    ev.EventData.Mod = ev.Incident.TryGetModName();
+                    ev.EventData.EventType =
+                        ev.Incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
+                }
+                catch (Exception)
+                {
+                    builder.AppendLine($" - {ev.Name ?? ev.DefName}");
+                }
             }
+
+            if (builder.Length <= 0)
+            {
+                return;
+            }
+
+            builder.Insert(0, "The following events could not be processed:\n");
+            LogHelper.Warn(builder.ToString());
         }
 
         public static void SaveLegacyShop(string path)
@@ -718,7 +800,6 @@ namespace SirRandoo.ToolkitUtils
                 }
 
                 ThingItem existing = Items.Find(i => i.DefName!.Equals(partial.DefName));
-                LogHelper.Debug($"{partial.DefName.Equals("Thrumbo")},{existing},{existing?.Cost}/{partial.Cost}");
 
                 if (existing == null)
                 {
