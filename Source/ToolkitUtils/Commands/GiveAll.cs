@@ -38,6 +38,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
+            List<string> viewers = Viewers.ParseViewersFromJsonAndFindActiveViewers();
+
+            if (viewers?.Count <= 0)
+            {
+                return;
+            }
+
             var count = 0;
             foreach (string username in Viewers.ParseViewersFromJsonAndFindActiveViewers())
             {
