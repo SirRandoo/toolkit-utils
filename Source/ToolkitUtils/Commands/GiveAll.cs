@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
 using TwitchLib.Client.Models.Interfaces;
@@ -34,10 +35,14 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
+            var count = 0;
             foreach (string username in Viewers.ParseViewersFromJsonAndFindActiveViewers())
             {
                 Viewers.GetViewer(username).GiveViewerCoins(amount);
+                count++;
             }
+
+            twitchMessage.Reply("TKUtils.GiveAll".LocalizeKeyed(amount.ToString("N0"), count.ToString("N0")));
         }
     }
 }

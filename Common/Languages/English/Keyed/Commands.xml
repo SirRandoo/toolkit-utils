@@ -23,14 +23,17 @@
     <TKUtils.Balance.Coins>coins</TKUtils.Balance.Coins>
     <TKUtils.Balance.Karma>karma</TKUtils.Balance.Karma>
     <TKUtils.Balance.Rate>Earning {0} coins every {1} minute(s)</TKUtils.Balance.Rate>
-    
+
+    <!-- Give All -->
+    <TKUtils.GiveAll>Gave {0} coins to {1} viewers.</TKUtils.GiveAll>
+
     <!-- Database -->
     <TKUtils.Database.Stats>stats</TKUtils.Database.Stats>
-    
+
     <!-- Colonist Count -->
     <TKUtils.ColonistCount.None>It's a ghost town, Timmy.</TKUtils.ColonistCount.None>
     <TKUtils.ColonistCount.Any>There are {0} colonists left.</TKUtils.ColonistCount.Any>
-    
+
     <!-- Factions -->
     <TKUtils.Factions.None>There are no factions.</TKUtils.Factions.None>
     
