@@ -14,10 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
+using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 
@@ -28,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            var worker = ArgWorker.CreateInstance(twitchMessage.Message);
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
 
             if (!worker.TryGetNextAsInt(out int amount, 1))
             {
