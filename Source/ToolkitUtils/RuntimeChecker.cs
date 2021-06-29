@@ -25,9 +25,7 @@ using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
-
 #if DEBUG
-using SirRandoo.ToolkitUtils.Helpers;
 using System.Diagnostics;
 
 #endif
@@ -114,7 +112,7 @@ namespace SirRandoo.ToolkitUtils
 
         #if DEBUG
             stopwatch.Stop();
-            LogHelper.Debug($"Command {command} finished in {stopwatch.ElapsedMilliseconds}ms");
+            LogHelper.Debug($"Command {command} finished in {stopwatch.ElapsedMilliseconds:0.000}ms");
         #endif
         }
     }
