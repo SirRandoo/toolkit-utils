@@ -1,15 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Patch>
-    <Operation Class="PatchOperationSequence">
-        <success>Always</success>
-        <operations>
-            <li Class="PatchOperationReplace">
-                <xpath>/Defs/TwitchToolkit.Command[defName="GiveAllCoins"]/commandDriver</xpath>
-                <value>
-                    <commandDriver>SirRandoo.ToolkitUtils.Commands.GiveAll</commandDriver>
-                </value>
-            </li>
-        </operations>
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/TwitchToolkit.Command[defName="GiveAllCoins"]/commandDriver</xpath>
+        <value>
+            <commandDriver>SirRandoo.ToolkitUtils.Commands.GiveAll</commandDriver>
+        </value>
     </Operation>
 </Patch>
