@@ -146,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.TMagic.Commands
         [CanBeNull]
         private string GetClassName([NotNull] TraitDef trait)
         {
-            return trait.degreeDatas.Count > 0 ? trait.degreeDatas.First().label : trait.label;
+            return Unrichify.StripTags(trait.degreeDatas.Count > 0 ? trait.degreeDatas.First().label : trait.label);
         }
     }
 }
