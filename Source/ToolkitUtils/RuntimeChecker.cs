@@ -17,6 +17,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -48,6 +49,13 @@ namespace SirRandoo.ToolkitUtils
                 try
                 {
                     (AccessTools.Field(typeof(Ticker), "_registerThread").GetValue(ticker) as Thread)?.Interrupt();
+
+                    LogHelper.Warn(
+                        new StringBuilder().Append("Successfully lanced Twitch Toolkit's ticker.\n")
+                           .Append("A message from RimWorld about discarding an unnamed def can be safely ignored.\n")
+                           .Append("An exception about aborting a thread can be safely ignored.")
+                           .ToString()
+                    );
                 }
                 catch (Exception e)
                 {
