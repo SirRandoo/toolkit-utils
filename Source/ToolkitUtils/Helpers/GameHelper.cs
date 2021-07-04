@@ -14,7 +14,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using Verse;
 
@@ -49,6 +53,95 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static string TryGetModName([CanBeNull] this Def def)
         {
             return def?.modContentPack?.TryGetModName() ?? "Unknown";
+        }
+
+        // https://stackoverflow.com/a/42246387
+        [NotNull]
+        public static IEnumerable<Type> GetAllTypes([NotNull] Type genericType, params Type[] genericParameters)
+        {
+            if (!genericType.IsGenericTypeDefinition)
+            {
+                throw new ArgumentException("Specified type must be a generic type definition", nameof(genericType));
+            }
+
+            return AppDomain.CurrentDomain.GetAssemblies()
+               .SelectMany(a => a.GetTypes())
+               .Where(t => IsGenericTypeValid(t, genericType, genericParameters));
+        }
+
+        private static bool IsGenericTypeValid([NotNull] Type type, Type genericType, params Type[] genericParameters)
+        {
+            if (!type.IsGenericType)
+            {
+                return false;
+            }
+
+            if (type.GetGenericTypeDefinition() != genericType)
+            {
+                return false;
+            }
+
+            Type[] args = type.GetGenericArguments();
+            return args.Length == genericParameters.Length
+                   && args.Zip(genericParameters, (f, s) => s.IsAssignableFrom(f)).All(c => c);
+        }
+
+        public static bool GetDefaultUsability([NotNull] ThingDef thing)
+        {
+            foreach (string tag in thing.tradeTags)
+            {
+                if (tag.Equals("Artifact", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return false;
+                }
+
+                if (tag.Equals("ExoticMisc", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool GetDefaultMaterialState([NotNull] ThingDef thing)
+        {
+            if (!thing.IsStuff)
+            {
+                return false;
+            }
+
+            var rarity = 1f;
+            float commonality = thing.stuffProps.commonality;
+
+            if (commonality < 1.0f)
+            {
+                return false;
+            }
+
+            if (thing.researchPrerequisites.NullOrEmpty())
+            {
+                return rarity >= 0.85f;
+            }
+
+            foreach (ResearchProjectDef project in thing.researchPrerequisites)
+            {
+                var tier = (int) project.techLevel;
+
+                if (tier <= 1)
+                {
+                    continue;
+                }
+
+                rarity *= (float) (int) TechLevel.Neolithic / (int) project.techLevel;
+
+                if (project.TechprintCount > 0)
+                {
+                    rarity *= project.TechprintCount / 25f * project.techprintCommonality;
+                }
+            }
+
+            return rarity >= 0.85f;
         }
     }
 }

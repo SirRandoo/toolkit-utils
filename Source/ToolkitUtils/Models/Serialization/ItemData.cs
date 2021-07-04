@@ -45,6 +45,10 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "ResearchOverrides")]
         public List<string> ResearchOverrides { get; set; }
 
+        [DataMember(Name = "IsUsable")] public bool IsUsable { get; set; }
+        [DataMember(Name = "IsEquippable")] public bool IsEquippable { get; set; }
+        [DataMember(Name = "IsWearable")] public bool IsWearable { get; set; }
+
         [DataMember(Name = "Mod")] public string Mod { get; set; }
         [DataMember(Name = "KarmaType")] public KarmaType? KarmaType { get; set; }
 
@@ -57,6 +61,19 @@ namespace SirRandoo.ToolkitUtils.Models
             IsStuffAllowed = true;
             CustomName = null;
             HasQuantityLimit = false;
+            IsWearable = true;
+            IsUsable = true;
+            IsEquippable = true;
+
+            ThingItem parent = Data.Items.Find(i => i.ItemData == this);
+
+            if (parent?.Thing == null)
+            {
+                return;
+            }
+
+            IsUsable = GameHelper.GetDefaultUsability(parent.Thing);
+            IsStuffAllowed = GameHelper.GetDefaultMaterialState(parent.Thing);
         }
 
         [CanBeNull]

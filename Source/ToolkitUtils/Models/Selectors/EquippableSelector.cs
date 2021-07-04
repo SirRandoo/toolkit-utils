@@ -22,20 +22,20 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class UsabilitySelector : ISelectorBase<ThingItem>
+    public class EquippableSelector : ISelectorBase<ThingItem>
     {
+        private string equippableText;
         private bool state = true;
-        private string usableText;
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            usableText = "TKUtils.Fields.IsUsable".Localize();
+            equippableText = "TKUtils.Fields.IsEquippable".Localize();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, usableText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, equippableText, ref state))
             {
                 Dirty.Set(true);
             }
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
         {
-            return item.Data.ItemData?.IsUsable == state;
+            return item.Data.ItemData?.IsEquippable == state;
         }
     }
 }

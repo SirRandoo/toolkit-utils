@@ -16,26 +16,25 @@
 
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class UsabilitySelector : ISelectorBase<ThingItem>
+    public class WearableSelector
     {
         private bool state = true;
-        private string usableText;
+        private string wearableText;
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            usableText = "TKUtils.Fields.IsUsable".Localize();
+            wearableText = "TKUtils.Fields.IsWearable".Localize();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, usableText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, wearableText, ref state))
             {
                 Dirty.Set(true);
             }
@@ -43,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
         {
-            return item.Data.ItemData?.IsUsable == state;
+            return item.Data.ItemData?.IsWearable == state;
         }
     }
 }

@@ -17,16 +17,15 @@
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
-using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class UsabilitySelector : ISelectorBase<ThingItem>
+    public class UsableMutator : IMutatorBase<ThingItem>
     {
         private bool state = true;
         private string usableText;
-        public ObservableProperty<bool> Dirty { get; set; }
+        public int Priority => 1;
 
         public void Prepare()
         {
@@ -35,15 +34,14 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, usableText, ref state))
-            {
-                Dirty.Set(true);
-            }
+            SettingsHelper.LabeledPaintableCheckbox(canvas, usableText, ref state);
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
+        public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
-            return item.Data.ItemData?.IsUsable == state;
+            // if (item.Data)
+
+            item.Data.ItemData.IsUsable = state;
         }
     }
 }

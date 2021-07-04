@@ -177,6 +177,11 @@
         <Compile Include="Interfaces\IShopItemBase.cs"/>
         <Compile Include="Interfaces\ITableItem.cs"/>
         <Compile Include="Interfaces\ISurgeryHandler.cs"/>
+        <Compile Include="Interfaces\IUsabilityHandler.cs"/>
+        <Compile Include="Models\Mutators\UsableMutator.cs"/>
+        <Compile Include="Models\Selectors\EquippableSelector.cs"/>
+        <Compile Include="Models\Selectors\UsabilitySelector.cs"/>
+        <Compile Include="Models\Selectors\WearableSelector.cs"/>
         <Compile Include="Models\EventItem.cs"/>
         <Compile Include="Models\IncidentProxy.cs"/>
         <Compile Include="Models\Mutators\EventKarmaMutator.cs"/>
