@@ -67,7 +67,7 @@
         <label>surgery</label>
         <description>Buys and queues a surgery on the purchaser's pawn, assuming they have one.</description>
         <abbreviation>surgery</abbreviation>
-        <cost>500</cost>
+        <cost>1</cost>
         <eventCap>5</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.BuySurgery</incidentHelper>
         <karmaType>Neutral</karmaType>
