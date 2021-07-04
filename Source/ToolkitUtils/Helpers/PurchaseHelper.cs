@@ -261,6 +261,13 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static void SpawnItem(IntVec3 position, Map map, Thing item)
         {
+            var hatcher = item.TryGetComp<CompHatcher>();
+
+            if (hatcher != null)
+            {
+                hatcher.hatcheeFaction = Faction.OfPlayer;
+            }
+
             if (Current.Game.GetComponent<Coordinator>()?.TrySpawnItem(map, item) == true)
             {
                 return;
