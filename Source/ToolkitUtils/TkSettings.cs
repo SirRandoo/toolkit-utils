@@ -363,7 +363,7 @@ namespace SirRandoo.ToolkitUtils
             var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 48f);
 
             GUI.BeginGroup(canvas);
-            listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
+            Widgets.BeginScrollView(canvas, ref _commandTweaksPos, viewPort);
 
             listing.DrawGroupHeader("TKUtils.CommandTweaks.Balance".Localize(), false);
             listing.CheckboxLabeled("TKUtils.CoinRate.Label".Localize(), ref ShowCoinRate);
@@ -424,7 +424,7 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawDescription("TKUtils.LookupLimit.Description".Localize());
 
             GUI.EndGroup();
-            listing.EndScrollView(ref viewPort);
+            Widgets.EndScrollView();
         }
 
         private static void DrawPawnCommandsTab(Rect canvas)
@@ -433,7 +433,7 @@ namespace SirRandoo.ToolkitUtils
             var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 40f);
 
             GUI.BeginGroup(canvas);
-            listing.BeginScrollView(canvas, ref _commandTweaksPos, ref viewPort);
+            Widgets.BeginScrollView(canvas, ref _commandTweaksPos, viewPort);
 
             listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Localize(), false);
 
@@ -489,7 +489,7 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawDescription("TKUtils.PawnWork.Filter.Description".Localize());
 
             GUI.EndGroup();
-            listing.EndScrollView(ref viewPort);
+            Widgets.EndScrollView();
         }
 
         private static void DrawPawnWorkTab(Rect canvas)
@@ -500,7 +500,7 @@ namespace SirRandoo.ToolkitUtils
             var content = new Rect(0f, 0f, canvas.width, canvas.height);
             var view = new Rect(0f, 0f, canvas.width - 16f, _workTypeDefs.Length * Text.LineHeight);
 
-            listing.BeginScrollView(content, ref _workScrollPos, ref view);
+            Widgets.BeginScrollView(content, ref _workScrollPos, view);
 
             for (var index = 0; index < _workTypeDefs.Length; index++)
             {
@@ -533,7 +533,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             GUI.EndGroup();
-            listing.EndScrollView(ref view);
+            Widgets.EndScrollView();
         }
 
         public override void ExposeData()

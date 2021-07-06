@@ -32,6 +32,12 @@
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.3 debug|AnyCPU' ">
+        <OutputPath>..\..\Compatibility\TMagic\1.3\Assemblies\</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.3 release|AnyCPU' ">
+        <OutputPath>..\..\Compatibility\TMagic\1.3\Assemblies\</OutputPath>
+    </PropertyGroup>
     <ItemGroup>
         <Reference Include="0JecsTools, Version=1.1.2.3, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\2195729899\1.2\Assemblies\0JecsTools.dll</HintPath>
@@ -71,7 +77,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.2.2900" ExcludeAssets="runtime"/>
+        <PackageReference Condition="$(DefineConstants.Contains('RW13'))" Include="Krafs.Rimworld.Ref" Version="1.3.3051-beta" ExcludeAssets="runtime"/>
+        <PackageReference Condition="$(DefineConstants.Contains('RW12'))" Include="Krafs.Rimworld.Ref" Version="1.2.2905" ExcludeAssets="runtime"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>

@@ -140,7 +140,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (pawn != null)
             {
                 pawn.SetFaction(part.site.Faction);
+            #if RW12
                 pawn.guest.SetGuestStatus(part.site.Faction, true);
+            #else
+                pawn.guest.SetGuestStatus(part.site.Faction, GuestStatus.Prisoner);
+            #endif
                 pawn.mindState.WillJoinColonyIfRescued = true;
                 PawnApparelGenerator.GenerateStartingApparelFor(
                     pawn,

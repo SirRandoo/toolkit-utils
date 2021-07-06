@@ -181,11 +181,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             GUI.BeginGroup(nameQueueRect);
-            listing.BeginScrollView(queueInnerRect, ref scrollPos, ref queueView);
+            Widgets.BeginScrollView(queueInnerRect, ref scrollPos, queueView);
             DrawNameQueue(listing);
 
             GUI.EndGroup();
-            listing.EndScrollView(ref queueView);
+            Widgets.EndScrollView();
             GUI.EndGroup();
             GUI.EndGroup();
         }
@@ -395,6 +395,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
+        #if RW12
             GUI.DrawTexture(
                 colonistRect,
                 PortraitsCache.Get(
@@ -404,6 +405,18 @@ namespace SirRandoo.ToolkitUtils.Windows
                     1.28205f
                 )
             );
+        #else
+            GUI.DrawTexture(
+                colonistRect,
+                PortraitsCache.Get(
+                    current,
+                    ColonistBarColonistDrawer.PawnTextureSize,
+                    Rot4.South,
+                    ColonistBarColonistDrawer.PawnTextureCameraOffset,
+                    1.28205f
+                )
+            );
+        #endif
             Widgets.DrawHighlightIfMouseover(colonistRect);
 
             if (Widgets.ButtonInvisible(colonistRect))

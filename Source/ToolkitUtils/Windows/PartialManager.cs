@@ -161,7 +161,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var viewport = new Rect(0f, 0f, canvas.width - 16f, Text.SmallFontHeight * files.Count);
 
             GUI.BeginGroup(canvas);
-            listing.BeginScrollView(canvas, ref scrollPos, ref viewport);
+            Widgets.BeginScrollView(canvas, ref scrollPos, viewport);
             FileData<T> toDelete = null;
             foreach (FileData<T> file in files)
             {
@@ -195,7 +195,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 deleteRect.TipRegion(deletePartialTooltip);
             }
 
-            listing.EndScrollView(ref viewport);
+            Widgets.EndScrollView();
             GUI.EndGroup();
 
             if (toDelete == null)

@@ -84,7 +84,11 @@ namespace SirRandoo.ToolkitUtils
                         return;
                     }
 
+                #if RW12
                     MoteMaker.ThrowSmoke(thing.Position.ToVector3(), thing.Map, thing.Graphic.drawSize.magnitude);
+                #else
+                    FleckMaker.ThrowSmoke(thing.Position.ToVector3(), thing.Map, thing.Graphic.drawSize.magnitude);
+                #endif
                 }
             );
             return true;

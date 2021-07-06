@@ -99,7 +99,7 @@ namespace SirRandoo.ToolkitUtils.Models
             var listing = new Listing_Standard();
             var viewPort = new Rect(canvas.x, canvas.y, canvas.width - 16f, filters.Sum(f => f.Height));
 
-            listing.BeginScrollView(canvas, ref scrollPos, ref viewPort);
+            Widgets.BeginScrollView(canvas, ref scrollPos, viewPort);
 
             foreach (ThingItemFilterCategory category in filters)
             {
@@ -164,7 +164,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             GUI.EndGroup();
-            listing.EndScrollView(ref viewPort);
+            Widgets.EndScrollView();
         }
 
         private void DrawFiltersFor([NotNull] ThingItemFilterCategory category, Listing listing, Rect viewPort)
