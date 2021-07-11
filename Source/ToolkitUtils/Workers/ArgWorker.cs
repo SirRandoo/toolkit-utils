@@ -275,7 +275,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var proxy = new ItemProxy();
 
-            string details = next.Substring(next.IndexOf('[') + 1).TrimEnd(']');
+            string details = next.Substring(next.LastIndexOf('[') + 1).TrimEnd(']');
             string item = next.Replace($"[{details}]", "");
             proxy.Thing = GetItemRaw(item);
 
