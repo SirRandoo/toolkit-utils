@@ -161,6 +161,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var viewport = new Rect(0f, 0f, canvas.width - 16f, Text.SmallFontHeight * files.Count);
 
             GUI.BeginGroup(canvas);
+            listing.Begin(canvas);
             Widgets.BeginScrollView(canvas, ref scrollPos, viewport);
             FileData<T> toDelete = null;
             foreach (FileData<T> file in files)
@@ -196,6 +197,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             Widgets.EndScrollView();
+            listing.End();
             GUI.EndGroup();
 
             if (toDelete == null)
