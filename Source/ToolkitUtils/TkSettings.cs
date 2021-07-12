@@ -363,7 +363,8 @@ namespace SirRandoo.ToolkitUtils
             var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 48f);
 
             GUI.BeginGroup(canvas);
-            Widgets.BeginScrollView(canvas, ref _commandTweaksPos, viewPort);
+            Widgets.BeginScrollView(canvas.AtZero(), ref _commandTweaksPos, viewPort);
+            listing.Begin(viewPort);
 
             listing.DrawGroupHeader("TKUtils.CommandTweaks.Balance".Localize(), false);
             listing.CheckboxLabeled("TKUtils.CoinRate.Label".Localize(), ref ShowCoinRate);
@@ -425,6 +426,7 @@ namespace SirRandoo.ToolkitUtils
 
             GUI.EndGroup();
             Widgets.EndScrollView();
+            listing.End();
         }
 
         private static void DrawPawnCommandsTab(Rect canvas)
@@ -433,7 +435,8 @@ namespace SirRandoo.ToolkitUtils
             var viewPort = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 40f);
 
             GUI.BeginGroup(canvas);
-            Widgets.BeginScrollView(canvas, ref _commandTweaksPos, viewPort);
+            Widgets.BeginScrollView(canvas.AtZero(), ref _commandTweaksPos, viewPort);
+            listing.Begin(viewPort);
 
             listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Localize(), false);
 
@@ -490,6 +493,7 @@ namespace SirRandoo.ToolkitUtils
 
             GUI.EndGroup();
             Widgets.EndScrollView();
+            listing.End();
         }
 
         private static void DrawPawnWorkTab(Rect canvas)
@@ -501,6 +505,7 @@ namespace SirRandoo.ToolkitUtils
             var view = new Rect(0f, 0f, canvas.width - 16f, _workTypeDefs.Length * Text.LineHeight);
 
             Widgets.BeginScrollView(content, ref _workScrollPos, view);
+            listing.Begin(view);
 
             for (var index = 0; index < _workTypeDefs.Length; index++)
             {
@@ -534,6 +539,7 @@ namespace SirRandoo.ToolkitUtils
 
             GUI.EndGroup();
             Widgets.EndScrollView();
+            listing.End();
         }
 
         public override void ExposeData()
