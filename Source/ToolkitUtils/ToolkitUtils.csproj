@@ -105,6 +105,7 @@
         <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
         <Compile Include="Harmony\BuyPatch.cs"/>
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
+        <Compile Include="Harmony\GlobalWeightWindowPatch.cs"/>
         <Compile Include="Harmony\ItemEditorPatch.cs"/>
         <Compile Include="Harmony\LanguageProxyPatch.cs"/>
         <Compile Include="Harmony\PatchRunner.cs"/>
@@ -309,6 +310,7 @@
         <Compile Include="Utils\Unrichify.cs"/>
         <Compile Include="Windows\CommandEditorDialog.cs"/>
         <Compile Include="Windows\Editor.cs"/>
+        <Compile Include="Windows\GlobalWeightDialog.cs"/>
         <Compile Include="Windows\PartialManager.cs"/>
         <Compile Include="Windows\NameQueueDialog.cs"/>
         <Compile Include="Windows\PurgeViewersDialog.cs"/>
