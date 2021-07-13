@@ -91,6 +91,7 @@
         <Compile Include="CompatRegistry.cs"/>
         <Compile Include="Compat\MagicCompat.cs"/>
         <Compile Include="Coordinator.cs"/>
+        <Compile Include="CoreAddonMenu.cs"/>
         <Compile Include="Defs\CommandDefOf.cs"/>
         <Compile Include="Defs\CommandExtension.cs"/>
         <Compile Include="Defs\EventExtension.cs"/>
