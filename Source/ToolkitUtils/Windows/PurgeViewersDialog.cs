@@ -166,6 +166,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * totalConstraints).Rounded();
 
             Widgets.BeginScrollView(inRect, ref constraintsScrollPos, viewRect);
+            listing.Begin(viewRect);
             for (var i = 0; i < constraints.Count; i++)
             {
                 ConstraintBase constraint = constraints[i];
@@ -206,6 +207,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 constraints.Remove(toRemove);
             }
 
+            listing.End();
             Widgets.EndScrollView();
         }
 
@@ -220,7 +222,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * affectedViewersCount).Rounded();
 
             Widgets.BeginScrollView(inRect, ref affectedScrollPos, viewRect);
-
+            listing.Begin(viewRect);
             for (var i = 0; i < affectedViewersCount; i++)
             {
                 Rect lineRect = listing.GetRect(LineHeight);
@@ -261,6 +263,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 affectedViewersCount = affectedViewers.Length;
             }
 
+            listing.End();
             Widgets.EndScrollView();
         }
 
