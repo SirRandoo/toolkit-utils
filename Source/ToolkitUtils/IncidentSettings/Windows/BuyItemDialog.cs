@@ -55,6 +55,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
             var listing = new Listing_Standard();
             var viewPort = new Rect(0f, 0f, inRect.width - 16f, Text.LineHeight * 15f);
             Widgets.BeginScrollView(inRect, ref scrollPos, viewPort);
+            listing.Begin(viewPort);
 
             (Rect awfulLabel, Rect awfulField) = listing.GetRectAsForm(0.7f);
             SettingsHelper.DrawLabel(awfulLabel, "TKUtils.Item.AwfulMultiplier".Localize());
@@ -152,6 +153,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
             listing.CheckboxLabeled(researchLabel, ref BuyItemSettings.mustResearchFirst);
             listing.DrawDescription(researchDescription);
 
+            listing.End();
             Widgets.EndScrollView();
         }
     }
