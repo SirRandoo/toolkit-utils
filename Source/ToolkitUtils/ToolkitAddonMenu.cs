@@ -30,7 +30,6 @@ using Command = TwitchToolkit.Command;
 namespace SirRandoo.ToolkitUtils
 {
     [UsedImplicitly]
-    [StaticConstructorOnStartup]
     public class ToolkitAddonMenu : IAddonMenu
     {
         private static readonly List<FloatMenuOption> Options;

@@ -25,7 +25,6 @@ using Verse;
 namespace SirRandoo.ToolkitUtils
 {
     [UsedImplicitly]
-    [StaticConstructorOnStartup]
     public class UtilsAddonMenu : IAddonMenu
     {
         private static readonly List<FloatMenuOption> Options;
