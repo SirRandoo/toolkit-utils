@@ -85,14 +85,12 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected virtual Pawn GeneratePawn()
         {
-            Pawn pawn = PawnGenerator.GeneratePawn(
-                new PawnGenerationRequest(
-                    AnimalDef,
-                    fixedGender: Gender,
-                    faction: SpawnTamed && !SpawnManhunter ? Faction.OfPlayer : null
-                )
-            );
+            var request = PawnGenerationRequest.MakeDefault();
+            request.KindDef = AnimalDef;
+            request.FixedGender = Gender;
+            request.Faction = SpawnTamed && !SpawnManhunter ? Faction.OfPlayer : null;
 
+            Pawn pawn = PawnGenerator.GeneratePawn(request);
             return pawn;
         }
     }
