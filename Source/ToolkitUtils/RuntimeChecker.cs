@@ -40,16 +40,6 @@ namespace SirRandoo.ToolkitUtils
     {
         static RuntimeChecker()
         {
-        #if RW13
-            LogHelper.Warn(
-                new StringBuilder()
-                   .Append("While Utils patches Twitch Toolkit to be compatible with 1.3, it's still an unsupported ")
-                   .Append("version of the game. Do not submit bug reports while using 1.3. Do not expect ")
-                   .Append("everything to work.")
-                   .ToString()
-            );
-        #endif
-
             TkSettings.ValidateDynamicSettings();
             TkUtils.Context ??= SynchronizationContext.Current;
 
