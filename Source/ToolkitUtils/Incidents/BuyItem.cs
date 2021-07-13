@@ -162,7 +162,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var worker = new AnimalSpawnWorker
             {
-                Label = "TKUtils.ItemLetter.Animal".Localize(Quantity > 1 ? animal.Pluralize() : animal),
+                Label = "TKUtils.ItemLetter.Animal".LocalizeKeyed(Quantity > 1 ? animal.Pluralize() : animal),
                 AnimalDef = PawnKindDef.Named(Proxy.Thing.Thing.defName),
                 Gender = Proxy.Gender,
                 def = IncidentDef.Named("FarmAnimalsWanderIn"),
