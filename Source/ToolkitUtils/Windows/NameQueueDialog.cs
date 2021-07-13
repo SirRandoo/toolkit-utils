@@ -182,9 +182,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(nameQueueRect);
             Widgets.BeginScrollView(queueInnerRect, ref scrollPos, queueView);
+            listing.Begin(queueView);
             DrawNameQueue(listing);
 
             GUI.EndGroup();
+            listing.End();
             Widgets.EndScrollView();
             GUI.EndGroup();
             GUI.EndGroup();
