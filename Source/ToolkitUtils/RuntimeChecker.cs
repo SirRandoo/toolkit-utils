@@ -36,10 +36,11 @@ namespace SirRandoo.ToolkitUtils
 {
     [UsedImplicitly]
     [StaticConstructorOnStartup]
-    public class RuntimeChecker
+    public static class RuntimeChecker
     {
         static RuntimeChecker()
         {
+            Do13Patches = ModLister.GetActiveModWithIdentifier("hodlhodl.twitchtoolkit")?.VersionCompatible != true;
             TkSettings.ValidateDynamicSettings();
             TkUtils.Context ??= SynchronizationContext.Current;
 
@@ -90,6 +91,8 @@ namespace SirRandoo.ToolkitUtils
                 Store_IncidentEditor.UpdatePriceSheet();
             }
         }
+
+        public static bool Do13Patches { get; }
 
         internal static void ExecuteInMainThread(string command, Action func)
         {

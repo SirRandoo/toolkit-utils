@@ -22,7 +22,6 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
-using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
@@ -35,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         public static bool Prepare()
         {
-            return ModLister.GetModWithIdentifier("hodlhodl.twitchtoolkit")?.VersionCompatible != true;
+            return RuntimeChecker.Do13Patches;
         }
 
         public static IEnumerable<MethodBase> TargetMethods()

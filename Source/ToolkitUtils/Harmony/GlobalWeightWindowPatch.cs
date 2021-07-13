@@ -43,6 +43,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
             OldClassConstructor = AccessTools.Constructor(typeof(Window_GlobalVoteWeights), new Type[0]);
         }
 
+        public static bool Prepare()
+        {
+            return RuntimeChecker.Do13Patches;
+        }
+
         public static IEnumerable<MethodBase> TargetMethods()
         {
             yield return AccessTools.Method(typeof(Window_ToryTalkerSettings), "DoWindowContents");
