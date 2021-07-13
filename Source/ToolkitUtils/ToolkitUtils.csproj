@@ -121,6 +121,7 @@
         <Compile Include="Harmony\LookupPatch.cs"/>
         <Compile Include="Harmony\SendChatMessagePatch.cs"/>
         <Compile Include="Harmony\TickerPatch.cs"/>
+        <Compile Include="Harmony\ToolkitSettingsPatch.cs"/>
         <Compile Include="Harmony\UnassignPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
@@ -331,6 +332,7 @@
         <Compile Include="Workers\TableWorkerBase.cs"/>
         <Compile Include="Workers\TabWorker.cs"/>
         <Compile Include="Workers\TableWorker.cs"/>
+        <Compile Include="Workers\ToolkitSettingsWorker.cs"/>
         <Compile Include="Workers\TraitTableWorker.cs"/>
         <Compile Include="Workers\TraitViewWorker.cs"/>
         <Compile Include="Workers\TraitWorker.cs"/>
