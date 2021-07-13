@@ -24,6 +24,8 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
 {
     public class BuyItemDialog : Window
     {
+        private string genderDescription;
+        private string genderLabel;
         private string qualityDescription;
         private string qualityLabel;
         private string researchDescription;
@@ -43,9 +45,11 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
             base.PreOpen();
 
             stuffLabel = "TKUtils.Item.Stuff.Label".Localize();
+            genderLabel = "TKUtils.Item.Gender.Label".Localize();
             qualityLabel = "TKUtils.Item.Quality.Label".Localize();
             researchLabel = "TKUtils.Item.Research.Label".Localize();
             stuffDescription = "TKUtils.Item.Stuff.Description".Localize();
+            genderDescription = "TKUtils.Item.Gender.Description".Localize();
             qualityDescription = "TKUtils.Item.Quality.Description".Localize();
             researchDescription = "TKUtils.Item.Research.Description".Localize();
         }
@@ -53,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
         public override void DoWindowContents(Rect inRect)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, inRect.width - 16f, Text.LineHeight * 15f);
+            var viewPort = new Rect(0f, 0f, inRect.width - 16f, Text.LineHeight * 19f);
             Widgets.BeginScrollView(inRect, ref scrollPos, viewPort);
             listing.Begin(viewPort);
 
@@ -149,6 +153,9 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Windows
 
             listing.CheckboxLabeled(qualityLabel, ref Item.Quality);
             listing.DrawDescription(qualityDescription);
+
+            listing.CheckboxLabeled(genderLabel, ref Item.Gender);
+            listing.DrawDescription(genderDescription);
 
             listing.CheckboxLabeled(researchLabel, ref BuyItemSettings.mustResearchFirst);
             listing.DrawDescription(researchDescription);
