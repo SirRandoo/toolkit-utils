@@ -281,7 +281,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             foreach (string segment in details.Split(','))
             {
-                if (proxy.Thing.Thing?.race.Animal == true && TryProcessAnimalMetadata(segment, proxy))
+                if (proxy.Thing.Thing?.race?.Animal == true && TryProcessAnimalMetadata(segment, proxy))
                 {
                     continue;
                 }
@@ -674,14 +674,17 @@ namespace SirRandoo.ToolkitUtils.Workers
                     return true;
                 }
 
-                switch (Thing.Thing.race.hasGenders)
+                if (Thing.Thing?.race?.hasGenders == true)
                 {
-                    case true when Gender is Verse.Gender.None:
-                        error = "TKUtils.Item.GenderViolation".LocalizeKeyed(Thing.Name, Gender.ToStringSafe());
-                        return true;
-                    case false when !(Gender is Verse.Gender.None):
-                        error = "TKUtils.Item.GenderViolation".LocalizeKeyed(Thing.Name, Gender.ToStringSafe());
-                        break;
+                    switch (Thing.Thing.race.hasGenders)
+                    {
+                        case true when Gender is Verse.Gender.None:
+                            error = "TKUtils.Item.GenderViolation".LocalizeKeyed(Thing.Name, Gender.ToStringSafe());
+                            return true;
+                        case false when !(Gender is Verse.Gender.None):
+                            error = "TKUtils.Item.GenderViolation".LocalizeKeyed(Thing.Name, Gender.ToStringSafe());
+                            break;
+                    }
                 }
 
                 error = null;
