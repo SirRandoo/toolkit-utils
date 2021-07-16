@@ -63,7 +63,7 @@
     <TKUtils.FixAll>Successfully relinked all pawns in Twitch Toolkit.</TKUtils.FixAll>
     
     <!-- Fix Me -->
-    <TKUtils.FixMe>You've been successfully relinked in Twitch Toolkit.</TKUtils.FixMe>
+    <TKUtils.PawnFix>You've been successfully relinked in Twitch Toolkit.</TKUtils.PawnFix>
     
     <!-- Pawn Health -->
     <TKUtils.PawnHealth.InvalidCapacity>No capacity by the name of "{0}" could be found.</TKUtils.PawnHealth.InvalidCapacity>
