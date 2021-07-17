@@ -57,7 +57,7 @@ need to navigate to the `Pages` section in the list of pages on the left.
 Once we're in the pages settings, we can then look at the `Source` setting to ensure it's pulling from the
 `main` branch.
 
-![Ensure the main branch is set]({{- "/assets/itemlist/pages.png" | relative_url -}})
+![Ensure the main branch is set]({{- "/assets/itemlist/page_source.png" | relative_url -}})
 
 The item list provides its own theme. You do not need to change it in the theme settings, and changing it
 may not have any meaningful effect.
@@ -75,7 +75,7 @@ domain, you can simply skip to the next step.
 Now that you're done tinkering with the Github settings for your item list, you can move on changing the
 settings within your item list. To do this, you'll first need to return back to the "repository" view
 that you were first greeted with. You can do this by clicking the `Code` button in the ribbon at the top.
-![Return to code view]({{- "/assets/itemlist/repository_view.png" | relative_url -}})
+![Return to code view]({{- "/assets/itemlist/code_view.png" | relative_url -}})
 
 Within this view, you then need to click on the `_config.yml` file. You should be on a page that looks like
 this:
