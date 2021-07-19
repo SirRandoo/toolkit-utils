@@ -24,31 +24,38 @@ using TwitchToolkit.Settings;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [HarmonyPatch(typeof(Settings_Karma), "DoWindowContents")]
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
+    [HarmonyPatch]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class KarmaMinimumPatch
     {
-        private static readonly FieldInfo SettingMarker;
+        private static FieldInfo _settingMarker;
 
-        static KarmaMinimumPatch()
+        public static bool Prepare()
         {
-            SettingMarker = AccessTools.Field(typeof(ToolkitSettings), "KarmaMinimum");
+            _settingMarker ??= AccessTools.Field(typeof(ToolkitSettings), "KarmaMinimum");
+            return true;
         }
 
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(Settings_Karma), "DoWindowContents");
+        }
+
+        [ItemNotNull]
         public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             var marker = false;
 
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Ldsflda && instruction.OperandIs(SettingMarker))
+                if (instruction.opcode == OpCodes.Ldsflda && instruction.OperandIs(_settingMarker))
                 {
                     marker = true;
                 }
 
                 if (instruction.opcode == OpCodes.Ldc_R4 && marker)
                 {
-                    instruction.operand = -1E+09f;
+                    instruction.operand = -1E+09F;
                     marker = false;
                 }
 

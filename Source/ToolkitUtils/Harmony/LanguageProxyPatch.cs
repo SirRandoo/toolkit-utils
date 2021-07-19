@@ -26,7 +26,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class LanguageProxyPatch
     {
         private static MethodBase _languageChangeMethod;
@@ -43,11 +42,13 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return _languageChangeMethod;
         }
 
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         internal static void Prefix(LoadedLanguage lang, out bool __state)
         {
             __state = lang != LanguageDatabase.activeLanguage;
         }
 
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         internal static void Postfix(bool __state)
         {
             if (!__state)

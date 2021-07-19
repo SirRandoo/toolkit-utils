@@ -27,23 +27,27 @@ using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class StoreIncidentsWindowPatch
     {
-        private static readonly ConstructorInfo OldClassConstructor;
-        private static readonly ConstructorInfo NewClassConstructor;
-        private static readonly Type OldClassType;
-        private static readonly Type NewClassType;
+        private static ConstructorInfo _oldClassConstructor;
+        private static ConstructorInfo _newClassConstructor;
+        private static Type _oldClassType;
+        private static Type _newClassType;
 
-        static StoreIncidentsWindowPatch()
+        public static bool Prepare()
         {
-            NewClassType = typeof(StoreIncidentEditor);
-            OldClassType = typeof(TwitchToolkit.Windows.StoreIncidentEditor);
-            NewClassConstructor = AccessTools.Constructor(typeof(StoreIncidentEditor), new[] {typeof(StoreIncident)});
-            OldClassConstructor = AccessTools.Constructor(
+            _newClassType ??= typeof(StoreIncidentEditor);
+            _oldClassType ??= typeof(TwitchToolkit.Windows.StoreIncidentEditor);
+            _newClassConstructor ??= AccessTools.Constructor(
+                typeof(StoreIncidentEditor),
+                new[] {typeof(StoreIncident)}
+            );
+            _oldClassConstructor ??= AccessTools.Constructor(
                 typeof(TwitchToolkit.Windows.StoreIncidentEditor),
                 new[] {typeof(StoreIncident)}
             );
+            return true;
         }
 
         public static IEnumerable<MethodBase> TargetMethods()
@@ -52,17 +56,18 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(Window_Trackers), "DoWindowContents");
         }
 
+        [ItemNotNull]
         public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Newobj && instruction.OperandIs(OldClassConstructor))
+                if (instruction.opcode == OpCodes.Newobj && instruction.OperandIs(_oldClassConstructor))
                 {
-                    instruction.operand = NewClassConstructor;
+                    instruction.operand = _newClassConstructor;
                 }
-                else if (instruction.opcode == OpCodes.Ldtoken && instruction.OperandIs(OldClassType))
+                else if (instruction.opcode == OpCodes.Ldtoken && instruction.OperandIs(_oldClassType))
                 {
-                    instruction.operand = NewClassType;
+                    instruction.operand = _newClassType;
                 }
 
                 yield return instruction;

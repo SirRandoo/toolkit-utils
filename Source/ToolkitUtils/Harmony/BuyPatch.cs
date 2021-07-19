@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -25,11 +27,16 @@ using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [HarmonyPatch(typeof(Buy), "RunCommand")]
+    [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class BuyPatch
     {
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(Buy), "RunCommand");
+        }
+
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public static bool Prefix([CanBeNull] CommandDriver __instance, ITwitchMessage twitchMessage)
         {
             if (__instance == null)

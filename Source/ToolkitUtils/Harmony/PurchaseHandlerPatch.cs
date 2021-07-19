@@ -136,6 +136,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             coordinator.QueueIncident(new IncidentProxy {SimpleIncident = inc});
             comp.LogIncident(incident);
+            Store_Logger.LogPurchase(viewer.username, twitchMessage.Message);
 
             if (!ToolkitSettings.PurchaseConfirmations)
             {

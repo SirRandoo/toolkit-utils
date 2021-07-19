@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -23,10 +25,15 @@ using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
-    [HarmonyPatch(typeof(Store_ItemEditor), nameof(Store_ItemEditor.UpdateStoreItemList))]
+    [HarmonyPatch]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class ItemEditorPatch
     {
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(Store_ItemEditor), "UpdateStoreItemList");
+        }
+
         public static void Finalizer()
         {
             int? itemCount = Data.Items?.Count;
@@ -42,9 +49,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return;
             }
 
-            LogHelper.Info(
-                "ToolkitUtils' item container count didn't match what Twitch Toolkit found; rebuilding list..."
-            );
+            LogHelper.Info("Utils' item list didn't match Twitch Toolkit's; rebuilding list...");
             Data.Items = StoreDialog.ValidateContainers().ToList();
         }
     }

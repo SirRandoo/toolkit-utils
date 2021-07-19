@@ -102,8 +102,8 @@
         <Compile Include="Defs\SanctuaryGameCondition.cs"/>
         <Compile Include="Defs\ToolkitGateway.cs"/>
         <Compile Include="Defs\WeatherDefOf.cs"/>
-        <Compile Include="Harmony\AlertUnnamedColonistPatch.cs"/>
         <Compile Include="Harmony\BuyPatch.cs"/>
+        <Compile Include="Harmony\ColonistUnnamedAlertPatch.cs"/>
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
         <Compile Include="Harmony\GlobalWeightWindowPatch.cs"/>
         <Compile Include="Harmony\ItemEditorPatch.cs"/>
@@ -123,7 +123,7 @@
         <Compile Include="Harmony\SendChatMessagePatch.cs"/>
         <Compile Include="Harmony\TickerPatch.cs"/>
         <Compile Include="Harmony\ToolkitSettingsPatch.cs"/>
-        <Compile Include="Harmony\UnassignPatch.cs"/>
+        <Compile Include="Harmony\UnassignedPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
         <Compile Include="Helpers\CommandHelper.cs"/>

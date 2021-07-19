@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -24,18 +25,23 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [HarmonyPatch(typeof(StoreItemsWindow), "PostClose")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
+    [HarmonyPatch]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class ItemWindowPatch
     {
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(StoreItemsWindow), "PostClose");
+        }
+
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public static void Prefix([NotNull] List<ThingDef> ___cachedTradeables, List<int> ___tradeablesPrices)
         {
             for (var i = 0; i < ___cachedTradeables.Count; i++)
             {
                 ThingDef t = ___cachedTradeables[i];
 
-                if (!(t.race?.Humanlike ?? false))
+                if (t.race?.Humanlike != true)
                 {
                     continue;
                 }

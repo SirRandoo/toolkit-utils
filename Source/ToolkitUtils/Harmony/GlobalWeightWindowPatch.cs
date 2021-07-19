@@ -27,24 +27,20 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
 #if RW13
     [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class GlobalWeightWindowPatch
     {
-        private static readonly ConstructorInfo OldClassConstructor;
-        private static readonly ConstructorInfo NewClassConstructor;
-        private static readonly Type OldClassType;
-        private static readonly Type NewClassType;
-
-        static GlobalWeightWindowPatch()
-        {
-            NewClassType = typeof(GlobalWeightDialog);
-            OldClassType = typeof(Window_GlobalVoteWeights);
-            NewClassConstructor = AccessTools.Constructor(typeof(GlobalWeightDialog), new Type[0]);
-            OldClassConstructor = AccessTools.Constructor(typeof(Window_GlobalVoteWeights), new Type[0]);
-        }
+        private static ConstructorInfo _oldClassConstructor;
+        private static ConstructorInfo _newClassConstructor;
+        private static Type _oldClassType;
+        private static Type _newClassType;
 
         public static bool Prepare()
         {
+            _newClassType ??= typeof(GlobalWeightDialog);
+            _oldClassType ??= typeof(Window_GlobalVoteWeights);
+            _newClassConstructor ??= AccessTools.Constructor(typeof(GlobalWeightDialog), new Type[0]);
+            _oldClassConstructor ??= AccessTools.Constructor(typeof(Window_GlobalVoteWeights), new Type[0]);
             return RuntimeChecker.Do13Patches;
         }
 
@@ -59,13 +55,13 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Newobj && instruction.OperandIs(OldClassConstructor))
+                if (instruction.opcode == OpCodes.Newobj && instruction.OperandIs(_oldClassConstructor))
                 {
-                    instruction.operand = NewClassConstructor;
+                    instruction.operand = _newClassConstructor;
                 }
-                else if (instruction.opcode == OpCodes.Ldtoken && instruction.OperandIs(OldClassType))
+                else if (instruction.opcode == OpCodes.Ldtoken && instruction.OperandIs(_oldClassType))
                 {
-                    instruction.operand = NewClassType;
+                    instruction.operand = _newClassType;
                 }
 
                 yield return instruction;

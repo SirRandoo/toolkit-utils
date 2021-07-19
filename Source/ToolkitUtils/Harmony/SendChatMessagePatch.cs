@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -25,11 +26,17 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [HarmonyPatch(typeof(TwitchWrapper), nameof(TwitchWrapper.SendChatMessage))]
+    [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class SendChatMessagePatch
     {
         private const int MessageLimit = 500;
+
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(TwitchWrapper), "SendChatMessage");
+        }
+
 
         [HarmonyAfter("net.pardeike.harmony.Puppeteer")]
         public static bool Prefix(string message)
@@ -49,6 +56,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return false;
         }
 
+        [ItemNotNull]
         private static IEnumerable<string> SplitMessages([NotNull] string message)
         {
             if (message.Length < MessageLimit)

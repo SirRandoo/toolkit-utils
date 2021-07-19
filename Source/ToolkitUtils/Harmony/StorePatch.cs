@@ -26,19 +26,26 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [HarmonyPatch(typeof(Settings_Store), "DoWindowContents")]
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
+    [HarmonyPatch]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class StorePatch
     {
-        private static readonly MethodInfo UtilsInjectorMethod;
-        private static readonly MethodInfo InjectionSiteMarkerMethod;
+        private static MethodInfo _utilsInjectorMethod;
+        private static MethodInfo _injectionSiteMarkerMethod;
 
-        static StorePatch()
+        public static bool Prepare()
         {
-            UtilsInjectorMethod = AccessTools.Method(typeof(StorePatch), nameof(DrawUtilsContents));
-            InjectionSiteMarkerMethod = AccessTools.Method(typeof(Listing), nameof(Listing.Gap));
+            _utilsInjectorMethod = AccessTools.Method(typeof(StorePatch), "DrawUtilsContents");
+            _injectionSiteMarkerMethod = AccessTools.Method(typeof(Listing), "Gap");
+            return true;
         }
 
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(Settings_Store), "DoWindowContents");
+        }
+
+        [ItemNotNull]
         public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             var markerFound = false;
@@ -52,10 +59,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 if (markerFound
                     && instruction.opcode == OpCodes.Callvirt
-                    && ReferenceEquals(instruction.operand, InjectionSiteMarkerMethod))
+                    && ReferenceEquals(instruction.operand, _injectionSiteMarkerMethod))
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_1);
-                    yield return new CodeInstruction(OpCodes.Call, UtilsInjectorMethod);
+                    yield return new CodeInstruction(OpCodes.Call, _utilsInjectorMethod);
                 }
 
                 yield return instruction;

@@ -15,58 +15,65 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Models;
-using TwitchLib.Client.Models.Interfaces;
+using RimWorld;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
-using TwitchToolkit.Twitch;
-using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public static class ViewerUpdaterPatch
+    public static class ColonistUnnamedAlertPatch
     {
         public static IEnumerable<MethodBase> TargetMethods()
         {
-            yield return AccessTools.Method(typeof(ViewerUpdater), "ParseMessage");
+            yield return AccessTools.Method(typeof(Alert_UnnamedColonist), "GetReport");
         }
 
-        public static bool Prefix([CanBeNull] ITwitchMessage twitchMessage)
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        [SuppressMessage("ReSharper", "RedundantAssignment")]
+        public static bool Prefix(ref AlertReport __result)
         {
-            if (twitchMessage?.ChatMessage == null)
+            __result = false;
+
+            if (!ToolkitSettings.ViewerNamedColonistQueue)
             {
                 return false;
             }
 
-            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
             var component = Current.Game.GetComponent<GameComponentPawns>();
 
-            ToolkitSettings.ViewerColorCodes[twitchMessage.Username.ToLowerInvariant()] =
-                twitchMessage.ChatMessage.ColorHex;
-
-            if (TkSettings.HairColor
-                && component.HasUserBeenNamed(twitchMessage.Username)
-                && ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
-            {
-                component.PawnAssignedToUser(twitchMessage.Username).story.hairColor = hairColor;
-            }
-
-            UserData data = UserRegistry.UpdateData(twitchMessage);
-
-            if (data == null)
+            if (component == null)
             {
                 return false;
             }
 
-            viewer.mod = data.IsModerator;
-            viewer.subscriber = data.IsSubscriber;
-            viewer.vip = data.IsVip;
+            Dictionary<string, Pawn> pawnHistory = component.pawnHistory;
+            List<Pawn> colonistsSpawned = Helper.AnyPlayerMap.mapPawns.FreeColonistsSpawned;
+
+            if (colonistsSpawned.Count == pawnHistory.Count)
+            {
+                return false;
+            }
+
+            List<Pawn> container = colonistsSpawned.Where(c => !pawnHistory.ContainsKey(c.Name.ToStringShort))
+                // Questing
+               .Where(pawn => !pawn.IsBorrowedByAnyFaction())
+                // RimWorld of Magic
+               .Where(pawn => !CompatRegistry.Magic?.IsUndead(pawn) ?? true)
+               .ToList();
+
+            if (container.Count > 0)
+            {
+                __result = AlertReport.CulpritsAre(container);
+            }
+
             return false;
         }
     }

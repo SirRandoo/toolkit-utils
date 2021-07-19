@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -30,10 +31,15 @@ using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-    [HarmonyPatch(typeof(CommandsHandler), "CheckCommand")]
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
+    [HarmonyPatch]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class CommandsHandlerPatch
     {
+        public static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(CommandsHandler), "CheckCommand");
+        }
+
         public static bool Prefix(ITwitchMessage twitchMessage)
         {
             if (!TkSettings.Commands)
@@ -54,15 +60,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            string message = twitchMessage.Message;
-
-            if (!message.StartsWith(TkSettings.Prefix, StringComparison.InvariantCultureIgnoreCase)
-                && !message.StartsWith(TkSettings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase))
-            {
-                return false;
-            }
-
-            string sanitized = GetCommandString(message);
+            string sanitized = GetCommandString(twitchMessage.Message);
 
             if (sanitized == null)
             {
@@ -79,11 +77,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            if (segments.First().StartsWith("/w"))
-            {
-                segments = segments.Skip(1).ToList();
-            }
-
             if (text)
             {
                 segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToList();
@@ -94,8 +87,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return false;
         }
 
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
         [CanBeNull]
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public static Exception Finalizer([CanBeNull] Exception __exception)
         {
             if (__exception != null)

@@ -28,20 +28,21 @@ using StoreIncidentEditor = TwitchToolkit.Windows.StoreIncidentEditor;
 namespace SirRandoo.ToolkitUtils.Harmony
 {
     [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers)]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class SettingsStorePatch
     {
-        private static readonly ConstructorInfo OldClassConstructor;
-        private static readonly ConstructorInfo NewClassConstructor;
-        private static readonly Type OldClassType;
-        private static readonly Type NewClassType;
+        private static ConstructorInfo _oldClassConstructor;
+        private static ConstructorInfo _newClassConstructor;
+        private static Type _oldClassType;
+        private static Type _newClassType;
 
-        static SettingsStorePatch()
+        public static bool Prepare()
         {
-            NewClassType = typeof(StoreDialog);
-            OldClassType = typeof(StoreItemsWindow);
-            NewClassConstructor = typeof(StoreDialog).GetConstructor(new Type[] { });
-            OldClassConstructor = typeof(StoreItemsWindow).GetConstructor(new Type[] { });
+            _newClassType = typeof(StoreDialog);
+            _oldClassType = typeof(StoreItemsWindow);
+            _newClassConstructor = typeof(StoreDialog).GetConstructor(new Type[] { });
+            _oldClassConstructor = typeof(StoreItemsWindow).GetConstructor(new Type[] { });
+            return true;
         }
 
         public static IEnumerable<MethodBase> TargetMethods()
@@ -50,17 +51,18 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(StoreIncidentEditor), "DoWindowContents");
         }
 
+        [ItemNotNull]
         public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Newobj && instruction.OperandIs(OldClassConstructor))
+                if (instruction.opcode == OpCodes.Newobj && instruction.OperandIs(_oldClassConstructor))
                 {
-                    instruction.operand = NewClassConstructor;
+                    instruction.operand = _newClassConstructor;
                 }
-                else if (instruction.opcode == OpCodes.Ldtoken && instruction.OperandIs(OldClassType))
+                else if (instruction.opcode == OpCodes.Ldtoken && instruction.OperandIs(_oldClassType))
                 {
-                    instruction.operand = NewClassType;
+                    instruction.operand = _newClassType;
                 }
 
                 yield return instruction;
