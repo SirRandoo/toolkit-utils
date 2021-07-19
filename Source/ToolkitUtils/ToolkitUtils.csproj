@@ -362,18 +362,6 @@
         <Content Include="..\..\README.md">
             <Link>README.md</Link>
         </Content>
-        <Content Update="..\..\Common\Defs\GameConditionDefs.xml">
-            <Link>Common\Defs\GameConditionDefs.xml</Link>
-        </Content>
-        <Content Update="..\..\Common\Defs\HediffDefs.xml">
-            <Link>Common\Defs\HediffDefs.xml</Link>
-        </Content>
-        <Content Update="..\..\Common\Patches\TwitchToolkit\GiveAllOverride.xml">
-            <Link>Common\Patches\TwitchToolkit\GiveAllOverride.xml</Link>
-        </Content>
-        <Content Update="..\..\Common\Patches\TwitchToolkit\WeatherOverrides.xml">
-            <Link>Common\Patches\TwitchToolkit\WeatherOverrides.xml</Link>
-        </Content>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
