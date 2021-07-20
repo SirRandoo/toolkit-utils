@@ -635,7 +635,12 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var titleRect = new Rect(region.x, region.y, region.width, Text.SmallFontHeight);
             var gapRect = new Rect(region.x, region.y + titleRect.height, region.width, Text.SmallFontHeight);
-            var tabRect = new Rect(gapRect.x, gapRect.y + gapRect.height, gapRect.width, Text.SmallFontHeight * 2f);
+            var tabRect = new Rect(
+                gapRect.x,
+                gapRect.y + gapRect.height,
+                gapRect.width,
+                Mathf.FloorToInt(Text.SmallFontHeight * 1.5f)
+            );
 
             SettingsHelper.DrawColoredLabel(
                 titleRect,
@@ -686,37 +691,41 @@ namespace SirRandoo.ToolkitUtils.Workers
             Rect storytellerRect = storeRect.ShiftRight(0f);
             Rect viewersRect = storytellerRect.ShiftRight(0f);
 
-            if (Widgets.ButtonText(coinsRect, _coinTabItem.Label))
+            if (DrawTabButton(coinsRect, _coinTabItem.Label, _tabWorker.SelectedTab == _coinTabItem))
             {
                 _tabWorker.SelectedTab = _coinTabItem;
             }
 
-            if (Widgets.ButtonText(cooldownsRect, _cooldownTabItem.Label))
+            if (DrawTabButton(cooldownsRect, _cooldownTabItem.Label, _tabWorker.SelectedTab == _cooldownTabItem))
             {
                 _tabWorker.SelectedTab = _cooldownTabItem;
             }
 
-            if (Widgets.ButtonText(karmaRect, _karmaTabItem.Label))
+            if (DrawTabButton(karmaRect, _karmaTabItem.Label, _tabWorker.SelectedTab == _karmaTabItem))
             {
                 _tabWorker.SelectedTab = _karmaTabItem;
             }
 
-            if (Widgets.ButtonText(patchesRect, _patchesTabItem.Label))
+            if (DrawTabButton(patchesRect, _patchesTabItem.Label, _tabWorker.SelectedTab == _patchesTabItem))
             {
                 _tabWorker.SelectedTab = _patchesTabItem;
             }
 
-            if (Widgets.ButtonText(storeRect, _storeTabItem.Label))
+            if (DrawTabButton(storeRect, _storeTabItem.Label, _tabWorker.SelectedTab == _storeTabItem))
             {
                 _tabWorker.SelectedTab = _storeTabItem;
             }
 
-            if (Widgets.ButtonText(storytellerRect, _storytellerTabItem.Label))
+            if (DrawTabButton(
+                storytellerRect,
+                _storytellerTabItem.Label,
+                _tabWorker.SelectedTab == _storytellerTabItem
+            ))
             {
                 _tabWorker.SelectedTab = _storytellerTabItem;
             }
 
-            if (Widgets.ButtonText(viewersRect, _viewerTabItem.Label))
+            if (DrawTabButton(viewersRect, _viewerTabItem.Label, _tabWorker.SelectedTab == _viewerTabItem))
             {
                 _tabWorker.SelectedTab = _viewerTabItem;
             }
@@ -770,6 +779,20 @@ namespace SirRandoo.ToolkitUtils.Workers
             _noCoinsBuffer ??= ToolkitSettings.TimeBeforeNoCoins.ToString();
             Widgets.TextFieldNumeric(noCoinsField, ref ToolkitSettings.TimeBeforeNoCoins, ref _noCoinsBuffer);
             listing.End();
+        }
+
+        private static bool DrawTabButton(Rect region, string text, bool active = false)
+        {
+            if (!active)
+            {
+                GUI.color = new Color(1f, 1f, 1f, 0.6f);
+            }
+
+            Widgets.DrawAtlas(region, Widgets.ButtonBGAtlas);
+            GUI.color = Color.white;
+            SettingsHelper.DrawLabel(region, text, TextAnchor.MiddleCenter);
+            bool result = Widgets.ButtonInvisible(region);
+            return result;
         }
     }
 }
