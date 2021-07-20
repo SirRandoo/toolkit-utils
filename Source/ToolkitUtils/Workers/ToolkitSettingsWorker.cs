@@ -210,7 +210,12 @@ namespace SirRandoo.ToolkitUtils.Workers
         private static void DrawKarmaSettings(Rect region)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, region.width - 16f, Text.LineHeight * 36f);
+            var viewPort = new Rect(
+                0f,
+                0f,
+                region.width - 16f,
+                Text.LineHeight * (ToolkitSettings.KarmaReqsForGifting ? 32f : 29f)
+            );
 
             Widgets.BeginScrollView(region, ref _karmaScrollPos, viewPort);
             listing.Begin(viewPort);
@@ -521,7 +526,12 @@ namespace SirRandoo.ToolkitUtils.Workers
         private static void DrawViewerSettings(Rect region)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, region.width - 16f, Text.LineHeight * 24f);
+            var viewPort = new Rect(
+                0f,
+                0f,
+                region.width - 16f,
+                Text.LineHeight * (ToolkitSettings.ChargeViewersForQueue ? 23f : 22f)
+            );
 
             Widgets.BeginScrollView(region.AtZero(), ref _viewerScrollPos, viewPort);
             listing.Begin(viewPort);
