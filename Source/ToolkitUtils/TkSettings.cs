@@ -41,6 +41,7 @@ namespace SirRandoo.ToolkitUtils
     public class TkSettings : ModSettings
     {
         private static string _modVersion;
+        public static bool TrueNeutral;
         public static bool ForceFullItem;
         public static bool Commands = true;
         public static string Prefix = "!";
@@ -88,6 +89,7 @@ namespace SirRandoo.ToolkitUtils
 
         private static Vector2 _workScrollPos = Vector2.zero;
         private static Vector2 _commandTweaksPos = Vector2.zero;
+        private static Vector2 _dataScrollPos = Vector2.zero;
 
         static TkSettings()
         {
@@ -182,8 +184,11 @@ namespace SirRandoo.ToolkitUtils
 
         private static void DrawDataTab(Rect canvas)
         {
+            var view = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 27f);
             var listing = new Listing_Standard();
-            listing.Begin(canvas);
+            GUI.BeginGroup(canvas);
+            Widgets.BeginScrollView(canvas.AtZero(), ref _dataScrollPos, view);
+            listing.Begin(view);
 
             listing.DrawGroupHeader("TKUtils.Data.Files".Localize(), false);
 
@@ -207,6 +212,10 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawDescription("TKUtils.DoPurchasesAsap.Description".Localize());
             listing.DrawExperimentalNotice();
 
+            listing.CheckboxLabeled("TKUtils.TrueNeutral.Label".Localize(), ref TrueNeutral);
+            listing.DrawDescription("TKUtils.TrueNeutral.Description".Localize());
+            listing.DrawExperimentalNotice();
+
 
             listing.DrawGroupHeader("TKUtils.Data.LazyProcess".Localize());
 
@@ -218,6 +227,8 @@ namespace SirRandoo.ToolkitUtils
             Widgets.TextFieldNumeric(storeField, ref StoreBuildRate, ref storeBuffer);
 
             listing.End();
+            Widgets.EndScrollView();
+            GUI.EndGroup();
         }
 
         private static void DrawTabPanelLine(Rect canvas)
@@ -566,6 +577,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref AsapPurchases, "asapPurchases");
             Scribe_Values.Look(ref VersionedModList, "versionedModList");
             Scribe_Values.Look(ref ShowCoinRate, "balanceCoinRate", true);
+            Scribe_Values.Look(ref TrueNeutral, "trueNeutral");
             Scribe_Values.Look(ref HairColor, "hairColor", true);
             Scribe_Values.Look(ref OpinionMinimum, "minimumOpinion", 20);
             Scribe_Values.Look(ref StoreBuildRate, "storeBuildRate", 60);

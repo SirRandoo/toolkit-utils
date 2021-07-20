@@ -86,6 +86,9 @@
     <TKUtils.DoPurchasesAsap.Label>Complete purchases even if the game is paused.</TKUtils.DoPurchasesAsap.Label>
     <TKUtils.DoPurchasesAsap.Description>When enabled, the mod will complete purchases even if the game is paused.</TKUtils.DoPurchasesAsap.Description>
 
+    <TKUtils.TrueNeutral.Label>Turn neutral karma into true neutral instead of a small positive</TKUtils.TrueNeutral.Label>
+    <TKUtils.TrueNeutral.Description>When enabled, the mod will adjust how Toolkit treats neutral events. By default, neutral purchases are a small positive event, which means viewers will gain karma from using them. Enabling this setting will stop neutral events from giving viewers a karma bump when purchased. They'll essentially be a truly neutral purchase.</TKUtils.TrueNeutral.Description>
+
     <!-- Item Store Processing Group -->
     <TKUtils.StoreRate.Label>The number of items the store will process per tick.</TKUtils.StoreRate.Label>
     <TKUtils.StoreRate.Description>With a previous update, Utils made Toolkit's store immediately visible. Utils runs a background task to ensure the store is up-to-date with the latest items in the game. This setting changes how many items it will process per tick until complete.</TKUtils.StoreRate.Description>

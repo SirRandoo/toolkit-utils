@@ -123,6 +123,7 @@
         <Compile Include="Harmony\SendChatMessagePatch.cs"/>
         <Compile Include="Harmony\TickerPatch.cs"/>
         <Compile Include="Harmony\ToolkitSettingsPatch.cs"/>
+        <Compile Include="Harmony\TrueNeutralPatch.cs"/>
         <Compile Include="Harmony\UnassignedPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
