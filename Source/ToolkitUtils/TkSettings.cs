@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool BuyItemBalance;
         public static bool ClassChanges;
         public static bool ResetClass;
-        public static bool Puppeteer = true;
+        public static bool Puppeteer;
         public static bool MinimalRelations = true;
         public static bool GatewayPuff = true;
 
@@ -619,7 +619,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref BuyItemBalance, "buyItemBalance");
             Scribe_Values.Look(ref ClassChanges, "classChanges");
             Scribe_Values.Look(ref ResetClass, "resetClass");
-            Scribe_Values.Look(ref Puppeteer, "puppeteer", true);
+            Scribe_Values.Look(ref Puppeteer, "puppeteer");
             Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
             Scribe_Values.Look(ref GatewayPuff, "gatewayPuff", true);
 
