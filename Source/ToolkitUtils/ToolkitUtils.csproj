@@ -113,6 +113,8 @@
         <Compile Include="Harmony\KarmaMinimumPatch.cs"/>
         <Compile Include="Harmony\PawnCommandsPatch.cs"/>
         <Compile Include="Harmony\PurchaseHandlerPatch.cs"/>
+        <Compile Include="Harmony\RefreshViewersPatch.cs"/>
+        <Compile Include="Harmony\StartAsyncPatch.cs"/>
         <Compile Include="Harmony\StoreIncidentEditorPatch.cs"/>
         <Compile Include="Harmony\StoreItemEditorPatch.cs"/>
         <Compile Include="Harmony\StoreItemsPatches.cs"/>
