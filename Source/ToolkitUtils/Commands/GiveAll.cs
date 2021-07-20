@@ -40,13 +40,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             List<string> viewers = Viewers.ParseViewersFromJsonAndFindActiveViewers();
 
-            if (viewers?.Count <= 0)
+            if (viewers == null || viewers.Count <= 0)
             {
                 return;
             }
 
             var count = 0;
-            foreach (string username in Viewers.ParseViewersFromJsonAndFindActiveViewers())
+            foreach (string username in viewers)
             {
                 Viewers.GetViewer(username).GiveViewerCoins(amount);
                 count++;
