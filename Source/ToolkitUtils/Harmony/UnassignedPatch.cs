@@ -49,7 +49,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return true;
         }
 
-        [ItemNotNull]
         public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             var methodFound = false;

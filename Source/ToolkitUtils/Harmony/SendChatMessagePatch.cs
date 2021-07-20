@@ -56,7 +56,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return false;
         }
 
-        [ItemNotNull]
         private static IEnumerable<string> SplitMessages([NotNull] string message)
         {
             if (message.Length < MessageLimit)

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#if !RW12
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
@@ -25,8 +26,11 @@ using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
 
+#endif
+
 namespace SirRandoo.ToolkitUtils.Workers
 {
+#if !RW12
     public static class ToolkitSettingsWorker
     {
         private static TabWorker _tabWorker;
@@ -805,4 +809,5 @@ namespace SirRandoo.ToolkitUtils.Workers
             return result;
         }
     }
+#endif
 }

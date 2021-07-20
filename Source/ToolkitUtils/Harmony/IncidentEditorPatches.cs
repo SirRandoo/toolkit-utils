@@ -56,7 +56,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(Window_Trackers), "DoWindowContents");
         }
 
-        [ItemNotNull]
         public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             foreach (CodeInstruction instruction in instructions)
