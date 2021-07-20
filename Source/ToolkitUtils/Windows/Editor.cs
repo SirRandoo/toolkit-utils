@@ -50,7 +50,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public Editor()
         {
-            draggable = true;
             forcePause = true;
             doCloseButton = false;
 
