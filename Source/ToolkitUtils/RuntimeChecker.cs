@@ -94,26 +94,7 @@ namespace SirRandoo.ToolkitUtils
 
         public static bool Do13Patches { get; }
 
-        internal static void ExecuteInMainThread(string command, Action func)
-        {
-            if (TkSettings.MainThreadCommands && TkUtils.Context != null)
-            {
-                TkUtils.Context.Post(
-                    delegate
-                    {
-                        Action action = func;
-                        string commandInput = command;
-                        Execute(commandInput, action);
-                    },
-                    null
-                );
-                return;
-            }
-
-            Execute(command, func);
-        }
-
-        private static void Execute(string command, [NotNull] Action func)
+        internal static void Execute(string command, [NotNull] Action func)
         {
         #if DEBUG
             var stopwatch = new Stopwatch();

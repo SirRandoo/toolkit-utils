@@ -42,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
-            RuntimeChecker.ExecuteInMainThread(
+            RuntimeChecker.Execute(
                 $"{command.command}[{message.Message}]",
                 delegate
                 {
