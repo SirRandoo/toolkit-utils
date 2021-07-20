@@ -37,6 +37,8 @@ namespace SirRandoo.ToolkitUtils
 
     public enum DumpStyles { SingleFile, MultiFile }
 
+    public enum UserCoinType { Broadcaster, Subscriber, Vip, Moderator, None }
+
     [StaticConstructorOnStartup]
     public class TkSettings : ModSettings
     {
@@ -59,6 +61,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool PurchasePawnKinds = true;
         public static bool TempInGear;
         public static bool DropInventory;
+        public static string BroadcasterCoinType = nameof(UserCoinType.Broadcaster);
         public static string LeaveMethod = nameof(LeaveMethods.MentalBreak);
         public static string DumpStyle = nameof(DumpStyles.SingleFile);
         public static int LookupLimit = 10;
@@ -82,6 +85,7 @@ namespace SirRandoo.ToolkitUtils
         private static Categories _category = Categories.General;
         internal static List<FloatMenuOption> LeaveMenuOptions;
         private static List<FloatMenuOption> _dumpStyleOptions;
+        private static List<FloatMenuOption> _coinUserTypeOptions;
         private static TabEntry[] _tabEntries;
 
         private static WorkTypeDef[] _workTypeDefs;
@@ -183,7 +187,7 @@ namespace SirRandoo.ToolkitUtils
 
         private static void DrawDataTab(Rect canvas)
         {
-            var view = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 27f);
+            var view = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 32f);
             var listing = new Listing_Standard();
             GUI.BeginGroup(canvas);
             Widgets.BeginScrollView(canvas.AtZero(), ref _dataScrollPos, view);
@@ -214,6 +218,16 @@ namespace SirRandoo.ToolkitUtils
             listing.CheckboxLabeled("TKUtils.TrueNeutral.Label".Localize(), ref TrueNeutral);
             listing.DrawDescription("TKUtils.TrueNeutral.Description".Localize());
             listing.DrawExperimentalNotice();
+
+            (Rect coinTypeLabel, Rect coinTypeField) = listing.GetRect(Text.LineHeight).ToForm();
+            SettingsHelper.DrawLabel(coinTypeLabel, "TKUtils.BroadcasterUserType.Label".Localize());
+            listing.DrawDescription("TKUtils.BroadcasterUserType.Description".Localize());
+            listing.DrawExperimentalNotice();
+
+            if (Widgets.ButtonText(coinTypeField, $"TKUtils.BroadcasterUserType.{BroadcasterCoinType}".Localize()))
+            {
+                Find.WindowStack.Add(new FloatMenu(_coinUserTypeOptions));
+            }
 
 
             listing.DrawGroupHeader("TKUtils.Data.LazyProcess".Localize());
@@ -342,6 +356,30 @@ namespace SirRandoo.ToolkitUtils
                 new FloatMenuOption(
                     "TKUtils.Abandon.Method.MentalBreak".Localize(),
                     () => LeaveMethod = nameof(LeaveMethods.MentalBreak)
+                )
+            };
+
+            _coinUserTypeOptions ??= new List<FloatMenuOption>
+            {
+                new FloatMenuOption(
+                    "TKUtils.BroadcasterUserType.Broadcaster".Localize(),
+                    () => BroadcasterCoinType = nameof(UserCoinType.Broadcaster)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.BroadcasterUserType.Subscriber".Localize(),
+                    () => BroadcasterCoinType = nameof(UserCoinType.Subscriber)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.BroadcasterUserType.Vip".Localize(),
+                    () => BroadcasterCoinType = nameof(UserCoinType.Vip)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.BroadcasterUserType.Moderator".Localize(),
+                    () => BroadcasterCoinType = nameof(UserCoinType.Moderator)
+                ),
+                new FloatMenuOption(
+                    "TKUtils.BroadcasterUserType.None".Localize(),
+                    () => BroadcasterCoinType = nameof(UserCoinType.None)
                 )
             };
         }
@@ -568,6 +606,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref DropInventory, "dropInventory");
             Scribe_Values.Look(ref LeaveMethod, "leaveMethod", nameof(LeaveMethods.MentalBreak));
             Scribe_Values.Look(ref DumpStyle, "dumpStyle", nameof(DumpStyles.SingleFile));
+            Scribe_Values.Look(ref BroadcasterCoinType, "broadcasterCoinType", nameof(UserCoinType.Broadcaster));
             Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
             Scribe_Values.Look(ref AsapPurchases, "asapPurchases");
             Scribe_Values.Look(ref VersionedModList, "versionedModList");

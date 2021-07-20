@@ -64,10 +64,34 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            viewer.mod = data.IsModerator;
-            viewer.subscriber = data.IsSubscriber;
-            viewer.vip = data.IsVip;
+            if (data.IsBroadcaster)
+            {
+                UpdateBroadcasterData(viewer);
+            }
+            else
+            {
+                viewer.mod = data.IsModerator;
+                viewer.subscriber = data.IsSubscriber;
+                viewer.vip = data.IsVip;
+            }
+
             return false;
+        }
+
+        private static void UpdateBroadcasterData([NotNull] Viewer viewer)
+        {
+            if (!TkSettings.BroadcasterCoinType.EqualsIgnoreCase("broadcaster"))
+            {
+                viewer.subscriber = TkSettings.BroadcasterCoinType.EqualsIgnoreCase("subscriber");
+                viewer.mod = TkSettings.BroadcasterCoinType.EqualsIgnoreCase("moderator");
+                viewer.vip = TkSettings.BroadcasterCoinType.EqualsIgnoreCase("vip");
+            }
+            else
+            {
+                viewer.subscriber = true;
+                viewer.mod = true;
+                viewer.vip = true;
+            }
         }
     }
 }

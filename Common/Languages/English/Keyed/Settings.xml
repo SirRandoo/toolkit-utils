@@ -48,8 +48,8 @@
     <TKUtils.PawnStats>Stats</TKUtils.PawnStats>
 
     <TKUtils.ModCompat>Mod Compatibility</TKUtils.ModCompat>
-    
-    
+
+
     <!-- Notices -->
     <TKUtils.Experimental>This setting is experimental and may change, or be removed, at any time.</TKUtils.Experimental>
     <TKUtils.TMagic.Warning>A RimWorld of Magic does not support class changes. Lifting this restriction may lead to unexpected side-effects.</TKUtils.TMagic.Warning>
@@ -89,6 +89,13 @@
     <TKUtils.TrueNeutral.Label>Turn neutral karma into true neutral instead of a small positive</TKUtils.TrueNeutral.Label>
     <TKUtils.TrueNeutral.Description>When enabled, the mod will adjust how Toolkit treats neutral events. By default, neutral purchases are a small positive event, which means viewers will gain karma from using them. Enabling this setting will stop neutral events from giving viewers a karma bump when purchased. They'll essentially be a truly neutral purchase.</TKUtils.TrueNeutral.Description>
 
+    <TKUtils.BroadcasterUserType.Label>Broadcaster viewer type</TKUtils.BroadcasterUserType.Label>
+    <TKUtils.BroadcasterUserType.Description>The type of viewer the broadcaster will count as. This setting only applies to coin gains. All other systems shouldn't be affected, and if they are, you can submit a bug report to the mod author that implemented the system.</TKUtils.BroadcasterUserType.Description>
+    <TKUtils.BroadcasterUserType.Broadcaster>Broadcaster</TKUtils.BroadcasterUserType.Broadcaster>
+    <TKUtils.BroadcasterUserType.Subscriber>Subscriber</TKUtils.BroadcasterUserType.Subscriber>
+    <TKUtils.BroadcasterUserType.Moderator>Moderator</TKUtils.BroadcasterUserType.Moderator>
+    <TKUtils.BroadcasterUserType.None>Viewer</TKUtils.BroadcasterUserType.None>
+
     <!-- Item Store Processing Group -->
     <TKUtils.StoreRate.Label>The number of items the store will process per tick.</TKUtils.StoreRate.Label>
     <TKUtils.StoreRate.Description>With a previous update, Utils made Toolkit's store immediately visible. Utils runs a background task to ensure the store is up-to-date with the latest items in the game. This setting changes how many items it will process per tick until complete.</TKUtils.StoreRate.Description>
@@ -101,16 +108,16 @@
     <!-- Command Handler Group -->
     <TKUtils.CommandParser.Label>Use Utils' flavor of command handling.</TKUtils.CommandParser.Label>
     <TKUtils.CommandParser.Description>Older users would remember this as its command parser.</TKUtils.CommandParser.Description>
-    
+
     <TKUtils.CommandPrefix.Label>Command prefix</TKUtils.CommandPrefix.Label>
     <TKUtils.CommandPrefix.Description>The prefix to use for all Twitch Toolkit commands.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.CommandPrefix.Description>
-    
+
     <TKUtils.PurchasePrefix.Label>Purchase prefix</TKUtils.PurchasePrefix.Label>
     <TKUtils.PurchasePrefix.Description>The prefix to use as a substitue for &lt;b&gt;!buy&lt;/b&gt;.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.PurchasePrefix.Description>
-    
+
     <TKUtils.ToolkitStyleCommands.Label>Locate commands similar to how Twitch Toolkit does.</TKUtils.ToolkitStyleCommands.Label>
     <TKUtils.ToolkitStyleCommands.Description>Twitch Toolkit compares commands by checking to see if a message starts with a command, while ToolkitUtils checks to see if the first "word" is a command. If this is enabled, ToolkitUtils will mimic the old behavior, with the exception of case insensitivity. TL;DR: this lets !balloon be a valid form of the !bal command.</TKUtils.ToolkitStyleCommands.Description>
-    
+
     <TKUtils.MainThreadCommands.Label>Run commands in the game's main thread.</TKUtils.MainThreadCommands.Label>
     <TKUtils.MainThreadCommands.Description>By default, Twitch Toolkit runs all commands in a separate thread. This can lead to a host of problems when addons try to manipulate what the game does, like:\n - access exceptions\n - race conditions</TKUtils.MainThreadCommands.Description>
 
@@ -140,7 +147,7 @@
     <TKUtils.Abandon.Method.MentalBreak>Mental break</TKUtils.Abandon.Method.MentalBreak>
     <TKUtils.Abandon.Gear.Label>Colonists that leave by the leave command drop their inventory.</TKUtils.Abandon.Gear.Label>
     <TKUtils.Abandon.Gear.Description>If a viewer chooses to leave the colony via the &lt;b&gt;!leave&lt;/b&gt; command, the mod will strip their equipment before they depart.</TKUtils.Abandon.Gear.Description>
-    
+
     <!-- Pawn Gear Command Group -->
     <TKUtils.PawnGear.Temperature.Label>Show temperature information in the pawn gear command.</TKUtils.PawnGear.Temperature.Label>
     <TKUtils.PawnGear.Temperature.Description>Include a pawn's temperature tolerance range in the &lt;b&gt;!mypawngear&lt;/b&gt; command. Enabling this removes temperature information from &lt;b&gt;!mypawnbody&lt;/b&gt;.</TKUtils.PawnGear.Temperature.Description>
@@ -150,17 +157,17 @@
     <TKUtils.PawnGear.Armor.Description>Include armor protection values in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Armor.Description>
     <TKUtils.PawnGear.Weapon.Label>Show currently equipped weapon in the pawn gear command.</TKUtils.PawnGear.Weapon.Label>
     <TKUtils.PawnGear.Weapon.Description>Includes the weapon a pawn is currently equipped with in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Weapon.Description>
-    
+
     <!-- Pawn Health Command Group -->
     <TKUtils.PawnHealth.Surgeries.Label>Show queued surgeries in the pawn health command.</TKUtils.PawnHealth.Surgeries.Label>
     <TKUtils.PawnHealth.Surgeries.Description>Includes currently queued surgeries in the &lt;b&gt;!mypawnhealth&lt;/b&gt; command.</TKUtils.PawnHealth.Surgeries.Description>
-    
+
     <!-- Pawn Relations Command Group -->
     <TKUtils.PawnRelations.OpinionThreshold.Label>Minimum opinion</TKUtils.PawnRelations.OpinionThreshold.Label>
     <TKUtils.PawnRelations.OpinionThreshold.Description>The minimum opinion a pawn has to have of another before they'll show up in the command. The value will be used for both the negative (absolute) and positive opinion values</TKUtils.PawnRelations.OpinionThreshold.Description>
     <TKUtils.PawnRelations.MinimalRelations.Label>Only show important relationships in the pawn relations command.</TKUtils.PawnRelations.MinimalRelations.Label>
     <TKUtils.PawnRelations.MinimalRelations.Description>When enabled, only direct relationships will be shown in the &lt;b&gt;!mypawnrelations&lt;/b&gt; command. Opinion based relationships will be hidden, like friends and acquaintances.</TKUtils.PawnRelations.MinimalRelations.Description>
-    
+
     <!-- Pawn Work Command Group -->
     <TKUtils.PawnWork.Sort.Label>Sort work priorities in the pawn work command.</TKUtils.PawnWork.Sort.Label>
     <TKUtils.PawnWork.Sort.Description>If enabled, work priorities will be sorted like the Work tab in the &lt;b&gt;!mypawnwork&lt;/b&gt; command. This means work will be displayed as the Work tab from left to right.</TKUtils.PawnWork.Sort.Description>

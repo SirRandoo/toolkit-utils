@@ -20,6 +20,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitCore;
 using TwitchToolkit;
 using Verse;
 
@@ -30,11 +31,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
     {
         private Pawn pawn;
 
-        public override bool CanHappen([NotNull] string msg, Viewer viewer)
+        public override bool CanHappen([NotNull] string msg, [NotNull] Viewer viewer)
         {
             UserData data = UserRegistry.GetData(viewer.username);
 
-            if (!(data is {IsModerator: true}))
+            if (!(data is {IsModerator: true}) || !data.Username.EqualsIgnoreCase(ToolkitCoreSettings.channel_username))
             {
                 return false;
             }
