@@ -16,10 +16,8 @@
 
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
 
@@ -30,8 +28,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class ToolkitSettingsPatch
     {
-        private static bool _warned;
-
         public static bool Prepare()
         {
             return RuntimeChecker.Do13Patches;
@@ -44,20 +40,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         public static bool Prefix(Rect inRect)
         {
-            if (!_warned)
-            {
-                LogHelper.Warn(
-                    new StringBuilder()
-                       .Append(
-                            "While Utils patches Twitch Toolkit to be compatible with 1.3, it's still an unsupported "
-                        )
-                       .Append("version of the game. Do not submit bug reports while using 1.3. Do not expect ")
-                       .Append("everything to work.")
-                       .ToString()
-                );
-                _warned = true;
-            }
-
             ToolkitSettingsWorker.Draw(inRect);
             return false;
         }
