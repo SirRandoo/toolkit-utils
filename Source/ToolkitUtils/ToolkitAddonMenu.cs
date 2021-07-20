@@ -26,6 +26,7 @@ using TwitchToolkit.Store;
 using TwitchToolkit.Windows;
 using Verse;
 using Command = TwitchToolkit.Command;
+using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -99,13 +100,28 @@ namespace SirRandoo.ToolkitUtils
                         Helper.playerMessages = new List<string>();
                         Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
                     }
-                )
+                ),
+                new FloatMenuOption("TKUtils.AddonMenu.EditItemSettings".Localize(), OpenItemSettings),
+                new FloatMenuOption("TKUtils.AddonMenu.EditTraitLimit".Localize(), OpenTraitSettings)
             };
         }
 
         public List<FloatMenuOption> MenuOptions()
         {
             return Options;
+        }
+
+
+        private static void OpenItemSettings()
+        {
+            Find.WindowStack.Add(new StoreIncidentEditor(IncidentDefOf.Item));
+            IncidentDefOf.Item.settings.EditSettings();
+        }
+
+        private static void OpenTraitSettings()
+        {
+            Find.WindowStack.Add(new StoreIncidentEditor(IncidentDefOf.AddTrait));
+            IncidentDefOf.AddTrait.settings.EditSettings();
         }
     }
 }

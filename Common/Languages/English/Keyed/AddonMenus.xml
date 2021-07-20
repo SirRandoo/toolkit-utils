@@ -33,4 +33,6 @@
     <TKUtils.AddonMenu.ToggleCoinEarning>Toggle earning coins</TKUtils.AddonMenu.ToggleCoinEarning>
     <TKUtils.AddonMenu.DebugFix>Debug fix</TKUtils.AddonMenu.DebugFix>
     <TKUtils.AddonMenu.GiftCoins>Toggle coin gifting</TKUtils.AddonMenu.GiftCoins>
+    <TKUtils.AddonMenu.EditItemSettings>Edit item settings...</TKUtils.AddonMenu.EditItemSettings>
+    <TKUtils.AddonMenu.EditTraitLimit>Edit trait limit...</TKUtils.AddonMenu.EditTraitLimit>
 </LanguageData>
