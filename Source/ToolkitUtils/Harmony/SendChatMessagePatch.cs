@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Text;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore;
 using TwitchLib.Client.Models;
 using Verse;
@@ -60,11 +61,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (message.Length < MessageLimit)
             {
-                yield return message;
+                yield return Unrichify.StripTags(message);
                 yield break;
             }
 
-            string[] words = message.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            string[] words = Unrichify.StripTags(message).Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
             var builder = new StringBuilder();
             var chars = 0;
 
