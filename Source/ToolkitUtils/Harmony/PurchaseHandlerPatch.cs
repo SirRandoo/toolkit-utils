@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -54,18 +55,39 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (TryFindSimpleIncident(query, out StoreIncidentSimple incidentSimple))
             {
-                Purchase_Handler.ResolvePurchaseSimple(viewer, twitchMessage, incidentSimple, twitchMessage.Message);
+                try
+                {
+                    Purchase_Handler.ResolvePurchaseSimple(
+                        viewer,
+                        twitchMessage,
+                        incidentSimple,
+                        twitchMessage.Message
+                    );
+                }
+                catch (Exception e)
+                {
+                    LogHelper.Error("Could not resolve purchase", e);
+                }
+
                 return false;
             }
 
             if (TryFindVariableIncident(query, out StoreIncidentVariables incidentVariables))
             {
-                Purchase_Handler.ResolvePurchaseVariables(
-                    viewer,
-                    twitchMessage,
-                    incidentVariables,
-                    twitchMessage.Message
-                );
+                try
+                {
+                    Purchase_Handler.ResolvePurchaseVariables(
+                        viewer,
+                        twitchMessage,
+                        incidentVariables,
+                        twitchMessage.Message
+                    );
+                }
+                catch (Exception e)
+                {
+                    LogHelper.Error("Could not resolve purchase", e);
+                }
+
                 return false;
             }
 
@@ -86,12 +108,19 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 segments.Insert(3, "1");
             }
 
-            Purchase_Handler.ResolvePurchaseVariables(
-                viewer,
-                twitchMessage,
-                StoreIncidentDefOf.Item,
-                string.Join(" ", segments.ToArray())
-            );
+            try
+            {
+                Purchase_Handler.ResolvePurchaseVariables(
+                    viewer,
+                    twitchMessage,
+                    StoreIncidentDefOf.Item,
+                    string.Join(" ", segments.ToArray())
+                );
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error("Could not resolve purchase", e);
+            }
 
             return false;
         }
