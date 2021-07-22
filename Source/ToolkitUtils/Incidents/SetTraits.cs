@@ -48,6 +48,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+                return false;
             }
 
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
