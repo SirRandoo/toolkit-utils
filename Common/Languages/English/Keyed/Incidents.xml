@@ -121,4 +121,7 @@
 
     <!-- Sanctuary -->
     <TKUtils.Sanctuary.Complete>Purchase complete.</TKUtils.Sanctuary.Complete>
+
+    <!-- Multi -->
+    <TKUtils.Wagered.Complete>Executed {0} with a wager of {1} points, and {2} threat points.</TKUtils.Wagered.Complete>
 </LanguageData>

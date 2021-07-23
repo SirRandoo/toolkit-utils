@@ -80,6 +80,8 @@ namespace SirRandoo.ToolkitUtils
         public static bool MinimalRelations = true;
         public static bool GatewayPuff = true;
 
+        internal static bool DebuggingIncidents;
+
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
 
         private static Categories _category = Categories.General;

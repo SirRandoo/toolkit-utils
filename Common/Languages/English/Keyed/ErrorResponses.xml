@@ -23,6 +23,7 @@
     <TKUtils.NoMap>No suitable map could be found.</TKUtils.NoMap>
     <TKUtils.HasPawn>You are already in this colony.</TKUtils.HasPawn>
     <TKUtils.PawnNotFound>{0} is not in this colony.</TKUtils.PawnNotFound>
+    <TKUtils.FailedParms>Could not generate parms for {0}</TKUtils.FailedParms>
     <TKUtils.DisabledItem>The requested item is disabled.</TKUtils.DisabledItem>
     <TKUtils.NotInjured>You don't have any healable injuries!</TKUtils.NotInjured>
     <TKUtils.NoAnimals>Animals cannot be purchased with this command!</TKUtils.NoAnimals>
@@ -34,6 +35,7 @@
     <TKUtils.InvalidSkillQuery>No skill by the name of "{0}" could be found.</TKUtils.InvalidSkillQuery>
     <TKUtils.InvalidKindQuery>No pawn kind by the name of "{0}" could be found.</TKUtils.InvalidKindQuery>
     <TKUtils.InformativeDisabledItem>The requested item ({0}) is disabled.</TKUtils.InformativeDisabledItem>
+    <TKUtils.WagerRequired>Your wager of {0} does not meet the minimum requirement of {1}.</TKUtils.WagerRequired>
     <TKUtils.InsufficientBalance>The requested item costs {0} coins, but you only have {1} coins.</TKUtils.InsufficientBalance>
     <TKUtils.ResearchRequired>This colony must research the following prerequisites before "{0}" will be available: {1}</TKUtils.ResearchRequired>
 </LanguageData>

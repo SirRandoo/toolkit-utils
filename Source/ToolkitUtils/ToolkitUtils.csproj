@@ -123,12 +123,14 @@
         <Compile Include="Harmony\CommandEditorPatch.cs"/>
         <Compile Include="Harmony\LookupPatch.cs"/>
         <Compile Include="Harmony\SendChatMessagePatch.cs"/>
+        <Compile Include="Harmony\StorytellerPatch.cs"/>
         <Compile Include="Harmony\TickerPatch.cs"/>
         <Compile Include="Harmony\ToolkitSettingsPatch.cs"/>
         <Compile Include="Harmony\TrueNeutralPatch.cs"/>
         <Compile Include="Harmony\UnassignedPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
+        <Compile Include="Harmony\VoteHandlerPatch.cs"/>
         <Compile Include="Helpers\CommandHelper.cs"/>
         <Compile Include="Helpers\GameHelper.cs"/>
         <Compile Include="Helpers\HealHelper.cs"/>
@@ -172,6 +174,7 @@
         <Compile Include="Incidents\HealRandom.cs"/>
         <Compile Include="Incidents\Immortality.cs"/>
         <Compile Include="Incidents\BuyItem.cs"/>
+        <Compile Include="Incidents\Incident.cs"/>
         <Compile Include="Incidents\PassionShuffle.cs"/>
         <Compile Include="Incidents\Sanctuary.cs"/>
         <Compile Include="Incidents\RemovePassion.cs"/>
@@ -183,6 +186,7 @@
         <Compile Include="Incidents\ReviveMe.cs"/>
         <Compile Include="Incidents\Smite.cs"/>
         <Compile Include="Incidents\Use.cs"/>
+        <Compile Include="Incidents\WageredIncident.cs"/>
         <Compile Include="Incidents\Wear.cs"/>
         <Compile Include="Incidents\Weather.cs"/>
         <Compile Include="Interfaces\ICommandSettings.cs"/>
@@ -197,6 +201,7 @@
         <Compile Include="Interfaces\ISurgeryHandler.cs"/>
         <Compile Include="Interfaces\IUsabilityHandler.cs"/>
         <Compile Include="Models\Mutators\UsableMutator.cs"/>
+        <Compile Include="Models\IncidentData.cs"/>
         <Compile Include="Models\Selectors\EquippableSelector.cs"/>
         <Compile Include="Models\Selectors\UsabilitySelector.cs"/>
         <Compile Include="Models\Selectors\WearableSelector.cs"/>
@@ -344,7 +349,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
-        <PackageReference Condition="$(DefineConstants.Contains('RW13'))" Include="Krafs.Rimworld.Ref" Version="1.3.3065-beta" ExcludeAssets="runtime"/>
+        <PackageReference Condition="$(DefineConstants.Contains('RW13'))" Include="Krafs.Rimworld.Ref" Version="1.3.3067" ExcludeAssets="runtime"/>
         <PackageReference Condition="$(DefineConstants.Contains('RW12'))" Include="Krafs.Rimworld.Ref" Version="1.2.2905" ExcludeAssets="runtime"/>
         <PackageReference Include="Lib.Harmony" Version="2.1.0" ExcludeAssets="runtime"/>
         <PackageReference Include="MoonSharp" Version="2.0.0" ExcludeAssets="runtime"/>

@@ -31,6 +31,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool SpawnManhunter { get; set; }
         public int Quantity { get; set; }
         public Gender? Gender { get; set; }
+        public string Text { get; set; }
 
         public override float BaseChanceThisGame => 0f;
 
@@ -73,8 +74,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             SendStandardLetter(
-                Label ?? "LetterLabelFarmAnimalsWanderIn".Localize(),
-                "LetterFarmAnimalsWanderIn".LocalizeKeyed(AnimalDef.GetLabelPlural()),
+                Label ?? "LetterLabelFarmAnimalsWanderIn".LocalizeKeyed(AnimalDef.GetLabelPlural()),
+                Text ?? "LetterFarmAnimalsWanderIn".LocalizeKeyed(AnimalDef.GetLabelPlural()),
                 SpawnManhunter ? LetterDefOf.NegativeEvent : LetterDefOf.NeutralEvent,
                 parms,
                 new LookTargets(container)
