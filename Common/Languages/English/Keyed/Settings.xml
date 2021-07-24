@@ -93,6 +93,7 @@
     <TKUtils.BroadcasterUserType.Description>The type of viewer the broadcaster will count as. This setting only applies to coin gains. All other systems shouldn't be affected, and if they are, you can submit a bug report to the mod author that implemented the system.</TKUtils.BroadcasterUserType.Description>
     <TKUtils.BroadcasterUserType.Broadcaster>Broadcaster</TKUtils.BroadcasterUserType.Broadcaster>
     <TKUtils.BroadcasterUserType.Subscriber>Subscriber</TKUtils.BroadcasterUserType.Subscriber>
+    <TKUtils.BroadcasterUserType.Vip>Vip</TKUtils.BroadcasterUserType.Vip>
     <TKUtils.BroadcasterUserType.Moderator>Moderator</TKUtils.BroadcasterUserType.Moderator>
     <TKUtils.BroadcasterUserType.None>Viewer</TKUtils.BroadcasterUserType.None>
 
