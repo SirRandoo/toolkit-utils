@@ -97,14 +97,15 @@
     <!-- Toggle Store -->
     <TKUtils.ToggleStore.Enabled>Toolkit's store has been enabled.</TKUtils.ToggleStore.Enabled>
     <TKUtils.ToggleStore.Disabled>Toolkit's store has been disabled.</TKUtils.ToggleStore.Disabled>
-    
+
     <!-- Research -->
     <TKUtils.Research.InvalidQuery>No research project by the name of "{0}" could be found.</TKUtils.Research.InvalidQuery>
     <TKUtils.Research.None>The colony is not currently researching anything.</TKUtils.Research.None>
-    
+
     <!-- Unstick -->
     <TKUtils.Unstick>Unstuck {0} viewers.</TKUtils.Unstick>
-    
+
     <!-- Unstick Me -->
-    <TKUtils.UnstickMe>You've been unstuck.</TKUtils.UnstickMe>
+    <TKUtils.UnstickMe.Complete>The solvent was applied throughly.</TKUtils.UnstickMe.Complete>
+    <TKUtils.UnstickMe.Queued>Your request is being processed.</TKUtils.UnstickMe.Queued>
 </LanguageData>

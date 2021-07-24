@@ -34,6 +34,7 @@ namespace SirRandoo.ToolkitUtils
     public class Coordinator : GameComponent
     {
         private readonly ConcurrentQueue<IncidentProxy> incidentQueue = new ConcurrentQueue<IncidentProxy>();
+        private readonly ConcurrentQueue<string> pendingSolvent = new ConcurrentQueue<string>();
         private readonly List<ToolkitGateway> portals = new List<ToolkitGateway>();
 
         private int lastMinute;
@@ -120,6 +121,11 @@ namespace SirRandoo.ToolkitUtils
             incidentQueue.Enqueue(incident);
         }
 
+        internal void NotifySolventRequested(string username)
+        {
+            pendingSolvent.Enqueue(username);
+        }
+
         public override void GameComponentUpdate()
         {
             VoteHandler.CheckForQueuedVotes();
@@ -177,6 +183,17 @@ namespace SirRandoo.ToolkitUtils
             }
 
             Toolkit.JobManager.CheckAllJobs();
+
+            while (!pendingSolvent.IsEmpty)
+            {
+                if (!pendingSolvent.TryDequeue(out string username))
+                {
+                    break;
+                }
+
+                Purchase_Handler.viewerNamesDoingVariableCommands.Remove(username);
+                MessageHelper.ReplyToUser(username, "TKUtils.UnstickMe.Complete".Localize());
+            }
 
             if (TkSettings.AsapPurchases)
             {

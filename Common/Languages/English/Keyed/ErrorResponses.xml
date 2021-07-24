@@ -38,4 +38,5 @@
     <TKUtils.WagerRequired>Your wager of {0} does not meet the minimum requirement of {1}.</TKUtils.WagerRequired>
     <TKUtils.InsufficientBalance>The requested item costs {0} coins, but you only have {1} coins.</TKUtils.InsufficientBalance>
     <TKUtils.ResearchRequired>This colony must research the following prerequisites before "{0}" will be available: {1}</TKUtils.ResearchRequired>
+    <TKUtils.PausedExtended>This action cannot be performed while the game is paused. If this problem persists, consider using the !{0} command.</TKUtils.PausedExtended>
 </LanguageData>
