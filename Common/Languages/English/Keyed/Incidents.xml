@@ -46,6 +46,10 @@
     <TKUtils.GenderSwap.None>Your pawn cannot change genders.</TKUtils.GenderSwap.None>
     <TKUtils.GenderSwap.Complete>Your pawn's gender was changed to {0}.</TKUtils.GenderSwap.Complete>
 
+    <!-- Random Inspire -->
+    <TKUtils.RandomInspire.None>Nobody could be found to inspire.</TKUtils.RandomInspire.None>
+    <TKUtils.RandomInspire.Complete>{0} was received a {1} inspiration.</TKUtils.RandomInspire.Complete>
+
     <!-- Adulthood -->
     <TKUtils.Adulthood.Complete>Your pawn's adulthood was changed to {0}.</TKUtils.Adulthood.Complete>
 
