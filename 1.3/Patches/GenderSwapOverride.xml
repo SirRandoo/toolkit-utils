@@ -2,7 +2,7 @@
 
 <Patch>
     <Operation Class="PatchOperationReplace">
-        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="AnimalTame"]/incidentHelper</xpath>
+        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="ChangeGender"]/incidentHelper</xpath>
         <value>
             <incidentHelper>SirRandoo.ToolkitUtils.Incidents.GenderSwap</incidentHelper>
         </value>
