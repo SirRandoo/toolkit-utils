@@ -72,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             map.weatherManager.TransitionTo(weather);
 
             Find.LetterStack.ReceiveLetter(
-                weather.label ?? weather.defName,
+                weather.label?.CapitalizeFirst() ?? weather.defName,
                 "TKUtils.WeatherLetter.Description".LocalizeKeyed(Viewer.username, weather.label ?? weather.defName),
                 LetterDefOf.NeutralEvent
             );
