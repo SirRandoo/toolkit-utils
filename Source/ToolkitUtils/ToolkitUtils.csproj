@@ -346,6 +346,7 @@
         <Compile Include="Workers\TraitTableWorker.cs"/>
         <Compile Include="Workers\TraitViewWorker.cs"/>
         <Compile Include="Workers\TraitWorker.cs"/>
+        <Compile Include="Workers\ViewerListWorker.cs"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
@@ -353,6 +354,7 @@
         <PackageReference Condition="$(DefineConstants.Contains('RW12'))" Include="Krafs.Rimworld.Ref" Version="1.2.2905" ExcludeAssets="runtime"/>
         <PackageReference Include="Lib.Harmony" Version="2.1.0" ExcludeAssets="runtime"/>
         <PackageReference Include="MoonSharp" Version="2.0.0" ExcludeAssets="runtime"/>
+        <PackageReference Include="RestSharp" Version="106.12.0"/>
     </ItemGroup>
     <ItemGroup>
         <Content Include="..\..\About\*">

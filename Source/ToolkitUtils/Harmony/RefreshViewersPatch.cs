@@ -16,8 +16,11 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore;
 using TwitchToolkit;
 using Verse;
@@ -37,15 +40,37 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         public static bool Prefix()
         {
-            if (!ToolkitCoreSettings.channel_username.NullOrEmpty())
+            if (ToolkitCoreSettings.channel_username.NullOrEmpty())
             {
-                return true;
+                Log.ErrorOnce(
+                    @"<color=""#ff6b00"">ToolkitUtils :: ToolkitCore isn't fully set up. Your viewer list won't be refreshed.</color>",
+                    ErrorId
+                );
+                return false;
             }
 
-            Log.ErrorOnce(
-                @"<color=""#ff6b00"">ToolkitUtils :: ToolkitCore isn't fully set up. Your viewer list won't be refreshed.</color>",
-                ErrorId
-            );
+            Task.Run(
+                    async () =>
+                    {
+                        if (Viewers.jsonallviewers.NullOrEmpty())
+                        {
+                            Viewers.jsonallviewers =
+                                @"{""_links"":{},""chatter_count"":0,""chatters"":{""broadcaster"":[],""vips"":[],""moderators"":[],""staff"":[],""admins"":[],""global_mods"":[],""viewers"":[]}}";
+                        }
+
+                        string result = await ViewerListWorker.GetChatters();
+
+                        if (result.NullOrEmpty())
+                        {
+                            return;
+                        }
+
+                        Viewers.jsonallviewers = result;
+                        LogHelper.Info(result);
+                    }
+                )
+               .ConfigureAwait(false);
+
             return false;
         }
     }
