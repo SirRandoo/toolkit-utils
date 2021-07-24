@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using HarmonyLib;
@@ -283,6 +284,23 @@ namespace SirRandoo.ToolkitUtils.Harmony
             coordinator.QueueIncident(new IncidentProxy {VariablesIncident = inc});
             Store_Logger.LogPurchase(viewer.username, twitchMessage.Message);
             comp.LogIncident(incident);
+            return false;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPatch("CheckIfViewerIsInVariableCommandList")]
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        [SuppressMessage("ReSharper", "RedundantAssignment")]
+        public static bool CheckIfViewerIsInVariableCommandListPrefix([NotNull] string username, ref bool __result)
+        {
+            if (!Purchase_Handler.viewerNamesDoingVariableCommands.Contains(username.ToLower()))
+            {
+                __result = false;
+                return false;
+            }
+
+            __result = true;
+            MessageHelper.ReplyToUser(username, "TKUtils.PausedExtended".LocalizeKeyed(CommandDefOf.UnstickMe.command));
             return false;
         }
 
