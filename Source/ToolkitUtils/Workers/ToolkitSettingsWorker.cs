@@ -474,6 +474,14 @@ namespace SirRandoo.ToolkitUtils.Workers
                 Find.WindowStack.Add(new PawnKindConfigDialog());
             }
 
+            (Rect editorLabel, Rect editorField) = listing.GetRectAsForm(0.85f);
+            SettingsHelper.DrawLabel(editorLabel, $"[ToolkitUtils] {"TKUtils.Editor.Title".Localize()}");
+
+            if (Widgets.ButtonText(editorField, openText))
+            {
+                Find.WindowStack.Add(new Editor());
+            }
+
             listing.Gap();
             listing.GapLine();
 
