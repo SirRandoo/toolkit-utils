@@ -169,6 +169,7 @@
         <Compile Include="Incidents\ClearTraits.cs"/>
         <Compile Include="Incidents\Equip.cs"/>
         <Compile Include="Incidents\FullHeal.cs"/>
+        <Compile Include="Incidents\GenderSwap.cs"/>
         <Compile Include="Incidents\HealAll.cs"/>
         <Compile Include="Incidents\HealMe.cs"/>
         <Compile Include="Incidents\HealRandom.cs"/>

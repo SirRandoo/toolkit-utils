@@ -60,6 +60,10 @@
     <TKUtils.MassHealLetter.Title>Mass Heal</TKUtils.MassHealLetter.Title>
     <TKUtils.MassHealLetter.Description>All pawns have recovered from an affliction.</TKUtils.MassHealLetter.Description>
 
+    <!-- Gender Swap -->
+    <TKUtils.GenderSwapLetter.Title>Gender Swap</TKUtils.GenderSwapLetter.Title>
+    <TKUtils.GenderSwapLetter.Description>{0} swapped their gender to {1}/</TKUtils.GenderSwapLetter.Description>
+
     <!-- Heal -->
     <TKUtils.HealLetter.Title>Heal</TKUtils.HealLetter.Title>
     <TKUtils.HealLetter.RecoveredDescription>{0} recovered from {1}</TKUtils.HealLetter.RecoveredDescription>

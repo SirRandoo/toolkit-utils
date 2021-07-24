@@ -42,6 +42,10 @@
     <TKUtils.BuyPawn.Humanlike>Only humanlikes can be purchased.</TKUtils.BuyPawn.Humanlike>
     <TKUtils.BuyPawn.Confirmation>You've purchased a colonist and have now joined the colony.</TKUtils.BuyPawn.Confirmation>
 
+    <!-- Gender Swap -->
+    <TKUtils.GenderSwap.None>Your pawn cannot change genders.</TKUtils.GenderSwap.None>
+    <TKUtils.GenderSwap.Complete>Your pawn's gender was changed to {0}.</TKUtils.GenderSwap.Complete>
+
     <!-- Adulthood -->
     <TKUtils.Adulthood.Complete>Your pawn's adulthood was changed to {0}.</TKUtils.Adulthood.Complete>
 
