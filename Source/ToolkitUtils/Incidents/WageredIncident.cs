@@ -205,6 +205,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     parms.faction = Faction.OfMechanoids;
                     break;
                 case "SiegeRaid":
+                    parms.raidStrategy = DefDatabase<RaidStrategyDef>.GetNamed("Siege");
                     parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
                     break;
             }
