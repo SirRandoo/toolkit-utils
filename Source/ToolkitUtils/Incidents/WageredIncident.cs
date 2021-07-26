@@ -202,6 +202,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     break;
                 case "MechanoidRaid":
                     parms.raidArrivalMode = PawnsArrivalModeDefOf.RandomDrop;
+                    parms.faction = Faction.OfMechanoids;
                     break;
                 case "SiegeRaid":
                     parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
