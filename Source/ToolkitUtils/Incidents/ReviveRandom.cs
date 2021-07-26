@@ -16,6 +16,7 @@
 
 using System.Linq;
 using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
@@ -48,6 +49,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override void TryExecute()
         {
             pawn.TryResurrect();
+
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.RevivalLetter.Title".Localize(),
+                "TKUtils.RevivalLetter.Description".LocalizeKeyed((pawn.LabelShort ?? pawn.Label).CapitalizeFirst()),
+                LetterDefOf.PositiveEvent,
+                pawn
+            );
         }
     }
 }

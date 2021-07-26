@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -50,6 +51,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
             pawn.TryResurrect();
             Viewer.Charge(storeIncident);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.ReviveMe.Complete".Localize());
+
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.RevivalLetter.Title".Localize(),
+                "TKUtils.RevivalLetter.Description".LocalizeKeyed(Viewer.username),
+                LetterDefOf.PositiveEvent,
+                pawn
+            );
         }
     }
 }
