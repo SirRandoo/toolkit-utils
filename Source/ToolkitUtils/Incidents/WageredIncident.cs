@@ -199,6 +199,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     break;
                 case "SapperRaid":
                     parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
+                    parms.raidStrategy = DefDatabase<RaidStrategyDef>.GetNamed("ImmediateAttackSappers");
                     break;
                 case "MechanoidRaid":
                     parms.raidArrivalMode = PawnsArrivalModeDefOf.RandomDrop;
