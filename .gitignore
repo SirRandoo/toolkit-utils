@@ -412,3 +412,4 @@ MigrationBackup/
 /Scripts/
 /Source/ToolkitUtils/ToolkitUtils\.csproj.DotSettings
 /Compatibility/TMagic/[0-9].[0-9]/Assemblies/
+/Compatibility/Ideology/[0-9].[0-9]/Assemblies/

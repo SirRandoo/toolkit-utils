@@ -194,6 +194,7 @@
         <Compile Include="Interfaces\ICommandSettings.cs"/>
         <Compile Include="Interfaces\IConfigurableTableItem.cs"/>
         <Compile Include="Interfaces\IEventSettings.cs"/>
+        <Compile Include="Interfaces\IHealHandler.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>
         <Compile Include="Interfaces\IRimData.cs"/>
         <Compile Include="Interfaces\ISelectorBase.cs"/>
@@ -203,6 +204,7 @@
         <Compile Include="Interfaces\ISurgeryHandler.cs"/>
         <Compile Include="Interfaces\IUsabilityHandler.cs"/>
         <Compile Include="Models\Mutators\UsableMutator.cs"/>
+        <Compile Include="Models\HealHandlers\DefaultHealHandler.cs"/>
         <Compile Include="Models\IncidentData.cs"/>
         <Compile Include="Models\Selectors\EquippableSelector.cs"/>
         <Compile Include="Models\Selectors\UsabilitySelector.cs"/>
