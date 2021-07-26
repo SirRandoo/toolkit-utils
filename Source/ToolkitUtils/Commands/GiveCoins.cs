@@ -1,0 +1,70 @@
+﻿// ToolkitUtils
+// Copyright (C) 2021  SirRandoo
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published
+// by the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+// 
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+using System;
+using System.Linq;
+using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
+using ToolkitCore.Utilities;
+using TwitchLib.Client.Models.Interfaces;
+using TwitchToolkit;
+using TwitchToolkit.Store;
+
+namespace SirRandoo.ToolkitUtils.Commands
+{
+    [UsedImplicitly]
+    public class GiveCoins : CommandBase
+    {
+        public override void RunCommand([NotNull] ITwitchMessage message)
+        {
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(message.Message).Skip(1));
+
+            if (!worker.TryGetNextAsViewer(out Viewer viewer) || !worker.TryGetNextAsInt(out int amount))
+            {
+                return;
+            }
+
+            UserData gifterData = UserRegistry.GetData(message.Username);
+            UserData gifteeData = UserRegistry.GetData(viewer.username);
+
+            if (gifterData?.IsModerator == true && gifteeData?.IsModerator == true && gifterData.IsBroadcaster != true)
+            {
+                message.Reply("TKUtils.GiveCoins.Moderators".Localize());
+                return;
+            }
+
+            if (message.Username.StartsWith(viewer.username, StringComparison.InvariantCultureIgnoreCase)
+                || viewer.username.StartsWith(message.Username, StringComparison.InvariantCultureIgnoreCase))
+            {
+                message.Reply("TKUtils.GiveCoins.Alts".Localize());
+                return;
+            }
+
+            viewer.GiveViewerCoins(amount);
+            Store_Logger.LogGiveCoins(message.Username, viewer.username, amount);
+            message.Reply(
+                "TKUtils.GiveCoins.Done".LocalizeKeyed(
+                    amount.ToString("N0"),
+                    viewer.username,
+                    viewer.GetViewerCoins().ToString("N0")
+                )
+            );
+        }
+    }
+}
