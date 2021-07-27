@@ -15,8 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using ToolkitCore;
 using ToolkitCore.Interfaces;
 using ToolkitCore.Windows;
 using UnityEngine;
@@ -24,15 +26,15 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-#if RW13
     [UsedImplicitly]
     public class CoreAddonMenu : IAddonMenu
     {
-        private static readonly List<FloatMenuOption> Options;
+        private static readonly List<FloatMenuOption> DisconnectedOptions;
+        private static readonly List<FloatMenuOption> ConnectedOptions;
 
         static CoreAddonMenu()
         {
-            Options = new List<FloatMenuOption>
+            var baseOptions = new List<FloatMenuOption>
             {
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.Settings".Localize(),
@@ -44,12 +46,33 @@ namespace SirRandoo.ToolkitUtils
                     () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki")
                 )
             };
+
+            var reconnectOption = new FloatMenuOption(
+                "TKUtils.AddonMenu.Reconnect".Localize(),
+                () => Task.Run(
+                    () =>
+                    {
+                        TwitchWrapper.Client.Disconnect();
+                        TwitchWrapper.StartAsync();
+                    }
+                )
+            );
+            var disconnectOption = new FloatMenuOption(
+                "TKUtils.AddonMenu.Disconnect".Localize(),
+                () => Task.Run(() => TwitchWrapper.Client.Disconnect())
+            );
+            var connectOption = new FloatMenuOption(
+                "TKUtils.AddonMenu.Connect".Localize(),
+                () => Task.Run(TwitchWrapper.StartAsync)
+            );
+
+            ConnectedOptions = new List<FloatMenuOption>(baseOptions) {reconnectOption, disconnectOption};
+            DisconnectedOptions = new List<FloatMenuOption>(baseOptions) {connectOption};
         }
 
         public List<FloatMenuOption> MenuOptions()
         {
-            return Options;
+            return TwitchWrapper.Client?.IsConnected == true ? ConnectedOptions : DisconnectedOptions;
         }
     }
-#endif
 }

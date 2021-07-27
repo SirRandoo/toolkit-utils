@@ -35,4 +35,7 @@
     <TKUtils.AddonMenu.GiftCoins>Toggle coin gifting</TKUtils.AddonMenu.GiftCoins>
     <TKUtils.AddonMenu.EditItemSettings>Edit item settings...</TKUtils.AddonMenu.EditItemSettings>
     <TKUtils.AddonMenu.EditTraitLimit>Edit trait limit...</TKUtils.AddonMenu.EditTraitLimit>
+    <TKUtils.AddonMenu.Disconnect>Disconnect</TKUtils.AddonMenu.Disconnect>
+    <TKUtils.AddonMenu.Reconnect>Reconnect</TKUtils.AddonMenu.Reconnect>
+    <TKUtils.AddonMenu.Connect>Connect</TKUtils.AddonMenu.Connect>
 </LanguageData>
