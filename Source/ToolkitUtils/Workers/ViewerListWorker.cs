@@ -16,10 +16,13 @@
 
 using System;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using RestSharp;
 using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore;
+
+# if !RW12
+using JetBrains.Annotations;
+#endif
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
@@ -27,7 +30,9 @@ namespace SirRandoo.ToolkitUtils.Workers
     {
         private static RestClient _client;
 
+    #if !RW12
         [ItemCanBeNull]
+    #endif
         public static async Task<string> GetChatters()
         {
             _client ??= new RestClient("https://tmi.twitch.tv/group/user");

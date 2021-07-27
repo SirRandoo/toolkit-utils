@@ -14,15 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#if !RW12
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using Verse;
+#endif
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
+#if !RW12
     public class GenderSwap : IncidentVariablesBase
     {
         private Pawn pawn;
@@ -71,4 +74,5 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
     }
+#endif
 }
