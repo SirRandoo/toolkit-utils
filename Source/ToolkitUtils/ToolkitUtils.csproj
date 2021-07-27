@@ -65,6 +65,7 @@
         <Compile Include="Commands\Database.cs"/>
         <Compile Include="Commands\Factions.cs"/>
         <Compile Include="Commands\GiveAll.cs"/>
+        <Compile Include="Commands\GiveCoins.cs"/>
         <Compile Include="Commands\InstalledMods.cs"/>
         <Compile Include="Commands\ColonistCount.cs"/>
         <Compile Include="Commands\PawnInsult.cs"/>
