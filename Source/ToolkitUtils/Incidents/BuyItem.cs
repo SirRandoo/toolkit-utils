@@ -263,7 +263,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     Purchaser.username,
                     "TKUtils.Item.Complete".LocalizeKeyed(
                         Quantity.ToString("N0"),
-                        Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
+                        Proxy.AsString(Quantity > 1),
                         Price.ToString("N0"),
                         Purchaser.GetViewerCoins().ToString("N0")
                     )
@@ -275,7 +275,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     Purchaser.username,
                     "TKUtils.Item.CompleteMinimal".LocalizeKeyed(
                         Quantity.ToString("N0"),
-                        Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
+                        Proxy.AsString(Quantity > 1),
                         Price.ToString("N0")
                     )
                 );
