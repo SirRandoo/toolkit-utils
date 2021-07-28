@@ -7,7 +7,7 @@
         <ProjectGuid>{D0B7C9CD-F49D-413D-8EDC-32989742F3C3}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>SirRandoo.ToolkitUtils.TMagic</RootNamespace>
+        <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
         <AssemblyName>ToolkitUtils.TMagic</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
@@ -79,7 +79,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
-        <PackageReference Condition="$(DefineConstants.Contains('RW13'))" Include="Krafs.Rimworld.Ref" Version="1.3.3071" ExcludeAssets="runtime"/>
+        <PackageReference Condition="$(DefineConstants.Contains('RW13'))" Include="Krafs.Rimworld.Ref" Version="1.3.3072" ExcludeAssets="runtime"/>
         <PackageReference Condition="$(DefineConstants.Contains('RW12'))" Include="Krafs.Rimworld.Ref" Version="1.2.2905" ExcludeAssets="runtime"/>
         <PackageReference Include="Lib.Harmony" Version="2.1.1" ExcludeAssets="runtime"/>
     </ItemGroup>

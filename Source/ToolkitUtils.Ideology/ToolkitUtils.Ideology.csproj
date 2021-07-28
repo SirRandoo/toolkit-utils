@@ -7,7 +7,7 @@
         <ProjectGuid>{54AAFC16-188A-44A2-AB87-601270F69D1C}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>ToolkitUtils.Ideology</RootNamespace>
+        <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
         <AssemblyName>ToolkitUtils.Ideology</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
@@ -41,7 +41,7 @@
     <ItemGroup>
         <Compile Include="BlindsightHealHandler.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="RuntimeChecker.cs"/>
+        <Compile Include="IdeologyRuntimeChecker.cs"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" ExcludeAssets="all" Exclude="RestSharp.dll">
@@ -50,7 +50,7 @@
         </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3071"/>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3072"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>

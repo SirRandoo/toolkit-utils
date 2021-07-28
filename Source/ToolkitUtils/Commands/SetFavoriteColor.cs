@@ -1,4 +1,4 @@
-﻿// ToolkitUtils.Ideology
+﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
 //
 // This program is free software: you can redistribute it and/or modify
@@ -14,28 +14,35 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Threading.Tasks;
 using JetBrains.Annotations;
-using RimWorld;
-using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Utils;
+using TwitchLib.Client.Models.Interfaces;
+using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Commands
 {
-    public class BlindsightHealHandler : IHealHandler
+    public class ChangeColor : CommandBase
     {
-        [NotNull] public string Id => "tkutils.handlers.heal.ideology";
-
-        public bool IsHealable([NotNull] BodyPartRecord bodyPart)
+        public override void RunCommand([NotNull] ITwitchMessage message)
         {
-            return bodyPart.def != BodyPartDefOf.Eye
-                   || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
+            if (!PurchaseHelper.TryGetPawn(message.Username, out Pawn pawn))
+            {
+                message.Reply("TKUtils.NoPawn".Localize());
+                return;
+            }
+
+            CommandRelay.Tasks.Enqueue();
         }
 
-        public bool IsHealable([NotNull] Hediff hediff)
+        private static Task ChangeFavoriteColor(string username, [CanBeNull] Pawn pawn, Color color)
         {
-            return hediff.def != HediffDefOf.MissingBodyPart
-                   || hediff.Part.def != BodyPartDefOf.Eye
-                   || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
+            if (pawn == null)
+            {
+
+            }
         }
     }
 }

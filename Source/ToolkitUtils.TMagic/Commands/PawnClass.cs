@@ -9,7 +9,7 @@ using TorannMagic;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.TMagic.Commands
+namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature, ImplicitUseTargetFlags.WithMembers)]
     public class PawnClass : CommandBase

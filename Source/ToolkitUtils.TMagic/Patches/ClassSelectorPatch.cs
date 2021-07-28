@@ -29,7 +29,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Workers;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.TMagic.Patches
+namespace SirRandoo.ToolkitUtils.Patches
 {
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]

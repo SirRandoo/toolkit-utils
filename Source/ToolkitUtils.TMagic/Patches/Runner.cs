@@ -23,7 +23,7 @@
 using System.Reflection;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.TMagic.Patches
+namespace SirRandoo.ToolkitUtils.Patches
 {
     [StaticConstructorOnStartup]
     public static class Runner

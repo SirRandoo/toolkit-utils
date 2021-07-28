@@ -15,16 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils;
 using Verse;
 
-namespace ToolkitUtils.Ideology
+namespace SirRandoo.ToolkitUtils
 {
     [UsedImplicitly]
     [StaticConstructorOnStartup]
-    public static class RuntimeChecker
+    public static class IdeologyRuntimeChecker
     {
-        static RuntimeChecker()
+        static IdeologyRuntimeChecker()
         {
             CompatRegistry.HealHandlers.Add(new BlindsightHealHandler());
         }

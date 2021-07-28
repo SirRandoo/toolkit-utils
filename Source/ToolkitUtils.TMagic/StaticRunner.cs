@@ -22,7 +22,7 @@
 
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.TMagic
+namespace SirRandoo.ToolkitUtils
 {
     [StaticConstructorOnStartup]
     public static class StaticRunner

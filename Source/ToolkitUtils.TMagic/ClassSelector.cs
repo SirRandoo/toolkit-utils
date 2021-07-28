@@ -30,7 +30,7 @@ using TorannMagic;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.TMagic
+namespace SirRandoo.ToolkitUtils
 {
     public class ClassSelector : ISelectorBase<TraitItem>
     {
