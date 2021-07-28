@@ -54,7 +54,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 && component.HasUserBeenNamed(twitchMessage.Username)
                 && ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
             {
-                component.PawnAssignedToUser(twitchMessage.Username).story.hairColor = hairColor;
+                Pawn pawn = component.PawnAssignedToUser(twitchMessage.Username);
+
+                if (pawn?.story != null)
+                {
+                    pawn.story.hairColor = hairColor;
+                }
             }
 
             UserData data = UserRegistry.UpdateData(twitchMessage);
