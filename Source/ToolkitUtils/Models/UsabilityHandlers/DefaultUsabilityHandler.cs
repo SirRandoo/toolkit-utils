@@ -15,35 +15,29 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Interfaces;
-using SirRandoo.ToolkitUtils.Utils;
-using UnityEngine;
+using RimWorld;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class UsabilitySelector : ISelectorBase<ThingItem>
+    public class DefaultUsabilityHandler : UsabilityHandlerBase<CompUseEffect>
     {
-        private bool state = true;
-        private string usableText;
-        public ObservableProperty<bool> Dirty { get; set; }
+        public DefaultUsabilityHandler() : base(
+            typeof(CompUseEffect_DestroySelf),
+            typeof(CompUseEffect_StartWick),
+            typeof(CompUseEffect_PlaySound)
+        ) { }
 
-        public void Prepare()
+        [NotNull] public override string Id => "default";
+
+        protected override bool IsUsable([NotNull] CompUseEffect comp, Pawn pawn, ThingDef thing, out string failReason)
         {
-            usableText = "TKUtils.Fields.IsUsable".Localize();
+            return comp.CanBeUsedBy(pawn, out failReason);
         }
 
-        public void Draw(Rect canvas)
+        protected override void Use([NotNull] CompUseEffect comp, Pawn pawn, Thing thing)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, usableText, ref state))
-            {
-                Dirty.Set(true);
-            }
-        }
-
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            return item.Data.IsUsable;
+            comp.DoEffect(pawn);
         }
     }
 }

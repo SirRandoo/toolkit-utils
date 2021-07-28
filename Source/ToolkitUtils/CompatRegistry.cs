@@ -35,9 +35,11 @@ namespace SirRandoo.ToolkitUtils
         {
             HealHandlers = new List<IHealHandler> {new DefaultHealHandler()};
             SurgeryHandlers = new List<ISurgeryHandler> {new DefaultSurgeryHandler(), new AndroidSurgeryHandler()};
+            UsabilityHandlers = new List<IUsabilityHandler> {new DefaultUsabilityHandler()};
         }
 
         public static MagicCompat Magic { get; set; }
+        public static List<IUsabilityHandler> UsabilityHandlers { get; }
         public static List<ISurgeryHandler> SurgeryHandlers { get; }
         public static List<IHealHandler> HealHandlers { get; }
     }

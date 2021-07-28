@@ -287,6 +287,8 @@
         <Compile Include="Models\ThingItemFilter.cs"/>
         <Compile Include="Models\ThingItemFilterCategory.cs"/>
         <Compile Include="Models\ThingItemFilterManager.cs"/>
+        <Compile Include="Models\UsabilityHandlers\DefaultUsabilityHandler.cs"/>
+        <Compile Include="Models\UsabilityHandlers\UsabilityHandlerBase.cs"/>
         <Compile Include="Models\UserData.cs"/>
         <Compile Include="Models\ViewerState.cs"/>
         <Compile Include="RuntimeChecker.cs"/>

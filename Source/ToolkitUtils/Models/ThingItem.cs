@@ -31,6 +31,8 @@ namespace SirRandoo.ToolkitUtils.Models
         private Item item;
         private ThingDef producedAt;
         private bool productionIndexed;
+        private bool usabilityIndexed;
+        private bool usable;
 
         [CanBeNull]
         [IgnoreDataMember]
@@ -122,6 +124,21 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 categoryCached = category;
                 return categoryCached;
+            }
+        }
+
+        [IgnoreDataMember]
+        public bool IsUsable
+        {
+            get
+            {
+                if (!usabilityIndexed && Thing != null)
+                {
+                    usable = CompatRegistry.UsabilityHandlers.Any(h => h.IsUsable(Thing));
+                    usabilityIndexed = true;
+                }
+
+                return usable;
             }
         }
 

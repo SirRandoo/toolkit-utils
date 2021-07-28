@@ -22,6 +22,6 @@ namespace SirRandoo.ToolkitUtils.Interfaces
     {
         string Id { get; }
         bool IsUsable(ThingDef thing);
-        void Use(ThingDef thing);
+        void Use(Pawn pawn, ThingDef thing);
     }
 }
