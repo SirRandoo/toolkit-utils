@@ -405,7 +405,7 @@ MigrationBackup/
 /ToolkitUtils.sln.DotSettings
 /.idea/*
 /[0-9].[0-9]/Assemblies/
-/ToolkitUtils.zip
+/*.zip
 /About/* - Testing.*
 /About/* - Stable.*
 /_PublisherPlus.xml
