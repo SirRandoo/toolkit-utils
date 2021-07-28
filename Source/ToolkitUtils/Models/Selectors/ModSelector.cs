@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             if (mod.NullOrEmpty())
             {
-                return true;
+                return false;
             }
 
             bool shouldShow = item.Data.Data.Mod.EqualsIgnoreCase(mod)

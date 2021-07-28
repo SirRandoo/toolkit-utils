@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             if (defName.NullOrEmpty())
             {
-                return true;
+                return false;
             }
 
             bool shouldShow = item.Data.DefName.Equals(defName);

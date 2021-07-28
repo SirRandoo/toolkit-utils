@@ -78,15 +78,15 @@ namespace SirRandoo.ToolkitUtils.Models
             switch (comparison)
             {
                 case ComparisonTypes.Greater:
-                    return item.Data.ItemData.Weight > weight;
+                    return item.Data.ItemData?.Weight > weight;
                 case ComparisonTypes.Equal:
-                    return Math.Abs(item.Data.ItemData.Weight - weight) < 0.0003;
+                    return Math.Abs(item.Data.ItemData?.Weight ?? 1f - weight) < 0.0003;
                 case ComparisonTypes.Less:
-                    return item.Data.ItemData.Weight < weight;
+                    return item.Data.ItemData?.Weight < weight;
                 case ComparisonTypes.GreaterEqual:
-                    return item.Data.ItemData.Weight >= weight;
+                    return item.Data.ItemData?.Weight >= weight;
                 case ComparisonTypes.LessEqual:
-                    return item.Data.ItemData.Weight <= weight;
+                    return item.Data.ItemData?.Weight <= weight;
                 default:
                     return false;
             }

@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             if (Category.NullOrEmpty())
             {
-                return true;
+                return false;
             }
 
             bool shouldShow = item.Data.Category.EqualsIgnoreCase(Category)

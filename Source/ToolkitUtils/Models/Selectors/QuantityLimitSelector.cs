@@ -83,15 +83,15 @@ namespace SirRandoo.ToolkitUtils.Models
             switch (comparison)
             {
                 case ComparisonTypes.Greater:
-                    return item.Data.ItemData.QuantityLimit > quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit > quantityLimitCost;
                 case ComparisonTypes.Equal:
-                    return item.Data.ItemData.QuantityLimit == quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit == quantityLimitCost;
                 case ComparisonTypes.Less:
-                    return item.Data.ItemData.QuantityLimit < quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit < quantityLimitCost;
                 case ComparisonTypes.GreaterEqual:
-                    return item.Data.ItemData.QuantityLimit >= quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit >= quantityLimitCost;
                 case ComparisonTypes.LessEqual:
-                    return item.Data.ItemData.QuantityLimit <= quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit <= quantityLimitCost;
                 default:
                     return false;
             }

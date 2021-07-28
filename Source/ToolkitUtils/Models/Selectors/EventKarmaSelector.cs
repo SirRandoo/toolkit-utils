@@ -22,6 +22,7 @@
 
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
@@ -58,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool IsVisible(TableSettingsItem<EventItem> item)
+        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item)
         {
             return item.Data.KarmaType == karmaType;
         }

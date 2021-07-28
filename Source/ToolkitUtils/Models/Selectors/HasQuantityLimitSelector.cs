@@ -44,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
         {
-            return item.Data.ItemData.HasQuantityLimit == state;
+            return item.Data.ItemData?.HasQuantityLimit == state;
         }
     }
 }
