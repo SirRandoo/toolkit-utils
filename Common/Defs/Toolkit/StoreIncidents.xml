@@ -387,6 +387,7 @@
         <defName>Sanctuary</defName>
         <label>sanctuary</label>
         <abbreviation>sanctuary</abbreviation>
+        <description>A "second chance" for a dying colony. If you want to know specifically what it does, please refer to the ToolkitUtils event wiki.</description>
         <cost>100000</cost>
         <eventCap>1</eventCap>
         <incidentHelper>SirRandoo.ToolkitUtils.Incidents.Sanctuary</incidentHelper>
