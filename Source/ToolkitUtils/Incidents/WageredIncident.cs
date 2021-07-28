@@ -221,7 +221,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var argWorker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (!argWorker.TryGetNextAsInt(out wager) || wager < storeIncident.minPointsToFire)
+            if (!argWorker.TryGetNextAsInt(out wager))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
