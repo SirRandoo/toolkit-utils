@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -34,3 +35,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("6.0.0.0")]
 [assembly: AssemblyFileVersion("6.0.0.0")]
 [assembly: AssemblyInformationalVersion("6.1.2.2")]
+
+
+[assembly: InternalsVisibleTo("ToolkitUtils.Ideology")]
+[assembly: InternalsVisibleTo("ToolkitUtils.TMagic")]
