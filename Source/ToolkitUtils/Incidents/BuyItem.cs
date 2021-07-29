@@ -170,7 +170,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     request.KindDef = PawnKindDef.Named(Proxy.Thing.Thing.defName);
                     request.FixedGender = Proxy.Gender;
                     request.Faction = Faction.OfPlayer;
-                    coordinator.TrySpawnPawn(Map, PawnGenerator.GeneratePawn(request));
+                    coordinator.TrySpawnAnimal(Map, PawnGenerator.GeneratePawn(request));
                 }
 
                 return;
