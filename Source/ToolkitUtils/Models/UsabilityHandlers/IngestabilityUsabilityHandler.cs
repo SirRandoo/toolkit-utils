@@ -14,14 +14,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Models
 {
-    public interface IUsabilityHandler
+    public class IngestabilityUsabilityHandler : IUsabilityHandler
     {
-        string Id { get; }
-        bool IsUsable(ThingDef thing);
-        void Use(Pawn pawn, ThingDef thingDef);
+        [NotNull] public string Id => "tkutils.handlers.usability.ingestability";
+
+        public bool IsUsable([NotNull] ThingDef thing)
+        {
+            return thing.IsIngestible;
+        }
+
+        public void Use(Pawn pawn, ThingDef thingDef)
+        {
+            Thing thing = ThingMaker.MakeThing(thingDef);
+
+            thing.Ingested(pawn, pawn.needs.food.NutritionWanted);
+        }
     }
 }

@@ -39,23 +39,23 @@ namespace SirRandoo.ToolkitUtils.Models
             return thing.HasAssignableCompFrom(typeof(T));
         }
 
-        public virtual void Use([NotNull] Pawn pawn, ThingDef thing)
+        public virtual void Use([NotNull] Pawn pawn, ThingDef thingDef)
         {
-            Thing t = ThingMaker.MakeThing(thing);
+            Thing t = ThingMaker.MakeThing(thingDef);
 
             if (!(t is ThingWithComps withComps))
             {
-                throw new InvalidOperationException($@"The thing ""{thing.defName}"" doesn't have any comps.");
+                throw new InvalidOperationException($@"The thing ""{thingDef.defName}"" doesn't have any comps.");
             }
 
             T comp = withComps.GetComps<T>().FirstOrDefault(c => !ExcludedTypes.Any(i => i.IsInstanceOfType(c)));
 
             string failReason = null;
 
-            if (comp == null || !IsUsable(comp, pawn, thing, out failReason))
+            if (comp == null || !IsUsable(comp, pawn, thingDef, out failReason))
             {
                 throw new OperationCanceledException(
-                    $@"The thing ""{thing.defName}"" could not be used by {pawn.LabelShort}. Fail reason: {failReason}"
+                    $@"The thing ""{thingDef.defName}"" could not be used by {pawn.LabelShort}. Fail reason: {failReason}"
                 );
             }
 
@@ -72,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Models
             catch (Exception e)
             {
                 throw new InvalidOperationException(
-                    $@"The thing ""{thing.defName}"" could not be used by {pawn.LabelShort}.",
+                    $@"The thing ""{thingDef.defName}"" could not be used by {pawn.LabelShort}.",
                     e
                 );
             }
