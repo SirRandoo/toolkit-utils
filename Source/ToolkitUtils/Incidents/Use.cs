@@ -20,6 +20,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
@@ -33,19 +34,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Use : IncidentVariablesBase
     {
-        private static readonly HashSet<Type> CosmeticComps;
-
         private int amount = 1;
         private ThingItem buyableItem;
+        private IUsabilityHandler handler;
         private Pawn pawn;
-
-        static Use()
-        {
-            CosmeticComps = new HashSet<Type>
-            {
-                typeof(CompUseEffect_DestroySelf), typeof(CompUseEffect_PlaySound), typeof(CompUseEffect_StartWick)
-            };
-        }
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
@@ -57,9 +49,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item)
-                || !item.IsValid()
-                || !item.Thing.Thing.HasAssignableCompFrom(typeof(CompUseEffect)))
+            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item) || !item.IsValid())
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -105,6 +95,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            foreach (IUsabilityHandler h in CompatRegistry.UsabilityHandlers)
+            {
+                if (!h.IsUsable(item.Thing.Thing))
+                {
+                    continue;
+                }
+
+                handler = h;
+                break;
+            }
+
             buyableItem = item!.Thing;
             return true;
         }
@@ -117,51 +118,22 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            bool overriden = buyableItem.Thing.defName.Equals(ThingDefOf.FirefoamPopper.defName);
             Thing thing = ThingMaker.MakeThing(buyableItem.Thing);
 
-            if (!(thing is ThingWithComps withComps))
+            if (!(thing is ThingWithComps))
             {
                 MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Use.Unusable".LocalizeKeyed(buyableItem.Name));
                 LogHelper.Warn("Tried to use an item that can't have comps!");
                 return;
             }
 
-            CompUseEffect comp = overriden
-                ? thing.TryGetComp<CompUseEffect_StartWick>()
-                : withComps.GetComps<CompUseEffect>()
-                   .FirstOrDefault(c => !CosmeticComps.Any(i => i.IsInstanceOfType(c)));
-
-            string failReason = null;
-
-            if (comp == null || !comp.CanBeUsedBy(pawn, out failReason))
-            {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Use.Unusable".LocalizeKeyed(buyableItem.Name));
-
-                if (failReason != null)
-                {
-                    LogHelper.Warn($"Tried to use an item on a pawn that can't use it. Fail reason: {failReason}");
-                }
-
-                return;
-            }
-
             try
             {
-                GenSpawn.Spawn(thing, pawn.Position, pawn.Map);
-                comp.DoEffect(pawn);
-
-                if (!overriden && thing.Spawned)
-                {
-                    thing.DeSpawn();
-                }
+                handler.Use(pawn, buyableItem.Thing);
             }
             catch (Exception e)
             {
-                LogHelper.Error(
-                    $"Could not use the item {thing.Label ?? thing.def.defName} on {Viewer.username}'s pawn.",
-                    e
-                );
+                LogHelper.Error($@"The usability handler ""{handler.Id}"" did not complete successfully", e);
                 return;
             }
 
