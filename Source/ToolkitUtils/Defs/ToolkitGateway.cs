@@ -24,12 +24,14 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class ToolkitGateway : Building
     {
+        private bool forAnimals = true;
         private bool forItems = true;
         private bool forPawns = true;
         private List<Gizmo> gizmos;
 
         public bool ForItems => forItems;
         public bool ForPawns => forPawns;
+        public bool ForAnimals => forAnimals;
 
         public override void ExposeData()
         {
@@ -37,6 +39,7 @@ namespace SirRandoo.ToolkitUtils
 
             Scribe_Values.Look(ref forItems, "forItems", true);
             Scribe_Values.Look(ref forPawns, "forPawns", true);
+            Scribe_Values.Look(ref forAnimals, "forAnimals", true);
         }
 
         public override IEnumerable<Gizmo> GetGizmos()
@@ -76,6 +79,17 @@ namespace SirRandoo.ToolkitUtils
                     defaultDesc = "TKUtils.ToggleItemGatewayGizmo.Description".Localize(),
                     isActive = () => forItems,
                     toggleAction = () => forItems = !forItems
+                }
+            );
+
+            gizmos.Add(
+                new Command_Toggle
+                {
+                    icon = DefDatabase<ThingDef>.GetNamed("Rat").uiIcon,
+                    defaultLabel = "TKUtils.ToggleAnimalGatewayGizmo.Label".Localize(),
+                    defaultDesc = "TKUtils.ToggleAnimalGatewayGizmo.Description".Localize(),
+                    isActive = () => forAnimals,
+                    toggleAction = () => forAnimals = !forAnimals
                 }
             );
 

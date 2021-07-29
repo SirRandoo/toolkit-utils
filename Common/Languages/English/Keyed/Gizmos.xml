@@ -9,4 +9,7 @@
 
     <TKUtils.ToggleItemGatewayGizmo.Label>Toggle items</TKUtils.ToggleItemGatewayGizmo.Label>
     <TKUtils.ToggleItemGatewayGizmo.Description>Toggles whether or not purchased items will spawn at this gateway.</TKUtils.ToggleItemGatewayGizmo.Description>
+
+    <TKUtils.ToggleAnimalGatewayGizmo.Label>Toggle animals</TKUtils.ToggleAnimalGatewayGizmo.Label>
+    <TKUtils.ToggleAnimalGatewayGizmo.Description>Toggles whether or not purchased animals will spawn at this gateway.</TKUtils.ToggleAnimalGatewayGizmo.Description>
 </LanguageData>

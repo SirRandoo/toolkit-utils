@@ -66,6 +66,13 @@ namespace SirRandoo.ToolkitUtils
             return portal != null;
         }
 
+        [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
+        internal bool TryGetRandomAnimalPortal(Map map, out ToolkitGateway portal)
+        {
+            portals.Where(p => p.ForAnimals).Where(p => p.Map.Equals(map)).TryRandomElement(out portal);
+            return portal != null;
+        }
+
         internal bool TrySpawnItem(Map map, Thing item)
         {
             if (!TryGetRandomItemPortal(map, out ToolkitGateway portal))
@@ -98,6 +105,17 @@ namespace SirRandoo.ToolkitUtils
         internal bool TrySpawnPawn(Map map, Pawn pawn)
         {
             if (!TryGetRandomPawnPortal(map, out ToolkitGateway portal))
+            {
+                return false;
+            }
+
+            GenSpawn.Spawn(pawn, portal.Position, portal.Map, WipeMode.VanishOrMoveAside);
+            return true;
+        }
+
+        internal bool TrySpawnAnimal(Map map, Pawn pawn)
+        {
+            if (!TryGetRandomAnimalPortal(map, out ToolkitGateway portal))
             {
                 return false;
             }

@@ -160,9 +160,25 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 animal = animal.Pluralize();
             }
 
+            var coordinator = Current.Game.GetComponent<Coordinator>();
+
+            if (coordinator?.HasActivePortals == true)
+            {
+                for (var _ = 0; _ < Quantity; _++)
+                {
+                    var request = PawnGenerationRequest.MakeDefault();
+                    request.KindDef = PawnKindDef.Named(Proxy.Thing.Thing.defName);
+                    request.FixedGender = Proxy.Gender;
+                    request.Faction = Faction.OfPlayer;
+                    coordinator.TrySpawnPawn(Map, PawnGenerator.GeneratePawn(request));
+                }
+
+                return;
+            }
+
             var worker = new AnimalSpawnWorker
             {
-                Label = "TKUtils.ItemLetter.Animal".LocalizeKeyed(Quantity > 1 ? animal.Pluralize() : animal),
+                Label = "TKUtils.ItemLetter.Animal".LocalizeKeyed(animal),
                 AnimalDef = PawnKindDef.Named(Proxy.Thing.Thing.defName),
                 Gender = Proxy.Gender,
                 def = IncidentDef.Named("FarmAnimalsWanderIn"),
