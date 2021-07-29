@@ -48,28 +48,28 @@ namespace SirRandoo.ToolkitUtils
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
         internal bool TryGetRandomPortal(Map map, out ToolkitGateway portal)
         {
-            portals.Where(p => p.Map.Equals(map)).TryRandomElement(out portal);
+            portals.Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
             return portal != null;
         }
 
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
         internal bool TryGetRandomItemPortal(Map map, out ToolkitGateway portal)
         {
-            portals.Where(p => p.ForItems).Where(p => p.Map.Equals(map)).TryRandomElement(out portal);
+            portals.Where(p => p.ForItems).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
             return portal != null;
         }
 
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
         internal bool TryGetRandomPawnPortal(Map map, out ToolkitGateway portal)
         {
-            portals.Where(p => p.ForPawns).Where(p => p.Map.Equals(map)).TryRandomElement(out portal);
+            portals.Where(p => p.ForPawns).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
             return portal != null;
         }
 
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
         internal bool TryGetRandomAnimalPortal(Map map, out ToolkitGateway portal)
         {
-            portals.Where(p => p.ForAnimals).Where(p => p.Map.Equals(map)).TryRandomElement(out portal);
+            portals.Where(p => p.ForAnimals).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
             return portal != null;
         }
 
