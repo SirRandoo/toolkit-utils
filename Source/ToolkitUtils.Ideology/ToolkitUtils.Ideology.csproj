@@ -44,8 +44,14 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="BlindsightHealHandler.cs"/>
+        <Compile Include="Commands\SetFavoriteColor.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="IdeologyRuntimeChecker.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\Compatibility\Ideology\Common\**\*.*">
+            <Link>Common\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        </Content>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" ExcludeAssets="all" Exclude="RestSharp.dll">

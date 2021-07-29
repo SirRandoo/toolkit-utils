@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <TwitchToolkit.Command>
+        <defName>SetFavoriteColor</defName>
+        <label>set favorite color</label>
+        <description>Sets the user's pawn's favorite color to the color specified. The color can be a name or a hexcode.</description>
+        <command>setfavoritecolor</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.SetFavoriteColor</commandDriver>
+    </TwitchToolkit.Command>
+</Defs>

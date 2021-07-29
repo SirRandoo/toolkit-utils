@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -32,6 +33,7 @@ using ToolkitCore.Models;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
+using UnityEngine;
 using Utf8Json;
 using Verse;
 using Command = TwitchToolkit.Command;
@@ -43,6 +45,9 @@ namespace SirRandoo.ToolkitUtils
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static class Data
     {
+        internal static readonly Dictionary<string, Color> ColorIndex =
+            new Dictionary<string, Color>(GetSomeNamedColors());
+
         internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType))
            .Select(i => (KarmaType) Enum.Parse(typeof(KarmaType), i))
            .ToList();
@@ -949,6 +954,40 @@ namespace SirRandoo.ToolkitUtils
                 existing.Cost = partial.Cost;
                 existing.Enabled = partial.Enabled;
                 existing.Data = partial.Data;
+            }
+        }
+
+        private static IEnumerable<KeyValuePair<string, Color>> GetSomeNamedColors()
+        {
+            yield return KeyValuePair.Create("red", Color.red);
+            yield return KeyValuePair.Create("blue", Color.blue);
+            yield return KeyValuePair.Create("lime", Color.green);
+            yield return KeyValuePair.Create("limegreen", Color.green);
+            yield return KeyValuePair.Create("black", Color.black);
+            yield return KeyValuePair.Create("white", Color.white);
+            yield return KeyValuePair.Create("yellow", Color.yellow);
+            yield return KeyValuePair.Create("cyan", Color.cyan);
+            yield return KeyValuePair.Create("gray", Color.gray);
+            yield return KeyValuePair.Create("grey", Color.grey);
+            yield return KeyValuePair.Create("magenta", Color.magenta);
+
+            foreach (FieldInfo field in typeof(ColorLibrary).GetFields(BindingFlags.Static))
+            {
+                string name = field.Name;
+
+                if (name.NullOrEmpty())
+                {
+                    continue;
+                }
+
+                object value = field.GetValue(typeof(ColorLibrary));
+
+                if (!(value is Color color))
+                {
+                    continue;
+                }
+
+                yield return new KeyValuePair<string, Color>(name.ToLowerInvariant(), color);
             }
         }
     }
