@@ -33,12 +33,6 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            if (Find.TickManager?.Paused ?? true)
-            {
-                msg.Reply("TKUtils.Paused".Localize());
-                return;
-            }
-
             Current.Game?.GetComponent<Coordinator>()?.NotifySolventRequested(msg.Username.ToLower());
             msg.Reply("TKUtils.UnstickMe.Queued".Localize());
         }
