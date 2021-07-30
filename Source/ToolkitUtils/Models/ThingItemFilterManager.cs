@@ -100,6 +100,7 @@ namespace SirRandoo.ToolkitUtils.Models
             var viewPort = new Rect(canvas.x, canvas.y, canvas.width - 16f, filters.Sum(f => f.Height));
 
             Widgets.BeginScrollView(canvas, ref scrollPos, viewPort);
+            listing.Begin(viewPort);
 
             foreach (ThingItemFilterCategory category in filters)
             {
@@ -164,6 +165,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             GUI.EndGroup();
+            listing.End();
             Widgets.EndScrollView();
         }
 
