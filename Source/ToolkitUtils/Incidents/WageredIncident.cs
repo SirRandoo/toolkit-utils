@@ -219,21 +219,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            var argWorker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
+            string rawPoints = CommandFilter.Parse(msg).Skip(2).FirstOrDefault();
 
-            if (!argWorker.TryGetNextAsInt(out wager))
-            {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.WagerRequired".LocalizeKeyed(
-                        wager.ToString("N0"),
-                        storeIncident.minPointsToFire.ToString("N0")
-                    )
-                );
-                return false;
-            }
-
-            if (!VariablesHelpers.PointsWagerIsValid(argWorker.GetLast(), viewer, ref wager, ref storeIncident))
+            if (rawPoints.NullOrEmpty()
+                || !VariablesHelpers.PointsWagerIsValid(rawPoints, viewer, ref wager, ref storeIncident))
             {
                 return false;
             }
