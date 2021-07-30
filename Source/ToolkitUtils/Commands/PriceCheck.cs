@@ -147,7 +147,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             var worker = ArgWorker.CreateInstance(query);
 
-            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item) || item.Thing?.Cost <= 0)
+            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item) || !item.IsValid() || item.Thing?.Cost <= 0)
             {
                 return;
             }
