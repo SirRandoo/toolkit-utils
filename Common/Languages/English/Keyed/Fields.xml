@@ -36,6 +36,9 @@
     <TKUtils.Fields.CanStack>Can stack?</TKUtils.Fields.CanStack>
     <TKUtils.Fields.DefName>Def name</TKUtils.Fields.DefName>
     <TKUtils.Fields.CanBeStuff>Can be stuff?</TKUtils.Fields.CanBeStuff>
+    <TKUtils.Fields.CanUse>Can use?</TKUtils.Fields.CanUse>
+    <TKUtils.Fields.CanWear>Can wear?</TKUtils.Fields.CanWear>
+    <TKUtils.Fields.CanEquip>Can equip?</TKUtils.Fields.CanEquip>
     <TKUtils.Fields.IsMeleeWeapon>Is melee weapon?</TKUtils.Fields.IsMeleeWeapon>
     <TKUtils.Fields.IsRangedWeapon>Is ranged weapon?</TKUtils.Fields.IsRangedWeapon>
     <TKUtils.Fields.AddPrice>Add price</TKUtils.Fields.AddPrice>
@@ -45,6 +48,9 @@
     <TKUtils.Fields.BypassTraitLimit>Bypass trait limit</TKUtils.Fields.BypassTraitLimit>
     <TKUtils.Fields.AddKarmaType>Karma type for adding</TKUtils.Fields.AddKarmaType>
     <TKUtils.Fields.RemoveKarmaType>Karma type for removing</TKUtils.Fields.RemoveKarmaType>
+    <TKUtils.Fields.UseKarmaType>Karma type for using</TKUtils.Fields.UseKarmaType>
+    <TKUtils.Fields.WearKarmaType>Karma type for wearing</TKUtils.Fields.WearKarmaType>
+    <TKUtils.Fields.EquipKarmaType>Karma type for equipping</TKUtils.Fields.EquipKarmaType>
     <TKUtils.Fields.DefaultKarmaType>(Default)</TKUtils.Fields.DefaultKarmaType>
     <TKUtils.Fields.EventCap>Event cap</TKUtils.Fields.EventCap>
     <TKUtils.Fields.MaxWager>Max wager</TKUtils.Fields.MaxWager>

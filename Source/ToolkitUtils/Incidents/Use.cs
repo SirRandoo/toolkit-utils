@@ -106,6 +106,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 break;
             }
 
+            if (handler == null || item.Thing.ItemData?.IsUsable != true)
+            {
+                return false;
+            }
+
             buyableItem = item!.Thing;
             return true;
         }
@@ -148,7 +153,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             Viewer.Charge(
                 buyableItem.Cost,
                 buyableItem.ItemData?.Weight ?? 1f,
-                buyableItem.ItemData?.KarmaType ?? storeIncident.karmaType
+                buyableItem.ItemData?.KarmaTypeForUsing ?? storeIncident.karmaType
             );
 
             Find.LetterStack.ReceiveLetter(

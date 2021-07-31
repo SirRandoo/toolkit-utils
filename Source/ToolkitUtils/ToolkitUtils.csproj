@@ -290,6 +290,7 @@
         <Compile Include="Models\UsabilityHandlers\DefaultUsabilityHandler.cs"/>
         <Compile Include="Models\UsabilityHandlers\UsabilityHandlerBase.cs"/>
         <Compile Include="Models\UserData.cs"/>
+        <Compile Include="Models\UsabilityHandlers\IngestabilityUsabilityHandler.cs"/>
         <Compile Include="Models\ViewerState.cs"/>
         <Compile Include="RuntimeChecker.cs"/>
         <Compile Include="Paths.cs"/>

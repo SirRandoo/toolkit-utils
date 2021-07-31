@@ -490,7 +490,7 @@ namespace SirRandoo.ToolkitUtils
                .Select(i => DefDatabase<ThingDef>.GetNamed(i)))
             {
                 ModContentPack contentPack = item.modContentPack;
-                var data = new ItemData {QuantityLimit = -1, IsStuffAllowed = true};
+                var data = new ItemData {Version = 2, QuantityLimit = -1, IsStuffAllowed = true};
 
                 if (contentPack != null)
                 {
@@ -514,9 +514,12 @@ namespace SirRandoo.ToolkitUtils
                 }
             }
 
-            foreach (ItemData data in ItemData.Values.Where(data => data.Mod.EqualsIgnoreCase("core")))
+            foreach (ItemData data in ItemData.Values.Where(data => data.Version < Models.ItemData.CurrentVersion))
             {
-                data.Mod = "RimWorld";
+                data.IsUsable = true;
+                data.IsWearable = true;
+                data.IsEquippable = true;
+                data.Version = Models.ItemData.CurrentVersion;
             }
         }
 

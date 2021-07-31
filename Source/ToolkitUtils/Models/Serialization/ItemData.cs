@@ -28,6 +28,7 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class ItemData : IShopDataBase
     {
+        internal const int CurrentVersion = 2;
         private List<ResearchProjectDef> researchProjects = new List<ResearchProjectDef>();
 
         [DataMember(Name = "CustomName")] public string CustomName { get; set; }
@@ -49,12 +50,26 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "IsEquippable")] public bool IsEquippable { get; set; }
         [DataMember(Name = "IsWearable")] public bool IsWearable { get; set; }
 
+        [DataMember(Name = "KarmaTypeForUsing")]
+        public KarmaType? KarmaTypeForUsing { get; set; }
+
+        [DataMember(Name = "KarmaTypeForWearing")]
+        public KarmaType? KarmaTypeForWearing { get; set; }
+
+        [DataMember(Name = "KarmaTypeForEquipping")]
+        public KarmaType? KarmaTypeForEquipping { get; set; }
+
+        [DataMember(Name = "version")] public int Version { get; set; }
+
         [DataMember(Name = "Mod")] public string Mod { get; set; }
         [DataMember(Name = "KarmaType")] public KarmaType? KarmaType { get; set; }
 
         public void Reset()
         {
             KarmaType = null;
+            KarmaTypeForEquipping = null;
+            KarmaTypeForUsing = null;
+            KarmaTypeForWearing = null;
             ResearchOverrides = null;
             Weight = 1f;
             QuantityLimit = 1;
@@ -74,6 +89,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
             IsUsable = GameHelper.GetDefaultUsability(parent.Thing);
             IsStuffAllowed = GameHelper.GetDefaultMaterialState(parent.Thing);
+            IsEquippable = parent.Thing.IsWeapon;
+            IsWearable = parent.Thing.IsApparel;
         }
 
         [CanBeNull]

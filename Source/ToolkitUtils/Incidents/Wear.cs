@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!(item.Thing.Thing is {IsApparel: true}))
+            if (!(item.Thing.Thing is {IsApparel: true}) || item.Thing.ItemData?.IsWearable != true)
             {
                 return false;
             }
@@ -130,7 +130,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Viewer.Charge(
                     cost,
                     item.Thing.ItemData?.Weight ?? 1f,
-                    item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+                    item.Thing.ItemData?.KarmaTypeForWearing ?? storeIncident.karmaType
                 );
                 NotifyComplete(apparel, true);
                 return;
@@ -141,7 +141,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             Viewer.Charge(
                 cost,
                 item.Thing.ItemData?.Weight ?? 1f,
-                item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+                item.Thing.ItemData?.KarmaTypeForWearing ?? storeIncident.karmaType
             );
             NotifyComplete(apparel);
         }

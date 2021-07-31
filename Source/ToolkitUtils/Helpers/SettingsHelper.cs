@@ -22,6 +22,7 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Workers;
 using Steamworks;
+using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
@@ -762,6 +763,35 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             Widgets.DrawHighlightIfMouseover(canvas);
+        }
+
+        public static void DrawKarmaField(
+            Rect labelRect,
+            string label,
+            Rect fieldRect,
+            string nullLabel,
+            KarmaType? karmaType,
+            Action<KarmaType?> changedCallback,
+            bool doResetButton = false,
+            [CanBeNull] string resetTooltip = null
+        )
+        {
+            DrawLabel(labelRect, label);
+
+            if (Widgets.ButtonText(fieldRect, !karmaType.HasValue ? nullLabel : karmaType.Value.ToString()))
+            {
+                Find.WindowStack.Add(
+                    new FloatMenu(
+                        Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => changedCallback(i)))
+                           .ToList()
+                    )
+                );
+            }
+
+            if (doResetButton && karmaType.HasValue && DrawFieldButton(labelRect, Textures.Reset, resetTooltip))
+            {
+                changedCallback(null);
+            }
         }
     }
 }

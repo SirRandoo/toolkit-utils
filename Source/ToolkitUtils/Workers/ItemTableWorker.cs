@@ -27,16 +27,20 @@ namespace SirRandoo.ToolkitUtils.Workers
 {
     public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
     {
-        private const float ExpandedLineSpan = 3f;
+        private const float ExpandedLineSpan = 5f;
         private protected Rect CategoryHeaderRect = Rect.zero;
         private string categoryHeaderText;
         private protected Rect CategoryHeaderTextRect = Rect.zero;
         private string closeItemNameTooltip;
         private string defaultKarmaTypeText;
         private string editItemNameTooltip;
+        private string equipKarmaTypeText;
         private Rect expandedHeaderInnerRect = Rect.zero;
         private Rect expandedHeaderRect = Rect.zero;
+        private string isEquippableText;
         private string isStuffText;
+        private string isUsableText;
+        private string isWearableText;
 
         private string karmaTypeText;
         private protected Rect NameHeaderRect = Rect.zero;
@@ -59,6 +63,8 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private Rect stateHeaderRect = Rect.zero;
         private StateKey stateKey = StateKey.Enable;
+        private string useKarmaTypeText;
+        private string wearKarmaTypeText;
 
         public override void DrawHeaders(Rect canvas)
         {
@@ -365,31 +371,74 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<ThingItem> item)
         {
-            (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm();
-            SettingsHelper.DrawLabel(karmaLabel, karmaTypeText);
-            if (Widgets.ButtonText(
+            var row = 0;
+            (Rect karmaLabel, Rect karmaField) = new Rect(0f, row, canvas.width, RowLineHeight).ToForm();
+            SettingsHelper.DrawKarmaField(
+                karmaLabel,
+                karmaTypeText,
                 karmaField,
-                item.Data.Data!.KarmaType == null ? defaultKarmaTypeText : item.Data.Data.KarmaType.ToString()
-            ))
+                defaultKarmaTypeText,
+                item.Data.Data!.KarmaType,
+                k => item.Data.Data.KarmaType = k,
+                item.Data.Data.KarmaType != null,
+                resetItemKarmaTooltip
+            );
+
+            if (item.Data.Thing?.IsApparel == true)
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(
-                        ToolkitUtils.Data.KarmaTypes.Select(
-                                i => new FloatMenuOption(i.ToString(), () => item.Data.Data.KarmaType = i)
-                            )
-                           .ToList()
-                    )
+                row += 1;
+                (Rect wearLabel, Rect wearField) =
+                    new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight).ToForm();
+                SettingsHelper.DrawKarmaField(
+                    wearLabel,
+                    wearKarmaTypeText,
+                    wearField,
+                    defaultKarmaTypeText,
+                    item.Data.ItemData!.KarmaTypeForWearing,
+                    k => item.Data.ItemData.KarmaTypeForWearing = k,
+                    item.Data.ItemData.KarmaTypeForWearing != null,
+                    resetItemKarmaTooltip
                 );
             }
 
-            if (item.Data.Data.KarmaType != null
-                && SettingsHelper.DrawFieldButton(karmaLabel, Textures.Reset, resetItemKarmaTooltip))
+            if (item.Data.Thing?.IsWeapon == true)
             {
-                item.Data.Data.KarmaType = null;
+                row += 1;
+                (Rect equipLabel, Rect equipField) =
+                    new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight).ToForm();
+                SettingsHelper.DrawKarmaField(
+                    equipLabel,
+                    equipKarmaTypeText,
+                    equipField,
+                    defaultKarmaTypeText,
+                    item.Data.ItemData!.KarmaTypeForEquipping,
+                    k => item.Data.ItemData.KarmaTypeForEquipping = k,
+                    item.Data.ItemData.KarmaTypeForEquipping != null,
+                    resetItemKarmaTooltip
+                );
             }
 
+            if (item.Data.IsUsable)
+            {
+                row += 1;
+                (Rect usableLabel, Rect usableField) =
+                    new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight).ToForm();
+                SettingsHelper.DrawKarmaField(
+                    usableLabel,
+                    useKarmaTypeText,
+                    usableField,
+                    defaultKarmaTypeText,
+                    item.Data.ItemData!.KarmaTypeForUsing,
+                    k => item.Data.ItemData.KarmaTypeForUsing = k,
+                    item.Data.ItemData.KarmaTypeForUsing != null,
+                    resetItemKarmaTooltip
+                );
+            }
+
+            row += 1;
             var weightBuffer = item.Data.ItemData!.Weight.ToString("N1");
-            (Rect weightLabel, Rect weightField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).ToForm();
+            (Rect weightLabel, Rect weightField) =
+                new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight).ToForm();
             SettingsHelper.DrawLabel(weightLabel, purchaseWeightText);
 
             float proxy = item.Data.ItemData.Weight;
@@ -401,6 +450,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void DrawRightExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<ThingItem> item)
         {
+            var row = 0;
             bool proxy = item.Data.ItemData!.HasQuantityLimit;
             if (SettingsHelper.LabeledPaintableCheckbox(
                 new Rect(
@@ -439,19 +489,60 @@ namespace SirRandoo.ToolkitUtils.Workers
                 }
             }
 
-            if (item.Data.Thing == null || !item.Data.Thing.IsStuff)
+            if (item.Data.Thing is {IsStuff: true})
             {
-                return;
+                row += 1;
+                bool proxy3 = item.Data.ItemData.IsStuffAllowed;
+                if (SettingsHelper.LabeledPaintableCheckbox(
+                    new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight),
+                    isStuffText,
+                    ref proxy3
+                ))
+                {
+                    item.Data.ItemData.IsStuffAllowed = proxy3;
+                }
             }
 
-            bool proxy3 = item.Data.ItemData.IsStuffAllowed;
-            if (SettingsHelper.LabeledPaintableCheckbox(
-                new Rect(0f, RowLineHeight, canvas.width, RowLineHeight),
-                isStuffText,
-                ref proxy3
-            ))
+            if (item.Data.Thing?.IsApparel == true)
             {
-                item.Data.ItemData.IsStuffAllowed = proxy3;
+                row += 1;
+                bool proxy4 = item.Data.ItemData.IsWearable;
+                if (SettingsHelper.LabeledPaintableCheckbox(
+                    new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight),
+                    isWearableText,
+                    ref proxy4
+                ))
+                {
+                    item.Data.ItemData.IsWearable = proxy4;
+                }
+            }
+
+            if (item.Data.Thing?.IsWeapon == true)
+            {
+                row += 1;
+                bool proxy5 = item.Data.ItemData.IsEquippable;
+                if (SettingsHelper.LabeledPaintableCheckbox(
+                    new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight),
+                    isEquippableText,
+                    ref proxy5
+                ))
+                {
+                    item.Data.ItemData.IsEquippable = proxy5;
+                }
+            }
+
+            if (item.Data.IsUsable)
+            {
+                row += 1;
+                bool proxy6 = item.Data.ItemData.IsUsable;
+                if (SettingsHelper.LabeledPaintableCheckbox(
+                    new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight),
+                    isUsableText,
+                    ref proxy6
+                ))
+                {
+                    item.Data.ItemData.IsUsable = proxy6;
+                }
             }
         }
 
@@ -492,6 +583,12 @@ namespace SirRandoo.ToolkitUtils.Workers
             karmaTypeText = "TKUtils.Fields.KarmaType".Localize();
             purchaseWeightText = "TKUtils.Fields.Weight".Localize();
             defaultKarmaTypeText = "TKUtils.Fields.DefaultKarmaType".Localize();
+            useKarmaTypeText = "TKUtils.Fields.UseKarmaType".Localize();
+            wearKarmaTypeText = "TKUtils.Fields.WearKarmaType".Localize();
+            equipKarmaTypeText = "TKUtils.Fields.EquipKarmaType".Localize();
+            isEquippableText = "TKUtils.Fields.CanEquip".Localize();
+            isUsableText = "TKUtils.Fields.CanUse".Localize();
+            isWearableText = "TKUtils.Fields.CanWear".Localize();
 
             stackLimitTooltip = "TKUtils.ItemTableTooltips.ToStackLimit".Localize();
             editItemNameTooltip = "TKUtils.ItemTableTooltips.EditItemName".Localize();

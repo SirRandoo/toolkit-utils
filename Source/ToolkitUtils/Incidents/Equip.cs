@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!(item.Thing.Thing is {IsWeapon: true}))
+            if (!(item.Thing.Thing is {IsWeapon: true}) || item.Thing.ItemData?.IsEquippable != true)
             {
                 return false;
             }
@@ -147,7 +147,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Viewer.Charge(
                     cost,
                     item.Thing.ItemData?.Weight ?? 1f,
-                    item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+                    item.Thing.ItemData?.KarmaTypeForEquipping ?? storeIncident.karmaType
                 );
                 NotifyComplete(weapon, true);
                 return;
@@ -157,7 +157,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             Viewer.Charge(
                 cost,
                 item.Thing.ItemData?.Weight ?? 1f,
-                item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType
+                item.Thing.ItemData?.KarmaTypeForEquipping ?? storeIncident.karmaType
             );
             NotifyComplete(weapon);
         }
