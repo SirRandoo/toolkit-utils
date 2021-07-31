@@ -28,7 +28,7 @@
     <TKUtils.GiveAll>Gave {0} coins to {1} viewers.</TKUtils.GiveAll>
 
     <!-- Give Coins -->
-    <TKUtils.GiveCoins.Moderators>You cannot give coins to other moderators. If you truly do need to do this, the broadcaster should do this instead.</TKUtils.GiveCoins.Moderators>
+    <TKUtils.GiveCoins.Moderators>Moderators cannot give coins to other moderators.</TKUtils.GiveCoins.Moderators>
     <TKUtils.GiveCoins.Alts>You cannot give coins to yourself or alternate accounts.</TKUtils.GiveCoins.Alts>
     <TKUtils.GiveCoins.Done>Gave {0} coins to {1}. Their new balance is {2} coins.</TKUtils.GiveCoins.Done>
 
