@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            usableText = "TKUtils.Fields.IsUsable".Localize();
+            usableText = "TKUtils.Fields.CanUse".Localize();
         }
 
         public void Draw(Rect canvas)

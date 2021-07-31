@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            equippableText = "TKUtils.Fields.IsEquippable".Localize();
+            equippableText = "TKUtils.Fields.CanEquip".Localize();
         }
 
         public void Draw(Rect canvas)

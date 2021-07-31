@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            wearableText = "TKUtils.Fields.IsWearable".Localize();
+            wearableText = "TKUtils.Fields.CanWear".Localize();
         }
 
         public void Draw(Rect canvas)
