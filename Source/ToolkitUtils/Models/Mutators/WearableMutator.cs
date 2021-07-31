@@ -17,33 +17,34 @@
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
-using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class WearableSelector : ISelectorBase<ThingItem>
+    public class WearableMutator : IMutatorBase<ThingItem>
     {
         private bool state = true;
-        private string wearableText;
-        public ObservableProperty<bool> Dirty { get; set; }
+        private string usableText;
+        public int Priority => 1;
 
         public void Prepare()
         {
-            wearableText = "TKUtils.Fields.IsWearable".Localize();
+            usableText = "TKUtils.Fields.CanWear".Localize();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, wearableText, ref state))
-            {
-                Dirty.Set(true);
-            }
+            SettingsHelper.LabeledPaintableCheckbox(canvas, usableText, ref state);
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
+        public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
-            return item.Data.ItemData?.IsWearable == state;
+            if (item.Data.ItemData == null)
+            {
+                return;
+            }
+
+            item.Data.ItemData!.IsWearable = state;
         }
     }
 }

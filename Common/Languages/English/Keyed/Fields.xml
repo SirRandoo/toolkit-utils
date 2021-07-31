@@ -65,7 +65,4 @@
     <TKUtils.Fields.Manufactured>Is manufacturable?</TKUtils.Fields.Manufactured>
     <TKUtils.Fields.Command>Command identifier</TKUtils.Fields.Command>
     <TKUtils.Fields.UserLevel>User level</TKUtils.Fields.UserLevel>
-    <TKUtils.Fields.IsUsable>Is usable?</TKUtils.Fields.IsUsable>
-    <TKUtils.Fields.IsEquippable>Is equippable?</TKUtils.Fields.IsEquippable>
-    <TKUtils.Fields.IsWearable>Is wearable?</TKUtils.Fields.IsWearable>
 </LanguageData>

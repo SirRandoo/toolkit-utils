@@ -85,6 +85,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                 new FloatMenuOption(
                     "TKUtils.Fields.Manufactured".Localize(),
                     () => AddSelector(new ManufacturedSelector())
+                ),
+                new FloatMenuOption("TKUtils.Fields.CanUse".Localize(), () => AddSelector(new UsabilitySelector())),
+                new FloatMenuOption("TKUtils.Fields.CanWear".Localize(), () => AddSelector(new WearableSelector())),
+                new FloatMenuOption(
+                    "TKUtils.Fields.CanEquip".Localize(),
+                    () => AddSelector(new EquippableSelector())
                 )
             };
 
@@ -103,6 +109,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                 new FloatMenuOption("TKUtils.Fields.State".Localize(), () => AddMutator(new ItemStateMutator())),
                 new FloatMenuOption("TKUtils.Fields.CanBeStuff".Localize(), () => AddMutator(new StuffMutator())),
                 new FloatMenuOption("TKUtils.Fields.Weight".Localize(), () => AddMutator(new WeightMutator())),
+                new FloatMenuOption("TKUtils.Fields.CanUse".Localize(), () => AddMutator(new UsableMutator())),
+                new FloatMenuOption("TKUtils.Fields.CanWear".Localize(), () => AddMutator(new WearableMutator())),
+                new FloatMenuOption(
+                    "TKUtils.Fields.CanEquip".Localize(),
+                    () => AddMutator(new EquippableMutator())
+                ),
                 new FloatMenuOption(
                     "TKUtils.EditorMutator.ResetName".Localize(),
                     () => AddMutator(new ResetNameMutator<ThingItem>())

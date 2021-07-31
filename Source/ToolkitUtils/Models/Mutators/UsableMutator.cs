@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            usableText = "TKUtils.Fields.IsUsable".Localize();
+            usableText = "TKUtils.Fields.CanUse".Localize();
         }
 
         public void Draw(Rect canvas)
@@ -39,9 +39,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
-            // if (item.Data)
+            if (!item.Data.IsUsable)
+            {
+                return;
+            }
 
-            item.Data.ItemData.IsUsable = state;
+            item.Data.ItemData!.IsUsable = state;
         }
     }
 }
