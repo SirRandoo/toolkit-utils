@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -55,19 +54,28 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             Dictionary<string, Pawn> pawnHistory = component.pawnHistory;
-            List<Pawn> colonistsSpawned = Helper.AnyPlayerMap.mapPawns.FreeColonistsSpawned;
+            List<Pawn> colonistsSpawned = Find.CurrentMap?.mapPawns.FreeColonistsSpawned;
 
-            if (colonistsSpawned.Count == pawnHistory.Count)
+            if (colonistsSpawned == null || colonistsSpawned.Count == pawnHistory.Count)
             {
                 return false;
             }
 
-            List<Pawn> container = colonistsSpawned.Where(c => !pawnHistory.ContainsKey(c.Name.ToStringShort))
-                // Questing
-               .Where(pawn => !pawn.IsBorrowedByAnyFaction())
-                // RimWorld of Magic
-               .Where(pawn => !CompatRegistry.Magic?.IsUndead(pawn) ?? true)
-               .ToList();
+            var container = new List<Pawn>();
+
+            for (var i = 0; i < colonistsSpawned.Count; i++)
+            {
+                Pawn pawn = colonistsSpawned[i];
+
+                if (pawnHistory.ContainsKey(pawn.LabelShort)
+                    || pawn.IsBorrowedByAnyFaction()
+                    || CompatRegistry.Magic?.IsUndead(pawn) == true)
+                {
+                    continue;
+                }
+
+                container.Add(pawn);
+            }
 
             if (container.Count > 0)
             {
