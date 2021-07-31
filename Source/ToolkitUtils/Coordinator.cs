@@ -18,6 +18,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -148,14 +149,15 @@ namespace SirRandoo.ToolkitUtils
         {
             VoteHandler.CheckForQueuedVotes();
 
-            if (Viewers.jsonallviewers.NullOrEmpty())
+            bool isNull = Viewers.jsonallviewers.NullOrEmpty();
+            switch (isNull)
             {
-                Viewers.RefreshViewers();
-            }
-
-            if (!Viewers.jsonallviewers.NullOrEmpty() && ToolkitSettings.EarningCoins)
-            {
-                ProcessCoinReward();
+                case true:
+                    Viewers.RefreshViewers();
+                    break;
+                case false when ToolkitSettings.EarningCoins:
+                    ProcessCoinReward();
+                    break;
             }
 
             if (TkSettings.AsapPurchases)
@@ -188,7 +190,7 @@ namespace SirRandoo.ToolkitUtils
                 return;
             }
 
-            Viewers.AwardViewersCoins();
+            Task.Run(() => Viewers.AwardViewersCoins());
             rewardPeriodTracker = 0;
             LogHelper.Debug($"Awarded viewers coins @ {DateTime.Now:T}");
         }
@@ -199,8 +201,6 @@ namespace SirRandoo.ToolkitUtils
             {
                 ProcessNextIncident();
             }
-
-            Toolkit.JobManager.CheckAllJobs();
 
             while (!pendingSolvent.IsEmpty)
             {
@@ -223,7 +223,7 @@ namespace SirRandoo.ToolkitUtils
 
         private static bool TryProcessNextVoteIncident()
         {
-            if (!Ticker.IncidentHelpers.TryDequeue(out IncidentHelper incident))
+            if (Ticker.IncidentHelpers.Count <= 0 || !Ticker.IncidentHelpers.TryDequeue(out IncidentHelper incident))
             {
                 return false;
             }
@@ -259,7 +259,7 @@ namespace SirRandoo.ToolkitUtils
 
         private void ProcessNextEvent()
         {
-            if (!incidentQueue.TryDequeue(out IncidentProxy incident))
+            if (incidentQueue.IsEmpty || !incidentQueue.TryDequeue(out IncidentProxy incident))
             {
                 return;
             }
