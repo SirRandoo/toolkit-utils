@@ -30,11 +30,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
-    public enum SortMode { Ascending, Descending }
-
-    public enum Sorter { Name, Cost, Category, AddCost, RemoveCost }
-
-
     [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
