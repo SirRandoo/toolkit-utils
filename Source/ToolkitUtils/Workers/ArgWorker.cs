@@ -645,7 +645,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 string name = plural ? Thing.Name.Pluralize() : Thing.Name;
 
                 return (Quality.HasValue
-                    ? $"{Stuff?.Name} {name} ({Unrichify.StripTags(Quality.Value.ToString())}"
+                    ? $"{Stuff?.Name} {name} ({Unrichify.StripTags(Quality.Value.ToString())})"
                     : $"{Stuff?.Name} {name}").Trim();
             }
 
