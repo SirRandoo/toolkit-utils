@@ -72,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (events.Count(e => e.Type == EventType.Noop || e.Type == EventType.Add) > AddTraitSettings.maxTraits)
+            if (events.Count(e => e.ContributesToLimit) > AddTraitSettings.maxTraits)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
@@ -289,6 +289,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
             public EventType Type { get; set; }
             public TraitItem Item { get; set; }
             public Trait Trait { get; set; }
+
+            public bool ContributesToLimit =>
+                (Type == EventType.Noop || Type == EventType.Add) && Item.TraitData?.CanBypassLimit != true;
 
             public void Execute(Pawn pawn)
             {

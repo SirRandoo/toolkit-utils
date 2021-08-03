@@ -208,5 +208,25 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             return AlienRace.Enabled && !AlienRace.IsTraitAllowed(pawn, trait, degree);
         }
+
+        public static int GetTotalTraits([NotNull] Pawn pawn)
+        {
+            if (pawn.story.traits?.allTraits?.NullOrEmpty() == true)
+            {
+                return 0;
+            }
+
+            var total = 0;
+            List<Trait> traits = pawn.story.traits!.allTraits!;
+            for (var index = 0; index < pawn.story.traits!.allTraits!.Count; index++)
+            {
+                Trait trait = traits![index];
+                TraitItem item = Data.Traits.Find(t => t.TraitDef == trait.def && t.Degree == trait.Degree);
+
+                total += item?.TraitData?.CanBypassLimit == true ? 0 : 1;
+            }
+
+            return total;
+        }
     }
 }

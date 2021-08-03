@@ -65,9 +65,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            int total = pawn!.story?.traits?.allTraits?.Count ?? 0;
-
-            if (total >= AddTraitSettings.maxTraits && buyableTrait.TraitData?.CanBypassLimit == false)
+            if (TraitHelper.GetTotalTraits(pawn) >= AddTraitSettings.maxTraits
+                && buyableTrait.TraitData?.CanBypassLimit != true)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
