@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!(item.Thing.Thing is {IsWeapon: true}) || item.Thing.ItemData?.IsEquippable != true)
+            if (!(item.Thing.Thing is { IsWeapon: true }) || item.Thing.ItemData?.IsEquippable != true)
             {
                 return false;
             }
@@ -120,7 +120,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!EquipmentUtility.CanEquip(weapon, pawn) || !MassUtility.CanEverCarryAnything(pawn))
             {
-                TradeUtility.SpawnDropPod(pawn.Position, pawn.Map, weapon);
+                PurchaseHelper.SpawnItem(DropCellFinder.TradeDropSpot(pawn.Map), pawn.Map, weapon);
                 Viewer.Charge(
                     cost,
                     item.Thing.ItemData?.Weight ?? 1f,

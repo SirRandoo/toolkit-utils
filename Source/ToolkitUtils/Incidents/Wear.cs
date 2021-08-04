@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!(item.Thing.Thing is {IsApparel: true}) || item.Thing.ItemData?.IsWearable != true)
+            if (!(item.Thing.Thing is { IsApparel: true }) || item.Thing.ItemData?.IsWearable != true)
             {
                 return false;
             }
@@ -126,7 +126,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 || !EquipmentUtility.CanEquip(apparel, pawn)
                 || !ApparelUtility.HasPartsToWear(pawn, item.Thing.Thing))
             {
-                TradeUtility.SpawnDropPod(pawn.Position, pawn.Map, apparel);
+                PurchaseHelper.SpawnItem(DropCellFinder.TradeDropSpot(pawn.Map), pawn.Map, apparel);
                 Viewer.Charge(
                     cost,
                     item.Thing.ItemData?.Weight ?? 1f,
