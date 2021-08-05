@@ -267,7 +267,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return ProcessMetadata(next);
             }
 
-            return new ItemProxy {Thing = GetItemRaw(next)};
+            return new ItemProxy { Thing = GetItemRaw(next) };
         }
 
         [NotNull]
@@ -278,6 +278,12 @@ namespace SirRandoo.ToolkitUtils.Workers
             string details = next.Substring(next.LastIndexOf('[') + 1).TrimEnd(']');
             string item = next.Replace($"[{details}]", "");
             proxy.Thing = GetItemRaw(item);
+
+            if (proxy.Thing == null)
+            {
+                proxy.ProcessError = true;
+                return proxy;
+            }
 
             foreach (string segment in details.Split(','))
             {
