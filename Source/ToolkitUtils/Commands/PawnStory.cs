@@ -75,6 +75,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                     break;
             }
 
+            parts.Add(pawn.ageTracker.AgeNumberString);
+
             WorkTags workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
 
             if (workTags != WorkTags.None)
