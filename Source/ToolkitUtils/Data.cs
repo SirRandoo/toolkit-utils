@@ -49,23 +49,23 @@ namespace SirRandoo.ToolkitUtils
             new Dictionary<string, Color>(GetSomeNamedColors());
 
         internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType))
-           .Select(i => (KarmaType) Enum.Parse(typeof(KarmaType), i))
+           .Select(i => (KarmaType)Enum.Parse(typeof(KarmaType), i))
            .ToList();
 
         internal static readonly Dictionary<string, QualityCategory> Qualities = Enum.GetNames(typeof(QualityCategory))
-           .Select(q => (q.ToLowerInvariant(), (QualityCategory) Enum.Parse(typeof(QualityCategory), q)))
+           .Select(q => (q.ToLowerInvariant(), (QualityCategory)Enum.Parse(typeof(QualityCategory), q)))
            .ToDictionary(p => p.Item1, q => q.Item2);
 
         internal static readonly Dictionary<string, Gender> Genders = Enum.GetNames(typeof(Gender))
-           .Select(g => (g.ToLowerInvariant(), (Gender) Enum.Parse(typeof(Gender), g)))
+           .Select(g => (g.ToLowerInvariant(), (Gender)Enum.Parse(typeof(Gender), g)))
            .ToDictionary(p => p.Item1, p => p.Item2);
 
         internal static readonly List<TechLevel> TechLevels = Enum.GetNames(typeof(TechLevel))
-           .Select(t => (TechLevel) Enum.Parse(typeof(TechLevel), t))
+           .Select(t => (TechLevel)Enum.Parse(typeof(TechLevel), t))
            .ToList();
 
         internal static readonly IEnumerable<ComparisonTypes> ComparisonTypes = Enum.GetNames(typeof(ComparisonTypes))
-           .Select(i => (ComparisonTypes) Enum.Parse(typeof(ComparisonTypes), i))
+           .Select(i => (ComparisonTypes)Enum.Parse(typeof(ComparisonTypes), i))
            .ToList();
 
         static Data()
@@ -134,7 +134,7 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ValidateItems()
         {
-            Items = StoreDialog.GetTradeables().Select(t => new ThingItem {Thing = t}).ToList();
+            Items = StoreDialog.GetTradeables().Select(t => new ThingItem { Thing = t }).ToList();
         }
 
         private static void LoadFromLegacy(string path)
@@ -490,7 +490,7 @@ namespace SirRandoo.ToolkitUtils
                .Select(i => DefDatabase<ThingDef>.GetNamed(i)))
             {
                 ModContentPack contentPack = item.modContentPack;
-                var data = new ItemData {Version = 2, QuantityLimit = -1, IsStuffAllowed = true};
+                var data = new ItemData { Version = 2, QuantityLimit = -1, IsStuffAllowed = true };
 
                 if (contentPack != null)
                 {
@@ -514,9 +514,13 @@ namespace SirRandoo.ToolkitUtils
                 }
             }
 
-            foreach (ItemData data in ItemData.Values.Where(data => data.Version < Models.ItemData.CurrentVersion))
+            foreach ((string defName, ItemData data) in ItemData.Where(
+                data => data.Value.Version < Models.ItemData.CurrentVersion
+            ))
             {
-                data.IsUsable = true;
+                ThingItem item = Items.Find(i => i.DefName?.Equals(defName) == true);
+
+                data.IsUsable = item?.Thing == null || GameHelper.GetDefaultUsability(item.Thing);
                 data.IsWearable = true;
                 data.IsEquippable = true;
                 data.Version = Models.ItemData.CurrentVersion;
@@ -569,14 +573,14 @@ namespace SirRandoo.ToolkitUtils
                     continue;
                 }
 
-                Surgeries.Add(new SurgeryItem {Surgery = recipe, Handler = handler});
+                Surgeries.Add(new SurgeryItem { Surgery = recipe, Handler = handler });
             }
         }
 
         private static void ValidateEventList()
         {
             Store_IncidentEditor.LoadCopies(); // Just to ensure the actual incidents are loaded.
-            Events = DefDatabase<StoreIncident>.AllDefs.Select(i => new EventItem {Incident = i}).ToList();
+            Events = DefDatabase<StoreIncident>.AllDefs.Select(i => new EventItem { Incident = i }).ToList();
         }
 
         private static void ValidateEventData()
@@ -609,12 +613,12 @@ namespace SirRandoo.ToolkitUtils
 
         public static void SaveLegacyShop(string path)
         {
-            SaveJson(new ShopLegacy {Races = PawnKinds, Traits = Traits}, path);
+            SaveJson(new ShopLegacy { Races = PawnKinds, Traits = Traits }, path);
         }
 
         public static async Task SaveLegacyShopAsync(string path)
         {
-            await SaveJsonAsync(new ShopLegacy {Races = PawnKinds, Traits = Traits}, path);
+            await SaveJsonAsync(new ShopLegacy { Races = PawnKinds, Traits = Traits }, path);
         }
 
         public static void DumpAllData()
@@ -821,7 +825,7 @@ namespace SirRandoo.ToolkitUtils
                     }
 
                     item.price = partial.Cost;
-                    Items.Add(new ThingItem {Thing = thing, Item = item, ItemData = partial.ItemData});
+                    Items.Add(new ThingItem { Thing = thing, Item = item, ItemData = partial.ItemData });
                     continue;
                 }
 
