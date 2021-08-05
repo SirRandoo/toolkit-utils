@@ -177,6 +177,7 @@
         <Compile Include="Incidents\Immortality.cs"/>
         <Compile Include="Incidents\BuyItem.cs"/>
         <Compile Include="Incidents\Incident.cs"/>
+        <Compile Include="Incidents\Party.cs"/>
         <Compile Include="Incidents\PassionShuffle.cs"/>
         <Compile Include="Incidents\RandomInspire.cs"/>
         <Compile Include="Incidents\Sanctuary.cs"/>
