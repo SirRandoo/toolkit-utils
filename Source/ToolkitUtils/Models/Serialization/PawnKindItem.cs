@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "data")]
         public PawnKindData PawnData
         {
-            get => data ??= (PawnKindData) Data;
+            get => data ??= (PawnKindData)Data;
             set => Data = data = value;
         }
 

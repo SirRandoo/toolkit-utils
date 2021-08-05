@@ -42,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static float GetListPriority([CanBeNull] BodyPartRecord record)
         {
-            return record == null ? 9999999f : (float) record.height * 10000 + record.coverageAbsWithChildren;
+            return record == null ? 9999999f : (float)record.height * 10000 + record.coverageAbsWithChildren;
         }
 
         private static string GetPawnBody([NotNull] Pawn target)

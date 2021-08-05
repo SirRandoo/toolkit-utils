@@ -77,14 +77,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             for (var index = 0; index < incidents.Count; index++)
             {
                 VotingIncident incident = incidents[index];
-                var relativeWeight = (float) Math.Round(incident.voteWeight / (double) totalWeights * 100f, 2);
+                var relativeWeight = (float)Math.Round(incident.voteWeight / (double)totalWeights * 100f, 2);
 
                 var lineRect = new Rect(0f, index * Text.SmallFontHeight, viewPort.width, Text.SmallFontHeight);
                 (Rect labelRect, Rect inputRect) = lineRect.ToForm(0.7f);
                 SettingsHelper.DrawFittedLabel(labelRect, $"{incident.defName} - {relativeWeight:P}");
 
                 (Rect sliderRect, Rect fieldRect) = inputRect.ToForm(0.6f);
-                incident.voteWeight = (int) Widgets.HorizontalSlider(sliderRect, incident.voteWeight, 0f, 100f, true);
+                incident.voteWeight = (int)Widgets.HorizontalSlider(sliderRect, incident.voteWeight, 0f, 100f, true);
 
                 var buffer = incident.voteWeight.ToString();
                 Widgets.TextFieldNumeric(fieldRect, ref incident.voteWeight, ref buffer);

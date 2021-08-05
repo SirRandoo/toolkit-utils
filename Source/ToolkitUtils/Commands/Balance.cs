@@ -110,7 +110,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            return (int) Math.Ceiling((double) baseCoins * multiplier);
+            return (int)Math.Ceiling((double)baseCoins * multiplier);
         }
     }
 }

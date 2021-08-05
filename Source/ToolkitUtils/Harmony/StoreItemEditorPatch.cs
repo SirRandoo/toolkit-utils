@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 Task.Run(
                         async () =>
                         {
-                            await Data.SaveJsonAsync(new ItemList {Items = items}, Paths.ToolkitItemFilePath);
+                            await Data.SaveJsonAsync(new ItemList { Items = items }, Paths.ToolkitItemFilePath);
                             await Data.SaveItemDataAsync(Paths.ItemDataFilePath);
                         }
                     )
@@ -70,7 +70,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
             else
             {
-                Data.SaveJson(new ItemList {Items = items}, Paths.ToolkitItemFilePath);
+                Data.SaveJson(new ItemList { Items = items }, Paths.ToolkitItemFilePath);
                 Data.SaveItemData(Paths.ItemDataFilePath);
             }
 
@@ -93,7 +93,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 }
 
                 items.Add(
-                    new ToolkitItem {Abr = item.abr, DefName = item.defname, Price = item.price, Category = category}
+                    new ToolkitItem { Abr = item.abr, DefName = item.defname, Price = item.price, Category = category }
                 );
             }
 

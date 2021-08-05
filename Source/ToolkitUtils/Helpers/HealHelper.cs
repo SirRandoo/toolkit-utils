@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff hediff in hediffs)
             {
-                if (hediff is Hediff_Addiction {Visible: true} a
+                if (hediff is Hediff_Addiction { Visible: true } a
                     && a.def.everCurableByItem
                     && CompatRegistry.HealHandlers.All(h => h.IsHealable(hediff)))
                 {
@@ -148,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (h is Hediff_Injury {Visible: true} h2
+                if (h is Hediff_Injury { Visible: true } h2
                     && h2.def.everCurableByItem
                     && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))
                     && (injury == null || h2.Severity > injury.Severity)
@@ -280,7 +280,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (h is Hediff_Injury {Visible: true} h2
+                if (h is Hediff_Injury { Visible: true } h2
                     && h2.IsPermanent()
                     && h2.def.everCurableByItem
                     && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))
@@ -426,7 +426,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
                 if (pawn.SpawnedParentOrMe != pawn.Corpse
                     && (val = pawn.SpawnedParentOrMe as Pawn) != null
-                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode) 1, out Thing _))
+                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode)1, out Thing _))
                 {
                     LogHelper.Warn($"Could not drop {pawn} at {val.Position.ToString()} from {val.LabelShort}");
                     return false;

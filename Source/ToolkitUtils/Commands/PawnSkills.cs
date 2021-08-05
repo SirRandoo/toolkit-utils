@@ -50,7 +50,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 );
 
                 container += !Interests.Active
-                    ? string.Concat(Enumerable.Repeat(ResponseHelper.FireGlyph.AltText("+"), (int) skill.passion))
+                    ? string.Concat(Enumerable.Repeat(ResponseHelper.FireGlyph.AltText("+"), (int)skill.passion))
                     : Interests.GetIconForPassion(skill);
 
                 parts.Add(container);

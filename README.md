@@ -1,6 +1,6 @@
 ﻿# ToolkitUtils
-A collection of tweaks and commands for TwitchToolkit.
 
+A collection of tweaks and commands for TwitchToolkit.
 
 ### What's included?
 

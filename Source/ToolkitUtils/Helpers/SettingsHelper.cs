@@ -33,8 +33,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
         private static readonly FieldInfo SelectedModField = AccessTools.Field(typeof(Dialog_ModSettings), "selMod");
 
         private static readonly GameFont[] GameFonts = Enum.GetNames(typeof(GameFont))
-           .Select(f => (GameFont) Enum.Parse(typeof(GameFont), f))
-           .OrderByDescending(f => (int) f)
+           .Select(f => (GameFont)Enum.Parse(typeof(GameFont), f))
+           .OrderByDescending(f => (int)f)
            .ToArray();
 
         public static bool DrawFieldButton(Rect canvas, string label, [CanBeNull] string tooltip = null)
@@ -521,10 +521,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 GUIUtility.RotateAroundPivot(-90f, region.position);
             }
 
-            var maxFontScale = (int) maxScale;
+            var maxFontScale = (int)maxScale;
             foreach (GameFont f in GameFonts)
             {
-                if ((int) f > maxFontScale)
+                if ((int)f > maxFontScale)
                 {
                     continue;
                 }

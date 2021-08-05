@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            int passions = pawn!.skills.skills.Sum(skill => (int) skill.passion);
+            int passions = pawn!.skills.skills.Sum(skill => (int)skill.passion);
 
             if (passions <= 0)
             {
@@ -53,7 +53,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (query.NullOrEmpty())
             {
-                return pawn.skills.skills.Any(s => (int) s.passion > (int) Passion.None);
+                return pawn.skills.skills.Any(s => (int)s.passion > (int)Passion.None);
             }
 
             target = pawn.skills.skills.FirstOrDefault(
@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (target != null)
             {
-                return pawn.skills.skills.Any(s => (int) s.passion > (int) Passion.None);
+                return pawn.skills.skills.Any(s => (int)s.passion > (int)Passion.None);
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(query));
@@ -96,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void Shuffle()
         {
-            int passionCount = pawn.skills.skills.Sum(s => (int) s.passion);
+            int passionCount = pawn.skills.skills.Sum(s => (int)s.passion);
             var iterations = 0;
 
             passionCount = GetPassionCount(passionCount);
@@ -106,9 +106,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private void ShuffleWithInterests()
         {
             var iterations = 0;
-            int passionCount = pawn.skills.skills.Select(s => (int) s.passion).Where(p => p < 3).Sum();
-            List<Passion> interests = pawn.skills.skills
-               .Where(s => (int) s.passion >= 3)
+            int passionCount = pawn.skills.skills.Select(s => (int)s.passion).Where(p => p < 3).Sum();
+            List<Passion> interests = pawn.skills.skills.Where(s => (int)s.passion >= 3)
                .Select(s => s.passion)
                .ToList();
 

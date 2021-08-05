@@ -23,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "data")]
         public ItemData ItemData
         {
-            get => (ItemData) Data;
+            get => (ItemData)Data;
             set => Data = value;
         }
     }

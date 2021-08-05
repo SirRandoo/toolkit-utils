@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "data")]
         public EventData EventData
         {
-            get => (EventData) Data;
+            get => (EventData)Data;
             set => Data = value;
         }
 

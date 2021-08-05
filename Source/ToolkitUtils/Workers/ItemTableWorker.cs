@@ -348,7 +348,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             _data ??= new List<TableSettingsItem<ThingItem>>();
             _data.AddRange(
-                ToolkitUtils.Data.Items.OrderBy(i => i.Name).Select(i => new TableSettingsItem<ThingItem> {Data = i})
+                ToolkitUtils.Data.Items.OrderBy(i => i.Name).Select(i => new TableSettingsItem<ThingItem> { Data = i })
             );
         }
 
@@ -489,7 +489,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 }
             }
 
-            if (item.Data.Thing is {IsStuff: true})
+            if (item.Data.Thing is { IsStuff: true })
             {
                 row += 1;
                 bool proxy3 = item.Data.ItemData.IsStuffAllowed;
@@ -558,11 +558,11 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var wasDirty = false;
             foreach (ThingItem item in ToolkitUtils.Data.Items
-               .Select(item => new {item, existing = _data.Find(i => i.Data.Equals(item))})
+               .Select(item => new { item, existing = _data.Find(i => i.Data.Equals(item)) })
                .Where(t => t.existing == null)
                .Select(t => t.item))
             {
-                _data.Add(new TableSettingsItem<ThingItem> {Data = item});
+                _data.Add(new TableSettingsItem<ThingItem> { Data = item });
                 wasDirty = true;
             }
 

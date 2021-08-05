@@ -33,10 +33,10 @@ namespace SirRandoo.ToolkitUtils
     {
         static CompatRegistry()
         {
-            HealHandlers = new List<IHealHandler> {new DefaultHealHandler()};
-            SurgeryHandlers = new List<ISurgeryHandler> {new DefaultSurgeryHandler(), new AndroidSurgeryHandler()};
+            HealHandlers = new List<IHealHandler> { new DefaultHealHandler() };
+            SurgeryHandlers = new List<ISurgeryHandler> { new DefaultSurgeryHandler(), new AndroidSurgeryHandler() };
             UsabilityHandlers =
-                new List<IUsabilityHandler> {new DefaultUsabilityHandler(), new IngestabilityUsabilityHandler()};
+                new List<IUsabilityHandler> { new DefaultUsabilityHandler(), new IngestabilityUsabilityHandler() };
         }
 
         public static MagicCompat Magic { get; set; }

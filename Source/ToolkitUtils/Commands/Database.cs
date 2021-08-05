@@ -36,16 +36,16 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             Index = new Dictionary<string, string>
             {
-                {"weapon", "weapons"},
-                {"weapons", "weapons"},
-                {"gun", "weapons"},
-                {"sword", "weapons"},
-                {"melee", "weapons"},
-                {"ranged", "weapons"},
-                {"club", "weapons"},
-                {"clubs", "weapons"},
-                {"knife", "weapons"},
-                {"knives", "weapons"}
+                { "weapon", "weapons" },
+                { "weapons", "weapons" },
+                { "gun", "weapons" },
+                { "sword", "weapons" },
+                { "melee", "weapons" },
+                { "ranged", "weapons" },
+                { "club", "weapons" },
+                { "clubs", "weapons" },
+                { "knife", "weapons" },
+                { "knives", "weapons" }
             };
         }
 

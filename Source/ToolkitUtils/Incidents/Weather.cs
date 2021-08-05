@@ -34,15 +34,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             IncidentMap = new Dictionary<string, WeatherDef>
             {
-                {IncidentDefOf.ClearWeather.defName, WeatherDefOf.Clear},
-                {IncidentDefOf.WeatherRain.defName, WeatherDefOf.Rain},
-                {IncidentDefOf.VomitRain.defName, WeatherDefOf.VomitRain},
-                {IncidentDefOf.FoggyRain.defName, WeatherDefOf.FoggyRain},
-                {IncidentDefOf.RainyThunderStorm.defName, WeatherDefOf.RainyThunderstorm},
-                {IncidentDefOf.DryThunderStorm.defName, WeatherDefOf.DryThunderstorm},
-                {IncidentDefOf.SnowGentle.defName, WeatherDefOf.SnowGentle},
-                {IncidentDefOf.SnowHard.defName, WeatherDefOf.SnowHard},
-                {IncidentDefOf.Fog.defName, WeatherDefOf.Fog}
+                { IncidentDefOf.ClearWeather.defName, WeatherDefOf.Clear },
+                { IncidentDefOf.WeatherRain.defName, WeatherDefOf.Rain },
+                { IncidentDefOf.VomitRain.defName, WeatherDefOf.VomitRain },
+                { IncidentDefOf.FoggyRain.defName, WeatherDefOf.FoggyRain },
+                { IncidentDefOf.RainyThunderStorm.defName, WeatherDefOf.RainyThunderstorm },
+                { IncidentDefOf.DryThunderStorm.defName, WeatherDefOf.DryThunderstorm },
+                { IncidentDefOf.SnowGentle.defName, WeatherDefOf.SnowGentle },
+                { IncidentDefOf.SnowHard.defName, WeatherDefOf.SnowHard },
+                { IncidentDefOf.Fog.defName, WeatherDefOf.Fog }
             };
         }
 

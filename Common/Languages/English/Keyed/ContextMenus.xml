@@ -40,15 +40,15 @@
     <TKUtils.PurgeMenu.Days>days</TKUtils.PurgeMenu.Days>
     <TKUtils.PurgeMenu.Months>months</TKUtils.PurgeMenu.Months>
     <TKUtils.PurgeMenu.Years>years</TKUtils.PurgeMenu.Years>
-    
+
     <!-- Username Constraint Menu -->
     <TKUtils.PurgeMenu.Is>is</TKUtils.PurgeMenu.Is>
     <TKUtils.PurgeMenu.Not>is not</TKUtils.PurgeMenu.Not>
     <TKUtils.PurgeMenu.Contains>contains</TKUtils.PurgeMenu.Contains>
     <TKUtils.PurgeMenu.EndsWith>endswith</TKUtils.PurgeMenu.EndsWith>
     <TKUtils.PurgeMenu.StartsWith>startswith</TKUtils.PurgeMenu.StartsWith>
-    
-    
+
+
     <!-- Item Store Menu -->
     <TKUtils.StoreMenu.EnableCategory>Enable all in "{0}" category</TKUtils.StoreMenu.EnableCategory>
     <TKUtils.StoreMenu.DisableCategory>Disable all in "{0}" category</TKUtils.StoreMenu.DisableCategory>

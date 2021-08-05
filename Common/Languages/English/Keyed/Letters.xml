@@ -89,11 +89,11 @@
     <!-- Mass Revive -->
     <TKUtils.MassRevivalLetter.Title>Mass Revival</TKUtils.MassRevivalLetter.Title>
     <TKUtils.MassRevivalLetter.Description>Previously deceased pawns have been granted another chance at life.</TKUtils.MassRevivalLetter.Description>
-    
+
     <!-- Revive -->
     <TKUtils.RevivalLetter.Title>Pawn Revived</TKUtils.RevivalLetter.Title>
     <TKUtils.RevivalLetter.Description>{0} has been revived but is experiencing some side effects.</TKUtils.RevivalLetter.Description>
-    
+
     <!-- Leave -->
     <TKUtils.LeaveLetter.ThanosTitle>Colonist Vanished</TKUtils.LeaveLetter.ThanosTitle>
     <TKUtils.LeaveLetter.GenericTitle>Colonist Left</TKUtils.LeaveLetter.GenericTitle>

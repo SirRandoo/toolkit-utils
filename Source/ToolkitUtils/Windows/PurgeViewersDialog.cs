@@ -258,7 +258,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     continue;
                 }
 
-                constraints.Add(new NameConstraint {Username = viewer.username, NameStrategy = NameStrategies.Not});
+                constraints.Add(new NameConstraint { Username = viewer.username, NameStrategy = NameStrategies.Not });
                 affectedViewers = GetAffectedViewers();
                 affectedViewersCount = affectedViewers.Length;
             }

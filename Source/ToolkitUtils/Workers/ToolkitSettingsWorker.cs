@@ -109,7 +109,10 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             _tabWorker = new TabWorker();
             _tabWorker.AddTab(
-                _coinTabItem ??= new TabItem {ContentDrawer = DrawCoinSettings, Label = "TwitchToolkitCoins".Localize()}
+                _coinTabItem ??= new TabItem
+                {
+                    ContentDrawer = DrawCoinSettings, Label = "TwitchToolkitCoins".Localize()
+                }
             );
             _tabWorker.AddTab(
                 _cooldownTabItem ??= new TabItem
@@ -123,7 +126,9 @@ namespace SirRandoo.ToolkitUtils.Workers
                     ContentDrawer = DrawKarmaSettings, Label = "TwitchToolkitKarma".Localize()
                 }
             );
-            _tabWorker.AddTab(_patchesTabItem ??= new TabItem {ContentDrawer = DrawPatchesSettings, Label = "Patches"});
+            _tabWorker.AddTab(
+                _patchesTabItem ??= new TabItem { ContentDrawer = DrawPatchesSettings, Label = "Patches" }
+            );
             _tabWorker.AddTab(
                 _storeTabItem ??= new TabItem
                 {
@@ -131,7 +136,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 }
             );
             _tabWorker.AddTab(
-                _storytellerTabItem ??= new TabItem {ContentDrawer = DrawStorytellerSettings, Label = "Storyteller"}
+                _storytellerTabItem ??= new TabItem { ContentDrawer = DrawStorytellerSettings, Label = "Storyteller" }
             );
             _tabWorker.AddTab(
                 _viewerTabItem ??= new TabItem

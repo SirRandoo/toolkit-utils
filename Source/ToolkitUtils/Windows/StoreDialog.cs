@@ -513,7 +513,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 Data.Items.Add(latest);
-                worker.EnsureExists(new TableSettingsItem<ThingItem> {Data = latest});
+                worker.EnsureExists(new TableSettingsItem<ThingItem> { Data = latest });
             }
 
             worker.NotifySortRequested();
@@ -633,7 +633,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 ThingItem thingItem = Data.Items.Find(i => i.DefName.Equals(thing.defName))
-                                      ?? new ThingItem {Thing = thing};
+                                      ?? new ThingItem { Thing = thing };
 
                 try
                 {

@@ -96,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static int GetMaximumPurchaseAmount([NotNull] this Viewer viewer, int cost)
         {
-            return Mathf.FloorToInt(viewer.GetViewerCoins() / (float) cost);
+            return Mathf.FloorToInt(viewer.GetViewerCoins() / (float)cost);
         }
 
         public static void Charge([NotNull] this Viewer viewer, [NotNull] StoreIncident incident)
@@ -289,7 +289,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         [NotNull]
         public static ViewerState GetState([NotNull] this Viewer viewer)
         {
-            return new ViewerState {Coins = viewer.GetViewerCoins(), Karma = viewer.GetViewerKarma()};
+            return new ViewerState { Coins = viewer.GetViewerCoins(), Karma = viewer.GetViewerKarma() };
         }
     }
 }

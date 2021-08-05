@@ -4,7 +4,7 @@
     <TwitchToolkit.Command Name="ShortcutBase" Abstract="true">
         <commandDriver>TwitchToolkit.Commands.ViewerCommands.Buy</commandDriver>
     </TwitchToolkit.Command>
-    
+
     <!-- Shortcuts -->
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveAllShortcut</defName>
@@ -12,28 +12,28 @@
         <command>reviveall</command>
         <description>A colony wide resurrector mech serum.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveMeShortcut</defName>
         <label>revive me</label>
         <command>reviveme</command>
         <description>A personal resurrector mech serum.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealMeShortcut</defName>
         <label>heal me</label>
         <command>healme</command>
         <description>A personal healer mech serum.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealAllShortcut</defName>
         <label>healall</label>
         <command>healall</command>
         <description>A colony wide healer mech serum.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>PassionShuffleShortcut</defName>
         <label>passion shuffle</label>
@@ -50,7 +50,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>SurgeryShortcut</defName>
         <label>surgery</label>
@@ -72,35 +72,35 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>TraitShortcut</defName>
         <label>add trait</label>
         <command>trait</command>
         <description>Adds a trait for your pawn.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>RemoveTraitShortcut</defName>
         <label>remove trait</label>
         <command>removetrait</command>
         <description>Removes a trait from your pawn.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReviveAnyPawnShortcut</defName>
         <label>revive any pawn</label>
         <command>reviveanypawn</command>
         <description>A resurrector mech serum for a random deceased colonist.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>HealAnyPawnShortcut</defName>
         <label>heal any pawn</label>
         <command>healanypawn</command>
         <description>A healer mech serum for a random colonist.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>ReplaceTraitShortcut</defName>
         <label>replace trait</label>
@@ -119,7 +119,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>BackpackShortcut</defName>
         <label>backpack</label>
@@ -139,7 +139,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command ParentName="ShortcutBase">
         <defName>RemovePassionShortcut</defName>
         <label>remove passion</label>
@@ -185,7 +185,7 @@
         <command>rescueme</command>
         <description>Creates a prisoner rescue quest for your most recently kidnapped pawn.</description>
     </TwitchToolkit.Command>
-    
+
     <!-- Pawn Commands -->
     <TwitchToolkit.Command>
         <defName>MyPawnKills</defName>
@@ -194,7 +194,7 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnKills</commandDriver>
         <description>Shows your current kill count.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>MyPawnStats</defName>
         <label>viewer stats</label>
@@ -216,7 +216,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>MyPawnHealth</defName>
         <label>viewer health</label>
@@ -235,7 +235,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>MyPawnNeeds</defName>
         <label>viewer needs</label>
@@ -257,7 +257,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>MyPawnBody</defName>
         <label>viewer body</label>
@@ -265,7 +265,7 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnBody</commandDriver>
         <description>Shows an overview of your pawn's body.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>MyPawnWork</defName>
         <label>viewer work</label>
@@ -288,7 +288,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>MyPawnStory</defName>
         <label>viewer story</label>
@@ -296,7 +296,7 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnStory</commandDriver>
         <description>Shows your pawn's bio.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>MyPawnSkills</defName>
         <label>viewer skills</label>
@@ -304,7 +304,7 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnSkills</commandDriver>
         <description>Shows your pawn's current skills and their passions.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>FixMyPawn</defName>
         <label>fix viewer pawn</label>
@@ -312,7 +312,7 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnFix</commandDriver>
         <description>Attempts to relink your pawn to your. (Doesn't work for Puppeteer)</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>FixAllPawns</defName>
         <label>fix all pawns</label>
@@ -335,7 +335,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>PawnRelations</defName>
         <label>viewer relations</label>
@@ -354,7 +354,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <!-- Colony Commands -->
     <TwitchToolkit.Command>
         <defName>Factions</defName>
@@ -363,7 +363,7 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Factions</commandDriver>
         <description>Shows an overview of the colony's current faction relations.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>Research</defName>
         <label>research</label>
@@ -384,7 +384,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <!-- General Commands -->
     <TwitchToolkit.Command>
         <defName>Lookup</defName>
@@ -410,7 +410,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>PriceCheck</defName>
         <label>price check</label>
@@ -434,7 +434,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>UnstickAll</defName>
         <label>unstick</label>
@@ -443,7 +443,7 @@
         <requiresMod>true</requiresMod>
         <description>Removes viewers that were stuck in the "game paused" limbo.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>ToggleStore</defName>
         <label>toggle store</label>
@@ -452,7 +452,7 @@
         <requiresMod>true</requiresMod>
         <description>Toggles whether or not viewers can actively purchase things from the store.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>Insult</defName>
         <label>insult</label>
@@ -470,7 +470,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>Wealth</defName>
         <label>colony wealth</label>
@@ -478,7 +478,7 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.Wealth</commandDriver>
         <description>Shows the colony's current wealth. This command uses the same value the storyteller will use.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>ColonistCount</defName>
         <label>colonist count</label>
@@ -486,7 +486,7 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.ColonistCount</commandDriver>
         <description>Shows the current number of colonists remaining in the colony.</description>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>RimDatabase</defName>
         <label>database</label>
@@ -512,7 +512,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-    
+
     <TwitchToolkit.Command>
         <defName>UnstickMe</defName>
         <label>unstick me</label>

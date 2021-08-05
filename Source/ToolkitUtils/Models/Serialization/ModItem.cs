@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         public static ModItem FromMetadata([NotNull] ModMetaData mod)
         {
-            var item = new ModItem {Name = mod.Name};
+            var item = new ModItem { Name = mod.Name };
 
         #if RW12
             item.Author = mod.Author;
@@ -136,7 +136,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetInfoAssemblyVersion([NotNull] Assembly assembly, out string version)
         {
-            var attribute = (AssemblyInformationalVersionAttribute) Attribute.GetCustomAttribute(
+            var attribute = (AssemblyInformationalVersionAttribute)Attribute.GetCustomAttribute(
                 assembly,
                 typeof(AssemblyInformationalVersionAttribute),
                 false
@@ -155,7 +155,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetAssemblyFileVersion([NotNull] Assembly assembly, out string version)
         {
-            var attribute = (AssemblyFileVersionAttribute) Attribute.GetCustomAttribute(
+            var attribute = (AssemblyFileVersionAttribute)Attribute.GetCustomAttribute(
                 assembly,
                 typeof(AssemblyFileVersionAttribute),
                 false
@@ -174,7 +174,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetAssemblyVersion([NotNull] Assembly assembly, out string version)
         {
-            var attribute = (AssemblyVersionAttribute) Attribute.GetCustomAttribute(
+            var attribute = (AssemblyVersionAttribute)Attribute.GetCustomAttribute(
                 assembly,
                 typeof(AssemblyVersionAttribute),
                 false

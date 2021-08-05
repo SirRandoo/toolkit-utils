@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Patches
                .Add(
                     new FloatMenuOption(
                         "TKUtils.Fields.Class".Localize(),
-                        () => _method?.Invoke(__instance, new object[] {new ClassSelector()})
+                        () => _method?.Invoke(__instance, new object[] { new ClassSelector() })
                     )
                 );
         }

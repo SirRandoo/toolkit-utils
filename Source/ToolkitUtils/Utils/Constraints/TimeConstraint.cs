@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                .Select(
                     s => new FloatMenuOption(
                         $"TKUtils.PurgeMenu.{s}".Localize(),
-                        () => TimeScale = (TimeScales) Enum.Parse(typeof(TimeScales), s)
+                        () => TimeScale = (TimeScales)Enum.Parse(typeof(TimeScales), s)
                     )
                 )
                .ToList();
@@ -100,7 +100,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             switch (Comparison)
             {
                 case ComparisonTypes.Equal:
-                    return (int) span.TotalSeconds == seconds;
+                    return (int)span.TotalSeconds == seconds;
 
                 case ComparisonTypes.Greater:
                     return span.TotalSeconds > seconds;

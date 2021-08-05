@@ -91,7 +91,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void DoWindowContents(Rect inRect)
         {
-            var listing = new Listing_Standard {maxOneColumn = true};
+            var listing = new Listing_Standard { maxOneColumn = true };
             listing.Begin(inRect);
 
             (Rect titleRect, Rect buttonHeaderRect) =

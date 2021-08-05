@@ -116,7 +116,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (appointment.ThingDef.Minifiable)
             {
                 ThingDef minifiedDef = appointment.ThingDef.minifiedDef;
-                var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
+                var minifiedThing = (MinifiedThing)ThingMaker.MakeThing(minifiedDef);
                 minifiedThing.InnerThing = thing;
                 minifiedThing.stackCount = appointment.Quantity;
                 PurchaseHelper.SpawnItem(spot, map, minifiedThing);
@@ -164,7 +164,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             [NotNull]
             public static Appointment ParseInput(Pawn patient, [NotNull] string[] segments)
             {
-                var appointment = new Appointment {Patient = patient};
+                var appointment = new Appointment { Patient = patient };
                 appointment.ParseThingDef(segments.FirstOrFallback());
 
                 string multi = segments.Skip(1).FirstOrFallback();
@@ -260,7 +260,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             [NotNull]
             private IEnumerable<Bill_Medical> GenerateSurgeries()
             {
-                return BodyParts.Select(p => new Bill_Medical(Surgery) {Part = p});
+                return BodyParts.Select(p => new Bill_Medical(Surgery) { Part = p });
             }
 
             public void BookSurgeries()

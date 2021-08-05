@@ -96,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             HideDisabledWork(priorities);
 
             List<string> container = priorities.ToList()
-               .Select(priority => new {priority, p = pawn.workSettings.GetPriority(priority)})
+               .Select(priority => new { priority, p = pawn.workSettings.GetPriority(priority) })
                .Where(t => !TkSettings.FilterWorkPriorities || t.p > 0)
                .Select(
                     t => ResponseHelper.JoinPair(

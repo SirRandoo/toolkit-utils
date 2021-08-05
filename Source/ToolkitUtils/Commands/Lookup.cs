@@ -37,27 +37,27 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             Index = new Dictionary<string, string>
             {
-                {"item", "items"},
-                {"items", "items"},
-                {"incident", "events"},
-                {"incidents", "events"},
-                {"event", "events"},
-                {"events", "events"},
-                {"pawn", "kinds"},
-                {"pawns", "kinds"},
-                {"race", "kinds"},
-                {"races", "kinds"},
-                {"kinds", "kinds"},
-                {"kind", "kinds"},
-                {"pawnkinds", "kinds"},
-                {"disease", "diseases"},
-                {"diseases", "diseases"},
-                {"animal", "animals"},
-                {"animals", "animals"},
-                {"skill", "skills"},
-                {"skills", "skills"},
-                {"trait", "traits"},
-                {"traits", "traits"}
+                { "item", "items" },
+                { "items", "items" },
+                { "incident", "events" },
+                { "incidents", "events" },
+                { "event", "events" },
+                { "events", "events" },
+                { "pawn", "kinds" },
+                { "pawns", "kinds" },
+                { "race", "kinds" },
+                { "races", "kinds" },
+                { "kinds", "kinds" },
+                { "kind", "kinds" },
+                { "pawnkinds", "kinds" },
+                { "disease", "diseases" },
+                { "diseases", "diseases" },
+                { "animal", "animals" },
+                { "animals", "animals" },
+                { "skill", "skills" },
+                { "skills", "skills" },
+                { "trait", "traits" },
+                { "traits", "traits" }
             };
         }
 

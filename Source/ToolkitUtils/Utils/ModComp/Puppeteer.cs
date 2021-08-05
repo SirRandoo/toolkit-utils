@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             try
             {
                 object stateInstance = StateInstance.GetGetMethod().Invoke(State, new object[] { });
-                object puppet = PuppeteerForViewerName.Invoke(stateInstance, new object[] {viewer});
+                object puppet = PuppeteerForViewerName.Invoke(stateInstance, new object[] { viewer });
 
                 if (puppet == null || IsConnected.GetValue(puppet) is bool state && !state)
                 {
@@ -91,7 +91,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
                 object viewerId = ViewerId.GetValue(puppet);
                 object controllerInstance = ControllerInstance.GetValue(Controller);
-                SendChatMessage.Invoke(controllerInstance, new[] {viewerId, message});
+                SendChatMessage.Invoke(controllerInstance, new[] { viewerId, message });
             }
             catch (Exception e)
             {
@@ -112,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
 
             object stateInstance = StateInstance.GetGetMethod().Invoke(State, new object[] { });
-            object puppet = PuppeteerForViewerName.Invoke(stateInstance, new object[] {viewer});
+            object puppet = PuppeteerForViewerName.Invoke(stateInstance, new object[] { viewer });
 
             return puppet != null && IsConnected.GetValue(puppet) is bool state && state;
         }

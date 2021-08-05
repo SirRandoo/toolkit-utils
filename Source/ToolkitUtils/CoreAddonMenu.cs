@@ -66,8 +66,8 @@ namespace SirRandoo.ToolkitUtils
                 () => Task.Run(TwitchWrapper.StartAsync)
             );
 
-            ConnectedOptions = new List<FloatMenuOption>(baseOptions) {reconnectOption, disconnectOption};
-            DisconnectedOptions = new List<FloatMenuOption>(baseOptions) {connectOption};
+            ConnectedOptions = new List<FloatMenuOption>(baseOptions) { reconnectOption, disconnectOption };
+            DisconnectedOptions = new List<FloatMenuOption>(baseOptions) { connectOption };
         }
 
         public List<FloatMenuOption> MenuOptions()

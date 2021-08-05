@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using RestSharp;
 using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore;
-
 # if !RW12
 using JetBrains.Annotations;
 #endif

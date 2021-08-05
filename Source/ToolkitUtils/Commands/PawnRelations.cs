@@ -66,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     $"{theirOpinion.ToStringWithSign()} ({viewer.ToLowerInvariant()})"
                 };
 
-                msg.Reply(new[] {relationship, container.SectionJoin()}.GroupedJoin());
+                msg.Reply(new[] { relationship, container.SectionJoin() }.GroupedJoin());
                 return;
             }
 

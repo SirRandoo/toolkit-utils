@@ -39,8 +39,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             _newClassType ??= typeof(CommandEditorDialog);
             _oldClassType ??= typeof(Window_CommandEditor);
-            _newClassConstructor ??= typeof(CommandEditorDialog).GetConstructor(new[] {typeof(Command)});
-            _oldClassConstructor ??= typeof(Window_CommandEditor).GetConstructor(new[] {typeof(Command)});
+            _newClassConstructor ??= typeof(CommandEditorDialog).GetConstructor(new[] { typeof(Command) });
+            _oldClassConstructor ??= typeof(Window_CommandEditor).GetConstructor(new[] { typeof(Command) });
 
             return true;
         }

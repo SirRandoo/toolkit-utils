@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             data.SetViewerKarma(
-                Math.Max(data.karma - (int) Math.Ceiling(data.karma * 0.1), ToolkitSettings.KarmaMinimum)
+                Math.Max(data.karma - (int)Math.Ceiling(data.karma * 0.1), ToolkitSettings.KarmaMinimum)
             );
             pawn!.jobs.StartJob(job, JobCondition.InterruptForced);
         }

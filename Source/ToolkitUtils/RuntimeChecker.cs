@@ -26,7 +26,6 @@ using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
-
 #if DEBUG
 using System.Diagnostics;
 

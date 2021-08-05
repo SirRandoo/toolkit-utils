@@ -217,7 +217,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             var comp = Current.Game.GetComponent<Store_Component>();
             var coordinator = Current.Game.GetComponent<Coordinator>();
 
-            coordinator.QueueIncident(new IncidentProxy {SimpleIncident = inc});
+            coordinator.QueueIncident(new IncidentProxy { SimpleIncident = inc });
             comp.LogIncident(incident);
             Store_Logger.LogPurchase(viewer.username, twitchMessage.Message);
 
@@ -281,7 +281,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             var comp = Current.Game.GetComponent<Store_Component>();
             var coordinator = Current.Game.GetComponent<Coordinator>();
 
-            coordinator.QueueIncident(new IncidentProxy {VariablesIncident = inc});
+            coordinator.QueueIncident(new IncidentProxy { VariablesIncident = inc });
             Store_Logger.LogPurchase(viewer.username, twitchMessage.Message);
             comp.LogIncident(incident);
             return false;

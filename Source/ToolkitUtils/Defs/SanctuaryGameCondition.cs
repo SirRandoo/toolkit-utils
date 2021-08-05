@@ -40,7 +40,7 @@ namespace SirRandoo.ToolkitUtils
 
             foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder())
             {
-                if (!(pawn is {Dead: true}))
+                if (!(pawn is { Dead: true }))
                 {
                     continue;
                 }

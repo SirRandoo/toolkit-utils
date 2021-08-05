@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         public static CommandItem FromToolkit([NotNull] Command command)
         {
-            var result = new CommandItem {Name = command.LabelCap.RawText, Usage = $"!{command.command}"};
+            var result = new CommandItem { Name = command.LabelCap.RawText, Usage = $"!{command.command}" };
             result.PullFromExtension(command);
 
             if (command.requiresAdmin || command.requiresMod)
@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 result.UserLevel = UserLevels.Moderator;
             }
 
-            result.Data = new CommandData {IsShortcut = false, Mod = command.TryGetModName()};
+            result.Data = new CommandData { IsShortcut = false, Mod = command.TryGetModName() };
 
             return result;
         }

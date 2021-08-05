@@ -302,7 +302,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 if (confirmed)
                 {
                     ToolkitSettings.CustomCommandDefs.Remove(command.defName);
-                    RemoveMethod.Invoke(typeof(DefDatabase<Command>), new object[] {command});
+                    RemoveMethod.Invoke(typeof(DefDatabase<Command>), new object[] { command });
                 }
             }
 

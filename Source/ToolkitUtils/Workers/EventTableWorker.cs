@@ -407,7 +407,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             _data ??= new List<TableSettingsItem<EventItem>>();
             _data.AddRange(
-                ToolkitUtils.Data.Events.OrderBy(i => i.Name).Select(i => new TableSettingsItem<EventItem> {Data = i})
+                ToolkitUtils.Data.Events.OrderBy(i => i.Name).Select(i => new TableSettingsItem<EventItem> { Data = i })
             );
         }
 
@@ -448,7 +448,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (sortKey)
             {
                 case SortKey.KarmaType:
-                    _data = _data.OrderBy(i => (int) i.Data.KarmaType).ThenBy(i => i.Data.Name).ToList();
+                    _data = _data.OrderBy(i => (int)i.Data.KarmaType).ThenBy(i => i.Data.Name).ToList();
                     return;
                 case SortKey.Price:
                     _data = _data.OrderBy(i => i.Data.Cost).ThenBy(i => i.Data.Name).ToList();
@@ -464,7 +464,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (sortKey)
             {
                 case SortKey.KarmaType:
-                    _data = _data.OrderByDescending(i => (int) i.Data.KarmaType)
+                    _data = _data.OrderByDescending(i => (int)i.Data.KarmaType)
                        .ThenByDescending(i => i.Data.Name)
                        .ToList();
                     return;
@@ -540,11 +540,11 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var wasDirty = false;
             foreach (EventItem item in ToolkitUtils.Data.Events
-               .Select(item => new {item, existing = _data.Find(i => i.Data.Equals(item))})
+               .Select(item => new { item, existing = _data.Find(i => i.Data.Equals(item)) })
                .Where(t => t.existing == null)
                .Select(t => t.item))
             {
-                _data.Add(new TableSettingsItem<EventItem> {Data = item});
+                _data.Add(new TableSettingsItem<EventItem> { Data = item });
                 wasDirty = true;
             }
 

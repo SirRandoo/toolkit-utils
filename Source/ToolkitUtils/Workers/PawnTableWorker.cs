@@ -309,7 +309,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             _data ??= new List<TableSettingsItem<PawnKindItem>>();
             _data.AddRange(
                 ToolkitUtils.Data.PawnKinds.OrderBy(i => i.Name)
-                   .Select(i => new TableSettingsItem<PawnKindItem> {Data = i})
+                   .Select(i => new TableSettingsItem<PawnKindItem> { Data = i })
             );
         }
 
@@ -373,11 +373,11 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var wasDirty = false;
             foreach (PawnKindItem item in ToolkitUtils.Data.PawnKinds
-               .Select(item => new {item, existing = _data.Find(i => i.Data.Equals(item))})
+               .Select(item => new { item, existing = _data.Find(i => i.Data.Equals(item)) })
                .Where(t => t.existing == null)
                .Select(t => t.item))
             {
-                _data.Add(new TableSettingsItem<PawnKindItem> {Data = item});
+                _data.Add(new TableSettingsItem<PawnKindItem> { Data = item });
                 wasDirty = true;
             }
 

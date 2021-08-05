@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 yield break;
             }
 
-            string[] words = Unrichify.StripTags(message).Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            string[] words = Unrichify.StripTags(message).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var builder = new StringBuilder();
             var chars = 0;
 

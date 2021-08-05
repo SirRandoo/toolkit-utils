@@ -311,7 +311,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 if (Directory.Exists(path))
                 {
                     container.Add(
-                        new FileData<T> {Description = path, IsDirectory = true, Extension = "", Name = file}
+                        new FileData<T> { Description = path, IsDirectory = true, Extension = "", Name = file }
                     );
                     continue;
                 }
@@ -360,7 +360,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     loadCallback(selectedFile.PartialData);
                     break;
                 case InstanceType.Save when saveCallback != null:
-                    saveCallback(new PartialUgc {Description = fileDescription, Name = SanitizeFileName(fileName)});
+                    saveCallback(new PartialUgc { Description = fileDescription, Name = SanitizeFileName(fileName) });
                     break;
             }
 

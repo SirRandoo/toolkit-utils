@@ -44,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                .Select(
                     t => new FloatMenuOption(
                         $"TKUtils.PurgeMenu.{t}".Localize(),
-                        () => NameStrategy = (NameStrategies) Enum.Parse(typeof(NameStrategies), t)
+                        () => NameStrategy = (NameStrategies)Enum.Parse(typeof(NameStrategies), t)
                     )
                 )
                .ToList();

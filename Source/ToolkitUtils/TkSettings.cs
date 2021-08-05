@@ -277,7 +277,7 @@ namespace SirRandoo.ToolkitUtils
                .Select(
                     n => new TabEntry
                     {
-                        Label = $"TKUtils.{n}".Localize(), Category = (Categories) Enum.Parse(typeof(Categories), n)
+                        Label = $"TKUtils.{n}".Localize(), Category = (Categories)Enum.Parse(typeof(Categories), n)
                     }
                 )
                .ToArray();
@@ -561,7 +561,7 @@ namespace SirRandoo.ToolkitUtils
 
                 if (workSetting == null)
                 {
-                    workSetting = new WorkSetting {Enabled = true, WorkTypeDef = workType.defName};
+                    workSetting = new WorkSetting { Enabled = true, WorkTypeDef = workType.defName };
 
                     WorkSettings.Add(workSetting);
                 }
@@ -643,7 +643,7 @@ namespace SirRandoo.ToolkitUtils
                 d => !WorkSettings.Any(s => s.WorkTypeDef.EqualsIgnoreCase(d.defName))
             ))
             {
-                WorkSettings.Add(new WorkSetting {Enabled = true, WorkTypeDef = workType.defName});
+                WorkSettings.Add(new WorkSetting { Enabled = true, WorkTypeDef = workType.defName });
             }
         }
 

@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             if (CommandBase.GetOrFindPawn(username) is { } linkedPawn)
             {
-                return new KidnapReport {Viewer = username, PawnIds = new List<string> {linkedPawn.ThingID}};
+                return new KidnapReport { Viewer = username, PawnIds = new List<string> { linkedPawn.ThingID } };
             }
 
             if (Find.FactionManager == null || Find.FactionManager.AllFactionsListForReading.NullOrEmpty())
@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return null;
             }
 
-            var report = new KidnapReport {Viewer = username, PawnIds = new List<string>()};
+            var report = new KidnapReport { Viewer = username, PawnIds = new List<string>() };
             foreach (List<Pawn> kidnapped in Find.FactionManager.AllFactions.Select(
                 f => f.kidnapped?.KidnappedPawnsListForReading
             ))
@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Models
             Tale_DoublePawn currentTale = null;
             foreach (Tale_DoublePawn kidnapping in Find.TaleManager.AllTalesListForReading
                .Where(t => t.def == TaleDefOf.KidnappedColonist)
-               .Select(t => (Tale_DoublePawn) t)
+               .Select(t => (Tale_DoublePawn)t)
                .Where(t => PawnIds.Contains(t.secondPawnData.pawn.ThingID)))
             {
                 if (currentTale == null)

@@ -26,18 +26,18 @@
     <TKUtils.NameQueueTooltips.ViewerName>Click to populate the username field on the right with this name</TKUtils.NameQueueTooltips.ViewerName>
     <TKUtils.NameQueueTooltips.Unassigned>Click to assign</TKUtils.NameQueueTooltips.Unassigned>
     <TKUtils.NameQueueTooltips.Assigned>Click to unassign</TKUtils.NameQueueTooltips.Assigned>
-    
+
     <TKUtils.ItemTableTooltips.ToStackLimit>Set this item's quantity limit to the item's stack limit.</TKUtils.ItemTableTooltips.ToStackLimit>
     <TKUtils.ItemTableTooltips.EditItemName>Customize the name of this item.</TKUtils.ItemTableTooltips.EditItemName>
     <TKUtils.ItemTableTooltips.CloseItemName>Close the item name editor.</TKUtils.ItemTableTooltips.CloseItemName>
     <TKUtils.ItemTableTooltips.ResetItemName>Reset the item's name to its default value.</TKUtils.ItemTableTooltips.ResetItemName>
     <TKUtils.ItemTableTooltips.ResetItemKarma>Reset the item's karma type to its default value.</TKUtils.ItemTableTooltips.ResetItemKarma>
-    
+
     <TKUtils.TraitTableTooltips.EditTraitName>Customize the name of this trait.</TKUtils.TraitTableTooltips.EditTraitName>
     <TKUtils.TraitTableTooltips.CloseTraitName>Close the trait name editor.</TKUtils.TraitTableTooltips.CloseTraitName>
     <TKUtils.TraitTableTooltips.ResetTraitName>Reset the trait's name to its default value.</TKUtils.TraitTableTooltips.ResetTraitName>
     <TKUtils.TraitTableTooltips.ResetTraitKarma>Reset the trait's karma type to its default value.</TKUtils.TraitTableTooltips.ResetTraitKarma>
-    
+
     <TKUtils.EventTableTooltips.EditEventName>Customize the purchase code of this event.</TKUtils.EventTableTooltips.EditEventName>
     <TKUtils.EventTableTooltips.CloseEventName>Close the purchase code editor.</TKUtils.EventTableTooltips.CloseEventName>
     <TKUtils.EventTableTooltips.ResetEventName>Reset the event's purchase code to its default value.</TKUtils.EventTableTooltips.ResetEventName>

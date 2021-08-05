@@ -112,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
 
                 Type ext = Variables?.GetModExtension<EventExtension>()?.SettingsEmbed;
-                settingsEmbed = ext == null ? null : (IEventSettings) Activator.CreateInstance(ext);
+                settingsEmbed = ext == null ? null : (IEventSettings)Activator.CreateInstance(ext);
 
                 return settingsEmbed;
             }
@@ -121,7 +121,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "data")]
         public EventData EventData
         {
-            get => data ??= (EventData) Data;
+            get => data ??= (EventData)Data;
             set => Data = data = value;
         }
 
@@ -191,7 +191,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             return (IsVariables
                        ? Store_IncidentEditor.variableIncidentsBackup
-                       : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident) i))
+                       : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident)i))
                   .FirstOrDefault(i => i.defName.Equals(DefName))
                  ?.abbreviation
                    ?? Name;
@@ -201,7 +201,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             return (IsVariables
                        ? Store_IncidentEditor.variableIncidentsBackup
-                       : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident) i))
+                       : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident)i))
                   .FirstOrDefault(i => i.defName.Equals(DefName))
                  ?.cost
                    ?? 50;

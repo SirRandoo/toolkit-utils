@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
         public static readonly bool Active;
 
         private static readonly List<string> TraitDefs =
-            new List<string> {"Polyamorous", "Straight", "Gay", "Bisexual", "Asexual"};
+            new List<string> { "Polyamorous", "Straight", "Gay", "Bisexual", "Asexual" };
 
         static RationalRomance()
         {

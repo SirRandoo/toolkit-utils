@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (result == null)
             {
-                var category = new ThingItemFilterCategory {FilterType = type};
+                var category = new ThingItemFilterCategory { FilterType = type };
                 category.Filters.Add(filter);
                 filter.Category = category;
 

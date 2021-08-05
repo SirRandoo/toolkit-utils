@@ -167,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 if (Proxy.Thing.Thing.Minifiable)
                 {
                     ThingDef minifiedDef = Proxy.Thing.Thing.minifiedDef;
-                    var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
+                    var minifiedThing = (MinifiedThing)ThingMaker.MakeThing(minifiedDef);
                     minifiedThing.InnerThing = thing;
                     minifiedThing.stackCount = Quantity;
                     CarryOrSpawn(minifiedThing);

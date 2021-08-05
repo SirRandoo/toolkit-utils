@@ -370,7 +370,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             _data ??= new List<TableSettingsItem<TraitItem>>();
             _data.AddRange(
-                ToolkitUtils.Data.Traits.OrderBy(i => i.Name).Select(i => new TableSettingsItem<TraitItem> {Data = i})
+                ToolkitUtils.Data.Traits.OrderBy(i => i.Name).Select(i => new TableSettingsItem<TraitItem> { Data = i })
             );
         }
 
@@ -471,11 +471,11 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var wasDirty = false;
             foreach (TraitItem item in ToolkitUtils.Data.Traits
-               .Select(item => new {item, existing = _data.Find(i => i.Data.Equals(item))})
+               .Select(item => new { item, existing = _data.Find(i => i.Data.Equals(item)) })
                .Where(t => t.existing == null)
                .Select(t => t.item))
             {
-                _data.Add(new TableSettingsItem<TraitItem> {Data = item});
+                _data.Add(new TableSettingsItem<TraitItem> { Data = item });
                 wasDirty = true;
             }
 

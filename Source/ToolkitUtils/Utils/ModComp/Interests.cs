@@ -34,19 +34,19 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         private static readonly Dictionary<string, string> InterestIndex = new Dictionary<string, string>
         {
-            {"DMinorPassion", "🔥"},
-            {"DMajorPassion", "🔥🔥"},
-            {"DMinorAversion", "❄"},
-            {"DMajorAversion", "❄❄"},
-            {"DCompulsion", "🎲"},
-            {"DInvigorating", "☕"},
-            {"DInspiring", "💡"},
-            {"DStagnant", "🔒"},
-            {"DForgetful", "💭"},
-            {"DVocalHatred", "📢"},
-            {"DNaturalGenius", "🧠"},
-            {"DBored", "💤"},
-            {"DAllergic", "🤧"}
+            { "DMinorPassion", "🔥" },
+            { "DMajorPassion", "🔥🔥" },
+            { "DMinorAversion", "❄" },
+            { "DMajorAversion", "❄❄" },
+            { "DCompulsion", "🎲" },
+            { "DInvigorating", "☕" },
+            { "DInspiring", "💡" },
+            { "DStagnant", "🔒" },
+            { "DForgetful", "💭" },
+            { "DVocalHatred", "📢" },
+            { "DNaturalGenius", "🧠" },
+            { "DBored", "💤" },
+            { "DAllergic", "🤧" }
         };
 
         static Interests()
@@ -100,7 +100,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             try
             {
-                interest = UsableInterestList[(int) passionValue];
+                interest = UsableInterestList[(int)passionValue];
             }
             catch (Exception)
             {

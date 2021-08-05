@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         {
             return Find.ColonistBar.GetColonistsInOrder()
                .Where(p => p.Faction == Faction.OfPlayer)
-               .FirstOrDefault(c => ((NameTriple) c.Name)?.Nick.EqualsIgnoreCase(username) ?? false);
+               .FirstOrDefault(c => ((NameTriple)c.Name)?.Nick.EqualsIgnoreCase(username) ?? false);
         }
 
         [CanBeNull]

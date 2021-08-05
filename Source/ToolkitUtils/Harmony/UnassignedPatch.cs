@@ -44,7 +44,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
             _viewerComponentField = AccessTools.Field(typeof(Window_Viewers), "component");
             _renameAndRemoveMethod = AccessTools.Method(typeof(UnassignedPatch), "RenameAndRemove");
             _pawnHistoryField = AccessTools.Field(typeof(GameComponentPawns), "pawnHistory");
-            _pawnHistoryRemove = AccessTools.Method(typeof(Dictionary<string, Pawn>), "Remove", new[] {typeof(string)});
+            _pawnHistoryRemove = AccessTools.Method(
+                typeof(Dictionary<string, Pawn>),
+                "Remove",
+                new[] { typeof(string) }
+            );
 
             return true;
         }

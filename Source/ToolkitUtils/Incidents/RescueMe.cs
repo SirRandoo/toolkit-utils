@@ -53,7 +53,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (isKidnapped ?? false)
             {
-                report = new KidnapReport {Viewer = viewer.username, PawnIds = new List<string> {pawn.ThingID}};
+                report = new KidnapReport { Viewer = viewer.username, PawnIds = new List<string> { pawn.ThingID } };
                 return true;
             }
 
@@ -179,7 +179,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override string GetPostProcessedThreatLabel([NotNull] Site site, [NotNull] SitePart sitePart)
         {
             string str = base.GetPostProcessedThreatLabel(site, sitePart);
-            if (sitePart.things is {Any: true})
+            if (sitePart.things is { Any: true })
             {
                 str = str + ": " + sitePart.things[0].LabelShortCap;
             }
@@ -187,7 +187,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (site.HasWorldObjectTimeout)
             {
                 str +=
-                    $" ({"DurationLeft".Translate((NamedArgument) site.WorldObjectTimeoutTicksLeft.ToStringTicksToPeriod())})";
+                    $" ({"DurationLeft".Translate((NamedArgument)site.WorldObjectTimeoutTicksLeft.ToStringTicksToPeriod())})";
             }
 
             return str;

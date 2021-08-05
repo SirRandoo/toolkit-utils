@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Models
                         )
                        .SelectMany(i => i.recipeUsers)
                        .Distinct()
-                       .OrderBy(i => (int) i.techLevel)
+                       .OrderBy(i => (int)i.techLevel)
                        .FirstOrDefault();
 
                     productionIndexed = true;
@@ -101,7 +101,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "data")]
         public ItemData ItemData
         {
-            get => data ??= (ItemData) Data;
+            get => data ??= (ItemData)Data;
             set => Data = data = value;
         }
 
@@ -202,7 +202,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
             set
             {
-                data = (ItemData) value;
+                data = (ItemData)value;
 
                 if (Item?.defname != null)
                 {
