@@ -152,6 +152,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
+            if (item.TryGetError(out string error))
+            {
+                MessageHelper.ReplyToUser(invoker, error);
+                return;
+            }
+
             int price = item.Quality.HasValue
                 ? item.Thing!.GetItemPrice(item.Stuff, item.Quality.Value)
                 : item.Thing!.GetItemPrice(item.Stuff);
