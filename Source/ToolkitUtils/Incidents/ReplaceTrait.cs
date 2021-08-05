@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (TraitHelper.GetTotalTraits(pawn) > AddTraitSettings.maxTraits && WouldExceedLimit())
+            if (TraitHelper.GetTotalTraits(pawn) >= AddTraitSettings.maxTraits && WouldExceedLimit())
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,

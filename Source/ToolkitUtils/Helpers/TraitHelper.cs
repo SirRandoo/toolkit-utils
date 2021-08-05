@@ -223,7 +223,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 Trait trait = traits![index];
                 TraitItem item = Data.Traits.Find(t => t.TraitDef == trait.def && t.Degree == trait.Degree);
 
-                total += item?.TraitData?.CanBypassLimit == true ? 0 : 1;
+                if (item?.TraitData == null)
+                {
+                    total += 1;
+                }
+                else
+                {
+                    total += item.TraitData?.CanBypassLimit == true ? 0 : 1;
+                }
             }
 
             return total;
