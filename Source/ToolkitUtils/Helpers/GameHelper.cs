@@ -88,6 +88,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static bool GetDefaultUsability([NotNull] ThingDef thing)
         {
+            if (thing.tradeTags.NullOrEmpty())
+            {
+                return true;
+            }
+
             foreach (string tag in thing.tradeTags)
             {
                 if (tag.Equals("Artifact", StringComparison.InvariantCultureIgnoreCase))
@@ -126,14 +131,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (ResearchProjectDef project in thing.researchPrerequisites)
             {
-                var tier = (int) project.techLevel;
+                var tier = (int)project.techLevel;
 
                 if (tier <= 1)
                 {
                     continue;
                 }
 
-                rarity *= (float) (int) TechLevel.Neolithic / (int) project.techLevel;
+                rarity *= (float)(int)TechLevel.Neolithic / (int)project.techLevel;
 
                 if (project.TechprintCount > 0)
                 {
