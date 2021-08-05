@@ -108,6 +108,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (handler == null || item.Thing.ItemData?.IsUsable != true)
             {
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.Use.Unusable".LocalizeKeyed(item.Thing.Thing.label)
+                );
                 return false;
             }
 
