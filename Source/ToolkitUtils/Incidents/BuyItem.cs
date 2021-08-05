@@ -122,6 +122,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
     internal class PurchaseRequest
     {
+        private readonly List<Pawn> animalsForLetter = new List<Pawn>();
+        private bool sendAnimalLetter;
+
         public int Price =>
             (Proxy.Quality.HasValue
                 ? Proxy.Thing.GetItemPrice(Proxy.Stuff, Proxy.Quality.Value)
@@ -170,9 +173,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     request.KindDef = PawnKindDef.Named(Proxy.Thing.Thing.defName);
                     request.FixedGender = Proxy.Gender;
                     request.Faction = Faction.OfPlayer;
-                    coordinator.TrySpawnAnimal(Map, PawnGenerator.GeneratePawn(request));
+                    Pawn pawn = PawnGenerator.GeneratePawn(request);
+                    coordinator.TrySpawnAnimal(Map, pawn);
+
+                    animalsForLetter.Add(pawn);
                 }
 
+                sendAnimalLetter = true;
                 return;
             }
 
@@ -203,7 +210,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (Proxy.Thing.Thing.Minifiable)
             {
                 ThingDef minifiedDef = Proxy.Thing.Thing.minifiedDef;
-                var minifiedThing = (MinifiedThing) ThingMaker.MakeThing(minifiedDef);
+                var minifiedThing = (MinifiedThing)ThingMaker.MakeThing(minifiedDef);
                 minifiedThing.InnerThing = thing;
                 minifiedThing.stackCount = Quantity;
                 PurchaseHelper.SpawnItem(position, Map, minifiedThing);
@@ -267,6 +274,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
                         Quantity > 1 ? Proxy.Thing.Thing.label.Pluralize() : Proxy.Thing.Thing.label,
                         Price.ToString("N0")
                     )
+                );
+            }
+
+            if (sendAnimalLetter)
+            {
+                Find.LetterStack.ReceiveLetter(
+                    "TKUtils.ItemLetter.Animal".LocalizeKeyed(
+                        Quantity > 1
+                            ? Proxy.Thing.Thing.label.CapitalizeFirst().Pluralize()
+                            : Proxy.Thing.Thing.label.CapitalizeFirst()
+                    ),
+                    "LetterFarmAnimalsWanderIn".LocalizeKeyed(Proxy.Thing.Thing.label.Pluralize()),
+                    LetterDefOf.NeutralEvent,
+                    new LookTargets(animalsForLetter)
                 );
             }
         }
