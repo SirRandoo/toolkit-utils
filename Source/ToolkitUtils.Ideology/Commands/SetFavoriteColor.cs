@@ -50,6 +50,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             pawn.story.favoriteColor = color;
+            message.Reply("TKUtils.FavoriteColor.Complete".Localize());
         }
     }
 }

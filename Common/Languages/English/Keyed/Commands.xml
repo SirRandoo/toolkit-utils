@@ -113,4 +113,7 @@
     <!-- Unstick Me -->
     <TKUtils.UnstickMe.Complete>You've been removed from pause limbo.</TKUtils.UnstickMe.Complete>
     <TKUtils.UnstickMe.Queued>Your request is being processed.</TKUtils.UnstickMe.Queued>
+
+    <!-- Favorite Color -->
+    <TKUtils.FavoriteColor.Complete>Your favorite color was changed.</TKUtils.FavoriteColor.Complete>
 </LanguageData>
