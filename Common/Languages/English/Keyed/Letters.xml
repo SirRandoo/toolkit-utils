@@ -41,7 +41,7 @@
 
     <!-- Use -->
     <TKUtils.UseLetter.Title>Use</TKUtils.UseLetter.Title>
-    <TKUtils.UseLetter.Description>{0} used a(n) {1}</TKUtils.UseLetter.Description>
+    <TKUtils.UseLetter.Description>{0} used a(n) {1} {2} times</TKUtils.UseLetter.Description>
 
     <!-- Wear -->
     <TKUtils.WearLetter.Title>Wear</TKUtils.WearLetter.Title>

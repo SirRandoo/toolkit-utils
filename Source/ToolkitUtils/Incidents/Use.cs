@@ -138,7 +138,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             try
             {
-                handler.Use(pawn, buyableItem.Thing);
+                for (var _ = 0; _ < amount; _++)
+                {
+                    handler.Use(pawn, buyableItem.Thing);
+                }
             }
             catch (Exception e)
             {
@@ -150,6 +153,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Viewer.username,
                 "TKUtils.Use.Complete".LocalizeKeyed(
                     thing.LabelCap ?? thing.def.defName,
+                    amount.ToString("N0"),
                     buyableItem.Cost.ToString("N0")
                 )
             );
@@ -162,7 +166,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.UseLetter.Title".Localize(),
-                "TKUtils.UseLetter.Description".LocalizeKeyed(Viewer.username, thing.LabelCap ?? thing.def.defName),
+                "TKUtils.UseLetter.Description".LocalizeKeyed(
+                    Viewer.username,
+                    thing.LabelCap ?? thing.def.defName,
+                    amount.ToString("N0")
+                ),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
