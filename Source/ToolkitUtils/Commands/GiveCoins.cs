@@ -14,11 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System;
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
@@ -40,21 +38,21 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            UserData gifterData = UserRegistry.GetData(message.Username);
-            UserData gifteeData = UserRegistry.GetData(viewer.username);
+            // UserData gifterData = UserRegistry.GetData(message.Username);
+            // UserData gifteeData = UserRegistry.GetData(viewer.username);
 
-            if (gifterData?.IsModerator == true && gifteeData?.IsModerator == true && gifterData.IsBroadcaster != true)
-            {
-                message.Reply("TKUtils.GiveCoins.Moderators".Localize());
-                return;
-            }
-
-            if (message.Username.StartsWith(viewer.username, StringComparison.InvariantCultureIgnoreCase)
-                || viewer.username.StartsWith(message.Username, StringComparison.InvariantCultureIgnoreCase))
-            {
-                message.Reply("TKUtils.GiveCoins.Alts".Localize());
-                return;
-            }
+            // if (gifterData?.IsModerator == true && gifteeData?.IsModerator == true && gifterData.IsBroadcaster != true)
+            // {
+            //     message.Reply("TKUtils.GiveCoins.Moderators".Localize());
+            //     return;
+            // }
+            //
+            // if (message.Username.StartsWith(viewer.username, StringComparison.InvariantCultureIgnoreCase)
+            //     || viewer.username.StartsWith(message.Username, StringComparison.InvariantCultureIgnoreCase))
+            // {
+            //     message.Reply("TKUtils.GiveCoins.Alts".Localize());
+            //     return;
+            // }
 
             viewer.GiveViewerCoins(amount);
             Store_Logger.LogGiveCoins(message.Username, viewer.username, amount);
