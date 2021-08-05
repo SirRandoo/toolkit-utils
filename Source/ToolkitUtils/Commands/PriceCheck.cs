@@ -163,7 +163,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 : item.Thing!.GetItemPrice(item.Stuff);
             NotifyLookupComplete(
                 "TKUtils.Price.Limited".LocalizeKeyed(
-                    item.Thing.Name.CapitalizeFirst(),
+                    item.AsString().CapitalizeFirst(),
                     (price * quantity).ToString("N0")
                 )
             );
