@@ -490,7 +490,15 @@ namespace SirRandoo.ToolkitUtils
                .Select(i => DefDatabase<ThingDef>.GetNamed(i)))
             {
                 ModContentPack contentPack = item.modContentPack;
-                var data = new ItemData { Version = 2, QuantityLimit = -1, IsStuffAllowed = true };
+                var data = new ItemData
+                {
+                    Version = Models.ItemData.CurrentVersion,
+                    QuantityLimit = -1,
+                    IsStuffAllowed = true,
+                    IsUsable = GameHelper.GetDefaultUsability(item),
+                    IsWearable = true,
+                    IsEquippable = true
+                };
 
                 if (contentPack != null)
                 {
