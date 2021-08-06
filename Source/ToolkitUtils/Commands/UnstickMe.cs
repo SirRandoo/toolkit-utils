@@ -34,7 +34,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             Current.Game?.GetComponent<Coordinator>()?.NotifySolventRequested(msg.Username.ToLower());
-            msg.Reply("TKUtils.UnstickMe.Queued".Localize());
+
+            if (Find.TickManager?.Paused != false)
+            {
+                msg.Reply("TKUtils.UnstickMe.Queued".Localize());
+            }
         }
     }
 }
