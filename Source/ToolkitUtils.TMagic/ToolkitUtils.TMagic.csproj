@@ -41,11 +41,19 @@
         <DefineConstants>TRACE;RW13</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="0JecsTools, Version=1.3.0.2, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="0JecsTools, Version=1.1.2.3, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW12'))">
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.2\Assemblies\0JecsTools.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="0JecsTools, Version=1.3.0.2, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW13'))">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.3\Assemblies\0JecsTools.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="AbilityUser, Version=1.3.0.2, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="AbilityUser, Version=1.1.2.3, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW12'))">
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.2\Assemblies\AbilityUser.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="AbilityUser, Version=1.3.0.2, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW13'))">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.3\Assemblies\AbilityUser.dll</HintPath>
             <Private>False</Private>
         </Reference>
