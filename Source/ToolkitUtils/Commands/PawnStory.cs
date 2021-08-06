@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     break;
             }
 
-            parts.Add(pawn.ageTracker.AgeNumberString);
+            parts.Add("AgeIndicator".LocalizeKeyed(pawn.ageTracker.AgeNumberString).CapitalizeFirst());
 
             WorkTags workTags = pawn.story.DisabledWorkTagsBackstoryAndTraits;
 
