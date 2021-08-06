@@ -48,7 +48,7 @@
 
     <!-- Random Inspire -->
     <TKUtils.RandomInspire.None>Nobody could be found to inspire.</TKUtils.RandomInspire.None>
-    <TKUtils.RandomInspire.Complete>{0} was received a {1} inspiration.</TKUtils.RandomInspire.Complete>
+    <TKUtils.RandomInspire.Complete>{0} received a {1} inspiration.</TKUtils.RandomInspire.Complete>
 
     <!-- Adulthood -->
     <TKUtils.Adulthood.Complete>Your pawn's adulthood was changed to {0}.</TKUtils.Adulthood.Complete>
