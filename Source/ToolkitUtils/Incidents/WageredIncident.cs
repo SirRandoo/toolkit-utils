@@ -266,7 +266,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             MessageHelper.ReplyToUser(
                 Viewer.username,
-                "TKUtils.FailedParms".Localize(storeIncident.label ?? storeIncident.defName)
+                "TKUtils.FailedParms".LocalizeKeyed(storeIncident.label ?? storeIncident.defName)
             );
         }
     }
