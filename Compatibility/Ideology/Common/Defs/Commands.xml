@@ -8,4 +8,12 @@
         <command>setfavoritecolor</command>
         <commandDriver>SirRandoo.ToolkitUtils.Commands.SetFavoriteColor</commandDriver>
     </TwitchToolkit.Command>
+
+    <TwitchToolkit.Command>
+        <defName>SetFavouriteColour</defName>
+        <label>set favourite colour</label>
+        <description>Sets the user's pawn's favourite colour to the colour specified. The colour can be a name or a hex code.</description>
+        <command>setfavouritecolour</command>
+        <commandDriver>SirRadnoo.ToolkitUtils.Commands.SetFavoriteColor</commandDriver>
+    </TwitchToolkit.Command>
 </Defs>
