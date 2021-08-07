@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        buyableItem.Cost.ToString("N0"),
+                        (buyableItem.Cost * amount).ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
                 );
