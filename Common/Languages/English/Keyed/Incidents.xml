@@ -67,7 +67,7 @@
     <TKUtils.Equip.Spawned>Your pawn couldn't equip "{0}", so it was spawned for {1} coins instead.</TKUtils.Equip.Spawned>
 
     <!-- Use -->
-    <TKUtils.Use.Complete>Your pawn used a(n) {0} {1} times for {2} coins.</TKUtils.Use.Complete>
+    <TKUtils.Use.Complete>Your pawn used a(n) {0} {1} time(s) for {2} coins.</TKUtils.Use.Complete>
     <TKUtils.Use.Unusable>The item "{0}" can't be used by your pawn.</TKUtils.Use.Unusable>
 
     <!-- Wear -->
