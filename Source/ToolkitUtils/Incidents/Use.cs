@@ -156,7 +156,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
 
             Viewer.Charge(
-                buyableItem.Cost,
+                buyableItem.Cost * amount,
                 buyableItem.ItemData?.Weight ?? 1f,
                 buyableItem.ItemData?.KarmaTypeForUsing ?? storeIncident.karmaType
             );
