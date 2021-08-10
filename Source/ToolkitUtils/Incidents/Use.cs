@@ -151,7 +151,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 "TKUtils.Use.Complete".LocalizeKeyed(
                     thing.LabelCap ?? thing.def.defName,
                     amount.ToString("N0"),
-                    buyableItem.Cost.ToString("N0")
+                    (buyableItem.Cost * amount).ToString("N0")
                 )
             );
 
