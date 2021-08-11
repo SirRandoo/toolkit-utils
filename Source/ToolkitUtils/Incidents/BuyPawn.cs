@@ -125,6 +125,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
                 Current.Game.GetComponent<GameComponentPawns>().AssignUserToPawn(Viewer.username, pawn);
 
+                if (Basket.TryGetEggFor(Viewer.username, out IEasterEgg egg)
+                    && Rand.Chance(egg.Chance)
+                    && egg.IsPossible(storeIncident, Viewer))
+                {
+                    egg.Execute(Viewer, pawn);
+                }
+
                 Viewer.Charge(pawnKindItem.Cost, pawnKindItem.Data?.KarmaType ?? storeIncident.karmaType);
                 MessageHelper.SendConfirmation(Viewer.username, "TKUtils.BuyPawn.Confirmation".Localize());
             }

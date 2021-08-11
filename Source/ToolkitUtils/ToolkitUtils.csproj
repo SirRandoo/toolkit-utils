@@ -53,6 +53,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Basket.cs"/>
         <Compile Include="CommandSettings\Balance.cs"/>
         <Compile Include="CommandSettings\InstalledMods.cs"/>
         <Compile Include="CommandSettings\Lookup.cs"/>
@@ -195,6 +196,7 @@
         <Compile Include="Incidents\Weather.cs"/>
         <Compile Include="Interfaces\ICommandSettings.cs"/>
         <Compile Include="Interfaces\IConfigurableTableItem.cs"/>
+        <Compile Include="Interfaces\IEasterEgg.cs"/>
         <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IHealHandler.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>
@@ -305,6 +307,11 @@
         <Compile Include="ToolkitAddonMenu.cs"/>
         <Compile Include="UserRegistry.cs"/>
         <Compile Include="UtilsAddonMenu.cs"/>
+        <Compile Include="Utils\Basket\CodedEgg.cs"/>
+        <Compile Include="Utils\Basket\CrystallizedEgg.cs"/>
+        <Compile Include="Utils\Basket\EasterEgg.cs"/>
+        <Compile Include="Utils\Basket\MechanicalEgg.cs"/>
+        <Compile Include="Utils\Basket\MerlEgg.cs"/>
         <Compile Include="Utils\CommandBase.cs"/>
         <Compile Include="Utils\CommandParser.cs"/>
         <Compile Include="Utils\Constraints\BannedConstraint.cs"/>
