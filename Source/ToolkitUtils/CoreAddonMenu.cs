@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -52,7 +53,18 @@ namespace SirRandoo.ToolkitUtils
                 () => Task.Run(
                     () =>
                     {
-                        TwitchWrapper.Client.Disconnect();
+                        try
+                        {
+                            TwitchWrapper.Client.Disconnect();
+                        }
+                        catch (Exception e)
+                        {
+                            LogHelper.Error(
+                                "Encountered an error while disconnected from Twitch -- You can probably ignore this.",
+                                e
+                            );
+                        }
+
                         TwitchWrapper.StartAsync();
                     }
                 )
