@@ -103,6 +103,11 @@ namespace SirRandoo.ToolkitUtils
 
         public override void TickLong()
         {
+            if (!TkSettings.EasterEggs)
+            {
+                return;
+            }
+
             bool shouldSpawnRat = Rand.Chance(0.01f);
             bool shouldSpawnBoomRat = Rand.Chance(0.1f);
 

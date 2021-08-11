@@ -95,6 +95,7 @@ namespace SirRandoo.ToolkitUtils
         private static Vector2 _workScrollPos = Vector2.zero;
         private static Vector2 _commandTweaksPos = Vector2.zero;
         private static Vector2 _dataScrollPos = Vector2.zero;
+        public static bool EasterEggs = true;
 
         static TkSettings()
         {
@@ -404,6 +405,10 @@ namespace SirRandoo.ToolkitUtils
             listing.CheckboxLabeled("TKUtils.GatewayPuff.Label".Localize(), ref GatewayPuff);
             listing.DrawDescription("TKUtils.GatewayPuff.Description".Localize());
 
+            listing.DrawGroupHeader("TKUtils.General.Basket".Localize());
+            listing.CheckboxLabeled("TKUtils.EasterEggs.Label".Localize(), ref EasterEggs);
+            listing.DrawDescription("TKUtils.EasterEggs.Description".Localize());
+
             listing.End();
         }
 
@@ -624,6 +629,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref Puppeteer, "puppeteer");
             Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
             Scribe_Values.Look(ref GatewayPuff, "gatewayPuff", true);
+            Scribe_Values.Look(ref EasterEggs, "easterEggs", true);
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
         }

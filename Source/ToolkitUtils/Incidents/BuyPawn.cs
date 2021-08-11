@@ -125,7 +125,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
                 Current.Game.GetComponent<GameComponentPawns>().AssignUserToPawn(Viewer.username, pawn);
 
-                if (Basket.TryGetEggFor(Viewer.username, out IEasterEgg egg)
+                if (TkSettings.EasterEggs
+                    && Basket.TryGetEggFor(Viewer.username, out IEasterEgg egg)
                     && Rand.Chance(egg.Chance)
                     && egg.IsPossible(storeIncident, Viewer))
                 {

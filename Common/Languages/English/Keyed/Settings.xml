@@ -24,6 +24,7 @@
     <TKUtils.General.Emojis>Emojis</TKUtils.General.Emojis>
     <TKUtils.General.Viewer>Viewer Pawn Tweaks</TKUtils.General.Viewer>
     <TKUtils.General.Gateway>Toolkit Gateway</TKUtils.General.Gateway>
+    <TKUtils.General.Basket>Easter Eggs</TKUtils.General.Basket>
 
     <TKUtils.Data>Data</TKUtils.Data>
     <TKUtils.Data.LazyProcess>Item Store Processing</TKUtils.Data.LazyProcess>
@@ -68,6 +69,10 @@
     <!-- Gateway Group -->
     <TKUtils.GatewayPuff.Label>Create a small puff of smoke when something exits the gateway.</TKUtils.GatewayPuff.Label>
     <TKUtils.GatewayPuff.Description>If enabled, a puff of smoke will appear in-front of any new item stack when they appear out of the gateway.</TKUtils.GatewayPuff.Description>
+
+    <!-- Basket Group -->
+    <TKUtils.EasterEggs.Label>Easter eggs</TKUtils.EasterEggs.Label>
+    <TKUtils.EasterEggs.Description>If enabled, the mod will occasionally do certain actions when certain criteria are met. You probably already know what one of those actions are if you used the gateway before.</TKUtils.EasterEggs.Description>
 
 
     <!-- Data Tab -->
