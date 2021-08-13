@@ -54,6 +54,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 pawn.story.SkinColor,
                 pawn.ageTracker.AgeBiologicalYears
             );
+
+            if (pawn.style.HasUnwantedBeard)
+            {
+                pawn.style.beardDef = BeardDefOf.NoBeard;
+                pawn.style.Notify_StyleItemChanged();
+            }
+
             pawn.story.hairDef = PawnStyleItemChooser.RandomHairFor(pawn);
             pawn.story.bodyType = pawn.story.adulthood == null
                 ? Rand.Value >= 0.5 ? pawn.gender != Gender.Female ? BodyTypeDefOf.Male : BodyTypeDefOf.Female :
