@@ -648,11 +648,18 @@ namespace SirRandoo.ToolkitUtils.Workers
             [NotNull]
             public string AsString(bool plural = false)
             {
-                string name = plural ? Thing.Name.Pluralize() : Thing.Name;
+                string name = (Thing.Thing?.label ?? Thing.Name).ToLowerInvariant();
+                string stuff = (Stuff.Thing?.LabelAsStuff ?? Stuff.Name).ToLowerInvariant();
+
+                if (plural)
+                {
+                    name = name.Pluralize();
+                }
+
 
                 return (Quality.HasValue
-                    ? $"{Stuff?.Name} {name} ({Unrichify.StripTags(Quality.Value.ToString())})"
-                    : $"{Stuff?.Name} {name}").Trim();
+                    ? $"{stuff} {name} ({Unrichify.StripTags(Quality.Value.ToString().ToLowerInvariant())})"
+                    : $"{stuff} {name}").Trim();
             }
 
             public bool TryGetError([CanBeNull] out string error)
