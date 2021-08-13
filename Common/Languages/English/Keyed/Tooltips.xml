@@ -26,6 +26,9 @@
     <TKUtils.NameQueueTooltips.ViewerName>Click to populate the username field on the right with this name</TKUtils.NameQueueTooltips.ViewerName>
     <TKUtils.NameQueueTooltips.Unassigned>Click to assign</TKUtils.NameQueueTooltips.Unassigned>
     <TKUtils.NameQueueTooltips.Assigned>Click to unassign</TKUtils.NameQueueTooltips.Assigned>
+    <TKUtils.NameQueueTooltips.Ban>Click to ban this viewer from Twitch Toolkit</TKUtils.NameQueueTooltips.Ban>
+    <TKUtils.NameQueueTooltips.Configure>Click to open this viewer's user data in a separate dialog</TKUtils.NameQueueTooltips.Configure>
+    <TKUtils.NameQueueTooltips.Remove>Click to remove this viewer from the name queue</TKUtils.NameQueueTooltips.Remove>
 
     <TKUtils.ItemTableTooltips.ToStackLimit>Set this item's quantity limit to the item's stack limit.</TKUtils.ItemTableTooltips.ToStackLimit>
     <TKUtils.ItemTableTooltips.EditItemName>Customize the name of this item.</TKUtils.ItemTableTooltips.EditItemName>

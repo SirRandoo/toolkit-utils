@@ -38,6 +38,8 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string assignedTooltip;
         private string assignedToText;
         private float assignedToTextWidth;
+        private string banViewerTooltip;
+        private string configureViewerTooltip;
         private string countText;
         private Pawn current;
 
@@ -51,6 +53,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string pawnTooltip;
         private string previousTooltip;
         private string randomTooltip;
+        private string removeViewerTooltip;
         private Vector2 scrollPos = Vector2.zero;
         private float timestamp;
 
@@ -99,6 +102,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             notifyText = "TKUtils.Buttons.Notify".Localize();
             notSeenText = "TKUtils.NameQueue.NotSeen".Localize();
             viewerDrawnText = "TKUtils.ViewerDrawn".Localize();
+            banViewerTooltip = "TKUtils.NameQueueTooltips.Ban".Localize();
+            removeViewerTooltip = "TKUtils.NameQueueTooltips.Remove".Localize();
+            configureViewerTooltip = "TKUtils.NameQueueTooltips.Configure".Localize();
 
             applyTextWidth = Text.CalcSize(applyText).x + 16f;
             notifyTextWidth = Text.CalcSize(notifyText).x + 16f;
@@ -324,6 +330,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 OpenViewerDetailsFor(name);
             }
 
+            buttonTemplateRect.TipRegion(configureViewerTooltip);
             buttonTemplateRect = buttonTemplateRect.ShiftRight(0f);
 
             var remove = false;
@@ -333,11 +340,15 @@ namespace SirRandoo.ToolkitUtils.Windows
                 remove = true;
             }
 
+            buttonTemplateRect.TipRegion(banViewerTooltip);
+
             buttonTemplateRect = buttonTemplateRect.ShiftRight(0f);
             if (Widgets.ButtonImage(buttonTemplateRect, Widgets.CheckboxOffTex))
             {
                 remove = true;
             }
+
+            buttonTemplateRect.TipRegion(removeViewerTooltip);
 
             if (remove)
             {
