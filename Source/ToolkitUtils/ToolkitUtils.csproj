@@ -207,6 +207,8 @@
         <Compile Include="Interfaces\ITableItem.cs"/>
         <Compile Include="Interfaces\ISurgeryHandler.cs"/>
         <Compile Include="Interfaces\IUsabilityHandler.cs"/>
+        <Compile Include="Models\CommandRecord.cs"/>
+        <Compile Include="Models\EventRecord.cs"/>
         <Compile Include="Models\Mutators\UsableMutator.cs"/>
         <Compile Include="Models\Mutators\EquippableMutator.cs"/>
         <Compile Include="Models\HealHandlers\DefaultHealHandler.cs"/>

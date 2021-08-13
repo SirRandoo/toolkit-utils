@@ -31,6 +31,10 @@ namespace SirRandoo.ToolkitUtils.Models
     public class EventData : IShopDataBase
     {
         public EventTypes EventType { get; set; }
+        public bool HasGlobalCooldown { get; set; }
+        public bool HasLocalCooldown { get; set; }
+        public int GlobalCooldown { get; set; }
+        public int LocalCooldown { get; set; }
         public string Mod { get; set; }
 
         [IgnoreDataMember]
