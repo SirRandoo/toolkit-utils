@@ -72,7 +72,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             foreach ((string key, string value) in rawChanges)
             {
-                WorkTypeDef workTypeDef = priorities.FirstOrDefault(w => w.label.EqualsIgnoreCase(key));
+                WorkTypeDef workTypeDef = priorities.FirstOrDefault(
+                    w => w.label.EqualsIgnoreCase(key) || w.defName.EqualsIgnoreCase(key)
+                );
 
                 if (workTypeDef == null || !int.TryParse(value, out int parsed))
                 {
