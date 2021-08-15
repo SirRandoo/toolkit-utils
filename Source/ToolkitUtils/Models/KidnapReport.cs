@@ -58,6 +58,14 @@ namespace SirRandoo.ToolkitUtils.Models
                 );
             }
 
+            foreach (Pawn pawn in Find.WorldPawns.AllPawnsAlive)
+            {
+                if (pawn.GuestStatus == GuestStatus.Prisoner && pawn.HomeFaction == Faction.OfPlayer)
+                {
+                    report.PawnIds.Add(pawn.ThingID);
+                }
+            }
+
             return report;
         }
 
@@ -89,7 +97,22 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
             }
 
-            return currentTale?.secondPawnData.pawn;
+            if (currentTale != null)
+            {
+                return currentTale.secondPawnData.pawn;
+            }
+
+            foreach (Pawn pawn in Find.WorldPawns.AllPawnsAlive)
+            {
+                if (!PawnIds.Contains(pawn.ThingID))
+                {
+                    continue;
+                }
+
+                return pawn;
+            }
+
+            return null;
         }
     }
 }
