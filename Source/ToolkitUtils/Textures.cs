@@ -57,6 +57,9 @@ namespace SirRandoo.ToolkitUtils
         public static readonly Texture2D CloseGateway;
         public static readonly Texture2D Snowman;
         public static readonly Texture2D HumanMeat;
+        public static readonly Texture2D Info;
+        public static readonly Texture2D Warning;
+        public static readonly Texture2D Debug;
 
         static Textures()
         {
@@ -89,6 +92,9 @@ namespace SirRandoo.ToolkitUtils
             PasteSettings = ContentFinder<Texture2D>.Get("UI/Commands/PasteSettings");
             CloseGateway = ContentFinder<Texture2D>.Get("UI/Icons/CloseGateway");
             Snowman = ContentFinder<Texture2D>.Get("Things/Building/Art/Snowman/Snowman_D");
+            Debug = ContentFinder<Texture2D>.Get("UI/Icons/Debug");
+            Warning = ContentFinder<Texture2D>.Get("UI/Icons/Warning");
+            Info = ContentFinder<Texture2D>.Get("UI/Icons/Info");
 
             DiceSides = new List<Texture2D>
             {

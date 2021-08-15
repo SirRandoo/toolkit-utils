@@ -79,4 +79,10 @@
     <TKUtils.CommandEditor.UserLevel.Anyone>Anyone</TKUtils.CommandEditor.UserLevel.Anyone>
     <TKUtils.CommandEditor.UserLevel.Moderator>Moderator</TKUtils.CommandEditor.UserLevel.Moderator>
     <TKUtils.CommandEditor.UserLevel.Admin>Admin</TKUtils.CommandEditor.UserLevel.Admin>
+
+
+    <!-- Main Tab -->
+    <TKUtils.MainTab.HealthReport>Health Report</TKUtils.MainTab.HealthReport>
+    <TKUtils.MainTab.QuickActions>Quick Actions</TKUtils.MainTab.QuickActions>
+    <TKUtils.MainTab.NoHealthReports>Nothing to report</TKUtils.MainTab.NoHealthReports>
 </LanguageData>

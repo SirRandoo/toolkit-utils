@@ -94,6 +94,8 @@
         <Compile Include="Compat\MagicCompat.cs"/>
         <Compile Include="Coordinator.cs"/>
         <Compile Include="CoreAddonMenu.cs"/>
+        <Compile Include="CoreMainTab.cs"/>
+        <Compile Include="CoreWorkerTab.cs"/>
         <Compile Include="Defs\CommandDefOf.cs"/>
         <Compile Include="Defs\CommandExtension.cs"/>
         <Compile Include="Defs\EventExtension.cs"/>
@@ -209,6 +211,7 @@
         <Compile Include="Interfaces\IUsabilityHandler.cs"/>
         <Compile Include="Models\CommandRecord.cs"/>
         <Compile Include="Models\EventRecord.cs"/>
+        <Compile Include="Models\HealthReport.cs"/>
         <Compile Include="Models\Mutators\UsableMutator.cs"/>
         <Compile Include="Models\Mutators\EquippableMutator.cs"/>
         <Compile Include="Models\HealHandlers\DefaultHealHandler.cs"/>

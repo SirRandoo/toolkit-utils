@@ -65,4 +65,7 @@
     <TKUtils.Fields.Manufactured>Is manufacturable?</TKUtils.Fields.Manufactured>
     <TKUtils.Fields.Command>Command identifier</TKUtils.Fields.Command>
     <TKUtils.Fields.UserLevel>User level</TKUtils.Fields.UserLevel>
+    <TKUtils.Fields.Seconds>second(s)</TKUtils.Fields.Seconds>
+    <TKUtils.Fields.Minutes>minute(s)</TKUtils.Fields.Minutes>
+    <TKUtils.Fields.Hours>hour(s)</TKUtils.Fields.Hours>
 </LanguageData>
