@@ -22,6 +22,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Ionic.Zlib;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -68,15 +69,12 @@ namespace SirRandoo.ToolkitUtils
            .Select(i => (ComparisonTypes)Enum.Parse(typeof(ComparisonTypes), i))
            .ToList();
 
+        public static readonly List<HealthReport> HealthReports = new List<HealthReport>();
+
         static Data()
         {
             LoadShopData();
-
-            if (ItemData == null || ItemData.Count <= 0)
-            {
-                LoadItemData(Paths.ItemDataFilePath);
-            }
-
+            LoadItemData(Paths.ItemDataFilePath);
             ValidateModList();
             ValidateItems();
             ValidateItemData();
@@ -212,6 +210,35 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
+        internal static async Task<T> LoadCompressedJsonAsync<T>(string path, bool ignoreErrors = false) where T : class
+        {
+            if (!File.Exists(path) && !ignoreErrors)
+            {
+                LogHelper.Warn($"Could not load file at {path} -- Does not exist!");
+                return null;
+            }
+
+            try
+            {
+                using (FileStream file = File.Open(path, FileMode.Open, FileAccess.Read))
+                {
+                    using (var zipStream = new GZipStream(file, CompressionMode.Decompress))
+                    {
+                        return await JsonSerializer.DeserializeAsync<T>(zipStream);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                if (!ignoreErrors)
+                {
+                    LogHelper.Error($"Could not load file at {path}", e);
+                }
+
+                return null;
+            }
+        }
+
         internal static void SaveJson<T>(T obj, string path) where T : class
         {
             string directory = Path.GetDirectoryName(path);
@@ -280,6 +307,42 @@ namespace SirRandoo.ToolkitUtils
                         {
                             await JsonSerializer.SerializeAsync(file, obj);
                         }
+                    }
+                }
+
+                if (File.Exists(path))
+                {
+                    File.Replace(tempPath, path, null);
+                }
+                else
+                {
+                    File.Move(tempPath, path);
+                }
+            }
+            catch (IOException e)
+            {
+                LogHelper.Error($"Could not save json to path {path}", e);
+            }
+        }
+
+        internal static async Task SaveCompressedJsonAsync<T>(T obj, string path) where T : class
+        {
+            string directory = Path.GetDirectoryName(path);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory!);
+            }
+
+            string tempPath = Path.GetTempFileName();
+
+            try
+            {
+                using (FileStream file = File.Open(tempPath, FileMode.Create, FileAccess.Write))
+                {
+                    using (var zipStream = new GZipStream(file, CompressionMode.Compress))
+                    {
+                        await JsonSerializer.SerializeAsync(zipStream, obj);
                     }
                 }
 

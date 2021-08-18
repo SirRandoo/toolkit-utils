@@ -285,6 +285,7 @@
         <Compile Include="Models\Serialization\ToolkitItem.cs"/>
         <Compile Include="Models\Serialization\TraitData.cs"/>
         <Compile Include="Models\Serialization\TraitItem.cs"/>
+        <Compile Include="Models\Serialization\Transaction.cs"/>
         <Compile Include="Models\SurgeryHandlers\AndroidSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryHandlers\DefaultSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryItem.cs"/>
@@ -302,6 +303,7 @@
         <Compile Include="Models\UserData.cs"/>
         <Compile Include="Models\UsabilityHandlers\IngestabilityUsabilityHandler.cs"/>
         <Compile Include="Models\ViewerState.cs"/>
+        <Compile Include="RevenueService.cs"/>
         <Compile Include="RuntimeChecker.cs"/>
         <Compile Include="Paths.cs"/>
         <Compile Include="Data.cs"/>
