@@ -174,7 +174,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return stuff == null
                 ? thing.Cost
                 : Mathf.CeilToInt(
-                    (thing.Thing.MadeFromStuff ? thing.Thing.costStuffCount * stuff.Cost : thing.Cost) * 1.05f
+                    thing.Cost
+                    + (thing.Thing.MadeFromStuff ? thing.Thing.costStuffCount * stuff.Cost : thing.Cost) * 1.05f
                 );
         }
 
