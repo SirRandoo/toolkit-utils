@@ -243,7 +243,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             (Rect karmaCapLabel, Rect karmaCapField) = listing.GetRectAsForm(0.85f);
             SettingsHelper.DrawLabel(karmaCapLabel, "TwitchToolkitKarmaCap".Localize());
             _karmaCapBuffer ??= ToolkitSettings.KarmaCap.ToString();
-            Widgets.TextFieldNumeric(karmaCapField, ref ToolkitSettings.KarmaCap, ref _karmaCapBuffer, 150f);
+            Widgets.TextFieldNumeric(karmaCapField, ref ToolkitSettings.KarmaCap, ref _karmaCapBuffer);
 
             listing.CheckboxLabeled(
                 "TwitchToolkitBanViewersWhoAreBad".Localize(),
