@@ -23,16 +23,10 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-#if RW13
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class ToolkitSettingsPatch
     {
-        public static bool Prepare()
-        {
-            return RuntimeChecker.Do13Patches;
-        }
-
         public static IEnumerable<MethodBase> TargetMethods()
         {
             yield return AccessTools.Method(typeof(TwitchToolkit.TwitchToolkit), "DoSettingsWindowContents");
@@ -44,5 +38,4 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return false;
         }
     }
-#endif
 }

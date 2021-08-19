@@ -79,6 +79,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool Puppeteer;
         public static bool MinimalRelations = true;
         public static bool GatewayPuff = true;
+        internal static bool SettingsUtilsEdition;
 
         internal static bool DebuggingIncidents;
 
@@ -630,6 +631,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
             Scribe_Values.Look(ref GatewayPuff, "gatewayPuff", true);
             Scribe_Values.Look(ref EasterEggs, "easterEggs", true);
+            Scribe_Values.Look(ref SettingsUtilsEdition, "settingsUtilsEdition");
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
         }

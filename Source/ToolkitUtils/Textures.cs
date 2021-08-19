@@ -60,6 +60,8 @@ namespace SirRandoo.ToolkitUtils
         public static readonly Texture2D Info;
         public static readonly Texture2D Warning;
         public static readonly Texture2D Debug;
+        public static readonly Texture2D UtilsEdition;
+        public static readonly Texture2D StandardEdition;
 
         static Textures()
         {
@@ -95,6 +97,8 @@ namespace SirRandoo.ToolkitUtils
             Debug = ContentFinder<Texture2D>.Get("UI/Icons/Debug");
             Warning = ContentFinder<Texture2D>.Get("UI/Icons/Warning");
             Info = ContentFinder<Texture2D>.Get("UI/Icons/Info");
+            UtilsEdition = ContentFinder<Texture2D>.Get("UI/Icons/UtilsEdition");
+            StandardEdition = ContentFinder<Texture2D>.Get("UI/Icons/StandardEdition");
 
             DiceSides = new List<Texture2D>
             {
