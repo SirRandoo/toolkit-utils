@@ -42,6 +42,16 @@ namespace SirRandoo.ToolkitUtils.Models
             catch (Exception e)
             {
                 LogHelper.Error(@$"The incident ""{DefName}"" encountered an exception while executing", e);
+                Data.HealthReports.Add(
+                    new HealthReport
+                    {
+                        OccurredAt = DateTime.Now,
+                        Reporter = "ToolkitUtils - Event Handler",
+                        Type = HealthReport.ReportType.Error,
+                        Message =
+                            $@"The event ""{DefName}"" didn't execute successfully. The full stacktrace can be found in the debug log.\n\n{e.GetType().Name}({e.Message})"
+                    }
+                );
 
                 // Reset their coins and karma prior to the event executing as
                 // events shouldn't charge viewers until *after* the event
