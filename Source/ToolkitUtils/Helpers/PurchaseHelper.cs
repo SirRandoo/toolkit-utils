@@ -171,12 +171,30 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static int GetItemPrice([NotNull] this ThingItem thing, [CanBeNull] ThingItem stuff)
         {
-            return stuff == null
-                ? thing.Cost
-                : Mathf.CeilToInt(
-                    thing.Cost
-                    + (thing.Thing.MadeFromStuff ? thing.Thing.costStuffCount * stuff.Cost : thing.Cost) * 1.05f
-                );
+            if (stuff == null)
+            {
+                return thing.Cost;
+            }
+
+            int cost = thing.Cost;
+
+            if (!thing.Thing.MadeFromStuff)
+            {
+                return cost;
+            }
+
+            if (stuff.Thing.smallVolume)
+            {
+                cost += thing.Thing.CostStuffCount * stuff.Cost * 10;
+            }
+            else
+            {
+                cost += thing.Thing.CostStuffCount * stuff.Cost;
+            }
+
+            cost = Mathf.CeilToInt(cost * 1.05f);
+
+            return cost;
         }
 
         public static int GetItemPrice(
