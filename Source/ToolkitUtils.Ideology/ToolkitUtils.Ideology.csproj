@@ -38,7 +38,7 @@
         <Reference Include="System.Data"/>
         <Reference Include="System.Xml"/>
         <Reference Include="TwitchToolkit, Version=2.0.10.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.2\Assemblies\TwitchToolkit.dll</HintPath>
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.3\Assemblies\TwitchToolkit.dll</HintPath>
             <Private>false</Private>
         </Reference>
     </ItemGroup>

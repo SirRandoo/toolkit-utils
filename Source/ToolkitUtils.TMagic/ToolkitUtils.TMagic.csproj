@@ -41,16 +41,8 @@
         <DefineConstants>TRACE;RW13</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="0JecsTools, Version=1.1.2.3, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW12'))">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.2\Assemblies\0JecsTools.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
         <Reference Include="0JecsTools, Version=1.3.0.2, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW13'))">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.3\Assemblies\0JecsTools.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="AbilityUser, Version=1.1.2.3, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW12'))">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.2\Assemblies\AbilityUser.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="AbilityUser, Version=1.3.0.2, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW13'))">
@@ -61,16 +53,12 @@
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
         <Reference Include="System.Xml"/>
-        <Reference Include="TorannMagic, Version=2.5.4.10, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW12'))">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\1201382956\v1.2\Assemblies\TorannMagic.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
         <Reference Include="TorannMagic, Version=2.6.0.3, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW13'))">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\1201382956\v1.3\Assemblies\TorannMagic.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="TwitchToolkit, Version=2.0.10.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.2\Assemblies\TwitchToolkit.dll</HintPath>
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.3\Assemblies\TwitchToolkit.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
@@ -92,7 +80,6 @@
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
         <PackageReference Condition="$(DefineConstants.Contains('RW13'))" Include="Krafs.Rimworld.Ref" Version="1.3.3074" ExcludeAssets="runtime"/>
-        <PackageReference Condition="$(DefineConstants.Contains('RW12'))" Include="Krafs.Rimworld.Ref" Version="1.2.2905" ExcludeAssets="runtime"/>
         <PackageReference Include="Lib.Harmony" Version="2.1.1" ExcludeAssets="runtime"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>

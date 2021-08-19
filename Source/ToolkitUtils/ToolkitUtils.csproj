@@ -45,7 +45,7 @@
         <Reference Include="System.Data"/>
         <Reference Include="System.Xml"/>
         <Reference Include="TwitchToolkit, Version=2.0.10.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.2\Assemblies\TwitchToolkit.dll</HintPath>
+            <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.3\Assemblies\TwitchToolkit.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="Utf8Json, Version=1.3.7.0, Culture=neutral, PublicKeyToken=8a73d3ba7e392e27">
@@ -376,7 +376,6 @@
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime"/>
         <PackageReference Condition="$(DefineConstants.Contains('RW13'))" Include="Krafs.Rimworld.Ref" Version="1.3.3074" ExcludeAssets="runtime"/>
-        <PackageReference Condition="$(DefineConstants.Contains('RW12'))" Include="Krafs.Rimworld.Ref" Version="1.2.2905" ExcludeAssets="runtime"/>
         <PackageReference Include="Lib.Harmony" Version="2.1.0" ExcludeAssets="runtime"/>
         <PackageReference Include="MoonSharp" Version="2.0.0" ExcludeAssets="runtime"/>
         <PackageReference Include="RestSharp" Version="106.12.0"/>
