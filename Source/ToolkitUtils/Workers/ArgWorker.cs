@@ -649,7 +649,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             public string AsString(bool plural = false)
             {
                 string name = (Thing.Thing?.label ?? Thing.Name).ToLowerInvariant();
-                string stuff = (Stuff.Thing?.LabelAsStuff ?? Stuff.Name).ToLowerInvariant();
+                string stuff = (Stuff?.Thing?.LabelAsStuff ?? Stuff?.Name)?.ToLowerInvariant() ?? "";
 
                 if (plural)
                 {
