@@ -39,23 +39,6 @@ namespace SirRandoo.ToolkitUtils
     {
         static RuntimeChecker()
         {
-            Do13Patches = ModLister.GetActiveModWithIdentifier("hodlhodl.twitchtoolkit")?.VersionCompatible != true;
-
-            if (Do13Patches)
-            {
-                Log.ErrorOnce(
-                    new StringBuilder().Append(@"<color=""#ff6b00"">")
-                       .Append(
-                            "While Utils patches Twitch Toolkit to be compatible with 1.3, it's still an unsupported "
-                        )
-                       .Append("version of the game. Do not submit bug reports while using 1.3. Do not expect ")
-                       .Append("everything to work.")
-                       .Append("</color>")
-                       .ToString(),
-                    92828173
-                );
-            }
-
             TkSettings.ValidateDynamicSettings();
             TkUtils.Context ??= SynchronizationContext.Current;
 
@@ -106,8 +89,6 @@ namespace SirRandoo.ToolkitUtils
                 Store_IncidentEditor.UpdatePriceSheet();
             }
         }
-
-        public static bool Do13Patches { get; }
 
         internal static void Execute(string command, [NotNull] Action func)
         {

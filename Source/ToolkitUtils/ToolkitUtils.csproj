@@ -109,7 +109,6 @@
         <Compile Include="Harmony\BuyPatch.cs"/>
         <Compile Include="Harmony\ColonistUnnamedAlertPatch.cs"/>
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
-        <Compile Include="Harmony\GlobalWeightWindowPatch.cs"/>
         <Compile Include="Harmony\ItemEditorPatch.cs"/>
         <Compile Include="Harmony\LanguageProxyPatch.cs"/>
         <Compile Include="Harmony\PatchRunner.cs"/>
@@ -127,14 +126,12 @@
         <Compile Include="Harmony\CommandEditorPatch.cs"/>
         <Compile Include="Harmony\LookupPatch.cs"/>
         <Compile Include="Harmony\SendChatMessagePatch.cs"/>
-        <Compile Include="Harmony\StorytellerPatch.cs"/>
         <Compile Include="Harmony\TickerPatch.cs"/>
         <Compile Include="Harmony\ToolkitSettingsPatch.cs"/>
         <Compile Include="Harmony\TrueNeutralPatch.cs"/>
         <Compile Include="Harmony\UnassignedPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
-        <Compile Include="Harmony\VoteHandlerPatch.cs"/>
         <Compile Include="Helpers\CommandHelper.cs"/>
         <Compile Include="Helpers\GameHelper.cs"/>
         <Compile Include="Helpers\HealHelper.cs"/>
