@@ -161,6 +161,7 @@ namespace SirRandoo.ToolkitUtils
 
             healthScrollPos = GUI.BeginScrollView(region, healthScrollPos, viewRect);
 
+            var y = 0f;
             HealthReport toRemove = null;
             for (int index = Data.HealthReports.Count - 1; index >= 0; index--)
             {
@@ -171,7 +172,8 @@ namespace SirRandoo.ToolkitUtils
                     report.Height = Text.CalcHeight(report.Message, region.width - 20f);
                 }
 
-                var lineRect = new Rect(0f, Text.SmallFontHeight * index, region.width, report.Height);
+                var lineRect = new Rect(0f, y, region.width, report.Height);
+                y += report.Height;
 
                 if (!lineRect.IsRegionVisible(region, healthScrollPos))
                 {
