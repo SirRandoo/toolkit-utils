@@ -106,7 +106,6 @@ namespace SirRandoo.ToolkitUtils
         public static StoreIncidentSimple ShipPartPsychic;
         public static StoreIncidentSimple ReviveRandomPawn;
         public static StoreIncidentSimple WildManWandersIn;
-        public static StoreIncidentSimple TransportPodCrash;
         public static StoreIncidentVariables ToryTalkerVote;
         public static StoreIncidentVariables SpecificDisease;
         public static StoreIncidentSimple TraderCaravanArrival;
