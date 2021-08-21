@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <!-- Trait -->
+    <TKUtils.TraitLetter.Title>Trait</TKUtils.TraitLetter.Title>
+    <TKUtils.TraitLetter.AddDescription>{0} purchased trait {1}</TKUtils.TraitLetter.AddDescription>
+    <TKUtils.TraitLetter.RemoveDescription>{0} removed trait {1}</TKUtils.TraitLetter.RemoveDescription>
+    <TKUtils.TraitLetter.ReplaceDescription>{0} replaced {1} with {2}</TKUtils.TraitLetter.ReplaceDescription>
+    <TKUtils.TraitLetter.ClearDescription>{0} removed all their traits</TKUtils.TraitLetter.ClearDescription>
+    <TKUtils.TraitLetter.SetDescription>{0} set their traits to: {1}</TKUtils.TraitLetter.SetDescription>
+
+    <!-- Item -->
+    <TKUtils.ItemLetter.Animal>{0} join</TKUtils.ItemLetter.Animal>
+    <TKUtils.ItemLetter.ItemDescription>{0} {1} purchased by {2}</TKUtils.ItemLetter.ItemDescription>
+
+    <!-- Backpack -->
+    <TKUtils.BackpackLetter.Description>{0} {1} materialized inside of {2}'s inventory</TKUtils.BackpackLetter.Description>
+
+    <!-- Equip -->
+    <TKUtils.EquipLetter.Title>Equip</TKUtils.EquipLetter.Title>
+    <TKUtils.EquipLetter.Description>{0} equipped a(n) {1}</TKUtils.EquipLetter.Description>
+    <TKUtils.EquipLetter.SpawnedDescription>{0} couldn't carry their {1}, so it was spawned in instead</TKUtils.EquipLetter.SpawnedDescription>
+
+    <!-- Use -->
+    <TKUtils.UseLetter.Title>Use</TKUtils.UseLetter.Title>
+    <TKUtils.UseLetter.Description>{0} used a(n) {1} {2} times</TKUtils.UseLetter.Description>
+
+    <!-- Wear -->
+    <TKUtils.WearLetter.Title>Wear</TKUtils.WearLetter.Title>
+    <TKUtils.WearLetter.Description>{0} put on a(n) {1}</TKUtils.WearLetter.Description>
+    <TKUtils.WearLetter.SpawnedDescription>{0} couldn't put on their {1}, so it was spawned instead</TKUtils.WearLetter.SpawnedDescription>
+
+    <!-- Pawn -->
+    <TKUtils.PawnLetter.Title>Viewer Joins</TKUtils.PawnLetter.Title>
+    <TKUtils.PawnLetter.Description>A new pawn has been purchased by {0}, let's welcome them to the colony.</TKUtils.PawnLetter.Description>
+
+    <!-- Surgery -->
+    <TKUtils.SurgeryLetter.Title>Surgery Scheduled</TKUtils.SurgeryLetter.Title>
+    <TKUtils.SurgeryLetter.Description>{0} has scheduled a(n) {1} to be installed on their pawn</TKUtils.SurgeryLetter.Description>
+
+    <!-- Mass Heal -->
+    <TKUtils.MassHealLetter.Title>Mass Heal</TKUtils.MassHealLetter.Title>
+    <TKUtils.MassHealLetter.Description>All pawns have recovered from an affliction.</TKUtils.MassHealLetter.Description>
+
+    <!-- Gender Swap -->
+    <TKUtils.GenderSwapLetter.Title>Gender Swap</TKUtils.GenderSwapLetter.Title>
+    <TKUtils.GenderSwapLetter.Description>{0} swapped their gender to {1}/</TKUtils.GenderSwapLetter.Description>
+
+    <!-- Heal -->
+    <TKUtils.HealLetter.Title>Heal</TKUtils.HealLetter.Title>
+    <TKUtils.HealLetter.RecoveredDescription>{0} recovered from {1}</TKUtils.HealLetter.RecoveredDescription>
+    <TKUtils.HealLetter.RestoredDescription>{0} had their {1} restored</TKUtils.HealLetter.RestoredDescription>
+
+    <!-- Full Heal -->
+    <TKUtils.FullHealLetter.Title>Full Heal</TKUtils.FullHealLetter.Title>
+    <TKUtils.FullHealLetter.Description>{0} has been fully healed.</TKUtils.FullHealLetter.Description>
+
+    <!-- Backstory -->
+    <TKUtils.BackstoryLetter.Title>Backstory</TKUtils.BackstoryLetter.Title>
+    <TKUtils.BackstoryLetter.AdulthoodDescription>{0}'s adulthood was changed from {1} to {2}</TKUtils.BackstoryLetter.AdulthoodDescription>
+    <TKUtils.BackstoryLetter.ChildhoodDescription>{0}'s childhood was changed from {1} to {2}</TKUtils.BackstoryLetter.ChildhoodDescription>
+
+    <!-- Immortality -->
+    <TKUtils.ImmortalityLetter.Title>Immortality</TKUtils.ImmortalityLetter.Title>
+    <TKUtils.ImmortalityLetter.Description>{0} has been granted immortality</TKUtils.ImmortalityLetter.Description>
+
+    <!-- Passion Shuffle -->
+    <TKUtils.PassionShuffleLetter.Title>Passion Shuffle</TKUtils.PassionShuffleLetter.Title>
+    <TKUtils.PassionShuffleLetter.Description>{0} has shuffled their pawn's passions</TKUtils.PassionShuffleLetter.Description>
+
+    <!-- Mass Revive -->
+    <TKUtils.MassRevivalLetter.Title>Mass Revival</TKUtils.MassRevivalLetter.Title>
+    <TKUtils.MassRevivalLetter.Description>Previously deceased pawns have been granted another chance at life.</TKUtils.MassRevivalLetter.Description>
+
+    <!-- Revive -->
+    <TKUtils.RevivalLetter.Title>Pawn Revived</TKUtils.RevivalLetter.Title>
+    <TKUtils.RevivalLetter.Description>{0} has been revived but is experiencing some side effects.</TKUtils.RevivalLetter.Description>
+
+    <!-- Leave -->
+    <TKUtils.LeaveLetter.ThanosTitle>Colonist Vanished</TKUtils.LeaveLetter.ThanosTitle>
+    <TKUtils.LeaveLetter.GenericTitle>Colonist Left</TKUtils.LeaveLetter.GenericTitle>
+    <TKUtils.LeaveLetter.ThanosDescription>{0} was snapped out of existence</TKUtils.LeaveLetter.ThanosDescription>
+    <TKUtils.LeaveLetter.GenericDescription>{0} chose to leave the colony</TKUtils.LeaveLetter.GenericDescription>
+
+    <!-- Passion -->
+    <TKUtils.PassionLetter.Title>Passion</TKUtils.PassionLetter.Title>
+    <TKUtils.PassionLetter.SuccessDescription>{0}'s passion in {1} has changed.</TKUtils.PassionLetter.SuccessDescription>
+    <TKUtils.PassionLetter.FailedDescription>{0}'s passion in {1} stayed the same.</TKUtils.PassionLetter.FailedDescription>
+    <TKUtils.PassionLetter.HoppedDescription>{0}'s tried to deepen their passion in {1}, but ended up deepening their passion {2}.</TKUtils.PassionLetter.HoppedDescription>
+    <TKUtils.PassionLetter.RemoveHoppedDescription>{0}'s tried to lessen their passion in {1}, but ended up lessening their passion {2}.</TKUtils.PassionLetter.RemoveHoppedDescription>
+    <TKUtils.PassionLetter.DecreaseDescription>While trying to deepen their passion for {1}, {0} became less passionate about it.</TKUtils.PassionLetter.DecreaseDescription>
+    <TKUtils.PassionLetter.IncreaseDescription>While trying to lessen their passion for {1}, {0} became more passionate about it.</TKUtils.PassionLetter.IncreaseDescription>
+    <TKUtils.PassionLetter.DecreaseHoppedDescription>While trying to deepen their passion for {1}, {0} became less passionate about {2}.</TKUtils.PassionLetter.DecreaseHoppedDescription>
+    <TKUtils.PassionLetter.IncreaseHoppedDescription>While trying to lessen their passion for {1}, {0} became more passionate about {2}.</TKUtils.PassionLetter.IncreaseHoppedDescription>
+
+    <!-- Sanctuary -->
+    <TKUtils.SanctuaryLetter.Title>Mysterious Light</TKUtils.SanctuaryLetter.Title>
+    <TKUtils.SanctuaryLetter.Description>The sky over your colony is filled with a mysterious light.</TKUtils.SanctuaryLetter.Description>
+
+    <!-- Weather -->
+    <TKUtils.WeatherLetter.Description>{0} changed the current weather to {1}.</TKUtils.WeatherLetter.Description>
+</LanguageData>

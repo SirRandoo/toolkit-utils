@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <TKUtils.NoPawn>You are not in this colony.</TKUtils.NoPawn>
+    <TKUtils.NoMap>No suitable map could be found.</TKUtils.NoMap>
+    <TKUtils.NotAColor>"{0}" is not a valid color.</TKUtils.NotAColor>
+    <TKUtils.HasPawn>You are already in this colony.</TKUtils.HasPawn>
+    <TKUtils.PawnNotFound>{0} is not in this colony.</TKUtils.PawnNotFound>
+    <TKUtils.FailedParms>Could not generate parms for {0}</TKUtils.FailedParms>
+    <TKUtils.DisabledItem>The requested item is disabled.</TKUtils.DisabledItem>
+    <TKUtils.NotInjured>You don't have any healable injuries!</TKUtils.NotInjured>
+    <TKUtils.NoAnimals>Animals cannot be purchased with this command!</TKUtils.NoAnimals>
+    <TKUtils.InCombat>This cannot cannot be performed while in combat.</TKUtils.InCombat>
+    <TKUtils.Paused>This action cannot be performed while the game is paused.</TKUtils.Paused>
+    <TKUtils.InputUnsupported>{0} are not supported by this command!</TKUtils.InputUnsupported>
+    <TKUtils.InvalidItemQuery>No item by the name of "{0}" could be found.</TKUtils.InvalidItemQuery>
+    <TKUtils.InvalidTraitQuery>No trait by the name of "{0}" could be found.</TKUtils.InvalidTraitQuery>
+    <TKUtils.InvalidSkillQuery>No skill by the name of "{0}" could be found.</TKUtils.InvalidSkillQuery>
+    <TKUtils.InvalidKindQuery>No pawn kind by the name of "{0}" could be found.</TKUtils.InvalidKindQuery>
+    <TKUtils.InformativeDisabledItem>The requested item ({0}) is disabled.</TKUtils.InformativeDisabledItem>
+    <TKUtils.WagerRequired>Your wager of {0} does not meet the minimum requirement of {1}.</TKUtils.WagerRequired>
+    <TKUtils.InsufficientBalance>The requested item costs {0} coins, but you only have {1} coins.</TKUtils.InsufficientBalance>
+    <TKUtils.ResearchRequired>This colony must research the following prerequisites before "{0}" will be available: {1}</TKUtils.ResearchRequired>
+    <TKUtils.PausedExtended>This action cannot be performed while the game is paused. If this problem persists, consider using the !{0} command.</TKUtils.PausedExtended>
+</LanguageData>

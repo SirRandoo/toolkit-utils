@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <!-- Purge Menu -->
+    <!-- Constraints Menu -->
+    <TKUtils.PurgeMenu.Coins>coins</TKUtils.PurgeMenu.Coins>
+    <TKUtils.PurgeMenu.Time>time</TKUtils.PurgeMenu.Time>
+    <TKUtils.PurgeMenu.Karma>karma</TKUtils.PurgeMenu.Karma>
+    <TKUtils.PurgeMenu.Banned>is banned</TKUtils.PurgeMenu.Banned>
+    <TKUtils.PurgeMenu.Vip>not vip</TKUtils.PurgeMenu.Vip>
+    <TKUtils.PurgeMenu.Sub>not subbed</TKUtils.PurgeMenu.Sub>
+    <TKUtils.PurgeMenu.Mod>not modded</TKUtils.PurgeMenu.Mod>
+    <TKUtils.PurgeMenu.Name>username</TKUtils.PurgeMenu.Name>
+    <TKUtils.PurgeMenu.Greater>&gt;</TKUtils.PurgeMenu.Greater>
+    <TKUtils.PurgeMenu.Equal>=</TKUtils.PurgeMenu.Equal>
+    <TKUtils.PurgeMenu.Less>&lt;</TKUtils.PurgeMenu.Less>
+    <TKUtils.PurgeMenu.GreaterEqual>&gt;=</TKUtils.PurgeMenu.GreaterEqual>
+    <TKUtils.PurgeMenu.LessEqual>&lt;=</TKUtils.PurgeMenu.LessEqual>
+
+    <!-- Time Constraint Menu -->
+    <TKUtils.PurgeMenu.Hours>hours</TKUtils.PurgeMenu.Hours>
+    <TKUtils.PurgeMenu.Days>days</TKUtils.PurgeMenu.Days>
+    <TKUtils.PurgeMenu.Months>months</TKUtils.PurgeMenu.Months>
+    <TKUtils.PurgeMenu.Years>years</TKUtils.PurgeMenu.Years>
+
+    <!-- Username Constraint Menu -->
+    <TKUtils.PurgeMenu.Is>is</TKUtils.PurgeMenu.Is>
+    <TKUtils.PurgeMenu.Not>is not</TKUtils.PurgeMenu.Not>
+    <TKUtils.PurgeMenu.Contains>contains</TKUtils.PurgeMenu.Contains>
+    <TKUtils.PurgeMenu.EndsWith>endswith</TKUtils.PurgeMenu.EndsWith>
+    <TKUtils.PurgeMenu.StartsWith>startswith</TKUtils.PurgeMenu.StartsWith>
+
+
+    <!-- Item Store Menu -->
+    <TKUtils.StoreMenu.EnableCategory>Enable all in "{0}" category</TKUtils.StoreMenu.EnableCategory>
+    <TKUtils.StoreMenu.DisableCategory>Disable all in "{0}" category</TKUtils.StoreMenu.DisableCategory>
+</LanguageData>

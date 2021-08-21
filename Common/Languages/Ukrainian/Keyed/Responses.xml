@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <!-- Toolkit Addon Menu -->
+    <TKUtils.CoinEarningEnabled>Earning coins has been enabled</TKUtils.CoinEarningEnabled>
+    <TKUtils.CoinEarningDisabled>Earning coins has been disabled</TKUtils.CoinEarningDisabled>
+    <TKUtils.GiftCoinsEnabled>Gift coins has been enabled</TKUtils.GiftCoinsEnabled>
+    <TKUtils.GiftCoinsDisabled>Gift coins has been disabled</TKUtils.GiftCoinsDisabled>
+
+    <!-- Name Queue -->
+    <TKUtils.ViewerDrawn>You've been picked from the name queue! Respond in chat so you can claim the current pawn.</TKUtils.ViewerDrawn>
+</LanguageData>

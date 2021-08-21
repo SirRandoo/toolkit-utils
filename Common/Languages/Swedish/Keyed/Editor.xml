@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <!-- Metadata -->
+    <TKUtils.Editor.Title>Toolkit Editor</TKUtils.Editor.Title>
+
+    <!-- Editor Tabs -->
+    <TKUtils.EditorTabs.Items>Items</TKUtils.EditorTabs.Items>
+    <TKUtils.EditorTabs.Events>Events</TKUtils.EditorTabs.Events>
+    <TKUtils.EditorTabs.Traits>Traits</TKUtils.EditorTabs.Traits>
+    <TKUtils.EditorTabs.PawnKinds>Pawn Kinds</TKUtils.EditorTabs.PawnKinds>
+
+    <!-- Mutators -->
+    <TKUtils.EditorMutator.ResetName>Reset name</TKUtils.EditorMutator.ResetName>
+    <TKUtils.EditorMutator.ResetPrice>Reset price</TKUtils.EditorMutator.ResetPrice>
+    <TKUtils.EditorMutator.ResetData>Reset extended data</TKUtils.EditorMutator.ResetData>
+    <TKUtils.EditorMutator.ResetAddPrice>Reset add price</TKUtils.EditorMutator.ResetAddPrice>
+    <TKUtils.EditorMutator.ResetRemovePrice>Reset removal price</TKUtils.EditorMutator.ResetRemovePrice>
+</LanguageData>

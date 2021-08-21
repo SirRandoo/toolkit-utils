@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <!-- Trait -->
+    <TKUtils.Trait.Complete>Added {0} to your pawn.</TKUtils.Trait.Complete>
+    <TKUtils.Trait.Duplicate>Your pawn has {0}, which shares the same spectrum as {1}.</TKUtils.Trait.Duplicate>
+    <TKUtils.Trait.Conflict>Your pawn has {0}, which conflicts with {1}!</TKUtils.Trait.Conflict>
+    <TKUtils.Trait.Disabled>The trait "{0}" has been restricted from being added to pawns.</TKUtils.Trait.Disabled>
+    <TKUtils.Trait.LimitReached>Your pawn cannot have more than {0} traits.</TKUtils.Trait.LimitReached>
+    <TKUtils.Trait.RestrictedByKind>Your pawn is a(n) {0}, which cannot have the trait "{1}".</TKUtils.Trait.RestrictedByKind>
+    <TKUtils.Trait.RestrictedByBackstory>Your pawn has the backstory {0}, which forbids {1} from being added to your pawn.</TKUtils.Trait.RestrictedByBackstory>
+    <TKUtils.Trait.Class>Your pawn cannot have more than one class.</TKUtils.Trait.Class>
+
+    <!-- Item -->
+    <TKUtils.Item.MinimumViolation>Your requested purchase would cost {0} coin(s), which does not meet the required minimum of {1} coin(s).</TKUtils.Item.MinimumViolation>
+    <TKUtils.Item.Disabled>The item "{0}" cannot be bought.</TKUtils.Item.Disabled>
+    <TKUtils.Item.Complete>You've purchased {0} {1} for {2} coins. Your new balance is {3} coins.</TKUtils.Item.Complete>
+    <TKUtils.Item.CompleteMinimal>You've purchased {0} {1} for {2} coins.</TKUtils.Item.CompleteMinimal>
+    <TKUtils.Item.MaterialViolation>The item "{0}" cannot be made of {1}.</TKUtils.Item.MaterialViolation>
+    <TKUtils.Item.QualityViolation>The item "{0}" cannot have a quality.</TKUtils.Item.QualityViolation>
+    <TKUtils.Item.GenderViolation>The animal "{0}" cannot have the gender {1}.</TKUtils.Item.GenderViolation>
+
+    <!-- Buy Pawn -->
+    <TKUtils.BuyPawn.Humanlike>Only humanlikes can be purchased.</TKUtils.BuyPawn.Humanlike>
+    <TKUtils.BuyPawn.Confirmation>You've purchased a colonist and have now joined the colony.</TKUtils.BuyPawn.Confirmation>
+
+    <!-- Gender Swap -->
+    <TKUtils.GenderSwap.None>Your pawn cannot change genders.</TKUtils.GenderSwap.None>
+    <TKUtils.GenderSwap.Complete>Your pawn's gender was changed to {0}.</TKUtils.GenderSwap.Complete>
+
+    <!-- Random Inspire -->
+    <TKUtils.RandomInspire.None>Nobody could be found to inspire.</TKUtils.RandomInspire.None>
+    <TKUtils.RandomInspire.Complete>{0} received a {1} inspiration.</TKUtils.RandomInspire.Complete>
+
+    <!-- Adulthood -->
+    <TKUtils.Adulthood.Complete>Your pawn's adulthood was changed to {0}.</TKUtils.Adulthood.Complete>
+
+    <!-- Childhood -->
+    <TKUtils.Childhood.Complete>Your pawn's childhood was changed to {0}.</TKUtils.Childhood.Complete>
+
+    <!-- Surgery -->
+    <TKUtils.Surgery.Complete>Your pawn has been queued for surgery.</TKUtils.Surgery.Complete>
+    <TKUtils.Surgery.NoSlotAvailable>No suitable body part could be found.</TKUtils.Surgery.NoSlotAvailable>
+    <TKUtils.Surgery.Queued>A similar surgery is already queued for the body part "{0}".</TKUtils.Surgery.Queued>
+    <TKUtils.Surgery.HasNoSurgery>The item "{0}" cannot be surgically attached.</TKUtils.Surgery.HasNoSurgery>
+
+    <!-- Equip -->
+    <TKUtils.Equip.Complete>Your pawn has equipped a(n) {0} for {1} coins.</TKUtils.Equip.Complete>
+    <TKUtils.Equip.Spawned>Your pawn couldn't equip "{0}", so it was spawned for {1} coins instead.</TKUtils.Equip.Spawned>
+
+    <!-- Use -->
+    <TKUtils.Use.Complete>Your pawn used a(n) {0} {1} time(s) for {2} coins.</TKUtils.Use.Complete>
+    <TKUtils.Use.Unusable>The item "{0}" can't be used by your pawn.</TKUtils.Use.Unusable>
+
+    <!-- Wear -->
+    <TKUtils.Wear.Complete>Your pawn put on a(n) {0} for {1} coins.</TKUtils.Wear.Complete>
+    <TKUtils.Wear.Spawned>Your pawn couldn't put on "{0}", so it was spawned for {1} coins instead.</TKUtils.Wear.Spawned>
+
+    <!-- Heal Me -->
+    <TKUtils.HealMe.Recovered>Your pawn has recovered from {0}.</TKUtils.HealMe.Recovered>
+    <TKUtils.HealMe.Restored>Your pawn has had their {0} restored.</TKUtils.HealMe.Restored>
+
+    <!-- Full Heal -->
+    <TKUtils.FullHeal.Complete>Your pawn has recoved from their injury.</TKUtils.FullHeal.Complete>
+    <TKUtils.FullHeal.CompletePlural>Your pawn has recovered from {0} injuries.</TKUtils.FullHeal.CompletePlural>
+
+    <!-- Immortality -->
+    <TKUtils.Immortality>Your pawn has been granted immortality.</TKUtils.Immortality>
+
+    <!-- Passion Shuffle -->
+    <TKUtils.PassionShuffle.None>Your pawn has no passions to shuffle.</TKUtils.PassionShuffle.None>
+    <TKUtils.PassionShuffle.Complete>Your passion have been shuffled.</TKUtils.PassionShuffle.Complete>
+
+    <!-- Remove Trait -->
+    <TKUtils.RemoveTrait.Complete>Removed {0} from your pawn.</TKUtils.RemoveTrait.Complete>
+    <TKUtils.RemoveTrait.None>Your pawn does not have any traits.</TKUtils.RemoveTrait.None>
+    <TKUtils.RemoveTrait.Missing>Your pawn does not have the trait "{0}"!</TKUtils.RemoveTrait.Missing>
+    <TKUtils.RemoveTrait.Disabled>The trait "{0}" has been restricted from being removed from pawns.</TKUtils.RemoveTrait.Disabled>
+    <TKUtils.RemoveTrait.Class>Class changes are forbidden.</TKUtils.RemoveTrait.Class>
+    <TKUtils.RemoveTrait.Kind>Your pawn is a(n) {0}, which forcibly have the trait "{1}".</TKUtils.RemoveTrait.Kind>
+    <TKUtils.RemoveTrait.RationalRomance>The trait "{0}" can only be replaced, not removed.</TKUtils.RemoveTrait.RationalRomance>
+
+    <!-- Replace Trait -->
+    <TKUtils.ReplaceTrait.Complete>Replaced {0} with {1}.</TKUtils.ReplaceTrait.Complete>
+    <TKUtils.ReplaceTrait.Violation>Replacing {0} with {1} would exceed the trait limit.</TKUtils.ReplaceTrait.Violation>
+    <TKUtils.ReplaceTrait.RationalRomance>The trait "{0}" can only be replaced with another of the same type.</TKUtils.ReplaceTrait.RationalRomance>
+
+    <!-- Clear Traits -->
+    <TKUtils.ClearTraits.Complete>Removed {0} traits.</TKUtils.ClearTraits.Complete>
+
+    <!-- Set Traits -->
+    <TKUtils.SetTraits.Complete>Your pawn's traits were set to {0}.</TKUtils.SetTraits.Complete>
+
+    <!-- Passion -->
+    <TKUtils.Passion.Full>Your pawn already has the highest passion possible in {0}.</TKUtils.Passion.Full>
+    <TKUtils.Passion.Complete>Your pawn's passion in {0} has grown.</TKUtils.Passion.Complete>
+    <TKUtils.Passion.Failed>You tried your best, but your passion in {0} stayed the same.</TKUtils.Passion.Failed>
+    <TKUtils.Passion.Decrease>Your pawn tried to be more passionate about {0}, but ended up losing some interest in it.</TKUtils.Passion.Decrease>
+    <TKUtils.Passion.Hopped>Your pawn grew their passion in {1} while attempting to grow it for {0}.</TKUtils.Passion.Hopped>
+    <TKUtils.Passion.DecreaseHopped>Your pawn's passion in {1} lessened while attempting to grow it for {0}.</TKUtils.Passion.DecreaseHopped>
+
+    <!-- Remove Passion -->
+    <TKUtils.RemovePassion.None>Your pawn already has no passion in {0}.</TKUtils.RemovePassion.None>
+    <TKUtils.RemovePassion.Complete>Your pawn's passion in {0} has lessened.</TKUtils.RemovePassion.Complete>
+    <TKUtils.RemovePassion.Increase>Your pawn tried to be less passionate about {0}, but ended up gaining some interest in it.</TKUtils.RemovePassion.Increase>
+    <TKUtils.RemovePassion.Hopped>Your pawn lessened their passion in {1} while attempting to lessen it for {0}.</TKUtils.RemovePassion.Hopped>
+    <TKUtils.RemovePassion.IncreaseHopped>Your pawn's passion in {1} grew while attempting to lessen it for {0}.</TKUtils.RemovePassion.IncreaseHopped>
+
+    <!-- Revive Me -->
+    <TKUtils.ReviveMe.Complete>Your pawn has been revived.</TKUtils.ReviveMe.Complete>
+
+    <!-- Sanctuary -->
+    <TKUtils.Sanctuary.Complete>Purchase complete.</TKUtils.Sanctuary.Complete>
+
+    <!-- Multi -->
+    <TKUtils.Wagered.Complete>Executed {0} with a wager of {1} points, and {2} threat points.</TKUtils.Wagered.Complete>
+</LanguageData>

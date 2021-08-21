@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <!-- Groups -->
+    <TKUtils.General>General</TKUtils.General>
+    <TKUtils.General.Emojis>Emojis</TKUtils.General.Emojis>
+    <TKUtils.General.Viewer>Viewer Pawn Tweaks</TKUtils.General.Viewer>
+    <TKUtils.General.Gateway>Toolkit Gateway</TKUtils.General.Gateway>
+    <TKUtils.General.Basket>Easter Eggs</TKUtils.General.Basket>
+
+    <TKUtils.Data>Data</TKUtils.Data>
+    <TKUtils.Data.LazyProcess>Item Store Processing</TKUtils.Data.LazyProcess>
+    <TKUtils.Data.Files>Toolkit Data</TKUtils.Data.Files>
+
+    <TKUtils.CommandTweaks>Command Tweaks</TKUtils.CommandTweaks>
+    <TKUtils.CommandTweaks.Balance>Balance Command</TKUtils.CommandTweaks.Balance>
+    <TKUtils.CommandTweaks.Handler>Commands Handler</TKUtils.CommandTweaks.Handler>
+    <TKUtils.CommandTweaks.InstalledMods>Installed Mods Command</TKUtils.CommandTweaks.InstalledMods>
+    <TKUtils.CommandTweaks.BuyItem>Item Purchases</TKUtils.CommandTweaks.BuyItem>
+    <TKUtils.CommandTweaks.Lookup>Lookup Command</TKUtils.CommandTweaks.Lookup>
+    <TKUtils.CommandTweaks.BuyPawn>Pawn Purchases</TKUtils.CommandTweaks.BuyPawn>
+
+    <TKUtils.PawnCommands>Pawn Commands</TKUtils.PawnCommands>
+    <TKUtils.PawnCommands.Abandon>Leave Command</TKUtils.PawnCommands.Abandon>
+    <TKUtils.PawnCommands.Gear>Pawn Gear Command</TKUtils.PawnCommands.Gear>
+    <TKUtils.PawnCommands.Health>Pawn Health Command</TKUtils.PawnCommands.Health>
+    <TKUtils.PawnCommands.Relations>Pawn Relations Command</TKUtils.PawnCommands.Relations>
+    <TKUtils.PawnCommands.Work>Pawn Work Command</TKUtils.PawnCommands.Work>
+
+    <TKUtils.PawnWork>Work Priorities</TKUtils.PawnWork>
+    <TKUtils.PawnStats>Stats</TKUtils.PawnStats>
+
+    <TKUtils.ModCompat>Mod Compatibility</TKUtils.ModCompat>
+
+
+    <!-- Notices -->
+    <TKUtils.Experimental>This setting is experimental and may change, or be removed, at any time.</TKUtils.Experimental>
+    <TKUtils.TMagic.Warning>A RimWorld of Magic does not support class changes. Lifting this restriction may lead to unexpected side-effects.</TKUtils.TMagic.Warning>
+    <TKUtils.ModRequirement>Requires {0}</TKUtils.ModRequirement>
+
+
+    <!-- General Tab -->
+    <!-- Emoji Group -->
+    <TKUtils.Emojis.Label>Use emojis in some commands.</TKUtils.Emojis.Label>
+    <TKUtils.Emojis.Description>Emojis are used in place of text to help provide quick, easy, and compact information in dense commands, such as &lt;b&gt;!mypawnhealth&lt;/b&gt;.</TKUtils.Emojis.Description>
+
+    <!-- Viewer Group -->
+    <TKUtils.HairColor.Label>Dye viewer's hair color to match their chat color.</TKUtils.HairColor.Label>
+    <TKUtils.HairColor.Description>Twitch Toolkit, by default, dyes their pawn's hair color to match the color their username is. This setting allows you to disable this functionality in-case your viewers want a specific hair color.</TKUtils.HairColor.Description>
+
+    <!-- Gateway Group -->
+    <TKUtils.GatewayPuff.Label>Create a small puff of smoke when something exits the gateway.</TKUtils.GatewayPuff.Label>
+    <TKUtils.GatewayPuff.Description>If enabled, a puff of smoke will appear in-front of any new item stack when they appear out of the gateway.</TKUtils.GatewayPuff.Description>
+
+    <!-- Basket Group -->
+    <TKUtils.EasterEggs.Label>Easter eggs</TKUtils.EasterEggs.Label>
+    <TKUtils.EasterEggs.Description>If enabled, the mod will occasionally do certain actions when certain criteria are met. You probably already know what one of those actions are if you used the gateway before.</TKUtils.EasterEggs.Description>
+
+
+    <!-- Data Tab -->
+    <!-- Toolkit Data Group -->
+    <TKUtils.DumpStyle.Label>Json output style</TKUtils.DumpStyle.Label>
+    <TKUtils.DumpStyle.Description>How ToolkitUtils will store its data. When single file is selected, all data will be merged into one massive file originally known as &lt;b&gt;ShopExt.json&lt;/b&gt;. When multi-file is selected, all data will be stored in separate files for every unique set of data.</TKUtils.DumpStyle.Description>
+    <TKUtils.DumpStyle.SingleFile>Single file</TKUtils.DumpStyle.SingleFile>
+    <TKUtils.DumpStyle.MultiFile>Multi-file</TKUtils.DumpStyle.MultiFile>
+
+    <TKUtils.MinifyData.Label>Minify the shop data files.</TKUtils.MinifyData.Label>
+    <TKUtils.MinifyData.Description>When enabled, the mod will save the shop data files with as little extra characters as possible. This typically means the file will be a single line, without any indentions.</TKUtils.MinifyData.Description>
+
+    <TKUtils.OffloadShop.Label>Offload saving shop data to a separate thread.</TKUtils.OffloadShop.Label>
+    <TKUtils.OffloadShop.Description>By default, all data is saved on the game's thread. As a result, this tends to block the game's thread when large amounts of data needs to be written to disk. Enabling this setting instructs the mod to save all data using a separate thread.</TKUtils.OffloadShop.Description>
+
+    <TKUtils.DoPurchasesAsap.Label>Complete purchases even if the game is paused.</TKUtils.DoPurchasesAsap.Label>
+    <TKUtils.DoPurchasesAsap.Description>When enabled, the mod will complete purchases even if the game is paused.</TKUtils.DoPurchasesAsap.Description>
+
+    <TKUtils.TrueNeutral.Label>Turn neutral karma into true neutral instead of a small positive</TKUtils.TrueNeutral.Label>
+    <TKUtils.TrueNeutral.Description>When enabled, the mod will adjust how Toolkit treats neutral events. By default, neutral purchases are a small positive event, which means viewers will gain karma from using them. Enabling this setting will stop neutral events from giving viewers a karma bump when purchased. They'll essentially be a truly neutral purchase.</TKUtils.TrueNeutral.Description>
+
+    <TKUtils.BroadcasterUserType.Label>Broadcaster viewer type</TKUtils.BroadcasterUserType.Label>
+    <TKUtils.BroadcasterUserType.Description>The type of viewer the broadcaster will count as. This setting only applies to coin gains. All other systems shouldn't be affected, and if they are, you can submit a bug report to the mod author that implemented the system.</TKUtils.BroadcasterUserType.Description>
+    <TKUtils.BroadcasterUserType.Broadcaster>Broadcaster</TKUtils.BroadcasterUserType.Broadcaster>
+    <TKUtils.BroadcasterUserType.Subscriber>Subscriber</TKUtils.BroadcasterUserType.Subscriber>
+    <TKUtils.BroadcasterUserType.Vip>Vip</TKUtils.BroadcasterUserType.Vip>
+    <TKUtils.BroadcasterUserType.Moderator>Moderator</TKUtils.BroadcasterUserType.Moderator>
+    <TKUtils.BroadcasterUserType.None>Viewer</TKUtils.BroadcasterUserType.None>
+
+    <!-- Item Store Processing Group -->
+    <TKUtils.StoreRate.Label>The number of items the store will process per tick.</TKUtils.StoreRate.Label>
+    <TKUtils.StoreRate.Description>With a previous update, Utils made Toolkit's store immediately visible. Utils runs a background task to ensure the store is up-to-date with the latest items in the game. This setting changes how many items it will process per tick until complete.</TKUtils.StoreRate.Description>
+
+    <!-- Command Tweaks Tab -->
+    <!-- Balance Command Group -->
+    <TKUtils.CoinRate.Label>Show a viewer's calculated coin rate in the balance command.</TKUtils.CoinRate.Label>
+    <TKUtils.CoinRate.Description>When enabled, the balance command will include the viewer's income per coin reward cycle.</TKUtils.CoinRate.Description>
+
+    <!-- Command Handler Group -->
+    <TKUtils.CommandParser.Label>Use Utils' flavor of command handling.</TKUtils.CommandParser.Label>
+    <TKUtils.CommandParser.Description>Older users would remember this as its command parser.</TKUtils.CommandParser.Description>
+
+    <TKUtils.CommandPrefix.Label>Command prefix</TKUtils.CommandPrefix.Label>
+    <TKUtils.CommandPrefix.Description>The prefix to use for all Twitch Toolkit commands.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.CommandPrefix.Description>
+
+    <TKUtils.PurchasePrefix.Label>Purchase prefix</TKUtils.PurchasePrefix.Label>
+    <TKUtils.PurchasePrefix.Description>The prefix to use as a substitue for &lt;b&gt;!buy&lt;/b&gt;.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.PurchasePrefix.Description>
+
+    <TKUtils.ToolkitStyleCommands.Label>Locate commands similar to how Twitch Toolkit does.</TKUtils.ToolkitStyleCommands.Label>
+    <TKUtils.ToolkitStyleCommands.Description>Twitch Toolkit compares commands by checking to see if a message starts with a command, while ToolkitUtils checks to see if the first "word" is a command. If this is enabled, ToolkitUtils will mimic the old behavior, with the exception of case insensitivity. TL;DR: this lets !balloon be a valid form of the !bal command.</TKUtils.ToolkitStyleCommands.Description>
+
+    <TKUtils.MainThreadCommands.Label>Run commands in the game's main thread.</TKUtils.MainThreadCommands.Label>
+    <TKUtils.MainThreadCommands.Description>By default, Twitch Toolkit runs all commands in a separate thread. This can lead to a host of problems when addons try to manipulate what the game does, like:\n - access exceptions\n - race conditions</TKUtils.MainThreadCommands.Description>
+
+    <!-- Installed Mods Command Group -->
+    <TKUtils.DecorateUtils.Label>Add a little star beside Utils in the mod list command.</TKUtils.DecorateUtils.Label>
+    <TKUtils.DecorateUtils.Description>because why not?</TKUtils.DecorateUtils.Description>
+
+    <TKUtils.VersionedModList.Label>Include mod versions in the mod list command.</TKUtils.VersionedModList.Label>
+    <TKUtils.VersionedModList.Description>Inserts mod versions, if Utils could find one, into the &lt;b&gt;!installedmods&lt;/b&gt; command's output.</TKUtils.VersionedModList.Description>
+
+    <!-- Item Purchases Group -->
+    <TKUtils.BuyItemBalance.Label>Show a viewer's remaining balance after buying an item.</TKUtils.BuyItemBalance.Label>
+    <TKUtils.BuyItemBalance.Description>Inserts the viewer's new balance after successfully buying an item. This does not work when the "confirmation messages" setting is disabled in Twitch Toolkit.</TKUtils.BuyItemBalance.Description>
+    <TKUtils.BuyItemFullSyntax.Label>Require viewers to use the mod's full item syntax before they can purchase an item.</TKUtils.BuyItemFullSyntax.Label>
+    <TKUtils.BuyItemFullSyntax.Description>If enabled, viewers will not be able to purchase items that require a material and/or quality unless both are specified (if applicable)</TKUtils.BuyItemFullSyntax.Description>
+
+    <!-- Lookup Command Group -->
+    <TKUtils.LookupLimit.Label>Maximum number of results in the lookup command.</TKUtils.LookupLimit.Label>
+    <TKUtils.LookupLimit.Description>The maximum number of results that can be displayed in the &lt;b&gt;!lookup&lt;/b&gt; command. Setting this to higher values may result in walls of text if a viewer uses with broad terms.</TKUtils.LookupLimit.Description>
+
+
+    <!-- Pawn Commands Tab -->
+    <!-- Leave Command Group -->
+    <TKUtils.Abandon.Method.Label>How pawns should leave when the leave command is invoked.</TKUtils.Abandon.Method.Label>
+    <TKUtils.Abandon.Method.Description>The type of leave method that'll be used when a viewer uses the &lt;b&gt;!leave&lt;/b&gt; command. The "Mental break" method will force the colonist to leave the colony, while the "Thanos" method will turn the colonist to dust.</TKUtils.Abandon.Method.Description>
+    <TKUtils.Abandon.Method.Thanos>Thanos</TKUtils.Abandon.Method.Thanos>
+    <TKUtils.Abandon.Method.MentalBreak>Mental break</TKUtils.Abandon.Method.MentalBreak>
+    <TKUtils.Abandon.Gear.Label>Colonists that leave by the leave command drop their inventory.</TKUtils.Abandon.Gear.Label>
+    <TKUtils.Abandon.Gear.Description>If a viewer chooses to leave the colony via the &lt;b&gt;!leave&lt;/b&gt; command, the mod will strip their equipment before they depart.</TKUtils.Abandon.Gear.Description>
+
+    <!-- Pawn Gear Command Group -->
+    <TKUtils.PawnGear.Temperature.Label>Show temperature information in the pawn gear command.</TKUtils.PawnGear.Temperature.Label>
+    <TKUtils.PawnGear.Temperature.Description>Include a pawn's temperature tolerance range in the &lt;b&gt;!mypawngear&lt;/b&gt; command. Enabling this removes temperature information from &lt;b&gt;!mypawnbody&lt;/b&gt;.</TKUtils.PawnGear.Temperature.Description>
+    <TKUtils.PawnGear.Apparel.Label>Show currently equipped apparel in the pawn gear command.</TKUtils.PawnGear.Apparel.Label>
+    <TKUtils.PawnGear.Apparel.Description>Include a pawn's current apparel in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Apparel.Description>
+    <TKUtils.PawnGear.Armor.Label>Show armor values in the pawn gear command.</TKUtils.PawnGear.Armor.Label>
+    <TKUtils.PawnGear.Armor.Description>Include armor protection values in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Armor.Description>
+    <TKUtils.PawnGear.Weapon.Label>Show currently equipped weapon in the pawn gear command.</TKUtils.PawnGear.Weapon.Label>
+    <TKUtils.PawnGear.Weapon.Description>Includes the weapon a pawn is currently equipped with in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Weapon.Description>
+
+    <!-- Pawn Health Command Group -->
+    <TKUtils.PawnHealth.Surgeries.Label>Show queued surgeries in the pawn health command.</TKUtils.PawnHealth.Surgeries.Label>
+    <TKUtils.PawnHealth.Surgeries.Description>Includes currently queued surgeries in the &lt;b&gt;!mypawnhealth&lt;/b&gt; command.</TKUtils.PawnHealth.Surgeries.Description>
+
+    <!-- Pawn Relations Command Group -->
+    <TKUtils.PawnRelations.OpinionThreshold.Label>Minimum opinion</TKUtils.PawnRelations.OpinionThreshold.Label>
+    <TKUtils.PawnRelations.OpinionThreshold.Description>The minimum opinion a pawn has to have of another before they'll show up in the command. The value will be used for both the negative (absolute) and positive opinion values</TKUtils.PawnRelations.OpinionThreshold.Description>
+    <TKUtils.PawnRelations.MinimalRelations.Label>Only show important relationships in the pawn relations command.</TKUtils.PawnRelations.MinimalRelations.Label>
+    <TKUtils.PawnRelations.MinimalRelations.Description>When enabled, only direct relationships will be shown in the &lt;b&gt;!mypawnrelations&lt;/b&gt; command. Opinion based relationships will be hidden, like friends and acquaintances.</TKUtils.PawnRelations.MinimalRelations.Description>
+
+    <!-- Pawn Work Command Group -->
+    <TKUtils.PawnWork.Sort.Label>Sort work priorities in the pawn work command.</TKUtils.PawnWork.Sort.Label>
+    <TKUtils.PawnWork.Sort.Description>If enabled, work priorities will be sorted like the Work tab in the &lt;b&gt;!mypawnwork&lt;/b&gt; command. This means work will be displayed as the Work tab from left to right.</TKUtils.PawnWork.Sort.Description>
+    <TKUtils.PawnWork.Filter.Label>Filter work priorities in the pawn work command.</TKUtils.PawnWork.Filter.Label>
+    <TKUtils.PawnWork.Filter.Description>If enabled, disabled work priorities will be removed from the &lt;b&gt;!mypawnwork&lt;/b&gt; command's output. This means work priorities a pawn is incapable of doing, or is not assigned to, will be omitted from the command's response.</TKUtils.PawnWork.Filter.Description>
+
+
+    <!-- Mod Compatibility Tab -->
+    <!-- Humanoid Alien Races Group -->
+    <TKUtils.HAR.PawnKinds.Label>Allow viewers to specify their pawn's kind when buying.</TKUtils.HAR.PawnKinds.Label>
+    <TKUtils.HAR.PawnKinds.Description>Completely disables the ability to specify a viewer's pawn kind when purchasing a pawn. Any pawn purchases will default to Human, even if it's disabled in the pawn kind config.</TKUtils.HAR.PawnKinds.Description>
+
+    <!-- A RimWorld of Magic Group -->
+    <TKUtils.TMagic.Classes.Label>Allow viewers to change their classes.</TKUtils.TMagic.Classes.Label>
+    <TKUtils.TMagic.Classes.Description>If enabled, Utils will lift the restriction surrounding class changes in the trait events.</TKUtils.TMagic.Classes.Description>
+    <TKUtils.TMagic.ResetClass.Label>Reset class abilities when changed</TKUtils.TMagic.ResetClass.Label>
+    <TKUtils.TMagic.ResetClass.Description>If enabled, Utils will reset the viewer's abilities prior to giving them their new class. This means the mod will clear their old classes' abilities, then give their pawn the new class.</TKUtils.TMagic.ResetClass.Description>
+
+    <!-- Puppeteer Group -->
+    <TKUtils.Puppeteer.Redirect.Label>Allow viewers to receive Utils' responses on Puppeteer.</TKUtils.Puppeteer.Redirect.Label>
+    <TKUtils.Puppeteer.Redirect.Description>If enabled, Utils will send its responses to the Puppeteer site, when applicable, instead of stream chat.</TKUtils.Puppeteer.Redirect.Description>
+
+
+    <!-- Incident Settings -->
+    <!-- Passion Incidents -->
+    <TKUtils.Passion.Randomness.Label>Passion events</TKUtils.Passion.Randomness.Label>
+    <TKUtils.Passion.Randomness.Description>When enabled, this event will have a chance of inducing a random passion-related event, or fail completely.</TKUtils.Passion.Randomness.Description>
+    <TKUtils.Passion.FailChance.Label>Fail chance</TKUtils.Passion.FailChance.Label>
+    <TKUtils.Passion.FailChance.Description>The percentage, from 0 to 100, that this event will fail outright. Should the purchase fail, the viewer will still be charged.</TKUtils.Passion.FailChance.Description>
+    <TKUtils.Passion.HopChance.Label>Hop chance</TKUtils.Passion.HopChance.Label>
+    <TKUtils.Passion.HopChance.Description>The percentage, from 0 to 100, that this event will be applied to a random eligible skill instead of the specified skill.</TKUtils.Passion.HopChance.Description>
+    <TKUtils.Passion.DecreaseChance.Label>Catastrophic fail chance</TKUtils.Passion.DecreaseChance.Label>
+    <TKUtils.Passion.DecreaseChance.Description>The percentage, from 0 to 100, that this event will decrease the pawn's current passion instead of increasing it. This event can also happen along side the "passion hop event".</TKUtils.Passion.DecreaseChance.Description>
+    <TKUtils.Passion.IncreaseChance.Description>The percentage, from 0 to 100, that this event will increase the pawn's current passion instead of decreasing it. This event can also happen along side the "passion hop event".</TKUtils.Passion.IncreaseChance.Description>
+
+    <!-- Backpack Incident -->
+    <TKUtils.Backpack.AutoEquip.Label>Auto-equip purchased gear</TKUtils.Backpack.AutoEquip.Label>
+    <TKUtils.Backpack.AutoEquip.Description>Whether or not pawns will automatically swap out their current gear for the ones purchased.</TKUtils.Backpack.AutoEquip.Description>
+
+    <!-- Heal Incidents -->
+    <TKUtils.Heal.FairFights.Label>Fair fights</TKUtils.Heal.FairFights.Label>
+    <TKUtils.Heal.FairFights.Description>Whether or not viewers can use this heal event while in combat.</TKUtils.Heal.FairFights.Description>
+
+    <!-- Item Incident -->
+    <TKUtils.Item.Gender.Label>Specify gender</TKUtils.Item.Gender.Label>
+    <TKUtils.Item.Gender.Description>Whether or not viewers can specify the gender of animals they purchase, if applicable.</TKUtils.Item.Gender.Description>
+    <TKUtils.Item.Quality.Label>Specify quality</TKUtils.Item.Quality.Label>
+    <TKUtils.Item.Quality.Description>Whether or not viewers can specify the quality of their purchase, if applicable.</TKUtils.Item.Quality.Description>
+    <TKUtils.Item.Stuff.Label>Specify stuff</TKUtils.Item.Stuff.Label>
+    <TKUtils.Item.Stuff.Description>Whether or not viewers can specify the material of their purchase, if applicable.</TKUtils.Item.Stuff.Description>
+    <TKUtils.Item.Research.Label>Research required</TKUtils.Item.Research.Label>
+    <TKUtils.Item.Research.Description>Whether or not viewers can only purcahse items that have been researched, assuming the item has a research prerequisites.</TKUtils.Item.Research.Description>
+    <TKUtils.Item.AwfulMultiplier>Awful quality multiplier</TKUtils.Item.AwfulMultiplier>
+    <TKUtils.Item.PoorMultiplier>Poor quality multiplier</TKUtils.Item.PoorMultiplier>
+    <TKUtils.Item.NormalMultiplier>Normal quality multiplier</TKUtils.Item.NormalMultiplier>
+    <TKUtils.Item.GoodMultiplier>Good quality multiplier</TKUtils.Item.GoodMultiplier>
+    <TKUtils.Item.ExcellentMultiplier>Excellent quality multiplier</TKUtils.Item.ExcellentMultiplier>
+    <TKUtils.Item.MasterworkMultiplier>Masterwork quality multiplier</TKUtils.Item.MasterworkMultiplier>
+    <TKUtils.Item.LegendaryMultiplier>Legendary quality multiplier</TKUtils.Item.LegendaryMultiplier>
+</LanguageData>

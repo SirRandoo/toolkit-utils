@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <!-- Balance -->
+    <TKUtils.Balance.Coins>coins</TKUtils.Balance.Coins>
+    <TKUtils.Balance.Karma>karma</TKUtils.Balance.Karma>
+    <TKUtils.Balance.Rate>Earning {0} coins every {1} minute(s)</TKUtils.Balance.Rate>
+
+    <!-- Give All -->
+    <TKUtils.GiveAll>Gave {0} coins to {1} viewers.</TKUtils.GiveAll>
+
+    <!-- Give Coins -->
+    <TKUtils.GiveCoins.Moderators>Moderators cannot give coins to other moderators.</TKUtils.GiveCoins.Moderators>
+    <TKUtils.GiveCoins.Alts>You cannot give coins to yourself or alternate accounts.</TKUtils.GiveCoins.Alts>
+    <TKUtils.GiveCoins.Done>Gave {0} coins to {1}. Their new balance is {2} coins.</TKUtils.GiveCoins.Done>
+
+    <!-- Database -->
+    <TKUtils.Database.Stats>stats</TKUtils.Database.Stats>
+
+    <!-- Colonist Count -->
+    <TKUtils.ColonistCount.None>It's a ghost town, Timmy.</TKUtils.ColonistCount.None>
+    <TKUtils.ColonistCount.Any>There are {0} colonists left.</TKUtils.ColonistCount.Any>
+
+    <!-- Factions -->
+    <TKUtils.Factions.None>There are no factions.</TKUtils.Factions.None>
+
+    <!-- Leave -->
+    <TKUtils.Leave.Thanos>Mr. Stark, I don't feel so good...</TKUtils.Leave.Thanos>
+    <TKUtils.Leave.Generic>You've left the colony.</TKUtils.Leave.Generic>
+    <TKUtils.Leave.Caravan>You cannot leave while in a caravan.</TKUtils.Leave.Caravan>
+    <TKUtils.Leave.Undead>You cannot leave the colony; you're bound to a Necromancer.</TKUtils.Leave.Undead>
+
+    <!-- Lookup -->
+    <TKUtils.Lookup>Results for "{0}": {1}</TKUtils.Lookup>
+
+    <!-- Pawn Class -->
+    <TKUtils.PawnClass.Might>Might</TKUtils.PawnClass.Might>
+    <TKUtils.PawnClass.Magic>Magic</TKUtils.PawnClass.Magic>
+    <TKUtils.PawnClass.Experience>EXP {0}/{1}</TKUtils.PawnClass.Experience>
+    <TKUtils.PawnClass.Level>Level {0}</TKUtils.PawnClass.Level>
+    <TKUtils.PawnClass.Stamina>Stamina</TKUtils.PawnClass.Stamina>
+    <TKUtils.PawnClass.Mana>Mana</TKUtils.PawnClass.Mana>
+    <TKUtils.PawnClass.None>You do not have a class.</TKUtils.PawnClass.None>
+    <TKUtils.PawnClass.Points>{0} point(s) available.</TKUtils.PawnClass.Points>
+
+    <!-- Pawn Relations -->
+    <TKUtils.PawnRelations.None>You don't have any relationships with other viewers.</TKUtils.PawnRelations.None>
+
+    <!-- Fix All -->
+    <TKUtils.FixAll>Successfully relinked all pawns in Twitch Toolkit.</TKUtils.FixAll>
+
+    <!-- Fix Me -->
+    <TKUtils.PawnFix>You've been successfully relinked in Twitch Toolkit.</TKUtils.PawnFix>
+
+    <!-- Pawn Health -->
+    <TKUtils.PawnHealth.InvalidCapacity>No capacity by the name of "{0}" could be found.</TKUtils.PawnHealth.InvalidCapacity>
+    <TKUtils.PawnHealth.IncapableOfCapacity>Your pawn does not have the capacity "{0}".</TKUtils.PawnHealth.IncapableOfCapacity>
+    <TKUtils.PawnHealth.QueuedSurgeries>Queued sugeries</TKUtils.PawnHealth.QueuedSurgeries>
+    <TKUtils.PawnHealth.OverallHealth>Overall health</TKUtils.PawnHealth.OverallHealth>
+    <TKUtils.PawnHealth.AffectedBy>Affected by</TKUtils.PawnHealth.AffectedBy>
+
+    <!-- Pawn Kills -->
+    <TKUtils.PawnKills.Total>total</TKUtils.PawnKills.Total>
+    <TKUtils.PawnKills.Mechanoids>mechanoids</TKUtils.PawnKills.Mechanoids>
+    <TKUtils.PawnKills.Animals>animals</TKUtils.PawnKills.Animals>
+    <TKUtils.PawnKills.Humanlike>humanlike</TKUtils.PawnKills.Humanlike>
+
+    <!-- Pawn Needs -->
+    <TKUtils.PawnNeeds.None>Your pawn has no needs.</TKUtils.PawnNeeds.None>
+
+    <!-- Pawn Work -->
+    <TKUtils.PawnWork.Header>Work priorities</TKUtils.PawnWork.Header>
+    <TKUtils.PawnWork.None>Your pawn cannot do any work.</TKUtils.PawnWork.None>
+
+    <!-- Price -->
+    <TKUtils.Price.Quantity>{0} - {1} coins each ({2} total coins required to purchase {3} item(s))</TKUtils.Price.Quantity>
+    <TKUtils.Price.AddTrait>{0} coins to add</TKUtils.Price.AddTrait>
+    <TKUtils.Price.RemoveTrait>{0} coins to remove</TKUtils.Price.RemoveTrait>
+    <TKUtils.Price.Limited>{0} - {1} coins</TKUtils.Price.Limited>
+    <TKUtils.Price.Overridden>This event pulls prices from the "{0}" category.</TKUtils.Price.Overridden>
+    <TKUtils.Price.External>This event's final price is determined by an external system.</TKUtils.Price.External>
+    <TKUtils.Price.Variables>{0} - {1} coins * X</TKUtils.Price.Variables>
+
+    <!-- Toggle Store -->
+    <TKUtils.ToggleStore.Enabled>Toolkit's store has been enabled.</TKUtils.ToggleStore.Enabled>
+    <TKUtils.ToggleStore.Disabled>Toolkit's store has been disabled.</TKUtils.ToggleStore.Disabled>
+
+    <!-- Research -->
+    <TKUtils.Research.InvalidQuery>No research project by the name of "{0}" could be found.</TKUtils.Research.InvalidQuery>
+    <TKUtils.Research.None>The colony is not currently researching anything.</TKUtils.Research.None>
+
+    <!-- Unstick -->
+    <TKUtils.Unstick>Unstuck {0} viewers.</TKUtils.Unstick>
+
+    <!-- Unstick Me -->
+    <TKUtils.UnstickMe.Complete>You've been removed from pause limbo.</TKUtils.UnstickMe.Complete>
+    <TKUtils.UnstickMe.Queued>Your request is being processed.</TKUtils.UnstickMe.Queued>
+
+    <!-- Favorite Color -->
+    <TKUtils.FavoriteColor.Complete>Your favorite color was changed.</TKUtils.FavoriteColor.Complete>
+</LanguageData>

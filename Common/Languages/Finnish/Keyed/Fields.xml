@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ ToolkitUtils
+  ~ Copyright (C) 2021  SirRandoo
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as published
+  ~ by the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<LanguageData>
+    <TKUtils.Fields.HasQuantityLimit>Has quantity limit?</TKUtils.Fields.HasQuantityLimit>
+    <TKUtils.Fields.QuantityLimit>Quantity limit</TKUtils.Fields.QuantityLimit>
+    <TKUtils.Fields.Weight>Purchase weight</TKUtils.Fields.Weight>
+    <TKUtils.Fields.KarmaType>Karma type</TKUtils.Fields.KarmaType>
+    <TKUtils.Fields.State>Is enabled?</TKUtils.Fields.State>
+    <TKUtils.Fields.Mod>Mod</TKUtils.Fields.Mod>
+    <TKUtils.Fields.Wager>Maximum coin wager</TKUtils.Fields.Wager>
+    <TKUtils.Fields.Price>Price</TKUtils.Fields.Price>
+    <TKUtils.Fields.PurchaseCode>Purchase code</TKUtils.Fields.PurchaseCode>
+    <TKUtils.Fields.IncidentTimes>Max times per {0} in-game day(s)</TKUtils.Fields.IncidentTimes>
+    <TKUtils.Fields.Username>Username</TKUtils.Fields.Username>
+    <TKUtils.Fields.Name>Name</TKUtils.Fields.Name>
+    <TKUtils.Fields.Category>Category</TKUtils.Fields.Category>
+    <TKUtils.Fields.IsWeapon>Is weapon?</TKUtils.Fields.IsWeapon>
+    <TKUtils.Fields.CanStack>Can stack?</TKUtils.Fields.CanStack>
+    <TKUtils.Fields.DefName>Def name</TKUtils.Fields.DefName>
+    <TKUtils.Fields.CanBeStuff>Can be stuff?</TKUtils.Fields.CanBeStuff>
+    <TKUtils.Fields.CanUse>Can use?</TKUtils.Fields.CanUse>
+    <TKUtils.Fields.CanWear>Can wear?</TKUtils.Fields.CanWear>
+    <TKUtils.Fields.CanEquip>Can equip?</TKUtils.Fields.CanEquip>
+    <TKUtils.Fields.IsMeleeWeapon>Is melee weapon?</TKUtils.Fields.IsMeleeWeapon>
+    <TKUtils.Fields.IsRangedWeapon>Is ranged weapon?</TKUtils.Fields.IsRangedWeapon>
+    <TKUtils.Fields.AddPrice>Add price</TKUtils.Fields.AddPrice>
+    <TKUtils.Fields.CanAdd>Can add trait</TKUtils.Fields.CanAdd>
+    <TKUtils.Fields.CanRemove>Can remove trait</TKUtils.Fields.CanRemove>
+    <TKUtils.Fields.RemovePrice>Remove price</TKUtils.Fields.RemovePrice>
+    <TKUtils.Fields.BypassTraitLimit>Bypass trait limit</TKUtils.Fields.BypassTraitLimit>
+    <TKUtils.Fields.AddKarmaType>Karma type for adding</TKUtils.Fields.AddKarmaType>
+    <TKUtils.Fields.RemoveKarmaType>Karma type for removing</TKUtils.Fields.RemoveKarmaType>
+    <TKUtils.Fields.UseKarmaType>Karma type for using</TKUtils.Fields.UseKarmaType>
+    <TKUtils.Fields.WearKarmaType>Karma type for wearing</TKUtils.Fields.WearKarmaType>
+    <TKUtils.Fields.EquipKarmaType>Karma type for equipping</TKUtils.Fields.EquipKarmaType>
+    <TKUtils.Fields.DefaultKarmaType>(Default)</TKUtils.Fields.DefaultKarmaType>
+    <TKUtils.Fields.EventCap>Event cap</TKUtils.Fields.EventCap>
+    <TKUtils.Fields.MaxWager>Max wager</TKUtils.Fields.MaxWager>
+    <TKUtils.Fields.SettingEmbed>Has setting embed?</TKUtils.Fields.SettingEmbed>
+    <TKUtils.Fields.CategorySearch>Category search</TKUtils.Fields.CategorySearch>
+    <TKUtils.Fields.HasSettings>Has settings?</TKUtils.Fields.HasSettings>
+    <TKUtils.Fields.Class>Is class?</TKUtils.Fields.Class>
+    <TKUtils.Fields.RequiresResearch>Should items be researched before being buyable?</TKUtils.Fields.RequiresResearch>
+    <TKUtils.Fields.TraitLimit>Maximum traits</TKUtils.Fields.TraitLimit>
+    <TKUtils.Fields.LevelSkillMultiplier>XP multiplier</TKUtils.Fields.LevelSkillMultiplier>
+    <TKUtils.Fields.Description>Description</TKUtils.Fields.Description>
+    <TKUtils.Fields.Manufactured>Is manufacturable?</TKUtils.Fields.Manufactured>
+    <TKUtils.Fields.Command>Command identifier</TKUtils.Fields.Command>
+    <TKUtils.Fields.UserLevel>User level</TKUtils.Fields.UserLevel>
+    <TKUtils.Fields.Seconds>second(s)</TKUtils.Fields.Seconds>
+    <TKUtils.Fields.Minutes>minute(s)</TKUtils.Fields.Minutes>
+    <TKUtils.Fields.Hours>hour(s)</TKUtils.Fields.Hours>
+</LanguageData>
