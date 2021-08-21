@@ -166,24 +166,24 @@ namespace SirRandoo.ToolkitUtils
             listing.Begin(canvas);
 
             listing.DrawModGroupHeader("Humanoid Alien Races", 839005762, false);
-            listing.CheckboxLabeled("TKUtils.HAR.PawnKinds.Label".Localize(), ref PurchasePawnKinds);
-            listing.DrawDescription("TKUtils.HAR.PawnKinds.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.HAR.PawnKinds.Label".TranslateSimple(), ref PurchasePawnKinds);
+            listing.DrawDescription("TKUtils.HAR.PawnKinds.Description".TranslateSimple());
 
             listing.DrawModGroupHeader("A RimWorld of Magic", 1201382956);
-            listing.CheckboxLabeled("TKUtils.TMagic.Classes.Label".Localize(), ref ClassChanges);
-            listing.DrawDescription("TKUtils.TMagic.Classes.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.TMagic.Classes.Label".TranslateSimple(), ref ClassChanges);
+            listing.DrawDescription("TKUtils.TMagic.Classes.Description".TranslateSimple());
             listing.DrawExperimentalNotice();
 
             if (ClassChanges)
             {
-                listing.CheckboxLabeled("TKUtils.TMagic.ResetClass.Label".Localize(), ref ResetClass);
-                listing.DrawDescription("TKUtils.TMagic.ResetClass.Description".Localize());
+                listing.CheckboxLabeled("TKUtils.TMagic.ResetClass.Label".TranslateSimple(), ref ResetClass);
+                listing.DrawDescription("TKUtils.TMagic.ResetClass.Description".TranslateSimple());
                 listing.DrawExperimentalNotice();
             }
 
             listing.DrawModGroupHeader("Puppeteer", 2057192142);
-            listing.CheckboxLabeled("TKUtils.Puppeteer.Redirect.Label".Localize(), ref Puppeteer);
-            listing.DrawDescription("TKUtils.Puppeteer.Redirect.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.Puppeteer.Redirect.Label".TranslateSimple(), ref Puppeteer);
+            listing.DrawDescription("TKUtils.Puppeteer.Redirect.Description".TranslateSimple());
             listing.DrawExperimentalNotice();
 
             listing.End();
@@ -200,45 +200,45 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawGroupHeader("TKUtils.Data.Files".Localize(), false);
 
             (Rect dumpLabel, Rect dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(dumpLabel, "TKUtils.DumpStyle.Label".Localize());
-            listing.DrawDescription("TKUtils.DumpStyle.Description".Localize());
+            SettingsHelper.DrawLabel(dumpLabel, "TKUtils.DumpStyle.Label".Translate());
+            listing.DrawDescription("TKUtils.DumpStyle.Description".Translate());
 
-            if (Widgets.ButtonText(dumpBtn, $"TKUtils.DumpStyle.{DumpStyle}".Localize()))
+            if (Widgets.ButtonText(dumpBtn, $"TKUtils.DumpStyle.{DumpStyle}".Translate()))
             {
                 Find.WindowStack.Add(new FloatMenu(_dumpStyleOptions));
             }
 
-            listing.CheckboxLabeled("TKUtils.MinifyData.Label".Localize(), ref MinifyData);
-            listing.DrawDescription("TKUtils.MinifyData.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.MinifyData.Label".Translate(), ref MinifyData);
+            listing.DrawDescription("TKUtils.MinifyData.Description".Translate());
 
-            listing.CheckboxLabeled("TKUtils.OffloadShop.Label".Localize(), ref Offload);
-            listing.DrawDescription("TKUtils.OffloadShop.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.OffloadShop.Label".Translate(), ref Offload);
+            listing.DrawDescription("TKUtils.OffloadShop.Description".Translate());
             listing.DrawExperimentalNotice();
 
-            listing.CheckboxLabeled("TKUtils.DoPurchasesAsap.Label".Localize(), ref AsapPurchases);
-            listing.DrawDescription("TKUtils.DoPurchasesAsap.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.DoPurchasesAsap.Label".Translate(), ref AsapPurchases);
+            listing.DrawDescription("TKUtils.DoPurchasesAsap.Description".Translate());
             listing.DrawExperimentalNotice();
 
-            listing.CheckboxLabeled("TKUtils.TrueNeutral.Label".Localize(), ref TrueNeutral);
-            listing.DrawDescription("TKUtils.TrueNeutral.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.TrueNeutral.Label".Translate(), ref TrueNeutral);
+            listing.DrawDescription("TKUtils.TrueNeutral.Description".Translate());
             listing.DrawExperimentalNotice();
 
             (Rect coinTypeLabel, Rect coinTypeField) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(coinTypeLabel, "TKUtils.BroadcasterUserType.Label".Localize());
-            listing.DrawDescription("TKUtils.BroadcasterUserType.Description".Localize());
+            SettingsHelper.DrawLabel(coinTypeLabel, "TKUtils.BroadcasterUserType.Label".Translate());
+            listing.DrawDescription("TKUtils.BroadcasterUserType.Description".Translate());
             listing.DrawExperimentalNotice();
 
-            if (Widgets.ButtonText(coinTypeField, $"TKUtils.BroadcasterUserType.{BroadcasterCoinType}".Localize()))
+            if (Widgets.ButtonText(coinTypeField, $"TKUtils.BroadcasterUserType.{BroadcasterCoinType}".Translate()))
             {
                 Find.WindowStack.Add(new FloatMenu(_coinUserTypeOptions));
             }
 
 
-            listing.DrawGroupHeader("TKUtils.Data.LazyProcess".Localize());
+            listing.DrawGroupHeader("TKUtils.Data.LazyProcess".Translate());
 
             (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(storeLabel, "TKUtils.StoreRate.Label".Localize());
-            listing.DrawDescription("TKUtils.StoreRate.Description".Localize());
+            SettingsHelper.DrawLabel(storeLabel, "TKUtils.StoreRate.Label".Translate());
+            listing.DrawDescription("TKUtils.StoreRate.Description".Translate());
 
             var storeBuffer = StoreBuildRate.ToString();
             Widgets.TextFieldNumeric(storeField, ref StoreBuildRate, ref storeBuffer);
@@ -342,11 +342,11 @@ namespace SirRandoo.ToolkitUtils
             _dumpStyleOptions ??= new List<FloatMenuOption>
             {
                 new FloatMenuOption(
-                    "TKUtils.DumpStyle.SingleFile".Localize(),
+                    "TKUtils.DumpStyle.SingleFile".Translate(),
                     () => DumpStyle = nameof(DumpStyles.SingleFile)
                 ),
                 new FloatMenuOption(
-                    "TKUtils.DumpStyle.MultiFile".Localize(),
+                    "TKUtils.DumpStyle.MultiFile".Translate(),
                     () => DumpStyle = nameof(DumpStyles.MultiFile)
                 )
             };
@@ -354,11 +354,11 @@ namespace SirRandoo.ToolkitUtils
             LeaveMenuOptions ??= new List<FloatMenuOption>
             {
                 new FloatMenuOption(
-                    "TKUtils.Abandon.Method.Thanos".Localize(),
+                    "TKUtils.Abandon.Method.Thanos".Translate(),
                     () => LeaveMethod = nameof(LeaveMethods.Thanos)
                 ),
                 new FloatMenuOption(
-                    "TKUtils.Abandon.Method.MentalBreak".Localize(),
+                    "TKUtils.Abandon.Method.MentalBreak".Translate(),
                     () => LeaveMethod = nameof(LeaveMethods.MentalBreak)
                 )
             };
@@ -366,23 +366,23 @@ namespace SirRandoo.ToolkitUtils
             _coinUserTypeOptions ??= new List<FloatMenuOption>
             {
                 new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.Broadcaster".Localize(),
+                    "TKUtils.BroadcasterUserType.Broadcaster".Translate(),
                     () => BroadcasterCoinType = nameof(UserCoinType.Broadcaster)
                 ),
                 new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.Subscriber".Localize(),
+                    "TKUtils.BroadcasterUserType.Subscriber".Translate(),
                     () => BroadcasterCoinType = nameof(UserCoinType.Subscriber)
                 ),
                 new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.Vip".Localize(),
+                    "TKUtils.BroadcasterUserType.Vip".Translate(),
                     () => BroadcasterCoinType = nameof(UserCoinType.Vip)
                 ),
                 new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.Moderator".Localize(),
+                    "TKUtils.BroadcasterUserType.Moderator".Translate(),
                     () => BroadcasterCoinType = nameof(UserCoinType.Moderator)
                 ),
                 new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.None".Localize(),
+                    "TKUtils.BroadcasterUserType.None".Translate(),
                     () => BroadcasterCoinType = nameof(UserCoinType.None)
                 )
             };
@@ -393,22 +393,22 @@ namespace SirRandoo.ToolkitUtils
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            listing.DrawGroupHeader("TKUtils.General.Emojis".Localize(), false);
-            listing.CheckboxLabeled("TKUtils.Emojis.Label".Localize(), ref Emojis);
-            listing.DrawDescription("TKUtils.Emojis.Description".Localize());
+            listing.DrawGroupHeader("TKUtils.General.Emojis".Translate(), false);
+            listing.CheckboxLabeled("TKUtils.Emojis.Label".Translate(), ref Emojis);
+            listing.DrawDescription("TKUtils.Emojis.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.General.Viewer".Localize());
-            listing.CheckboxLabeled("TKUtils.HairColor.Label".Localize(), ref HairColor);
-            listing.DrawDescription("TKUtils.HairColor.Description".Localize());
+            listing.DrawGroupHeader("TKUtils.General.Viewer".Translate());
+            listing.CheckboxLabeled("TKUtils.HairColor.Label".Translate(), ref HairColor);
+            listing.DrawDescription("TKUtils.HairColor.Description".Translate());
 
-            listing.DrawGroupHeader("TKUtils.General.Gateway".Localize());
-            listing.CheckboxLabeled("TKUtils.GatewayPuff.Label".Localize(), ref GatewayPuff);
-            listing.DrawDescription("TKUtils.GatewayPuff.Description".Localize());
+            listing.DrawGroupHeader("TKUtils.General.Gateway".Translate());
+            listing.CheckboxLabeled("TKUtils.GatewayPuff.Label".Translate(), ref GatewayPuff);
+            listing.DrawDescription("TKUtils.GatewayPuff.Description".Translate());
 
-            listing.DrawGroupHeader("TKUtils.General.Basket".Localize());
-            listing.CheckboxLabeled("TKUtils.EasterEggs.Label".Localize(), ref EasterEggs);
-            listing.DrawDescription("TKUtils.EasterEggs.Description".Localize());
+            listing.DrawGroupHeader("TKUtils.General.Basket".Translate());
+            listing.CheckboxLabeled("TKUtils.EasterEggs.Label".Translate(), ref EasterEggs);
+            listing.DrawDescription("TKUtils.EasterEggs.Description".Translate());
 
             listing.End();
         }
@@ -422,59 +422,59 @@ namespace SirRandoo.ToolkitUtils
             Widgets.BeginScrollView(canvas.AtZero(), ref _commandTweaksPos, viewPort);
             listing.Begin(viewPort);
 
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.Balance".Localize(), false);
-            listing.CheckboxLabeled("TKUtils.CoinRate.Label".Localize(), ref ShowCoinRate);
-            listing.DrawDescription("TKUtils.CoinRate.Description".Localize());
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.Balance".Translate(), false);
+            listing.CheckboxLabeled("TKUtils.CoinRate.Label".Translate(), ref ShowCoinRate);
+            listing.DrawDescription("TKUtils.CoinRate.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.Handler".Localize());
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.Handler".Translate());
 
             if (Commands)
             {
                 (Rect prefixLabel, Rect prefixField) = listing.GetRect(Text.LineHeight).ToForm();
-                SettingsHelper.DrawLabel(prefixLabel, "TKUtils.CommandPrefix.Label".Localize());
-                listing.DrawDescription("TKUtils.CommandPrefix.Description".Localize());
+                SettingsHelper.DrawLabel(prefixLabel, "TKUtils.CommandPrefix.Label".Translate());
+                listing.DrawDescription("TKUtils.CommandPrefix.Description".Translate());
                 Prefix = CommandHelper.ValidatePrefix(Widgets.TextField(prefixField, Prefix));
 
                 (Rect buyPrefixLabel, Rect buyPrefixField) = listing.GetRect(Text.LineHeight).ToForm();
-                SettingsHelper.DrawLabel(buyPrefixLabel, "TKUtils.PurchasePrefix.Label".Localize());
-                listing.DrawDescription("TKUtils.PurchasePrefix.Description".Localize());
+                SettingsHelper.DrawLabel(buyPrefixLabel, "TKUtils.PurchasePrefix.Label".Translate());
+                listing.DrawDescription("TKUtils.PurchasePrefix.Description".Translate());
                 BuyPrefix = CommandHelper.ValidatePrefix(Widgets.TextField(buyPrefixField, BuyPrefix));
             }
 
-            listing.CheckboxLabeled("TKUtils.CommandParser.Label".Localize(), ref Commands);
-            listing.DrawDescription("TKUtils.CommandParser.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.CommandParser.Label".Translate(), ref Commands);
+            listing.DrawDescription("TKUtils.CommandParser.Description".Translate());
 
             if (Commands)
             {
-                listing.CheckboxLabeled("TKUtils.ToolkitStyleCommands.Label".Localize(), ref ToolkitStyleCommands);
-                listing.DrawDescription("TKUtils.ToolkitStyleCommands.Description".Localize());
+                listing.CheckboxLabeled("TKUtils.ToolkitStyleCommands.Label".Translate(), ref ToolkitStyleCommands);
+                listing.DrawDescription("TKUtils.ToolkitStyleCommands.Description".Translate());
             }
 
 
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.InstalledMods".Localize());
-            listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".Localize(), ref DecorateMods);
-            listing.DrawDescription("TKUtils.DecorateUtils.Description".Localize());
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.InstalledMods".Translate());
+            listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".Translate(), ref DecorateMods);
+            listing.DrawDescription("TKUtils.DecorateUtils.Description".Translate());
 
-            listing.CheckboxLabeled("TKUtils.VersionedModList.Label".Localize(), ref VersionedModList);
-            listing.DrawDescription("TKUtils.VersionedModList.Description".Localize());
-
-
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.BuyItem".Localize());
-            listing.CheckboxLabeled("TKUtils.BuyItemBalance.Label".Localize(), ref BuyItemBalance);
-            listing.DrawDescription("TKUtils.BuyItemBalance.Description".Localize());
-            listing.CheckboxLabeled("TKUtils.BuyItemFullSyntax.Label".Localize(), ref ForceFullItem);
-            listing.DrawDescription("TKUtils.BuyItemFullSyntax.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.VersionedModList.Label".Translate(), ref VersionedModList);
+            listing.DrawDescription("TKUtils.VersionedModList.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.Lookup".Localize());
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.BuyItem".Translate());
+            listing.CheckboxLabeled("TKUtils.BuyItemBalance.Label".Translate(), ref BuyItemBalance);
+            listing.DrawDescription("TKUtils.BuyItemBalance.Description".Translate());
+            listing.CheckboxLabeled("TKUtils.BuyItemFullSyntax.Label".Translate(), ref ForceFullItem);
+            listing.DrawDescription("TKUtils.BuyItemFullSyntax.Description".Translate());
+
+
+            listing.DrawGroupHeader("TKUtils.CommandTweaks.Lookup".Translate());
 
             (Rect lookupLimitLabel, Rect lookupLimitField) = listing.GetRect(Text.LineHeight).ToForm();
             var buffer = LookupLimit.ToString();
 
-            SettingsHelper.DrawLabel(lookupLimitLabel, "TKUtils.LookupLimit.Label".Localize());
+            SettingsHelper.DrawLabel(lookupLimitLabel, "TKUtils.LookupLimit.Label".Translate());
             Widgets.TextFieldNumeric(lookupLimitField, ref LookupLimit, ref buffer);
-            listing.DrawDescription("TKUtils.LookupLimit.Description".Localize());
+            listing.DrawDescription("TKUtils.LookupLimit.Description".Translate());
 
             GUI.EndGroup();
             Widgets.EndScrollView();
@@ -490,58 +490,58 @@ namespace SirRandoo.ToolkitUtils
             Widgets.BeginScrollView(canvas.AtZero(), ref _commandTweaksPos, viewPort);
             listing.Begin(viewPort);
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Localize(), false);
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Translate(), false);
 
             (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(leaveLabelRect, "TKUtils.Abandon.Method.Label".Localize());
-            listing.DrawDescription("TKUtils.Abandon.Method.Description".Localize());
+            SettingsHelper.DrawLabel(leaveLabelRect, "TKUtils.Abandon.Method.Label".Translate());
+            listing.DrawDescription("TKUtils.Abandon.Method.Description".Translate());
 
-            if (Widgets.ButtonText(leaveRect, $"TKUtils.Abandon.Method.{LeaveMethod}".Localize()))
+            if (Widgets.ButtonText(leaveRect, $"TKUtils.Abandon.Method.{LeaveMethod}".Translate()))
             {
                 Find.WindowStack.Add(new FloatMenu(LeaveMenuOptions));
             }
 
             if (!LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethods.Thanos)))
             {
-                listing.CheckboxLabeled("TKUtils.Abandon.Gear.Label".Localize(), ref DropInventory);
-                listing.DrawDescription("TKUtils.Abandon.Gear.Description".Localize());
+                listing.CheckboxLabeled("TKUtils.Abandon.Gear.Label".Translate(), ref DropInventory);
+                listing.DrawDescription("TKUtils.Abandon.Gear.Description".Translate());
             }
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Gear".Localize());
-            listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".Localize(), ref TempInGear);
-            listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".Localize());
-            listing.CheckboxLabeled("TKUtils.PawnGear.Apparel.Label".Localize(), ref ShowApparel);
-            listing.DrawDescription("TKUtils.PawnGear.Apparel.Description".Localize());
-            listing.CheckboxLabeled("TKUtils.PawnGear.Armor.Label".Localize(), ref ShowArmor);
-            listing.DrawDescription("TKUtils.PawnGear.Armor.Description".Localize());
-            listing.CheckboxLabeled("TKUtils.PawnGear.Weapon.Label".Localize(), ref ShowWeapon);
-            listing.DrawDescription("TKUtils.PawnGear.Weapon.Description".Localize());
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Gear".Translate());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".Translate(), ref TempInGear);
+            listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".Translate());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Apparel.Label".Translate(), ref ShowApparel);
+            listing.DrawDescription("TKUtils.PawnGear.Apparel.Description".Translate());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Armor.Label".Translate(), ref ShowArmor);
+            listing.DrawDescription("TKUtils.PawnGear.Armor.Description".Translate());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Weapon.Label".Translate(), ref ShowWeapon);
+            listing.DrawDescription("TKUtils.PawnGear.Weapon.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Health".Localize());
-            listing.CheckboxLabeled("TKUtils.PawnHealth.Surgeries.Label".Localize(), ref ShowSurgeries);
-            listing.DrawDescription("TKUtils.PawnHealth.Surgeries.Description".Localize());
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Health".Translate());
+            listing.CheckboxLabeled("TKUtils.PawnHealth.Surgeries.Label".Translate(), ref ShowSurgeries);
+            listing.DrawDescription("TKUtils.PawnHealth.Surgeries.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Relations".Localize());
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Relations".Translate());
             (Rect opinionLabel, Rect opinionField) = listing.GetRect(Text.LineHeight).ToForm();
             var buffer = OpinionMinimum.ToString();
 
             if (!MinimalRelations)
             {
-                SettingsHelper.DrawLabel(opinionLabel, "TKUtils.PawnRelations.OpinionThreshold.Label".Localize());
+                SettingsHelper.DrawLabel(opinionLabel, "TKUtils.PawnRelations.OpinionThreshold.Label".Translate());
                 Widgets.TextFieldNumeric(opinionField, ref OpinionMinimum, ref buffer);
-                listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Localize());
+                listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Translate());
             }
 
-            listing.CheckboxLabeled("TKUtils.PawnRelations.MinimalRelations.Label".Localize(), ref MinimalRelations);
-            listing.DrawDescription("TKUtils.PawnRelations.MinimalRelations.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnRelations.MinimalRelations.Label".Translate(), ref MinimalRelations);
+            listing.DrawDescription("TKUtils.PawnRelations.MinimalRelations.Description".Translate());
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Work".Localize());
-            listing.CheckboxLabeled("TKUtils.PawnWork.Sort.Label".Localize(), ref SortWorkPriorities);
-            listing.DrawDescription("TKUtils.PawnWork.Sort.Description".Localize());
-            listing.CheckboxLabeled("TKUtils.PawnWork.Filter.Label".Localize(), ref FilterWorkPriorities);
-            listing.DrawDescription("TKUtils.PawnWork.Filter.Description".Localize());
+            listing.DrawGroupHeader("TKUtils.PawnCommands.Work".Translate());
+            listing.CheckboxLabeled("TKUtils.PawnWork.Sort.Label".Translate(), ref SortWorkPriorities);
+            listing.DrawDescription("TKUtils.PawnWork.Sort.Description".Translate());
+            listing.CheckboxLabeled("TKUtils.PawnWork.Filter.Label".Translate(), ref FilterWorkPriorities);
+            listing.DrawDescription("TKUtils.PawnWork.Filter.Description".Translate());
 
             GUI.EndGroup();
             Widgets.EndScrollView();

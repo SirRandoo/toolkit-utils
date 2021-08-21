@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#if !RW12
 using System;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
@@ -26,11 +25,8 @@ using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
 
-#endif
-
 namespace SirRandoo.ToolkitUtils.Workers
 {
-#if !RW12
     public static class ToolkitSettingsWorker
     {
         private static TabWorker _tabWorker;
@@ -111,19 +107,19 @@ namespace SirRandoo.ToolkitUtils.Workers
             _tabWorker.AddTab(
                 _coinTabItem ??= new TabItem
                 {
-                    ContentDrawer = DrawCoinSettings, Label = "TwitchToolkitCoins".Localize()
+                    ContentDrawer = DrawCoinSettings, Label = "TwitchToolkitCoins".Translate()
                 }
             );
             _tabWorker.AddTab(
                 _cooldownTabItem ??= new TabItem
                 {
-                    ContentDrawer = DrawCooldownSettings, Label = "TwitchToolkitCooldowns".Localize()
+                    ContentDrawer = DrawCooldownSettings, Label = "TwitchToolkitCooldowns".Translate()
                 }
             );
             _tabWorker.AddTab(
                 _karmaTabItem ??= new TabItem
                 {
-                    ContentDrawer = DrawKarmaSettings, Label = "TwitchToolkitKarma".Localize()
+                    ContentDrawer = DrawKarmaSettings, Label = "TwitchToolkitKarma".Translate()
                 }
             );
             _tabWorker.AddTab(
@@ -132,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             _tabWorker.AddTab(
                 _storeTabItem ??= new TabItem
                 {
-                    ContentDrawer = DrawStoreSettings, Label = "TwitchToolkitStore".Localize()
+                    ContentDrawer = DrawStoreSettings, Label = "TwitchToolkitStore".Translate()
                 }
             );
             _tabWorker.AddTab(
@@ -141,7 +137,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             _tabWorker.AddTab(
                 _viewerTabItem ??= new TabItem
                 {
-                    ContentDrawer = DrawViewerSettings, Label = "TwitchToolkitViewers".Localize()
+                    ContentDrawer = DrawViewerSettings, Label = "TwitchToolkitViewers".Translate()
                 }
             );
         }
@@ -164,13 +160,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
             listing.Gap();
 
-            listing.CheckboxLabeled("TwitchToolkitMaxEventsLimit".Localize(), ref ToolkitSettings.MaxEvents);
+            listing.CheckboxLabeled("TwitchToolkitMaxEventsLimit".Translate(), ref ToolkitSettings.MaxEvents);
             listing.Gap();
 
             if (ToolkitSettings.MaxEvents)
             {
                 (Rect badEventsLabel, Rect badEventsField) = listing.GetRectAsForm(0.85f);
-                SettingsHelper.DrawLabel(badEventsLabel, "TwitchToolkitMaxBadEvents".Localize());
+                SettingsHelper.DrawLabel(badEventsLabel, "TwitchToolkitMaxBadEvents".Translate());
                 _maxBadEventsBuffer ??= ToolkitSettings.MaxBadEventsPerInterval.ToString();
                 Widgets.TextFieldNumeric(
                     badEventsField,
@@ -179,7 +175,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 );
 
                 (Rect goodEventsLabel, Rect goodEventsField) = listing.GetRectAsForm(0.85f);
-                SettingsHelper.DrawLabel(goodEventsLabel, "TwitchToolkitMaxGoodEvents".Localize());
+                SettingsHelper.DrawLabel(goodEventsLabel, "TwitchToolkitMaxGoodEvents".Translate());
                 _maxGoodEventsBuffer ??= ToolkitSettings.MaxGoodEventsPerInterval.ToString();
                 Widgets.TextFieldNumeric(
                     goodEventsField,
@@ -188,7 +184,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 );
 
                 (Rect neutralEventsLabel, Rect neutralEventsField) = listing.GetRectAsForm(0.85f);
-                SettingsHelper.DrawLabel(neutralEventsLabel, "TwitchToolkitMaxNeutralEvents".Localize());
+                SettingsHelper.DrawLabel(neutralEventsLabel, "TwitchToolkitMaxNeutralEvents".Translate());
                 _maxNeutralEventsBuffer ??= ToolkitSettings.MaxNeutralEventsPerInterval.ToString();
                 Widgets.TextFieldNumeric(
                     neutralEventsField,
@@ -197,7 +193,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 );
 
                 (Rect itemEventsLabel, Rect itemEventsField) = listing.GetRectAsForm(0.85f);
-                SettingsHelper.DrawLabel(itemEventsLabel, "TwitchToolkitMaxItemEvents".Localize());
+                SettingsHelper.DrawLabel(itemEventsLabel, "TwitchToolkitMaxItemEvents".Translate());
                 _maxItemEventsBuffer ??= ToolkitSettings.MaxCarePackagesPerInterval.ToString();
                 Widgets.TextFieldNumeric(
                     itemEventsField,
@@ -209,7 +205,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             listing.CheckboxLabeled(
-                "TwitchToolkitEventsHaveCooldowns".Localize(),
+                "TwitchToolkitEventsHaveCooldowns".Translate(),
                 ref ToolkitSettings.EventsHaveCooldowns
             );
 
@@ -230,7 +226,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             listing.Begin(viewPort);
 
             (Rect startKarmaLabel, Rect startKarmaField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(startKarmaLabel, "TwitchToolkitStartingKarma".Localize());
+            SettingsHelper.DrawLabel(startKarmaLabel, "TwitchToolkitStartingKarma".Translate());
             _startKarmaBuffer ??= ToolkitSettings.StartingKarma.ToString();
             Widgets.TextFieldNumeric(
                 startKarmaField,
@@ -241,12 +237,12 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
 
             (Rect karmaCapLabel, Rect karmaCapField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(karmaCapLabel, "TwitchToolkitKarmaCap".Localize());
+            SettingsHelper.DrawLabel(karmaCapLabel, "TwitchToolkitKarmaCap".Translate());
             _karmaCapBuffer ??= ToolkitSettings.KarmaCap.ToString();
             Widgets.TextFieldNumeric(karmaCapField, ref ToolkitSettings.KarmaCap, ref _karmaCapBuffer);
 
             listing.CheckboxLabeled(
-                "TwitchToolkitBanViewersWhoAreBad".Localize(),
+                "TwitchToolkitBanViewersWhoAreBad".Translate(),
                 ref ToolkitSettings.BanViewersWhoPurchaseAlwaysBad
             );
             listing.Gap();
@@ -258,7 +254,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             listing.Gap();
 
             listing.CheckboxLabeled(
-                "TwitchToolkitKarmaReqsForGifting".Localize(),
+                "TwitchToolkitKarmaReqsForGifting".Translate(),
                 ref ToolkitSettings.KarmaReqsForGifting
             );
             listing.Gap();
@@ -266,7 +262,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             if (ToolkitSettings.KarmaReqsForGifting)
             {
                 (Rect minKarmaGiftLabel, Rect minKarmaGiftField) = listing.GetRectAsForm(0.85f);
-                SettingsHelper.DrawLabel(minKarmaGiftLabel, "TwitchToolkitMinKarmaForGifts".Localize());
+                SettingsHelper.DrawLabel(minKarmaGiftLabel, "TwitchToolkitMinKarmaForGifts".Translate());
                 _minGiftKarmaBuffer ??= ToolkitSettings.MinimumKarmaToRecieveGifts.ToString();
                 Widgets.TextFieldNumeric(
                     minKarmaGiftField,
@@ -276,7 +272,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 );
 
                 (Rect minKarmaGiftingLabel, Rect minKarmaGiftingField) = listing.GetRectAsForm(0.85f);
-                SettingsHelper.DrawLabel(minKarmaGiftingLabel, "TwitchToolkitMinKarmaSendGifts".Localize());
+                SettingsHelper.DrawLabel(minKarmaGiftingLabel, "TwitchToolkitMinKarmaSendGifts".Translate());
                 _minGiftingKarmaBuffer ??= ToolkitSettings.MinimumKarmaToSendGifts.ToString();
                 Widgets.TextFieldNumeric(
                     minKarmaGiftingField,
@@ -288,14 +284,14 @@ namespace SirRandoo.ToolkitUtils.Workers
                 listing.Gap();
             }
 
-            listing.DrawGroupHeader("TwitchToolkitGoodViewers".Localize());
+            listing.DrawGroupHeader("TwitchToolkitGoodViewers".Translate());
             (Rect tOneGoodLabel, Rect tOneGoodField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tOneGoodLabel, "TwitchToolkitGoodKarma".Localize());
+            SettingsHelper.DrawLabel(tOneGoodLabel, "TwitchToolkitGoodKarma".Translate());
             _tOneGoodKarmaBuffer ??= ToolkitSettings.TierOneGoodBonus.ToString();
             Widgets.TextFieldNumeric(tOneGoodField, ref ToolkitSettings.TierOneGoodBonus, ref _tOneGoodKarmaBuffer, 1f);
 
             (Rect tOneNeutralLabel, Rect tOneNeutralField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tOneNeutralLabel, "TwitchToolkitNeutralKarma".Localize());
+            SettingsHelper.DrawLabel(tOneNeutralLabel, "TwitchToolkitNeutralKarma".Translate());
             _tOneNeutralKarmaBuffer ??= ToolkitSettings.TierOneNeutralBonus.ToString();
             Widgets.TextFieldNumeric(
                 tOneNeutralField,
@@ -305,18 +301,18 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
 
             (Rect tOneBadLabel, Rect tOneBadField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tOneBadLabel, "TwitchToolkitBadKarma".Localize());
+            SettingsHelper.DrawLabel(tOneBadLabel, "TwitchToolkitBadKarma".Translate());
             _tOneBadKarmaBuffer ??= ToolkitSettings.TierOneBadBonus.ToString();
             Widgets.TextFieldNumeric(tOneBadField, ref ToolkitSettings.TierOneBadBonus, ref _tOneBadKarmaBuffer, 1f);
 
             listing.DrawGroupHeader("TwitchToolkitNeutralViewers".Localize());
             (Rect tTwoGoodLabel, Rect tTwoGoodField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tTwoGoodLabel, "TwitchToolkitGoodKarma".Localize());
+            SettingsHelper.DrawLabel(tTwoGoodLabel, "TwitchToolkitGoodKarma".Translate());
             _tTwoGoodKarmaBuffer ??= ToolkitSettings.TierTwoGoodBonus.ToString();
             Widgets.TextFieldNumeric(tTwoGoodField, ref ToolkitSettings.TierTwoGoodBonus, ref _tTwoGoodKarmaBuffer, 1f);
 
             (Rect tTwoNeutralLabel, Rect tTwoNeutralField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tTwoNeutralLabel, "TwitchToolkitNeutralKarma".Localize());
+            SettingsHelper.DrawLabel(tTwoNeutralLabel, "TwitchToolkitNeutralKarma".Translate());
             _tTwoNeutralKarmaBuffer ??= ToolkitSettings.TierTwoNeutralBonus.ToString();
             Widgets.TextFieldNumeric(
                 tTwoNeutralField,
@@ -326,13 +322,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
 
             (Rect tTwoBadLabel, Rect tTwoBadField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tTwoBadLabel, "TwitchToolkitBadKarma".Localize());
+            SettingsHelper.DrawLabel(tTwoBadLabel, "TwitchToolkitBadKarma".Translate());
             _tTwoBadKarmaBuffer ??= ToolkitSettings.TierTwoBadBonus.ToString();
             Widgets.TextFieldNumeric(tTwoBadField, ref ToolkitSettings.TierTwoBadBonus, ref _tTwoBadKarmaBuffer, 1f);
 
-            listing.DrawGroupHeader("TwitchToolkitBadViewers".Localize());
+            listing.DrawGroupHeader("TwitchToolkitBadViewers".Translate());
             (Rect tThreeGoodLabel, Rect tThreeGoodField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tThreeGoodLabel, "TwitchToolkitGoodKarma".Localize());
+            SettingsHelper.DrawLabel(tThreeGoodLabel, "TwitchToolkitGoodKarma".Translate());
             _tThreeGoodKarmaBuffer ??= ToolkitSettings.TierThreeGoodBonus.ToString();
             Widgets.TextFieldNumeric(
                 tThreeGoodField,
@@ -342,7 +338,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
 
             (Rect tThreeNeutralLabel, Rect tThreeNeutralField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tThreeNeutralLabel, "TwitchToolkitNeutralKarma".Localize());
+            SettingsHelper.DrawLabel(tThreeNeutralLabel, "TwitchToolkitNeutralKarma".Translate());
             _tThreeNeutralKarmaBuffer ??= ToolkitSettings.TierThreeNeutralBonus.ToString();
             Widgets.TextFieldNumeric(
                 tThreeNeutralField,
@@ -352,7 +348,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
 
             (Rect tThreeBadLabel, Rect tThreeBadField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tThreeBadLabel, "TwitchToolkitBadKarma".Localize());
+            SettingsHelper.DrawLabel(tThreeBadLabel, "TwitchToolkitBadKarma".Translate());
             _tThreeBadKarmaBuffer ??= ToolkitSettings.TierThreeBadBonus.ToString();
             Widgets.TextFieldNumeric(
                 tThreeBadField,
@@ -361,9 +357,9 @@ namespace SirRandoo.ToolkitUtils.Workers
                 1f
             );
 
-            listing.DrawGroupHeader("TwitchToolkitDoomViewers".Localize());
+            listing.DrawGroupHeader("TwitchToolkitDoomViewers".Translate());
             (Rect tFourGoodLabel, Rect tFourGoodField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tFourGoodLabel, "TwitchToolkitGoodKarma".Localize());
+            SettingsHelper.DrawLabel(tFourGoodLabel, "TwitchToolkitGoodKarma".Translate());
             _tFourGoodKarmaBuffer ??= ToolkitSettings.TierFourGoodBonus.ToString();
             Widgets.TextFieldNumeric(
                 tFourGoodField,
@@ -373,7 +369,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
 
             (Rect tFourNeutralLabel, Rect tFourNeutralField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tFourNeutralLabel, "TwitchToolkitNeutralKarma".Localize());
+            SettingsHelper.DrawLabel(tFourNeutralLabel, "TwitchToolkitNeutralKarma".Translate());
             _tFourNeutralKarmaBuffer ??= ToolkitSettings.TierFourNeutralBonus.ToString();
             Widgets.TextFieldNumeric(
                 tFourNeutralField,
@@ -383,7 +379,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
 
             (Rect tFourBadLabel, Rect tFourBadField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(tFourBadLabel, "TwitchToolkitBadKarma".Localize());
+            SettingsHelper.DrawLabel(tFourBadLabel, "TwitchToolkitBadKarma".Translate());
             _tFourBadKarmaBuffer ??= ToolkitSettings.TierFourBadBonus.ToString();
             Widgets.TextFieldNumeric(tFourBadField, ref ToolkitSettings.TierFourBadBonus, ref _tFourBadKarmaBuffer, 1f);
 
@@ -435,10 +431,10 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             listing.Begin(region);
 
-            listing.CheckboxLabeled("TwitchToolkitEarningCoins".Localize(), ref ToolkitSettings.EarningCoins);
+            listing.CheckboxLabeled("TwitchToolkitEarningCoins".Translate(), ref ToolkitSettings.EarningCoins);
 
             (Rect listLabel, Rect listField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(listLabel, "TwitchToolkitCustomPricingLink".Localize());
+            SettingsHelper.DrawLabel(listLabel, "TwitchToolkitCustomPricingLink".Translate());
             ToolkitSettings.CustomPricingSheetLink = Widgets.TextField(
                 listField,
                 ToolkitSettings.CustomPricingSheetLink
@@ -446,7 +442,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             listing.Gap();
             listing.GapLine();
 
-            string openText = "TKUtils.Buttons.Open".Localize();
+            string openText = "TKUtils.Buttons.Open".Translate();
             (Rect itemsEditLabel, Rect itemsEditField) = listing.GetRectAsForm(0.85f);
             SettingsHelper.DrawLabel(itemsEditLabel, "Items Edit");
 
@@ -464,7 +460,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             (Rect traitsEditLabel, Rect traitsEditField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(traitsEditLabel, $"[ToolkitUtils] {"Traits".Localize()}");
+            SettingsHelper.DrawLabel(traitsEditLabel, $"[ToolkitUtils] {"Traits".Translate()}");
 
             if (Widgets.ButtonText(traitsEditField, openText))
             {
@@ -472,7 +468,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             (Rect kindsEditLabel, Rect kindsEditField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(kindsEditLabel, $"[ToolkitUtils] {"Race".Localize().Pluralize()}");
+            SettingsHelper.DrawLabel(kindsEditLabel, $"[ToolkitUtils] {"Race".Translate().RawText.Pluralize()}");
 
             if (Widgets.ButtonText(kindsEditField, openText))
             {
@@ -480,7 +476,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             (Rect editorLabel, Rect editorField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(editorLabel, $"[ToolkitUtils] {"TKUtils.Editor.Title".Localize()}");
+            SettingsHelper.DrawLabel(editorLabel, $"[ToolkitUtils] {"TKUtils.Editor.Title".Translate()}");
 
             if (Widgets.ButtonText(editorField, openText))
             {
@@ -491,12 +487,15 @@ namespace SirRandoo.ToolkitUtils.Workers
             listing.GapLine();
 
             listing.CheckboxLabeled(
-                "TwitchToolkitPurchaseConfirmations".Localize(),
+                "TwitchToolkitPurchaseConfirmations".Translate(),
                 ref ToolkitSettings.PurchaseConfirmations
             );
-            listing.CheckboxLabeled("TwitchToolkitRepeatViewerNames".Localize(), ref ToolkitSettings.RepeatViewerNames);
             listing.CheckboxLabeled(
-                "TwitchToolkitMinifiableBuildings".Localize(),
+                "TwitchToolkitRepeatViewerNames".Translate(),
+                ref ToolkitSettings.RepeatViewerNames
+            );
+            listing.CheckboxLabeled(
+                "TwitchToolkitMinifiableBuildings".Translate(),
                 ref ToolkitSettings.MinifiableBuildings
             );
 
@@ -512,18 +511,21 @@ namespace SirRandoo.ToolkitUtils.Workers
             listing.DrawGroupHeader("Global", false);
 
             (Rect voteTimeLabel, Rect voteTimeField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(voteTimeLabel, "TwitchToolkitVoteTime".Localize());
+            SettingsHelper.DrawLabel(voteTimeLabel, "TwitchToolkitVoteTime".Translate());
             _voteTimeBuffer ??= ToolkitSettings.VoteTime.ToString();
             Widgets.TextFieldNumeric(voteTimeField, ref ToolkitSettings.VoteTime, ref _voteTimeBuffer, 1f, 15f);
 
             (Rect voteOptionsLabel, Rect voteOptionsField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(voteOptionsLabel, "TwitchToolkitVoteOptions".Localize());
+            SettingsHelper.DrawLabel(voteOptionsLabel, "TwitchToolkitVoteOptions".Translate());
             _voteOptionsBuffer ??= ToolkitSettings.VoteOptions.ToString();
             Widgets.TextFieldNumeric(voteOptionsField, ref ToolkitSettings.VoteOptions, ref _voteOptionsBuffer, 2f, 5f);
 
-            listing.CheckboxLabeled("TwitchToolkitVotingChatMsgs".Localize(), ref ToolkitSettings.VotingChatMsgs);
-            listing.CheckboxLabeled("TwitchToolkitVotingWindow".Localize(), ref ToolkitSettings.VotingWindow);
-            listing.CheckboxLabeled("TwitchToolkitLargeVotingWindow".Localize(), ref ToolkitSettings.LargeVotingWindow);
+            listing.CheckboxLabeled("TwitchToolkitVotingChatMsgs".Translate(), ref ToolkitSettings.VotingChatMsgs);
+            listing.CheckboxLabeled("TwitchToolkitVotingWindow".Translate(), ref ToolkitSettings.VotingWindow);
+            listing.CheckboxLabeled(
+                "TwitchToolkitLargeVotingWindow".Translate(),
+                ref ToolkitSettings.LargeVotingWindow
+            );
             listing.Gap();
             listing.Gap();
 
@@ -558,7 +560,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 ref ToolkitSettings.EnableViewerQueue
             );
             listing.CheckboxLabeled(
-                "TwitchToolkitViewerColonistQueue".Localize(),
+                "TwitchToolkitViewerColonistQueue".Translate(),
                 ref ToolkitSettings.ViewerNamedColonistQueue
             );
             listing.CheckboxLabeled("Charge viewers to join queue?", ref ToolkitSettings.ChargeViewersForQueue);
@@ -764,31 +766,31 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             listing.Begin(region);
             (Rect startBalLabel, Rect startBalField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(startBalLabel, "TwitchToolkitStartingBalance".Localize());
+            SettingsHelper.DrawLabel(startBalLabel, "TwitchToolkitStartingBalance".Translate());
             _startingBalanceBuffer ??= ToolkitSettings.StartingBalance.ToString();
             Widgets.TextFieldNumeric(startBalField, ref ToolkitSettings.StartingBalance, ref _startingBalanceBuffer);
 
             (Rect coinIntLabel, Rect coinIntField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(coinIntLabel, "TwitchToolkitCoinInterval".Localize());
+            SettingsHelper.DrawLabel(coinIntLabel, "TwitchToolkitCoinInterval".Translate());
             _coinIntervalBuffer ??= ToolkitSettings.CoinInterval.ToString();
             Widgets.TextFieldNumeric(coinIntField, ref ToolkitSettings.CoinInterval, ref _coinIntervalBuffer);
 
             (Rect coinAmountLabel, Rect coinAmountField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(coinAmountLabel, "TwitchToolkitCoinAmount".Localize());
+            SettingsHelper.DrawLabel(coinAmountLabel, "TwitchToolkitCoinAmount".Translate());
             _coinAmountBuffer ??= ToolkitSettings.CoinAmount.ToString();
             Widgets.TextFieldNumeric(coinAmountField, ref ToolkitSettings.CoinAmount, ref _coinAmountBuffer);
 
             (Rect minPurLabel, Rect minPurField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(minPurLabel, "TwitchToolkitMinimumPurchasePrice".Localize());
+            SettingsHelper.DrawLabel(minPurLabel, "TwitchToolkitMinimumPurchasePrice".Translate());
             _minimumPurchaseBuffer ??= ToolkitSettings.MinimumPurchasePrice.ToString();
             Widgets.TextFieldNumeric(minPurField, ref ToolkitSettings.MinimumPurchasePrice, ref _minimumPurchaseBuffer);
 
             listing.Gap();
-            listing.CheckboxLabeled("TwitchToolkitUnlimitedCoins".Localize(), ref ToolkitSettings.UnlimitedCoins);
+            listing.CheckboxLabeled("TwitchToolkitUnlimitedCoins".Translate(), ref ToolkitSettings.UnlimitedCoins);
             listing.GapLine();
             listing.Gap();
 
-            listing.CheckboxLabeled("TwitchToolkitChatReqsForCoins".Localize(), ref ToolkitSettings.ChatReqsForCoins);
+            listing.CheckboxLabeled("TwitchToolkitChatReqsForCoins".Translate(), ref ToolkitSettings.ChatReqsForCoins);
 
             if (!ToolkitSettings.ChatReqsForCoins)
             {
@@ -797,12 +799,12 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             (Rect halfCoinsLabel, Rect halfCoinsField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(halfCoinsLabel, "TwitchToolkitTimeBeforeHalfCoins".Localize());
+            SettingsHelper.DrawLabel(halfCoinsLabel, "TwitchToolkitTimeBeforeHalfCoins".Translate());
             _halfCoinsBuffer ??= ToolkitSettings.TimeBeforeHalfCoins.ToString();
             Widgets.TextFieldNumeric(halfCoinsField, ref ToolkitSettings.TimeBeforeHalfCoins, ref _halfCoinsBuffer);
 
             (Rect noCoinsLabel, Rect noCoinsField) = listing.GetRectAsForm(0.85f);
-            SettingsHelper.DrawLabel(noCoinsLabel, "TwitchToolkitTimeBeforeNoCoins".Localize());
+            SettingsHelper.DrawLabel(noCoinsLabel, "TwitchToolkitTimeBeforeNoCoins".Translate());
             _noCoinsBuffer ??= ToolkitSettings.TimeBeforeNoCoins.ToString();
             Widgets.TextFieldNumeric(noCoinsField, ref ToolkitSettings.TimeBeforeNoCoins, ref _noCoinsBuffer);
             listing.End();
@@ -822,5 +824,4 @@ namespace SirRandoo.ToolkitUtils.Workers
             return result;
         }
     }
-#endif
 }
