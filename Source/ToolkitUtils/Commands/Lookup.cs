@@ -104,8 +104,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                             return true;
                         }
 
-                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
-                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.DefName?.ToToolkit().Contains(query.ToToolkit()) == true
+                               || i.DefName?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) == true;
                     }
                 )
                .Select(i => i.Name.CapitalizeFirst())
@@ -169,6 +169,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Where(
                     i =>
                     {
+                        if (i.Name == null || i.DefName == null)
+                        {
+                            return false;
+                        }
+
                         string label = i.Name.ToToolkit();
                         string q = query.ToToolkit();
 
@@ -177,8 +182,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                             return true;
                         }
 
-                        return i.DefName.ToToolkit().Contains(query.ToToolkit())
-                               || i.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit());
+                        return i.DefName?.ToToolkit().Contains(query.ToToolkit()) == true
+                               || i.DefName?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) == true;
                     }
                 )
                .Select(i => i.Name.ToToolkit().CapitalizeFirst())
