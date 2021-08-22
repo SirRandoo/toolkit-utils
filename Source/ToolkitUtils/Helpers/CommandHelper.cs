@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                             new HealthReport
                             {
                                 Message =
-                                    $@"Command ""{command.command}"" threw an exception! The stacktrace can be found in the debug log.\n\n{e.GetType().Name}({e.Message})",
+                                    $@"Command ""{command.command}"" threw an exception! The stacktrace can be found in the debug log.<br/><br/>{e.GetType().Name}({e.Message})",
                                 OccurredAt = DateTime.Now,
                                 Reporter = "ToolkitUtils - Command Handler",
                                 Type = HealthReport.ReportType.Error

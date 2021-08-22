@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Models
                         Reporter = "ToolkitUtils - Event Handler",
                         Type = HealthReport.ReportType.Error,
                         Message =
-                            $@"The event ""{DefName}"" didn't execute successfully. The full stacktrace can be found in the debug log.\n\n{e.GetType().Name}({e.Message})"
+                            $@"The event ""{DefName}"" didn't execute successfully. The full stacktrace can be found in the debug log.<br/><br/>{e.GetType().Name}({e.Message})"
                     }
                 );
 
