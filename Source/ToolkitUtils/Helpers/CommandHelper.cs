@@ -19,6 +19,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
+using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Helpers
 {
@@ -64,10 +65,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
                             new HealthReport
                             {
                                 Message =
-                                    $@"Command ""{command.command}"" threw an exception! The stacktrace can be found in the debug log.<br/><br/>{e.GetType().Name}({e.Message})",
+                                    $@"Command ""{message.Message} ({command.command})"" didn't execute successfully. Reason: {e.GetType().Name}({e.Message})",
                                 OccurredAt = DateTime.Now,
                                 Reporter = "ToolkitUtils - Command Handler",
-                                Type = HealthReport.ReportType.Error
+                                Type = HealthReport.ReportType.Error,
+                                Stacktrace = StackTraceUtility.ExtractStringFromException(e)
                             }
                         );
                     }

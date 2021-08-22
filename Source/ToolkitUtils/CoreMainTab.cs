@@ -34,12 +34,19 @@ namespace SirRandoo.ToolkitUtils
     {
         private static readonly List<MenuCache> MenuCaches;
         private float buttonHeight;
+        private string closeTooltip;
+        private string debugTooltip;
+        private string errorTooltip;
+        private string healthReportText;
         private Vector2 healthScrollPos = Vector2.zero;
         private string hoursText;
+        private string infoTooltip;
         private string minutesText;
         private string noReportsText;
+        private string quickActionsText;
         private string secondsText;
         private Vector2? tabSize;
+        private string warningTooltip;
 
         static CoreMainTab()
         {
@@ -73,7 +80,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 buttonHeight = Mathf.CeilToInt(Text.SmallFontHeight * 1.5f);
                 return tabSize ??= new Vector2(
-                    500f,
+                    550f,
                     Mathf.Max(150.0f, MenuCaches.Count * buttonHeight) + Text.SmallFontHeight + Margin * 2f
                 );
             }
@@ -85,6 +92,13 @@ namespace SirRandoo.ToolkitUtils
             minutesText = "TKUtils.Fields.Minutes".Localize();
             hoursText = "TKUtils.Fields.Hours".Localize();
             noReportsText = "TKUtils.MainTab.NoHealthReports".Localize();
+            closeTooltip = "TKUtils.MainTabTooltips.Close".Localize();
+            healthReportText = "TKUtils.MainTab.HealthReport".Localize();
+            quickActionsText = "TKUtils.MainTab.QuickActions".Localize();
+            infoTooltip = "TKUtils.MainTabTooltips.Info".Localize();
+            warningTooltip = "TKUtils.MainTabTooltips.Warning".Localize();
+            debugTooltip = "TKUtils.MainTabTooltips.Debug".Localize();
+            errorTooltip = "TKUtils.MainTabTooltips.Error".Localize();
         }
 
         public override void DoWindowContents(Rect region)
@@ -94,7 +108,7 @@ namespace SirRandoo.ToolkitUtils
 
             GUI.BeginGroup(region);
 
-            var leftColumn = new Rect(0f, 0f, Mathf.FloorToInt((region.width - 10f) * 0.62f), region.height);
+            var leftColumn = new Rect(0f, 0f, Mathf.FloorToInt((region.width - 10f) * 0.65f), region.height);
             var rightColumn = new Rect(
                 leftColumn.x + leftColumn.width + 10f,
                 0f,
@@ -122,7 +136,7 @@ namespace SirRandoo.ToolkitUtils
             var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
             SettingsHelper.DrawColoredLabel(
                 titleRect,
-                "TKUtils.MainTab.HealthReport".Localize().Tagged("b"),
+                healthReportText.Tagged("b"),
                 ColorLibrary.LightBlue,
                 TextAnchor.MiddleCenter
             );
@@ -162,7 +176,6 @@ namespace SirRandoo.ToolkitUtils
             healthScrollPos = GUI.BeginScrollView(region, healthScrollPos, viewRect);
 
             var y = 0f;
-            HealthReport toRemove = null;
             for (int index = Data.HealthReports.Count - 1; index >= 0; index--)
             {
                 HealthReport report = Data.HealthReports[index];
@@ -183,16 +196,6 @@ namespace SirRandoo.ToolkitUtils
                 GUI.BeginGroup(lineRect);
                 DrawHealthReport(lineRect.AtZero(), report, index % 2 == 0);
                 GUI.EndGroup();
-
-                if (lineRect.WasLeftClicked())
-                {
-                    toRemove = report;
-                }
-            }
-
-            if (toRemove != null)
-            {
-                Data.HealthReports.Remove(toRemove);
             }
 
             GUI.EndScrollView();
@@ -201,10 +204,11 @@ namespace SirRandoo.ToolkitUtils
         private void DrawHealthReport(Rect region, [NotNull] HealthReport report, bool alternate = false)
         {
             var iconRect = new Rect(0f, 0f, 16f, region.height);
+            var closeRect = new Rect(region.x + region.width - 16f, 0f, 16f, region.height);
             var messageRect = new Rect(
                 iconRect.x + iconRect.width + 2f,
                 0f,
-                region.width - iconRect.width,
+                region.width - iconRect.width - closeRect.width - 4f,
                 region.height
             );
 
@@ -217,33 +221,38 @@ namespace SirRandoo.ToolkitUtils
 
             Texture2D texture;
             Color color = Color.white;
+            var iconTooltip = "";
             switch (report.Type)
             {
                 case HealthReport.ReportType.Info:
                     texture = Textures.Info;
                     color = ColorLibrary.PaleGreen;
+                    iconTooltip = infoTooltip;
                     break;
                 case HealthReport.ReportType.Warning:
                     texture = Textures.Warning;
                     color = ColorLibrary.Yellow;
+                    iconTooltip = warningTooltip;
                     break;
                 case HealthReport.ReportType.Error:
                     texture = Textures.Warning;
                     color = ColorLibrary.Salmon;
+                    iconTooltip = errorTooltip;
                     break;
                 case HealthReport.ReportType.Debug:
                     texture = Textures.Debug;
                     color = ColorLibrary.LightPink;
+                    iconTooltip = debugTooltip;
                     break;
                 default:
-                    texture = null;
+                    texture = Textures.QuestionMark;
                     break;
             }
 
             if (texture != null)
             {
                 texture.DrawColored(SettingsHelper.RectForIcon(iconRect), color);
-                iconRect.TipRegion($"TKUtils.MainTabTooltips.{report.Type}".Localize());
+                iconRect.TipRegion(iconTooltip);
             }
 
             SettingsHelper.DrawColoredLabel(messageRect, report.Message, color);
@@ -256,6 +265,19 @@ namespace SirRandoo.ToolkitUtils
             messageRect.TipRegion(
                 "TKUtils.MainTabTooltips.Report".LocalizeKeyed(report.Reporter, report.OccurredAtString)
             );
+
+            if (!report.Stacktrace.NullOrEmpty() && messageRect.WasLeftClicked())
+            {
+                GUIUtility.systemCopyBuffer = report.Stacktrace;
+            }
+
+            Widgets.CheckboxOffTex.DrawColored(SettingsHelper.RectForIcon(closeRect), Color.red);
+            closeRect.TipRegion(closeTooltip);
+
+            if (closeRect.WasLeftClicked())
+            {
+                Data.HealthReports.Remove(report);
+            }
         }
 
         private void DrawRightColumn(Rect region)
@@ -263,7 +285,7 @@ namespace SirRandoo.ToolkitUtils
             var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
             SettingsHelper.DrawColoredLabel(
                 titleRect,
-                "TKUtils.MainTab.QuickActions".Localize().Tagged("b"),
+                quickActionsText.Tagged("b"),
                 ColorLibrary.LightBlue,
                 TextAnchor.MiddleCenter
             );

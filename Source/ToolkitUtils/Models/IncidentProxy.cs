@@ -19,6 +19,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using TwitchToolkit.Store;
 using TwitchToolkit.Votes;
+using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -42,6 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
             catch (Exception e)
             {
                 LogHelper.Error(@$"The incident ""{DefName}"" encountered an exception while executing", e);
+                string name = SimpleIncident?.storeIncident.label ?? VariablesIncident?.storeIncident.label ?? DefName;
                 Data.HealthReports.Add(
                     new HealthReport
                     {
@@ -49,7 +51,8 @@ namespace SirRandoo.ToolkitUtils.Models
                         Reporter = "ToolkitUtils - Event Handler",
                         Type = HealthReport.ReportType.Error,
                         Message =
-                            $@"The event ""{DefName}"" didn't execute successfully. The full stacktrace can be found in the debug log.<br/><br/>{e.GetType().Name}({e.Message})"
+                            $@"The event ""{name}"" didn't execute successfully. Reason: {e.GetType().Name}({e.Message})",
+                        Stacktrace = StackTraceUtility.ExtractStringFromException(e)
                     }
                 );
 

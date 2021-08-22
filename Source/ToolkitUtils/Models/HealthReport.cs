@@ -28,6 +28,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public ReportType Type { get; set; }
         public string Reporter { get; set; }
         public float Height { get; internal set; }
+        public string Stacktrace { get; internal set; }
 
         public DateTime OccurredAt
         {
