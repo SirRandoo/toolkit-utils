@@ -50,15 +50,15 @@ namespace SirRandoo.ToolkitUtils
             {
                 case HealthReport.ReportType.Info:
                     texture = Textures.Info;
-                    GUI.color = Color.green;
+                    GUI.color = ColorLibrary.PaleGreen;
                     break;
                 case HealthReport.ReportType.Warning:
                     texture = Textures.Warning;
-                    GUI.color = ColorLibrary.LightOrange;
+                    GUI.color = ColorLibrary.Yellow;
                     break;
                 case HealthReport.ReportType.Error:
                     texture = Textures.Warning;
-                    GUI.color = ColorLibrary.RedReadable;
+                    GUI.color = ColorLibrary.Salmon;
                     break;
                 case HealthReport.ReportType.Debug:
                     texture = Textures.Debug;
