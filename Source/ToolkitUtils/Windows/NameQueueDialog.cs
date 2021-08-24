@@ -279,7 +279,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(notifyButton, notifyText))
             {
-                MessageHelper.ReplyToUser(viewer.username, viewerDrawnText, true);
+                MessageHelper.ReplyToUser(viewer.username, viewerDrawnText);
             }
 
             listing.End();
