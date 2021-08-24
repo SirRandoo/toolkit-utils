@@ -333,7 +333,6 @@
         <Compile Include="Utils\ModComp\Androids.cs"/>
         <Compile Include="Utils\ModComp\Immortals.cs"/>
         <Compile Include="Utils\ModComp\Interests.cs"/>
-        <Compile Include="Utils\ModComp\Puppeteer.cs"/>
         <Compile Include="Utils\ModComp\RationalRomance.cs"/>
         <Compile Include="Utils\ModComp\SimpleSidearms.cs"/>
         <Compile Include="Utils\ObservableProperty.cs"/>

@@ -76,7 +76,6 @@ namespace SirRandoo.ToolkitUtils
         public static bool BuyItemBalance;
         public static bool ClassChanges;
         public static bool ResetClass;
-        public static bool Puppeteer;
         public static bool MinimalRelations = true;
         public static bool GatewayPuff = true;
         internal static bool SettingsUtilsEdition;
@@ -180,11 +179,6 @@ namespace SirRandoo.ToolkitUtils
                 listing.DrawDescription("TKUtils.TMagic.ResetClass.Description".TranslateSimple());
                 listing.DrawExperimentalNotice();
             }
-
-            listing.DrawModGroupHeader("Puppeteer", 2057192142);
-            listing.CheckboxLabeled("TKUtils.Puppeteer.Redirect.Label".TranslateSimple(), ref Puppeteer);
-            listing.DrawDescription("TKUtils.Puppeteer.Redirect.Description".TranslateSimple());
-            listing.DrawExperimentalNotice();
 
             listing.End();
         }
@@ -627,7 +621,6 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref BuyItemBalance, "buyItemBalance");
             Scribe_Values.Look(ref ClassChanges, "classChanges");
             Scribe_Values.Look(ref ResetClass, "resetClass");
-            Scribe_Values.Look(ref Puppeteer, "puppeteer");
             Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
             Scribe_Values.Look(ref GatewayPuff, "gatewayPuff", true);
             Scribe_Values.Look(ref EasterEggs, "easterEggs", true);

@@ -16,7 +16,6 @@
 
 using System;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore;
 using TwitchLib.Client.Models;
 using TwitchLib.Client.Models.Interfaces;
@@ -37,23 +36,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return $"【{header}】 {s}".AltText($"[{header}] {s}");
         }
 
-        internal static void ReplyToUser(string user, string message, bool bypassPuppeteer = false)
+        internal static void ReplyToUser(string user, string message)
         {
-            if (!bypassPuppeteer)
-            {
-                if (TkSettings.Puppeteer && Puppeteer.ShouldRedirect(user))
-                {
-                    Puppeteer.SendMessage(user, message);
-                }
-                else
-                {
-                    TwitchWrapper.SendChatMessage($"@{user} → {message}");
-                }
-            }
-            else
-            {
-                TwitchWrapper.Client?.SendMessage(ToolkitCoreSettings.channel_username, $"@{user} → {message}");
-            }
+            TwitchWrapper.SendChatMessage($"@{user} → {message}");
         }
 
         internal static void SendConfirmation(string user, string message)
