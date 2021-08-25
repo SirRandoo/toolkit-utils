@@ -129,9 +129,18 @@ Everything in this file can be translated to the language your target audience i
 ## Uploading Your Toolkit Files
 
 From the `_data` directory, we'll navigate to the various Toolkit files to update their contents. For the
-sake of demonstration, we'll use the `StoreItems.json` file throughout these examples.
+sake of demonstration, we'll use the `StoreItems.json` file throughout these examples. You can find the
+files respective contents in the Twitch Toolkit directory in your game's save data folder. If you're not
+sure where your save data folder is, you can find it easily by launching RimWorld, clicking the `Options`
+button in the game's main menu, and finally clicking `Save data folder`. Alternatively, the folder can be
+found by navigating to the directory below on your respective platform:
 
-First you should open the file you want to edit by clicking on it.
+- Windows: `%UserProfile%\AppData\LocalLow\Ludeon Studeos\RimWorld by Ludeon Studios\Twitch Toolkit`
+- MacOS: `~/Library/Application Support/Ludeon Studios/RimWorld by Ludeon Studios/Twitch Toolkit`
+- MacOS: `~/Library/Application Support/RimWorld/Twitch Toolkit`
+- Linux: `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Twitch Toolkit`
+
+Next you should open the file you want to edit by clicking on it.
 ![Open file]({{- "/assets/itemlist/items_file.png" | relative_url -}})
 
 Then we'll edit the file by clicking the pencil on the right side of the document viewer.
