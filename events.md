@@ -42,7 +42,7 @@ layout: default
 |------------------+---------------------------------------+--------------------------------------------|
 | Replace trait    | `!buy replacetrait <old> <new>`       | Replaces the trait `old` with the trait `new`. |
 |------------------+---------------------------------------+--------------------------------------------|
-| Rescue me        | `!buy rescueme`                       | Spawns a prisoner rescue somewhere in the world with the viewer's pawn as the captive. This event only works for kidnapped pawns. |
+| Rescue me        | `!buy rescueme`                       | Spawns a prisoner rescue somewhere in the world with the viewer's pawn as the captive. This event only works for kidnapped or captured pawns. |
 |------------------+---------------------------------------+--------------------------------------------|
 | Revive me        | `!buy reviveme`                       | Revives the viewer's pawn.                 |
 |------------------+---------------------------------------+--------------------------------------------|

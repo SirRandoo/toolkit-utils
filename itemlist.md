@@ -35,6 +35,25 @@ an account, you can continue onto the next step. If you don't you can sign up fo
 The first step in this process is forking the [item list](https://github.com/sirrandoo/itemlist) on Github.
 ![Fork the item list on Github]({{- "/assets/itemlist/fork.png" | relative_url -}})
 
+Before we begin, it's important to mention that you probably won't break your item list with the changes
+you may or may not make to it. It's meant to be as beginner friendly as possible, with this page as a guide
+to the few instances where it isn't. Those instances are:
+
+### Editing YAML Files
+
+You'll be editing a yaml (`.yml`) file or two if you plan on tailoring the site to your needs. The important
+thing about yaml files is that you *need* to have a space after the `:`, or your site won't build with the
+latest changes.
+
+### Making Changes
+
+Whenever you make changes to the contents of the site, Github tries to rebuild the site. Beside the changes
+you've made, there is a green check, small X, or a loading icon. Clicking on either of those icons, then
+clicking `Details` in the pop-up will take you to the current status of the build process. If the site didn't
+build properly, this would be the main way to figure out what went wrong. If everything went okay, and your
+site still isn't updated, your browser may have cached what your item list was *prior* to the changes. You
+can clear the cache by doing `CTRL+R`.
+
 ## Configuring the Url
 
 Once Github is finished forking your item list, you can navigate to the repository's settings page.
@@ -46,7 +65,9 @@ clicking `Rename`.
 
 If you've never used Github before or otherwise don't have an existing repository named
 `YOUR_GITHUB_USERNAME.github.io`, you can rename your item list that instead of 
-`YOUR_GITHUB_USERNAME.github.io/REPOSITORY_NAME`.
+`YOUR_GITHUB_USERNAME.github.io/REPOSITORY_NAME`. If you do choose to do this, you will need to edit
+the site's `_config.yml` file to make sure your item list doesn't look like a broken site.
+The relevant setting can be found on line 6 (`baseurl`). The value for that should be empty or `/`.
 
 ## Verifying the Site Source
 
