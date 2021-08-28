@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (pawn.kindDef?.RaceProps?.hasGenders == true)
+            if (pawn.kindDef?.RaceProps?.hasGenders == true || pawn.gender == Gender.None)
             {
                 return true;
             }
