@@ -76,7 +76,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 builder.Append(" ");
                 builder.Append(might.Stamina.lastGainPct < 0 ? "-" : "+");
-                builder.Append("SP/").Append(might.Stamina.lastGainPct.ToString("N3"));
+                builder.Append(might.Stamina.lastGainPct.ToString("N3"));
+                builder.Append("/SP");
             }
 
             if (might.MightData.MightAbilityPoints <= 0)
@@ -115,7 +116,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 builder.Append(" ");
                 builder.Append(magic.Mana.lastGainPct < 0 ? "-" : "+");
-                builder.Append("MP/").Append(magic.Mana.lastGainPct.ToString("N3"));
+                builder.Append(magic.Mana.lastGainPct.ToString("N3"));
+                builder.Append("/MP");
             }
 
 
