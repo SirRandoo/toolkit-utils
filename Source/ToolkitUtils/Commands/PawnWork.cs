@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -48,7 +49,20 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!newPriorities.NullOrEmpty())
             {
-                ProcessChangeRequests(pawn, newPriorities);
+                var builder = new StringBuilder();
+
+                foreach (string change in ProcessChangeRequests(pawn, newPriorities))
+                {
+                    builder.Append(change);
+                    builder.Append(", ");
+                }
+
+                if (builder.Length > 0)
+                {
+                    builder.Remove(builder.Length - 2, 2);
+                    msg.Reply("TKUtils.PawnWork.Changed".LocalizeKeyed(builder.ToString()));
+                    return;
+                }
             }
 
             string summary = GetWorkPrioritySummary(pawn);
@@ -61,27 +75,33 @@ namespace SirRandoo.ToolkitUtils.Commands
             msg.Reply(summary.WithHeader("TKUtils.PawnWork.Header".Localize()));
         }
 
-        private static void ProcessChangeRequests(
+        [ItemNotNull]
+        private static IEnumerable<string> ProcessChangeRequests(
             Pawn pawn,
             [NotNull] IEnumerable<KeyValuePair<string, string>> rawChanges
         )
         {
-            List<WorkTypeDef> priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder
+            List<WorkTypeDef> workTypes = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder
                .Where(w => !pawn.WorkTypeIsDisabled(w))
                .ToList();
 
             foreach ((string key, string value) in rawChanges)
             {
-                WorkTypeDef workTypeDef = priorities.FirstOrDefault(
+                WorkTypeDef workType = workTypes.Find(
                     w => w.label.EqualsIgnoreCase(key) || w.defName.EqualsIgnoreCase(key)
                 );
 
-                if (workTypeDef == null || !int.TryParse(value, out int parsed))
+                if (workType == null || !int.TryParse(value, out int parsed))
                 {
                     continue;
                 }
 
-                pawn.workSettings.SetPriority(workTypeDef, Mathf.Clamp(parsed, 0, Pawn_WorkSettings.LowestPriority));
+                int old = pawn.workSettings.GetPriority(workType);
+                int @new = Mathf.Clamp(parsed, 0, Pawn_WorkSettings.LowestPriority);
+                pawn.workSettings.SetPriority(workType, @new);
+
+                yield return
+                    $"{workType.label ?? workType.defName}: {old} {ResponseHelper.ArrowGlyph.AltText("->")} {@new}";
             }
         }
 
