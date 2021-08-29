@@ -25,7 +25,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-#if !RW12
+    [UsedImplicitly]
     public class GenderSwap : IncidentVariablesBase
     {
         private Pawn pawn;
@@ -81,5 +81,4 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
     }
-#endif
 }
