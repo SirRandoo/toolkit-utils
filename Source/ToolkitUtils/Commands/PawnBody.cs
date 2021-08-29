@@ -60,6 +60,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 builder.Append(ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize()));
                 builder.Append(" ");
                 builder.Append(target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature());
+                builder.Append("~");
                 builder.Append(target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature());
                 builder.Append(ResponseHelper.OuterGroupSeparator.AltText(ResponseHelper.OuterGroupSeparatorAlt));
             }
