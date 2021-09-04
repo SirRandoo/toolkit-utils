@@ -54,6 +54,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Basket.cs"/>
+        <Compile Include="CommandRouter.cs"/>
         <Compile Include="CommandSettings\Balance.cs"/>
         <Compile Include="CommandSettings\InstalledMods.cs"/>
         <Compile Include="CommandSettings\Lookup.cs"/>
@@ -111,6 +112,7 @@
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
         <Compile Include="Harmony\ItemEditorPatch.cs"/>
         <Compile Include="Harmony\LanguageProxyPatch.cs"/>
+        <Compile Include="Harmony\MessagePatch.cs"/>
         <Compile Include="Harmony\PatchRunner.cs"/>
         <Compile Include="Harmony\IncidentEditorPatches.cs"/>
         <Compile Include="Harmony\KarmaMinimumPatch.cs"/>
@@ -132,6 +134,7 @@
         <Compile Include="Harmony\UnassignedPatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
+        <Compile Include="Harmony\WhisperPatch.cs"/>
         <Compile Include="Helpers\CommandHelper.cs"/>
         <Compile Include="Helpers\GameHelper.cs"/>
         <Compile Include="Helpers\HealHelper.cs"/>
