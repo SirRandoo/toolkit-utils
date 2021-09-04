@@ -158,7 +158,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     }
 
                     Overflowed = true;
-                    return 0;
+                    return int.MaxValue;
                 }
             }
 
