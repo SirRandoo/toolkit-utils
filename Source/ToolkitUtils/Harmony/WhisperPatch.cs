@@ -36,6 +36,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         public static bool Prefix(object sender, [NotNull] OnWhisperReceivedArgs e)
         {
+            if (!TkSettings.CommandRouter)
+            {
+                return true;
+            }
+
             if (!ToolkitCoreSettings.allowWhispers || Current.Game == null)
             {
                 return false;

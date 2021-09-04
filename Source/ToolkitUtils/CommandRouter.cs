@@ -32,6 +32,7 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class CommandRouter : GameComponent
     {
+        private static bool _isBusy;
         internal static readonly ConcurrentQueue<ITwitchMessage> CommandQueue = new ConcurrentQueue<ITwitchMessage>();
 
         public CommandRouter(Game game) { }
@@ -43,10 +44,15 @@ namespace SirRandoo.ToolkitUtils
 
         public override void GameComponentUpdate()
         {
-            List<TwitchInterfaceBase> interfaces = null;
-            while (!CommandQueue.IsEmpty)
+            if (!TkSettings.CommandRouter || _isBusy)
             {
-                if (!CommandQueue.TryDequeue(out ITwitchMessage message))
+                return;
+            }
+
+            List<TwitchInterfaceBase> interfaces = null;
+            while (!_isBusy && !CommandQueue.IsEmpty)
+            {
+                if (_isBusy || !CommandQueue.TryDequeue(out ITwitchMessage message))
                 {
                     break;
                 }
@@ -56,6 +62,7 @@ namespace SirRandoo.ToolkitUtils
                 Task.Run(
                     () =>
                     {
+                        _isBusy = true;
                         var builder = new StringBuilder();
                         foreach (TwitchInterfaceBase @interface in interfaces)
                         {
@@ -75,6 +82,8 @@ namespace SirRandoo.ToolkitUtils
                         {
                             LogHelper.Warn(builder.ToString());
                         }
+
+                        _isBusy = false;
                     }
                 );
             }

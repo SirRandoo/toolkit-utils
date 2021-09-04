@@ -96,6 +96,7 @@ namespace SirRandoo.ToolkitUtils
         private static Vector2 _commandTweaksPos = Vector2.zero;
         private static Vector2 _dataScrollPos = Vector2.zero;
         public static bool EasterEggs = true;
+        public static bool CommandRouter = true;
 
         static TkSettings()
         {
@@ -444,6 +445,10 @@ namespace SirRandoo.ToolkitUtils
                 listing.CheckboxLabeled("TKUtils.ToolkitStyleCommands.Label".Translate(), ref ToolkitStyleCommands);
                 listing.DrawDescription("TKUtils.ToolkitStyleCommands.Description".Translate());
             }
+
+            listing.CheckboxLabeled("TKUtils.CommandRouter.Label".Translate(), ref CommandRouter);
+            listing.DrawDescription("TKUtils.CommandRouter.Description".Translate());
+            listing.DrawExperimentalNotice();
 
 
             listing.DrawGroupHeader("TKUtils.CommandTweaks.InstalledMods".Translate());

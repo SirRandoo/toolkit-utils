@@ -36,6 +36,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         public static bool Prefix(object sender, [NotNull] OnMessageReceivedArgs e)
         {
+            if (!TkSettings.CommandRouter)
+            {
+                return true;
+            }
+
             if (e.ChatMessage.Bits > 0)
             {
                 Log.Message($"Bits donated :: {e.ChatMessage.Bits.ToString()}");

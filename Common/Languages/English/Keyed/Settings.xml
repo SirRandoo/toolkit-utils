@@ -124,8 +124,8 @@
     <TKUtils.ToolkitStyleCommands.Label>Locate commands similar to how Twitch Toolkit does.</TKUtils.ToolkitStyleCommands.Label>
     <TKUtils.ToolkitStyleCommands.Description>Twitch Toolkit compares commands by checking to see if a message starts with a command, while ToolkitUtils checks to see if the first "word" is a command. If this is enabled, ToolkitUtils will mimic the old behavior, with the exception of case insensitivity. TL;DR: this lets !balloon be a valid form of the !bal command.</TKUtils.ToolkitStyleCommands.Description>
 
-    <TKUtils.MainThreadCommands.Label>Run commands in the game's main thread.</TKUtils.MainThreadCommands.Label>
-    <TKUtils.MainThreadCommands.Description>By default, Twitch Toolkit runs all commands in a separate thread. This can lead to a host of problems when addons try to manipulate what the game does, like:\n - access exceptions\n - race conditions</TKUtils.MainThreadCommands.Description>
+    <TKUtils.CommandRouter.Label>Re-route messages away from Toolkit's thread</TKUtils.CommandRouter.Label>
+    <TKUtils.CommandRouter.Description>When enabled, the mod will route message parsing off of Toolkit's thread. The general idea is to remove heavy code out of it to hopefully fix, or lessen, disconnects.</TKUtils.CommandRouter.Description>
 
     <!-- Installed Mods Command Group -->
     <TKUtils.DecorateUtils.Label>Add a little star beside Utils in the mod list command.</TKUtils.DecorateUtils.Label>
