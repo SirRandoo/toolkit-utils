@@ -38,6 +38,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public Action<Rect> ContentDrawer { get; set; }
         public Func<bool> Clicked { get; set; }
+        public string Tooltip { get; set; }
 
         public void Draw(Rect canvas, float margins = 16f)
         {

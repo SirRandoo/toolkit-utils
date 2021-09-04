@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using System.Text;
 using JetBrains.Annotations;
 using ToolkitCore;
 using TwitchLib.Client.Models;
@@ -132,6 +133,24 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             return false;
+        }
+
+        [NotNull]
+        public static string Append(this string s, string text)
+        {
+            return $"{s}{text}";
+        }
+
+        [NotNull]
+        public static string AppendWithSpace(this string s, string text)
+        {
+            return $"{s} {text}";
+        }
+
+        [NotNull]
+        public static string Insert(this string s, int index, string text)
+        {
+            return new StringBuilder().Append(s).Insert(index, text).ToString();
         }
     }
 }

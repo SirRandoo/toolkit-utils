@@ -566,6 +566,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [NotNull]
+        public static Tuple<Rect, Rect> GetAsForm([NotNull] this Listing listing, float height, float factor = 0.8f)
+        {
+            return listing.GetRect(height).ToForm(factor);
+        }
+
+        [NotNull]
         public static string Tagged(this string s, string tag)
         {
             return $"<{tag}>{s}</{tag}>";
@@ -639,7 +645,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
             listing.DrawDescription("TKUtils.Experimental".Localize(), new Color(1f, 0.53f, 0.76f));
         }
 
-        public static void DrawDescription([NotNull] this Listing listing, string description, Color color)
+        public static void DrawDescription(
+            [NotNull] this Listing listing,
+            string description,
+            Color color,
+            TextAnchor anchor = TextAnchor.UpperLeft
+        )
         {
             GameFont fontCache = Text.Font;
             GUI.color = color;
@@ -648,13 +659,18 @@ namespace SirRandoo.ToolkitUtils.Helpers
             DrawLabel(
                 listing.GetRect(height).TrimLeft(10f).WithWidth(listing.ColumnWidth * 0.7f).Rounded(),
                 description,
-                TextAnchor.UpperLeft,
+                anchor,
                 GameFont.Tiny
             );
             GUI.color = Color.white;
             Text.Font = fontCache;
 
             listing.Gap(6f);
+        }
+
+        public static void DrawDescription([NotNull] this Listing listing, string description, TextAnchor anchor)
+        {
+            DrawDescription(listing, description, new Color(0.72f, 0.72f, 0.72f), anchor);
         }
 
         public static void DrawDescription([NotNull] this Listing listing, string description)
@@ -792,6 +808,16 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 changedCallback(null);
             }
+        }
+
+        public static void DrawResetButtonFor(Rect region, Action clickedCallback, [CanBeNull] string tooltip = null)
+        {
+            if (Widgets.ButtonImage(RectForIcon(region), Textures.Reset))
+            {
+                clickedCallback();
+            }
+
+            TooltipHandler.TipRegion(region, tooltip);
         }
     }
 }
