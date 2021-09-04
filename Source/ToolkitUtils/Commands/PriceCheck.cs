@@ -70,29 +70,32 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformAnimalLookup(string query, int quantity)
         {
-            PawnKindDef result = DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(
+            PawnKindDef kindDef = DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(
                 i => i.RaceProps.Animal
                      && (i.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
                          || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
             );
 
-            if (result == null)
+            if (kindDef == null)
             {
                 return;
             }
 
-            ThingItem item = Data.Items.FirstOrDefault(i => i.DefName.EqualsIgnoreCase(result.defName));
+            ThingItem item = Data.Items.FirstOrDefault(i => i.DefName.EqualsIgnoreCase(kindDef.defName));
 
             if (item == null || item.Cost <= 0)
             {
                 return;
             }
 
+            if (!PurchaseHelper.TryMultiply(item.Cost, quantity, out int result))
+            {
+                MessageHelper.ReplyToUser(invoker, "TKUtils.Overflowed".Localize());
+                return;
+            }
+
             NotifyLookupComplete(
-                "TKUtils.Price.Limited".LocalizeKeyed(
-                    result.defName.CapitalizeFirst(),
-                    item.Item!.CalculatePrice(quantity).ToString("N0")
-                )
+                "TKUtils.Price.Limited".LocalizeKeyed(kindDef.defName.CapitalizeFirst(), result.ToString("N0"))
             );
         }
 
@@ -161,11 +164,15 @@ namespace SirRandoo.ToolkitUtils.Commands
             int price = item.Quality.HasValue
                 ? item.Thing!.GetItemPrice(item.Stuff, item.Quality.Value)
                 : item.Thing!.GetItemPrice(item.Stuff);
+
+            if (!PurchaseHelper.TryMultiply(price, quantity, out int total))
+            {
+                MessageHelper.ReplyToUser(invoker, "TKUtils.Overflowed".Localize());
+                return;
+            }
+
             NotifyLookupComplete(
-                "TKUtils.Price.Limited".LocalizeKeyed(
-                    item.AsString().CapitalizeFirst(),
-                    (price * quantity).ToString("N0")
-                )
+                "TKUtils.Price.Limited".LocalizeKeyed(item.AsString().CapitalizeFirst(), total.ToString("N0"))
             );
         }
 

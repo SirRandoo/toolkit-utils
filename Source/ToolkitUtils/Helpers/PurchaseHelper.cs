@@ -310,5 +310,20 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             return new ViewerState { Coins = viewer.GetViewerCoins(), Karma = viewer.GetViewerKarma() };
         }
+
+        public static bool TryMultiply(int i1, int i2, out int result)
+        {
+            try
+            {
+                result = checked(i1 * i2);
+            }
+            catch (OverflowException)
+            {
+                result = 0;
+                return false;
+            }
+
+            return true;
+        }
     }
 }

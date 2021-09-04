@@ -70,12 +70,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = 1;
             }
 
-            if (!viewer.CanAfford(buyableItem.Cost * amount))
+            if (!PurchaseHelper.TryMultiply(buyableItem.Cost, amount, out int cost))
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Overflowed".Localize());
+                return false;
+            }
+
+            if (!viewer.CanAfford(cost))
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        (buyableItem.Cost * amount).ToString("N0"),
+                        cost.ToString("N0"),
                         viewer.GetViewerCoins().ToString("N0")
                     )
                 );

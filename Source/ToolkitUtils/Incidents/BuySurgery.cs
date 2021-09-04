@@ -86,6 +86,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (appointment.Overflowed)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Overflowed".Localize());
+                return false;
+            }
+
             if (appointment.BodyParts.NullOrEmpty())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.NoSlotAvailable".Localize());
@@ -159,7 +165,22 @@ namespace SirRandoo.ToolkitUtils.Incidents
             [CanBeNull] public ItemData ItemData => Item.ItemData;
             public ThingDef ThingDef { get; private set; }
             public int Quantity { get; private set; }
-            public int Cost => Item.Cost * Quantity;
+
+            public int Cost
+            {
+                get
+                {
+                    if (!Overflowed && PurchaseHelper.TryMultiply(Item.Cost, Quantity, out int result))
+                    {
+                        return result;
+                    }
+
+                    Overflowed = true;
+                    return 0;
+                }
+            }
+
+            public bool Overflowed { get; private set; }
 
             [NotNull]
             public static Appointment ParseInput(Pawn patient, [NotNull] string[] segments)

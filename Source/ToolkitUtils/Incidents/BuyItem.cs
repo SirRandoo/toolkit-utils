@@ -91,6 +91,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (purchaseRequest.Overflowed)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Overflowed".Localize());
+                return false;
+            }
+
             if (viewer.CanAfford(purchaseRequest.Price))
             {
                 return purchaseRequest.Map != null;
@@ -125,16 +131,29 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private readonly List<Pawn> animalsForLetter = new List<Pawn>();
         private bool sendAnimalLetter;
 
-        public int Price =>
-            (Proxy.Quality.HasValue
-                ? Proxy.Thing.GetItemPrice(Proxy.Stuff, Proxy.Quality.Value)
-                : Proxy.Thing.GetItemPrice(Proxy.Stuff))
-            * Quantity;
+        public int Price
+        {
+            get
+            {
+                int price = Proxy.Quality.HasValue
+                    ? Proxy.Thing.GetItemPrice(Proxy.Stuff, Proxy.Quality.Value)
+                    : Proxy.Thing.GetItemPrice(Proxy.Stuff);
+
+                if (!Overflowed && PurchaseHelper.TryMultiply(price, Quantity, out int result))
+                {
+                    return result;
+                }
+
+                Overflowed = true;
+                return 0;
+            }
+        }
 
         public int Quantity { get; set; }
         public ArgWorker.ItemProxy Proxy { get; set; }
         public Viewer Purchaser { get; set; }
         public Map Map { get; set; }
+        public bool Overflowed { get; private set; }
 
         public void Spawn()
         {
