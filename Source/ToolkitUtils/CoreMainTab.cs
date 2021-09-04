@@ -185,7 +185,7 @@ namespace SirRandoo.ToolkitUtils
                     report.Height = Text.CalcHeight(report.Message, region.width - 20f);
                 }
 
-                var lineRect = new Rect(0f, y, region.width, report.Height);
+                var lineRect = new Rect(0f, y, region.width - 16f, report.Height);
                 y += report.Height;
 
                 if (!lineRect.IsRegionVisible(region, healthScrollPos))
