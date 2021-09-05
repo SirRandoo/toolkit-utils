@@ -146,6 +146,10 @@
 
 
     <!-- Pawn Commands Tab -->
+    <!-- Favorite Color -->
+    <TKUtils.AlphaFavoriteColor.Label>Allow the transparency values in the favorite color command</TKUtils.AlphaFavoriteColor.Label>
+    <TKUtils.AlphaFavoriteColor.Description>When enabled, the mod won't adjust the color's transparency to opaque.</TKUtils.AlphaFavoriteColor.Description>
+
     <!-- Leave Command Group -->
     <TKUtils.Abandon.Method.Label>How pawns should leave when the leave command is invoked.</TKUtils.Abandon.Method.Label>
     <TKUtils.Abandon.Method.Description>The type of leave method that'll be used when a viewer uses the &lt;b&gt;!leave&lt;/b&gt; command. The "Mental break" method will force the colonist to leave the colony, while the "Thanos" method will turn the colonist to dust.</TKUtils.Abandon.Method.Description>
