@@ -53,7 +53,7 @@
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
         <Reference Include="System.Xml"/>
-        <Reference Include="TorannMagic, Version=2.6.0.3, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW13'))">
+        <Reference Include="TorannMagic, Version=2.6.1.0, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW13'))">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\1201382956\v1.3\Assemblies\TorannMagic.dll</HintPath>
             <Private>False</Private>
         </Reference>
