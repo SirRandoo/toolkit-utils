@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            pawn.story.favoriteColor = color;
+            pawn.story.favoriteColor = new Color(color.r, color.g, color.b, 1f);
             message.Reply("TKUtils.FavoriteColor.Complete".Localize());
         }
     }

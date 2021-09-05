@@ -97,6 +97,7 @@ namespace SirRandoo.ToolkitUtils
         private static Vector2 _dataScrollPos = Vector2.zero;
         public static bool EasterEggs = true;
         public static bool CommandRouter = true;
+        public static bool TransparentColors;
 
         static TkSettings()
         {
@@ -630,6 +631,7 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref GatewayPuff, "gatewayPuff", true);
             Scribe_Values.Look(ref EasterEggs, "easterEggs", true);
             Scribe_Values.Look(ref SettingsUtilsEdition, "settingsUtilsEdition");
+            Scribe_Values.Look(ref TransparentColors, "allowTransparentColors");
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
         }
