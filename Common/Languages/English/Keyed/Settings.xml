@@ -196,10 +196,6 @@
     <TKUtils.TMagic.ResetClass.Label>Reset class abilities when changed</TKUtils.TMagic.ResetClass.Label>
     <TKUtils.TMagic.ResetClass.Description>If enabled, Utils will reset the viewer's abilities prior to giving them their new class. This means the mod will clear their old classes' abilities, then give their pawn the new class.</TKUtils.TMagic.ResetClass.Description>
 
-    <!-- Puppeteer Group -->
-    <TKUtils.Puppeteer.Redirect.Label>Allow viewers to receive Utils' responses on Puppeteer.</TKUtils.Puppeteer.Redirect.Label>
-    <TKUtils.Puppeteer.Redirect.Description>If enabled, Utils will send its responses to the Puppeteer site, when applicable, instead of stream chat.</TKUtils.Puppeteer.Redirect.Description>
-
 
     <!-- Incident Settings -->
     <!-- Passion Incidents -->

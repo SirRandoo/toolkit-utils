@@ -39,7 +39,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
         }
 
 
-        [HarmonyAfter("net.pardeike.harmony.Puppeteer")]
         public static bool Prefix(string message)
         {
             if (message.NullOrEmpty() || TkSettings.DebuggingIncidents)

@@ -23,7 +23,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore.Utilities;
-using TwitchLib.Client.Models;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using Verse;
@@ -68,9 +67,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             List<string> segments = CommandFilter.Parse(sanitized).ToList();
-            bool text = segments.Any(i => i.EqualsIgnoreCase("--text"))
-                        || twitchMessage is ChatMessage chatMessage
-                        && chatMessage.BotUsername.Equals("puppeteer", StringComparison.InvariantCultureIgnoreCase);
+            bool text = segments.Any(i => i.EqualsIgnoreCase("--text"));
 
             if (segments.Count <= 0)
             {
