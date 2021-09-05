@@ -88,6 +88,7 @@
 
     <!-- Pawn Work -->
     <TKUtils.PawnWork.Header>Work priorities</TKUtils.PawnWork.Header>
+    <TKUtils.PawnWork.Changed>The following work priories have been changed: {0}</TKUtils.PawnWork.Changed>
     <TKUtils.PawnWork.None>Your pawn cannot do any work.</TKUtils.PawnWork.None>
 
     <!-- Price -->

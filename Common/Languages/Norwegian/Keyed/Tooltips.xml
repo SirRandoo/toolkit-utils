@@ -62,7 +62,8 @@
 
     <TKUtils.CommandEditorTooltips.Tags>Opens your browser to a list of placeholders you can use in custom commands.</TKUtils.CommandEditorTooltips.Tags>
 
-    <TKUtils.MainTabTooltips.Report>Reported by {0} {1} ago.\n\nClick to dismiss.</TKUtils.MainTabTooltips.Report>
+    <TKUtils.MainTabTooltips.Report>Reported by {0} {1} ago.\n\nClick to copy stacktrace.</TKUtils.MainTabTooltips.Report>
+    <TKUtils.MainTabTooltips.Close>Click to dismiss this message.</TKUtils.MainTabTooltips.Close>
     <TKUtils.MainTabTooltips.Debug>Debug message</TKUtils.MainTabTooltips.Debug>
     <TKUtils.MainTabTooltips.Error>Error message</TKUtils.MainTabTooltips.Error>
     <TKUtils.MainTabTooltips.Warning>Warning message</TKUtils.MainTabTooltips.Warning>

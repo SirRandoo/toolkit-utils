@@ -124,8 +124,8 @@
     <TKUtils.ToolkitStyleCommands.Label>Locate commands similar to how Twitch Toolkit does.</TKUtils.ToolkitStyleCommands.Label>
     <TKUtils.ToolkitStyleCommands.Description>Twitch Toolkit compares commands by checking to see if a message starts with a command, while ToolkitUtils checks to see if the first "word" is a command. If this is enabled, ToolkitUtils will mimic the old behavior, with the exception of case insensitivity. TL;DR: this lets !balloon be a valid form of the !bal command.</TKUtils.ToolkitStyleCommands.Description>
 
-    <TKUtils.MainThreadCommands.Label>Run commands in the game's main thread.</TKUtils.MainThreadCommands.Label>
-    <TKUtils.MainThreadCommands.Description>By default, Twitch Toolkit runs all commands in a separate thread. This can lead to a host of problems when addons try to manipulate what the game does, like:\n - access exceptions\n - race conditions</TKUtils.MainThreadCommands.Description>
+    <TKUtils.CommandRouter.Label>Re-route messages away from Toolkit's thread</TKUtils.CommandRouter.Label>
+    <TKUtils.CommandRouter.Description>When enabled, the mod will route message parsing off of Toolkit's thread. The general idea is to remove heavy code out of it to hopefully fix, or lessen, disconnects.</TKUtils.CommandRouter.Description>
 
     <!-- Installed Mods Command Group -->
     <TKUtils.DecorateUtils.Label>Add a little star beside Utils in the mod list command.</TKUtils.DecorateUtils.Label>
@@ -233,4 +233,147 @@
     <TKUtils.Item.ExcellentMultiplier>Excellent quality multiplier</TKUtils.Item.ExcellentMultiplier>
     <TKUtils.Item.MasterworkMultiplier>Masterwork quality multiplier</TKUtils.Item.MasterworkMultiplier>
     <TKUtils.Item.LegendaryMultiplier>Legendary quality multiplier</TKUtils.Item.LegendaryMultiplier>
+
+
+    <!-- Twitch Toolkit -->
+    <TKUtils.Coins.Tooltip>This tab contains the settings that change how the mod distrbutes coins, and the requirements viewers have to meet to earn said coins.</TKUtils.Coins.Tooltip>
+    <TKUtils.Cooldowns.Tooltip>This tab contains the settings that change how the cooldowns for the mod's events.</TKUtils.Cooldowns.Tooltip>
+    <TKUtils.Karma.Tooltip>This tab contains the settings that change how the mod's karma system works, including how it affects the karma gain/loss when viewers purchase items or events through the mod's store. There's also settings to enforce some requirements on gifting coins.</TKUtils.Karma.Tooltip>
+    <TKUtils.Addons.Label>Add-ons</TKUtils.Addons.Label>
+    <TKUtils.Addons.Tooltip>This tab contains the list of currently registered addons you have running, as well as provide a way of getting to their settings.</TKUtils.Addons.Tooltip>
+    <TKUtils.Store.Tooltip>This tab contains the settings that affect how the mod's store works.</TKUtils.Store.Tooltip>
+    <TKUtils.Storyteller>Storyteller</TKUtils.Storyteller>
+    <TKUtils.Storyteller.Tooltip>This tab contains the settings that affect how the mod's polls work, plus a quick way to get to the mod's storyteller pack settings.</TKUtils.Storyteller.Tooltip>
+    <TKUtils.Viewers.Tooltip>This tab contains the settings that affect the bonuses viewers receive when they certain requirements, settings for the pawn queue system, as well as a quick way to edit viewer data.</TKUtils.Viewers.Tooltip>
+
+    <!-- Coins Settings -->
+    <TKUtils.EarningCoins.Label>Should viewers receive coins every {0} minutes?</TKUtils.EarningCoins.Label>
+    <TKUtils.EarningCoins.Singular.Label>Should viewers receive coins every minute?</TKUtils.EarningCoins.Singular.Label>
+    <TKUtils.EarningCoins.Description>Whether or not viewers will receive coins every {0} minutes. If disabled, viewers will not receive coins for watching the stream, but they may still purchase things from the store if it's enabled.</TKUtils.EarningCoins.Description>
+    <TKUtils.EarningCoins.Singular.Description>Whether or not viewers will receive coins every minute. If disabled, viewers will not receive coins for watching the stream, but they may still purchase things from the store if it's enabled.</TKUtils.EarningCoins.Singular.Description>
+
+    <TKUtils.StartingBalance.Label>The number of coins viewers start with.</TKUtils.StartingBalance.Label>
+    <TKUtils.StartingBalance.Description>When a viewer first uses the mod, or is freshly reset through the "Viewers" menu, this will be the amount of coins the viewer will have.</TKUtils.StartingBalance.Description>
+
+    <TKUtils.CoinInterval.Label>The number of minutes between each coin reward.</TKUtils.CoinInterval.Label>
+    <TKUtils.CoinInterval.Description>The amount of time, in minutes, each coin reward cycle will be. While you can set this to whatever you want, it's advised to keep it within a reasonable amount of time, like 1-10 minutes.</TKUtils.CoinInterval.Description>
+
+    <TKUtils.CoinAmount.Label>The base amount of coins a viewer will receive each reward cycle.</TKUtils.CoinAmount.Label>
+    <TKUtils.CoinAmount.Description>The amount of coins a viewer will receive every {0} minutes. This setting is just the &lt;b&gt;base&lt;/b&gt; amount of coins. Viewers also have certain multipliers that affect how much coins they'll obtain, as well as an additonal bonus to the base value depending on their viewer type.</TKUtils.CoinAmount.Description>
+    <TKUtils.CoinAmount.Singular.Description>The amount of coins a viewer will receive every minute. This setting is just the &lt;b&gt;base&lt;/b&gt; amount of coins. Viewers also have certain multipliers that affect how much coins they'll obtain, as well as an additonal bonus to the base value depending on their viewer type.</TKUtils.CoinAmount.Singular.Description>
+
+    <TKUtils.MinimumPurchaseAmount.Label>The minimum amount of coins a viewer has to spend.</TKUtils.MinimumPurchaseAmount.Label>
+    <TKUtils.MinimumPurchaseAmount.Description>The minimum amount of coins a viewer has to spend in order to purchase something through Toolkit's store. It's advised to keep this high enough to limit small purchase spam, but low enough to encourage small purchases.</TKUtils.MinimumPurchaseAmount.Description>
+
+    <TKUtils.UnlimitedCoins.Label>Should viewers have unlimited coins?</TKUtils.UnlimitedCoins.Label>
+    <TKUtils.UnlimitedCoins.Description>Whether or not viewers should have unlimited coins. While this setting is active, viewers will be able to purchase items/events they normally can't afford, however depending on the event purchased, viewers may see a decrease in their coins. If you notice this, you can simply report the problem to the mod that added the event.</TKUtils.UnlimitedCoins.Description>
+
+    <TKUtils.RequireParticipation.Label>Require viewers to participate in chat to earn coins</TKUtils.RequireParticipation.Label>
+    <TKUtils.RequireParticipation.Description>Whether or not viewers must actively talk in chat to earn the full amount of coins they'll normally earn. The period of time between each stage of decay can be configured below.</TKUtils.RequireParticipation.Description>
+
+    <TKUtils.HalfCoins.Label>The amount of minutes before viewers earn half their coins.</TKUtils.HalfCoins.Label>
+    <TKUtils.HalfCoins.Description>The amount of time, in minutes, a viewer would have to be inactive for to earn half their full coins, multipliers and bonuses included.</TKUtils.HalfCoins.Description>
+
+    <TKUtils.NoCoins.Label>The amount of minutes before viewers earn no coins.</TKUtils.NoCoins.Label>
+    <TKUtils.NoCoins.Description>The amount of time, in minutes, a viewer would have to be inactive for to earn 0 coins instead of the full coins, multipliers and bonuses included.</TKUtils.NoCoins.Description>
+
+    <!-- Cooldown Settings -->
+    <TKUtils.CooldownPeriod.Label>The amount of days an event will be on cooldown for.</TKUtils.CooldownPeriod.Label>
+    <TKUtils.CooldownPeriod.Description>When a viewer purchases an event, it'll accumulate a "use". Once the event hits its max number of uses, and the "events have cooldowns" setting is enabled, it'll go on cooldown for {0} days. Viewers won't be able to purchase that event again until it's off its cooldown.</TKUtils.CooldownPeriod.Description>
+    <TKUtils.CooldownPeriod.Singular.Description>When a viewer purchases an event, it'll accumulate a "use". Once the event hits its max number of uses, and the "events have cooldowns" setting is enabled, it'll go on cooldown for day. Viewers won't be able to purchase that event again until it's off its cooldown.</TKUtils.CooldownPeriod.Singular.Description>
+
+    <TKUtils.MaxEvents.Label>Limit events by karma type?</TKUtils.MaxEvents.Label>
+    <TKUtils.MaxEvents.Description>Karma type limits are the way of restricting how many events of a given karma type can be purchased within a given period of time. When an event is used, its karma type will gain a "use". When the karma type reaches the maximum, all events of that karma type won't be usable the karma type itself is off cooldown.</TKUtils.MaxEvents.Description>
+
+    <TKUtils.MaxBadEvents.Label>The maximum number of bad event purchases.</TKUtils.MaxBadEvents.Label>
+    <TKUtils.MaxGoodEvents.Label>The maximum number of good event purchases.</TKUtils.MaxGoodEvents.Label>
+    <TKUtils.MaxNeutralEvents.Label>The maximum number of neutral event purchases.</TKUtils.MaxNeutralEvents.Label>
+    <TKUtils.MaxItemEvents.Label>The maximum number of item purchases.</TKUtils.MaxItemEvents.Label>
+
+    <TKUtils.EventCooldowns.Label>Should events have cooldowns?</TKUtils.EventCooldowns.Label>
+    <TKUtils.EventCooldowns.Description>Whether or not events should have cooldowns</TKUtils.EventCooldowns.Description>
+
+    <!-- Karma Settings -->
+    <TKUtils.StartingKarma.Label>The amount of karma viewers start with.</TKUtils.StartingKarma.Label>
+    <TKUtils.StartingKarma.Description>When a viewer first uses the mod, or is freshly reset through the "Viewers" menu, this will be the amount of karma the viewer will have.</TKUtils.StartingKarma.Description>
+
+    <TKUtils.KarmaCap.Label>The maximum amount of karma a viewer can obtain.</TKUtils.KarmaCap.Label>
+    <TKUtils.KarmaCap.Description>When a viewer purchases good events, they'll accumulate karma, until they hit this limit. It's recommended to set this value to something higher than a viewer's starting karma, and balanced around the amount of coins a viewer can gain every coin interval.</TKUtils.KarmaCap.Description>
+
+    <TKUtils.NegativeKarma.Label>Should the mod prevent viewers from reaching negative karma?</TKUtils.NegativeKarma.Label>
+    <TKUtils.NegativeKarma.Description>When viewers purchase negative events, their karma drops by a certain percentage depending on the karma type and the event's cost. By default, the mod will prevent viewers from reaching negative karma as they start to lose coins, rather than gain them. Disabling this setting removes that safe guard.</TKUtils.NegativeKarma.Description>
+
+    <TKUtils.KarmaMinimum.Label>The minimum amount of karma a viewer can obtain.</TKUtils.KarmaMinimum.Label>
+    <TKUtils.KarmaMinimum.Description>As mentioned above, a viewer's karma drops when purchasing negative events. Depending on your settings, the minimum amount of karma a viewer can have may be 1% or the value here. The former depends on whether or not the "negative karma protection" setting above is enabled.</TKUtils.KarmaMinimum.Description>
+
+    <TKUtils.GiftingRequiresKarma.Label>Giving and receiving coins requires a karma</TKUtils.GiftingRequiresKarma.Label>
+    <TKUtils.GiftingRequiresKarma.Description>When enabled, giving and receiving karma requires the viewers on both sides to meet a certain level of karma before they can give coins through the gift coins command, and receive coins through the gift coins command.</TKUtils.GiftingRequiresKarma.Description>
+
+    <TKUtils.KarmaForGifting.Label>The minimum amount of karma a viewer must have to give coins</TKUtils.KarmaForGifting.Label>
+    <TKUtils.KarmaForGifting.Description>The minimum amount of karma a viewer must have to give coins through the gift coins command. Viewers that don't meet this requirement won't be able to gift coins to anyone else in chat.</TKUtils.KarmaForGifting.Description>
+
+    <TKUtils.KarmaForReceiving.Label>The minimum amount of karma a viewer must have to receive coins</TKUtils.KarmaForReceiving.Label>
+    <TKUtils.KarmaForReceiving.Description>The minimum amount of karma a viewer must have to receive coins through the gift coins command. Viewers that don't meet this requirement won't be able to be given coins from anyone else in chat.</TKUtils.KarmaForReceiving.Description>
+
+    <TKUtils.Karma.Description>The amount of karma {0} will receive, or lose, after purchasing an event or item. {1}, internally, are viewers with karma between {2} and {3}.</TKUtils.Karma.Description>
+    <TKUtils.GoodKarma.Label>Good karma bonus for events and items</TKUtils.GoodKarma.Label>
+    <TKUtils.NeutralKarma.Label>Neutral karma bonus for events and items</TKUtils.NeutralKarma.Label>
+    <TKUtils.BadKarma.Label>Bad karma penalty for events and items</TKUtils.BadKarma.Label>
+
+    <!-- Store Settings -->
+    <TKUtils.PurchaseList.Label>Link to purchase list</TKUtils.PurchaseList.Label>
+    <TKUtils.PurchaseList.Description>A link to a website containing the prices of items and events in the mod. It'll be displayed in the &lt;b&gt;!{0}&lt;/b&gt; command.</TKUtils.PurchaseList.Description>
+
+    <TKUtils.PurchaseConfirmations.Label>Send feedback when a viewer purchases something</TKUtils.PurchaseConfirmations.Label>
+    <TKUtils.PurchaseConfirmations.Description>When enabled, a confirmation message will be sent to the chat when a viewer purchases an item or event.</TKUtils.PurchaseConfirmations.Description>
+
+    <TKUtils.RaidersAreViewers.Label>Rename raiders after viewers in chat</TKUtils.RaidersAreViewers.Label>
+    <TKUtils.RaidersAreViewers.Description>When enabled, the mod will rename any raid or military aid full of after viewers in chat.</TKUtils.RaidersAreViewers.Description>
+
+    <TKUtils.IncludeMinifiables.Label>Include minifiable items in the mod's store</TKUtils.IncludeMinifiables.Label>
+    <TKUtils.IncludeMinifiables.Description>When enabled, the mod will include minifiable buildings inside of the mod's store.</TKUtils.IncludeMinifiables.Description>
+
+    <!-- Storyteller Settings -->
+    <TKUtils.VoteTime.Label>Voting time</TKUtils.VoteTime.Label>
+    <TKUtils.VoteTime.Description>The amount of time, in seconds, viewers have to vote for polls generated by Twitch Toolkit.</TKUtils.VoteTime.Description>
+
+    <TKUtils.MaximumOptions.Label>Maximum choices</TKUtils.MaximumOptions.Label>
+    <TKUtils.MaximumOptions.Description>The maximum amount of choices Twitch Toolkit's polls are allowed to have.</TKUtils.MaximumOptions.Description>
+
+    <TKUtils.OptionsToChat.Label>Send polls to chat</TKUtils.OptionsToChat.Label>
+    <TKUtils.OptionsToChat.Description>When enabled, the mod will send the poll, and its choices, to chat.</TKUtils.OptionsToChat.Description>
+
+    <TKUtils.ShowVoteWindow.Label>Display the poll in-game</TKUtils.ShowVoteWindow.Label>
+    <TKUtils.ShowVoteWindow.Description>When enabled, the mod will open a window in-game displaying the poll, its choices, and its remaining time.</TKUtils.ShowVoteWindow.Description>
+
+    <TKUtils.EnlargeWindow.Label>Enlarge vote window</TKUtils.EnlargeWindow.Label>
+    <TKUtils.EnlargeWindow.Description>When enabled, the mod will enlarge the text displayed on the vote window. This makes it easier for viewers to see the choices on stream without having to enable "send polls to chat".</TKUtils.EnlargeWindow.Description>
+
+    <TKUtils.EditStorytellerPacks.Label>Edit storyteller packs</TKUtils.EditStorytellerPacks.Label>
+
+    <!-- Viewer Settings -->
+    <TKUtils.NameQueue.Label>Allow viewers to join the name queue?</TKUtils.NameQueue.Label>
+    <TKUtils.NameQueue.Description>When enabled, viewers will be able to use &lt;b&gt;!{0}&lt;/b&gt; to join the name queue.</TKUtils.NameQueue.Description>
+
+    <TKUtils.UnnamedNotification.Description>When enabled, an "alert" message will be displayed when an unnamed colonist is detected. Alerts are messages that appear towards the top of the bottom-right notification area.</TKUtils.UnnamedNotification.Description>
+
+    <TKUtils.EnableQueueCost.Label>Charge viewers to join the name queue?</TKUtils.EnableQueueCost.Label>
+    <TKUtils.EnableQueueCost.Description>When enabled, viewers will be charged {0} coin(s) to join the name queue. The cost can be configured below.</TKUtils.EnableQueueCost.Description>
+
+    <TKUtils.QueueCost.Label>Cost to join queue</TKUtils.QueueCost.Label>
+    <TKUtils.QueueCost.Description>The amount of coins viewers will have to pay in order to join the name queue.</TKUtils.QueueCost.Description>
+
+    <TKUtils.SpecialViewer>Special Viewers - {0}</TKUtils.SpecialViewer>
+    <TKUtils.SpecialViewer.Subscriber>Subscribers</TKUtils.SpecialViewer.Subscriber>
+    <TKUtils.SpecialViewer.Vip>VIPs</TKUtils.SpecialViewer.Vip>
+    <TKUtils.SpecialViewer.Moderator>Mods</TKUtils.SpecialViewer.Moderator>
+
+    <TKUtils.ExtraCoins.Label>Extra coins</TKUtils.ExtraCoins.Label>
+    <TKUtils.ExtraCoins.Description>The amount of additional coins a viewer receives &lt;b&gt;after&lt;/b&gt; the mod multiplies the base amount of coins viewers receive by the viewer's karma percentage.</TKUtils.ExtraCoins.Description>
+
+    <TKUtils.CoinMultiplier.Label>Coin bonus multiplier</TKUtils.CoinMultiplier.Label>
+    <TKUtils.CoinMultiplier.Description>A percentage indicating how much a viewer's coins will be multiplied by when awarding coins. This multiplier is applied &lt;b&gt;after&lt;/b&gt; the viewer's extra coins is applied.</TKUtils.CoinMultiplier.Description>
+
+    <TKUtils.ExtraVotes.Label>Extra votes</TKUtils.ExtraVotes.Label>
+    <TKUtils.ExtraVotes.Description>The amount of extra votes a viewer has when voting on polls.</TKUtils.ExtraVotes.Description>
 </LanguageData>
