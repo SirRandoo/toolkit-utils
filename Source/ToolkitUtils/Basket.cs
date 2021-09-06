@@ -41,6 +41,11 @@ namespace SirRandoo.ToolkitUtils
             return Eggs.TryAdd(user.ToLowerInvariant(), egg);
         }
 
+        public static bool UnregisterEggFor([NotNull] string user)
+        {
+            return Eggs.Remove(user);
+        }
+
         [CanBeNull]
         public static IEasterEgg GetEggFor([NotNull] string user)
         {
