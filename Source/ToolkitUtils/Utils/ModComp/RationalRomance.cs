@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         static RationalRomance()
         {
-            Active = ModLister.GetModWithIdentifier("Mlie.RationalRomance") != null;
+            Active = ModLister.GetActiveModWithIdentifier("Mlie.RationalRomance") != null;
         }
 
         public static bool IsTraitDisabled([NotNull] TraitDef traitDef)
