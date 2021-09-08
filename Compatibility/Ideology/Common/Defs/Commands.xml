@@ -36,4 +36,12 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
+
+    <TwitchToolkit.Command>
+        <defName>DyeApparel</defName>
+        <label>dye apparel</label>
+        <description>Sets the user's pawn's apparel to the color(s) specified. If no color is specified, the pawn's favorite color is used instead.</description>
+        <command>dye</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.Dye</commandDriver>
+    </TwitchToolkit.Command>
 </Defs>
