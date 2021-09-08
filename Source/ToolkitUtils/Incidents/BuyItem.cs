@@ -20,6 +20,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
@@ -220,7 +221,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
             ThingDef result = Proxy.Stuff?.Thing;
             if (Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff?.Thing) != true)
             {
-                result = GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing);
+                var stuffs = new List<ThingDef>();
+                foreach (ThingDef possible in GenStuff.AllowedStuffsFor(Proxy.Thing.Thing))
+                {
+                    if (!Data.ItemData.TryGetValue(possible.defName, out ItemData data) || !data.IsStuffAllowed)
+                    {
+                        continue;
+                    }
+
+                    stuffs.Add(possible);
+                }
+
+                result = !stuffs.TryRandomElementByWeight(s => s.stuffProps.commonality, out ThingDef stuff)
+                    ? GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing)
+                    : stuff;
             }
 
             Thing thing = PurchaseHelper.MakeThing(Proxy.Thing.Thing, result, Proxy.Quality);
