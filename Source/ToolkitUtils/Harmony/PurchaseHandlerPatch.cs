@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -54,15 +53,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             {
                 return false;
             }
-
-        #if DEBUG
-            if (viewer.username.Equals("sirrandoo") && query.Equals("storedebug"))
-            {
-                TkSettings.DebuggingIncidents = true;
-                DebugIncidents(viewer, twitchMessage);
-                return false;
-            }
-        #endif
 
             if (TryFindSimpleIncident(query, out StoreIncidentSimple incidentSimple))
             {
@@ -134,49 +124,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             return false;
-        }
-
-        private static void DebugIncidents(Viewer viewer, ITwitchMessage message)
-        {
-            var builder = new StringBuilder();
-            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
-            {
-                try
-                {
-                    Purchase_Handler.viewerNamesDoingVariableCommands.Clear();
-
-                    switch (incident)
-                    {
-                        case StoreIncidentSimple simple:
-                            Purchase_Handler.ResolvePurchaseSimple(
-                                viewer,
-                                message,
-                                simple,
-                                $"!buy {simple.abbreviation}"
-                            );
-                            continue;
-                        case StoreIncidentVariables variables:
-                            Purchase_Handler.ResolvePurchaseVariables(
-                                viewer,
-                                message,
-                                variables,
-                                $"!buy {variables.abbreviation} {variables.minPointsToFire}"
-                            );
-                            break;
-                    }
-
-                    builder.Append($" - {incident.abbreviation} (SUCCESS)");
-                }
-                catch (Exception e)
-                {
-                    builder.Append($" - {incident.abbreviation} (FAILED) -- {e.Message} ({e.GetType().Name})");
-                }
-
-                builder.Append("\n");
-            }
-
-            LogHelper.Info($"Status report:\n{builder}");
-            TkSettings.DebuggingIncidents = false;
         }
 
         [HarmonyPrefix]
