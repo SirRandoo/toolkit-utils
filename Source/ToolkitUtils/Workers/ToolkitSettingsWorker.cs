@@ -367,7 +367,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private static void DrawKarmaSettings(Rect region)
         {
             var listing = new Listing_Standard();
-            var viewPort = new Rect(0f, 0f, region.width - 16f, Text.SmallFontHeight * 65f);
+            var viewPort = new Rect(0f, 0f, region.width - 16f, Text.SmallFontHeight * 72f);
 
             Widgets.BeginScrollView(region, ref _karmaScrollPos, viewPort);
             listing.Begin(viewPort);
