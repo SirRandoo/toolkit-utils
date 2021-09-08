@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            CommandRouter.MainThreadCommands.Enqueue(() => DyeAll(color));
+            CommandRouter.MainThreadCommands.Enqueue(() => DyeAll(new Color(color.r, color.g, color.b, 1f)));
         }
 
         private void DyeApparel([NotNull] IEnumerable<KeyValuePair<string, string>> pairs)
@@ -84,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         return;
                     }
 
-                    color = color2;
+                    color = new Color(color2.r, color2.g, color2.b, 1f);
                 }
 
                 if (!color.HasValue)
