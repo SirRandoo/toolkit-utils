@@ -34,6 +34,7 @@ namespace SirRandoo.ToolkitUtils
     {
         private static bool _isBusy;
         internal static readonly ConcurrentQueue<ITwitchMessage> CommandQueue = new ConcurrentQueue<ITwitchMessage>();
+        internal static readonly ConcurrentQueue<Action> MainThreadCommands = new ConcurrentQueue<Action>();
 
         public CommandRouter(Game game) { }
 
@@ -44,6 +45,16 @@ namespace SirRandoo.ToolkitUtils
 
         public override void GameComponentUpdate()
         {
+            while (!MainThreadCommands.IsEmpty)
+            {
+                if (!MainThreadCommands.TryDequeue(out Action action))
+                {
+                    break;
+                }
+
+                action();
+            }
+
             if (!TkSettings.CommandRouter || _isBusy)
             {
                 return;

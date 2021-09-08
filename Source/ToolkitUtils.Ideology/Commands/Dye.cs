@@ -48,8 +48,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!apparelPairs.NullOrEmpty())
             {
-                DyeApparel(apparelPairs);
-                message.Reply("TKUtils.Dye.Complete".Localize());
+                CommandRouter.MainThreadCommands.Enqueue(() => DyeApparel(apparelPairs));
                 return;
             }
 
@@ -60,8 +59,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            DyeAll(color);
-            message.Reply("TKUtils.Dye.Complete".Localize());
+            CommandRouter.MainThreadCommands.Enqueue(() => DyeAll(color));
         }
 
         private void DyeApparel([NotNull] IEnumerable<KeyValuePair<string, string>> pairs)
@@ -71,11 +69,26 @@ namespace SirRandoo.ToolkitUtils.Commands
             foreach ((string nameOrDef, string colorCode) in pairs)
             {
                 string colorCodeTransformed = colorCode.ToToolkit();
-                if (colorCode.NullOrEmpty()
-                    || !Data.ColorIndex.TryGetValue(colorCodeTransformed, out Color color)
-                    || !ColorUtility.TryParseHtmlString(colorCodeTransformed, out color))
+
+                Color? color;
+                if (colorCode.NullOrEmpty())
                 {
-                    MessageHelper.ReplyToUser(invoker, "TKUtils.NotAColor".LocalizeKeyed(colorCode));
+                    color = pawn.story.favoriteColor;
+                }
+                else
+                {
+                    if (!Data.ColorIndex.TryGetValue(colorCodeTransformed, out Color color2)
+                        && !ColorUtility.TryParseHtmlString(colorCodeTransformed, out color2))
+                    {
+                        MessageHelper.ReplyToUser(invoker, "TKUtils.NotAColor".LocalizeKeyed(colorCode));
+                        return;
+                    }
+
+                    color = color2;
+                }
+
+                if (!color.HasValue)
+                {
                     continue;
                 }
 
@@ -88,8 +101,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                     }
                 );
 
-                item?.TryGetComp<CompColorable>()?.SetColor(color);
+                item?.TryGetComp<CompColorable>()?.SetColor(color.Value);
             }
+
+            MessageHelper.ReplyToUser(invoker, "TKUtils.Dye.Complete".Localize());
         }
 
         private void DyeAll(Color color)
@@ -98,6 +113,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 apparel.TryGetComp<CompColorable>()?.SetColor(color);
             }
+
+            MessageHelper.ReplyToUser(invoker, "TKUtils.Dye.Complete".Localize());
         }
     }
 }
