@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit.Store;
 using Verse;
@@ -27,40 +28,22 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Incident : IncidentHelper
     {
-        private static readonly Dictionary<string, IncidentData> Data;
+        private static readonly Dictionary<string, IIncidentData> Data;
         private IncidentParms parms;
         private IncidentWorker worker;
 
         static Incident()
         {
-            Data = new Dictionary<string, IncidentData>
+            Data = new Dictionary<string, IIncidentData>
             {
-                {
-                    "TraderCaravanArrival",
-                    new IncidentData
-                    {
-                        Category = IncidentCategoryDefOf.Misc,
-                        WorkerClass = typeof(IncidentWorker_TraderCaravanArrival),
-                        ExtraSetup = (worker, parms, arg3) =>
-                            worker.def = RimWorld.IncidentDefOf.TraderCaravanArrival
-                    }
-                },
-                {
-                    "OrbitalTraderArrival",
-                    new IncidentData
-                    {
-                        Category = IncidentCategoryDefOf.Misc,
-                        WorkerClass = typeof(IncidentWorker_OrbitalTraderArrival),
-                        ExtraSetup = (worker, parms, arg3) =>
-                            worker.def = RimWorld.IncidentDefOf.OrbitalTraderArrival
-                    }
-                }
+                { "TraderCaravanArrival", new TraderCaravanIncidentData() },
+                { "OrbitalTraderArrival", new OrbitalTraderIncidentData() }
             };
         }
 
         public override bool IsPossible()
         {
-            if (!Data.TryGetValue(storeIncident.defName, out IncidentData data))
+            if (!Data.TryGetValue(storeIncident.defName, out IIncidentData data))
             {
                 return false;
             }
@@ -68,17 +51,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
             worker = Activator.CreateInstance(data.WorkerClass) as IncidentWorker;
             Map map = Find.RandomPlayerHomeMap;
 
-            if (map == null)
+            if (map == null || worker == null)
             {
                 return false;
             }
 
-            parms = StorytellerUtility.DefaultParmsNow(data.Category, map);
+            parms = StorytellerUtility.DefaultParmsNow(data.ResolveCategory(worker, storeIncident), map);
             parms.forced = true;
 
-            data.ExtraSetup?.Invoke(worker, parms, storeIncident);
+            data.DoExtraSetup(worker, parms, storeIncident);
 
-            return worker?.CanFireNow(parms) == true;
+            return worker.CanFireNow(parms);
         }
 
         public override void TryExecute()
