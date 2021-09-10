@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         public static bool Prefix(string message)
         {
-            if (message.NullOrEmpty() || TkSettings.DebuggingIncidents)
+            if (message.NullOrEmpty())
             {
                 return false;
             }

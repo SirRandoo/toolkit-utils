@@ -78,9 +78,6 @@ namespace SirRandoo.ToolkitUtils
         public static bool ResetClass;
         public static bool MinimalRelations = true;
         public static bool GatewayPuff = true;
-        internal static bool SettingsUtilsEdition;
-
-        internal static bool DebuggingIncidents;
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
 
@@ -630,7 +627,6 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref MinimalRelations, "minimalRelations", true);
             Scribe_Values.Look(ref GatewayPuff, "gatewayPuff", true);
             Scribe_Values.Look(ref EasterEggs, "easterEggs", true);
-            Scribe_Values.Look(ref SettingsUtilsEdition, "settingsUtilsEdition");
             Scribe_Values.Look(ref TransparentColors, "allowTransparentColors");
 
             Scribe_Collections.Look(ref WorkSettings, "workSettings", LookMode.Deep);
