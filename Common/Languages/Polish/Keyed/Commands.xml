@@ -35,6 +35,9 @@
     <!-- Database -->
     <TKUtils.Database.Stats>stats</TKUtils.Database.Stats>
 
+    <!-- Dye -->
+    <TKUtils.Dye.Complete>Your apparel has been dyed.</TKUtils.Dye.Complete>
+
     <!-- Colonist Count -->
     <TKUtils.ColonistCount.None>It's a ghost town, Timmy.</TKUtils.ColonistCount.None>
     <TKUtils.ColonistCount.Any>There are {0} colonists left.</TKUtils.ColonistCount.Any>
