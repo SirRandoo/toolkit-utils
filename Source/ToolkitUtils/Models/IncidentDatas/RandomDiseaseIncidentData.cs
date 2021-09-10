@@ -26,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class RandomDiseaseIncidentData : IWageredIncidentData
     {
-        public bool UseStoryteller { get; }
+        public bool UseStoryteller => false;
         [NotNull] public Type WorkerClass => typeof(IncidentWorker_DiseaseHuman);
 
         public IncidentCategoryDef ResolveCategory([NotNull] IncidentWorker worker, StoreIncident incident)

@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ManhunterPackIncidentData : IWageredIncidentData
     {
-        public bool UseStoryteller { get; }
+        public bool UseStoryteller => false;
         [NotNull] public Type WorkerClass => typeof(IncidentWorker_ManhunterPack);
 
         public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident)

@@ -44,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Models
             };
         }
 
-        public bool UseStoryteller { get; }
+        public bool UseStoryteller => false;
         [NotNull] public Type WorkerClass => typeof(AnimalSpawnWorker);
 
         public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident)
