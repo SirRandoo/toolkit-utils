@@ -234,6 +234,10 @@
     <TKUtils.Item.MasterworkMultiplier>Masterwork quality multiplier</TKUtils.Item.MasterworkMultiplier>
     <TKUtils.Item.LegendaryMultiplier>Legendary quality multiplier</TKUtils.Item.LegendaryMultiplier>
 
+    <!-- Wagered Incident -->
+    <TKUtils.WageredIncident.Storyteller.Label>Disable coin wagering</TKUtils.WageredIncident.Storyteller.Label>
+    <TKUtils.WageredIncident.Storyteller.Description>When enabled, the event will generate default storyteller threat. Viewers will only be charged the cost of the event itself.</TKUtils.WageredIncident.Storyteller.Description>
+
 
     <!-- Twitch Toolkit -->
     <TKUtils.Coins.Tooltip>This tab contains the settings that change how the mod distrbutes coins, and the requirements viewers have to meet to earn said coins.</TKUtils.Coins.Tooltip>

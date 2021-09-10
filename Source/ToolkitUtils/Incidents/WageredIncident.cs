@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!TkSettings.DisableWagers)
+            if (!data.UseStoryteller)
             {
                 string rawPoints = CommandFilter.Parse(msg).Skip(2).FirstOrDefault();
 
