@@ -52,10 +52,16 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            if (hexcode.NullOrEmpty()
-                || !Data.ColorIndex.TryGetValue(hexcode!.ToToolkit(), out Color color)
-                || !ColorUtility.TryParseHtmlString(hexcode.ToToolkit(), out color))
+            if (hexcode.NullOrEmpty())
             {
+                CommandRouter.MainThreadCommands.Enqueue(() => DyeAll(null));
+                return;
+            }
+
+            string s = hexcode!.ToToolkit();
+            if (!Data.ColorIndex.TryGetValue(s, out Color color) || !ColorUtility.TryParseHtmlString(s, out color))
+            {
+                message.Reply("TKUtils.NotAColor".LocalizeKeyed(s));
                 return;
             }
 
@@ -107,11 +113,18 @@ namespace SirRandoo.ToolkitUtils.Commands
             MessageHelper.ReplyToUser(invoker, "TKUtils.Dye.Complete".Localize());
         }
 
-        private void DyeAll(Color color)
+        private void DyeAll(Color? color)
         {
+            color ??= pawn.story.favoriteColor;
+
+            if (!color.HasValue)
+            {
+                return;
+            }
+
             foreach (Apparel apparel in pawn.apparel.WornApparel)
             {
-                apparel.TryGetComp<CompColorable>()?.SetColor(color);
+                apparel.TryGetComp<CompColorable>()?.SetColor(color.Value);
             }
 
             MessageHelper.ReplyToUser(invoker, "TKUtils.Dye.Complete".Localize());
