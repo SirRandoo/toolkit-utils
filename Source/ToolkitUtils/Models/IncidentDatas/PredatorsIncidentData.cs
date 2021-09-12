@@ -20,6 +20,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Workers;
 using TwitchToolkit.Incidents;
@@ -44,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Models
             };
         }
 
-        public bool UseStoryteller => false;
+        public bool UseStoryteller => Predators.Storyteller;
         [NotNull] public Type WorkerClass => typeof(AnimalSpawnWorker);
 
         public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident)

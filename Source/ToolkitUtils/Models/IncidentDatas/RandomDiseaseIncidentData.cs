@@ -18,6 +18,7 @@ using System;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Incidents;
 using Verse;
@@ -26,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class RandomDiseaseIncidentData : IWageredIncidentData
     {
-        public bool UseStoryteller => false;
+        public bool UseStoryteller => RandomDisease.Storyteller;
         [NotNull] public Type WorkerClass => typeof(IncidentWorker_DiseaseHuman);
 
         public IncidentCategoryDef ResolveCategory([NotNull] IncidentWorker worker, StoreIncident incident)

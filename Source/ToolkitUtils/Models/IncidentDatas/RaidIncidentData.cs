@@ -17,6 +17,7 @@
 using System;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Incidents;
 using Verse;
@@ -26,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class RaidIncidentData : IWageredIncidentData
     {
-        public bool UseStoryteller => false;
+        public virtual bool UseStoryteller => Raid.Storyteller;
         [NotNull] public Type WorkerClass => typeof(IncidentWorker_RaidEnemy);
 
         public virtual IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident)

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using RimWorld;
+using SirRandoo.ToolkitUtils.IncidentSettings;
 using TwitchToolkit.Incidents;
 using Verse;
 
@@ -22,6 +23,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class SapperRaidIncidentData : RaidIncidentData
     {
+        public override bool UseStoryteller => SapperRaid.Storyteller;
+
         public override void DoExtraSetup(IncidentWorker worker, IncidentParms parms, StoreIncident incident)
         {
             base.DoExtraSetup(worker, parms, incident);

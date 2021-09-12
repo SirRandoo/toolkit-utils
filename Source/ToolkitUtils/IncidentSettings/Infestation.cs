@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Windows;
@@ -24,10 +23,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.IncidentSettings
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
-    public class HealAll : IncidentHelperVariablesSettings, IEventSettings
+    public class Infestation : IncidentHelperVariablesSettings, IEventSettings
     {
-        public static bool FairFights;
+        public static bool Storyteller;
 
         public int LineSpan => 1;
 
@@ -36,18 +34,15 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            listing.CheckboxLabeled(
-                "TKUtils.Heal.FairFights.Label".Localize(),
-                ref FairFights,
-                "TKUtils.Heal.FairFights.Description".Localize()
-            );
+            listing.CheckboxLabeled("TKUtils.WageredIncident.Storyteller.Label".Localize(), ref Storyteller);
+            listing.DrawDescription("TKUtils.WageredIncident.Storyteller.Description".Localize());
 
             listing.End();
         }
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref FairFights, "healAllFairFights");
+            Scribe_Values.Look(ref Storyteller, "storytellerInfestations");
         }
 
         public override void EditSettings()

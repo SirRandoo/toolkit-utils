@@ -17,8 +17,8 @@
 using System;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.IncidentSettings.Windows;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
@@ -79,7 +79,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
 
         public override void EditSettings()
         {
-            Find.WindowStack.Add(new AddPassionDialog());
+            Find.WindowStack.Add(new EventSettingsDialog(this));
         }
     }
 }

@@ -15,12 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using RimWorld;
+using SirRandoo.ToolkitUtils.IncidentSettings;
 using TwitchToolkit.Incidents;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     public class DropRaidIncidentData : RaidIncidentData
     {
+        public override bool UseStoryteller => DropRaid.Storyteller;
+
         public override void DoExtraSetup(IncidentWorker worker, IncidentParms parms, StoreIncident incident)
         {
             base.DoExtraSetup(worker, parms, incident);

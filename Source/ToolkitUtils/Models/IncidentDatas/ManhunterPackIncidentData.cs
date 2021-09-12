@@ -17,6 +17,7 @@
 using System;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Incidents;
 
@@ -24,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ManhunterPackIncidentData : IWageredIncidentData
     {
-        public bool UseStoryteller => false;
+        public bool UseStoryteller => ManhunterPack.Storyteller;
         [NotNull] public Type WorkerClass => typeof(IncidentWorker_ManhunterPack);
 
         public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident)

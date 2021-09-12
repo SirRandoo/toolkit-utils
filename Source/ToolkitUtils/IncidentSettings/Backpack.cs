@@ -16,8 +16,8 @@
 
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.IncidentSettings.Windows;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.Incidents;
 using UnityEngine;
@@ -61,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
 
         public override void EditSettings()
         {
-            Find.WindowStack.Add(new BackpackDialog());
+            Find.WindowStack.Add(new EventSettingsDialog(this));
         }
     }
 }
