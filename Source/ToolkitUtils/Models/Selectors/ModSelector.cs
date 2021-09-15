@@ -66,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible(TableSettingsItem<T> item)
         {
-            if (mod.NullOrEmpty())
+            if (mod.NullOrEmpty() || item.Data?.Data?.Mod == null)
             {
                 return false;
             }
