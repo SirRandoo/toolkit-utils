@@ -91,6 +91,10 @@ namespace SirRandoo.ToolkitUtils.Workers
                 new FloatMenuOption(
                     "TKUtils.Fields.CanEquip".Localize(),
                     () => AddSelector(new EquippableSelector())
+                ),
+                new FloatMenuOption(
+                    "TKUtils.Fields.Technology".Localize(),
+                    () => AddSelector(new TechnologySelector())
                 )
             };
 
