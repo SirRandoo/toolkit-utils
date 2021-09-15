@@ -232,6 +232,7 @@
         <Compile Include="Models\HealHandlers\DefaultHealHandler.cs"/>
         <Compile Include="Models\Mutators\WearableMutator.cs"/>
         <Compile Include="Models\Selectors\EquippableSelector.cs"/>
+        <Compile Include="Models\Selectors\TechnologySelector.cs"/>
         <Compile Include="Models\Selectors\UsabilitySelector.cs"/>
         <Compile Include="Models\Selectors\WearableSelector.cs"/>
         <Compile Include="Models\EventItem.cs"/>
