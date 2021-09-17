@@ -85,7 +85,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
         {
-            if (!item.Data.Enabled || item.Data.Thing?.techLevel == null)
+            if (item.Data.Thing?.techLevel == null)
             {
                 return false;
             }
