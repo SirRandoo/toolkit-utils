@@ -28,5 +28,6 @@
 
     <loadAfter>
         <li>hodlhodl.twitchtoolkit</li>
+        <li>Torann.ARimworldOfMagic</li>
     </loadAfter>
 </ModMetaData>
