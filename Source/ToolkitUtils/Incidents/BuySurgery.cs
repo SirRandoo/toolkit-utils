@@ -225,13 +225,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             private void ParseBodyPart(string input)
             {
-                BodyParts = new List<BodyPartRecord>
+                BodyParts = new List<BodyPartRecord>();
+
+                BodyPartRecord record = Patient.RaceProps.body.AllParts.FirstOrDefault(
+                    t => t.Label.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                         || t.def.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                );
+
+                if (record == null)
                 {
-                    Patient.RaceProps.body.AllParts.FirstOrDefault(
-                        t => t.Label.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                             || t.def.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                    )
-                };
+                    return;
+                }
+
+                BodyParts.Add(record);
             }
 
             private void LocateSurgery()
