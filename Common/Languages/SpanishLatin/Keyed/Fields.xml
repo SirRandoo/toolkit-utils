@@ -24,6 +24,7 @@
     <TKUtils.Fields.Weight>Purchase weight</TKUtils.Fields.Weight>
     <TKUtils.Fields.KarmaType>Karma type</TKUtils.Fields.KarmaType>
     <TKUtils.Fields.State>Is enabled?</TKUtils.Fields.State>
+    <TKUtils.Fields.Technology>Tech level</TKUtils.Fields.Technology>
     <TKUtils.Fields.Mod>Mod</TKUtils.Fields.Mod>
     <TKUtils.Fields.Wager>Maximum coin wager</TKUtils.Fields.Wager>
     <TKUtils.Fields.Price>Price</TKUtils.Fields.Price>

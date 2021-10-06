@@ -47,6 +47,12 @@
     <TKUtils.WearLetter.Title>Wear</TKUtils.WearLetter.Title>
     <TKUtils.WearLetter.Description>{0} put on a(n) {1}</TKUtils.WearLetter.Description>
     <TKUtils.WearLetter.SpawnedDescription>{0} couldn't put on their {1}, so it was spawned instead</TKUtils.WearLetter.SpawnedDescription>
+    <TKUtils.WearLetter.UnequippableDescription>{0} couldn't put on their {1}, so it was placed in their inventory instead.</TKUtils.WearLetter.UnequippableDescription>
+    <TKUtils.WearLetter.UnequippableSpawnedDescription>{0} couldn't put on their {1}, nor could it be placed in their inventory, so it was spawned instead.</TKUtils.WearLetter.UnequippableSpawnedDescription>
+    <TKUtils.WearLetter.LockedApparelDescription>{0}'s {1} couldn't be worn as it would replace a locked apparel, so it was placed in their inventory.</TKUtils.WearLetter.LockedApparelDescription>
+    <TKUtils.WearLetter.LockedApparelSpawnedDescription>{0}'s {1} couldn't be worn as it would replace a locked apaprel, nor could it be placed in their inventory, so it was spawned instead.</TKUtils.WearLetter.LockedApparelSpawnedDescription>
+    <TKUtils.WearLetter.NoPartsDescription>{0} doesn't have the required body parts to wear a {1}, so it was placed in their inventory instead.</TKUtils.WearLetter.NoPartsDescription>
+    <TKUtils.WearLetter.NoPartsSpawnedDescription>{0} doesn't have the required body parts to wear a {1], nor could it be placed in their inventory, so it was spawned instead.</TKUtils.WearLetter.NoPartsSpawnedDescription>
 
     <!-- Pawn -->
     <TKUtils.PawnLetter.Title>Viewer Joins</TKUtils.PawnLetter.Title>
