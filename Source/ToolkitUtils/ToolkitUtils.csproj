@@ -93,6 +93,7 @@
         <Compile Include="Commands\Wealth.cs"/>
         <Compile Include="CompatRegistry.cs"/>
         <Compile Include="Compat\MagicCompat.cs"/>
+        <Compile Include="ConfigService.cs"/>
         <Compile Include="Coordinator.cs"/>
         <Compile Include="CoreAddonMenu.cs"/>
         <Compile Include="CoreMainTab.cs"/>
@@ -288,6 +289,7 @@
         <Compile Include="Models\Serialization\TraitData.cs"/>
         <Compile Include="Models\Serialization\TraitItem.cs"/>
         <Compile Include="Models\Serialization\Transaction.cs"/>
+        <Compile Include="Models\SettingRef.cs"/>
         <Compile Include="Models\SurgeryHandlers\AndroidSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryHandlers\DefaultSurgeryHandler.cs"/>
         <Compile Include="Models\SurgeryItem.cs"/>
