@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -27,24 +28,18 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    [StaticConstructorOnStartup]
     public class PawnStats : CommandBase
     {
-        private static readonly List<string> DefaultStats;
-
-        static PawnStats()
+        private static readonly List<string> DefaultStats = new List<string>
         {
-            DefaultStats = new List<string>
-            {
-                "MeleeDPS",
-                "MeleeHitChance",
-                "MeleeArmorPenetration",
-                "MeleeDodgeChance",
-                "ShootingAccuracyPawn",
-                "AimingDelayFactor",
-                "IncomingDamageFactor"
-            };
-        }
+            "MeleeDPS",
+            "MeleeHitChance",
+            "MeleeArmorPenetration",
+            "MeleeDodgeChance",
+            "ShootingAccuracyPawn",
+            "AimingDelayFactor",
+            "IncomingDamageFactor"
+        };
 
         public override void RunCommand([NotNull] ITwitchMessage msg)
         {
@@ -54,33 +49,50 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            List<string> queries = CommandFilter.Parse(msg.Message).Skip(1).Select(q => q.ToToolkit()).ToList();
+            List<string> queries = CommandFilter.Parse(msg.Message).Skip(1).Select(PurchaseHelper.ToToolkit).ToList();
 
             if (queries.Count <= 0)
             {
                 queries.AddRange(DefaultStats);
             }
 
-            List<StatDef> container = queries
-               .Select(
-                    query => DefDatabase<StatDef>.AllDefs.Where(d => d.showOnHumanlikes && d.showOnPawns)
-                       .FirstOrDefault(
-                            d => d.label.ToToolkit().EqualsIgnoreCase(query) || d.defName.EqualsIgnoreCase(query)
-                        )
-                )
-               .Where(stat => stat != null)
-               .ToList();
+            List<StatDef> container = queries.Select(FindStat).Where(s => s != null).ToList();
 
             if (container.Count <= 0)
             {
                 return;
             }
 
-            string[] parts = container
-               .Select(s => ResponseHelper.JoinPair(s.LabelCap, s.ValueToString(pawn.GetStatValue(s))))
-               .ToArray();
+            CommandRouter.MainThreadCommands.Enqueue(() => { MessageHelper.ReplyToUser(msg.Username, container.Select(s => FormatStat(pawn, s)).SectionJoin()); });
+        }
 
-            msg.Reply(parts.SectionJoin());
+        [CanBeNull]
+        private static StatDef FindStat(string query)
+        {
+            return DefDatabase<StatDef>.AllDefs.FirstOrDefault(s => IsValidStat(s) && IsStat(s, query));
+        }
+
+        private static bool IsValidStat([NotNull] StatDef stat)
+        {
+            return stat.showOnHumanlikes && stat.showOnPawns;
+        }
+
+        private static bool IsStat([NotNull] Def stat, string query)
+        {
+            return stat.label.ToToolkit().Equals(query, StringComparison.InvariantCultureIgnoreCase) || stat.defName.Equals(query, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        [NotNull]
+        private static string FormatStat(Thing pawn, [NotNull] StatDef stat)
+        {
+            try
+            {
+                return ResponseHelper.JoinPair(stat.LabelCap, stat.ValueToString(pawn.GetStatValue(stat)));
+            }
+            catch (Exception e)
+            {
+                return ResponseHelper.JoinPair(stat.LabelCap, "ERR");
+            }
         }
     }
 }
