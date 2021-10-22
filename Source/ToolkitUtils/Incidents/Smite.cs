@@ -35,13 +35,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             UserData data = UserRegistry.GetData(viewer.username);
 
-            if (!(data is { IsModerator: true })
-                || !data.Username.EqualsIgnoreCase(ToolkitCoreSettings.channel_username))
+            if (!(data is { IsModerator: true }) || !data.Username.EqualsIgnoreCase(ToolkitCoreSettings.channel_username))
             {
                 return false;
             }
 
-            string target = msg.Split(' ').Take(2).FirstOrDefault();
+            string target = msg.Split(' ').Skip(2).FirstOrDefault();
 
             if (PurchaseHelper.TryGetPawn(target, out pawn))
             {
