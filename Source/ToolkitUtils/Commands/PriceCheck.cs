@@ -33,6 +33,19 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         private string invoker;
 
+        private static bool CanRemoveTrait =>
+            IncidentDefOf.RemoveTrait.cost > 0 || IncidentDefOf.ReplaceTrait.cost > 0 || IncidentDefOf.ClearTraits.cost > 0 || IncidentDefOf.SetTraits.cost > 0;
+
+        private static bool CanAddTrait =>
+            IncidentDefOf.AddTrait.cost > 0 || IncidentDefOf.ReplaceTrait.cost > 0 || IncidentDefOf.SetTraits.cost > 0;
+
+        private static bool AreTraitsDisabled =>
+            IncidentDefOf.AddTrait.cost <= 0
+            && IncidentDefOf.RemoveTrait.cost <= 0
+            && IncidentDefOf.ReplaceTrait.cost <= 0
+            && IncidentDefOf.ClearTraits.cost <= 0
+            && IncidentDefOf.SetTraits.cost <= 0;
+
         public override void RunCommand([NotNull] ITwitchMessage msg)
         {
             invoker = msg.Username;
@@ -41,21 +54,19 @@ namespace SirRandoo.ToolkitUtils.Commands
             string query = segments.Skip(1).FirstOrFallback("");
             string quantity = segments.Skip(2).FirstOrFallback("1");
 
-            if (!Lookup.Index.TryGetValue(category.ToLowerInvariant(), out string result))
+            if (!Lookup.Index.TryGetValue(category.ToLowerInvariant(), out Lookup.Category result))
             {
                 quantity = query;
                 query = category;
-                category = "items";
             }
 
-            if (result != null && (result.Equals("diseases") || result.Equals("skills")))
+            if (result == Lookup.Category.Disease || result == Lookup.Category.Skill)
             {
                 quantity = query;
                 query = category;
-                category = "items";
             }
 
-            PerformLookup(category, query, quantity);
+            PerformLookup(result, query, quantity);
         }
 
         private void NotifyLookupComplete(string result)
@@ -71,9 +82,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         private void PerformAnimalLookup(string query, int quantity)
         {
             PawnKindDef kindDef = DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(
-                i => i.RaceProps.Animal
-                     && (i.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
+                i => i.RaceProps.Animal && (i.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
             );
 
             if (kindDef == null)
@@ -94,17 +103,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            NotifyLookupComplete(
-                "TKUtils.Price.Limited".LocalizeKeyed(kindDef.defName.CapitalizeFirst(), result.ToString("N0"))
-            );
+            NotifyLookupComplete("TKUtils.Price.Limited".LocalizeKeyed(kindDef.defName.CapitalizeFirst(), result.ToString("N0")));
         }
 
         private void PerformEventLookup(string query)
         {
             StoreIncident result = DefDatabase<StoreIncident>.AllDefs.FirstOrDefault(
-                i => i.cost > 0
-                     && (i.abbreviation.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                         || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
+                i => i.cost > 0 && (i.abbreviation.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
             );
 
             if (result == null)
@@ -116,12 +121,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             switch (eventType)
             {
                 case EventTypes.Default:
-                    NotifyLookupComplete(
-                        "TKUtils.Price.Limited".LocalizeKeyed(
-                            result.abbreviation.CapitalizeFirst(),
-                            result.cost.ToString("N0")
-                        )
-                    );
+                    NotifyLookupComplete("TKUtils.Price.Limited".LocalizeKeyed(result.abbreviation.CapitalizeFirst(), result.cost.ToString("N0")));
                     return;
                 case EventTypes.Item:
                 case EventTypes.PawnKind:
@@ -135,10 +135,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     NotifyLookupComplete(
                         new[]
                         {
-                            "TKUtils.Price.Variables".LocalizeKeyed(
-                                result.abbreviation.CapitalizeFirst(),
-                                result.cost.ToString("N0")
-                            ),
+                            "TKUtils.Price.Variables".LocalizeKeyed(result.abbreviation.CapitalizeFirst(), result.cost.ToString("N0")),
                             "TKUtils.Price.External".Localize()
                         }.GroupedJoin()
                     );
@@ -161,9 +158,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            int price = item.Quality.HasValue
-                ? item.Thing!.GetItemPrice(item.Stuff, item.Quality.Value)
-                : item.Thing!.GetItemPrice(item.Stuff);
+            int price = item.Quality.HasValue ? item.Thing!.GetItemPrice(item.Stuff, item.Quality.Value) : item.Thing!.GetItemPrice(item.Stuff);
 
             if (!PurchaseHelper.TryMultiply(price, quantity, out int total))
             {
@@ -171,38 +166,31 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            NotifyLookupComplete(
-                "TKUtils.Price.Limited".LocalizeKeyed(item.AsString().CapitalizeFirst(), total.ToString("N0"))
-            );
+            NotifyLookupComplete("TKUtils.Price.Limited".LocalizeKeyed(item.AsString().CapitalizeFirst(), total.ToString("N0")));
         }
 
-        private void PerformLookup([NotNull] string category, string query, string amount)
+        private void PerformLookup(Lookup.Category category, string query, string amount)
         {
             if (!int.TryParse(amount, out int quantity))
             {
                 quantity = 1;
             }
 
-            if (!Lookup.Index.TryGetValue(category.ToLowerInvariant(), out string result))
+            switch (category)
             {
-                return;
-            }
-
-            switch (result)
-            {
-                case "events":
+                case Lookup.Category.Event:
                     PerformEventLookup(query);
                     return;
-                case "items":
+                case Lookup.Category.Item:
                     PerformItemLookup(query, quantity);
                     return;
-                case "animals":
+                case Lookup.Category.Animal:
                     PerformAnimalLookup(query, quantity);
                     return;
-                case "traits":
+                case Lookup.Category.Trait:
                     PerformTraitLookup(query);
                     return;
-                case "kinds":
+                case Lookup.Category.Kind:
                     PerformKindLookup(query);
                     return;
             }
@@ -215,50 +203,24 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            NotifyLookupComplete(
-                "TKUtils.Price.Limited".LocalizeKeyed(
-                    result!.Name.ToToolkit().CapitalizeFirst(),
-                    result.Cost.ToString("N0")
-                )
-            );
+            NotifyLookupComplete("TKUtils.Price.Limited".LocalizeKeyed(result!.Name.ToToolkit().CapitalizeFirst(), result.Cost.ToString("N0")));
         }
 
         private void PerformTraitLookup(string query)
         {
-            if (IncidentDefOf.AddTrait.cost <= 0
-                && IncidentDefOf.RemoveTrait.cost <= 0
-                && IncidentDefOf.ReplaceTrait.cost <= 0
-                && IncidentDefOf.ClearTraits.cost <= 0
-                && IncidentDefOf.SetTraits.cost <= 0)
-            {
-                return;
-            }
-
-            if (!Data.TryGetTrait(query, out TraitItem result))
-            {
-                return;
-            }
-
-            if (!result!.CanAdd && !result.CanRemove)
+            if (AreTraitsDisabled || !Data.TryGetTrait(query, out TraitItem result) || !result.CanAdd && !result.CanRemove)
             {
                 return;
             }
 
             var parts = new List<string>();
 
-            if (result.CanAdd
-                && (IncidentDefOf.AddTrait.cost > 0
-                    || IncidentDefOf.ReplaceTrait.cost > 0
-                    || IncidentDefOf.SetTraits.cost > 0))
+            if (result.CanAdd && CanAddTrait)
             {
                 parts.Add("TKUtils.Price.AddTrait".LocalizeKeyed(result.CostToAdd.ToString("N0")));
             }
 
-            if (result.CanRemove
-                && (IncidentDefOf.RemoveTrait.cost > 0
-                    || IncidentDefOf.ReplaceTrait.cost > 0
-                    || IncidentDefOf.ClearTraits.cost > 0
-                    || IncidentDefOf.SetTraits.cost > 0))
+            if (result.CanRemove && CanRemoveTrait)
             {
                 parts.Add("TKUtils.Price.RemoveTrait".LocalizeKeyed(result.CostToRemove.ToString("N0")));
             }
