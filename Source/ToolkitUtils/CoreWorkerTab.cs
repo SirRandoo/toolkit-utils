@@ -30,14 +30,19 @@ namespace SirRandoo.ToolkitUtils
         {
             base.DoButton(region);
 
-            Vector2 center = region.center;
-
-            if (Mouse.IsOver(region))
+            Rect iconRect;
+            if (def.Icon == null)
             {
-                center += new Vector2(2f, -2f);
+                iconRect = new Rect(region.x + region.width - 20f, region.y + 3f, 16f, 16f);
+            }
+            else
+            {
+                Vector2 center = region.center;
+
+                bool isOver = Mouse.IsOver(region);
+                iconRect = new Rect(center.x + (isOver ? 6f : 4f), center.y - (isOver ? 14f : 12f), 16f, 16f);
             }
 
-            var iconRect = new Rect(region.x + region.width - 20f, region.y + 3f, 16f, 16f);
             HealthReport mostSevere = Data.HealthReports.OrderByDescending(r => r.Type).FirstOrDefault();
 
             if (mostSevere == null)
