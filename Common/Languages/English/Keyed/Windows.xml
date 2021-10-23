@@ -23,6 +23,7 @@
     <TKUtils.Headers.DataDialog>Editing data for "{0}"</TKUtils.Headers.DataDialog>
     <TKUtils.Headers.FilterDialog>Editing item filters</TKUtils.Headers.FilterDialog>
     <TKUtils.Headers.RestartRequired>Restart required</TKUtils.Headers.RestartRequired>
+    <TKUtils.Headers.GlobalWeights>Change the weights given to votes. Setting to 0% disables it.</TKUtils.Headers.GlobalWeights>
 
 
     <!-- Purge Dialog -->
@@ -85,4 +86,8 @@
     <TKUtils.MainTab.HealthReport>Health Report</TKUtils.MainTab.HealthReport>
     <TKUtils.MainTab.QuickActions>Quick Actions</TKUtils.MainTab.QuickActions>
     <TKUtils.MainTab.NoHealthReports>Nothing to report</TKUtils.MainTab.NoHealthReports>
+
+
+    <!-- Global Weights -->
+    <TKUtils.GlobalWeights.Null>The vote weight dictionary doesn't exist. This shouldn't happen.</TKUtils.GlobalWeights.Null>
 </LanguageData>

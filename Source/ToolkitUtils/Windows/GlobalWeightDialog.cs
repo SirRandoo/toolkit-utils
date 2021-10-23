@@ -27,13 +27,25 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class GlobalWeightDialog : Window_GlobalVoteWeights
     {
+        private readonly Dictionary<string, string> bufferCache = new Dictionary<string, string>();
         private readonly List<VotingIncident> incidents;
+
+        private string headerText;
+        private string nullDictText;
         private int totalWeights = 1;
         private Vector2 weightScrollPos = Vector2.zero;
 
         public GlobalWeightDialog()
         {
+            doCloseX = true;
+            doCloseButton = false;
             incidents = DefDatabase<VotingIncident>.AllDefsListForReading;
+        }
+
+        public override void PostOpen()
+        {
+            nullDictText = "TKUtils.GlobalWeights.Null".Localize();
+            headerText = "TKUtils.Headers.GlobalWeights".Localize();
         }
 
         public override void DoWindowContents(Rect region)
@@ -41,22 +53,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(region);
 
             var noticeRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-            Rect weightsRect = new Rect(
-                0f,
-                noticeRect.height + 5f,
-                region.width,
-                region.height - noticeRect.height - 5f
-            ).ContractedBy(4f);
-            SettingsHelper.DrawLabel(noticeRect, "Change the weights given to votes. Setting to 0% disables it.");
+            Rect weightsRect = new Rect(0f, noticeRect.height + 5f, region.width, region.height - noticeRect.height - 5f).ContractedBy(4f);
+            SettingsHelper.DrawLabel(noticeRect, headerText);
 
             GUI.BeginGroup(weightsRect);
             if (ToolkitSettings.VoteWeights == null)
             {
-                SettingsHelper.DrawColoredLabel(
-                    weightsRect.AtZero(),
-                    "Vote weight dictionary is null.",
-                    ColorLibrary.Lavender
-                );
+                SettingsHelper.DrawColoredLabel(weightsRect.AtZero(), nullDictText, ColorLibrary.Lavender, TextAnchor.MiddleCenter);
+                ToolkitSettings.VoteWeights ??= new Dictionary<string, int>();
             }
             else
             {
@@ -73,6 +77,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var viewPort = new Rect(0f, 0f, region.width - 16f, Text.SmallFontHeight * incidents.Count);
             var total = 0;
 
+            GUI.BeginGroup(region);
             Widgets.BeginScrollView(region, ref weightScrollPos, viewPort);
             for (var index = 0; index < incidents.Count; index++)
             {
@@ -84,17 +89,37 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SettingsHelper.DrawFittedLabel(labelRect, $"{incident.defName} - {relativeWeight:P}");
 
                 (Rect sliderRect, Rect fieldRect) = inputRect.ToForm(0.6f);
-                incident.voteWeight = (int)Widgets.HorizontalSlider(sliderRect, incident.voteWeight, 0f, 100f, true);
+                var weight = (int)Widgets.HorizontalSlider(sliderRect, incident.voteWeight, 0f, 100f, true);
 
-                var buffer = incident.voteWeight.ToString();
+                if (weight != incident.voteWeight)
+                {
+                    incident.voteWeight = weight;
+                    bufferCache[incident.defName] = incident.voteWeight.ToString();
+                }
+
+                string buffer = null;
+                if (!bufferCache.TryGetValue(incident.defName, out string value))
+                {
+                    bufferCache[incident.defName] = value = buffer = incident.voteWeight.ToString();
+                }
+
+                buffer ??= value;
+
                 Widgets.TextFieldNumeric(fieldRect, ref incident.voteWeight, ref buffer);
 
                 ToolkitSettings.VoteWeights[incident.defName] = incident.voteWeight;
+
+                if (buffer != value)
+                {
+                    bufferCache[incident.defName] = buffer;
+                }
+
                 total += incident.voteWeight;
             }
 
             totalWeights = total;
             Widgets.EndScrollView();
+            GUI.EndGroup();
         }
     }
 }
