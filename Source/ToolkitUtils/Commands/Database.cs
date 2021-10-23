@@ -17,9 +17,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
@@ -29,25 +30,42 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class Database : CommandBase
     {
-        private static readonly Dictionary<string, string> Index;
-        private string invoker;
-
-        static Database()
+        private static readonly Dictionary<string, Category> Index = new Dictionary<string, Category>
         {
-            Index = new Dictionary<string, string>
-            {
-                { "weapon", "weapons" },
-                { "weapons", "weapons" },
-                { "gun", "weapons" },
-                { "sword", "weapons" },
-                { "melee", "weapons" },
-                { "ranged", "weapons" },
-                { "club", "weapons" },
-                { "clubs", "weapons" },
-                { "knife", "weapons" },
-                { "knives", "weapons" }
-            };
-        }
+            { "weapon", Category.Weapon },
+            { "weapons", Category.Weapon },
+            { "gun", Category.Weapon },
+            { "sword", Category.Weapon },
+            { "melee", Category.Weapon },
+            { "ranged", Category.Weapon },
+            { "club", Category.Weapon },
+            { "clubs", Category.Weapon },
+            { "knife", Category.Weapon },
+            { "knives", Category.Weapon }
+        };
+
+        private static readonly List<StatDef> WeaponStats = new List<StatDef>
+        {
+            StatDefOf.AccuracyLong,
+            StatDefOf.AccuracyMedium,
+            StatDefOf.AccuracyShort
+        };
+
+        private static readonly List<StatDef> RangedWeaponStats = new List<StatDef>
+        {
+            StatDefOf.RangedWeapon_Cooldown,
+            StatDefOf.RangedWeapon_DamageMultiplier
+        };
+
+        private static readonly List<StatDef> MeleeWeaponStats = new List<StatDef>
+        {
+            StatDefOf.MeleeWeapon_AverageArmorPenetration,
+            StatDefOf.MeleeWeapon_AverageDPS,
+            StatDefOf.MeleeWeapon_CooldownMultiplier,
+            StatDefOf.MeleeWeapon_DamageMultiplier
+        };
+
+        private string invoker;
 
         public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
@@ -56,13 +74,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             string category = segments.FirstOrFallback("");
             string query = segments.Skip(1).FirstOrFallback("");
 
-            if (!Index.TryGetValue(category.ToLowerInvariant(), out string _))
+            if (!Index.TryGetValue(category.ToLowerInvariant(), out Category result))
             {
                 query = category;
-                category = "weapons";
             }
 
-            PerformLookup(category, query);
+            PerformLookup(result, query);
         }
 
         private void NotifyLookupComplete(string result)
@@ -75,52 +92,56 @@ namespace SirRandoo.ToolkitUtils.Commands
             MessageHelper.ReplyToUser(invoker, result);
         }
 
-        private void PerformWeaponLookup(string query)
+        private void PerformWeaponLookup([NotNull] string query)
         {
-            ThingItem weapon = Data.Items.Where(t => t.Thing.IsWeapon)
-               .FirstOrDefault(
-                    t => t.Name.EqualsIgnoreCase(query.ToToolkit())
-                         || t.DefName.ToToolkit().EqualsIgnoreCase(query.ToToolkit())
-                );
+            var worker = ArgWorker.CreateInstance(query);
 
-            if (weapon == null)
+            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item) || !item.IsValid() || !item.Thing.Thing.IsWeapon)
             {
+                MessageHelper.ReplyToUser(invoker, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
+                return;
+            }
+
+            if (item.TryGetError(out string error))
+            {
+                MessageHelper.ReplyToUser(invoker, error);
                 return;
             }
 
             var result = new List<string>();
 
-            if (!weapon.Thing.statBases.NullOrEmpty())
-            {
-                result.AddRange(weapon.Thing.statBases.Select(stat => $"{stat.value} {stat.stat.label}"));
-            }
+            Thing thing = PurchaseHelper.MakeThing(item.Thing.Thing, item.Stuff.Thing, item.Quality);
 
-            if (!weapon.Thing.equippedStatOffsets.NullOrEmpty())
-            {
-                result.AddRange(weapon.Thing.equippedStatOffsets.Select(stat => $"{stat.ValueToStringAsOffset}"));
-            }
+            CommandRouter.MainThreadCommands.Enqueue(
+                () =>
+                {
+                    result.AddRange(WeaponStats.Select(s => s.ValueToString(thing.GetStatValue(s))));
 
-            if (!weapon.Thing.damageMultipliers.NullOrEmpty())
-            {
-                result.AddRange(weapon.Thing.damageMultipliers.Select(m => $"{m.damageDef.LabelCap} x{m.multiplier}"));
-            }
+                    if (item.Thing.Thing.IsMeleeWeapon)
+                    {
+                        result.AddRange(MeleeWeaponStats.Select(s => s.ValueToString(thing.GetStatValue(s))));
+                    }
 
-            NotifyLookupComplete(ResponseHelper.JoinPair(weapon.Name, result.GroupedJoin()));
+                    if (item.Thing.Thing.IsRangedWeapon)
+                    {
+                        result.AddRange(RangedWeaponStats.Select(s => s.ValueToString(thing.GetStatValue(s))));
+                    }
+
+                    NotifyLookupComplete(ResponseHelper.JoinPair(item.Thing.ToString(), result.GroupedJoin()));
+                }
+            );
         }
 
-        private void PerformLookup([NotNull] string category, string query)
+        private void PerformLookup(Category category, string query)
         {
-            if (!Index.TryGetValue(category.ToLowerInvariant(), out string result))
+            switch (category)
             {
-                return;
-            }
-
-            switch (result)
-            {
-                case "weapons":
+                case Category.Weapon:
                     PerformWeaponLookup(query);
                     return;
             }
         }
+
+        private enum Category { Weapon }
     }
 }
