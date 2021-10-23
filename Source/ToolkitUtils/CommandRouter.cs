@@ -52,7 +52,14 @@ namespace SirRandoo.ToolkitUtils
                     break;
                 }
 
-                action();
+                try
+                {
+                    action();
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
 
             if (!TkSettings.CommandRouter || _isBusy)
@@ -83,9 +90,7 @@ namespace SirRandoo.ToolkitUtils
                             }
                             catch (Exception e)
                             {
-                                builder.Append(
-                                    $" - {@interface.GetType().FullDescription()}  |  {e.GetType().Name}({e.Message})\n"
-                                );
+                                builder.Append($" - {@interface.GetType().FullDescription()}  |  {e.GetType().Name}({e.Message})\n");
                             }
                         }
 
