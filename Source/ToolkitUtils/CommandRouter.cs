@@ -18,7 +18,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -32,7 +31,7 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class CommandRouter : GameComponent
     {
-        private static bool _isBusy;
+        private static Task _interfaceTask;
         internal static readonly ConcurrentQueue<ITwitchMessage> CommandQueue = new ConcurrentQueue<ITwitchMessage>();
         internal static readonly ConcurrentQueue<Action> MainThreadCommands = new ConcurrentQueue<Action>();
 
@@ -44,6 +43,62 @@ namespace SirRandoo.ToolkitUtils
         }
 
         public override void GameComponentUpdate()
+        {
+            ProcessCommands();
+
+            if (_interfaceTask != null)
+            {
+                LogHelper.Info(_interfaceTask?.Status.ToStringSafe());
+            }
+
+            if (!TkSettings.CommandRouter || _interfaceTask is { IsCompleted: false })
+            {
+                return;
+            }
+
+            ProcessCommandQueue();
+        }
+
+        private static void ProcessCommandQueue()
+        {
+            List<TwitchInterfaceBase> interfaces = null;
+            bool taskDone = _interfaceTask == null || _interfaceTask.IsCompleted;
+            while (taskDone && !CommandQueue.IsEmpty)
+            {
+                if (!CommandQueue.TryDequeue(out ITwitchMessage message))
+                {
+                    break;
+                }
+
+                interfaces ??= Current.Game.components.OfType<TwitchInterfaceBase>().ToList();
+
+                foreach (TwitchInterfaceBase @interface in interfaces)
+                {
+                    if (_interfaceTask == null)
+                    {
+                        _interfaceTask ??= Task.Run(
+                            () =>
+                            {
+                                @interface.ParseMessage(message);
+                                LogHelper.Info($"Executing {@interface.GetType().FullDescription()} from a task");
+                            }
+                        );
+                    }
+                    else
+                    {
+                        _interfaceTask.ContinueWith(
+                            t =>
+                            {
+                                @interface.ParseMessage(message);
+                                LogHelper.Info($"Executing {@interface.GetType().FullDescription()} from a task");
+                            }
+                        );
+                    }
+                }
+            }
+        }
+
+        private static void ProcessCommands()
         {
             while (!MainThreadCommands.IsEmpty)
             {
@@ -60,48 +115,6 @@ namespace SirRandoo.ToolkitUtils
                 {
                     // ignored
                 }
-            }
-
-            if (!TkSettings.CommandRouter || _isBusy)
-            {
-                return;
-            }
-
-            List<TwitchInterfaceBase> interfaces = null;
-            while (!_isBusy && !CommandQueue.IsEmpty)
-            {
-                if (_isBusy || !CommandQueue.TryDequeue(out ITwitchMessage message))
-                {
-                    break;
-                }
-
-                interfaces ??= Current.Game.components.OfType<TwitchInterfaceBase>().ToList();
-
-                Task.Run(
-                    () =>
-                    {
-                        _isBusy = true;
-                        var builder = new StringBuilder();
-                        foreach (TwitchInterfaceBase @interface in interfaces)
-                        {
-                            try
-                            {
-                                @interface.ParseMessage(message);
-                            }
-                            catch (Exception e)
-                            {
-                                builder.Append($" - {@interface.GetType().FullDescription()}  |  {e.GetType().Name}({e.Message})\n");
-                            }
-                        }
-
-                        if (builder.Length > 0)
-                        {
-                            LogHelper.Warn(builder.ToString());
-                        }
-
-                        _isBusy = false;
-                    }
-                );
             }
         }
     }
