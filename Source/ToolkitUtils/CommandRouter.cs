@@ -19,7 +19,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore;
@@ -76,23 +75,11 @@ namespace SirRandoo.ToolkitUtils
                 {
                     if (_interfaceTask == null)
                     {
-                        _interfaceTask ??= Task.Run(
-                            () =>
-                            {
-                                @interface.ParseMessage(message);
-                                LogHelper.Info($"Executing {@interface.GetType().FullDescription()} from a task");
-                            }
-                        );
+                        _interfaceTask ??= Task.Run(() => { @interface.ParseMessage(message); });
                     }
                     else
                     {
-                        _interfaceTask.ContinueWith(
-                            t =>
-                            {
-                                @interface.ParseMessage(message);
-                                LogHelper.Info($"Executing {@interface.GetType().FullDescription()} from a task");
-                            }
-                        );
+                        _interfaceTask.ContinueWith(t => { @interface.ParseMessage(message); });
                     }
                 }
             }
