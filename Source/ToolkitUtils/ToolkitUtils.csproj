@@ -112,6 +112,7 @@
         <Compile Include="Harmony\ColonistUnnamedAlertPatch.cs"/>
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
         <Compile Include="Harmony\EasterEggPatch.cs"/>
+        <Compile Include="Harmony\GlobalWeightWindowPatch.cs"/>
         <Compile Include="Harmony\ItemEditorPatch.cs"/>
         <Compile Include="Harmony\LanguageProxyPatch.cs"/>
         <Compile Include="Harmony\MessagePatch.cs"/>
