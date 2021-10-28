@@ -61,31 +61,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    $"TKUtils.{(thisShop.CanRemove ? "" : "Remove")}Trait.Disabled".LocalizeKeyed(
-                        (thisShop.CanRemove ? thatShop : thisShop).Name.CapitalizeFirst()
-                    )
+                    $"TKUtils.{(thisShop.CanRemove ? "" : "Remove")}Trait.Disabled".LocalizeKeyed((thisShop.CanRemove ? thatShop : thisShop).Name.CapitalizeFirst())
                 );
                 return false;
             }
 
             if (TraitHelper.GetTotalTraits(pawn) >= AddTraitSettings.maxTraits && WouldExceedLimit())
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.ReplaceTrait.Violation".LocalizeKeyed(thisShop.Name, thatShop.Name)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.ReplaceTrait.Violation".LocalizeKeyed(thisShop.Name, thatShop.Name));
                 return false;
             }
 
             if (!viewer.CanAfford(TotalPrice))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        TotalPrice.ToString("N0"),
-                        viewer.GetViewerCoins().ToString("N0")
-                    )
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(TotalPrice.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
                 return false;
             }
 
@@ -118,19 +107,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            Trait duplicate = pawn.story.traits.allTraits.Find(t => t.def.defName.Equals(thatShop.DefName));
-            if (duplicate != null)
-            {
-                TraitItem item = Data.Traits.Find(
-                    t => t.DefName.Equals(duplicate.def.defName) && t.Degree == duplicate.Degree
-                );
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.Duplicate".LocalizeKeyed(item?.Name ?? duplicate.Label, thatShop.Name)
-                );
-                return false;
-            }
-
             TraitDef thatTraitDef = thatShop.TraitDef;
 
             if (thatTraitDef == null)
@@ -142,16 +118,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 if (trait != thisTrait && trait.def.ConflictsWith(thatTraitDef))
                 {
-                    MessageHelper.ReplyToUser(
-                        viewer.username,
-                        "TKUtils.Trait.Conflict".LocalizeKeyed(trait.Label, thatTrait.Label ?? thatTrait.def.defName)
-                    );
+                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Conflict".LocalizeKeyed(trait.Label, thatTrait.Label ?? thatTrait.def.defName));
                     return false;
                 }
             }
 
-            Trait @class =
-                pawn.story.traits.allTraits.FirstOrDefault(t => CompatRegistry.Magic?.IsClassTrait(t.def) == true);
+            Trait @class = pawn.story.traits.allTraits.FirstOrDefault(t => CompatRegistry.Magic?.IsClassTrait(t.def) == true);
 
             if (@class != null && CompatRegistry.Magic?.IsClassTrait(thatTraitDef) == true)
             {
@@ -166,28 +138,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (thatShop!.TraitDef.IsDisallowedByBackstory(pawn, thatShop.Degree, out Backstory backstory))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, thisShop!.Name)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, thisShop!.Name));
                 return false;
             }
 
             if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(thatShop.TraitDef!.defName)) == true)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, thatShop.Name)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, thatShop.Name));
                 return false;
             }
 
             if (thatShop.TraitDef.IsDisallowedByKind(pawn, thatShop.Degree))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, thatShop.Name)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, thatShop.Name));
                 return false;
             }
 
@@ -196,23 +159,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool PassesModCheck(Viewer viewer)
         {
-            if (RationalRomance.Active
-                && RationalRomance.IsTraitDisabled(thisShop!.TraitDef!)
-                && !RationalRomance.IsTraitDisabled(thatShop.TraitDef!))
+            if (RationalRomance.Active && RationalRomance.IsTraitDisabled(thisShop!.TraitDef!) && !RationalRomance.IsTraitDisabled(thatShop.TraitDef!))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.ReplaceTrait.RationalRomance".LocalizeKeyed(thisShop.Name.CapitalizeFirst())
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.ReplaceTrait.RationalRomance".LocalizeKeyed(thisShop.Name.CapitalizeFirst()));
                 return false;
             }
 
             if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, thisShop!.DefName, thisShop.Degree))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, thisShop.Name)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, thisShop.Name));
                 return false;
             }
 
@@ -241,18 +196,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Viewer.Charge(thatShop.CostToAdd, thatShop.Data?.KarmaType ?? storeIncident.karmaType);
 
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.ReplaceTrait.Complete".LocalizeKeyed(thisTrait.LabelCap, thatTrait.LabelCap)
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.ReplaceTrait.Complete".LocalizeKeyed(thisTrait.LabelCap, thatTrait.LabelCap));
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),
-                "TKUtils.TraitLetter.ReplaceDescription".LocalizeKeyed(
-                    Viewer.username,
-                    thisTrait.LabelCap,
-                    thatTrait.LabelCap
-                ),
+                "TKUtils.TraitLetter.ReplaceDescription".LocalizeKeyed(Viewer.username, thisTrait.LabelCap, thatTrait.LabelCap),
                 LetterDefOf.NeutralEvent,
                 new LookTargets(pawn)
             );
