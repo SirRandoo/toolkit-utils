@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils
         public static readonly string ToolkitItemFilePath;
         public static readonly string EditorPath;
         public static readonly string PartialPath;
-        public static readonly string RevenueServicePath;
+        public static readonly string RevenuePath;
         public static readonly string ConfigStorePath;
 
         static Paths()
@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils
             EventDataFilePath = Path.Combine(SaveHelper.dataPath, "eventdata.json");
             ModListFilePath = Path.Combine(SaveHelper.dataPath, "modlist.json");
             TraitFilePath = Path.Combine(SaveHelper.dataPath, "traits.json");
-            RevenueServicePath = Path.Combine(SaveHelper.dataPath, "RevenueService.dat");
+            RevenuePath = Path.Combine(SaveHelper.dataPath, "revenue.dat");
             ConfigStorePath = Path.Combine(SaveHelper.dataPath, "config.json");
 
             EditorPath = Path.Combine(SaveHelper.dataPath, "Editor");
