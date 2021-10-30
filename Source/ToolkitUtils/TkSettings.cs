@@ -76,6 +76,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool BuyItemBalance;
         public static bool ClassChanges;
         public static bool ResetClass;
+        public static bool VisualExceptions;
         public static bool MinimalRelations = true;
         public static bool GatewayPuff = true;
 
@@ -178,6 +179,11 @@ namespace SirRandoo.ToolkitUtils
                 listing.DrawDescription("TKUtils.TMagic.ResetClass.Description".TranslateSimple());
                 listing.DrawExperimentalNotice();
             }
+
+            listing.DrawModGroupHeader("Visual Exceptions", 2538411704);
+            listing.CheckboxLabeled("TKUtils.VisualExceptions.SendErrors.Label".TranslateSimple(), ref VisualExceptions);
+            listing.DrawDescription("TKUtils.VisualExceptions.SendErrors.Description".TranslateSimple());
+            listing.DrawExperimentalNotice();
 
             listing.End();
         }
@@ -284,11 +290,7 @@ namespace SirRandoo.ToolkitUtils
             float distributedWidth = canvas.width / _tabEntries.Length;
             var currentTabCanvas = new Rect(0f, 0f, distributedWidth, canvas.height);
 
-            _modVersion ??= Data.Mods?.FirstOrDefault(
-                                    m => m.Name.StartsWith("ToolkitUtils", StringComparison.InvariantCultureIgnoreCase)
-                                )
-                              ?.Version
-                            ?? "";
+            _modVersion ??= Data.Mods?.FirstOrDefault(m => m.Name.StartsWith("ToolkitUtils", StringComparison.InvariantCultureIgnoreCase))?.Version ?? "";
 
             if (!_modVersion.NullOrEmpty())
             {
@@ -334,50 +336,23 @@ namespace SirRandoo.ToolkitUtils
         {
             _dumpStyleOptions ??= new List<FloatMenuOption>
             {
-                new FloatMenuOption(
-                    "TKUtils.DumpStyle.SingleFile".Translate(),
-                    () => DumpStyle = nameof(DumpStyles.SingleFile)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.DumpStyle.MultiFile".Translate(),
-                    () => DumpStyle = nameof(DumpStyles.MultiFile)
-                )
+                new FloatMenuOption("TKUtils.DumpStyle.SingleFile".Translate(), () => DumpStyle = nameof(DumpStyles.SingleFile)),
+                new FloatMenuOption("TKUtils.DumpStyle.MultiFile".Translate(), () => DumpStyle = nameof(DumpStyles.MultiFile))
             };
 
             LeaveMenuOptions ??= new List<FloatMenuOption>
             {
-                new FloatMenuOption(
-                    "TKUtils.Abandon.Method.Thanos".Translate(),
-                    () => LeaveMethod = nameof(LeaveMethods.Thanos)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Abandon.Method.MentalBreak".Translate(),
-                    () => LeaveMethod = nameof(LeaveMethods.MentalBreak)
-                )
+                new FloatMenuOption("TKUtils.Abandon.Method.Thanos".Translate(), () => LeaveMethod = nameof(LeaveMethods.Thanos)),
+                new FloatMenuOption("TKUtils.Abandon.Method.MentalBreak".Translate(), () => LeaveMethod = nameof(LeaveMethods.MentalBreak))
             };
 
             _coinUserTypeOptions ??= new List<FloatMenuOption>
             {
-                new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.Broadcaster".Translate(),
-                    () => BroadcasterCoinType = nameof(UserCoinType.Broadcaster)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.Subscriber".Translate(),
-                    () => BroadcasterCoinType = nameof(UserCoinType.Subscriber)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.Vip".Translate(),
-                    () => BroadcasterCoinType = nameof(UserCoinType.Vip)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.Moderator".Translate(),
-                    () => BroadcasterCoinType = nameof(UserCoinType.Moderator)
-                ),
-                new FloatMenuOption(
-                    "TKUtils.BroadcasterUserType.None".Translate(),
-                    () => BroadcasterCoinType = nameof(UserCoinType.None)
-                )
+                new FloatMenuOption("TKUtils.BroadcasterUserType.Broadcaster".Translate(), () => BroadcasterCoinType = nameof(UserCoinType.Broadcaster)),
+                new FloatMenuOption("TKUtils.BroadcasterUserType.Subscriber".Translate(), () => BroadcasterCoinType = nameof(UserCoinType.Subscriber)),
+                new FloatMenuOption("TKUtils.BroadcasterUserType.Vip".Translate(), () => BroadcasterCoinType = nameof(UserCoinType.Vip)),
+                new FloatMenuOption("TKUtils.BroadcasterUserType.Moderator".Translate(), () => BroadcasterCoinType = nameof(UserCoinType.Moderator)),
+                new FloatMenuOption("TKUtils.BroadcasterUserType.None".Translate(), () => BroadcasterCoinType = nameof(UserCoinType.None))
             };
         }
 
@@ -559,8 +534,7 @@ namespace SirRandoo.ToolkitUtils
             for (var index = 0; index < _workTypeDefs.Length; index++)
             {
                 WorkTypeDef workType = _workTypeDefs[index];
-                WorkSetting workSetting =
-                    WorkSettings.FirstOrDefault(w => w.WorkTypeDef.EqualsIgnoreCase(workType.defName));
+                WorkSetting workSetting = WorkSettings.FirstOrDefault(w => w.WorkTypeDef.EqualsIgnoreCase(workType.defName));
 
                 if (workSetting == null)
                 {
@@ -643,9 +617,7 @@ namespace SirRandoo.ToolkitUtils
             WorkSettings ??= new List<WorkSetting>();
 
 
-            foreach (WorkTypeDef workType in _workTypeDefs.Where(
-                d => !WorkSettings.Any(s => s.WorkTypeDef.EqualsIgnoreCase(d.defName))
-            ))
+            foreach (WorkTypeDef workType in _workTypeDefs.Where(d => !WorkSettings.Any(s => s.WorkTypeDef.EqualsIgnoreCase(d.defName))))
             {
                 WorkSettings.Add(new WorkSetting { Enabled = true, WorkTypeDef = workType.defName });
             }

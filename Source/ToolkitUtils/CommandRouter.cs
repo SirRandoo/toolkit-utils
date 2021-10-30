@@ -21,8 +21,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using ToolkitCore;
 using TwitchLib.Client.Models.Interfaces;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
@@ -53,6 +56,30 @@ namespace SirRandoo.ToolkitUtils
             if (!TkSettings.CommandRouter || _interfaceTask is { IsCompleted: false })
             {
                 return;
+            }
+
+            if (_interfaceTask is { IsCompleted: true } && _interfaceTask.Exception != null)
+            {
+                foreach (Exception exception in _interfaceTask.Exception.Flatten().InnerExceptions)
+                {
+                    if (VisualExceptions.Active)
+                    {
+                        VisualExceptions.HandleException(exception);
+                    }
+                    else
+                    {
+                        LogHelper.Error(exception.Message ?? "A message interface didn't complete successfully", exception);
+                        Data.HealthReports.Add(
+                            new HealthReport
+                            {
+                                Message = "A message interface didn't complete successfully", Reporter = "Command router", OccurredAt = DateTime.Now,
+                                Stacktrace = StackTraceUtility.ExtractStringFromException(exception), Type = HealthReport.ReportType.Error
+                            }
+                        );
+                    }
+                }
+
+                _interfaceTask = null;
             }
 
             ProcessCommandQueue();
