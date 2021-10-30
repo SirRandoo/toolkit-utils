@@ -44,5 +44,11 @@ namespace SirRandoo.ToolkitUtils.Compat
         {
             return false;
         }
+
+        [NotNull]
+        public virtual string GetSkillDescription(string invoker, string query)
+        {
+            return "";
+        }
     }
 }

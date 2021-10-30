@@ -41,7 +41,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             { "club", Category.Weapon },
             { "clubs", Category.Weapon },
             { "knife", Category.Weapon },
-            { "knives", Category.Weapon }
+            { "knives", Category.Weapon },
+            { "spell", Category.TMagic },
+            { "spells", Category.TMagic },
+            { "ability", Category.TMagic },
+            { "abilities", Category.TMagic }
         };
 
         private static readonly List<StatDef> WeaponStats = new List<StatDef>
@@ -132,6 +136,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
         }
 
+        private void PerformTMagicLookup(string query)
+        {
+            CommandRouter.MainThreadCommands.Enqueue(() => NotifyLookupComplete(CompatRegistry.Magic?.GetSkillDescription(invoker, query)));
+        }
+
         private void PerformLookup(Category category, string query)
         {
             switch (category)
@@ -139,9 +148,13 @@ namespace SirRandoo.ToolkitUtils.Commands
                 case Category.Weapon:
                     PerformWeaponLookup(query);
                     return;
+                case Category.TMagic:
+                    PerformTMagicLookup(query);
+                    return;
             }
         }
 
-        private enum Category { Weapon }
+        // ReSharper disable once InconsistentNaming
+        private enum Category { Weapon, TMagic }
     }
 }
