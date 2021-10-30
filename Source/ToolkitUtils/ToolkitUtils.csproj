@@ -135,6 +135,7 @@
         <Compile Include="Harmony\ToolkitSettingsPatch.cs"/>
         <Compile Include="Harmony\TrueNeutralPatch.cs"/>
         <Compile Include="Harmony\UnassignedPatch.cs"/>
+        <Compile Include="Harmony\ViewerInterfacePatch.cs"/>
         <Compile Include="Harmony\ViewerUpdaterPatch.cs"/>
         <Compile Include="Harmony\ViewerWindowPatch.cs"/>
         <Compile Include="Harmony\WhisperPatch.cs"/>
