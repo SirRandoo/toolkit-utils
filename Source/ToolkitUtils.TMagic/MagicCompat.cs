@@ -130,9 +130,9 @@ namespace SirRandoo.ToolkitUtils
         [ContractAnnotation("=> false,s:null; => true,s:notnull")]
         private static bool TryGetGlobalMightDescription(CompAbilityUserMight userMight, string query, out string s)
         {
-            string refresh = "TM_global_refresh_pwr".Localize("regen").ToToolkit();
+            string refresh = "TM_global_refresh_pwr".Localize("refresh").ToToolkit();
 
-            if (query.EqualsIgnoreCase(refresh) || query.EqualsIgnoreCase("regen"))
+            if (query.EqualsIgnoreCase(refresh) || query.EqualsIgnoreCase("refresh"))
             {
                 s = userMight.MightData.MightPowerSkill_global_refresh.FirstOrDefault()?.desc.Localize(null);
                 return s != null;
@@ -146,9 +146,9 @@ namespace SirRandoo.ToolkitUtils
                 return s != null;
             }
 
-            string strength = "TM_global_strength_pwr".Localize("versatility").ToToolkit();
+            string strength = "TM_global_strength_pwr".Localize("strength").ToToolkit();
 
-            if (query.EqualsIgnoreCase(strength) || query.EqualsIgnoreCase("versatility"))
+            if (query.EqualsIgnoreCase(strength) || query.EqualsIgnoreCase("strength"))
             {
                 s = userMight.MightData.MightPowerSkill_global_strength.FirstOrDefault()?.desc.Localize(null);
                 return s != null;
