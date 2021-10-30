@@ -28,7 +28,7 @@ using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class EventData : IShopDataBase
+    public class EventData : IShopDataBase, IConfigurableUsageData
     {
         public EventTypes EventType { get; set; }
         public bool HasGlobalCooldown { get; set; }

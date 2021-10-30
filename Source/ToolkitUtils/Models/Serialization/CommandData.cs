@@ -21,7 +21,7 @@ using SirRandoo.ToolkitUtils.Interfaces;
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly]
-    public class CommandData : IRimData
+    public class CommandData : IRimData, IConfigurableUsageData
     {
         [DataMember(Name = "isShortcut")] public bool IsShortcut { get; set; }
         [DataMember(Name = "isBuy")] public bool IsBuy { get; set; }

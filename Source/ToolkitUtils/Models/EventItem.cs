@@ -31,7 +31,7 @@ using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public class EventItem : IShopItemBase
+    public class EventItem : IShopItemBase, IUsageItemBase
     {
         private bool checkedVariables;
         private EventData data;
@@ -187,11 +187,11 @@ namespace SirRandoo.ToolkitUtils.Models
             set => Incident.abbreviation = value;
         }
 
+        [IgnoreDataMember] [CanBeNull] public IConfigurableUsageData UsageData => Data as IConfigurableUsageData;
+
         public string GetDefaultAbbreviation()
         {
-            return (IsVariables
-                       ? Store_IncidentEditor.variableIncidentsBackup
-                       : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident)i))
+            return (IsVariables ? Store_IncidentEditor.variableIncidentsBackup : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident)i))
                   .FirstOrDefault(i => i.defName.Equals(DefName))
                  ?.abbreviation
                    ?? Name;
@@ -199,9 +199,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         private int GetDefaultPrice()
         {
-            return (IsVariables
-                       ? Store_IncidentEditor.variableIncidentsBackup
-                       : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident)i))
+            return (IsVariables ? Store_IncidentEditor.variableIncidentsBackup : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident)i))
                   .FirstOrDefault(i => i.defName.Equals(DefName))
                  ?.cost
                    ?? 50;

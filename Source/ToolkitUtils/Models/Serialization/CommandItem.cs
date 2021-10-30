@@ -18,6 +18,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
 using ToolkitCore.Models;
 using Verse;
 using Command = TwitchToolkit.Command;
@@ -25,7 +26,7 @@ using Command = TwitchToolkit.Command;
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly]
-    public class CommandItem
+    public class CommandItem : IUsageItemBase
     {
         [CanBeNull]
         [DataMember(Name = "data")]
@@ -37,6 +38,8 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "userLevel")] public UserLevels UserLevel { get; set; }
 
         [DataMember(Name = "shortcut")] public bool Shortcut => Data?.IsShortcut ?? false;
+
+        [IgnoreDataMember] [CanBeNull] public IConfigurableUsageData UsageData => Data;
 
         [NotNull]
         public static CommandItem FromToolkit([NotNull] Command command)

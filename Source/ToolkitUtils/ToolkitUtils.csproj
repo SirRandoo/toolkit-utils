@@ -207,6 +207,8 @@
         <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IHealHandler.cs"/>
         <Compile Include="Interfaces\IIncidentData.cs"/>
+        <Compile Include="Interfaces\IUsageItemBase.cs"/>
+        <Compile Include="Interfaces\IConfigurableUsageData.cs"/>
         <Compile Include="Interfaces\IWageredIncidentData.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>
         <Compile Include="Interfaces\IRimData.cs"/>
@@ -216,8 +218,6 @@
         <Compile Include="Interfaces\ITableItem.cs"/>
         <Compile Include="Interfaces\ISurgeryHandler.cs"/>
         <Compile Include="Interfaces\IUsabilityHandler.cs"/>
-        <Compile Include="Models\CommandRecord.cs"/>
-        <Compile Include="Models\EventRecord.cs"/>
         <Compile Include="Models\HealthReport.cs"/>
         <Compile Include="Models\IncidentDatas\DropRaidIncidentData.cs"/>
         <Compile Include="Models\IncidentDatas\InfestationIncidentData.cs"/>
@@ -319,6 +319,7 @@
         <Compile Include="Models\ThingItemFilterManager.cs"/>
         <Compile Include="Models\UsabilityHandlers\DefaultUsabilityHandler.cs"/>
         <Compile Include="Models\UsabilityHandlers\UsabilityHandlerBase.cs"/>
+        <Compile Include="Models\UsageRecord.cs"/>
         <Compile Include="Models\UserData.cs"/>
         <Compile Include="Models\UsabilityHandlers\IngestabilityUsabilityHandler.cs"/>
         <Compile Include="Models\ViewerState.cs"/>
