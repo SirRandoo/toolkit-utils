@@ -80,6 +80,7 @@
         <Compile Include="Commands\PawnHealth.cs"/>
         <Compile Include="Commands\PawnKills.cs"/>
         <Compile Include="Commands\PawnNeeds.cs"/>
+        <Compile Include="Commands\PawnPowers.cs"/>
         <Compile Include="Commands\PawnRelations.cs"/>
         <Compile Include="Commands\PawnSkills.cs"/>
         <Compile Include="Commands\PawnStats.cs"/>
@@ -206,6 +207,7 @@
         <Compile Include="Interfaces\IEasterEgg.cs"/>
         <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IHealHandler.cs"/>
+        <Compile Include="Interfaces\IPawnPowerHandler.cs"/>
         <Compile Include="Interfaces\IIncidentData.cs"/>
         <Compile Include="Interfaces\IUsageItemBase.cs"/>
         <Compile Include="Interfaces\IConfigurableUsageData.cs"/>
@@ -214,6 +216,7 @@
         <Compile Include="Interfaces\IWageredIncidentData.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>
         <Compile Include="Interfaces\IRimData.cs"/>
+        <Compile Include="Interfaces\IPawnPowersHandler.cs"/>
         <Compile Include="Interfaces\ISelectorBase.cs"/>
         <Compile Include="Interfaces\IShopDataBase.cs"/>
         <Compile Include="Interfaces\IShopItemBase.cs"/>
