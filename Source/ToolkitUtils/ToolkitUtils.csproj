@@ -338,6 +338,7 @@
         <Compile Include="TkUtils.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="ToolkitAddonMenu.cs"/>
+        <Compile Include="UsageService.cs"/>
         <Compile Include="UserRegistry.cs"/>
         <Compile Include="UtilsAddonMenu.cs"/>
         <Compile Include="Utils\Basket\CodedEgg.cs"/>
