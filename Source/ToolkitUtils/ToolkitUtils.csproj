@@ -209,6 +209,8 @@
         <Compile Include="Interfaces\IIncidentData.cs"/>
         <Compile Include="Interfaces\IUsageItemBase.cs"/>
         <Compile Include="Interfaces\IConfigurableUsageData.cs"/>
+        <Compile Include="Interfaces\IPawnPower.cs"/>
+        <Compile Include="Interfaces\ITieredPawnPower.cs"/>
         <Compile Include="Interfaces\IWageredIncidentData.cs"/>
         <Compile Include="Interfaces\IMutatorBase.cs"/>
         <Compile Include="Interfaces\IRimData.cs"/>
@@ -234,6 +236,7 @@
         <Compile Include="Models\Mutators\EquippableMutator.cs"/>
         <Compile Include="Models\HealHandlers\DefaultHealHandler.cs"/>
         <Compile Include="Models\Mutators\WearableMutator.cs"/>
+        <Compile Include="Models\PawnPower.cs"/>
         <Compile Include="Models\Selectors\EquippableSelector.cs"/>
         <Compile Include="Models\Selectors\TechnologySelector.cs"/>
         <Compile Include="Models\Selectors\UsabilitySelector.cs"/>
