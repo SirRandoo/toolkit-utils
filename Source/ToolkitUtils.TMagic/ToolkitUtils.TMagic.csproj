@@ -66,6 +66,7 @@
         <Compile Include="ClassData.cs"/>
         <Compile Include="ClassSelector.cs"/>
         <Compile Include="Commands\PawnClass.cs"/>
+        <Compile Include="Commands\PawnSkillLevel.cs"/>
         <Compile Include="MagicCompat.cs"/>
         <Compile Include="Models\Ability.cs"/>
         <Compile Include="Models\Class.cs"/>
