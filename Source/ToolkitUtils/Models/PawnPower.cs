@@ -1,39 +1,55 @@
-﻿// ToolkitUtils.TMagic
+﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-//
+// 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
-    public enum AbilityType { Power, Effect, Versatility }
-
-    public class Ability : PawnPower, ITieredPawnPower
+    public class PawnPower : IPawnPower
     {
-        public List<IPawnPower> Tiers { get; private set; } = new List<IPawnPower>();
-        [CanBeNull] public override string Name => Tiers?.FirstOrDefault()?.Name;
+        public PawnPower() { }
 
-        public override int MinimumLevel => Tiers?.FirstOrDefault()?.MinimumLevel ?? 0;
+        public PawnPower([NotNull] Def def, int minimumLevel)
+        {
+            MinimumLevel = minimumLevel;
+            Name = def.label ?? def.defName;
+        }
+
+        public PawnPower(string name, int minimumLevel)
+        {
+            Name = name;
+            MinimumLevel = minimumLevel;
+        }
+
+        public virtual string Name { get; }
+
+        public virtual int MinimumLevel { get; }
 
         [NotNull]
-        public static Ability From([NotNull] params IPawnPower[] powers)
+        public static PawnPower From(string name, int minimumLevel)
         {
-            return new Ability { Tiers = new List<IPawnPower>(powers) };
+            return new PawnPower(name, minimumLevel);
+        }
+
+        [NotNull]
+        public static IPawnPower From([NotNull] Def def, int minimumLevel)
+        {
+            return new PawnPower(def, minimumLevel);
         }
     }
 }

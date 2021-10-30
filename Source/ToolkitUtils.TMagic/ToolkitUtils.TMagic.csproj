@@ -69,6 +69,7 @@
         <Compile Include="Commands\PawnSkillLevel.cs"/>
         <Compile Include="MagicCompat.cs"/>
         <Compile Include="Models\Ability.cs"/>
+        <Compile Include="Models\ClassPower.cs"/>
         <Compile Include="Models\Class.cs"/>
         <Compile Include="Patches\ClassSelectorPatch.cs"/>
         <Compile Include="StaticRunner.cs"/>

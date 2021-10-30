@@ -32,12 +32,12 @@ namespace SirRandoo.ToolkitUtils
     public static class ClassData
     {
         private static readonly List<Class> Classes;
-        private static readonly Dictionary<TraitDef, List<TMAbilityDef>> BaseClassPowers;
+        private static readonly Dictionary<TraitDef, List<Ability>> BaseClassPowers;
 
         static ClassData()
         {
-            BaseClassPowers = new Dictionary<TraitDef, List<TMAbilityDef>>();
-            foreach ((TraitDef @class, List<TMAbilityDef> powers) in GetBaseClassPowerList())
+            BaseClassPowers = new Dictionary<TraitDef, List<Ability>>();
+            foreach ((TraitDef @class, List<Ability> powers) in GetBaseClassPowerList())
             {
                 BaseClassPowers.Add(@class, powers);
             }
@@ -46,14 +46,14 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [NotNull]
-        private static Tuple<TraitDef, List<TMAbilityDef>> PowerPair(TraitDef trait, List<TMAbilityDef> abilities)
+        private static Tuple<TraitDef, List<Ability>> PowerPair(TraitDef trait, List<Ability> abilities)
         {
-            return new Tuple<TraitDef, List<TMAbilityDef>>(trait, abilities);
+            return new Tuple<TraitDef, List<Ability>>(trait, abilities);
         }
 
         [NotNull]
         [ItemNotNull]
-        private static IEnumerable<Tuple<TraitDef, List<TMAbilityDef>>> GetBaseClassPowerList()
+        private static IEnumerable<Tuple<TraitDef, List<Ability>>> GetBaseClassPowerList()
         {
             yield return PowerPair(TorannMagicDefOf.TM_Wanderer, GetWandererPowers());
             yield return PowerPair(TorannMagicDefOf.TM_Wayfarer, GetWandererPowers());
@@ -79,443 +79,579 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetChaosMagePowers()
+        private static List<Ability> GetChaosMagePowers()
         {
-            List<TMAbilityDef> defs = GetRawPowersForBaseClass(TorannMagicDefOf.ChaosMage);
+            List<Ability> defs = GetRawPowersForBaseClass(TorannMagicDefOf.ChaosMage);
             if (defs != null)
             {
                 return defs;
             }
 
-            var list = new List<TMAbilityDef>
+            var list = new List<Ability>
             {
-                TorannMagicDefOf.TM_ChaosTradition, TorannMagicDefOf.TM_WandererCraft, TorannMagicDefOf.TM_Cantrips
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_ChaosTradition, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_WandererCraft, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Cantrips, 0))
             };
 
-            list.AddRange(GetInnerFirePowers().Where(p => p != TorannMagicDefOf.TM_Firestorm));
+            list.AddRange(GetInnerFirePowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Firestorm)));
+            list.AddRange(GetHeartOfFrostPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Rainmaker) || !IsAbility(p, TorannMagicDefOf.TM_Blizzard)));
+            list.AddRange(GetStormBornPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_EyeOfTheStorm)));
+            list.AddRange(GetArcanistPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_FoldReality)));
+            list.AddRange(GetPaladinPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_HolyWrath)));
+            list.AddRange(GetSummonerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_SummonPoppi)));
+            list.AddRange(GetDruidPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_RegrowLimb)));
             list.AddRange(
-                GetHeartOfFrostPowers()
-                   .Where(p => p != TorannMagicDefOf.TM_Rainmaker || p != TorannMagicDefOf.TM_Blizzard)
+                GetNecromancerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_RaiseUndead) || !IsAbility(p, TorannMagicDefOf.TM_LichForm) || !IsAbility(p, TorannMagicDefOf.TM_DeathBolt))
             );
-            list.AddRange(GetStormBornPowers().Where(p => p != TorannMagicDefOf.TM_EyeOfTheStorm));
-            list.AddRange(GetArcanistPowers().Where(p => p != TorannMagicDefOf.TM_FoldReality));
-            list.AddRange(GetPaladinPowers().Where(p => p != TorannMagicDefOf.TM_HolyWrath));
-            list.AddRange(GetSummonerPowers().Where(p => p != TorannMagicDefOf.TM_SummonPoppi));
-            list.AddRange(GetDruidPowers().Where(p => p != TorannMagicDefOf.TM_RegrowLimb));
-            list.AddRange(
-                GetNecromancerPowers()
-                   .Where(
-                        p => p != TorannMagicDefOf.TM_RaiseUndead
-                             || p != TorannMagicDefOf.TM_LichForm
-                             || p != TorannMagicDefOf.TM_DeathBolt
-                             || p != TorannMagicDefOf.TM_DeathBolt_I
-                             || p != TorannMagicDefOf.TM_DeathBolt_II
-                             || p != TorannMagicDefOf.TM_DeathBolt_III
-                    )
-            );
-            list.AddRange(GetPriestPowers().Where(p => p != TorannMagicDefOf.TM_Resurrection));
+            list.AddRange(GetPriestPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Resurrection)));
             list.AddRange(
                 GetBardPowers()
                    .Where(
-                        p => p != TorannMagicDefOf.TM_BardTraining
-                             || p != TorannMagicDefOf.TM_Inspire
-                             || p != TorannMagicDefOf.TM_Entertain
-                             || p != TorannMagicDefOf.TM_BattleHymn
+                        p => !IsAbility(p, TorannMagicDefOf.TM_BardTraining)
+                             || !IsAbility(p, TorannMagicDefOf.TM_Inspire)
+                             || !IsAbility(p, TorannMagicDefOf.TM_Entertain)
+                             || !IsAbility(p, TorannMagicDefOf.TM_BattleHymn)
                     )
             );
             list.AddRange(
                 GetWarlockPowers()
                    .Where(
-                        p => p != TorannMagicDefOf.TM_SoulBond
-                             || p != TorannMagicDefOf.TM_ShadowBolt
-                             || p != TorannMagicDefOf.TM_Dominate
-                             || p != TorannMagicDefOf.TM_Scorn
+                        p => !IsAbility(p, TorannMagicDefOf.TM_SoulBond)
+                             || !IsAbility(p, TorannMagicDefOf.TM_ShadowBolt)
+                             || !IsAbility(p, TorannMagicDefOf.TM_Dominate)
+                             || !IsAbility(p, TorannMagicDefOf.TM_Scorn)
                     )
             );
-            list.AddRange(GetGeomancerPowers().Where(p => p != TorannMagicDefOf.TM_Meteor));
-            list.AddRange(
-                GetTechnomancerPowers()
-                   .Where(
-                        p => p != TorannMagicDefOf.TM_OrbitalStrike
-                             || p != TorannMagicDefOf.TM_OrbitalStrike_I
-                             || p != TorannMagicDefOf.TM_OrbitalStrike_II
-                             || p != TorannMagicDefOf.TM_OrbitalStrike_III
-                    )
-            );
-            list.AddRange(GetEnchanterPowers().Where(p => p != TorannMagicDefOf.TM_Shapeshift));
-            list.AddRange(GetChronomancerPowers().Where(p => p != TorannMagicDefOf.TM_Recall));
+            list.AddRange(GetGeomancerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Meteor)));
+            list.AddRange(GetTechnomancerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_OrbitalStrike)));
+            list.AddRange(GetEnchanterPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Shapeshift)));
+            list.AddRange(GetChronomancerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Recall)));
 
             return list;
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetChronomancerPowers()
+        private static List<Ability> GetChronomancerPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Chronomancer)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_Prediction,
-                       TorannMagicDefOf.TM_AlterFate,
-                       TorannMagicDefOf.TM_AccelerateTime,
-                       TorannMagicDefOf.TM_ReverseTime,
-                       TorannMagicDefOf.TM_ChronostaticField,
-                       TorannMagicDefOf.TM_ChronostaticField_I,
-                       TorannMagicDefOf.TM_ChronostaticField_II,
-                       TorannMagicDefOf.TM_ChronostaticField_III,
-                       TorannMagicDefOf.TM_Recall
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Chronomancer);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Prediction, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_AlterFate, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_AccelerateTime, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_ReverseTime, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_ChronostaticField, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_ChronostaticField_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_ChronostaticField_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_ChronostaticField_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Recall, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetEnchanterPowers()
+        private static List<Ability> GetEnchanterPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Enchanter)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_EnchantedAura,
-                       TorannMagicDefOf.TM_EnchantedBody,
-                       TorannMagicDefOf.TM_Transmutate,
-                       TorannMagicDefOf.TM_EnchanterStone,
-                       TorannMagicDefOf.TM_EnchantWeapon,
-                       TorannMagicDefOf.TM_Polymorph,
-                       TorannMagicDefOf.TM_Polymorph_I,
-                       TorannMagicDefOf.TM_Polymorph_II,
-                       TorannMagicDefOf.TM_Polymorph_III,
-                       TorannMagicDefOf.TM_Shapeshift
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Enchanter);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_EnchantedAura, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_EnchantedBody, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Transmutate, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_EnchanterStone, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_EnchantWeapon, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Polymorph, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Polymorph_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Polymorph_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Polymorph_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Shapeshift, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetBloodMagePowers()
+        private static List<Ability> GetBloodMagePowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.BloodMage)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_BloodGift,
-                       TorannMagicDefOf.TM_IgniteBlood,
-                       TorannMagicDefOf.TM_BloodForBlood,
-                       TorannMagicDefOf.TM_BloodShield,
-                       TorannMagicDefOf.TM_Rend,
-                       TorannMagicDefOf.TM_Rend_I,
-                       TorannMagicDefOf.TM_Rend_II,
-                       TorannMagicDefOf.TM_Rend_III,
-                       TorannMagicDefOf.TM_BloodMoon,
-                       TorannMagicDefOf.TM_BloodMoon_I,
-                       TorannMagicDefOf.TM_BloodMoon_II,
-                       TorannMagicDefOf.TM_BloodMoon_III
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.BloodMage);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_BloodGift, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_IgniteBlood, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_BloodForBlood, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_BloodShield, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Rend, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Rend_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Rend_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Rend_III, 3)
+                ),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_BloodMoon, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_BloodMoon_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_BloodMoon_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_BloodMoon_III, 3)
+                )
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetTechnomancerPowers()
+        private static List<Ability> GetTechnomancerPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Technomancer)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_TechnoShield,
-                       TorannMagicDefOf.TM_Sabotage,
-                       TorannMagicDefOf.TM_Overdrive,
-                       TorannMagicDefOf.TM_OrbitalStrike,
-                       TorannMagicDefOf.TM_OrbitalStrike_I,
-                       TorannMagicDefOf.TM_OrbitalStrike_II,
-                       TorannMagicDefOf.TM_OrbitalStrike_III,
-                       TorannMagicDefOf.TM_TechnoBit,
-                       TorannMagicDefOf.TM_TechnoTurret,
-                       TorannMagicDefOf.TM_TechnoWeapon
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Technomancer);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_TechnoShield, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Sabotage, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Overdrive, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_OrbitalStrike, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_OrbitalStrike_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_OrbitalStrike_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_OrbitalStrike_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_TechnoBit, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_TechnoTurret, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_TechnoWeapon, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetGeomancerPowers()
+        private static List<Ability> GetGeomancerPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Geomancer)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_Stoneskin,
-                       TorannMagicDefOf.TM_Encase,
-                       TorannMagicDefOf.TM_Encase_I,
-                       TorannMagicDefOf.TM_Encase_II,
-                       TorannMagicDefOf.TM_Encase_III,
-                       TorannMagicDefOf.TM_EarthSprites,
-                       TorannMagicDefOf.TM_EarthernHammer,
-                       TorannMagicDefOf.TM_Sentinel,
-                       TorannMagicDefOf.TM_Meteor,
-                       TorannMagicDefOf.TM_Meteor_I,
-                       TorannMagicDefOf.TM_Meteor_II,
-                       TorannMagicDefOf.TM_Meteor_III
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Geomancer);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Stoneskin, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Encase, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Encase_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Encase_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Encase_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_EarthSprites, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_EarthernHammer, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Sentinel, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Meteor, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Meteor_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Meteor_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Meteor_III, 3)
+                )
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetWarlockPowers()
+        private static List<Ability> GetWarlockPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Warlock)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_SoulBond,
-                       TorannMagicDefOf.TM_ShadowBolt,
-                       TorannMagicDefOf.TM_ShadowBolt_I,
-                       TorannMagicDefOf.TM_ShadowBolt_II,
-                       TorannMagicDefOf.TM_ShadowBolt_III,
-                       TorannMagicDefOf.TM_Dominate,
-                       TorannMagicDefOf.TM_Repulsion,
-                       TorannMagicDefOf.TM_Repulsion_I,
-                       TorannMagicDefOf.TM_Repulsion_II,
-                       TorannMagicDefOf.TM_Repulsion_III,
-                       TorannMagicDefOf.TM_PsychicShock
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Warlock);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SoulBond, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_ShadowBolt, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_ShadowBolt_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_ShadowBolt_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_ShadowBolt_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Dominate, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Repulsion, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Repulsion_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Repulsion_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Repulsion_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_PsychicShock, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetSuccubusPowers()
+        private static List<Ability> GetSuccubusPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Succubus)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_SoulBond,
-                       TorannMagicDefOf.TM_ShadowBolt,
-                       TorannMagicDefOf.TM_ShadowBolt_I,
-                       TorannMagicDefOf.TM_ShadowBolt_II,
-                       TorannMagicDefOf.TM_ShadowBolt_III,
-                       TorannMagicDefOf.TM_Dominate,
-                       TorannMagicDefOf.TM_Attraction,
-                       TorannMagicDefOf.TM_Attraction_I,
-                       TorannMagicDefOf.TM_Attraction_II,
-                       TorannMagicDefOf.TM_Attraction_III,
-                       TorannMagicDefOf.TM_Scorn
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Succubus);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SoulBond, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_ShadowBolt, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_ShadowBolt_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_ShadowBolt_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_ShadowBolt_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Dominate, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Attraction, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Attraction_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Attraction_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Attraction_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Scorn, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetBardPowers()
+        private static List<Ability> GetBardPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.TM_Bard)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_BardTraining,
-                       TorannMagicDefOf.TM_Inspire,
-                       TorannMagicDefOf.TM_Entertain,
-                       TorannMagicDefOf.TM_Lullaby,
-                       TorannMagicDefOf.TM_Lullaby_I,
-                       TorannMagicDefOf.TM_Lullaby_II,
-                       TorannMagicDefOf.TM_Lullaby_III,
-                       TorannMagicDefOf.TM_BattleHymn
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.TM_Bard);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_BardTraining, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Inspire, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Entertain, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Lullaby, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Lullaby_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Lullaby_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Lullaby_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_BattleHymn, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetPriestPowers()
+        private static List<Ability> GetPriestPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Priest)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_AdvancedHeal,
-                       TorannMagicDefOf.TM_Purify,
-                       TorannMagicDefOf.TM_HealingCircle,
-                       TorannMagicDefOf.TM_HealingCircle_I,
-                       TorannMagicDefOf.TM_HealingCircle_II,
-                       TorannMagicDefOf.TM_HealingCircle_III,
-                       TorannMagicDefOf.TM_BestowMight,
-                       TorannMagicDefOf.TM_BestowMight_I,
-                       TorannMagicDefOf.TM_BestowMight_II,
-                       TorannMagicDefOf.TM_BestowMight_III,
-                       TorannMagicDefOf.TM_Resurrection
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Priest);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_AdvancedHeal, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Purify, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_HealingCircle, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_HealingCircle_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_HealingCircle_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_HealingCircle_III, 3)
+                ),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_BestowMight, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_BestowMight_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_BestowMight_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_BestowMight_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Resurrection, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetNecromancerPowers()
+        private static List<Ability> GetNecromancerPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Necromancer)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_RaiseUndead,
-                       TorannMagicDefOf.TM_DeathMark,
-                       TorannMagicDefOf.TM_DeathMark_I,
-                       TorannMagicDefOf.TM_DeathMark_II,
-                       TorannMagicDefOf.TM_DeathMark_III,
-                       TorannMagicDefOf.TM_FogOfTorment,
-                       TorannMagicDefOf.TM_ConsumeCorpse,
-                       TorannMagicDefOf.TM_ConsumeCorpse_I,
-                       TorannMagicDefOf.TM_ConsumeCorpse_II,
-                       TorannMagicDefOf.TM_ConsumeCorpse_III,
-                       TorannMagicDefOf.TM_CorpseExplosion,
-                       TorannMagicDefOf.TM_CorpseExplosion_I,
-                       TorannMagicDefOf.TM_CorpseExplosion_II,
-                       TorannMagicDefOf.TM_CorpseExplosion_III,
-                       TorannMagicDefOf.TM_LichForm,
-                       TorannMagicDefOf.TM_DeathBolt,
-                       TorannMagicDefOf.TM_DeathBolt_I,
-                       TorannMagicDefOf.TM_DeathBolt_II,
-                       TorannMagicDefOf.TM_DeathBolt_III
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Necromancer);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_RaiseUndead, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_DeathMark, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_DeathMark_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_DeathMark_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_DeathMark_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_FogOfTorment, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_ConsumeCorpse, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_ConsumeCorpse_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_ConsumeCorpse_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_ConsumeCorpse_III, 3)
+                ),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_CorpseExplosion, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_CorpseExplosion_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_CorpseExplosion_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_CorpseExplosion_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_LichForm, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_DeathBolt, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_DeathBolt_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_DeathMark_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_DeathMark_III, 3)
+                )
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetDruidPowers()
+        private static List<Ability> GetDruidPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Druid)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_Poison,
-                       TorannMagicDefOf.TM_SootheAnimal,
-                       TorannMagicDefOf.TM_SootheAnimal_I,
-                       TorannMagicDefOf.TM_SootheAnimal_II,
-                       TorannMagicDefOf.TM_SootheAnimal_III,
-                       TorannMagicDefOf.TM_Regenerate,
-                       TorannMagicDefOf.TM_CureDisease,
-                       TorannMagicDefOf.TM_RegrowLimb
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Druid);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Poison, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_SootheAnimal, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_SootheAnimal_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_SootheAnimal_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_SootheAnimal_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Regenerate, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_CureDisease, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_RegrowLimb, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetSummonerPowers()
+        private static List<Ability> GetSummonerPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Summoner)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_SummonMinion,
-                       TorannMagicDefOf.TM_SummonPylon,
-                       TorannMagicDefOf.TM_SummonExplosive,
-                       TorannMagicDefOf.TM_SummonElemental,
-                       TorannMagicDefOf.TM_SummonPoppi
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Summoner);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SummonMinion, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SummonPylon, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SummonExplosive, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SummonElemental, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SummonPoppi, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetPaladinPowers()
+        private static List<Ability> GetPaladinPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Paladin)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_P_RayofHope,
-                       TorannMagicDefOf.TM_P_RayofHope_I,
-                       TorannMagicDefOf.TM_P_RayofHope_II,
-                       TorannMagicDefOf.TM_P_RayofHope_III,
-                       TorannMagicDefOf.TM_Heal,
-                       TorannMagicDefOf.TM_Shield,
-                       TorannMagicDefOf.TM_Shield_I,
-                       TorannMagicDefOf.TM_Shield_II,
-                       TorannMagicDefOf.TM_Shield_III,
-                       TorannMagicDefOf.TM_ValiantCharge,
-                       TorannMagicDefOf.TM_Overwhelm,
-                       TorannMagicDefOf.TM_HolyWrath
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Paladin);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_P_RayofHope, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_P_RayofHope_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_P_RayofHope_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_P_RayofHope_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Heal, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Shield, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Shield_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Shield_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Shield_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_ValiantCharge, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Overwhelm, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_HolyWrath, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetArcanistPowers()
+        private static List<Ability> GetArcanistPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.Arcanist)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_Shadow,
-                       TorannMagicDefOf.TM_Shadow_I,
-                       TorannMagicDefOf.TM_Shadow_II,
-                       TorannMagicDefOf.TM_Shadow_III,
-                       TorannMagicDefOf.TM_MagicMissile,
-                       TorannMagicDefOf.TM_MagicMissile_I,
-                       TorannMagicDefOf.TM_MagicMissile_II,
-                       TorannMagicDefOf.TM_MagicMissile_III,
-                       TorannMagicDefOf.TM_Blink,
-                       TorannMagicDefOf.TM_Blink_I,
-                       TorannMagicDefOf.TM_Blink_II,
-                       TorannMagicDefOf.TM_Blink_III,
-                       TorannMagicDefOf.TM_Summon,
-                       TorannMagicDefOf.TM_Summon_I,
-                       TorannMagicDefOf.TM_Summon_II,
-                       TorannMagicDefOf.TM_Summon_III,
-                       TorannMagicDefOf.TM_Teleport,
-                       TorannMagicDefOf.TM_FoldReality
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Arcanist);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Shadow, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Shadow_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Shadow_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Shadow_III, 3)
+                ),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_MagicMissile, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_MagicMissile_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_MagicMissile_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_MagicMissile_III, 3)
+                ),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Blink, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Blink_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Blink_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Blink_III, 3)
+                ),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Summon, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Summon_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Summon_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Summon_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Teleport, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_FoldReality, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetStormBornPowers()
+        private static List<Ability> GetStormBornPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.StormBorn)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_AMP,
-                       TorannMagicDefOf.TM_AMP_I,
-                       TorannMagicDefOf.TM_AMP_II,
-                       TorannMagicDefOf.TM_AMP_III,
-                       TorannMagicDefOf.TM_LightningBolt,
-                       TorannMagicDefOf.TM_LightningCloud,
-                       TorannMagicDefOf.TM_LightningStorm,
-                       TorannMagicDefOf.TM_EyeOfTheStorm
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.StormBorn);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_AMP, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_AMP_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_AMP_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_AMP_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_LightningBolt, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_LightningCloud, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_LightningStorm, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_EyeOfTheStorm, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetHeartOfFrostPowers()
+        private static List<Ability> GetHeartOfFrostPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.HeartOfFrost)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_Soothe,
-                       TorannMagicDefOf.TM_Soothe_I,
-                       TorannMagicDefOf.TM_Soothe_II,
-                       TorannMagicDefOf.TM_Soothe_III,
-                       TorannMagicDefOf.TM_Icebolt,
-                       TorannMagicDefOf.TM_Snowball,
-                       TorannMagicDefOf.TM_FrostRay,
-                       TorannMagicDefOf.TM_FrostRay_I,
-                       TorannMagicDefOf.TM_FrostRay_II,
-                       TorannMagicDefOf.TM_FrostRay_III,
-                       TorannMagicDefOf.TM_Rainmaker,
-                       TorannMagicDefOf.TM_Blizzard
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.HeartOfFrost);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Soothe, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Soothe_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Soothe_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Soothe_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Icebolt, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Snowball, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_FrostRay, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_FrostRay_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_FrostRay_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_FrostRay_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Rainmaker, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Blizzard, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetInnerFirePowers()
+        private static List<Ability> GetInnerFirePowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.InnerFire)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_RayofHope,
-                       TorannMagicDefOf.TM_RayofHope_I,
-                       TorannMagicDefOf.TM_RayofHope_II,
-                       TorannMagicDefOf.TM_RayofHope_III,
-                       TorannMagicDefOf.TM_Firebolt,
-                       TorannMagicDefOf.TM_Fireclaw,
-                       TorannMagicDefOf.TM_Fireball,
-                       TorannMagicDefOf.TM_Firestorm
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.InnerFire);
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_RayofHope, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_RayofHope_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_RayofHope_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_RayofHope_III, 3)
+                ),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Firebolt, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Fireclaw, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Fireball, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Firestorm, 0))
+            };
         }
 
         [NotNull]
-        private static List<TMAbilityDef> GetWandererPowers()
+        private static List<Ability> GetWandererPowers()
         {
-            return GetRawPowersForBaseClass(TorannMagicDefOf.TM_Wanderer)
-                   ?? new List<TMAbilityDef>
-                   {
-                       TorannMagicDefOf.TM_TransferMana,
-                       TorannMagicDefOf.TM_SiphonMana,
-                       TorannMagicDefOf.TM_SpellMending,
-                       TorannMagicDefOf.TM_DirtDevil,
-                       TorannMagicDefOf.TM_Heater,
-                       TorannMagicDefOf.TM_Cooler,
-                       TorannMagicDefOf.TM_PowerNode,
-                       TorannMagicDefOf.TM_Sunlight,
-                       TorannMagicDefOf.TM_SmokeCloud,
-                       TorannMagicDefOf.TM_Extinguish,
-                       TorannMagicDefOf.TM_EMP,
-                       TorannMagicDefOf.TM_ManaShield,
-                       TorannMagicDefOf.TM_Blur,
-                       TorannMagicDefOf.TM_ArcaneBolt,
-                       TorannMagicDefOf.TM_LightningTrap,
-                       TorannMagicDefOf.TM_Invisibility,
-                       TorannMagicDefOf.TM_MageLight,
-                       TorannMagicDefOf.TM_Ignite,
-                       TorannMagicDefOf.TM_SnapFreeze,
-                       TorannMagicDefOf.TM_Heal,
-                       TorannMagicDefOf.TM_Blink,
-                       TorannMagicDefOf.TM_Rainmaker,
-                       TorannMagicDefOf.TM_SummonMinion,
-                       TorannMagicDefOf.TM_Teleport
-                   };
+            List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.TM_Wanderer);
+
+            if (list != null)
+            {
+                return list;
+            }
+
+            return new List<Ability>
+            {
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_TransferMana, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SiphonMana, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_DirtDevil, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Heater, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Cooler, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_PowerNode, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Sunlight, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SmokeCloud, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Extinguish, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_EMP, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_ManaShield, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Blur, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_ArcaneBolt, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_LightningTrap, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Invisibility, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_MageLight, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Ignite, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_SnapFreeze, 0)),
+                Ability.From(ClassPower.From(TorannMagicDefOf.TM_Heal, 0)),
+                Ability.From(
+                    ClassPower.From(TorannMagicDefOf.TM_Blink, 0),
+                    ClassPower.From(TorannMagicDefOf.TM_Blink_I, 1),
+                    ClassPower.From(TorannMagicDefOf.TM_Blink_II, 2),
+                    ClassPower.From(TorannMagicDefOf.TM_Blink_III, 3)
+                ),
+                Ability.From(new ClassPower(TorannMagicDefOf.TM_Rainmaker, 0)),
+                Ability.From(new ClassPower(TorannMagicDefOf.TM_SummonMinion, 0)),
+                Ability.From(new ClassPower(TorannMagicDefOf.TM_Teleport, 0))
+            };
         }
 
         [ItemNotNull]
@@ -534,19 +670,19 @@ namespace SirRandoo.ToolkitUtils
         {
             var @class = new Class { TraitDef = trait, Abilities = new List<Ability>() };
 
-            foreach (TMAbilityDef ability in GetAbilitiesFor(trait))
+            foreach (Ability ability in GetAbilitiesFor(trait))
             {
-                @class.Abilities.Add(new Ability { Def = ability });
+                @class.Abilities.Add(ability);
             }
 
             return @class;
         }
 
-        private static IEnumerable<TMAbilityDef> GetAbilitiesFor([NotNull] TraitDef trait)
+        private static IEnumerable<Ability> GetAbilitiesFor([NotNull] TraitDef trait)
         {
-            if (BaseClassPowers.TryGetValue(trait, out List<TMAbilityDef> powers))
+            if (BaseClassPowers.TryGetValue(trait, out List<Ability> powers))
             {
-                foreach (TMAbilityDef ability in powers)
+                foreach (Ability ability in powers)
                 {
                     yield return ability;
                 }
@@ -559,16 +695,37 @@ namespace SirRandoo.ToolkitUtils
                 yield break;
             }
 
-            foreach (TMAbilityDef ability in @class.classAbilities)
+            Ability a = null;
+            var lastDefName = "";
+            foreach (TMAbilityDef ability in @class.classAbilities.OrderBy(i => i.defName))
             {
-                yield return ability;
+                if (lastDefName.NullOrEmpty() || a == null)
+                {
+                    a = Ability.From(ClassPower.From(ability, a?.Tiers?.Count ?? 0));
+                    lastDefName = ability.defName;
+                }
+                else if (ability.defName.StartsWith(lastDefName))
+                {
+                    a.Tiers.Add(ClassPower.From(ability, a.Tiers.Count));
+                    lastDefName = ability.defName;
+                }
+                else
+                {
+                    a = Ability.From(ClassPower.From(ability, a.Tiers?.Count ?? 0));
+                    lastDefName = ability.defName;
+                }
             }
         }
 
         [CanBeNull]
-        private static List<TMAbilityDef> GetRawPowersForBaseClass([NotNull] TraitDef trait)
+        private static List<Ability> GetRawPowersForBaseClass([NotNull] TraitDef trait)
         {
-            return !BaseClassPowers.TryGetValue(trait, out List<TMAbilityDef> powers) ? null : powers;
+            return !BaseClassPowers.TryGetValue(trait, out List<Ability> powers) ? null : powers;
+        }
+
+        private static bool IsAbility([NotNull] Ability ability, [NotNull] Def def)
+        {
+            return ability.Name == (def.label ?? def.defName);
         }
     }
 }
