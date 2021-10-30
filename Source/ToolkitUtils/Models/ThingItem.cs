@@ -79,12 +79,7 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 if (!productionIndexed)
                 {
-                    producedAt = DefDatabase<RecipeDef>.AllDefs
-                       .Where(
-                            i => i.recipeUsers != null
-                                 && i.products.Count == 1
-                                 && i.products.Any(p => p.thingDef == Thing)
-                        )
+                    producedAt = DefDatabase<RecipeDef>.AllDefs.Where(i => i.recipeUsers != null && i.products.Count == 1 && i.products.Any(p => p.thingDef == Thing))
                        .SelectMany(i => i.recipeUsers)
                        .Distinct()
                        .OrderBy(i => (int)i.techLevel)
