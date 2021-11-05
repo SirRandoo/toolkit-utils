@@ -22,6 +22,7 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -39,19 +40,15 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(CommandsHandler), "CheckCommand");
         }
 
-        public static bool Prefix(ITwitchMessage twitchMessage)
+        public static bool Prefix([CanBeNull] ITwitchMessage twitchMessage)
         {
-            if (!TkSettings.Commands)
+            if (!TkSettings.Commands || twitchMessage?.Message == null)
             {
-                return true;
+                return !TkSettings.Commands;
             }
 
-            if (twitchMessage?.Message == null)
-            {
-                return false;
-            }
-
-            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
+            UserData data = UserRegistry.UpdateData(twitchMessage);
+            Viewer viewer = Viewers.GetViewer(data.Username);
             viewer.last_seen = DateTime.Now;
 
             if (viewer.IsBanned)
@@ -79,8 +76,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToList();
             }
 
-            LocateCommand(segments.ToArray())
-              ?.Execute(twitchMessage.WithMessage("!" + CombineSegments(segments).Trim())!, text);
+            LocateCommand(segments.ToArray())?.Execute(twitchMessage.WithMessage("!" + CombineSegments(segments).Trim())!, text);
             return false;
         }
 
@@ -99,10 +95,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         [NotNull]
         private static string CombineSegments([NotNull] IEnumerable<string> segments)
         {
-            return string.Join(
-                " ",
-                segments.Select(s => s.Contains(' ') ? $@"""{s.Replace("\"", "\\\"")}""" : s).ToArray()
-            );
+            return string.Join(" ", segments.Select(s => s.Contains(' ') ? $@"""{s.Replace("\"", "\\\"")}""" : s).ToArray());
         }
 
         [CanBeNull]
@@ -136,8 +129,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         private static bool IsCommand(string command, string input)
         {
-            if (TkSettings.ToolkitStyleCommands
-                && input.StartsWith(command, StringComparison.InvariantCultureIgnoreCase))
+            if (TkSettings.ToolkitStyleCommands && input.StartsWith(command, StringComparison.InvariantCultureIgnoreCase))
             {
                 return true;
             }
@@ -158,9 +150,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return message.Substring(TkSettings.Prefix.Length);
             }
 
-            return message.StartsWith(TkSettings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase)
-                ? $"{CommandDefOf.Buy.command} {message.Substring(TkSettings.BuyPrefix.Length)}"
-                : null;
+            return message.StartsWith(TkSettings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase) ? $"{CommandDefOf.Buy.command} {message.Substring(TkSettings.BuyPrefix.Length)}" : null;
         }
     }
 }

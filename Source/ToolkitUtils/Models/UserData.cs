@@ -20,14 +20,15 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class UserData
     {
+        public string Id { get; set; }
         public string Username { get; set; }
         public bool IsModerator { get; set; }
         public bool IsSubscriber { get; set; }
         public bool IsFounder { get; set; }
         public bool IsVip { get; set; }
         public bool IsBroadcaster { get; set; }
+        public string DisplayName { get; set; }
 
-        public List<KeyValuePair<string, string>> LastKnownBadges { get; set; } =
-            new List<KeyValuePair<string, string>>();
+        public List<KeyValuePair<string, string>> LastKnownBadges { get; set; } = new List<KeyValuePair<string, string>>();
     }
 }

@@ -25,40 +25,70 @@ namespace SirRandoo.ToolkitUtils
 {
     public static class UserRegistry
     {
-        private static readonly Dictionary<string, UserData> UserData = new Dictionary<string, UserData>();
+        private static readonly List<UserData> UserData = new List<UserData>();
 
         [CanBeNull]
-        public static UserData GetData([NotNull] string username)
+        public static UserData GetData([NotNull] ITwitchMessage message)
         {
-            return !UserData.TryGetValue(username.ToLowerInvariant(), out UserData state) ? null : state;
+            if (message.ChatMessage != null)
+            {
+                return GetData(message.ChatMessage.UserId ?? message.ChatMessage.Username);
+            }
+
+            return message.WhisperMessage != null ? GetData(message.WhisperMessage.UserId ?? message.WhisperMessage.Username) : null;
         }
 
         [CanBeNull]
+        public static UserData GetData([NotNull] string idOrName)
+        {
+            return UserData.Find(d => d.Id.Equals(idOrName) || d.Username.EqualsIgnoreCase(idOrName) || d.DisplayName.EqualsIgnoreCase(idOrName));
+        }
+
+        [ContractAnnotation("=> false,data:null; => true,data:notnull")]
+        public static bool TryGetData([NotNull] string idOrName, out UserData data)
+        {
+            data = GetData(idOrName);
+            return data != null;
+        }
+
+        [ContractAnnotation("=> false,data:null; => true,data:notnull")]
+        public static bool TryGetData([NotNull] ITwitchMessage message, out UserData data)
+        {
+            data = GetData(message);
+            return data != null;
+        }
+
+        [NotNull]
         public static UserData UpdateData([NotNull] ITwitchMessage message)
         {
-            if (message.ChatMessage?.Username.NullOrEmpty() == true)
+            UserData data = GetData(message);
+
+            if (data == null)
             {
-                return null;
+                UserData.Add(data = new UserData { Id = message.ChatMessage?.UserId ?? message.WhisperMessage?.UserId });
+
+                if (data.Id.NullOrEmpty())
+                {
+                    LogHelper.Warn($"Could not get the user id for {message.Username}. Things will not work as excepted.");
+                }
             }
 
-            var data = new UserData
-            {
-                Username = message!.ChatMessage!.Username,
-                IsBroadcaster = message.HasBadges("broadcaster"),
-                IsFounder = message.HasBadges("founder", "broadcaster"),
-                IsModerator = message.HasBadges("moderator", "broadcaster", "global_mod", "staff", "admin"),
-                IsSubscriber = message.HasBadges("subscriber", "founder", "broadcaster"),
-                IsVip = message.HasBadges("vip", "broadcaster"),
-                LastKnownBadges = message.ChatMessage.Badges
-            };
-
-            UserData[message!.ChatMessage!.Username.ToLowerInvariant()] = data;
+            data.Username = message.Username;
+            data.DisplayName = message.ChatMessage?.DisplayName ?? message.WhisperMessage?.DisplayName ?? message.Username.CapitalizeFirst();
+            data.IsBroadcaster = message.HasBadges("broadcaster");
+            data.IsFounder = message.HasBadges("founder", "broadcaster");
+            data.IsModerator = message.HasBadges("moderator", "global_mod", "staff", "admin", "broadcaster");
+            data.IsSubscriber = message.HasBadges("subscriber", "founder", "broadcaster");
+            data.IsVip = message.HasBadges("vip", "broadcaster");
+            data.LastKnownBadges = message.ChatMessage?.Badges;
             return data;
         }
 
-        public static bool DeleteData([NotNull] string username)
+        public static bool DeleteData([NotNull] string idOrName)
         {
-            return UserData.Remove(username.ToLowerInvariant());
+            UserData data = GetData(idOrName);
+
+            return data != null && UserData.Remove(data);
         }
     }
 }
