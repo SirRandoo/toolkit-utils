@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 foreach (Exception exception in _interfaceTask.Exception.Flatten().InnerExceptions)
                 {
-                    if (VisualExceptions.Active)
+                    if (TkSettings.VisualExceptions && VisualExceptions.Active)
                     {
                         VisualExceptions.HandleException(exception);
                     }
