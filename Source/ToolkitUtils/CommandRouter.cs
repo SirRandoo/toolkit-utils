@@ -48,11 +48,6 @@ namespace SirRandoo.ToolkitUtils
         {
             ProcessCommands();
 
-            if (_interfaceTask != null)
-            {
-                LogHelper.Info(_interfaceTask?.Status.ToStringSafe());
-            }
-
             if (!TkSettings.CommandRouter || _interfaceTask is { IsCompleted: false })
             {
                 return;
