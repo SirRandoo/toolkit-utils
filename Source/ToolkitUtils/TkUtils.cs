@@ -14,8 +14,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Threading;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Utils.ModComp;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Settings;
 using UnityEngine;
@@ -48,6 +52,31 @@ namespace SirRandoo.ToolkitUtils
         public override string SettingsCategory()
         {
             return Content.Name;
+        }
+
+        internal static void HandleException([NotNull] Exception exception, [CanBeNull] string reporter = null)
+        {
+            HandleException(exception.Message ?? "An unhandled exception occurred", exception, reporter);
+        }
+
+        internal static void HandleException(string message, Exception exception, [CanBeNull] string reporter = null)
+        {
+            if (TkSettings.VisualExceptions && VisualExceptions.Active)
+            {
+                VisualExceptions.HandleException(exception);
+                return;
+            }
+
+            string exceptionMessage = message ?? exception.Message ?? "An unhandled exception occurred";
+            LogHelper.Error(exceptionMessage, exception);
+            Data.HealthReports.Add(
+                new HealthReport
+                {
+                    Message = $"{exceptionMessage} :: Reason: {exception.GetType().Name}({exception.Message})", Stacktrace = StackTraceUtility.ExtractStringFromException(exception),
+                    Type = HealthReport.ReportType.Error, OccurredAt = DateTime.Now,
+                    Reporter = reporter ?? "Unknown"
+                }
+            );
         }
     }
 }

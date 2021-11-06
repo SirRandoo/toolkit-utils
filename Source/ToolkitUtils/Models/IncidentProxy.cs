@@ -19,7 +19,6 @@ using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using TwitchToolkit.Store;
 using TwitchToolkit.Votes;
-using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -42,19 +41,8 @@ namespace SirRandoo.ToolkitUtils.Models
             }
             catch (Exception e)
             {
-                LogHelper.Error(@$"The incident ""{DefName}"" encountered an exception while executing", e);
                 string name = SimpleIncident?.storeIncident.label ?? VariablesIncident?.storeIncident.label ?? DefName;
-                Data.HealthReports.Add(
-                    new HealthReport
-                    {
-                        OccurredAt = DateTime.Now,
-                        Reporter = "ToolkitUtils - Event Handler",
-                        Type = HealthReport.ReportType.Error,
-                        Message =
-                            $@"The event ""{name}"" didn't execute successfully. Reason: {e.GetType().Name}({e.Message})",
-                        Stacktrace = StackTraceUtility.ExtractStringFromException(e)
-                    }
-                );
+                TkUtils.HandleException($@"The incident ""{name}"" encountered an exception while executing", e, "ToolkitUtils - Event Handler");
 
                 // Reset their coins and karma prior to the event executing as
                 // events shouldn't charge viewers until *after* the event
@@ -69,9 +57,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (VariablesIncident != null)
             {
-                Purchase_Handler.viewerNamesDoingVariableCommands.Remove(
-                    VariablesIncident.Viewer.username.ToLowerInvariant()
-                );
+                Purchase_Handler.viewerNamesDoingVariableCommands.Remove(VariablesIncident.Viewer.username.ToLowerInvariant());
             }
 
             Helper.playerMessages.Clear();
@@ -92,11 +78,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (VariablesIncident != null)
             {
-                Purchase_Handler.QueuePlayerMessage(
-                    VariablesIncident.Viewer,
-                    VariablesIncident.message,
-                    VariablesIncident.storeIncident.variables
-                );
+                Purchase_Handler.QueuePlayerMessage(VariablesIncident.Viewer, VariablesIncident.message, VariablesIncident.storeIncident.variables);
             }
         }
     }
