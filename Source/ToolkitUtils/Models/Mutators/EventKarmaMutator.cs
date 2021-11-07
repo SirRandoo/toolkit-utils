@@ -48,14 +48,7 @@ namespace SirRandoo.ToolkitUtils.Models
             SettingsHelper.DrawLabel(label, karmaTypeLabel);
             if (Widgets.ButtonText(field, karmaType.ToString()))
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(
-                        Data.KarmaTypes.Select(
-                                i => new FloatMenuOption("TKUtils.Fields.KarmaType".Localize(), () => karmaType = i)
-                            )
-                           .ToList()
-                    )
-                );
+                Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => karmaType = i)).ToList()));
             }
         }
 
