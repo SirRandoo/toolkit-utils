@@ -53,7 +53,17 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 Find.WindowStack.Add(
                     new FloatMenu(
-                        Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => karmaType = i)).ToList()
+                        Data.KarmaTypes.Select(
+                                i => new FloatMenuOption(
+                                    i.ToString(),
+                                    () =>
+                                    {
+                                        karmaType = i;
+                                        Dirty.Set(true);
+                                    }
+                                )
+                            )
+                           .ToList()
                     )
                 );
             }
