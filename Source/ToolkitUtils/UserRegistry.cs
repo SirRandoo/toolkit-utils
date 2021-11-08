@@ -73,8 +73,16 @@ namespace SirRandoo.ToolkitUtils
                 }
             }
 
-            data.Username = message.Username;
-            data.DisplayName = message.ChatMessage?.DisplayName ?? message.WhisperMessage?.DisplayName ?? message.Username.CapitalizeFirst();
+            if (message.ChatMessage?.BotUsername.EqualsIgnoreCase("puppeteer") == true)
+            {
+                data.DisplayName = message.ChatMessage?.DisplayName ?? message.WhisperMessage?.DisplayName ?? message.Username?.CapitalizeFirst();
+            }
+            else
+            {
+                data.Username = message.Username;
+                data.DisplayName = message.ChatMessage?.DisplayName ?? message.WhisperMessage?.DisplayName ?? message.Username.CapitalizeFirst();
+            }
+
             data.IsBroadcaster = message.HasBadges("broadcaster");
             data.IsFounder = message.HasBadges("founder", "broadcaster");
             data.IsModerator = message.HasBadges("moderator", "global_mod", "staff", "admin", "broadcaster");
