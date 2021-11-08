@@ -14,10 +14,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
+using RestSharp;
+using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore;
 using Verse;
 
@@ -28,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     public static class StartAsyncPatch
     {
         private const int ErrorId = 938298212;
+        private static byte[] _tokenHash;
 
         public static IEnumerable<MethodBase> TargetMethods()
         {
@@ -38,14 +46,60 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (!ToolkitCoreSettings.channel_username.NullOrEmpty() && !ToolkitCoreSettings.oauth_token.NullOrEmpty())
             {
+                VerifyToken();
                 return true;
             }
 
-            Log.ErrorOnce(
-                @"<color=""#ff6b00"">ToolkitUtils :: Could not connect bot -- ToolkitCore isn't fully set up.</color>",
-                ErrorId
-            );
+            Log.ErrorOnce(@"<color=""#ff6b00"">ToolkitUtils :: Could not connect bot -- ToolkitCore isn't fully set up.</color>", ErrorId);
             return false;
+        }
+
+        private static void VerifyToken()
+        {
+            if (!_tokenHash.NullOrEmpty())
+            {
+                byte[] buffer;
+                using (var hasher = SHA256.Create())
+                {
+                    buffer = hasher.ComputeHash(Encoding.UTF8.GetBytes(ToolkitCoreSettings.oauth_token));
+                }
+
+                if (StringComparer.OrdinalIgnoreCase.Compare(_tokenHash, buffer) == 0)
+                {
+                    return;
+                }
+            }
+
+            Task.Run(async () => await VerifyTokenInternal()).ConfigureAwait(false);
+        }
+
+        private static async Task VerifyTokenInternal()
+        {
+            var client = new RestClient("https://id.twitch.tv/");
+            var request = new RestRequest("oauth2/validate", Method.GET);
+            request.AddHeader("Authorization", $"Bearer: {ToolkitCoreSettings.oauth_token.Replace("oauth:", "")}");
+            IRestResponse<TokenValidateResponse> response = await client.ExecuteAsync<TokenValidateResponse>(request);
+
+            if (!response.IsSuccessful)
+            {
+                LogHelper.Warn($"Could not validate oauth token. Reason: {response.Content}");
+                return;
+            }
+
+            if (response.Data.Login.EqualsIgnoreCase(ToolkitCoreSettings.bot_username))
+            {
+                return;
+            }
+
+            TokenValidateResponse data = response.Data;
+            TkUtils.Context.Post(
+                state =>
+                {
+                    LogHelper.Warn($@"The token provided is for the account ""{data.Login}"", not the specified ""{ToolkitCoreSettings.bot_username}""");
+                    Log.TryOpenLogWindow();
+                },
+                null
+            );
         }
     }
 }
