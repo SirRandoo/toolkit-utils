@@ -23,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class EasterEgg : IEasterEgg
     {
-        public virtual float Chance => 0.05f;
+        public virtual float Chance => 0.35f;
 
         public virtual bool IsPossible(StoreIncident incident, Viewer viewer)
         {
