@@ -46,12 +46,9 @@ namespace SirRandoo.ToolkitUtils
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static class Data
     {
-        internal static readonly Dictionary<string, Color> ColorIndex =
-            new Dictionary<string, Color>(GetSomeNamedColors());
+        internal static readonly Dictionary<string, Color> ColorIndex = new Dictionary<string, Color>(GetSomeNamedColors());
 
-        internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType))
-           .Select(i => (KarmaType)Enum.Parse(typeof(KarmaType), i))
-           .ToList();
+        internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType)).Select(i => (KarmaType)Enum.Parse(typeof(KarmaType), i)).ToList();
 
         internal static readonly Dictionary<string, QualityCategory> Qualities = Enum.GetNames(typeof(QualityCategory))
            .Select(q => (q.ToLowerInvariant(), (QualityCategory)Enum.Parse(typeof(QualityCategory), q)))
@@ -61,9 +58,7 @@ namespace SirRandoo.ToolkitUtils
            .Select(g => (g.ToLowerInvariant(), (Gender)Enum.Parse(typeof(Gender), g)))
            .ToDictionary(p => p.Item1, p => p.Item2);
 
-        internal static readonly List<TechLevel> TechLevels = Enum.GetNames(typeof(TechLevel))
-           .Select(t => (TechLevel)Enum.Parse(typeof(TechLevel), t))
-           .ToList();
+        internal static readonly List<TechLevel> TechLevels = Enum.GetNames(typeof(TechLevel)).Select(t => (TechLevel)Enum.Parse(typeof(TechLevel), t)).ToList();
 
         internal static readonly IEnumerable<ComparisonTypes> ComparisonTypes = Enum.GetNames(typeof(ComparisonTypes))
            .Select(i => (ComparisonTypes)Enum.Parse(typeof(ComparisonTypes), i))
@@ -266,19 +261,29 @@ namespace SirRandoo.ToolkitUtils
                         JsonSerializer.Serialize(writer, obj);
                     }
                 }
-
-                if (File.Exists(path))
-                {
-                    File.Replace(tempPath, path, null);
-                }
-                else
-                {
-                    File.Move(tempPath, path);
-                }
             }
             catch (IOException e)
             {
-                LogHelper.Error($"Could not save json to path {path}", e);
+                LogHelper.Error($"Could not save json to temporary file @ {tempPath}", e);
+            }
+
+            if (TryReplaceFile(tempPath, path))
+            {
+                return;
+            }
+
+            using (FileStream f = File.Open(Path.ChangeExtension(path, $"-{DateTime.Now.ToFileTime()}.json"), FileMode.Create, FileAccess.Write))
+            {
+                if (TkSettings.MinifyData)
+                {
+                    JsonSerializer.SerializeAsync(f, obj);
+                    return;
+                }
+
+                using (var writer = new StreamWriter(f))
+                {
+                    writer.WriteAsync(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
+                }
             }
         }
 
@@ -309,19 +314,27 @@ namespace SirRandoo.ToolkitUtils
                         }
                     }
                 }
-
-                if (File.Exists(path))
-                {
-                    File.Replace(tempPath, path, null);
-                }
-                else
-                {
-                    File.Move(tempPath, path);
-                }
             }
             catch (IOException e)
             {
-                LogHelper.Error($"Could not save json to path {path}", e);
+                LogHelper.Error($"Could not save json to temporary file @ {tempPath}", e);
+            }
+
+            if (!TryReplaceFile(tempPath, path))
+            {
+                using (FileStream f = File.Open(Path.ChangeExtension(path, $"-{DateTime.Now.ToFileTime()}.json"), FileMode.Create, FileAccess.Write))
+                {
+                    if (TkSettings.MinifyData)
+                    {
+                        await JsonSerializer.SerializeAsync(f, obj);
+                        return;
+                    }
+
+                    using (var writer = new StreamWriter(f))
+                    {
+                        await writer.WriteAsync(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
+                    }
+                }
             }
         }
 
@@ -345,19 +358,23 @@ namespace SirRandoo.ToolkitUtils
                         await JsonSerializer.SerializeAsync(zipStream, obj);
                     }
                 }
-
-                if (File.Exists(path))
-                {
-                    File.Replace(tempPath, path, null);
-                }
-                else
-                {
-                    File.Move(tempPath, path);
-                }
             }
             catch (IOException e)
             {
-                LogHelper.Error($"Could not save json to path {path}", e);
+                LogHelper.Error($"Could not save json to temporary file @ {tempPath}", e);
+            }
+
+            if (TryReplaceFile(tempPath, path))
+            {
+                return;
+            }
+
+            using (FileStream f = File.Open(Path.ChangeExtension(path, $"-{DateTime.Now.ToFileTime()}.json"), FileMode.Create, FileAccess.Write))
+            {
+                using (var zipStream = new GZipStream(f, CompressionMode.Compress))
+                {
+                    await JsonSerializer.SerializeAsync(zipStream, obj);
+                }
             }
         }
 
@@ -408,8 +425,7 @@ namespace SirRandoo.ToolkitUtils
 
         public static async Task LoadItemDataAsync(string path)
         {
-            ItemData = await LoadJsonAsync<Dictionary<string, ItemData>>(path, true)
-                       ?? new Dictionary<string, ItemData>();
+            ItemData = await LoadJsonAsync<Dictionary<string, ItemData>>(path, true) ?? new Dictionary<string, ItemData>();
         }
 
         public static void SaveItemData(string path)
@@ -447,8 +463,7 @@ namespace SirRandoo.ToolkitUtils
                     continue;
                 }
 
-                TraitItem[] traitItems =
-                    def.ToTraitItems().Where(t => !existing.Any(e => e.Degree == t.Degree)).ToArray();
+                TraitItem[] traitItems = def.ToTraitItems().Where(t => !existing.Any(e => e.Degree == t.Degree)).ToArray();
 
                 if (traitItems.Length > 0)
                 {
@@ -540,8 +555,7 @@ namespace SirRandoo.ToolkitUtils
         {
             ItemData ??= new Dictionary<string, ItemData>();
             List<string> tradeables = StoreDialog.GetTradeables().Select(t => t.defName).ToList();
-            List<string> toCull = ItemData.Keys.Where(dataKey => !tradeables.Contains(dataKey.CapitalizeFirst()))
-               .ToList();
+            List<string> toCull = ItemData.Keys.Where(dataKey => !tradeables.Contains(dataKey.CapitalizeFirst())).ToList();
 
             foreach (string defName in toCull)
             {
@@ -549,8 +563,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             var builder = new StringBuilder();
-            foreach (ThingDef item in tradeables.Where(t => !ItemData.ContainsKey(t))
-               .Select(i => DefDatabase<ThingDef>.GetNamed(i)))
+            foreach (ThingDef item in tradeables.Where(t => !ItemData.ContainsKey(t)).Select(i => DefDatabase<ThingDef>.GetNamed(i)))
             {
                 ModContentPack contentPack = item.modContentPack;
                 var data = new ItemData
@@ -578,16 +591,12 @@ namespace SirRandoo.ToolkitUtils
                 }
                 catch (Exception e)
                 {
-                    builder.Append(
-                        $"Failed to gather weapon data for item '{item.label ?? "Unknown"}' from mod '{item.TryGetModName()}'"
-                    );
+                    builder.Append($"Failed to gather weapon data for item '{item.label ?? "Unknown"}' from mod '{item.TryGetModName()}'");
                     builder.AppendLine($" -- Exception: {e.GetType().Name}({e.Message ?? "No message"})");
                 }
             }
 
-            foreach ((string defName, ItemData data) in ItemData.Where(
-                data => data.Value.Version < Models.ItemData.CurrentVersion
-            ))
+            foreach ((string defName, ItemData data) in ItemData.Where(data => data.Value.Version < Models.ItemData.CurrentVersion))
             {
                 ThingItem item = Items.Find(i => i.DefName?.Equals(defName) == true);
 
@@ -604,9 +613,7 @@ namespace SirRandoo.ToolkitUtils
 
             var list = new List<ModItem>();
             var builder = new StringBuilder();
-            foreach (ModMetaData metaData in running.Where(m => m.Active)
-               .Where(mod => !mod.Official)
-               .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt"))))
+            foreach (ModMetaData metaData in running.Where(m => m.Active).Where(mod => !mod.Official).Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt"))))
             {
                 ModItem item;
 
@@ -664,8 +671,7 @@ namespace SirRandoo.ToolkitUtils
                 try
                 {
                     ev.EventData.Mod = ev.Incident.TryGetModName();
-                    ev.EventData.EventType =
-                        ev.Incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
+                    ev.EventData.EventType = ev.Incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
                 }
                 catch (Exception)
                 {
@@ -731,29 +737,18 @@ namespace SirRandoo.ToolkitUtils
 
         public static void DumpCommands()
         {
-            List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled)
-               .Where(c => !c.command.NullOrEmpty())
-               .Select(CommandItem.FromToolkit)
-               .ToList();
+            List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled).Where(c => !c.command.NullOrEmpty()).Select(CommandItem.FromToolkit).ToList();
 
-            container.AddRange(
-                DefDatabase<ToolkitChatCommand>.AllDefsListForReading.Where(c => c.enabled)
-                   .Select(CommandItem.FromToolkitCore)
-            );
+            container.AddRange(DefDatabase<ToolkitChatCommand>.AllDefsListForReading.Where(c => c.enabled).Select(CommandItem.FromToolkitCore));
 
             SaveJson(container, Paths.CommandListFilePath);
         }
 
         public static async Task DumpCommandsAsync()
         {
-            List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled)
-               .Where(c => !c.command.NullOrEmpty())
-               .Select(CommandItem.FromToolkit)
-               .ToList();
+            List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled).Where(c => !c.command.NullOrEmpty()).Select(CommandItem.FromToolkit).ToList();
 
-            container.AddRange(
-                DefDatabase<ToolkitChatCommand>.AllDefs.Where(c => c.enabled).Select(CommandItem.FromToolkitCore)
-            );
+            container.AddRange(DefDatabase<ToolkitChatCommand>.AllDefs.Where(c => c.enabled).Select(CommandItem.FromToolkitCore));
 
             await SaveJsonAsync(container, Paths.CommandListFilePath);
         }
@@ -779,9 +774,7 @@ namespace SirRandoo.ToolkitUtils
             }
             else
             {
-                trait = Traits.FirstOrDefault(
-                    t => t.Name.ToToolkit().StripTags().EqualsIgnoreCase(input.ToToolkit().StripTags())
-                );
+                trait = Traits.FirstOrDefault(t => t.Name.ToToolkit().StripTags().EqualsIgnoreCase(input.ToToolkit().StripTags()));
             }
 
             return trait != null;
@@ -807,10 +800,7 @@ namespace SirRandoo.ToolkitUtils
         [NotNull]
         public static IEnumerable<string> GetTraitResults(string input)
         {
-            return Traits
-               .Where(
-                    t => t.Name.StripTags().StartsWith(input.StripTags(), StringComparison.InvariantCultureIgnoreCase)
-                )
+            return Traits.Where(t => t.Name.StripTags().StartsWith(input.StripTags(), StringComparison.InvariantCultureIgnoreCase))
                .Where(t => t.CanAdd || t.CanRemove)
                .Select(t => t.Name.StripTags().ToToolkit());
         }
@@ -818,17 +808,13 @@ namespace SirRandoo.ToolkitUtils
         [NotNull]
         public static IEnumerable<string> GetKindResults(string input)
         {
-            return PawnKinds.Where(k => k.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
-               .Where(k => k.Enabled)
-               .Select(k => k.Name.ToToolkit());
+            return PawnKinds.Where(k => k.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase)).Where(k => k.Enabled).Select(k => k.Name.ToToolkit());
         }
 
         [NotNull]
         public static IEnumerable<string> GetItemResults(string input)
         {
-            return Items.Where(i => i.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
-               .Where(i => i.Cost > 0)
-               .Select(i => i.Name.ToToolkit());
+            return Items.Where(i => i.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase)).Where(i => i.Cost > 0).Select(i => i.Name.ToToolkit());
         }
 
         [NotNull]
@@ -841,8 +827,7 @@ namespace SirRandoo.ToolkitUtils
                 yield return simpleIncidentName;
             }
 
-            foreach (string variablesIncidentName in Purchase_Handler.allStoreIncidentsVariables
-               .Where(i => i.cost > 0 || i.defName.Equals("Item") && i.cost >= 0)
+            foreach (string variablesIncidentName in Purchase_Handler.allStoreIncidentsVariables.Where(i => i.cost > 0 || i.defName.Equals("Item") && i.cost >= 0)
                .Where(i => i.abbreviation.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
                .Select(i => i.abbreviation))
             {
@@ -855,20 +840,14 @@ namespace SirRandoo.ToolkitUtils
         {
             return DefDatabase<Command>.AllDefs.Where(c => c.enabled)
                .Where(c => c.command.EqualsIgnoreCase(input))
-               .Where(
-                    c => viewer != null
-                         && Viewers.GetViewer(viewer.ToLowerInvariant()) is { } v
-                         && (v.mod && c.requiresMod || v.username == ToolkitSettings.Channel && c.requiresAdmin)
-                )
+               .Where(c => viewer != null && Viewers.GetViewer(viewer.ToLowerInvariant()) is { } v && (v.mod && c.requiresMod || v.username == ToolkitSettings.Channel && c.requiresAdmin))
                .Select(c => c.command);
         }
 
         [CanBeNull]
         public static string GetViewerColorCode([NotNull] string viewer)
         {
-            return !ToolkitSettings.ViewerColorCodes.TryGetValue(viewer.ToLowerInvariant(), out string color)
-                ? null
-                : color;
+            return !ToolkitSettings.ViewerColorCodes.TryGetValue(viewer.ToLowerInvariant(), out string color) ? null : color;
         }
 
         public static void LoadItemPartial([NotNull] IEnumerable<ItemPartial> partialData)
@@ -1066,6 +1045,43 @@ namespace SirRandoo.ToolkitUtils
                 }
 
                 yield return new KeyValuePair<string, Color>(name.ToLowerInvariant(), color);
+            }
+        }
+
+        private static bool TryReplaceFile(string source, string dest)
+        {
+            string backupPath = Path.ChangeExtension(dest, ".bak");
+
+            try
+            {
+                File.Replace(source, dest, backupPath);
+                return true;
+            }
+            catch (IOException e1)
+            {
+                LogHelper.Error($"Could not replace {dest} with {source}. Trying a different method...", e1);
+            }
+
+            try
+            {
+                DeleteIfExists(backupPath);
+                File.Move(dest, backupPath);
+                File.Move(source, dest);
+                return true;
+            }
+            catch (IOException e2)
+            {
+                LogHelper.Error($"Could not aggressively replace {dest} with {source}", e2);
+                TkUtils.Context?.Post(s => Messages.Message($"{Path.GetFileName(dest)} could not be updated", MessageTypeDefOf.TaskCompletion, false), null);
+                return false;
+            }
+        }
+
+        private static void DeleteIfExists(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
             }
         }
     }
