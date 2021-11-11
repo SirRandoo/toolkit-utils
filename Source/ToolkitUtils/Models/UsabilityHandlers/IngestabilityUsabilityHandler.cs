@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             Thing thing = ThingMaker.MakeThing(thingDef);
 
-            thing.Ingested(pawn, pawn.needs.food.NutritionWanted);
+            pawn.needs.food.CurLevel += thing.Ingested(pawn, pawn.needs.food.NutritionWanted);
         }
     }
 }
