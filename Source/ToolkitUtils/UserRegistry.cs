@@ -41,7 +41,10 @@ namespace SirRandoo.ToolkitUtils
         [CanBeNull]
         public static UserData GetData([NotNull] string idOrName)
         {
-            return UserData.Find(d => d.Id?.Equals(idOrName) == true || d.Username?.EqualsIgnoreCase(idOrName) == true || d.DisplayName?.EqualsIgnoreCase(idOrName) == true);
+            return idOrName.NullOrEmpty()
+                ? null
+                : UserData.Find(d => d.Id?.Equals(idOrName) == true || d.Username?.EqualsIgnoreCase(idOrName) == true || d.DisplayName?.EqualsIgnoreCase(idOrName) == true);
+
         }
 
         [ContractAnnotation("=> false,data:null; => true,data:notnull")]
