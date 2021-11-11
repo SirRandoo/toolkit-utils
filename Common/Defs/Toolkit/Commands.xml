@@ -457,8 +457,62 @@
         <defName>Insult</defName>
         <label>insult</label>
         <command>insult</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnInsult</commandDriver>
-        <description>Makes your pawn insult a random viewer. If a viewer is specified, you'll insult them instead.</description>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnInteraction</commandDriver>
+        <description>Makes your pawn insult a random pawn. If a viewer is specified, you'll insult them instead.</description>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Parameters>
+                    <li>
+                        <Name>Target</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+
+    <TwitchToolkit.Command>
+        <defName>Chat</defName>
+        <label>chat</label>
+        <command>chat</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnInteraction</commandDriver>
+        <description>Makes your pawn chat with a random pawn. If a viewer is specified, you'll chat with their pawn instead.</description>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Parameters>
+                    <li>
+                        <Name>Target</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+
+    <TwitchToolkit.Command>
+        <defName>Flirt</defName>
+        <label>flirt</label>
+        <command>flirt</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnInteraction</commandDriver>
+        <description>Makes your pawn flirt with a random pawn. If a viewer is specified, you'll flirt with their pawn instead.</description>
+        <modExtensions>
+            <li Class="SirRandoo.ToolkitUtils.CommandExtension">
+                <Parameters>
+                    <li>
+                        <Name>Target</Name>
+                        <Optional>true</Optional>
+                    </li>
+                </Parameters>
+            </li>
+        </modExtensions>
+    </TwitchToolkit.Command>
+
+    <TwitchToolkit.Command>
+        <defName>DeepChat</defName>
+        <label>deep chat</label>
+        <command>deepchat</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnInteraction</commandDriver>
+        <description>Makes your pawn have a deep chat a random pawn. If a viewer is specified, you'll have a deep chat with their pawn instead.</description>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
                 <Parameters>

@@ -70,7 +70,7 @@
         <Compile Include="Commands\GiveCoins.cs"/>
         <Compile Include="Commands\InstalledMods.cs"/>
         <Compile Include="Commands\ColonistCount.cs"/>
-        <Compile Include="Commands\PawnInsult.cs"/>
+        <Compile Include="Commands\PawnInteraction.cs"/>
         <Compile Include="Commands\PawnLeave.cs"/>
         <Compile Include="Commands\Lookup.cs"/>
         <Compile Include="Commands\PawnBody.cs"/>

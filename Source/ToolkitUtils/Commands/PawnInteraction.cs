@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
@@ -29,10 +30,29 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Commands
 {
     [UsedImplicitly]
-    public class PawnInsult : CommandBase
+    public class PawnInteraction : CommandBase
     {
+        private static readonly Dictionary<string, InteractionProxy> InteractionIndex;
+
+        static PawnInteraction()
+        {
+            InteractionIndex = new Dictionary<string, InteractionProxy>
+            {
+                { "Insult", new InteractionProxy { Interaction = InteractionDefOf.Insult, IsBad = true } },
+                { "Chat", new InteractionProxy { Interaction = InteractionDefOf.Chitchat } },
+                { "Flirt", new InteractionProxy { Interaction = InteractionDefOf.RomanceAttempt } },
+                { "DeepChat", new InteractionProxy { Interaction = InteractionDefOf.DeepTalk } }
+            };
+        }
+
         public override void RunCommand([NotNull] ITwitchMessage msg)
         {
+            if (!InteractionIndex.TryGetValue(command.defName, out InteractionProxy interaction))
+            {
+                LogHelper.Warn($@"{command.label}({command.defName}) is bound to the {nameof(PawnInteraction)} class, but has no interaction registered.");
+                return;
+            }
+
             Viewer data = Viewers.GetViewer(msg.Username);
 
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
@@ -72,11 +92,22 @@ namespace SirRandoo.ToolkitUtils.Commands
             CommandRouter.MainThreadCommands.Enqueue(
                 () =>
                 {
-                    string result = ForcedInteractionWorker.InteractWith(pawn, target, InteractionDefOf.Insult);
-                    data.SetViewerKarma(Mathf.Max(data.karma - (int)Mathf.Ceil(data.karma * 0.1f), ToolkitSettings.KarmaMinimum));
+                    string result = ForcedInteractionWorker.InteractWith(pawn, target, interaction.Interaction);
+
+                    if (interaction.IsBad)
+                    {
+                        data.SetViewerKarma(Mathf.Max(data.karma - (int)Mathf.Ceil(data.karma * 0.1f), ToolkitSettings.KarmaMinimum));
+                    }
+
                     msg.Reply(result);
                 }
             );
+        }
+
+        private class InteractionProxy
+        {
+            public bool IsBad { get; set; }
+            public InteractionDef Interaction { get; set; }
         }
     }
 }
