@@ -14,17 +14,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
+using UnityEngine;
 using Verse;
-using Verse.AI;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
@@ -67,18 +67,16 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
             }
 
-            target ??= Find.ColonistBar.Entries.RandomElement().pawn;
-            Job job = JobMaker.MakeJob(JobDefOf.Insult, target);
+            target ??= Find.ColonistBar.Entries.Where(p => p.pawn != pawn).RandomElement().pawn;
 
-            if (!job.CanBeginNow(pawn))
-            {
-                return;
-            }
-
-            data.SetViewerKarma(
-                Math.Max(data.karma - (int)Math.Ceiling(data.karma * 0.1), ToolkitSettings.KarmaMinimum)
+            CommandRouter.MainThreadCommands.Enqueue(
+                () =>
+                {
+                    string result = ForcedInteractionWorker.InteractWith(pawn, target, InteractionDefOf.Insult);
+                    data.SetViewerKarma(Mathf.Max(data.karma - (int)Mathf.Ceil(data.karma * 0.1f), ToolkitSettings.KarmaMinimum));
+                    msg.Reply(result);
+                }
             );
-            pawn!.jobs.StartJob(job, JobCondition.InterruptForced);
         }
     }
 }

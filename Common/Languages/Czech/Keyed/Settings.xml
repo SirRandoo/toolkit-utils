@@ -196,6 +196,10 @@
     <TKUtils.TMagic.ResetClass.Label>Reset class abilities when changed</TKUtils.TMagic.ResetClass.Label>
     <TKUtils.TMagic.ResetClass.Description>If enabled, Utils will reset the viewer's abilities prior to giving them their new class. This means the mod will clear their old classes' abilities, then give their pawn the new class.</TKUtils.TMagic.ResetClass.Description>
 
+    <!-- Visual Exceptions Group -->
+    <TKUtils.VisualExceptions.SendErrors.Label>Send Twitch Toolkit's exceptions to Visual Exceptions.</TKUtils.VisualExceptions.SendErrors.Label>
+    <TKUtils.VisualExceptions.SendErrors.Description>If enabled, Utils will send any exceptions to Visual Exceptions instead of logging them to the health reports panel.</TKUtils.VisualExceptions.SendErrors.Description>
+
 
     <!-- Incident Settings -->
     <!-- Passion Incidents -->

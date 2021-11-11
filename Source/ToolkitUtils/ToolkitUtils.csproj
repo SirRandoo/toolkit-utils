@@ -386,6 +386,7 @@
         <Compile Include="Workers\EventTableWorker.cs"/>
         <Compile Include="Workers\EventViewWorker.cs"/>
         <Compile Include="Workers\EventWorker.cs"/>
+        <Compile Include="Workers\ForcedInteractionWorker.cs"/>
         <Compile Include="Workers\ItemTableWorker.cs"/>
         <Compile Include="Workers\ItemViewWorker.cs"/>
         <Compile Include="Workers\ItemWorker.cs"/>

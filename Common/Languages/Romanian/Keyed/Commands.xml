@@ -120,4 +120,7 @@
 
     <!-- Favorite Color -->
     <TKUtils.FavoriteColor.Complete>Your favorite color was changed.</TKUtils.FavoriteColor.Complete>
+
+    <!-- Interactions -->
+    <TKUtils.Interaction.You>you</TKUtils.Interaction.You>
 </LanguageData>
