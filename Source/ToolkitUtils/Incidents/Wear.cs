@@ -92,8 +92,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override void Execute()
         {
             if (!((item.Stuff != null && item.Thing.Thing.MadeFromStuff
-                ? ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)
-                : ThingMaker.MakeThing(item.Thing.Thing, GenStuff.RandomStuffByCommonalityFor(item.Thing.Thing))) is Apparel apparel))
+                    ? ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)
+                    : ThingMaker.MakeThing(item.Thing.Thing, GenStuff.RandomStuffByCommonalityFor(item.Thing.Thing))) is Apparel apparel))
             {
                 LogHelper.Warn("Tried to wear a null apparel.");
                 return;
@@ -127,7 +127,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             pawn.apparel.Wear(apparel);
             pawn.outfits.forcedHandler.SetForced(apparel, true);
-            Viewer.Charge(cost, item.Thing.ItemData?.Weight ?? 1f, item.Thing.ItemData?.KarmaTypeForWearing ?? storeIncident.karmaType);
             FinalizeTransaction(apparel, SpawnCode.Success, false);
         }
 
