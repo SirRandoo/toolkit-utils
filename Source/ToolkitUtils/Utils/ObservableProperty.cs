@@ -22,29 +22,29 @@ namespace SirRandoo.ToolkitUtils.Utils
     {
         public delegate void ChangeEvent(T data);
 
-        private T value;
+        private T _value;
 
         public ObservableProperty(T initialValue)
         {
-            value = initialValue;
+            _value = initialValue;
         }
 
         public event ChangeEvent Changed;
 
         public void Set([NotNull] T val)
         {
-            if (val.Equals(value))
+            if (val.Equals(_value))
             {
                 return;
             }
 
-            value = val;
+            _value = val;
 
-            Changed?.Invoke(value);
+            Changed?.Invoke(_value);
         }
 
-        public T Get() => value;
+        public T Get() => _value;
 
-        public static implicit operator T([NotNull] ObservableProperty<T> prop) => prop.value;
+        public static implicit operator T([NotNull] ObservableProperty<T> prop) => prop._value;
     }
 }

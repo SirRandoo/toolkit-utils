@@ -26,89 +26,89 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class UtilsSettingsWindow : FakeSettingsWindow
     {
-        private readonly TabWorker tabWorker;
-        private string asapPurchasesDescription;
-        private string asapPurchasesLabel;
-        private string balanceGroupHeader;
-        private string basketGroupHeader;
-        private string broadcasterTypeDescription;
-        private string broadcasterTypeLabel;
-        private FloatMenu broadcasterUserTypeMenu;
+        private readonly TabWorker _tabWorker;
+        private string _asapPurchasesDescription;
+        private string _asapPurchasesLabel;
+        private string _balanceGroupHeader;
+        private string _basketGroupHeader;
+        private string _broadcasterTypeDescription;
+        private string _broadcasterTypeLabel;
+        private FloatMenu _broadcasterUserTypeMenu;
 
-        private string buildRateBuffer = TkSettings.StoreBuildRate.ToString();
-        private bool buildRateBufferValid = true;
-        private string buyItemBalanceDescription;
-        private string buyItemBalanceLabel;
-        private string buyItemGroupHeader;
-        private string coinRateDescription;
-        private string coinRateLabel;
-        private string commandHandlerGroupHeader;
-        private string commandParserDescription;
-        private string commandParserLabel;
-        private string commandPrefixDescription;
-        private string commandPrefixLabel;
-        private string commandRouterDescription;
-        private string commandRouterLabel;
-        private Vector2 commandTweakPos = Vector2.zero;
+        private string _buildRateBuffer = TkSettings.StoreBuildRate.ToString();
+        private bool _buildRateBufferValid = true;
+        private string _buyItemBalanceDescription;
+        private string _buyItemBalanceLabel;
+        private string _buyItemGroupHeader;
+        private string _coinRateDescription;
+        private string _coinRateLabel;
+        private string _commandHandlerGroupHeader;
+        private string _commandParserDescription;
+        private string _commandParserLabel;
+        private string _commandPrefixDescription;
+        private string _commandPrefixLabel;
+        private string _commandRouterDescription;
+        private string _commandRouterLabel;
+        private Vector2 _commandTweakPos = Vector2.zero;
 
-        private Vector2 dataScrollPos = Vector2.zero;
+        private Vector2 _dataScrollPos = Vector2.zero;
 
-        private float dataTabHeight;
-        private string decorateUtilsDescription;
-        private string decorateUtilsLabel;
-        private string dumpStyleDescription;
-        private string dumpStyleLabel;
-        private FloatMenu dumpStyleMenu;
-        private string easterEggsDescription;
-        private string easterEggsLabel;
-        private string emojisDescription;
-        private string emojisGroupHeader;
-        private string emojisLabel;
+        private float _dataTabHeight;
+        private string _decorateUtilsDescription;
+        private string _decorateUtilsLabel;
+        private string _dumpStyleDescription;
+        private string _dumpStyleLabel;
+        private FloatMenu _dumpStyleMenu;
+        private string _easterEggsDescription;
+        private string _easterEggsLabel;
+        private string _emojisDescription;
+        private string _emojisGroupHeader;
+        private string _emojisLabel;
 
-        private string filesGroupHeader;
-        private string gatewayGroupHeader;
-        private string gatewayPuffDescription;
-        private string gatewayPuffLabel;
-        private string hairColorDescription;
-        private string hairColorLabel;
-        private string installedModsGroupHeader;
-        private string itemSyntaxDescription;
-        private string itemSyntaxLabel;
-        private string lazyProcessGroupHeader;
-        private string lookupGroupHeader;
-        private string lookupLimitDescription;
-        private string lookupLimitLabel;
-        private string minifyDataDescription;
-        private string minifyDataLabel;
-        private string offloadShopDescription;
-        private string offloadShopLabel;
-        private string purchasePrefixDescription;
-        private string purchasePrefixLabel;
-        private string storeRateDescription;
-        private string storeRateLabel;
-        private string toolkitStyleDescription;
-        private string toolkitStyleLabel;
-        private string trueNeutralDescription;
-        private string trueNeutralLabel;
-        private string versionedModListDescription;
-        private string versionedModListLabel;
-        private string viewerGroupHeader;
+        private string _filesGroupHeader;
+        private string _gatewayGroupHeader;
+        private string _gatewayPuffDescription;
+        private string _gatewayPuffLabel;
+        private string _hairColorDescription;
+        private string _hairColorLabel;
+        private string _installedModsGroupHeader;
+        private string _itemSyntaxDescription;
+        private string _itemSyntaxLabel;
+        private string _lazyProcessGroupHeader;
+        private string _lookupGroupHeader;
+        private string _lookupLimitDescription;
+        private string _lookupLimitLabel;
+        private string _minifyDataDescription;
+        private string _minifyDataLabel;
+        private string _offloadShopDescription;
+        private string _offloadShopLabel;
+        private string _purchasePrefixDescription;
+        private string _purchasePrefixLabel;
+        private string _storeRateDescription;
+        private string _storeRateLabel;
+        private string _toolkitStyleDescription;
+        private string _toolkitStyleLabel;
+        private string _trueNeutralDescription;
+        private string _trueNeutralLabel;
+        private string _versionedModListDescription;
+        private string _versionedModListLabel;
+        private string _viewerGroupHeader;
 
         public UtilsSettingsWindow() : base(TkUtils.Instance)
         {
-            tabWorker = new TabWorker();
+            _tabWorker = new TabWorker();
         }
 
         public override void PreOpen()
         {
-            tabWorker.AddTab(new TabItem { ContentDrawer = DrawGeneralSettings, Label = "TKUtils.General.Label".TranslateSimple(), Tooltip = "TKUtils.General.Tooltip".TranslateSimple() });
-            tabWorker.AddTab(new TabItem { ContentDrawer = DrawDataSettings, Label = "TKUtils.Data.Label".TranslateSimple(), Tooltip = "TKUtils.Data.Tooltip".TranslateSimple() });
+            _tabWorker.AddTab(new TabItem { ContentDrawer = DrawGeneralSettings, Label = "TKUtils.General.Label".TranslateSimple(), Tooltip = "TKUtils.General.Tooltip".TranslateSimple() });
+            _tabWorker.AddTab(new TabItem { ContentDrawer = DrawDataSettings, Label = "TKUtils.Data.Label".TranslateSimple(), Tooltip = "TKUtils.Data.Tooltip".TranslateSimple() });
 
-            tabWorker.AddTab(
+            _tabWorker.AddTab(
                 new TabItem { ContentDrawer = DrawCommandTweakSettings, Label = "TKUtils.CommandTweaks.Label".TranslateSimple(), Tooltip = "TKUtils.CommandTweaks.Tooltip".TranslateSimple() }
             );
 
-            tabWorker.AddTab(new TabItem { ContentDrawer = DrawModCompatSettings, Label = "TKUtils.ModCompat.Label".TranslateSimple(), Tooltip = "TKUtils.ModCompat.Tooltip".TranslateSimple() });
+            _tabWorker.AddTab(new TabItem { ContentDrawer = DrawModCompatSettings, Label = "TKUtils.ModCompat.Label".TranslateSimple(), Tooltip = "TKUtils.ModCompat.Tooltip".TranslateSimple() });
 
             base.PreOpen();
         }
@@ -117,7 +117,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             base.PostOpen();
 
-            dumpStyleMenu = new FloatMenu(
+            _dumpStyleMenu = new FloatMenu(
                 new List<FloatMenuOption>
                 {
                     new FloatMenuOption("TKUtils.DumpStyle.SingleFile".TranslateSimple(), () => TkSettings.DumpStyle = nameof(DumpStyle.SingleFile)),
@@ -125,7 +125,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            broadcasterUserTypeMenu = new FloatMenu(
+            _broadcasterUserTypeMenu = new FloatMenu(
                 new List<FloatMenuOption>
                 {
                     new FloatMenuOption("TKUtils.BroadcasterUserType.Broadcaster".TranslateSimple(), () => TkSettings.BroadcasterCoinType = nameof(UserCoinType.Broadcaster)),
@@ -139,63 +139,63 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         protected override void GetTranslations()
         {
-            filesGroupHeader = "TKUtils.Data.Files".TranslateSimple();
-            dumpStyleLabel = "TKUtils.DumpStyle.Label".TranslateSimple();
-            dumpStyleDescription = "TKUtils.DumpStyle.Description".TranslateSimple();
-            minifyDataLabel = "TKUtils.MinifyData.Label".TranslateSimple();
-            minifyDataDescription = "TKUtils.MinifyData.Description".TranslateSimple();
-            offloadShopLabel = "TKUtils.OffloadShop.Label".TranslateSimple();
-            offloadShopDescription = "TKUtils.OffloadShop.Description".TranslateSimple();
-            asapPurchasesLabel = "TKUtils.DoPurchasesAsap.Label".TranslateSimple();
-            asapPurchasesDescription = "TKUtils.DoPurchasesAsap.Description".TranslateSimple();
-            trueNeutralLabel = "TKUtils.TrueNeutral.Label".TranslateSimple();
-            trueNeutralDescription = "TKUtils.TrueNeutral.Description".TranslateSimple();
-            broadcasterTypeLabel = "TKUtils.BroadcasterUserType.Label".TranslateSimple();
-            broadcasterTypeDescription = "TKUtils.BroadcasterUserType.Description".TranslateSimple();
-            lazyProcessGroupHeader = "TKUtils.Data.LazyProcess".TranslateSimple();
-            storeRateLabel = "TKUtils.StoreRate.Label".TranslateSimple();
-            storeRateDescription = "TKUtils.StoreRate.Description".TranslateSimple();
+            _filesGroupHeader = "TKUtils.Data.Files".TranslateSimple();
+            _dumpStyleLabel = "TKUtils.DumpStyle.Label".TranslateSimple();
+            _dumpStyleDescription = "TKUtils.DumpStyle.Description".TranslateSimple();
+            _minifyDataLabel = "TKUtils.MinifyData.Label".TranslateSimple();
+            _minifyDataDescription = "TKUtils.MinifyData.Description".TranslateSimple();
+            _offloadShopLabel = "TKUtils.OffloadShop.Label".TranslateSimple();
+            _offloadShopDescription = "TKUtils.OffloadShop.Description".TranslateSimple();
+            _asapPurchasesLabel = "TKUtils.DoPurchasesAsap.Label".TranslateSimple();
+            _asapPurchasesDescription = "TKUtils.DoPurchasesAsap.Description".TranslateSimple();
+            _trueNeutralLabel = "TKUtils.TrueNeutral.Label".TranslateSimple();
+            _trueNeutralDescription = "TKUtils.TrueNeutral.Description".TranslateSimple();
+            _broadcasterTypeLabel = "TKUtils.BroadcasterUserType.Label".TranslateSimple();
+            _broadcasterTypeDescription = "TKUtils.BroadcasterUserType.Description".TranslateSimple();
+            _lazyProcessGroupHeader = "TKUtils.Data.LazyProcess".TranslateSimple();
+            _storeRateLabel = "TKUtils.StoreRate.Label".TranslateSimple();
+            _storeRateDescription = "TKUtils.StoreRate.Description".TranslateSimple();
 
-            emojisGroupHeader = "TKUtils.General.Emojis".TranslateSimple();
-            emojisLabel = "TKUtils.Emojis.Label".TranslateSimple();
-            emojisDescription = "TKUtils.Emojis.Description".TranslateSimple();
-            viewerGroupHeader = "TKUtils.General.Viewers".TranslateSimple();
-            hairColorLabel = "TKUtils.HairColor.Label".TranslateSimple();
-            hairColorDescription = "TKUtils.HairColor.Description".TranslateSimple();
-            gatewayGroupHeader = "TKUtils.General.Gateway".TranslateSimple();
-            gatewayPuffLabel = "TKUtils.GatewayPuff.Label".TranslateSimple();
-            gatewayPuffDescription = "TKUtils.GatewayPuff.Description".TranslateSimple();
-            basketGroupHeader = "TKUtils.General.Basket".TranslateSimple();
-            easterEggsLabel = "TKUtils.EasterEggs.Label".TranslateSimple();
-            easterEggsDescription = "TKUtils.EasterEggs.Description".TranslateSimple();
+            _emojisGroupHeader = "TKUtils.General.Emojis".TranslateSimple();
+            _emojisLabel = "TKUtils.Emojis.Label".TranslateSimple();
+            _emojisDescription = "TKUtils.Emojis.Description".TranslateSimple();
+            _viewerGroupHeader = "TKUtils.General.Viewers".TranslateSimple();
+            _hairColorLabel = "TKUtils.HairColor.Label".TranslateSimple();
+            _hairColorDescription = "TKUtils.HairColor.Description".TranslateSimple();
+            _gatewayGroupHeader = "TKUtils.General.Gateway".TranslateSimple();
+            _gatewayPuffLabel = "TKUtils.GatewayPuff.Label".TranslateSimple();
+            _gatewayPuffDescription = "TKUtils.GatewayPuff.Description".TranslateSimple();
+            _basketGroupHeader = "TKUtils.General.Basket".TranslateSimple();
+            _easterEggsLabel = "TKUtils.EasterEggs.Label".TranslateSimple();
+            _easterEggsDescription = "TKUtils.EasterEggs.Description".TranslateSimple();
 
-            balanceGroupHeader = "TKUtils.CommandTweaks.Balance".TranslateSimple();
-            coinRateLabel = "TKUtils.CoinRate.Label".TranslateSimple();
-            coinRateDescription = "TKUtils.CoinRate.Description".TranslateSimple();
-            commandHandlerGroupHeader = "TKUtils.CommandTweaks.Handler".TranslateSimple();
-            commandPrefixLabel = "TKUtils.CommandPrefix.Label".TranslateSimple();
-            commandPrefixDescription = "TKUtils.CommandPrefix.Description".TranslateSimple();
-            purchasePrefixLabel = "TKUtils.PurchasePrefix.Label".TranslateSimple();
-            purchasePrefixDescription = "TKUtils.PurchasePrefix.Description".TranslateSimple();
-            commandParserLabel = "TKUtils.CommandParser.Label".TranslateSimple();
-            commandParserDescription = "TKUtils.CommandParser.Description".TranslateSimple();
-            toolkitStyleLabel = "TKUtils.ToolkitStyleCommands.Label".TranslateSimple();
-            toolkitStyleDescription = "TKUtils.ToolkitStyleCommands.Description".TranslateSimple();
-            commandRouterLabel = "TKUtils.CommandRouter.Label".TranslateSimple();
-            commandRouterDescription = "TKUtils.CommandRouter.Description".TranslateSimple();
-            installedModsGroupHeader = "TKUtils.CommandTweaks.InstalledMods".TranslateSimple();
-            decorateUtilsLabel = "TKUtils.DecorateUtils.Label".TranslateSimple();
-            decorateUtilsDescription = "TKUtils.DecorateUtils.Description".TranslateSimple();
-            versionedModListLabel = "TKUtils.VersionedModList.Label".TranslateSimple();
-            versionedModListDescription = "TKUtils.VersionedModList.Description".TranslateSimple();
-            buyItemGroupHeader = "TKUtils.CommandTweaks.BuyItem".TranslateSimple();
-            buyItemBalanceLabel = "TKUtils.BuyItemBalance.Label".TranslateSimple();
-            buyItemBalanceDescription = "TKUtils.BuyItemBalance.Description".TranslateSimple();
-            itemSyntaxLabel = "TKUtils.BuyItemFullSyntax.Label".TranslateSimple();
-            itemSyntaxDescription = "TKUtils.BuyItemFullSyntax.Description".TranslateSimple();
-            lookupGroupHeader = "TKUtils.CommandTweaks.Lookup".TranslateSimple();
-            lookupLimitLabel = "TKUtils.LookupLimit.Label".TranslateSimple();
-            lookupLimitDescription = "TKUtils.LookupLimit.Description".TranslateSimple();
+            _balanceGroupHeader = "TKUtils.CommandTweaks.Balance".TranslateSimple();
+            _coinRateLabel = "TKUtils.CoinRate.Label".TranslateSimple();
+            _coinRateDescription = "TKUtils.CoinRate.Description".TranslateSimple();
+            _commandHandlerGroupHeader = "TKUtils.CommandTweaks.Handler".TranslateSimple();
+            _commandPrefixLabel = "TKUtils.CommandPrefix.Label".TranslateSimple();
+            _commandPrefixDescription = "TKUtils.CommandPrefix.Description".TranslateSimple();
+            _purchasePrefixLabel = "TKUtils.PurchasePrefix.Label".TranslateSimple();
+            _purchasePrefixDescription = "TKUtils.PurchasePrefix.Description".TranslateSimple();
+            _commandParserLabel = "TKUtils.CommandParser.Label".TranslateSimple();
+            _commandParserDescription = "TKUtils.CommandParser.Description".TranslateSimple();
+            _toolkitStyleLabel = "TKUtils.ToolkitStyleCommands.Label".TranslateSimple();
+            _toolkitStyleDescription = "TKUtils.ToolkitStyleCommands.Description".TranslateSimple();
+            _commandRouterLabel = "TKUtils.CommandRouter.Label".TranslateSimple();
+            _commandRouterDescription = "TKUtils.CommandRouter.Description".TranslateSimple();
+            _installedModsGroupHeader = "TKUtils.CommandTweaks.InstalledMods".TranslateSimple();
+            _decorateUtilsLabel = "TKUtils.DecorateUtils.Label".TranslateSimple();
+            _decorateUtilsDescription = "TKUtils.DecorateUtils.Description".TranslateSimple();
+            _versionedModListLabel = "TKUtils.VersionedModList.Label".TranslateSimple();
+            _versionedModListDescription = "TKUtils.VersionedModList.Description".TranslateSimple();
+            _buyItemGroupHeader = "TKUtils.CommandTweaks.BuyItem".TranslateSimple();
+            _buyItemBalanceLabel = "TKUtils.BuyItemBalance.Label".TranslateSimple();
+            _buyItemBalanceDescription = "TKUtils.BuyItemBalance.Description".TranslateSimple();
+            _itemSyntaxLabel = "TKUtils.BuyItemFullSyntax.Label".TranslateSimple();
+            _itemSyntaxDescription = "TKUtils.BuyItemFullSyntax.Description".TranslateSimple();
+            _lookupGroupHeader = "TKUtils.CommandTweaks.Lookup".TranslateSimple();
+            _lookupLimitLabel = "TKUtils.LookupLimit.Label".TranslateSimple();
+            _lookupLimitDescription = "TKUtils.LookupLimit.Description".TranslateSimple();
         }
 
         protected override void DrawSettings(Rect region) { }
@@ -205,79 +205,79 @@ namespace SirRandoo.ToolkitUtils.Windows
             var listing = new Listing_Standard();
             listing.Begin(region);
 
-            listing.DrawGroupHeader(emojisGroupHeader, false);
-            listing.CheckboxLabeled(emojisLabel, ref TkSettings.Emojis);
-            listing.DrawDescription(emojisDescription);
+            listing.DrawGroupHeader(_emojisGroupHeader, false);
+            listing.CheckboxLabeled(_emojisLabel, ref TkSettings.Emojis);
+            listing.DrawDescription(_emojisDescription);
 
 
-            listing.DrawGroupHeader(viewerGroupHeader);
-            listing.CheckboxLabeled(hairColorLabel, ref TkSettings.HairColor);
-            listing.DrawDescription(hairColorDescription);
+            listing.DrawGroupHeader(_viewerGroupHeader);
+            listing.CheckboxLabeled(_hairColorLabel, ref TkSettings.HairColor);
+            listing.DrawDescription(_hairColorDescription);
 
-            listing.DrawGroupHeader(gatewayGroupHeader);
-            listing.CheckboxLabeled(gatewayPuffLabel, ref TkSettings.GatewayPuff);
-            listing.DrawDescription(gatewayPuffDescription);
+            listing.DrawGroupHeader(_gatewayGroupHeader);
+            listing.CheckboxLabeled(_gatewayPuffLabel, ref TkSettings.GatewayPuff);
+            listing.DrawDescription(_gatewayPuffDescription);
 
-            listing.DrawGroupHeader(basketGroupHeader);
-            listing.CheckboxLabeled(easterEggsLabel, ref TkSettings.EasterEggs);
-            listing.DrawDescription(easterEggsDescription);
+            listing.DrawGroupHeader(_basketGroupHeader);
+            listing.CheckboxLabeled(_easterEggsLabel, ref TkSettings.EasterEggs);
+            listing.DrawDescription(_easterEggsDescription);
 
             listing.End();
         }
 
         private void DrawDataSettings(Rect region)
         {
-            var view = new Rect(0f, 0f, region.width - 16f, Text.LineHeight * dataTabHeight);
+            var view = new Rect(0f, 0f, region.width - 16f, Text.LineHeight * _dataTabHeight);
             var listing = new Listing_Standard();
             GUI.BeginGroup(region);
-            Widgets.BeginScrollView(region.AtZero(), ref dataScrollPos, view);
+            Widgets.BeginScrollView(region.AtZero(), ref _dataScrollPos, view);
             listing.Begin(view);
 
-            listing.DrawGroupHeader(filesGroupHeader, false);
+            listing.DrawGroupHeader(_filesGroupHeader, false);
 
             (Rect dumpLabel, Rect dumpBtn) = listing.GetRectAsForm();
-            SettingsHelper.DrawLabel(dumpLabel, dumpStyleLabel);
-            listing.DrawDescription(dumpStyleDescription);
+            SettingsHelper.DrawLabel(dumpLabel, _dumpStyleLabel);
+            listing.DrawDescription(_dumpStyleDescription);
 
             if (Widgets.ButtonText(dumpBtn, $"TKUtils.DumpStyle.{TkSettings.DumpStyle}".Translate()))
             {
-                Find.WindowStack.Add(dumpStyleMenu);
+                Find.WindowStack.Add(_dumpStyleMenu);
             }
 
-            listing.CheckboxLabeled(minifyDataLabel, ref TkSettings.MinifyData);
-            listing.DrawDescription(minifyDataDescription);
+            listing.CheckboxLabeled(_minifyDataLabel, ref TkSettings.MinifyData);
+            listing.DrawDescription(_minifyDataDescription);
 
-            listing.CheckboxLabeled(offloadShopLabel, ref TkSettings.Offload);
-            listing.DrawDescription(offloadShopDescription);
+            listing.CheckboxLabeled(_offloadShopLabel, ref TkSettings.Offload);
+            listing.DrawDescription(_offloadShopDescription);
             listing.DrawExperimentalNotice();
 
-            listing.CheckboxLabeled(asapPurchasesLabel, ref TkSettings.AsapPurchases);
-            listing.DrawDescription(asapPurchasesDescription);
+            listing.CheckboxLabeled(_asapPurchasesLabel, ref TkSettings.AsapPurchases);
+            listing.DrawDescription(_asapPurchasesDescription);
             listing.DrawExperimentalNotice();
 
-            listing.CheckboxLabeled(trueNeutralLabel, ref TkSettings.TrueNeutral);
-            listing.DrawDescription(trueNeutralDescription);
+            listing.CheckboxLabeled(_trueNeutralLabel, ref TkSettings.TrueNeutral);
+            listing.DrawDescription(_trueNeutralDescription);
             listing.DrawExperimentalNotice();
 
             (Rect coinTypeLabel, Rect coinTypeField) = listing.GetRectAsForm();
-            SettingsHelper.DrawLabel(coinTypeLabel, broadcasterTypeLabel);
-            listing.DrawDescription(broadcasterTypeDescription);
+            SettingsHelper.DrawLabel(coinTypeLabel, _broadcasterTypeLabel);
+            listing.DrawDescription(_broadcasterTypeDescription);
             listing.DrawExperimentalNotice();
 
             if (Widgets.ButtonText(coinTypeField, $"TKUtils.BroadcasterUserType.{TkSettings.BroadcasterCoinType}".Translate()))
             {
-                Find.WindowStack.Add(broadcasterUserTypeMenu);
+                Find.WindowStack.Add(_broadcasterUserTypeMenu);
             }
 
 
-            listing.DrawGroupHeader(lazyProcessGroupHeader);
+            listing.DrawGroupHeader(_lazyProcessGroupHeader);
 
             (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(storeLabel, storeRateLabel);
-            listing.DrawDescription(storeRateDescription);
-            SettingsHelper.DrawAugmentedNumberEntry(storeField, ref buildRateBuffer, ref TkSettings.StoreBuildRate, ref buildRateBufferValid);
+            SettingsHelper.DrawLabel(storeLabel, _storeRateLabel);
+            listing.DrawDescription(_storeRateDescription);
+            SettingsHelper.DrawAugmentedNumberEntry(storeField, ref _buildRateBuffer, ref TkSettings.StoreBuildRate, ref _buildRateBufferValid);
 
-            dataTabHeight = listing.CurHeight;
+            _dataTabHeight = listing.CurHeight;
             listing.End();
             Widgets.EndScrollView();
             GUI.EndGroup();
@@ -289,66 +289,66 @@ namespace SirRandoo.ToolkitUtils.Windows
             var viewPort = new Rect(0f, 0f, region.width - 16f, Text.LineHeight * 48f);
 
             GUI.BeginGroup(region);
-            Widgets.BeginScrollView(region.AtZero(), ref commandTweakPos, viewPort);
+            Widgets.BeginScrollView(region.AtZero(), ref _commandTweakPos, viewPort);
             listing.Begin(viewPort);
 
-            listing.DrawGroupHeader(balanceGroupHeader, false);
-            listing.CheckboxLabeled(coinRateLabel, ref TkSettings.ShowCoinRate);
-            listing.DrawDescription(coinRateDescription);
+            listing.DrawGroupHeader(_balanceGroupHeader, false);
+            listing.CheckboxLabeled(_coinRateLabel, ref TkSettings.ShowCoinRate);
+            listing.DrawDescription(_coinRateDescription);
 
 
-            listing.DrawGroupHeader(commandHandlerGroupHeader);
+            listing.DrawGroupHeader(_commandHandlerGroupHeader);
 
             if (TkSettings.Commands)
             {
                 (Rect prefixLabel, Rect prefixField) = listing.GetRectAsForm();
-                SettingsHelper.DrawLabel(prefixLabel, commandPrefixLabel);
-                listing.DrawDescription(commandPrefixDescription);
+                SettingsHelper.DrawLabel(prefixLabel, _commandPrefixLabel);
+                listing.DrawDescription(_commandPrefixDescription);
                 TkSettings.Prefix = CommandHelper.ValidatePrefix(Widgets.TextField(prefixField, TkSettings.Prefix));
 
                 (Rect buyPrefixLabel, Rect buyPrefixField) = listing.GetRectAsForm();
-                SettingsHelper.DrawLabel(buyPrefixLabel, purchasePrefixLabel);
-                listing.DrawDescription(purchasePrefixDescription);
+                SettingsHelper.DrawLabel(buyPrefixLabel, _purchasePrefixLabel);
+                listing.DrawDescription(_purchasePrefixDescription);
                 TkSettings.BuyPrefix = CommandHelper.ValidatePrefix(Widgets.TextField(buyPrefixField, TkSettings.BuyPrefix));
             }
 
-            listing.CheckboxLabeled(commandParserLabel, ref TkSettings.Commands);
-            listing.DrawDescription(commandParserDescription);
+            listing.CheckboxLabeled(_commandParserLabel, ref TkSettings.Commands);
+            listing.DrawDescription(_commandParserDescription);
 
             if (TkSettings.Commands)
             {
-                listing.CheckboxLabeled(toolkitStyleLabel, ref TkSettings.ToolkitStyleCommands);
-                listing.DrawDescription(toolkitStyleDescription);
+                listing.CheckboxLabeled(_toolkitStyleLabel, ref TkSettings.ToolkitStyleCommands);
+                listing.DrawDescription(_toolkitStyleDescription);
             }
 
-            listing.CheckboxLabeled(commandRouterLabel, ref TkSettings.CommandRouter);
-            listing.DrawDescription(commandRouterDescription.Translate());
+            listing.CheckboxLabeled(_commandRouterLabel, ref TkSettings.CommandRouter);
+            listing.DrawDescription(_commandRouterDescription.Translate());
             listing.DrawExperimentalNotice();
 
 
-            listing.DrawGroupHeader(installedModsGroupHeader);
-            listing.CheckboxLabeled(decorateUtilsLabel, ref TkSettings.DecorateMods);
-            listing.DrawDescription(decorateUtilsDescription);
+            listing.DrawGroupHeader(_installedModsGroupHeader);
+            listing.CheckboxLabeled(_decorateUtilsLabel, ref TkSettings.DecorateMods);
+            listing.DrawDescription(_decorateUtilsDescription);
 
-            listing.CheckboxLabeled(versionedModListLabel, ref TkSettings.VersionedModList);
-            listing.DrawDescription(versionedModListDescription);
-
-
-            listing.DrawGroupHeader(buyItemGroupHeader);
-            listing.CheckboxLabeled(buyItemBalanceLabel, ref TkSettings.BuyItemBalance);
-            listing.DrawDescription(buyItemBalanceDescription);
-            listing.CheckboxLabeled(itemSyntaxLabel, ref TkSettings.ForceFullItem);
-            listing.DrawDescription(itemSyntaxDescription);
+            listing.CheckboxLabeled(_versionedModListLabel, ref TkSettings.VersionedModList);
+            listing.DrawDescription(_versionedModListDescription);
 
 
-            listing.DrawGroupHeader(lookupGroupHeader);
+            listing.DrawGroupHeader(_buyItemGroupHeader);
+            listing.CheckboxLabeled(_buyItemBalanceLabel, ref TkSettings.BuyItemBalance);
+            listing.DrawDescription(_buyItemBalanceDescription);
+            listing.CheckboxLabeled(_itemSyntaxLabel, ref TkSettings.ForceFullItem);
+            listing.DrawDescription(_itemSyntaxDescription);
+
+
+            listing.DrawGroupHeader(_lookupGroupHeader);
 
             (Rect limitLabel, Rect limitField) = listing.GetRectAsForm();
             var buffer = TkSettings.LookupLimit.ToString();
 
-            SettingsHelper.DrawLabel(limitLabel, lookupLimitLabel);
+            SettingsHelper.DrawLabel(limitLabel, _lookupLimitLabel);
             Widgets.TextFieldNumeric(limitField, ref TkSettings.LookupLimit, ref buffer);
-            listing.DrawDescription(lookupLimitDescription);
+            listing.DrawDescription(_lookupLimitDescription);
 
             GUI.EndGroup();
             Widgets.EndScrollView();

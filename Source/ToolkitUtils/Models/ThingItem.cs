@@ -26,13 +26,13 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ThingItem : IShopItemBase
     {
-        private string categoryCached;
-        private ItemData data;
-        private Item item;
-        private ThingDef producedAt;
-        private bool productionIndexed;
-        private bool usabilityIndexed;
-        private bool usable;
+        private string _categoryCached;
+        private ItemData _data;
+        private Item _item;
+        private ThingDef _producedAt;
+        private bool _productionIndexed;
+        private bool _usabilityIndexed;
+        private bool _usable;
 
         [CanBeNull]
         [IgnoreDataMember]
@@ -40,9 +40,9 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (item != null)
+                if (_item != null)
                 {
-                    return item;
+                    return _item;
                 }
 
                 if (Thing == null)
@@ -50,21 +50,21 @@ namespace SirRandoo.ToolkitUtils.Models
                     return null;
                 }
 
-                item = StoreInventory.items.Find(i => i?.defname?.Equals(Thing.defName) == true);
+                _item = StoreInventory.items.Find(i => i?.defname?.Equals(Thing.defName) == true);
 
-                if (item == null)
+                if (_item == null)
                 {
-                    item = new Item(Thing.CalculateStorePrice(), Thing.label.ToToolkit(), Thing.defName);
-                    StoreInventory.items.Add(item);
+                    _item = new Item(Thing.CalculateStorePrice(), Thing.label.ToToolkit(), Thing.defName);
+                    StoreInventory.items.Add(_item);
                 }
                 else
                 {
-                    Enabled = item.price > 0;
+                    Enabled = _item.price > 0;
                 }
 
-                return item;
+                return _item;
             }
-            set => item = value;
+            set => _item = value;
         }
 
         [NotNull] [DataMember(Name = "mod")] public string Mod => Data?.Mod ?? Thing.TryGetModName();
@@ -77,18 +77,18 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (!productionIndexed)
+                if (!_productionIndexed)
                 {
-                    producedAt = DefDatabase<RecipeDef>.AllDefs.Where(i => i.recipeUsers != null && i.products.Count == 1 && i.products.Any(p => p.thingDef == Thing))
+                    _producedAt = DefDatabase<RecipeDef>.AllDefs.Where(i => i.recipeUsers != null && i.products.Count == 1 && i.products.Any(p => p.thingDef == Thing))
                        .SelectMany(i => i.recipeUsers)
                        .Distinct()
                        .OrderBy(i => (int)i.techLevel)
                        .FirstOrDefault();
 
-                    productionIndexed = true;
+                    _productionIndexed = true;
                 }
 
-                return producedAt;
+                return _producedAt;
             }
         }
 
@@ -96,8 +96,8 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "data")]
         public ItemData ItemData
         {
-            get => data ??= (ItemData)Data;
-            set => Data = data = value;
+            get => _data ??= (ItemData)Data;
+            set => Data = _data = value;
         }
 
         [DataMember(Name = "category")]
@@ -105,9 +105,9 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (!categoryCached.NullOrEmpty())
+                if (!_categoryCached.NullOrEmpty())
                 {
-                    return categoryCached;
+                    return _categoryCached;
                 }
 
                 string category = Thing?.FirstThingCategory?.LabelCap ?? string.Empty;
@@ -117,9 +117,9 @@ namespace SirRandoo.ToolkitUtils.Models
                     category = "TechLevel_Animal".Localize().CapitalizeFirst();
                 }
 
-                categoryCached = category;
+                _categoryCached = category;
 
-                return categoryCached;
+                return _categoryCached;
             }
         }
 
@@ -128,15 +128,15 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (usabilityIndexed || Thing == null)
+                if (_usabilityIndexed || Thing == null)
                 {
-                    return usable;
+                    return _usable;
                 }
 
-                usable = CompatRegistry.AllUsabilityHandlers.Any(h => h.IsUsable(Thing));
-                usabilityIndexed = true;
+                _usable = CompatRegistry.AllUsabilityHandlers.Any(h => h.IsUsable(Thing));
+                _usabilityIndexed = true;
 
-                return usable;
+                return _usable;
             }
         }
 
@@ -191,20 +191,20 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (data == null && ToolkitUtils.Data.ItemData.TryGetValue(Thing.defName, out ItemData result))
+                if (_data == null && ToolkitUtils.Data.ItemData.TryGetValue(Thing.defName, out ItemData result))
                 {
-                    data = result;
+                    _data = result;
                 }
 
-                return data;
+                return _data;
             }
             set
             {
-                data = (ItemData)value;
+                _data = (ItemData)value;
 
                 if (Item?.defname != null)
                 {
-                    ToolkitUtils.Data.ItemData[Item!.defname] = data;
+                    ToolkitUtils.Data.ItemData[Item!.defname] = _data;
                 }
             }
         }

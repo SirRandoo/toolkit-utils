@@ -27,22 +27,22 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class RemovePriceSelector : ISelectorBase<TraitItem>
     {
-        private ComparisonTypes comparison = ComparisonTypes.Equal;
-        private List<FloatMenuOption> comparisonOptions;
-        private int removePrice;
-        private string removePriceBuffer = "0";
-        private string removePriceText;
+        private ComparisonTypes _comparison = ComparisonTypes.Equal;
+        private List<FloatMenuOption> _comparisonOptions;
+        private int _removePrice;
+        private string _removePriceBuffer = "0";
+        private string _removePriceText;
 
         public void Prepare()
         {
-            removePriceText = "TKUtils.Fields.RemovePrice".TranslateSimple();
+            _removePriceText = "TKUtils.Fields.RemovePrice".TranslateSimple();
 
-            comparisonOptions = Data.ComparisonTypes.Select(
+            _comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption(
                         i.AsOperator(),
                         () =>
                         {
-                            comparison = i;
+                            _comparison = i;
                             Dirty.Set(true);
                         }
                     )
@@ -53,22 +53,22 @@ namespace SirRandoo.ToolkitUtils.Models
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, removePriceText);
+            SettingsHelper.DrawLabel(label, _removePriceText);
 
             (Rect button, Rect input) = field.ToForm(0.3f);
 
-            if (Widgets.ButtonText(button, comparison.AsOperator()))
+            if (Widgets.ButtonText(button, _comparison.AsOperator()))
             {
-                Find.WindowStack.Add(new FloatMenu(comparisonOptions));
+                Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
             }
 
-            if (!SettingsHelper.DrawNumberField(input, ref removePrice, ref removePriceBuffer, out int newCost))
+            if (!SettingsHelper.DrawNumberField(input, ref _removePrice, ref _removePriceBuffer, out int newCost))
             {
                 return;
             }
 
-            removePrice = newCost;
-            removePriceBuffer = newCost.ToString();
+            _removePrice = newCost;
+            _removePriceBuffer = newCost.ToString();
             Dirty.Set(true);
         }
 
@@ -76,18 +76,18 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible(TableSettingsItem<TraitItem> item)
         {
-            switch (comparison)
+            switch (_comparison)
             {
                 case ComparisonTypes.Greater:
-                    return item.Data.CostToRemove > removePrice;
+                    return item.Data.CostToRemove > _removePrice;
                 case ComparisonTypes.Equal:
-                    return item.Data.CostToRemove == removePrice;
+                    return item.Data.CostToRemove == _removePrice;
                 case ComparisonTypes.Less:
-                    return item.Data.CostToRemove < removePrice;
+                    return item.Data.CostToRemove < _removePrice;
                 case ComparisonTypes.GreaterEqual:
-                    return item.Data.CostToRemove >= removePrice;
+                    return item.Data.CostToRemove >= _removePrice;
                 case ComparisonTypes.LessEqual:
-                    return item.Data.CostToRemove <= removePrice;
+                    return item.Data.CostToRemove <= _removePrice;
                 default:
                     return false;
             }

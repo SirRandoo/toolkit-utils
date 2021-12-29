@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class RescueMe : IncidentVariablesBase
     {
-        private KidnapReport report;
+        private KidnapReport _report;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
@@ -53,14 +53,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (isKidnapped ?? false)
             {
-                report = new KidnapReport { Viewer = viewer.username, PawnIds = new List<string> { pawn.ThingID } };
+                _report = new KidnapReport { Viewer = viewer.username, PawnIds = new List<string> { pawn.ThingID } };
 
                 return true;
             }
 
             try
             {
-                report = KidnapReport.KidnapReportFor(viewer.username);
+                _report = KidnapReport.KidnapReportFor(viewer.username);
             }
             catch (Exception e)
             {
@@ -69,7 +69,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            return !report?.PawnIds.NullOrEmpty() ?? false;
+            return !_report?.PawnIds.NullOrEmpty() ?? false;
         }
 
         public override void Execute()
@@ -84,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 component.pawnHistory.Remove(Viewer.username.ToLower());
             }
 
-            ViewerRescue.QueuedViewers.Enqueue(report);
+            ViewerRescue.QueuedViewers.Enqueue(_report);
             QuestUtility.SendLetterQuestAvailable(QuestUtility.GenerateQuestAndMakeAvailable(scriptDef, threatPoints));
             Viewer.Charge(storeIncident);
         }

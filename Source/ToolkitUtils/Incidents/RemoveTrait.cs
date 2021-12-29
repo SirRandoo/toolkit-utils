@@ -32,20 +32,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class RemoveTrait : IncidentVariablesBase
     {
-        private TraitItem buyable;
-        private Pawn pawn;
-        private Trait trait;
+        private TraitItem _buyable;
+        private Pawn _pawn;
+        private Trait _trait;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
                 return false;
             }
 
-            List<Trait> traits = pawn!.story.traits.allTraits;
+            List<Trait> traits = _pawn!.story.traits.allTraits;
 
             if (traits?.Count <= 0)
             {
@@ -56,28 +56,28 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (!worker.TryGetNextAsTrait(out buyable))
+            if (!worker.TryGetNextAsTrait(out _buyable))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(worker.GetLast()));
 
                 return false;
             }
 
-            if (!buyable!.CanRemove)
+            if (!_buyable!.CanRemove)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(worker.GetLast()));
 
                 return false;
             }
 
-            if (!viewer.CanAfford(buyable.CostToRemove))
+            if (!viewer.CanAfford(_buyable.CostToRemove))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(buyable.CostToRemove.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_buyable.CostToRemove.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
 
                 return false;
             }
 
-            Trait target = traits?.FirstOrDefault(t => TraitHelper.CompareToInput(buyable.GetDefaultName(pawn.gender)!, t.Label));
+            Trait target = traits?.FirstOrDefault(t => TraitHelper.CompareToInput(_buyable.GetDefaultName(_pawn.gender)!, t.Label));
 
             if (target == null)
             {
@@ -91,7 +91,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            trait = target;
+            _trait = target;
 
             return true;
         }
@@ -100,14 +100,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (RationalRomance.Active && RationalRomance.IsTraitDisabled(target.def))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(buyable.Name.CapitalizeFirst()));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(_buyable.Name.CapitalizeFirst()));
 
                 return false;
             }
 
-            if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, target.def.defName, target.Degree))
+            if (AlienRace.Enabled && AlienRace.IsTraitForced(_pawn, target.def.defName, target.Degree))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, buyable.Name));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, _buyable.Name));
 
                 return false;
             }
@@ -124,21 +124,21 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            if (CompatRegistry.Magic?.IsClassTrait(trait.def) == true && TkSettings.ResetClass)
+            if (CompatRegistry.Magic?.IsClassTrait(_trait.def) == true && TkSettings.ResetClass)
             {
-                CompatRegistry.Magic.ResetClass(pawn);
+                CompatRegistry.Magic.ResetClass(_pawn);
             }
 
-            TraitHelper.RemoveTraitFromPawn(pawn, trait);
+            TraitHelper.RemoveTraitFromPawn(_pawn, _trait);
 
-            Viewer.Charge(buyable.CostToRemove, buyable.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType);
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemoveTrait.Complete".LocalizeKeyed(trait.LabelCap));
+            Viewer.Charge(_buyable.CostToRemove, _buyable.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType);
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemoveTrait.Complete".LocalizeKeyed(_trait.LabelCap));
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),
-                "TKUtils.TraitLetter.RemoveDescription".LocalizeKeyed(Viewer.username, trait.LabelCap),
+                "TKUtils.TraitLetter.RemoveDescription".LocalizeKeyed(Viewer.username, _trait.LabelCap),
                 LetterDefOf.NeutralEvent,
-                new LookTargets(pawn)
+                new LookTargets(_pawn)
             );
         }
     }

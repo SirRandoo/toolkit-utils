@@ -27,22 +27,22 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class PriceSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     {
-        private ComparisonTypes comparison = ComparisonTypes.Equal;
-        private List<FloatMenuOption> comparisonOptions;
-        private int price;
-        private string priceBuffer = "0";
-        private string priceText;
+        private ComparisonTypes _comparison = ComparisonTypes.Equal;
+        private List<FloatMenuOption> _comparisonOptions;
+        private int _price;
+        private string _priceBuffer = "0";
+        private string _priceText;
 
         public void Prepare()
         {
-            priceText = "TKUtils.Fields.Price".TranslateSimple();
+            _priceText = "TKUtils.Fields.Price".TranslateSimple();
 
-            comparisonOptions = Data.ComparisonTypes.Select(
+            _comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption(
                         i.AsOperator(),
                         () =>
                         {
-                            comparison = i;
+                            _comparison = i;
                             Dirty.Set(true);
                         }
                     )
@@ -53,22 +53,22 @@ namespace SirRandoo.ToolkitUtils.Models
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, priceText);
+            SettingsHelper.DrawLabel(label, _priceText);
 
             (Rect button, Rect input) = field.ToForm(0.3f);
 
-            if (Widgets.ButtonText(button, comparison.AsOperator()))
+            if (Widgets.ButtonText(button, _comparison.AsOperator()))
             {
-                Find.WindowStack.Add(new FloatMenu(comparisonOptions));
+                Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
             }
 
-            if (!SettingsHelper.DrawNumberField(input, ref price, ref priceBuffer, out int newCost))
+            if (!SettingsHelper.DrawNumberField(input, ref _price, ref _priceBuffer, out int newCost))
             {
                 return;
             }
 
-            price = newCost;
-            priceBuffer = newCost.ToString();
+            _price = newCost;
+            _priceBuffer = newCost.ToString();
             Dirty.Set(true);
         }
 
@@ -76,18 +76,18 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible(TableSettingsItem<T> item)
         {
-            switch (comparison)
+            switch (_comparison)
             {
                 case ComparisonTypes.GreaterEqual:
-                    return item.Data.Cost >= price;
+                    return item.Data.Cost >= _price;
                 case ComparisonTypes.Greater:
-                    return item.Data.Cost > price;
+                    return item.Data.Cost > _price;
                 case ComparisonTypes.Equal:
-                    return item.Data.Cost == price;
+                    return item.Data.Cost == _price;
                 case ComparisonTypes.Less:
-                    return item.Data.Cost < price;
+                    return item.Data.Cost < _price;
                 case ComparisonTypes.LessEqual:
-                    return item.Data.Cost <= price;
+                    return item.Data.Cost <= _price;
                 default:
                     return false;
             }

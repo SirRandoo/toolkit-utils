@@ -26,60 +26,60 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class HealMe : IncidentVariablesBase
     {
-        private Pawn pawn;
-        private Hediff toHeal;
-        private BodyPartRecord toRestore;
+        private Pawn _pawn;
+        private Hediff _toHeal;
+        private BodyPartRecord _toRestore;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
                 return false;
             }
 
-            if (IncidentSettings.HealMe.FairFights && pawn!.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
+            if (IncidentSettings.HealMe.FairFights && _pawn!.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame < _pawn.mindState.lastAttackTargetTick + 1800)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
 
                 return false;
             }
 
-            object result = HealHelper.GetPawnHealable(pawn!);
+            object result = HealHelper.GetPawnHealable(_pawn!);
 
             switch (result)
             {
                 case Hediff hediff:
-                    toHeal = hediff;
+                    _toHeal = hediff;
 
                     break;
                 case BodyPartRecord record:
-                    toRestore = record;
+                    _toRestore = record;
 
                     break;
             }
 
-            return toHeal != null || toRestore != null;
+            return _toHeal != null || _toRestore != null;
         }
 
         public override void Execute()
         {
-            if (toHeal != null)
+            if (_toHeal != null)
             {
-                HealHelper.Cure(toHeal);
+                HealHelper.Cure(_toHeal);
                 Viewer.Charge(storeIncident);
-                NotifySuccess(toHeal.LabelCap);
+                NotifySuccess(_toHeal.LabelCap);
             }
 
-            if (toRestore == null)
+            if (_toRestore == null)
             {
                 return;
             }
 
-            pawn.health.RestorePart(toRestore);
+            _pawn.health.RestorePart(_toRestore);
             Viewer.Charge(storeIncident);
-            NotifySuccess(toRestore.Label);
+            NotifySuccess(_toRestore.Label);
         }
 
         private void NotifySuccess(string target)
@@ -88,12 +88,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 var response = "";
 
-                if (toHeal != null)
+                if (_toHeal != null)
                 {
                     response = "TKUtils.HealMe.Recovered";
                 }
 
-                if (toRestore != null)
+                if (_toRestore != null)
                 {
                     response = "TKUtils.HealMe.Restored";
                 }
@@ -106,19 +106,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var description = "";
 
-            if (toHeal != null)
+            if (_toHeal != null)
             {
                 description = "TKUtils.HealLetter.RecoveredDescription";
             }
 
-            if (toRestore != null)
+            if (_toRestore != null)
             {
                 description = "TKUtils.HealLetter.RestoredDescription";
             }
 
             if (!description.NullOrEmpty())
             {
-                Current.Game.letterStack.ReceiveLetter("TKUtils.HealLetter.Title".Localize(), description.LocalizeKeyed(Viewer.username, target), LetterDefOf.PositiveEvent, pawn);
+                Current.Game.letterStack.ReceiveLetter("TKUtils.HealLetter.Title".Localize(), description.LocalizeKeyed(Viewer.username, target), LetterDefOf.PositiveEvent, _pawn);
             }
         }
     }

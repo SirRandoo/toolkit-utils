@@ -32,8 +32,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class BuySurgery : IncidentVariablesBase
     {
-        private Appointment appointment;
-        private Map map;
+        private Appointment _appointment;
+        private Map _map;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
@@ -47,53 +47,56 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            appointment = Appointment.ParseInput(pawn, segments);
+            _appointment = Appointment.ParseInput(pawn, segments);
 
-            if (appointment.ThingDef == null || appointment.Item == null)
+            if (_appointment.ThingDef == null || _appointment.Item == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(partQuery));
 
                 return false;
             }
 
-            if (appointment.ThingDef.IsMedicine || appointment.Surgery == null)
+            if (_appointment.ThingDef.IsMedicine || _appointment.Surgery == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".LocalizeKeyed(partQuery));
 
                 return false;
             }
 
-            if (BuyItemSettings.mustResearchFirst && appointment.ThingDef.GetUnfinishedPrerequisites() is { } projects && projects.Count > 0)
+            if (BuyItemSettings.mustResearchFirst && _appointment.ThingDef.GetUnfinishedPrerequisites() is { } projects && projects.Count > 0)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.ResearchRequired".LocalizeKeyed(appointment.ThingDef.LabelCap.RawText, projects.Select(p => p.LabelCap.RawText).SectionJoin()));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.ResearchRequired".LocalizeKeyed(_appointment.ThingDef.LabelCap.RawText, projects.Select(p => p.LabelCap.RawText).SectionJoin())
+                );
 
                 return false;
             }
 
-            if (!viewer.CanAfford(appointment.Cost))
+            if (!viewer.CanAfford(_appointment.Cost))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(appointment.Cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_appointment.Cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
 
                 return false;
             }
 
-            if (appointment.Overflowed)
+            if (_appointment.Overflowed)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Overflowed".Localize());
 
                 return false;
             }
 
-            if (appointment.BodyParts.NullOrEmpty())
+            if (_appointment.BodyParts.NullOrEmpty())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.NoSlotAvailable".Localize());
 
                 return false;
             }
 
-            map = Current.Game.AnyPlayerHomeMap;
+            _map = Current.Game.AnyPlayerHomeMap;
 
-            if (map != null)
+            if (_map != null)
             {
                 return true;
             }
@@ -105,32 +108,32 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            if (map == null || appointment == null || Viewer == null)
+            if (_map == null || _appointment == null || Viewer == null)
             {
                 return;
             }
 
-            Thing thing = ThingMaker.MakeThing(appointment.ThingDef);
-            IntVec3 spot = DropCellFinder.TradeDropSpot(map);
+            Thing thing = ThingMaker.MakeThing(_appointment.ThingDef);
+            IntVec3 spot = DropCellFinder.TradeDropSpot(_map);
 
-            if (appointment.ThingDef.Minifiable)
+            if (_appointment.ThingDef.Minifiable)
             {
-                ThingDef minifiedDef = appointment.ThingDef.minifiedDef;
+                ThingDef minifiedDef = _appointment.ThingDef.minifiedDef;
                 var minifiedThing = (MinifiedThing)ThingMaker.MakeThing(minifiedDef);
                 minifiedThing.InnerThing = thing;
-                minifiedThing.stackCount = appointment.Quantity;
-                PurchaseHelper.SpawnItem(spot, map, minifiedThing);
+                minifiedThing.stackCount = _appointment.Quantity;
+                PurchaseHelper.SpawnItem(spot, _map, minifiedThing);
             }
             else
             {
-                thing.stackCount = appointment.Quantity;
-                PurchaseHelper.SpawnItem(spot, map, thing);
+                thing.stackCount = _appointment.Quantity;
+                PurchaseHelper.SpawnItem(spot, _map, thing);
             }
 
-            appointment.BookSurgeries();
-            Viewer.Charge(appointment.Cost, appointment.ItemData?.Weight ?? 1f, appointment.ItemData?.KarmaType ?? storeIncident.karmaType);
+            _appointment.BookSurgeries();
+            Viewer.Charge(_appointment.Cost, _appointment.ItemData?.Weight ?? 1f, _appointment.ItemData?.KarmaType ?? storeIncident.karmaType);
 
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Surgery.Complete".LocalizeKeyed(appointment.ThingDef.LabelCap));
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Surgery.Complete".LocalizeKeyed(_appointment.ThingDef.LabelCap));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.SurgeryLetter.Title".Localize(),

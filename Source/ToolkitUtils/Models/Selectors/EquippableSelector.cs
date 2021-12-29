@@ -25,24 +25,24 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class EquippableSelector : ISelectorBase<ThingItem>
     {
-        private string equippableText;
-        private bool state = true;
+        private string _equippableText;
+        private bool _state = true;
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            equippableText = "TKUtils.Fields.CanEquip".TranslateSimple();
+            _equippableText = "TKUtils.Fields.CanEquip".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, equippableText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _equippableText, ref _state))
             {
                 Dirty.Set(true);
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing.IsWeapon == state;
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing.IsWeapon == _state;
 
         public string Label => "TKUtils.Fields.CanEquip".TranslateSimple();
     }

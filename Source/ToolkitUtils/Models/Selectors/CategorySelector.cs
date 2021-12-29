@@ -25,23 +25,23 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class CategorySelector : ISelectorBase<ThingItem>
     {
+        private string _categoryText;
+        private string _excludeTooltip;
+        private string _includeTooltip;
         private protected string Category = "";
-        private string categoryText;
         private protected bool Exclude = true;
-        private string excludeTooltip;
-        private string includeTooltip;
 
         public void Prepare()
         {
-            categoryText = "TKUtils.Fields.Category".TranslateSimple();
-            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
-            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
+            _categoryText = "TKUtils.Fields.Category".TranslateSimple();
+            _excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
+            _includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, categoryText);
+            SettingsHelper.DrawLabel(label, _categoryText);
 
             if (SettingsHelper.DrawTextField(field, Category, out string input))
             {
@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 Dirty.Set(true);
             }
 
-            if (!SettingsHelper.DrawFieldButton(field, Exclude ? ResponseHelper.NotEqualGlyph : "=", Exclude ? includeTooltip : excludeTooltip))
+            if (!SettingsHelper.DrawFieldButton(field, Exclude ? ResponseHelper.NotEqualGlyph : "=", Exclude ? _includeTooltip : _excludeTooltip))
             {
                 return;
             }

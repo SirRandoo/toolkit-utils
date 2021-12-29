@@ -27,22 +27,22 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class WeightSelector : ISelectorBase<ThingItem>
     {
-        private ComparisonTypes comparison = ComparisonTypes.Equal;
-        private List<FloatMenuOption> comparisonOptions;
-        private int weight;
-        private string weightBuffer = "0";
-        private string weightText;
+        private ComparisonTypes _comparison = ComparisonTypes.Equal;
+        private List<FloatMenuOption> _comparisonOptions;
+        private int _weight;
+        private string _weightBuffer = "0";
+        private string _weightText;
 
         public void Prepare()
         {
-            weightText = "TKUtils.Fields.Weight".TranslateSimple();
+            _weightText = "TKUtils.Fields.Weight".TranslateSimple();
 
-            comparisonOptions = Data.ComparisonTypes.Select(
+            _comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption(
                         i.AsOperator(),
                         () =>
                         {
-                            comparison = i;
+                            _comparison = i;
                             Dirty.Set(true);
                         }
                     )
@@ -53,22 +53,22 @@ namespace SirRandoo.ToolkitUtils.Models
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, weightText);
+            SettingsHelper.DrawLabel(label, _weightText);
 
             (Rect button, Rect input) = field.ToForm(0.3f);
 
-            if (Widgets.ButtonText(button, comparison.AsOperator()))
+            if (Widgets.ButtonText(button, _comparison.AsOperator()))
             {
-                Find.WindowStack.Add(new FloatMenu(comparisonOptions));
+                Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
             }
 
-            if (!SettingsHelper.DrawNumberField(input, ref weight, ref weightBuffer, out int newCost))
+            if (!SettingsHelper.DrawNumberField(input, ref _weight, ref _weightBuffer, out int newCost))
             {
                 return;
             }
 
-            weight = newCost;
-            weightBuffer = newCost.ToString();
+            _weight = newCost;
+            _weightBuffer = newCost.ToString();
             Dirty.Set(true);
         }
 
@@ -76,18 +76,18 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible(TableSettingsItem<ThingItem> item)
         {
-            switch (comparison)
+            switch (_comparison)
             {
                 case ComparisonTypes.Greater:
-                    return item.Data.ItemData?.Weight > weight;
+                    return item.Data.ItemData?.Weight > _weight;
                 case ComparisonTypes.Equal:
-                    return Math.Abs(item.Data.ItemData?.Weight ?? 1f - weight) < 0.0003;
+                    return Math.Abs(item.Data.ItemData?.Weight ?? 1f - _weight) < 0.0003;
                 case ComparisonTypes.Less:
-                    return item.Data.ItemData?.Weight < weight;
+                    return item.Data.ItemData?.Weight < _weight;
                 case ComparisonTypes.GreaterEqual:
-                    return item.Data.ItemData?.Weight >= weight;
+                    return item.Data.ItemData?.Weight >= _weight;
                 case ComparisonTypes.LessEqual:
-                    return item.Data.ItemData?.Weight <= weight;
+                    return item.Data.ItemData?.Weight <= _weight;
                 default:
                     return false;
             }

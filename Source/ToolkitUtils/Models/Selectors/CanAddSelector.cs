@@ -25,17 +25,17 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class CanAddSelector : ISelectorBase<TraitItem>
     {
-        private string canAddText;
-        private bool state = true;
+        private string _canAddText;
+        private bool _state = true;
 
         public void Prepare()
         {
-            canAddText = "TKUtils.Fields.CanAdd".TranslateSimple();
+            _canAddText = "TKUtils.Fields.CanAdd".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, canAddText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _canAddText, ref _state))
             {
                 Dirty.Set(true);
             }
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item) => item.Data.CanAdd == state;
+        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item) => item.Data.CanAdd == _state;
 
         public string Label => "TKUtils.Fields.CanAdd".TranslateSimple();
     }

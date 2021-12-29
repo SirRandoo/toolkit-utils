@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class BuyItem : IncidentVariablesBase
     {
-        private PurchaseRequest purchaseRequest;
+        private PurchaseRequest _purchaseRequest;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
@@ -71,34 +71,34 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = viewer.GetMaximumPurchaseAmount(product.Thing.Cost);
             }
 
-            purchaseRequest = new PurchaseRequest
+            _purchaseRequest = new PurchaseRequest
             {
                 Proxy = product, Quantity = amount, Purchaser = viewer, Map = Helper.AnyPlayerMap
             };
 
-            if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
+            if (_purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Item.MinimumViolation".LocalizeKeyed(purchaseRequest.Price.ToString("N0"), ToolkitSettings.MinimumPurchasePrice.ToString("N0"))
+                    "TKUtils.Item.MinimumViolation".LocalizeKeyed(_purchaseRequest.Price.ToString("N0"), ToolkitSettings.MinimumPurchasePrice.ToString("N0"))
                 );
 
                 return false;
             }
 
-            if (purchaseRequest.Overflowed)
+            if (_purchaseRequest.Overflowed)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Overflowed".Localize());
 
                 return false;
             }
 
-            if (viewer.CanAfford(purchaseRequest.Price))
+            if (viewer.CanAfford(_purchaseRequest.Price))
             {
-                return purchaseRequest.Map != null;
+                return _purchaseRequest.Map != null;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(purchaseRequest.Price.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_purchaseRequest.Price.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
 
             return false;
         }
@@ -107,8 +107,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             try
             {
-                purchaseRequest.Spawn();
-                purchaseRequest.CompletePurchase(storeIncident);
+                _purchaseRequest.Spawn();
+                _purchaseRequest.CompletePurchase(storeIncident);
             }
             catch (Exception e)
             {
@@ -119,8 +119,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
     internal class PurchaseRequest
     {
-        private readonly List<Pawn> animalsForLetter = new List<Pawn>();
-        private bool sendAnimalLetter;
+        private readonly List<Pawn> _animalsForLetter = new List<Pawn>();
+        private bool _sendAnimalLetter;
 
         public int Price
         {
@@ -187,10 +187,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     Pawn pawn = PawnGenerator.GeneratePawn(request);
                     coordinator.TrySpawnAnimal(Map, pawn);
 
-                    animalsForLetter.Add(pawn);
+                    _animalsForLetter.Add(pawn);
                 }
 
-                sendAnimalLetter = true;
+                _sendAnimalLetter = true;
 
                 return;
             }
@@ -290,13 +290,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 );
             }
 
-            if (sendAnimalLetter)
+            if (_sendAnimalLetter)
             {
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.ItemLetter.Animal".LocalizeKeyed(Quantity > 1 ? Proxy.Thing.Thing.label.CapitalizeFirst().Pluralize() : Proxy.Thing.Thing.label.CapitalizeFirst()),
                     "LetterFarmAnimalsWanderIn".LocalizeKeyed(Proxy.Thing.Thing.label.Pluralize()),
                     LetterDefOf.NeutralEvent,
-                    new LookTargets(animalsForLetter)
+                    new LookTargets(_animalsForLetter)
                 );
             }
         }

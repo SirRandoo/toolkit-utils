@@ -33,12 +33,12 @@ namespace SirRandoo.ToolkitUtils.Workers
 {
     public class ArgWorker
     {
-        private readonly Queue<string> rawArguments;
-        private string lastArgument;
+        private readonly Queue<string> _rawArguments;
+        private string _lastArgument;
 
         private ArgWorker([NotNull] IEnumerable<string> rawArguments)
         {
-            this.rawArguments = new Queue<string>(rawArguments.Select(a => a.ToToolkit()));
+            _rawArguments = new Queue<string>(rawArguments.Select(a => a.ToToolkit()));
         }
 
         [NotNull]
@@ -52,19 +52,19 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public string GetNext()
         {
-            if (!rawArguments.TryDequeue(out string next))
+            if (!_rawArguments.TryDequeue(out string next))
             {
                 return null;
             }
 
-            lastArgument = next;
+            _lastArgument = next;
 
             return next;
         }
 
-        public string GetLast() => lastArgument;
+        public string GetLast() => _lastArgument;
 
-        public bool HasNext() => rawArguments.Count > 0;
+        public bool HasNext() => _rawArguments.Count > 0;
 
         public int GetNextAsInt(int minimum = 0, int maximum = int.MaxValue)
         {
@@ -112,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (trait == null)
             {
-                errorCallback.Invoke(lastArgument);
+                errorCallback.Invoke(_lastArgument);
             }
 
             return trait;
@@ -146,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (pawn == null)
             {
-                errorCallback.Invoke(lastArgument);
+                errorCallback.Invoke(_lastArgument);
             }
 
             return pawn;
@@ -182,7 +182,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (command == null)
             {
-                errorCallback.Invoke(lastArgument);
+                errorCallback.Invoke(_lastArgument);
             }
 
             return command;
@@ -220,7 +220,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (skill == null)
             {
-                errorCallback.Invoke(lastArgument);
+                errorCallback.Invoke(_lastArgument);
             }
 
             return skill;
@@ -334,7 +334,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (item == null)
             {
-                errorCallback.Invoke(lastArgument);
+                errorCallback.Invoke(_lastArgument);
             }
 
             return item;
@@ -368,7 +368,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (capacityDef == null)
             {
-                errorCallback.Invoke(lastArgument);
+                errorCallback.Invoke(_lastArgument);
             }
 
             return capacityDef;
@@ -409,7 +409,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (viewer == null)
             {
-                errorCallback.Invoke(lastArgument);
+                errorCallback.Invoke(_lastArgument);
             }
 
             return viewer;
@@ -444,7 +444,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (stat == null)
             {
-                errorCallback.Invoke(lastArgument);
+                errorCallback.Invoke(_lastArgument);
             }
 
             return stat;
@@ -480,7 +480,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (proj == null)
             {
-                errorCallback.Invoke(lastArgument);
+                errorCallback.Invoke(_lastArgument);
             }
 
             return proj;
@@ -517,7 +517,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 if (trait == null)
                 {
-                    errorCallback.Invoke(lastArgument);
+                    errorCallback.Invoke(_lastArgument);
 
                     break;
                 }
@@ -549,7 +549,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                 if (item == null)
                 {
-                    errorCallback.Invoke(lastArgument);
+                    errorCallback.Invoke(_lastArgument);
 
                     break;
                 }
@@ -560,7 +560,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public class ItemProxy
         {
-            private QualityCategory? quality;
+            private QualityCategory? _quality;
 
             public ThingItem Thing { get; set; }
             public ThingItem Stuff { get; set; }
@@ -568,7 +568,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             public QualityCategory? Quality
             {
-                get => quality;
+                get => _quality;
                 set
                 {
                     switch (value)
@@ -580,11 +580,11 @@ namespace SirRandoo.ToolkitUtils.Workers
                         case QualityCategory.Normal when Item.NormalQuality:
                         case QualityCategory.Poor when Item.PoorQuality:
                         case QualityCategory.Awful when Item.AwfulQuality:
-                            quality = value;
+                            _quality = value;
 
                             break;
                         default:
-                            quality = null;
+                            _quality = null;
 
                             break;
                     }

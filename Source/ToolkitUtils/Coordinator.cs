@@ -34,22 +34,22 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class Coordinator : GameComponent
     {
-        private readonly ConcurrentQueue<IncidentProxy> incidentQueue = new ConcurrentQueue<IncidentProxy>();
-        private readonly ConcurrentQueue<string> pendingSolvent = new ConcurrentQueue<string>();
-        private readonly List<ToolkitGateway> portals = new List<ToolkitGateway>();
+        private readonly ConcurrentQueue<IncidentProxy> _incidentQueue = new ConcurrentQueue<IncidentProxy>();
+        private readonly ConcurrentQueue<string> _pendingSolvent = new ConcurrentQueue<string>();
+        private readonly List<ToolkitGateway> _portals = new List<ToolkitGateway>();
 
-        private int lastMinute;
-        private int lastRefreshMinute;
-        private int rewardPeriodTracker;
+        private int _lastMinute;
+        private int _lastRefreshMinute;
+        private int _rewardPeriodTracker;
 
         public Coordinator(Game game) { }
 
-        internal bool HasActivePortals => portals.Count > 0;
+        internal bool HasActivePortals => _portals.Count > 0;
 
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
         internal bool TryGetRandomPortal(Map map, out ToolkitGateway portal)
         {
-            portals.Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
+            _portals.Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
 
             return portal != null;
         }
@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
         internal bool TryGetRandomItemPortal(Map map, out ToolkitGateway portal)
         {
-            portals.Where(p => p.ForItems).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
+            _portals.Where(p => p.ForItems).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
 
             return portal != null;
         }
@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
         internal bool TryGetRandomPawnPortal(Map map, out ToolkitGateway portal)
         {
-            portals.Where(p => p.ForPawns).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
+            _portals.Where(p => p.ForPawns).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
 
             return portal != null;
         }
@@ -73,7 +73,7 @@ namespace SirRandoo.ToolkitUtils
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
         internal bool TryGetRandomAnimalPortal(Map map, out ToolkitGateway portal)
         {
-            portals.Where(p => p.ForAnimals).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
+            _portals.Where(p => p.ForAnimals).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
 
             return portal != null;
         }
@@ -134,22 +134,22 @@ namespace SirRandoo.ToolkitUtils
 
         internal void RemovePortal(ToolkitGateway thing)
         {
-            portals.Remove(thing);
+            _portals.Remove(thing);
         }
 
         internal void RegisterPortal(ToolkitGateway thing)
         {
-            portals.Add(thing);
+            _portals.Add(thing);
         }
 
         internal void QueueIncident(IncidentProxy incident)
         {
-            incidentQueue.Enqueue(incident);
+            _incidentQueue.Enqueue(incident);
         }
 
         internal void NotifySolventRequested(string username)
         {
-            pendingSolvent.Enqueue(username);
+            _pendingSolvent.Enqueue(username);
         }
 
         public override void GameComponentUpdate()
@@ -180,28 +180,28 @@ namespace SirRandoo.ToolkitUtils
         {
             int currentMinute = GetCurrentMinute();
 
-            if (currentMinute > 0 && currentMinute % 5 == 0 && lastRefreshMinute != currentMinute)
+            if (currentMinute > 0 && currentMinute % 5 == 0 && _lastRefreshMinute != currentMinute)
             {
                 Viewers.RefreshViewers();
-                lastRefreshMinute = currentMinute;
+                _lastRefreshMinute = currentMinute;
                 LogHelper.Debug($"Refreshed viewers @ {DateTime.Now:T}");
             }
 
-            if (currentMinute <= lastMinute || currentMinute < 1)
+            if (currentMinute <= _lastMinute || currentMinute < 1)
             {
                 return;
             }
 
-            rewardPeriodTracker += 1;
-            lastMinute = currentMinute;
+            _rewardPeriodTracker += 1;
+            _lastMinute = currentMinute;
 
-            if (rewardPeriodTracker < ToolkitSettings.CoinInterval)
+            if (_rewardPeriodTracker < ToolkitSettings.CoinInterval)
             {
                 return;
             }
 
             Task.Run(() => Viewers.AwardViewersCoins());
-            rewardPeriodTracker = 0;
+            _rewardPeriodTracker = 0;
             LogHelper.Debug($"Awarded viewers coins @ {DateTime.Now:T}");
         }
 
@@ -212,9 +212,9 @@ namespace SirRandoo.ToolkitUtils
                 ProcessNextIncident();
             }
 
-            while (!pendingSolvent.IsEmpty)
+            while (!_pendingSolvent.IsEmpty)
             {
-                if (!pendingSolvent.TryDequeue(out string username))
+                if (!_pendingSolvent.TryDequeue(out string username))
                 {
                     break;
                 }
@@ -270,7 +270,7 @@ namespace SirRandoo.ToolkitUtils
 
         private void ProcessNextEvent()
         {
-            if (incidentQueue.IsEmpty || !incidentQueue.TryDequeue(out IncidentProxy incident))
+            if (_incidentQueue.IsEmpty || !_incidentQueue.TryDequeue(out IncidentProxy incident))
             {
                 return;
             }
@@ -280,7 +280,7 @@ namespace SirRandoo.ToolkitUtils
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref rewardPeriodTracker, "rewardPeriod", GetCurrentMinute());
+            Scribe_Values.Look(ref _rewardPeriodTracker, "rewardPeriod", GetCurrentMinute());
         }
 
         private static int GetCurrentMinute() => Mathf.FloorToInt(Time.unscaledTime / 60.0f);

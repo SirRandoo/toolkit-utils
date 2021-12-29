@@ -24,19 +24,19 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ResetDataMutator<T> : IMutatorBase<T> where T : class, IShopItemBase
     {
-        private string resetDataText;
+        private string _resetDataText;
         public int Priority => 10;
 
         public string Label => "TKUtils.Fields.ResetData".TranslateSimple();
 
         public void Prepare()
         {
-            resetDataText = "TKUtils.EditorMutator.ResetData".TranslateSimple();
+            _resetDataText = "TKUtils.EditorMutator.ResetData".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.DrawColoredLabel(canvas, resetDataText, new Color(1f, 0.53f, 0.76f));
+            SettingsHelper.DrawColoredLabel(canvas, _resetDataText, new Color(1f, 0.53f, 0.76f));
         }
 
         public void Mutate([NotNull] TableSettingsItem<T> item)

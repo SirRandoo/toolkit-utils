@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class PriceCheck : CommandBase
     {
-        private string invoker;
+        private string _invoker;
 
         private static bool CanRemoveTrait =>
             IncidentDefOf.RemoveTrait.cost > 0 || IncidentDefOf.ReplaceTrait.cost > 0 || IncidentDefOf.ClearTraits.cost > 0 || IncidentDefOf.SetTraits.cost > 0;
@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            invoker = msg.Username;
+            _invoker = msg.Username;
             string[] segments = CommandFilter.Parse(msg.Message).Skip(1).ToArray();
             string category = segments.FirstOrFallback("");
             string query = segments.Skip(1).FirstOrFallback("");
@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            MessageHelper.ReplyToUser(invoker, result);
+            MessageHelper.ReplyToUser(_invoker, result);
         }
 
         private void PerformAnimalLookup(string query, int quantity)
@@ -99,7 +99,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!PurchaseHelper.TryMultiply(item.Cost, quantity, out int result))
             {
-                MessageHelper.ReplyToUser(invoker, "TKUtils.Overflowed".Localize());
+                MessageHelper.ReplyToUser(_invoker, "TKUtils.Overflowed".Localize());
 
                 return;
             }
@@ -160,7 +160,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (item.TryGetError(out string error))
             {
-                MessageHelper.ReplyToUser(invoker, error);
+                MessageHelper.ReplyToUser(_invoker, error);
 
                 return;
             }
@@ -169,7 +169,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!PurchaseHelper.TryMultiply(price, quantity, out int total))
             {
-                MessageHelper.ReplyToUser(invoker, "TKUtils.Overflowed".Localize());
+                MessageHelper.ReplyToUser(_invoker, "TKUtils.Overflowed".Localize());
 
                 return;
             }

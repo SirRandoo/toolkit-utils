@@ -25,36 +25,36 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class DefNameSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     {
-        private string defName = "";
-        private string defNameText;
-        private bool exclude = true;
-        private string excludeTooltip;
-        private string includeTooltip;
+        private string _defName = "";
+        private string _defNameText;
+        private bool _exclude = true;
+        private string _excludeTooltip;
+        private string _includeTooltip;
 
         public void Prepare()
         {
-            defNameText = "TKUtils.Fields.DefName".TranslateSimple();
-            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
-            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
+            _defNameText = "TKUtils.Fields.DefName".TranslateSimple();
+            _excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
+            _includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, defNameText);
+            SettingsHelper.DrawLabel(label, _defNameText);
 
-            if (SettingsHelper.DrawTextField(field, defName, out string input))
+            if (SettingsHelper.DrawTextField(field, _defName, out string input))
             {
-                defName = input;
+                _defName = input;
                 Dirty.Set(true);
             }
 
-            if (!SettingsHelper.DrawFieldButton(field, exclude ? ResponseHelper.NotEqualGlyph : "=", exclude ? includeTooltip : excludeTooltip))
+            if (!SettingsHelper.DrawFieldButton(field, _exclude ? ResponseHelper.NotEqualGlyph : "=", _exclude ? _includeTooltip : _excludeTooltip))
             {
                 return;
             }
 
-            exclude = !exclude;
+            _exclude = !_exclude;
             Dirty.Set(true);
         }
 
@@ -62,14 +62,14 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible(TableSettingsItem<T> item)
         {
-            if (defName.NullOrEmpty())
+            if (_defName.NullOrEmpty())
             {
                 return false;
             }
 
-            bool shouldShow = item.Data.DefName.Equals(defName);
+            bool shouldShow = item.Data.DefName.Equals(_defName);
 
-            return exclude ? !shouldShow : shouldShow;
+            return _exclude ? !shouldShow : shouldShow;
         }
 
         public string Label => "TKUtils.Fields.DefName".TranslateSimple();

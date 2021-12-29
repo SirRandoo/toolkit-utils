@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class CanAddMutator : IMutatorBase<TraitItem>
     {
-        private string canAddText;
-        private bool state;
+        private string _canAddText;
+        private bool _state;
 
         public int Priority => 1;
 
@@ -33,17 +33,17 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            canAddText = "TKUtils.Fields.CanAdd".TranslateSimple();
+            _canAddText = "TKUtils.Fields.CanAdd".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
         {
-            item.Data.CanAdd = state;
+            item.Data.CanAdd = _state;
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.LabeledPaintableCheckbox(canvas, canAddText, ref state);
+            SettingsHelper.LabeledPaintableCheckbox(canvas, _canAddText, ref _state);
         }
     }
 }

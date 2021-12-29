@@ -23,27 +23,27 @@ namespace SirRandoo.ToolkitUtils
 {
     public class PersonaDef : ThingComp
     {
-        private string lastUsername;
-        private string linkedId;
-        private UserData userData;
+        private string _lastUsername;
+        private string _linkedId;
+        private UserData _userData;
 
         public override void PostExposeData()
         {
-            Scribe_Values.Look(ref linkedId, "linkedUserId");
-            Scribe_Values.Look(ref lastUsername, "lastUsername");
+            Scribe_Values.Look(ref _linkedId, "linkedUserId");
+            Scribe_Values.Look(ref _lastUsername, "lastUsername");
         }
 
         [NotNull]
         public override string GetDescriptionPart()
         {
-            userData ??= UserRegistry.GetData(linkedId);
-            lastUsername = userData?.DisplayName ?? userData?.Username;
+            _userData ??= UserRegistry.GetData(_linkedId);
+            _lastUsername = _userData?.DisplayName ?? _userData?.Username;
 
             var builder = new StringBuilder();
             builder.Append(base.GetDescriptionPart());
 
             builder.Append("\n\n");
-            builder.Append("TKUtils.Persona.Linked".Translate(lastUsername));
+            builder.Append("TKUtils.Persona.Linked".Translate(_lastUsername));
 
             return builder.ToString();
         }

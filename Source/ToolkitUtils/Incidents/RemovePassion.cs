@@ -30,12 +30,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class RemovePassion : IncidentVariablesBase
     {
-        private Pawn pawn;
-        private SkillRecord target;
+        private Pawn _pawn;
+        private SkillRecord _target;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
@@ -49,21 +49,21 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            target = pawn!.skills.skills.Where(s => !s.TotallyDisabled)
+            _target = _pawn!.skills.skills.Where(s => !s.TotallyDisabled)
                .FirstOrDefault(
                     s => s.def.defName.EqualsIgnoreCase(query!.ToToolkit())
                          || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                          || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                 );
 
-            if (target == null)
+            if (_target == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(query));
 
                 return false;
             }
 
-            if ((int)target.passion is { } passion && passion > 0 && passion < 3)
+            if ((int)_target.passion is { } passion && passion > 0 && passion < 3)
             {
                 return true;
             }
@@ -77,9 +77,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (!IncidentSettings.RemovePassion.Randomness)
             {
-                target.passion = (Passion)Mathf.Clamp((int)target.passion - 1, 0, 2);
+                _target.passion = (Passion)Mathf.Clamp((int)_target.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
-                NotifySuccess(target);
+                NotifySuccess(_target);
 
                 return;
             }
@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (IncidentSettings.RemovePassion.ChanceToFail.ToChance())
             {
                 Viewer.Charge(storeIncident);
-                NotifyFailed(target);
+                NotifyFailed(_target);
 
                 return;
             }
@@ -96,16 +96,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 skill!.passion = (Passion)Mathf.Clamp((int)skill.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
-                NotifyHopped(target, skill);
+                NotifyHopped(_target, skill);
 
                 return;
             }
 
-            if (IncidentSettings.RemovePassion.ChanceToIncrease.ToChance() && (int)target.passion < (int)Passion.Major)
+            if (IncidentSettings.RemovePassion.ChanceToIncrease.ToChance() && (int)_target.passion < (int)Passion.Major)
             {
-                target.passion = (Passion)Mathf.Clamp((int)target.passion - 1, 0, 2);
+                _target.passion = (Passion)Mathf.Clamp((int)_target.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
-                NotifyIncrease(target);
+                NotifyIncrease(_target);
 
                 return;
             }
@@ -114,14 +114,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 skill!.passion = (Passion)Mathf.Clamp((int)skill.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
-                NotifyIncreaseHopped(target, skill);
+                NotifyIncreaseHopped(_target, skill);
 
                 return;
             }
 
-            target.passion = (Passion)Mathf.Clamp((int)target.passion - 1, 0, 2);
+            _target.passion = (Passion)Mathf.Clamp((int)_target.passion - 1, 0, 2);
             Viewer.Charge(storeIncident);
-            NotifySuccess(target);
+            NotifySuccess(_target);
         }
 
         private void NotifySuccess([NotNull] SkillRecord skill)
@@ -132,7 +132,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 "TKUtils.PassionLetter.Title".Localize(),
                 "TKUtils.PassionLetter.SuccessDescription".LocalizeKeyed(Viewer.username, skill.def.label),
                 LetterDefOf.NeutralEvent,
-                pawn
+                _pawn
             );
         }
 
@@ -144,7 +144,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 "TKUtils.PassionLetter.Title".Localize(),
                 "TKUtils.PassionLetter.IncreaseDescription".LocalizeKeyed(Viewer.username, skill.def.label),
                 LetterDefOf.NeutralEvent,
-                pawn
+                _pawn
             );
         }
 
@@ -156,7 +156,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 "TKUtils.PassionLetter.Title".Localize(),
                 "TKUtils.PassionLetter.FailedDescription".LocalizeKeyed(Viewer.username, skill.def.label),
                 LetterDefOf.NeutralEvent,
-                pawn
+                _pawn
             );
         }
 
@@ -168,7 +168,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 "TKUtils.PassionLetter.Title".Localize(),
                 "TKUtils.PassionLetter.RemoveHoppedDescription".LocalizeKeyed(Viewer.username, viewerSkill.def.label, randomSkill.def.label),
                 LetterDefOf.NeutralEvent,
-                pawn
+                _pawn
             );
         }
 
@@ -180,14 +180,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 "TKUtils.PassionLetter.Title".Localize(),
                 "TKUtils.PassionLetter.IncreaseHoppedDescription".LocalizeKeyed(Viewer.username, viewerSkill.def.label, randomSkill.def.label),
                 LetterDefOf.NeutralEvent,
-                pawn
+                _pawn
             );
         }
 
         [ContractAnnotation("=> true,skill:notnull; => false,skill:null")]
         private bool TryGetEligibleSkill(out SkillRecord skill, bool forDecrease = false)
         {
-            IEnumerable<SkillRecord> filters = pawn.skills.skills.Where(s => s != target && !s.TotallyDisabled);
+            IEnumerable<SkillRecord> filters = _pawn.skills.skills.Where(s => s != _target && !s.TotallyDisabled);
 
             skill = (forDecrease
                 ? filters.Where(

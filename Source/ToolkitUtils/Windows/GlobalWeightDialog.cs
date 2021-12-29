@@ -27,25 +27,25 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class GlobalWeightDialog : Window_GlobalVoteWeights
     {
-        private readonly Dictionary<string, string> bufferCache = new Dictionary<string, string>();
-        private readonly List<VotingIncident> incidents;
+        private readonly Dictionary<string, string> _bufferCache = new Dictionary<string, string>();
+        private readonly List<VotingIncident> _incidents;
 
-        private string headerText;
-        private string nullDictText;
-        private int totalWeights = 1;
-        private Vector2 weightScrollPos = Vector2.zero;
+        private string _headerText;
+        private string _nullDictText;
+        private int _totalWeights = 1;
+        private Vector2 _weightScrollPos = Vector2.zero;
 
         public GlobalWeightDialog()
         {
             doCloseX = true;
             doCloseButton = false;
-            incidents = DefDatabase<VotingIncident>.AllDefsListForReading;
+            _incidents = DefDatabase<VotingIncident>.AllDefsListForReading;
         }
 
         public override void PostOpen()
         {
-            nullDictText = "TKUtils.GlobalWeights.Null".Localize();
-            headerText = "TKUtils.Headers.GlobalWeights".Localize();
+            _nullDictText = "TKUtils.GlobalWeights.Null".Localize();
+            _headerText = "TKUtils.Headers.GlobalWeights".Localize();
         }
 
         public override void DoWindowContents(Rect region)
@@ -54,13 +54,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             var noticeRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
             Rect weightsRect = new Rect(0f, noticeRect.height + 5f, region.width, region.height - noticeRect.height - 5f).ContractedBy(4f);
-            SettingsHelper.DrawLabel(noticeRect, headerText);
+            SettingsHelper.DrawLabel(noticeRect, _headerText);
 
             GUI.BeginGroup(weightsRect);
 
             if (ToolkitSettings.VoteWeights == null)
             {
-                SettingsHelper.DrawColoredLabel(weightsRect.AtZero(), nullDictText, ColorLibrary.Lavender, TextAnchor.MiddleCenter);
+                SettingsHelper.DrawColoredLabel(weightsRect.AtZero(), _nullDictText, ColorLibrary.Lavender, TextAnchor.MiddleCenter);
                 ToolkitSettings.VoteWeights ??= new Dictionary<string, int>();
             }
             else
@@ -75,16 +75,16 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawIncidentWeights(Rect region)
         {
-            var viewPort = new Rect(0f, 0f, region.width - 16f, Text.SmallFontHeight * incidents.Count);
+            var viewPort = new Rect(0f, 0f, region.width - 16f, Text.SmallFontHeight * _incidents.Count);
             var total = 0;
 
             GUI.BeginGroup(region);
-            Widgets.BeginScrollView(region, ref weightScrollPos, viewPort);
+            Widgets.BeginScrollView(region, ref _weightScrollPos, viewPort);
 
-            for (var index = 0; index < incidents.Count; index++)
+            for (var index = 0; index < _incidents.Count; index++)
             {
-                VotingIncident incident = incidents[index];
-                var relativeWeight = (float)Math.Round(incident.voteWeight / (double)totalWeights * 100f, 2);
+                VotingIncident incident = _incidents[index];
+                var relativeWeight = (float)Math.Round(incident.voteWeight / (double)_totalWeights * 100f, 2);
 
                 var lineRect = new Rect(0f, index * Text.SmallFontHeight, viewPort.width, Text.SmallFontHeight);
                 (Rect labelRect, Rect inputRect) = lineRect.ToForm(0.7f);
@@ -96,14 +96,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                 if (weight != incident.voteWeight)
                 {
                     incident.voteWeight = weight;
-                    bufferCache[incident.defName] = incident.voteWeight.ToString();
+                    _bufferCache[incident.defName] = incident.voteWeight.ToString();
                 }
 
                 string buffer = null;
 
-                if (!bufferCache.TryGetValue(incident.defName, out string value))
+                if (!_bufferCache.TryGetValue(incident.defName, out string value))
                 {
-                    bufferCache[incident.defName] = value = buffer = incident.voteWeight.ToString();
+                    _bufferCache[incident.defName] = value = buffer = incident.voteWeight.ToString();
                 }
 
                 buffer ??= value;
@@ -114,13 +114,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (buffer != value)
                 {
-                    bufferCache[incident.defName] = buffer;
+                    _bufferCache[incident.defName] = buffer;
                 }
 
                 total += incident.voteWeight;
             }
 
-            totalWeights = total;
+            _totalWeights = total;
             Widgets.EndScrollView();
             GUI.EndGroup();
         }

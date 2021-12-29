@@ -29,42 +29,42 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class NameQueueDialog : Window
     {
-        private readonly List<Pawn> allPawns;
-        private readonly GameComponentPawns pawnComponent;
-        private string applyText;
+        private readonly List<Pawn> _allPawns;
+        private readonly GameComponentPawns _pawnComponent;
+        private string _applyText;
 
-        private float applyTextWidth;
-        private string assignedText;
-        private string assignedTooltip;
-        private string assignedToText;
-        private float assignedToTextWidth;
-        private string banViewerTooltip;
-        private string configureViewerTooltip;
-        private string countText;
-        private Pawn current;
+        private float _applyTextWidth;
+        private string _assignedText;
+        private string _assignedTooltip;
+        private string _assignedToText;
+        private float _assignedToTextWidth;
+        private string _banViewerTooltip;
+        private string _configureViewerTooltip;
+        private string _countText;
+        private Pawn _current;
 
-        private Texture2D currentDiceSide;
-        private string emptyQueueText;
-        private string lastSeenText;
-        private string nextTooltip;
-        private string notifyText;
-        private float notifyTextWidth;
-        private string notSeenText;
-        private string pawnTooltip;
-        private string previousTooltip;
-        private string randomTooltip;
-        private string removeViewerTooltip;
-        private Vector2 scrollPos = Vector2.zero;
-        private float timestamp;
+        private Texture2D _currentDiceSide;
+        private string _emptyQueueText;
+        private string _lastSeenText;
+        private string _nextTooltip;
+        private string _notifyText;
+        private float _notifyTextWidth;
+        private string _notSeenText;
+        private string _pawnTooltip;
+        private string _previousTooltip;
+        private string _randomTooltip;
+        private string _removeViewerTooltip;
+        private Vector2 _scrollPos = Vector2.zero;
+        private float _timestamp;
 
-        private string unassignedText;
-        private string unassignedTooltip;
-        private bool userFromButton;
-        private string username;
-        private Rect usernameFieldPosition;
-        private Viewer viewer;
-        private string viewerDrawnText;
-        private string viewerTooltip;
+        private string _unassignedText;
+        private string _unassignedTooltip;
+        private bool _userFromButton;
+        private string _username;
+        private Rect _usernameFieldPosition;
+        private Viewer _viewer;
+        private string _viewerDrawnText;
+        private string _viewerTooltip;
 
         public NameQueueDialog()
         {
@@ -72,12 +72,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             doCloseX = true;
             forcePause = true;
-            pawnComponent = Current.Game.GetComponent<GameComponentPawns>();
+            _pawnComponent = Current.Game.GetComponent<GameComponentPawns>();
 
-            allPawns = Find.ColonistBar.Entries.Select(e => e.pawn).ToList();
-            currentDiceSide = Textures.DiceSides.RandomElement();
+            _allPawns = Find.ColonistBar.Entries.Select(e => e.pawn).ToList();
+            _currentDiceSide = Textures.DiceSides.RandomElement();
 
-            current = allPawns.FirstOrDefault(p => !pawnComponent.HasPawnBeenNamed(p)) ?? allPawns.FirstOrDefault();
+            _current = _allPawns.FirstOrDefault(p => !_pawnComponent.HasPawnBeenNamed(p)) ?? _allPawns.FirstOrDefault();
             Notify__CurrentPawnChanged();
         }
 
@@ -86,29 +86,29 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslations()
         {
-            emptyQueueText = "TKUtils.NameQueue.None".Localize();
-            assignedText = "TKUtils.NameQueue.Assigned".Localize();
-            unassignedText = "TKUtils.NameQueue.Unassigned".Localize();
-            applyText = "TKUtils.Buttons.Apply".Localize();
-            countText = "TKUtils.NameQueue.Count".Localize();
-            viewerTooltip = "TKUtils.NameQueueTooltips.ViewerName".Localize();
-            unassignedTooltip = "TKUtils.NameQueueTooltips.Unassigned".Localize();
-            assignedTooltip = "TKUtils.NameQueueTooltips.Assigned".Localize();
-            nextTooltip = "TKUtils.NameQueueTooltips.Next".Localize();
-            previousTooltip = "TKUtils.NameQueueTooltips.Previous".Localize();
-            pawnTooltip = "TKUtils.NameQueueTooltips.Pawn".Localize();
-            randomTooltip = "TKUtils.NameQueueTooltips.Random".Localize();
-            assignedToText = "TKUtils.NameQueue.AssignedTo".Localize();
-            notifyText = "TKUtils.Buttons.Notify".Localize();
-            notSeenText = "TKUtils.NameQueue.NotSeen".Localize();
-            viewerDrawnText = "TKUtils.ViewerDrawn".Localize();
-            banViewerTooltip = "TKUtils.NameQueueTooltips.Ban".Localize();
-            removeViewerTooltip = "TKUtils.NameQueueTooltips.Remove".Localize();
-            configureViewerTooltip = "TKUtils.NameQueueTooltips.Configure".Localize();
+            _emptyQueueText = "TKUtils.NameQueue.None".Localize();
+            _assignedText = "TKUtils.NameQueue.Assigned".Localize();
+            _unassignedText = "TKUtils.NameQueue.Unassigned".Localize();
+            _applyText = "TKUtils.Buttons.Apply".Localize();
+            _countText = "TKUtils.NameQueue.Count".Localize();
+            _viewerTooltip = "TKUtils.NameQueueTooltips.ViewerName".Localize();
+            _unassignedTooltip = "TKUtils.NameQueueTooltips.Unassigned".Localize();
+            _assignedTooltip = "TKUtils.NameQueueTooltips.Assigned".Localize();
+            _nextTooltip = "TKUtils.NameQueueTooltips.Next".Localize();
+            _previousTooltip = "TKUtils.NameQueueTooltips.Previous".Localize();
+            _pawnTooltip = "TKUtils.NameQueueTooltips.Pawn".Localize();
+            _randomTooltip = "TKUtils.NameQueueTooltips.Random".Localize();
+            _assignedToText = "TKUtils.NameQueue.AssignedTo".Localize();
+            _notifyText = "TKUtils.Buttons.Notify".Localize();
+            _notSeenText = "TKUtils.NameQueue.NotSeen".Localize();
+            _viewerDrawnText = "TKUtils.ViewerDrawn".Localize();
+            _banViewerTooltip = "TKUtils.NameQueueTooltips.Ban".Localize();
+            _removeViewerTooltip = "TKUtils.NameQueueTooltips.Remove".Localize();
+            _configureViewerTooltip = "TKUtils.NameQueueTooltips.Configure".Localize();
 
-            applyTextWidth = Text.CalcSize(applyText).x + 16f;
-            notifyTextWidth = Text.CalcSize(notifyText).x + 16f;
-            assignedToTextWidth = Text.CalcSize(assignedToText).x + 16f;
+            _applyTextWidth = Text.CalcSize(_applyText).x + 16f;
+            _notifyTextWidth = Text.CalcSize(_notifyText).x + 16f;
+            _assignedToTextWidth = Text.CalcSize(_assignedToText).x + 16f;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -141,34 +141,34 @@ namespace SirRandoo.ToolkitUtils.Windows
             var randomRect = new Rect(queueRect.width - Text.LineHeight, noticeRect.y, Text.LineHeight, Text.LineHeight);
             var nameQueueRect = new Rect(0f, noticeRect.height + 5f, queueRect.width, queueRect.height - Text.LineHeight - 5f);
             var queueInnerRect = new Rect(0f, 0f, nameQueueRect.width, nameQueueRect.height);
-            var queueView = new Rect(0f, 0f, nameQueueRect.width - 16f, Text.LineHeight * pawnComponent.viewerNameQueue.Count);
+            var queueView = new Rect(0f, 0f, nameQueueRect.width - 16f, Text.LineHeight * _pawnComponent.viewerNameQueue.Count);
 
             if (queueView.height <= nameQueueRect.height)
             {
                 queueView.height += 16;
             }
 
-            if (pawnComponent.ViewerNameQueue.Count <= 0)
+            if (_pawnComponent.ViewerNameQueue.Count <= 0)
             {
-                Widgets.Label(noticeRect, emptyQueueText);
+                Widgets.Label(noticeRect, _emptyQueueText);
                 GUI.EndGroup();
 
                 return;
             }
 
-            Widgets.Label(noticeRect, $"{pawnComponent.ViewerNameQueue.Count:N0} {countText}");
-            TooltipHandler.TipRegion(randomRect, randomTooltip);
+            Widgets.Label(noticeRect, $"{_pawnComponent.ViewerNameQueue.Count:N0} {_countText}");
+            TooltipHandler.TipRegion(randomRect, _randomTooltip);
 
-            if (Widgets.ButtonImage(randomRect, currentDiceSide))
+            if (Widgets.ButtonImage(randomRect, _currentDiceSide))
             {
-                username = pawnComponent.ViewerNameQueue.RandomElement();
-                userFromButton = true;
-                viewer = Viewers.GetViewer(username);
+                _username = _pawnComponent.ViewerNameQueue.RandomElement();
+                _userFromButton = true;
+                _viewer = Viewers.GetViewer(_username);
                 UpdateLastSeenText();
             }
 
             GUI.BeginGroup(nameQueueRect);
-            Widgets.BeginScrollView(queueInnerRect, ref scrollPos, queueView);
+            Widgets.BeginScrollView(queueInnerRect, ref _scrollPos, queueView);
             listing.Begin(queueView);
             DrawNameQueue(listing);
 
@@ -181,19 +181,19 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void UpdateLastSeenText()
         {
-            if (viewer?.last_seen == null)
+            if (_viewer?.last_seen == null)
             {
-                lastSeenText = notSeenText;
+                _lastSeenText = _notSeenText;
             }
 
-            TimeSpan diff = DateTime.Now - viewer!.last_seen;
+            TimeSpan diff = DateTime.Now - _viewer!.last_seen;
 
             if (diff.TotalHours >= 2)
             {
-                lastSeenText = notSeenText;
+                _lastSeenText = _notSeenText;
             }
 
-            lastSeenText = "TKUtils.NameQueue.LastSeen".LocalizeKeyed(diff.TotalMinutes.ToString("N2"));
+            _lastSeenText = "TKUtils.NameQueue.LastSeen".LocalizeKeyed(diff.TotalMinutes.ToString("N2"));
         }
 
         private void DrawContent(Rect contentRect)
@@ -202,35 +202,35 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.Begin(contentRect);
 
             Rect usernameRect = listing.GetRect(Text.LineHeight);
-            (Rect usernameLabel, Rect usernameFieldHalf) = usernameRect.ToForm(assignedToTextWidth / usernameRect.width);
-            SettingsHelper.DrawLabel(usernameLabel, assignedToText);
+            (Rect usernameLabel, Rect usernameFieldHalf) = usernameRect.ToForm(_assignedToTextWidth / usernameRect.width);
+            SettingsHelper.DrawLabel(usernameLabel, _assignedToText);
 
-            usernameFieldPosition = new Rect(usernameFieldHalf.x, usernameFieldHalf.y, usernameFieldHalf.width - applyTextWidth - 5f, usernameFieldHalf.height);
-            username = Widgets.TextField(usernameFieldPosition, username).ToToolkit();
+            _usernameFieldPosition = new Rect(usernameFieldHalf.x, usernameFieldHalf.y, usernameFieldHalf.width - _applyTextWidth - 5f, usernameFieldHalf.height);
+            _username = Widgets.TextField(_usernameFieldPosition, _username).ToToolkit();
 
-            if (username.Length > 0 && SettingsHelper.DrawClearButton(usernameFieldPosition))
+            if (_username.Length > 0 && SettingsHelper.DrawClearButton(_usernameFieldPosition))
             {
-                username = "";
-                userFromButton = false;
-                viewer = null;
-                lastSeenText = null;
+                _username = "";
+                _userFromButton = false;
+                _viewer = null;
+                _lastSeenText = null;
             }
 
-            if (viewer != null && !viewer.username.EqualsIgnoreCase(username))
+            if (_viewer != null && !_viewer.username.EqualsIgnoreCase(_username))
             {
-                userFromButton = false;
-                viewer = null;
-                lastSeenText = null;
+                _userFromButton = false;
+                _viewer = null;
+                _lastSeenText = null;
             }
 
-            var usernameApply = new Rect(usernameFieldPosition.x + usernameFieldPosition.width + 5f, usernameFieldPosition.y, applyTextWidth, Text.LineHeight);
+            var usernameApply = new Rect(_usernameFieldPosition.x + _usernameFieldPosition.width + 5f, _usernameFieldPosition.y, _applyTextWidth, Text.LineHeight);
 
-            if (Widgets.ButtonText(usernameApply, applyText))
+            if (Widgets.ButtonText(usernameApply, _applyText))
             {
                 AssignColonist();
             }
 
-            if (!userFromButton || viewer == null)
+            if (!_userFromButton || _viewer == null)
             {
                 listing.End();
 
@@ -239,13 +239,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.GapLine(36f);
             Rect seenAtLine = listing.GetRect(Text.LineHeight * 2f);
-            seenAtLine = seenAtLine.WithWidth(seenAtLine.width - 5f - notifyTextWidth);
-            var notifyButton = new Rect(seenAtLine.x + seenAtLine.width + 5f, seenAtLine.y, notifyTextWidth, Mathf.FloorToInt(seenAtLine.height / 2f));
-            SettingsHelper.DrawLabel(seenAtLine, lastSeenText);
+            seenAtLine = seenAtLine.WithWidth(seenAtLine.width - 5f - _notifyTextWidth);
+            var notifyButton = new Rect(seenAtLine.x + seenAtLine.width + 5f, seenAtLine.y, _notifyTextWidth, Mathf.FloorToInt(seenAtLine.height / 2f));
+            SettingsHelper.DrawLabel(seenAtLine, _lastSeenText);
 
-            if (Widgets.ButtonText(notifyButton, notifyText))
+            if (Widgets.ButtonText(notifyButton, _notifyText))
             {
-                MessageHelper.ReplyToUser(viewer.username, viewerDrawnText);
+                MessageHelper.ReplyToUser(_viewer.username, _viewerDrawnText);
             }
 
             listing.End();
@@ -253,9 +253,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawNameQueue(Listing listing)
         {
-            for (var index = 0; index < pawnComponent.ViewerNameQueue.Count; index++)
+            for (var index = 0; index < _pawnComponent.ViewerNameQueue.Count; index++)
             {
-                string name = pawnComponent.ViewerNameQueue[index];
+                string name = _pawnComponent.ViewerNameQueue[index];
 
                 Rect line = listing.GetRect(Text.LineHeight);
                 var buttonRect = new Rect(line.x + line.width - line.height * 3f, line.y, line.height * 3f, line.height);
@@ -266,7 +266,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(line);
                 }
 
-                if (name.EqualsIgnoreCase(username))
+                if (name.EqualsIgnoreCase(_username))
                 {
                     Widgets.DrawHighlightSelected(line);
                 }
@@ -283,7 +283,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonInvisible(nameRect))
             {
-                username = name.ToLowerInvariant();
+                _username = name.ToLowerInvariant();
             }
 
             if (Widgets.ButtonImage(buttonTemplateRect, Textures.Gear))
@@ -291,7 +291,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 OpenViewerDetailsFor(name);
             }
 
-            buttonTemplateRect.TipRegion(configureViewerTooltip);
+            buttonTemplateRect.TipRegion(_configureViewerTooltip);
             buttonTemplateRect = buttonTemplateRect.ShiftRight(0f);
 
             var remove = false;
@@ -302,7 +302,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 remove = true;
             }
 
-            buttonTemplateRect.TipRegion(banViewerTooltip);
+            buttonTemplateRect.TipRegion(_banViewerTooltip);
 
             buttonTemplateRect = buttonTemplateRect.ShiftRight(0f);
 
@@ -311,13 +311,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                 remove = true;
             }
 
-            buttonTemplateRect.TipRegion(removeViewerTooltip);
+            buttonTemplateRect.TipRegion(_removeViewerTooltip);
 
             if (remove)
             {
                 try
                 {
-                    pawnComponent.ViewerNameQueue.RemoveAt(index);
+                    _pawnComponent.ViewerNameQueue.RemoveAt(index);
                 }
                 catch (IndexOutOfRangeException) { }
             }
@@ -342,21 +342,21 @@ namespace SirRandoo.ToolkitUtils.Windows
             var stateRect = new Rect(5f, viewerRect.y + viewerRect.height + 2f, canvas.width - 10f, Text.LineHeight);
 
             Widgets.DrawMenuSection(canvas);
-            TooltipHandler.TipRegion(nextRect, nextTooltip);
-            TooltipHandler.TipRegion(previousRect, previousTooltip);
-            TooltipHandler.TipRegion(colonistRect, pawnTooltip);
+            TooltipHandler.TipRegion(nextRect, _nextTooltip);
+            TooltipHandler.TipRegion(previousRect, _previousTooltip);
+            TooltipHandler.TipRegion(colonistRect, _pawnTooltip);
 
-            if (allPawns.Count > 1 && Widgets.ButtonImage(previousRect, TexUI.ArrowTexLeft))
+            if (_allPawns.Count > 1 && Widgets.ButtonImage(previousRect, TexUI.ArrowTexLeft))
             {
                 GoToPreviousPawn();
             }
 
-            if (allPawns.Count > 1 && Widgets.ButtonImage(nextRect, TexUI.ArrowTexRight))
+            if (_allPawns.Count > 1 && Widgets.ButtonImage(nextRect, TexUI.ArrowTexRight))
             {
                 GoToNextPawn();
             }
 
-            if (current == null)
+            if (_current == null)
             {
                 return;
             }
@@ -372,7 +372,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 )
             );
         #else
-            GUI.DrawTexture(colonistRect, PortraitsCache.Get(current, ColonistBarColonistDrawer.PawnTextureSize, Rot4.South, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
+            GUI.DrawTexture(colonistRect, PortraitsCache.Get(_current, ColonistBarColonistDrawer.PawnTextureSize, Rot4.South, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
         #endif
             Widgets.DrawHighlightIfMouseover(colonistRect);
 
@@ -381,28 +381,28 @@ namespace SirRandoo.ToolkitUtils.Windows
                 OpenInfoDialog();
             }
 
-            if (!(current.Name is NameTriple name))
+            if (!(_current.Name is NameTriple name))
             {
                 return;
             }
 
-            bool viewerAssigned = pawnComponent.pawnHistory.Any(pair => pair.Key.Equals(name.Nick, StringComparison.InvariantCultureIgnoreCase) && pair.Value == current);
+            bool viewerAssigned = _pawnComponent.pawnHistory.Any(pair => pair.Key.Equals(name.Nick, StringComparison.InvariantCultureIgnoreCase) && pair.Value == _current);
             SettingsHelper.DrawFittedLabel(nameRect, $"{name.First} {name.Last}", TextAnchor.MiddleCenter);
             SettingsHelper.DrawFittedLabel(viewerRect, name.Nick?.CapitalizeFirst(), TextAnchor.MiddleCenter);
 
             DoStateMouseActions(stateRect, viewerAssigned, name.Nick);
-            TooltipHandler.TipRegion(viewerRect, viewerTooltip);
+            TooltipHandler.TipRegion(viewerRect, _viewerTooltip);
             Widgets.DrawHighlightIfMouseover(viewerRect);
 
             if (!name.Nick.NullOrEmpty() && Widgets.ButtonInvisible(viewerRect))
             {
-                username = name.Nick;
+                _username = name.Nick;
             }
         }
 
         private void OpenInfoDialog()
         {
-            var infoCard = new Dialog_InfoCard(current);
+            var infoCard = new Dialog_InfoCard(_current);
         #if RW12
             infoCard.SetTab(Dialog_InfoCard.InfoCardTab.Character);
         #endif
@@ -411,14 +411,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DoStateMouseActions(Rect canvas, bool assigned, string viewerName)
         {
-            if (current == null || viewerName.NullOrEmpty())
+            if (_current == null || viewerName.NullOrEmpty())
             {
                 return;
             }
 
-            SettingsHelper.DrawFittedLabel(canvas, (assigned ? assignedText : unassignedText).CapitalizeFirst(), TextAnchor.MiddleCenter);
+            SettingsHelper.DrawFittedLabel(canvas, (assigned ? _assignedText : _unassignedText).CapitalizeFirst(), TextAnchor.MiddleCenter);
             Widgets.DrawHighlightIfMouseover(canvas);
-            TooltipHandler.TipRegion(canvas, assigned ? assignedTooltip : unassignedTooltip);
+            TooltipHandler.TipRegion(canvas, assigned ? _assignedTooltip : _unassignedTooltip);
 
             if (!Widgets.ButtonInvisible(canvas))
             {
@@ -427,30 +427,30 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (assigned)
             {
-                pawnComponent.pawnHistory.Remove(viewerName.ToLowerInvariant());
+                _pawnComponent.pawnHistory.Remove(viewerName.ToLowerInvariant());
 
-                var pawnName = current.Name as NameTriple;
-                current.Name = new NameTriple(pawnName?.First, pawnName?.Last, pawnName?.Last);
+                var pawnName = _current.Name as NameTriple;
+                _current.Name = new NameTriple(pawnName?.First, pawnName?.Last, pawnName?.Last);
             }
             else
             {
-                pawnComponent.pawnHistory.Add(viewerName.ToLowerInvariant(), current);
+                _pawnComponent.pawnHistory.Add(viewerName.ToLowerInvariant(), _current);
             }
         }
 
         private void GoToNextPawn()
         {
-            int index = allPawns.IndexOf(current);
+            int index = _allPawns.IndexOf(_current);
 
-            current = allPawns[index == allPawns.Count - 1 ? 0 : index + 1];
+            _current = _allPawns[index == _allPawns.Count - 1 ? 0 : index + 1];
             Notify__CurrentPawnChanged();
         }
 
         private void GoToPreviousPawn()
         {
-            int index = Mathf.Max(allPawns.IndexOf(current), 0);
+            int index = Mathf.Max(_allPawns.IndexOf(_current), 0);
 
-            current = allPawns[index == 0 ? allPawns.Count - 1 : index - 1];
+            _current = _allPawns[index == 0 ? _allPawns.Count - 1 : index - 1];
             Notify__CurrentPawnChanged();
         }
 
@@ -485,7 +485,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Event.current.Use();
 
                     break;
-                case KeyCode.F2 when current != null:
+                case KeyCode.F2 when _current != null:
                     OpenInfoDialog();
                     Event.current.Use();
 
@@ -495,30 +495,30 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void Notify__CurrentPawnChanged()
         {
-            string assigned = pawnComponent.pawnHistory.Where(p => p.Value == current).Select(p => p.Key).FirstOrDefault();
+            string assigned = _pawnComponent.pawnHistory.Where(p => p.Value == _current).Select(p => p.Key).FirstOrDefault();
 
-            username = assigned ?? "";
+            _username = assigned ?? "";
         }
 
         private void AssignColonist()
         {
-            if (pawnComponent.HasPawnBeenNamed(current))
+            if (_pawnComponent.HasPawnBeenNamed(_current))
             {
-                string key = pawnComponent.pawnHistory.Where(p => p.Value == current).Select(p => p.Key).FirstOrDefault();
+                string key = _pawnComponent.pawnHistory.Where(p => p.Value == _current).Select(p => p.Key).FirstOrDefault();
 
                 if (key != null)
                 {
-                    pawnComponent.pawnHistory.Remove(key);
+                    _pawnComponent.pawnHistory.Remove(key);
                 }
             }
 
-            var name = current.Name as NameTriple;
+            var name = _current.Name as NameTriple;
 
-            current.Name = new NameTriple(name?.First, username.NullOrEmpty() ? name?.Last : username, name?.Last);
+            _current.Name = new NameTriple(name?.First, _username.NullOrEmpty() ? name?.Last : _username, name?.Last);
 
-            if (!username.NullOrEmpty())
+            if (!_username.NullOrEmpty())
             {
-                pawnComponent.AssignUserToPawn(username.ToLowerInvariant(), current);
+                _pawnComponent.AssignUserToPawn(_username.ToLowerInvariant(), _current);
             }
 
             NextUnnamedColonist();
@@ -526,9 +526,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void NextUnnamedColonist()
         {
-            current = allPawns.Where(p => CompatRegistry.Magic?.IsUndead(p) != true).FirstOrDefault(p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current);
+            _current = _allPawns.Where(p => CompatRegistry.Magic?.IsUndead(p) != true).FirstOrDefault(p => _pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != _current);
 
-            if (current == null)
+            if (_current == null)
             {
                 GoToNextPawn();
             }
@@ -538,9 +538,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void PreviousUnnamedColonist()
         {
-            current = allPawns.Where(p => !CompatRegistry.Magic?.IsUndead(p) ?? false).LastOrDefault(p => pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != current);
+            _current = _allPawns.Where(p => !CompatRegistry.Magic?.IsUndead(p) ?? false).LastOrDefault(p => _pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != _current);
 
-            if (current == null)
+            if (_current == null)
             {
                 GoToPreviousPawn();
             }
@@ -554,15 +554,15 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             int startup = Mathf.FloorToInt(Time.time);
 
-            if (timestamp >= startup || startup % 3 >= 1)
+            if (_timestamp >= startup || startup % 3 >= 1)
             {
                 return;
             }
 
-            currentDiceSide = Textures.DiceSides.RandomElement();
-            timestamp = startup;
+            _currentDiceSide = Textures.DiceSides.RandomElement();
+            _timestamp = startup;
 
-            if (viewer == null)
+            if (_viewer == null)
             {
                 return;
             }
@@ -574,7 +574,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             base.PreOpen();
 
-            if (pawnComponent != null)
+            if (_pawnComponent != null)
             {
                 ReconnectViewers();
 
@@ -605,25 +605,25 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (tempViewer == null)
                 {
-                    string assignment = pawnComponent.UserAssignedToPawn(pawn);
+                    string assignment = _pawnComponent.UserAssignedToPawn(pawn);
 
                     if (assignment != null)
                     {
-                        pawnComponent.pawnHistory.Remove(assignment);
+                        _pawnComponent.pawnHistory.Remove(assignment);
                         pawn.Name = new NameTriple(pawnName.First, pawnName.Last, pawnName.Last);
                     }
 
                     continue;
                 }
 
-                pawnComponent.pawnHistory[tempViewer.username] = pawn;
-                pawnComponent.viewerNameQueue.RemoveAll(u => u.Equals(tempViewer.username, StringComparison.InvariantCultureIgnoreCase));
+                _pawnComponent.pawnHistory[tempViewer.username] = pawn;
+                _pawnComponent.viewerNameQueue.RemoveAll(u => u.Equals(tempViewer.username, StringComparison.InvariantCultureIgnoreCase));
             }
         }
 
         public override void OnAcceptKeyPressed()
         {
-            if (GUIUtility.keyboardControl == GUIUtility.GetControlID(FocusType.Keyboard, usernameFieldPosition))
+            if (GUIUtility.keyboardControl == GUIUtility.GetControlID(FocusType.Keyboard, _usernameFieldPosition))
             {
                 AssignColonist();
                 Event.current.Use();
@@ -637,7 +637,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void OnCancelKeyPressed()
         {
-            if (GUIUtility.keyboardControl == GUIUtility.GetControlID(FocusType.Keyboard, usernameFieldPosition))
+            if (GUIUtility.keyboardControl == GUIUtility.GetControlID(FocusType.Keyboard, _usernameFieldPosition))
             {
                 Event.current.Use();
                 GUIUtility.keyboardControl = 0;

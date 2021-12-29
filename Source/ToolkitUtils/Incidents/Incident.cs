@@ -29,8 +29,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
     public class Incident : IncidentHelper
     {
         private static readonly Dictionary<string, IIncidentData> Data;
-        private IncidentParms parms;
-        private IncidentWorker worker;
+        private IncidentParms _parms;
+        private IncidentWorker _worker;
 
         static Incident()
         {
@@ -48,25 +48,25 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            worker = Activator.CreateInstance(data.WorkerClass) as IncidentWorker;
+            _worker = Activator.CreateInstance(data.WorkerClass) as IncidentWorker;
             Map map = Find.RandomPlayerHomeMap;
 
-            if (map == null || worker == null)
+            if (map == null || _worker == null)
             {
                 return false;
             }
 
-            parms = StorytellerUtility.DefaultParmsNow(data.ResolveCategory(worker, storeIncident), map);
-            parms.forced = true;
+            _parms = StorytellerUtility.DefaultParmsNow(data.ResolveCategory(_worker, storeIncident), map);
+            _parms.forced = true;
 
-            data.DoExtraSetup(worker, parms, storeIncident);
+            data.DoExtraSetup(_worker, _parms, storeIncident);
 
-            return worker.CanFireNow(parms);
+            return _worker.CanFireNow(_parms);
         }
 
         public override void TryExecute()
         {
-            worker.TryExecute(parms);
+            _worker.TryExecute(_parms);
         }
     }
 }

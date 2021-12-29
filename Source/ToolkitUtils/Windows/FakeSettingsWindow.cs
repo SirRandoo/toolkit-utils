@@ -33,15 +33,15 @@ namespace SirRandoo.ToolkitUtils.Windows
     public class FakeSettingsWindow : Window
     {
         private static readonly FieldInfo SelectedModField = AccessTools.Field(typeof(Dialog_ModSettings), "selMod");
-        private readonly Mod mod;
-        private bool hasSettings;
-        private FloatMenu noSettingsFloatMenu;
-        private string selectModText;
-        private FloatMenu settingsFloatMenu;
+        private readonly Mod _mod;
+        private bool _hasSettings;
+        private FloatMenu _noSettingsFloatMenu;
+        private string _selectModText;
+        private FloatMenu _settingsFloatMenu;
 
         public FakeSettingsWindow(Mod mod)
         {
-            this.mod = mod;
+            _mod = mod;
             forcePause = true;
             doCloseX = true;
             doCloseButton = true;
@@ -83,7 +83,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var labelRect = new Rect(0f, 0f, region.width, 32f);
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(labelRect, "HugsLib_setting_mod_name_title".Translate(mod.SettingsCategory()));
+            Widgets.Label(labelRect, "HugsLib_setting_mod_name_title".Translate(_mod.SettingsCategory()));
             Text.Font = GameFont.Small;
 
             Color cache = GUI.color;
@@ -97,13 +97,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             var btnRect = new Rect(0f, 0f, 150f, region.height);
             var labelRect = new Rect(167f, 0f, region.width - 150f - 17f, region.height);
 
-            if (Widgets.ButtonText(btnRect, selectModText))
+            if (Widgets.ButtonText(btnRect, _selectModText))
             {
-                Find.WindowStack.Add(hasSettings ? settingsFloatMenu : noSettingsFloatMenu);
+                Find.WindowStack.Add(_hasSettings ? _settingsFloatMenu : _noSettingsFloatMenu);
             }
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(labelRect, mod.SettingsCategory());
+            Widgets.Label(labelRect, _mod.SettingsCategory());
             Text.Font = GameFont.Small;
         }
 
@@ -122,15 +122,15 @@ namespace SirRandoo.ToolkitUtils.Windows
                     continue;
                 }
 
-                hasSettings = true;
+                _hasSettings = true;
                 modSettings.Add(new FloatMenuOption(handle.SettingsCategory(), () => DisplayMod(handle)));
             }
 
-            selectModText = "SelectMod".TranslateSimple();
+            _selectModText = "SelectMod".TranslateSimple();
 
-            if (!hasSettings)
+            if (!_hasSettings)
             {
-                noSettingsFloatMenu = new FloatMenu(
+                _noSettingsFloatMenu = new FloatMenu(
                     new List<FloatMenuOption>
                     {
                         new FloatMenuOption("NoConfigurableMods".TranslateSimple(), null)
@@ -138,14 +138,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                 );
             }
 
-            settingsFloatMenu = new FloatMenu(modSettings);
+            _settingsFloatMenu = new FloatMenu(modSettings);
             GetTranslations();
         }
 
         public override void PreClose()
         {
             base.PreClose();
-            mod.WriteSettings();
+            _mod.WriteSettings();
         }
 
         private void DisplayMod(Mod handle)

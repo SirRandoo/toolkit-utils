@@ -22,7 +22,7 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         public enum ReportType { Info, Warning, Error, Debug }
 
-        private DateTime occurredAt;
+        private DateTime _occurredAt;
 
         public string Message { get; set; }
         public ReportType Type { get; set; }
@@ -32,11 +32,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public DateTime OccurredAt
         {
-            get => occurredAt;
+            get => _occurredAt;
             set
             {
-                occurredAt = value;
-                OccurredAtString = (DateTime.Now - occurredAt).TotalMinutes.ToString("N2");
+                _occurredAt = value;
+                OccurredAtString = (DateTime.Now - _occurredAt).TotalMinutes.ToString("N2");
             }
         }
 

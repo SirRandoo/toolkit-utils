@@ -34,10 +34,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
     public class WageredIncident : IncidentVariablesBase
     {
         private static readonly Dictionary<string, IWageredIncidentData> Data;
-        private IWageredIncidentData data;
-        private IncidentParms parms;
-        private int wager;
-        private IncidentWorker worker;
+        private IWageredIncidentData _data;
+        private IncidentParms _parms;
+        private int _wager;
+        private IncidentWorker _worker;
 
         static WageredIncident()
         {
@@ -57,55 +57,55 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool CanHappen(string msg, Viewer viewer)
         {
-            if (!Data.TryGetValue(storeIncident.defName, out data))
+            if (!Data.TryGetValue(storeIncident.defName, out _data))
             {
                 return false;
             }
 
-            if (!data.UseStoryteller)
+            if (!_data.UseStoryteller)
             {
                 string rawPoints = CommandFilter.Parse(msg).Skip(2).FirstOrDefault();
 
-                if (rawPoints.NullOrEmpty() || !VariablesHelpers.PointsWagerIsValid(rawPoints, viewer, ref wager, ref storeIncident))
+                if (rawPoints.NullOrEmpty() || !VariablesHelpers.PointsWagerIsValid(rawPoints, viewer, ref _wager, ref storeIncident))
                 {
                     return false;
                 }
             }
 
             Map map = Find.RandomPlayerHomeMap;
-            worker = Activator.CreateInstance(data.WorkerClass) as IncidentWorker;
+            _worker = Activator.CreateInstance(_data.WorkerClass) as IncidentWorker;
 
-            if (worker == null || map == null)
+            if (_worker == null || map == null)
             {
                 return false;
             }
 
-            parms = StorytellerUtility.DefaultParmsNow(data.ResolveCategory(worker, storeIncident), map);
+            _parms = StorytellerUtility.DefaultParmsNow(_data.ResolveCategory(_worker, storeIncident), map);
 
-            if (!data.UseStoryteller)
+            if (!_data.UseStoryteller)
             {
-                parms.points = IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, wager, parms.points);
+                _parms.points = IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, _wager, _parms.points);
             }
 
-            parms.forced = true;
-            data.DoExtraSetup(worker, parms, storeIncident);
+            _parms.forced = true;
+            _data.DoExtraSetup(_worker, _parms, storeIncident);
 
-            return worker.CanFireNow(parms);
+            return _worker.CanFireNow(_parms);
         }
 
         public override void Execute()
         {
-            if (worker.TryExecute(parms))
+            if (_worker.TryExecute(_parms))
             {
-                Viewer.TakeViewerCoins(data.UseStoryteller ? storeIncident.cost : wager);
-                Viewer.CalculateNewKarma(storeIncident.karmaType, wager);
+                Viewer.TakeViewerCoins(_data.UseStoryteller ? storeIncident.cost : _wager);
+                Viewer.CalculateNewKarma(storeIncident.karmaType, _wager);
 
                 string name = storeIncident.label ?? storeIncident.abbreviation;
-                var points = parms.points.ToString("N3");
+                var points = _parms.points.ToString("N3");
 
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    data.UseStoryteller ? "TKUtils.Wagered.Storyteller".LocalizeKeyed(name, points) : "TKUtils.Wagered.Complete".LocalizeKeyed(name, wager.ToString("N0"), points)
+                    _data.UseStoryteller ? "TKUtils.Wagered.Storyteller".LocalizeKeyed(name, points) : "TKUtils.Wagered.Complete".LocalizeKeyed(name, _wager.ToString("N0"), points)
                 );
 
                 return;

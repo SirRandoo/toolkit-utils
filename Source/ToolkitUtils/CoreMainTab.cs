@@ -33,20 +33,20 @@ namespace SirRandoo.ToolkitUtils
     public class CoreMainTab : MainTabWindow_ToolkitCore
     {
         private static readonly List<MenuCache> MenuCaches;
-        private float buttonHeight;
-        private string closeTooltip;
-        private string debugTooltip;
-        private string errorTooltip;
-        private string healthReportText;
-        private Vector2 healthScrollPos = Vector2.zero;
-        private string hoursText;
-        private string infoTooltip;
-        private string minutesText;
-        private string noReportsText;
-        private string quickActionsText;
-        private string secondsText;
-        private Vector2? tabSize;
-        private string warningTooltip;
+        private float _buttonHeight;
+        private string _closeTooltip;
+        private string _debugTooltip;
+        private string _errorTooltip;
+        private string _healthReportText;
+        private Vector2 _healthScrollPos = Vector2.zero;
+        private string _hoursText;
+        private string _infoTooltip;
+        private string _minutesText;
+        private string _noReportsText;
+        private string _quickActionsText;
+        private string _secondsText;
+        private Vector2? _tabSize;
+        private string _warningTooltip;
 
         static CoreMainTab()
         {
@@ -78,25 +78,25 @@ namespace SirRandoo.ToolkitUtils
         {
             get
             {
-                buttonHeight = Mathf.CeilToInt(Text.SmallFontHeight * 1.5f);
+                _buttonHeight = Mathf.CeilToInt(Text.SmallFontHeight * 1.5f);
 
-                return tabSize ??= new Vector2(550f, Mathf.Max(150.0f, MenuCaches.Count * buttonHeight) + Text.SmallFontHeight + Margin * 2f);
+                return _tabSize ??= new Vector2(550f, Mathf.Max(150.0f, MenuCaches.Count * _buttonHeight) + Text.SmallFontHeight + Margin * 2f);
             }
         }
 
         public override void PostOpen()
         {
-            secondsText = "TKUtils.Fields.Seconds".Localize();
-            minutesText = "TKUtils.Fields.Minutes".Localize();
-            hoursText = "TKUtils.Fields.Hours".Localize();
-            noReportsText = "TKUtils.MainTab.NoHealthReports".Localize();
-            closeTooltip = "TKUtils.MainTabTooltips.Close".Localize();
-            healthReportText = "TKUtils.MainTab.HealthReport".Localize();
-            quickActionsText = "TKUtils.MainTab.QuickActions".Localize();
-            infoTooltip = "TKUtils.MainTabTooltips.Info".Localize();
-            warningTooltip = "TKUtils.MainTabTooltips.Warning".Localize();
-            debugTooltip = "TKUtils.MainTabTooltips.Debug".Localize();
-            errorTooltip = "TKUtils.MainTabTooltips.Error".Localize();
+            _secondsText = "TKUtils.Fields.Seconds".Localize();
+            _minutesText = "TKUtils.Fields.Minutes".Localize();
+            _hoursText = "TKUtils.Fields.Hours".Localize();
+            _noReportsText = "TKUtils.MainTab.NoHealthReports".Localize();
+            _closeTooltip = "TKUtils.MainTabTooltips.Close".Localize();
+            _healthReportText = "TKUtils.MainTab.HealthReport".Localize();
+            _quickActionsText = "TKUtils.MainTab.QuickActions".Localize();
+            _infoTooltip = "TKUtils.MainTabTooltips.Info".Localize();
+            _warningTooltip = "TKUtils.MainTabTooltips.Warning".Localize();
+            _debugTooltip = "TKUtils.MainTabTooltips.Debug".Localize();
+            _errorTooltip = "TKUtils.MainTabTooltips.Error".Localize();
         }
 
         public override void DoWindowContents(Rect region)
@@ -127,7 +127,7 @@ namespace SirRandoo.ToolkitUtils
         private void DrawLeftColumn(Rect region)
         {
             var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-            SettingsHelper.DrawColoredLabel(titleRect, healthReportText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
+            SettingsHelper.DrawColoredLabel(titleRect, _healthReportText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
 
             var contentRect = new Rect(0f, Text.SmallFontHeight, region.width, region.height - Text.SmallFontHeight);
 
@@ -135,7 +135,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (Data.HealthReports.Count <= 0)
             {
-                SettingsHelper.DrawColoredLabel(contentRect.AtZero(), noReportsText, new Color(0.39f, 0.39f, 0.39f), TextAnchor.MiddleCenter);
+                SettingsHelper.DrawColoredLabel(contentRect.AtZero(), _noReportsText, new Color(0.39f, 0.39f, 0.39f), TextAnchor.MiddleCenter);
                 GUI.EndGroup();
 
                 return;
@@ -157,7 +157,7 @@ namespace SirRandoo.ToolkitUtils
         {
             var viewRect = new Rect(0f, 0f, region.width - 16f, Data.HealthReports.Sum(r => r.Height));
 
-            healthScrollPos = GUI.BeginScrollView(region, healthScrollPos, viewRect);
+            _healthScrollPos = GUI.BeginScrollView(region, _healthScrollPos, viewRect);
 
             var y = 0f;
 
@@ -173,7 +173,7 @@ namespace SirRandoo.ToolkitUtils
                 var lineRect = new Rect(0f, y, region.width - 16f, report.Height);
                 y += report.Height;
 
-                if (!lineRect.IsRegionVisible(region, healthScrollPos))
+                if (!lineRect.IsRegionVisible(region, _healthScrollPos))
                 {
                     continue;
                 }
@@ -208,25 +208,25 @@ namespace SirRandoo.ToolkitUtils
                 case HealthReport.ReportType.Info:
                     texture = Textures.Info;
                     color = ColorLibrary.PaleGreen;
-                    iconTooltip = infoTooltip;
+                    iconTooltip = _infoTooltip;
 
                     break;
                 case HealthReport.ReportType.Warning:
                     texture = Textures.Warning;
                     color = ColorLibrary.Yellow;
-                    iconTooltip = warningTooltip;
+                    iconTooltip = _warningTooltip;
 
                     break;
                 case HealthReport.ReportType.Error:
                     texture = Textures.Warning;
                     color = ColorLibrary.Salmon;
-                    iconTooltip = errorTooltip;
+                    iconTooltip = _errorTooltip;
 
                     break;
                 case HealthReport.ReportType.Debug:
                     texture = Textures.Debug;
                     color = ColorLibrary.LightPink;
-                    iconTooltip = debugTooltip;
+                    iconTooltip = _debugTooltip;
 
                     break;
                 default:
@@ -256,7 +256,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             Widgets.CheckboxOffTex.DrawColored(SettingsHelper.RectForIcon(closeRect), Color.red);
-            closeRect.TipRegion(closeTooltip);
+            closeRect.TipRegion(_closeTooltip);
 
             if (closeRect.WasLeftClicked())
             {
@@ -267,7 +267,7 @@ namespace SirRandoo.ToolkitUtils
         private void DrawRightColumn(Rect region)
         {
             var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-            SettingsHelper.DrawColoredLabel(titleRect, quickActionsText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
+            SettingsHelper.DrawColoredLabel(titleRect, _quickActionsText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
 
             var contentRect = new Rect(0f, Text.SmallFontHeight, region.width, region.height - Text.SmallFontHeight);
 
@@ -282,7 +282,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 MenuCache addon = MenuCaches[index];
 
-                var lineRect = new Rect(0f, buttonHeight * index, region.width, buttonHeight);
+                var lineRect = new Rect(0f, _buttonHeight * index, region.width, _buttonHeight);
 
                 if (Widgets.ButtonText(lineRect, addon.Label))
                 {
@@ -296,10 +296,10 @@ namespace SirRandoo.ToolkitUtils
         {
             if (span.Hours > 0)
             {
-                return $"{span.TotalHours:N2} {hoursText}";
+                return $"{span.TotalHours:N2} {_hoursText}";
             }
 
-            return span.Minutes > 0 ? $"{span.TotalMinutes:N2} {minutesText}" : $"{span.TotalSeconds:N2} {secondsText}";
+            return span.Minutes > 0 ? $"{span.TotalMinutes:N2} {_minutesText}" : $"{span.TotalSeconds:N2} {_secondsText}";
         }
 
         private class MenuCache

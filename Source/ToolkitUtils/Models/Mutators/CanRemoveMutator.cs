@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class CanRemoveMutator : IMutatorBase<TraitItem>
     {
-        private string canRemoveText;
-        private bool state;
+        private string _canRemoveText;
+        private bool _state;
 
         public int Priority => 1;
 
@@ -33,17 +33,17 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            canRemoveText = "TKUtils.Fields.CanRemove".TranslateSimple();
+            _canRemoveText = "TKUtils.Fields.CanRemove".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
         {
-            item.Data.CanRemove = state;
+            item.Data.CanRemove = _state;
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.LabeledPaintableCheckbox(canvas, canRemoveText, ref state);
+            SettingsHelper.LabeledPaintableCheckbox(canvas, _canRemoveText, ref _state);
         }
     }
 }

@@ -31,25 +31,25 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class EventSettingEmbedSelector : ISelectorBase<EventItem>
     {
-        private string label;
-        private bool state = true;
+        private string _label;
+        private bool _state = true;
 
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            label = "TKUtils.Fields.SettingEmbed".TranslateSimple();
+            _label = "TKUtils.Fields.SettingEmbed".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, label, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _label, ref _state))
             {
                 Dirty.Set(true);
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.HasSettingsEmbed == state;
+        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.HasSettingsEmbed == _state;
 
         public string Label => "TKUtils.Fields.SettingEmbed".TranslateSimple();
     }

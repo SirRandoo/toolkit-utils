@@ -25,17 +25,17 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class CanRemoveSelector : ISelectorBase<TraitItem>
     {
-        private string canRemoveText;
-        private bool state = true;
+        private string _canRemoveText;
+        private bool _state = true;
 
         public void Prepare()
         {
-            canRemoveText = "TKUtils.Fields.CanRemove".TranslateSimple();
+            _canRemoveText = "TKUtils.Fields.CanRemove".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, canRemoveText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _canRemoveText, ref _state))
             {
                 Dirty.Set(true);
             }
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item) => item.Data.CanRemove == state;
+        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item) => item.Data.CanRemove == _state;
 
         public string Label => "TKUtils.Fields.CanRemove".TranslateSimple();
     }

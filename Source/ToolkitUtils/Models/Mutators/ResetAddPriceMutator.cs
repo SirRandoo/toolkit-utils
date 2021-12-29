@@ -24,19 +24,19 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ResetAddPriceMutator : IMutatorBase<TraitItem>
     {
-        private string resetPriceText;
+        private string _resetPriceText;
         public int Priority => 10;
 
         public string Label => "TKUtils.Fields.ResetAddPrice".TranslateSimple();
 
         public void Prepare()
         {
-            resetPriceText = "TKUtils.EditorMutator.ResetAddPrice".TranslateSimple();
+            _resetPriceText = "TKUtils.EditorMutator.ResetAddPrice".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.DrawColoredLabel(canvas, resetPriceText, new Color(1f, 0.53f, 0.76f));
+            SettingsHelper.DrawColoredLabel(canvas, _resetPriceText, new Color(1f, 0.53f, 0.76f));
         }
 
         public void Mutate([NotNull] TableSettingsItem<TraitItem> item)

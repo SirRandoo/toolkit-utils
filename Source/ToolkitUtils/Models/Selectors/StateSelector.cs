@@ -25,17 +25,17 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class StateSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     {
-        private bool state = true;
-        private string stateText;
+        private bool _state = true;
+        private string _stateText;
 
         public void Prepare()
         {
-            stateText = "TKUtils.Fields.State".TranslateSimple();
+            _stateText = "TKUtils.Fields.State".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, stateText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state))
             {
                 Dirty.Set(true);
             }
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible([NotNull] TableSettingsItem<T> item) => item.Data.Enabled == state;
+        public bool IsVisible([NotNull] TableSettingsItem<T> item) => item.Data.Enabled == _state;
 
         public string Label => "TKUtils.Fields.State".TranslateSimple();
     }

@@ -25,17 +25,17 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class WeaponSelector : ISelectorBase<ThingItem>
     {
-        private bool state = true;
-        private string weaponText;
+        private bool _state = true;
+        private string _weaponText;
 
         public void Prepare()
         {
-            weaponText = "TKUtils.Fields.IsWeapon".TranslateSimple();
+            _weaponText = "TKUtils.Fields.IsWeapon".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, weaponText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _weaponText, ref _state))
             {
                 Dirty.Set(true);
             }
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsWeapon == state;
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsWeapon == _state;
 
         public string Label => "TKUtils.Fields.IsWeapon".TranslateSimple();
     }

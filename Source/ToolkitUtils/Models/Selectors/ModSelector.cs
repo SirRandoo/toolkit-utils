@@ -25,36 +25,36 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ModSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     {
-        private bool exclude = true;
-        private string excludeTooltip;
-        private string includeTooltip;
-        private string mod = "";
-        private string modText;
+        private bool _exclude = true;
+        private string _excludeTooltip;
+        private string _includeTooltip;
+        private string _mod = "";
+        private string _modText;
 
         public void Prepare()
         {
-            modText = "TKUtils.Fields.Mod".TranslateSimple();
-            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
-            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
+            _modText = "TKUtils.Fields.Mod".TranslateSimple();
+            _excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
+            _includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, modText);
+            SettingsHelper.DrawLabel(label, _modText);
 
-            if (SettingsHelper.DrawTextField(field, mod, out string input))
+            if (SettingsHelper.DrawTextField(field, _mod, out string input))
             {
-                mod = input;
+                _mod = input;
                 Dirty.Set(true);
             }
 
-            if (!SettingsHelper.DrawFieldButton(field, exclude ? ResponseHelper.NotEqualGlyph : "=", exclude ? includeTooltip : excludeTooltip))
+            if (!SettingsHelper.DrawFieldButton(field, _exclude ? ResponseHelper.NotEqualGlyph : "=", _exclude ? _includeTooltip : _excludeTooltip))
             {
                 return;
             }
 
-            exclude = !exclude;
+            _exclude = !_exclude;
             Dirty.Set(true);
         }
 
@@ -62,14 +62,14 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible(TableSettingsItem<T> item)
         {
-            if (mod.NullOrEmpty() || item.Data?.Data?.Mod == null)
+            if (_mod.NullOrEmpty() || item.Data?.Data?.Mod == null)
             {
                 return false;
             }
 
-            bool shouldShow = item.Data.Data.Mod.EqualsIgnoreCase(mod) || item.Data.Data.Mod.ToLower().Contains(mod.ToLower());
+            bool shouldShow = item.Data.Data.Mod.EqualsIgnoreCase(_mod) || item.Data.Data.Mod.ToLower().Contains(_mod.ToLower());
 
-            return exclude ? !shouldShow : shouldShow;
+            return _exclude ? !shouldShow : shouldShow;
         }
 
         public string Label => "TKUtils.Fields.Mod".TranslateSimple();

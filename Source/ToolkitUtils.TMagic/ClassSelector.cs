@@ -34,19 +34,19 @@ namespace SirRandoo.ToolkitUtils
 {
     public class ClassSelector : ISelectorBase<TraitItem>
     {
-        private string classText;
-        private bool state = true;
+        private string _classText;
+        private bool _state = true;
 
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            classText = "TKUtils.Fields.Class".Localize();
+            _classText = "TKUtils.Fields.Class".Localize();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, classText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _classText, ref _state))
             {
                 Dirty.Set(true);
             }
@@ -63,10 +63,10 @@ namespace SirRandoo.ToolkitUtils
 
             if (traitDef.Equals(TorannMagicDefOf.DeathKnight))
             {
-                return state;
+                return _state;
             }
 
-            return TM_Data.AllClassTraits.Any(i => i.Equals(traitDef)) && state;
+            return TM_Data.AllClassTraits.Any(i => i.Equals(traitDef)) && _state;
         }
 
         public string Label => "TKUtils.Fields.Class".TranslateSimple();

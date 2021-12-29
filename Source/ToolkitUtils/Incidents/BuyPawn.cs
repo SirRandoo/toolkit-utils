@@ -33,10 +33,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class BuyPawn : IncidentVariablesBase
     {
-        private PawnKindDef kindDef = RimWorld.PawnKindDefOf.Colonist;
-        private IntVec3 loc;
-        private Map map;
-        private PawnKindItem pawnKindItem;
+        private PawnKindDef _kindDef = RimWorld.PawnKindDefOf.Colonist;
+        private IntVec3 _loc;
+        private Map _map;
+        private PawnKindItem _pawnKindItem;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
@@ -47,16 +47,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            map = Helper.AnyPlayerMap;
+            _map = Helper.AnyPlayerMap;
 
-            if (map == null)
+            if (_map == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
 
                 return false;
             }
 
-            if (!CellFinder.TryFindRandomEdgeCellWith(p => map.reachability.CanReachColony(p) && !p.Fogged(map), map, CellFinder.EdgeRoadChance_Neutral, out loc))
+            if (!CellFinder.TryFindRandomEdgeCellWith(p => _map.reachability.CanReachColony(p) && !p.Fogged(_map), _map, CellFinder.EdgeRoadChance_Neutral, out _loc))
             {
                 LogHelper.Warn("No reachable location to spawn a viewer pawn!");
 
@@ -67,16 +67,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!TkSettings.PurchasePawnKinds)
             {
-                return CanPurchaseRace(viewer, pawnKindItem);
+                return CanPurchaseRace(viewer, _pawnKindItem);
             }
 
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (!worker.TryGetNextAsPawn(out PawnKindItem temp) || pawnKindItem?.ColonistKindDef == null)
+            if (!worker.TryGetNextAsPawn(out PawnKindItem temp) || _pawnKindItem?.ColonistKindDef == null)
             {
                 if (worker.GetLast().NullOrEmpty())
                 {
-                    return CanPurchaseRace(viewer, pawnKindItem!);
+                    return CanPurchaseRace(viewer, _pawnKindItem!);
                 }
 
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".LocalizeKeyed(worker.GetLast()));
@@ -84,12 +84,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            pawnKindItem = temp;
-            kindDef = pawnKindItem.ColonistKindDef;
+            _pawnKindItem = temp;
+            _kindDef = _pawnKindItem.ColonistKindDef;
 
-            if (kindDef.RaceProps.Humanlike)
+            if (_kindDef.RaceProps.Humanlike)
             {
-                return CanPurchaseRace(viewer, pawnKindItem);
+                return CanPurchaseRace(viewer, _pawnKindItem);
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.BuyPawn.Humanlike".Localize());
@@ -101,7 +101,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             try
             {
-                var request = new PawnGenerationRequest(kindDef, Faction.OfPlayer, tile: map.Tile, allowFood: false, mustBeCapableOfViolence: true);
+                var request = new PawnGenerationRequest(_kindDef, Faction.OfPlayer, tile: _map.Tile, allowFood: false, mustBeCapableOfViolence: true);
                 Pawn pawn = PawnGenerator.GeneratePawn(request);
 
                 if (!(pawn.Name is NameTriple name))
@@ -111,7 +111,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     return;
                 }
 
-                PurchaseHelper.SpawnPawn(pawn, loc, map);
+                PurchaseHelper.SpawnPawn(pawn, _loc, _map);
                 pawn.Name = new NameTriple(name.First ?? string.Empty, Viewer.username, name.Last ?? string.Empty);
                 TaggedString title = "TKUtils.PawnLetter.Title".Localize();
                 TaggedString text = "TKUtils.PawnLetter.Description".LocalizeKeyed(Viewer.username);
@@ -125,7 +125,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     egg.Execute(Viewer, pawn);
                 }
 
-                Viewer.Charge(pawnKindItem.Cost, pawnKindItem.Data?.KarmaType ?? storeIncident.karmaType);
+                Viewer.Charge(_pawnKindItem.Cost, _pawnKindItem.Data?.KarmaType ?? storeIncident.karmaType);
                 MessageHelper.SendConfirmation(Viewer.username, "TKUtils.BuyPawn.Confirmation".Localize());
             }
             catch (Exception e)
@@ -157,8 +157,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (Data.TryGetPawnKind($"${RimWorld.PawnKindDefOf.Colonist.race.defName}", out PawnKindItem human) && (human!.Enabled || !TkSettings.PurchasePawnKinds))
             {
-                kindDef = RimWorld.PawnKindDefOf.Colonist;
-                pawnKindItem = human;
+                _kindDef = RimWorld.PawnKindDefOf.Colonist;
+                _pawnKindItem = human;
 
                 return;
             }
@@ -172,8 +172,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            kindDef = randomKind.ColonistKindDef;
-            pawnKindItem = randomKind;
+            _kindDef = randomKind.ColonistKindDef;
+            _pawnKindItem = randomKind;
         }
     }
 }

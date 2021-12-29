@@ -30,14 +30,14 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class PawnKindItem : IShopItemBase
     {
-        [IgnoreDataMember] private PawnKindData data;
-        [IgnoreDataMember] private string description;
-        [IgnoreDataMember] private List<PawnKindDef> kinds;
+        [IgnoreDataMember] private PawnKindData _data;
+        [IgnoreDataMember] private string _description;
+        [IgnoreDataMember] private List<PawnKindDef> _kinds;
 
         [NotNull]
         [IgnoreDataMember]
         public IEnumerable<PawnKindDef> Kinds =>
-            kinds ??= DefDatabase<PawnKindDef>.AllDefs.Where(k => k.race.defName.Equals(DefName)).ToList();
+            _kinds ??= DefDatabase<PawnKindDef>.AllDefs.Where(k => k.race.defName.Equals(DefName)).ToList();
 
         [IgnoreDataMember]
         public PawnKindDef ColonistKindDef =>
@@ -46,15 +46,15 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "data")]
         public PawnKindData PawnData
         {
-            get => data ??= (PawnKindData)Data;
-            set => Data = data = value;
+            get => _data ??= (PawnKindData)Data;
+            set => Data = _data = value;
         }
 
         [CanBeNull]
         [DataMember(Name = "description")]
         public string Description
         {
-            get { return description ??= ColonistKindDef?.race?.description; }
+            get { return _description ??= ColonistKindDef?.race?.description; }
         }
 
         [DataMember(Name = "defName")] public string DefName { get; set; }

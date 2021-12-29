@@ -33,19 +33,19 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class EventItem : IShopItemBase, IUsageItemBase
     {
-        private bool checkedVariables;
-        private EventData data;
-        private StoreIncident incident;
-        private IEventSettings settingsEmbed;
-        private StoreIncidentVariables variables;
+        private bool _checkedVariables;
+        private EventData _data;
+        private StoreIncident _incident;
+        private IEventSettings _settingsEmbed;
+        private StoreIncidentVariables _variables;
 
         [IgnoreDataMember]
         public StoreIncident Incident
         {
-            get => incident;
+            get => _incident;
             set
             {
-                incident = value;
+                _incident = value;
                 _ = IsVariables;
 
                 if (IsVariables)
@@ -53,25 +53,25 @@ namespace SirRandoo.ToolkitUtils.Models
                     _ = SettingsEmbed;
                 }
 
-                EventType = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
+                EventType = _incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
             }
         }
 
-        [CanBeNull] [IgnoreDataMember] public StoreIncidentVariables Variables => IsVariables ? variables : null;
+        [CanBeNull] [IgnoreDataMember] public StoreIncidentVariables Variables => IsVariables ? _variables : null;
 
         [DataMember(Name = "isVariables")]
         public bool IsVariables
         {
             get
             {
-                if (!checkedVariables && Incident is StoreIncidentVariables var)
+                if (!_checkedVariables && Incident is StoreIncidentVariables var)
                 {
-                    variables = var;
+                    _variables = var;
                 }
 
-                checkedVariables = true;
+                _checkedVariables = true;
 
-                return variables != null;
+                return _variables != null;
             }
         }
 
@@ -80,7 +80,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         [IgnoreDataMember]
         public bool HasSettingsEmbed =>
-            settingsEmbed != null || Variables?.GetModExtension<EventExtension>()?.SettingsEmbed != null;
+            _settingsEmbed != null || Variables?.GetModExtension<EventExtension>()?.SettingsEmbed != null;
 
         [IgnoreDataMember]
         public IncidentHelperVariablesSettings Settings
@@ -102,28 +102,28 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (settingsEmbed == null && Settings is IEventSettings s)
+                if (_settingsEmbed == null && Settings is IEventSettings s)
                 {
-                    settingsEmbed = s;
+                    _settingsEmbed = s;
                 }
 
-                if (settingsEmbed != null)
+                if (_settingsEmbed != null)
                 {
-                    return settingsEmbed;
+                    return _settingsEmbed;
                 }
 
                 Type ext = Variables?.GetModExtension<EventExtension>()?.SettingsEmbed;
-                settingsEmbed = ext == null ? null : (IEventSettings)Activator.CreateInstance(ext);
+                _settingsEmbed = ext == null ? null : (IEventSettings)Activator.CreateInstance(ext);
 
-                return settingsEmbed;
+                return _settingsEmbed;
             }
         }
 
         [DataMember(Name = "data")]
         public EventData EventData
         {
-            get => data ??= (EventData)Data;
-            set => Data = data = value;
+            get => _data ??= (EventData)Data;
+            set => Data = _data = value;
         }
 
         [DataMember(Name = "karmaType")]

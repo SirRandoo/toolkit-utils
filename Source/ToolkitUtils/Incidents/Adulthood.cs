@@ -26,39 +26,39 @@ namespace SirRandoo.ToolkitUtils.Incidents
 {
     public class Adulthood : IncidentVariablesBase
     {
-        private Backstory backstory;
-        private Pawn pawn;
+        private Backstory _backstory;
+        private Pawn _pawn;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
                 return false;
             }
 
-            backstory = BackstoryDatabase.allBackstories.Values.Where(b => b.slot == BackstorySlot.Adulthood).Where(b => !WouldBeViolation(b)).InRandomOrder().FirstOrDefault();
+            _backstory = BackstoryDatabase.allBackstories.Values.Where(b => b.slot == BackstorySlot.Adulthood).Where(b => !WouldBeViolation(b)).InRandomOrder().FirstOrDefault();
 
-            return backstory != null;
+            return _backstory != null;
         }
 
         public override void Execute()
         {
-            Backstory previous = pawn.story.adulthood;
-            pawn.story.adulthood = backstory;
-            pawn.Notify_DisabledWorkTypesChanged();
-            pawn.workSettings?.Notify_DisabledWorkTypesChanged();
-            pawn.skills?.Notify_SkillDisablesChanged();
+            Backstory previous = _pawn.story.adulthood;
+            _pawn.story.adulthood = _backstory;
+            _pawn.Notify_DisabledWorkTypesChanged();
+            _pawn.workSettings?.Notify_DisabledWorkTypesChanged();
+            _pawn.skills?.Notify_SkillDisablesChanged();
 
             Viewer.Charge(storeIncident);
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Adulthood.Complete".LocalizeKeyed(backstory.TitleCapFor(pawn.gender)));
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Adulthood.Complete".LocalizeKeyed(_backstory.TitleCapFor(_pawn.gender)));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.BackstoryLetter.Title".Localize(),
-                "TKUtils.BackstoryLetter.AdulthoodDescription".LocalizeKeyed(Viewer.username, previous.TitleCapFor(pawn.gender), backstory.TitleCapFor(pawn.gender)),
+                "TKUtils.BackstoryLetter.AdulthoodDescription".LocalizeKeyed(Viewer.username, previous.TitleCapFor(_pawn.gender), _backstory.TitleCapFor(_pawn.gender)),
                 LetterDefOf.NeutralEvent,
-                pawn
+                _pawn
             );
         }
 
@@ -71,7 +71,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             foreach (TraitEntry entry in story.disallowedTraits)
             {
-                Trait trait = pawn.story.traits.allTraits.Find(t => t.def.Equals(entry.def) && t.Degree == entry.degree);
+                Trait trait = _pawn.story.traits.allTraits.Find(t => t.def.Equals(entry.def) && t.Degree == entry.degree);
 
                 if (trait != null)
                 {

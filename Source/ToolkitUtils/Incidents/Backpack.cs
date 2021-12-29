@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Backpack : IncidentVariablesBase
     {
-        private PurchaseBackpackRequest purchaseRequest;
+        private PurchaseBackpackRequest _purchaseRequest;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
@@ -81,34 +81,34 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = Mathf.Clamp(amount, 1, proxy.Thing.ItemData.QuantityLimit);
             }
 
-            purchaseRequest = new PurchaseBackpackRequest
+            _purchaseRequest = new PurchaseBackpackRequest
             {
                 Proxy = proxy, Quantity = amount, Purchaser = viewer, Pawn = pawn
             };
 
-            if (purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
+            if (_purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Item.MinimumViolation".LocalizeKeyed(purchaseRequest.Price.ToString("N0"), ToolkitSettings.MinimumPurchasePrice.ToString("N0"))
+                    "TKUtils.Item.MinimumViolation".LocalizeKeyed(_purchaseRequest.Price.ToString("N0"), ToolkitSettings.MinimumPurchasePrice.ToString("N0"))
                 );
 
                 return false;
             }
 
-            if (purchaseRequest.Overflowed)
+            if (_purchaseRequest.Overflowed)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Overflowed".Localize());
 
                 return false;
             }
 
-            if (viewer.CanAfford(purchaseRequest.Price))
+            if (viewer.CanAfford(_purchaseRequest.Price))
             {
-                return purchaseRequest.Map != null;
+                return _purchaseRequest.Map != null;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(purchaseRequest.Price.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_purchaseRequest.Price.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
 
             return false;
         }
@@ -117,8 +117,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             try
             {
-                purchaseRequest.Spawn();
-                purchaseRequest.CompletePurchase(storeIncident);
+                _purchaseRequest.Spawn();
+                _purchaseRequest.CompletePurchase(storeIncident);
             }
             catch (Exception e)
             {
@@ -128,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private class PurchaseBackpackRequest
         {
-            private Pawn pawn;
+            private Pawn _pawn;
 
             public int Quantity { get; set; }
             public ArgWorker.ItemProxy Proxy { get; set; }
@@ -158,8 +158,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             [CanBeNull]
             public Pawn Pawn
             {
-                get => pawn ??= CommandBase.GetOrFindPawn(Purchaser.username);
-                set => pawn = value;
+                get => _pawn ??= CommandBase.GetOrFindPawn(Purchaser.username);
+                set => _pawn = value;
             }
 
             public void Spawn()
@@ -197,14 +197,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             private void CarryOrSpawn(Thing thing)
             {
-                if (!MassUtility.CanEverCarryAnything(pawn) || MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, thing, Quantity))
+                if (!MassUtility.CanEverCarryAnything(_pawn) || MassUtility.WillBeOverEncumberedAfterPickingUp(_pawn, thing, Quantity))
                 {
                     PurchaseHelper.SpawnItem(DropCellFinder.TradeDropSpot(Map), Map, thing);
 
                     return;
                 }
 
-                pawn.inventory.innerContainer.TryAdd(thing);
+                _pawn.inventory.innerContainer.TryAdd(thing);
             }
 
             public void CompletePurchase(StoreIncident incident)

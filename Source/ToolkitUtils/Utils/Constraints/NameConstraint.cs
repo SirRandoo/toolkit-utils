@@ -28,35 +28,35 @@ namespace SirRandoo.ToolkitUtils.Utils
 
     public class NameConstraint : ConstraintBase
     {
-        private readonly string labelText;
-        private readonly List<FloatMenuOption> strategyOptions;
+        private readonly string _labelText;
+        private readonly List<FloatMenuOption> _strategyOptions;
 
-        private NameStrategies nameStrategy = NameStrategies.Is;
-        private string nameStrategyButtonText;
-        private string nameStrategyText = nameof(NameStrategies.Is);
+        private NameStrategies _nameStrategy = NameStrategies.Is;
+        private string _nameStrategyButtonText;
+        private string _nameStrategyText = nameof(NameStrategies.Is);
 
         public NameConstraint()
         {
-            labelText = "TKUtils.PurgeMenu.Name".Localize().CapitalizeFirst();
-            nameStrategyButtonText = $"TKUtils.PurgeMenu.{nameof(NameStrategies.Is)}".Localize();
+            _labelText = "TKUtils.PurgeMenu.Name".Localize().CapitalizeFirst();
+            _nameStrategyButtonText = $"TKUtils.PurgeMenu.{nameof(NameStrategies.Is)}".Localize();
 
-            strategyOptions = Enum.GetNames(typeof(NameStrategies))
+            _strategyOptions = Enum.GetNames(typeof(NameStrategies))
                .Select(t => new FloatMenuOption($"TKUtils.PurgeMenu.{t}".Localize(), () => NameStrategy = (NameStrategies)Enum.Parse(typeof(NameStrategies), t)))
                .ToList();
         }
 
         public NameStrategies NameStrategy
         {
-            get => nameStrategy;
+            get => _nameStrategy;
             set
             {
-                if (nameStrategy != value)
+                if (_nameStrategy != value)
                 {
-                    nameStrategyText = Enum.GetName(typeof(NameStrategies), value);
-                    nameStrategyButtonText = $"TKUtils.PurgeMenu.{nameStrategyText}".Localize();
+                    _nameStrategyText = Enum.GetName(typeof(NameStrategies), value);
+                    _nameStrategyButtonText = $"TKUtils.PurgeMenu.{_nameStrategyText}".Localize();
                 }
 
-                nameStrategy = value;
+                _nameStrategy = value;
             }
         }
 
@@ -67,11 +67,11 @@ namespace SirRandoo.ToolkitUtils.Utils
             (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
             (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
 
-            SettingsHelper.DrawLabel(labelRect, labelText);
+            SettingsHelper.DrawLabel(labelRect, _labelText);
 
-            if (Widgets.ButtonText(buttonRect, nameStrategyButtonText))
+            if (Widgets.ButtonText(buttonRect, _nameStrategyButtonText))
             {
-                Find.WindowStack.Add(new FloatMenu(strategyOptions));
+                Find.WindowStack.Add(new FloatMenu(_strategyOptions));
             }
 
             Username = Widgets.TextField(inputRect, Username);

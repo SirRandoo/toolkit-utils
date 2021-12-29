@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ItemStateMutator : IMutatorBase<ThingItem>
     {
-        private bool state;
-        private string stateText;
+        private bool _state;
+        private string _stateText;
 
         public int Priority => 1;
 
@@ -33,12 +33,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            stateText = "TKUtils.Fields.State".TranslateSimple();
+            _stateText = "TKUtils.Fields.State".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.LabeledPaintableCheckbox(canvas, stateText, ref state);
+            SettingsHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state);
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
@@ -48,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return;
             }
 
-            switch (state)
+            switch (_state)
             {
                 case true when !item.Data.Enabled:
                     item.Data.Item.price = item.Data.Thing.CalculateStorePrice();

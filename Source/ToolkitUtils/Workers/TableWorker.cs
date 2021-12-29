@@ -23,9 +23,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
     public abstract class TableWorker<T> : TableWorkerBase
     {
-        private protected List<T> _data;
+        private protected List<T> InternalData;
 
-        public IEnumerable<T> Data => _data;
+        public IEnumerable<T> Data => InternalData;
 
         public abstract void EnsureExists(T data);
         public abstract void NotifyGlobalDataChanged();

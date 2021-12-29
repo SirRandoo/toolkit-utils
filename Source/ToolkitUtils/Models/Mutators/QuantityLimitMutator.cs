@@ -25,12 +25,12 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class QuantityLimitMutator : IMutatorBase<ThingItem>
     {
-        private int limit = 1;
-        private string limitBuffer = "1";
-        private string quantityLimitText;
-        private bool toLimit;
-        private string toLimitTooltip;
-        private string toValueTooltip;
+        private int _limit = 1;
+        private string _limitBuffer = "1";
+        private string _quantityLimitText;
+        private bool _toLimit;
+        private string _toLimitTooltip;
+        private string _toValueTooltip;
 
         public int Priority => 1;
 
@@ -38,28 +38,28 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            quantityLimitText = "TKUtils.Fields.QuantityLimit".TranslateSimple();
-            toLimitTooltip = "TKUtils.MutatorTooltips.StackMode".TranslateSimple();
-            toValueTooltip = "TKUtils.MutatorTooltips.ValueMode".TranslateSimple();
+            _quantityLimitText = "TKUtils.Fields.QuantityLimit".TranslateSimple();
+            _toLimitTooltip = "TKUtils.MutatorTooltips.StackMode".TranslateSimple();
+            _toValueTooltip = "TKUtils.MutatorTooltips.ValueMode".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
             if (item.Data.ItemData != null)
             {
-                item.Data.ItemData.QuantityLimit = toLimit ? item.Data.Thing?.stackLimit ?? 1 : limit;
+                item.Data.ItemData.QuantityLimit = _toLimit ? item.Data.Thing?.stackLimit ?? 1 : _limit;
             }
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, quantityLimitText);
-            Widgets.TextFieldNumeric(field, ref limit, ref limitBuffer, 1f);
+            SettingsHelper.DrawLabel(label, _quantityLimitText);
+            Widgets.TextFieldNumeric(field, ref _limit, ref _limitBuffer, 1f);
 
-            if (SettingsHelper.DrawFieldButton(field, toLimit ? "S" : "#", toLimit ? toLimitTooltip : toValueTooltip))
+            if (SettingsHelper.DrawFieldButton(field, _toLimit ? "S" : "#", _toLimit ? _toLimitTooltip : _toValueTooltip))
             {
-                toLimit = !toLimit;
+                _toLimit = !_toLimit;
             }
         }
     }

@@ -24,20 +24,20 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class WearableMutator : IMutatorBase<ThingItem>
     {
-        private bool state = true;
-        private string usableText;
+        private bool _state = true;
+        private string _usableText;
         public int Priority => 1;
 
         public string Label => "TKUtils.Fields.CanWear".TranslateSimple();
 
         public void Prepare()
         {
-            usableText = "TKUtils.Fields.CanWear".TranslateSimple();
+            _usableText = "TKUtils.Fields.CanWear".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.LabeledPaintableCheckbox(canvas, usableText, ref state);
+            SettingsHelper.LabeledPaintableCheckbox(canvas, _usableText, ref _state);
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
@@ -47,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return;
             }
 
-            item.Data.ItemData!.IsWearable = state;
+            item.Data.ItemData!.IsWearable = _state;
         }
     }
 }

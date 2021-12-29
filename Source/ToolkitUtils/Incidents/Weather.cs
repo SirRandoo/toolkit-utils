@@ -27,8 +27,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
     public class Weather : IncidentHelper
     {
         private static readonly Dictionary<string, WeatherDef> IncidentMap;
-        private Map map;
-        private WeatherDef weather;
+        private Map _map;
+        private WeatherDef _weather;
 
         static Weather()
         {
@@ -48,33 +48,33 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible()
         {
-            if (!IncidentMap.TryGetValue(storeIncident.defName, out weather))
+            if (!IncidentMap.TryGetValue(storeIncident.defName, out _weather))
             {
                 return false;
             }
 
             foreach (Map playerMap in Find.Maps.FindAll(m => m.IsPlayerHome))
             {
-                if (playerMap.weatherManager?.CurWeatherPerceived == weather)
+                if (playerMap.weatherManager?.CurWeatherPerceived == _weather)
                 {
                     continue;
                 }
 
-                map = playerMap;
+                _map = playerMap;
 
                 break;
             }
 
-            return map != null;
+            return _map != null;
         }
 
         public override void TryExecute()
         {
-            map.weatherManager.TransitionTo(weather);
+            _map.weatherManager.TransitionTo(_weather);
 
             Find.LetterStack.ReceiveLetter(
-                weather.label?.CapitalizeFirst() ?? weather.defName,
-                "TKUtils.WeatherLetter.Description".LocalizeKeyed(Viewer.username, weather.label ?? weather.defName),
+                _weather.label?.CapitalizeFirst() ?? _weather.defName,
+                "TKUtils.WeatherLetter.Description".LocalizeKeyed(Viewer.username, _weather.label ?? _weather.defName),
                 LetterDefOf.NeutralEvent
             );
         }

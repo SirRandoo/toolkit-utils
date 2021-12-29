@@ -25,24 +25,24 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ManufacturedSelector : ISelectorBase<ThingItem>
     {
-        private string manufacturedText;
-        private bool state = true;
+        private string _manufacturedText;
+        private bool _state = true;
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            manufacturedText = "TKUtils.Fields.Manufactured".TranslateSimple();
+            _manufacturedText = "TKUtils.Fields.Manufactured".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, manufacturedText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _manufacturedText, ref _state))
             {
                 Dirty.Set(true);
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => state ? item.Data.ProducedAt != null : item.Data.ProducedAt == null;
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => _state ? item.Data.ProducedAt != null : item.Data.ProducedAt == null;
 
         public string Label => "TKUtils.Fields.Manufactured".TranslateSimple();
     }

@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class BypassLimitMutator : IMutatorBase<TraitItem>
     {
-        private string bypassLimitText;
-        private bool state;
+        private string _bypassLimitText;
+        private bool _state;
 
         public int Priority => 1;
 
@@ -33,20 +33,20 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            bypassLimitText = "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
+            _bypassLimitText = "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
         {
             if (item.Data.TraitData != null)
             {
-                item.Data.TraitData.CanBypassLimit = state;
+                item.Data.TraitData.CanBypassLimit = _state;
             }
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.LabeledPaintableCheckbox(canvas, bypassLimitText, ref state);
+            SettingsHelper.LabeledPaintableCheckbox(canvas, _bypassLimitText, ref _state);
         }
     }
 }

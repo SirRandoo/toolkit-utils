@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Models
     public class ItemData : IShopDataBase
     {
         internal const int CurrentVersion = 2;
-        private List<ResearchProjectDef> researchProjects = new List<ResearchProjectDef>();
+        private List<ResearchProjectDef> _researchProjects = new List<ResearchProjectDef>();
 
         [DataMember(Name = "CustomName")] public string CustomName { get; set; }
 
@@ -101,14 +101,14 @@ namespace SirRandoo.ToolkitUtils.Models
                 return null;
             }
 
-            if (researchProjects.Count == ResearchOverrides.Count)
+            if (_researchProjects.Count == ResearchOverrides.Count)
             {
-                return researchProjects;
+                return _researchProjects;
             }
 
             var toCull = new List<string>();
 
-            foreach (string defName in ResearchOverrides.Where(o => researchProjects.Find(i => i.defName.Equals(o)) == null))
+            foreach (string defName in ResearchOverrides.Where(o => _researchProjects.Find(i => i.defName.Equals(o)) == null))
             {
                 ResearchProjectDef def = DefDatabase<ResearchProjectDef>.GetNamed(defName, false);
 
@@ -118,12 +118,12 @@ namespace SirRandoo.ToolkitUtils.Models
                     toCull.Add(defName);
                 }
 
-                researchProjects.Add(def);
+                _researchProjects.Add(def);
             }
 
             if (toCull.Count <= 0)
             {
-                return researchProjects;
+                return _researchProjects;
             }
 
             {
@@ -133,7 +133,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
             }
 
-            return researchProjects;
+            return _researchProjects;
         }
     }
 }

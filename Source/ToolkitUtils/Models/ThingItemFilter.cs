@@ -36,20 +36,20 @@ namespace SirRandoo.ToolkitUtils.Models
 
     public class ThingItemFilter
     {
-        private bool active;
-        private string label;
-        private float labelWidth = -1;
+        private bool _active;
+        private string _label;
+        private float _labelWidth = -1;
         public ThingItemFilterCategory Category { get; set; }
 
         internal string Id { get; set; }
 
         public string Label
         {
-            get => label;
+            get => _label;
             set
             {
-                label = $" {value}";
-                labelWidth = Text.CalcSize(label).x;
+                _label = $" {value}";
+                _labelWidth = Text.CalcSize(_label).x;
             }
         }
 
@@ -57,21 +57,21 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (labelWidth <= -1)
+                if (_labelWidth <= -1)
                 {
-                    labelWidth = Text.CalcSize(Label).x;
+                    _labelWidth = Text.CalcSize(Label).x;
                 }
 
-                return labelWidth;
+                return _labelWidth;
             }
         }
 
         public bool Active
         {
-            get => active;
+            get => _active;
             set
             {
-                active = value;
+                _active = value;
                 Category?.MarkDirty();
             }
         }

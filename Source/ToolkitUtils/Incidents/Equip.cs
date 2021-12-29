@@ -31,13 +31,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Equip : IncidentVariablesBase
     {
-        private int cost;
-        private ArgWorker.ItemProxy item;
-        private Pawn pawn;
+        private int _cost;
+        private ArgWorker.ItemProxy _item;
+        private Pawn _pawn;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
@@ -46,113 +46,116 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (!worker.TryGetNextAsItem(out item) || !item.IsValid())
+            if (!worker.TryGetNextAsItem(out _item) || !_item.IsValid())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
 
                 return false;
             }
 
-            if (item.TryGetError(out string error))
+            if (_item.TryGetError(out string error))
             {
                 MessageHelper.ReplyToUser(viewer.username, error);
 
                 return false;
             }
 
-            if (!(item.Thing.Thing is { IsWeapon: true }) || item.Thing.ItemData?.IsEquippable != true)
+            if (!(_item.Thing.Thing is { IsWeapon: true }) || _item.Thing.ItemData?.IsEquippable != true)
             {
                 return false;
             }
 
-            List<ResearchProjectDef> prerequisites = item.Thing.Thing.GetUnfinishedPrerequisites();
+            List<ResearchProjectDef> prerequisites = _item.Thing.Thing.GetUnfinishedPrerequisites();
 
             if (BuyItemSettings.mustResearchFirst && prerequisites.Count > 0)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.ResearchRequired".LocalizeKeyed(item.Thing.Thing.LabelCap.RawText, prerequisites.Select(p => p.LabelCap.RawText).SectionJoin())
+                    "TKUtils.ResearchRequired".LocalizeKeyed(_item.Thing.Thing.LabelCap.RawText, prerequisites.Select(p => p.LabelCap.RawText).SectionJoin())
                 );
 
                 return false;
             }
 
-            cost = item.Quality.HasValue ? item.Thing.GetItemPrice(item.Stuff, item.Quality.Value) : item.Thing.GetItemPrice(item.Stuff);
+            _cost = _item.Quality.HasValue ? _item.Thing.GetItemPrice(_item.Stuff, _item.Quality.Value) : _item.Thing.GetItemPrice(_item.Stuff);
 
-            if (!viewer.CanAfford(cost))
+            if (!viewer.CanAfford(_cost))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
 
                 return false;
             }
 
-            if (!item.Thing.Thing.MadeFromStuff || item.Stuff == null || item.Thing.Thing.CanBeStuff(item.Stuff.Thing))
+            if (!_item.Thing.Thing.MadeFromStuff || _item.Stuff == null || _item.Thing.Thing.CanBeStuff(_item.Stuff.Thing))
             {
                 return true;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.MaterialViolation".LocalizeKeyed(item.Thing.Name, item.Stuff.Name));
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.MaterialViolation".LocalizeKeyed(_item.Thing.Name, _item.Stuff.Name));
 
             return false;
         }
 
         public override void Execute()
         {
-            if (!((item.Stuff == null || !item.Thing.Thing.MadeFromStuff
-                ? ThingMaker.MakeThing(item.Thing.Thing, GenStuff.RandomStuffByCommonalityFor(item.Thing.Thing))
-                : ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)) is ThingWithComps weapon))
+            if (!((_item.Stuff == null || !_item.Thing.Thing.MadeFromStuff
+                ? ThingMaker.MakeThing(_item.Thing.Thing, GenStuff.RandomStuffByCommonalityFor(_item.Thing.Thing))
+                : ThingMaker.MakeThing(_item.Thing.Thing, _item.Stuff.Thing)) is ThingWithComps weapon))
             {
                 LogHelper.Warn("Tried to equip a null weapon.");
 
                 return;
             }
 
-            if (item.Quality.HasValue)
+            if (_item.Quality.HasValue)
             {
-                weapon.GetComp<CompQuality>()?.SetQuality(item.Quality.Value, ArtGenerationContext.Outsider);
+                weapon.GetComp<CompQuality>()?.SetQuality(_item.Quality.Value, ArtGenerationContext.Outsider);
             }
 
-            if (!EquipmentUtility.CanEquip(weapon, pawn) || !MassUtility.CanEverCarryAnything(pawn))
+            if (!EquipmentUtility.CanEquip(weapon, _pawn) || !MassUtility.CanEverCarryAnything(_pawn))
             {
-                PurchaseHelper.SpawnItem(DropCellFinder.TradeDropSpot(pawn.Map), pawn.Map, weapon);
-                Viewer.Charge(cost, item.Thing.ItemData?.Weight ?? 1f, item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType);
+                PurchaseHelper.SpawnItem(DropCellFinder.TradeDropSpot(_pawn.Map), _pawn.Map, weapon);
+                Viewer.Charge(_cost, _item.Thing.ItemData?.Weight ?? 1f, _item.Thing.ItemData?.KarmaType ?? storeIncident.karmaType);
 
                 return;
             }
 
             ThingWithComps old = null;
 
-            if (pawn.equipment.Primary != null
-                && !pawn.equipment.TryTransferEquipmentToContainer(pawn.equipment.Primary, pawn.inventory.innerContainer)
-                && !pawn.equipment.TryDropEquipment(pawn.equipment.Primary, out old, pawn.Position))
+            if (_pawn.equipment.Primary != null
+                && !_pawn.equipment.TryTransferEquipmentToContainer(_pawn.equipment.Primary, _pawn.inventory.innerContainer)
+                && !_pawn.equipment.TryDropEquipment(_pawn.equipment.Primary, out old, _pawn.Position))
             {
                 LogHelper.Warn($"Could not make room for {Viewer.username}'s new weapon.");
             }
 
-            if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, weapon, 1) && old != null)
+            if (MassUtility.WillBeOverEncumberedAfterPickingUp(_pawn, weapon, 1) && old != null)
             {
-                pawn.equipment.AddEquipment(old);
-                PurchaseHelper.SpawnItem(pawn.Position, pawn.Map, weapon);
-                Viewer.Charge(cost, item.Thing.ItemData?.Weight ?? 1f, item.Thing.ItemData?.KarmaTypeForEquipping ?? storeIncident.karmaType);
+                _pawn.equipment.AddEquipment(old);
+                PurchaseHelper.SpawnItem(_pawn.Position, _pawn.Map, weapon);
+                Viewer.Charge(_cost, _item.Thing.ItemData?.Weight ?? 1f, _item.Thing.ItemData?.KarmaTypeForEquipping ?? storeIncident.karmaType);
                 NotifyComplete(weapon, true);
 
                 return;
             }
 
-            pawn.equipment.AddEquipment(weapon);
-            Viewer.Charge(cost, item.Thing.ItemData?.Weight ?? 1f, item.Thing.ItemData?.KarmaTypeForEquipping ?? storeIncident.karmaType);
+            _pawn.equipment.AddEquipment(weapon);
+            Viewer.Charge(_cost, _item.Thing.ItemData?.Weight ?? 1f, _item.Thing.ItemData?.KarmaTypeForEquipping ?? storeIncident.karmaType);
             NotifyComplete(weapon);
         }
 
         private void NotifyComplete([NotNull] Thing thing, bool spawned = false)
         {
-            MessageHelper.SendConfirmation(Viewer.username, (spawned ? "TKUtils.Equip.Spawned" : "TKUtils.Equip.Complete").LocalizeKeyed(thing.LabelCap ?? thing.def.defName, cost.ToString("N0")));
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                (spawned ? "TKUtils.Equip.Spawned" : "TKUtils.Equip.Complete").LocalizeKeyed(thing.LabelCap ?? thing.def.defName, _cost.ToString("N0"))
+            );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.EquipLetter.Title".Localize(),
                 (spawned ? "TKUtils.EquipLetter.SpawnedDescription" : "TKUtils.EquipLetter.Description").LocalizeKeyed(Viewer.username, thing.LabelCap ?? thing.def.defName),
                 LetterDefOf.NeutralEvent,
-                spawned ? thing : pawn
+                spawned ? thing : _pawn
             );
         }
     }

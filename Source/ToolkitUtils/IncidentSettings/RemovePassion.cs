@@ -32,9 +32,9 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
         public static int ChanceToFail = 20;
         public static int ChanceToHop = 10;
         public static int ChanceToIncrease = 5;
-        private string failChanceBuffer;
-        private string hopChanceBuffer;
-        private string increaseChanceBuffer;
+        private string _failChanceBuffer;
+        private string _hopChanceBuffer;
+        private string _increaseChanceBuffer;
 
         public int LineSpan => 4;
 
@@ -47,17 +47,17 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
 
             (Rect failLabel, Rect failField) = listing.GetRect(preferredHeight).ToForm();
             SettingsHelper.DrawLabel(failLabel, "TKUtils.Passion.FailChance.Label".Localize());
-            Widgets.TextFieldNumeric(failField, ref ChanceToFail, ref failChanceBuffer, max: 100f);
+            Widgets.TextFieldNumeric(failField, ref ChanceToFail, ref _failChanceBuffer, max: 100f);
             failField.TipRegion("TKUtils.Passion.FailChance.Description".Localize());
 
             (Rect hopLabel, Rect hopField) = listing.GetRect(preferredHeight).ToForm();
             SettingsHelper.DrawLabel(hopLabel, "TKUtils.Passion.HopChance.Label".Localize());
-            Widgets.TextFieldNumeric(hopField, ref ChanceToHop, ref hopChanceBuffer, max: 100f);
+            Widgets.TextFieldNumeric(hopField, ref ChanceToHop, ref _hopChanceBuffer, max: 100f);
             hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".Localize());
 
             (Rect increaseLabel, Rect increaseField) = listing.GetRect(preferredHeight).ToForm();
             SettingsHelper.DrawLabel(increaseLabel, "TKUtils.Passion.DecreaseChance.Label".Localize());
-            Widgets.TextFieldNumeric(increaseField, ref ChanceToIncrease, ref increaseChanceBuffer, max: 100f);
+            Widgets.TextFieldNumeric(increaseField, ref ChanceToIncrease, ref _increaseChanceBuffer, max: 100f);
             increaseLabel.TipRegion("TKUtils.Passion.IncreaseChance.Description".Localize());
 
             listing.End();

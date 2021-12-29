@@ -28,9 +28,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class HealRandom : IncidentVariablesBase
     {
-        private Pawn target;
-        private Hediff toHeal;
-        private BodyPartRecord toRestore;
+        private Pawn _target;
+        private Hediff _toHeal;
+        private BodyPartRecord _toRestore;
 
         public override bool CanHappen(string msg, Viewer viewer)
         {
@@ -49,40 +49,40 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            target = random.First;
+            _target = random.First;
 
             switch (random.Second)
             {
                 case Hediff hediff:
-                    toHeal = hediff;
+                    _toHeal = hediff;
 
                     break;
                 case BodyPartRecord record:
-                    toRestore = record;
+                    _toRestore = record;
 
                     break;
             }
 
-            return target != null && (toHeal != null || toRestore != null);
+            return _target != null && (_toHeal != null || _toRestore != null);
         }
 
         public override void Execute()
         {
-            if (toHeal != null)
+            if (_toHeal != null)
             {
-                HealHelper.Cure(toHeal);
+                HealHelper.Cure(_toHeal);
 
-                NotifySuccess(toHeal.LabelCap);
+                NotifySuccess(_toHeal.LabelCap);
             }
 
-            if (toRestore == null)
+            if (_toRestore == null)
             {
                 return;
             }
 
-            target.health.RestorePart(toRestore);
+            _target.health.RestorePart(_toRestore);
 
-            NotifySuccess(toRestore.Label);
+            NotifySuccess(_toRestore.Label);
         }
 
         private void NotifySuccess(string affected)
@@ -91,12 +91,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var description = "";
 
-            if (toHeal != null)
+            if (_toHeal != null)
             {
                 description = "TKUtils.HealLetter.RecoveredDescription";
             }
 
-            if (toRestore != null)
+            if (_toRestore != null)
             {
                 description = "TKUtils.HealLetter.RestoredDescription";
             }
@@ -106,10 +106,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            string descriptionTranslated = description.LocalizeKeyed(target.LabelShort.CapitalizeFirst(), affected);
+            string descriptionTranslated = description.LocalizeKeyed(_target.LabelShort.CapitalizeFirst(), affected);
             MessageHelper.SendConfirmation(Viewer.username, descriptionTranslated);
 
-            Current.Game.letterStack.ReceiveLetter("TKUtils.HealLetter.Title".Localize(), descriptionTranslated, LetterDefOf.PositiveEvent, target);
+            Current.Game.letterStack.ReceiveLetter("TKUtils.HealLetter.Title".Localize(), descriptionTranslated, LetterDefOf.PositiveEvent, _target);
         }
     }
 }

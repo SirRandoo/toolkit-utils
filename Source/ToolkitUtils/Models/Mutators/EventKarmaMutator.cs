@@ -33,8 +33,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class EventKarmaMutator : IMutatorBase<EventItem>
     {
-        private KarmaType karmaType = KarmaType.Neutral;
-        private string karmaTypeLabel;
+        private KarmaType _karmaType = KarmaType.Neutral;
+        private string _karmaTypeLabel;
 
         public int Priority => 1;
 
@@ -42,23 +42,23 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            karmaTypeLabel = "TKUtils.Fields.KarmaType".TranslateSimple();
+            _karmaTypeLabel = "TKUtils.Fields.KarmaType".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, karmaTypeLabel);
+            SettingsHelper.DrawLabel(label, _karmaTypeLabel);
 
-            if (Widgets.ButtonText(field, karmaType.ToString()))
+            if (Widgets.ButtonText(field, _karmaType.ToString()))
             {
-                Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => karmaType = i)).ToList()));
+                Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => _karmaType = i)).ToList()));
             }
         }
 
         public void Mutate([NotNull] TableSettingsItem<EventItem> item)
         {
-            item.Data.KarmaType = karmaType;
+            item.Data.KarmaType = _karmaType;
         }
     }
 }

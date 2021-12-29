@@ -25,36 +25,36 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class NameSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     {
-        private bool exclude = true;
-        private string excludeTooltip;
-        private string includeTooltip;
-        private string name = "";
-        private string nameText;
+        private bool _exclude = true;
+        private string _excludeTooltip;
+        private string _includeTooltip;
+        private string _name = "";
+        private string _nameText;
 
         public void Prepare()
         {
-            nameText = "TKUtils.Fields.Name".TranslateSimple();
-            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
-            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
+            _nameText = "TKUtils.Fields.Name".TranslateSimple();
+            _excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
+            _includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, nameText);
+            SettingsHelper.DrawLabel(label, _nameText);
 
-            if (SettingsHelper.DrawTextField(field, name, out string input))
+            if (SettingsHelper.DrawTextField(field, _name, out string input))
             {
-                name = input;
+                _name = input;
                 Dirty.Set(true);
             }
 
-            if (!SettingsHelper.DrawFieldButton(field, exclude ? ResponseHelper.NotEqualGlyph : "=", exclude ? includeTooltip : excludeTooltip))
+            if (!SettingsHelper.DrawFieldButton(field, _exclude ? ResponseHelper.NotEqualGlyph : "=", _exclude ? _includeTooltip : _excludeTooltip))
             {
                 return;
             }
 
-            exclude = !exclude;
+            _exclude = !_exclude;
             Dirty.Set(true);
         }
 
@@ -62,14 +62,14 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible(TableSettingsItem<T> item)
         {
-            if (name.NullOrEmpty())
+            if (_name.NullOrEmpty())
             {
                 return false;
             }
 
-            bool shouldShow = item.Data.Name.EqualsIgnoreCase(name) || item.Data.Name.ToLower().Contains(name.ToLower());
+            bool shouldShow = item.Data.Name.EqualsIgnoreCase(_name) || item.Data.Name.ToLower().Contains(_name.ToLower());
 
-            return exclude ? !shouldShow : shouldShow;
+            return _exclude ? !shouldShow : shouldShow;
         }
 
         public string Label => "TKUtils.Fields.Name".TranslateSimple();

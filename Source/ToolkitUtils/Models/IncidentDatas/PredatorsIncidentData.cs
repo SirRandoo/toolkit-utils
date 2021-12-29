@@ -30,11 +30,11 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class PredatorsIncidentData : IWageredIncidentData
     {
-        private readonly List<string> predators;
+        private readonly List<string> _predators;
 
         public PredatorsIncidentData()
         {
-            predators = new List<string>
+            _predators = new List<string>
             {
                 "Bear_Grizzly",
                 "Bear_Polar",
@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return;
             }
 
-            if (!predators.TryRandomElement(out string predator))
+            if (!_predators.TryRandomElement(out string predator))
             {
                 predator = "Thrumbo";
             }

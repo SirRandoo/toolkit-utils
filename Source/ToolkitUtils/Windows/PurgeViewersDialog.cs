@@ -27,40 +27,40 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class PurgeViewersDialog : Window
     {
-        private readonly List<FloatMenuOption> constraintOptions;
-        private readonly List<ConstraintBase> constraints;
-        private string addConstraintText;
-        private Vector2 affectedScrollPos = Vector2.zero;
-        private string affectedText;
-        private Viewer[] affectedViewers;
-        private int affectedViewersCount;
-        private string backText;
+        private readonly List<FloatMenuOption> _constraintOptions;
+        private readonly List<ConstraintBase> _constraints;
+        private string _addConstraintText;
+        private Vector2 _affectedScrollPos = Vector2.zero;
+        private string _affectedText;
+        private Viewer[] _affectedViewers;
+        private int _affectedViewersCount;
+        private string _backText;
 
-        private float bottomButtonWidth;
-        private string clearConstraintsText;
+        private float _bottomButtonWidth;
+        private string _clearConstraintsText;
 
-        private string confirmText;
-        private Vector2 constraintsScrollPos = Vector2.zero;
-        private float exemptButtonWidth;
-        private string exemptText;
-        private float headerButtonWidth;
-        private float removeButtonWidth;
-        private string removeText;
-        private string showAffectedText;
-        private bool showingAffected;
+        private string _confirmText;
+        private Vector2 _constraintsScrollPos = Vector2.zero;
+        private float _exemptButtonWidth;
+        private string _exemptText;
+        private float _headerButtonWidth;
+        private float _removeButtonWidth;
+        private string _removeText;
+        private string _showAffectedText;
+        private bool _showingAffected;
 
         public PurgeViewersDialog()
         {
             doCloseX = true;
             forcePause = true;
 
-            constraints = new List<ConstraintBase>();
+            _constraints = new List<ConstraintBase>();
 
-            constraintOptions = new List<FloatMenuOption>
+            _constraintOptions = new List<FloatMenuOption>
             {
-                new FloatMenuOption("TKUtils.PurgeMenu.Coins".Localize().CapitalizeFirst(), () => constraints.Add(new CoinConstraint())),
-                new FloatMenuOption("TKUtils.PurgeMenu.Karma".Localize().CapitalizeFirst(), () => constraints.Add(new KarmaConstraint())),
-                new FloatMenuOption("TKUtils.PurgeMenu.Name".Localize().CapitalizeFirst(), () => constraints.Add(new NameConstraint()))
+                new FloatMenuOption("TKUtils.PurgeMenu.Coins".Localize().CapitalizeFirst(), () => _constraints.Add(new CoinConstraint())),
+                new FloatMenuOption("TKUtils.PurgeMenu.Karma".Localize().CapitalizeFirst(), () => _constraints.Add(new KarmaConstraint())),
+                new FloatMenuOption("TKUtils.PurgeMenu.Name".Localize().CapitalizeFirst(), () => _constraints.Add(new NameConstraint()))
             };
         }
 
@@ -72,28 +72,28 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             base.PreOpen();
 
-            confirmText = "TKUtils.Buttons.Confirm".Localize();
-            showAffectedText = "TKUtils.Buttons.ViewAffected".Localize();
-            exemptText = "TKUtils.Buttons.Exempt".Localize();
-            removeText = "TKUtils.Buttons.Remove".Localize();
-            backText = "TKUtils.Buttons.Back".Localize();
-            affectedText = "TKUtils.Purge.Affected".Localize();
-            addConstraintText = "TKUtils.Buttons.AddConstraint".Localize();
-            clearConstraintsText = "TKUtils.Buttons.ClearConstraints".Localize();
+            _confirmText = "TKUtils.Buttons.Confirm".Localize();
+            _showAffectedText = "TKUtils.Buttons.ViewAffected".Localize();
+            _exemptText = "TKUtils.Buttons.Exempt".Localize();
+            _removeText = "TKUtils.Buttons.Remove".Localize();
+            _backText = "TKUtils.Buttons.Back".Localize();
+            _affectedText = "TKUtils.Purge.Affected".Localize();
+            _addConstraintText = "TKUtils.Buttons.AddConstraint".Localize();
+            _clearConstraintsText = "TKUtils.Buttons.ClearConstraints".Localize();
 
 
-            headerButtonWidth = Mathf.Max(Text.CalcSize(addConstraintText).x, Text.CalcSize(backText).x, Text.CalcSize(clearConstraintsText).x) + 16f;
-            bottomButtonWidth = Mathf.Max(Text.CalcSize(confirmText).x, Text.CalcSize(showAffectedText).x) + 16f;
-            exemptButtonWidth = Text.CalcSize(exemptText).x + 16f;
-            removeButtonWidth = Text.CalcSize(removeText).x + 16f;
+            _headerButtonWidth = Mathf.Max(Text.CalcSize(_addConstraintText).x, Text.CalcSize(_backText).x, Text.CalcSize(_clearConstraintsText).x) + 16f;
+            _bottomButtonWidth = Mathf.Max(Text.CalcSize(_confirmText).x, Text.CalcSize(_showAffectedText).x) + 16f;
+            _exemptButtonWidth = Text.CalcSize(_exemptText).x + 16f;
+            _removeButtonWidth = Text.CalcSize(_removeText).x + 16f;
         }
 
         public override void DoWindowContents(Rect inRect)
         {
             GUI.BeginGroup(inRect);
 
-            string buttonText = showingAffected ? confirmText : showAffectedText;
-            Rect buttonRect = new Rect(inRect.center.x - bottomButtonWidth / 2f, inRect.height - 30f, bottomButtonWidth, 28f).Rounded();
+            string buttonText = _showingAffected ? _confirmText : _showAffectedText;
+            Rect buttonRect = new Rect(inRect.center.x - _bottomButtonWidth / 2f, inRect.height - 30f, _bottomButtonWidth, 28f).Rounded();
             var headerArea = new Rect(inRect.x, inRect.y, inRect.width, 28f);
             var contentArea = new Rect(inRect.x, headerArea.height + 10f, inRect.width, inRect.height - headerArea.height - 40f);
 
@@ -101,15 +101,15 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(new Rect(0f, 0f, buttonRect.width, buttonRect.height), buttonText))
             {
-                if (showingAffected)
+                if (_showingAffected)
                 {
                     Purge();
                 }
                 else
                 {
-                    showingAffected = true;
-                    affectedViewers = GetAffectedViewers();
-                    affectedViewersCount = affectedViewers.Length;
+                    _showingAffected = true;
+                    _affectedViewers = GetAffectedViewers();
+                    _affectedViewersCount = _affectedViewers.Length;
                 }
             }
 
@@ -122,7 +122,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(contentArea);
             var contentInnerRect = new Rect(0f, 0f, contentArea.width, contentArea.height);
 
-            if (showingAffected)
+            if (_showingAffected)
             {
                 DrawAffectedViewers(contentInnerRect);
             }
@@ -140,18 +140,18 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             ConstraintBase toRemove = null;
             var listing = new Listing_Standard();
-            int totalConstraints = constraints.Count;
+            int totalConstraints = _constraints.Count;
             Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * totalConstraints).Rounded();
 
-            Widgets.BeginScrollView(inRect, ref constraintsScrollPos, viewRect);
+            Widgets.BeginScrollView(inRect, ref _constraintsScrollPos, viewRect);
             listing.Begin(viewRect);
 
-            for (var i = 0; i < constraints.Count; i++)
+            for (var i = 0; i < _constraints.Count; i++)
             {
-                ConstraintBase constraint = constraints[i];
+                ConstraintBase constraint = _constraints[i];
                 Rect lineRect = listing.GetRect(LineHeight);
 
-                if (!lineRect.IsRegionVisible(viewRect, constraintsScrollPos))
+                if (!lineRect.IsRegionVisible(viewRect, _constraintsScrollPos))
                 {
                     continue;
                 }
@@ -161,12 +161,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                var constraintRect = new Rect(lineRect.x, lineRect.y, lineRect.width - removeButtonWidth - 20f, lineRect.height);
-                var removeRect = new Rect(lineRect.width - removeButtonWidth, lineRect.y, removeButtonWidth, lineRect.height);
+                var constraintRect = new Rect(lineRect.x, lineRect.y, lineRect.width - _removeButtonWidth - 20f, lineRect.height);
+                var removeRect = new Rect(lineRect.width - _removeButtonWidth, lineRect.y, _removeButtonWidth, lineRect.height);
 
                 constraint.Draw(constraintRect);
 
-                if (Widgets.ButtonText(removeRect, removeText))
+                if (Widgets.ButtonText(removeRect, _removeText))
                 {
                     toRemove = constraint;
                 }
@@ -174,7 +174,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (toRemove != null)
             {
-                constraints.Remove(toRemove);
+                _constraints.Remove(toRemove);
             }
 
             listing.End();
@@ -183,22 +183,22 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawAffectedViewers(Rect inRect)
         {
-            if (affectedViewers == null)
+            if (_affectedViewers == null)
             {
                 return;
             }
 
             var listing = new Listing_Standard();
-            Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * affectedViewersCount).Rounded();
+            Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * _affectedViewersCount).Rounded();
 
-            Widgets.BeginScrollView(inRect, ref affectedScrollPos, viewRect);
+            Widgets.BeginScrollView(inRect, ref _affectedScrollPos, viewRect);
             listing.Begin(viewRect);
 
-            for (var i = 0; i < affectedViewersCount; i++)
+            for (var i = 0; i < _affectedViewersCount; i++)
             {
                 Rect lineRect = listing.GetRect(LineHeight);
 
-                if (!lineRect.IsRegionVisible(viewRect, affectedScrollPos))
+                if (!lineRect.IsRegionVisible(viewRect, _affectedScrollPos))
                 {
                     continue;
                 }
@@ -209,20 +209,20 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
 
-                Viewer viewer = affectedViewers[i];
-                var exemptRect = new Rect(lineRect.x + (lineRect.width - exemptButtonWidth), lineRect.y, exemptButtonWidth, lineRect.height);
-                var labelRect = new Rect(lineRect.x, lineRect.y, lineRect.width - exemptButtonWidth - 10f, lineRect.height);
+                Viewer viewer = _affectedViewers[i];
+                var exemptRect = new Rect(lineRect.x + (lineRect.width - _exemptButtonWidth), lineRect.y, _exemptButtonWidth, lineRect.height);
+                var labelRect = new Rect(lineRect.x, lineRect.y, lineRect.width - _exemptButtonWidth - 10f, lineRect.height);
 
                 SettingsHelper.DrawLabel(labelRect, viewer.username);
 
-                if (!Widgets.ButtonText(exemptRect, exemptText))
+                if (!Widgets.ButtonText(exemptRect, _exemptText))
                 {
                     continue;
                 }
 
-                constraints.Add(new NameConstraint { Username = viewer.username, NameStrategy = NameStrategies.Not });
-                affectedViewers = GetAffectedViewers();
-                affectedViewersCount = affectedViewers.Length;
+                _constraints.Add(new NameConstraint { Username = viewer.username, NameStrategy = NameStrategies.Not });
+                _affectedViewers = GetAffectedViewers();
+                _affectedViewersCount = _affectedViewers.Length;
             }
 
             listing.End();
@@ -231,31 +231,31 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawHeader(Rect region)
         {
-            var buttonRect = new Rect(0f, 0f, headerButtonWidth, Text.LineHeight);
+            var buttonRect = new Rect(0f, 0f, _headerButtonWidth, Text.LineHeight);
 
-            if (showingAffected)
+            if (_showingAffected)
             {
-                var statusRect = new Rect(headerButtonWidth + 10f, 0f, region.width - headerButtonWidth - 10f, Text.LineHeight);
+                var statusRect = new Rect(_headerButtonWidth + 10f, 0f, region.width - _headerButtonWidth - 10f, Text.LineHeight);
 
-                if (Widgets.ButtonText(buttonRect, backText))
+                if (Widgets.ButtonText(buttonRect, _backText))
                 {
-                    showingAffected = false;
+                    _showingAffected = false;
                 }
 
-                Widgets.Label(statusRect, $"{affectedViewersCount:N0} {affectedText}");
+                Widgets.Label(statusRect, $"{_affectedViewersCount:N0} {_affectedText}");
             }
             else
             {
-                if (Widgets.ButtonText(buttonRect, addConstraintText))
+                if (Widgets.ButtonText(buttonRect, _addConstraintText))
                 {
-                    Find.WindowStack.Add(new FloatMenu(constraintOptions));
+                    Find.WindowStack.Add(new FloatMenu(_constraintOptions));
                 }
 
                 buttonRect = buttonRect.ShiftRight();
 
-                if (Widgets.ButtonText(buttonRect, clearConstraintsText))
+                if (Widgets.ButtonText(buttonRect, _clearConstraintsText))
                 {
-                    constraints.Clear();
+                    _constraints.Clear();
                 }
             }
         }
@@ -263,24 +263,24 @@ namespace SirRandoo.ToolkitUtils.Windows
         [CanBeNull]
         private Viewer[] GetAffectedViewers()
         {
-            return constraints.Count <= 0 ? null : Viewers.All.Where(v => constraints.All(c => c.ShouldPurge(v))).ToArray();
+            return _constraints.Count <= 0 ? null : Viewers.All.Where(v => _constraints.All(c => c.ShouldPurge(v))).ToArray();
         }
 
         private void Purge()
         {
-            int count = affectedViewers.Count(viewer => Viewers.All.Remove(viewer));
+            int count = _affectedViewers.Count(viewer => Viewers.All.Remove(viewer));
 
-            LogHelper.Warn($"Purged {count:N0} viewers out of the requested {affectedViewersCount:N0}!");
+            LogHelper.Warn($"Purged {count:N0} viewers out of the requested {_affectedViewersCount:N0}!");
             ResetState();
         }
 
         private void ResetState()
         {
-            showingAffected = false;
+            _showingAffected = false;
 
-            constraints.Clear();
-            affectedScrollPos = Vector2.zero;
-            constraintsScrollPos = Vector2.zero;
+            _constraints.Clear();
+            _affectedScrollPos = Vector2.zero;
+            _constraintsScrollPos = Vector2.zero;
         }
     }
 }

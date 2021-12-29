@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ItemNameMutator : IMutatorBase<ThingItem>
     {
-        private string name = "";
-        private string nameText;
+        private string _name = "";
+        private string _nameText;
 
         public int Priority => 1;
 
@@ -33,27 +33,27 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            nameText = "TKUtils.Fields.Name".TranslateSimple();
+            _nameText = "TKUtils.Fields.Name".TranslateSimple();
         }
 
         public void Mutate(TableSettingsItem<ThingItem> item)
         {
-            if (name.NullOrEmpty())
+            if (_name.NullOrEmpty())
             {
                 return;
             }
 
             if (item.Data.ItemData != null)
             {
-                item.Data.ItemData.CustomName = name;
+                item.Data.ItemData.CustomName = _name;
             }
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, nameText);
-            name = Widgets.TextField(field, name).ToToolkit();
+            SettingsHelper.DrawLabel(label, _nameText);
+            _name = Widgets.TextField(field, _name).ToToolkit();
         }
     }
 }

@@ -37,24 +37,24 @@ namespace SirRandoo.ToolkitUtils.Windows
         private static IEnumerator<ThingItem> _validator;
         private static readonly Color OverlayBackgroundColor = new Color(0.13f, 0.16f, 0.17f);
 
-        private readonly ThingItemFilterManager filterManager = new ThingItemFilterManager();
-        private readonly ItemTableWorker worker;
+        private readonly ThingItemFilterManager _filterManager = new ThingItemFilterManager();
+        private readonly ItemTableWorker _worker;
 
-        private bool categorySearch;
-        private string categorySearchText;
-        private Vector2 categorySearchTextSize;
-        private bool filterMenuActive;
-        private float lastSearchTick;
-        private string localize;
+        private bool _categorySearch;
+        private string _categorySearchText;
+        private Vector2 _categorySearchTextSize;
+        private bool _filterMenuActive;
+        private float _lastSearchTick;
+        private string _localize;
 
-        private string query = "";
-        private string resetAllText;
+        private string _query = "";
+        private string _resetAllText;
 
-        private Vector2 resetAllTextSize;
-        private string searchText;
-        private Vector2 searchTextSize;
-        private bool shouldResizeTable = true;
-        private string title;
+        private Vector2 _resetAllTextSize;
+        private string _searchText;
+        private Vector2 _searchTextSize;
+        private bool _shouldResizeTable = true;
+        private string _title;
 
         static StoreDialog()
         {
@@ -64,17 +64,17 @@ namespace SirRandoo.ToolkitUtils.Windows
         public StoreDialog()
         {
             doCloseX = true;
-            worker = new ItemTableWorker();
+            _worker = new ItemTableWorker();
         }
 
         private bool FilterMenuActive
         {
-            get => filterMenuActive;
+            get => _filterMenuActive;
             set
             {
-                filterMenuActive = value;
+                _filterMenuActive = value;
 
-                if (!filterMenuActive)
+                if (!_filterMenuActive)
                 {
                     NotifySearchRequested();
                 }
@@ -86,26 +86,26 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void NotifySearchRequested()
         {
-            lastSearchTick = 10f;
+            _lastSearchTick = 10f;
         }
 
         private void UpdateItemView()
         {
-            foreach (TableSettingsItem<ThingItem> item in worker.Data)
+            foreach (TableSettingsItem<ThingItem> item in _worker.Data)
             {
                 item.IsHidden = false;
             }
 
-            filterManager.FilterItems(worker.Data);
+            _filterManager.FilterItems(_worker.Data);
 
-            if (query.NullOrEmpty())
+            if (_query.NullOrEmpty())
             {
                 return;
             }
 
-            foreach (TableSettingsItem<ThingItem> item in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<ThingItem> item in _worker.Data.Where(i => !i.IsHidden))
             {
-                item.IsHidden = categorySearch ? !item.Data.Category.ToLower().Contains(query.ToLower()) : !item.Data.Name.ToLower().Contains(query.ToLower());
+                item.IsHidden = _categorySearch ? !item.Data.Category.ToLower().Contains(_query.ToLower()) : !item.Data.Name.ToLower().Contains(_query.ToLower());
             }
         }
 
@@ -114,13 +114,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PreOpen();
             GenerateFilters();
             GetTranslationStrings();
-            worker.Prepare();
-            optionalTitle = title;
+            _worker.Prepare();
+            optionalTitle = _title;
         }
 
         private void GenerateFilters()
         {
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.Research,
                 new ThingItemFilter
                 {
@@ -130,7 +130,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.Research,
                 new ThingItemFilter
                 {
@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.Manufacturable,
                 new ThingItemFilter
                 {
@@ -150,7 +150,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.Manufacturable,
                 new ThingItemFilter
                 {
@@ -160,7 +160,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.Stackable,
                 new ThingItemFilter
                 {
@@ -170,7 +170,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.Stuff,
                 new ThingItemFilter
                 {
@@ -180,7 +180,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.Stuff,
                 new ThingItemFilter
                 {
@@ -190,7 +190,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.Stackable,
                 new ThingItemFilter
                 {
@@ -200,7 +200,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.State,
                 new ThingItemFilter
                 {
@@ -210,7 +210,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             );
 
-            filterManager.RegisterFilter(
+            _filterManager.RegisterFilter(
                 FilterTypes.State,
                 new ThingItemFilter
                 {
@@ -222,7 +222,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             foreach (TechLevel techLevel in Data.TechLevels)
             {
-                filterManager.RegisterFilter(
+                _filterManager.RegisterFilter(
                     FilterTypes.TechLevel,
                     new ThingItemFilter
                     {
@@ -240,7 +240,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             foreach (string modName in Data.Items.OrderBy(i => i.Mod).Select(i => i.Mod).Distinct())
             {
-                filterManager.RegisterFilter(
+                _filterManager.RegisterFilter(
                     FilterTypes.Mod,
                     new ThingItemFilter
                     {
@@ -253,7 +253,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             foreach (string category in Data.Items.OrderBy(i => i.Category).Select(i => i.Category).Distinct())
             {
-                filterManager.RegisterFilter(
+                _filterManager.RegisterFilter(
                     FilterTypes.Category,
                     new ThingItemFilter
                     {
@@ -294,13 +294,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(contentArea);
 
-            if (shouldResizeTable)
+            if (_shouldResizeTable)
             {
-                worker.NotifyResolutionChanged(contentArea.AtZero());
-                shouldResizeTable = false;
+                _worker.NotifyResolutionChanged(contentArea.AtZero());
+                _shouldResizeTable = false;
             }
 
-            worker.Draw(contentArea.AtZero());
+            _worker.Draw(contentArea.AtZero());
             GUI.EndGroup();
 
             Text.WordWrap = wrapped;
@@ -316,12 +316,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             Rect filterDialog = new Rect(center.x - filterWidth / 2f, center.y - canvas.height * 0.75f / 2f, filterWidth, canvas.height * 0.75f).ExpandedBy(StandardMargin * 2f).Rounded();
 
             Widgets.DrawBoxSolid(filterDialog, OverlayBackgroundColor);
-            Widgets.Label(new Rect(filterDialog.x + 8f, filterDialog.y + 5f, filterDialog.width - 30f, Text.LineHeight * LineScale).Rounded(), localize);
+            Widgets.Label(new Rect(filterDialog.x + 8f, filterDialog.y + 5f, filterDialog.width - 30f, Text.LineHeight * LineScale).Rounded(), _localize);
 
             Widgets.DrawHighlight(new Rect(filterDialog.x, filterDialog.y, filterDialog.width, Text.LineHeight * LineScale).Rounded());
 
             GUI.BeginGroup(filterDialog.ContractedBy(StandardMargin * 2f));
-            filterManager.DrawFilters(new Rect(0f, 0f, filterDialog.width - StandardMargin * 4f, filterDialog.height - StandardMargin * 4f));
+            _filterManager.DrawFilters(new Rect(0f, 0f, filterDialog.width - StandardMargin * 4f, filterDialog.height - StandardMargin * 4f));
             GUI.EndGroup();
 
             if (Widgets.CloseButtonFor(filterDialog))
@@ -336,20 +336,20 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             Rect searchRect = new Rect(line.x, line.y, line.width * 0.18f, line.height).Rounded();
-            Rect searchTextRect = searchRect.WithWidth(searchTextSize.x);
+            Rect searchTextRect = searchRect.WithWidth(_searchTextSize.x);
             var searchFieldRect = new Rect(searchTextRect.x + searchTextRect.width + 5f, searchTextRect.y, searchRect.width - searchTextRect.width - 5f, searchTextRect.height);
 
-            Widgets.Label(searchTextRect, searchText);
+            Widgets.Label(searchTextRect, _searchText);
 
-            if (SettingsHelper.DrawTextField(searchFieldRect, query, out string input))
+            if (SettingsHelper.DrawTextField(searchFieldRect, _query, out string input))
             {
-                query = input;
+                _query = input;
                 NotifySearchRequested();
             }
 
-            if (query.Length > 0 && SettingsHelper.DrawClearButton(searchRect))
+            if (_query.Length > 0 && SettingsHelper.DrawClearButton(searchRect))
             {
-                query = "";
+                _query = "";
                 NotifySearchRequested();
             }
 
@@ -357,7 +357,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             DrawFilterButton(filterButtonRect);
             DrawCategorySearchModifier(searchFieldRect, line);
 
-            float buttonWidth = resetAllTextSize.x + 16f;
+            float buttonWidth = _resetAllTextSize.x + 16f;
             var buttonRect = new Rect(line.x + line.width - buttonWidth, line.y, buttonWidth, line.height);
 
             DrawGlobalResetButton(buttonRect);
@@ -367,21 +367,21 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawCategorySearchModifier(Rect searchFieldRect, Rect line)
         {
-            var categoryLine = new Rect(searchFieldRect.x, Text.LineHeight + 1f, categorySearchTextSize.x + 16f, line.height);
+            var categoryLine = new Rect(searchFieldRect.x, Text.LineHeight + 1f, _categorySearchTextSize.x + 16f, line.height);
             var categoryCheck = new Rect(categoryLine.x + 2f, categoryLine.y + 2f, 12f, 12f);
-            var categoryText = new Rect(categoryCheck.x + 16f, categoryLine.y, categorySearchTextSize.x, categoryLine.height);
+            var categoryText = new Rect(categoryCheck.x + 16f, categoryLine.y, _categorySearchTextSize.x, categoryLine.height);
 
-            GUI.DrawTexture(categoryCheck, categorySearch ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
-            SettingsHelper.DrawLabel(categoryText, categorySearchText, TextAnchor.UpperLeft, GameFont.Tiny);
+            GUI.DrawTexture(categoryCheck, _categorySearch ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
+            SettingsHelper.DrawLabel(categoryText, _categorySearchText, TextAnchor.UpperLeft, GameFont.Tiny);
 
             if (!Widgets.ButtonInvisible(categoryLine))
             {
                 return;
             }
 
-            categorySearch = !categorySearch;
+            _categorySearch = !_categorySearch;
 
-            if (!query.NullOrEmpty())
+            if (!_query.NullOrEmpty())
             {
                 NotifySearchRequested();
             }
@@ -397,12 +397,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawGlobalResetButton(Rect canvas)
         {
-            if (!Widgets.ButtonText(canvas, resetAllText))
+            if (!Widgets.ButtonText(canvas, _resetAllText))
             {
                 return;
             }
 
-            foreach (TableSettingsItem<ThingItem> item in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<ThingItem> item in _worker.Data.Where(i => !i.IsHidden))
             {
                 item.Data.Item.abr = item.Data.Thing.label.ToToolkit();
                 item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
@@ -432,13 +432,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
-            if (lastSearchTick <= 0)
+            if (_lastSearchTick <= 0)
             {
                 UpdateItemView();
             }
             else
             {
-                lastSearchTick -= Time.unscaledTime - lastSearchTick;
+                _lastSearchTick -= Time.unscaledTime - _lastSearchTick;
             }
         }
 
@@ -468,16 +468,16 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 Data.Items.Add(latest);
-                worker.EnsureExists(new TableSettingsItem<ThingItem> { Data = latest });
+                _worker.EnsureExists(new TableSettingsItem<ThingItem> { Data = latest });
             }
 
-            worker.NotifySortRequested();
+            _worker.NotifySortRequested();
         }
 
         public override void Notify_ResolutionChanged()
         {
             base.Notify_ResolutionChanged();
-            shouldResizeTable = true;
+            _shouldResizeTable = true;
         }
 
         public override void PreClose()
@@ -567,15 +567,15 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslationStrings()
         {
-            title = "TKUtils.ItemStore.Title".Localize();
-            categorySearchText = "TKUtils.Fields.CategorySearch".Localize();
-            searchText = "TKUtils.Buttons.Search".Localize();
-            resetAllText = "TKUtils.Buttons.ResetAll".Localize();
-            localize = "TKUtils.Headers.FilterDialog".Localize();
+            _title = "TKUtils.ItemStore.Title".Localize();
+            _categorySearchText = "TKUtils.Fields.CategorySearch".Localize();
+            _searchText = "TKUtils.Buttons.Search".Localize();
+            _resetAllText = "TKUtils.Buttons.ResetAll".Localize();
+            _localize = "TKUtils.Headers.FilterDialog".Localize();
 
-            resetAllTextSize = Text.CalcSize(resetAllText);
-            searchTextSize = Text.CalcSize(searchText);
-            categorySearchTextSize = Text.CalcSize(categorySearchText);
+            _resetAllTextSize = Text.CalcSize(_resetAllText);
+            _searchTextSize = Text.CalcSize(_searchText);
+            _categorySearchTextSize = Text.CalcSize(_categorySearchText);
         }
 
         internal static IEnumerable<ThingItem> ValidateContainers()

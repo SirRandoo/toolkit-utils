@@ -25,24 +25,24 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class WearableSelector : ISelectorBase<ThingItem>
     {
-        private bool state = true;
-        private string wearableText;
+        private bool _state = true;
+        private string _wearableText;
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            wearableText = "TKUtils.Fields.CanWear".TranslateSimple();
+            _wearableText = "TKUtils.Fields.CanWear".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, wearableText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _wearableText, ref _state))
             {
                 Dirty.Set(true);
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsApparel == state;
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsApparel == _state;
 
         public string Label => "TKUtils.Fields.CanWear".TranslateSimple();
     }

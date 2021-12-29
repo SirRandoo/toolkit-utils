@@ -38,40 +38,40 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class PartialManager<T> : Window where T : class, IShopItemBase
     {
-        private readonly PartialType filter;
-        private readonly Action<PartialData<T>> loadCallback;
-        private readonly Action<PartialUgc> saveCallback;
-        private readonly InstanceType type;
-        private string cancelLabel;
-        private bool cancelled = true;
-        private string confirmLabel;
-        private string deletePartialTooltip;
-        private string descriptionLabel;
-        private string fileDescription;
-        private string fileName;
-        private string fileNameLabel;
-        private List<FileData<T>> files = new List<FileData<T>>();
-        private string indexingLabel;
-        private bool isIndexing;
-        private string loadPartialTooltip;
-        private Vector2 scrollPos = Vector2.zero;
-        private FileData<T> selectedFile;
+        private readonly PartialType _filter;
+        private readonly Action<PartialData<T>> _loadCallback;
+        private readonly Action<PartialUgc> _saveCallback;
+        private readonly InstanceType _type;
+        private string _cancelLabel;
+        private bool _cancelled = true;
+        private string _confirmLabel;
+        private string _deletePartialTooltip;
+        private string _descriptionLabel;
+        private string _fileDescription;
+        private string _fileName;
+        private string _fileNameLabel;
+        private List<FileData<T>> _files = new List<FileData<T>>();
+        private string _indexingLabel;
+        private bool _isIndexing;
+        private string _loadPartialTooltip;
+        private Vector2 _scrollPos = Vector2.zero;
+        private FileData<T> _selectedFile;
 
         private PartialManager(Action<PartialData<T>> loadCallback)
         {
-            type = InstanceType.Load;
-            this.loadCallback = loadCallback;
+            _type = InstanceType.Load;
+            _loadCallback = loadCallback;
 
-            filter = GetFilter();
+            _filter = GetFilter();
             SetWindowParams();
         }
 
         private PartialManager(Action<PartialUgc> saveCallback)
         {
-            type = InstanceType.Save;
-            this.saveCallback = saveCallback;
+            _type = InstanceType.Save;
+            _saveCallback = saveCallback;
 
-            filter = GetFilter();
+            _filter = GetFilter();
             SetWindowParams();
         }
 
@@ -79,7 +79,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             get
             {
-                switch (type)
+                switch (_type)
                 {
                     case InstanceType.Load:
                         return new Vector2(350, 500);
@@ -131,7 +131,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             GUI.BeginGroup(canvas);
 
-            switch (type)
+            switch (_type)
             {
                 case InstanceType.Load:
                     DrawLoadScreen(canvas);
@@ -148,26 +148,26 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawLoadScreen(Rect canvas)
         {
-            if (isIndexing)
+            if (_isIndexing)
             {
-                SettingsHelper.DrawLabel(canvas, indexingLabel, TextAnchor.MiddleCenter, GameFont.Medium);
+                SettingsHelper.DrawLabel(canvas, _indexingLabel, TextAnchor.MiddleCenter, GameFont.Medium);
 
                 return;
             }
 
             var listing = new Listing_Standard();
-            var viewport = new Rect(0f, 0f, canvas.width - 16f, Text.SmallFontHeight * files.Count);
+            var viewport = new Rect(0f, 0f, canvas.width - 16f, Text.SmallFontHeight * _files.Count);
 
             GUI.BeginGroup(canvas);
             listing.Begin(canvas);
-            Widgets.BeginScrollView(canvas, ref scrollPos, viewport);
+            Widgets.BeginScrollView(canvas, ref _scrollPos, viewport);
             FileData<T> toDelete = null;
 
-            foreach (FileData<T> file in files)
+            foreach (FileData<T> file in _files)
             {
                 Rect lineRect = listing.GetRect(Text.SmallFontHeight);
 
-                if (!lineRect.IsRegionVisible(canvas, scrollPos))
+                if (!lineRect.IsRegionVisible(canvas, _scrollPos))
                 {
                     continue;
                 }
@@ -180,8 +180,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 if (Widgets.ButtonImage(loadRect, TexCommand.Install))
                 {
-                    selectedFile = file;
-                    cancelled = false;
+                    _selectedFile = file;
+                    _cancelled = false;
                     Close();
                 }
 
@@ -191,8 +191,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 nameRect.TipRegion(file.Description);
-                loadRect.TipRegion(loadPartialTooltip);
-                deleteRect.TipRegion(deletePartialTooltip);
+                loadRect.TipRegion(_loadPartialTooltip);
+                deleteRect.TipRegion(_deletePartialTooltip);
             }
 
             Widgets.EndScrollView();
@@ -204,7 +204,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            files.Remove(toDelete);
+            _files.Remove(toDelete);
 
             try
             {
@@ -223,32 +223,32 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.Begin(canvas);
 
             (Rect nameLabel, Rect nameField) = listing.GetRectAsForm(0.55f);
-            SettingsHelper.DrawLabel(nameLabel, fileNameLabel);
+            SettingsHelper.DrawLabel(nameLabel, _fileNameLabel);
 
-            if (SettingsHelper.DrawTextField(nameField, fileName, out string newFileName))
+            if (SettingsHelper.DrawTextField(nameField, _fileName, out string newFileName))
             {
-                fileName = newFileName;
+                _fileName = newFileName;
             }
 
             (Rect descLabel, Rect descField) = listing.GetRectAsForm(0.55f);
-            SettingsHelper.DrawLabel(descLabel, descriptionLabel);
+            SettingsHelper.DrawLabel(descLabel, _descriptionLabel);
 
-            if (SettingsHelper.DrawTextField(descField, fileDescription, out string newFileDesc))
+            if (SettingsHelper.DrawTextField(descField, _fileDescription, out string newFileDesc))
             {
-                fileDescription = newFileDesc;
+                _fileDescription = newFileDesc;
             }
 
             listing.End();
 
             (Rect cancel, Rect confirm) = new Rect(0f, canvas.height - Text.SmallFontHeight, canvas.width, Text.SmallFontHeight).ToForm(0.5f);
 
-            if (Widgets.ButtonText(confirm, confirmLabel))
+            if (Widgets.ButtonText(confirm, _confirmLabel))
             {
-                cancelled = false;
+                _cancelled = false;
                 Close();
             }
 
-            if (Widgets.ButtonText(cancel, cancelLabel))
+            if (Widgets.ButtonText(cancel, _cancelLabel))
             {
                 Close();
             }
@@ -261,7 +261,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void OnCancelKeyPressed()
         {
-            cancelled = true;
+            _cancelled = true;
             base.OnCancelKeyPressed();
         }
 
@@ -273,23 +273,23 @@ namespace SirRandoo.ToolkitUtils.Windows
             Task.Run(
                 async () =>
                 {
-                    isIndexing = true;
-                    files = await IndexPartialFiles();
-                    files.RemoveAll(i => i.PartialData.PartialType != filter);
-                    isIndexing = false;
+                    _isIndexing = true;
+                    _files = await IndexPartialFiles();
+                    _files.RemoveAll(i => i.PartialData.PartialType != _filter);
+                    _isIndexing = false;
                 }
             );
         }
 
         private void FetchTranslations()
         {
-            fileNameLabel = "TKUtils.Fields.Name".Localize();
-            descriptionLabel = "TKUtils.Fields.Description".Localize();
-            confirmLabel = "TKUtils.Buttons.Confirm".Localize();
-            cancelLabel = "TKUtils.Buttons.Cancel".Localize();
-            indexingLabel = "TKUtils.PartialManager.Indexing".Localize();
-            loadPartialTooltip = "TKUtils.PartialTooltips.LoadPartial".Localize();
-            deletePartialTooltip = "TKUtils.PartialTooltips.DeletePartial".Localize();
+            _fileNameLabel = "TKUtils.Fields.Name".Localize();
+            _descriptionLabel = "TKUtils.Fields.Description".Localize();
+            _confirmLabel = "TKUtils.Buttons.Confirm".Localize();
+            _cancelLabel = "TKUtils.Buttons.Cancel".Localize();
+            _indexingLabel = "TKUtils.PartialManager.Indexing".Localize();
+            _loadPartialTooltip = "TKUtils.PartialTooltips.LoadPartial".Localize();
+            _deletePartialTooltip = "TKUtils.PartialTooltips.DeletePartial".Localize();
         }
 
         private static async Task<List<FileData<T>>> IndexPartialFiles()
@@ -339,21 +339,21 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PostClose()
         {
-            if (cancelled)
+            if (_cancelled)
             {
                 base.PostClose();
 
                 return;
             }
 
-            switch (type)
+            switch (_type)
             {
-                case InstanceType.Load when loadCallback != null && selectedFile != null:
-                    loadCallback(selectedFile.PartialData);
+                case InstanceType.Load when _loadCallback != null && _selectedFile != null:
+                    _loadCallback(_selectedFile.PartialData);
 
                     break;
-                case InstanceType.Save when saveCallback != null:
-                    saveCallback(new PartialUgc { Description = fileDescription, Name = SanitizeFileName(fileName) });
+                case InstanceType.Save when _saveCallback != null:
+                    _saveCallback(new PartialUgc { Description = _fileDescription, Name = SanitizeFileName(_fileName) });
 
                     break;
             }
@@ -365,22 +365,22 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public class PartialUgc
         {
-            private string description;
-            private string name;
+            private string _description;
+            private string _name;
 
             [NotNull]
             public string Name
             {
-                get => name.NullOrEmpty() ? DefaultFileName : $"{name}.json";
-                set => name = value.NullOrEmpty() ? DefaultFileName : value;
+                get => _name.NullOrEmpty() ? DefaultFileName : $"{_name}.json";
+                set => _name = value.NullOrEmpty() ? DefaultFileName : value;
             }
 
             public PartialType Type { get; set; }
 
             public string Description
             {
-                get => description.NullOrEmpty() ? DefaultDescription : description;
-                set => description = value.NullOrEmpty() ? DefaultDescription : value;
+                get => _description.NullOrEmpty() ? DefaultDescription : _description;
+                set => _description = value.NullOrEmpty() ? DefaultDescription : value;
             }
 
             [NotNull] private static string DefaultDescription => "No description provided";

@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class HasQuantityLimitMutator : IMutatorBase<ThingItem>
     {
-        private string hasQuantityLimitText;
-        private bool state;
+        private string _hasQuantityLimitText;
+        private bool _state;
 
         public int Priority => 1;
 
@@ -33,20 +33,20 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            hasQuantityLimitText = "TKUtils.Fields.HasQuantityLimit".TranslateSimple();
+            _hasQuantityLimitText = "TKUtils.Fields.HasQuantityLimit".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
             if (item.Data.ItemData != null)
             {
-                item.Data.ItemData.HasQuantityLimit = state;
+                item.Data.ItemData.HasQuantityLimit = _state;
             }
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.LabeledPaintableCheckbox(canvas, hasQuantityLimitText, ref state);
+            SettingsHelper.LabeledPaintableCheckbox(canvas, _hasQuantityLimitText, ref _state);
         }
     }
 }

@@ -27,11 +27,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Immortality : IncidentVariablesBase
     {
-        private Pawn pawn;
+        private Pawn _pawn;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
@@ -43,12 +43,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            return !pawn!.health.hediffSet.HasHediff(Immortals.ImmortalHediffDef);
+            return !_pawn!.health.hediffSet.HasHediff(Immortals.ImmortalHediffDef);
         }
 
         public override void Execute()
         {
-            if (!Immortals.TryGrantImmortality(pawn))
+            if (!Immortals.TryGrantImmortality(_pawn))
             {
                 return;
             }
@@ -56,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             Viewer.Charge(storeIncident);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Immortality".Localize());
 
-            Find.LetterStack.ReceiveLetter("TKUtils.ImmortalityLetter.Title".Localize(), "TKUtils.ImmortalityLetter.Description".LocalizeKeyed(Viewer.username), LetterDefOf.NeutralEvent, pawn);
+            Find.LetterStack.ReceiveLetter("TKUtils.ImmortalityLetter.Title".Localize(), "TKUtils.ImmortalityLetter.Description".LocalizeKeyed(Viewer.username), LetterDefOf.NeutralEvent, _pawn);
         }
     }
 }

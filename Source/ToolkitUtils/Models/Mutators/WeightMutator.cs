@@ -25,12 +25,12 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class WeightMutator : IMutatorBase<ThingItem>
     {
-        private bool percentage;
-        private string percentTooltip;
-        private string valueTooltip;
-        private float weight = 1f;
-        private string weightBuffer = "1";
-        private string weightText;
+        private bool _percentage;
+        private string _percentTooltip;
+        private string _valueTooltip;
+        private float _weight = 1f;
+        private string _weightBuffer = "1";
+        private string _weightText;
 
         public int Priority => 1;
 
@@ -38,28 +38,28 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            weightText = "TKUtils.Fields.Weight".TranslateSimple();
-            valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".TranslateSimple();
-            percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".TranslateSimple();
+            _weightText = "TKUtils.Fields.Weight".TranslateSimple();
+            _valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".TranslateSimple();
+            _percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
             if (item.Data.ItemData != null)
             {
-                item.Data.ItemData.Weight = percentage ? Mathf.CeilToInt(item.Data.ItemData.Weight * (weight / 100f)) : weight;
+                item.Data.ItemData.Weight = _percentage ? Mathf.CeilToInt(item.Data.ItemData.Weight * (_weight / 100f)) : _weight;
             }
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, weightText);
-            Widgets.TextFieldNumeric(field, ref weight, ref weightBuffer);
+            SettingsHelper.DrawLabel(label, _weightText);
+            Widgets.TextFieldNumeric(field, ref _weight, ref _weightBuffer);
 
-            if (SettingsHelper.DrawFieldButton(field, percentage ? "%" : "#", percentage ? percentTooltip : valueTooltip))
+            if (SettingsHelper.DrawFieldButton(field, _percentage ? "%" : "#", _percentage ? _percentTooltip : _valueTooltip))
             {
-                percentage = !percentage;
+                _percentage = !_percentage;
             }
         }
     }

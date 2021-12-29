@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 {
     public class PawnRelations : ICommandSettings
     {
-        private string minimumBuffer = TkSettings.OpinionMinimum.ToString();
+        private string _minimumBuffer = TkSettings.OpinionMinimum.ToString();
 
         public void Draw(Rect region)
         {
@@ -36,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
             {
                 (Rect labelRect, Rect fieldRect) = listing.GetRectAsForm();
                 SettingsHelper.DrawLabel(labelRect, "TKUtils.PawnRelations.OpinionThreshold.Label".Localize());
-                Widgets.TextFieldNumeric(fieldRect, ref TkSettings.OpinionMinimum, ref minimumBuffer);
+                Widgets.TextFieldNumeric(fieldRect, ref TkSettings.OpinionMinimum, ref _minimumBuffer);
                 listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Localize());
             }
 

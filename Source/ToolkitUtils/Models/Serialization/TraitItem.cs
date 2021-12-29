@@ -33,19 +33,19 @@ namespace SirRandoo.ToolkitUtils.Models
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class TraitItem : IShopItemBase
     {
+        [IgnoreDataMember] private int _cost;
+        [IgnoreDataMember] private TraitData _data;
+        [IgnoreDataMember] private string _defaultFeminineName;
+        [IgnoreDataMember] private string _defaultMasculineName;
+        [IgnoreDataMember] private string _defaultName;
+        [IgnoreDataMember] private string _finalDescription;
+        [IgnoreDataMember] private TraitDef _traitDef;
         [DataMember(Name = "canAdd")] public bool CanAdd;
         [DataMember(Name = "canRemove")] public bool CanRemove;
-        [IgnoreDataMember] private int cost;
         [DataMember(Name = "addPrice")] public int CostToAdd;
         [DataMember(Name = "removePrice")] public int CostToRemove;
-        [IgnoreDataMember] private TraitData data;
-        [IgnoreDataMember] private string defaultFeminineName;
-        [IgnoreDataMember] private string defaultMasculineName;
-        [IgnoreDataMember] private string defaultName;
 
         [DataMember(Name = "degree")] public int Degree;
-        [IgnoreDataMember] private string finalDescription;
-        [IgnoreDataMember] private TraitDef traitDef;
 
         // Legacy support
         [CanBeNull]
@@ -55,7 +55,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                return finalDescription ??= TraitDef?.DataAtDegree(Degree)
+                return _finalDescription ??= TraitDef?.DataAtDegree(Degree)
                    .description.Replace("PAWN_nameDef", "Timmy")
                    .Replace("PAWN_pronoun", "Prohe".Localize())
                    .Replace("PAWN_objective", "ProhimObj".Localize())
@@ -102,14 +102,14 @@ namespace SirRandoo.ToolkitUtils.Models
         [CanBeNull]
         [IgnoreDataMember]
         public TraitDef TraitDef =>
-            traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
+            _traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
 
         [CanBeNull]
         [DataMember(Name = "data")]
         public TraitData TraitData
         {
-            get => data ??= new TraitData();
-            set => data = value;
+            get => _data ??= new TraitData();
+            set => _data = value;
         }
 
         [DataMember(Name = "defName")] public string DefName { get; set; }
@@ -126,20 +126,20 @@ namespace SirRandoo.ToolkitUtils.Models
         [IgnoreDataMember]
         public int Cost
         {
-            get => cost;
+            get => _cost;
             set
             {
                 CostToAdd = value;
                 CostToRemove = value;
-                cost = value;
+                _cost = value;
             }
         }
 
         [IgnoreDataMember]
         public IShopDataBase Data
         {
-            get => data;
-            set => data = value as TraitData;
+            get => _data;
+            set => _data = value as TraitData;
         }
 
         public void ResetName()
@@ -507,26 +507,26 @@ namespace SirRandoo.ToolkitUtils.Models
             switch (gender)
             {
                 case Gender.Male:
-                    if (invalidate || defaultMasculineName.NullOrEmpty())
+                    if (invalidate || _defaultMasculineName.NullOrEmpty())
                     {
-                        defaultMasculineName = TraitDef?.DataAtDegree(Degree).GetLabelFor(Gender.Male).StripTags().ToToolkit();
+                        _defaultMasculineName = TraitDef?.DataAtDegree(Degree).GetLabelFor(Gender.Male).StripTags().ToToolkit();
                     }
 
-                    return defaultMasculineName;
+                    return _defaultMasculineName;
                 case Gender.Female:
-                    if (invalidate || defaultFeminineName.NullOrEmpty())
+                    if (invalidate || _defaultFeminineName.NullOrEmpty())
                     {
-                        defaultFeminineName = TraitDef?.DataAtDegree(Degree).GetLabelFor(Gender.Female).StripTags().ToToolkit();
+                        _defaultFeminineName = TraitDef?.DataAtDegree(Degree).GetLabelFor(Gender.Female).StripTags().ToToolkit();
                     }
 
-                    return defaultFeminineName;
+                    return _defaultFeminineName;
                 default:
-                    if (invalidate || defaultName.NullOrEmpty())
+                    if (invalidate || _defaultName.NullOrEmpty())
                     {
-                        defaultName = TraitDef?.DataAtDegree(Degree).GetLabelFor(Gender.None).StripTags().ToToolkit();
+                        _defaultName = TraitDef?.DataAtDegree(Degree).GetLabelFor(Gender.None).StripTags().ToToolkit();
                     }
 
-                    return defaultName;
+                    return _defaultName;
             }
         }
     }

@@ -25,18 +25,18 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class UsabilitySelector : ISelectorBase<ThingItem>
     {
-        private bool state = true;
-        private string usableText;
+        private bool _state = true;
+        private string _usableText;
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            usableText = "TKUtils.Fields.CanUse".Localize();
+            _usableText = "TKUtils.Fields.CanUse".Localize();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, usableText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _usableText, ref _state))
             {
                 Dirty.Set(true);
             }

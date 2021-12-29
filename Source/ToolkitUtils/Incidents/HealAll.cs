@@ -28,8 +28,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class HealAll : IncidentVariablesBase
     {
-        private readonly List<Hediff> healQueue = new List<Hediff>();
-        private readonly List<Pair<Pawn, BodyPartRecord>> restoreQueue = new List<Pair<Pawn, BodyPartRecord>>();
+        private readonly List<Hediff> _healQueue = new List<Hediff>();
+        private readonly List<Pair<Pawn, BodyPartRecord>> _restoreQueue = new List<Pair<Pawn, BodyPartRecord>>();
 
         public override bool CanHappen(string msg, Viewer viewer)
         {
@@ -45,27 +45,27 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 switch (result)
                 {
                     case Hediff hediff:
-                        healQueue.Add(hediff);
+                        _healQueue.Add(hediff);
 
                         break;
                     case BodyPartRecord record:
-                        restoreQueue.Add(new Pair<Pawn, BodyPartRecord>(pawn, record));
+                        _restoreQueue.Add(new Pair<Pawn, BodyPartRecord>(pawn, record));
 
                         break;
                 }
             }
 
-            return healQueue.Any(i => i != null) || restoreQueue.Any(i => i.Second != null);
+            return _healQueue.Any(i => i != null) || _restoreQueue.Any(i => i.Second != null);
         }
 
         public override void Execute()
         {
-            foreach (Hediff hediff in healQueue)
+            foreach (Hediff hediff in _healQueue)
             {
                 HealHelper.Cure(hediff);
             }
 
-            foreach (Pair<Pawn, BodyPartRecord> part in restoreQueue)
+            foreach (Pair<Pawn, BodyPartRecord> part in _restoreQueue)
             {
                 part.First.health.RestorePart(part.Second);
             }

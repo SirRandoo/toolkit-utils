@@ -27,34 +27,34 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class ReviveMe : IncidentVariablesBase
     {
-        private Pawn pawn;
+        private Pawn _pawn;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
                 return false;
             }
 
-            if (PawnTracker.pawnsToRevive.Contains(pawn))
+            if (PawnTracker.pawnsToRevive.Contains(_pawn))
             {
                 return false;
             }
 
-            PawnTracker.pawnsToRevive.Add(pawn);
+            PawnTracker.pawnsToRevive.Add(_pawn);
 
             return true;
         }
 
         public override void Execute()
         {
-            pawn.TryResurrect();
+            _pawn.TryResurrect();
             Viewer.Charge(storeIncident);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.ReviveMe.Complete".Localize());
 
-            Find.LetterStack.ReceiveLetter("TKUtils.RevivalLetter.Title".Localize(), "TKUtils.RevivalLetter.Description".LocalizeKeyed(Viewer.username), LetterDefOf.PositiveEvent, pawn);
+            Find.LetterStack.ReceiveLetter("TKUtils.RevivalLetter.Title".Localize(), "TKUtils.RevivalLetter.Description".LocalizeKeyed(Viewer.username), LetterDefOf.PositiveEvent, _pawn);
         }
     }
 }

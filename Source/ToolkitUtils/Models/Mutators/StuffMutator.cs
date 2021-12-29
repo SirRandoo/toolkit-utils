@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class StuffMutator : IMutatorBase<ThingItem>
     {
-        private bool state;
-        private string stuffText;
+        private bool _state;
+        private string _stuffText;
 
         public int Priority => 1;
 
@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            stuffText = "TKUtils.Fields.CanBeStuff".TranslateSimple();
+            _stuffText = "TKUtils.Fields.CanBeStuff".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
@@ -45,13 +45,13 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (item.Data.ItemData != null)
             {
-                item.Data.ItemData.IsStuffAllowed = state;
+                item.Data.ItemData.IsStuffAllowed = _state;
             }
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.LabeledPaintableCheckbox(canvas, stuffText, ref state);
+            SettingsHelper.LabeledPaintableCheckbox(canvas, _stuffText, ref _state);
         }
     }
 }

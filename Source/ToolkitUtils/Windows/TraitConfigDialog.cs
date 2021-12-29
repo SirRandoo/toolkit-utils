@@ -27,24 +27,24 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class TraitConfigDialog : Window
     {
-        private readonly TraitTableWorker worker;
-        private string addCostText;
-        private int globalAddCost;
-        private int globalRemoveCost;
-        private float lastSearchTick;
+        private readonly TraitTableWorker _worker;
+        private string _addCostText;
+        private int _globalAddCost;
+        private int _globalRemoveCost;
+        private float _lastSearchTick;
 
-        private string query = "";
-        private string removeCostText;
-        private string resetAllText;
-        private Vector2 resetAllTextSize;
-        private string searchText;
-        private bool shouldResizeTable = true;
-        private string titleText;
+        private string _query = "";
+        private string _removeCostText;
+        private string _resetAllText;
+        private Vector2 _resetAllTextSize;
+        private string _searchText;
+        private bool _shouldResizeTable = true;
+        private string _titleText;
 
         public TraitConfigDialog()
         {
             doCloseX = true;
-            worker = new TraitTableWorker();
+            _worker = new TraitTableWorker();
         }
 
         public override Vector2 InitialSize => new Vector2(900f, UI.screenHeight * 0.9f);
@@ -52,26 +52,26 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void NotifySearchRequested()
         {
-            lastSearchTick = 10f;
+            _lastSearchTick = 10f;
         }
 
         public override void PreOpen()
         {
             base.PreOpen();
             GetTranslations();
-            worker.Prepare();
-            optionalTitle = titleText;
+            _worker.Prepare();
+            optionalTitle = _titleText;
         }
 
         private void GetTranslations()
         {
-            titleText = "TKUtils.TraitStore.Title".Localize();
-            searchText = "TKUtils.Buttons.Search".Localize();
-            addCostText = "TKUtils.Fields.AddPrice".Localize();
-            removeCostText = "TKUtils.Fields.RemovePrice".Localize();
-            resetAllText = "TKUtils.Buttons.ResetAll".Localize();
+            _titleText = "TKUtils.TraitStore.Title".Localize();
+            _searchText = "TKUtils.Buttons.Search".Localize();
+            _addCostText = "TKUtils.Fields.AddPrice".Localize();
+            _removeCostText = "TKUtils.Fields.RemovePrice".Localize();
+            _resetAllText = "TKUtils.Buttons.ResetAll".Localize();
 
-            resetAllTextSize = Text.CalcSize(resetAllText);
+            _resetAllTextSize = Text.CalcSize(_resetAllText);
         }
 
         private void DrawHeader(Rect canvas)
@@ -79,22 +79,22 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
             (Rect searchLabel, Rect searchField) = new Rect(canvas.x, canvas.y, canvas.width * 0.19f, Text.LineHeight).ToForm(0.3f);
 
-            Widgets.Label(searchLabel, searchText);
+            Widgets.Label(searchLabel, _searchText);
 
-            if (SettingsHelper.DrawTextField(searchField, query, out string input))
+            if (SettingsHelper.DrawTextField(searchField, _query, out string input))
             {
-                query = input;
+                _query = input;
                 NotifySearchRequested();
             }
 
-            if (query.Length > 0 && SettingsHelper.DrawClearButton(searchField))
+            if (_query.Length > 0 && SettingsHelper.DrawClearButton(searchField))
             {
-                query = "";
+                _query = "";
                 NotifySearchRequested();
             }
 
 
-            float resetBtnWidth = resetAllTextSize.x + 16f;
+            float resetBtnWidth = _resetAllTextSize.x + 16f;
             var gResetRect = new Rect(canvas.x + canvas.width - resetBtnWidth, canvas.y, resetBtnWidth, Text.LineHeight);
             var gAddPriceRect = new Rect(canvas.width - 5f - 200f - resetBtnWidth - 10f, 0f, 200f, Text.LineHeight);
             var gRemovePriceRect = new Rect(canvas.width - 5f - 200f - resetBtnWidth - 10f, Text.LineHeight, 200f, Text.LineHeight);
@@ -107,12 +107,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawGlobalResetButton(Rect canvas)
         {
-            if (!Widgets.ButtonText(canvas, resetAllText))
+            if (!Widgets.ButtonText(canvas, _resetAllText))
             {
                 return;
             }
 
-            foreach (TableSettingsItem<TraitItem> trait in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> trait in _worker.Data.Where(i => !i.IsHidden))
             {
                 trait.Data.CanAdd = true;
                 trait.Data.CostToAdd = 3500;
@@ -128,35 +128,35 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawGlobalRemovePriceField(Rect canvas)
         {
-            var buffer = globalRemoveCost.ToString();
-            Widgets.Label(canvas.LeftHalf(), removeCostText);
-            Widgets.TextFieldNumeric(canvas.RightHalf(), ref globalRemoveCost, ref buffer);
+            var buffer = _globalRemoveCost.ToString();
+            Widgets.Label(canvas.LeftHalf(), _removeCostText);
+            Widgets.TextFieldNumeric(canvas.RightHalf(), ref _globalRemoveCost, ref buffer);
 
             if (!SettingsHelper.DrawDoneButton(canvas.RightHalf()))
             {
                 return;
             }
 
-            foreach (TableSettingsItem<TraitItem> trait in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> trait in _worker.Data.Where(i => !i.IsHidden))
             {
-                trait.Data.CostToRemove = globalRemoveCost;
+                trait.Data.CostToRemove = _globalRemoveCost;
             }
         }
 
         private void DrawGlobalAddPriceField(Rect canvas)
         {
-            var buffer = globalAddCost.ToString();
-            Widgets.Label(canvas.LeftHalf(), addCostText);
-            Widgets.TextFieldNumeric(canvas.RightHalf(), ref globalAddCost, ref buffer);
+            var buffer = _globalAddCost.ToString();
+            Widgets.Label(canvas.LeftHalf(), _addCostText);
+            Widgets.TextFieldNumeric(canvas.RightHalf(), ref _globalAddCost, ref buffer);
 
             if (!SettingsHelper.DrawDoneButton(canvas.RightHalf()))
             {
                 return;
             }
 
-            foreach (TableSettingsItem<TraitItem> trait in worker.Data.Where(i => !i.IsHidden))
+            foreach (TableSettingsItem<TraitItem> trait in _worker.Data.Where(i => !i.IsHidden))
             {
-                trait.Data.CostToAdd = globalAddCost;
+                trait.Data.CostToAdd = _globalAddCost;
             }
         }
 
@@ -180,13 +180,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(contentArea);
 
-            if (shouldResizeTable)
+            if (_shouldResizeTable)
             {
-                worker.NotifyResolutionChanged(contentArea.AtZero());
-                shouldResizeTable = false;
+                _worker.NotifyResolutionChanged(contentArea.AtZero());
+                _shouldResizeTable = false;
             }
 
-            worker.Draw(contentArea.AtZero());
+            _worker.Draw(contentArea.AtZero());
             GUI.EndGroup();
             GUI.EndGroup();
 
@@ -198,13 +198,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.WindowUpdate();
 
 
-            if (lastSearchTick <= 0)
+            if (_lastSearchTick <= 0)
             {
-                worker.NotifySearchRequested(query);
+                _worker.NotifySearchRequested(_query);
             }
             else
             {
-                lastSearchTick -= Time.unscaledTime - lastSearchTick;
+                _lastSearchTick -= Time.unscaledTime - _lastSearchTick;
             }
         }
 
@@ -249,7 +249,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         public override void Notify_ResolutionChanged()
         {
             base.Notify_ResolutionChanged();
-            shouldResizeTable = true;
+            _shouldResizeTable = true;
         }
     }
 }

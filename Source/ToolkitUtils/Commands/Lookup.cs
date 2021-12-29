@@ -69,11 +69,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             { "mod", Category.Mod }
         };
 
-        private ITwitchMessage msg;
+        private ITwitchMessage _msg;
 
         public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            msg = twitchMessage;
+            _msg = twitchMessage;
             string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
             string category = segments.FirstOrFallback("");
             string query = segments.Skip(1).FirstOrFallback("");
@@ -94,7 +94,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            msg.Reply("TKUtils.Lookup".LocalizeKeyed(query, results.Take(TkSettings.LookupLimit).SectionJoin()));
+            _msg.Reply("TKUtils.Lookup".LocalizeKeyed(query, results.Take(TkSettings.LookupLimit).SectionJoin()));
         }
 
         private void PerformAnimalLookup(string query)

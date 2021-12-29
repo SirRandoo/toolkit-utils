@@ -25,18 +25,18 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class AnimalSelector : ISelectorBase<ThingItem>
     {
-        private string animalText;
-        private bool state = true;
+        private string _animalText;
+        private bool _state = true;
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            animalText = "TKUtils.Fields.Animal".TranslateSimple();
+            _animalText = "TKUtils.Fields.Animal".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, animalText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _animalText, ref _state))
             {
                 Dirty.Set(true);
             }

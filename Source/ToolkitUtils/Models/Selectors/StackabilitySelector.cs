@@ -25,18 +25,18 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class StackabilitySelector : ISelectorBase<ThingItem>
     {
-        private string stackabilityText;
-        private bool state = true;
+        private string _stackabilityText;
+        private bool _state = true;
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            stackabilityText = "TKUtils.Fields.CanStack".TranslateSimple();
+            _stackabilityText = "TKUtils.Fields.CanStack".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, stackabilityText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _stackabilityText, ref _state))
             {
                 Dirty.Set(true);
             }
@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return false;
             }
 
-            return state ? item.Data.Thing.stackLimit > 1 : item.Data.Thing.stackLimit == 1;
+            return _state ? item.Data.Thing.stackLimit > 1 : item.Data.Thing.stackLimit == 1;
         }
 
         public string Label => "TKUtils.Fields.CanStack".TranslateSimple();

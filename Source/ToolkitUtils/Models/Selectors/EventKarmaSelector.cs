@@ -34,22 +34,22 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class EventKarmaSelector : ISelectorBase<EventItem>
     {
-        private string karmaLabel;
-        private KarmaType karmaType = KarmaType.Neutral;
+        private string _karmaLabel;
+        private KarmaType _karmaType = KarmaType.Neutral;
 
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            karmaLabel = "TKUtils.Fields.KarmaType".TranslateSimple();
+            _karmaLabel = "TKUtils.Fields.KarmaType".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, karmaLabel);
+            SettingsHelper.DrawLabel(label, _karmaLabel);
 
-            if (Widgets.ButtonText(field, karmaType.ToString()))
+            if (Widgets.ButtonText(field, _karmaType.ToString()))
             {
                 Find.WindowStack.Add(
                     new FloatMenu(
@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Models
                                     i.ToString(),
                                     () =>
                                     {
-                                        karmaType = i;
+                                        _karmaType = i;
                                         Dirty.Set(true);
                                     }
                                 )
@@ -69,7 +69,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.KarmaType == karmaType;
+        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.KarmaType == _karmaType;
 
         public string Label => "TKUtils.Fields.KarmaType".TranslateSimple();
     }

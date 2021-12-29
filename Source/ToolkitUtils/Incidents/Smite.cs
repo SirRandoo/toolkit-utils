@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Smite : IncidentVariablesBase
     {
-        private Pawn pawn;
+        private Pawn _pawn;
 
         public override bool CanHappen([NotNull] string msg, [NotNull] Viewer viewer)
         {
@@ -42,9 +42,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             string target = msg.Split(' ').Skip(2).FirstOrDefault();
 
-            if (PurchaseHelper.TryGetPawn(target, out pawn))
+            if (PurchaseHelper.TryGetPawn(target, out _pawn))
             {
-                return pawn?.Spawned == true && pawn?.Map != null;
+                return _pawn?.Spawned == true && _pawn?.Map != null;
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.PawnNotFound".LocalizeKeyed(target));
@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            pawn.Map.weatherManager.eventHandler.AddEvent(new WeatherEvent_LightningStrike(pawn.Map, pawn.Position));
+            _pawn.Map.weatherManager.eventHandler.AddEvent(new WeatherEvent_LightningStrike(_pawn.Map, _pawn.Position));
             Viewer.Charge(storeIncident);
         }
     }

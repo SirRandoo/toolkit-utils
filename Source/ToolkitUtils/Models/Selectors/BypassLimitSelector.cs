@@ -25,17 +25,17 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class BypassLimitSelector : ISelectorBase<TraitItem>
     {
-        private string bypassText;
-        private bool state = true;
+        private string _bypassText;
+        private bool _state = true;
 
         public void Prepare()
         {
-            bypassText = "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
+            _bypassText = "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, bypassText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _bypassText, ref _state))
             {
                 Dirty.Set(true);
             }
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item) => item.Data.TraitData?.CanBypassLimit == state;
+        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item) => item.Data.TraitData?.CanBypassLimit == _state;
 
         public string Label => "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
     }

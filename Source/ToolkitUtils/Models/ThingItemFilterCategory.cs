@@ -23,24 +23,24 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ThingItemFilterCategory
     {
-        private MultiCheckboxState checkboxState = MultiCheckboxState.Off;
+        private MultiCheckboxState _checkboxState = MultiCheckboxState.Off;
         public bool Expanded;
 
         public FilterTypes FilterType;
 
         public MultiCheckboxState CheckState
         {
-            get => checkboxState;
+            get => _checkboxState;
             set
             {
-                if (checkboxState == MultiCheckboxState.Partial && value != MultiCheckboxState.Partial)
+                if (_checkboxState == MultiCheckboxState.Partial && value != MultiCheckboxState.Partial)
                 {
                     foreach (ThingItemFilter f in Filters)
                     {
                         f.Active = false;
                     }
 
-                    checkboxState = MultiCheckboxState.Off;
+                    _checkboxState = MultiCheckboxState.Off;
 
                     return;
                 }
@@ -74,15 +74,15 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (activeFilters > 0 && activeFilters < totalFilters)
             {
-                checkboxState = MultiCheckboxState.Partial;
+                _checkboxState = MultiCheckboxState.Partial;
             }
             else if (activeFilters <= 0)
             {
-                checkboxState = MultiCheckboxState.Off;
+                _checkboxState = MultiCheckboxState.Off;
             }
             else if (activeFilters >= totalFilters)
             {
-                checkboxState = MultiCheckboxState.On;
+                _checkboxState = MultiCheckboxState.On;
             }
         }
 

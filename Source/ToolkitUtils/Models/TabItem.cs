@@ -22,15 +22,15 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class TabItem
     {
-        private string label;
+        private string _label;
 
         public string Label
         {
-            get => label;
+            get => _label;
             set
             {
-                label = value;
-                Width = Text.CalcSize(label).x;
+                _label = value;
+                Width = Text.CalcSize(_label).x;
             }
         }
 

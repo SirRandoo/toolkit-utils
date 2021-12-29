@@ -24,20 +24,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Party : IncidentHelper
     {
-        private Map map;
-        private GatheringWorker_Party worker;
+        private Map _map;
+        private GatheringWorker_Party _worker;
 
         public override bool IsPossible()
         {
-            map = Find.RandomPlayerHomeMap;
-            worker = new GatheringWorker_Party { def = GatheringDefOf.Party };
+            _map = Find.RandomPlayerHomeMap;
+            _worker = new GatheringWorker_Party { def = GatheringDefOf.Party };
 
-            return worker.CanExecute(map);
+            return _worker.CanExecute(_map);
         }
 
         public override void TryExecute()
         {
-            worker.TryExecute(map);
+            _worker.TryExecute(_map);
         }
     }
 }

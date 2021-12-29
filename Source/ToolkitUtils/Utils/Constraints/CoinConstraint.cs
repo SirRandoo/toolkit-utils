@@ -24,16 +24,16 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class CoinConstraint : ComparableConstraint
     {
-        private readonly string labelText;
-        private string buffer;
-        private int coins;
-        private bool valid;
+        private readonly string _labelText;
+        private string _buffer;
+        private int _coins;
+        private bool _valid;
 
         public CoinConstraint()
         {
-            labelText = "TKUtils.PurgeMenu.Coins".Localize().CapitalizeFirst();
-            valid = true;
-            buffer = "0";
+            _labelText = "TKUtils.PurgeMenu.Coins".Localize().CapitalizeFirst();
+            _valid = true;
+            _buffer = "0";
         }
 
         public override void Draw(Rect canvas)
@@ -41,12 +41,12 @@ namespace SirRandoo.ToolkitUtils.Utils
             (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
             (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
 
-            SettingsHelper.DrawLabel(labelRect, labelText);
+            SettingsHelper.DrawLabel(labelRect, _labelText);
             DrawButton(buttonRect);
 
-            GUI.backgroundColor = valid ? Color.white : Color.red;
+            GUI.backgroundColor = _valid ? Color.white : Color.red;
 
-            if (!SettingsHelper.DrawTextField(inputRect, buffer, out string result))
+            if (!SettingsHelper.DrawTextField(inputRect, _buffer, out string result))
             {
                 GUI.backgroundColor = Color.white;
 
@@ -54,16 +54,16 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
 
             GUI.backgroundColor = Color.white;
-            buffer = result;
+            _buffer = result;
 
             if (int.TryParse(result, out int parsed))
             {
-                coins = parsed;
-                valid = true;
+                _coins = parsed;
+                _valid = true;
             }
             else
             {
-                valid = false;
+                _valid = false;
             }
         }
 
@@ -72,15 +72,15 @@ namespace SirRandoo.ToolkitUtils.Utils
             switch (Comparison)
             {
                 case ComparisonTypes.Equal:
-                    return viewer.coins == coins;
+                    return viewer.coins == _coins;
                 case ComparisonTypes.Greater:
-                    return viewer.coins > coins;
+                    return viewer.coins > _coins;
                 case ComparisonTypes.Less:
-                    return viewer.coins < coins;
+                    return viewer.coins < _coins;
                 case ComparisonTypes.GreaterEqual:
-                    return viewer.coins >= coins;
+                    return viewer.coins >= _coins;
                 case ComparisonTypes.LessEqual:
-                    return viewer.coins <= coins;
+                    return viewer.coins <= _coins;
                 default:
                     return false;
             }

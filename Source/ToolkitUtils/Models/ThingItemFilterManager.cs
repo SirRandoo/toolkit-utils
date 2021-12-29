@@ -26,17 +26,17 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ThingItemFilterManager
     {
-        private readonly List<ThingItemFilterCategory> filters;
-        private Vector2 scrollPos = Vector2.zero;
+        private readonly List<ThingItemFilterCategory> _filters;
+        private Vector2 _scrollPos = Vector2.zero;
 
         public ThingItemFilterManager()
         {
-            filters = new List<ThingItemFilterCategory>();
+            _filters = new List<ThingItemFilterCategory>();
         }
 
         public void FilterItems(IEnumerable<TableSettingsItem<ThingItem>> input)
         {
-            if (filters.All(i => !i.ActiveFilters.Any()))
+            if (_filters.All(i => !i.ActiveFilters.Any()))
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 var hidden = false;
 
-                foreach (ThingItemFilterCategory unused in filters.Where(filter => filter.IsFiltered(item)))
+                foreach (ThingItemFilterCategory unused in _filters.Where(filter => filter.IsFiltered(item)))
                 {
                     hidden = true;
                 }
@@ -56,7 +56,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void RegisterFilter(FilterTypes type, ThingItemFilter filter)
         {
-            ThingItemFilterCategory result = filters.FirstOrDefault(f => f.FilterType == type);
+            ThingItemFilterCategory result = _filters.FirstOrDefault(f => f.FilterType == type);
 
             if (result == null)
             {
@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 category.Filters.Add(filter);
                 filter.Category = category;
 
-                filters.Add(category);
+                _filters.Add(category);
 
                 return;
             }
@@ -84,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void UnregisterFilter(FilterTypes type, string filterId)
         {
-            ThingItemFilterCategory result = filters.FirstOrDefault(f => f.FilterType == type);
+            ThingItemFilterCategory result = _filters.FirstOrDefault(f => f.FilterType == type);
             ThingItemFilter filter = result?.Filters.FirstOrDefault(f => f.Id.Equals(filterId));
 
             if (filter == null)
@@ -100,16 +100,16 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             GUI.BeginGroup(canvas);
             var listing = new Listing_Standard();
-            var viewPort = new Rect(canvas.x, canvas.y, canvas.width - 16f, filters.Sum(f => f.Height));
+            var viewPort = new Rect(canvas.x, canvas.y, canvas.width - 16f, _filters.Sum(f => f.Height));
 
-            Widgets.BeginScrollView(canvas, ref scrollPos, viewPort);
+            Widgets.BeginScrollView(canvas, ref _scrollPos, viewPort);
             listing.Begin(viewPort);
 
-            foreach (ThingItemFilterCategory category in filters)
+            foreach (ThingItemFilterCategory category in _filters)
             {
                 Rect lineRect = listing.GetRect(Text.LineHeight);
 
-                if (!lineRect.IsRegionVisible(viewPort, scrollPos) && !category.Expanded)
+                if (!lineRect.IsRegionVisible(viewPort, _scrollPos) && !category.Expanded)
                 {
                     continue;
                 }
@@ -166,7 +166,7 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 Rect lineRect = listing.GetRect(Text.LineHeight);
 
-                if (!lineRect.IsRegionVisible(viewPort, scrollPos))
+                if (!lineRect.IsRegionVisible(viewPort, _scrollPos))
                 {
                     continue;
                 }

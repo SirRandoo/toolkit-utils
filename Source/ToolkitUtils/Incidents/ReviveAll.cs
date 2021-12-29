@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class ReviveAll : IncidentHelper
     {
-        private List<Pawn> pawns;
+        private List<Pawn> _pawns;
 
         public override bool IsPossible()
         {
@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            pawns = list;
+            _pawns = list;
 
             foreach (Pawn p in list)
             {
@@ -53,7 +53,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             var any = false;
 
-            foreach (Pawn pawn in pawns)
+            foreach (Pawn pawn in _pawns)
             {
                 if (!pawn.TryResurrect())
                 {

@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 {
     public class TabWorker
     {
-        private readonly List<TabItem> tabItems = new List<TabItem>();
+        private readonly List<TabItem> _tabItems = new List<TabItem>();
 
         public TabItem SelectedTab { get; set; }
 
@@ -38,14 +38,14 @@ namespace SirRandoo.ToolkitUtils.Workers
         public static TabWorker CreateInstance([NotNull] params TabItem[] tabs)
         {
             var worker = new TabWorker();
-            worker.tabItems.AddRange(tabs);
+            worker._tabItems.AddRange(tabs);
 
             return worker;
         }
 
         public void AddTab(TabItem tab)
         {
-            tabItems.Add(tab);
+            _tabItems.Add(tab);
             SelectedTab ??= tab;
         }
 
@@ -55,21 +55,21 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (tab != null)
             {
-                tabItems.Remove(tab);
+                _tabItems.Remove(tab);
             }
         }
 
         [CanBeNull]
         public TabItem GetTab(string label)
         {
-            return tabItems.FirstOrDefault(t => t.Label.Equals(label, StringComparison.InvariantCulture));
+            return _tabItems.FirstOrDefault(t => t.Label.Equals(label, StringComparison.InvariantCulture));
         }
 
         public void Draw(Rect region, bool vertical = false, bool paneled = false)
         {
             float offset = 0;
 
-            foreach (TabItem tab in tabItems)
+            foreach (TabItem tab in _tabItems)
             {
                 var tabRegion = new Rect(region.x, region.y, tab.Width + 25f, region.height);
 

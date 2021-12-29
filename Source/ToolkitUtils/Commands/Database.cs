@@ -69,11 +69,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             StatDefOf.MeleeWeapon_DamageMultiplier
         };
 
-        private string invoker;
+        private string _invoker;
 
         public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            invoker = twitchMessage.Username;
+            _invoker = twitchMessage.Username;
             string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
             string category = segments.FirstOrFallback("");
             string query = segments.Skip(1).FirstOrFallback("");
@@ -93,7 +93,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            MessageHelper.ReplyToUser(invoker, result);
+            MessageHelper.ReplyToUser(_invoker, result);
         }
 
         private void PerformWeaponLookup([NotNull] string query)
@@ -102,14 +102,14 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item) || !item.IsValid() || !item.Thing.Thing.IsWeapon)
             {
-                MessageHelper.ReplyToUser(invoker, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
+                MessageHelper.ReplyToUser(_invoker, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
 
                 return;
             }
 
             if (item.TryGetError(out string error))
             {
-                MessageHelper.ReplyToUser(invoker, error);
+                MessageHelper.ReplyToUser(_invoker, error);
 
                 return;
             }
@@ -140,7 +140,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTMagicLookup(string query)
         {
-            CommandRouter.MainThreadCommands.Enqueue(() => NotifyLookupComplete(CompatRegistry.Magic?.GetSkillDescription(invoker, query)));
+            CommandRouter.MainThreadCommands.Enqueue(() => NotifyLookupComplete(CompatRegistry.Magic?.GetSkillDescription(_invoker, query)));
         }
 
         private void PerformLookup(Category category, string query)

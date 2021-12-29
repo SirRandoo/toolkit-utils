@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 {
     public class Lookup : ICommandSettings
     {
-        private string buffer = TkSettings.LookupLimit.ToString();
+        private string _buffer = TkSettings.LookupLimit.ToString();
 
         public void Draw(Rect region)
         {
@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             (Rect limitLabel, Rect limitField) = listing.GetRectAsForm();
             SettingsHelper.DrawLabel(limitLabel, "TKUtils.LookupLimit.Label".Localize());
-            Widgets.TextFieldNumeric(limitField, ref TkSettings.LookupLimit, ref buffer);
+            Widgets.TextFieldNumeric(limitField, ref TkSettings.LookupLimit, ref _buffer);
             listing.DrawDescription("TKUtils.LookupLimit.Description".Localize());
 
             listing.End();

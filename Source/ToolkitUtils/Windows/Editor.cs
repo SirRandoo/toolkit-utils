@@ -30,88 +30,88 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class Editor : Window
     {
-        private readonly EventWorker eventWorker;
-        private readonly ItemWorker itemWorker;
-        private readonly PawnWorker pawnWorker;
-        private readonly TraitWorker traitWorker;
-        private bool dirty = true;
+        private readonly EventWorker _eventWorker;
+        private readonly ItemWorker _itemWorker;
+        private readonly PawnWorker _pawnWorker;
+        private readonly TraitWorker _traitWorker;
+        private bool _dirty = true;
 
-        private TabItem eventTab;
-        private string exportPartialTooltip;
-        private string helpTooltip;
+        private TabItem _eventTab;
+        private string _exportPartialTooltip;
+        private string _helpTooltip;
 
-        private string importPartialTooltip;
-        private TabItem itemTab;
+        private string _importPartialTooltip;
+        private TabItem _itemTab;
 
-        private bool maximized;
-        private TabItem pawnTab;
-        private TabWorker tabWorker;
-        private TabItem traitTab;
+        private bool _maximized;
+        private TabItem _pawnTab;
+        private TabWorker _tabWorker;
+        private TabItem _traitTab;
 
         public Editor()
         {
             forcePause = true;
             doCloseButton = false;
 
-            itemWorker = new ItemWorker();
-            pawnWorker = new PawnWorker();
-            eventWorker = new EventWorker();
-            traitWorker = new TraitWorker();
+            _itemWorker = new ItemWorker();
+            _pawnWorker = new PawnWorker();
+            _eventWorker = new EventWorker();
+            _traitWorker = new TraitWorker();
         }
 
         protected override float Margin => 0f;
 
         public override Vector2 InitialSize =>
-            new Vector2(maximized ? UI.screenWidth : Mathf.Min(UI.screenWidth, 800f), maximized ? UI.screenHeight : Mathf.FloorToInt(UI.screenHeight * 0.8f));
+            new Vector2(_maximized ? UI.screenWidth : Mathf.Min(UI.screenWidth, 800f), _maximized ? UI.screenHeight : Mathf.FloorToInt(UI.screenHeight * 0.8f));
 
         public override void PreOpen()
         {
             base.PreOpen();
 
-            tabWorker = TabWorker.CreateInstance();
+            _tabWorker = TabWorker.CreateInstance();
             InitializeTabs();
-            itemWorker.Prepare();
-            pawnWorker.Prepare();
-            eventWorker.Prepare();
-            traitWorker.Prepare();
+            _itemWorker.Prepare();
+            _pawnWorker.Prepare();
+            _eventWorker.Prepare();
+            _traitWorker.Prepare();
 
             FetchTranslations();
         }
 
         private void FetchTranslations()
         {
-            importPartialTooltip = "TKUtils.EditorTooltips.ImportPartial".Localize();
-            exportPartialTooltip = "TKUtils.EditorTooltips.ExportPartial".Localize();
-            helpTooltip = "TKUtils.EditorTooltips.GetHelp".Localize();
+            _importPartialTooltip = "TKUtils.EditorTooltips.ImportPartial".Localize();
+            _exportPartialTooltip = "TKUtils.EditorTooltips.ExportPartial".Localize();
+            _helpTooltip = "TKUtils.EditorTooltips.GetHelp".Localize();
         }
 
         private void InitializeTabs()
         {
-            itemTab ??= new TabItem
+            _itemTab ??= new TabItem
             {
-                Label = "TKUtils.EditorTabs.Items".Localize(), ContentDrawer = rect => itemWorker.Draw()
+                Label = "TKUtils.EditorTabs.Items".Localize(), ContentDrawer = rect => _itemWorker.Draw()
             };
 
-            pawnTab ??= new TabItem
+            _pawnTab ??= new TabItem
             {
-                Label = "TKUtils.EditorTabs.PawnKinds".Localize(), ContentDrawer = rect => pawnWorker.Draw()
+                Label = "TKUtils.EditorTabs.PawnKinds".Localize(), ContentDrawer = rect => _pawnWorker.Draw()
             };
 
-            eventTab ??= new TabItem
+            _eventTab ??= new TabItem
             {
-                Label = "TKUtils.EditorTabs.Events".Localize(), ContentDrawer = rect => eventWorker.Draw()
+                Label = "TKUtils.EditorTabs.Events".Localize(), ContentDrawer = rect => _eventWorker.Draw()
             };
 
-            traitTab ??= new TabItem
+            _traitTab ??= new TabItem
             {
-                Label = "TKUtils.EditorTabs.Traits".Localize(), ContentDrawer = rect => traitWorker.Draw()
+                Label = "TKUtils.EditorTabs.Traits".Localize(), ContentDrawer = rect => _traitWorker.Draw()
             };
 
 
-            tabWorker.AddTab(itemTab);
-            tabWorker.AddTab(eventTab);
-            tabWorker.AddTab(traitTab);
-            tabWorker.AddTab(pawnTab);
+            _tabWorker.AddTab(_itemTab);
+            _tabWorker.AddTab(_eventTab);
+            _tabWorker.AddTab(_traitTab);
+            _tabWorker.AddTab(_pawnTab);
         }
 
         public override void DoWindowContents(Rect canvas)
@@ -120,24 +120,24 @@ namespace SirRandoo.ToolkitUtils.Windows
             var contentRect = new Rect(0f, tabRect.height, canvas.width, canvas.height - tabRect.height);
 
             GUI.BeginGroup(canvas);
-            tabWorker.Draw(tabRect);
+            _tabWorker.Draw(tabRect);
             DrawWindowDecorations(tabRect);
 
 
             GUI.BeginGroup(contentRect);
             var innerRect = new Rect(0f, 0f, contentRect.width, contentRect.height);
 
-            if (dirty)
+            if (_dirty)
             {
                 Rect innerResolution = innerRect.ContractedBy(16f);
-                itemWorker.NotifyResolutionChanged(innerResolution);
-                traitWorker.NotifyResolutionChanged(innerResolution);
-                pawnWorker.NotifyResolutionChanged(innerResolution);
-                eventWorker.NotifyResolutionChanged(innerResolution);
-                dirty = false;
+                _itemWorker.NotifyResolutionChanged(innerResolution);
+                _traitWorker.NotifyResolutionChanged(innerResolution);
+                _pawnWorker.NotifyResolutionChanged(innerResolution);
+                _eventWorker.NotifyResolutionChanged(innerResolution);
+                _dirty = false;
             }
 
-            tabWorker.SelectedTab?.Draw(innerRect);
+            _tabWorker.SelectedTab?.Draw(innerRect);
             GUI.EndGroup();
 
             GUI.EndGroup();
@@ -154,9 +154,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             butRect = butRect.ShiftLeft();
 
-            if (Widgets.ButtonImage(butRect, maximized ? Textures.RestoreWindow : Textures.MaximizeWindow))
+            if (Widgets.ButtonImage(butRect, _maximized ? Textures.RestoreWindow : Textures.MaximizeWindow))
             {
-                maximized = !maximized;
+                _maximized = !_maximized;
                 SetInitialSizeAndPosition();
             }
 
@@ -167,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 Application.OpenURL("https://sirrandoo.github.io/toolkit-utils/editor");
             }
 
-            butRect.TipRegion(helpTooltip);
+            butRect.TipRegion(_helpTooltip);
 
             butRect = butRect.ShiftLeft();
 
@@ -176,7 +176,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SavePartial();
             }
 
-            butRect.TipRegion(exportPartialTooltip);
+            butRect.TipRegion(_exportPartialTooltip);
 
             butRect = butRect.ShiftLeft();
 
@@ -185,24 +185,24 @@ namespace SirRandoo.ToolkitUtils.Windows
                 LoadPartial();
             }
 
-            butRect.TipRegion(importPartialTooltip);
+            butRect.TipRegion(_importPartialTooltip);
         }
 
         private void LoadPartial()
         {
-            if (tabWorker.SelectedTab == itemTab)
+            if (_tabWorker.SelectedTab == _itemTab)
             {
                 Find.WindowStack.Add(PartialManager<ItemPartial>.CreateLoadInstance(LoadPartialItemData));
             }
-            else if (tabWorker.SelectedTab == eventTab)
+            else if (_tabWorker.SelectedTab == _eventTab)
             {
                 Find.WindowStack.Add(PartialManager<EventPartial>.CreateLoadInstance(LoadPartialEventData));
             }
-            else if (tabWorker.SelectedTab == pawnTab)
+            else if (_tabWorker.SelectedTab == _pawnTab)
             {
                 Find.WindowStack.Add(PartialManager<PawnKindItem>.CreateLoadInstance(LoadPartialPawnData));
             }
-            else if (tabWorker.SelectedTab == traitTab)
+            else if (_tabWorker.SelectedTab == _traitTab)
             {
                 Find.WindowStack.Add(PartialManager<TraitItem>.CreateLoadInstance(LoadPartialTraitData));
             }
@@ -211,42 +211,42 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void LoadPartialItemData([NotNull] PartialData<ItemPartial> data)
         {
             Data.LoadItemPartial(data.Data);
-            itemWorker.NotifyGlobalDataChanged();
+            _itemWorker.NotifyGlobalDataChanged();
         }
 
         private void LoadPartialEventData([NotNull] PartialData<EventPartial> data)
         {
             Data.LoadEventPartial(data.Data);
-            eventWorker.NotifyGlobalDataChanged();
+            _eventWorker.NotifyGlobalDataChanged();
         }
 
         private void LoadPartialTraitData([NotNull] PartialData<TraitItem> data)
         {
             Data.LoadTraitPartial(data.Data);
-            traitWorker.NotifyGlobalDataChanged();
+            _traitWorker.NotifyGlobalDataChanged();
         }
 
         private void LoadPartialPawnData([NotNull] PartialData<PawnKindItem> data)
         {
             Data.LoadPawnPartial(data.Data);
-            pawnWorker.NotifyGlobalDataChanged();
+            _pawnWorker.NotifyGlobalDataChanged();
         }
 
         private void SavePartial()
         {
-            if (tabWorker.SelectedTab == itemTab)
+            if (_tabWorker.SelectedTab == _itemTab)
             {
                 Find.WindowStack.Add(PartialManager<ItemPartial>.CreateSaveInstance(SaveItemPartial));
             }
-            else if (tabWorker.SelectedTab == eventTab)
+            else if (_tabWorker.SelectedTab == _eventTab)
             {
                 Find.WindowStack.Add(PartialManager<EventPartial>.CreateSaveInstance(SaveEventPartial));
             }
-            else if (tabWorker.SelectedTab == traitTab)
+            else if (_tabWorker.SelectedTab == _traitTab)
             {
                 Find.WindowStack.Add(PartialManager<TraitItem>.CreateSaveInstance(SaveTraitPartial));
             }
-            else if (tabWorker.SelectedTab == pawnTab)
+            else if (_tabWorker.SelectedTab == _pawnTab)
             {
                 Find.WindowStack.Add(PartialManager<PawnKindItem>.CreateSaveInstance(SavePawnPartial));
             }
@@ -290,16 +290,16 @@ namespace SirRandoo.ToolkitUtils.Windows
             Rect tabRect = new Rect(0f, 0f, windowRect.width, Text.LineHeight * 2f).Rounded();
             Rect contentRect = new Rect(0f, tabRect.height, windowRect.width, windowRect.height - tabRect.height).ContractedBy(16f);
 
-            itemWorker.NotifyResolutionChanged(contentRect);
-            traitWorker.NotifyResolutionChanged(contentRect);
-            pawnWorker.NotifyResolutionChanged(contentRect);
-            eventWorker.NotifyResolutionChanged(contentRect);
+            _itemWorker.NotifyResolutionChanged(contentRect);
+            _traitWorker.NotifyResolutionChanged(contentRect);
+            _pawnWorker.NotifyResolutionChanged(contentRect);
+            _eventWorker.NotifyResolutionChanged(contentRect);
         }
 
         public override void Notify_ResolutionChanged()
         {
             base.Notify_ResolutionChanged();
-            dirty = true;
+            _dirty = true;
         }
 
         private void SaveItemPartial(PartialManager<ItemPartial>.PartialUgc data)
@@ -310,7 +310,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     await Data.SaveJsonAsync(
                         new PartialData<ItemPartial>
                         {
-                            Data = itemWorker.Data.Where(i => !i.IsHidden)
+                            Data = _itemWorker.Data.Where(i => !i.IsHidden)
                                .Select(i => i.Data)
                                .Select(
                                     i => new ItemPartial
@@ -340,7 +340,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     await Data.SaveJsonAsync(
                         new PartialData<EventPartial>
                         {
-                            Data = eventWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).Select(EventPartial.FromIncident).ToList(),
+                            Data = _eventWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).Select(EventPartial.FromIncident).ToList(),
                             PartialType = PartialType.Events,
                             Description = data.Description
                         },
@@ -358,7 +358,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     await Data.SaveJsonAsync(
                         new PartialData<TraitItem>
                         {
-                            Data = traitWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).ToList(),
+                            Data = _traitWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).ToList(),
                             PartialType = PartialType.Traits,
                             Description = data.Description
                         },
@@ -376,7 +376,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     await Data.SaveJsonAsync(
                         new PartialData<PawnKindItem>
                         {
-                            Data = pawnWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).ToList(),
+                            Data = _pawnWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).ToList(),
                             PartialType = PartialType.Pawns,
                             Description = data.Description
                         },

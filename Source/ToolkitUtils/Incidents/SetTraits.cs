@@ -33,8 +33,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class SetTraits : IncidentVariablesBase
     {
-        private List<TraitEvent> events;
-        private Pawn pawn;
+        private List<TraitEvent> _events;
+        private Pawn _pawn;
 
         public override bool CanHappen(string msg, Viewer viewer)
         {
@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
@@ -62,9 +62,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (!TryProcessTraits(pawn!, items, out events))
+            if (!TryProcessTraits(_pawn!, items, out _events))
             {
-                TraitEvent errored = events.FirstOrDefault(e => !e.Error.NullOrEmpty());
+                TraitEvent errored = _events.FirstOrDefault(e => !e.Error.NullOrEmpty());
 
                 if (errored != null)
                 {
@@ -74,14 +74,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (events.Count(e => e.ContributesToLimit) > AddTraitSettings.maxTraits)
+            if (_events.Count(e => e.ContributesToLimit) > AddTraitSettings.maxTraits)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.LimitReached".LocalizeKeyed(AddTraitSettings.maxTraits));
 
                 return false;
             }
 
-            int total = events.Sum(
+            int total = _events.Sum(
                 i =>
                 {
                     switch (i.Type)
@@ -185,9 +185,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            foreach (TraitEvent ev in events)
+            foreach (TraitEvent ev in _events)
             {
-                ev.Execute(pawn);
+                ev.Execute(_pawn);
 
                 switch (ev.Type)
                 {
@@ -202,23 +202,23 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            string traitString = pawn.story.traits.allTraits.Select(t => t.Label ?? t.def.defName).ToCommaList(true);
+            string traitString = _pawn.story.traits.allTraits.Select(t => t.Label ?? t.def.defName).ToCommaList(true);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.SetTraits.Complete".LocalizeKeyed(traitString));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.TraitLetter.Title".Localize(),
                 "TKUtils.TraitLetter.SetDescription".LocalizeKeyed(Viewer.username, traitString),
                 LetterDefOf.NeutralEvent,
-                pawn
+                _pawn
             );
         }
 
         [ContractAnnotation("=> false,error:notnull; => true,error:null")]
         private bool IsTraitRemovable(TraitItem trait, out string error)
         {
-            if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, trait.DefName, trait.Degree))
+            if (AlienRace.Enabled && AlienRace.IsTraitForced(_pawn, trait.DefName, trait.Degree))
             {
-                error = "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name);
+                error = "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name);
 
                 return false;
             }
@@ -245,23 +245,23 @@ namespace SirRandoo.ToolkitUtils.Incidents
         [ContractAnnotation("=> true,error:null; => false,error:notnull")]
         private bool IsTraitAddable([NotNull] TraitItem trait, out string error)
         {
-            if (trait.TraitDef.IsDisallowedByBackstory(pawn, trait.Degree, out Backstory backstory))
+            if (trait.TraitDef.IsDisallowedByBackstory(_pawn, trait.Degree, out Backstory backstory))
             {
                 error = "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, trait.Name);
 
                 return false;
             }
 
-            if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(trait.DefName)) == true)
+            if (_pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(trait.DefName)) == true)
             {
-                error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name);
+                error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name);
 
                 return false;
             }
 
-            if (trait.TraitDef.IsDisallowedByKind(pawn, trait.Degree))
+            if (trait.TraitDef.IsDisallowedByKind(_pawn, trait.Degree))
             {
-                error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name);
+                error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name);
 
                 return false;
             }

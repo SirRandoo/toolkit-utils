@@ -25,17 +25,17 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class HasQuantityLimitSelector : ISelectorBase<ThingItem>
     {
-        private string quantityLimitText;
-        private bool state = true;
+        private string _quantityLimitText;
+        private bool _state = true;
 
         public void Prepare()
         {
-            quantityLimitText = "TKUtils.Fields.HasQuantityLimit".TranslateSimple();
+            _quantityLimitText = "TKUtils.Fields.HasQuantityLimit".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, quantityLimitText, ref state))
+            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _quantityLimitText, ref _state))
             {
                 Dirty.Set(true);
             }
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.ItemData?.HasQuantityLimit == state;
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.ItemData?.HasQuantityLimit == _state;
 
         public string Label => "TKUtils.Fields.HasQuantityLimit".TranslateSimple();
     }

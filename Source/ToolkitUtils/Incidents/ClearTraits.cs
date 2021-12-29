@@ -36,23 +36,23 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class ClearTraits : IncidentVariablesBase
     {
-        private Pawn pawn;
-        private List<(Trait trait, TraitItem item)> traits;
+        private Pawn _pawn;
+        private List<(Trait trait, TraitItem item)> _traits;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             Viewer = viewer;
 
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
                 return false;
             }
 
-            traits = new List<(Trait trait, TraitItem item)>();
+            _traits = new List<(Trait trait, TraitItem item)>();
 
-            foreach (Trait trait in pawn!.story.traits.allTraits)
+            foreach (Trait trait in _pawn!.story.traits.allTraits)
             {
                 TraitItem item = Data.Traits.Find(t => t.DefName.Equals(trait.def.defName) && t.Degree == trait.Degree);
 
@@ -61,10 +61,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                traits.Add((trait, item));
+                _traits.Add((trait, item));
             }
 
-            int total = traits.Sum(t => t.item.CostToRemove);
+            int total = _traits.Sum(t => t.item.CostToRemove);
 
             if (!viewer.CanAfford(total))
             {
@@ -73,19 +73,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            return traits.Count > 0;
+            return _traits.Count > 0;
         }
 
         public override void Execute()
         {
-            foreach ((Trait trait, TraitItem item) in traits)
+            foreach ((Trait trait, TraitItem item) in _traits)
             {
                 if (CompatRegistry.Magic?.IsClassTrait(trait.def) == true && TkSettings.ResetClass)
                 {
-                    CompatRegistry.Magic?.ResetClass(pawn);
+                    CompatRegistry.Magic?.ResetClass(_pawn);
                 }
 
-                TraitHelper.RemoveTraitFromPawn(pawn, trait);
+                TraitHelper.RemoveTraitFromPawn(_pawn, trait);
 
                 if (!(item is null))
                 {
@@ -93,9 +93,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            MessageHelper.SendConfirmation(message, "TKUtils.ClearTraits.Complete".LocalizeKeyed(traits.Count.ToString("N0")));
+            MessageHelper.SendConfirmation(message, "TKUtils.ClearTraits.Complete".LocalizeKeyed(_traits.Count.ToString("N0")));
 
-            Find.LetterStack.ReceiveLetter("TKUtils.TraitLetter.Title".Localize(), "TKUtils.TraitLetter.ClearDescription".LocalizeKeyed(Viewer.username), LetterDefOf.NeutralEvent, pawn);
+            Find.LetterStack.ReceiveLetter("TKUtils.TraitLetter.Title".Localize(), "TKUtils.TraitLetter.ClearDescription".LocalizeKeyed(Viewer.username), LetterDefOf.NeutralEvent, _pawn);
         }
 
         private bool CanRemove(TraitItem trait)
@@ -107,9 +107,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, trait.DefName, trait.Degree))
+            if (AlienRace.Enabled && AlienRace.IsTraitForced(_pawn, trait.DefName, trait.Degree))
             {
-                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name));
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name));
 
                 return false;
             }

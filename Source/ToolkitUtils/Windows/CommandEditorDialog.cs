@@ -35,36 +35,36 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private static readonly MethodInfo RemoveMethod;
 
-        private readonly Command command;
-        private readonly ICommandSettings settings;
-        private string adminText;
-        private string anyoneText;
-        private string commandLabel;
-        private bool confirmed;
+        private readonly Command _command;
+        private readonly ICommandSettings _settings;
+        private string _adminText;
+        private string _anyoneText;
+        private string _commandLabel;
+        private bool _confirmed;
 
-        private bool confirming;
-        private string confirmText;
-        private float confirmTextWidth;
-        private string deletedText;
-        private float deletedTextWidth;
-        private string deleteText;
-        private float deleteTextWidth;
-        private string disableText;
-        private float disableTextWidth;
-        private TextEditor editor;
-        private Rect editorPosition;
-        private string enableText;
-        private float enableTextWidth;
-        private string headerText;
-        private bool invalidId;
-        private string moderatorText;
-        private Vector2 scrollPos = Vector2.zero;
-        private string settingsText;
-        private float settingsTextWidth;
-        private bool showingSettings;
-        private string tagTooltip;
-        private List<FloatMenuOption> userLevelOptions;
-        private string userLevelText;
+        private bool _confirming;
+        private string _confirmText;
+        private float _confirmTextWidth;
+        private string _deletedText;
+        private float _deletedTextWidth;
+        private string _deleteText;
+        private float _deleteTextWidth;
+        private string _disableText;
+        private float _disableTextWidth;
+        private TextEditor _editor;
+        private Rect _editorPosition;
+        private string _enableText;
+        private float _enableTextWidth;
+        private string _headerText;
+        private bool _invalidId;
+        private string _moderatorText;
+        private Vector2 _scrollPos = Vector2.zero;
+        private string _settingsText;
+        private float _settingsTextWidth;
+        private bool _showingSettings;
+        private string _tagTooltip;
+        private List<FloatMenuOption> _userLevelOptions;
+        private string _userLevelText;
 
         static CommandEditorDialog()
         {
@@ -73,13 +73,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public CommandEditorDialog([NotNull] Command command) : base(command)
         {
-            this.command = command;
+            _command = command;
 
             var ext = command.GetModExtension<CommandExtension>();
 
             if (ext?.SettingsHandler != null)
             {
-                settings = Activator.CreateInstance(ext.SettingsHandler) as ICommandSettings;
+                _settings = Activator.CreateInstance(ext.SettingsHandler) as ICommandSettings;
             }
         }
 
@@ -89,14 +89,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GetTranslations();
 
-            userLevelOptions ??= new List<FloatMenuOption>
+            _userLevelOptions ??= new List<FloatMenuOption>
             {
-                new FloatMenuOption(anyoneText, () => ChangeUserLevel(UserLevel.Anyone)),
-                new FloatMenuOption(moderatorText, () => ChangeUserLevel(UserLevel.Moderator)),
-                new FloatMenuOption(adminText, () => ChangeUserLevel(UserLevel.Admin))
+                new FloatMenuOption(_anyoneText, () => ChangeUserLevel(UserLevel.Anyone)),
+                new FloatMenuOption(_moderatorText, () => ChangeUserLevel(UserLevel.Moderator)),
+                new FloatMenuOption(_adminText, () => ChangeUserLevel(UserLevel.Admin))
             };
 
-            invalidId = command.command.NullOrEmpty() || command.command?.TrimStart(TkSettings.Prefix.ToCharArray()).NullOrEmpty() == true;
+            _invalidId = _command.command.NullOrEmpty() || _command.command?.TrimStart(TkSettings.Prefix.ToCharArray()).NullOrEmpty() == true;
         }
 
         public override void DoWindowContents(Rect region)
@@ -108,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(region);
 
-            if (!showingSettings)
+            if (!_showingSettings)
             {
                 var buttonBar = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
                 Rect content = new Rect(0f, Text.SmallFontHeight * 2, region.width, region.height - Text.SmallFontHeight).ContractedBy(20f);
@@ -123,7 +123,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
             else
             {
-                settings?.Draw(region);
+                _settings?.Draw(region);
             }
 
             GUI.EndGroup();
@@ -137,26 +137,26 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.Begin(region);
 
             (Rect labelRect, Rect fieldRect) = listing.GetRectAsForm(0.6f);
-            SettingsHelper.DrawLabel(labelRect, commandLabel);
+            SettingsHelper.DrawLabel(labelRect, _commandLabel);
 
-            GUI.color = invalidId ? new Color(1f, 0.53f, 0.76f) : Color.white;
+            GUI.color = _invalidId ? new Color(1f, 0.53f, 0.76f) : Color.white;
 
-            if (SettingsHelper.DrawTextField(fieldRect, $"{TkSettings.Prefix}{command.command}", out string newContent))
+            if (SettingsHelper.DrawTextField(fieldRect, $"{TkSettings.Prefix}{_command.command}", out string newContent))
             {
                 if (newContent.ToToolkit().Length - TkSettings.Prefix.Length < 0)
                 {
-                    invalidId = true;
+                    _invalidId = true;
                 }
                 else
                 {
-                    command.command = newContent.Substring(TkSettings.Prefix.Length).ToToolkit();
-                    invalidId = false;
+                    _command.command = newContent.Substring(TkSettings.Prefix.Length).ToToolkit();
+                    _invalidId = false;
                 }
             }
 
             GUI.color = Color.white;
 
-            if (command.isCustomMessage)
+            if (_command.isCustomMessage)
             {
                 DrawCustomFields(listing);
             }
@@ -168,45 +168,45 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void DrawCustomFields([NotNull] Listing listing)
         {
             (Rect levelLabel, Rect levelField) = listing.GetRectAsForm(0.6f);
-            SettingsHelper.DrawLabel(levelLabel, userLevelText);
+            SettingsHelper.DrawLabel(levelLabel, _userLevelText);
 
             if (Widgets.ButtonText(levelField, GetInferredUserLevelText()))
             {
-                Find.WindowStack.Add(new FloatMenu(userLevelOptions));
+                Find.WindowStack.Add(new FloatMenu(_userLevelOptions));
             }
 
             listing.Gap(24f);
 
-            if (SettingsHelper.DrawFieldButton(listing.GetRect(Text.SmallFontHeight), Textures.QuestionMark, tagTooltip))
+            if (SettingsHelper.DrawFieldButton(listing.GetRect(Text.SmallFontHeight), Textures.QuestionMark, _tagTooltip))
             {
                 Application.OpenURL("https://storytoolkit.fandom.com/wiki/Commands#Tags");
             }
 
-            editorPosition = listing.GetRect(Text.SmallFontHeight * 11f);
+            _editorPosition = listing.GetRect(Text.SmallFontHeight * 11f);
 
-            GUI.BeginGroup(editorPosition);
-            command.outputMessage = Widgets.TextAreaScrollable(editorPosition.AtZero(), command.outputMessage, ref scrollPos);
-            editor ??= GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.GetControlID(FocusType.Keyboard, editorPosition)) as TextEditor;
+            GUI.BeginGroup(_editorPosition);
+            _command.outputMessage = Widgets.TextAreaScrollable(_editorPosition.AtZero(), _command.outputMessage, ref _scrollPos);
+            _editor ??= GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.GetControlID(FocusType.Keyboard, _editorPosition)) as TextEditor;
             GUI.EndGroup();
         }
 
         public override void OnAcceptKeyPressed()
         {
-            if (GUIUtility.keyboardControl <= 0 || editor == null)
+            if (GUIUtility.keyboardControl <= 0 || _editor == null)
             {
                 base.OnAcceptKeyPressed();
 
                 return;
             }
 
-            command.outputMessage += "\n";
-            editor.MoveDown();
+            _command.outputMessage += "\n";
+            _editor.MoveDown();
             Event.current.Use();
         }
 
         public override void OnCancelKeyPressed()
         {
-            if (GUIUtility.keyboardControl <= 0 || editor == null)
+            if (GUIUtility.keyboardControl <= 0 || _editor == null)
             {
                 base.OnCancelKeyPressed();
 
@@ -219,9 +219,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void Close(bool doCloseSound = true)
         {
-            if (showingSettings)
+            if (_showingSettings)
             {
-                showingSettings = false;
+                _showingSettings = false;
 
                 return;
             }
@@ -245,96 +245,96 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawButtonBar(Rect region)
         {
-            float width = Mathf.Max(deleteTextWidth, confirmTextWidth, enableTextWidth, disableTextWidth, deletedTextWidth, settingsTextWidth);
+            float width = Mathf.Max(_deleteTextWidth, _confirmTextWidth, _enableTextWidth, _disableTextWidth, _deletedTextWidth, _settingsTextWidth);
 
             var buttonRect = new Rect(region.x + region.width - width, region.y, width, Text.SmallFontHeight);
 
-            if (command.isCustomMessage)
+            if (_command.isCustomMessage)
             {
                 DrawCustomCommandButtons(buttonRect);
                 buttonRect = buttonRect.ShiftLeft(0f);
             }
 
-            if (Widgets.ButtonText(buttonRect, command.enabled ? disableText : enableText))
+            if (Widgets.ButtonText(buttonRect, _command.enabled ? _disableText : _enableText))
             {
-                command.enabled = !command.enabled;
+                _command.enabled = !_command.enabled;
             }
 
-            if (settings != null)
+            if (_settings != null)
             {
                 buttonRect = buttonRect.ShiftLeft(0f);
 
-                if (Widgets.ButtonText(buttonRect, settingsText))
+                if (Widgets.ButtonText(buttonRect, _settingsText))
                 {
                     GUIUtility.keyboardControl = 0;
-                    showingSettings = true;
+                    _showingSettings = true;
                 }
             }
 
             var headerRect = new Rect(0f, 0f, region.width - buttonRect.width * 2 - 5f, Text.SmallFontHeight);
-            SettingsHelper.DrawFittedLabel(headerRect, headerText);
+            SettingsHelper.DrawFittedLabel(headerRect, _headerText);
         }
 
         private void DrawCustomCommandButtons(Rect buttonRect)
         {
-            if (!confirmed && Widgets.ButtonText(buttonRect, confirming ? confirmText : deleteText))
+            if (!_confirmed && Widgets.ButtonText(buttonRect, _confirming ? _confirmText : _deleteText))
             {
-                confirming = !confirming;
-                confirmed = confirming == false;
+                _confirming = !_confirming;
+                _confirmed = _confirming == false;
 
-                if (confirmed)
+                if (_confirmed)
                 {
-                    ToolkitSettings.CustomCommandDefs.Remove(command.defName);
-                    RemoveMethod.Invoke(typeof(DefDatabase<Command>), new object[] { command });
+                    ToolkitSettings.CustomCommandDefs.Remove(_command.defName);
+                    RemoveMethod.Invoke(typeof(DefDatabase<Command>), new object[] { _command });
                 }
             }
 
-            if (confirmed)
+            if (_confirmed)
             {
-                SettingsHelper.DrawColoredLabel(buttonRect, deletedText, new Color(1f, 0.53f, 0.76f));
+                SettingsHelper.DrawColoredLabel(buttonRect, _deletedText, new Color(1f, 0.53f, 0.76f));
             }
         }
 
         private void ChangeUserLevel(UserLevel level)
         {
-            command.requiresAdmin = level == UserLevel.Admin;
-            command.requiresMod = level == UserLevel.Moderator;
+            _command.requiresAdmin = level == UserLevel.Admin;
+            _command.requiresMod = level == UserLevel.Moderator;
         }
 
         private string GetInferredUserLevelText()
         {
-            if (command.requiresAdmin)
+            if (_command.requiresAdmin)
             {
-                return adminText;
+                return _adminText;
             }
 
-            return command.requiresMod ? moderatorText : anyoneText;
+            return _command.requiresMod ? _moderatorText : _anyoneText;
         }
 
         private void GetTranslations()
         {
-            headerText = "TKUtils.CommandEditor.Header".LocalizeKeyed((command.label ?? command.defName).CapitalizeFirst());
-            commandLabel = "TKUtils.Fields.Command".Localize();
-            deleteText = "TKUtils.Buttons.Delete".Localize();
-            enableText = "TKUtils.Buttons.Enable".Localize();
-            disableText = "TKUtils.Buttons.Disable".Localize();
-            confirmText = "TKUtils.Buttons.AreYouSure".Localize();
-            deletedText = "TKUtils.Headers.RestartRequired".Localize();
-            anyoneText = "TKUtils.CommandEditor.UserLevel.Anyone".Localize();
-            moderatorText = "TKUtils.CommandEditor.UserLevel.Moderator".Localize();
-            adminText = "TKUtils.CommandEditor.UserLevel.Admin".Localize();
-            userLevelText = "TKUtils.Fields.UserLevel".Localize();
-            tagTooltip = "TKUtils.CommandEditorTooltips.Tags".Localize();
-            settingsText = "TKUtils.Buttons.Settings".Localize();
+            _headerText = "TKUtils.CommandEditor.Header".LocalizeKeyed((_command.label ?? _command.defName).CapitalizeFirst());
+            _commandLabel = "TKUtils.Fields.Command".Localize();
+            _deleteText = "TKUtils.Buttons.Delete".Localize();
+            _enableText = "TKUtils.Buttons.Enable".Localize();
+            _disableText = "TKUtils.Buttons.Disable".Localize();
+            _confirmText = "TKUtils.Buttons.AreYouSure".Localize();
+            _deletedText = "TKUtils.Headers.RestartRequired".Localize();
+            _anyoneText = "TKUtils.CommandEditor.UserLevel.Anyone".Localize();
+            _moderatorText = "TKUtils.CommandEditor.UserLevel.Moderator".Localize();
+            _adminText = "TKUtils.CommandEditor.UserLevel.Admin".Localize();
+            _userLevelText = "TKUtils.Fields.UserLevel".Localize();
+            _tagTooltip = "TKUtils.CommandEditorTooltips.Tags".Localize();
+            _settingsText = "TKUtils.Buttons.Settings".Localize();
 
             GameFont cache = Text.Font;
             Text.Font = GameFont.Small;
-            deleteTextWidth = Text.CalcSize(deleteText).x;
-            confirmTextWidth = Text.CalcSize(confirmText).x;
-            enableTextWidth = Text.CalcSize(enableText).x;
-            disableTextWidth = Text.CalcSize(disableText).x;
-            deletedTextWidth = Text.CalcSize(deletedText).x;
-            settingsTextWidth = Text.CalcSize(settingsText).x;
+            _deleteTextWidth = Text.CalcSize(_deleteText).x;
+            _confirmTextWidth = Text.CalcSize(_confirmText).x;
+            _enableTextWidth = Text.CalcSize(_enableText).x;
+            _disableTextWidth = Text.CalcSize(_disableText).x;
+            _deletedTextWidth = Text.CalcSize(_deletedText).x;
+            _settingsTextWidth = Text.CalcSize(_settingsText).x;
             Text.Font = cache;
         }
 

@@ -23,34 +23,34 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class ToolkitGateway : Building
     {
-        private bool forAnimals = true;
-        private bool forItems = true;
-        private bool forPawns = true;
-        private List<Gizmo> gizmos;
+        private bool _forAnimals = true;
+        private bool _forItems = true;
+        private bool _forPawns = true;
+        private List<Gizmo> _gizmos;
 
-        public bool ForItems => forItems;
-        public bool ForPawns => forPawns;
-        public bool ForAnimals => forAnimals;
+        public bool ForItems => _forItems;
+        public bool ForPawns => _forPawns;
+        public bool ForAnimals => _forAnimals;
 
         public override void ExposeData()
         {
             base.ExposeData();
 
-            Scribe_Values.Look(ref forItems, "forItems", true);
-            Scribe_Values.Look(ref forPawns, "forPawns", true);
-            Scribe_Values.Look(ref forAnimals, "forAnimals", true);
+            Scribe_Values.Look(ref _forItems, "forItems", true);
+            Scribe_Values.Look(ref _forPawns, "forPawns", true);
+            Scribe_Values.Look(ref _forAnimals, "forAnimals", true);
         }
 
         public override IEnumerable<Gizmo> GetGizmos()
         {
-            if (!gizmos.NullOrEmpty())
+            if (!_gizmos.NullOrEmpty())
             {
-                return gizmos;
+                return _gizmos;
             }
 
-            gizmos ??= new List<Gizmo>();
+            _gizmos ??= new List<Gizmo>();
 
-            gizmos.Add(
+            _gizmos.Add(
                 new Command_Action
                 {
                     action = () => Destroy(),
@@ -60,45 +60,45 @@ namespace SirRandoo.ToolkitUtils
                 }
             );
 
-            gizmos.Add(
+            _gizmos.Add(
                 new Command_Toggle
                 {
                     icon = Textures.Snowman,
                     defaultLabel = "TKUtils.TogglePawnGatewayGizmo.Label".TranslateSimple(),
                     defaultDesc = "TKUtils.TogglePawnGatewayGizmo.Description".TranslateSimple(),
-                    isActive = () => forPawns,
-                    toggleAction = () => forPawns = !forPawns
+                    isActive = () => _forPawns,
+                    toggleAction = () => _forPawns = !_forPawns
                 }
             );
 
-            gizmos.Add(
+            _gizmos.Add(
                 new Command_Toggle
                 {
                     icon = Textures.HumanMeat,
                     defaultLabel = "TKUtils.ToggleItemGatewayGizmo.Label".TranslateSimple(),
                     defaultDesc = "TKUtils.ToggleItemGatewayGizmo.Description".TranslateSimple(),
-                    isActive = () => forItems,
-                    toggleAction = () => forItems = !forItems
+                    isActive = () => _forItems,
+                    toggleAction = () => _forItems = !_forItems
                 }
             );
 
-            gizmos.Add(
+            _gizmos.Add(
                 new Command_Toggle
                 {
                     icon = DefDatabase<ThingDef>.GetNamed("Rat").uiIcon,
                     defaultLabel = "TKUtils.ToggleAnimalGatewayGizmo.Label".TranslateSimple(),
                     defaultDesc = "TKUtils.ToggleAnimalGatewayGizmo.Description".TranslateSimple(),
-                    isActive = () => forAnimals,
-                    toggleAction = () => forAnimals = !forAnimals
+                    isActive = () => _forAnimals,
+                    toggleAction = () => _forAnimals = !_forAnimals
                 }
             );
 
             foreach (Gizmo gizmo in base.GetGizmos())
             {
-                gizmos.Add(gizmo);
+                _gizmos.Add(gizmo);
             }
 
-            return gizmos;
+            return _gizmos;
         }
 
         public override void TickLong()

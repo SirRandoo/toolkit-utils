@@ -35,46 +35,46 @@ namespace SirRandoo.ToolkitUtils.Workers
     public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
     {
         private const float BaseExpandedLineSpan = 3f;
-        private string closeEventNameTooltip;
-        private string editEventNameTooltip;
-        private string eventCapText;
-        private Rect expandedHeaderInnerRect = Rect.zero;
-        private Rect expandedHeaderRect = Rect.zero;
-        private protected Rect KarmaHeaderRect = Rect.zero;
-        private string karmaHeaderText;
-        private protected Rect KarmaHeaderTextRect = Rect.zero;
-        private string karmaTypeText;
-        private string maxWagerText;
-        private protected Rect NameHeaderRect = Rect.zero;
+        private string _closeEventNameTooltip;
+        private string _editEventNameTooltip;
+        private string _eventCapText;
+        private Rect _expandedHeaderInnerRect = Rect.zero;
+        private Rect _expandedHeaderRect = Rect.zero;
+        private string _karmaHeaderText;
+        private string _karmaTypeText;
+        private string _maxWagerText;
 
-        private string nameHeaderText;
+        private string _nameHeaderText;
+        private string _openSettingsText;
+        private string _priceHeaderText;
+        private string _resetEventNameTooltip;
+        private Vector2 _scrollPos = Vector2.zero;
+        private SettingsKey _settingsKey = SettingsKey.Collapse;
+        private SortKey _sortKey = SortKey.Name;
+        private SortOrder _sortOrder = SortOrder.Descending;
+        private Rect _stateHeaderInnerRect = Rect.zero;
+        private Rect _stateHeaderRect = Rect.zero;
+        private StateKey _stateKey = StateKey.Enable;
+        private string _wagerBuffer;
+        private protected Rect KarmaHeaderRect = Rect.zero;
+        private protected Rect KarmaHeaderTextRect = Rect.zero;
+        private protected Rect NameHeaderRect = Rect.zero;
         private protected Rect NameHeaderTextRect = Rect.zero;
-        private string openSettingsText;
         private protected Rect PriceHeaderRect = Rect.zero;
-        private string priceHeaderText;
         private protected Rect PriceHeaderTextRect = Rect.zero;
-        private string resetEventNameTooltip;
-        private Vector2 scrollPos = Vector2.zero;
-        private SettingsKey settingsKey = SettingsKey.Collapse;
-        private SortKey sortKey = SortKey.Name;
-        private SortOrder sortOrder = SortOrder.Descending;
-        private Rect stateHeaderInnerRect = Rect.zero;
-        private Rect stateHeaderRect = Rect.zero;
-        private StateKey stateKey = StateKey.Enable;
-        private string wagerBuffer;
 
         public override void DrawHeaders(Rect canvas)
         {
-            if (SettingsHelper.DrawTableHeader(stateHeaderRect, stateHeaderInnerRect, stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+            if (SettingsHelper.DrawTableHeader(_stateHeaderRect, _stateHeaderInnerRect, _stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
             {
-                stateKey = stateKey == StateKey.Enable ? StateKey.Disable : StateKey.Enable;
-                NotifyGlobalStateChanged(stateKey);
+                _stateKey = _stateKey == StateKey.Enable ? StateKey.Disable : StateKey.Enable;
+                NotifyGlobalStateChanged(_stateKey);
             }
 
-            if (SettingsHelper.DrawTableHeader(expandedHeaderRect, expandedHeaderInnerRect, Textures.Gear))
+            if (SettingsHelper.DrawTableHeader(_expandedHeaderRect, _expandedHeaderInnerRect, Textures.Gear))
             {
-                settingsKey = settingsKey == SettingsKey.Expand ? SettingsKey.Collapse : SettingsKey.Expand;
-                NotifyGlobalSettingsChanged(settingsKey);
+                _settingsKey = _settingsKey == SettingsKey.Expand ? SettingsKey.Collapse : SettingsKey.Expand;
+                NotifyGlobalSettingsChanged(_settingsKey);
             }
 
             DrawSortableHeaders();
@@ -84,29 +84,29 @@ namespace SirRandoo.ToolkitUtils.Workers
         private protected void DrawSortableHeaders()
         {
             var anyClicked = false;
-            SortKey previousKey = sortKey;
+            SortKey previousKey = _sortKey;
 
-            if (SettingsHelper.DrawTableHeader(NameHeaderRect, NameHeaderTextRect, nameHeaderText))
+            if (SettingsHelper.DrawTableHeader(NameHeaderRect, NameHeaderTextRect, _nameHeaderText))
             {
-                sortKey = SortKey.Name;
+                _sortKey = SortKey.Name;
                 anyClicked = true;
             }
 
-            if (SettingsHelper.DrawTableHeader(PriceHeaderRect, PriceHeaderTextRect, priceHeaderText))
+            if (SettingsHelper.DrawTableHeader(PriceHeaderRect, PriceHeaderTextRect, _priceHeaderText))
             {
-                sortKey = SortKey.Price;
+                _sortKey = SortKey.Price;
                 anyClicked = true;
             }
 
-            if (SettingsHelper.DrawTableHeader(KarmaHeaderRect, KarmaHeaderTextRect, karmaHeaderText))
+            if (SettingsHelper.DrawTableHeader(KarmaHeaderRect, KarmaHeaderTextRect, _karmaHeaderText))
             {
-                sortKey = SortKey.KarmaType;
+                _sortKey = SortKey.KarmaType;
                 anyClicked = true;
             }
 
-            if (sortKey != previousKey)
+            if (_sortKey != previousKey)
             {
-                sortOrder = SortOrder.Descending;
+                _sortOrder = SortOrder.Descending;
                 NotifySortRequested();
             }
             else if (anyClicked)
@@ -118,23 +118,23 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void InvertSortOrder()
         {
-            sortOrder = sortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+            _sortOrder = _sortOrder == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
 
         private protected void DrawSortableHeaderIcon()
         {
-            switch (sortKey)
+            switch (_sortKey)
             {
                 case SortKey.Name:
-                    SettingsHelper.DrawSortIndicator(NameHeaderRect, sortOrder);
+                    SettingsHelper.DrawSortIndicator(NameHeaderRect, _sortOrder);
 
                     return;
                 case SortKey.Price:
-                    SettingsHelper.DrawSortIndicator(PriceHeaderRect, sortOrder);
+                    SettingsHelper.DrawSortIndicator(PriceHeaderRect, _sortOrder);
 
                     return;
                 case SortKey.KarmaType:
-                    SettingsHelper.DrawSortIndicator(KarmaHeaderRect, sortOrder);
+                    SettingsHelper.DrawSortIndicator(KarmaHeaderRect, _sortOrder);
 
                     return;
                 default:
@@ -166,13 +166,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             var alternate = false;
             var expandedLineSpan = 0;
             GUI.BeginGroup(canvas);
-            scrollPos = GUI.BeginScrollView(canvas, scrollPos, viewPort);
+            _scrollPos = GUI.BeginScrollView(canvas, _scrollPos, viewPort);
 
             foreach (TableSettingsItem<EventItem> ev in Data.Where(i => !i.IsHidden))
             {
                 var lineRect = new Rect(0f, RowLineHeight * expandedLineSpan, canvas.width - 16f, RowLineHeight * (ev.SettingsVisible ? GetLineSpan(ev) : 1f));
 
-                if (!lineRect.IsRegionVisible(canvas, scrollPos))
+                if (!lineRect.IsRegionVisible(canvas, _scrollPos))
                 {
                     alternate = !alternate;
                     expandedLineSpan += GetLineSpan(ev);
@@ -201,7 +201,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected virtual void DrawEvent(Rect canvas, [NotNull] TableSettingsItem<EventItem> ev)
         {
-            Rect checkboxRect = SettingsHelper.RectForIcon(new Rect(stateHeaderRect.x + 2f, canvas.y + 2f, stateHeaderRect.width - 4f, RowLineHeight - 4f));
+            Rect checkboxRect = SettingsHelper.RectForIcon(new Rect(_stateHeaderRect.x + 2f, canvas.y + 2f, _stateHeaderRect.width - 4f, RowLineHeight - 4f));
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
@@ -209,10 +209,10 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             Rect settingRect = SettingsHelper.RectForIcon(
                 new Rect(
-                    expandedHeaderRect.x + 2f,
-                    canvas.y + Mathf.FloorToInt(Mathf.Abs(expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
-                    expandedHeaderRect.width - 4f,
-                    expandedHeaderRect.width - 4f
+                    _expandedHeaderRect.x + 2f,
+                    canvas.y + Mathf.FloorToInt(Mathf.Abs(_expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
+                    _expandedHeaderRect.width - 4f,
+                    _expandedHeaderRect.width - 4f
                 )
             );
 
@@ -302,7 +302,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] TableItem<EventItem> ev)
         {
             (Rect capLabel, Rect capField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm(0.6f);
-            SettingsHelper.DrawLabel(capLabel, eventCapText);
+            SettingsHelper.DrawLabel(capLabel, _eventCapText);
             int capProxy = ev.Data.EventCap;
             var capBuffer = capProxy.ToString();
 
@@ -312,7 +312,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             (Rect karmaLabel, Rect karmaField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).ToForm(0.6f);
-            SettingsHelper.DrawLabel(karmaLabel, karmaTypeText);
+            SettingsHelper.DrawLabel(karmaLabel, _karmaTypeText);
 
             if (Widgets.ButtonText(karmaField, ev.Data.KarmaType.ToString()))
             {
@@ -328,10 +328,10 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 wagerShown = true;
                 (Rect wagerLabel, Rect wagerField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm(0.6f);
-                SettingsHelper.DrawLabel(wagerLabel, maxWagerText);
+                SettingsHelper.DrawLabel(wagerLabel, _maxWagerText);
                 int wagerProxy = ev.Data.MaxWager;
 
-                if (SettingsHelper.DrawNumberField(wagerField, ref wagerProxy, ref wagerBuffer, out int newWager, ev.Data.Variables?.minPointsToFire ?? ev.Data.Cost, 20000f))
+                if (SettingsHelper.DrawNumberField(wagerField, ref wagerProxy, ref _wagerBuffer, out int newWager, ev.Data.Variables?.minPointsToFire ?? ev.Data.Cost, 20000f))
                 {
                     ev.Data.MaxWager = newWager;
                 }
@@ -339,7 +339,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (ev.Data.HasSettings
                 && !ev.Data.HasSettingsEmbed
-                && Widgets.ButtonText(new Rect(0f, wagerShown ? RowLineHeight : 0f, canvas.width, RowLineHeight).ToForm(0.6f).Item2, openSettingsText))
+                && Widgets.ButtonText(new Rect(0f, wagerShown ? RowLineHeight : 0f, canvas.width, RowLineHeight).ToForm(0.6f).Item2, _openSettingsText))
             {
                 ev.Data.Settings?.EditSettings();
             }
@@ -356,7 +356,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     ev.Data.Name = result!.ToToolkit();
                 }
 
-                if (!ev.Data.Name.NullOrEmpty() && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetEventNameTooltip))
+                if (!ev.Data.Name.NullOrEmpty() && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, _resetEventNameTooltip))
                 {
                     ev.Data.Incident.abbreviation = ev.Data.GetDefaultAbbreviation();
                 }
@@ -368,7 +368,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             GUI.color = new Color(1f, 1f, 1f, 0.7f);
 
-            if (SettingsHelper.DrawFieldButton(canvas, ev.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, ev.EditingName ? closeEventNameTooltip : editEventNameTooltip))
+            if (SettingsHelper.DrawFieldButton(canvas, ev.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, ev.EditingName ? _closeEventNameTooltip : _editEventNameTooltip))
             {
                 ev.EditingName = !ev.EditingName;
             }
@@ -380,30 +380,30 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             LoadTranslations();
 
-            _data ??= new List<TableSettingsItem<EventItem>>();
-            _data.AddRange(ToolkitUtils.Data.Events.OrderBy(i => i.Name).Select(i => new TableSettingsItem<EventItem> { Data = i }));
+            InternalData ??= new List<TableSettingsItem<EventItem>>();
+            InternalData.AddRange(ToolkitUtils.Data.Events.OrderBy(i => i.Name).Select(i => new TableSettingsItem<EventItem> { Data = i }));
         }
 
         private void LoadTranslations()
         {
-            nameHeaderText = "TKUtils.Headers.Name".Localize();
-            priceHeaderText = "TKUtils.Headers.Price".Localize();
-            karmaHeaderText = "TKUtils.Headers.Karma".Localize();
+            _nameHeaderText = "TKUtils.Headers.Name".Localize();
+            _priceHeaderText = "TKUtils.Headers.Price".Localize();
+            _karmaHeaderText = "TKUtils.Headers.Karma".Localize();
 
-            openSettingsText = "TKUtils.Buttons.Settings".Localize();
+            _openSettingsText = "TKUtils.Buttons.Settings".Localize();
 
-            editEventNameTooltip = "TKUtils.EventTableTooltips.EditEventName".Localize();
-            closeEventNameTooltip = "TKUtils.EventTableTooltips.CloseEventName".Localize();
-            resetEventNameTooltip = "TKUtils.EventTableTooltips.ResetEventName".Localize();
+            _editEventNameTooltip = "TKUtils.EventTableTooltips.EditEventName".Localize();
+            _closeEventNameTooltip = "TKUtils.EventTableTooltips.CloseEventName".Localize();
+            _resetEventNameTooltip = "TKUtils.EventTableTooltips.ResetEventName".Localize();
 
-            eventCapText = "TKUtils.Fields.EventCap".Localize();
-            maxWagerText = "TKUtils.Fields.MaxWager".Localize();
-            karmaTypeText = "TKUtils.Fields.KarmaType".Localize();
+            _eventCapText = "TKUtils.Fields.EventCap".Localize();
+            _maxWagerText = "TKUtils.Fields.MaxWager".Localize();
+            _karmaTypeText = "TKUtils.Fields.KarmaType".Localize();
         }
 
         public override void NotifySortRequested()
         {
-            switch (sortOrder)
+            switch (_sortOrder)
             {
                 case SortOrder.Ascending:
                     NotifyAscendingSortRequested();
@@ -420,18 +420,18 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyDescendingSortRequested()
         {
-            switch (sortKey)
+            switch (_sortKey)
             {
                 case SortKey.KarmaType:
-                    _data = _data.OrderBy(i => (int)i.Data.KarmaType).ThenBy(i => i.Data.Name).ToList();
+                    InternalData = InternalData.OrderBy(i => (int)i.Data.KarmaType).ThenBy(i => i.Data.Name).ToList();
 
                     return;
                 case SortKey.Price:
-                    _data = _data.OrderBy(i => i.Data.Cost).ThenBy(i => i.Data.Name).ToList();
+                    InternalData = InternalData.OrderBy(i => i.Data.Cost).ThenBy(i => i.Data.Name).ToList();
 
                     return;
                 default:
-                    _data = _data.OrderBy(i => i.Data.Name).ToList();
+                    InternalData = InternalData.OrderBy(i => i.Data.Name).ToList();
 
                     return;
             }
@@ -439,18 +439,18 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void NotifyAscendingSortRequested()
         {
-            switch (sortKey)
+            switch (_sortKey)
             {
                 case SortKey.KarmaType:
-                    _data = _data.OrderByDescending(i => (int)i.Data.KarmaType).ThenByDescending(i => i.Data.Name).ToList();
+                    InternalData = InternalData.OrderByDescending(i => (int)i.Data.KarmaType).ThenByDescending(i => i.Data.Name).ToList();
 
                     return;
                 case SortKey.Price:
-                    _data = _data.OrderByDescending(i => i.Data.Cost).ThenByDescending(i => i.Data.Name).ToList();
+                    InternalData = InternalData.OrderByDescending(i => i.Data.Cost).ThenByDescending(i => i.Data.Name).ToList();
 
                     return;
                 default:
-                    _data = _data.OrderByDescending(i => i.Data.Name).ToList();
+                    InternalData = InternalData.OrderByDescending(i => i.Data.Name).ToList();
 
                     return;
             }
@@ -467,16 +467,16 @@ namespace SirRandoo.ToolkitUtils.Workers
             float labelWidth = Mathf.FloorToInt(consumedWidth * 0.4f);
             float remainingWidth = consumedWidth - labelWidth;
             float distributedWidth = Mathf.FloorToInt(remainingWidth / 2f);
-            stateHeaderRect = new Rect(0f, 0f, LineHeight, LineHeight);
-            stateHeaderInnerRect = stateHeaderRect.ContractedBy(2f);
+            _stateHeaderRect = new Rect(0f, 0f, LineHeight, LineHeight);
+            _stateHeaderInnerRect = _stateHeaderRect.ContractedBy(2f);
             NameHeaderRect = new Rect(LineHeight + 1f, 0f, labelWidth, LineHeight);
             NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
             PriceHeaderRect = new Rect(NameHeaderRect.x + NameHeaderRect.width + 1f, 0f, distributedWidth, LineHeight);
             PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
             KarmaHeaderRect = new Rect(PriceHeaderRect.x + PriceHeaderRect.width + 1f, 0f, distributedWidth, LineHeight);
             KarmaHeaderTextRect = new Rect(KarmaHeaderRect.x + 4f, KarmaHeaderRect.y, KarmaHeaderRect.width - 8f, KarmaHeaderRect.height);
-            expandedHeaderRect = new Rect(KarmaHeaderRect.x + KarmaHeaderRect.width + 1f, 0f, LineHeight, LineHeight);
-            expandedHeaderInnerRect = expandedHeaderRect.ContractedBy(2f);
+            _expandedHeaderRect = new Rect(KarmaHeaderRect.x + KarmaHeaderRect.width + 1f, 0f, LineHeight, LineHeight);
+            _expandedHeaderInnerRect = _expandedHeaderRect.ContractedBy(2f);
         }
 
         protected override void FilterDataBySearch(string query)
@@ -489,9 +489,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void EnsureExists(TableSettingsItem<EventItem> data)
         {
-            if (!_data.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
+            if (!InternalData.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
             {
-                _data.Add(data);
+                InternalData.Add(data);
             }
         }
 
@@ -499,9 +499,11 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var wasDirty = false;
 
-            foreach (EventItem item in ToolkitUtils.Data.Events.Select(item => new { item, existing = _data.Find(i => i.Data.Equals(item)) }).Where(t => t.existing == null).Select(t => t.item))
+            foreach (EventItem item in ToolkitUtils.Data.Events.Select(item => new { item, existing = InternalData.Find(i => i.Data.Equals(item)) })
+               .Where(t => t.existing == null)
+               .Select(t => t.item))
             {
-                _data.Add(new TableSettingsItem<EventItem> { Data = item });
+                InternalData.Add(new TableSettingsItem<EventItem> { Data = item });
                 wasDirty = true;
             }
 

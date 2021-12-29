@@ -29,31 +29,31 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class ReviveRandom : IncidentHelper
     {
-        private Pawn pawn;
+        private Pawn _pawn;
 
         public override bool IsPossible()
         {
-            pawn = Find.ColonistBar.GetColonistsInOrder().Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p)).RandomElementWithFallback();
+            _pawn = Find.ColonistBar.GetColonistsInOrder().Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p)).RandomElementWithFallback();
 
-            if (pawn == null)
+            if (_pawn == null)
             {
                 return false;
             }
 
-            PawnTracker.pawnsToRevive.Add(pawn);
+            PawnTracker.pawnsToRevive.Add(_pawn);
 
             return true;
         }
 
         public override void TryExecute()
         {
-            pawn.TryResurrect();
+            _pawn.TryResurrect();
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.RevivalLetter.Title".Localize(),
-                "TKUtils.RevivalLetter.Description".LocalizeKeyed((pawn.LabelShort ?? pawn.Label).CapitalizeFirst()),
+                "TKUtils.RevivalLetter.Description".LocalizeKeyed((_pawn.LabelShort ?? _pawn.Label).CapitalizeFirst()),
                 LetterDefOf.PositiveEvent,
-                pawn
+                _pawn
             );
         }
     }

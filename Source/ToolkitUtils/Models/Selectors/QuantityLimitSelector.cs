@@ -27,22 +27,22 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class QuantityLimitSelector : ISelectorBase<ThingItem>
     {
-        private ComparisonTypes comparison = ComparisonTypes.Equal;
-        private List<FloatMenuOption> comparisonOptions;
-        private int quantityLimitCost;
-        private string quantityLimitCostBuffer = "0";
-        private string quantityLimitCostText;
+        private ComparisonTypes _comparison = ComparisonTypes.Equal;
+        private List<FloatMenuOption> _comparisonOptions;
+        private int _quantityLimitCost;
+        private string _quantityLimitCostBuffer = "0";
+        private string _quantityLimitCostText;
 
         public void Prepare()
         {
-            quantityLimitCostText = "TKUtils.Fields.QuantityLimit".TranslateSimple();
+            _quantityLimitCostText = "TKUtils.Fields.QuantityLimit".TranslateSimple();
 
-            comparisonOptions = Data.ComparisonTypes.Select(
+            _comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption(
                         i.AsOperator(),
                         () =>
                         {
-                            comparison = i;
+                            _comparison = i;
                             Dirty.Set(true);
                         }
                     )
@@ -53,22 +53,22 @@ namespace SirRandoo.ToolkitUtils.Models
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, quantityLimitCostText);
+            SettingsHelper.DrawLabel(label, _quantityLimitCostText);
 
             (Rect button, Rect input) = field.ToForm(0.3f);
 
-            if (Widgets.ButtonText(button, comparison.AsOperator()))
+            if (Widgets.ButtonText(button, _comparison.AsOperator()))
             {
-                Find.WindowStack.Add(new FloatMenu(comparisonOptions));
+                Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
             }
 
-            if (!SettingsHelper.DrawNumberField(input, ref quantityLimitCost, ref quantityLimitCostBuffer, out int newCost))
+            if (!SettingsHelper.DrawNumberField(input, ref _quantityLimitCost, ref _quantityLimitCostBuffer, out int newCost))
             {
                 return;
             }
 
-            quantityLimitCost = newCost;
-            quantityLimitCostBuffer = newCost.ToString();
+            _quantityLimitCost = newCost;
+            _quantityLimitCostBuffer = newCost.ToString();
             Dirty.Set(true);
         }
 
@@ -76,18 +76,18 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public bool IsVisible(TableSettingsItem<ThingItem> item)
         {
-            switch (comparison)
+            switch (_comparison)
             {
                 case ComparisonTypes.Greater:
-                    return item.Data.ItemData?.QuantityLimit > quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit > _quantityLimitCost;
                 case ComparisonTypes.Equal:
-                    return item.Data.ItemData?.QuantityLimit == quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit == _quantityLimitCost;
                 case ComparisonTypes.Less:
-                    return item.Data.ItemData?.QuantityLimit < quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit < _quantityLimitCost;
                 case ComparisonTypes.GreaterEqual:
-                    return item.Data.ItemData?.QuantityLimit >= quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit >= _quantityLimitCost;
                 case ComparisonTypes.LessEqual:
-                    return item.Data.ItemData?.QuantityLimit <= quantityLimitCost;
+                    return item.Data.ItemData?.QuantityLimit <= _quantityLimitCost;
                 default:
                     return false;
             }

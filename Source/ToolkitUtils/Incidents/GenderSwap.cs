@@ -28,18 +28,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class GenderSwap : IncidentVariablesBase
     {
-        private Pawn pawn;
+        private Pawn _pawn;
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
                 return false;
             }
 
-            if (pawn.kindDef?.RaceProps?.hasGenders == true || pawn.gender == Gender.None)
+            if (_pawn.kindDef?.RaceProps?.hasGenders == true || _pawn.gender == Gender.None)
             {
                 return true;
             }
@@ -51,34 +51,34 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            pawn.gender = pawn.gender == Gender.Female ? Gender.Male : Gender.Female;
-            pawn.story.hairColor = PawnHairColors.RandomHairColor(pawn.story.SkinColor, pawn.ageTracker.AgeBiologicalYears);
+            _pawn.gender = _pawn.gender == Gender.Female ? Gender.Male : Gender.Female;
+            _pawn.story.hairColor = PawnHairColors.RandomHairColor(_pawn.story.SkinColor, _pawn.ageTracker.AgeBiologicalYears);
 
-            if (pawn.style.HasUnwantedBeard)
+            if (_pawn.style.HasUnwantedBeard)
             {
-                pawn.style.beardDef = BeardDefOf.NoBeard;
-                pawn.style.Notify_StyleItemChanged();
+                _pawn.style.beardDef = BeardDefOf.NoBeard;
+                _pawn.style.Notify_StyleItemChanged();
             }
 
-            pawn.story.hairDef = PawnStyleItemChooser.RandomHairFor(pawn);
+            _pawn.story.hairDef = PawnStyleItemChooser.RandomHairFor(_pawn);
 
-            pawn.story.bodyType = pawn.story.adulthood == null
+            _pawn.story.bodyType = _pawn.story.adulthood == null
                 ? Rand.Value >= 0.5
-                    ? pawn.gender != Gender.Female
+                    ? _pawn.gender != Gender.Female
                         ? BodyTypeDefOf.Male
                         : BodyTypeDefOf.Female
                     : BodyTypeDefOf.Thin
-                : pawn.story.adulthood.BodyTypeFor(pawn.gender);
+                : _pawn.story.adulthood.BodyTypeFor(_pawn.gender);
 
             Viewer.Charge(storeIncident);
 
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.GenderSwap.Complete".LocalizeKeyed(pawn.gender.ToString()));
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.GenderSwap.Complete".LocalizeKeyed(_pawn.gender.ToString()));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.GenderSwapLetter.Title".Localize(),
-                "TKUtils.GenderSwapLetter.Description".LocalizeKeyed(Viewer.username, pawn.gender.ToString()),
+                "TKUtils.GenderSwapLetter.Description".LocalizeKeyed(Viewer.username, _pawn.gender.ToString()),
                 LetterDefOf.NeutralEvent,
-                pawn
+                _pawn
             );
         }
     }

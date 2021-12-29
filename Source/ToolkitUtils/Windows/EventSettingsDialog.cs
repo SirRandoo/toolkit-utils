@@ -22,17 +22,17 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class EventSettingsDialog : Window
     {
-        private readonly IEventSettings settings;
+        private readonly IEventSettings _settings;
 
         public EventSettingsDialog(IEventSettings settings)
         {
-            this.settings = settings;
+            _settings = settings;
             doCloseButton = true;
         }
 
         public override void DoWindowContents(Rect region)
         {
-            settings.Draw(region, Text.LineHeight);
+            _settings.Draw(region, Text.LineHeight);
         }
     }
 }

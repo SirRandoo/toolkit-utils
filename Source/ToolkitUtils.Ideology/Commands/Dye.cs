@@ -30,14 +30,14 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class Dye : CommandBase
     {
-        private string invoker;
-        private Pawn pawn;
+        private string _invoker;
+        private Pawn _pawn;
 
         public override void RunCommand([NotNull] ITwitchMessage message)
         {
-            invoker = message.Username;
+            _invoker = message.Username;
 
-            if (!PurchaseHelper.TryGetPawn(message.Username, out pawn))
+            if (!PurchaseHelper.TryGetPawn(message.Username, out _pawn))
             {
                 message.Reply("TKUtils.NoPawn".Localize());
 
@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void DyeApparel([NotNull] IEnumerable<KeyValuePair<string, string>> pairs)
         {
-            List<Apparel> apparel = pawn.apparel.WornApparel;
+            List<Apparel> apparel = _pawn.apparel.WornApparel;
 
             foreach ((string nameOrDef, string colorCode) in pairs)
             {
@@ -85,13 +85,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (colorCode.NullOrEmpty())
                 {
-                    color = pawn.story.favoriteColor;
+                    color = _pawn.story.favoriteColor;
                 }
                 else
                 {
                     if (!Data.ColorIndex.TryGetValue(colorCodeTransformed, out Color color2) && !ColorUtility.TryParseHtmlString(colorCodeTransformed, out color2))
                     {
-                        MessageHelper.ReplyToUser(invoker, "TKUtils.NotAColor".LocalizeKeyed(colorCode));
+                        MessageHelper.ReplyToUser(_invoker, "TKUtils.NotAColor".LocalizeKeyed(colorCode));
 
                         return;
                     }
@@ -116,24 +116,24 @@ namespace SirRandoo.ToolkitUtils.Commands
                 item?.TryGetComp<CompColorable>()?.SetColor(color.Value);
             }
 
-            MessageHelper.ReplyToUser(invoker, "TKUtils.Dye.Complete".Localize());
+            MessageHelper.ReplyToUser(_invoker, "TKUtils.Dye.Complete".Localize());
         }
 
         private void DyeAll(Color? color)
         {
-            color ??= pawn.story.favoriteColor;
+            color ??= _pawn.story.favoriteColor;
 
             if (!color.HasValue)
             {
                 return;
             }
 
-            foreach (Apparel apparel in pawn.apparel.WornApparel)
+            foreach (Apparel apparel in _pawn.apparel.WornApparel)
             {
                 apparel.TryGetComp<CompColorable>()?.SetColor(color.Value);
             }
 
-            MessageHelper.ReplyToUser(invoker, "TKUtils.Dye.Complete".Localize());
+            MessageHelper.ReplyToUser(_invoker, "TKUtils.Dye.Complete".Localize());
         }
     }
 }

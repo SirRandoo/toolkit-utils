@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class PawnNameMutator : IMutatorBase<PawnKindItem>
     {
-        private string name = "";
-        private string nameText;
+        private string _name = "";
+        private string _nameText;
 
         public int Priority => 1;
 
@@ -33,25 +33,25 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            nameText = "TKUtils.Fields.Name".TranslateSimple();
+            _nameText = "TKUtils.Fields.Name".TranslateSimple();
         }
 
         public void Mutate(TableSettingsItem<PawnKindItem> item)
         {
-            if (name.NullOrEmpty())
+            if (_name.NullOrEmpty())
             {
                 return;
             }
 
             item.Data.PawnData.CustomName = true;
-            item.Data.Name = name;
+            item.Data.Name = _name;
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, nameText);
-            name = Widgets.TextField(field, name).ToToolkit();
+            SettingsHelper.DrawLabel(label, _nameText);
+            _name = Widgets.TextField(field, _name).ToToolkit();
         }
     }
 }

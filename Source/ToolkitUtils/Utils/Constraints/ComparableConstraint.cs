@@ -27,40 +27,40 @@ namespace SirRandoo.ToolkitUtils.Utils
 
     public class ComparableConstraint : ConstraintBase
     {
-        private readonly List<FloatMenuOption> comparisonOptions;
-        private ComparisonTypes comparison;
-        private string comparisonButtonText;
-        private string comparisonText;
+        private readonly List<FloatMenuOption> _comparisonOptions;
+        private ComparisonTypes _comparison;
+        private string _comparisonButtonText;
+        private string _comparisonText;
 
         protected ComparableConstraint()
         {
             Comparison = ComparisonTypes.Equal;
-            comparisonOptions = Data.ComparisonTypes.Select(t => new FloatMenuOption($"TKUtils.PurgeMenu.{t.ToString()}".Localize(), () => Comparison = t)).ToList();
+            _comparisonOptions = Data.ComparisonTypes.Select(t => new FloatMenuOption($"TKUtils.PurgeMenu.{t.ToString()}".Localize(), () => Comparison = t)).ToList();
         }
 
         protected ComparisonTypes Comparison
         {
-            get => comparison;
+            get => _comparison;
             private set
             {
-                if (comparison != value)
+                if (_comparison != value)
                 {
-                    comparisonText = Enum.GetName(typeof(ComparisonTypes), value);
-                    comparisonButtonText = $"TKUtils.PurgeMenu.{comparisonText}".Localize();
+                    _comparisonText = Enum.GetName(typeof(ComparisonTypes), value);
+                    _comparisonButtonText = $"TKUtils.PurgeMenu.{_comparisonText}".Localize();
                 }
 
-                comparison = value;
+                _comparison = value;
             }
         }
 
         protected void DrawButton(Rect canvas)
         {
-            if (!Widgets.ButtonText(canvas, comparisonButtonText))
+            if (!Widgets.ButtonText(canvas, _comparisonButtonText))
             {
                 return;
             }
 
-            Find.WindowStack.Add(new FloatMenu(comparisonOptions));
+            Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
         }
     }
 }
