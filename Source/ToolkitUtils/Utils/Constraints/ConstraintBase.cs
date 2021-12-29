@@ -14,18 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
-    public class ConstraintBase
+    public class ConstraintBase : IConstraintBase
     {
         public virtual void Draw(Rect canvas) { }
 
-        public virtual bool ShouldPurge(Viewer viewer)
-        {
-            return false;
-        }
+        public virtual bool ShouldPurge(Viewer viewer) => false;
     }
 }

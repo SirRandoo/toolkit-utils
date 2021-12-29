@@ -25,12 +25,15 @@ namespace SirRandoo.ToolkitUtils.Utils
     public class KarmaConstraint : ComparableConstraint
     {
         private readonly string labelText;
-        private string buffer = "0";
+        private string buffer;
         private int karma;
+        private bool valid;
 
         public KarmaConstraint()
         {
             labelText = "TKUtils.PurgeMenu.Karma".Localize().CapitalizeFirst();
+            buffer = "0";
+            valid = true;
         }
 
         public override void Draw(Rect canvas)
@@ -40,7 +43,28 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             SettingsHelper.DrawLabel(labelRect, labelText);
             DrawButton(buttonRect);
-            Widgets.TextFieldNumeric(inputRect, ref karma, ref buffer);
+
+            GUI.backgroundColor = valid ? Color.white : Color.red;
+
+            if (!SettingsHelper.DrawTextField(inputRect, buffer, out string result))
+            {
+                GUI.backgroundColor = Color.white;
+
+                return;
+            }
+
+            GUI.backgroundColor = Color.white;
+            buffer = result;
+
+            if (int.TryParse(result, out int parsed))
+            {
+                karma = parsed;
+                valid = true;
+            }
+            else
+            {
+                valid = false;
+            }
         }
 
         public override bool ShouldPurge(Viewer viewer)

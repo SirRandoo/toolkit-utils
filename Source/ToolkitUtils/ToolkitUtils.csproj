@@ -205,6 +205,7 @@
         <Compile Include="Interfaces\ICommandSettings.cs"/>
         <Compile Include="Interfaces\ICompatibilityProvider.cs"/>
         <Compile Include="Interfaces\IConfigurableTableItem.cs"/>
+        <Compile Include="Interfaces\IConstraintBase.cs"/>
         <Compile Include="Interfaces\IEasterEgg.cs"/>
         <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IHealHandler.cs"/>
@@ -351,16 +352,11 @@
         <Compile Include="Utils\Basket\MerlEgg.cs"/>
         <Compile Include="Utils\CommandBase.cs"/>
         <Compile Include="Utils\CommandParser.cs"/>
-        <Compile Include="Utils\Constraints\BannedConstraint.cs"/>
         <Compile Include="Utils\Constraints\CoinConstraint.cs"/>
         <Compile Include="Utils\Constraints\KarmaConstraint.cs"/>
-        <Compile Include="Utils\Constraints\ModConstraint.cs"/>
         <Compile Include="Utils\Constraints\NameConstraint.cs"/>
-        <Compile Include="Utils\Constraints\SubscriberConstraint.cs"/>
-        <Compile Include="Utils\Constraints\TimeConstraint.cs"/>
         <Compile Include="Utils\Constraints\ComparableConstraint.cs"/>
         <Compile Include="Utils\Constraints\ConstraintBase.cs"/>
-        <Compile Include="Utils\Constraints\VipConstraint.cs"/>
         <Compile Include="Utils\IncidentVariablesBase.cs"/>
         <Compile Include="Utils\ModComp\AlienRace.cs"/>
         <Compile Include="Utils\ModComp\Androids.cs"/>

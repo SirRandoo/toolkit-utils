@@ -41,12 +41,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             nameStrategyButtonText = $"TKUtils.PurgeMenu.{nameof(NameStrategies.Is)}".Localize();
 
             strategyOptions = Enum.GetNames(typeof(NameStrategies))
-               .Select(
-                    t => new FloatMenuOption(
-                        $"TKUtils.PurgeMenu.{t}".Localize(),
-                        () => NameStrategy = (NameStrategies)Enum.Parse(typeof(NameStrategies), t)
-                    )
-                )
+               .Select(t => new FloatMenuOption($"TKUtils.PurgeMenu.{t}".Localize(), () => NameStrategy = (NameStrategies)Enum.Parse(typeof(NameStrategies), t)))
                .ToList();
         }
 
