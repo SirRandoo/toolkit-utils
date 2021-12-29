@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
@@ -23,12 +24,10 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class EasterEgg : IEasterEgg
     {
+        [CanBeNull] public string UserId => "*"; // Signifies this easter egg affects everyone
         public virtual float Chance => 0.35f;
 
-        public virtual bool IsPossible(StoreIncident incident, Viewer viewer)
-        {
-            return false;
-        }
+        public virtual bool IsPossible(StoreIncident incident, Viewer viewer) => false;
 
         public virtual void Execute(Viewer viewer) { }
 

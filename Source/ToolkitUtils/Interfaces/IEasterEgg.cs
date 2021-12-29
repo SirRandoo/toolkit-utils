@@ -23,6 +23,7 @@ namespace SirRandoo.ToolkitUtils.Interfaces
     public interface IEasterEgg
     {
         float Chance { get; }
+        string UserId { get; }
         bool IsPossible(StoreIncident incident, Viewer viewer);
         void Execute(Viewer viewer);
         void Execute(Viewer viewer, Pawn pawn);
