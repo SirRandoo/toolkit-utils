@@ -20,10 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections.Generic;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
-using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
@@ -35,24 +32,10 @@ namespace SirRandoo.ToolkitUtils.Workers
             Worker = new PawnTableWorker();
             Worker.Prepare();
 
-            SelectorAdders = new List<FloatMenuOption>
-            {
-                new FloatMenuOption("TKUtils.Fields.Name".Localize(), () => AddSelector(new NameSelector<PawnKindItem>())),
-                new FloatMenuOption("TKUtils.Fields.State".Localize(), () => AddSelector(new StateSelector<PawnKindItem>())),
-                new FloatMenuOption("TKUtils.Fields.Price".Localize(), () => AddSelector(new PriceSelector<PawnKindItem>())),
-                new FloatMenuOption("TKUtils.Fields.DefName".Localize(), () => AddSelector(new DefNameSelector<PawnKindItem>())),
-                new FloatMenuOption("TKUtils.Fields.Mod".Localize(), () => AddSelector(new ModSelector<PawnKindItem>()))
-            };
-
-            MutateAdders = new List<FloatMenuOption>
-            {
-                new FloatMenuOption("TKUtils.Fields.Name".Localize(), () => AddMutator(new PawnNameMutator())),
-                new FloatMenuOption("TKUtils.Fields.Price".Localize(), () => AddMutator(new PriceMutator<PawnKindItem>())),
-                new FloatMenuOption("TKUtils.Fields.State".Localize(), () => AddMutator(new StateMutator<PawnKindItem>())),
-                new FloatMenuOption("TKUtils.EditorMutator.ResetName".Localize(), () => AddMutator(new ResetNameMutator<PawnKindItem>())),
-                new FloatMenuOption("TKUtils.EditorMutator.ResetPrice".Localize(), () => AddMutator(new ResetPriceMutator<PawnKindItem>())),
-                new FloatMenuOption("TKUtils.EditorMutator.ResetData".Localize(), () => AddMutator(new ResetDataMutator<PawnKindItem>()))
-            };
+            DiscoverMutators(DomainIndexer.EditorTarget.Any);
+            DiscoverSelectors(DomainIndexer.EditorTarget.Any);
+            DiscoverMutators(DomainIndexer.EditorTarget.Pawn);
+            DiscoverSelectors(DomainIndexer.EditorTarget.Pawn);
         }
     }
 }

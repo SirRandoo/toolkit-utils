@@ -26,6 +26,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             Worker = new ItemTableWorker();
             Worker.Prepare();
 
+            DiscoverMutators(DomainIndexer.EditorTarget.Any);
+            DiscoverSelectors(DomainIndexer.EditorTarget.Any);
             DiscoverMutators(DomainIndexer.EditorTarget.Item);
             DiscoverSelectors(DomainIndexer.EditorTarget.Item);
         }

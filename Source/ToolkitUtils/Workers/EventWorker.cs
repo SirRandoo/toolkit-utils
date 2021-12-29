@@ -20,10 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections.Generic;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
-using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
@@ -35,20 +32,10 @@ namespace SirRandoo.ToolkitUtils.Workers
             Worker = new EventTableWorker();
             Worker.Prepare();
 
-            SelectorAdders = new List<FloatMenuOption>
-            {
-                new FloatMenuOption("TKUtils.Fields.Name".Localize(), () => AddSelector(new NameSelector<EventItem>())),
-                new FloatMenuOption("TKUtils.Fields.DefName".Localize(), () => AddSelector(new DefNameSelector<EventItem>())),
-                new FloatMenuOption("TKUtils.Fields.KarmaType".Localize(), () => AddSelector(new EventKarmaSelector())),
-                new FloatMenuOption("TKUtils.Fields.SettingEmbed".Localize(), () => AddSelector(new EventSettingEmbedSelector())),
-                new FloatMenuOption("TKUtils.Fields.HasSettings".Localize(), () => AddSelector(new EventSettingSelector()))
-            };
-
-            MutateAdders = new List<FloatMenuOption>
-            {
-                new FloatMenuOption("TKUtils.Fields.Price".Localize(), () => AddMutator(new PriceMutator<EventItem>())),
-                new FloatMenuOption("TKUtils.Fields.KarmaType".Localize(), () => AddMutator(new EventKarmaMutator()))
-            };
+            DiscoverMutators(DomainIndexer.EditorTarget.Any);
+            DiscoverSelectors(DomainIndexer.EditorTarget.Any);
+            DiscoverMutators(DomainIndexer.EditorTarget.Event);
+            DiscoverSelectors(DomainIndexer.EditorTarget.Event);
         }
     }
 }
