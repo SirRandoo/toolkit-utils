@@ -361,6 +361,7 @@
         <Compile Include="Utils\IncidentVariablesBase.cs"/>
         <Compile Include="Utils\ModComp\AlienRace.cs"/>
         <Compile Include="Utils\ModComp\Androids.cs"/>
+        <Compile Include="Utils\ModComp\HugsLib.cs"/>
         <Compile Include="Utils\ModComp\Immortals.cs"/>
         <Compile Include="Utils\ModComp\Interests.cs"/>
         <Compile Include="Utils\ModComp\RationalRomance.cs"/>
@@ -371,6 +372,7 @@
         <Compile Include="Windows\CommandEditorDialog.cs"/>
         <Compile Include="Windows\Editor.cs"/>
         <Compile Include="Windows\EventSettingsDialog.cs"/>
+        <Compile Include="Windows\FakeSettingsWindow.cs"/>
         <Compile Include="Windows\GlobalWeightDialog.cs"/>
         <Compile Include="Windows\PartialManager.cs"/>
         <Compile Include="Windows\NameQueueDialog.cs"/>
@@ -380,6 +382,7 @@
         <Compile Include="Windows\StoreIncidentEditor.cs"/>
         <Compile Include="Windows\TkUtilsWindow.cs"/>
         <Compile Include="Windows\TraitConfigDialog.cs"/>
+        <Compile Include="Windows\UtilsSettingsWindow.cs"/>
         <Compile Include="Workers\AnimalSpawnWorker.cs"/>
         <Compile Include="Workers\ArgWorker.cs"/>
         <Compile Include="Workers\EventTableWorker.cs"/>

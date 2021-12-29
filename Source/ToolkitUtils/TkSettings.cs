@@ -72,11 +72,9 @@ namespace SirRandoo.ToolkitUtils
 
         public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
 
-        private static Categories _category = Categories.General;
         internal static List<FloatMenuOption> LeaveMenuOptions;
         private static List<FloatMenuOption> _dumpStyleOptions;
         private static List<FloatMenuOption> _coinUserTypeOptions;
-        private static TabEntry[] _tabEntries;
 
         private static WorkTypeDef[] _workTypeDefs;
 
@@ -99,7 +97,6 @@ namespace SirRandoo.ToolkitUtils
         {
             // A fix for how some windows embed Utils' settings.
             inRect.height = inRect.height > 620f ? 620f : inRect.height;
-            ValidateTabs();
             ValidateEnumOptions();
 
             Color cache = GUI.color;
@@ -115,33 +112,10 @@ namespace SirRandoo.ToolkitUtils
 
 
             GUI.BeginGroup(tabBarRect);
-            DrawTabs(tabBarRect);
             GUI.EndGroup();
 
-            DrawTabPanelLine(tabPanelRect);
             Widgets.DrawLightHighlight(tabPanelRect);
             GUI.BeginGroup(contentRect);
-            switch (_category)
-            {
-                case Categories.General:
-                    DrawGeneralTab(trueContentRect);
-                    break;
-                case Categories.Data:
-                    DrawDataTab(trueContentRect);
-                    break;
-                case Categories.CommandTweaks:
-                    DrawCommandTweaksTab(trueContentRect);
-                    break;
-                case Categories.PawnCommands:
-                    DrawPawnCommandsTab(trueContentRect);
-                    break;
-                case Categories.PawnWork:
-                    DrawPawnWorkTab(trueContentRect);
-                    break;
-                case Categories.ModCompat:
-                    DrawModCompatTab(trueContentRect);
-                    break;
-            }
 
             GUI.EndGroup();
 
@@ -235,91 +209,6 @@ namespace SirRandoo.ToolkitUtils
             listing.End();
             Widgets.EndScrollView();
             GUI.EndGroup();
-        }
-
-        private static void DrawTabPanelLine(Rect canvas)
-        {
-            int entryIndex = _tabEntries.FirstIndexOf(e => e.Category == _category);
-            float entryStartPoint = _tabEntries.Take(entryIndex).Sum(e => e.Width);
-            float entryEndPoint = canvas.x + entryStartPoint + _tabEntries[entryIndex].Width;
-
-            Color cache = GUI.color;
-
-            GUI.color = Color.black;
-            Widgets.DrawLineVertical(canvas.x, canvas.y, canvas.height);
-            Widgets.DrawLineHorizontal(canvas.x, canvas.y + canvas.height - 1f, canvas.width);
-
-            GUI.color = Color.grey;
-
-            if (entryStartPoint > 0)
-            {
-                Widgets.DrawLineHorizontal(canvas.x, canvas.y, entryStartPoint + 1f);
-            }
-
-            Widgets.DrawLineVertical(canvas.x + canvas.width - 1f, canvas.y, canvas.height);
-            Widgets.DrawLineHorizontal(entryEndPoint, canvas.y, canvas.width - entryEndPoint);
-
-            GUI.color = cache;
-        }
-
-        private static void ValidateTabs()
-        {
-            _tabEntries ??= Enum.GetNames(typeof(Categories))
-               .Select(
-                    n => new TabEntry
-                    {
-                        Label = $"TKUtils.{n}".Localize(), Category = (Categories)Enum.Parse(typeof(Categories), n)
-                    }
-                )
-               .ToArray();
-        }
-
-        private static void DrawTabs(Rect canvas)
-        {
-            Color cache = GUI.color;
-            float distributedWidth = canvas.width / _tabEntries.Length;
-            var currentTabCanvas = new Rect(0f, 0f, distributedWidth, canvas.height);
-
-            _modVersion ??= Data.Mods?.FirstOrDefault(m => m.Name.StartsWith("ToolkitUtils", StringComparison.InvariantCultureIgnoreCase))?.Version ?? "";
-
-            if (!_modVersion.NullOrEmpty())
-            {
-                SettingsHelper.DrawColoredLabel(canvas, $"v{_modVersion}  ", Color.gray, TextAnchor.MiddleRight);
-            }
-
-            GUI.color = Color.black;
-            Widgets.DrawLineVertical(currentTabCanvas.x, currentTabCanvas.y, currentTabCanvas.height);
-            GUI.color = cache;
-
-            foreach (TabEntry entry in _tabEntries)
-            {
-                currentTabCanvas.width = Mathf.Min(canvas.width - currentTabCanvas.x, entry.Width);
-
-                if (_category == entry.Category)
-                {
-                    Widgets.DrawLightHighlight(currentTabCanvas);
-                    GUI.color = Color.grey;
-                }
-                else
-                {
-                    GUI.color = Color.black;
-                }
-
-                Widgets.DrawLineHorizontal(currentTabCanvas.x, currentTabCanvas.y, currentTabCanvas.width);
-                Widgets.DrawLineVertical(currentTabCanvas.x + entry.Width, currentTabCanvas.y, currentTabCanvas.height);
-
-                GUI.color = cache;
-                SettingsHelper.DrawLabel(currentTabCanvas, entry.Label, TextAnchor.MiddleCenter);
-
-                if (Widgets.ButtonInvisible(currentTabCanvas))
-                {
-                    _category = entry.Category;
-                }
-
-                currentTabCanvas = currentTabCanvas.ShiftRight(0f);
-            }
-
-            GUI.color = cache;
         }
 
         private static void ValidateEnumOptions()
@@ -625,37 +514,6 @@ namespace SirRandoo.ToolkitUtils
             {
                 Scribe_Values.Look(ref WorkTypeDef, "defName");
                 Scribe_Values.Look(ref Enabled, "enabled", true);
-            }
-        }
-
-        private class TabEntry
-        {
-            private string label;
-            private float width;
-
-            public string Label
-            {
-                get => label;
-                set
-                {
-                    label = value;
-                    width = -1;
-                }
-            }
-
-            public Categories Category { get; set; }
-
-            public float Width
-            {
-                get
-                {
-                    if (width <= 0)
-                    {
-                        width = Text.CalcSize(label).x + 25f;
-                    }
-
-                    return width;
-                }
             }
         }
     }
