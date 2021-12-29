@@ -34,11 +34,13 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.Price".TranslateSimple();
+
         public void Prepare()
         {
-            priceText = "TKUtils.Fields.Price".Localize();
-            valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".Localize();
-            percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".Localize();
+            priceText = "TKUtils.Fields.Price".TranslateSimple();
+            valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".TranslateSimple();
+            percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<T> item)
@@ -53,11 +55,7 @@ namespace SirRandoo.ToolkitUtils.Models
             SettingsHelper.DrawLabel(label, priceText);
             Widgets.TextFieldNumeric(field, ref price, ref priceBuffer, percentage ? -100f : 1f);
 
-            if (SettingsHelper.DrawFieldButton(
-                field,
-                percentage ? "%" : "#",
-                percentage ? percentTooltip : valueTooltip
-            ))
+            if (SettingsHelper.DrawFieldButton(field, percentage ? "%" : "#", percentage ? percentTooltip : valueTooltip))
             {
                 percentage = !percentage;
             }

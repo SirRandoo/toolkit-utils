@@ -19,6 +19,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -30,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            manufacturedText = "TKUtils.Fields.Manufactured".Localize();
+            manufacturedText = "TKUtils.Fields.Manufactured".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -41,9 +42,8 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            return state ? item.Data.ProducedAt != null : item.Data.ProducedAt == null;
-        }
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => state ? item.Data.ProducedAt != null : item.Data.ProducedAt == null;
+
+        public string Label => "TKUtils.Fields.Manufactured".TranslateSimple();
     }
 }

@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -28,9 +29,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.State".TranslateSimple();
+
         public void Prepare()
         {
-            stateText = "TKUtils.Fields.State".Localize();
+            stateText = "TKUtils.Fields.State".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<T> item)

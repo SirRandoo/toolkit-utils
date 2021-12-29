@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -26,9 +27,11 @@ namespace SirRandoo.ToolkitUtils.Models
         private string resetPriceText;
         public int Priority => 10;
 
+        public string Label => "TKUtils.Fields.ResetRemovePrice".TranslateSimple();
+
         public void Prepare()
         {
-            resetPriceText = "TKUtils.EditorMutator.ResetRemovePrice".Localize();
+            resetPriceText = "TKUtils.EditorMutator.ResetRemovePrice".TranslateSimple();
         }
 
         public void Draw(Rect canvas)

@@ -19,6 +19,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -29,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            quantityLimitText = "TKUtils.Fields.HasQuantityLimit".Localize();
+            quantityLimitText = "TKUtils.Fields.HasQuantityLimit".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -42,9 +43,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            return item.Data.ItemData?.HasQuantityLimit == state;
-        }
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.ItemData?.HasQuantityLimit == state;
+
+        public string Label => "TKUtils.Fields.HasQuantityLimit".TranslateSimple();
     }
 }

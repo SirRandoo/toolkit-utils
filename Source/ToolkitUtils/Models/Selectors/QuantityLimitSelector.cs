@@ -35,7 +35,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            quantityLimitCostText = "TKUtils.Fields.QuantityLimit".Localize();
+            quantityLimitCostText = "TKUtils.Fields.QuantityLimit".TranslateSimple();
+
             comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption(
                         i.AsOperator(),
@@ -61,12 +62,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 Find.WindowStack.Add(new FloatMenu(comparisonOptions));
             }
 
-            if (!SettingsHelper.DrawNumberField(
-                input,
-                ref quantityLimitCost,
-                ref quantityLimitCostBuffer,
-                out int newCost
-            ))
+            if (!SettingsHelper.DrawNumberField(input, ref quantityLimitCost, ref quantityLimitCostBuffer, out int newCost))
             {
                 return;
             }
@@ -96,5 +92,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     return false;
             }
         }
+
+        public string Label => "TKUtils.Fields.QuantityLimit".TranslateSimple();
     }
 }

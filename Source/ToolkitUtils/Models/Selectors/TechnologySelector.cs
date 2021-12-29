@@ -39,11 +39,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            techLevelText = "TKUtils.Fields.Technology".Localize();
+            techLevelText = "TKUtils.Fields.Technology".TranslateSimple();
+
             techLevelOptions = Data.TechLevels.Where(i => i != TechLevel.Undefined)
                .Select(
                     i => new FloatMenuOption(
-                        $"TechLevel_{i}".Localize(),
+                        $"TechLevel_{i}".TranslateSimple(),
                         () =>
                         {
                             techLevel = i;
@@ -52,6 +53,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     )
                 )
                .ToList();
+
             comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption(
                         i.AsOperator(),
@@ -106,5 +108,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     return false;
             }
         }
+
+        public string Label => "TKUtils.Fields.Technology".TranslateSimple();
     }
 }

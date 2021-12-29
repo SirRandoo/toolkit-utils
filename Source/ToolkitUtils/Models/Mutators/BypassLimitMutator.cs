@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -28,14 +29,19 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
+
         public void Prepare()
         {
-            bypassLimitText = "TKUtils.Fields.BypassTraitLimit".Localize();
+            bypassLimitText = "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
         {
-            item.Data.TraitData.CanBypassLimit = state;
+            if (item.Data.TraitData != null)
+            {
+                item.Data.TraitData.CanBypassLimit = state;
+            }
         }
 
         public void Draw(Rect canvas)

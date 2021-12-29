@@ -35,7 +35,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            removePriceText = "TKUtils.Fields.RemovePrice".Localize();
+            removePriceText = "TKUtils.Fields.RemovePrice".TranslateSimple();
+
             comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption(
                         i.AsOperator(),
@@ -91,5 +92,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     return false;
             }
         }
+
+        public string Label => "TKUtils.Fields.RemovePrice".TranslateSimple();
     }
 }

@@ -19,6 +19,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -29,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            canAddText = "TKUtils.Fields.CanAdd".Localize();
+            canAddText = "TKUtils.Fields.CanAdd".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -42,9 +43,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public ObservableProperty<bool> Dirty { get; set; }
 
-        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item)
-        {
-            return item.Data.CanAdd == state;
-        }
+        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item) => item.Data.CanAdd == state;
+
+        public string Label => "TKUtils.Fields.CanAdd".TranslateSimple();
     }
 }

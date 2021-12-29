@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -28,19 +29,24 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.CamBeStuff".TranslateSimple();
+
         public void Prepare()
         {
-            stuffText = "TKUtils.Fields.CanBeStuff".Localize();
+            stuffText = "TKUtils.Fields.CanBeStuff".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
-            if (!item.Data.Thing?.IsStuff ?? true)
+            if (item.Data.Thing?.IsStuff != true)
             {
                 return;
             }
 
-            item.Data.ItemData.IsStuffAllowed = state;
+            if (item.Data.ItemData != null)
+            {
+                item.Data.ItemData.IsStuffAllowed = state;
+            }
         }
 
         public void Draw(Rect canvas)

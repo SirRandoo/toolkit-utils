@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -28,14 +29,19 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.QuantityLimit".TranslateSimple();
+
         public void Prepare()
         {
-            hasQuantityLimitText = "TKUtils.Fields.HasQuantityLimit".Localize();
+            hasQuantityLimitText = "TKUtils.Fields.HasQuantityLimit".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
-            item.Data.ItemData.HasQuantityLimit = state;
+            if (item.Data.ItemData != null)
+            {
+                item.Data.ItemData.HasQuantityLimit = state;
+            }
         }
 
         public void Draw(Rect canvas)

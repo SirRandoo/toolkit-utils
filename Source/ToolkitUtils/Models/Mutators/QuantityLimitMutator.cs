@@ -34,16 +34,21 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.QuantityLimit".TranslateSimple();
+
         public void Prepare()
         {
-            quantityLimitText = "TKUtils.Fields.QuantityLimit".Localize();
-            toLimitTooltip = "TKUtils.MutatorTooltips.StackMode".Localize();
-            toValueTooltip = "TKUtils.MutatorTooltips.ValueMode".Localize();
+            quantityLimitText = "TKUtils.Fields.QuantityLimit".TranslateSimple();
+            toLimitTooltip = "TKUtils.MutatorTooltips.StackMode".TranslateSimple();
+            toValueTooltip = "TKUtils.MutatorTooltips.ValueMode".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
-            item.Data.ItemData.QuantityLimit = toLimit ? item.Data.Thing?.stackLimit ?? 1 : limit;
+            if (item.Data.ItemData != null)
+            {
+                item.Data.ItemData.QuantityLimit = toLimit ? item.Data.Thing?.stackLimit ?? 1 : limit;
+            }
         }
 
         public void Draw(Rect canvas)

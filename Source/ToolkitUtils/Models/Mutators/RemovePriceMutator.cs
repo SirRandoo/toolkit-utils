@@ -34,17 +34,18 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.RemovePrice".TranslateSimple();
+
         public void Prepare()
         {
-            removePriceText = "TKUtils.Fields.RemovePrice".Localize();
-            valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".Localize();
-            percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".Localize();
+            removePriceText = "TKUtils.Fields.RemovePrice".TranslateSimple();
+            valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".TranslateSimple();
+            percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".TranslateSimple();
         }
 
         public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
         {
-            item.Data.CostToRemove =
-                percentage ? Mathf.CeilToInt(item.Data.CostToRemove * (removePrice / 100f)) : removePrice;
+            item.Data.CostToRemove = percentage ? Mathf.CeilToInt(item.Data.CostToRemove * (removePrice / 100f)) : removePrice;
         }
 
         public void Draw(Rect canvas)
@@ -53,11 +54,7 @@ namespace SirRandoo.ToolkitUtils.Models
             SettingsHelper.DrawLabel(label, removePriceText);
             Widgets.TextFieldNumeric(field, ref removePrice, ref removePriceBuffer, percentage ? -100f : 1f);
 
-            if (SettingsHelper.DrawFieldButton(
-                field,
-                percentage ? "%" : "#",
-                percentage ? percentTooltip : valueTooltip
-            ))
+            if (SettingsHelper.DrawFieldButton(field, percentage ? "%" : "#", percentage ? percentTooltip : valueTooltip))
             {
                 percentage = !percentage;
             }

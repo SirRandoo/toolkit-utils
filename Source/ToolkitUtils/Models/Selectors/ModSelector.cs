@@ -33,9 +33,9 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            modText = "TKUtils.Fields.Mod".Localize();
-            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".Localize();
-            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".Localize();
+            modText = "TKUtils.Fields.Mod".TranslateSimple();
+            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
+            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -49,11 +49,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 Dirty.Set(true);
             }
 
-            if (!SettingsHelper.DrawFieldButton(
-                field,
-                exclude ? ResponseHelper.NotEqualGlyph : "=",
-                exclude ? includeTooltip : excludeTooltip
-            ))
+            if (!SettingsHelper.DrawFieldButton(field, exclude ? ResponseHelper.NotEqualGlyph : "=", exclude ? includeTooltip : excludeTooltip))
             {
                 return;
             }
@@ -71,10 +67,11 @@ namespace SirRandoo.ToolkitUtils.Models
                 return false;
             }
 
-            bool shouldShow = item.Data.Data.Mod.EqualsIgnoreCase(mod)
-                              || item.Data.Data.Mod.ToLower().Contains(mod.ToLower());
+            bool shouldShow = item.Data.Data.Mod.EqualsIgnoreCase(mod) || item.Data.Data.Mod.ToLower().Contains(mod.ToLower());
 
             return exclude ? !shouldShow : shouldShow;
         }
+
+        public string Label => "TKUtils.Fields.Mod".TranslateSimple();
     }
 }

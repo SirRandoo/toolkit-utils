@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            karmaLabel = "TKUtils.Fields.KarmaType".Localize();
+            karmaLabel = "TKUtils.Fields.KarmaType".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -69,9 +69,8 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item)
-        {
-            return item.Data.KarmaType == karmaType;
-        }
+        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.KarmaType == karmaType;
+
+        public string Label => "TKUtils.Fields.KarmaType".TranslateSimple();
     }
 }

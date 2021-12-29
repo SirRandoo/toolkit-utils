@@ -19,6 +19,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -41,9 +42,8 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            return item.Data.IsUsable;
-        }
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.IsUsable;
+
+        public string Label => "TKUtils.Fields.CanUse".TranslateSimple();
     }
 }

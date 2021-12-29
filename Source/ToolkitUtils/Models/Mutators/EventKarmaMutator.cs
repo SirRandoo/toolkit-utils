@@ -22,6 +22,7 @@
 
 using System;
 using System.Linq;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
@@ -37,22 +38,25 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.KarmaType".TranslateSimple();
+
         public void Prepare()
         {
-            karmaTypeLabel = "TKUtils.Fields.KarmaType".Localize();
+            karmaTypeLabel = "TKUtils.Fields.KarmaType".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
             (Rect label, Rect field) = canvas.ToForm(0.75f);
             SettingsHelper.DrawLabel(label, karmaTypeLabel);
+
             if (Widgets.ButtonText(field, karmaType.ToString()))
             {
                 Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => karmaType = i)).ToList()));
             }
         }
 
-        public void Mutate(TableSettingsItem<EventItem> item)
+        public void Mutate([NotNull] TableSettingsItem<EventItem> item)
         {
             item.Data.KarmaType = karmaType;
         }

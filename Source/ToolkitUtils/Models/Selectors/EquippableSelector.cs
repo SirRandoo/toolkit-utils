@@ -19,6 +19,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -30,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            equippableText = "TKUtils.Fields.CanEquip".Localize();
+            equippableText = "TKUtils.Fields.CanEquip".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -41,9 +42,8 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            return item.Data.Thing.IsWeapon == state;
-        }
+        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing.IsWeapon == state;
+
+        public string Label => "TKUtils.Fields.CanEquip".TranslateSimple();
     }
 }

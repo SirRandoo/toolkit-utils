@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -26,9 +27,11 @@ namespace SirRandoo.ToolkitUtils.Models
         private string resetDataText;
         public int Priority => 10;
 
+        public string Label => "TKUtils.Fields.ResetData".TranslateSimple();
+
         public void Prepare()
         {
-            resetDataText = "TKUtils.EditorMutator.ResetData".Localize();
+            resetDataText = "TKUtils.EditorMutator.ResetData".TranslateSimple();
         }
 
         public void Draw(Rect canvas)

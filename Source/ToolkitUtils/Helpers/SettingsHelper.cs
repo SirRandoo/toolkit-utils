@@ -690,5 +690,49 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             TooltipHandler.TipRegion(region, tooltip);
         }
+
+        public static void DrawAugmentedNumberEntry(Rect region, ref string buffer, ref int value, ref bool bufferValid)
+        {
+            GUI.backgroundColor = bufferValid ? Color.white : Color.red;
+
+            if (DrawTextField(region, buffer, out string newBuffer))
+            {
+                buffer = newBuffer;
+
+                if (int.TryParse(buffer, out int result))
+                {
+                    value = result;
+                    bufferValid = true;
+                }
+                else
+                {
+                    bufferValid = false;
+                }
+            }
+
+            GUI.backgroundColor = Color.white;
+        }
+
+        public static void DrawAugmentedNumberEntry(Rect region, ref string buffer, ref float value, ref bool bufferValid)
+        {
+            GUI.backgroundColor = bufferValid ? Color.white : Color.red;
+
+            if (DrawTextField(region, buffer, out string newBuffer))
+            {
+                buffer = newBuffer;
+
+                if (float.TryParse(buffer, out float result))
+                {
+                    value = result;
+                    bufferValid = true;
+                }
+                else
+                {
+                    bufferValid = false;
+                }
+            }
+
+            GUI.backgroundColor = Color.white;
+        }
     }
 }

@@ -19,6 +19,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -30,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            stackabilityText = "TKUtils.Fields.CanStack".Localize();
+            stackabilityText = "TKUtils.Fields.CanStack".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -50,5 +51,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             return state ? item.Data.Thing.stackLimit > 1 : item.Data.Thing.stackLimit == 1;
         }
+
+        public string Label => "TKUtils.Fields.CanStack".TranslateSimple();
     }
 }

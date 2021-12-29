@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -27,9 +28,11 @@ namespace SirRandoo.ToolkitUtils.Models
         private string usableText;
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.CanUse".TranslateSimple();
+
         public void Prepare()
         {
-            usableText = "TKUtils.Fields.CanUse".Localize();
+            usableText = "TKUtils.Fields.CanUse".TranslateSimple();
         }
 
         public void Draw(Rect canvas)

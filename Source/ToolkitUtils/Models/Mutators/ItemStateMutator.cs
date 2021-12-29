@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -28,9 +29,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.State".TranslateSimple();
+
         public void Prepare()
         {
-            stateText = "TKUtils.Fields.State".Localize();
+            stateText = "TKUtils.Fields.State".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -40,15 +43,22 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
         {
+            if (item.Data.Item == null)
+            {
+                return;
+            }
+
             switch (state)
             {
                 case true when !item.Data.Enabled:
                     item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
                     item.Data.Enabled = true;
+
                     break;
                 case false when item.Data.Enabled:
                     item.Data.Item.price = -10;
                     item.Data.Enabled = false;
+
                     break;
             }
         }

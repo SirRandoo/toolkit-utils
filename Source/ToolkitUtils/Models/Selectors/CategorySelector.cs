@@ -33,9 +33,9 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            categoryText = "TKUtils.Fields.Category".Localize();
-            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".Localize();
-            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".Localize();
+            categoryText = "TKUtils.Fields.Category".TranslateSimple();
+            excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
+            includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -49,11 +49,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 Dirty.Set(true);
             }
 
-            if (!SettingsHelper.DrawFieldButton(
-                field,
-                Exclude ? ResponseHelper.NotEqualGlyph : "=",
-                Exclude ? includeTooltip : excludeTooltip
-            ))
+            if (!SettingsHelper.DrawFieldButton(field, Exclude ? ResponseHelper.NotEqualGlyph : "=", Exclude ? includeTooltip : excludeTooltip))
             {
                 return;
             }
@@ -71,10 +67,11 @@ namespace SirRandoo.ToolkitUtils.Models
                 return false;
             }
 
-            bool shouldShow = item.Data.Category.EqualsIgnoreCase(Category)
-                              || item.Data.Category.ToLower().Equals(Category.ToLower());
+            bool shouldShow = item.Data.Category.EqualsIgnoreCase(Category) || item.Data.Category.ToLower().Equals(Category.ToLower());
 
             return Exclude ? !shouldShow : shouldShow;
         }
+
+        public virtual string Label => "TKUtils.Fields.Category".TranslateSimple();
     }
 }

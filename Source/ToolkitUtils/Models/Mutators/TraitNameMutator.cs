@@ -29,9 +29,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
+        public string Label => "TKUtils.Fields.Name".TranslateSimple();
+
         public void Prepare()
         {
-            nameText = "TKUtils.Fields.Name".Localize();
+            nameText = "TKUtils.Fields.Name".TranslateSimple();
         }
 
         public void Mutate(TableSettingsItem<TraitItem> item)
@@ -41,7 +43,11 @@ namespace SirRandoo.ToolkitUtils.Models
                 return;
             }
 
-            item.Data.TraitData.CustomName = true;
+            if (item.Data.TraitData != null)
+            {
+                item.Data.TraitData.CustomName = true;
+            }
+
             item.Data.Name = name;
         }
 

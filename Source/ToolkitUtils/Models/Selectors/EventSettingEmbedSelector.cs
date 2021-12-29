@@ -25,6 +25,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
@@ -37,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            label = "TKUtils.Fields.SettingEmbed".Localize();
+            label = "TKUtils.Fields.SettingEmbed".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
@@ -48,9 +49,8 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item)
-        {
-            return item.Data.HasSettingsEmbed == state;
-        }
+        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.HasSettingsEmbed == state;
+
+        public string Label => "TKUtils.Fields.SettingEmbed".TranslateSimple();
     }
 }
