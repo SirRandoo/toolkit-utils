@@ -47,10 +47,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (!ToolkitCoreSettings.channel_username.NullOrEmpty() && !ToolkitCoreSettings.oauth_token.NullOrEmpty())
             {
                 VerifyToken();
+
                 return true;
             }
 
             Log.ErrorOnce(@"<color=""#ff6b00"">ToolkitUtils :: Could not connect bot -- ToolkitCore isn't fully set up.</color>", ErrorId);
+
             return false;
         }
 
@@ -59,6 +61,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (!_tokenHash.NullOrEmpty())
             {
                 byte[] buffer;
+
                 using (var hasher = SHA256.Create())
                 {
                     buffer = hasher.ComputeHash(Encoding.UTF8.GetBytes(ToolkitCoreSettings.oauth_token));
@@ -68,6 +71,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 {
                     return;
                 }
+
+                _tokenHash = buffer;
             }
 
             Task.Run(async () => await VerifyTokenInternal()).ConfigureAwait(false);
@@ -83,6 +88,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (!response.IsSuccessful)
             {
                 LogHelper.Warn($"Could not validate oauth token. Reason: {response.Content}");
+
                 return;
             }
 
@@ -92,6 +98,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             TokenValidateResponse data = response.Data;
+
             TkUtils.Context.Post(
                 state =>
                 {
