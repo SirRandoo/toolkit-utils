@@ -118,6 +118,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
 
                 categoryCached = category;
+
                 return categoryCached;
             }
         }
@@ -127,11 +128,13 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             get
             {
-                if (!usabilityIndexed && Thing != null)
+                if (usabilityIndexed || Thing == null)
                 {
-                    usable = CompatRegistry.UsabilityHandlers.Any(h => h.IsUsable(Thing));
-                    usabilityIndexed = true;
+                    return usable;
                 }
+
+                usable = CompatRegistry.AllUsabilityHandlers.Any(h => h.IsUsable(Thing));
+                usabilityIndexed = true;
 
                 return usable;
             }
@@ -245,6 +248,7 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 Enabled = false;
                 Item.price = -10;
+
                 return;
             }
 
@@ -252,9 +256,11 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 case true when Item.price < 0:
                     Item.price = Thing.CalculateStorePrice();
+
                     break;
                 case false when Item.price > 0:
                     Item.price = -10;
+
                     break;
             }
 
