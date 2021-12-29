@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using RimWorld;
@@ -31,89 +30,141 @@ namespace SirRandoo.ToolkitUtils
 
         public override void GameConditionTick()
         {
-            List<Map> maps = AffectedMaps;
-
-            if (Find.TickManager.TicksGame % 3451 != 0)
+            if (Find.TickManager.TicksGame % 1725f != 0)
             {
                 return;
             }
 
-            foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder())
+            List<Map> maps = AffectedMaps;
+
+            foreach (Map map in maps.InRandomOrder())
             {
-                if (!(pawn is { Dead: true }))
-                {
-                    continue;
-                }
-
-                pawn.TryResurrect();
-            }
-
-            foreach (Map map in maps)
-            {
-                if (!map.IsPlayerHome)
-                {
-                    continue;
-                }
-
-                DoEffectOn(map);
+                ProcessMap(map);
             }
         }
 
-        private static void DoEffectOn([NotNull] Map map)
+        private static void ProcessMap([NotNull] Map map)
         {
             List<Pawn> pawns = map.mapPawns.AllPawnsSpawned;
 
-            try
+            foreach (Pawn pawn in pawns.InRandomOrder())
             {
-                foreach (Pawn pawn in pawns)
+                if (TryProcessPawn(pawn))
                 {
-                    DoEffectOn(pawn);
+                    return;
                 }
-            }
-            catch (InvalidOperationException)
-            {
-                // Should only happen when killing a pawn.
             }
         }
 
-        private static void DoEffectOn([NotNull] Pawn pawn)
+        private static bool TryProcessPawn([NotNull] Pawn pawn)
         {
-            if (pawn.HostileTo(Faction.OfPlayer)
-                || pawn.RaceProps.FleshType == FleshTypeDefOf.Insectoid && pawn.Faction != Faction.OfPlayer)
+            if (pawn.HostileTo(Faction.OfPlayer))
             {
-                ProcessHostilePawn(pawn);
-                return;
+                return TryProcessHostilePawn(pawn);
             }
 
-            if (pawn.IsColonistPlayerControlled && HealHelper.GetPawnHealable(pawn) is { } part)
+            if (pawn.RaceProps.FleshType == FleshTypeDefOf.Insectoid && pawn.Faction != Faction.OfPlayer)
             {
-                switch (part)
-                {
-                    case Hediff hediff:
-                        pawn.health.RemoveHediff(hediff);
-                        return;
-                    case BodyPartRecord record:
-                        pawn.health.RestorePart(record);
-                        return;
-                }
+                return TryProcessHostilePawn(pawn);
             }
+
+            if (pawn.HomeFaction == Faction.OfPlayer)
+            {
+                return TryProcessColonist(pawn);
+            }
+
+            return pawn.RaceProps.Animal && TryProcessAnimal(pawn);
         }
 
-        private static void ProcessHostilePawn([NotNull] Pawn pawn)
+        private static bool TryProcessAnimal([NotNull] Pawn pawn)
+        {
+            if (pawn.mindState.mentalStateHandler.CurStateDef == MentalStateDefOf.Manhunter)
+            {
+                pawn.ClearMind();
+
+                return true;
+            }
+
+            if (pawn.mindState.mentalStateHandler.CurStateDef == MentalStateDefOf.ManhunterPermanent)
+            {
+                pawn.Kill(new DamageInfo(DamageDefOf.Burn, 100000, 1f, category: DamageInfo.SourceCategory.ThingOrUnknown));
+
+                return true;
+            }
+
+            if (pawn.Dead)
+            {
+                pawn.TryResurrect();
+
+                return true;
+            }
+
+            if (!(HealHelper.GetPawnHealable(pawn) is { } injury))
+            {
+                return false;
+            }
+
+            switch (injury)
+            {
+                case Hediff hediff:
+                    pawn.health.RemoveHediff(hediff);
+
+                    return true;
+                case BodyPartRecord record:
+                    pawn.health.RestorePart(record);
+
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryProcessColonist([NotNull] Pawn pawn)
+        {
+            if (pawn.Dead)
+            {
+                pawn.TryResurrect();
+
+                return true;
+            }
+
+            if (!(HealHelper.GetPawnHealable(pawn) is { } injury))
+            {
+                return false;
+            }
+
+            switch (injury)
+            {
+                case Hediff hediff:
+                    pawn.health.RemoveHediff(hediff);
+
+                    return true;
+                case BodyPartRecord record:
+                    pawn.health.RestorePart(record);
+
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryProcessHostilePawn([NotNull] Pawn pawn)
         {
             if (pawn.RaceProps.Humanlike)
             {
-                LordToil fleeToil = pawn.Map.lordManager.LordOf(pawn)
-                  ?.Graph.lordToils.Find(t => t is LordToil_PanicFlee);
+                LordToil fleeToil = pawn.Map.lordManager.LordOf(pawn)?.Graph.lordToils.Find(t => t is LordToil_PanicFlee);
 
                 if (fleeToil != null)
                 {
                     pawn.Map.lordManager.LordOf(pawn)?.GotoToil(fleeToil);
-                    return;
+
+                    return true;
                 }
             }
 
             pawn.Kill(new DamageInfo(DamageDefOf.Burn, 100000, 1f, category: DamageInfo.SourceCategory.ThingOrUnknown));
+
+            return true;
         }
     }
 }
