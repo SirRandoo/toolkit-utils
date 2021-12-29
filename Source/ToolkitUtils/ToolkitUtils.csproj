@@ -105,6 +105,7 @@
         <Compile Include="Defs\HealExtension.cs"/>
         <Compile Include="Defs\IncidentDefOf.cs"/>
         <Compile Include="Defs\PawnKindDefOf.cs"/>
+        <Compile Include="Defs\PersonaDef.cs"/>
         <Compile Include="Defs\SanctuaryGameCondition.cs"/>
         <Compile Include="Defs\ToolkitGateway.cs"/>
         <Compile Include="Defs\WeatherDefOf.cs"/>
