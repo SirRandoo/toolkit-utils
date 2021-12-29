@@ -18,9 +18,8 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Interfaces
 {
-    public interface IUsabilityHandler
+    public interface IUsabilityHandler : ICompatibilityProvider
     {
-        string Id { get; }
         bool IsUsable(ThingDef thing);
         void Use(Pawn pawn, ThingDef thingDef);
     }

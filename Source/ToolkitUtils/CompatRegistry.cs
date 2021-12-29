@@ -20,29 +20,66 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
 using System.Collections.Generic;
-using SirRandoo.ToolkitUtils.Compat;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
-using SirRandoo.ToolkitUtils.Models;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    [StaticConstructorOnStartup]
     public static class CompatRegistry
     {
-        static CompatRegistry()
+        private static readonly List<ICompatibilityProvider> CompatibilityProviders = new List<ICompatibilityProvider>();
+        private static readonly List<ISurgeryHandler> SurgeryHandlers = new List<ISurgeryHandler>();
+        private static readonly List<IUsabilityHandler> UsabilityHandlers = new List<IUsabilityHandler>();
+        private static readonly List<IHealHandler> HealHandlers = new List<IHealHandler>();
+        private static readonly List<IPawnPowerHandler> PawnPowerHandlers = new List<IPawnPowerHandler>();
+
+        public static IMagicCompatibilityProvider Magic { get; private set; }
+        public static IEnumerable<ISurgeryHandler> AllSurgeryHandlers => SurgeryHandlers;
+        public static IEnumerable<IUsabilityHandler> AllUsabilityHandlers => UsabilityHandlers;
+        public static IEnumerable<IHealHandler> AllHealHandlers => HealHandlers;
+        public static IEnumerable<IPawnPowerHandler> AllPawnPowerHandlers => PawnPowerHandlers;
+        public static IEnumerable<ICompatibilityProvider> AllCompatibilityProviders => CompatibilityProviders;
+
+        internal static void ProcessType([NotNull] Type type)
         {
-            HealHandlers = new List<IHealHandler> { new DefaultHealHandler() };
-            SurgeryHandlers = new List<ISurgeryHandler> { new DefaultSurgeryHandler(), new AndroidSurgeryHandler() };
-            UsabilityHandlers = new List<IUsabilityHandler> { new DefaultUsabilityHandler(), new IngestabilityUsabilityHandler() };
-            PawnPowerHandlers = new List<IPawnPowerHandler>();
+            if (!(Activator.CreateInstance(type) is ICompatibilityProvider provider) || ModLister.GetActiveModWithIdentifier(provider.ModId) == null)
+            {
+                return;
+            }
+
+            RegisterAndCatalogue(provider);
         }
 
-        public static MagicCompat Magic { get; set; }
-        public static List<IUsabilityHandler> UsabilityHandlers { get; }
-        public static List<ISurgeryHandler> SurgeryHandlers { get; }
-        public static List<IHealHandler> HealHandlers { get; }
-        public static List<IPawnPowerHandler> PawnPowerHandlers { get; }
+        private static void RegisterAndCatalogue([NotNull] ICompatibilityProvider provider)
+        {
+            CompatibilityProviders.Add(provider);
+
+            switch (provider)
+            {
+                case ISurgeryHandler surgery:
+                    SurgeryHandlers.Add(surgery);
+
+                    break;
+                case IUsabilityHandler usability:
+                    UsabilityHandlers.Add(usability);
+
+                    break;
+                case IHealHandler heal:
+                    HealHandlers.Add(heal);
+
+                    break;
+                case IPawnPowerHandler pawnPower:
+                    PawnPowerHandlers.Add(pawnPower);
+
+                    break;
+                case IMagicCompatibilityProvider magic:
+                    Magic = magic;
+
+                    break;
+            }
+        }
     }
 }

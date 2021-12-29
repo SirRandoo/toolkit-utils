@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -26,70 +27,69 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
-    public abstract class ItemWorkerBase<T, TU>
-        where T : TableWorker<TableSettingsItem<TU>> where TU : class, IShopItemBase
+    public abstract class ItemWorkerBase<T, TU> where T : TableWorker<TableSettingsItem<TU>> where TU : class, IShopItemBase
     {
-        private string addMutatorText;
-        private Vector2 addMutatorTextSize;
-        private string addSelectorText;
-        private Vector2 addSelectorTextSize;
-        private string applyText;
-        private Vector2 applyTextSize;
-        private Rect modifierRect = Rect.zero;
-        protected List<FloatMenuOption> MutateAdders;
-        private List<IMutatorBase<TU>> mutators;
-        private Vector2 mutatorScrollPos = Vector2.zero;
-        protected List<FloatMenuOption> SelectorAdders;
-        private Rect selectorRect = Rect.zero;
-        private List<ISelectorBase<TU>> selectors;
-        private Vector2 selectorScrollPos = Vector2.zero;
+        private string _addMutatorText;
+        private Vector2 _addMutatorTextSize;
+        private string _addSelectorText;
+        private Vector2 _addSelectorTextSize;
+        private string _applyText;
+        private Vector2 _applyTextSize;
+        private Rect _modifierRect = Rect.zero;
+        private List<IMutatorBase<TU>> _mutators;
+        private Vector2 _mutatorScrollPos = Vector2.zero;
+        private Rect _selectorRect = Rect.zero;
+        private List<ISelectorBase<TU>> _selectors;
+        private Vector2 _selectorScrollPos = Vector2.zero;
 
-        private Rect tableRect = Rect.zero;
+        private Rect _tableRect = Rect.zero;
+        protected List<FloatMenuOption> MutateAdders;
+        protected List<FloatMenuOption> SelectorAdders;
         private protected T Worker;
 
         public IEnumerable<TableSettingsItem<TU>> Data => Worker.Data;
 
         public virtual void Prepare()
         {
-            addMutatorText = "TKUtils.Buttons.AddMutator".Localize();
-            addSelectorText = "TKUtils.Buttons.AddSelector".Localize();
-            applyText = "TKUtils.Buttons.Apply".Localize();
+            _addMutatorText = "TKUtils.Buttons.AddMutator".Localize();
+            _addSelectorText = "TKUtils.Buttons.AddSelector".Localize();
+            _applyText = "TKUtils.Buttons.Apply".Localize();
 
-            addSelectorTextSize = Text.CalcSize(addSelectorText);
-            addMutatorTextSize = Text.CalcSize(addMutatorText);
-            applyTextSize = Text.CalcSize(applyText);
+            _addSelectorTextSize = Text.CalcSize(_addSelectorText);
+            _addMutatorTextSize = Text.CalcSize(_addMutatorText);
+            _applyTextSize = Text.CalcSize(_applyText);
 
-            selectors = new List<ISelectorBase<TU>>();
-            mutators = new List<IMutatorBase<TU>>();
+            _selectors = new List<ISelectorBase<TU>>();
+            _mutators = new List<IMutatorBase<TU>>();
         }
 
         public void Draw()
         {
             GUI.color = new Color(1f, 1f, 1f, 0.15f);
-            Widgets.DrawLineVertical(modifierRect.x - 8f, modifierRect.y + 10f, modifierRect.height - 20f);
+            Widgets.DrawLineVertical(_modifierRect.x - 8f, _modifierRect.y + 10f, _modifierRect.height - 20f);
             GUI.color = Color.white;
 
-            GUI.BeginGroup(selectorRect);
-            DrawSelectorMenu(selectorRect.AtZero());
+            GUI.BeginGroup(_selectorRect);
+            DrawSelectorMenu(_selectorRect.AtZero());
             GUI.EndGroup();
 
-            GUI.BeginGroup(modifierRect);
-            DrawMutatorMenu(modifierRect.AtZero());
+            GUI.BeginGroup(_modifierRect);
+            DrawMutatorMenu(_modifierRect.AtZero());
             GUI.EndGroup();
 
-            GUI.BeginGroup(tableRect);
-            Worker?.Draw(tableRect.AtZero());
+            GUI.BeginGroup(_tableRect);
+            Worker?.Draw(_tableRect.AtZero());
             GUI.EndGroup();
         }
 
         public void NotifyResolutionChanged(Rect canvas)
         {
             var userRect = new Rect(0f, 0f, canvas.width, Mathf.FloorToInt(canvas.height / 2f) - 4f);
-            selectorRect = new Rect(0f, 0f, Mathf.FloorToInt(userRect.width / 2f) - 8f, userRect.height);
-            modifierRect = new Rect(selectorRect.x + selectorRect.width + 16f, 0f, selectorRect.width, userRect.height);
+            _selectorRect = new Rect(0f, 0f, Mathf.FloorToInt(userRect.width / 2f) - 8f, userRect.height);
+            _modifierRect = new Rect(_selectorRect.x + _selectorRect.width + 16f, 0f, _selectorRect.width, userRect.height);
 
-            tableRect = new Rect(0f, userRect.height + 8f, canvas.width, canvas.height - userRect.height - 8f);
-            Worker?.NotifyResolutionChanged(tableRect);
+            _tableRect = new Rect(0f, userRect.height + 8f, canvas.width, canvas.height - userRect.height - 8f);
+            Worker?.NotifyResolutionChanged(_tableRect);
         }
 
         internal void NotifyGlobalDataChanged()
@@ -99,23 +99,24 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void DrawSelectorMenu(Rect canvas)
         {
-            var addRect = new Rect(0f, 0f, addSelectorTextSize.x + 16f, Text.LineHeight);
+            var addRect = new Rect(0f, 0f, _addSelectorTextSize.x + 16f, Text.LineHeight);
             var selectorsRect = new Rect(0f, addRect.height, canvas.width, canvas.height - addRect.height);
-            var viewPort = new Rect(0f, 0f, selectorsRect.width - 16f, selectors.Count * Text.LineHeight);
+            var viewPort = new Rect(0f, 0f, selectorsRect.width - 16f, _selectors.Count * Text.LineHeight);
 
-            if (Widgets.ButtonText(addRect, addSelectorText))
+            if (Widgets.ButtonText(addRect, _addSelectorText))
             {
                 Find.WindowStack.Add(new FloatMenu(SelectorAdders));
             }
 
-            selectorScrollPos = GUI.BeginScrollView(selectorsRect, selectorScrollPos, viewPort);
+            _selectorScrollPos = GUI.BeginScrollView(selectorsRect, _selectorScrollPos, viewPort);
             ISelectorBase<TU> toRemove = null;
-            for (var i = 0; i < selectors.Count; i++)
+
+            for (var i = 0; i < _selectors.Count; i++)
             {
-                ISelectorBase<TU> selector = selectors[i];
+                ISelectorBase<TU> selector = _selectors[i];
                 var lineRect = new Rect(0f, Text.LineHeight * i, selectorsRect.width, Text.LineHeight);
 
-                if (!lineRect.IsRegionVisible(selectorsRect, selectorScrollPos))
+                if (!lineRect.IsRegionVisible(selectorsRect, _selectorScrollPos))
                 {
                     continue;
                 }
@@ -141,40 +142,36 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            selectors.Remove(toRemove);
+            _selectors.Remove(toRemove);
             UpdateView(true);
         }
 
         private void DrawMutatorMenu(Rect canvas)
         {
-            var addRect = new Rect(0f, 0f, addMutatorTextSize.x + 16f, Text.LineHeight);
-            var applyRect = new Rect(
-                canvas.width - (applyTextSize.x + 16f),
-                0f,
-                applyTextSize.x + 16f,
-                Text.LineHeight
-            );
+            var addRect = new Rect(0f, 0f, _addMutatorTextSize.x + 16f, Text.LineHeight);
+            var applyRect = new Rect(canvas.width - (_applyTextSize.x + 16f), 0f, _applyTextSize.x + 16f, Text.LineHeight);
             var mutatorsRect = new Rect(0f, addRect.height, canvas.width, canvas.height - addRect.height);
-            var viewPort = new Rect(0f, 0f, mutatorsRect.width - 16f, mutators.Count * Text.LineHeight);
+            var viewPort = new Rect(0f, 0f, mutatorsRect.width - 16f, _mutators.Count * Text.LineHeight);
 
-            if (Widgets.ButtonText(addRect, addMutatorText))
+            if (Widgets.ButtonText(addRect, _addMutatorText))
             {
                 Find.WindowStack.Add(new FloatMenu(MutateAdders));
             }
 
-            if (Widgets.ButtonText(applyRect, applyText))
+            if (Widgets.ButtonText(applyRect, _applyText))
             {
                 ExecuteMutators();
             }
 
-            mutatorScrollPos = GUI.BeginScrollView(mutatorsRect, mutatorScrollPos, viewPort);
+            _mutatorScrollPos = GUI.BeginScrollView(mutatorsRect, _mutatorScrollPos, viewPort);
             IMutatorBase<TU> toRemove = null;
-            for (var i = 0; i < mutators.Count; i++)
+
+            for (var i = 0; i < _mutators.Count; i++)
             {
-                IMutatorBase<TU> mutator = mutators[i];
+                IMutatorBase<TU> mutator = _mutators[i];
                 var lineRect = new Rect(0f, Text.LineHeight * i, mutatorsRect.width, Text.LineHeight);
 
-                if (!lineRect.IsRegionVisible(mutatorsRect, mutatorScrollPos))
+                if (!lineRect.IsRegionVisible(mutatorsRect, _mutatorScrollPos))
                 {
                     continue;
                 }
@@ -200,7 +197,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            mutators.Remove(toRemove);
+            _mutators.Remove(toRemove);
             UpdateView(true);
         }
 
@@ -213,7 +210,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             foreach (TableSettingsItem<TU> item in Worker.Data.Where(i => !i.IsHidden))
             {
-                foreach (IMutatorBase<TU> mutator in mutators.OrderByDescending(m => m.Priority))
+                foreach (IMutatorBase<TU> mutator in _mutators.OrderByDescending(m => m.Priority))
                 {
                     mutator.Mutate(item);
                 }
@@ -225,15 +222,63 @@ namespace SirRandoo.ToolkitUtils.Workers
             selector.Prepare();
             selector.Dirty ??= new ObservableProperty<bool>(false);
             selector.Dirty.Changed += UpdateView;
-            selectors.Add(selector);
+            _selectors.Add(selector);
             UpdateView(true);
         }
 
         protected void AddMutator([NotNull] IMutatorBase<TU> mutator)
         {
             mutator.Prepare();
-            mutators.Add(mutator);
+            _mutators.Add(mutator);
         }
+
+        private protected void DiscoverMutators(DomainIndexer.EditorTarget target)
+        {
+            foreach (DomainIndexer.MutatorEntry entry in DomainIndexer.Mutators)
+            {
+                if (entry.Target != target)
+                {
+                    continue;
+                }
+
+                IMutatorBase<TU> mutator = CreateMutator(entry);
+
+                if (mutator == null)
+                {
+                    continue;
+                }
+
+                AddMutator(mutator);
+            }
+        }
+
+        private protected void DiscoverSelectors(DomainIndexer.EditorTarget target)
+        {
+            foreach (DomainIndexer.SelectorEntry entry in DomainIndexer.Selectors)
+            {
+                if (entry.Target != target)
+                {
+                    continue;
+                }
+
+                ISelectorBase<TU> selector = CreateSelector(entry);
+
+                if (selector == null)
+                {
+                    continue;
+                }
+
+                AddSelector(selector);
+            }
+        }
+
+        [CanBeNull]
+        private static IMutatorBase<TU> CreateMutator([NotNull] DomainIndexer.MutatorEntry entry) =>
+            Activator.CreateInstance(entry.Type.GetGenericArguments().Length > 0 ? entry.Type.MakeGenericType(typeof(TU)) : entry.Type) as IMutatorBase<TU>;
+
+        [CanBeNull]
+        private static ISelectorBase<TU> CreateSelector([NotNull] DomainIndexer.SelectorEntry entry) =>
+            Activator.CreateInstance(entry.Type.GetGenericArguments().Length > 0 ? entry.Type.MakeGenericType(typeof(TU)) : entry.Type) as ISelectorBase<TU>;
 
         private void UpdateView(bool state)
         {
@@ -242,9 +287,9 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            Worker?.NotifyCustomSearchRequested(item => selectors.All(i => i.IsVisible(item)));
+            Worker?.NotifyCustomSearchRequested(item => _selectors.All(i => i.IsVisible(item)));
 
-            foreach (ISelectorBase<TU> selector in selectors)
+            foreach (ISelectorBase<TU> selector in _selectors)
             {
                 selector.Dirty.Set(false);
             }

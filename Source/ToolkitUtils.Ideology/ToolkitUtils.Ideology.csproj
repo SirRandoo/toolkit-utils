@@ -48,7 +48,6 @@
         <Compile Include="Commands\Dye.cs"/>
         <Compile Include="Commands\SetFavoriteColor.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="IdeologyRuntimeChecker.cs"/>
     </ItemGroup>
     <ItemGroup>
         <Content Include="..\..\Compatibility\Ideology\Common\**\*.*">

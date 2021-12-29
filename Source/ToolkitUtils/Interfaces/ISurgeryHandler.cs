@@ -24,9 +24,8 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Interfaces
 {
-    public interface ISurgeryHandler
+    public interface ISurgeryHandler : ICompatibilityProvider
     {
-        string Id { get; }
         bool IsSurgery(RecipeDef recipe);
         bool CanScheduleFor(RecipeDef recipe, Pawn pawn);
     }

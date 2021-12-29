@@ -18,10 +18,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Interfaces
 {
-    public interface IHealHandler
+    public interface IHealHandler : ICompatibilityProvider
     {
-        string Id { get; }
-        bool IsHealable(Hediff hediff);
-        bool IsHealable(BodyPartRecord bodyPart);
+        bool CanHeal(Hediff hediff);
+        bool CanHeal(BodyPartRecord bodyPart);
     }
 }

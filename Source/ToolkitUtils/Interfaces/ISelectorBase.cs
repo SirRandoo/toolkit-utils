@@ -23,6 +23,7 @@ namespace SirRandoo.ToolkitUtils.Interfaces
     public interface ISelectorBase<T> where T : class, IShopItemBase
     {
         ObservableProperty<bool> Dirty { get; set; }
+        string Label { get; }
         void Prepare();
         void Draw(Rect canvas);
         bool IsVisible(TableSettingsItem<T> item);

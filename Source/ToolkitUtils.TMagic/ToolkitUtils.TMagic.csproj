@@ -71,10 +71,7 @@
         <Compile Include="Models\Ability.cs"/>
         <Compile Include="Models\ClassPower.cs"/>
         <Compile Include="Models\Class.cs"/>
-        <Compile Include="Patches\ClassSelectorPatch.cs"/>
-        <Compile Include="StaticRunner.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="Patches\Runner.cs"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" ExcludeAssets="all" Exclude="RestSharp.dll">

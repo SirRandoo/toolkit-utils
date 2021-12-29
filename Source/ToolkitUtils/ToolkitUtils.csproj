@@ -93,7 +93,6 @@
         <Compile Include="Commands\UnstickMe.cs"/>
         <Compile Include="Commands\Wealth.cs"/>
         <Compile Include="CompatRegistry.cs"/>
-        <Compile Include="Compat\MagicCompat.cs"/>
         <Compile Include="ConfigService.cs"/>
         <Compile Include="Coordinator.cs"/>
         <Compile Include="CoreAddonMenu.cs"/>
@@ -109,6 +108,7 @@
         <Compile Include="Defs\SanctuaryGameCondition.cs"/>
         <Compile Include="Defs\ToolkitGateway.cs"/>
         <Compile Include="Defs\WeatherDefOf.cs"/>
+        <Compile Include="DomainIndexer.cs"/>
         <Compile Include="Harmony\BuyPatch.cs"/>
         <Compile Include="Harmony\ColonistUnnamedAlertPatch.cs"/>
         <Compile Include="Harmony\CommandsHandlerPatch.cs"/>
@@ -203,10 +203,12 @@
         <Compile Include="Incidents\Wear.cs"/>
         <Compile Include="Incidents\Weather.cs"/>
         <Compile Include="Interfaces\ICommandSettings.cs"/>
+        <Compile Include="Interfaces\ICompatibilityProvider.cs"/>
         <Compile Include="Interfaces\IConfigurableTableItem.cs"/>
         <Compile Include="Interfaces\IEasterEgg.cs"/>
         <Compile Include="Interfaces\IEventSettings.cs"/>
         <Compile Include="Interfaces\IHealHandler.cs"/>
+        <Compile Include="Interfaces\IMagicCompatibilityProvider.cs"/>
         <Compile Include="Interfaces\IPawnPowerHandler.cs"/>
         <Compile Include="Interfaces\IIncidentData.cs"/>
         <Compile Include="Interfaces\IUsageItemBase.cs"/>

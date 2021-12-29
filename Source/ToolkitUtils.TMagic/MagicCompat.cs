@@ -25,35 +25,31 @@ using System.Text;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
 using TorannMagic;
 using TorannMagic.ModOptions;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    public class MagicCompat : Compat.MagicCompat
+    [UsedImplicitly]
+    public class MagicCompat : IMagicCompatibilityProvider
     {
-        public override bool HasClass(Pawn pawn)
-        {
-            if (pawn.TryGetComp<CompAbilityUserMagic>()?.IsMagicUser ?? false)
-            {
-                return true;
-            }
+        public bool HasClass(Pawn pawn) => pawn.TryGetComp<CompAbilityUserMagic>()?.IsMagicUser == true || pawn.TryGetComp<CompAbilityUserMight>()?.IsMightUser == true;
 
-            return pawn.TryGetComp<CompAbilityUserMight>()?.IsMightUser ?? false;
-        }
-
-        public override bool IsClassTrait(TraitDef trait)
+        public bool IsClassTrait(TraitDef trait)
         {
             return trait.Equals(TorannMagicDefOf.DeathKnight) || TM_Data.AllClassTraits.Any(t => t.Equals(trait));
         }
 
-        public override void ResetClass(Pawn pawn)
+        public void ResetClass(Pawn pawn)
         {
             TM_DebugTools.RemoveClass(pawn);
         }
 
-        public override string GetSkillDescription(string invoker, string query)
+        public bool IsUndead(Pawn pawn) => TM_Calc.IsUndead(pawn);
+
+        public string GetSkillDescription(string invoker, string query)
         {
             if (!PurchaseHelper.TryGetPawn(invoker, out Pawn pawn))
             {
@@ -84,17 +80,15 @@ namespace SirRandoo.ToolkitUtils
             return builder.ToString();
         }
 
-        [ContractAnnotation("=> false,s:null; => true,s:notnull")]
-        private static bool TryGetMagicDescription(CompAbilityUserMagic userMagic, string query, out string s)
-        {
-            return TryGetGlobalMagicDescription(userMagic, query, out s) || TryGetMagicSkillDescription(userMagic, query, out s);
-        }
+        [NotNull] public string ModId => "Torann.ARimworldOfMagic";
 
         [ContractAnnotation("=> false,s:null; => true,s:notnull")]
-        private static bool TryGetMightDescription(CompAbilityUserMight userMight, string query, out string s)
-        {
-            return TryGetGlobalMightDescription(userMight, query, out s) || TryGetMightSkillDescription(userMight, query, out s);
-        }
+        private static bool TryGetMagicDescription(CompAbilityUserMagic userMagic, string query, out string s) =>
+            TryGetGlobalMagicDescription(userMagic, query, out s) || TryGetMagicSkillDescription(userMagic, query, out s);
+
+        [ContractAnnotation("=> false,s:null; => true,s:notnull")]
+        private static bool TryGetMightDescription(CompAbilityUserMight userMight, string query, out string s) =>
+            TryGetGlobalMightDescription(userMight, query, out s) || TryGetMightSkillDescription(userMight, query, out s);
 
         [ContractAnnotation("=> false,s:null; => true,s:notnull")]
         private static bool TryGetGlobalMagicDescription(CompAbilityUserMagic userMagic, string query, out string s)
@@ -104,6 +98,7 @@ namespace SirRandoo.ToolkitUtils
             if (query.EqualsIgnoreCase(regen) || query.EqualsIgnoreCase("regen"))
             {
                 s = userMagic.MagicData.MagicPowerSkill_global_regen.FirstOrDefault()?.desc.Localize(null);
+
                 return s != null;
             }
 
@@ -112,6 +107,7 @@ namespace SirRandoo.ToolkitUtils
             if (query.EqualsIgnoreCase(efficiency) || query.EqualsIgnoreCase("efficiency"))
             {
                 s = userMagic.MagicData.MagicPowerSkill_global_eff.FirstOrDefault()?.desc.Localize(null);
+
                 return s != null;
             }
 
@@ -120,10 +116,12 @@ namespace SirRandoo.ToolkitUtils
             if (query.EqualsIgnoreCase(spirit) || query.EqualsIgnoreCase("versatility"))
             {
                 s = userMagic.MagicData.MagicPowerSkill_global_spirit.FirstOrDefault()?.desc.Localize(null);
+
                 return s != null;
             }
 
             s = null;
+
             return false;
         }
 
@@ -135,6 +133,7 @@ namespace SirRandoo.ToolkitUtils
             if (query.EqualsIgnoreCase(refresh) || query.EqualsIgnoreCase("refresh"))
             {
                 s = userMight.MightData.MightPowerSkill_global_refresh.FirstOrDefault()?.desc.Localize(null);
+
                 return s != null;
             }
 
@@ -143,6 +142,7 @@ namespace SirRandoo.ToolkitUtils
             if (query.EqualsIgnoreCase(efficiency) || query.EqualsIgnoreCase("efficiency"))
             {
                 s = userMight.MightData.MightPowerSkill_global_seff.FirstOrDefault()?.desc.Localize(null);
+
                 return s != null;
             }
 
@@ -151,6 +151,7 @@ namespace SirRandoo.ToolkitUtils
             if (query.EqualsIgnoreCase(strength) || query.EqualsIgnoreCase("strength"))
             {
                 s = userMight.MightData.MightPowerSkill_global_strength.FirstOrDefault()?.desc.Localize(null);
+
                 return s != null;
             }
 
@@ -159,10 +160,12 @@ namespace SirRandoo.ToolkitUtils
             if (query.EqualsIgnoreCase(endurance) || query.EqualsIgnoreCase("endurance"))
             {
                 s = userMight.MightData.MightPowerSkill_global_endurance.FirstOrDefault()?.desc.Localize(null);
+
                 return s != null;
             }
 
             s = null;
+
             return false;
         }
 
@@ -179,6 +182,7 @@ namespace SirRandoo.ToolkitUtils
                 if (query.EqualsIgnoreCase(def.label.ToToolkit()) || query.Equals(def.defName))
                 {
                     s = def.description;
+
                     return s != null;
                 }
 
@@ -187,6 +191,7 @@ namespace SirRandoo.ToolkitUtils
                 if (query.EqualsIgnoreCase(power.label.ToToolkit()) || query.Equals($"{def.defName}_power"))
                 {
                     s = power.desc.Localize(null);
+
                     return s != null;
                 }
 
@@ -195,6 +200,7 @@ namespace SirRandoo.ToolkitUtils
                 if (query.EqualsIgnoreCase(efficiency.label.ToToolkit()) || query.Equals($"{def.defName}_efficiency"))
                 {
                     s = efficiency.desc.Localize(null);
+
                     return s != null;
                 }
 
@@ -203,11 +209,13 @@ namespace SirRandoo.ToolkitUtils
                 if (query.EqualsIgnoreCase(versatility.label.ToToolkit()) || query.Equals($"{def.defName}_versatility"))
                 {
                     s = versatility.desc.Localize(null);
+
                     return s != null;
                 }
             }
 
             s = null;
+
             return false;
         }
 
@@ -224,6 +232,7 @@ namespace SirRandoo.ToolkitUtils
                 if (query.EqualsIgnoreCase(def.label.ToToolkit()) || query.Equals(def.defName))
                 {
                     s = def.description;
+
                     return s != null;
                 }
 
@@ -232,6 +241,7 @@ namespace SirRandoo.ToolkitUtils
                 if (query.EqualsIgnoreCase(power.label.ToToolkit()) || query.Equals($"{def.defName}_power"))
                 {
                     s = power.desc.Localize(null);
+
                     return s != null;
                 }
 
@@ -240,6 +250,7 @@ namespace SirRandoo.ToolkitUtils
                 if (query.EqualsIgnoreCase(efficiency.label.ToToolkit()) || query.Equals($"{def.defName}_efficiency"))
                 {
                     s = efficiency.desc.Localize(null);
+
                     return s != null;
                 }
 
@@ -248,11 +259,13 @@ namespace SirRandoo.ToolkitUtils
                 if (query.EqualsIgnoreCase(versatility.label.ToToolkit()) || query.Equals($"{def.defName}_versatility"))
                 {
                     s = versatility.desc.Localize(null);
+
                     return s != null;
                 }
             }
 
             s = null;
+
             return false;
         }
     }

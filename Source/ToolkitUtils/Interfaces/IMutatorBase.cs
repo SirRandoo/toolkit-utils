@@ -21,9 +21,10 @@ namespace SirRandoo.ToolkitUtils.Interfaces
 {
     public interface IMutatorBase<T> where T : class, IShopItemBase
     {
-        public int Priority { get; }
-        public void Prepare();
-        public void Draw(Rect canvas);
-        public void Mutate(TableSettingsItem<T> item);
+        int Priority { get; }
+        string Label { get; }
+        void Prepare();
+        void Draw(Rect canvas);
+        void Mutate(TableSettingsItem<T> item);
     }
 }

@@ -68,5 +68,7 @@ namespace SirRandoo.ToolkitUtils
 
             return TM_Data.AllClassTraits.Any(i => i.Equals(traitDef)) && state;
         }
+
+        public string Label => "TKUtils.Fields.Class".TranslateSimple();
     }
 }
