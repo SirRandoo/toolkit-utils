@@ -20,20 +20,18 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
+    [UsedImplicitly]
     public class IngestabilityUsabilityHandler : IUsabilityHandler
     {
-        [NotNull] public string Id => "tkutils.handlers.usability.ingestability";
+        public bool IsUsable([NotNull] ThingDef thing) => thing.IsIngestible;
 
-        public bool IsUsable([NotNull] ThingDef thing)
-        {
-            return thing.IsIngestible;
-        }
-
-        public void Use(Pawn pawn, ThingDef thingDef)
+        public void Use([NotNull] Pawn pawn, ThingDef thingDef)
         {
             Thing thing = ThingMaker.MakeThing(thingDef);
 
             pawn.needs.food.CurLevel += thing.Ingested(pawn, pawn.needs.food.NutritionWanted);
         }
+
+        [NotNull] public string ModId => "sirrandoo.tku";
     }
 }

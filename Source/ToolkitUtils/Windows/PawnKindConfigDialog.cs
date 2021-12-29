@@ -75,12 +75,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             var searchRect = new Rect(canvas.x, canvas.y, Mathf.FloorToInt(canvas.width * 0.3f), Text.LineHeight);
             var searchLabel = new Rect(searchRect.x, searchRect.y, searchTextSize.x, searchRect.height);
-            var searchField = new Rect(
-                searchLabel.x + searchLabel.width + 5f,
-                searchRect.y,
-                searchRect.width - searchLabel.width - 5f,
-                searchRect.height
-            );
+            var searchField = new Rect(searchLabel.x + searchLabel.width + 5f, searchRect.y, searchRect.width - searchLabel.width - 5f, searchRect.height);
 
             SettingsHelper.DrawLabel(searchLabel, searchText);
 
@@ -112,8 +107,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            foreach (TableSettingsItem<PawnKindItem> item in worker.Data.Where(i => !i.IsHidden)
-               .Where(i => i.Data.ColonistKindDef != null))
+            foreach (TableSettingsItem<PawnKindItem> item in worker.Data.Where(i => !i.IsHidden).Where(i => i.Data.ColonistKindDef != null))
             {
                 item.Data.Cost = item.Data.ColonistKindDef.race.CalculateStorePrice();
                 item.Data.Name = item.Data.GetDefaultName();
@@ -133,12 +127,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
 
             var headerRect = new Rect(0f, 0f, canvas.width, Text.LineHeight);
-            var contentArea = new Rect(
-                canvas.x,
-                Text.LineHeight * 4f,
-                canvas.width,
-                canvas.height - Text.LineHeight * 4f
-            );
+            var contentArea = new Rect(canvas.x, Text.LineHeight * 4f, canvas.width, canvas.height - Text.LineHeight * 4f);
 
             DrawHeader(headerRect);
             Widgets.DrawLineHorizontal(canvas.x, Text.LineHeight * 2f, canvas.width);
@@ -187,9 +176,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                             {
                                 case "MultiFile":
                                     await Data.SavePawnKindsAsync(Paths.PawnKindFilePath);
+
                                     return;
                                 case "SingleFile":
                                     await Data.SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
+
                                     return;
                             }
                         }
@@ -202,9 +193,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     case "MultiFile":
                         Data.SavePawnKinds(Paths.PawnKindFilePath);
+
                         return;
                     case "SingleFile":
                         Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+
                         return;
                 }
             }

@@ -54,9 +54,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (!__instance.command.defName.Equals("Buy"))
             {
-                message = twitchMessage.WithMessage(
-                    $"!{CommandDefOf.Buy.command} {twitchMessage.Message.Substring(1)}"
-                );
+                message = twitchMessage.WithMessage($"!{CommandDefOf.Buy.command} {twitchMessage.Message.Substring(1)}");
             }
 
             if (message!.Message.Split(' ').Length < 2)
@@ -65,6 +63,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             Purchase_Handler.ResolvePurchase(viewer, message);
+
             return false;
         }
     }

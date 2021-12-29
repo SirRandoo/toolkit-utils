@@ -43,11 +43,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         private static void Log([NotNull] string level, string message, [CanBeNull] string color = null)
         {
-            Verse.Log.Message(
-                color.NullOrEmpty()
-                    ? $"{level.ToUpper()} {TkUtils.Id} :: {message}"
-                    : $"<color=\"{color}\">{level.ToUpper()} {TkUtils.Id} :: {message}</color>"
-            );
+            Verse.Log.Message(color.NullOrEmpty() ? $"{level.ToUpper()} {TkUtils.Id} :: {message}" : $"<color=\"{color}\">{level.ToUpper()} {TkUtils.Id} :: {message}</color>");
         }
 
         public static void Warn(string message)

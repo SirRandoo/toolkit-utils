@@ -38,6 +38,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -58,6 +59,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (target == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(query));
+
                 return false;
             }
 
@@ -67,6 +69,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemovePassion.None".LocalizeKeyed(query));
+
             return false;
         }
 
@@ -77,6 +80,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 target.passion = (Passion)Mathf.Clamp((int)target.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifySuccess(target);
+
                 return;
             }
 
@@ -84,15 +88,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 Viewer.Charge(storeIncident);
                 NotifyFailed(target);
+
                 return;
             }
 
-            if (IncidentSettings.RemovePassion.ChanceToHop.ToChance()
-                && TryGetEligibleSkill(out SkillRecord skill, true))
+            if (IncidentSettings.RemovePassion.ChanceToHop.ToChance() && TryGetEligibleSkill(out SkillRecord skill, true))
             {
                 skill!.passion = (Passion)Mathf.Clamp((int)skill.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifyHopped(target, skill);
+
                 return;
             }
 
@@ -101,16 +106,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 target.passion = (Passion)Mathf.Clamp((int)target.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifyIncrease(target);
+
                 return;
             }
 
-            if (IncidentSettings.RemovePassion.ChanceToIncrease.ToChance()
-                && IncidentSettings.RemovePassion.ChanceToHop.ToChance()
-                && TryGetEligibleSkill(out skill))
+            if (IncidentSettings.RemovePassion.ChanceToIncrease.ToChance() && IncidentSettings.RemovePassion.ChanceToHop.ToChance() && TryGetEligibleSkill(out skill))
             {
                 skill!.passion = (Passion)Mathf.Clamp((int)skill.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifyIncreaseHopped(target, skill);
+
                 return;
             }
 
@@ -121,10 +126,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifySuccess([NotNull] SkillRecord skill)
         {
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.RemovePassion.Complete".LocalizeKeyed(skill.def.label)
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemovePassion.Complete".LocalizeKeyed(skill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
@@ -136,10 +138,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyIncrease([NotNull] SkillRecord skill)
         {
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.RemovePassion.Increase".LocalizeKeyed(skill.def.label)
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemovePassion.Increase".LocalizeKeyed(skill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
@@ -163,18 +162,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyHopped([NotNull] SkillRecord viewerSkill, [NotNull] SkillRecord randomSkill)
         {
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.RemovePassion.Hopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label)
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemovePassion.Hopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.RemoveHoppedDescription".LocalizeKeyed(
-                    Viewer.username,
-                    viewerSkill.def.label,
-                    randomSkill.def.label
-                ),
+                "TKUtils.PassionLetter.RemoveHoppedDescription".LocalizeKeyed(Viewer.username, viewerSkill.def.label, randomSkill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -182,18 +174,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyIncreaseHopped([NotNull] SkillRecord viewerSkill, [NotNull] SkillRecord randomSkill)
         {
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.RemovePassion.IncreaseHopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label)
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RemovePassion.IncreaseHopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.IncreaseHoppedDescription".LocalizeKeyed(
-                    Viewer.username,
-                    viewerSkill.def.label,
-                    randomSkill.def.label
-                ),
+                "TKUtils.PassionLetter.IncreaseHoppedDescription".LocalizeKeyed(Viewer.username, viewerSkill.def.label, randomSkill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -214,6 +199,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     }
                 )
                 : filters.Where(s => (int)s.passion < (int)Passion.Major)).RandomElement();
+
             return skill != null;
         }
     }

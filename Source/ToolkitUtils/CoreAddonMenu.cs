@@ -37,15 +37,9 @@ namespace SirRandoo.ToolkitUtils
         {
             var baseOptions = new List<FloatMenuOption>
             {
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Settings".Localize(),
-                    SettingsHelper.OpenSettingsMenuFor<ToolkitCore.ToolkitCore>
-                ),
+                new FloatMenuOption("TKUtils.AddonMenu.Settings".Localize(), SettingsHelper.OpenSettingsMenuFor<ToolkitCore.ToolkitCore>),
                 new FloatMenuOption("Message Log".Localize(), () => Find.WindowStack.Add(new Window_MessageLog())),
-                new FloatMenuOption(
-                    "Help",
-                    () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki")
-                )
+                new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki"))
             };
 
             var reconnectOption = new FloatMenuOption(
@@ -59,32 +53,21 @@ namespace SirRandoo.ToolkitUtils
                         }
                         catch (Exception e)
                         {
-                            LogHelper.Error(
-                                "Encountered an error while disconnected from Twitch -- You can probably ignore this.",
-                                e
-                            );
+                            LogHelper.Error("Encountered an error while disconnected from Twitch -- You can probably ignore this.", e);
                         }
 
                         TwitchWrapper.StartAsync();
                     }
                 )
             );
-            var disconnectOption = new FloatMenuOption(
-                "TKUtils.AddonMenu.Disconnect".Localize(),
-                () => Task.Run(() => TwitchWrapper.Client.Disconnect())
-            );
-            var connectOption = new FloatMenuOption(
-                "TKUtils.AddonMenu.Connect".Localize(),
-                () => Task.Run(TwitchWrapper.StartAsync)
-            );
+
+            var disconnectOption = new FloatMenuOption("TKUtils.AddonMenu.Disconnect".Localize(), () => Task.Run(() => TwitchWrapper.Client.Disconnect()));
+            var connectOption = new FloatMenuOption("TKUtils.AddonMenu.Connect".Localize(), () => Task.Run(TwitchWrapper.StartAsync));
 
             ConnectedOptions = new List<FloatMenuOption>(baseOptions) { reconnectOption, disconnectOption };
             DisconnectedOptions = new List<FloatMenuOption>(baseOptions) { connectOption };
         }
 
-        public List<FloatMenuOption> MenuOptions()
-        {
-            return TwitchWrapper.Client?.IsConnected == true ? ConnectedOptions : DisconnectedOptions;
-        }
+        public List<FloatMenuOption> MenuOptions() => TwitchWrapper.Client?.IsConnected == true ? ConnectedOptions : DisconnectedOptions;
     }
 }

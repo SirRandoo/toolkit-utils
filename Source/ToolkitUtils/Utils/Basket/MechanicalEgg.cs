@@ -28,11 +28,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class MechanicalEgg : EasterEgg
     {
-        public override bool IsPossible(StoreIncident incident, Viewer viewer)
-        {
-            return incident == IncidentDefOf.BuyPawn
-                   && viewer.username.Equals("scavenging_mechanic", StringComparison.InvariantCultureIgnoreCase);
-        }
+        public override bool IsPossible(StoreIncident incident, Viewer viewer) =>
+            incident == IncidentDefOf.BuyPawn && viewer.username.Equals("scavenging_mechanic", StringComparison.InvariantCultureIgnoreCase);
 
         public override void Execute([NotNull] Viewer viewer, Pawn pawn)
         {
@@ -55,12 +52,14 @@ namespace SirRandoo.ToolkitUtils.Utils
             if (ResearchProjectDef.Named("Bionics")?.IsFinished == true)
             {
                 ApplyBionics(pawn);
+
                 return;
             }
 
             if (ResearchProjectDef.Named("SimpleProsthetics")?.IsFinished == true)
             {
                 ApplyProsthetics(pawn);
+
                 return;
             }
 
@@ -70,6 +69,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         private static void ApplyBionics([NotNull] Pawn pawn)
         {
             var chance = 1f;
+
             foreach (BodyPartRecord part in pawn.RaceProps.body.AllParts.InRandomOrder())
             {
                 if (!Rand.Chance(chance))
@@ -85,6 +85,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         private static void ApplyProsthetics([NotNull] Pawn pawn)
         {
             var chance = 1f;
+
             foreach (BodyPartRecord part in pawn.RaceProps.body.AllParts.InRandomOrder())
             {
                 if (!Rand.Chance(chance))
@@ -100,6 +101,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         private static void ApplyMedieval([NotNull] Pawn pawn)
         {
             var chance = 1f;
+
             foreach (BodyPartRecord part in pawn.RaceProps.body.AllParts.InRandomOrder())
             {
                 if (!Rand.Chance(chance))
@@ -118,24 +120,31 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 case "Arm":
                     ApplyPart(pawn, HediffDefOf.BionicArm, bodyPart);
+
                     return;
                 case "Leg":
                     ApplyPart(pawn, HediffDefOf.BionicLeg, bodyPart);
+
                     return;
                 case "Eye":
                     ApplyPart(pawn, HediffDefOf.BionicEye, bodyPart);
+
                     return;
                 case "Ear":
                     ApplyPart(pawn, HediffDef.Named("BionicEar"), bodyPart);
+
                     return;
                 case "Spine":
                     ApplyPart(pawn, HediffDef.Named("BionicSpine"), bodyPart);
+
                     return;
                 case "Heart":
                     ApplyPart(pawn, HediffDef.Named("BionicHeart"), bodyPart);
+
                     return;
                 case "Stomach":
                     ApplyPart(pawn, HediffDef.Named("BionicStomach"), bodyPart);
+
                     return;
             }
         }
@@ -146,15 +155,19 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 case "Arm":
                     ApplyPart(pawn, HediffDefOf.SimpleProstheticArm, bodyPart);
+
                     return;
                 case "Leg":
                     ApplyPart(pawn, HediffDefOf.SimpleProstheticLeg, bodyPart);
+
                     return;
                 case "Heart":
                     ApplyPart(pawn, HediffDef.Named("SimpleProstheticHeart"), bodyPart);
+
                     return;
                 case "Ear":
                     ApplyPart(pawn, HediffDef.Named("CochlearImplant"), bodyPart);
+
                     return;
             }
 
@@ -174,6 +187,7 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 case "Leg":
                     ApplyPart(pawn, HediffDef.Named("PegLeg"), bodyPart);
+
                     return;
             }
         }
@@ -185,9 +199,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            BodyPartRecord part = pawn.RaceProps.body.GetPartsWithDef(bodyPart)
-               .InRandomOrder()
-               .FirstOrDefault(p => !pawn.health.hediffSet.HasHediff(HediffDefOf.BionicArm, p));
+            BodyPartRecord part = pawn.RaceProps.body.GetPartsWithDef(bodyPart).InRandomOrder().FirstOrDefault(p => !pawn.health.hediffSet.HasHediff(HediffDefOf.BionicArm, p));
 
             if (part == null)
             {

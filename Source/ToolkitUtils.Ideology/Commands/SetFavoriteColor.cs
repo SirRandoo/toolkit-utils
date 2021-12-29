@@ -36,16 +36,17 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            if (!Data.ColorIndex.TryGetValue(code!.ToLowerInvariant(), out Color color)
-                && !ColorUtility.TryParseHtmlString(code, out color))
+            if (!Data.ColorIndex.TryGetValue(code!.ToLowerInvariant(), out Color color) && !ColorUtility.TryParseHtmlString(code, out color))
             {
                 MessageHelper.ReplyToUser(message.Username, "TKUtils.NotAColor".LocalizeKeyed(code));
+
                 return;
             }
 
             if (!PurchaseHelper.TryGetPawn(message.Username, out Pawn pawn))
             {
                 MessageHelper.ReplyToUser(message.Username, "TKUtils.NoPawn".Localize());
+
                 return;
             }
 

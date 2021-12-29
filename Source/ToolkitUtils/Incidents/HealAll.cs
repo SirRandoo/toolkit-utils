@@ -35,9 +35,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder().Where(p => !p.Dead))
             {
-                if (IncidentSettings.HealAll.FairFights
-                    && pawn.mindState.lastAttackTargetTick > 0
-                    && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
+                if (IncidentSettings.HealAll.FairFights && pawn.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
                 {
                     continue;
                 }
@@ -48,9 +46,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 {
                     case Hediff hediff:
                         healQueue.Add(hediff);
+
                         break;
                     case BodyPartRecord record:
                         restoreQueue.Add(new Pair<Pawn, BodyPartRecord>(pawn, record));
+
                         break;
                 }
             }
@@ -73,11 +73,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             Viewer.Charge(storeIncident);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.MassHealLetter.Description".Localize());
 
-            Find.LetterStack.ReceiveLetter(
-                "TKUtils.MassHealLetter.Title".Localize(),
-                "TKUtils.MassHealLetter.Description".Localize(),
-                LetterDefOf.PositiveEvent
-            );
+            Find.LetterStack.ReceiveLetter("TKUtils.MassHealLetter.Title".Localize(), "TKUtils.MassHealLetter.Description".Localize(), LetterDefOf.PositiveEvent);
         }
     }
 }

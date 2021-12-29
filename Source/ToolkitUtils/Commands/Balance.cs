@@ -39,9 +39,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var container = new List<string>();
-            string coins = ToolkitSettings.UnlimitedCoins
-                ? ResponseHelper.InfinityGlyph.AltText(int.MaxValue.ToString("N0"))
-                : viewer.GetViewerCoins().ToString("N0");
+            string coins = ToolkitSettings.UnlimitedCoins ? ResponseHelper.InfinityGlyph.AltText(int.MaxValue.ToString("N0")) : viewer.GetViewerCoins().ToString("N0");
             var karma = (viewer.GetViewerKarma() / 100f).ToString("P0");
 
             if (TkSettings.Emojis)
@@ -60,13 +58,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 int income = CalculateCoinAward(viewer);
 
                 container.Add(
-                    (income > 0
-                        ? $"{ResponseHelper.IncomeGlyph} +{income:N0}"
-                        : $"{ResponseHelper.DebtGlyph} {income:N0}").AltText(
-                        "TKUtils.Balance.Rate".LocalizeKeyed(
-                            CalculateCoinAward(viewer).ToString("N0"),
-                            ToolkitSettings.CoinInterval.ToString("N0")
-                        )
+                    (income > 0 ? $"{ResponseHelper.IncomeGlyph} +{income:N0}" : $"{ResponseHelper.DebtGlyph} {income:N0}").AltText(
+                        "TKUtils.Balance.Rate".LocalizeKeyed(CalculateCoinAward(viewer).ToString("N0"), ToolkitSettings.CoinInterval.ToString("N0"))
                     )
                 );
             }

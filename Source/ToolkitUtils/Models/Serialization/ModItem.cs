@@ -103,9 +103,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return version;
             }
 
-            return TryGetAssemblyVersion(assembly, out version)
-                ? version
-                : handle.GetType().Module.Assembly.GetName().Version.ToString();
+            return TryGetAssemblyVersion(assembly, out version) ? version : handle.GetType().Module.Assembly.GetName().Version.ToString();
         }
 
         [ContractAnnotation("=> true,version:notnull; => false,version:null")]
@@ -116,6 +114,7 @@ namespace SirRandoo.ToolkitUtils.Models
             if (!File.Exists(manifestFile))
             {
                 version = null;
+
                 return false;
             }
 
@@ -125,68 +124,64 @@ namespace SirRandoo.ToolkitUtils.Models
             if (!reader.Name.Equals("version"))
             {
                 version = null;
+
                 return false;
             }
 
             version = reader.ReadElementContentAsString();
             reader.Close();
+
             return true;
         }
 
         [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetInfoAssemblyVersion([NotNull] Assembly assembly, out string version)
         {
-            var attribute = (AssemblyInformationalVersionAttribute)Attribute.GetCustomAttribute(
-                assembly,
-                typeof(AssemblyInformationalVersionAttribute),
-                false
-            );
+            var attribute = (AssemblyInformationalVersionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyInformationalVersionAttribute), false);
 
             if (attribute == null)
             {
                 version = null;
+
                 return false;
             }
 
             version = attribute.InformationalVersion;
+
             return true;
         }
 
         [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetAssemblyFileVersion([NotNull] Assembly assembly, out string version)
         {
-            var attribute = (AssemblyFileVersionAttribute)Attribute.GetCustomAttribute(
-                assembly,
-                typeof(AssemblyFileVersionAttribute),
-                false
-            );
+            var attribute = (AssemblyFileVersionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyFileVersionAttribute), false);
 
             if (attribute == null)
             {
                 version = null;
+
                 return false;
             }
 
             version = attribute.Version;
+
             return true;
         }
 
         [ContractAnnotation("=> true,version:notnull; => false,version:null")]
         private static bool TryGetAssemblyVersion([NotNull] Assembly assembly, out string version)
         {
-            var attribute = (AssemblyVersionAttribute)Attribute.GetCustomAttribute(
-                assembly,
-                typeof(AssemblyVersionAttribute),
-                false
-            );
+            var attribute = (AssemblyVersionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyVersionAttribute), false);
 
             if (attribute == null)
             {
                 version = null;
+
                 return false;
             }
 
             version = attribute.Version;
+
             return true;
         }
     }

@@ -40,6 +40,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -48,12 +49,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!worker.TryGetNextAsItem(out item) || !item.IsValid())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
+
                 return false;
             }
 
             if (item.TryGetError(out string error))
             {
                 MessageHelper.ReplyToUser(viewer.username, error);
+
                 return false;
             }
 
@@ -63,12 +66,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             List<ResearchProjectDef> prerequisites = item.Thing.Thing.GetUnfinishedPrerequisites();
+
             if (BuyItemSettings.mustResearchFirst && prerequisites.Count > 0)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
                     "TKUtils.ResearchRequired".LocalizeKeyed(item.Thing.Thing.LabelCap.RawText, prerequisites.Select(p => p.LabelCap.RawText).SectionJoin())
                 );
+
                 return false;
             }
 
@@ -77,6 +82,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!viewer.CanAfford(cost))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+
                 return false;
             }
 
@@ -86,16 +92,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.Item.MaterialViolation".LocalizeKeyed(item.Thing.Name, item.Stuff.Name));
+
             return false;
         }
 
         public override void Execute()
         {
             if (!((item.Stuff != null && item.Thing.Thing.MadeFromStuff
-                    ? ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)
-                    : ThingMaker.MakeThing(item.Thing.Thing, GenStuff.RandomStuffByCommonalityFor(item.Thing.Thing))) is Apparel apparel))
+                ? ThingMaker.MakeThing(item.Thing.Thing, item.Stuff.Thing)
+                : ThingMaker.MakeThing(item.Thing.Thing, GenStuff.RandomStuffByCommonalityFor(item.Thing.Thing))) is Apparel apparel))
             {
                 LogHelper.Warn("Tried to wear a null apparel.");
+
                 return;
             }
 
@@ -108,6 +116,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 bool wasBackpacked = TryBackpack(apparel);
                 FinalizeTransaction(apparel, SpawnCode.NoParts, !wasBackpacked);
+
                 return;
             }
 
@@ -115,6 +124,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 bool wasBackpacked = TryBackpack(apparel);
                 FinalizeTransaction(apparel, SpawnCode.LockedApparel, !wasBackpacked);
+
                 return;
             }
 
@@ -122,6 +132,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 bool wasBackpacked = TryBackpack(apparel);
                 FinalizeTransaction(apparel, SpawnCode.Unequippable, !wasBackpacked);
+
                 return;
             }
 
@@ -138,6 +149,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             PurchaseHelper.SpawnItem(DropCellFinder.TradeDropSpot(pawn.Map), pawn.Map, apparel);
+
             return false;
         }
 
@@ -149,15 +161,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 case SpawnCode.Unequippable:
                     SendUnquippableNotifications(thing, spawned);
+
                     return;
                 case SpawnCode.LockedApparel:
                     SendLockedApparelNotifications(thing, spawned);
+
                     return;
                 case SpawnCode.NoParts:
                     SendNoPartsNotifications(thing, spawned);
+
                     return;
                 default:
                     SendSuccessNotification(thing, spawned);
+
                     return;
             }
         }

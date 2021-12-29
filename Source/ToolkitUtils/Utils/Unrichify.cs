@@ -57,13 +57,16 @@ namespace SirRandoo.ToolkitUtils.Utils
                     {
                         case '<' when tagContent == "":
                             inTag = true;
+
                             break;
                         case '=' when inTag:
                             nameEnd = true;
                             tagContent += c.ToString();
+
                             break;
                         case '>':
                             inTag = false;
+
                             break;
                         default:
                         {

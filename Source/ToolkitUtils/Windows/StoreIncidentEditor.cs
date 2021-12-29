@@ -52,10 +52,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             onlyOneOfTypeAllowed = true;
             eventType = storeIncident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
 
-            karmaTypeOptions = Data.KarmaTypes.Select(
-                    t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)
-                )
-               .ToList();
+            karmaTypeOptions = Data.KarmaTypes.Select(t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)).ToList();
         }
 
         public override void PreOpen()
@@ -79,12 +76,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             editTraitsText = "TKUtils.Buttons.EditTraits".Localize();
             editPawnsText = "TKUtils.Buttons.EditPawns".Localize();
 
-            headerButtonWidth = Mathf.Max(
-                                    Text.CalcSize(disableText).x,
-                                    Text.CalcSize(resetText).x,
-                                    Text.CalcSize(settingsText).x
-                                )
-                                + 16f;
+            headerButtonWidth = Mathf.Max(Text.CalcSize(disableText).x, Text.CalcSize(resetText).x, Text.CalcSize(settingsText).x) + 16f;
 
             titleWidth = Text.CalcSize(storeIncident.LabelCap).x + 16f;
         }
@@ -94,8 +86,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var listing = new Listing_Standard { maxOneColumn = true };
             listing.Begin(inRect);
 
-            (Rect titleRect, Rect buttonHeaderRect) =
-                listing.GetRect(Text.LineHeight).ToForm(titleWidth / inRect.width);
+            (Rect titleRect, Rect buttonHeaderRect) = listing.GetRect(Text.LineHeight).ToForm(titleWidth / inRect.width);
 
             Widgets.Label(titleRect, storeIncident.LabelCap);
             DrawButtonHeader(buttonHeaderRect.Rounded());
@@ -115,6 +106,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 case EventTypes.Trait:
                     (Rect _, Rect buttonRect) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
                     DrawEditButtonFor(eventType, buttonRect);
+
                     break;
             }
 

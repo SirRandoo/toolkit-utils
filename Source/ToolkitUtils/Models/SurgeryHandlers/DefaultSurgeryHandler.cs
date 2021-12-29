@@ -26,18 +26,13 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
+    [UsedImplicitly]
     public class DefaultSurgeryHandler : ISurgeryHandler
     {
-        [NotNull] public string Id => "tkutils.base";
+        public bool IsSurgery([NotNull] RecipeDef recipe) => recipe.IsSurgery;
 
-        public bool IsSurgery([NotNull] RecipeDef recipe)
-        {
-            return recipe.IsSurgery;
-        }
+        public bool CanScheduleFor([NotNull] RecipeDef recipe, Pawn pawn) => recipe.AvailableOnNow(pawn);
 
-        public bool CanScheduleFor([NotNull] RecipeDef recipe, Pawn pawn)
-        {
-            return recipe.AvailableOnNow(pawn);
-        }
+        [NotNull] public string ModId => "sirrandoo.tku";
     }
 }

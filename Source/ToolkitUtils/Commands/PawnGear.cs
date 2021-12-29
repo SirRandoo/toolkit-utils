@@ -35,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
                 twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TabGear".Localize()));
+
                 return;
             }
 
@@ -54,9 +55,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (apparel != null && apparel.Any())
                 {
-                    cache = apparel.Where(a => a.def.apparel.CoversBodyPart(part))
-                       .Select(a => Mathf.Clamp01(a.GetStatValue(stat) / 2f))
-                       .Aggregate(cache, (current, v) => current * (1f - v));
+                    cache = apparel.Where(a => a.def.apparel.CoversBodyPart(part)).Select(a => Mathf.Clamp01(a.GetStatValue(stat) / 2f)).Aggregate(cache, (current, v) => current * (1f - v));
                 }
 
                 rating += part.coverageAbs * (1f - cache);
@@ -97,9 +96,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             List<Apparel> apparel = a.WornApparel;
-            parts.Add(
-                $"{"Apparel".Localize()}: {apparel.Select(item => Unrichify.StripTags(item.LabelCap)).SectionJoin()}"
-            );
+            parts.Add($"{"Apparel".Localize()}: {apparel.Select(item => Unrichify.StripTags(item.LabelCap)).SectionJoin()}");
+
             return !parts.Any() ? "None".Localize() : parts.GroupedJoin();
         }
 
@@ -122,8 +120,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (e?.AllEquipmentListForReading?.Count > 0)
                 {
-                    IEnumerable<string> equip =
-                        e.AllEquipmentListForReading.Select(eq => Unrichify.StripTags(eq.LabelCap));
+                    IEnumerable<string> equip = e.AllEquipmentListForReading.Select(eq => Unrichify.StripTags(eq.LabelCap));
 
                     weapons.AddRange(equip);
                 }
@@ -144,9 +141,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             string tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
             string tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
 
-            parts.Add(
-                $"{ResponseHelper.TemperatureGlyph.AltText($"{"ComfyTemperatureRange".Localize()} ")}{tempMin}~{tempMax}"
-            );
+            parts.Add($"{ResponseHelper.TemperatureGlyph.AltText($"{"ComfyTemperatureRange".Localize()} ")}{tempMin}~{tempMax}");
         }
 
         private static void GetSidearmData(
@@ -174,6 +169,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     sidearms.Remove(sidearm);
                     equipmentUsed = true;
+
                     continue;
                 }
 
@@ -182,13 +178,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private static void GetSidearms(
-            ICollection<Thing> sidearms,
-            ICollection<string> weapons,
-            [NotNull] IEnumerable<Thing> inventory,
-            ICollection<Thing> usedInventory,
-            Thing sidearm
-        )
+        private static void GetSidearms(ICollection<Thing> sidearms, ICollection<string> weapons, [NotNull] IEnumerable<Thing> inventory, ICollection<Thing> usedInventory, Thing sidearm)
         {
             foreach (Thing thing in inventory.Where(thing => sidearm.def.defName.Equals(thing.def.defName)))
             {
@@ -200,19 +190,17 @@ namespace SirRandoo.ToolkitUtils.Commands
                 weapons.Add(Unrichify.StripTags(thing.LabelCap));
                 usedInventory.Add(thing);
                 sidearms.Remove(sidearm);
+
                 break;
             }
         }
 
-        private static bool GetEquipmentFromSidearmData(
-            [NotNull] IEnumerable<ThingWithComps> equipment,
-            IList<string> weapons,
-            Thing sidearm
-        )
+        private static bool GetEquipmentFromSidearmData([NotNull] IEnumerable<ThingWithComps> equipment, IList<string> weapons, Thing sidearm)
         {
             foreach (ThingWithComps equip in equipment.Where(equip => sidearm.def.defName.Equals(equip.def.defName)))
             {
                 weapons.Insert(0, Unrichify.StripTags(equip.LabelCap));
+
                 return true;
             }
 
@@ -228,9 +216,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (sharp > 0)
             {
-                stats.Add(
-                    $"{ResponseHelper.DaggerGlyph.AltText($"{"ArmorSharp".Localize()} ")}{sharp.ToStringPercent()}"
-                );
+                stats.Add($"{ResponseHelper.DaggerGlyph.AltText($"{"ArmorSharp".Localize()} ")}{sharp.ToStringPercent()}");
             }
 
             if (blunt > 0)

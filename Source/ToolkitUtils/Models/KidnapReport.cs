@@ -42,20 +42,15 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             var report = new KidnapReport { Viewer = username, PawnIds = new List<string>() };
-            foreach (List<Pawn> kidnapped in Find.FactionManager.AllFactions.Select(
-                f => f.kidnapped?.KidnappedPawnsListForReading
-            ))
+
+            foreach (List<Pawn> kidnapped in Find.FactionManager.AllFactions.Select(f => f.kidnapped?.KidnappedPawnsListForReading))
             {
                 if (kidnapped == null)
                 {
                     continue;
                 }
 
-                report.PawnIds.AddRange(
-                    kidnapped.Where(p => !p.Dead)
-                       .Where(p => p.Name is NameTriple name && name.Nick.EqualsIgnoreCase(username))
-                       .Select(p => p.ThingID)
-                );
+                report.PawnIds.AddRange(kidnapped.Where(p => !p.Dead).Where(p => p.Name is NameTriple name && name.Nick.EqualsIgnoreCase(username)).Select(p => p.ThingID));
             }
 
             foreach (Pawn pawn in Find.WorldPawns.AllPawnsAlive)
@@ -72,22 +67,22 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         public IEnumerable<Pawn> GetPawns()
         {
-            return Find.FactionManager.AllFactions.SelectMany(f => f.kidnapped.KidnappedPawnsListForReading)
-               .Where(kidnapped => PawnIds.Contains(kidnapped.ThingID));
+            return Find.FactionManager.AllFactions.SelectMany(f => f.kidnapped.KidnappedPawnsListForReading).Where(kidnapped => PawnIds.Contains(kidnapped.ThingID));
         }
 
         [CanBeNull]
         public Pawn GetMostRecentKidnapping()
         {
             Tale_DoublePawn currentTale = null;
-            foreach (Tale_DoublePawn kidnapping in Find.TaleManager.AllTalesListForReading
-               .Where(t => t.def == TaleDefOf.KidnappedColonist)
+
+            foreach (Tale_DoublePawn kidnapping in Find.TaleManager.AllTalesListForReading.Where(t => t.def == TaleDefOf.KidnappedColonist)
                .Select(t => (Tale_DoublePawn)t)
                .Where(t => PawnIds.Contains(t.secondPawnData.pawn.ThingID)))
             {
                 if (currentTale == null)
                 {
                     currentTale = kidnapping;
+
                     continue;
                 }
 

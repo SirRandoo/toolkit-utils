@@ -46,6 +46,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var count = 0;
+
             foreach (string username in viewers)
             {
                 Viewers.GetViewer(username).GiveViewerCoins(amount);

@@ -122,27 +122,24 @@ namespace SirRandoo.ToolkitUtils.Windows
         }
 
         [NotNull]
-        public static PartialManager<T> CreateLoadInstance(Action<PartialData<T>> callback)
-        {
-            return new PartialManager<T>(callback);
-        }
+        public static PartialManager<T> CreateLoadInstance(Action<PartialData<T>> callback) => new PartialManager<T>(callback);
 
         [NotNull]
-        public static PartialManager<T> CreateSaveInstance(Action<PartialUgc> callback)
-        {
-            return new PartialManager<T>(callback);
-        }
+        public static PartialManager<T> CreateSaveInstance(Action<PartialUgc> callback) => new PartialManager<T>(callback);
 
         public override void DoWindowContents(Rect canvas)
         {
             GUI.BeginGroup(canvas);
+
             switch (type)
             {
                 case InstanceType.Load:
                     DrawLoadScreen(canvas);
+
                     break;
                 case InstanceType.Save:
                     DrawSaveScreen(canvas);
+
                     break;
             }
 
@@ -154,6 +151,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (isIndexing)
             {
                 SettingsHelper.DrawLabel(canvas, indexingLabel, TextAnchor.MiddleCenter, GameFont.Medium);
+
                 return;
             }
 
@@ -164,6 +162,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.Begin(canvas);
             Widgets.BeginScrollView(canvas, ref scrollPos, viewport);
             FileData<T> toDelete = null;
+
             foreach (FileData<T> file in files)
             {
                 Rect lineRect = listing.GetRect(Text.SmallFontHeight);
@@ -206,6 +205,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             files.Remove(toDelete);
+
             try
             {
                 File.Delete(toDelete.Path);
@@ -240,12 +240,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.End();
 
-            (Rect cancel, Rect confirm) = new Rect(
-                0f,
-                canvas.height - Text.SmallFontHeight,
-                canvas.width,
-                Text.SmallFontHeight
-            ).ToForm(0.5f);
+            (Rect cancel, Rect confirm) = new Rect(0f, canvas.height - Text.SmallFontHeight, canvas.width, Text.SmallFontHeight).ToForm(0.5f);
 
             if (Widgets.ButtonText(confirm, confirmLabel))
             {
@@ -274,6 +269,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             base.PostOpen();
             FetchTranslations();
+
             Task.Run(
                 async () =>
                 {
@@ -300,19 +296,14 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             var container = new List<FileData<T>>();
 
-            foreach (string file in Directory.EnumerateFileSystemEntries(
-                Paths.PartialPath,
-                "*.json",
-                SearchOption.TopDirectoryOnly
-            ))
+            foreach (string file in Directory.EnumerateFileSystemEntries(Paths.PartialPath, "*.json", SearchOption.TopDirectoryOnly))
             {
                 string path = Path.Combine(Paths.PartialPath, file);
 
                 if (Directory.Exists(path))
                 {
-                    container.Add(
-                        new FileData<T> { Description = path, IsDirectory = true, Extension = "", Name = file }
-                    );
+                    container.Add(new FileData<T> { Description = path, IsDirectory = true, Extension = "", Name = file });
+
                     continue;
                 }
 
@@ -351,6 +342,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (cancelled)
             {
                 base.PostClose();
+
                 return;
             }
 
@@ -358,9 +350,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 case InstanceType.Load when loadCallback != null && selectedFile != null:
                     loadCallback(selectedFile.PartialData);
+
                     break;
                 case InstanceType.Save when saveCallback != null:
                     saveCallback(new PartialUgc { Description = fileDescription, Name = SanitizeFileName(fileName) });
+
                     break;
             }
 

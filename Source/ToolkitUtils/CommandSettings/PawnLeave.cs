@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
                 Find.WindowStack.Add(new FloatMenu(TkSettings.LeaveMenuOptions));
             }
 
-            if (!TkSettings.LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethods.Thanos)))
+            if (!TkSettings.LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethod.Thanos)))
             {
                 listing.CheckboxLabeled("TKUtils.Abandon.Gear.Label".Localize(), ref TkSettings.DropInventory);
                 listing.DrawDescription("TKUtils.Abandon.Gear.Description".Localize());

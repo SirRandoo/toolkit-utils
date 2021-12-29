@@ -34,6 +34,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -43,6 +44,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             PawnTracker.pawnsToRevive.Add(pawn);
+
             return true;
         }
 
@@ -52,12 +54,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             Viewer.Charge(storeIncident);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.ReviveMe.Complete".Localize());
 
-            Find.LetterStack.ReceiveLetter(
-                "TKUtils.RevivalLetter.Title".Localize(),
-                "TKUtils.RevivalLetter.Description".LocalizeKeyed(Viewer.username),
-                LetterDefOf.PositiveEvent,
-                pawn
-            );
+            Find.LetterStack.ReceiveLetter("TKUtils.RevivalLetter.Title".Localize(), "TKUtils.RevivalLetter.Description".LocalizeKeyed(Viewer.username), LetterDefOf.PositiveEvent, pawn);
         }
     }
 }

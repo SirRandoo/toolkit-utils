@@ -45,19 +45,9 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             float distributedWidth = Mathf.FloorToInt((canvas.width - 16f) * 0.3333f);
             NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
-            NameHeaderTextRect = new Rect(
-                NameHeaderRect.x + 4f,
-                NameHeaderRect.y,
-                NameHeaderRect.width - 8f,
-                NameHeaderRect.height
-            );
+            NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
             PriceHeaderRect = NameHeaderRect.ShiftRight(1f);
-            PriceHeaderTextRect = new Rect(
-                PriceHeaderRect.x + 4f,
-                PriceHeaderRect.y,
-                PriceHeaderRect.width - 8f,
-                PriceHeaderRect.height
-            );
+            PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
         }
     }
 }

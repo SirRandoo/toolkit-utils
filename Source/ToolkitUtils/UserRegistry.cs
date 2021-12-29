@@ -44,13 +44,13 @@ namespace SirRandoo.ToolkitUtils
             return idOrName.NullOrEmpty()
                 ? null
                 : UserData.Find(d => d.Id?.Equals(idOrName) == true || d.Username?.EqualsIgnoreCase(idOrName) == true || d.DisplayName?.EqualsIgnoreCase(idOrName) == true);
-
         }
 
         [ContractAnnotation("=> false,data:null; => true,data:notnull")]
         public static bool TryGetData([NotNull] string idOrName, out UserData data)
         {
             data = GetData(idOrName);
+
             return data != null;
         }
 
@@ -58,6 +58,7 @@ namespace SirRandoo.ToolkitUtils
         public static bool TryGetData([NotNull] ITwitchMessage message, out UserData data)
         {
             data = GetData(message);
+
             return data != null;
         }
 
@@ -92,6 +93,7 @@ namespace SirRandoo.ToolkitUtils
             data.IsSubscriber = message.HasBadges("subscriber", "founder", "broadcaster");
             data.IsVip = message.HasBadges("vip", "broadcaster");
             data.LastKnownBadges = message.ChatMessage?.Badges;
+
             return data;
         }
 

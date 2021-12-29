@@ -80,6 +80,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             Find.LetterStack.ReceiveLetter(letterLabel, text, letterDef, lookTargets ?? pawn);
+
             return MakeFirstPerson(pawn.LabelShort, text.Replace("\n\n", " "));
         }
 
@@ -89,6 +90,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             var builder = new StringBuilder();
             string you = "TKUtils.Interaction.You".Localize();
             var shouldCapitalize = false;
+
             foreach (string word in text.Split(' '))
             {
                 bool isUser = word.EqualsIgnoreCase(username);

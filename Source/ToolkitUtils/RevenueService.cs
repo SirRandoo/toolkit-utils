@@ -45,18 +45,15 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [CanBeNull]
-        public static List<Transaction> GetTransactionsFor([NotNull] string username)
-        {
-            return _transactions.TryGetValue(username.ToLowerInvariant(), out List<Transaction> transactions)
-                ? transactions
-                : null;
-        }
+        public static List<Transaction> GetTransactionsFor([NotNull] string username) =>
+            _transactions.TryGetValue(username.ToLowerInvariant(), out List<Transaction> transactions) ? transactions : null;
 
         public static void RegisterTransactionFor([NotNull] string username, Transaction transaction)
         {
             if (!_transactions.TryGetValue(username.ToLowerInvariant(), out List<Transaction> transactions))
             {
                 _transactions.Add(username.ToLowerInvariant(), new List<Transaction> { transaction });
+
                 return;
             }
 

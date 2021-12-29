@@ -34,18 +34,8 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
-            var addPriceRect = new Rect(
-                AddPriceHeaderTextRect.x,
-                canvas.y,
-                AddPriceHeaderTextRect.width,
-                RowLineHeight
-            );
-            var removePriceRect = new Rect(
-                RemovePriceHeaderTextRect.x,
-                canvas.y,
-                RemovePriceHeaderTextRect.width,
-                RowLineHeight
-            );
+            var addPriceRect = new Rect(AddPriceHeaderTextRect.x, canvas.y, AddPriceHeaderTextRect.width, RowLineHeight);
+            var removePriceRect = new Rect(RemovePriceHeaderTextRect.x, canvas.y, RemovePriceHeaderTextRect.width, RowLineHeight);
 
             SettingsHelper.DrawLabel(nameRect, trait.Data.Name);
 
@@ -80,26 +70,11 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             float distributedWidth = Mathf.FloorToInt((canvas.width - 16f) * 0.3333f);
             NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
-            NameHeaderTextRect = new Rect(
-                NameHeaderRect.x + 4f,
-                NameHeaderRect.y,
-                NameHeaderRect.width - 8f,
-                NameHeaderRect.height
-            );
+            NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
             AddPriceHeaderRect = NameHeaderRect.ShiftRight(1f);
-            AddPriceHeaderTextRect = new Rect(
-                AddPriceHeaderRect.x + 4f,
-                AddPriceHeaderRect.y,
-                AddPriceHeaderRect.width - 8f,
-                AddPriceHeaderRect.height
-            );
+            AddPriceHeaderTextRect = new Rect(AddPriceHeaderRect.x + 4f, AddPriceHeaderRect.y, AddPriceHeaderRect.width - 8f, AddPriceHeaderRect.height);
             RemovePriceHeaderRect = AddPriceHeaderRect.ShiftRight(1f);
-            RemovePriceHeaderTextRect = new Rect(
-                RemovePriceHeaderRect.x + 4f,
-                RemovePriceHeaderRect.y,
-                RemovePriceHeaderRect.width - 8f,
-                RemovePriceHeaderRect.height
-            );
+            RemovePriceHeaderTextRect = new Rect(RemovePriceHeaderRect.x + 4f, RemovePriceHeaderRect.y, RemovePriceHeaderRect.width - 8f, RemovePriceHeaderRect.height);
         }
     }
 }

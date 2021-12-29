@@ -24,9 +24,6 @@ namespace SirRandoo.ToolkitUtils.Models
         public RecipeDef Surgery { get; set; }
         public ISurgeryHandler Handler { get; set; }
 
-        public bool CanScheduleFor(Pawn pawn)
-        {
-            return Handler.CanScheduleFor(Surgery, pawn);
-        }
+        public bool CanScheduleFor(Pawn pawn) => Handler.CanScheduleFor(Surgery, pawn);
     }
 }

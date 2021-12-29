@@ -21,21 +21,15 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
+    [UsedImplicitly]
     public class BlindsightHealHandler : IHealHandler
     {
-        [NotNull] public string Id => "tkutils.handlers.heal.ideology";
+        public bool CanHeal([NotNull] BodyPartRecord bodyPart) => bodyPart.def != BodyPartDefOf.Eye || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
 
-        public bool IsHealable([NotNull] BodyPartRecord bodyPart)
-        {
-            return bodyPart.def != BodyPartDefOf.Eye
-                   || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
-        }
+        public bool CanHeal([NotNull] Hediff hediff) => hediff.def != HediffDefOf.MissingBodyPart
+                                                        || hediff.Part.def != BodyPartDefOf.Eye
+                                                        || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
 
-        public bool IsHealable([NotNull] Hediff hediff)
-        {
-            return hediff.def != HediffDefOf.MissingBodyPart
-                   || hediff.Part.def != BodyPartDefOf.Eye
-                   || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
-        }
+        [NotNull] public string ModId => "Ludeon.Ideology";
     }
 }

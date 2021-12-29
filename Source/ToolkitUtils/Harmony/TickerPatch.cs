@@ -31,9 +31,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(TwitchToolkit.TwitchToolkit), "RegisterTicker");
         }
 
-        private static bool Prefix()
-        {
-            return true;
-        }
+        private static bool Prefix() => true;
     }
 }

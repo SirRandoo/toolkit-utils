@@ -41,15 +41,9 @@ namespace SirRandoo.ToolkitUtils.Models
         public virtual int MinimumLevel { get; }
 
         [NotNull]
-        public static PawnPower From(string name, int minimumLevel)
-        {
-            return new PawnPower(name, minimumLevel);
-        }
+        public static PawnPower From(string name, int minimumLevel) => new PawnPower(name, minimumLevel);
 
         [NotNull]
-        public static IPawnPower From([NotNull] Def def, int minimumLevel)
-        {
-            return new PawnPower(def, minimumLevel);
-        }
+        public static IPawnPower From([NotNull] Def def, int minimumLevel) => new PawnPower(def, minimumLevel);
     }
 }

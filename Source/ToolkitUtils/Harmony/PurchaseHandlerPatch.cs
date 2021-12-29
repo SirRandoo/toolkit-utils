@@ -39,11 +39,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     {
         [HarmonyPrefix]
         [HarmonyPatch("ResolvePurchase")]
-        public static bool ResolvePurchasePrefix(
-            Viewer viewer,
-            [NotNull] ITwitchMessage twitchMessage,
-            bool separateChannel = false
-        )
+        public static bool ResolvePurchasePrefix(Viewer viewer, [NotNull] ITwitchMessage twitchMessage, bool separateChannel = false)
         {
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
             List<string> segments = CommandFilter.Parse(twitchMessage.Message).ToList();
@@ -58,12 +54,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             {
                 try
                 {
-                    Purchase_Handler.ResolvePurchaseSimple(
-                        viewer,
-                        twitchMessage,
-                        incidentSimple,
-                        twitchMessage.Message
-                    );
+                    Purchase_Handler.ResolvePurchaseSimple(viewer, twitchMessage, incidentSimple, twitchMessage.Message);
                 }
                 catch (Exception e)
                 {
@@ -77,12 +68,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             {
                 try
                 {
-                    Purchase_Handler.ResolvePurchaseVariables(
-                        viewer,
-                        twitchMessage,
-                        incidentVariables,
-                        twitchMessage.Message
-                    );
+                    Purchase_Handler.ResolvePurchaseVariables(viewer, twitchMessage, incidentVariables, twitchMessage.Message);
                 }
                 catch (Exception e)
                 {
@@ -93,12 +79,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             Helper.Log($"abr: {query} ");
+
             if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy _))
             {
                 return false;
             }
 
             segments.Insert(1, "item");
+
             if (segments.Count < 4)
             {
                 segments.Add("1");
@@ -111,12 +99,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             try
             {
-                Purchase_Handler.ResolvePurchaseVariables(
-                    viewer,
-                    twitchMessage,
-                    StoreIncidentDefOf.Item,
-                    string.Join(" ", segments.ToArray())
-                );
+                Purchase_Handler.ResolvePurchaseVariables(viewer, twitchMessage, StoreIncidentDefOf.Item, string.Join(" ", segments.ToArray()));
             }
             catch (Exception e)
             {
@@ -128,12 +111,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         [HarmonyPrefix]
         [HarmonyPatch("ResolvePurchaseSimple")]
-        public static bool ResolvePurchaseSimplePrefix(
-            [NotNull] Viewer viewer,
-            ITwitchMessage twitchMessage,
-            StoreIncidentSimple incident,
-            string formattedMessage
-        )
+        public static bool ResolvePurchaseSimplePrefix([NotNull] Viewer viewer, ITwitchMessage twitchMessage, StoreIncidentSimple incident, string formattedMessage)
         {
             if (Purchase_Handler.CheckIfViewerIsInVariableCommandList(viewer.username)
                 || !Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, incident.cost)
@@ -146,12 +124,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (!TryMakeIncident(incident, viewer, formattedMessage, out IncidentHelper inc))
             {
                 LogHelper.Warn(@$"The incident ""{incident.defName}"" does not define an incident helper");
+
                 return false;
             }
 
             if (!inc.IsPossible())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TwitchToolkitEventNotPossible".Localize());
+
                 return false;
             }
 
@@ -173,34 +153,22 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            TwitchWrapper.SendChatMessage(
-                Helper.ReplacePlaceholder(
-                    "TwitchToolkitEventPurchaseConfirm".Localize(),
-                    viewer: viewer.username,
-                    first: incident.label.CapitalizeFirst()
-                )
-            );
+            TwitchWrapper.SendChatMessage(Helper.ReplacePlaceholder("TwitchToolkitEventPurchaseConfirm".Localize(), viewer: viewer.username, first: incident.label.CapitalizeFirst()));
+
             return false;
         }
 
         [HarmonyPrefix]
         [HarmonyPatch("ResolvePurchaseVariables")]
-        public static bool ResolvePurchaseVariablesPrefix(
-            [NotNull] Viewer viewer,
-            ITwitchMessage twitchMessage,
-            StoreIncidentVariables incident,
-            string formattedMessage
-        )
+        public static bool ResolvePurchaseVariablesPrefix([NotNull] Viewer viewer, ITwitchMessage twitchMessage, StoreIncidentVariables incident, string formattedMessage)
         {
-            if (Purchase_Handler.CheckIfViewerIsInVariableCommandList(viewer.username)
-                || !Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, incident.cost))
+            if (Purchase_Handler.CheckIfViewerIsInVariableCommandList(viewer.username) || !Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, incident.cost))
             {
                 return false;
             }
 
             if (incident != StoreIncidentDefOf.Item
-                && (Purchase_Handler.CheckIfKarmaTypeIsMaxed(incident, viewer.username)
-                    && incident != IncidentDefOf.Sanctuary
+                && ((Purchase_Handler.CheckIfKarmaTypeIsMaxed(incident, viewer.username) && incident != IncidentDefOf.Sanctuary)
                     || Purchase_Handler.CheckIfIncidentIsOnCooldown(incident, viewer.username)))
             {
                 return false;
@@ -214,6 +182,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (!TryMakeIncident(incident, viewer, formattedMessage, out IncidentHelperVariables inc))
             {
                 LogHelper.Warn(@$"The incident ""{incident.defName}"" does not define an incident helper");
+
                 return false;
             }
 
@@ -222,6 +191,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (!inc.IsPossible(formattedMessage, viewer))
             {
                 Purchase_Handler.viewerNamesDoingVariableCommands.Remove(viewer.username.ToLowerInvariant());
+
                 return false;
             }
 
@@ -231,6 +201,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             coordinator.QueueIncident(new IncidentProxy { VariablesIncident = inc });
             Store_Logger.LogPurchase(viewer.username, twitchMessage.Message);
             comp.LogIncident(incident);
+
             return false;
         }
 
@@ -243,21 +214,18 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (!Purchase_Handler.viewerNamesDoingVariableCommands.Contains(username.ToLower()))
             {
                 __result = false;
+
                 return false;
             }
 
             __result = true;
             MessageHelper.ReplyToUser(username, "TKUtils.PausedExtended".LocalizeKeyed(CommandDefOf.UnstickMe.command));
+
             return false;
         }
 
         [ContractAnnotation("=> true,incidentHelper:notnull; => false,incidentHelper:null")]
-        private static bool TryMakeIncident(
-            StoreIncidentSimple incident,
-            Viewer viewer,
-            string message,
-            out IncidentHelper incidentHelper
-        )
+        private static bool TryMakeIncident(StoreIncidentSimple incident, Viewer viewer, string message, out IncidentHelper incidentHelper)
         {
             incidentHelper = StoreIncidentMaker.MakeIncident(incident);
 
@@ -268,16 +236,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             incidentHelper.Viewer = viewer;
             incidentHelper.message = message;
+
             return true;
         }
 
         [ContractAnnotation("=> true,incidentHelper:notnull; => false,incidentHelper:null")]
-        private static bool TryMakeIncident(
-            StoreIncidentVariables incident,
-            Viewer viewer,
-            string message,
-            out IncidentHelperVariables incidentHelper
-        )
+        private static bool TryMakeIncident(StoreIncidentVariables incident, Viewer viewer, string message, out IncidentHelperVariables incidentHelper)
         {
             incidentHelper = StoreIncidentMaker.MakeIncidentVariables(incident);
 
@@ -288,25 +252,20 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             incidentHelper.Viewer = viewer;
             incidentHelper.message = message;
+
             return true;
         }
 
-        private static bool TryFindVariableIncident(
-            string query,
-            [CanBeNull] out StoreIncidentVariables incidentVariables
-        )
+        private static bool TryFindVariableIncident(string query, [CanBeNull] out StoreIncidentVariables incidentVariables)
         {
-            incidentVariables = Purchase_Handler.allStoreIncidentsVariables
-               .Where(i => i.cost > 0 || i.defName.Equals("Item"))
-               .FirstOrDefault(i => query.EqualsIgnoreCase(i.abbreviation));
+            incidentVariables = Purchase_Handler.allStoreIncidentsVariables.Where(i => i.cost > 0 || i.defName.Equals("Item")).FirstOrDefault(i => query.EqualsIgnoreCase(i.abbreviation));
 
             return incidentVariables != null;
         }
 
         private static bool TryFindSimpleIncident(string query, [CanBeNull] out StoreIncidentSimple incidentSimple)
         {
-            incidentSimple = Purchase_Handler.allStoreIncidentsSimple.Where(i => i.cost > 0 || i.defName.Equals("Item"))
-               .FirstOrDefault(i => query.EqualsIgnoreCase(i.abbreviation));
+            incidentSimple = Purchase_Handler.allStoreIncidentsSimple.Where(i => i.cost > 0 || i.defName.Equals("Item")).FirstOrDefault(i => query.EqualsIgnoreCase(i.abbreviation));
 
             return incidentSimple != null;
         }
@@ -314,6 +273,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         private static bool TryFindItem(string query, [CanBeNull] out ThingItem item)
         {
             item = Data.Items.Where(i => i.Cost > 0).FirstOrDefault(i => query.EqualsIgnoreCase(i.Name));
+
             return item != null;
         }
     }

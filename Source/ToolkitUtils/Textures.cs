@@ -112,11 +112,10 @@ namespace SirRandoo.ToolkitUtils
 
 
             ThingDef humanMeat = DefDatabase<ThingDef>.GetNamed("Meat_Human");
+
             if (humanMeat.graphic is Graphic_Appearances graphic)
             {
-                HumanMeat = graphic.SubGraphicFor(GenStuff.DefaultStuffFor(humanMeat))
-                   .MatAt(humanMeat.defaultPlacingRot)
-                   .GetMaskTexture();
+                HumanMeat = graphic.SubGraphicFor(GenStuff.DefaultStuffFor(humanMeat)).MatAt(humanMeat.defaultPlacingRot).GetMaskTexture();
             }
             else
             {

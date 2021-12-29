@@ -195,10 +195,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (builder.Length > 0)
             {
-                builder.Insert(
-                    0,
-                    $@"Could not obtain all data for the trait ""{Name}"" -- Below are the errors encountered:\n"
-                );
+                builder.Insert(0, $@"Could not obtain all data for the trait ""{Name}"" -- Below are the errors encountered:\n");
                 LogHelper.Warn(builder.ToString());
             }
 
@@ -296,9 +293,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 try
                 {
-                    result = "TKUtils.Trait.MeditationDisabled".LocalizeKeyed(
-                        def.label?.CapitalizeFirst() ?? def.defName
-                    );
+                    result = "TKUtils.Trait.MeditationDisabled".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName);
                 }
                 catch (Exception)
                 {
@@ -316,10 +311,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 yield break;
             }
 
-            builder.Insert(
-                0,
-                $@"The following disallowed meditation types could not be processed for ""{data.label}"":\n"
-            );
+            builder.Insert(0, $@"The following disallowed meditation types could not be processed for ""{data.label}"":\n");
             LogHelper.Warn(builder.ToString());
         }
 
@@ -338,9 +330,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 try
                 {
-                    result = "TKUtils.Trait.MeditationEnabled".LocalizeKeyed(
-                        def.label?.CapitalizeFirst() ?? def.defName
-                    );
+                    result = "TKUtils.Trait.MeditationEnabled".LocalizeKeyed(def.label?.CapitalizeFirst() ?? def.defName);
                 }
                 catch (Exception)
                 {
@@ -358,10 +348,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 yield break;
             }
 
-            builder.Insert(
-                0,
-                $@"The following allowed meditation types could not be processed for ""{data.label}"":\n"
-            );
+            builder.Insert(0, $@"The following allowed meditation types could not be processed for ""{data.label}"":\n");
             LogHelper.Warn(builder.ToString());
         }
 
@@ -416,6 +403,7 @@ namespace SirRandoo.ToolkitUtils.Models
             foreach ((SkillDef skill, int value) in data.skillGains)
             {
                 string result = null;
+
                 try
                 {
                     result = $"{value.ToStringWithSign()} {skill.skillLabel ?? skill.defName}";
@@ -457,12 +445,9 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
                 catch (Exception e)
                 {
-                    messages.AppendLine(
-                        $"  - Could not get stat offsets for the trait {data.label} -> {e.GetType().Name}({e.Message})"
-                    );
-                    messages.AppendLine(
-                        $"    - Malformed stat: {modifier?.stat?.label ?? modifier?.stat?.defName ?? "{{NULL}}"}"
-                    );
+                    messages.AppendLine($"  - Could not get stat offsets for the trait {data.label} -> {e.GetType().Name}({e.Message})");
+                    messages.AppendLine($"    - Malformed stat: {modifier?.stat?.label ?? modifier?.stat?.defName ?? "{{NULL}}"}");
+
                     continue;
                 }
 
@@ -487,12 +472,9 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
                 catch (Exception e)
                 {
-                    messages.AppendLine(
-                        $"  - Could not get stat factors for the trait {data.label} -> {e.GetType().Name}({e.Message})"
-                    );
-                    messages.AppendLine(
-                        $"    - Malformed stat: {modifier?.stat?.label ?? modifier?.stat?.defName ?? "{{NULL}}"}"
-                    );
+                    messages.AppendLine($"  - Could not get stat factors for the trait {data.label} -> {e.GetType().Name}({e.Message})");
+                    messages.AppendLine($"    - Malformed stat: {modifier?.stat?.label ?? modifier?.stat?.defName ?? "{{NULL}}"}");
+
                     continue;
                 }
 
@@ -527,20 +509,14 @@ namespace SirRandoo.ToolkitUtils.Models
                 case Gender.Male:
                     if (invalidate || defaultMasculineName.NullOrEmpty())
                     {
-                        defaultMasculineName = TraitDef?.DataAtDegree(Degree)
-                           .GetLabelFor(Gender.Male)
-                           .StripTags()
-                           .ToToolkit();
+                        defaultMasculineName = TraitDef?.DataAtDegree(Degree).GetLabelFor(Gender.Male).StripTags().ToToolkit();
                     }
 
                     return defaultMasculineName;
                 case Gender.Female:
                     if (invalidate || defaultFeminineName.NullOrEmpty())
                     {
-                        defaultFeminineName = TraitDef?.DataAtDegree(Degree)
-                           .GetLabelFor(Gender.Female)
-                           .StripTags()
-                           .ToToolkit();
+                        defaultFeminineName = TraitDef?.DataAtDegree(Degree).GetLabelFor(Gender.Female).StripTags().ToToolkit();
                     }
 
                     return defaultFeminineName;

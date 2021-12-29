@@ -35,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -44,16 +45,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.GenderSwap.None".Localize());
+
             return false;
         }
 
         public override void Execute()
         {
             pawn.gender = pawn.gender == Gender.Female ? Gender.Male : Gender.Female;
-            pawn.story.hairColor = PawnHairColors.RandomHairColor(
-                pawn.story.SkinColor,
-                pawn.ageTracker.AgeBiologicalYears
-            );
+            pawn.story.hairColor = PawnHairColors.RandomHairColor(pawn.story.SkinColor, pawn.ageTracker.AgeBiologicalYears);
 
             if (pawn.style.HasUnwantedBeard)
             {
@@ -62,17 +61,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             pawn.story.hairDef = PawnStyleItemChooser.RandomHairFor(pawn);
+
             pawn.story.bodyType = pawn.story.adulthood == null
-                ? Rand.Value >= 0.5 ? pawn.gender != Gender.Female ? BodyTypeDefOf.Male : BodyTypeDefOf.Female :
-                BodyTypeDefOf.Thin
+                ? Rand.Value >= 0.5
+                    ? pawn.gender != Gender.Female
+                        ? BodyTypeDefOf.Male
+                        : BodyTypeDefOf.Female
+                    : BodyTypeDefOf.Thin
                 : pawn.story.adulthood.BodyTypeFor(pawn.gender);
 
             Viewer.Charge(storeIncident);
 
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.GenderSwap.Complete".LocalizeKeyed(pawn.gender.ToString())
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.GenderSwap.Complete".LocalizeKeyed(pawn.gender.ToString()));
+
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.GenderSwapLetter.Title".Localize(),
                 "TKUtils.GenderSwapLetter.Description".LocalizeKeyed(Viewer.username, pawn.gender.ToString()),

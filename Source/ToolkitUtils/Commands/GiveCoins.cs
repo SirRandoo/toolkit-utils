@@ -40,13 +40,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             viewer.GiveViewerCoins(amount);
             Store_Logger.LogGiveCoins(message.Username, viewer.username, amount);
-            message.Reply(
-                "TKUtils.GiveCoins.Done".LocalizeKeyed(
-                    amount.ToString("N0"),
-                    viewer.username,
-                    viewer.GetViewerCoins().ToString("N0")
-                )
-            );
+            message.Reply("TKUtils.GiveCoins.Done".LocalizeKeyed(amount.ToString("N0"), viewer.username, viewer.GetViewerCoins().ToString("N0")));
         }
     }
 }

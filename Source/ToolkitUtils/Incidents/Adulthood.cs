@@ -34,13 +34,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
-            backstory = BackstoryDatabase.allBackstories.Values.Where(b => b.slot == BackstorySlot.Adulthood)
-               .Where(b => !WouldBeViolation(b))
-               .InRandomOrder()
-               .FirstOrDefault();
+            backstory = BackstoryDatabase.allBackstories.Values.Where(b => b.slot == BackstorySlot.Adulthood).Where(b => !WouldBeViolation(b)).InRandomOrder().FirstOrDefault();
 
             return backstory != null;
         }
@@ -54,17 +52,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             pawn.skills?.Notify_SkillDisablesChanged();
 
             Viewer.Charge(storeIncident);
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.Adulthood.Complete".LocalizeKeyed(backstory.TitleCapFor(pawn.gender))
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Adulthood.Complete".LocalizeKeyed(backstory.TitleCapFor(pawn.gender)));
+
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.BackstoryLetter.Title".Localize(),
-                "TKUtils.BackstoryLetter.AdulthoodDescription".LocalizeKeyed(
-                    Viewer.username,
-                    previous.TitleCapFor(pawn.gender),
-                    backstory.TitleCapFor(pawn.gender)
-                ),
+                "TKUtils.BackstoryLetter.AdulthoodDescription".LocalizeKeyed(Viewer.username, previous.TitleCapFor(pawn.gender), backstory.TitleCapFor(pawn.gender)),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -79,8 +71,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             foreach (TraitEntry entry in story.disallowedTraits)
             {
-                Trait trait =
-                    pawn.story.traits.allTraits.Find(t => t.def.Equals(entry.def) && t.Degree == entry.degree);
+                Trait trait = pawn.story.traits.allTraits.Find(t => t.def.Equals(entry.def) && t.Degree == entry.degree);
 
                 if (trait != null)
                 {

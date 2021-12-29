@@ -31,22 +31,18 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
                 msg.Reply("TKUtils.NoPawn".Localize());
+
                 return;
             }
 
             if (pawn!.needs?.AllNeeds == null)
             {
                 msg.Reply("TKUtils.PawnNeeds.None".Localize().WithHeader("TabNeeds".Localize()));
+
                 return;
             }
 
-            msg.Reply(
-                pawn.needs.AllNeeds.Select(
-                        n => ResponseHelper.JoinPair(n.LabelCap, n.CurLevelPercentage.ToStringPercent())
-                    )
-                   .SectionJoin()
-                   .WithHeader("TabNeeds".Localize())
-            );
+            msg.Reply(pawn.needs.AllNeeds.Select(n => ResponseHelper.JoinPair(n.LabelCap, n.CurLevelPercentage.ToStringPercent())).SectionJoin().WithHeader("TabNeeds".Localize()));
         }
     }
 }

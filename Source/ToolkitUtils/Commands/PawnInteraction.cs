@@ -50,6 +50,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!InteractionIndex.TryGetValue(command.defName, out InteractionProxy interaction))
             {
                 LogHelper.Warn($@"{command.label}({command.defName}) is bound to the {nameof(PawnInteraction)} class, but has no interaction registered.");
+
                 return;
             }
 
@@ -58,6 +59,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
                 msg.Reply("TKUtils.NoPawn".Localize());
+
                 return;
             }
 
@@ -83,6 +85,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 if (target == null)
                 {
                     msg.Reply("TKUtils.PawnNotFound".LocalizeKeyed(query));
+
                     return;
                 }
             }

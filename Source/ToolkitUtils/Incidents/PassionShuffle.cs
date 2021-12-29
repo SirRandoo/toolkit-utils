@@ -38,6 +38,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -46,6 +47,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (passions <= 0)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.PassionShuffle.None".Localize());
+
                 return false;
             }
 
@@ -69,6 +71,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(query));
+
             return false;
         }
 
@@ -107,9 +110,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             var iterations = 0;
             int passionCount = pawn.skills.skills.Select(s => (int)s.passion).Where(p => p < 3).Sum();
-            List<Passion> interests = pawn.skills.skills.Where(s => (int)s.passion >= 3)
-               .Select(s => s.passion)
-               .ToList();
+            List<Passion> interests = pawn.skills.skills.Where(s => (int)s.passion >= 3).Select(s => s.passion).ToList();
 
             passionCount = GetPassionCount(passionCount);
 
@@ -120,13 +121,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             while (interests.Any())
             {
-                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled)
-                   .Where(s => s.passion == Passion.None)
-                   .RandomElementWithFallback();
+                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled).Where(s => s.passion == Passion.None).RandomElementWithFallback();
 
                 if (skill == null)
                 {
                     iterations += 1;
+
                     continue;
                 }
 
@@ -143,6 +143,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 LogHelper.Warn("Exceeded 100 iterations while shuffling interests!");
+
                 return;
             }
         }
@@ -151,13 +152,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             while (passionCount > 0)
             {
-                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled)
-                   .Where(s => s.passion != Passion.Major)
-                   .RandomElementWithFallback();
+                SkillRecord skill = pawn.skills.skills.Where(s => !s.TotallyDisabled).Where(s => s.passion != Passion.Major).RandomElementWithFallback();
 
                 if (skill == null)
                 {
                     iterations += 1;
+
                     continue;
                 }
 
@@ -171,6 +171,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 LogHelper.Warn("Exceeded 100 iterations while shuffling passions!");
+
                 return false;
             }
 
@@ -183,9 +184,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 case Passion.None:
                     skill.passion = Passion.Minor;
+
                     break;
                 case Passion.Minor:
                     skill.passion = Passion.Major;
+
                     break;
             }
         }
@@ -198,6 +201,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 {
                     skill.passion = Passion.Minor;
                     passionCount -= 1;
+
                     continue;
                 }
 

@@ -100,6 +100,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryMultiply(item.Cost, quantity, out int result))
             {
                 MessageHelper.ReplyToUser(invoker, "TKUtils.Overflowed".Localize());
+
                 return;
             }
 
@@ -118,18 +119,22 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             EventTypes eventType = result.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
+
             switch (eventType)
             {
                 case EventTypes.Default:
                     NotifyLookupComplete("TKUtils.Price.Limited".LocalizeKeyed(result.abbreviation.CapitalizeFirst(), result.cost.ToString("N0")));
+
                     return;
                 case EventTypes.Item:
                 case EventTypes.PawnKind:
                 case EventTypes.Trait:
                     NotifyLookupComplete("TKUtils.Price.Overridden".LocalizeKeyed(eventType.ToString()));
+
                     return;
                 case EventTypes.Misc:
                     NotifyLookupComplete("TKUtils.Price.External".Localize());
+
                     return;
                 case EventTypes.Variable:
                     NotifyLookupComplete(
@@ -139,6 +144,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                             "TKUtils.Price.External".Localize()
                         }.GroupedJoin()
                     );
+
                     return;
             }
         }
@@ -155,6 +161,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (item.TryGetError(out string error))
             {
                 MessageHelper.ReplyToUser(invoker, error);
+
                 return;
             }
 
@@ -163,6 +170,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryMultiply(price, quantity, out int total))
             {
                 MessageHelper.ReplyToUser(invoker, "TKUtils.Overflowed".Localize());
+
                 return;
             }
 
@@ -180,18 +188,23 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 case Lookup.Category.Event:
                     PerformEventLookup(query);
+
                     return;
                 case Lookup.Category.Item:
                     PerformItemLookup(query, quantity);
+
                     return;
                 case Lookup.Category.Animal:
                     PerformAnimalLookup(query, quantity);
+
                     return;
                 case Lookup.Category.Trait:
                     PerformTraitLookup(query);
+
                     return;
                 case Lookup.Category.Kind:
                     PerformKindLookup(query);
+
                     return;
             }
         }
@@ -208,7 +221,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private void PerformTraitLookup(string query)
         {
-            if (AreTraitsDisabled || !Data.TryGetTrait(query, out TraitItem result) || !result.CanAdd && !result.CanRemove)
+            if (AreTraitsDisabled || !Data.TryGetTrait(query, out TraitItem result) || (!result.CanAdd && !result.CanRemove))
             {
                 return;
             }

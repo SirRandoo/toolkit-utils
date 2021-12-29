@@ -42,9 +42,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
             Viewer = viewer;
+
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -63,15 +65,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             int total = traits.Sum(t => t.item.CostToRemove);
+
             if (!viewer.CanAfford(total))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        total.ToString("N0"),
-                        viewer.GetViewerCoins().ToString("N0")
-                    )
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(total.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+
                 return false;
             }
 
@@ -95,36 +93,24 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            MessageHelper.SendConfirmation(
-                message,
-                "TKUtils.ClearTraits.Complete".LocalizeKeyed(traits.Count.ToString("N0"))
-            );
+            MessageHelper.SendConfirmation(message, "TKUtils.ClearTraits.Complete".LocalizeKeyed(traits.Count.ToString("N0")));
 
-            Find.LetterStack.ReceiveLetter(
-                "TKUtils.TraitLetter.Title".Localize(),
-                "TKUtils.TraitLetter.ClearDescription".LocalizeKeyed(Viewer.username),
-                LetterDefOf.NeutralEvent,
-                pawn
-            );
+            Find.LetterStack.ReceiveLetter("TKUtils.TraitLetter.Title".Localize(), "TKUtils.TraitLetter.ClearDescription".LocalizeKeyed(Viewer.username), LetterDefOf.NeutralEvent, pawn);
         }
 
         private bool CanRemove(TraitItem trait)
         {
             if (RationalRomance.Active && RationalRomance.IsTraitDisabled(trait.TraitDef!))
             {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(trait.Name.CapitalizeFirst())
-                );
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(trait.Name.CapitalizeFirst()));
+
                 return false;
             }
 
             if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, trait.DefName, trait.Degree))
             {
-                MessageHelper.ReplyToUser(
-                    Viewer.username,
-                    "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name)
-                );
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name));
+
                 return false;
             }
 
@@ -134,6 +120,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Class".LocalizeKeyed(trait.Name));
+
             return false;
         }
     }

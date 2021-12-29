@@ -27,18 +27,13 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
+    [UsedImplicitly]
     public class AndroidSurgeryHandler : ISurgeryHandler
     {
-        [NotNull] public string Id => "tkutils.androids";
+        public bool IsSurgery([NotNull] RecipeDef recipe) => Androids.Active && Androids.IsAndroidSurgery(recipe);
 
-        public bool IsSurgery([NotNull] RecipeDef recipe)
-        {
-            return Androids.Active && Androids.IsAndroidSurgery(recipe);
-        }
+        public bool CanScheduleFor(RecipeDef recipe, Pawn pawn) => Androids.Active && Androids.IsSurgeryUsable(pawn, recipe);
 
-        public bool CanScheduleFor(RecipeDef recipe, Pawn pawn)
-        {
-            return Androids.Active && Androids.IsSurgeryUsable(pawn, recipe);
-        }
+        [NotNull] public string ModId => "atlas.androidtiers";
     }
 }

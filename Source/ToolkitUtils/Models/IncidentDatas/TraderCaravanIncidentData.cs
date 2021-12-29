@@ -26,10 +26,7 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         [NotNull] public Type WorkerClass => typeof(IncidentWorker_TraderCaravanArrival);
 
-        public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident)
-        {
-            return IncidentCategoryDefOf.Misc;
-        }
+        public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.Misc;
 
         public void DoExtraSetup([NotNull] IncidentWorker worker, IncidentParms parms, StoreIncident incident)
         {

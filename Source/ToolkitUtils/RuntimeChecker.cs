@@ -71,9 +71,7 @@ namespace SirRandoo.ToolkitUtils
 
             // We're not going to update this to use EventExtension
             // since it appears to wipe previous settings.
-            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs.Where(
-                i => i.defName == "BuyPawn" || i.defName == "AddTrait" || i.defName == "RemoveTrait"
-            ))
+            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs.Where(i => i.defName == "BuyPawn" || i.defName == "AddTrait" || i.defName == "RemoveTrait"))
             {
                 if (incident.cost <= 1)
                 {

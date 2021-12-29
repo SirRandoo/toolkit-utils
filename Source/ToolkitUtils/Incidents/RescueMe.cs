@@ -54,6 +54,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (isKidnapped ?? false)
             {
                 report = new KidnapReport { Viewer = viewer.username, PawnIds = new List<string> { pawn.ThingID } };
+
                 return true;
             }
 
@@ -63,10 +64,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                LogHelper.Error(
-                    $"An error was thrown while trying to find {viewer.username}'s pawn in the kidnapped pawn list! Try again later.",
-                    e
-                );
+                LogHelper.Error($"An error was thrown while trying to find {viewer.username}'s pawn in the kidnapped pawn list! Try again later.", e);
+
                 return false;
             }
 
@@ -98,9 +97,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void PostDestroy([NotNull] SitePart sitePart)
         {
-            (sitePart.things.FirstOrFallback() as Pawn)?.mindState.JoinColonyBecauseRescuedBy(
-                sitePart.site.Map.PlayerPawnsForStoryteller.RandomElementWithFallback()
-            );
+            (sitePart.things.FirstOrFallback() as Pawn)?.mindState.JoinColonyBecauseRescuedBy(sitePart.site.Map.PlayerPawnsForStoryteller.RandomElementWithFallback());
         }
 
         public override void Notify_GeneratedByQuestGen(
@@ -114,6 +111,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Pawn pawn = null;
             var isNew = false;
+
             if (!QueuedViewers.TryDequeue(out KidnapReport report))
             {
                 report = null;
@@ -146,31 +144,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 pawn.guest.SetGuestStatus(part.site.Faction, GuestStatus.Prisoner);
             #endif
                 pawn.mindState.WillJoinColonyIfRescued = true;
+
                 PawnApparelGenerator.GenerateStartingApparelFor(
                     pawn,
-                    new PawnGenerationRequest(
-                        pawn.kindDef,
-                        pawn.Faction,
-                        PawnGenerationContext.NonPlayer,
-                        part.site.Tile,
-                        forceAddFreeWarmLayerIfNeeded: true
-                    )
+                    new PawnGenerationRequest(pawn.kindDef, pawn.Faction, PawnGenerationContext.NonPlayer, part.site.Tile, forceAddFreeWarmLayerIfNeeded: true)
                 );
             }
 
             part.things = new ThingOwner<Pawn>(part, true, isNew ? LookMode.Deep : LookMode.Reference);
             part.things.TryAdd(pawn);
 
-            PawnRelationUtility.Notify_PawnsSeenByPlayer(
-                Gen.YieldSingle(pawn),
-                out string pawnRelationsInfo,
-                true,
-                false
-            );
+            PawnRelationUtility.Notify_PawnsSeenByPlayer(Gen.YieldSingle(pawn), out string pawnRelationsInfo, true, false);
 
-            string output = pawnRelationsInfo.NullOrEmpty()
-                ? ""
-                : $"\n\n{"PawnHasRelationshipsWithColonists".Translate(pawn?.LabelShort, pawn)}\n\n{pawnRelationsInfo}";
+            string output = pawnRelationsInfo.NullOrEmpty() ? "" : $"\n\n{"PawnHasRelationshipsWithColonists".Translate(pawn?.LabelShort, pawn)}\n\n{pawnRelationsInfo}";
             slate.Set("prisoner", pawn);
 
             outExtraDescriptionRules.Add(new Rule_String("prisonerFullRelationInfo", output));
@@ -179,6 +165,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override string GetPostProcessedThreatLabel([NotNull] Site site, [NotNull] SitePart sitePart)
         {
             string str = base.GetPostProcessedThreatLabel(site, sitePart);
+
             if (sitePart.things is { Any: true })
             {
                 str = str + ": " + sitePart.things[0].LabelShortCap;
@@ -186,8 +173,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (site.HasWorldObjectTimeout)
             {
-                str +=
-                    $" ({"DurationLeft".Translate((NamedArgument)site.WorldObjectTimeoutTicksLeft.ToStringTicksToPeriod())})";
+                str += $" ({"DurationLeft".Translate((NamedArgument)site.WorldObjectTimeoutTicksLeft.ToStringTicksToPeriod())})";
             }
 
             return str;

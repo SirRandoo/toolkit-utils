@@ -36,12 +36,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
                 msg.Reply("TKUtils.NoPawn".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
+
                 return;
             }
 
             if (pawn!.workSettings?.EverWork == false)
             {
                 msg.Reply("TKUtils.PawnWork.None".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
+
                 return;
             }
 
@@ -61,6 +63,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     builder.Remove(builder.Length - 2, 2);
                     msg.Reply("TKUtils.PawnWork.Changed".LocalizeKeyed(builder.ToString()));
+
                     return;
                 }
             }
@@ -76,20 +79,13 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         [ItemNotNull]
-        private static IEnumerable<string> ProcessChangeRequests(
-            Pawn pawn,
-            [NotNull] IEnumerable<KeyValuePair<string, string>> rawChanges
-        )
+        private static IEnumerable<string> ProcessChangeRequests(Pawn pawn, [NotNull] IEnumerable<KeyValuePair<string, string>> rawChanges)
         {
-            List<WorkTypeDef> workTypes = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder
-               .Where(w => !pawn.WorkTypeIsDisabled(w))
-               .ToList();
+            List<WorkTypeDef> workTypes = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.Where(w => !pawn.WorkTypeIsDisabled(w)).ToList();
 
             foreach ((string key, string value) in rawChanges)
             {
-                WorkTypeDef workType = workTypes.Find(
-                    w => w.label.EqualsIgnoreCase(key) || w.defName.EqualsIgnoreCase(key)
-                );
+                WorkTypeDef workType = workTypes.Find(w => w.label.EqualsIgnoreCase(key) || w.defName.EqualsIgnoreCase(key));
 
                 if (workType == null || !int.TryParse(value, out int parsed))
                 {
@@ -100,8 +96,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 int @new = Mathf.Clamp(parsed, 0, Pawn_WorkSettings.LowestPriority);
                 pawn.workSettings.SetPriority(workType, @new);
 
-                yield return
-                    $"{workType.label ?? workType.defName}: {old} {ResponseHelper.ArrowGlyph.AltText("->")} {@new}";
+                yield return $"{workType.label ?? workType.defName}: {old} {ResponseHelper.ArrowGlyph.AltText("->")} {@new}";
             }
         }
 
@@ -120,14 +115,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             List<string> container = priorities.ToList()
                .Select(priority => new { priority, p = pawn.workSettings.GetPriority(priority) })
                .Where(t => !TkSettings.FilterWorkPriorities || t.p > 0)
-               .Select(
-                    t => ResponseHelper.JoinPair(
-                        t.priority.LabelCap.NullOrEmpty()
-                            ? t.priority.defName.CapitalizeFirst()
-                            : t.priority.LabelCap.RawText,
-                        t.p.ToString()
-                    )
-                )
+               .Select(t => ResponseHelper.JoinPair(t.priority.LabelCap.NullOrEmpty() ? t.priority.defName.CapitalizeFirst() : t.priority.LabelCap.RawText, t.p.ToString()))
                .ToList();
 
             return container.Count > 0 ? container.SectionJoin() : null;
@@ -138,8 +126,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             for (int index = priorities.Count - 1; index >= 0; index--)
             {
                 WorkTypeDef priority = priorities[index];
-                TkSettings.WorkSetting setting =
-                    TkSettings.WorkSettings.FirstOrDefault(p => p.WorkTypeDef.EqualsIgnoreCase(priority.defName));
+                TkSettings.WorkSetting setting = TkSettings.WorkSettings.FirstOrDefault(p => p.WorkTypeDef.EqualsIgnoreCase(priority.defName));
 
                 if (setting == null)
                 {
@@ -162,10 +149,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         [NotNull]
         private static List<WorkTypeDef> SortPriorities([NotNull] IEnumerable<WorkTypeDef> priorities, Pawn pawn)
         {
-            return priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p))
-               .ThenBy(p => p.naturalPriority)
-               .Reverse()
-               .ToList();
+            return priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p)).ThenBy(p => p.naturalPriority).Reverse().ToList();
         }
     }
 }

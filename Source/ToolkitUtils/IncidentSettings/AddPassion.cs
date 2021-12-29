@@ -45,11 +45,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
 
             listing.Begin(canvas);
 
-            listing.CheckboxLabeled(
-                "TKUtils.Passion.Randomness.Label".Localize(),
-                ref Randomness,
-                "TKUtils.Passion.Randomness.Description".Localize()
-            );
+            listing.CheckboxLabeled("TKUtils.Passion.Randomness.Label".Localize(), ref Randomness, "TKUtils.Passion.Randomness.Description".Localize());
 
             (Rect failLabel, Rect failField) = listing.GetRect(preferredHeight).ToForm();
             SettingsHelper.DrawLabel(failLabel, "TKUtils.Passion.FailChance.Label".Localize());

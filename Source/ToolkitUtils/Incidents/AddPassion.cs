@@ -39,6 +39,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -54,6 +55,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (target == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidSkillQuery".LocalizeKeyed(worker.GetLast()));
+
                 return false;
             }
 
@@ -63,6 +65,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.Passion.Full".Localize());
+
             return false;
         }
 
@@ -73,6 +76,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 target.passion = (Passion)Mathf.Clamp((int)target.passion + 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifySuccess(target);
+
                 return;
             }
 
@@ -80,6 +84,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 Viewer.Charge(storeIncident);
                 NotifyFailed(target);
+
                 return;
             }
 
@@ -88,25 +93,25 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 skill!.passion = (Passion)Mathf.Clamp((int)skill.passion + 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifyHopped(target, skill);
+
                 return;
             }
 
-            if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance()
-                && (target.passion == Passion.Minor || target.passion == Passion.Major))
+            if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance() && (target.passion == Passion.Minor || target.passion == Passion.Major))
             {
                 target.passion = (Passion)Mathf.Clamp((int)target.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifyDecrease(target);
+
                 return;
             }
 
-            if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance()
-                && IncidentSettings.AddPassion.ChanceToHop.ToChance()
-                && TryGetEligibleSkill(out skill, true))
+            if (IncidentSettings.AddPassion.ChanceToDecrease.ToChance() && IncidentSettings.AddPassion.ChanceToHop.ToChance() && TryGetEligibleSkill(out skill, true))
             {
                 skill!.passion = (Passion)Mathf.Clamp((int)skill.passion - 1, 0, 2);
                 Viewer.Charge(storeIncident);
                 NotifyDecreaseHopped(target, skill);
+
                 return;
             }
 
@@ -130,6 +135,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     }
                 )
                 : filters.Where(s => (int)s.passion < (int)Passion.Major)).RandomElement();
+
             return skill != null;
         }
 
@@ -171,18 +177,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyHopped([NotNull] SkillRecord viewerSkill, [NotNull] SkillRecord randomSkill)
         {
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.Passion.Hopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label)
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.Hopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.HoppedDescription".LocalizeKeyed(
-                    Viewer.username,
-                    viewerSkill.def.label,
-                    randomSkill.def.label
-                ),
+                "TKUtils.PassionLetter.HoppedDescription".LocalizeKeyed(Viewer.username, viewerSkill.def.label, randomSkill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );
@@ -190,18 +189,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyDecreaseHopped([NotNull] SkillRecord viewerSkill, [NotNull] SkillRecord randomSkill)
         {
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.Passion.DecreaseHopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label)
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Passion.DecreaseHopped".LocalizeKeyed(viewerSkill.def.label, randomSkill.def.label));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.PassionLetter.Title".Localize(),
-                "TKUtils.PassionLetter.DecreaseHoppedDescription".LocalizeKeyed(
-                    Viewer.username,
-                    viewerSkill.def.label,
-                    randomSkill.def.label
-                ),
+                "TKUtils.PassionLetter.DecreaseHoppedDescription".LocalizeKeyed(Viewer.username, viewerSkill.def.label, randomSkill.def.label),
                 LetterDefOf.NeutralEvent,
                 pawn
             );

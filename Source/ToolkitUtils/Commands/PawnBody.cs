@@ -34,16 +34,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
                 twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("HealthOverview".Localize()));
+
                 return;
             }
 
             twitchMessage.Reply(GetPawnBody(pawn!).WithHeader("HealthOverview".Localize()));
         }
 
-        private static float GetListPriority([CanBeNull] BodyPartRecord record)
-        {
-            return record == null ? 9999999f : (float)record.height * 10000 + record.coverageAbsWithChildren;
-        }
+        private static float GetListPriority([CanBeNull] BodyPartRecord record) => record == null ? 9999999f : (float)record.height * 10000 + record.coverageAbsWithChildren;
 
         private static string GetPawnBody([NotNull] Pawn target)
         {
@@ -67,6 +65,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var hediffIndex = 0;
             int hediffTotal = hediffsGrouped.Count - 1;
+
             foreach (IGrouping<BodyPartRecord, Hediff> item in hediffsGrouped)
             {
                 builder.Append(item.Key?.LabelCap ?? "WholeBody".Localize());
@@ -118,9 +117,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (hediffIndex < hediffTotal)
                 {
-                    builder.Append(
-                        ResponseHelper.OuterGroupSeparator.AltText($" {ResponseHelper.OuterGroupSeparatorAlt} ")
-                    );
+                    builder.Append(ResponseHelper.OuterGroupSeparator.AltText($" {ResponseHelper.OuterGroupSeparatorAlt} "));
                 }
 
                 hediffIndex++;

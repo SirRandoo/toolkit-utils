@@ -25,11 +25,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class CrystallizedEgg : EasterEgg
     {
-        public override bool IsPossible(StoreIncident incident, Viewer viewer)
-        {
-            return incident == IncidentDefOf.BuyPawn
-                   && viewer.username.Equals("crystalroseeve", StringComparison.InvariantCultureIgnoreCase);
-        }
+        public override bool IsPossible(StoreIncident incident, Viewer viewer) =>
+            incident == IncidentDefOf.BuyPawn && viewer.username.Equals("crystalroseeve", StringComparison.InvariantCultureIgnoreCase);
 
         public override void Execute([NotNull] Viewer viewer, Pawn pawn)
         {
@@ -38,9 +35,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            Pawn pet = PawnGenerator.GeneratePawn(
-                new PawnGenerationRequest(PawnKindDef.Named("Fox_Fennec"), Faction.OfPlayer)
-            );
+            Pawn pet = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDef.Named("Fox_Fennec"), Faction.OfPlayer));
             pet.training.Train(TrainableDefOf.Tameness, pawn, true);
             pawn.relations.AddDirectRelation(PawnRelationDefOf.Bond, pet);
 

@@ -41,6 +41,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             _oldClassType ??= typeof(Window_GlobalVoteWeights);
             _newClassConstructor ??= AccessTools.Constructor(typeof(GlobalWeightDialog), Type.EmptyTypes);
             _oldClassConstructor ??= AccessTools.Constructor(typeof(Window_GlobalVoteWeights), Type.EmptyTypes);
+
             return true;
         }
 

@@ -31,9 +31,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(Viewer), "CalculateNewKarma");
         }
 
-        public static bool Prefix(KarmaType karmaType)
-        {
-            return !TkSettings.TrueNeutral || karmaType != KarmaType.Neutral;
-        }
+        public static bool Prefix(KarmaType karmaType) => !TkSettings.TrueNeutral || karmaType != KarmaType.Neutral;
     }
 }

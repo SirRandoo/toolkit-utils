@@ -33,10 +33,7 @@ namespace SirRandoo.ToolkitUtils
             ConfigStore = Data.LoadJson<Dictionary<string, bool>>(Paths.ConfigStorePath) ?? new Dictionary<string, bool>();
         }
 
-        public static bool Get([NotNull] string id)
-        {
-            return ConfigStore.TryGetValue(id.ToLowerInvariant(), out bool value) && value;
-        }
+        public static bool Get([NotNull] string id) => ConfigStore.TryGetValue(id.ToLowerInvariant(), out bool value) && value;
 
         public static void Set([NotNull] string id, bool value)
         {
@@ -51,6 +48,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             ConfigStore[id.ToLowerInvariant()] = defaultValue;
+
             return false;
         }
 

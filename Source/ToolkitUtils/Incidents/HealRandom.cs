@@ -36,16 +36,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             List<Pawn> pawns = Find.ColonistBar.GetColonistsInOrder()
                .Where(p => !p.Dead)
-               .Where(
-                    pawn => !IncidentSettings.HealRandom.FairFights
-                            || pawn.mindState.lastAttackTargetTick > 0
-                            && Find.TickManager.TicksGame <= pawn.mindState.lastAttackTargetTick + 1800
-                )
+               .Where(pawn => !IncidentSettings.HealRandom.FairFights || (pawn.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame <= pawn.mindState.lastAttackTargetTick + 1800))
                .ToList();
 
-            if (!pawns.Select(p => new Pair<Pawn, object>(p, HealHelper.GetPawnHealable(p)))
-               .Where(r => r.Second != null)
-               .TryRandomElement(out Pair<Pawn, object> random))
+            if (!pawns.Select(p => new Pair<Pawn, object>(p, HealHelper.GetPawnHealable(p))).Where(r => r.Second != null).TryRandomElement(out Pair<Pawn, object> random))
             {
                 return false;
             }
@@ -61,9 +55,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 case Hediff hediff:
                     toHeal = hediff;
+
                     break;
                 case BodyPartRecord record:
                     toRestore = record;
+
                     break;
             }
 
@@ -113,12 +109,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             string descriptionTranslated = description.LocalizeKeyed(target.LabelShort.CapitalizeFirst(), affected);
             MessageHelper.SendConfirmation(Viewer.username, descriptionTranslated);
 
-            Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.HealLetter.Title".Localize(),
-                descriptionTranslated,
-                LetterDefOf.PositiveEvent,
-                target
-            );
+            Current.Game.letterStack.ReceiveLetter("TKUtils.HealLetter.Title".Localize(), descriptionTranslated, LetterDefOf.PositiveEvent, target);
         }
     }
 }

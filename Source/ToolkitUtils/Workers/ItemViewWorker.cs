@@ -33,12 +33,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
 
-            var infoRect = new Rect(
-                hasIcon ? NameHeaderRect.x : NameHeaderTextRect.x,
-                canvas.y,
-                hasIcon ? NameHeaderRect.width : NameHeaderTextRect.width,
-                canvas.height
-            );
+            var infoRect = new Rect(hasIcon ? NameHeaderRect.x : NameHeaderTextRect.x, canvas.y, hasIcon ? NameHeaderRect.width : NameHeaderTextRect.width, canvas.height);
             var priceRect = new Rect(PriceHeaderRect.x, canvas.y, PriceHeaderRect.width, RowLineHeight);
             var categoryRect = new Rect(CategoryHeaderRect.x, canvas.y, CategoryHeaderRect.width, RowLineHeight);
 
@@ -59,26 +54,11 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             float distributedWidth = Mathf.FloorToInt((canvas.width - 16f) * 0.333f);
             NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
-            NameHeaderTextRect = new Rect(
-                NameHeaderRect.x + 4f,
-                NameHeaderRect.y,
-                NameHeaderRect.width - 8f,
-                NameHeaderRect.height
-            );
+            NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
             PriceHeaderRect = NameHeaderRect.ShiftRight(1f);
-            PriceHeaderTextRect = new Rect(
-                PriceHeaderRect.x + 4f,
-                PriceHeaderRect.y,
-                PriceHeaderRect.width - 8f,
-                PriceHeaderRect.height
-            );
+            PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
             CategoryHeaderRect = PriceHeaderRect.ShiftRight(1f);
-            CategoryHeaderTextRect = new Rect(
-                CategoryHeaderRect.x + 4f,
-                CategoryHeaderRect.y,
-                CategoryHeaderRect.width - 8f,
-                CategoryHeaderRect.height
-            );
+            CategoryHeaderTextRect = new Rect(CategoryHeaderRect.x + 4f, CategoryHeaderRect.y, CategoryHeaderRect.width - 8f, CategoryHeaderRect.height);
         }
     }
 }

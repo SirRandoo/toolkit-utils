@@ -77,8 +77,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void DrawHeader(Rect canvas)
         {
             GUI.BeginGroup(canvas);
-            (Rect searchLabel, Rect searchField) =
-                new Rect(canvas.x, canvas.y, canvas.width * 0.19f, Text.LineHeight).ToForm(0.3f);
+            (Rect searchLabel, Rect searchField) = new Rect(canvas.x, canvas.y, canvas.width * 0.19f, Text.LineHeight).ToForm(0.3f);
 
             Widgets.Label(searchLabel, searchText);
 
@@ -96,19 +95,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
 
             float resetBtnWidth = resetAllTextSize.x + 16f;
-            var gResetRect = new Rect(
-                canvas.x + canvas.width - resetBtnWidth,
-                canvas.y,
-                resetBtnWidth,
-                Text.LineHeight
-            );
+            var gResetRect = new Rect(canvas.x + canvas.width - resetBtnWidth, canvas.y, resetBtnWidth, Text.LineHeight);
             var gAddPriceRect = new Rect(canvas.width - 5f - 200f - resetBtnWidth - 10f, 0f, 200f, Text.LineHeight);
-            var gRemovePriceRect = new Rect(
-                canvas.width - 5f - 200f - resetBtnWidth - 10f,
-                Text.LineHeight,
-                200f,
-                Text.LineHeight
-            );
+            var gRemovePriceRect = new Rect(canvas.width - 5f - 200f - resetBtnWidth - 10f, Text.LineHeight, 200f, Text.LineHeight);
 
             DrawGlobalAddPriceField(gAddPriceRect);
             DrawGlobalRemovePriceField(gRemovePriceRect);
@@ -181,12 +170,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
 
             var headerRect = new Rect(0f, 0f, canvas.width, Text.LineHeight * 2f);
-            var contentArea = new Rect(
-                canvas.x,
-                Text.LineHeight * 4f,
-                canvas.width,
-                canvas.height - Text.LineHeight * 4f
-            );
+            var contentArea = new Rect(canvas.x, Text.LineHeight * 4f, canvas.width, canvas.height - Text.LineHeight * 4f);
 
             DrawHeader(headerRect);
             Widgets.DrawLineHorizontal(canvas.x, Text.LineHeight * 3f, canvas.width);
@@ -235,9 +219,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                             {
                                 case "MultiFile":
                                     await Data.SaveTraitsAsync(Paths.TraitFilePath);
+
                                     return;
                                 case "SingleFile":
                                     await Data.SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
+
                                     return;
                             }
                         }
@@ -250,9 +236,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     case "MultiFile":
                         Data.SaveTraits(Paths.TraitFilePath);
+
                         return;
                     case "SingleFile":
                         Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+
                         return;
                 }
             }

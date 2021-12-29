@@ -48,6 +48,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             message = message.Replace("@", "");
             JoinedChannel channel = TwitchWrapper.Client.GetJoinedChannel(ToolkitCoreSettings.channel_username);
+
             foreach (string segment in SplitMessages(message))
             {
                 TwitchWrapper.Client.SendMessage(channel, segment);
@@ -62,6 +63,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (message.Length < MessageLimit)
             {
                 yield return Unrichify.StripTags(message);
+
                 yield break;
             }
 
@@ -79,6 +81,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 else
                 {
                     builder.Append("...");
+
                     yield return builder.ToString();
                     builder.Clear();
                     chars = 0;

@@ -43,6 +43,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (CommandBase.GetOrFindPawn(viewer.username) != null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.HasPawn".Localize());
+
                 return false;
             }
 
@@ -51,17 +52,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (map == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
+
                 return false;
             }
 
-            if (!CellFinder.TryFindRandomEdgeCellWith(
-                p => map.reachability.CanReachColony(p) && !p.Fogged(map),
-                map,
-                CellFinder.EdgeRoadChance_Neutral,
-                out loc
-            ))
+            if (!CellFinder.TryFindRandomEdgeCellWith(p => map.reachability.CanReachColony(p) && !p.Fogged(map), map, CellFinder.EdgeRoadChance_Neutral, out loc))
             {
                 LogHelper.Warn("No reachable location to spawn a viewer pawn!");
+
                 return false;
             }
 
@@ -82,6 +80,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidKindQuery".LocalizeKeyed(worker.GetLast()));
+
                 return false;
             }
 
@@ -94,6 +93,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.BuyPawn.Humanlike".Localize());
+
             return false;
         }
 
@@ -101,18 +101,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             try
             {
-                var request = new PawnGenerationRequest(
-                    kindDef,
-                    Faction.OfPlayer,
-                    tile: map.Tile,
-                    allowFood: false,
-                    mustBeCapableOfViolence: true
-                );
+                var request = new PawnGenerationRequest(kindDef, Faction.OfPlayer, tile: map.Tile, allowFood: false, mustBeCapableOfViolence: true);
                 Pawn pawn = PawnGenerator.GeneratePawn(request);
 
                 if (!(pawn.Name is NameTriple name))
                 {
                     LogHelper.Warn("Pawn name is not a name triple!");
+
                     return;
                 }
 
@@ -125,10 +120,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 Find.LetterStack.ReceiveLetter(title, text, LetterDefOf.PositiveEvent, pawn);
                 Current.Game.GetComponent<GameComponentPawns>().AssignUserToPawn(Viewer.username, pawn);
 
-                if (TkSettings.EasterEggs
-                    && Basket.TryGetEggFor(Viewer.username, out IEasterEgg egg)
-                    && Rand.Chance(egg.Chance)
-                    && egg.IsPossible(storeIncident, Viewer))
+                if (TkSettings.EasterEggs && Basket.TryGetEggFor(Viewer.username, out IEasterEgg egg) && Rand.Chance(egg.Chance) && egg.IsPossible(storeIncident, Viewer))
                 {
                     egg.Execute(Viewer, pawn);
                 }
@@ -146,10 +138,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (!target.Enabled && TkSettings.PurchasePawnKinds)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InformativeDisabledItem".LocalizeKeyed(target.Name)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InformativeDisabledItem".LocalizeKeyed(target.Name));
+
                 return false;
             }
 
@@ -158,23 +148,18 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return true;
             }
 
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                "TKUtils.InsufficientBalance".LocalizeKeyed(
-                    target.Cost.ToString("N0"),
-                    viewer.GetViewerCoins().ToString("N0")
-                )
-            );
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(target.Cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+
             return false;
         }
 
         private void GetDefaultKind()
         {
-            if (Data.TryGetPawnKind($"${RimWorld.PawnKindDefOf.Colonist.race.defName}", out PawnKindItem human)
-                && (human!.Enabled || !TkSettings.PurchasePawnKinds))
+            if (Data.TryGetPawnKind($"${RimWorld.PawnKindDefOf.Colonist.race.defName}", out PawnKindItem human) && (human!.Enabled || !TkSettings.PurchasePawnKinds))
             {
                 kindDef = RimWorld.PawnKindDefOf.Colonist;
                 pawnKindItem = human;
+
                 return;
             }
 
@@ -183,6 +168,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (randomKind == null)
             {
                 LogHelper.Warn("Could not get next enabled race!");
+
                 return;
             }
 

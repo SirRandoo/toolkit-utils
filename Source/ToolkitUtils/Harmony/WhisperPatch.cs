@@ -48,6 +48,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             CommandRouter.CommandQueue.Enqueue(e.WhisperMessage);
             MessageLog.LogMessage(e.WhisperMessage);
+
             return false;
         }
     }

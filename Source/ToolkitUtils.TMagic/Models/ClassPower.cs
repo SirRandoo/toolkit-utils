@@ -29,9 +29,6 @@ namespace SirRandoo.ToolkitUtils.Models
         public TMAbilityDef AbilityDef { get; private set; }
 
         [NotNull]
-        public static ClassPower From(TMAbilityDef def, int minimumLevel)
-        {
-            return new ClassPower(def, minimumLevel) { AbilityDef = def };
-        }
+        public static ClassPower From(TMAbilityDef def, int minimumLevel) => new ClassPower(def, minimumLevel) { AbilityDef = def };
     }
 }

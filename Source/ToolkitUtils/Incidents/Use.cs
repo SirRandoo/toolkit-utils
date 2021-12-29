@@ -44,6 +44,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -51,17 +52,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item) || !item.IsValid())
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InvalidItemQuery".LocalizeKeyed(item?.Thing?.Name ?? worker.GetLast())
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(item?.Thing?.Name ?? worker.GetLast()));
+
                 return false;
             }
 
             buyableItem = item.Thing;
+
             if (item.TryGetError(out string error))
             {
                 MessageHelper.ReplyToUser(viewer.username, error);
+
                 return false;
             }
 
@@ -73,35 +74,30 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryMultiply(buyableItem.Cost, amount, out int cost))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Overflowed".Localize());
+
                 return false;
             }
 
             if (!viewer.CanAfford(cost))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        cost.ToString("N0"),
-                        viewer.GetViewerCoins().ToString("N0")
-                    )
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+
                 return false;
             }
 
             List<ResearchProjectDef> prerequisites = item.Thing.Thing.GetUnfinishedPrerequisites();
+
             if (BuyItemSettings.mustResearchFirst && prerequisites.Count > 0)
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.ResearchRequired".LocalizeKeyed(
-                        item.Thing.Thing.LabelCap.RawText,
-                        prerequisites.Select(p => p.LabelCap.RawText).SectionJoin()
-                    )
+                    "TKUtils.ResearchRequired".LocalizeKeyed(item.Thing.Thing.LabelCap.RawText, prerequisites.Select(p => p.LabelCap.RawText).SectionJoin())
                 );
+
                 return false;
             }
 
-            foreach (IUsabilityHandler h in CompatRegistry.UsabilityHandlers)
+            foreach (IUsabilityHandler h in CompatRegistry.AllUsabilityHandlers)
             {
                 if (!h.IsUsable(item.Thing.Thing))
                 {
@@ -109,16 +105,19 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 handler = h;
+
                 break;
             }
 
             if (handler == null || item.Thing.ItemData?.IsUsable != true)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.DisabledItem".Localize());
+
                 return false;
             }
 
             buyableItem = item!.Thing;
+
             return true;
         }
 
@@ -127,6 +126,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!pawn.Spawned)
             {
                 LogHelper.Warn("Tried to use an item on an unspawned pawn.");
+
                 return;
             }
 
@@ -136,6 +136,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Use.Unusable".LocalizeKeyed(buyableItem.Name));
                 LogHelper.Warn("Tried to use an item that can't have comps!");
+
                 return;
             }
 
@@ -148,32 +149,21 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                LogHelper.Error($@"The usability handler ""{handler.Id}"" did not complete successfully", e);
+                LogHelper.Error($@"The usability handler ""{handler.GetType().Name}"" did not complete successfully", e);
+
                 return;
             }
 
             MessageHelper.SendConfirmation(
                 Viewer.username,
-                "TKUtils.Use.Complete".LocalizeKeyed(
-                    thing.LabelCap ?? thing.def.defName,
-                    amount.ToString("N0"),
-                    (buyableItem.Cost * amount).ToString("N0")
-                )
+                "TKUtils.Use.Complete".LocalizeKeyed(thing.LabelCap ?? thing.def.defName, amount.ToString("N0"), (buyableItem.Cost * amount).ToString("N0"))
             );
 
-            Viewer.Charge(
-                buyableItem.Cost * amount,
-                buyableItem.ItemData?.Weight ?? 1f,
-                buyableItem.ItemData?.KarmaTypeForUsing ?? storeIncident.karmaType
-            );
+            Viewer.Charge(buyableItem.Cost * amount, buyableItem.ItemData?.Weight ?? 1f, buyableItem.ItemData?.KarmaTypeForUsing ?? storeIncident.karmaType);
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.UseLetter.Title".Localize(),
-                "TKUtils.UseLetter.Description".LocalizeKeyed(
-                    Viewer.username,
-                    thing.LabelCap ?? thing.def.defName,
-                    amount.ToString("N0")
-                ),
+                "TKUtils.UseLetter.Description".LocalizeKeyed(Viewer.username, thing.LabelCap ?? thing.def.defName, amount.ToString("N0")),
                 LetterDefOf.NeutralEvent,
                 pawn
             );

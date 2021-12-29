@@ -26,17 +26,13 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
     {
         public static readonly bool Active;
 
-        private static readonly List<string> TraitDefs =
-            new List<string> { "Polyamorous", "Straight", "Gay", "Bisexual", "Asexual" };
+        private static readonly List<string> TraitDefs = new List<string> { "Polyamorous", "Straight", "Gay", "Bisexual", "Asexual" };
 
         static RationalRomance()
         {
             Active = ModLister.GetActiveModWithIdentifier("Mlie.RationalRomance") != null;
         }
 
-        public static bool IsTraitDisabled([NotNull] TraitDef traitDef)
-        {
-            return TraitDefs.Contains(traitDef.defName);
-        }
+        public static bool IsTraitDisabled([NotNull] TraitDef traitDef) => TraitDefs.Contains(traitDef.defName);
     }
 }

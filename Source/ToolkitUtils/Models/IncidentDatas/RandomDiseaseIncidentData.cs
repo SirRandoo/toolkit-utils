@@ -32,9 +32,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public IncidentCategoryDef ResolveCategory([NotNull] IncidentWorker worker, StoreIncident incident)
         {
-            worker.def = DefDatabase<IncidentDef>.AllDefs
-               .Where(i => i.workerClass.IsAssignableFrom(typeof(IncidentWorker_DiseaseHuman)))
-               .RandomElement();
+            worker.def = DefDatabase<IncidentDef>.AllDefs.Where(i => i.workerClass.IsAssignableFrom(typeof(IncidentWorker_DiseaseHuman))).RandomElement();
+
             return worker.def.category;
         }
 

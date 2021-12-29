@@ -66,6 +66,7 @@ namespace SirRandoo.ToolkitUtils
         {
             List<TwitchInterfaceBase> interfaces = null;
             bool taskDone = _interfaceTask == null || _interfaceTask.IsCompleted;
+
             while (taskDone && !CommandQueue.IsEmpty)
             {
                 if (!CommandQueue.TryDequeue(out ITwitchMessage message))

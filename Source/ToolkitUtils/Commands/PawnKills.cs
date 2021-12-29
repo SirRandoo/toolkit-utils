@@ -31,6 +31,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
                 msg.Reply("TKUtils.NoPawn".Localize());
+
                 return;
             }
 
@@ -39,26 +40,15 @@ namespace SirRandoo.ToolkitUtils.Commands
             int humanLikeKills = pawn.records.GetAsInt(RecordDefOf.KillsHumanlikes);
             int mechanoidKills = pawn.records.GetAsInt(RecordDefOf.KillsMechanoids);
 
-            string container = ResponseHelper.JoinPair(
-                "TKUtils.PawnKills.Total".Localize().CapitalizeFirst(),
-                totalKills.ToString("N0")
-            );
+            string container = ResponseHelper.JoinPair("TKUtils.PawnKills.Total".Localize().CapitalizeFirst(), totalKills.ToString("N0"));
 
             container += ResponseHelper.OuterGroupSeparator;
+
             container += string.Join(
                 ", ",
-                ResponseHelper.JoinPair(
-                    "TKUtils.PawnKills.Humanlike".Localize().CapitalizeFirst(),
-                    humanLikeKills.ToString("N0")
-                ),
-                ResponseHelper.JoinPair(
-                    "TKUtils.PawnKills.Animals".Localize().CapitalizeFirst(),
-                    animalKills.ToString("N0")
-                ),
-                ResponseHelper.JoinPair(
-                    "TKUtils.PawnKills.Mechanoids".Localize().CapitalizeFirst(),
-                    mechanoidKills.ToString("N0")
-                )
+                ResponseHelper.JoinPair("TKUtils.PawnKills.Humanlike".Localize().CapitalizeFirst(), humanLikeKills.ToString("N0")),
+                ResponseHelper.JoinPair("TKUtils.PawnKills.Animals".Localize().CapitalizeFirst(), animalKills.ToString("N0")),
+                ResponseHelper.JoinPair("TKUtils.PawnKills.Mechanoids".Localize().CapitalizeFirst(), mechanoidKills.ToString("N0"))
             );
 
 

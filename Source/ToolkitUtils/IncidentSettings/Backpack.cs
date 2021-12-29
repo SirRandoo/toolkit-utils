@@ -38,17 +38,9 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
 
             listing.Begin(canvas);
 
-            listing.CheckboxLabeled(
-                "TKUtils.Item.Research.Label".Localize(),
-                ref BuyItemSettings.mustResearchFirst,
-                "TKUtils.Item.Research.Description".Localize()
-            );
+            listing.CheckboxLabeled("TKUtils.Item.Research.Label".Localize(), ref BuyItemSettings.mustResearchFirst, "TKUtils.Item.Research.Description".Localize());
 
-            listing.CheckboxLabeled(
-                "TKUtils.Backpack.AutoEquip.Label".Localize(),
-                ref AutoEquip,
-                "TKUtils.Backpack.AutoEquip.Description".Localize()
-            );
+            listing.CheckboxLabeled("TKUtils.Backpack.AutoEquip.Label".Localize(), ref AutoEquip, "TKUtils.Backpack.AutoEquip.Description".Localize());
 
             listing.End();
         }

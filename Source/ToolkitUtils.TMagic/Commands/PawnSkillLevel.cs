@@ -87,6 +87,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (mightUser.MightData.MightAbilityPoints <= 0)
             {
                 error = "No points to spend!";
+
                 return false;
             }
 
@@ -130,6 +131,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             error = "";
+
             return false;
         }
 
@@ -175,6 +177,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             error = "";
+
             return false;
         }
 
@@ -184,6 +187,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (magicUser.MagicData.MagicAbilityPoints <= 0)
             {
                 error = "No points to spend!";
+
                 return false;
             }
 
@@ -220,6 +224,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             error = "";
+
             return false;
         }
 
@@ -265,6 +270,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             error = "";
+
             return false;
         }
 
@@ -274,12 +280,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (skill == null || magicUser == null)
             {
                 error = "You shouldn't be seeing this error.";
+
                 return false;
             }
 
             if (skill.level >= skill.levelMax)
             {
                 error = $"{skill.label} can't be leveled anymore.";
+
                 return false;
             }
 
@@ -288,12 +296,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (skill.costToLevel > points)
             {
                 error = $"{skill.label} requires {skill.costToLevel:N0} points, but you only have {points:N0}";
+
                 return false;
             }
 
             magicUser.MagicData.MagicAbilityPoints -= skill.costToLevel;
             skill.level++;
             error = null;
+
             return true;
         }
 
@@ -303,12 +313,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (skill == null || mightUser == null)
             {
                 error = "You shouldn't be seeing this error.";
+
                 return false;
             }
 
             if (skill.level >= skill.levelMax)
             {
                 error = $"{skill.label} can't be leveled anymore.";
+
                 return false;
             }
 
@@ -317,12 +329,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (skill.costToLevel > points)
             {
                 error = $"{skill.label} requires {skill.costToLevel:N0} points, but you only have {points:N0}";
+
                 return false;
             }
 
             mightUser.MightData.MightAbilityPoints -= skill.costToLevel;
             skill.level++;
             error = null;
+
             return true;
         }
     }

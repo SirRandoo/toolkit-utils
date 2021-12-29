@@ -30,7 +30,17 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class Lookup : CommandBase
     {
-        public enum Category { Item, Event, Kind, Disease, Animal, Skill, Trait, Mod }
+        public enum Category
+        {
+            Item,
+            Event,
+            Kind,
+            Disease,
+            Animal,
+            Skill,
+            Trait,
+            Mod
+        }
 
         internal static readonly Dictionary<string, Category> Index = new Dictionary<string, Category>
         {
@@ -100,6 +110,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         }
 
                         string q = query.ToToolkit();
+
                         return i.Name.ToToolkit().Contains(q) || i.DefName.ToToolkit().Contains(q);
                     }
                 )
@@ -116,8 +127,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                     i =>
                     {
                         string q = query.ToToolkit();
-                        return i.label.ToToolkit().Contains(q) || i.defName.ToToolkit().Contains(q);
 
+                        return i.label.ToToolkit().Contains(q) || i.defName.ToToolkit().Contains(q);
                     }
                 )
                .Select(i => i.label.ToToolkit().CapitalizeFirst())
@@ -133,6 +144,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     i =>
                     {
                         string q = query.ToToolkit();
+
                         return i.abbreviation.ToToolkit().Contains(q) || i.defName.ToToolkit().Contains(q);
                     }
                 )
@@ -154,6 +166,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         }
 
                         string q = query.ToToolkit();
+
                         return i.Name.ToToolkit().Contains(q) || i.DefName!.ToToolkit().Contains(q);
                     }
                 )
@@ -169,27 +182,35 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 case Category.Disease:
                     PerformDiseaseLookup(query);
+
                     return;
                 case Category.Skill:
                     PerformSkillLookup(query);
+
                     return;
                 case Category.Event:
                     PerformEventLookup(query);
+
                     return;
                 case Category.Item:
                     PerformItemLookup(query);
+
                     return;
                 case Category.Animal:
                     PerformAnimalLookup(query);
+
                     return;
                 case Category.Trait:
                     PerformTraitLookup(query);
+
                     return;
                 case Category.Kind:
                     PerformKindLookup(query);
+
                     return;
                 case Category.Mod:
                     PerformModLookup(query);
+
                     return;
             }
         }
@@ -208,6 +229,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     i =>
                     {
                         string q = query.ToToolkit();
+
                         return i.Name.ToToolkit().Contains(q) || i.DefName.ToToolkit().Contains(q);
                     }
                 )
@@ -223,6 +245,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     i =>
                     {
                         string q = query.ToToolkit();
+
                         return i.label.ToToolkit().Contains(q) || i.defName.ToToolkit().Contains(q);
                     }
                 )
@@ -239,6 +262,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     i =>
                     {
                         string q = query.ToToolkit();
+
                         return i.Name.ToToolkit().Contains(q) || i.DefName.ToToolkit().Contains(q);
                     }
                 )

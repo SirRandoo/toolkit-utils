@@ -53,6 +53,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             var container = new List<Pawn>();
+
             for (var _ = 0; _ < Quantity; _++)
             {
                 IntVec3 pos = CellFinder.RandomClosewalkCellNear(loc, map, 12);
@@ -92,6 +93,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             request.Faction = SpawnTamed && !SpawnManhunter ? Faction.OfPlayer : null;
 
             Pawn pawn = PawnGenerator.GeneratePawn(request);
+
             return pawn;
         }
     }

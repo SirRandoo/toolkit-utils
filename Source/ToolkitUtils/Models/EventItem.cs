@@ -70,6 +70,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 }
 
                 checkedVariables = true;
+
                 return variables != null;
             }
         }

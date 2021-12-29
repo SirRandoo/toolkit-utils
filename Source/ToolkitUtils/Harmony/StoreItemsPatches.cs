@@ -42,6 +42,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             _oldClassType = typeof(StoreItemsWindow);
             _newClassConstructor = typeof(StoreDialog).GetConstructor(new Type[] { });
             _oldClassConstructor = typeof(StoreItemsWindow).GetConstructor(new Type[] { });
+
             return true;
         }
 

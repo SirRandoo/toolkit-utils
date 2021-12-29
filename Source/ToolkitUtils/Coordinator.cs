@@ -50,6 +50,7 @@ namespace SirRandoo.ToolkitUtils
         internal bool TryGetRandomPortal(Map map, out ToolkitGateway portal)
         {
             portals.Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
+
             return portal != null;
         }
 
@@ -57,6 +58,7 @@ namespace SirRandoo.ToolkitUtils
         internal bool TryGetRandomItemPortal(Map map, out ToolkitGateway portal)
         {
             portals.Where(p => p.ForItems).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
+
             return portal != null;
         }
 
@@ -64,6 +66,7 @@ namespace SirRandoo.ToolkitUtils
         internal bool TryGetRandomPawnPortal(Map map, out ToolkitGateway portal)
         {
             portals.Where(p => p.ForPawns).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
+
             return portal != null;
         }
 
@@ -71,6 +74,7 @@ namespace SirRandoo.ToolkitUtils
         internal bool TryGetRandomAnimalPortal(Map map, out ToolkitGateway portal)
         {
             portals.Where(p => p.ForAnimals).Where(p => p.Map?.Equals(map) == true).TryRandomElement(out portal);
+
             return portal != null;
         }
 
@@ -100,6 +104,7 @@ namespace SirRandoo.ToolkitUtils
                 #endif
                 }
             );
+
             return true;
         }
 
@@ -111,6 +116,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             GenSpawn.Spawn(pawn, portal.Position, portal.Map, WipeMode.VanishOrMoveAside);
+
             return true;
         }
 
@@ -122,6 +128,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             GenSpawn.Spawn(pawn, portal.Position, portal.Map, WipeMode.VanishOrMoveAside);
+
             return true;
         }
 
@@ -150,13 +157,16 @@ namespace SirRandoo.ToolkitUtils
             VoteHandler.CheckForQueuedVotes();
 
             bool isNull = Viewers.jsonallviewers.NullOrEmpty();
+
             switch (isNull)
             {
                 case true:
                     Viewers.RefreshViewers();
+
                     break;
                 case false when ToolkitSettings.EarningCoins:
                     ProcessCoinReward();
+
                     break;
             }
 
@@ -231,6 +241,7 @@ namespace SirRandoo.ToolkitUtils
             try
             {
                 incident.TryExecute();
+
                 return true;
             }
             catch (Exception)
@@ -272,9 +283,6 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref rewardPeriodTracker, "rewardPeriod", GetCurrentMinute());
         }
 
-        private static int GetCurrentMinute()
-        {
-            return Mathf.FloorToInt(Time.unscaledTime / 60.0f);
-        }
+        private static int GetCurrentMinute() => Mathf.FloorToInt(Time.unscaledTime / 60.0f);
     }
 }

@@ -34,12 +34,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
                 msg.Reply("TKUtils.NoPawn".Localize());
+
                 return;
             }
 
             if (pawn!.IsCaravanMember())
             {
                 msg.Reply("TKUtils.Leave.Caravan".Localize());
+
                 return;
             }
 
@@ -65,21 +67,17 @@ namespace SirRandoo.ToolkitUtils.Commands
         private static void ForceLeave([NotNull] ITwitchMessage twitchMessage, [NotNull] Pawn pawn)
         {
             if (TkSettings.LeaveMethod.EqualsIgnoreCase("Thanos")
-                && FilthMaker.TryMakeFilth(
-                    pawn.Position,
-                    pawn.Map,
-                    ThingDefOf.Filth_Ash,
-                    pawn.LabelShortCap,
-                    Mathf.CeilToInt(pawn.BodySize * 0.6f)
-                ))
+                && FilthMaker.TryMakeFilth(pawn.Position, pawn.Map, ThingDefOf.Filth_Ash, pawn.LabelShortCap, Mathf.CeilToInt(pawn.BodySize * 0.6f)))
             {
                 twitchMessage.Reply("TKUtils.Leave.Thanos".Localize());
+
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.LeaveLetter.ThanosTitle".Localize(),
                     "TKUtils.LeaveLetter.ThanosDescription".LocalizeKeyed(pawn.LabelShortCap),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(pawn.Position, pawn.Map)
                 );
+
                 pawn.Destroy();
             }
             else
@@ -90,6 +88,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 }
 
                 twitchMessage.Reply("TKUtils.Leave.Generic".Localize());
+
                 Find.LetterStack.ReceiveLetter(
                     "TKUtils.LeaveLetter.GenericTitle".Localize(),
                     "TKUtils.LeaveLetter.GenericDescription".LocalizeKeyed(pawn.LabelShortCap),

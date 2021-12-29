@@ -70,6 +70,7 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 Name = command.LabelCap.RawText ?? command.commandText, Usage = $"!{command.commandText}"
             };
+
             result.PullFromExtension(command);
 
             if (command.requiresBroadcaster || command.requiresMod)

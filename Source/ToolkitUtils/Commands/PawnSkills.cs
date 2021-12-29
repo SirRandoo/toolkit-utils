@@ -34,6 +34,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
                 msg.Reply("TKUtils.NoPawn".Localize());
+
                 return;
             }
 
@@ -44,14 +45,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 var container = "";
 
-                container += ResponseHelper.JoinPair(
-                    skill.def.LabelCap,
-                    skill.TotallyDisabled ? ResponseHelper.ForbiddenGlyph.AltText("-") : skill.levelInt.ToString()
-                );
+                container += ResponseHelper.JoinPair(skill.def.LabelCap, skill.TotallyDisabled ? ResponseHelper.ForbiddenGlyph.AltText("-") : skill.levelInt.ToString());
 
-                container += !Interests.Active
-                    ? string.Concat(Enumerable.Repeat(ResponseHelper.FireGlyph.AltText("+"), (int)skill.passion))
-                    : Interests.GetIconForPassion(skill);
+                container += !Interests.Active ? string.Concat(Enumerable.Repeat(ResponseHelper.FireGlyph.AltText("+"), (int)skill.passion)) : Interests.GetIconForPassion(skill);
 
                 parts.Add(container);
             }

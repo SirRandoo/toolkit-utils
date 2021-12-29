@@ -37,6 +37,7 @@ namespace SirRandoo.ToolkitUtils
         static ClassData()
         {
             BaseClassPowers = new Dictionary<TraitDef, List<Ability>>();
+
             foreach ((TraitDef @class, List<Ability> powers) in GetBaseClassPowerList())
             {
                 BaseClassPowers.Add(@class, powers);
@@ -46,10 +47,7 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [NotNull]
-        private static Tuple<TraitDef, List<Ability>> PowerPair(TraitDef trait, List<Ability> abilities)
-        {
-            return new Tuple<TraitDef, List<Ability>>(trait, abilities);
-        }
+        private static Tuple<TraitDef, List<Ability>> PowerPair(TraitDef trait, List<Ability> abilities) => new Tuple<TraitDef, List<Ability>>(trait, abilities);
 
         [NotNull]
         [ItemNotNull]
@@ -82,6 +80,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetChaosMagePowers()
         {
             List<Ability> defs = GetRawPowersForBaseClass(TorannMagicDefOf.ChaosMage);
+
             if (defs != null)
             {
                 return defs;
@@ -101,10 +100,13 @@ namespace SirRandoo.ToolkitUtils
             list.AddRange(GetPaladinPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_HolyWrath)));
             list.AddRange(GetSummonerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_SummonPoppi)));
             list.AddRange(GetDruidPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_RegrowLimb)));
+
             list.AddRange(
                 GetNecromancerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_RaiseUndead) || !IsAbility(p, TorannMagicDefOf.TM_LichForm) || !IsAbility(p, TorannMagicDefOf.TM_DeathBolt))
             );
+
             list.AddRange(GetPriestPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Resurrection)));
+
             list.AddRange(
                 GetBardPowers()
                    .Where(
@@ -114,6 +116,7 @@ namespace SirRandoo.ToolkitUtils
                              || !IsAbility(p, TorannMagicDefOf.TM_BattleHymn)
                     )
             );
+
             list.AddRange(
                 GetWarlockPowers()
                    .Where(
@@ -123,6 +126,7 @@ namespace SirRandoo.ToolkitUtils
                              || !IsAbility(p, TorannMagicDefOf.TM_Scorn)
                     )
             );
+
             list.AddRange(GetGeomancerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Meteor)));
             list.AddRange(GetTechnomancerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_OrbitalStrike)));
             list.AddRange(GetEnchanterPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Shapeshift)));
@@ -135,6 +139,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetChronomancerPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Chronomancer);
+
             if (list != null)
             {
                 return list;
@@ -160,6 +165,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetEnchanterPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Enchanter);
+
             if (list != null)
             {
                 return list;
@@ -186,6 +192,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetBloodMagePowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.BloodMage);
+
             if (list != null)
             {
                 return list;
@@ -216,6 +223,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetTechnomancerPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Technomancer);
+
             if (list != null)
             {
                 return list;
@@ -242,6 +250,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetGeomancerPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Geomancer);
+
             if (list != null)
             {
                 return list;
@@ -272,6 +281,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetWarlockPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Warlock);
+
             if (list != null)
             {
                 return list;
@@ -301,6 +311,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetSuccubusPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Succubus);
+
             if (list != null)
             {
                 return list;
@@ -330,6 +341,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetBardPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.TM_Bard);
+
             if (list != null)
             {
                 return list;
@@ -354,6 +366,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetPriestPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Priest);
+
             if (list != null)
             {
                 return list;
@@ -383,6 +396,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetNecromancerPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Necromancer);
+
             if (list != null)
             {
                 return list;
@@ -424,6 +438,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetDruidPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Druid);
+
             if (list != null)
             {
                 return list;
@@ -448,6 +463,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetSummonerPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Summoner);
+
             if (list != null)
             {
                 return list;
@@ -467,6 +483,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetPaladinPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Paladin);
+
             if (list != null)
             {
                 return list;
@@ -497,6 +514,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetArcanistPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.Arcanist);
+
             if (list != null)
             {
                 return list;
@@ -537,6 +555,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetStormBornPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.StormBorn);
+
             if (list != null)
             {
                 return list;
@@ -561,6 +580,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetHeartOfFrostPowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.HeartOfFrost);
+
             if (list != null)
             {
                 return list;
@@ -591,6 +611,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<Ability> GetInnerFirePowers()
         {
             List<Ability> list = GetRawPowersForBaseClass(TorannMagicDefOf.InnerFire);
+
             if (list != null)
             {
                 return list;
@@ -697,6 +718,7 @@ namespace SirRandoo.ToolkitUtils
 
             Ability a = null;
             var lastDefName = "";
+
             foreach (TMAbilityDef ability in @class.classAbilities.OrderBy(i => i.defName))
             {
                 if (lastDefName.NullOrEmpty() || a == null)
@@ -718,14 +740,8 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [CanBeNull]
-        private static List<Ability> GetRawPowersForBaseClass([NotNull] TraitDef trait)
-        {
-            return !BaseClassPowers.TryGetValue(trait, out List<Ability> powers) ? null : powers;
-        }
+        private static List<Ability> GetRawPowersForBaseClass([NotNull] TraitDef trait) => !BaseClassPowers.TryGetValue(trait, out List<Ability> powers) ? null : powers;
 
-        private static bool IsAbility([NotNull] Ability ability, [NotNull] Def def)
-        {
-            return ability.Name == (def.label ?? def.defName);
-        }
+        private static bool IsAbility([NotNull] Ability ability, [NotNull] Def def) => ability.Name == (def.label ?? def.defName);
     }
 }

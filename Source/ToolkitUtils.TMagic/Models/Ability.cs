@@ -31,9 +31,6 @@ namespace SirRandoo.ToolkitUtils.Models
         public override int MinimumLevel => Tiers?.FirstOrDefault()?.MinimumLevel ?? 0;
 
         [NotNull]
-        public static Ability From([NotNull] params IPawnPower[] powers)
-        {
-            return new Ability { Tiers = new List<IPawnPower>(powers) };
-        }
+        public static Ability From([NotNull] params IPawnPower[] powers) => new Ability { Tiers = new List<IPawnPower>(powers) };
     }
 }

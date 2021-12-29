@@ -36,6 +36,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
                 msg.Reply("TKUtils.NoPawn".Localize());
+
                 return;
             }
 
@@ -48,8 +49,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             string viewer = CommandFilter.Parse(msg.Message).Skip(1).FirstOrFallback();
 
-            if (!viewer.NullOrEmpty()
-                && component.pawnHistory.TryGetValue(viewer.ToLowerInvariant(), out Pawn viewerPawn))
+            if (!viewer.NullOrEmpty() && component.pawnHistory.TryGetValue(viewer.ToLowerInvariant(), out Pawn viewerPawn))
             {
                 int theirOpinion = viewerPawn.relations.OpinionOf(pawn);
                 int myOpinion = pawn!.relations.OpinionOf(viewerPawn);
@@ -67,34 +67,28 @@ namespace SirRandoo.ToolkitUtils.Commands
                 };
 
                 msg.Reply(new[] { relationship, container.SectionJoin() }.GroupedJoin());
+
                 return;
             }
 
             ShowRelationshipOverview(msg, component, pawn);
         }
 
-        private static void ShowRelationshipOverview(
-            [NotNull] ITwitchMessage twitchMessage,
-            [NotNull] GameComponentPawns component,
-            Pawn pawn
-        )
+        private static void ShowRelationshipOverview([NotNull] ITwitchMessage twitchMessage, [NotNull] GameComponentPawns component, Pawn pawn)
         {
             List<string> container = component.pawnHistory.Where(p => p.Value != pawn)
                .Select(
                     pair =>
                     {
                         string relationString = GetSocialString(pawn, pair.Value, pawn.relations.OpinionOf(pair.Value));
-                        return relationString == null
-                            ? null
-                            : ResponseHelper.JoinPair(pair.Key.CapitalizeFirst(), relationString);
+
+                        return relationString == null ? null : ResponseHelper.JoinPair(pair.Key.CapitalizeFirst(), relationString);
                     }
                 )
                .Where(s => s != null)
                .ToList();
 
-            twitchMessage.Reply(
-                container.Count <= 0 ? "TKUtils.PawnRelations.None".Localize() : container.SectionJoin()
-            );
+            twitchMessage.Reply(container.Count <= 0 ? "TKUtils.PawnRelations.None".Localize() : container.SectionJoin());
         }
 
         private static string GetSocialString(Pawn pawn, Pawn otherPawn, int opinion, bool overrideSettings = false)

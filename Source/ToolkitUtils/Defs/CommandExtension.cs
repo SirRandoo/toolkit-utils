@@ -42,6 +42,7 @@ namespace SirRandoo.ToolkitUtils
         public override string ToString()
         {
             string name = Names != null ? string.Join("/", Names) : Name.ToStringSafe();
+
             return Optional ? $"[{name}]" : $"<{name}>";
         }
     }

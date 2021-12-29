@@ -66,8 +66,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 string rawPoints = CommandFilter.Parse(msg).Skip(2).FirstOrDefault();
 
-                if (rawPoints.NullOrEmpty()
-                    || !VariablesHelpers.PointsWagerIsValid(rawPoints, viewer, ref wager, ref storeIncident))
+                if (rawPoints.NullOrEmpty() || !VariablesHelpers.PointsWagerIsValid(rawPoints, viewer, ref wager, ref storeIncident))
                 {
                     return false;
                 }
@@ -85,8 +84,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!data.UseStoryteller)
             {
-                parms.points =
-                    IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, wager, parms.points);
+                parms.points = IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, wager, parms.points);
             }
 
             parms.forced = true;
@@ -107,18 +105,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    data.UseStoryteller
-                        ? "TKUtils.Wagered.Storyteller".LocalizeKeyed(name, points)
-                        : "TKUtils.Wagered.Complete".LocalizeKeyed(name, wager.ToString("N0"), points)
+                    data.UseStoryteller ? "TKUtils.Wagered.Storyteller".LocalizeKeyed(name, points) : "TKUtils.Wagered.Complete".LocalizeKeyed(name, wager.ToString("N0"), points)
                 );
 
                 return;
             }
 
-            MessageHelper.ReplyToUser(
-                Viewer.username,
-                "TKUtils.FailedParms".LocalizeKeyed(storeIncident.label ?? storeIncident.abbreviation)
-            );
+            MessageHelper.ReplyToUser(Viewer.username, "TKUtils.FailedParms".LocalizeKeyed(storeIncident.label ?? storeIncident.abbreviation));
         }
     }
 }

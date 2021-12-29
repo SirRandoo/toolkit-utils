@@ -48,6 +48,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.PawnNotFound".LocalizeKeyed(target));
+
             return false;
         }
 

@@ -49,10 +49,7 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [NotNull]
-        public override string SettingsCategory()
-        {
-            return Content.Name;
-        }
+        public override string SettingsCategory() => Content.Name;
 
         internal static void HandleException([NotNull] Exception exception, [CanBeNull] string reporter = null)
         {
@@ -64,11 +61,13 @@ namespace SirRandoo.ToolkitUtils
             if (TkSettings.VisualExceptions && VisualExceptions.Active)
             {
                 VisualExceptions.HandleException(exception);
+
                 return;
             }
 
             string exceptionMessage = message ?? exception.Message ?? "An unhandled exception occurred";
             LogHelper.Error(exceptionMessage, exception);
+
             Data.HealthReports.Add(
                 new HealthReport
                 {

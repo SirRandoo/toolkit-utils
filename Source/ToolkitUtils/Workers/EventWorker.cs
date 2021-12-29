@@ -37,38 +37,17 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             SelectorAdders = new List<FloatMenuOption>
             {
-                new FloatMenuOption(
-                    "TKUtils.Fields.Name".Localize(),
-                    () => AddSelector(new NameSelector<EventItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.DefName".Localize(),
-                    () => AddSelector(new DefNameSelector<EventItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.KarmaType".Localize(),
-                    () => AddSelector(new EventKarmaSelector())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.SettingEmbed".Localize(),
-                    () => AddSelector(new EventSettingEmbedSelector())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.HasSettings".Localize(),
-                    () => AddSelector(new EventSettingSelector())
-                )
+                new FloatMenuOption("TKUtils.Fields.Name".Localize(), () => AddSelector(new NameSelector<EventItem>())),
+                new FloatMenuOption("TKUtils.Fields.DefName".Localize(), () => AddSelector(new DefNameSelector<EventItem>())),
+                new FloatMenuOption("TKUtils.Fields.KarmaType".Localize(), () => AddSelector(new EventKarmaSelector())),
+                new FloatMenuOption("TKUtils.Fields.SettingEmbed".Localize(), () => AddSelector(new EventSettingEmbedSelector())),
+                new FloatMenuOption("TKUtils.Fields.HasSettings".Localize(), () => AddSelector(new EventSettingSelector()))
             };
 
             MutateAdders = new List<FloatMenuOption>
             {
-                new FloatMenuOption(
-                    "TKUtils.Fields.Price".Localize(),
-                    () => AddMutator(new PriceMutator<EventItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.KarmaType".Localize(),
-                    () => AddMutator(new EventKarmaMutator())
-                )
+                new FloatMenuOption("TKUtils.Fields.Price".Localize(), () => AddMutator(new PriceMutator<EventItem>())),
+                new FloatMenuOption("TKUtils.Fields.KarmaType".Localize(), () => AddMutator(new EventKarmaMutator()))
             };
         }
     }

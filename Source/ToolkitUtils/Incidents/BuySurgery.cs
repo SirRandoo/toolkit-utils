@@ -43,6 +43,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -51,50 +52,42 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (appointment.ThingDef == null || appointment.Item == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(partQuery));
+
                 return false;
             }
 
             if (appointment.ThingDef.IsMedicine || appointment.Surgery == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.HasNoSurgery".LocalizeKeyed(partQuery));
+
                 return false;
             }
 
-            if (BuyItemSettings.mustResearchFirst
-                && appointment.ThingDef.GetUnfinishedPrerequisites() is { } projects
-                && projects.Count > 0)
+            if (BuyItemSettings.mustResearchFirst && appointment.ThingDef.GetUnfinishedPrerequisites() is { } projects && projects.Count > 0)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.ResearchRequired".LocalizeKeyed(
-                        appointment.ThingDef.LabelCap.RawText,
-                        projects.Select(p => p.LabelCap.RawText).SectionJoin()
-                    )
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.ResearchRequired".LocalizeKeyed(appointment.ThingDef.LabelCap.RawText, projects.Select(p => p.LabelCap.RawText).SectionJoin()));
+
                 return false;
             }
 
             if (!viewer.CanAfford(appointment.Cost))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        appointment.Cost.ToString("N0"),
-                        viewer.GetViewerCoins().ToString("N0")
-                    )
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(appointment.Cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+
                 return false;
             }
 
             if (appointment.Overflowed)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Overflowed".Localize());
+
                 return false;
             }
 
             if (appointment.BodyParts.NullOrEmpty())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Surgery.NoSlotAvailable".Localize());
+
                 return false;
             }
 
@@ -106,6 +99,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
+
             return false;
         }
 
@@ -134,23 +128,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             appointment.BookSurgeries();
-            Viewer.Charge(
-                appointment.Cost,
-                appointment.ItemData?.Weight ?? 1f,
-                appointment.ItemData?.KarmaType ?? storeIncident.karmaType
-            );
+            Viewer.Charge(appointment.Cost, appointment.ItemData?.Weight ?? 1f, appointment.ItemData?.KarmaType ?? storeIncident.karmaType);
 
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                "TKUtils.Surgery.Complete".LocalizeKeyed(appointment.ThingDef.LabelCap)
-            );
+            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Surgery.Complete".LocalizeKeyed(appointment.ThingDef.LabelCap));
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.SurgeryLetter.Title".Localize(),
-                "TKUtils.SurgeryLetter.Description".LocalizeKeyed(
-                    Viewer.username,
-                    Find.ActiveLanguageWorker.WithDefiniteArticle(thing.LabelCap)
-                ),
+                "TKUtils.SurgeryLetter.Description".LocalizeKeyed(Viewer.username, Find.ActiveLanguageWorker.WithDefiniteArticle(thing.LabelCap)),
                 LetterDefOf.NeutralEvent,
                 new LookTargets(thing)
             );
@@ -176,6 +160,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     }
 
                     Overflowed = true;
+
                     return int.MaxValue;
                 }
             }
@@ -214,11 +199,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             private void ParseThingDef(string input)
             {
-                Item = Data.Items.Where(i => i.Cost > 0)
-                   .FirstOrDefault(
-                        t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                             || t.DefName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                    );
+                Item = Data.Items.Where(i => i.Cost > 0).FirstOrDefault(t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit()) || t.DefName.ToToolkit().EqualsIgnoreCase(input.ToToolkit()));
 
                 ThingDef = Item?.Thing;
             }
@@ -228,8 +209,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 BodyParts = new List<BodyPartRecord>();
 
                 BodyPartRecord record = Patient.RaceProps.body.AllParts.FirstOrDefault(
-                    t => t.Label.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
-                         || t.def.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
+                    t => t.Label.ToToolkit().EqualsIgnoreCase(input.ToToolkit()) || t.def.defName.ToToolkit().EqualsIgnoreCase(input.ToToolkit())
                 );
 
                 if (record == null)
@@ -244,10 +224,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 Surgery = Data.Surgeries.Where(r => r.Surgery.IsIngredient(ThingDef))
                    .Where(r => r.CanScheduleFor(Patient))
-                   .Where(
-                        r => r.Surgery.Worker.GetPartsToApplyOn(Patient, r.Surgery)
-                           .Any(p => BodyParts?.Any(b => b.def.defName.Equals(p.def.defName)) ?? true)
-                    )
+                   .Where(r => r.Surgery.Worker.GetPartsToApplyOn(Patient, r.Surgery).Any(p => BodyParts?.Any(b => b.def.defName.Equals(p.def.defName)) ?? true))
                    .Select(s => s.Surgery)
                    .FirstOrFallback();
             }
@@ -262,17 +239,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 Pawn_HealthTracker pHealth = Patient.health;
+
                 foreach (BodyPartRecord part in Surgery.Worker.GetPartsToApplyOn(Patient, Surgery))
                 {
-                    if (pHealth.surgeryBills.Bills.Any(
-                        b => b is Bill_Medical bill && bill.Part == part && bill.recipe == Surgery
-                    ))
+                    if (pHealth.surgeryBills.Bills.Any(b => b is Bill_Medical bill && bill.Part == part && bill.recipe == Surgery))
                     {
                         continue;
                     }
 
-                    if (pHealth.hediffSet.hediffs.Where(h => h.def.defName == Surgery.addsHediff.defName)
-                       .Any(h => h.Part == part))
+                    if (pHealth.hediffSet.hediffs.Where(h => h.def.defName == Surgery.addsHediff.defName).Any(h => h.Part == part))
                     {
                         continue;
                     }

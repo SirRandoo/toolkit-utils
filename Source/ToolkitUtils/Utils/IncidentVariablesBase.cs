@@ -33,10 +33,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         public override Viewer Viewer { get; set; }
 
         [SuppressMessage("ReSharper", "ParameterHidesMember")]
-        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false)
-        {
-            return CanHappen(message, viewer);
-        }
+        public override bool IsPossible(string message, Viewer viewer, bool separateChannel = false) => CanHappen(message, viewer);
 
         public override void TryExecute()
         {

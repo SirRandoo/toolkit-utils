@@ -27,10 +27,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class TraitHelper
     {
-        public static bool IsSexualityTrait([NotNull] this Trait trait)
-        {
-            return IsSexualityTrait(trait.def);
-        }
+        public static bool IsSexualityTrait([NotNull] this Trait trait) => IsSexualityTrait(trait.def);
 
         public static bool IsSexualityTrait([NotNull] this TraitDef trait)
         {
@@ -39,24 +36,16 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return true;
             }
 
-            return trait.Equals(TraitDefOf.Gay)
-                   || trait.Equals(TraitDefOf.Bisexual)
-                   || trait.Equals(TraitDefOf.Asexual);
+            return trait.Equals(TraitDefOf.Gay) || trait.Equals(TraitDefOf.Bisexual) || trait.Equals(TraitDefOf.Asexual);
         }
 
-        public static bool CompareToInput([NotNull] TraitItem trait, [NotNull] string input)
-        {
-            return Unrichify.StripTags(trait.Name)
-               .ToToolkit()
-               .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
-        }
+        public static bool CompareToInput([NotNull] TraitItem trait, [NotNull] string input) => Unrichify.StripTags(trait.Name)
+           .ToToolkit()
+           .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
 
-        public static bool CompareToInput([NotNull] string traitName, [NotNull] string input)
-        {
-            return Unrichify.StripTags(traitName)
-               .ToToolkit()
-               .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
-        }
+        public static bool CompareToInput([NotNull] string traitName, [NotNull] string input) => Unrichify.StripTags(traitName)
+           .ToToolkit()
+           .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
 
         [NotNull]
         public static IEnumerable<TraitItem> ToTraitItems([NotNull] this TraitDef trait)
@@ -144,6 +133,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             pawn.Notify_DisabledWorkTypesChanged();
+
             foreach (WorkTypeDef workType in disabledWorkTypes.Where(workType => !pawn.WorkTypeIsDisabled(workType)))
             {
                 pawn.workSettings.Disable(workType);
@@ -181,33 +171,25 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             pawn.Notify_DisabledWorkTypesChanged();
+
             foreach (WorkTypeDef workType in disabledWorkTypes)
             {
                 pawn.workSettings.SetPriority(workType, 3);
             }
         }
 
-        [ContractAnnotation(
-            "trait:notnull,pawn:notnull => true,backstory:notnull; trait:notnull,pawn:notnull => false,backstory:null"
-        )]
+        [ContractAnnotation("trait:notnull,pawn:notnull => true,backstory:notnull; trait:notnull,pawn:notnull => false,backstory:null")]
         public static bool IsDisallowedByBackstory(this TraitDef trait, Pawn pawn, int degree, out Backstory backstory)
         {
             backstory = pawn.story.AllBackstories.FirstOrFallback(s => s.DisallowsTrait(trait, degree));
+
             return backstory != null;
         }
 
-        [ContractAnnotation(
-            "trait:notnull,pawn:notnull => true,backstory:notnull; trait:notnull,pawn:notnull => false,backstory:null"
-        )]
-        public static bool IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree, out Backstory backstory)
-        {
-            return IsDisallowedByBackstory(trait.def, pawn, degree, out backstory);
-        }
+        [ContractAnnotation("trait:notnull,pawn:notnull => true,backstory:notnull; trait:notnull,pawn:notnull => false,backstory:null")]
+        public static bool IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree, out Backstory backstory) => IsDisallowedByBackstory(trait.def, pawn, degree, out backstory);
 
-        public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree)
-        {
-            return AlienRace.Enabled && !AlienRace.IsTraitAllowed(pawn, trait, degree);
-        }
+        public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree) => AlienRace.Enabled && !AlienRace.IsTraitAllowed(pawn, trait, degree);
 
         public static int GetTotalTraits([NotNull] Pawn pawn)
         {
@@ -218,6 +200,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             var total = 0;
             List<Trait> traits = pawn.story.traits!.allTraits!;
+
             for (var index = 0; index < pawn.story.traits!.allTraits!.Count; index++)
             {
                 Trait trait = traits![index];

@@ -35,14 +35,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
-            if (IncidentSettings.HealMe.FairFights
-                && pawn!.mindState.lastAttackTargetTick > 0
-                && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
+            if (IncidentSettings.HealMe.FairFights && pawn!.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
+
                 return false;
             }
 
@@ -52,9 +52,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 case Hediff hediff:
                     toHeal = hediff;
+
                     break;
                 case BodyPartRecord record:
                     toRestore = record;
+
                     break;
             }
 
@@ -116,12 +118,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!description.NullOrEmpty())
             {
-                Current.Game.letterStack.ReceiveLetter(
-                    "TKUtils.HealLetter.Title".Localize(),
-                    description.LocalizeKeyed(Viewer.username, target),
-                    LetterDefOf.PositiveEvent,
-                    pawn
-                );
+                Current.Game.letterStack.ReceiveLetter("TKUtils.HealLetter.Title".Localize(), description.LocalizeKeyed(Viewer.username, target), LetterDefOf.PositiveEvent, pawn);
             }
         }
     }

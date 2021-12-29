@@ -42,22 +42,13 @@ namespace SirRandoo.ToolkitUtils.Workers
         }
 
         [NotNull]
-        public static ArgWorker CreateInstance([NotNull] params string[] rawArguments)
-        {
-            return new ArgWorker(rawArguments);
-        }
+        public static ArgWorker CreateInstance([NotNull] params string[] rawArguments) => new ArgWorker(rawArguments);
 
         [NotNull]
-        public static ArgWorker CreateInstance([NotNull] IEnumerable<string> rawArguments)
-        {
-            return new ArgWorker(rawArguments);
-        }
+        public static ArgWorker CreateInstance([NotNull] IEnumerable<string> rawArguments) => new ArgWorker(rawArguments);
 
         [NotNull]
-        public static ArgWorker CreateInstance([NotNull] string input)
-        {
-            return new ArgWorker(CommandFilter.Parse(input));
-        }
+        public static ArgWorker CreateInstance([NotNull] string input) => new ArgWorker(CommandFilter.Parse(input));
 
         public string GetNext()
         {
@@ -67,18 +58,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             lastArgument = next;
+
             return next;
         }
 
-        public string GetLast()
-        {
-            return lastArgument;
-        }
+        public string GetLast() => lastArgument;
 
-        public bool HasNext()
-        {
-            return rawArguments.Count > 0;
-        }
+        public bool HasNext() => rawArguments.Count > 0;
 
         public int GetNextAsInt(int minimum = 0, int maximum = int.MaxValue)
         {
@@ -102,6 +88,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             value = 0;
+
             return false;
         }
 
@@ -135,6 +122,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool TryGetNextAsTrait(out TraitItem trait)
         {
             trait = GetNextAsTrait();
+
             return !(trait is null);
         }
 
@@ -168,6 +156,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool TryGetNextAsPawn(out PawnKindItem pawn)
         {
             pawn = GetNextAsPawn();
+
             return !(pawn is null);
         }
 
@@ -182,9 +171,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             return DefDatabase<Command>.AllDefs.FirstOrDefault(
-                c => TkSettings.ToolkitStyleCommands
-                    ? c.command.StartsWith(next, true, CultureInfo.InvariantCulture)
-                    : c.command.Equals(next, StringComparison.InvariantCultureIgnoreCase)
+                c => TkSettings.ToolkitStyleCommands ? c.command.StartsWith(next, true, CultureInfo.InvariantCulture) : c.command.Equals(next, StringComparison.InvariantCultureIgnoreCase)
             );
         }
 
@@ -205,6 +192,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool TryGetNextAsCommand(out Command command)
         {
             command = GetNextAsCommand();
+
             return !(command is null);
         }
 
@@ -242,14 +230,13 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool TryGetNextAsSkill(out SkillDef def)
         {
             def = GetNextAsSkill();
+
             return !(def is null);
         }
 
         private static ThingItem GetItemRaw(string input)
         {
-            return Data.Items.Find(
-                i => i.DefName.Equals(input) || i.Name.Equals(input, StringComparison.InvariantCultureIgnoreCase)
-            );
+            return Data.Items.Find(i => i.DefName.Equals(input) || i.Name.Equals(input, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [CanBeNull]
@@ -282,6 +269,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             if (proxy.Thing == null)
             {
                 proxy.ProcessError = true;
+
                 return proxy;
             }
 
@@ -308,6 +296,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             if (Item.Quality && Data.Qualities.TryGetValue(segment, out QualityCategory quality))
             {
                 proxy.Quality = quality;
+
                 return true;
             }
 
@@ -322,6 +311,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             proxy.ProcessError = true;
+
             return false;
         }
 
@@ -333,6 +323,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             proxy.Gender = gender;
+
             return true;
         }
 
@@ -353,6 +344,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool TryGetNextAsItem(out ItemProxy item)
         {
             item = GetNextAsItem();
+
             return !(item is null);
         }
 
@@ -366,10 +358,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return null;
             }
 
-            return DefDatabase<PawnCapacityDef>.AllDefs.FirstOrDefault(
-                c => c.defName.Equals(next)
-                     || c.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase)
-            );
+            return DefDatabase<PawnCapacityDef>.AllDefs.FirstOrDefault(c => c.defName.Equals(next) || c.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [CanBeNull]
@@ -389,6 +378,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool TryGetNextAsCapacity(out PawnCapacityDef capacity)
         {
             capacity = GetNextAsCapacity();
+
             return !(capacity is null);
         }
 
@@ -407,7 +397,9 @@ namespace SirRandoo.ToolkitUtils.Workers
                 next = next.Substring(1);
             }
 
-            return Viewers.All.Find(v => v.username.Equals(next, StringComparison.InvariantCultureIgnoreCase));
+            return UserRegistry.TryGetData(next, out UserData data)
+                ? Viewers.All.Find(v => v.username.Equals(data.Username, StringComparison.InvariantCultureIgnoreCase))
+                : Viewers.All.Find(v => v.username.Equals(next, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [CanBeNull]
@@ -427,6 +419,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool TryGetNextAsViewer(out Viewer viewer)
         {
             viewer = GetNextAsViewer();
+
             return viewer != null;
         }
 
@@ -441,10 +434,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             return DefDatabase<StatDef>.AllDefs.Where(s => s.showOnHumanlikes && s.showOnPawns)
-               .FirstOrDefault(
-                    s => s.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase)
-                         || s.defName.Equals(next, StringComparison.InvariantCulture)
-                );
+               .FirstOrDefault(s => s.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase) || s.defName.Equals(next, StringComparison.InvariantCulture));
         }
 
         [CanBeNull]
@@ -464,6 +454,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool TryGetNextAsStat(out StatDef stat)
         {
             stat = GetNextAsStat();
+
             return !(stat is null);
         }
 
@@ -478,8 +469,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             return DefDatabase<ResearchProjectDef>.AllDefs.FirstOrDefault(
-                p => p.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase)
-                     || p.defName.Equals(next, StringComparison.InvariantCulture)
+                p => p.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase) || p.defName.Equals(next, StringComparison.InvariantCulture)
             );
         }
 
@@ -500,6 +490,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public bool TryGetNextAsResearch(out ResearchProjectDef project)
         {
             project = GetNextAsResearch();
+
             return !(project is null);
         }
 
@@ -527,6 +518,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (trait == null)
                 {
                     errorCallback.Invoke(lastArgument);
+
                     break;
                 }
 
@@ -558,6 +550,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (item == null)
                 {
                     errorCallback.Invoke(lastArgument);
+
                     break;
                 }
 
@@ -588,9 +581,11 @@ namespace SirRandoo.ToolkitUtils.Workers
                         case QualityCategory.Poor when Item.PoorQuality:
                         case QualityCategory.Awful when Item.AwfulQuality:
                             quality = value;
+
                             break;
                         default:
                             quality = null;
+
                             break;
                     }
                 }
@@ -629,19 +624,19 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (Thing.Cost <= 0 || Thing.Thing == null)
                 {
                     item = Thing;
+
                     return true;
                 }
 
-                if (Stuff != null
-                    && (Stuff.Cost <= 0
-                        || Stuff.ItemData?.IsStuffAllowed != true
-                        || !Thing.Thing.CanBeStuff(Stuff.Thing)))
+                if (Stuff != null && (Stuff.Cost <= 0 || Stuff.ItemData?.IsStuffAllowed != true || !Thing.Thing.CanBeStuff(Stuff.Thing)))
                 {
                     item = Stuff;
+
                     return true;
                 }
 
                 item = null;
+
                 return false;
             }
 
@@ -657,9 +652,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 }
 
 
-                return (Quality.HasValue
-                    ? $"{stuff} {name} ({Unrichify.StripTags(Quality.Value.ToString().ToLowerInvariant())})"
-                    : $"{stuff} {name}").Trim();
+                return (Quality.HasValue ? $"{stuff} {name} ({Unrichify.StripTags(Quality.Value.ToString().ToLowerInvariant())})" : $"{stuff} {name}").Trim();
             }
 
             public bool TryGetError([CanBeNull] out string error)
@@ -667,6 +660,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (TryGetInvalidSelector(out ThingItem item))
                 {
                     LogHelper.Debug("Found an invalid selector");
+
                     if (item == Thing)
                     {
                         return TryGetThingError(out error);
@@ -678,12 +672,14 @@ namespace SirRandoo.ToolkitUtils.Workers
                     }
 
                     error = null;
+
                     return false;
                 }
 
                 if (Quality.HasValue && !Thing.Thing.HasComp(typeof(CompQuality)))
                 {
                     error = "TKUtils.Item.QualityViolation".LocalizeKeyed(Thing.Name);
+
                     return true;
                 }
 
@@ -693,14 +689,17 @@ namespace SirRandoo.ToolkitUtils.Workers
                     {
                         case true when Gender is Verse.Gender.None:
                             error = "TKUtils.Item.GenderViolation".LocalizeKeyed(Thing.Name, Gender.ToStringSafe());
+
                             return true;
                         case false when !(Gender is Verse.Gender.None):
                             error = "TKUtils.Item.GenderViolation".LocalizeKeyed(Thing.Name, Gender.ToStringSafe());
+
                             break;
                     }
                 }
 
                 error = null;
+
                 return false;
             }
 
@@ -710,10 +709,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (Thing.Cost <= 0 || Thing.Thing == null)
                 {
                     error = "TKUtils.Item.Disabled".LocalizeKeyed(Thing.Name);
+
                     return true;
                 }
 
                 error = null;
+
                 return false;
             }
 
@@ -723,16 +724,19 @@ namespace SirRandoo.ToolkitUtils.Workers
                 if (Stuff.Cost <= 0 || Stuff.Thing == null)
                 {
                     error = "TKUtils.Item.Disabled".LocalizeKeyed(Stuff.Name);
+
                     return true;
                 }
 
                 if (!Thing.Thing.MadeFromStuff || !Thing.Thing.CanBeStuff(Stuff.Thing))
                 {
                     error = "TKUtils.Item.MaterialViolation".LocalizeKeyed(Thing.Name, Stuff.Name);
+
                     return true;
                 }
 
                 error = null;
+
                 return false;
             }
         }

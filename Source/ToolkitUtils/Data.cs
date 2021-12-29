@@ -120,6 +120,7 @@ namespace SirRandoo.ToolkitUtils
                 case "SingleFile":
                 {
                     LoadFromLegacy(Paths.LegacyShopDumpFilePath);
+
                     break;
                 }
             }
@@ -138,6 +139,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 Traits = new List<TraitItem>();
                 PawnKinds = new List<PawnKindItem>();
+
                 return;
             }
 
@@ -158,6 +160,7 @@ namespace SirRandoo.ToolkitUtils
             if (!File.Exists(path) && !ignoreErrors)
             {
                 LogHelper.Warn($"Could not load file at {path} -- Does not exist!");
+
                 return null;
             }
 
@@ -184,6 +187,7 @@ namespace SirRandoo.ToolkitUtils
             if (!File.Exists(path) && !ignoreErrors)
             {
                 LogHelper.Warn($"Could not load file at {path} -- Does not exist!");
+
                 return null;
             }
 
@@ -210,6 +214,7 @@ namespace SirRandoo.ToolkitUtils
             if (!File.Exists(path) && !ignoreErrors)
             {
                 LogHelper.Warn($"Could not load file at {path} -- Does not exist!");
+
                 return null;
             }
 
@@ -277,6 +282,7 @@ namespace SirRandoo.ToolkitUtils
                 if (TkSettings.MinifyData)
                 {
                     JsonSerializer.SerializeAsync(f, obj);
+
                     return;
                 }
 
@@ -327,6 +333,7 @@ namespace SirRandoo.ToolkitUtils
                     if (TkSettings.MinifyData)
                     {
                         await JsonSerializer.SerializeAsync(f, obj);
+
                         return;
                     }
 
@@ -460,6 +467,7 @@ namespace SirRandoo.ToolkitUtils
                 if (existing.NullOrEmpty())
                 {
                     Traits.AddRange(def.ToTraitItems());
+
                     continue;
                 }
 
@@ -475,6 +483,7 @@ namespace SirRandoo.ToolkitUtils
         private static void ValidateTraitData()
         {
             var builder = new StringBuilder();
+
             foreach (TraitItem trait in Traits)
             {
                 trait.TraitData ??= new TraitData();
@@ -527,6 +536,7 @@ namespace SirRandoo.ToolkitUtils
         private static void ValidatePawnKindData()
         {
             var builder = new StringBuilder();
+
             foreach (PawnKindItem pawn in PawnKinds)
             {
                 pawn.PawnData ??= new PawnKindData();
@@ -563,9 +573,11 @@ namespace SirRandoo.ToolkitUtils
             }
 
             var builder = new StringBuilder();
+
             foreach (ThingDef item in tradeables.Where(t => !ItemData.ContainsKey(t)).Select(i => DefDatabase<ThingDef>.GetNamed(i)))
             {
                 ModContentPack contentPack = item.modContentPack;
+
                 var data = new ItemData
                 {
                     Version = Models.ItemData.CurrentVersion,
@@ -613,6 +625,7 @@ namespace SirRandoo.ToolkitUtils
 
             var list = new List<ModItem>();
             var builder = new StringBuilder();
+
             foreach (ModMetaData metaData in running.Where(m => m.Active).Where(mod => !mod.Official).Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt"))))
             {
                 ModItem item;
@@ -624,6 +637,7 @@ namespace SirRandoo.ToolkitUtils
                 catch (Exception)
                 {
                     builder.AppendLine($" - {metaData?.Name ?? metaData?.FolderName}");
+
                     continue;
                 }
 
@@ -642,9 +656,10 @@ namespace SirRandoo.ToolkitUtils
         private static void ValidateSurgeryList()
         {
             Surgeries = new List<SurgeryItem>();
+
             foreach (RecipeDef recipe in DefDatabase<RecipeDef>.AllDefs)
             {
-                ISurgeryHandler handler = CompatRegistry.SurgeryHandlers.FirstOrDefault(i => i.IsSurgery(recipe));
+                ISurgeryHandler handler = CompatRegistry.AllSurgeryHandlers.FirstOrDefault(i => i.IsSurgery(recipe));
 
                 if (handler == null)
                 {
@@ -664,6 +679,7 @@ namespace SirRandoo.ToolkitUtils
         private static void ValidateEventData()
         {
             var builder = new StringBuilder();
+
             foreach (EventItem ev in Events)
             {
                 ev.EventData ??= new EventData();
@@ -727,10 +743,12 @@ namespace SirRandoo.ToolkitUtils
             {
                 case "SingleFile":
                     await SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
+
                     break;
                 default:
                     await SaveTraitsAsync(Paths.TraitFilePath);
                     await SavePawnKindsAsync(Paths.PawnKindFilePath);
+
                     break;
             }
         }
@@ -817,7 +835,7 @@ namespace SirRandoo.ToolkitUtils
             return Items.Where(i => i.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase)).Where(i => i.Cost > 0).Select(i => i.Name.ToToolkit());
         }
 
-        [NotNull]
+        [ItemNotNull]
         public static IEnumerable<string> GetEventResults(string input)
         {
             foreach (string simpleIncidentName in Purchase_Handler.allStoreIncidentsSimple.Where(i => i.cost > 0)
@@ -827,7 +845,7 @@ namespace SirRandoo.ToolkitUtils
                 yield return simpleIncidentName;
             }
 
-            foreach (string variablesIncidentName in Purchase_Handler.allStoreIncidentsVariables.Where(i => i.cost > 0 || i.defName.Equals("Item") && i.cost >= 0)
+            foreach (string variablesIncidentName in Purchase_Handler.allStoreIncidentsVariables.Where(i => i.cost > 0 || (i.defName.Equals("Item") && i.cost >= 0))
                .Where(i => i.abbreviation.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
                .Select(i => i.abbreviation))
             {
@@ -840,24 +858,23 @@ namespace SirRandoo.ToolkitUtils
         {
             return DefDatabase<Command>.AllDefs.Where(c => c.enabled)
                .Where(c => c.command.EqualsIgnoreCase(input))
-               .Where(c => viewer != null && Viewers.GetViewer(viewer.ToLowerInvariant()) is { } v && (v.mod && c.requiresMod || v.username == ToolkitSettings.Channel && c.requiresAdmin))
+               .Where(c => viewer != null && Viewers.GetViewer(viewer.ToLowerInvariant()) is { } v && ((v.mod && c.requiresMod) || (v.username == ToolkitSettings.Channel && c.requiresAdmin)))
                .Select(c => c.command);
         }
 
         [CanBeNull]
-        public static string GetViewerColorCode([NotNull] string viewer)
-        {
-            return !ToolkitSettings.ViewerColorCodes.TryGetValue(viewer.ToLowerInvariant(), out string color) ? null : color;
-        }
+        public static string GetViewerColorCode([NotNull] string viewer) => !ToolkitSettings.ViewerColorCodes.TryGetValue(viewer.ToLowerInvariant(), out string color) ? null : color;
 
         public static void LoadItemPartial([NotNull] IEnumerable<ItemPartial> partialData)
         {
             var builder = new StringBuilder();
+
             foreach (ItemPartial partial in partialData)
             {
                 if (partial.DefName == null)
                 {
                     builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+
                     continue;
                 }
 
@@ -871,11 +888,13 @@ namespace SirRandoo.ToolkitUtils
                     if (thing == null || item == null)
                     {
                         builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+
                         continue;
                     }
 
                     item.price = partial.Cost;
                     Items.Add(new ThingItem { Thing = thing, Item = item, ItemData = partial.ItemData });
+
                     continue;
                 }
 
@@ -897,6 +916,7 @@ namespace SirRandoo.ToolkitUtils
         public static void LoadEventPartial([NotNull] IEnumerable<EventPartial> partialData)
         {
             var builder = new StringBuilder();
+
             foreach (EventPartial partial in partialData)
             {
                 EventItem existing = Events.Find(i => i.DefName.Equals(partial.DefName));
@@ -908,6 +928,7 @@ namespace SirRandoo.ToolkitUtils
                     if (incident == null)
                     {
                         builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+
                         continue;
                     }
 
@@ -927,6 +948,7 @@ namespace SirRandoo.ToolkitUtils
 
                     e.EventData = partial.EventData;
                     Events.Add(e);
+
                     continue;
                 }
 
@@ -955,6 +977,7 @@ namespace SirRandoo.ToolkitUtils
         public static void LoadTraitPartial([NotNull] IEnumerable<TraitItem> partialData)
         {
             var builder = new StringBuilder();
+
             foreach (TraitItem partial in partialData)
             {
                 TraitItem existing = Traits.Find(i => i.DefName.Equals(partial.DefName) && i.Degree == partial.Degree);
@@ -964,10 +987,12 @@ namespace SirRandoo.ToolkitUtils
                     if (partial.TraitDef == null)
                     {
                         builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}:{partial.Degree}\n");
+
                         continue;
                     }
 
                     Traits.Add(partial);
+
                     continue;
                 }
 
@@ -991,6 +1016,7 @@ namespace SirRandoo.ToolkitUtils
         public static void LoadPawnPartial([NotNull] IEnumerable<PawnKindItem> partialData)
         {
             var builder = new StringBuilder();
+
             foreach (PawnKindItem partial in partialData)
             {
                 PawnKindItem existing = PawnKinds.Find(i => i.DefName.Equals(partial.DefName));
@@ -1000,10 +1026,12 @@ namespace SirRandoo.ToolkitUtils
                     if (partial.ColonistKindDef == null)
                     {
                         builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
+
                         continue;
                     }
 
                     PawnKinds.Add(partial);
+
                     continue;
                 }
 
@@ -1055,6 +1083,7 @@ namespace SirRandoo.ToolkitUtils
             try
             {
                 File.Replace(source, dest, backupPath);
+
                 return true;
             }
             catch (IOException e1)
@@ -1067,12 +1096,14 @@ namespace SirRandoo.ToolkitUtils
                 DeleteIfExists(backupPath);
                 File.Move(dest, backupPath);
                 File.Move(source, dest);
+
                 return true;
             }
             catch (IOException e2)
             {
                 LogHelper.Error($"Could not aggressively replace {dest} with {source}", e2);
                 TkUtils.Context?.Post(s => Messages.Message($"{Path.GetFileName(dest)} could not be updated", MessageTypeDefOf.TaskCompletion, false), null);
+
                 return false;
             }
         }

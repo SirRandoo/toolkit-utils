@@ -30,14 +30,11 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         static Immortals()
         {
-            foreach (Mod _ in LoadedModManager.ModHandles.Where(
-                h => h.Content.PackageId.EqualsIgnoreCase("fridgeBaron.Immortals")
-            ))
+            foreach (Mod _ in LoadedModManager.ModHandles.Where(h => h.Content.PackageId.EqualsIgnoreCase("fridgeBaron.Immortals")))
             {
                 try
                 {
-                    ImmortalHediffDef =
-                        DefDatabase<HediffDef>.AllDefs.FirstOrDefault(h => h.defName.Equals("IH_Immortal"));
+                    ImmortalHediffDef = DefDatabase<HediffDef>.AllDefs.FirstOrDefault(h => h.defName.Equals("IH_Immortal"));
 
                     Active = ImmortalHediffDef != null;
                 }
@@ -53,11 +50,13 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             try
             {
                 pawn.health.AddHediff(ImmortalHediffDef);
+
                 return true;
             }
             catch (Exception e)
             {
                 LogHelper.Error($"Could not grant immortality to {pawn.LabelCap}", e);
+
                 return false;
             }
         }

@@ -53,6 +53,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             CommandRouter.CommandQueue.Enqueue(e.ChatMessage);
             MessageLog.LogMessage(e.ChatMessage);
+
             return false;
         }
     }

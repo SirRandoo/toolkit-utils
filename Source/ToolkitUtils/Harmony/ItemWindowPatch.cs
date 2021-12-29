@@ -70,9 +70,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         {
                             case "MultiFile":
                                 await Data.SavePawnKindsAsync(Paths.PawnKindFilePath);
+
                                 return;
                             case "SingleFile":
                                 await Data.SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
+
                                 return;
                         }
                     }
@@ -84,9 +86,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 {
                     case "MultiFile":
                         Data.SavePawnKinds(Paths.PawnKindFilePath);
+
                         return;
                     case "SingleFile":
                         Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+
                         return;
                 }
             }

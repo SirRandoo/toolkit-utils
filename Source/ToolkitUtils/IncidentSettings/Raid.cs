@@ -34,11 +34,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            listing.CheckboxLabeled(
-                "TKUtils.WageredIncident.Storyteller.Label".Localize(),
-                ref Storyteller,
-                "TKUtils.WageredIncident.Storyteller.Description".Localize()
-            );
+            listing.CheckboxLabeled("TKUtils.WageredIncident.Storyteller.Label".Localize(), ref Storyteller, "TKUtils.WageredIncident.Storyteller.Description".Localize());
 
             listing.End();
         }

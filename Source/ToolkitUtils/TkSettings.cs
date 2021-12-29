@@ -23,19 +23,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
-    public enum Categories
-    {
-        General,
-        Data,
-        CommandTweaks,
-        PawnCommands,
-        PawnWork,
-        ModCompat
-    }
+    public enum LeaveMethod { Thanos, MentalBreak }
 
-    public enum LeaveMethods { Thanos, MentalBreak }
-
-    public enum DumpStyles { SingleFile, MultiFile }
+    public enum DumpStyle { SingleFile, MultiFile }
 
     public enum UserCoinType { Broadcaster, Subscriber, Vip, Moderator, None }
 
@@ -62,8 +52,8 @@ namespace SirRandoo.ToolkitUtils
         public static bool TempInGear;
         public static bool DropInventory;
         public static string BroadcasterCoinType = nameof(UserCoinType.Broadcaster);
-        public static string LeaveMethod = nameof(LeaveMethods.MentalBreak);
-        public static string DumpStyle = nameof(DumpStyles.SingleFile);
+        public static string LeaveMethod = nameof(ToolkitUtils.LeaveMethod.MentalBreak);
+        public static string DumpStyle = nameof(ToolkitUtils.DumpStyle.SingleFile);
         public static int LookupLimit = 10;
         public static bool VersionedModList;
         public static bool ShowCoinRate = true;
@@ -336,14 +326,14 @@ namespace SirRandoo.ToolkitUtils
         {
             _dumpStyleOptions ??= new List<FloatMenuOption>
             {
-                new FloatMenuOption("TKUtils.DumpStyle.SingleFile".Translate(), () => DumpStyle = nameof(DumpStyles.SingleFile)),
-                new FloatMenuOption("TKUtils.DumpStyle.MultiFile".Translate(), () => DumpStyle = nameof(DumpStyles.MultiFile))
+                new FloatMenuOption("TKUtils.DumpStyle.SingleFile".Translate(), () => DumpStyle = nameof(ToolkitUtils.DumpStyle.SingleFile)),
+                new FloatMenuOption("TKUtils.DumpStyle.MultiFile".Translate(), () => DumpStyle = nameof(ToolkitUtils.DumpStyle.MultiFile))
             };
 
             LeaveMenuOptions ??= new List<FloatMenuOption>
             {
-                new FloatMenuOption("TKUtils.Abandon.Method.Thanos".Translate(), () => LeaveMethod = nameof(LeaveMethods.Thanos)),
-                new FloatMenuOption("TKUtils.Abandon.Method.MentalBreak".Translate(), () => LeaveMethod = nameof(LeaveMethods.MentalBreak))
+                new FloatMenuOption("TKUtils.Abandon.Method.Thanos".Translate(), () => LeaveMethod = nameof(ToolkitUtils.LeaveMethod.Thanos)),
+                new FloatMenuOption("TKUtils.Abandon.Method.MentalBreak".Translate(), () => LeaveMethod = nameof(ToolkitUtils.LeaveMethod.MentalBreak))
             };
 
             _coinUserTypeOptions ??= new List<FloatMenuOption>
@@ -473,7 +463,7 @@ namespace SirRandoo.ToolkitUtils
                 Find.WindowStack.Add(new FloatMenu(LeaveMenuOptions));
             }
 
-            if (!LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethods.Thanos)))
+            if (!LeaveMethod.EqualsIgnoreCase(nameof(ToolkitUtils.LeaveMethod.Thanos)))
             {
                 listing.CheckboxLabeled("TKUtils.Abandon.Gear.Label".Translate(), ref DropInventory);
                 listing.DrawDescription("TKUtils.Abandon.Gear.Description".Translate());
@@ -583,8 +573,8 @@ namespace SirRandoo.ToolkitUtils
             Scribe_Values.Look(ref PurchasePawnKinds, "race", true);
             Scribe_Values.Look(ref TempInGear, "tempInGear");
             Scribe_Values.Look(ref DropInventory, "dropInventory");
-            Scribe_Values.Look(ref LeaveMethod, "leaveMethod", nameof(LeaveMethods.MentalBreak));
-            Scribe_Values.Look(ref DumpStyle, "dumpStyle", nameof(DumpStyles.SingleFile));
+            Scribe_Values.Look(ref LeaveMethod, "leaveMethod", nameof(ToolkitUtils.LeaveMethod.MentalBreak));
+            Scribe_Values.Look(ref DumpStyle, "dumpStyle", nameof(ToolkitUtils.DumpStyle.SingleFile));
             Scribe_Values.Look(ref BroadcasterCoinType, "broadcasterCoinType", nameof(UserCoinType.Broadcaster));
             Scribe_Values.Look(ref LookupLimit, "lookupLimit", 10);
             Scribe_Values.Look(ref AsapPurchases, "asapPurchases");

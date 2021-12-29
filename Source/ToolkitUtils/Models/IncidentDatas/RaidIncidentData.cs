@@ -30,23 +30,13 @@ namespace SirRandoo.ToolkitUtils.Models
         public virtual bool UseStoryteller => Raid.Storyteller;
         [NotNull] public Type WorkerClass => typeof(IncidentWorker_RaidEnemy);
 
-        public virtual IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident)
-        {
-            return IncidentCategoryDefOf.ThreatSmall;
-        }
+        public virtual IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
 
-        public virtual void DoExtraSetup(
-            [NotNull] IncidentWorker worker,
-            [NotNull] IncidentParms parms,
-            StoreIncident incident
-        )
+        public virtual void DoExtraSetup([NotNull] IncidentWorker worker, [NotNull] IncidentParms parms, StoreIncident incident)
         {
             parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
             worker.def = RimWorld.IncidentDefOf.RaidEnemy;
-            parms.faction = Find.FactionManager.RandomEnemyFaction(
-                minTechLevel: TechLevel.Industrial,
-                allowNonHumanlike: false
-            );
+            parms.faction = Find.FactionManager.RandomEnemyFaction(minTechLevel: TechLevel.Industrial, allowNonHumanlike: false);
             parms.forced = true;
             parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
         }

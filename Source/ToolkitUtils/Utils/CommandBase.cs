@@ -29,9 +29,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         [CanBeNull]
         private static Pawn FindPawn(string username)
         {
-            return Find.ColonistBar.GetColonistsInOrder()
-               .Where(p => p.Faction == Faction.OfPlayer)
-               .FirstOrDefault(c => ((NameTriple)c.Name)?.Nick.EqualsIgnoreCase(username) ?? false);
+            return Find.ColonistBar.GetColonistsInOrder().Where(p => p.Faction == Faction.OfPlayer).FirstOrDefault(c => ((NameTriple)c.Name)?.Nick.EqualsIgnoreCase(username) ?? false);
         }
 
         [CanBeNull]
@@ -68,8 +66,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         public static Pawn GetPawn(string username)
         {
             var component = Current.Game.GetComponent<GameComponentPawns>();
-            IEnumerable<Pawn> query = component.pawnHistory.Keys.Where(k => k.EqualsIgnoreCase(username))
-               .Select(p => component.pawnHistory[p]);
+            IEnumerable<Pawn> query = component.pawnHistory.Keys.Where(k => k.EqualsIgnoreCase(username)).Select(p => component.pawnHistory[p]);
 
             return query.FirstOrDefault();
         }

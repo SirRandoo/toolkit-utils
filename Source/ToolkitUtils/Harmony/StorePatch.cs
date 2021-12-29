@@ -37,6 +37,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             _utilsInjectorMethod = AccessTools.Method(typeof(StorePatch), "DrawUtilsContents");
             _injectionSiteMarkerMethod = AccessTools.Method(typeof(Listing), "Gap");
+
             return true;
         }
 
@@ -56,9 +57,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     markerFound = true;
                 }
 
-                if (markerFound
-                    && instruction.opcode == OpCodes.Callvirt
-                    && ReferenceEquals(instruction.operand, _injectionSiteMarkerMethod))
+                if (markerFound && instruction.opcode == OpCodes.Callvirt && ReferenceEquals(instruction.operand, _injectionSiteMarkerMethod))
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_1);
                     yield return new CodeInstruction(OpCodes.Call, _utilsInjectorMethod);
@@ -73,24 +72,28 @@ namespace SirRandoo.ToolkitUtils.Harmony
             if (optionsListing == null)
             {
                 LogHelper.Warn("Could not inject Utils' shop buttons into Toolkit's store.  You should report this.");
+
                 return;
             }
 
             string openText = "TKUtils.Buttons.Open".Localize();
 
             DoButtonSeparator(optionsListing);
+
             if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Traits".Localize()}", openText))
             {
                 Find.WindowStack.Add(new TraitConfigDialog());
             }
 
             DoButtonSeparator(optionsListing);
+
             if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Race".Localize().Pluralize()}", openText))
             {
                 Find.WindowStack.Add(new PawnKindConfigDialog());
             }
 
             DoButtonSeparator(optionsListing);
+
             if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"TKUtils.Editor.Title".Localize()}", openText))
             {
                 Find.WindowStack.Add(new Editor());

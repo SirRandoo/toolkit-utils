@@ -105,9 +105,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             foreach (TableSettingsItem<ThingItem> item in worker.Data.Where(i => !i.IsHidden))
             {
-                item.IsHidden = categorySearch
-                    ? !item.Data.Category.ToLower().Contains(query.ToLower())
-                    : !item.Data.Name.ToLower().Contains(query.ToLower());
+                item.IsHidden = categorySearch ? !item.Data.Category.ToLower().Contains(query.ToLower()) : !item.Data.Name.ToLower().Contains(query.ToLower());
             }
         }
 
@@ -276,12 +274,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(inRect);
             var headerRect = new Rect(0f, 0f, inRect.width, Text.LineHeight * 2f);
-            var contentArea = new Rect(
-                inRect.x,
-                Text.LineHeight * 3f,
-                inRect.width,
-                inRect.height - Text.LineHeight * 3f
-            );
+            var contentArea = new Rect(inRect.x, Text.LineHeight * 3f, inRect.width, inRect.height - Text.LineHeight * 3f);
             GameFont fontCache = Text.Font;
             Text.Font = GameFont.Small;
 
@@ -292,6 +285,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 DoFilterMenu(contentArea);
                 GUI.EndGroup();
+
                 return;
             }
 
@@ -319,33 +313,15 @@ namespace SirRandoo.ToolkitUtils.Windows
             float filterWidth = canvas.width * 0.5f;
             Vector2 center = canvas.center;
 
-            Rect filterDialog = new Rect(
-                    center.x - filterWidth / 2f,
-                    center.y - canvas.height * 0.75f / 2f,
-                    filterWidth,
-                    canvas.height * 0.75f
-                ).ExpandedBy(StandardMargin * 2f)
-               .Rounded();
+            Rect filterDialog = new Rect(center.x - filterWidth / 2f, center.y - canvas.height * 0.75f / 2f, filterWidth, canvas.height * 0.75f).ExpandedBy(StandardMargin * 2f).Rounded();
 
             Widgets.DrawBoxSolid(filterDialog, OverlayBackgroundColor);
-            Widgets.Label(
-                new Rect(
-                    filterDialog.x + 8f,
-                    filterDialog.y + 5f,
-                    filterDialog.width - 30f,
-                    Text.LineHeight * LineScale
-                ).Rounded(),
-                localize
-            );
+            Widgets.Label(new Rect(filterDialog.x + 8f, filterDialog.y + 5f, filterDialog.width - 30f, Text.LineHeight * LineScale).Rounded(), localize);
 
-            Widgets.DrawHighlight(
-                new Rect(filterDialog.x, filterDialog.y, filterDialog.width, Text.LineHeight * LineScale).Rounded()
-            );
+            Widgets.DrawHighlight(new Rect(filterDialog.x, filterDialog.y, filterDialog.width, Text.LineHeight * LineScale).Rounded());
 
             GUI.BeginGroup(filterDialog.ContractedBy(StandardMargin * 2f));
-            filterManager.DrawFilters(
-                new Rect(0f, 0f, filterDialog.width - StandardMargin * 4f, filterDialog.height - StandardMargin * 4f)
-            );
+            filterManager.DrawFilters(new Rect(0f, 0f, filterDialog.width - StandardMargin * 4f, filterDialog.height - StandardMargin * 4f));
             GUI.EndGroup();
 
             if (Widgets.CloseButtonFor(filterDialog))
@@ -361,12 +337,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             Rect searchRect = new Rect(line.x, line.y, line.width * 0.18f, line.height).Rounded();
             Rect searchTextRect = searchRect.WithWidth(searchTextSize.x);
-            var searchFieldRect = new Rect(
-                searchTextRect.x + searchTextRect.width + 5f,
-                searchTextRect.y,
-                searchRect.width - searchTextRect.width - 5f,
-                searchTextRect.height
-            );
+            var searchFieldRect = new Rect(searchTextRect.x + searchTextRect.width + 5f, searchTextRect.y, searchRect.width - searchTextRect.width - 5f, searchTextRect.height);
 
             Widgets.Label(searchTextRect, searchText);
 
@@ -382,12 +353,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 NotifySearchRequested();
             }
 
-            var filterButtonRect = new Rect(
-                searchRect.x + searchRect.width + 2f,
-                searchRect.y,
-                searchRect.height,
-                searchRect.height
-            );
+            var filterButtonRect = new Rect(searchRect.x + searchRect.width + 2f, searchRect.y, searchRect.height, searchRect.height);
             DrawFilterButton(filterButtonRect);
             DrawCategorySearchModifier(searchFieldRect, line);
 
@@ -401,19 +367,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawCategorySearchModifier(Rect searchFieldRect, Rect line)
         {
-            var categoryLine = new Rect(
-                searchFieldRect.x,
-                Text.LineHeight + 1f,
-                categorySearchTextSize.x + 16f,
-                line.height
-            );
+            var categoryLine = new Rect(searchFieldRect.x, Text.LineHeight + 1f, categorySearchTextSize.x + 16f, line.height);
             var categoryCheck = new Rect(categoryLine.x + 2f, categoryLine.y + 2f, 12f, 12f);
-            var categoryText = new Rect(
-                categoryCheck.x + 16f,
-                categoryLine.y,
-                categorySearchTextSize.x,
-                categoryLine.height
-            );
+            var categoryText = new Rect(categoryCheck.x + 16f, categoryLine.y, categorySearchTextSize.x, categoryLine.height);
 
             GUI.DrawTexture(categoryCheck, categorySearch ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
             SettingsHelper.DrawLabel(categoryText, categorySearchText, TextAnchor.UpperLeft, GameFont.Tiny);
@@ -471,9 +427,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
                 catch (Exception e)
                 {
-                    LogHelper.Warn(
-                        $"Validator encountered an error! | Exception: {e.GetType().Name}({e.Message})\n{e.StackTrace}"
-                    );
+                    LogHelper.Warn($"Validator encountered an error! | Exception: {e.GetType().Name}({e.Message})\n{e.StackTrace}");
                     _validator = null;
                 }
             }
@@ -495,6 +449,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 if (!_validator.MoveNext())
                 {
                     _validator = null;
+
                     break;
                 }
 
@@ -589,6 +544,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 FilterMenuActive = false;
                 Event.current.Use();
                 UpdateItemView();
+
                 return;
             }
 
@@ -602,6 +558,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 FilterMenuActive = false;
                 Event.current.Use();
                 UpdateItemView();
+
                 return;
             }
 
@@ -632,8 +589,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     continue;
                 }
 
-                ThingItem thingItem = Data.Items.Find(i => i.DefName.Equals(thing.defName))
-                                      ?? new ThingItem { Thing = thing };
+                ThingItem thingItem = Data.Items.Find(i => i.DefName.Equals(thing.defName)) ?? new ThingItem { Thing = thing };
 
                 try
                 {
@@ -641,11 +597,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                     if (item == null)
                     {
-                        item = new Item(
-                            thing.CalculateStorePrice(),
-                            thing.label?.ToToolkit() ?? thing.defName,
-                            thing.defName
-                        );
+                        item = new Item(thing.CalculateStorePrice(), thing.label?.ToToolkit() ?? thing.defName, thing.defName);
 
                         StoreInventory.items.Add(item);
                     }

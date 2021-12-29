@@ -48,6 +48,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             var builder = new StringBuilder();
+
             foreach ((string key, LoadedLanguage.KeyedReplacement value) in active.keyedReplacements)
             {
                 if (!TranslationProxy.TryAdd(key, value.value))
@@ -67,10 +68,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             LogHelper.Warn(builder.ToString());
         }
 
-        public static string Localize([NotNull] this string key)
-        {
-            return TranslationProxy.TryGetValue(key, out string value) ? value : key;
-        }
+        public static string Localize([NotNull] this string key) => TranslationProxy.TryGetValue(key, out string value) ? value : key;
 
         public static string Localize([NotNull] this string key, string backup)
         {

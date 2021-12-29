@@ -47,12 +47,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
             Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
             var component = Current.Game.GetComponent<GameComponentPawns>();
 
-            ToolkitSettings.ViewerColorCodes[twitchMessage.Username.ToLowerInvariant()] =
-                twitchMessage.ChatMessage.ColorHex;
+            ToolkitSettings.ViewerColorCodes[twitchMessage.Username.ToLowerInvariant()] = twitchMessage.ChatMessage.ColorHex;
 
-            if (TkSettings.HairColor
-                && component.HasUserBeenNamed(twitchMessage.Username)
-                && ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
+            if (TkSettings.HairColor && component.HasUserBeenNamed(twitchMessage.Username) && ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
             {
                 Pawn pawn = component.PawnAssignedToUser(twitchMessage.Username);
 
@@ -63,11 +60,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             UserData data = UserRegistry.UpdateData(twitchMessage);
-
-            if (data == null)
-            {
-                return false;
-            }
 
             if (data.IsBroadcaster)
             {

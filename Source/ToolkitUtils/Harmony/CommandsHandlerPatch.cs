@@ -77,6 +77,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             LocateCommand(segments.ToArray())?.Execute(twitchMessage.WithMessage("!" + CombineSegments(segments).Trim())!, text);
+
             return false;
         }
 

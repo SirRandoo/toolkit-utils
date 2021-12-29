@@ -33,6 +33,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         public static bool Prepare()
         {
             _settingMarker ??= AccessTools.Field(typeof(ToolkitSettings), "KarmaMinimum");
+
             return true;
         }
 

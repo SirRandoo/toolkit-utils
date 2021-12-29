@@ -33,17 +33,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!viewer.CanAfford(storeIncident.cost))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".Localize());
+
                 return false;
             }
 
             if (Current.Game.Maps.Count(m => m.IsPlayerHome) > 0)
             {
-                return Current.Game.Maps.All(
-                    map => !map.GameConditionManager.ConditionIsActive(GameConditionDefOf.Sanctuary)
-                );
+                return Current.Game.Maps.All(map => !map.GameConditionManager.ConditionIsActive(GameConditionDefOf.Sanctuary));
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
+
             return false;
         }
 
@@ -58,18 +58,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                map.GameConditionManager.RegisterCondition(
-                    GameConditionMaker.MakeCondition(GameConditionDefOf.Sanctuary, Rand.Range(2, 6) * 60000)
-                );
+                map.GameConditionManager.RegisterCondition(GameConditionMaker.MakeCondition(GameConditionDefOf.Sanctuary, Rand.Range(2, 6) * 60000));
             }
 
             Viewer.Charge(storeIncident);
 
-            Find.LetterStack.ReceiveLetter(
-                "TKUtils.SanctuaryLetter.Title".Localize(),
-                "TKUtils.SanctuaryLetter.Description".Localize(),
-                LetterDefOf.PositiveEvent
-            );
+            Find.LetterStack.ReceiveLetter("TKUtils.SanctuaryLetter.Title".Localize(), "TKUtils.SanctuaryLetter.Description".Localize(), LetterDefOf.PositiveEvent);
 
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Sanctuary.Complete".Localize());
         }

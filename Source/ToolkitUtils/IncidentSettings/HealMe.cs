@@ -36,11 +36,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            listing.CheckboxLabeled(
-                "TKUtils.Heal.FairFights.Label".Localize(),
-                ref FairFights,
-                "TKUtils.Heal.FairFights.Description".Localize()
-            );
+            listing.CheckboxLabeled("TKUtils.Heal.FairFights.Label".Localize(), ref FairFights, "TKUtils.Heal.FairFights.Description".Localize());
 
             listing.End();
         }

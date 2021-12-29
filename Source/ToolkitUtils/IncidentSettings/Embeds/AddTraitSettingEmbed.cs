@@ -37,14 +37,8 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Embeds
         {
             (Rect label, Rect field) = new Rect(canvas.x, canvas.y, canvas.width, preferredHeight).ToForm(0.65f);
             SettingsHelper.DrawLabel(label, "TKUtils.Fields.TraitLimit".Localize());
-            if (SettingsHelper.DrawNumberField(
-                field,
-                ref AddTraitSettings.maxTraits,
-                ref buffer,
-                out int newValue,
-                1,
-                100
-            ))
+
+            if (SettingsHelper.DrawNumberField(field, ref AddTraitSettings.maxTraits, ref buffer, out int newValue, 1, 100))
             {
                 AddTraitSettings.maxTraits = newValue;
             }

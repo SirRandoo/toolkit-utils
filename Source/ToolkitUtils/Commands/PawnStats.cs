@@ -46,6 +46,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
                 msg.Reply("TKUtils.NoPawn".Localize());
+
                 return;
             }
 
@@ -72,15 +73,10 @@ namespace SirRandoo.ToolkitUtils.Commands
             return DefDatabase<StatDef>.AllDefs.FirstOrDefault(s => IsValidStat(s) && IsStat(s, query));
         }
 
-        private static bool IsValidStat([NotNull] StatDef stat)
-        {
-            return stat.showOnHumanlikes && stat.showOnPawns;
-        }
+        private static bool IsValidStat([NotNull] StatDef stat) => stat.showOnHumanlikes && stat.showOnPawns;
 
-        private static bool IsStat([NotNull] Def stat, string query)
-        {
-            return stat.label.ToToolkit().Equals(query, StringComparison.InvariantCultureIgnoreCase) || stat.defName.Equals(query, StringComparison.InvariantCultureIgnoreCase);
-        }
+        private static bool IsStat([NotNull] Def stat, string query) => stat.label.ToToolkit().Equals(query, StringComparison.InvariantCultureIgnoreCase)
+                                                                        || stat.defName.Equals(query, StringComparison.InvariantCultureIgnoreCase);
 
         [NotNull]
         private static string FormatStat(Thing pawn, [NotNull] StatDef stat)

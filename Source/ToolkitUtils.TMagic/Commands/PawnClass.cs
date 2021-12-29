@@ -19,6 +19,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
                 twitchMessage.Reply("TKUtils.NoPawn".Localize());
+
                 return;
             }
 
@@ -30,6 +31,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!isMightUser && !isMagicUser)
             {
                 twitchMessage.Reply("TKUtils.PawnClass.None".Localize());
+
                 return;
             }
 
@@ -60,12 +62,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             builder.Append(" ");
             builder.Append("TKUtils.PawnClass.Level".LocalizeKeyed(might.MightUserLevel.ToString("N0")));
             builder.Append(", ");
-            builder.Append(
-                "TKUtils.PawnClass.Experience".LocalizeKeyed(
-                    might.MightUserXP.ToString("N0"),
-                    might.MightUserXPTillNextLevel.ToString("N0")
-                )
-            );
+            builder.Append("TKUtils.PawnClass.Experience".LocalizeKeyed(might.MightUserXP.ToString("N0"), might.MightUserXPTillNextLevel.ToString("N0")));
             builder.Append(", ");
             builder.Append("TKUtils.PawnClass.Stamina".Localize()).Append(" ");
             builder.Append((might.Stamina.CurLevel * 100f).ToString("N0"));
@@ -100,12 +97,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             builder.Append(" ");
             builder.Append("TKUtils.PawnClass.Level".LocalizeKeyed(magic.MagicUserLevel.ToString("N0")));
             builder.Append(", ");
-            builder.Append(
-                "TKUtils.PawnClass.Experience".LocalizeKeyed(
-                    magic.MagicUserXP.ToString("N0"),
-                    magic.MagicUserXPTillNextLevel.ToString("N0")
-                )
-            );
+            builder.Append("TKUtils.PawnClass.Experience".LocalizeKeyed(magic.MagicUserXP.ToString("N0"), magic.MagicUserXPTillNextLevel.ToString("N0")));
             builder.Append(", ");
             builder.Append("TKUtils.PawnClass.Mana".Localize()).Append(" ");
             builder.Append((magic.Mana.CurLevel * 100f).ToString("N0"));
@@ -140,15 +132,10 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return GetClassName(trait);
             }
 
-            return pawn.story.traits.HasTrait(TorannMagicDefOf.DeathKnight)
-                ? GetClassName(TorannMagicDefOf.DeathKnight)
-                : "";
+            return pawn.story.traits.HasTrait(TorannMagicDefOf.DeathKnight) ? GetClassName(TorannMagicDefOf.DeathKnight) : "";
         }
 
         [CanBeNull]
-        private string GetClassName([NotNull] TraitDef trait)
-        {
-            return Unrichify.StripTags(trait.degreeDatas.Count > 0 ? trait.degreeDatas.First().label : trait.label);
-        }
+        private string GetClassName([NotNull] TraitDef trait) => Unrichify.StripTags(trait.degreeDatas.Count > 0 ? trait.degreeDatas.First().label : trait.label);
     }
 }

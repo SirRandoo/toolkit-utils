@@ -28,10 +28,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public bool UseStoryteller => Infestation.Storyteller;
         [NotNull] public Type WorkerClass => typeof(IncidentWorker_Infestation);
 
-        public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident)
-        {
-            return IncidentCategoryDefOf.ThreatBig;
-        }
+        public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatBig;
 
         public void DoExtraSetup([NotNull] IncidentWorker worker, IncidentParms parms, StoreIncident incident)
         {

@@ -67,10 +67,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             SettingsHelper.DrawLabel(awfulLabel, "TKUtils.Item.AwfulMultiplier".Localize());
             Widgets.TextFieldNumeric(awfulField, ref AwfulMultiplier, ref AwfulMultiplierBuffer);
 
-            if (SettingsHelper.DrawFieldButton(
-                awfulLabel,
-                AwfulQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
-            ))
+            if (SettingsHelper.DrawFieldButton(awfulLabel, AwfulQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
             {
                 AwfulQuality = !AwfulQuality;
             }
@@ -88,10 +85,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             SettingsHelper.DrawLabel(normalLabel, "TKUtils.Item.NormalMultiplier".Localize());
             Widgets.TextFieldNumeric(normalField, ref NormalMultiplier, ref NormalMultiplierBuffer);
 
-            if (SettingsHelper.DrawFieldButton(
-                normalLabel,
-                NormalQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
-            ))
+            if (SettingsHelper.DrawFieldButton(normalLabel, NormalQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
             {
                 NormalQuality = !NormalQuality;
             }
@@ -110,10 +104,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             Widgets.TextFieldNumeric(excField, ref ExcellentMultiplier, ref ExcellentMultiplierBuffer);
 
 
-            if (SettingsHelper.DrawFieldButton(
-                excLabel,
-                ExcellentQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
-            ))
+            if (SettingsHelper.DrawFieldButton(excLabel, ExcellentQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
             {
                 ExcellentQuality = !ExcellentQuality;
             }
@@ -123,10 +114,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             Widgets.TextFieldNumeric(mWorkField, ref MasterworkMultiplier, ref MasterworkMultiplierBuffer);
 
 
-            if (SettingsHelper.DrawFieldButton(
-                mWorkLabel,
-                MasterworkQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
-            ))
+            if (SettingsHelper.DrawFieldButton(mWorkLabel, MasterworkQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
             {
                 MasterworkQuality = !MasterworkQuality;
             }
@@ -136,34 +124,15 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             Widgets.TextFieldNumeric(legField, ref LegendaryMultiplier, ref LegendaryMultiplierBuffer);
 
 
-            if (SettingsHelper.DrawFieldButton(
-                legLabel,
-                LegendaryQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
-            ))
+            if (SettingsHelper.DrawFieldButton(legLabel, LegendaryQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
             {
                 LegendaryQuality = !LegendaryQuality;
             }
 
-            listing.CheckboxLabeled(
-                "TKUtils.Item.Stuff.Label".Localize(),
-                ref Stuff,
-                "TKUtils.Item.Stuff.Description".Localize()
-            );
-            listing.CheckboxLabeled(
-                "TKUtils.Item.Quality.Label".Localize(),
-                ref Quality,
-                "TKUtils.Item.Quality.Description".Localize()
-            );
-            listing.CheckboxLabeled(
-                "TKUtils.Item.Gender.Label".Localize(),
-                ref Gender,
-                "TKUtils.Item.Gender.Description".Localize()
-            );
-            listing.CheckboxLabeled(
-                "TKUtils.Item.Research.Label".Localize(),
-                ref BuyItemSettings.mustResearchFirst,
-                "TKUtils.Item.Research.Description".Localize()
-            );
+            listing.CheckboxLabeled("TKUtils.Item.Stuff.Label".Localize(), ref Stuff, "TKUtils.Item.Stuff.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.Item.Quality.Label".Localize(), ref Quality, "TKUtils.Item.Quality.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.Item.Gender.Label".Localize(), ref Gender, "TKUtils.Item.Gender.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.Item.Research.Label".Localize(), ref BuyItemSettings.mustResearchFirst, "TKUtils.Item.Research.Description".Localize());
 
             listing.End();
         }

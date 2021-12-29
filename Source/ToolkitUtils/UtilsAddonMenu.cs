@@ -33,36 +33,15 @@ namespace SirRandoo.ToolkitUtils
         {
             Options = new List<FloatMenuOption>
             {
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Settings".Localize(),
-                    SettingsHelper.OpenSettingsMenuFor<TkUtils>
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Editor".Localize(),
-                    () => Find.WindowStack.Add(new Editor())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.PawnKind".Localize(),
-                    () => Find.WindowStack.Add(new PawnKindConfigDialog())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Trait".Localize(),
-                    () => Find.WindowStack.Add(new TraitConfigDialog())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Purge".Localize(),
-                    () => Find.WindowStack.Add(new PurgeViewersDialog())
-                ),
-                new FloatMenuOption(
-                    "Wiki".Localize(),
-                    () => Application.OpenURL("https://sirrandoo.github.io/toolkit-utils")
-                )
+                new FloatMenuOption("TKUtils.AddonMenu.Settings".Localize(), () => Find.WindowStack.Add(new UtilsSettingsWindow())),
+                new FloatMenuOption("TKUtils.AddonMenu.Editor".Localize(), () => Find.WindowStack.Add(new Editor())),
+                new FloatMenuOption("TKUtils.AddonMenu.PawnKind".Localize(), () => Find.WindowStack.Add(new PawnKindConfigDialog())),
+                new FloatMenuOption("TKUtils.AddonMenu.Trait".Localize(), () => Find.WindowStack.Add(new TraitConfigDialog())),
+                new FloatMenuOption("TKUtils.AddonMenu.Purge".Localize(), () => Find.WindowStack.Add(new PurgeViewersDialog())),
+                new FloatMenuOption("Wiki".Localize(), () => Application.OpenURL("https://sirrandoo.github.io/toolkit-utils"))
             };
         }
 
-        public List<FloatMenuOption> MenuOptions()
-        {
-            return Options;
-        }
+        public List<FloatMenuOption> MenuOptions() => Options;
     }
 }

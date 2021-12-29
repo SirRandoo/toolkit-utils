@@ -24,10 +24,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 {
     public class RandomInspire : IncidentVariablesBase
     {
-        public override bool CanHappen(string msg, Viewer viewer)
-        {
-            return true;
-        }
+        public override bool CanHappen(string msg, Viewer viewer) => true;
 
         public override void Execute()
         {
@@ -38,10 +35,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                if (!DefDatabase<InspirationDef>.AllDefs.TryRandomElementByWeight(
-                    i => i.Worker.CommonalityFor(pawn),
-                    out InspirationDef def
-                ))
+                if (!DefDatabase<InspirationDef>.AllDefs.TryRandomElementByWeight(i => i.Worker.CommonalityFor(pawn), out InspirationDef def))
                 {
                     continue;
                 }
@@ -51,14 +45,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                MessageHelper.SendConfirmation(
-                    Viewer.username,
-                    "TKUtils.RandomInspire.Complete".LocalizeKeyed(
-                        pawn.LabelShort?.CapitalizeFirst() ?? pawn.LabelCap,
-                        def.label
-                    )
-                );
+                MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RandomInspire.Complete".LocalizeKeyed(pawn.LabelShort?.CapitalizeFirst() ?? pawn.LabelCap, def.label));
                 Viewer.Charge(storeIncident);
+
                 return;
             }
 

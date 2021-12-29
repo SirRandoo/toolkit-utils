@@ -44,29 +44,25 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy product) || !product.IsValid())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
+
                 return false;
             }
 
             if (product.TryGetError(out string error))
             {
                 MessageHelper.ReplyToUser(viewer.username, error);
+
                 return false;
             }
 
-            int amount = product.Thing.ItemData?.HasQuantityLimit == true
-                ? worker.GetNextAsInt(1, product.Thing.ItemData.QuantityLimit)
-                : worker.GetNextAsInt(1);
+            int amount = product.Thing.ItemData?.HasQuantityLimit == true ? worker.GetNextAsInt(1, product.Thing.ItemData.QuantityLimit) : worker.GetNextAsInt(1);
 
             List<ResearchProjectDef> projects = product!.Thing.Thing.GetUnfinishedPrerequisites();
+
             if (BuyItemSettings.mustResearchFirst && projects.Count > 0)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.ResearchRequired".LocalizeKeyed(
-                        product.Thing.Thing.LabelCap.RawText,
-                        projects.Select(p => p.LabelCap.RawText).SectionJoin()
-                    )
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.ResearchRequired".LocalizeKeyed(product.Thing.Thing.LabelCap.RawText, projects.Select(p => p.LabelCap.RawText).SectionJoin()));
+
                 return false;
             }
 
@@ -84,17 +80,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.ReplyToUser(
                     viewer.username,
-                    "TKUtils.Item.MinimumViolation".LocalizeKeyed(
-                        purchaseRequest.Price.ToString("N0"),
-                        ToolkitSettings.MinimumPurchasePrice.ToString("N0")
-                    )
+                    "TKUtils.Item.MinimumViolation".LocalizeKeyed(purchaseRequest.Price.ToString("N0"), ToolkitSettings.MinimumPurchasePrice.ToString("N0"))
                 );
+
                 return false;
             }
 
             if (purchaseRequest.Overflowed)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Overflowed".Localize());
+
                 return false;
             }
 
@@ -103,13 +98,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return purchaseRequest.Map != null;
             }
 
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                "TKUtils.InsufficientBalance".LocalizeKeyed(
-                    purchaseRequest.Price.ToString("N0"),
-                    viewer.GetViewerCoins().ToString("N0")
-                )
-            );
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(purchaseRequest.Price.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+
             return false;
         }
 
@@ -136,9 +126,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             get
             {
-                int price = Proxy.Quality.HasValue
-                    ? Proxy.Thing.GetItemPrice(Proxy.Stuff, Proxy.Quality.Value)
-                    : Proxy.Thing.GetItemPrice(Proxy.Stuff);
+                int price = Proxy.Quality.HasValue ? Proxy.Thing.GetItemPrice(Proxy.Stuff, Proxy.Quality.Value) : Proxy.Thing.GetItemPrice(Proxy.Stuff);
 
                 if (!Overflowed && PurchaseHelper.TryMultiply(price, Quantity, out int result))
                 {
@@ -146,6 +134,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 Overflowed = true;
+
                 return int.MaxValue;
             }
         }
@@ -161,6 +150,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (Proxy.Thing.Thing.race != null)
             {
                 SpawnAnimal();
+
                 return;
             }
 
@@ -173,6 +163,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 // ReSharper disable once StringLiteralTypo
                 LogHelper.Warn("Tried to spawn a humanlike -- Humanlikes should be spawned via !buy pawn");
+
                 return;
             }
 
@@ -200,6 +191,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 sendAnimalLetter = true;
+
                 return;
             }
 
@@ -219,9 +211,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
         private void SpawnItem()
         {
             ThingDef result = Proxy.Stuff?.Thing;
+
             if (Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff?.Thing) != true)
             {
                 var stuffs = new List<ThingDef>();
+
                 foreach (ThingDef possible in GenStuff.AllowedStuffsFor(Proxy.Thing.Thing))
                 {
                     if (!Data.ItemData.TryGetValue(possible.defName, out ItemData data) || !data.IsStuffAllowed)
@@ -232,9 +226,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     stuffs.Add(possible);
                 }
 
-                result = !stuffs.TryRandomElementByWeight(s => s.stuffProps.commonality, out ThingDef stuff)
-                    ? GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing)
-                    : stuff;
+                result = !stuffs.TryRandomElementByWeight(s => s.stuffProps.commonality, out ThingDef stuff) ? GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing) : stuff;
             }
 
             Thing thing = PurchaseHelper.MakeThing(Proxy.Thing.Thing, result, Proxy.Quality);
@@ -256,11 +248,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 (Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name).Truncate(15, true).CapitalizeFirst(),
-                "TKUtils.ItemLetter.ItemDescription".LocalizeKeyed(
-                    Quantity.ToString("N0"),
-                    Proxy.AsString(Quantity > 1),
-                    Purchaser.username
-                ),
+                "TKUtils.ItemLetter.ItemDescription".LocalizeKeyed(Quantity.ToString("N0"), Proxy.AsString(Quantity > 1), Purchaser.username),
                 ItemHelper.GetLetterFromValue(Price),
                 thing
             );
@@ -268,11 +256,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public void CompletePurchase(StoreIncident incident)
         {
-            Purchaser.Charge(
-                Price,
-                Proxy.Thing.ItemData?.Weight ?? 1f,
-                Proxy.Thing.Data?.KarmaType ?? incident.karmaType
-            );
+            Purchaser.Charge(Price, Proxy.Thing.ItemData?.Weight ?? 1f, Proxy.Thing.Data?.KarmaType ?? incident.karmaType);
 
             if (Proxy.Thing.Thing.race != null)
             {
@@ -302,22 +286,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.SendConfirmation(
                     Purchaser.username,
-                    "TKUtils.Item.CompleteMinimal".LocalizeKeyed(
-                        Quantity.ToString("N0"),
-                        Quantity > 1 ? Proxy.Thing.Thing.label.Pluralize() : Proxy.Thing.Thing.label,
-                        Price.ToString("N0")
-                    )
+                    "TKUtils.Item.CompleteMinimal".LocalizeKeyed(Quantity.ToString("N0"), Quantity > 1 ? Proxy.Thing.Thing.label.Pluralize() : Proxy.Thing.Thing.label, Price.ToString("N0"))
                 );
             }
 
             if (sendAnimalLetter)
             {
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.ItemLetter.Animal".LocalizeKeyed(
-                        Quantity > 1
-                            ? Proxy.Thing.Thing.label.CapitalizeFirst().Pluralize()
-                            : Proxy.Thing.Thing.label.CapitalizeFirst()
-                    ),
+                    "TKUtils.ItemLetter.Animal".LocalizeKeyed(Quantity > 1 ? Proxy.Thing.Thing.label.CapitalizeFirst().Pluralize() : Proxy.Thing.Thing.label.CapitalizeFirst()),
                     "LetterFarmAnimalsWanderIn".LocalizeKeyed(Proxy.Thing.Thing.label.Pluralize()),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(animalsForLetter)
@@ -331,24 +307,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.SendConfirmation(
                     Purchaser.username,
-                    "TKUtils.Item.Complete".LocalizeKeyed(
-                        Quantity.ToString("N0"),
-                        Proxy.AsString(Quantity > 1),
-                        Price.ToString("N0"),
-                        Purchaser.GetViewerCoins().ToString("N0")
-                    )
+                    "TKUtils.Item.Complete".LocalizeKeyed(Quantity.ToString("N0"), Proxy.AsString(Quantity > 1), Price.ToString("N0"), Purchaser.GetViewerCoins().ToString("N0"))
                 );
             }
             else
             {
-                MessageHelper.SendConfirmation(
-                    Purchaser.username,
-                    "TKUtils.Item.CompleteMinimal".LocalizeKeyed(
-                        Quantity.ToString("N0"),
-                        Proxy.AsString(Quantity > 1),
-                        Price.ToString("N0")
-                    )
-                );
+                MessageHelper.SendConfirmation(Purchaser.username, "TKUtils.Item.CompleteMinimal".LocalizeKeyed(Quantity.ToString("N0"), Proxy.AsString(Quantity > 1), Price.ToString("N0")));
             }
         }
     }

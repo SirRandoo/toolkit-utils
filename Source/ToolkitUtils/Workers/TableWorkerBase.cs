@@ -40,12 +40,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         public void Draw(Rect canvas)
         {
             var headerRow = new Rect(canvas.x, canvas.y, canvas.width, LineHeight);
-            var tableContents = new Rect(
-                canvas.x,
-                canvas.y + headerRow.height,
-                canvas.width,
-                canvas.height - headerRow.height
-            );
+            var tableContents = new Rect(canvas.x, canvas.y + headerRow.height, canvas.width, canvas.height - headerRow.height);
 
             GUI.BeginGroup(headerRow);
             DrawHeaders(new Rect(0f, 0f, headerRow.width, headerRow.height));

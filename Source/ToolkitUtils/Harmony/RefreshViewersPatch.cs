@@ -42,10 +42,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (ToolkitCoreSettings.channel_username.NullOrEmpty())
             {
-                Log.ErrorOnce(
-                    @"<color=""#ff6b00"">ToolkitUtils :: ToolkitCore isn't fully set up. Your viewer list won't be refreshed.</color>",
-                    ErrorId
-                );
+                Log.ErrorOnce(@"<color=""#ff6b00"">ToolkitUtils :: ToolkitCore isn't fully set up. Your viewer list won't be refreshed.</color>", ErrorId);
+
                 return false;
             }
 

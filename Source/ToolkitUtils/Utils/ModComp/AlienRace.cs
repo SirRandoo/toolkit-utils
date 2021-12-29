@@ -39,9 +39,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         static AlienRace()
         {
-            foreach (Mod handle in LoadedModManager.ModHandles.Where(
-                h => h.Content.PackageId.EqualsIgnoreCase("erdelf.HumanoidAlienRaces")
-            ))
+            foreach (Mod handle in LoadedModManager.ModHandles.Where(h => h.Content.PackageId.EqualsIgnoreCase("erdelf.HumanoidAlienRaces")))
             {
                 try
                 {
@@ -76,8 +74,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             try
             {
-                return !(IsTraitDisallowed(pawn, traitDef.defName, degree)
-                         || IsTraitForced(pawn, traitDef.defName, degree));
+                return !(IsTraitDisallowed(pawn, traitDef.defName, degree) || IsTraitForced(pawn, traitDef.defName, degree));
             }
             catch (Exception)
             {
@@ -119,18 +116,21 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             if (pawn.kindDef?.race == null)
             {
                 settings = null;
+
                 return false;
             }
 
             try
             {
                 settings = AlienSettingsField.GetValue(pawn.kindDef.race);
+
                 return true;
             }
             catch (ArgumentException)
             {
                 // The def does not contain any unique settings
                 settings = null;
+
                 return false;
             }
         }
@@ -141,10 +141,12 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             if (!TryGetRaceSettings(pawn, out object settings))
             {
                 generalSettings = null;
+
                 return false;
             }
 
             generalSettings = AlienGeneralSettingsField.GetValue(settings);
+
             return true;
         }
 
@@ -154,10 +156,12 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             if (!TryGetGeneralSettings(pawn, out object settings))
             {
                 disallowedTraits = null;
+
                 return false;
             }
 
             disallowedTraits = AlienDisallowedTraits.GetValue(settings) as IList;
+
             return disallowedTraits != null;
         }
 
@@ -167,10 +171,12 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             if (!TryGetGeneralSettings(pawn, out object settings))
             {
                 forcedTraits = null;
+
                 return false;
             }
 
             forcedTraits = AlienGeneralSettingsForcedTraits.GetValue(settings) as IList;
+
             return forcedTraits != null;
         }
 
@@ -184,6 +190,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             float chance = itemChance as float? ?? 100f;
 
             result = new Tuple<string, int, float>(defName, degree, chance);
+
             return defName != null;
         }
 

@@ -39,14 +39,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             _newClassType ??= typeof(StoreIncidentEditor);
             _oldClassType ??= typeof(TwitchToolkit.Windows.StoreIncidentEditor);
-            _newClassConstructor ??= AccessTools.Constructor(
-                typeof(StoreIncidentEditor),
-                new[] { typeof(StoreIncident) }
-            );
-            _oldClassConstructor ??= AccessTools.Constructor(
-                typeof(TwitchToolkit.Windows.StoreIncidentEditor),
-                new[] { typeof(StoreIncident) }
-            );
+            _newClassConstructor ??= AccessTools.Constructor(typeof(StoreIncidentEditor), new[] { typeof(StoreIncident) });
+            _oldClassConstructor ??= AccessTools.Constructor(typeof(TwitchToolkit.Windows.StoreIncidentEditor), new[] { typeof(StoreIncident) });
+
             return true;
         }
 

@@ -24,11 +24,8 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class CodedEgg : EasterEgg
     {
-        public override bool IsPossible(StoreIncident incident, Viewer viewer)
-        {
-            return incident == IncidentDefOf.BuyPawn
-                   && viewer.username.Equals("ericcode", StringComparison.InvariantCultureIgnoreCase);
-        }
+        public override bool IsPossible(StoreIncident incident, Viewer viewer) =>
+            incident == IncidentDefOf.BuyPawn && viewer.username.Equals("ericcode", StringComparison.InvariantCultureIgnoreCase);
 
         public override void Execute(Viewer viewer, Pawn pawn)
         {
@@ -37,14 +34,7 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            Pawn pet = PawnGenerator.GeneratePawn(
-                new PawnGenerationRequest(
-                    PawnKindDef.Named("Thrumbo"),
-                    Faction.OfPlayer,
-                    fixedGender: Gender.Female,
-                    fixedBirthName: "Sis"
-                )
-            );
+            Pawn pet = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDef.Named("Thrumbo"), Faction.OfPlayer, fixedGender: Gender.Female, fixedBirthName: "Sis"));
             pet.training.Train(TrainableDefOf.Tameness, pawn, true);
             pawn.relations.AddDirectRelation(PawnRelationDefOf.Bond, pet);
             pet.Name = new NameSingle("Sis");

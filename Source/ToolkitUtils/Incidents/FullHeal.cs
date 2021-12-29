@@ -33,14 +33,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
-            if (IncidentSettings.FullHeal.FairFights
-                && pawn!.mindState.lastAttackTargetTick > 0
-                && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
+            if (IncidentSettings.FullHeal.FairFights && pawn!.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
+
                 return false;
             }
 
@@ -50,6 +50,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.NotInjured".Localize());
+
             return false;
         }
 
@@ -57,6 +58,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             var healed = 0;
             var iterations = 0;
+
             while (true)
             {
                 if (!Viewer.CanAfford(storeIncident.cost))
@@ -80,22 +82,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 LogHelper.Warn("Exceeded the maximum number of iterations during full heal.");
+
                 break;
             }
 
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                healed > 1
-                    ? "TKUtils.FullHeal.CompletePlural".LocalizeKeyed(healed.ToString("N0"))
-                    : "TKUtils.FullHeal.Complete".Localize()
-            );
+            MessageHelper.SendConfirmation(Viewer.username, healed > 1 ? "TKUtils.FullHeal.CompletePlural".LocalizeKeyed(healed.ToString("N0")) : "TKUtils.FullHeal.Complete".Localize());
 
-            Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.FullHealLetter.Title".Localize(),
-                "TKUtils.FullHealLetter.Description".LocalizeKeyed(Viewer.username),
-                LetterDefOf.PositiveEvent,
-                pawn
-            );
+            Current.Game.letterStack.ReceiveLetter("TKUtils.FullHealLetter.Title".Localize(), "TKUtils.FullHealLetter.Description".LocalizeKeyed(Viewer.username), LetterDefOf.PositiveEvent, pawn);
         }
 
         private int Heal(object injury, int healed)
@@ -107,12 +100,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     healed += 1;
 
                     Viewer.Charge(storeIncident, healed);
+
                     break;
                 case BodyPartRecord record:
                     pawn.health.RestorePart(record);
                     healed += 1;
 
                     Viewer.Charge(storeIncident, healed);
+
                     break;
             }
 

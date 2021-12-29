@@ -34,6 +34,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
                 twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TabHealth".Localize()));
+
                 return;
             }
 
@@ -42,19 +43,15 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (segment.NullOrEmpty())
             {
                 twitchMessage.Reply(HealthReport(pawn!).WithHeader("TabHealth".Localize()));
+
                 return;
             }
 
             PawnCapacityDef capacity = DefDatabase<PawnCapacityDef>.AllDefs.FirstOrDefault(
-                d => d.defName.EqualsIgnoreCase(segment)
-                     || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
+                d => d.defName.EqualsIgnoreCase(segment) || d.LabelCap.RawText.ToToolkit().EqualsIgnoreCase(segment.ToToolkit())
             );
 
-            twitchMessage.Reply(
-                (capacity == null ? HealthReport(pawn!) : HealthCapacityReport(pawn!, capacity)).WithHeader(
-                    "TabHealth".Localize()
-                )
-            );
+            twitchMessage.Reply((capacity == null ? HealthReport(pawn!) : HealthCapacityReport(pawn!, capacity)).WithHeader("TabHealth".Localize()));
         }
 
         private static string GetHealthStateFriendly(PawnHealthState state)
@@ -100,9 +97,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return ResponseHelper.NeutralGlyph.AltText($"({"Mood_Neutral".Localize()})");
             }
 
-            return moodLevel < 0.899999976158142
-                ? ResponseHelper.ContentGlyph.AltText($"({"Mood_Content".Localize()})")
-                : ResponseHelper.HappyGlyph.AltText($"({"Mood_Happy".Localize()})");
+            return moodLevel < 0.899999976158142 ? ResponseHelper.ContentGlyph.AltText($"({"Mood_Content".Localize()})") : ResponseHelper.HappyGlyph.AltText($"({"Mood_Happy".Localize()})");
         }
 
         private static string HealthCapacityReport([NotNull] Pawn pawn, [NotNull] PawnCapacityDef capacity)
@@ -113,18 +108,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             var impactors = new List<PawnCapacityUtility.CapacityImpactor>();
+
             var segments = new List<string>
             {
-                ResponseHelper.JoinPair(
-                    Unrichify.StripTags(capacity.LabelCap),
-                    PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors)
-                       .ToStringPercent()
-                ),
+                ResponseHelper.JoinPair(Unrichify.StripTags(capacity.LabelCap), PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors).ToStringPercent()),
                 impactors.Any()
-                    ? ResponseHelper.JoinPair(
-                        "TKUtils.PawnHealth.AffectedBy".Localize(),
-                        GetImpactorsForPawn(pawn, impactors).SectionJoin()
-                    )
+                    ? ResponseHelper.JoinPair("TKUtils.PawnHealth.AffectedBy".Localize(), GetImpactorsForPawn(pawn, impactors).SectionJoin())
                     : "NoHealthConditions".Localize().CapitalizeFirst()
             };
 
@@ -133,21 +122,12 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         [NotNull]
-        private static IEnumerable<string> GetImpactorsForPawn(
-            Pawn pawn,
-            [NotNull] IReadOnlyCollection<PawnCapacityUtility.CapacityImpactor> impactors
-        )
+        private static IEnumerable<string> GetImpactorsForPawn(Pawn pawn, [NotNull] IReadOnlyCollection<PawnCapacityUtility.CapacityImpactor> impactors)
         {
-            List<string> parts = impactors.OfType<PawnCapacityUtility.CapacityImpactorHediff>()
-               .Select(i => i.Readable(pawn))
-               .ToList();
+            List<string> parts = impactors.OfType<PawnCapacityUtility.CapacityImpactorHediff>().Select(i => i.Readable(pawn)).ToList();
 
-            parts.AddRange(
-                impactors.OfType<PawnCapacityUtility.CapacityImpactorBodyPartHealth>().Select(i => i.Readable(pawn))
-            );
-            parts.AddRange(
-                impactors.OfType<PawnCapacityUtility.CapacityImpactorCapacity>().Select(i => i.Readable(pawn))
-            );
+            parts.AddRange(impactors.OfType<PawnCapacityUtility.CapacityImpactorBodyPartHealth>().Select(i => i.Readable(pawn)));
+            parts.AddRange(impactors.OfType<PawnCapacityUtility.CapacityImpactorCapacity>().Select(i => i.Readable(pawn)));
             parts.AddRange(impactors.OfType<PawnCapacityUtility.CapacityImpactorPain>().Select(i => i.Readable(pawn)));
 
             return parts;
@@ -158,10 +138,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             var segments = new List<string>
             {
-                ResponseHelper.JoinPair(
-                    "TKUtils.PawnHealth.OverallHealth".Localize(),
-                    pawn.health.summaryHealth.SummaryHealthPercent.ToStringPercent()
-                )
+                ResponseHelper.JoinPair("TKUtils.PawnHealth.OverallHealth".Localize(), pawn.health.summaryHealth.SummaryHealthPercent.ToStringPercent())
             };
 
             if (pawn.health.State != PawnHealthState.Mobile)
@@ -190,14 +167,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 source = source.OrderBy(d => d.listOrder).ToList();
 
-                string[] capacities = source
-                   .Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
-                   .Select(
-                        capacity => ResponseHelper.JoinPair(
-                            Unrichify.StripTags(capacity.GetLabelFor(pawn)).CapitalizeFirst(),
-                            HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First
-                        )
-                    )
+                string[] capacities = source.Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
+                   .Select(capacity => ResponseHelper.JoinPair(Unrichify.StripTags(capacity.GetLabelFor(pawn)).CapitalizeFirst(), HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First))
                    .ToArray();
 
                 segments.Add(capacities.SectionJoin());
@@ -221,9 +192,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             string[] queued = surgeries!.Bills.Select(item => Unrichify.StripTags(item.LabelCap)).ToArray();
 
-            segments.Add(
-                ResponseHelper.JoinPair("TKUtils.PawnHealth.QueuedSurgeries".Localize(), queued.SectionJoin())
-            );
+            segments.Add(ResponseHelper.JoinPair("TKUtils.PawnHealth.QueuedSurgeries".Localize(), queued.SectionJoin()));
 
             return segments.GroupedJoin();
         }
@@ -244,9 +213,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return capacityDefs.Where(d => d.showOnAnimals);
             }
 
-            return pawn.def.race.IsMechanoid
-                ? capacityDefs.Where(d => d.showOnMechanoids)
-                : new List<PawnCapacityDef>();
+            return pawn.def.race.IsMechanoid ? capacityDefs.Where(d => d.showOnMechanoids) : new List<PawnCapacityDef>();
         }
     }
 }

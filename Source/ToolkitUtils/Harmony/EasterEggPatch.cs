@@ -37,23 +37,16 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         public static bool Prefix()
         {
-            ThingItem item = Data.Items.Where(i => i.Thing != null)
-               .Where(i => i.Thing.race == null)
-               .Where(i => i.Cost > 200 && i.Cost < 2000)
-               .InRandomOrder()
-               .FirstOrDefault();
+            ThingItem item = Data.Items.Where(i => i.Thing != null).Where(i => i.Thing.race == null).Where(i => i.Cost > 200 && i.Cost < 2000).InRandomOrder().FirstOrDefault();
 
             if (item?.Item == null)
             {
                 return false;
             }
 
-            Find.LetterStack.ReceiveLetter(
-                "SirRandoo is here",
-                "SirRandoo has sent you a rare item! Enjoy!",
-                LetterDefOf.PositiveEvent
-            );
+            Find.LetterStack.ReceiveLetter("SirRandoo is here", "SirRandoo has sent you a rare item! Enjoy!", LetterDefOf.PositiveEvent);
             item.Item.PutItemInCargoPod(@"<color=""grey"">SirRandoo</color>: <i>Here have this!</i>", 1, "SirRandoo");
+
             return false;
         }
     }

@@ -36,26 +36,18 @@ namespace SirRandoo.ToolkitUtils
             };
         }
 
-        public static bool RegisterEggFor([NotNull] string user, [NotNull] IEasterEgg egg)
-        {
-            return Eggs.TryAdd(user.ToLowerInvariant(), egg);
-        }
+        public static bool RegisterEggFor([NotNull] string user, [NotNull] IEasterEgg egg) => Eggs.TryAdd(user.ToLowerInvariant(), egg);
 
-        public static bool UnregisterEggFor([NotNull] string user)
-        {
-            return Eggs.Remove(user);
-        }
+        public static bool UnregisterEggFor([NotNull] string user) => Eggs.Remove(user);
 
         [CanBeNull]
-        public static IEasterEgg GetEggFor([NotNull] string user)
-        {
-            return !Eggs.TryGetValue(user.ToLowerInvariant(), out IEasterEgg egg) ? null : egg;
-        }
+        public static IEasterEgg GetEggFor([NotNull] string user) => !Eggs.TryGetValue(user.ToLowerInvariant(), out IEasterEgg egg) ? null : egg;
 
         [ContractAnnotation("=> false,egg:null; => true,egg:notnull")]
         public static bool TryGetEggFor([NotNull] string user, out IEasterEgg egg)
         {
             egg = GetEggFor(user);
+
             return egg != null;
         }
     }

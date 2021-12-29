@@ -88,14 +88,15 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PostOpen();
 
             GetTranslations();
+
             userLevelOptions ??= new List<FloatMenuOption>
             {
                 new FloatMenuOption(anyoneText, () => ChangeUserLevel(UserLevel.Anyone)),
                 new FloatMenuOption(moderatorText, () => ChangeUserLevel(UserLevel.Moderator)),
                 new FloatMenuOption(adminText, () => ChangeUserLevel(UserLevel.Admin))
             };
-            invalidId = command.command.NullOrEmpty()
-                        || command.command?.TrimStart(TkSettings.Prefix.ToCharArray()).NullOrEmpty() == true;
+
+            invalidId = command.command.NullOrEmpty() || command.command?.TrimStart(TkSettings.Prefix.ToCharArray()).NullOrEmpty() == true;
         }
 
         public override void DoWindowContents(Rect region)
@@ -110,12 +111,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (!showingSettings)
             {
                 var buttonBar = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-                Rect content = new Rect(
-                    0f,
-                    Text.SmallFontHeight * 2,
-                    region.width,
-                    region.height - Text.SmallFontHeight
-                ).ContractedBy(20f);
+                Rect content = new Rect(0f, Text.SmallFontHeight * 2, region.width, region.height - Text.SmallFontHeight).ContractedBy(20f);
 
                 GUI.BeginGroup(buttonBar);
                 DrawButtonBar(buttonBar.AtZero());
@@ -144,6 +140,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             SettingsHelper.DrawLabel(labelRect, commandLabel);
 
             GUI.color = invalidId ? new Color(1f, 0.53f, 0.76f) : Color.white;
+
             if (SettingsHelper.DrawTextField(fieldRect, $"{TkSettings.Prefix}{command.command}", out string newContent))
             {
                 if (newContent.ToToolkit().Length - TkSettings.Prefix.Length < 0)
@@ -179,11 +176,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             listing.Gap(24f);
-            if (SettingsHelper.DrawFieldButton(
-                listing.GetRect(Text.SmallFontHeight),
-                Textures.QuestionMark,
-                tagTooltip
-            ))
+
+            if (SettingsHelper.DrawFieldButton(listing.GetRect(Text.SmallFontHeight), Textures.QuestionMark, tagTooltip))
             {
                 Application.OpenURL("https://storytoolkit.fandom.com/wiki/Commands#Tags");
             }
@@ -191,15 +185,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             editorPosition = listing.GetRect(Text.SmallFontHeight * 11f);
 
             GUI.BeginGroup(editorPosition);
-            command.outputMessage = Widgets.TextAreaScrollable(
-                editorPosition.AtZero(),
-                command.outputMessage,
-                ref scrollPos
-            );
-            editor ??= GUIUtility.GetStateObject(
-                typeof(TextEditor),
-                GUIUtility.GetControlID(FocusType.Keyboard, editorPosition)
-            ) as TextEditor;
+            command.outputMessage = Widgets.TextAreaScrollable(editorPosition.AtZero(), command.outputMessage, ref scrollPos);
+            editor ??= GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.GetControlID(FocusType.Keyboard, editorPosition)) as TextEditor;
             GUI.EndGroup();
         }
 
@@ -208,6 +195,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (GUIUtility.keyboardControl <= 0 || editor == null)
             {
                 base.OnAcceptKeyPressed();
+
                 return;
             }
 
@@ -221,6 +209,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (GUIUtility.keyboardControl <= 0 || editor == null)
             {
                 base.OnCancelKeyPressed();
+
                 return;
             }
 
@@ -233,6 +222,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (showingSettings)
             {
                 showingSettings = false;
+
                 return;
             }
 
@@ -255,14 +245,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawButtonBar(Rect region)
         {
-            float width = Mathf.Max(
-                deleteTextWidth,
-                confirmTextWidth,
-                enableTextWidth,
-                disableTextWidth,
-                deletedTextWidth,
-                settingsTextWidth
-            );
+            float width = Mathf.Max(deleteTextWidth, confirmTextWidth, enableTextWidth, disableTextWidth, deletedTextWidth, settingsTextWidth);
 
             var buttonRect = new Rect(region.x + region.width - width, region.y, width, Text.SmallFontHeight);
 
@@ -330,8 +313,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslations()
         {
-            headerText =
-                "TKUtils.CommandEditor.Header".LocalizeKeyed((command.label ?? command.defName).CapitalizeFirst());
+            headerText = "TKUtils.CommandEditor.Header".LocalizeKeyed((command.label ?? command.defName).CapitalizeFirst());
             commandLabel = "TKUtils.Fields.Command".Localize();
             deleteText = "TKUtils.Buttons.Delete".Localize();
             enableText = "TKUtils.Buttons.Enable".Localize();

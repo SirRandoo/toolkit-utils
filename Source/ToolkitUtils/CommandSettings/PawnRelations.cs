@@ -40,10 +40,7 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
                 listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Localize());
             }
 
-            listing.CheckboxLabeled(
-                "TKUtils.PawnRelations.MinimalRelations.Label".Localize(),
-                ref TkSettings.MinimalRelations
-            );
+            listing.CheckboxLabeled("TKUtils.PawnRelations.MinimalRelations.Label".Localize(), ref TkSettings.MinimalRelations);
             listing.DrawDescription("TKUtils.PawnRelations.MinimalRelations.Description".Localize());
 
             listing.End();

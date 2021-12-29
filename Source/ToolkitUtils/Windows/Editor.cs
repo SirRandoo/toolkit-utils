@@ -62,10 +62,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         protected override float Margin => 0f;
 
         public override Vector2 InitialSize =>
-            new Vector2(
-                maximized ? UI.screenWidth : Mathf.Min(UI.screenWidth, 800f),
-                maximized ? UI.screenHeight : Mathf.FloorToInt(UI.screenHeight * 0.8f)
-            );
+            new Vector2(maximized ? UI.screenWidth : Mathf.Min(UI.screenWidth, 800f), maximized ? UI.screenHeight : Mathf.FloorToInt(UI.screenHeight * 0.8f));
 
         public override void PreOpen()
         {
@@ -148,12 +145,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawWindowDecorations(Rect tabRect)
         {
-            var butRect = new Rect(
-                tabRect.x + tabRect.width - tabRect.height + 14f,
-                14f,
-                tabRect.height - 28f,
-                tabRect.height - 28f
-            );
+            var butRect = new Rect(tabRect.x + tabRect.width - tabRect.height + 14f, 14f, tabRect.height - 28f, tabRect.height - 28f);
 
             if (Widgets.ButtonImage(butRect, Textures.CloseButton))
             {
@@ -161,6 +153,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             butRect = butRect.ShiftLeft();
+
             if (Widgets.ButtonImage(butRect, maximized ? Textures.RestoreWindow : Textures.MaximizeWindow))
             {
                 maximized = !maximized;
@@ -168,6 +161,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             butRect = butRect.ShiftLeft();
+
             if (Widgets.ButtonImage(butRect, Textures.QuestionMark))
             {
                 Application.OpenURL("https://sirrandoo.github.io/toolkit-utils/editor");
@@ -176,6 +170,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             butRect.TipRegion(helpTooltip);
 
             butRect = butRect.ShiftLeft();
+
             if (Widgets.ButtonImage(butRect, Textures.CopySettings))
             {
                 SavePartial();
@@ -184,6 +179,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             butRect.TipRegion(exportPartialTooltip);
 
             butRect = butRect.ShiftLeft();
+
             if (Widgets.ButtonImage(butRect, Textures.PasteSettings))
             {
                 LoadPartial();
@@ -263,6 +259,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Store_ItemEditor.UpdateStoreItemList();
             Store_IncidentEditor.UpdatePriceSheet();
             Toolkit.Mod.WriteSettings();
+
             Task.Run(
                     async () =>
                     {
@@ -270,10 +267,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                         {
                             case "SingleFile":
                                 await Data.SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
+
                                 return;
                             case "MultiFile":
                                 await Data.SaveTraitsAsync(Paths.TraitFilePath);
                                 await Data.SavePawnKindsAsync(Paths.PawnKindFilePath);
+
                                 return;
                         }
 
@@ -289,8 +288,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.SetInitialSizeAndPosition();
 
             Rect tabRect = new Rect(0f, 0f, windowRect.width, Text.LineHeight * 2f).Rounded();
-            Rect contentRect = new Rect(0f, tabRect.height, windowRect.width, windowRect.height - tabRect.height)
-               .ContractedBy(16f);
+            Rect contentRect = new Rect(0f, tabRect.height, windowRect.width, windowRect.height - tabRect.height).ContractedBy(16f);
 
             itemWorker.NotifyResolutionChanged(contentRect);
             traitWorker.NotifyResolutionChanged(contentRect);
@@ -342,10 +340,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     await Data.SaveJsonAsync(
                         new PartialData<EventPartial>
                         {
-                            Data = eventWorker.Data.Where(i => !i.IsHidden)
-                               .Select(i => i.Data)
-                               .Select(EventPartial.FromIncident)
-                               .ToList(),
+                            Data = eventWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).Select(EventPartial.FromIncident).ToList(),
                             PartialType = PartialType.Events,
                             Description = data.Description
                         },

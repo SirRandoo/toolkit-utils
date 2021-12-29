@@ -51,9 +51,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
         static Interests()
         {
-            foreach (Mod handle in LoadedModManager.ModHandles.Where(
-                h => h.Content.PackageId.EqualsIgnoreCase("dame.InterestsFramework")
-            ))
+            foreach (Mod handle in LoadedModManager.ModHandles.Where(h => h.Content.PackageId.EqualsIgnoreCase("dame.InterestsFramework")))
             {
                 try
                 {
@@ -109,8 +107,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             if (interest != null)
             {
-                return InterestIndex.TryGetValue(interest.defName, string.Empty)
-                   .AltText($"{interest.LabelCap.RawText}");
+                return InterestIndex.TryGetValue(interest.defName, string.Empty).AltText($"{interest.LabelCap.RawText}");
             }
 
             return string.Empty;

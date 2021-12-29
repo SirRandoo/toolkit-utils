@@ -33,6 +33,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
             {
                 msg.Reply("TKUtils.NoPawn".Localize().WithHeader("TabCharacter".Localize()));
+
                 return;
             }
 
@@ -47,31 +48,24 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             bool isRoyal = pawn.royalty?.MostSeniorTitle != null;
+
             switch (pawn.gender)
             {
                 case Gender.Female:
-                    parts.Add(
-                        (isRoyal ? ResponseHelper.PrincessGlyph : ResponseHelper.FemaleGlyph).AltText(
-                            "Female".Localize().CapitalizeFirst()
-                        )
-                    );
+                    parts.Add((isRoyal ? ResponseHelper.PrincessGlyph : ResponseHelper.FemaleGlyph).AltText("Female".Localize().CapitalizeFirst()));
+
                     break;
                 case Gender.Male:
-                    parts.Add(
-                        (isRoyal ? ResponseHelper.PrinceGlyph : ResponseHelper.MaleGlyph).AltText(
-                            "Male".Localize().CapitalizeFirst()
-                        )
-                    );
+                    parts.Add((isRoyal ? ResponseHelper.PrinceGlyph : ResponseHelper.MaleGlyph).AltText("Male".Localize().CapitalizeFirst()));
+
                     break;
                 case Gender.None:
-                    parts.Add(
-                        (isRoyal ? ResponseHelper.CrownGlyph : ResponseHelper.GenderlessGlyph).AltText(
-                            "NoneLower".Localize().CapitalizeFirst()
-                        )
-                    );
+                    parts.Add((isRoyal ? ResponseHelper.CrownGlyph : ResponseHelper.GenderlessGlyph).AltText("NoneLower".Localize().CapitalizeFirst()));
+
                     break;
                 default:
                     parts.Add(isRoyal ? ResponseHelper.CrownGlyph : "");
+
                     break;
             }
 
@@ -93,9 +87,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (traits.Count > 0)
             {
-                parts.Add(
-                    $"{"Traits".Localize()}: {traits.Select(t => Unrichify.StripTags(t.LabelCap)).SectionJoin()}"
-                );
+                parts.Add($"{"Traits".Localize()}: {traits.Select(t => Unrichify.StripTags(t.LabelCap)).SectionJoin()}");
             }
 
             msg.Reply(parts.GroupedJoin().WithHeader("TabCharacter".Localize()));

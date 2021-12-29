@@ -32,9 +32,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(PawnCommands), "ParseMessage");
         }
 
-        public static bool Prefix(ITwitchMessage twitchMessage)
-        {
-            return false;
-        }
+        public static bool Prefix(ITwitchMessage twitchMessage) => false;
     }
 }

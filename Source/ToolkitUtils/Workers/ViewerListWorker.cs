@@ -36,12 +36,10 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             _client ??= new RestClient("https://tmi.twitch.tv/group/user");
 
-            var request = new RestRequest(
-                $"{ToolkitCoreSettings.channel_username.ToLowerInvariant()}/chatters",
-                DataFormat.None
-            );
+            var request = new RestRequest($"{ToolkitCoreSettings.channel_username.ToLowerInvariant()}/chatters", DataFormat.None);
 
             string response = null;
+
             try
             {
                 response = await _client.GetAsync<string>(request);

@@ -48,6 +48,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
@@ -57,6 +58,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (worker.HasNext() && !worker.GetLast().NullOrEmpty())
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(worker.GetLast()));
+
                 return false;
             }
 
@@ -74,10 +76,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (events.Count(e => e.ContributesToLimit) > AddTraitSettings.maxTraits)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.LimitReached".LocalizeKeyed(AddTraitSettings.maxTraits)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.LimitReached".LocalizeKeyed(AddTraitSettings.maxTraits));
+
                 return false;
             }
 
@@ -98,13 +98,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!viewer.CanAfford(total))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        total.ToString("N0"),
-                        viewer.GetViewerCoins().ToString("N0")
-                    )
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(total.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+
                 return false;
             }
 
@@ -118,6 +113,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 if (!Data.TryGetTrait(query, out TraitItem trait))
                 {
                     MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(query));
+
                     yield break;
                 }
 
@@ -126,11 +122,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         }
 
         [ContractAnnotation("=> true,traitEvents:notnull; => false,traitEvents:notnull")]
-        private bool TryProcessTraits(
-            [NotNull] Pawn subject,
-            [NotNull] IEnumerable<TraitItem> traits,
-            out List<TraitEvent> traitEvents
-        )
+        private bool TryProcessTraits([NotNull] Pawn subject, [NotNull] IEnumerable<TraitItem> traits, out List<TraitEvent> traitEvents)
         {
             var container = new List<TraitEvent>();
             List<TraitItem> traitItems = traits.ToList();
@@ -141,8 +133,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                    .Select(
                         t =>
                         {
-                            TraitItem trait =
-                                Data.Traits.Find(i => i.DefName.Equals(t.def.defName) && i.Degree == t.Degree);
+                            TraitItem trait = Data.Traits.Find(i => i.DefName.Equals(t.def.defName) && i.Degree == t.Degree);
 
                             if (!trait.CanRemove)
                             {
@@ -173,30 +164,22 @@ namespace SirRandoo.ToolkitUtils.Incidents
                                 };
                             }
 
-                            return !IsTraitAddable(t, out string error)
-                                ? new TraitEvent { Type = EventType.Noop, Error = error, Item = t }
-                                : new TraitEvent { Type = EventType.Add, Item = t };
+                            return !IsTraitAddable(t, out string error) ? new TraitEvent { Type = EventType.Noop, Error = error, Item = t } : new TraitEvent { Type = EventType.Add, Item = t };
                         }
                     )
             );
 
             container.AddRange(
-                traitItems.Where(
-                        t => subject.story.traits.allTraits.Find(
-                                 i => i.def.defName.Equals(t.DefName) && i.Degree == t.Degree
-                             )
-                             != null
-                    )
+                traitItems.Where(t => subject.story.traits.allTraits.Find(i => i.def.defName.Equals(t.DefName) && i.Degree == t.Degree) != null)
                    .Select(t => new TraitEvent { Type = EventType.Noop, Item = t })
             );
 
             var final = new List<TraitEvent>(container.Where(e => e.Type == EventType.Remove));
-            final.AddRange(
-                container.Where(t => t.Type != EventType.Remove).GroupBy(t => t.Item.DefName).Select(e => e.First())
-            );
+            final.AddRange(container.Where(t => t.Type != EventType.Remove).GroupBy(t => t.Item.DefName).Select(e => e.First()));
 
 
             traitEvents = final;
+
             return true;
         }
 
@@ -210,12 +193,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 {
                     case EventType.Add:
                         Viewer.Charge(ev.Item.CostToAdd, ev.Item.TraitData?.KarmaType ?? storeIncident.karmaType);
+
                         break;
                     case EventType.Remove:
-                        Viewer.Charge(
-                            ev.Item.CostToRemove,
-                            ev.Item.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType
-                        );
+                        Viewer.Charge(ev.Item.CostToRemove, ev.Item.TraitData?.KarmaTypeForRemoving ?? storeIncident.karmaType);
+
                         break;
                 }
             }
@@ -237,22 +219,26 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (AlienRace.Enabled && AlienRace.IsTraitForced(pawn, trait.DefName, trait.Degree))
             {
                 error = "TKUtils.RemoveTrait.Kind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name);
+
                 return false;
             }
 
             if (RationalRomance.Active && RationalRomance.IsTraitDisabled(trait.TraitDef!))
             {
                 error = "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(trait.Name.CapitalizeFirst());
+
                 return false;
             }
 
             if (CompatRegistry.Magic?.IsClassTrait(trait.TraitDef!) == true && !TkSettings.ClassChanges)
             {
                 error = "TKUtils.RemoveTrait.Class".LocalizeKeyed(trait.Name);
+
                 return false;
             }
 
             error = null;
+
             return true;
         }
 
@@ -262,22 +248,26 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (trait.TraitDef.IsDisallowedByBackstory(pawn, trait.Degree, out Backstory backstory))
             {
                 error = "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, trait.Name);
+
                 return false;
             }
 
             if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(trait.DefName)) == true)
             {
                 error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name);
+
                 return false;
             }
 
             if (trait.TraitDef.IsDisallowedByKind(pawn, trait.Degree))
             {
                 error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, trait.Name);
+
                 return false;
             }
 
             error = null;
+
             return true;
         }
 
@@ -299,9 +289,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 {
                     case EventType.Add:
                         AddTrait(pawn);
+
                         break;
                     case EventType.Remove:
                         RemoveTrait(pawn);
+
                         break;
                 }
             }

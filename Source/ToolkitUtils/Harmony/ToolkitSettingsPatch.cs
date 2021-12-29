@@ -35,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         public static bool Prefix(Rect inRect)
         {
             ToolkitSettingsWorker.Draw(inRect);
+
             return false;
         }
     }

@@ -32,12 +32,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         protected HashSet<Type> ExcludedTypes { get; }
 
-        public abstract string Id { get; }
-
-        public virtual bool IsUsable([NotNull] ThingDef thing)
-        {
-            return thing.HasAssignableCompFrom(typeof(T));
-        }
+        public virtual bool IsUsable([NotNull] ThingDef thing) => thing.HasAssignableCompFrom(typeof(T));
 
         public virtual void Use([NotNull] Pawn pawn, ThingDef thingDef)
         {
@@ -54,9 +49,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (comp == null || !IsUsable(comp, pawn, thingDef, out failReason))
             {
-                throw new OperationCanceledException(
-                    $@"The thing ""{thingDef.defName}"" could not be used by {pawn.LabelShort}. Fail reason: {failReason}"
-                );
+                throw new OperationCanceledException($@"The thing ""{thingDef.defName}"" could not be used by {pawn.LabelShort}. Fail reason: {failReason}");
             }
 
             try
@@ -71,12 +64,11 @@ namespace SirRandoo.ToolkitUtils.Models
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException(
-                    $@"The thing ""{thingDef.defName}"" could not be used by {pawn.LabelShort}.",
-                    e
-                );
+                throw new InvalidOperationException($@"The thing ""{thingDef.defName}"" could not be used by {pawn.LabelShort}.", e);
             }
         }
+
+        [NotNull] public virtual string ModId => "sirrandoo.tku";
 
         protected abstract bool IsUsable(T comp, Pawn pawn, ThingDef thing, out string failReason);
         protected abstract void Use(T comp, Pawn pawn, Thing thing);

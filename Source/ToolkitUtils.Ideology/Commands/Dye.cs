@@ -40,6 +40,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!PurchaseHelper.TryGetPawn(message.Username, out pawn))
             {
                 message.Reply("TKUtils.NoPawn".Localize());
+
                 return;
             }
 
@@ -49,19 +50,23 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!apparelPairs.NullOrEmpty())
             {
                 CommandRouter.MainThreadCommands.Enqueue(() => DyeApparel(apparelPairs));
+
                 return;
             }
 
             if (hexcode.NullOrEmpty())
             {
                 CommandRouter.MainThreadCommands.Enqueue(() => DyeAll(null));
+
                 return;
             }
 
             string s = hexcode!.ToToolkit();
+
             if (!Data.ColorIndex.TryGetValue(s, out Color color) || !ColorUtility.TryParseHtmlString(s, out color))
             {
                 message.Reply("TKUtils.NotAColor".LocalizeKeyed(s));
+
                 return;
             }
 
@@ -77,16 +82,17 @@ namespace SirRandoo.ToolkitUtils.Commands
                 string colorCodeTransformed = colorCode.ToToolkit();
 
                 Color? color;
+
                 if (colorCode.NullOrEmpty())
                 {
                     color = pawn.story.favoriteColor;
                 }
                 else
                 {
-                    if (!Data.ColorIndex.TryGetValue(colorCodeTransformed, out Color color2)
-                        && !ColorUtility.TryParseHtmlString(colorCodeTransformed, out color2))
+                    if (!Data.ColorIndex.TryGetValue(colorCodeTransformed, out Color color2) && !ColorUtility.TryParseHtmlString(colorCodeTransformed, out color2))
                     {
                         MessageHelper.ReplyToUser(invoker, "TKUtils.NotAColor".LocalizeKeyed(colorCode));
+
                         return;
                     }
 
@@ -102,8 +108,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                     a =>
                     {
                         string toolkit = nameOrDef.ToToolkit();
-                        return a.def.label.ToToolkit().EqualsIgnoreCase(toolkit)
-                               || a.def.defName.EqualsIgnoreCase(toolkit);
+
+                        return a.def.label.ToToolkit().EqualsIgnoreCase(toolkit) || a.def.defName.EqualsIgnoreCase(toolkit);
                     }
                 );
 

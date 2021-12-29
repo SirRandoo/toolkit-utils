@@ -32,9 +32,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible()
         {
-            List<Pawn> list = Find.ColonistBar.GetColonistsInOrder()
-               .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
-               .ToList();
+            List<Pawn> list = Find.ColonistBar.GetColonistsInOrder().Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p)).ToList();
 
             if (!list.Any())
             {
@@ -42,6 +40,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             pawns = list;
+
             foreach (Pawn p in list)
             {
                 PawnTracker.pawnsToRevive.Add(p);
@@ -53,6 +52,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override void TryExecute()
         {
             var any = false;
+
             foreach (Pawn pawn in pawns)
             {
                 if (!pawn.TryResurrect())
@@ -68,11 +68,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return;
             }
 
-            Find.LetterStack.ReceiveLetter(
-                "TKUtils.MassRevivalLetter.Title".Localize(),
-                "TKUtils.MassRevivalLetter.Description".Localize(),
-                LetterDefOf.PositiveEvent
-            );
+            Find.LetterStack.ReceiveLetter("TKUtils.MassRevivalLetter.Title".Localize(), "TKUtils.MassRevivalLetter.Description".Localize(), LetterDefOf.PositiveEvent);
         }
     }
 }

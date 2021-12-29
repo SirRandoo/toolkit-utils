@@ -20,20 +20,13 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
+    [UsedImplicitly]
     public class DefaultHealHandler : IHealHandler
     {
-        [NotNull] public string Id => "tkutils.handlers.heal";
+        public bool CanHeal([NotNull] Hediff hediff) => hediff.def.GetModExtension<HealExtension>()?.ShouldHeal == true;
 
-        public bool IsHealable([NotNull] Hediff hediff)
-        {
-            var extension = hediff.def.GetModExtension<HealExtension>();
-            return extension == null || extension.ShouldHeal;
-        }
+        public bool CanHeal([NotNull] BodyPartRecord bodyPart) => bodyPart.def.GetModExtension<HealExtension>()?.ShouldHeal == true;
 
-        public bool IsHealable([NotNull] BodyPartRecord bodyPart)
-        {
-            var extension = bodyPart.def.GetModExtension<HealExtension>();
-            return extension == null || extension.ShouldHeal;
-        }
+        [NotNull] public string ModId => "sirrandoo.tku";
     }
 }

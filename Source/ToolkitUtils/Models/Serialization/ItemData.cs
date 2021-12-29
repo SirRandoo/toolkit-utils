@@ -107,9 +107,8 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             var toCull = new List<string>();
-            foreach (string defName in ResearchOverrides.Where(
-                o => researchProjects.Find(i => i.defName.Equals(o)) == null
-            ))
+
+            foreach (string defName in ResearchOverrides.Where(o => researchProjects.Find(i => i.defName.Equals(o)) == null))
             {
                 ResearchProjectDef def = DefDatabase<ResearchProjectDef>.GetNamed(defName, false);
 

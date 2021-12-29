@@ -29,16 +29,11 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         public override void RunCommand([NotNull] ITwitchMessage msg)
         {
-            List<string> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder
-               .Where(f => !f.IsPlayer)
+            List<string> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.Where(f => !f.IsPlayer)
                .Select(f => ResponseHelper.JoinPair(f.GetCallLabel(), f.PlayerGoodwill.ToStringWithSign()))
                .ToList();
 
-            msg.Reply(
-                (factions.Count <= 0 ? "TKUtils.Factions.None".Localize() : factions.SectionJoin()).WithHeader(
-                    "WorldFactionsTab".Localize()
-                )
-            );
+            msg.Reply((factions.Count <= 0 ? "TKUtils.Factions.None".Localize() : factions.SectionJoin()).WithHeader("WorldFactionsTab".Localize()));
         }
     }
 }

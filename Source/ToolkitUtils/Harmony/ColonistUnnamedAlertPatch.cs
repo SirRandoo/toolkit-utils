@@ -67,9 +67,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             {
                 Pawn pawn = colonistsSpawned[i];
 
-                if (pawnHistory.ContainsKey(pawn.LabelShort)
-                    || pawn.IsBorrowedByAnyFaction()
-                    || CompatRegistry.Magic?.IsUndead(pawn) == true)
+                if (pawnHistory.ContainsKey(pawn.LabelShort) || pawn.IsBorrowedByAnyFaction() || CompatRegistry.Magic?.IsUndead(pawn) == true)
                 {
                     continue;
                 }

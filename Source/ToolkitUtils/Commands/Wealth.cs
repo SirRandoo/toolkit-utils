@@ -32,12 +32,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            msg.Reply(
-                ResponseHelper.JoinPair(
-                    "ThisMapColonyWealthTotal".Localize(),
-                    Current.Game.CurrentMap.wealthWatcher.WealthTotal.ToString("N0")
-                )
-            );
+            msg.Reply(ResponseHelper.JoinPair("ThisMapColonyWealthTotal".Localize(), Current.Game.CurrentMap.wealthWatcher.WealthTotal.ToString("N0")));
         }
     }
 }

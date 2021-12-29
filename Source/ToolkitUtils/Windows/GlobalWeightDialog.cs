@@ -57,6 +57,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             SettingsHelper.DrawLabel(noticeRect, headerText);
 
             GUI.BeginGroup(weightsRect);
+
             if (ToolkitSettings.VoteWeights == null)
             {
                 SettingsHelper.DrawColoredLabel(weightsRect.AtZero(), nullDictText, ColorLibrary.Lavender, TextAnchor.MiddleCenter);
@@ -79,6 +80,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(region);
             Widgets.BeginScrollView(region, ref weightScrollPos, viewPort);
+
             for (var index = 0; index < incidents.Count; index++)
             {
                 VotingIncident incident = incidents[index];
@@ -98,6 +100,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
                 string buffer = null;
+
                 if (!bufferCache.TryGetValue(incident.defName, out string value))
                 {
                     bufferCache[incident.defName] = value = buffer = incident.voteWeight.ToString();

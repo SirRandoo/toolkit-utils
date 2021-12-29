@@ -41,6 +41,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     }
 
                     checkboxState = MultiCheckboxState.Off;
+
                     return;
                 }
 
@@ -50,9 +51,11 @@ namespace SirRandoo.ToolkitUtils.Models
                     {
                         case MultiCheckboxState.Off:
                             filter.Active = false;
+
                             break;
                         case MultiCheckboxState.On:
                             filter.Active = true;
+
                             break;
                     }
                 }

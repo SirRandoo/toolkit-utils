@@ -57,31 +57,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             float remainingWidth = consumedWidth - labelWidth;
             float distributedWidth = Mathf.FloorToInt(remainingWidth / 2f);
             NameHeaderRect = new Rect(0f, 0f, labelWidth, LineHeight);
-            NameHeaderTextRect = new Rect(
-                NameHeaderRect.x + 4f,
-                NameHeaderRect.y,
-                NameHeaderRect.width - 8f,
-                NameHeaderRect.height
-            );
+            NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
             PriceHeaderRect = new Rect(NameHeaderRect.x + NameHeaderRect.width + 1f, 0f, distributedWidth, LineHeight);
-            PriceHeaderTextRect = new Rect(
-                PriceHeaderRect.x + 4f,
-                PriceHeaderRect.y,
-                PriceHeaderRect.width - 8f,
-                PriceHeaderRect.height
-            );
-            KarmaHeaderRect = new Rect(
-                PriceHeaderRect.x + PriceHeaderRect.width + 1f,
-                0f,
-                distributedWidth,
-                LineHeight
-            );
-            KarmaHeaderTextRect = new Rect(
-                KarmaHeaderRect.x + 4f,
-                KarmaHeaderRect.y,
-                KarmaHeaderRect.width - 8f,
-                KarmaHeaderRect.height
-            );
+            PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
+            KarmaHeaderRect = new Rect(PriceHeaderRect.x + PriceHeaderRect.width + 1f, 0f, distributedWidth, LineHeight);
+            KarmaHeaderTextRect = new Rect(KarmaHeaderRect.x + 4f, KarmaHeaderRect.y, KarmaHeaderRect.width - 8f, KarmaHeaderRect.height);
         }
     }
 }

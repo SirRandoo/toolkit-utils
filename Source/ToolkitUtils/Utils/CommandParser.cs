@@ -26,10 +26,7 @@ namespace SirRandoo.ToolkitUtils.Utils
     public static class CommandParser
     {
         [NotNull]
-        public static List<KeyValuePair<string, string>> ParseKeyed(string input)
-        {
-            return ParseKeyed(CommandFilter.Parse(input));
-        }
+        public static List<KeyValuePair<string, string>> ParseKeyed(string input) => ParseKeyed(CommandFilter.Parse(input));
 
         [NotNull]
         public static List<KeyValuePair<string, string>> ParseKeyed([NotNull] IEnumerable<string> input)
@@ -54,9 +51,11 @@ namespace SirRandoo.ToolkitUtils.Utils
                     {
                         case '=' when !escaped:
                             sep = true;
+
                             break;
                         case '\\':
                             escaped = true;
+
                             break;
                         default:
                         {
@@ -82,20 +81,12 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public static bool TryParseBool(string input, bool defaultValue = true)
         {
-            if (input.EqualsIgnoreCase("yes")
-                || input.EqualsIgnoreCase("true")
-                || input.EqualsIgnoreCase("y")
-                || input.Equals("1")
-                || input.Equals("+"))
+            if (input.EqualsIgnoreCase("yes") || input.EqualsIgnoreCase("true") || input.EqualsIgnoreCase("y") || input.Equals("1") || input.Equals("+"))
             {
                 return true;
             }
 
-            if (input.EqualsIgnoreCase("no")
-                || input.EqualsIgnoreCase("false")
-                || input.EqualsIgnoreCase("n")
-                || input.Equals("0")
-                || input.Equals("-"))
+            if (input.EqualsIgnoreCase("no") || input.EqualsIgnoreCase("false") || input.EqualsIgnoreCase("n") || input.Equals("0") || input.Equals("-"))
             {
                 return false;
             }

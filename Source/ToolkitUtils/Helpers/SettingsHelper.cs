@@ -32,10 +32,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
     {
         private static readonly FieldInfo SelectedModField = AccessTools.Field(typeof(Dialog_ModSettings), "selMod");
 
-        private static readonly GameFont[] GameFonts = Enum.GetNames(typeof(GameFont))
-           .Select(f => (GameFont)Enum.Parse(typeof(GameFont), f))
-           .OrderByDescending(f => (int)f)
-           .ToArray();
+        private static readonly GameFont[] GameFonts = Enum.GetNames(typeof(GameFont)).Select(f => (GameFont)Enum.Parse(typeof(GameFont), f)).OrderByDescending(f => (int)f).ToArray();
 
         public static bool DrawFieldButton(Rect canvas, string label, [CanBeNull] string tooltip = null)
         {
@@ -55,17 +52,13 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             GUIUtility.keyboardControl = 0;
+
             return true;
         }
 
         public static bool DrawFieldButton(Rect canvas, Texture2D icon, [CanBeNull] string tooltip = null)
         {
-            var region = new Rect(
-                canvas.x + canvas.width - canvas.height + 6f,
-                canvas.y + 6f,
-                canvas.height - 12f,
-                canvas.height - 12f
-            );
+            var region = new Rect(canvas.x + canvas.width - canvas.height + 6f, canvas.y + 6f, canvas.height - 12f, canvas.height - 12f);
             Widgets.ButtonImage(region, icon);
 
             if (!tooltip.NullOrEmpty())
@@ -81,33 +74,29 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             GUIUtility.keyboardControl = 0;
+
             return true;
         }
 
-        public static bool DrawClearButton(Rect canvas)
-        {
-            return DrawFieldButton(canvas, "×");
-        }
+        public static bool DrawClearButton(Rect canvas) => DrawFieldButton(canvas, "×");
 
         public static void DrawSortIndicator(Rect canvas, SortOrder order)
         {
-            var region = new Rect(
-                canvas.x + canvas.width - canvas.height + 3f,
-                canvas.y + 8f,
-                canvas.height - 9f,
-                canvas.height - 16f
-            );
+            var region = new Rect(canvas.x + canvas.width - canvas.height + 3f, canvas.y + 8f, canvas.height - 9f, canvas.height - 16f);
 
             switch (order)
             {
                 case SortOrder.Ascending:
                     GUI.DrawTexture(region, Textures.SortingAscend);
+
                     return;
                 case SortOrder.Descending:
                     GUI.DrawTexture(region, Textures.SortingDescend);
+
                     return;
                 default:
                     GUI.DrawTexture(region, Textures.QuestionMark);
+
                     return;
             }
         }
@@ -118,12 +107,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             var reduceRect = new Rect(canvas.x, canvas.y, buttonWidth, canvas.height);
             var raiseRect = new Rect(canvas.x + canvas.width - buttonWidth, canvas.y, buttonWidth, canvas.height);
-            var fieldRect = new Rect(
-                canvas.x + buttonWidth + 2f,
-                canvas.y,
-                canvas.width - buttonWidth * 2 - 4f,
-                canvas.height
-            );
+            var fieldRect = new Rect(canvas.x + buttonWidth + 2f, canvas.y, canvas.width - buttonWidth * 2 - 4f, canvas.height);
             var buffer = price.ToString();
             bool shift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             bool control = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
@@ -218,10 +202,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return buffer;
         }
 
-        public static bool DrawDoneButton(Rect canvas)
-        {
-            return DrawFieldButton(canvas, "✔");
-        }
+        public static bool DrawDoneButton(Rect canvas) => DrawFieldButton(canvas, "✔");
 
         public static void DrawShowButton(Rect canvas, ref bool state)
         {
@@ -231,15 +212,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
         }
 
-        public static bool WasLeftClicked(this Rect region)
-        {
-            return WasMouseButtonClicked(region, 0);
-        }
+        public static bool WasLeftClicked(this Rect region) => WasMouseButtonClicked(region, 0);
 
-        public static bool WasRightClicked(this Rect region)
-        {
-            return WasMouseButtonClicked(region, 1);
-        }
+        public static bool WasRightClicked(this Rect region) => WasMouseButtonClicked(region, 1);
 
         public static bool WasMouseButtonClicked(this Rect region, int mouseButton)
         {
@@ -256,27 +231,19 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 case EventType.Used when was:
                 case EventType.MouseDown when was:
                     current.Use();
+
                     return true;
                 default:
                     return false;
             }
         }
 
-        public static Rect ShiftLeft(this Rect region, float padding = 5f)
-        {
-            return new Rect(region.x - region.width - padding, region.y, region.width, region.height);
-        }
+        public static Rect ShiftLeft(this Rect region, float padding = 5f) => new Rect(region.x - region.width - padding, region.y, region.width, region.height);
 
-        public static Rect ShiftRight(this Rect region, float padding = 5f)
-        {
-            return new Rect(region.x + region.width + padding, region.y, region.width, region.height);
-        }
+        public static Rect ShiftRight(this Rect region, float padding = 5f) => new Rect(region.x + region.width + padding, region.y, region.width, region.height);
 
-        public static bool IsRegionVisible(this Rect region, Rect scrollRect, Vector2 scrollPos)
-        {
-            return (region.y >= scrollPos.y || region.y + region.height - 1f >= scrollPos.y)
-                   && region.y <= scrollPos.y + scrollRect.height;
-        }
+        public static bool IsRegionVisible(this Rect region, Rect scrollRect, Vector2 scrollPos) => (region.y >= scrollPos.y || region.y + region.height - 1f >= scrollPos.y)
+                                                                                                    && region.y <= scrollPos.y + scrollRect.height;
 
         public static void DrawColored(this Texture2D t, Rect region, Color color)
         {
@@ -287,13 +254,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             GUI.color = old;
         }
 
-        public static void DrawLabel(
-            Rect region,
-            string text,
-            TextAnchor anchor = TextAnchor.MiddleLeft,
-            GameFont fontScale = GameFont.Small,
-            bool vertical = false
-        )
+        public static void DrawLabel(Rect region, string text, TextAnchor anchor = TextAnchor.MiddleLeft, GameFont fontScale = GameFont.Small, bool vertical = false)
         {
             Text.Anchor = anchor;
             Text.Font = fontScale;
@@ -344,49 +305,31 @@ namespace SirRandoo.ToolkitUtils.Helpers
             string text = Widgets.TextField(region, content);
 
             newContent = !text.Equals(content) ? text : null;
+
             return newContent != null;
         }
 
-        public static bool DrawNumberField(
-            Rect region,
-            ref int value,
-            ref string buffer,
-            out int newValue,
-            float min = 0f,
-            float max = 1E+09F
-        )
+        public static bool DrawNumberField(Rect region, ref int value, ref string buffer, out int newValue, float min = 0f, float max = 1E+09F)
         {
             int proxy = value;
             Widgets.TextFieldNumeric(region, ref proxy, ref buffer, min, max);
 
             newValue = proxy;
+
             return proxy != value;
         }
 
-        public static bool DrawNumberField(
-            Rect region,
-            ref float value,
-            ref string buffer,
-            out float newValue,
-            float min = 0f,
-            float max = 1E+09F
-        )
+        public static bool DrawNumberField(Rect region, ref float value, ref string buffer, out float newValue, float min = 0f, float max = 1E+09F)
         {
             float proxy = value;
             Widgets.TextFieldNumeric(region, ref proxy, ref buffer, min, max);
 
             newValue = proxy;
+
             return Math.Abs(proxy - value) > 0.0001f;
         }
 
-        public static bool DrawTableHeader(
-            Rect backgroundRect,
-            Rect textRect,
-            string text,
-            TextAnchor anchor = TextAnchor.MiddleLeft,
-            GameFont fontScale = GameFont.Small,
-            bool vertical = false
-        )
+        public static bool DrawTableHeader(Rect backgroundRect, Rect textRect, string text, TextAnchor anchor = TextAnchor.MiddleLeft, GameFont fontScale = GameFont.Small, bool vertical = false)
         {
             Text.Anchor = anchor;
             Text.Font = fontScale;
@@ -418,6 +361,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
+
             return pressed;
         }
 
@@ -451,14 +395,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return pressed;
         }
 
-        public static bool DrawTabButton(
-            Rect region,
-            string text,
-            TextAnchor anchor = TextAnchor.MiddleLeft,
-            GameFont fontScale = GameFont.Small,
-            bool vertical = false,
-            bool selected = false
-        )
+        public static bool DrawTabButton(Rect region, string text, TextAnchor anchor = TextAnchor.MiddleLeft, GameFont fontScale = GameFont.Small, bool vertical = false, bool selected = false)
         {
             Text.Anchor = anchor;
             Text.Font = fontScale;
@@ -488,30 +425,18 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
+
             return pressed;
         }
 
-        public static void DrawColoredLabel(
-            Rect region,
-            string text,
-            Color color,
-            TextAnchor anchor = TextAnchor.MiddleLeft,
-            GameFont fontScale = GameFont.Small,
-            bool vertical = false
-        )
+        public static void DrawColoredLabel(Rect region, string text, Color color, TextAnchor anchor = TextAnchor.MiddleLeft, GameFont fontScale = GameFont.Small, bool vertical = false)
         {
             GUI.color = color;
             DrawLabel(region, text, anchor, fontScale, vertical);
             GUI.color = Color.white;
         }
 
-        public static void DrawFittedLabel(
-            Rect region,
-            string text,
-            TextAnchor anchor = TextAnchor.MiddleLeft,
-            GameFont maxScale = GameFont.Small,
-            bool vertical = false
-        )
+        public static void DrawFittedLabel(Rect region, string text, TextAnchor anchor = TextAnchor.MiddleLeft, GameFont maxScale = GameFont.Small, bool vertical = false)
         {
             Text.Anchor = anchor;
 
@@ -522,6 +447,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             var maxFontScale = (int)maxScale;
+
             foreach (GameFont f in GameFonts)
             {
                 if ((int)f > maxFontScale)
@@ -553,29 +479,17 @@ namespace SirRandoo.ToolkitUtils.Helpers
         {
             var left = new Rect(region.x, region.y, region.width * factor - 2f, region.height);
 
-            return new Tuple<Rect, Rect>(
-                left.Rounded(),
-                new Rect(left.x + left.width + 2f, left.y, region.width - left.width - 2f, left.height).Rounded()
-            );
+            return new Tuple<Rect, Rect>(left.Rounded(), new Rect(left.x + left.width + 2f, left.y, region.width - left.width - 2f, left.height).Rounded());
         }
 
         [NotNull]
-        public static Tuple<Rect, Rect> GetRectAsForm([NotNull] this Listing listing, float factor = 0.8f)
-        {
-            return listing.GetRect(Text.LineHeight).ToForm(factor);
-        }
+        public static Tuple<Rect, Rect> GetRectAsForm([NotNull] this Listing listing, float factor = 0.8f) => listing.GetRect(Text.LineHeight).ToForm(factor);
 
         [NotNull]
-        public static Tuple<Rect, Rect> GetAsForm([NotNull] this Listing listing, float height, float factor = 0.8f)
-        {
-            return listing.GetRect(height).ToForm(factor);
-        }
+        public static Tuple<Rect, Rect> GetAsForm([NotNull] this Listing listing, float height, float factor = 0.8f) => listing.GetRect(height).ToForm(factor);
 
         [NotNull]
-        public static string Tagged(this string s, string tag)
-        {
-            return $"<{tag}>{s}</{tag}>";
-        }
+        public static string Tagged(this string s, string tag) => $"<{tag}>{s}</{tag}>";
 
         [NotNull]
         public static string ColorTagged(this string s, string hex)
@@ -589,10 +503,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [NotNull]
-        public static string ColorTagged(this string s, Color color)
-        {
-            return ColorTagged(s, ColorUtility.ToHtmlStringRGB(color));
-        }
+        public static string ColorTagged(this string s, Color color) => ColorTagged(s, ColorUtility.ToHtmlStringRGB(color));
 
         public static void TipRegion(this Rect region, string tooltip)
         {
@@ -616,15 +527,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
             Find.WindowStack.Add(settings);
         }
 
-        public static Rect TrimLeft(this Rect region, float amount)
-        {
-            return new Rect(region.x + amount, region.y, region.width - amount, region.height);
-        }
+        public static Rect TrimLeft(this Rect region, float amount) => new Rect(region.x + amount, region.y, region.width - amount, region.height);
 
-        public static Rect WithWidth(this Rect region, float width)
-        {
-            return new Rect(region.x, region.y, width, region.height);
-        }
+        public static Rect WithWidth(this Rect region, float width) => new Rect(region.x, region.y, width, region.height);
 
         public static Rect RectForIcon(Rect region)
         {
@@ -632,12 +537,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             float half = Mathf.FloorToInt(shortest / 2f);
             Vector2 center = region.center;
 
-            return new Rect(
-                Mathf.Clamp(center.x - half, region.x, region.x + region.width),
-                Mathf.Clamp(center.y - half, region.y, region.y + region.height),
-                shortest,
-                shortest
-            );
+            return new Rect(Mathf.Clamp(center.x - half, region.x, region.x + region.width), Mathf.Clamp(center.y - half, region.y, region.y + region.height), shortest, shortest);
         }
 
         public static void DrawExperimentalNotice([NotNull] this Listing listing)
@@ -645,23 +545,13 @@ namespace SirRandoo.ToolkitUtils.Helpers
             listing.DrawDescription("TKUtils.Experimental".Localize(), new Color(1f, 0.53f, 0.76f));
         }
 
-        public static void DrawDescription(
-            [NotNull] this Listing listing,
-            string description,
-            Color color,
-            TextAnchor anchor = TextAnchor.UpperLeft
-        )
+        public static void DrawDescription([NotNull] this Listing listing, string description, Color color, TextAnchor anchor = TextAnchor.UpperLeft)
         {
             GameFont fontCache = Text.Font;
             GUI.color = color;
             Text.Font = GameFont.Tiny;
             float height = Text.CalcHeight(description, listing.ColumnWidth * 0.7f);
-            DrawLabel(
-                listing.GetRect(height).TrimLeft(10f).WithWidth(listing.ColumnWidth * 0.7f).Rounded(),
-                description,
-                anchor,
-                GameFont.Tiny
-            );
+            DrawLabel(listing.GetRect(height).TrimLeft(10f).WithWidth(listing.ColumnWidth * 0.7f).Rounded(), description, anchor, GameFont.Tiny);
             GUI.color = Color.white;
             Text.Font = fontCache;
 
@@ -689,12 +579,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             listing.GapLine(6f);
         }
 
-        public static void DrawModGroupHeader(
-            [NotNull] this Listing listing,
-            string modName,
-            ulong modId,
-            bool gapPrefix = true
-        )
+        public static void DrawModGroupHeader([NotNull] this Listing listing, string modName, ulong modId, bool gapPrefix = true)
         {
             if (gapPrefix)
             {
@@ -716,6 +601,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             GUI.color = Color.white;
 
             Widgets.DrawHighlightIfMouseover(modRequirementRect);
+
             if (Widgets.ButtonInvisible(modRequirementRect))
             {
                 SteamUtility.OpenWorkshopPage(new PublishedFileId_t(modId));
@@ -731,20 +617,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             bool changed = proxy != state;
             state = proxy;
+
             return changed;
         }
 
         public static bool LabeledPaintableCheckbox(Rect canvas, string label, ref bool state)
         {
             var labelRect = new Rect(canvas.x, canvas.y, canvas.width - canvas.height - 2f, canvas.height);
-            Rect checkPos = RectForIcon(
-                new Rect(
-                    canvas.x + canvas.width - canvas.height + 4f,
-                    canvas.y + 4f,
-                    canvas.height - 8f,
-                    canvas.height - 8f
-                )
-            );
+            Rect checkPos = RectForIcon(new Rect(canvas.x + canvas.width - canvas.height + 4f, canvas.y + 4f, canvas.height - 8f, canvas.height - 8f));
             bool proxy = state;
 
             DrawLabel(labelRect, label);
@@ -752,15 +632,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             bool changed = proxy != state;
             state = proxy;
+
             return changed;
         }
 
-        public static void DrawThing(
-            Rect canvas,
-            ThingDef def,
-            [CanBeNull] string labelOverride = null,
-            bool infoCard = true
-        )
+        public static void DrawThing(Rect canvas, ThingDef def, [CanBeNull] string labelOverride = null, bool infoCard = true)
         {
             var iconRect = new Rect(canvas.x + 2f, canvas.y + 2f, canvas.height - 4f, canvas.height - 4f);
             var labelRect = new Rect(iconRect.x + canvas.height, canvas.y, canvas.width - canvas.height, canvas.height);
@@ -796,12 +672,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             if (Widgets.ButtonText(fieldRect, !karmaType.HasValue ? nullLabel : karmaType.Value.ToString()))
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(
-                        Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => changedCallback(i)))
-                           .ToList()
-                    )
-                );
+                Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => changedCallback(i))).ToList()));
             }
 
             if (doResetButton && karmaType.HasValue && DrawFieldButton(labelRect, Textures.Reset, resetTooltip))

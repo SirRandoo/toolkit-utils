@@ -39,44 +39,20 @@ namespace SirRandoo.ToolkitUtils
         {
             Options = new List<FloatMenuOption>
             {
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Settings".Localize(),
-                    SettingsHelper.OpenSettingsMenuFor<TwitchToolkit.TwitchToolkit>
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Events".Localize(),
-                    () => Find.WindowStack.Add(new StoreIncidentsWindow())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Items".Localize(),
-                    () => Find.WindowStack.Add(new StoreDialog())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Commands".Localize(),
-                    () => Find.WindowStack.Add(new Window_Commands())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Viewers".Localize(),
-                    () => Find.WindowStack.Add(new Window_Viewers())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.NameQueue".Localize(),
-                    () => Find.WindowStack.Add(new NameQueueDialog())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.Tracker".Localize(),
-                    () => Find.WindowStack.Add(new Window_Trackers())
-                ),
+                new FloatMenuOption("TKUtils.AddonMenu.Settings".Localize(), SettingsHelper.OpenSettingsMenuFor<TwitchToolkit.TwitchToolkit>),
+                new FloatMenuOption("TKUtils.AddonMenu.Events".Localize(), () => Find.WindowStack.Add(new StoreIncidentsWindow())),
+                new FloatMenuOption("TKUtils.AddonMenu.Items".Localize(), () => Find.WindowStack.Add(new StoreDialog())),
+                new FloatMenuOption("TKUtils.AddonMenu.Commands".Localize(), () => Find.WindowStack.Add(new Window_Commands())),
+                new FloatMenuOption("TKUtils.AddonMenu.Viewers".Localize(), () => Find.WindowStack.Add(new Window_Viewers())),
+                new FloatMenuOption("TKUtils.AddonMenu.NameQueue".Localize(), () => Find.WindowStack.Add(new NameQueueDialog())),
+                new FloatMenuOption("TKUtils.AddonMenu.Tracker".Localize(), () => Find.WindowStack.Add(new Window_Trackers())),
                 new FloatMenuOption(
                     "TKUtils.AddonMenu.ToggleCoinEarning".Localize(),
                     () =>
                     {
                         ToolkitSettings.EarningCoins = !ToolkitSettings.EarningCoins;
 
-                        Messages.Message(
-                            $"TKUtils.CoinEarning{(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}".Localize(),
-                            MessageTypeDefOf.NeutralEvent
-                        );
+                        Messages.Message($"TKUtils.CoinEarning{(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}".Localize(), MessageTypeDefOf.NeutralEvent);
                     }
                 ),
                 new FloatMenuOption(
@@ -87,10 +63,7 @@ namespace SirRandoo.ToolkitUtils
                         giftCoins.enabled = !giftCoins.enabled;
                         CommandEditor.SaveCopy(giftCoins);
 
-                        Messages.Message(
-                            $"TKUtils.GiftCoins{(giftCoins.enabled ? "Enabled" : "Disabled")}".Localize(),
-                            MessageTypeDefOf.NeutralEvent
-                        );
+                        Messages.Message($"TKUtils.GiftCoins{(giftCoins.enabled ? "Enabled" : "Disabled")}".Localize(), MessageTypeDefOf.NeutralEvent);
                     }
                 ),
                 new FloatMenuOption(
@@ -106,10 +79,7 @@ namespace SirRandoo.ToolkitUtils
             };
         }
 
-        public List<FloatMenuOption> MenuOptions()
-        {
-            return Options;
-        }
+        public List<FloatMenuOption> MenuOptions() => Options;
 
 
         private static void OpenItemSettings()

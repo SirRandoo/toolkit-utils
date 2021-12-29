@@ -40,38 +40,30 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!PurchaseHelper.TryGetPawn(viewer.username, out pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
+
                 return false;
             }
 
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (!worker.TryGetNextAsTrait(out buyableTrait)
-                || buyableTrait.CanAdd == false
-                || buyableTrait.TraitDef == null)
+            if (!worker.TryGetNextAsTrait(out buyableTrait) || buyableTrait.CanAdd == false || buyableTrait.TraitDef == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(worker.GetLast()));
+
                 return false;
             }
 
             if (!viewer.CanAfford(buyableTrait!.CostToAdd))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.InsufficientBalance".LocalizeKeyed(
-                        buyableTrait.CostToAdd.ToString("N0"),
-                        viewer.GetViewerCoins().ToString("N0")
-                    )
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(buyableTrait.CostToAdd.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+
                 return false;
             }
 
-            if (TraitHelper.GetTotalTraits(pawn) >= AddTraitSettings.maxTraits
-                && buyableTrait.TraitData?.CanBypassLimit != true)
+            if (TraitHelper.GetTotalTraits(pawn) >= AddTraitSettings.maxTraits && buyableTrait.TraitData?.CanBypassLimit != true)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.LimitReached".LocalizeKeyed(AddTraitSettings.maxTraits)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.LimitReached".LocalizeKeyed(AddTraitSettings.maxTraits));
+
                 return false;
             }
 
@@ -98,6 +90,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Class".Localize());
+
             return false;
         }
 
@@ -105,26 +98,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (pawn.story.traits.allTraits != null)
             {
-                foreach (Trait t in pawn.story.traits.allTraits.Where(
-                    t => t.def.ConflictsWith(trait) || buyableTrait.TraitDef!.ConflictsWith(t)
-                ))
+                foreach (Trait t in pawn.story.traits.allTraits.Where(t => t.def.ConflictsWith(trait) || buyableTrait.TraitDef!.ConflictsWith(t)))
                 {
-                    MessageHelper.ReplyToUser(
-                        viewer.username,
-                        "TKUtils.Trait.Conflict".LocalizeKeyed(t.LabelCap, trait.LabelCap)
-                    );
+                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Conflict".LocalizeKeyed(t.LabelCap, trait.LabelCap));
+
                     return false;
                 }
             }
 
-            Trait duplicateTrait =
-                pawn.story.traits.allTraits?.FirstOrDefault(t => t.def.defName.Equals(buyableTrait.TraitDef!.defName));
+            Trait duplicateTrait = pawn.story.traits.allTraits?.FirstOrDefault(t => t.def.defName.Equals(buyableTrait.TraitDef!.defName));
+
             if (duplicateTrait != null)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.Duplicate".LocalizeKeyed(duplicateTrait.Label, trait.Label)
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".LocalizeKeyed(duplicateTrait.Label, trait.Label));
+
                 return false;
             }
 
@@ -135,19 +122,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (buyableTrait.TraitDef.IsDisallowedByBackstory(pawn!, buyableTrait.Degree, out Backstory backstory))
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, worker.GetLast())
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, worker.GetLast()));
+
                 return false;
             }
 
             if (pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(buyableTrait.TraitDef!.defName)) == true)
             {
-                MessageHelper.ReplyToUser(
-                    viewer.username,
-                    "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, worker.GetLast())
-                );
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, worker.GetLast()));
+
                 return false;
             }
 
@@ -156,10 +139,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return true;
             }
 
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, worker.GetLast())
-            );
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(pawn.kindDef.race.LabelCap, worker.GetLast()));
+
             return false;
         }
 

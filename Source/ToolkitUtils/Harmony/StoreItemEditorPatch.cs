@@ -48,9 +48,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 DisableKinds(inventory);
             }
 
-            StoreInventory.items = inventory.Where(i => !i.defname.NullOrEmpty())
-               .Where(i => tradeables.Any(t => t.defName.Equals(i.defname)))
-               .ToList();
+            StoreInventory.items = inventory.Where(i => !i.defname.NullOrEmpty()).Where(i => tradeables.Any(t => t.defName.Equals(i.defname))).ToList();
 
             RemoveDanglingItems();
             FixNullItemNames(tradeables);
@@ -92,9 +90,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                     category = "Animal";
                 }
 
-                items.Add(
-                    new ToolkitItem { Abr = item.abr, DefName = item.defname, Price = item.price, Category = category }
-                );
+                items.Add(new ToolkitItem { Abr = item.abr, DefName = item.defname, Price = item.price, Category = category });
             }
 
             return items;
@@ -136,9 +132,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         private static void DisableKinds([NotNull] List<Item> inventory)
         {
-            foreach (Item item in inventory.Where(item => !item.defname.NullOrEmpty())
-               .Where(item => item.price >= 0)
-               .Where(item => Data.PawnKinds.Any(r => r.DefName.Equals(item.defname))))
+            foreach (Item item in inventory.Where(item => !item.defname.NullOrEmpty()).Where(item => item.price >= 0).Where(item => Data.PawnKinds.Any(r => r.DefName.Equals(item.defname))))
             {
                 item.price = -10;
             }

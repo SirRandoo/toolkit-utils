@@ -104,9 +104,7 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 try
                 {
-                    container.Add(
-                        $"{stat.ValueToStringAsOffset} {stat.stat.label?.CapitalizeFirst() ?? stat.stat.defName}"
-                    );
+                    container.Add($"{stat.ValueToStringAsOffset} {stat.stat.label?.CapitalizeFirst() ?? stat.stat.defName}");
                 }
                 catch (Exception)
                 {
@@ -123,9 +121,6 @@ namespace SirRandoo.ToolkitUtils.Models
             PawnData.Stats = container.ToArray();
         }
 
-        public string GetDefaultName()
-        {
-            return ColonistKindDef?.race.label.ToToolkit() ?? DefName;
-        }
+        public string GetDefaultName() => ColonistKindDef?.race.label.ToToolkit() ?? DefName;
     }
 }

@@ -25,11 +25,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class CommandHelper
     {
-        public static void Execute(
-            [NotNull] this Command command,
-            [NotNull] ITwitchMessage message,
-            bool emojiOverride = false
-        )
+        public static void Execute([NotNull] this Command command, [NotNull] ITwitchMessage message, bool emojiOverride = false)
         {
             UserData data = UserRegistry.GetData(message.Username);
 
@@ -61,11 +57,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
                     catch (Exception e)
                     {
                         LogHelper.Error($@"Command ""{command.command}"" threw an exception!", e);
+
                         Data.HealthReports.Add(
                             new HealthReport
                             {
-                                Message =
-                                    $@"Command ""{message.Message} ({command.command})"" didn't execute successfully. Reason: {e.GetType().Name}({e.Message})",
+                                Message = $@"Command ""{message.Message} ({command.command})"" didn't execute successfully. Reason: {e.GetType().Name}({e.Message})",
                                 OccurredAt = DateTime.Now,
                                 Reporter = "ToolkitUtils - Command Handler",
                                 Type = HealthReport.ReportType.Error,

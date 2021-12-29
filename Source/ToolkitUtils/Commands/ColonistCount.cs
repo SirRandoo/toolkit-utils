@@ -30,11 +30,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             List<Pawn> colonists = Find.ColonistBar?.GetColonistsInOrder();
 
-            msg.Reply(
-                colonists == null || colonists.Count <= 0
-                    ? "TKUtils.ColonistCount.None".Localize()
-                    : "TKUtils.ColonistCount.Any".LocalizeKeyed(colonists.Count.ToString("N0"))
-            );
+            msg.Reply(colonists == null || colonists.Count <= 0 ? "TKUtils.ColonistCount.None".Localize() : "TKUtils.ColonistCount.Any".LocalizeKeyed(colonists.Count.ToString("N0")));
         }
     }
 }

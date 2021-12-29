@@ -56,11 +56,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void DrawHeaders(Rect canvas)
         {
-            if (SettingsHelper.DrawTableHeader(
-                stateHeaderRect,
-                stateHeaderInnerRect,
-                stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
-            ))
+            if (SettingsHelper.DrawTableHeader(stateHeaderRect, stateHeaderInnerRect, stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
             {
                 stateKey = stateKey == StateKey.Enable ? StateKey.Disable : StateKey.Enable;
                 NotifyGlobalStateChanged(stateKey);
@@ -82,9 +78,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 case SortKey.Name:
                     SettingsHelper.DrawSortIndicator(NameHeaderRect, sortOrder);
+
                     return;
                 case SortKey.Price:
                     SettingsHelper.DrawSortIndicator(PriceHeaderRect, sortOrder);
+
                     return;
                 default:
                     return;
@@ -95,6 +93,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var anyClicked = false;
             SortKey previousKey = sortKey;
+
             if (SettingsHelper.DrawTableHeader(NameHeaderRect, NameHeaderTextRect, nameHeaderText))
             {
                 sortKey = SortKey.Name;
@@ -165,6 +164,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     index++;
                     alternate = !alternate;
                     expanded += item.SettingsVisible ? 1 : 0;
+
                     continue;
                 }
 
@@ -194,12 +194,11 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected virtual void DrawKind(Rect canvas, [NotNull] TableSettingsItem<PawnKindItem> item)
         {
-            Rect checkboxRect = SettingsHelper.RectForIcon(
-                new Rect(stateHeaderRect.x + 2f, canvas.y + 2f, stateHeaderRect.width - 4f, RowLineHeight - 4f)
-            );
+            Rect checkboxRect = SettingsHelper.RectForIcon(new Rect(stateHeaderRect.x + 2f, canvas.y + 2f, stateHeaderRect.width - 4f, RowLineHeight - 4f));
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
+
             Rect settingRect = SettingsHelper.RectForIcon(
                 new Rect(
                     expandedHeaderRect.x + 2f,
@@ -210,6 +209,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
 
             bool proxy = item.Data.Enabled;
+
             if (SettingsHelper.DrawCheckbox(checkboxRect, ref proxy))
             {
                 item.Data.Enabled = proxy;
@@ -254,12 +254,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            var expandedRect = new Rect(
-                NameHeaderRect.x + 10f,
-                canvas.y + RowLineHeight + 10f,
-                canvas.width - checkboxRect.width - settingRect.width - 20f,
-                canvas.height - RowLineHeight - 20f
-            );
+            var expandedRect = new Rect(NameHeaderRect.x + 10f, canvas.y + RowLineHeight + 10f, canvas.width - checkboxRect.width - settingRect.width - 20f, canvas.height - RowLineHeight - 20f);
 
             GUI.BeginGroup(expandedRect);
             DrawExpandedSettings(expandedRect.AtZero(), item);
@@ -278,8 +273,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     item.Data.PawnData.CustomName = true;
                 }
 
-                if (item.Data.PawnData.CustomName
-                    && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetPawnNameTooltip))
+                if (item.Data.PawnData.CustomName && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, resetPawnNameTooltip))
                 {
                     item.Data.PawnData.CustomName = false;
                 }
@@ -290,11 +284,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             GUI.color = new Color(1f, 1f, 1f, 0.7f);
-            if (SettingsHelper.DrawFieldButton(
-                canvas,
-                item.EditingName ? Widgets.CheckboxOffTex : Textures.Edit,
-                item.EditingName ? closePawnNameTooltip : editPawnNameTooltip
-            ))
+
+            if (SettingsHelper.DrawFieldButton(canvas, item.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, item.EditingName ? closePawnNameTooltip : editPawnNameTooltip))
             {
                 item.EditingName = !item.EditingName;
             }
@@ -307,10 +298,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             LoadTranslations();
 
             _data ??= new List<TableSettingsItem<PawnKindItem>>();
-            _data.AddRange(
-                ToolkitUtils.Data.PawnKinds.OrderBy(i => i.Name)
-                   .Select(i => new TableSettingsItem<PawnKindItem> { Data = i })
-            );
+            _data.AddRange(ToolkitUtils.Data.PawnKinds.OrderBy(i => i.Name).Select(i => new TableSettingsItem<PawnKindItem> { Data = i }));
         }
 
         private void DrawExpandedSettings(Rect canvas, TableSettingsItem<PawnKindItem> item)
@@ -334,23 +322,13 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm(0.6f);
             SettingsHelper.DrawLabel(karmaLabel, karmaTypeText);
-            if (Widgets.ButtonText(
-                karmaField,
-                item.Data.Data.KarmaType == null ? defaultKarmaTypeText : item.Data.Data.KarmaType.ToString()
-            ))
+
+            if (Widgets.ButtonText(karmaField, item.Data.Data.KarmaType == null ? defaultKarmaTypeText : item.Data.Data.KarmaType.ToString()))
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(
-                        ToolkitUtils.Data.KarmaTypes.Select(
-                                i => new FloatMenuOption(i.ToString(), () => item.Data.Data.KarmaType = i)
-                            )
-                           .ToList()
-                    )
-                );
+                Find.WindowStack.Add(new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => item.Data.Data.KarmaType = i)).ToList()));
             }
 
-            if (item.Data.Data.KarmaType != null
-                && SettingsHelper.DrawFieldButton(karmaLabel, Textures.Reset, resetPawnKarmaTooltip))
+            if (item.Data.Data.KarmaType != null && SettingsHelper.DrawFieldButton(karmaLabel, Textures.Reset, resetPawnKarmaTooltip))
             {
                 item.Data.Data.KarmaType = null;
             }
@@ -372,8 +350,8 @@ namespace SirRandoo.ToolkitUtils.Workers
         public override void NotifyGlobalDataChanged()
         {
             var wasDirty = false;
-            foreach (PawnKindItem item in ToolkitUtils.Data.PawnKinds
-               .Select(item => new { item, existing = _data.Find(i => i.Data.Equals(item)) })
+
+            foreach (PawnKindItem item in ToolkitUtils.Data.PawnKinds.Select(item => new { item, existing = _data.Find(i => i.Data.Equals(item)) })
                .Where(t => t.existing == null)
                .Select(t => t.item))
             {
@@ -407,9 +385,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 case SortOrder.Ascending:
                     NotifyAscendingSortRequested();
+
                     return;
                 case SortOrder.Descending:
                     NotifyDescendingSortRequested();
+
                     return;
                 default:
                     return;
@@ -422,9 +402,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 case SortKey.Price:
                     _data = _data.OrderBy(i => i.Data.Cost).ThenBy(i => i.Data.Name).ToList();
+
                     return;
                 default:
                     _data = _data.OrderBy(i => i.Data.Name).ToList();
+
                     return;
             }
         }
@@ -435,9 +417,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 case SortKey.Price:
                     _data = _data.OrderByDescending(i => i.Data.Cost).ThenByDescending(i => i.Data.Name).ToList();
+
                     return;
                 default:
                     _data = _data.OrderByDescending(i => i.Data.Name).ToList();
+
                     return;
             }
         }
@@ -453,24 +437,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             stateHeaderRect = new Rect(0f, 0f, LineHeight, LineHeight);
             stateHeaderInnerRect = stateHeaderRect.ContractedBy(2f);
             NameHeaderRect = new Rect(LineHeight + 1f, 0f, Mathf.FloorToInt(consumedWidth * 0.55f), LineHeight);
-            NameHeaderTextRect = new Rect(
-                NameHeaderRect.x + 4f,
-                NameHeaderRect.y,
-                NameHeaderRect.width - 8f,
-                NameHeaderRect.height
-            );
-            PriceHeaderRect = new Rect(
-                NameHeaderRect.x + NameHeaderRect.width + 1f,
-                0f,
-                Mathf.FloorToInt(consumedWidth * 0.45f),
-                LineHeight
-            );
-            PriceHeaderTextRect = new Rect(
-                PriceHeaderRect.x + 4f,
-                PriceHeaderRect.y,
-                PriceHeaderRect.width - 8f,
-                PriceHeaderRect.height
-            );
+            NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
+            PriceHeaderRect = new Rect(NameHeaderRect.x + NameHeaderRect.width + 1f, 0f, Mathf.FloorToInt(consumedWidth * 0.45f), LineHeight);
+            PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
             expandedHeaderRect = new Rect(PriceHeaderRect.x + PriceHeaderRect.width + 1f, 0f, LineHeight, LineHeight);
             expandedHeaderInnerRect = expandedHeaderRect.ContractedBy(2f);
         }

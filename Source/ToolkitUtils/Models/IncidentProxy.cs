@@ -52,6 +52,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 Viewer.SetViewerCoins(state.Coins);
                 Viewer.SetViewerKarma(state.Karma);
                 Helper.playerMessages.Clear();
+
                 return false;
             }
 
@@ -61,6 +62,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             Helper.playerMessages.Clear();
+
             return true;
         }
 

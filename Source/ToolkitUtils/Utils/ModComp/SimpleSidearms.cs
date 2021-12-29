@@ -114,16 +114,19 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             if (!TryGetSidearmComp(pawn, out ThingComp comp))
             {
                 weapons = null;
+
                 return false;
             }
 
             if (!(_sidearmMemoryWeapons.GetValue(comp) is IList value))
             {
                 weapons = null;
+
                 return false;
             }
 
             weapons = value;
+
             return true;
         }
 
@@ -136,16 +139,19 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             if (!(thingValue is ThingDef thing))
             {
                 weapon = null;
+
                 return false;
             }
 
             if (!(stuffValue is ThingDef stuff))
             {
                 weapon = ThingMaker.MakeThing(thing);
+
                 return true;
             }
 
             weapon = ThingMaker.MakeThing(thing, stuff);
+
             return weapon != null;
         }
     }

@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
@@ -50,13 +49,14 @@ namespace SirRandoo.ToolkitUtils
             }
 
             gizmos ??= new List<Gizmo>();
+
             gizmos.Add(
                 new Command_Action
                 {
                     action = () => Destroy(),
                     icon = Textures.CloseGateway,
-                    defaultLabel = "TKUtils.CloseGatewayGizmo.Label".Localize(),
-                    defaultDesc = "TKUtils.CloseGatewayGizmo.Description".Localize()
+                    defaultLabel = "TKUtils.CloseGatewayGizmo.Label".TranslateSimple(),
+                    defaultDesc = "TKUtils.CloseGatewayGizmo.Description".TranslateSimple()
                 }
             );
 
@@ -64,8 +64,8 @@ namespace SirRandoo.ToolkitUtils
                 new Command_Toggle
                 {
                     icon = Textures.Snowman,
-                    defaultLabel = "TKUtils.TogglePawnGatewayGizmo.Label".Localize(),
-                    defaultDesc = "TKUtils.TogglePawnGatewayGizmo.Description".Localize(),
+                    defaultLabel = "TKUtils.TogglePawnGatewayGizmo.Label".TranslateSimple(),
+                    defaultDesc = "TKUtils.TogglePawnGatewayGizmo.Description".TranslateSimple(),
                     isActive = () => forPawns,
                     toggleAction = () => forPawns = !forPawns
                 }
@@ -75,8 +75,8 @@ namespace SirRandoo.ToolkitUtils
                 new Command_Toggle
                 {
                     icon = Textures.HumanMeat,
-                    defaultLabel = "TKUtils.ToggleItemGatewayGizmo.Label".Localize(),
-                    defaultDesc = "TKUtils.ToggleItemGatewayGizmo.Description".Localize(),
+                    defaultLabel = "TKUtils.ToggleItemGatewayGizmo.Label".TranslateSimple(),
+                    defaultDesc = "TKUtils.ToggleItemGatewayGizmo.Description".TranslateSimple(),
                     isActive = () => forItems,
                     toggleAction = () => forItems = !forItems
                 }
@@ -86,8 +86,8 @@ namespace SirRandoo.ToolkitUtils
                 new Command_Toggle
                 {
                     icon = DefDatabase<ThingDef>.GetNamed("Rat").uiIcon,
-                    defaultLabel = "TKUtils.ToggleAnimalGatewayGizmo.Label".Localize(),
-                    defaultDesc = "TKUtils.ToggleAnimalGatewayGizmo.Description".Localize(),
+                    defaultLabel = "TKUtils.ToggleAnimalGatewayGizmo.Label".TranslateSimple(),
+                    defaultDesc = "TKUtils.ToggleAnimalGatewayGizmo.Description".TranslateSimple(),
                     isActive = () => forAnimals,
                     toggleAction = () => forAnimals = !forAnimals
                 }
@@ -113,11 +113,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (shouldSpawnRat)
             {
-                GenSpawn.Spawn(
-                    PawnGenerator.GeneratePawn(shouldSpawnBoomRat ? PawnKindDefOf.Boomrat : PawnKindDefOf.Rat),
-                    Position,
-                    Map
-                );
+                GenSpawn.Spawn(PawnGenerator.GeneratePawn(shouldSpawnBoomRat ? PawnKindDefOf.Boomrat : PawnKindDefOf.Rat), Position, Map);
             }
         }
 

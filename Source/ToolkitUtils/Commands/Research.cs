@@ -39,17 +39,12 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
             else
             {
-                project = DefDatabase<ResearchProjectDef>.AllDefs.FirstOrDefault(
-                    p => p.defName.EqualsIgnoreCase(query) || p.label.ToToolkit().EqualsIgnoreCase(query!.ToToolkit())
-                );
+                project = DefDatabase<ResearchProjectDef>.AllDefs.FirstOrDefault(p => p.defName.EqualsIgnoreCase(query) || p.label.ToToolkit().EqualsIgnoreCase(query!.ToToolkit()));
 
 
                 if (project == null)
                 {
-                    ThingDef thing = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(
-                        t => t.defName.EqualsIgnoreCase(query)
-                             || t.label?.ToToolkit()?.EqualsIgnoreCase(query!.ToToolkit()) == true
-                    );
+                    ThingDef thing = DefDatabase<ThingDef>.AllDefs.FirstOrDefault(t => t.defName.EqualsIgnoreCase(query) || t.label?.ToToolkit()?.EqualsIgnoreCase(query!.ToToolkit()) == true);
 
                     project = thing?.recipeMaker?.researchPrerequisite;
                     project ??= thing?.recipeMaker?.researchPrerequisites?.FirstOrDefault(p => !p.IsFinished);
@@ -58,11 +53,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (project == null)
             {
-                twitchMessage.Reply(
-                    (!query.NullOrEmpty()
-                        ? "TKUtils.Research.InvalidQuery".LocalizeKeyed(query)
-                        : "TKUtils.Research.None".Localize()).WithHeader("Research".Localize())
-                );
+                twitchMessage.Reply((!query.NullOrEmpty() ? "TKUtils.Research.InvalidQuery".LocalizeKeyed(query) : "TKUtils.Research.None".Localize()).WithHeader("Research".Localize()));
+
                 return;
             }
 
@@ -76,12 +68,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 List<ResearchProjectDef> prerequisites = project.prerequisites;
 
                 string[] container = prerequisites.Where(prerequisite => !prerequisite.IsFinished)
-                   .Select(
-                        prerequisite => ResponseHelper.JoinPair(
-                            prerequisite.LabelCap,
-                            prerequisite.ProgressPercent.ToStringPercent()
-                        )
-                    )
+                   .Select(prerequisite => ResponseHelper.JoinPair(prerequisite.LabelCap, prerequisite.ProgressPercent.ToStringPercent()))
                    .ToArray();
 
                 segments.Add(ResponseHelper.JoinPair("ResearchPrerequisites".Localize(), container.SectionJoin()));

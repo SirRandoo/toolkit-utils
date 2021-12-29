@@ -37,51 +37,21 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             SelectorAdders = new List<FloatMenuOption>
             {
-                new FloatMenuOption(
-                    "TKUtils.Fields.Name".Localize(),
-                    () => AddSelector(new NameSelector<PawnKindItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.State".Localize(),
-                    () => AddSelector(new StateSelector<PawnKindItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.Price".Localize(),
-                    () => AddSelector(new PriceSelector<PawnKindItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.DefName".Localize(),
-                    () => AddSelector(new DefNameSelector<PawnKindItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.Mod".Localize(),
-                    () => AddSelector(new ModSelector<PawnKindItem>())
-                )
+                new FloatMenuOption("TKUtils.Fields.Name".Localize(), () => AddSelector(new NameSelector<PawnKindItem>())),
+                new FloatMenuOption("TKUtils.Fields.State".Localize(), () => AddSelector(new StateSelector<PawnKindItem>())),
+                new FloatMenuOption("TKUtils.Fields.Price".Localize(), () => AddSelector(new PriceSelector<PawnKindItem>())),
+                new FloatMenuOption("TKUtils.Fields.DefName".Localize(), () => AddSelector(new DefNameSelector<PawnKindItem>())),
+                new FloatMenuOption("TKUtils.Fields.Mod".Localize(), () => AddSelector(new ModSelector<PawnKindItem>()))
             };
 
             MutateAdders = new List<FloatMenuOption>
             {
                 new FloatMenuOption("TKUtils.Fields.Name".Localize(), () => AddMutator(new PawnNameMutator())),
-                new FloatMenuOption(
-                    "TKUtils.Fields.Price".Localize(),
-                    () => AddMutator(new PriceMutator<PawnKindItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.Fields.State".Localize(),
-                    () => AddMutator(new StateMutator<PawnKindItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.EditorMutator.ResetName".Localize(),
-                    () => AddMutator(new ResetNameMutator<PawnKindItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.EditorMutator.ResetPrice".Localize(),
-                    () => AddMutator(new ResetPriceMutator<PawnKindItem>())
-                ),
-                new FloatMenuOption(
-                    "TKUtils.EditorMutator.ResetData".Localize(),
-                    () => AddMutator(new ResetDataMutator<PawnKindItem>())
-                )
+                new FloatMenuOption("TKUtils.Fields.Price".Localize(), () => AddMutator(new PriceMutator<PawnKindItem>())),
+                new FloatMenuOption("TKUtils.Fields.State".Localize(), () => AddMutator(new StateMutator<PawnKindItem>())),
+                new FloatMenuOption("TKUtils.EditorMutator.ResetName".Localize(), () => AddMutator(new ResetNameMutator<PawnKindItem>())),
+                new FloatMenuOption("TKUtils.EditorMutator.ResetPrice".Localize(), () => AddMutator(new ResetPriceMutator<PawnKindItem>())),
+                new FloatMenuOption("TKUtils.EditorMutator.ResetData".Localize(), () => AddMutator(new ResetDataMutator<PawnKindItem>()))
             };
         }
     }

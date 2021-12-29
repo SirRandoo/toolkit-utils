@@ -44,6 +44,7 @@ namespace SirRandoo.ToolkitUtils.Models
             foreach (TableSettingsItem<ThingItem> item in input)
             {
                 var hidden = false;
+
                 foreach (ThingItemFilterCategory unused in filters.Where(filter => filter.IsFiltered(item)))
                 {
                     hidden = true;
@@ -64,6 +65,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 filter.Category = category;
 
                 filters.Add(category);
+
                 return;
             }
 
@@ -72,6 +74,7 @@ namespace SirRandoo.ToolkitUtils.Models
             if (storedFilter != null)
             {
                 storedFilter.Active = true;
+
                 return;
             }
 
@@ -111,25 +114,11 @@ namespace SirRandoo.ToolkitUtils.Models
                     continue;
                 }
 
-                Rect arrowIconRect =
-                    new Rect(lineRect.x, lineRect.y, lineRect.height, lineRect.height).ContractedBy(4f);
-                Rect checkStateRect = new Rect(
-                    arrowIconRect.x + arrowIconRect.width,
-                    lineRect.y,
-                    lineRect.height,
-                    lineRect.height
-                ).ContractedBy(4f);
-                var categoryTextRect = new Rect(
-                    checkStateRect.x + checkStateRect.width + 5f,
-                    lineRect.y,
-                    lineRect.width - 5f - arrowIconRect.width - checkStateRect.width,
-                    lineRect.height
-                );
+                Rect arrowIconRect = new Rect(lineRect.x, lineRect.y, lineRect.height, lineRect.height).ContractedBy(4f);
+                Rect checkStateRect = new Rect(arrowIconRect.x + arrowIconRect.width, lineRect.y, lineRect.height, lineRect.height).ContractedBy(4f);
+                var categoryTextRect = new Rect(checkStateRect.x + checkStateRect.width + 5f, lineRect.y, lineRect.width - 5f - arrowIconRect.width - checkStateRect.width, lineRect.height);
 
-                GUI.DrawTexture(
-                    arrowIconRect.ContractedBy(2f),
-                    category.Expanded ? Textures.ExpandedArrow : Textures.CollapsedArrow
-                );
+                GUI.DrawTexture(arrowIconRect.ContractedBy(2f), category.Expanded ? Textures.ExpandedArrow : Textures.CollapsedArrow);
 
                 MultiCheckboxState state = Widgets.CheckboxMulti(checkStateRect, category.CheckState, true);
 
@@ -143,9 +132,11 @@ namespace SirRandoo.ToolkitUtils.Models
                         {
                             case MultiCheckboxState.Off:
                                 filter.Active = false;
+
                                 break;
                             case MultiCheckboxState.On:
                                 filter.Active = true;
+
                                 break;
                         }
                     }
@@ -180,19 +171,9 @@ namespace SirRandoo.ToolkitUtils.Models
                     continue;
                 }
 
-                var canvas = new Rect(
-                    lineRect.x + lineRect.height * 2f,
-                    lineRect.y,
-                    lineRect.width - lineRect.height * 2f - 8,
-                    lineRect.height
-                );
+                var canvas = new Rect(lineRect.x + lineRect.height * 2f, lineRect.y, lineRect.width - lineRect.height * 2f - 8, lineRect.height);
                 var checkRect = new Rect(canvas.x + 4f, canvas.y + 4f, 12f, 12f);
-                var textRect = new Rect(
-                    checkRect.x + checkRect.width,
-                    canvas.y,
-                    canvas.width - checkRect.width,
-                    canvas.height
-                );
+                var textRect = new Rect(checkRect.x + checkRect.width, canvas.y, canvas.width - checkRect.width, canvas.height);
 
                 GUI.DrawTexture(checkRect, filter.Active ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
 

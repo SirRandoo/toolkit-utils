@@ -29,9 +29,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void DoWindowContents(Rect inRect)
         {
-            Mod.DoSettingsWindowContents(
-                new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 40f - CloseButSize.y)
-            );
+            Mod.DoSettingsWindowContents(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 40f - CloseButSize.y));
         }
     }
 }

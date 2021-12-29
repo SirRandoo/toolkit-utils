@@ -31,6 +31,7 @@ namespace SirRandoo.ToolkitUtils
             base.DoButton(region);
 
             Rect iconRect;
+
             if (def.Icon == null)
             {
                 iconRect = new Rect(region.x + region.width - 20f, region.y + 3f, 16f, 16f);
@@ -51,23 +52,28 @@ namespace SirRandoo.ToolkitUtils
             }
 
             Texture2D texture = null;
+
             switch (mostSevere.Type)
             {
                 case HealthReport.ReportType.Info:
                     texture = Textures.Info;
                     GUI.color = ColorLibrary.PaleGreen;
+
                     break;
                 case HealthReport.ReportType.Warning:
                     texture = Textures.Warning;
                     GUI.color = ColorLibrary.Yellow;
+
                     break;
                 case HealthReport.ReportType.Error:
                     texture = Textures.Warning;
                     GUI.color = ColorLibrary.Salmon;
+
                     break;
                 case HealthReport.ReportType.Debug:
                     texture = Textures.Debug;
                     GUI.color = ColorLibrary.LightPink;
+
                     break;
             }
 

@@ -103,12 +103,14 @@ namespace SirRandoo.ToolkitUtils.Commands
             if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy item) || !item.IsValid() || !item.Thing.Thing.IsWeapon)
             {
                 MessageHelper.ReplyToUser(invoker, "TKUtils.InvalidItemQuery".LocalizeKeyed(worker.GetLast()));
+
                 return;
             }
 
             if (item.TryGetError(out string error))
             {
                 MessageHelper.ReplyToUser(invoker, error);
+
                 return;
             }
 
@@ -147,9 +149,11 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 case Category.Weapon:
                     PerformWeaponLookup(query);
+
                     return;
                 case Category.TMagic:
                     PerformTMagicLookup(query);
+
                     return;
             }
         }

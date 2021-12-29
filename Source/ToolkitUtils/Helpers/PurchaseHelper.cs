@@ -32,15 +32,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class PurchaseHelper
     {
-        public static bool CanAfford([NotNull] this Viewer v, int price)
-        {
-            return v.GetViewerCoins() >= price || ToolkitSettings.UnlimitedCoins;
-        }
+        public static bool CanAfford([NotNull] this Viewer v, int price) => v.GetViewerCoins() >= price || ToolkitSettings.UnlimitedCoins;
 
-        public static bool IsResearched(this ThingDef thing)
-        {
-            return BuyItemSettings.mustResearchFirst && thing.GetUnfinishedPrerequisites().Count <= 0;
-        }
+        public static bool IsResearched(this ThingDef thing) => BuyItemSettings.mustResearchFirst && thing.GetUnfinishedPrerequisites().Count <= 0;
 
         [NotNull]
         public static List<ResearchProjectDef> GetUnfinishedPrerequisites([NotNull] this ThingDef thing)
@@ -63,41 +57,28 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             projects.RemoveDuplicates();
+
             return projects;
         }
 
-        public static bool Stackable([NotNull] this ThingDef thing)
-        {
-            return thing.stackLimit > 1;
-        }
+        public static bool Stackable([NotNull] this ThingDef thing) => thing.stackLimit > 1;
 
         [NotNull]
-        public static string ToToolkit([NotNull] this string t)
-        {
-            return t.Replace(" ", "").ToLower();
-        }
+        public static string ToToolkit([NotNull] this string t) => t.Replace(" ", "").ToLower();
 
-        public static int CalculateStorePrice([NotNull] this ThingDef d)
-        {
-            return Math.Max(1, Convert.ToInt32(d.BaseMarketValue * 10.0f / 6.0f));
-        }
+        public static int CalculateStorePrice([NotNull] this ThingDef d) => Math.Max(1, Convert.ToInt32(d.BaseMarketValue * 10.0f / 6.0f));
 
-        public static bool ToChance(this int value)
-        {
-            return value > 0 && Rand.Chance(value / 100f);
-        }
+        public static bool ToChance(this int value) => value > 0 && Rand.Chance(value / 100f);
 
         [ContractAnnotation("viewer:notnull => true,pawn:notnull; viewer:notnull => false,pawn:null")]
         public static bool TryGetPawn(string viewer, out Pawn pawn, bool kidnapped = false)
         {
             pawn = CommandBase.GetOrFindPawn(viewer.ToLowerInvariant(), kidnapped);
+
             return pawn != null;
         }
 
-        public static int GetMaximumPurchaseAmount([NotNull] this Viewer viewer, int cost)
-        {
-            return Mathf.FloorToInt(viewer.GetViewerCoins() / (float)cost);
-        }
+        public static int GetMaximumPurchaseAmount([NotNull] this Viewer viewer, int cost) => Mathf.FloorToInt(viewer.GetViewerCoins() / (float)cost);
 
         public static void Charge([NotNull] this Viewer viewer, [NotNull] StoreIncident incident)
         {
@@ -143,6 +124,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static bool TryGetUnfinishedPrerequisites(ThingDef thing, out List<ResearchProjectDef> projects)
         {
             projects = thing.GetUnfinishedPrerequisites();
+
             return BuyItemSettings.mustResearchFirst && projects.Count > 0;
         }
 
@@ -197,11 +179,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return cost;
         }
 
-        public static int GetItemPrice(
-            [NotNull] this ThingItem thing,
-            [CanBeNull] ThingItem stuff,
-            QualityCategory quality
-        )
+        public static int GetItemPrice([NotNull] this ThingItem thing, [CanBeNull] ThingItem stuff, QualityCategory quality)
         {
             int price = GetItemPrice(thing, stuff);
 
@@ -209,24 +187,31 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 case QualityCategory.Awful:
                     price = Mathf.CeilToInt(price * Item.AwfulMultiplier);
+
                     break;
                 case QualityCategory.Poor:
                     price = Mathf.CeilToInt(price * Item.PoorMultiplier);
+
                     break;
                 case QualityCategory.Normal:
                     price = Mathf.CeilToInt(price * Item.NormalMultiplier);
+
                     break;
                 case QualityCategory.Good:
                     price = Mathf.CeilToInt(price * Item.GoodMultiplier);
+
                     break;
                 case QualityCategory.Excellent:
                     price = Mathf.CeilToInt(price * Item.ExcellentMultiplier);
+
                     break;
                 case QualityCategory.Masterwork:
                     price = Mathf.CeilToInt(price * Item.MasterworkMultiplier);
+
                     break;
                 case QualityCategory.Legendary:
                     price = Mathf.CeilToInt(price * Item.LegendaryMultiplier);
+
                     break;
             }
 
@@ -247,15 +232,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return t;
         }
 
-        public static Thing MakeThing(ThingDef thing, ThingDef stuff)
-        {
-            return ThingMaker.MakeThing(thing, stuff);
-        }
+        public static Thing MakeThing(ThingDef thing, ThingDef stuff) => ThingMaker.MakeThing(thing, stuff);
 
-        public static Thing MakeThing(ThingDef thing)
-        {
-            return ThingMaker.MakeThing(thing);
-        }
+        public static Thing MakeThing(ThingDef thing) => ThingMaker.MakeThing(thing);
 
         public static void SpawnItem(ThingDef thing, Map map, IntVec3 position)
         {
@@ -267,13 +246,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             SpawnItem(position, map, MakeThing(thing, stuff));
         }
 
-        public static void SpawnItem(
-            ThingDef thing,
-            ThingDef stuff,
-            QualityCategory? quality,
-            Map map,
-            IntVec3 position
-        )
+        public static void SpawnItem(ThingDef thing, ThingDef stuff, QualityCategory? quality, Map map, IntVec3 position)
         {
             SpawnItem(position, map, MakeThing(thing, stuff, quality));
         }
@@ -306,10 +279,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [NotNull]
-        public static ViewerState GetState([NotNull] this Viewer viewer)
-        {
-            return new ViewerState { Coins = viewer.GetViewerCoins(), Karma = viewer.GetViewerKarma() };
-        }
+        public static ViewerState GetState([NotNull] this Viewer viewer) => new ViewerState { Coins = viewer.GetViewerCoins(), Karma = viewer.GetViewerKarma() };
 
         public static bool TryMultiply(int i1, int i2, out int result)
         {
@@ -320,6 +290,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             catch (OverflowException)
             {
                 result = 0;
+
                 return false;
             }
 

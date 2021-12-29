@@ -43,14 +43,8 @@ namespace SirRandoo.ToolkitUtils.Utils
             Changed?.Invoke(value);
         }
 
-        public T Get()
-        {
-            return value;
-        }
+        public T Get() => value;
 
-        public static implicit operator T([NotNull] ObservableProperty<T> prop)
-        {
-            return prop.value;
-        }
+        public static implicit operator T([NotNull] ObservableProperty<T> prop) => prop.value;
     }
 }

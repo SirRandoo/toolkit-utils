@@ -33,9 +33,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool IsPossible()
         {
-            pawn = Find.ColonistBar.GetColonistsInOrder()
-               .Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p))
-               .RandomElementWithFallback();
+            pawn = Find.ColonistBar.GetColonistsInOrder().Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p)).RandomElementWithFallback();
 
             if (pawn == null)
             {
@@ -43,6 +41,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             PawnTracker.pawnsToRevive.Add(pawn);
+
             return true;
         }
 

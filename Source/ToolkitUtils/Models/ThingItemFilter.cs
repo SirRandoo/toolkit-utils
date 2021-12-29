@@ -78,73 +78,34 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public Func<TableSettingsItem<ThingItem>, bool> IsUnfilteredFunc { get; set; }
 
-        public static bool IsCategoryRelevant([NotNull] TableSettingsItem<ThingItem> subject, string category)
-        {
-            return subject.Data.Category.Equals(category);
-        }
+        public static bool IsCategoryRelevant([NotNull] TableSettingsItem<ThingItem> subject, string category) => subject.Data.Category.Equals(category);
 
-        public static bool IsModRelevant([NotNull] TableSettingsItem<ThingItem> subject, string mod)
-        {
-            return subject.Data.Mod.Equals(mod);
-        }
+        public static bool IsModRelevant([NotNull] TableSettingsItem<ThingItem> subject, string mod) => subject.Data.Mod.Equals(mod);
 
-        public static bool IsTechLevelRelevant([NotNull] TableSettingsItem<ThingItem> subject, TechLevel techLevel)
-        {
-            return subject.Data.Thing != null && subject.Data.Thing.techLevel == techLevel;
-        }
+        public static bool IsTechLevelRelevant([NotNull] TableSettingsItem<ThingItem> subject, TechLevel techLevel) => subject.Data.Thing != null && subject.Data.Thing.techLevel == techLevel;
 
-        public static bool FilterByStuff([NotNull] TableSettingsItem<ThingItem> subject)
-        {
-            return subject.Data.Thing != null && subject.Data.Thing.IsStuff;
-        }
+        public static bool FilterByStuff([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.IsStuff;
 
-        public static bool FilterByNotStuff([NotNull] TableSettingsItem<ThingItem> subject)
-        {
-            return subject.Data.Thing != null && !subject.Data.Thing.IsStuff;
-        }
+        public static bool FilterByNotStuff([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && !subject.Data.Thing.IsStuff;
 
-        public static bool FilterByStackable([NotNull] TableSettingsItem<ThingItem> subject)
-        {
-            return subject.Data.Thing != null && subject.Data.Thing.stackLimit > 1;
-        }
+        public static bool FilterByStackable([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.stackLimit > 1;
 
-        public static bool FilterByNonStackable([NotNull] TableSettingsItem<ThingItem> subject)
-        {
-            return subject.Data.Thing != null && subject.Data.Thing.stackLimit == 1;
-        }
+        public static bool FilterByNonStackable([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.stackLimit == 1;
 
-        public static bool FilterByResearched(TableSettingsItem<ThingItem> subject)
-        {
-            return Current.Game != null
-                   && subject.Data.Thing != null
-                   && subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
-        }
+        public static bool FilterByResearched(TableSettingsItem<ThingItem> subject) => Current.Game != null
+                                                                                       && subject.Data.Thing != null
+                                                                                       && subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
 
-        public static bool FilterByNotResearched(TableSettingsItem<ThingItem> subject)
-        {
-            return Current.Game != null
-                   && subject.Data.Thing != null
-                   && !subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
-        }
+        public static bool FilterByNotResearched(TableSettingsItem<ThingItem> subject) => Current.Game != null
+                                                                                          && subject.Data.Thing != null
+                                                                                          && !subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
 
-        public static bool FilterByEnabled([NotNull] TableSettingsItem<ThingItem> subject)
-        {
-            return subject.Data.Cost > 0;
-        }
+        public static bool FilterByEnabled([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Cost > 0;
 
-        public static bool FilterByDisabled([NotNull] TableSettingsItem<ThingItem> subject)
-        {
-            return subject.Data.Cost <= 0;
-        }
+        public static bool FilterByDisabled([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Cost <= 0;
 
-        public static bool FilterByManufactured([NotNull] TableSettingsItem<ThingItem> subject)
-        {
-            return subject.Data.ProducedAt != null;
-        }
+        public static bool FilterByManufactured([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.ProducedAt != null;
 
-        public static bool FilterByNonManufactured([NotNull] TableSettingsItem<ThingItem> subject)
-        {
-            return subject.Data.ProducedAt == null;
-        }
+        public static bool FilterByNonManufactured([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.ProducedAt == null;
     }
 }

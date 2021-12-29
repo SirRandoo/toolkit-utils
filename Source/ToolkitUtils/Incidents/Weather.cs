@@ -61,6 +61,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
 
                 map = playerMap;
+
                 break;
             }
 

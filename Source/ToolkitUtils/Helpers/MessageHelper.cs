@@ -32,10 +32,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             ReplyToUser(m.Username, message);
         }
 
-        public static string WithHeader(this string s, string header)
-        {
-            return $"【{header}】 {s}".AltText($"[{header}] {s}");
-        }
+        public static string WithHeader(this string s, string header) => $"【{header}】 {s}".AltText($"[{header}] {s}");
 
         internal static void ReplyToUser(string user, string message)
         {
@@ -124,9 +121,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (string badge in badges)
             {
-                if (message!.ChatMessage!.Badges.Any(
-                    p => p.Key.Equals(badge, StringComparison.InvariantCultureIgnoreCase)
-                ))
+                if (message!.ChatMessage!.Badges.Any(p => p.Key.Equals(badge, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     return true;
                 }
@@ -136,21 +131,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [NotNull]
-        public static string Append(this string s, string text)
-        {
-            return $"{s}{text}";
-        }
+        public static string Append(this string s, string text) => $"{s}{text}";
 
         [NotNull]
-        public static string AppendWithSpace(this string s, string text)
-        {
-            return $"{s} {text}";
-        }
+        public static string AppendWithSpace(this string s, string text) => $"{s} {text}";
 
         [NotNull]
-        public static string Insert(this string s, int index, string text)
-        {
-            return new StringBuilder().Append(s).Insert(index, text).ToString();
-        }
+        public static string Insert(this string s, int index, string text) => new StringBuilder().Append(s).Insert(index, text).ToString();
     }
 }
