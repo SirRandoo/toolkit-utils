@@ -21,6 +21,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
+using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
@@ -31,13 +32,10 @@ namespace SirRandoo.ToolkitUtils.Workers
         public TabItem SelectedTab { get; set; }
 
         [NotNull]
-        public static TabWorker CreateInstance()
-        {
-            return new TabWorker();
-        }
+        public static TabWorker CreateInstance() => new TabWorker();
 
         [NotNull]
-        public static TabWorker CreateInstance([NotNull] IEnumerable<TabItem> tabs)
+        public static TabWorker CreateInstance([NotNull] params TabItem[] tabs)
         {
             var worker = new TabWorker();
             worker.tabItems.AddRange(tabs);
@@ -67,9 +65,10 @@ namespace SirRandoo.ToolkitUtils.Workers
             return tabItems.FirstOrDefault(t => t.Label.Equals(label, StringComparison.InvariantCulture));
         }
 
-        public void Draw(Rect region, bool vertical = false)
+        public void Draw(Rect region, bool vertical = false, bool paneled = false)
         {
             float offset = 0;
+
             foreach (TabItem tab in tabItems)
             {
                 var tabRegion = new Rect(region.x, region.y, tab.Width + 25f, region.height);
@@ -83,13 +82,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     tabRegion.x += offset;
                 }
 
-                if (SettingsHelper.DrawTabButton(
-                    tabRegion,
-                    tab.Label,
-                    TextAnchor.MiddleCenter,
-                    vertical: vertical,
-                    selected: SelectedTab == tab
-                ))
+                if (SettingsHelper.DrawTabButton(tabRegion, tab.Label, TextAnchor.MiddleCenter, vertical: vertical, selected: SelectedTab == tab))
                 {
                     if (tab.Clicked == null || tab.Clicked())
                     {
@@ -98,6 +91,17 @@ namespace SirRandoo.ToolkitUtils.Workers
                 }
 
                 offset += tabRegion.width;
+
+                if (!paneled)
+                {
+                    continue;
+                }
+
+                GUI.color = Color.grey;
+                Widgets.DrawLineHorizontal(tabRegion.x, tabRegion.y, tabRegion.width);
+                GUI.color = Color.black;
+                Widgets.DrawLineVertical(tabRegion.x, tabRegion.y, tabRegion.height);
+                GUI.color = Color.white;
             }
         }
     }
