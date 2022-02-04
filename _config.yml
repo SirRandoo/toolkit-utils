@@ -23,7 +23,7 @@ email: ''
 description: >- # this means to ignore newlines until "baseurl:"
   The documentation site for ToolkitUtils, an addon to TwitchToolkit for RimWorld.
 baseurl: '/toolkit-utils' # the subpath of your site, e.g. /blog
-url: 'https://docs.rando.one' # the base hostname & protocol for your site, e.g. http://example.com
+url: '' # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ''
 github_username: sirrandoo
 repository: sirrandoo/toolkit-utils
