@@ -180,6 +180,16 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static bool CanPawnsMarry(Pawn asker, Pawn askee)
         {
+            if (asker.GetSpouses(false).Any(p => p.Equals(askee)))
+            {
+                return false;
+            }
+
+            if (askee.GetSpouses(false).Any(p => p.Equals(asker)))
+            {
+                return false;
+            }
+            
             return HasOpenSpouseSlot(asker) && HasOpenSpouseSlot(askee);
         }
 
