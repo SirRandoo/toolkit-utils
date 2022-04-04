@@ -27,6 +27,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class GameHelper
     {
+        private static readonly PreceptDef[] MarriagePrecepts =
+        {
+            PreceptDefOf.SpouseCount_Male_MaxTwo, PreceptDefOf.SpouseCount_Female_MaxTwo,
+            PreceptDefOf.SpouseCount_Male_MaxThree, PreceptDefOf.SpouseCount_Female_MaxThree,
+            PreceptDefOf.SpouseCount_Male_MaxFour, PreceptDefOf.SpouseCount_Female_MaxFour,
+            PreceptDefOf.SpouseCount_Male_Unlimited, PreceptDefOf.SpouseCount_Female_Unlimited
+        };
+    
         [CanBeNull] public static string SanitizedLabel([NotNull] this Def def) => def.label == null ? null : RichTextHelper.StripTags(def.label);
 
         [CanBeNull] public static string SanitizedLabel([NotNull] this Thing thing) => thing.def?.label == null ? null : RichTextHelper.StripTags(thing.def.label);
@@ -168,6 +176,60 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             return rarity >= 0.85f;
+        }
+
+        public static bool CanPawnsMarry(Pawn asker, Pawn askee)
+        {
+            return HasOpenSpouseSlot(asker) && HasOpenSpouseSlot(askee);
+        }
+
+        private static bool HasOpenSpouseSlot(Pawn pawn)
+        {
+            foreach (PreceptDef precept in MarriagePrecepts)
+            {
+                Gender preceptAffects = GetGenderForPrecept(precept);
+
+                if (preceptAffects != pawn.gender && pawn.ideo.Ideo.HasPrecept(precept))
+                {
+                    continue;
+                }
+
+                return pawn.GetSpouseCount(false) < GetLimitForPrecept(precept);
+            }
+
+            return pawn.GetSpouseCount(false) <= 0;
+        }
+        
+        private static Gender GetGenderForPrecept([NotNull] PreceptDef precept)
+        {
+            var comp = precept.comps.Find(c => c is PreceptComp_UnwillingToDo_Gendered) as PreceptComp_UnwillingToDo_Gendered;
+
+            return comp?.gender ?? Gender.None;
+        }
+
+        private static int GetLimitForPrecept([NotNull] Def precept)
+        {
+            switch (precept.defName)
+            {
+                case nameof(PreceptDefOf.SpouseCount_Male_MaxTwo):
+                    return 2;
+                case nameof(PreceptDefOf.SpouseCount_Male_MaxThree):
+                    return 3;
+                case nameof(PreceptDefOf.SpouseCount_Male_MaxFour):
+                    return 4;
+                case nameof(PreceptDefOf.SpouseCount_Male_Unlimited):
+                    return int.MaxValue;
+                case nameof(PreceptDefOf.SpouseCount_Female_MaxTwo):
+                    return 2;
+                case nameof(PreceptDefOf.SpouseCount_Female_MaxThree):
+                    return 3;
+                case nameof(PreceptDefOf.SpouseCount_Female_MaxFour):
+                    return 4;
+                case nameof(PreceptDefOf.SpouseCount_Female_Unlimited):
+                    return int.MaxValue;
+                default:
+                    return 1;
+            }
         }
     }
 }
