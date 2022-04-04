@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -43,11 +44,11 @@ namespace SirRandoo.ToolkitUtils.Utils
             switch (argument.ToLowerInvariant())
             {
                 case "accept":
-                    ProcessAccept(twitchMessage.Username);
+                    ProcessAccept(twitchMessage.Username, worker.GetNextAsViewer());
 
                     return;
                 case "decline":
-                    ProcessDecline(twitchMessage.Username);
+                    ProcessDecline(twitchMessage.Username, worker.GetNextAsViewer());
 
                     return;
                 default:
@@ -64,31 +65,30 @@ namespace SirRandoo.ToolkitUtils.Utils
             }
         }
 
-        protected virtual void ProcessAccept([NotNull] string username)
+        protected virtual void ProcessAccept([NotNull] string username, [CanBeNull] Viewer viewer)
         {
             lock (ConsentWorker)
             {
-                string asker = ConsentWorker.GetAsker(username);
-                bool askerAgreed = ConsentWorker.GetAskeeStatus(username);
+                string asker = null;
 
-                ConsentWorker.ClearContext(username);
-
-                if (string.IsNullOrEmpty(asker) || !askerAgreed)
+                if (viewer == null)
                 {
-                    return;
+                    asker = ConsentWorker.GetAsker(username);
                 }
+                else
+                {
+                    foreach (string user in ConsentWorker.GetAllOffersFor(username))
+                    {
+                        if (!string.Equals(user, viewer.username, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            continue;
+                        }
 
-                ConsentWorker.ClearContext(asker);
-                ProcessAcceptInternal(asker, username);
-            }
-        }
+                        asker = user;
 
-        protected virtual void ProcessDecline([NotNull] string username)
-        {
-            lock (ConsentWorker)
-            {
-                string asker = ConsentWorker.GetAsker(username);
-                ConsentWorker.ClearContext(username);
+                        break;
+                    }
+                }
 
                 if (string.IsNullOrEmpty(asker))
                 {
@@ -96,18 +96,55 @@ namespace SirRandoo.ToolkitUtils.Utils
                 }
 
                 ConsentWorker.ClearContext(asker);
+                ConsentWorker.ClearContext(username);
+                ProcessAcceptInternal(asker, username);
+            }
+        }
+
+        protected virtual void ProcessDecline([NotNull] string username, [CanBeNull] Viewer viewer)
+        {
+            lock (ConsentWorker)
+            {
+                string asker = null;
+
+                if (viewer == null)
+                {
+                    asker = ConsentWorker.GetAsker(username);
+                }
+                else
+                {
+                    foreach (string user in ConsentWorker.GetAllOffersFor(username))
+                    {
+                        if (!string.Equals(user, viewer.username, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            continue;
+                        }
+
+                        asker = user;
+
+                        break;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(asker))
+                {
+                    return;
+                }
+
+                ConsentWorker.ClearContext(asker);
+                ConsentWorker.ClearContext(username);
                 ProcessDeclineInternal(asker, username);
             }
         }
 
         protected virtual void ProcessDeclineInternal([NotNull] string asker, [NotNull] string askee)
         {
-            MessageHelper.ReplyToUser(asker, $"{askee} declined your request.");
+            MessageHelper.ReplyToUser(asker, "TKUtils.RequestDeclined".LocalizeKeyed(askee));
         }
 
         protected virtual void ProcessAcceptInternal([NotNull] string asker, [NotNull] string askee)
         {
-            MessageHelper.ReplyToUser(asker, $"{askee} accepted your request.");
+            MessageHelper.ReplyToUser(asker, "TKUtils.RequestApproved".LocalizeKeyed(askee));
         }
 
         protected virtual void ProcessRequest([NotNull] string username, [NotNull] Viewer viewer)
@@ -125,7 +162,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                 return;
             }
-            
+
             lock (ConsentWorker)
             {
                 ConsentWorker.Create(username, viewer.username!);

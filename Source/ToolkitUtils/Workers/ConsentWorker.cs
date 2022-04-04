@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
@@ -46,6 +47,17 @@ namespace SirRandoo.ToolkitUtils.Workers
         [CanBeNull] public string GetAsker([NotNull] string username) => GetAskee(username);
 
         public bool GetAskerStatus([NotNull] string username) => GetAskeeStatus(username);
+
+        public IEnumerable<string> GetAllOffersFor(string username)
+        {
+            foreach ((string asker, ConsentContext context) in _consentData)
+            {
+                if (string.Equals(username, context.User, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    yield return asker;
+                }
+            }
+        }
 
         public bool ClearContext([NotNull] string username) => _consentData.Remove(username.ToLowerInvariant());
 
