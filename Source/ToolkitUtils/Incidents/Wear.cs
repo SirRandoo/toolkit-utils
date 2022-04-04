@@ -102,7 +102,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 ? ThingMaker.MakeThing(_item.Thing.Thing, _item.Stuff.Thing)
                 : ThingMaker.MakeThing(_item.Thing.Thing, GenStuff.RandomStuffByCommonalityFor(_item.Thing.Thing))) is Apparel apparel))
             {
-                LogHelper.Warn("Tried to wear a null apparel.");
+                TkUtils.Logger.Warn("Tried to wear a null apparel.");
 
                 return;
             }
@@ -180,7 +180,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void SendUnquippableNotifications([NotNull] Thing thing, bool spawned)
         {
-            MessageHelper.SendConfirmation(Viewer.username, (spawned ? "TKUtils.Wear.UnequippableSpawned" : "TKUtils.Wear.Unequippable").LocalizeKeyed(thing.Label, _cost.ToString("N0")));
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                (spawned ? "TKUtils.Wear.UnequippableSpawned" : "TKUtils.Wear.Unequippable").LocalizeKeyed(thing.Label, _cost.ToString("N0"))
+            );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.WearLetter.Title".Localize(),
@@ -192,11 +195,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void SendLockedApparelNotifications([NotNull] Thing thing, bool spawned)
         {
-            MessageHelper.SendConfirmation(Viewer.username, (spawned ? "TKUtils.Wear.LockedApparelSpawned" : "TKUtils.Wear.LockedApparel").LocalizeKeyed(thing.Label, _cost.ToString("N0")));
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                (spawned ? "TKUtils.Wear.LockedApparelSpawned" : "TKUtils.Wear.LockedApparel").LocalizeKeyed(thing.Label, _cost.ToString("N0"))
+            );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.WearLetter.Title".Localize(),
-                (spawned ? "TKUtils.WearLetter.LockedApparelSpawnedDescription" : "TKUtils.WearLetter.LockedApparelDescription").LocalizeKeyed(Viewer.username, thing.Label),
+                (spawned ? "TKUtils.WearLetter.LockedApparelSpawnedDescription" : "TKUtils.WearLetter.LockedApparelDescription")
+               .LocalizeKeyed(Viewer.username, thing.Label),
                 LetterDefOf.NeutralEvent,
                 spawned ? thing : _pawn
             );
@@ -204,7 +211,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void SendNoPartsNotifications([NotNull] Thing thing, bool spawned)
         {
-            MessageHelper.SendConfirmation(Viewer.username, (spawned ? "TKUtils.Wear.NoPartsSpawned" : "TKUtils.Wear.NoParts").LocalizeKeyed(thing.Label, _cost.ToString("N0")));
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                (spawned ? "TKUtils.Wear.NoPartsSpawned" : "TKUtils.Wear.NoParts").LocalizeKeyed(thing.Label, _cost.ToString("N0"))
+            );
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.WearLetter.Title".Localize(),

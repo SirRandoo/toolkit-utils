@@ -36,7 +36,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             List<Pawn> pawns = Find.ColonistBar.GetColonistsInOrder()
                .Where(p => !p.Dead)
-               .Where(pawn => !IncidentSettings.HealRandom.FairFights || (pawn.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame <= pawn.mindState.lastAttackTargetTick + 1800))
+               .Where(
+                    pawn => !IncidentSettings.HealRandom.FairFights
+                        || (pawn.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame <= pawn.mindState.lastAttackTargetTick + 1800)
+                )
                .ToList();
 
             if (!pawns.Select(p => new Pair<Pawn, object>(p, HealHelper.GetPawnHealable(p))).Where(r => r.Second != null).TryRandomElement(out Pair<Pawn, object> random))

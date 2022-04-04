@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -31,12 +31,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _usableText = "TKUtils.Fields.CanUse".Localize();
+            _usableText = Label;
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _usableText, ref _state))
+            if (UiHelper.LabeledPaintableCheckbox(canvas, _usableText, ref _state))
             {
                 Dirty.Set(true);
             }

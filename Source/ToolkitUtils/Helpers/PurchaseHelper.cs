@@ -63,8 +63,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static bool Stackable([NotNull] this ThingDef thing) => thing.stackLimit > 1;
 
-        [NotNull]
-        public static string ToToolkit([NotNull] this string t) => t.Replace(" ", "").ToLower();
+        [NotNull] public static string ToToolkit([NotNull] this string t) => t.Replace(" ", "").ToLower();
 
         public static int CalculateStorePrice([NotNull] this ThingDef d) => Math.Max(1, Convert.ToInt32(d.BaseMarketValue * 10.0f / 6.0f));
 
@@ -278,8 +277,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             GenSpawn.Spawn(pawn, location, map);
         }
 
-        [NotNull]
-        public static ViewerState GetState([NotNull] this Viewer viewer) => new ViewerState { Coins = viewer.GetViewerCoins(), Karma = viewer.GetViewerKarma() };
+        [NotNull] public static ViewerState GetState([NotNull] this Viewer viewer) => new ViewerState { Coins = viewer.GetViewerCoins(), Karma = viewer.GetViewerKarma() };
 
         public static bool TryMultiply(int i1, int i2, out int result)
         {

@@ -16,11 +16,10 @@
 
 using System;
 using System.Collections;
-using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
@@ -28,46 +27,18 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
     [StaticConstructorOnStartup]
     public static class AlienRace
     {
-        public static bool Enabled;
-        private static readonly FieldInfo AlienSettingsField;
-        private static readonly FieldInfo AlienGeneralSettingsField;
-        private static readonly FieldInfo AlienGeneralSettingsForcedTraits;
-        private static readonly FieldInfo TraitEntryDefName;
-        private static readonly FieldInfo TraitEntryDegree;
-        private static readonly FieldInfo TraitEntryChance;
-        private static readonly FieldInfo AlienDisallowedTraits;
-
-        static AlienRace()
-        {
-            foreach (Mod handle in LoadedModManager.ModHandles.Where(h => h.Content.PackageId.EqualsIgnoreCase("erdelf.HumanoidAlienRaces")))
-            {
-                try
-                {
-                    Assembly assembly = handle.GetType().Assembly;
-
-                    Type alienDef = assembly.GetType("AlienRace.ThingDef_AlienRace", false);
-                    AlienSettingsField = alienDef.GetField("alienRace");
-                    Type alienSettingsType = alienDef.GetNestedType("AlienSettings");
-                    AlienGeneralSettingsField = alienSettingsType.GetField("generalSettings");
-                    Type alienGeneralSettingsType = assembly.GetType("AlienRace.GeneralSettings", false);
-                    Type alienTraitEntry = assembly.GetType("AlienRace.AlienTraitEntry", false);
-                    AlienGeneralSettingsForcedTraits = alienGeneralSettingsType.GetField("forcedRaceTraitEntries");
-                    TraitEntryDefName = alienTraitEntry.GetField("defName");
-                    TraitEntryDegree = alienTraitEntry.GetField("degree");
-                    TraitEntryChance = alienTraitEntry.GetField("chance");
-                    AlienDisallowedTraits = alienGeneralSettingsType.GetField("disallowedTraits");
-                    Enabled = true;
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Error("Compatibility class for Humanoid Alien Races failed!", e);
-                }
-            }
-        }
+        public static readonly bool Active = ModLister.GetActiveModWithIdentifier("erdelf.HumanoidAlienRaces") != null;
+        private static readonly FieldInfo AlienSettingsField = AccessTools.Field("AlienRace.ThingDef_AlienRace:alienRace");
+        private static readonly FieldInfo AlienGeneralSettingsField = AccessTools.Field("AlienRace.Thing_AlienRace.AlienSettings:generalSettings");
+        private static readonly FieldInfo AlienGeneralSettingsForcedTraits = AccessTools.Field("AlienRace.GeneralSettings:forcedRaceTraitEntries");
+        private static readonly FieldInfo TraitEntryDefName = AccessTools.Field("AlienRace.AlienTraitEntry:defName");
+        private static readonly FieldInfo TraitEntryDegree = AccessTools.Field("AlienRace.AlienTraitEntry:degree");
+        private static readonly FieldInfo TraitEntryChance = AccessTools.Field("AlienRace.AlienTraitEntry:chance");
+        private static readonly FieldInfo AlienDisallowedTraits = AccessTools.Field("AlienRace.GeneralSettings:disallowedTraits");
 
         public static bool IsTraitAllowed(Pawn pawn, TraitDef traitDef, int degree = -10)
         {
-            if (!Enabled)
+            if (!Active)
             {
                 return true;
             }

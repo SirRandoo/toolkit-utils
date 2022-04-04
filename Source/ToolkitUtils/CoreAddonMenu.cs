@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore;
@@ -30,20 +31,20 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class CoreAddonMenu : IAddonMenu
     {
-        private static readonly List<FloatMenuOption> DisconnectedOptions;
-        private static readonly List<FloatMenuOption> ConnectedOptions;
-
-        static CoreAddonMenu()
+        private static readonly List<FloatMenuOption> BaseOptions = new List<FloatMenuOption>
         {
-            var baseOptions = new List<FloatMenuOption>
-            {
-                new FloatMenuOption("TKUtils.AddonMenu.Settings".Localize(), SettingsHelper.OpenSettingsMenuFor<ToolkitCore.ToolkitCore>),
-                new FloatMenuOption("Message Log".Localize(), () => Find.WindowStack.Add(new Window_MessageLog())),
-                new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki"))
-            };
-
-            var reconnectOption = new FloatMenuOption(
-                "TKUtils.AddonMenu.Reconnect".Localize(),
+            new FloatMenuOption("TKUtils.AddonMenu.Settings".Localize(), () => LoadedModManager.GetMod<ToolkitCore.ToolkitCore>().OpenSettings()),
+            new FloatMenuOption("Message Log".Localize(), () => Find.WindowStack.Add(new Window_MessageLog())),
+            new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki"))
+        };
+        private static readonly List<FloatMenuOption> DisconnectedOptions = new List<FloatMenuOption>(BaseOptions)
+        {
+            new FloatMenuOption("TKUtils.AddonMenu.Connect".TranslateSimple(), () => Task.Run(TwitchWrapper.StartAsync))
+        };
+        private static readonly List<FloatMenuOption> ConnectedOptions = new List<FloatMenuOption>(BaseOptions)
+        {
+            new FloatMenuOption(
+                "TKUtils.AddonMenu.Reconnect".TranslateSimple(),
                 () => Task.Run(
                     () =>
                     {
@@ -53,20 +54,15 @@ namespace SirRandoo.ToolkitUtils
                         }
                         catch (Exception e)
                         {
-                            LogHelper.Error("Encountered an error while disconnected from Twitch -- You can probably ignore this.", e);
+                            TkUtils.Logger.Error("Encountered an error while disconnected from Twitch -- You can probably ignore this.", e);
                         }
 
                         TwitchWrapper.StartAsync();
                     }
                 )
-            );
-
-            var disconnectOption = new FloatMenuOption("TKUtils.AddonMenu.Disconnect".Localize(), () => Task.Run(() => TwitchWrapper.Client.Disconnect()));
-            var connectOption = new FloatMenuOption("TKUtils.AddonMenu.Connect".Localize(), () => Task.Run(TwitchWrapper.StartAsync));
-
-            ConnectedOptions = new List<FloatMenuOption>(baseOptions) { reconnectOption, disconnectOption };
-            DisconnectedOptions = new List<FloatMenuOption>(baseOptions) { connectOption };
-        }
+            ),
+            new FloatMenuOption("TKUtils.AddonMenu.Disconnect".TranslateSimple(), () => Task.Run(() => TwitchWrapper.Client.Disconnect()))
+        };
 
         public List<FloatMenuOption> MenuOptions() => TwitchWrapper.Client?.IsConnected == true ? ConnectedOptions : DisconnectedOptions;
     }

@@ -14,7 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 
@@ -33,11 +34,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
 
-            SettingsHelper.DrawLabel(nameRect, item.Data.Name);
+            UiHelper.Label(nameRect, item.Data.Name);
 
             if (item.Data.Enabled)
             {
-                SettingsHelper.DrawLabel(priceRect, item.Data.Cost.ToString("N0"));
+                UiHelper.Label(priceRect, item.Data.Cost.ToString("N0"));
             }
         }
 
@@ -46,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             float distributedWidth = Mathf.FloorToInt((canvas.width - 16f) * 0.3333f);
             NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
             NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
-            PriceHeaderRect = NameHeaderRect.ShiftRight(1f);
+            PriceHeaderRect = NameHeaderRect.Shift(Direction8Way.East, 1f);
             PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
         }
     }

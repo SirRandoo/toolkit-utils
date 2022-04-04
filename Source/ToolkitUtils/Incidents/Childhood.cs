@@ -38,7 +38,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            _backstory = BackstoryDatabase.allBackstories.Values.Where(b => b.slot == BackstorySlot.Childhood).Where(b => !WouldBeViolation(b)).InRandomOrder().FirstOrDefault();
+            _backstory = BackstoryDatabase.allBackstories.Values.Where(b => b.slot == BackstorySlot.Childhood)
+               .Where(b => !WouldBeViolation(b))
+               .InRandomOrder()
+               .FirstOrDefault();
 
             return _backstory != null;
         }

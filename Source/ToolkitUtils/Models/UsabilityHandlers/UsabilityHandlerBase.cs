@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public abstract class UsabilityHandlerBase<T> : IUsabilityHandler where T : ThingComp
     {
-        public UsabilityHandlerBase([NotNull] params Type[] excluded)
+        protected UsabilityHandlerBase([NotNull] params Type[] excluded)
         {
             ExcludedTypes = new HashSet<Type>(excluded);
         }

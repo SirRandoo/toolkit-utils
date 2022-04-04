@@ -126,13 +126,20 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 {
                     Data.Items.RemoveAt(index);
                 }
-                catch (IndexOutOfRangeException) { }
+                catch (IndexOutOfRangeException)
+                {
+                    // While it's unlikely this will throw an exception,
+                    // we'll still swallow the exception in the event it
+                    // does.
+                }
             }
         }
 
         private static void DisableKinds([NotNull] List<Item> inventory)
         {
-            foreach (Item item in inventory.Where(item => !item.defname.NullOrEmpty()).Where(item => item.price >= 0).Where(item => Data.PawnKinds.Any(r => r.DefName.Equals(item.defname))))
+            foreach (Item item in inventory.Where(item => !item.defname.NullOrEmpty())
+               .Where(item => item.price >= 0)
+               .Where(item => Data.PawnKinds.Any(r => r.DefName.Equals(item.defname))))
             {
                 item.price = -10;
             }

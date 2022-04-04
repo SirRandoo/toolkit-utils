@@ -87,7 +87,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (__exception != null)
             {
-                LogHelper.Error("Command parser encountered an error", __exception);
+                TkUtils.Logger.Error("Command parser encountered an error", __exception);
             }
 
             return null;
@@ -151,7 +151,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return message.Substring(TkSettings.Prefix.Length);
             }
 
-            return message.StartsWith(TkSettings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase) ? $"{CommandDefOf.Buy.command} {message.Substring(TkSettings.BuyPrefix.Length)}" : null;
+            return message.StartsWith(TkSettings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase)
+                ? $"{CommandDefOf.Buy.command} {message.Substring(TkSettings.BuyPrefix.Length)}"
+                : null;
         }
     }
 }

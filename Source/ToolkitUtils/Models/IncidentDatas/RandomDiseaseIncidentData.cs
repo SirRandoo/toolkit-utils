@@ -36,7 +36,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
             return worker.def.category;
         }
-
-        public void DoExtraSetup(IncidentWorker worker, IncidentParms parms, StoreIncident incident) { }
+        
+        public void DoExtraSetup(IncidentWorker worker, IncidentParms parms, StoreIncident incident)
+        {
+            // A random disease incident doesn't need to do any extra setup.
+            // This method exists solely because of the interface it implements.
+        }
     }
 }

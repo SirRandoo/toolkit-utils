@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _weightText = "TKUtils.Fields.Weight".TranslateSimple();
+            _weightText = Label;
             _valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".TranslateSimple();
             _percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".TranslateSimple();
         }
@@ -53,11 +53,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _weightText);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _weightText);
             Widgets.TextFieldNumeric(field, ref _weight, ref _weightBuffer);
 
-            if (SettingsHelper.DrawFieldButton(field, _percentage ? "%" : "#", _percentage ? _percentTooltip : _valueTooltip))
+            if (UiHelper.FieldButton(field, _percentage ? '%' : '#', _percentage ? _percentTooltip : _valueTooltip))
             {
                 _percentage = !_percentage;
             }

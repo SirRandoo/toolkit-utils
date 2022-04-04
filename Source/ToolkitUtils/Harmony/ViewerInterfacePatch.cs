@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore;
 using ToolkitCore.Database;
 using ToolkitCore.Models;
@@ -39,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (ToolkitData.globalDatabase == null)
             {
-                LogHelper.Warn("ToolkitCore's global database was null. Recreating...");
+                TkUtils.Logger.Warn("ToolkitCore's global database was null. Recreating...");
                 ToolkitData.globalDatabase = new GlobalDatabase();
             }
 
@@ -48,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return;
             }
 
-            LogHelper.Warn("ToolkitCore's viewer data was null. Recreating...");
+            TkUtils.Logger.Warn("ToolkitCore's viewer data was null. Recreating...");
             ToolkitData.globalDatabase.viewers = new List<Viewer>();
         }
     }

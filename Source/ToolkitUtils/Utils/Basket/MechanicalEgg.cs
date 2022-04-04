@@ -199,7 +199,9 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            BodyPartRecord part = pawn.RaceProps.body.GetPartsWithDef(bodyPart).InRandomOrder().FirstOrDefault(p => !pawn.health.hediffSet.HasHediff(HediffDefOf.BionicArm, p));
+            BodyPartRecord part = pawn.RaceProps.body.GetPartsWithDef(bodyPart)
+               .InRandomOrder()
+               .FirstOrDefault(p => !pawn.health.hediffSet.HasHediff(HediffDefOf.BionicArm, p));
 
             if (part == null)
             {

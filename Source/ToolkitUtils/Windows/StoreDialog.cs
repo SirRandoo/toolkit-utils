@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -34,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     public class StoreDialog : Window
     {
         private const float LineScale = 1.25f;
-        private static IEnumerator<ThingItem> _validator;
+        private static IEnumerator<ThingItem> _validator = ValidateContainers().GetEnumerator();
         private static readonly Color OverlayBackgroundColor = new Color(0.13f, 0.16f, 0.17f);
 
         private readonly ThingItemFilterManager _filterManager = new ThingItemFilterManager();
@@ -55,11 +56,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private Vector2 _searchTextSize;
         private bool _shouldResizeTable = true;
         private string _title;
-
-        static StoreDialog()
-        {
-            _validator = ValidateContainers().GetEnumerator();
-        }
 
         public StoreDialog()
         {
@@ -124,9 +120,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 FilterTypes.Research,
                 new ThingItemFilter
                 {
-                    Id = "Researched",
-                    IsUnfilteredFunc = ThingItemFilter.FilterByResearched,
-                    Label = "TKUtils.StoreFilters.Researched".Localize().CapitalizeFirst()
+                    Id = "Researched", IsUnfilteredFunc = ThingItemFilter.FilterByResearched, Label = "TKUtils.StoreFilters.Researched".Localize().CapitalizeFirst()
                 }
             );
 
@@ -164,30 +158,18 @@ namespace SirRandoo.ToolkitUtils.Windows
                 FilterTypes.Stackable,
                 new ThingItemFilter
                 {
-                    Id = "Stackable",
-                    IsUnfilteredFunc = ThingItemFilter.FilterByStackable,
-                    Label = "TKUtils.StoreFilters.Stackable".Localize().CapitalizeFirst()
+                    Id = "Stackable", IsUnfilteredFunc = ThingItemFilter.FilterByStackable, Label = "TKUtils.StoreFilters.Stackable".Localize().CapitalizeFirst()
                 }
             );
 
             _filterManager.RegisterFilter(
                 FilterTypes.Stuff,
-                new ThingItemFilter
-                {
-                    Id = "Stuff",
-                    IsUnfilteredFunc = ThingItemFilter.FilterByStuff,
-                    Label = "TKUtils.StoreFilters.Stuff".Localize().CapitalizeFirst()
-                }
+                new ThingItemFilter { Id = "Stuff", IsUnfilteredFunc = ThingItemFilter.FilterByStuff, Label = "TKUtils.StoreFilters.Stuff".Localize().CapitalizeFirst() }
             );
 
             _filterManager.RegisterFilter(
                 FilterTypes.Stuff,
-                new ThingItemFilter
-                {
-                    Id = "NotStuff",
-                    IsUnfilteredFunc = ThingItemFilter.FilterByNotStuff,
-                    Label = "TKUtils.StoreFilters.NotStuff".Localize()
-                }
+                new ThingItemFilter { Id = "NotStuff", IsUnfilteredFunc = ThingItemFilter.FilterByNotStuff, Label = "TKUtils.StoreFilters.NotStuff".Localize() }
             );
 
             _filterManager.RegisterFilter(
@@ -204,9 +186,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 FilterTypes.State,
                 new ThingItemFilter
                 {
-                    Id = "Disabled",
-                    IsUnfilteredFunc = ThingItemFilter.FilterByDisabled,
-                    Label = "TKUtils.StoreFilters.Disabled".Localize().CapitalizeFirst()
+                    Id = "Disabled", IsUnfilteredFunc = ThingItemFilter.FilterByDisabled, Label = "TKUtils.StoreFilters.Disabled".Localize().CapitalizeFirst()
                 }
             );
 
@@ -214,9 +194,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 FilterTypes.State,
                 new ThingItemFilter
                 {
-                    Id = "Enabled",
-                    IsUnfilteredFunc = ThingItemFilter.FilterByEnabled,
-                    Label = "TKUtils.StoreFilters.Enabled".Localize().CapitalizeFirst()
+                    Id = "Enabled", IsUnfilteredFunc = ThingItemFilter.FilterByEnabled, Label = "TKUtils.StoreFilters.Enabled".Localize().CapitalizeFirst()
                 }
             );
 
@@ -242,12 +220,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 _filterManager.RegisterFilter(
                     FilterTypes.Mod,
-                    new ThingItemFilter
-                    {
-                        Id = $"Mod.{modName}",
-                        IsUnfilteredFunc = t => ThingItemFilter.IsModRelevant(t, modName),
-                        Label = modName
-                    }
+                    new ThingItemFilter { Id = $"Mod.{modName}", IsUnfilteredFunc = t => ThingItemFilter.IsModRelevant(t, modName), Label = modName }
                 );
             }
 
@@ -255,12 +228,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 _filterManager.RegisterFilter(
                     FilterTypes.Category,
-                    new ThingItemFilter
-                    {
-                        Id = $"Categories.{category}",
-                        IsUnfilteredFunc = t => ThingItemFilter.IsCategoryRelevant(t, category),
-                        Label = category
-                    }
+                    new ThingItemFilter { Id = $"Categories.{category}", IsUnfilteredFunc = t => ThingItemFilter.IsCategoryRelevant(t, category), Label = category }
                 );
             }
         }
@@ -313,7 +281,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             float filterWidth = canvas.width * 0.5f;
             Vector2 center = canvas.center;
 
-            Rect filterDialog = new Rect(center.x - filterWidth / 2f, center.y - canvas.height * 0.75f / 2f, filterWidth, canvas.height * 0.75f).ExpandedBy(StandardMargin * 2f).Rounded();
+            Rect filterDialog = new Rect(center.x - filterWidth / 2f, center.y - canvas.height * 0.75f / 2f, filterWidth, canvas.height * 0.75f)
+               .ExpandedBy(StandardMargin * 2f)
+               .Rounded();
 
             Widgets.DrawBoxSolid(filterDialog, OverlayBackgroundColor);
             Widgets.Label(new Rect(filterDialog.x + 8f, filterDialog.y + 5f, filterDialog.width - 30f, Text.LineHeight * LineScale).Rounded(), _localize);
@@ -336,18 +306,24 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             Rect searchRect = new Rect(line.x, line.y, line.width * 0.18f, line.height).Rounded();
-            Rect searchTextRect = searchRect.WithWidth(_searchTextSize.x);
-            var searchFieldRect = new Rect(searchTextRect.x + searchTextRect.width + 5f, searchTextRect.y, searchRect.width - searchTextRect.width - 5f, searchTextRect.height);
+            Rect searchTextRect = searchRect.Trim(Direction8Way.East, _searchTextSize.x);
+
+            var searchFieldRect = new Rect(
+                searchTextRect.x + searchTextRect.width + 5f,
+                searchTextRect.y,
+                searchRect.width - searchTextRect.width - 5f,
+                searchTextRect.height
+            );
 
             Widgets.Label(searchTextRect, _searchText);
 
-            if (SettingsHelper.DrawTextField(searchFieldRect, _query, out string input))
+            if (UiHelper.TextField(searchFieldRect, _query, out string input))
             {
                 _query = input;
                 NotifySearchRequested();
             }
 
-            if (_query.Length > 0 && SettingsHelper.DrawClearButton(searchRect))
+            if (_query.Length > 0 && UiHelper.ClearButton(searchRect))
             {
                 _query = "";
                 NotifySearchRequested();
@@ -372,7 +348,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var categoryText = new Rect(categoryCheck.x + 16f, categoryLine.y, _categorySearchTextSize.x, categoryLine.height);
 
             GUI.DrawTexture(categoryCheck, _categorySearch ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
-            SettingsHelper.DrawLabel(categoryText, _categorySearchText, TextAnchor.UpperLeft, GameFont.Tiny);
+            UiHelper.Label(categoryText, _categorySearchText, TextAnchor.UpperLeft, GameFont.Tiny);
 
             if (!Widgets.ButtonInvisible(categoryLine))
             {
@@ -404,10 +380,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             foreach (TableSettingsItem<ThingItem> item in _worker.Data.Where(i => !i.IsHidden))
             {
-                item.Data.Item.abr = item.Data.Thing.label.ToToolkit();
+                item.Data.Item!.abr = item.Data.Thing.label.ToToolkit();
                 item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
-                item.Data.Data.KarmaType = null;
-                item.Data.ItemData.CustomName = null;
+                item.Data.Data!.KarmaType = null;
+                item.Data.ItemData!.CustomName = null;
                 item.Data.ItemData.HasQuantityLimit = false;
                 item.Data.ItemData.Weight = 1f;
                 item.Data.ItemData.IsStuffAllowed = true;
@@ -427,7 +403,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
                 catch (Exception e)
                 {
-                    LogHelper.Warn($"Validator encountered an error! | Exception: {e.GetType().Name}({e.Message})\n{e.StackTrace}");
+                    TkUtils.Logger.Warn($"Validator encountered an error! | Exception: {e.GetType().Name}({e.Message})\n{e.StackTrace}");
                     _validator = null;
                 }
             }
@@ -524,7 +500,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             try
             {
-                if (!(t.BaseMarketValue > 0.0))
+                if (t.BaseMarketValue <= 0.0)
                 {
                     return false;
                 }
@@ -567,17 +543,18 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslationStrings()
         {
-            _title = "TKUtils.ItemStore.Title".Localize();
-            _categorySearchText = "TKUtils.Fields.CategorySearch".Localize();
-            _searchText = "TKUtils.Buttons.Search".Localize();
-            _resetAllText = "TKUtils.Buttons.ResetAll".Localize();
-            _localize = "TKUtils.Headers.FilterDialog".Localize();
+            _title = "TKUtils.ItemStore.Title".TranslateSimple();
+            _categorySearchText = "TKUtils.Fields.CategorySearch".TranslateSimple();
+            _searchText = "TKUtils.Buttons.Search".TranslateSimple();
+            _resetAllText = "TKUtils.Buttons.ResetAll".TranslateSimple();
+            _localize = "TKUtils.Headers.FilterDialog".TranslateSimple();
 
             _resetAllTextSize = Text.CalcSize(_resetAllText);
             _searchTextSize = Text.CalcSize(_searchText);
             _categorySearchTextSize = Text.CalcSize(_categorySearchText);
         }
 
+        [ItemNotNull]
         internal static IEnumerable<ThingItem> ValidateContainers()
         {
             var builder = new StringBuilder();
@@ -589,7 +566,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     continue;
                 }
 
-                ThingItem thingItem = Data.Items.Find(i => i.DefName.Equals(thing.defName)) ?? new ThingItem { Thing = thing };
+                ThingItem thingItem = Data.Items.Find(i => i.DefName!.Equals(thing.defName)) ?? new ThingItem { Thing = thing };
 
                 try
                 {
@@ -624,7 +601,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             builder.Insert(0, "The following containers couldn't be validated:\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
     }
 }

@@ -29,12 +29,11 @@ namespace SirRandoo.ToolkitUtils.Models
     public class ItemData : IShopDataBase
     {
         internal const int CurrentVersion = 2;
-        private List<ResearchProjectDef> _researchProjects = new List<ResearchProjectDef>();
+        private readonly List<ResearchProjectDef> _researchProjects = new List<ResearchProjectDef>();
 
         [DataMember(Name = "CustomName")] public string CustomName { get; set; }
 
-        [DataMember(Name = "HasQuantityLimit")]
-        public bool HasQuantityLimit { get; set; }
+        [DataMember(Name = "HasQuantityLimit")] public bool HasQuantityLimit { get; set; }
 
         [DataMember(Name = "IsMelee")] public bool IsMelee { get; set; }
         [DataMember(Name = "IsRanged")] public bool IsRanged { get; set; }
@@ -43,21 +42,17 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "QuantityLimit")] public int QuantityLimit { get; set; } = 1;
         [DataMember(Name = "Weight")] public float Weight { get; set; } = 1f;
 
-        [DataMember(Name = "ResearchOverrides")]
-        public List<string> ResearchOverrides { get; set; }
+        [DataMember(Name = "ResearchOverrides")] public List<string> ResearchOverrides { get; set; }
 
         [DataMember(Name = "IsUsable")] public bool IsUsable { get; set; }
         [DataMember(Name = "IsEquippable")] public bool IsEquippable { get; set; }
         [DataMember(Name = "IsWearable")] public bool IsWearable { get; set; }
 
-        [DataMember(Name = "KarmaTypeForUsing")]
-        public KarmaType? KarmaTypeForUsing { get; set; }
+        [DataMember(Name = "KarmaTypeForUsing")] public KarmaType? KarmaTypeForUsing { get; set; }
 
-        [DataMember(Name = "KarmaTypeForWearing")]
-        public KarmaType? KarmaTypeForWearing { get; set; }
+        [DataMember(Name = "KarmaTypeForWearing")] public KarmaType? KarmaTypeForWearing { get; set; }
 
-        [DataMember(Name = "KarmaTypeForEquipping")]
-        public KarmaType? KarmaTypeForEquipping { get; set; }
+        [DataMember(Name = "KarmaTypeForEquipping")] public KarmaType? KarmaTypeForEquipping { get; set; }
 
         [DataMember(Name = "version")] public int Version { get; set; }
 
@@ -98,7 +93,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             if (ResearchOverrides.NullOrEmpty())
             {
-                return null;
+                return new List<ResearchProjectDef>(0);
             }
 
             if (_researchProjects.Count == ResearchOverrides.Count)
@@ -114,7 +109,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 if (def == null)
                 {
-                    LogHelper.Warn($@"The research project ""{defName}"" could not be found!");
+                    TkUtils.Logger.Warn($@"The research project ""{defName}"" could not be found!");
                     toCull.Add(defName);
                 }
 
@@ -126,11 +121,9 @@ namespace SirRandoo.ToolkitUtils.Models
                 return _researchProjects;
             }
 
+            foreach (string defName in toCull)
             {
-                foreach (string defName in toCull)
-                {
-                    ResearchOverrides.Remove(defName);
-                }
+                ResearchOverrides.Remove(defName);
             }
 
             return _researchProjects;

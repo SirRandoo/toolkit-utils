@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using CommonLib.Helpers;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Utils;
@@ -62,12 +63,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (message.Length < MessageLimit)
             {
-                yield return Unrichify.StripTags(message);
+                yield return RichTextHelper.StripTags(message);
 
                 yield break;
             }
-
-            string[] words = Unrichify.StripTags(message).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            
+            string[] words = RichTextHelper.StripTags(message).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var builder = new StringBuilder();
             var chars = 0;
 

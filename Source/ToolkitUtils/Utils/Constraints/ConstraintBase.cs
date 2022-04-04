@@ -22,7 +22,9 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public class ConstraintBase : IConstraintBase
     {
-        public virtual void Draw(Rect canvas) { }
+        public virtual void Draw(Rect canvas)
+        {
+        }
 
         public virtual bool ShouldPurge(Viewer viewer) => false;
     }

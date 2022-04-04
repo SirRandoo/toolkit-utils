@@ -23,7 +23,6 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
 using RestSharp;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore;
 using Verse;
@@ -87,7 +86,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (!response.IsSuccessful)
             {
-                LogHelper.Warn($"Could not validate oauth token. Reason: {response.Content}");
+                TkUtils.Logger.Warn($"Could not validate oauth token. Reason: {response.Content}");
 
                 return;
             }
@@ -102,7 +101,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             TkUtils.Context.Post(
                 state =>
                 {
-                    LogHelper.Warn($@"The token provided is for the account ""{data.Login}"", not the specified ""{ToolkitCoreSettings.bot_username}""");
+                    TkUtils.Logger.Warn($@"The token provided is for the account ""{data.Login}"", not the specified ""{ToolkitCoreSettings.bot_username}""");
                     Log.TryOpenLogWindow();
                 },
                 null

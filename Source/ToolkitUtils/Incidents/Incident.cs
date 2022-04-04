@@ -36,8 +36,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             Data = new Dictionary<string, IIncidentData>
             {
-                { "TraderCaravanArrival", new TraderCaravanIncidentData() },
-                { "OrbitalTraderArrival", new OrbitalTraderIncidentData() }
+                { "TraderCaravanArrival", new TraderCaravanIncidentData() }, { "OrbitalTraderArrival", new OrbitalTraderIncidentData() }
             };
         }
 

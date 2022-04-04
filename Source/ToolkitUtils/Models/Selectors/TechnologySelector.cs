@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -39,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _techLevelText = "TKUtils.Fields.Technology".TranslateSimple();
+            _techLevelText = Label;
 
             _techLevelOptions = Data.TechLevels.Where(i => i != TechLevel.Undefined)
                .Select(
@@ -69,17 +70,17 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _techLevelText);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _techLevelText);
 
-            (Rect comp, Rect tech) = field.ToForm(0.3f);
+            (Rect comp, Rect tech) = field.Split(0.3f);
 
             if (Widgets.ButtonText(comp, _comparison.AsOperator()))
             {
                 Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
             }
 
-            if (Widgets.ButtonText(tech, $"TechLevel_{_techLevel}".Localize().CapitalizeFirst()))
+            if (Widgets.ButtonText(tech, $"TechLevel_{_techLevel}".TranslateSimple().CapitalizeFirst()))
             {
                 Find.WindowStack.Add(new FloatMenu(_techLevelOptions));
             }

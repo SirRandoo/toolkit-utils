@@ -23,6 +23,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Enums;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
@@ -126,15 +128,15 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (_sortKey)
             {
                 case SortKey.Name:
-                    SettingsHelper.DrawSortIndicator(NameHeaderRect, _sortOrder);
+                    UiHelper.SortIndicator(NameHeaderRect, _sortOrder);
 
                     return;
                 case SortKey.Price:
-                    SettingsHelper.DrawSortIndicator(PriceHeaderRect, _sortOrder);
+                    UiHelper.SortIndicator(PriceHeaderRect, _sortOrder);
 
                     return;
                 case SortKey.KarmaType:
-                    SettingsHelper.DrawSortIndicator(KarmaHeaderRect, _sortOrder);
+                    UiHelper.SortIndicator(KarmaHeaderRect, _sortOrder);
 
                     return;
                 default:
@@ -172,7 +174,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 var lineRect = new Rect(0f, RowLineHeight * expandedLineSpan, canvas.width - 16f, RowLineHeight * (ev.SettingsVisible ? GetLineSpan(ev) : 1f));
 
-                if (!lineRect.IsRegionVisible(canvas, _scrollPos))
+                if (!lineRect.IsVisible(canvas, _scrollPos))
                 {
                     alternate = !alternate;
                     expandedLineSpan += GetLineSpan(ev);
@@ -201,24 +203,22 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected virtual void DrawEvent(Rect canvas, [NotNull] TableSettingsItem<EventItem> ev)
         {
-            Rect checkboxRect = SettingsHelper.RectForIcon(new Rect(_stateHeaderRect.x + 2f, canvas.y + 2f, _stateHeaderRect.width - 4f, RowLineHeight - 4f));
+            Rect checkboxRect = LayoutHelper.IconRect(_stateHeaderRect.x + 2f, canvas.y + 2f, _stateHeaderRect.width - 4f, RowLineHeight - 4f);
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
             var karmaRect = new Rect(KarmaHeaderTextRect.x, canvas.y, KarmaHeaderTextRect.width, RowLineHeight);
 
-            Rect settingRect = SettingsHelper.RectForIcon(
-                new Rect(
-                    _expandedHeaderRect.x + 2f,
-                    canvas.y + Mathf.FloorToInt(Mathf.Abs(_expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
-                    _expandedHeaderRect.width - 4f,
-                    _expandedHeaderRect.width - 4f
-                )
+            Rect settingRect = LayoutHelper.IconRect(
+                _expandedHeaderRect.x + 2f,
+                canvas.y + Mathf.FloorToInt(Mathf.Abs(_expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
+                _expandedHeaderRect.width - 4f,
+                _expandedHeaderRect.width - 4f
             );
 
             bool proxy = ev.Data.Enabled;
 
-            if (SettingsHelper.DrawCheckbox(checkboxRect, ref proxy))
+            if (UiHelper.DrawCheckbox(checkboxRect, ref proxy))
             {
                 if (!ev.Data.Enabled && proxy)
                 {
@@ -252,7 +252,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 ev.Data.Cost = cost;
             }
 
-            SettingsHelper.DrawLabel(karmaRect, ev.Data.KarmaType.ToString());
+            UiHelper.Label(karmaRect, ev.Data.KarmaType.ToString());
 
             if (Widgets.ButtonImage(settingRect, Textures.Gear))
             {
@@ -264,7 +264,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            var expandedRect = new Rect(NameHeaderRect.x + 10f, canvas.y + RowLineHeight + 10f, canvas.width - checkboxRect.width - settingRect.width - 20f, canvas.height - RowLineHeight - 20f);
+            var expandedRect = new Rect(
+                NameHeaderRect.x + 10f,
+                canvas.y + RowLineHeight + 10f,
+                canvas.width - checkboxRect.width - settingRect.width - 20f,
+                canvas.height - RowLineHeight - 20f
+            );
 
             GUI.BeginGroup(expandedRect);
             DrawExpandedSettings(expandedRect.AtZero(), ev);
@@ -301,8 +306,8 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] TableItem<EventItem> ev)
         {
-            (Rect capLabel, Rect capField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm(0.6f);
-            SettingsHelper.DrawLabel(capLabel, _eventCapText);
+            (Rect capLabel, Rect capField) = new Rect(0f, 0f, canvas.width, RowLineHeight).Split(0.6f);
+            UiHelper.Label(capLabel, _eventCapText);
             int capProxy = ev.Data.EventCap;
             var capBuffer = capProxy.ToString();
 
@@ -311,8 +316,8 @@ namespace SirRandoo.ToolkitUtils.Workers
                 ev.Data.EventCap = newCap;
             }
 
-            (Rect karmaLabel, Rect karmaField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).ToForm(0.6f);
-            SettingsHelper.DrawLabel(karmaLabel, _karmaTypeText);
+            (Rect karmaLabel, Rect karmaField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).Split(0.6f);
+            UiHelper.Label(karmaLabel, _karmaTypeText);
 
             if (Widgets.ButtonText(karmaField, ev.Data.KarmaType.ToString()))
             {
@@ -327,19 +332,27 @@ namespace SirRandoo.ToolkitUtils.Workers
             if (ev.Data.IsVariables && ev.Data.MaxWager > 0)
             {
                 wagerShown = true;
-                (Rect wagerLabel, Rect wagerField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm(0.6f);
-                SettingsHelper.DrawLabel(wagerLabel, _maxWagerText);
+                (Rect wagerLabel, Rect wagerField) = new Rect(0f, 0f, canvas.width, RowLineHeight).Split(0.6f);
+                UiHelper.Label(wagerLabel, _maxWagerText);
                 int wagerProxy = ev.Data.MaxWager;
 
-                if (SettingsHelper.DrawNumberField(wagerField, ref wagerProxy, ref _wagerBuffer, out int newWager, ev.Data.Variables?.minPointsToFire ?? ev.Data.Cost, 20000f))
+                if (SettingsHelper.DrawNumberField(
+                    wagerField,
+                    ref wagerProxy,
+                    ref _wagerBuffer,
+                    out int newWager,
+                    ev.Data.Variables?.minPointsToFire ?? ev.Data.Cost,
+                    20000f
+                ))
                 {
                     ev.Data.MaxWager = newWager;
                 }
             }
 
-            if (ev.Data.HasSettings
-                && !ev.Data.HasSettingsEmbed
-                && Widgets.ButtonText(new Rect(0f, wagerShown ? RowLineHeight : 0f, canvas.width, RowLineHeight).ToForm(0.6f).Item2, _openSettingsText))
+            if (ev.Data.HasSettings && !ev.Data.HasSettingsEmbed && Widgets.ButtonText(
+                new Rect(0f, wagerShown ? RowLineHeight : 0f, canvas.width, RowLineHeight).Split(0.6f).Item2,
+                _openSettingsText
+            ))
             {
                 ev.Data.Settings?.EditSettings();
             }
@@ -351,24 +364,24 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 var fieldRect = new Rect(canvas.x, canvas.y, canvas.width - canvas.height, canvas.height);
 
-                if (SettingsHelper.DrawTextField(fieldRect, ev.Data.Name, out string result))
+                if (UiHelper.TextField(fieldRect, ev.Data.Name, out string result))
                 {
                     ev.Data.Name = result!.ToToolkit();
                 }
 
-                if (!ev.Data.Name.NullOrEmpty() && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, _resetEventNameTooltip))
+                if (!ev.Data.Name.NullOrEmpty() && UiHelper.FieldButton(fieldRect, Textures.Reset, _resetEventNameTooltip))
                 {
                     ev.Data.Incident.abbreviation = ev.Data.GetDefaultAbbreviation();
                 }
             }
             else
             {
-                SettingsHelper.DrawLabel(canvas, ev.Data.Name);
+                UiHelper.Label(canvas, ev.Data.Name);
             }
 
             GUI.color = new Color(1f, 1f, 1f, 0.7f);
 
-            if (SettingsHelper.DrawFieldButton(canvas, ev.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, ev.EditingName ? _closeEventNameTooltip : _editEventNameTooltip))
+            if (UiHelper.FieldButton(canvas, ev.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, ev.EditingName ? _closeEventNameTooltip : _editEventNameTooltip))
             {
                 ev.EditingName = !ev.EditingName;
             }
@@ -501,7 +514,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             foreach (EventItem item in ToolkitUtils.Data.Events.Select(item => new { item, existing = InternalData.Find(i => i.Data.Equals(item)) })
                .Where(t => t.existing == null)
-               .Select(t => t.item))
+               .Select(t => t!.item))
             {
                 InternalData.Add(new TableSettingsItem<EventItem> { Data = item });
                 wasDirty = true;

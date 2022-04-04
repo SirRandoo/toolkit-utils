@@ -42,7 +42,9 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            msg.Reply(pawn.needs.AllNeeds.Select(n => ResponseHelper.JoinPair(n.LabelCap, n.CurLevelPercentage.ToStringPercent())).SectionJoin().WithHeader("TabNeeds".Localize()));
+            msg.Reply(
+                pawn.needs.AllNeeds.Select(n => ResponseHelper.JoinPair(n.LabelCap, n.CurLevelPercentage.ToStringPercent())).SectionJoin().WithHeader("TabNeeds".Localize())
+            );
         }
     }
 }

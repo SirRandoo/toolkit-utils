@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
@@ -41,12 +41,12 @@ namespace SirRandoo.ToolkitUtils
 
         public void Prepare()
         {
-            _classText = "TKUtils.Fields.Class".Localize();
+            _classText = "TKUtils.Fields.Class".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _classText, ref _state))
+            if (UiHelper.LabeledPaintableCheckbox(canvas, _classText, ref _state))
             {
                 Dirty.Set(true);
             }

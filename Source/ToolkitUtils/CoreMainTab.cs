@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
@@ -32,7 +33,7 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class CoreMainTab : MainTabWindow_ToolkitCore
     {
-        private static readonly List<MenuCache> MenuCaches;
+        private static readonly List<MenuEntry> MenuCaches = new List<MenuEntry>();
         private float _buttonHeight;
         private string _closeTooltip;
         private string _debugTooltip;
@@ -50,12 +51,11 @@ namespace SirRandoo.ToolkitUtils
 
         static CoreMainTab()
         {
-            MenuCaches = new List<MenuCache>();
             var builder = new StringBuilder();
 
             foreach (ToolkitAddon addon in AddonRegistry.ToolkitAddons)
             {
-                var cache = MenuCache.CreateInstance(addon, out string error);
+                var cache = MenuEntry.CreateInstance(addon, out string error);
 
                 if (!error.NullOrEmpty())
                 {
@@ -71,7 +71,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             builder.Insert(0, "The following addon menus could not reliably be opened by the user:\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         public override Vector2 RequestedTabSize
@@ -127,15 +127,15 @@ namespace SirRandoo.ToolkitUtils
         private void DrawLeftColumn(Rect region)
         {
             var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-            SettingsHelper.DrawColoredLabel(titleRect, _healthReportText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
+            UiHelper.Label(titleRect, _healthReportText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
 
             var contentRect = new Rect(0f, Text.SmallFontHeight, region.width, region.height - Text.SmallFontHeight);
 
             GUI.BeginGroup(contentRect);
 
-            if (Data.HealthReports.Count <= 0)
+            if (!Data.AllHealthReports.Any())
             {
-                SettingsHelper.DrawColoredLabel(contentRect.AtZero(), _noReportsText, new Color(0.39f, 0.39f, 0.39f), TextAnchor.MiddleCenter);
+                UiHelper.Label(contentRect.AtZero(), _noReportsText, new Color(0.39f, 0.39f, 0.39f), TextAnchor.MiddleCenter);
                 GUI.EndGroup();
 
                 return;
@@ -155,32 +155,40 @@ namespace SirRandoo.ToolkitUtils
 
         private void DrawHealthReports(Rect region)
         {
-            var viewRect = new Rect(0f, 0f, region.width - 16f, Data.HealthReports.Sum(r => r.Height));
+            var viewRect = new Rect(0f, 0f, region.width - 16f, Data.AllHealthReports.Sum(r => r.Height));
 
             _healthScrollPos = GUI.BeginScrollView(region, _healthScrollPos, viewRect);
 
             var y = 0f;
+            var alternate = false;
 
-            for (int index = Data.HealthReports.Count - 1; index >= 0; index--)
+            try
             {
-                HealthReport report = Data.HealthReports[index];
-
-                if (report.Height <= 0)
+                foreach (HealthReport report in Data.AllHealthReports)
                 {
-                    report.Height = Text.CalcHeight(report.Message, region.width - 20f);
+                    if (report.Height <= 0)
+                    {
+                        report.Height = Text.CalcHeight(report.Message, region.width - 20f);
+                    }
+
+                    var lineRect = new Rect(0f, y, region.width - 16f, report.Height);
+                    y += report.Height;
+
+                    if (!lineRect.IsVisible(region, _healthScrollPos))
+                    {
+                        continue;
+                    }
+
+                    GUI.BeginGroup(lineRect);
+                    DrawHealthReport(lineRect.AtZero(), report, alternate);
+                    GUI.EndGroup();
+
+                    alternate = !alternate;
                 }
-
-                var lineRect = new Rect(0f, y, region.width - 16f, report.Height);
-                y += report.Height;
-
-                if (!lineRect.IsRegionVisible(region, _healthScrollPos))
-                {
-                    continue;
-                }
-
-                GUI.BeginGroup(lineRect);
-                DrawHealthReport(lineRect.AtZero(), report, index % 2 == 0);
-                GUI.EndGroup();
+            }
+            catch (IndexOutOfRangeException)
+            {
+                // In case the user removes a health report while this is being drawn.
             }
 
             GUI.EndScrollView();
@@ -237,11 +245,11 @@ namespace SirRandoo.ToolkitUtils
 
             if (texture != null)
             {
-                texture.DrawColored(SettingsHelper.RectForIcon(iconRect), color);
+                UiHelper.Icon(iconRect, texture, color);
                 iconRect.TipRegion(iconTooltip);
             }
 
-            SettingsHelper.DrawColoredLabel(messageRect, report.Message, color);
+            UiHelper.Label(messageRect, report.Message, color);
 
             if (!Mouse.IsOver(messageRect))
             {
@@ -250,24 +258,24 @@ namespace SirRandoo.ToolkitUtils
 
             messageRect.TipRegion("TKUtils.MainTabTooltips.Report".LocalizeKeyed(report.Reporter, report.OccurredAtString));
 
-            if (!report.Stacktrace.NullOrEmpty() && messageRect.WasLeftClicked())
+            if (!report.Stacktrace.NullOrEmpty() && messageRect.LeftClicked())
             {
                 GUIUtility.systemCopyBuffer = report.Stacktrace;
             }
 
-            Widgets.CheckboxOffTex.DrawColored(SettingsHelper.RectForIcon(closeRect), Color.red);
+            UiHelper.Icon(closeRect, Widgets.CheckboxOffTex, Color.red);
             closeRect.TipRegion(_closeTooltip);
 
-            if (closeRect.WasLeftClicked())
+            if (closeRect.LeftClicked())
             {
-                Data.HealthReports.Remove(report);
+                Data.RemoveHealthReport(report);
             }
         }
 
         private void DrawRightColumn(Rect region)
         {
             var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-            SettingsHelper.DrawColoredLabel(titleRect, _quickActionsText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
+            UiHelper.Label(titleRect, _quickActionsText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
 
             var contentRect = new Rect(0f, Text.SmallFontHeight, region.width, region.height - Text.SmallFontHeight);
 
@@ -280,7 +288,7 @@ namespace SirRandoo.ToolkitUtils
         {
             for (var index = 0; index < MenuCaches.Count; index++)
             {
-                MenuCache addon = MenuCaches[index];
+                MenuEntry addon = MenuCaches[index];
 
                 var lineRect = new Rect(0f, _buttonHeight * index, region.width, _buttonHeight);
 
@@ -302,32 +310,30 @@ namespace SirRandoo.ToolkitUtils
             return span.Minutes > 0 ? $"{span.TotalMinutes:N2} {_minutesText}" : $"{span.TotalSeconds:N2} {_secondsText}";
         }
 
-        private class MenuCache
+        private sealed class MenuEntry
         {
             public string Label => (Addon.label ?? Addon.defName).CapitalizeFirst();
             public ToolkitAddon Addon { get; set; }
             public List<FloatMenuOption> Options { get; private set; }
 
             [NotNull]
-            public static MenuCache CreateInstance(ToolkitAddon addon, [CanBeNull] out string error)
+            public static MenuEntry CreateInstance(ToolkitAddon addon, [CanBeNull] out string error)
             {
                 error = null;
-                var cache = new MenuCache { Addon = addon, Options = new List<FloatMenuOption>() };
+                var cache = new MenuEntry { Addon = addon, Options = new List<FloatMenuOption>() };
 
                 var hasSettings = false;
-                string settingsTranslated = "TKUtils.AddonMenu.Settings".Localize();
+                string settingsTranslated = "TKUtils.AddonMenu.Settings".TranslateSimple();
 
                 try
                 {
-                    string optionsTranslated = "Options".Localize();
+                    string optionsTranslated = "Options".TranslateSimple();
 
                     foreach (FloatMenuOption option in addon.GetAddonMenu().MenuOptions())
                     {
                         cache.Options.Add(option);
 
-                        if (option.Label.EqualsIgnoreCase("settings")
-                            || option.Label.EqualsIgnoreCase(settingsTranslated)
-                            || option.Label.EqualsIgnoreCase("options")
+                        if (option.Label.EqualsIgnoreCase("settings") || option.Label.EqualsIgnoreCase(settingsTranslated) || option.Label.EqualsIgnoreCase("options")
                             || option.Label.EqualsIgnoreCase(optionsTranslated))
                         {
                             hasSettings = true;
@@ -351,7 +357,7 @@ namespace SirRandoo.ToolkitUtils
                     return cache;
                 }
 
-                cache.Options.Insert(0, new FloatMenuOption(settingsTranslated, () => SettingsHelper.OpenSettingsMenuFor(mod)));
+                cache.Options.Insert(0, new FloatMenuOption(settingsTranslated, mod.OpenSettings));
 
                 return cache;
             }

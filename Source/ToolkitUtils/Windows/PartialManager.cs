@@ -25,9 +25,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
@@ -121,11 +121,9 @@ namespace SirRandoo.ToolkitUtils.Windows
             return clazz == typeof(TraitItem) ? PartialType.Traits : PartialType.Items;
         }
 
-        [NotNull]
-        public static PartialManager<T> CreateLoadInstance(Action<PartialData<T>> callback) => new PartialManager<T>(callback);
+        [NotNull] public static PartialManager<T> CreateLoadInstance(Action<PartialData<T>> callback) => new PartialManager<T>(callback);
 
-        [NotNull]
-        public static PartialManager<T> CreateSaveInstance(Action<PartialUgc> callback) => new PartialManager<T>(callback);
+        [NotNull] public static PartialManager<T> CreateSaveInstance(Action<PartialUgc> callback) => new PartialManager<T>(callback);
 
         public override void DoWindowContents(Rect canvas)
         {
@@ -150,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             if (_isIndexing)
             {
-                SettingsHelper.DrawLabel(canvas, _indexingLabel, TextAnchor.MiddleCenter, GameFont.Medium);
+                UiHelper.Label(canvas, _indexingLabel, TextAnchor.MiddleCenter, GameFont.Medium);
 
                 return;
             }
@@ -167,7 +165,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 Rect lineRect = listing.GetRect(Text.SmallFontHeight);
 
-                if (!lineRect.IsRegionVisible(canvas, _scrollPos))
+                if (!lineRect.IsVisible(canvas, _scrollPos))
                 {
                     continue;
                 }
@@ -176,7 +174,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var loadRect = new Rect(nameRect.x + nameRect.width, nameRect.y, lineRect.height, lineRect.height);
                 var deleteRect = new Rect(loadRect.x + loadRect.width, nameRect.y, loadRect.width, loadRect.height);
 
-                SettingsHelper.DrawLabel(nameRect, file.Name);
+                UiHelper.Label(nameRect, file.Name);
 
                 if (Widgets.ButtonImage(loadRect, TexCommand.Install))
                 {
@@ -212,7 +210,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
             catch (Exception e)
             {
-                LogHelper.Error($"Couldn't remove the partial file @ {toDelete.Path}", e);
+                TkUtils.Logger.Error($"Couldn't remove the partial file @ {toDelete.Path}", e);
             }
         }
 
@@ -222,25 +220,25 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.Begin(canvas);
 
-            (Rect nameLabel, Rect nameField) = listing.GetRectAsForm(0.55f);
-            SettingsHelper.DrawLabel(nameLabel, _fileNameLabel);
+            (Rect nameLabel, Rect nameField) = listing.Split(0.55f);
+            UiHelper.Label(nameLabel, _fileNameLabel);
 
-            if (SettingsHelper.DrawTextField(nameField, _fileName, out string newFileName))
+            if (UiHelper.TextField(nameField, _fileName, out string newFileName))
             {
                 _fileName = newFileName;
             }
 
-            (Rect descLabel, Rect descField) = listing.GetRectAsForm(0.55f);
-            SettingsHelper.DrawLabel(descLabel, _descriptionLabel);
+            (Rect descLabel, Rect descField) = listing.Split(0.55f);
+            UiHelper.Label(descLabel, _descriptionLabel);
 
-            if (SettingsHelper.DrawTextField(descField, _fileDescription, out string newFileDesc))
+            if (UiHelper.TextField(descField, _fileDescription, out string newFileDesc))
             {
                 _fileDescription = newFileDesc;
             }
 
             listing.End();
 
-            (Rect cancel, Rect confirm) = new Rect(0f, canvas.height - Text.SmallFontHeight, canvas.width, Text.SmallFontHeight).ToForm(0.5f);
+            (Rect cancel, Rect confirm) = new Rect(0f, canvas.height - Text.SmallFontHeight, canvas.width, Text.SmallFontHeight).Split(0.5f);
 
             if (Widgets.ButtonText(confirm, _confirmLabel))
             {
@@ -283,15 +281,16 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void FetchTranslations()
         {
-            _fileNameLabel = "TKUtils.Fields.Name".Localize();
-            _descriptionLabel = "TKUtils.Fields.Description".Localize();
-            _confirmLabel = "TKUtils.Buttons.Confirm".Localize();
-            _cancelLabel = "TKUtils.Buttons.Cancel".Localize();
-            _indexingLabel = "TKUtils.PartialManager.Indexing".Localize();
-            _loadPartialTooltip = "TKUtils.PartialTooltips.LoadPartial".Localize();
-            _deletePartialTooltip = "TKUtils.PartialTooltips.DeletePartial".Localize();
+            _fileNameLabel = "TKUtils.Fields.Name".TranslateSimple();
+            _descriptionLabel = "TKUtils.Fields.Description".TranslateSimple();
+            _confirmLabel = "TKUtils.Buttons.Confirm".TranslateSimple();
+            _cancelLabel = "TKUtils.Buttons.Cancel".TranslateSimple();
+            _indexingLabel = "TKUtils.PartialManager.Indexing".TranslateSimple();
+            _loadPartialTooltip = "TKUtils.PartialTooltips.LoadPartial".TranslateSimple();
+            _deletePartialTooltip = "TKUtils.PartialTooltips.DeletePartial".TranslateSimple();
         }
 
+        [ItemNotNull]
         private static async Task<List<FileData<T>>> IndexPartialFiles()
         {
             var container = new List<FileData<T>>();
@@ -309,13 +308,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 using (FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    var data = new FileData<T>
-                    {
-                        Description = path,
-                        IsFile = true,
-                        Extension = Path.GetExtension(file),
-                        Name = Path.GetFileNameWithoutExtension(file)
-                    };
+                    var data = new FileData<T> { Description = path, IsFile = true, Extension = Path.GetExtension(file), Name = Path.GetFileNameWithoutExtension(file) };
 
                     try
                     {
@@ -327,7 +320,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     }
                     catch (Exception e)
                     {
-                        LogHelper.Error("Could not deserialize partial", e);
+                        TkUtils.Logger.Error("Could not deserialize partial", e);
                     }
 
                     container.Add(data);
@@ -385,9 +378,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             [NotNull] private static string DefaultDescription => "No description provided";
 
-            [NotNull]
-            private string DefaultFileName =>
-                $"{Enum.GetName(typeof(PartialType), Type)}.{DateTime.Now.ToFileTime()}.json";
+            [NotNull] private string DefaultFileName => $"{Enum.GetName(typeof(PartialType), Type)}.{DateTime.Now.ToFileTime()}.json";
         }
     }
 }

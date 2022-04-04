@@ -33,18 +33,13 @@ namespace SirRandoo.ToolkitUtils.Commands
     {
         private string _invoker;
 
-        private static bool CanRemoveTrait =>
-            IncidentDefOf.RemoveTrait.cost > 0 || IncidentDefOf.ReplaceTrait.cost > 0 || IncidentDefOf.ClearTraits.cost > 0 || IncidentDefOf.SetTraits.cost > 0;
+        private static bool CanRemoveTrait => IncidentDefOf.RemoveTrait.cost > 0 || IncidentDefOf.ReplaceTrait.cost > 0 || IncidentDefOf.ClearTraits.cost > 0
+            || IncidentDefOf.SetTraits.cost > 0;
 
-        private static bool CanAddTrait =>
-            IncidentDefOf.AddTrait.cost > 0 || IncidentDefOf.ReplaceTrait.cost > 0 || IncidentDefOf.SetTraits.cost > 0;
+        private static bool CanAddTrait => IncidentDefOf.AddTrait.cost > 0 || IncidentDefOf.ReplaceTrait.cost > 0 || IncidentDefOf.SetTraits.cost > 0;
 
-        private static bool AreTraitsDisabled =>
-            IncidentDefOf.AddTrait.cost <= 0
-            && IncidentDefOf.RemoveTrait.cost <= 0
-            && IncidentDefOf.ReplaceTrait.cost <= 0
-            && IncidentDefOf.ClearTraits.cost <= 0
-            && IncidentDefOf.SetTraits.cost <= 0;
+        private static bool AreTraitsDisabled => IncidentDefOf.AddTrait.cost <= 0 && IncidentDefOf.RemoveTrait.cost <= 0 && IncidentDefOf.ReplaceTrait.cost <= 0
+            && IncidentDefOf.ClearTraits.cost <= 0 && IncidentDefOf.SetTraits.cost <= 0;
 
         public override void RunCommand([NotNull] ITwitchMessage msg)
         {

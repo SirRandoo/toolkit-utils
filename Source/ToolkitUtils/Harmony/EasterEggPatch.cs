@@ -37,7 +37,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
         public static bool Prefix()
         {
-            ThingItem item = Data.Items.Where(i => i.Thing != null).Where(i => i.Thing.race == null).Where(i => i.Cost > 200 && i.Cost < 2000).InRandomOrder().FirstOrDefault();
+            ThingItem item = Data.Items.Where(i => i.Thing != null)
+               .Where(i => i.Thing.race == null)
+               .Where(i => i.Cost > 200 && i.Cost < 2000)
+               .InRandomOrder()
+               .FirstOrDefault();
 
             if (item?.Item == null)
             {

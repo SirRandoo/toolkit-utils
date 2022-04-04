@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
@@ -31,12 +32,13 @@ namespace SirRandoo.ToolkitUtils.Models
         private int _addPrice;
         private string _addPriceBuffer = "0";
         private string _addPriceText;
+        private bool _bufferValid = true;
         private ComparisonTypes _comparison = ComparisonTypes.Equal;
         private List<FloatMenuOption> _comparisonOptions;
 
         public void Prepare()
         {
-            _addPriceText = "TKUtils.Fields.AddPrice".TranslateSimple();
+            _addPriceText = Label;
 
             _comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption(
@@ -53,24 +55,20 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _addPriceText);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _addPriceText);
 
-            (Rect button, Rect input) = field.ToForm(0.3f);
+            (Rect button, Rect input) = field.Split(0.3f);
 
             if (Widgets.ButtonText(button, _comparison.AsOperator()))
             {
                 Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
             }
 
-            if (!SettingsHelper.DrawNumberField(input, ref _addPrice, ref _addPriceBuffer, out int newCost))
+            if (UiHelper.NumberField(input, ref _addPriceBuffer, ref _addPrice, ref _bufferValid))
             {
-                return;
+                Dirty.Set(true);
             }
-
-            _addPrice = newCost;
-            _addPriceBuffer = newCost.ToString();
-            Dirty.Set(true);
         }
 
         public ObservableProperty<bool> Dirty { get; set; }

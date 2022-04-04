@@ -49,7 +49,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             ToolkitSettings.ViewerColorCodes[twitchMessage.Username.ToLowerInvariant()] = twitchMessage.ChatMessage.ColorHex;
 
-            if (TkSettings.HairColor && component.HasUserBeenNamed(twitchMessage.Username) && ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
+            if (TkSettings.HairColor && component.HasUserBeenNamed(twitchMessage.Username)
+                && ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
             {
                 Pawn pawn = component.PawnAssignedToUser(twitchMessage.Username);
 

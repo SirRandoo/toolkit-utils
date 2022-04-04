@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
@@ -31,8 +31,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public TabItem SelectedTab { get; set; }
 
-        [NotNull]
-        public static TabWorker CreateInstance() => new TabWorker();
+        [NotNull] public static TabWorker CreateInstance() => new TabWorker();
 
         [NotNull]
         public static TabWorker CreateInstance([NotNull] params TabItem[] tabs)
@@ -82,12 +81,10 @@ namespace SirRandoo.ToolkitUtils.Workers
                     tabRegion.x += offset;
                 }
 
-                if (SettingsHelper.DrawTabButton(tabRegion, tab.Label, TextAnchor.MiddleCenter, vertical: vertical, selected: SelectedTab == tab))
+                if (UiHelper.TabButton(tabRegion, tab.Label, TextAnchor.MiddleCenter, vertical: vertical, active: SelectedTab == tab)
+                    && (tab.Clicked == null || tab.Clicked()))
                 {
-                    if (tab.Clicked == null || tab.Clicked())
-                    {
-                        SelectedTab = tab;
-                    }
+                    SelectedTab = tab;
                 }
 
                 offset += tabRegion.width;

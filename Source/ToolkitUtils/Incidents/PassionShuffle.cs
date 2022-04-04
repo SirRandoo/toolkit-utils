@@ -59,9 +59,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             _target = _pawn.skills.skills.FirstOrDefault(
-                    s => s.def.defName.EqualsIgnoreCase(query!.ToToolkit())
-                         || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
-                         || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
+                    s => s.def.defName.EqualsIgnoreCase(query!.ToToolkit()) || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
+                        || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                 )
               ?.def;
 
@@ -142,7 +141,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                LogHelper.Warn("Exceeded 100 iterations while shuffling interests!");
+                TkUtils.Logger.Warn("Exceeded 100 iterations while shuffling interests!");
 
                 return;
             }
@@ -170,7 +169,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                LogHelper.Warn("Exceeded 100 iterations while shuffling passions!");
+                TkUtils.Logger.Warn("Exceeded 100 iterations while shuffling passions!");
 
                 return false;
             }

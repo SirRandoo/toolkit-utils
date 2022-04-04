@@ -118,7 +118,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!description.NullOrEmpty())
             {
-                Current.Game.letterStack.ReceiveLetter("TKUtils.HealLetter.Title".Localize(), description.LocalizeKeyed(Viewer.username, target), LetterDefOf.PositiveEvent, _pawn);
+                Current.Game.letterStack.ReceiveLetter(
+                    "TKUtils.HealLetter.Title".Localize(),
+                    description.LocalizeKeyed(Viewer.username, target),
+                    LetterDefOf.PositiveEvent,
+                    _pawn
+                );
             }
         }
     }

@@ -29,7 +29,9 @@ namespace SirRandoo.ToolkitUtils.Utils
         [CanBeNull]
         private static Pawn FindPawn(string username)
         {
-            return Find.ColonistBar.GetColonistsInOrder().Where(p => p.Faction == Faction.OfPlayer).FirstOrDefault(c => ((NameTriple)c.Name)?.Nick.EqualsIgnoreCase(username) ?? false);
+            return Find.ColonistBar.GetColonistsInOrder()
+               .Where(p => p.Faction == Faction.OfPlayer)
+               .FirstOrDefault(c => ((NameTriple)c.Name)?.Nick.EqualsIgnoreCase(username) ?? false);
         }
 
         [CanBeNull]

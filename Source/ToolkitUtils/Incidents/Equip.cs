@@ -102,7 +102,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 ? ThingMaker.MakeThing(_item.Thing.Thing, GenStuff.RandomStuffByCommonalityFor(_item.Thing.Thing))
                 : ThingMaker.MakeThing(_item.Thing.Thing, _item.Stuff.Thing)) is ThingWithComps weapon))
             {
-                LogHelper.Warn("Tried to equip a null weapon.");
+                TkUtils.Logger.Warn("Tried to equip a null weapon.");
 
                 return;
             }
@@ -122,11 +122,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             ThingWithComps old = null;
 
-            if (_pawn.equipment.Primary != null
-                && !_pawn.equipment.TryTransferEquipmentToContainer(_pawn.equipment.Primary, _pawn.inventory.innerContainer)
+            if (_pawn.equipment.Primary != null && !_pawn.equipment.TryTransferEquipmentToContainer(_pawn.equipment.Primary, _pawn.inventory.innerContainer)
                 && !_pawn.equipment.TryDropEquipment(_pawn.equipment.Primary, out old, _pawn.Position))
             {
-                LogHelper.Warn($"Could not make room for {Viewer.username}'s new weapon.");
+                TkUtils.Logger.Warn($"Could not make room for {Viewer.username}'s new weapon.");
             }
 
             if (MassUtility.WillBeOverEncumberedAfterPickingUp(_pawn, weapon, 1) && old != null)
@@ -153,7 +152,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.EquipLetter.Title".Localize(),
-                (spawned ? "TKUtils.EquipLetter.SpawnedDescription" : "TKUtils.EquipLetter.Description").LocalizeKeyed(Viewer.username, thing.LabelCap ?? thing.def.defName),
+                (spawned ? "TKUtils.EquipLetter.SpawnedDescription" : "TKUtils.EquipLetter.Description").LocalizeKeyed(
+                    Viewer.username,
+                    thing.LabelCap ?? thing.def.defName
+                ),
                 LetterDefOf.NeutralEvent,
                 spawned ? thing : _pawn
             );

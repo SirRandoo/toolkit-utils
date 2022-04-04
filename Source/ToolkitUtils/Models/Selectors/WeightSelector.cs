@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
@@ -32,6 +33,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private int _weight;
         private string _weightBuffer = "0";
         private string _weightText;
+        private bool _weightValid = true;
 
         public void Prepare()
         {
@@ -52,24 +54,20 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _weightText);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _weightText);
 
-            (Rect button, Rect input) = field.ToForm(0.3f);
+            (Rect button, Rect input) = field.Split(0.3f);
 
             if (Widgets.ButtonText(button, _comparison.AsOperator()))
             {
                 Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
             }
 
-            if (!SettingsHelper.DrawNumberField(input, ref _weight, ref _weightBuffer, out int newCost))
+            if (UiHelper.NumberField(input, ref _weightBuffer, ref _weight, ref _weightValid))
             {
-                return;
+                Dirty.Set(true);
             }
-
-            _weight = newCost;
-            _weightBuffer = newCost.ToString();
-            Dirty.Set(true);
         }
 
         public ObservableProperty<bool> Dirty { get; set; }

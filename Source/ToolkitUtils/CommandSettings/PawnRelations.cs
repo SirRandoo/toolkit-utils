@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -34,14 +34,14 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             if (!TkSettings.MinimalRelations)
             {
-                (Rect labelRect, Rect fieldRect) = listing.GetRectAsForm();
-                SettingsHelper.DrawLabel(labelRect, "TKUtils.PawnRelations.OpinionThreshold.Label".Localize());
+                (Rect labelRect, Rect fieldRect) = listing.Split();
+                UiHelper.Label(labelRect, "TKUtils.PawnRelations.OpinionThreshold.Label".TranslateSimple());
                 Widgets.TextFieldNumeric(fieldRect, ref TkSettings.OpinionMinimum, ref _minimumBuffer);
-                listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Localize());
+                listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".TranslateSimple());
             }
 
-            listing.CheckboxLabeled("TKUtils.PawnRelations.MinimalRelations.Label".Localize(), ref TkSettings.MinimalRelations);
-            listing.DrawDescription("TKUtils.PawnRelations.MinimalRelations.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnRelations.MinimalRelations.Label".TranslateSimple(), ref TkSettings.MinimalRelations);
+            listing.DrawDescription("TKUtils.PawnRelations.MinimalRelations.Description".TranslateSimple());
 
             listing.End();
         }

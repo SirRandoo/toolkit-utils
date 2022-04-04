@@ -44,7 +44,7 @@ namespace SirRandoo.ToolkitUtils
                 iconRect = new Rect(center.x + (isOver ? 6f : 4f), center.y - (isOver ? 14f : 12f), 16f, 16f);
             }
 
-            HealthReport mostSevere = Data.HealthReports.OrderByDescending(r => r.Type).FirstOrDefault();
+            HealthReport mostSevere = Data.AllHealthReports.OrderByDescending(r => r.Type).FirstOrDefault();
 
             if (mostSevere == null)
             {

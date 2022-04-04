@@ -19,7 +19,6 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Store;
 
@@ -49,7 +48,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return;
             }
 
-            LogHelper.Info("Utils' item list didn't match Twitch Toolkit's; rebuilding list...");
+            TkUtils.Logger.Info("Utils' item list didn't match Twitch Toolkit's; rebuilding list...");
             Data.Items = StoreDialog.ValidateContainers().ToList();
         }
     }

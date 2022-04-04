@@ -17,7 +17,6 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
-using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
@@ -25,28 +24,9 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
     [StaticConstructorOnStartup]
     public static class VisualExceptions
     {
-        public static readonly bool Active;
-        private static readonly Type ExceptionStateClass;
-        private static readonly MethodInfo HandleExceptionMethod;
-
-        static VisualExceptions()
-        {
-            if (ModLister.GetActiveModWithIdentifier("brrainz.visualexceptions") == null)
-            {
-                return;
-            }
-
-            try
-            {
-                ExceptionStateClass = AccessTools.TypeByName("VisualExceptions.ExceptionState");
-                HandleExceptionMethod = AccessTools.Method(ExceptionStateClass, "Handle", new Type[1] { typeof(Exception) });
-                Active = true;
-            }
-            catch (Exception e)
-            {
-                LogHelper.Error("Could not enable visual exception compatibility", e);
-            }
-        }
+        public static readonly bool Active = ModLister.GetActiveModWithIdentifier("brrainz.visualexceptions") != null;
+        private static readonly Type ExceptionStateClass = AccessTools.TypeByName("VisualExceptions.ExceptionState");
+        private static readonly MethodInfo HandleExceptionMethod = AccessTools.Method("VisualExceptions.ExceptionState:Handle", new[] { typeof(Exception) });
 
         public static void HandleException(Exception e)
         {
@@ -56,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
             catch (Exception exception)
             {
-                LogHelper.Error("Could not pass exception to VisualExceptions", exception);
+                TkUtils.Logger.Error("Could not pass exception to VisualExceptions", exception);
             }
         }
     }

@@ -33,7 +33,9 @@ namespace SirRandoo.ToolkitUtils
         internal static readonly ConcurrentQueue<ITwitchMessage> CommandQueue = new ConcurrentQueue<ITwitchMessage>();
         internal static readonly ConcurrentQueue<Action> MainThreadCommands = new ConcurrentQueue<Action>();
 
-        public CommandRouter(Game game) { }
+        public CommandRouter(Game game)
+        {
+        }
 
         public override void LoadedGame()
         {
@@ -49,7 +51,7 @@ namespace SirRandoo.ToolkitUtils
                 return;
             }
 
-            if (_interfaceTask is { IsCompleted: true } && _interfaceTask.Exception != null)
+            if (_interfaceTask.Exception != null)
             {
                 foreach (Exception exception in _interfaceTask.Exception.Flatten().InnerExceptions)
                 {
@@ -80,11 +82,21 @@ namespace SirRandoo.ToolkitUtils
                 {
                     if (_interfaceTask == null)
                     {
-                        _interfaceTask ??= Task.Run(() => { @interface.ParseMessage(message); });
+                        _interfaceTask = Task.Run(
+                            () =>
+                            {
+                                @interface.ParseMessage(message);
+                            }
+                        );
                     }
                     else
                     {
-                        _interfaceTask.ContinueWith(t => { @interface.ParseMessage(message); });
+                        _interfaceTask.ContinueWith(
+                            t =>
+                            {
+                                @interface.ParseMessage(message);
+                            }
+                        );
                     }
                 }
             }

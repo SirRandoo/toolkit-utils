@@ -105,7 +105,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 MessageHelper.ReplyToUser(
                     Viewer.username,
-                    _data.UseStoryteller ? "TKUtils.Wagered.Storyteller".LocalizeKeyed(name, points) : "TKUtils.Wagered.Complete".LocalizeKeyed(name, _wager.ToString("N0"), points)
+                    _data.UseStoryteller
+                        ? "TKUtils.Wagered.Storyteller".LocalizeKeyed(name, points)
+                        : "TKUtils.Wagered.Complete".LocalizeKeyed(name, _wager.ToString("N0"), points)
                 );
 
                 return;

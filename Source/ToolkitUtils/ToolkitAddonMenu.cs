@@ -15,9 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Interfaces;
 using TwitchToolkit;
@@ -33,51 +33,46 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class ToolkitAddonMenu : IAddonMenu
     {
-        private static readonly List<FloatMenuOption> Options;
-
-        static ToolkitAddonMenu()
+        private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
         {
-            Options = new List<FloatMenuOption>
-            {
-                new FloatMenuOption("TKUtils.AddonMenu.Settings".Localize(), SettingsHelper.OpenSettingsMenuFor<TwitchToolkit.TwitchToolkit>),
-                new FloatMenuOption("TKUtils.AddonMenu.Events".Localize(), () => Find.WindowStack.Add(new StoreIncidentsWindow())),
-                new FloatMenuOption("TKUtils.AddonMenu.Items".Localize(), () => Find.WindowStack.Add(new StoreDialog())),
-                new FloatMenuOption("TKUtils.AddonMenu.Commands".Localize(), () => Find.WindowStack.Add(new Window_Commands())),
-                new FloatMenuOption("TKUtils.AddonMenu.Viewers".Localize(), () => Find.WindowStack.Add(new Window_Viewers())),
-                new FloatMenuOption("TKUtils.AddonMenu.NameQueue".Localize(), () => Find.WindowStack.Add(new NameQueueDialog())),
-                new FloatMenuOption("TKUtils.AddonMenu.Tracker".Localize(), () => Find.WindowStack.Add(new Window_Trackers())),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.ToggleCoinEarning".Localize(),
-                    () =>
-                    {
-                        ToolkitSettings.EarningCoins = !ToolkitSettings.EarningCoins;
+            new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>().OpenSettings()),
+            new FloatMenuOption("TKUtils.AddonMenu.Events".TranslateSimple(), () => Find.WindowStack.Add(new StoreIncidentsWindow())),
+            new FloatMenuOption("TKUtils.AddonMenu.Items".TranslateSimple(), () => Find.WindowStack.Add(new StoreDialog())),
+            new FloatMenuOption("TKUtils.AddonMenu.Commands".TranslateSimple(), () => Find.WindowStack.Add(new Window_Commands())),
+            new FloatMenuOption("TKUtils.AddonMenu.Viewers".TranslateSimple(), () => Find.WindowStack.Add(new Window_Viewers())),
+            new FloatMenuOption("TKUtils.AddonMenu.NameQueue".TranslateSimple(), () => Find.WindowStack.Add(new NameQueueDialog())),
+            new FloatMenuOption("TKUtils.AddonMenu.Tracker".TranslateSimple(), () => Find.WindowStack.Add(new Window_Trackers())),
+            new FloatMenuOption(
+                "TKUtils.AddonMenu.ToggleCoinEarning".TranslateSimple(),
+                () =>
+                {
+                    ToolkitSettings.EarningCoins = !ToolkitSettings.EarningCoins;
 
-                        Messages.Message($"TKUtils.CoinEarning{(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}".Localize(), MessageTypeDefOf.NeutralEvent);
-                    }
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.GiftCoins".Localize(),
-                    () =>
-                    {
-                        Command giftCoins = DefDatabase<Command>.GetNamed("GiftCoins");
-                        giftCoins.enabled = !giftCoins.enabled;
-                        CommandEditor.SaveCopy(giftCoins);
+                    Messages.Message($"TKUtils.CoinEarning{(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}".TranslateSimple(), MessageTypeDefOf.NeutralEvent);
+                }
+            ),
+            new FloatMenuOption(
+                "TKUtils.AddonMenu.GiftCoins".TranslateSimple(),
+                () =>
+                {
+                    Command giftCoins = DefDatabase<Command>.GetNamed("GiftCoins");
+                    giftCoins.enabled = !giftCoins.enabled;
+                    CommandEditor.SaveCopy(giftCoins);
 
-                        Messages.Message($"TKUtils.GiftCoins{(giftCoins.enabled ? "Enabled" : "Disabled")}".Localize(), MessageTypeDefOf.NeutralEvent);
-                    }
-                ),
-                new FloatMenuOption(
-                    "TKUtils.AddonMenu.DebugFix".Localize(),
-                    () =>
-                    {
-                        Helper.playerMessages = new List<string>();
-                        Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
-                    }
-                ),
-                new FloatMenuOption("TKUtils.AddonMenu.EditItemSettings".Localize(), OpenItemSettings),
-                new FloatMenuOption("TKUtils.AddonMenu.EditTraitLimit".Localize(), OpenTraitSettings)
-            };
-        }
+                    Messages.Message($"TKUtils.GiftCoins{(giftCoins.enabled ? "Enabled" : "Disabled")}".TranslateSimple(), MessageTypeDefOf.NeutralEvent);
+                }
+            ),
+            new FloatMenuOption(
+                "TKUtils.AddonMenu.DebugFix".TranslateSimple(),
+                () =>
+                {
+                    Helper.playerMessages.Clear();
+                    Purchase_Handler.viewerNamesDoingVariableCommands.Clear();
+                }
+            ),
+            new FloatMenuOption("TKUtils.AddonMenu.EditItemSettings".TranslateSimple(), OpenItemSettings),
+            new FloatMenuOption("TKUtils.AddonMenu.EditTraitLimit".TranslateSimple(), OpenTraitSettings)
+        };
 
         public List<FloatMenuOption> MenuOptions() => Options;
 

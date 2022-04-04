@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
@@ -33,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _nameText = "TKUtils.Fields.Name".TranslateSimple();
+            _nameText = Label;
         }
 
         public void Mutate(TableSettingsItem<PawnKindItem> item)
@@ -49,8 +50,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _nameText);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _nameText);
             _name = Widgets.TextField(field, _name).ToToolkit();
         }
     }

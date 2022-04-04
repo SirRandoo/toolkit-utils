@@ -100,7 +100,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private bool TryLevelGlobalMightSkill(CompAbilityUserMight mightUser, string query, out string error)
+        private static bool TryLevelGlobalMightSkill(CompAbilityUserMight mightUser, string query, out string error)
         {
             string refresh = "TM_global_refresh_pwr".Localize("refresh").ToToolkit();
 
@@ -145,13 +145,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                     continue;
                 }
 
-                if (query.EqualsIgnoreCase(def.label.ToToolkit()) || query.Equals(def.defName))
+                if ((query.EqualsIgnoreCase(def.label.ToToolkit()) || query.Equals(def.defName)) && magicPower.level < magicPower.maxLevel
+                    && mightUser.MightData.MightAbilityPoints >= magicPower.costToLevel)
                 {
-                    if (magicPower.level < magicPower.maxLevel && mightUser.MightData.MightAbilityPoints >= magicPower.costToLevel)
-                    {
-                        mightUser.MightData.MightAbilityPoints -= magicPower.costToLevel;
-                        magicPower.level++;
-                    }
+                    mightUser.MightData.MightAbilityPoints -= magicPower.costToLevel;
+                    magicPower.level++;
                 }
 
                 MightPowerSkill power = mightUser.MightData.GetSkill_Power(def);
@@ -238,13 +236,11 @@ namespace SirRandoo.ToolkitUtils.Commands
                     continue;
                 }
 
-                if (query.EqualsIgnoreCase(def.label.ToToolkit()) || query.Equals(def.defName))
+                if ((query.EqualsIgnoreCase(def.label.ToToolkit()) || query.Equals(def.defName)) && magicPower.level < magicPower.maxLevel
+                    && magicUser.MagicData.MagicAbilityPoints >= magicPower.costToLevel)
                 {
-                    if (magicPower.level < magicPower.maxLevel && magicUser.MagicData.MagicAbilityPoints >= magicPower.costToLevel)
-                    {
-                        magicUser.MagicData.MagicAbilityPoints -= magicPower.costToLevel;
-                        magicPower.level++;
-                    }
+                    magicUser.MagicData.MagicAbilityPoints -= magicPower.costToLevel;
+                    magicPower.level++;
                 }
 
                 MagicPowerSkill power = magicUser.MagicData.GetSkill_Power(def);
@@ -308,7 +304,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private bool TryLevelSkill([CanBeNull] MightPowerSkill skill, [CanBeNull] CompAbilityUserMight mightUser, out string error)
+        private static bool TryLevelSkill([CanBeNull] MightPowerSkill skill, [CanBeNull] CompAbilityUserMight mightUser, out string error)
         {
             if (skill == null || mightUser == null)
             {

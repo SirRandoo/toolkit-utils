@@ -17,7 +17,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
@@ -65,11 +65,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslations()
         {
-            _titleText = "TKUtils.TraitStore.Title".Localize();
-            _searchText = "TKUtils.Buttons.Search".Localize();
-            _addCostText = "TKUtils.Fields.AddPrice".Localize();
-            _removeCostText = "TKUtils.Fields.RemovePrice".Localize();
-            _resetAllText = "TKUtils.Buttons.ResetAll".Localize();
+            _titleText = "TKUtils.TraitStore.Title".TranslateSimple();
+            _searchText = "TKUtils.Buttons.Search".TranslateSimple();
+            _addCostText = "TKUtils.Fields.AddPrice".TranslateSimple();
+            _removeCostText = "TKUtils.Fields.RemovePrice".TranslateSimple();
+            _resetAllText = "TKUtils.Buttons.ResetAll".TranslateSimple();
 
             _resetAllTextSize = Text.CalcSize(_resetAllText);
         }
@@ -77,17 +77,17 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void DrawHeader(Rect canvas)
         {
             GUI.BeginGroup(canvas);
-            (Rect searchLabel, Rect searchField) = new Rect(canvas.x, canvas.y, canvas.width * 0.19f, Text.LineHeight).ToForm(0.3f);
+            (Rect searchLabel, Rect searchField) = new Rect(canvas.x, canvas.y, canvas.width * 0.19f, Text.LineHeight).Split(0.3f);
 
             Widgets.Label(searchLabel, _searchText);
 
-            if (SettingsHelper.DrawTextField(searchField, _query, out string input))
+            if (UiHelper.TextField(searchField, _query, out string input))
             {
                 _query = input;
                 NotifySearchRequested();
             }
 
-            if (_query.Length > 0 && SettingsHelper.DrawClearButton(searchField))
+            if (_query.Length > 0 && UiHelper.ClearButton(searchField))
             {
                 _query = "";
                 NotifySearchRequested();
@@ -119,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 trait.Data.CanRemove = true;
                 trait.Data.CostToRemove = 5500;
                 trait.Data.Name = trait.Data.GetDefaultName();
-                trait.Data.TraitData.CustomName = false;
+                trait.Data.TraitData!.CustomName = false;
                 trait.Data.TraitData.CanBypassLimit = false;
                 trait.Data.Data.KarmaType = null;
                 trait.Data.TraitData.KarmaTypeForRemoving = null;
@@ -132,7 +132,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.Label(canvas.LeftHalf(), _removeCostText);
             Widgets.TextFieldNumeric(canvas.RightHalf(), ref _globalRemoveCost, ref buffer);
 
-            if (!SettingsHelper.DrawDoneButton(canvas.RightHalf()))
+            if (!UiHelper.DoneButton(canvas.RightHalf()))
             {
                 return;
             }
@@ -149,7 +149,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.Label(canvas.LeftHalf(), _addCostText);
             Widgets.TextFieldNumeric(canvas.RightHalf(), ref _globalAddCost, ref buffer);
 
-            if (!SettingsHelper.DrawDoneButton(canvas.RightHalf()))
+            if (!UiHelper.DoneButton(canvas.RightHalf()))
             {
                 return;
             }

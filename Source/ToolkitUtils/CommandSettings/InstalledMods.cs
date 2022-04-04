@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -29,11 +29,11 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".Localize(), ref TkSettings.DecorateMods);
-            listing.DrawDescription("TKUtils.DecorateUtils.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".TranslateSimple(), ref TkSettings.DecorateMods);
+            listing.DrawDescription("TKUtils.DecorateUtils.Description".TranslateSimple());
 
-            listing.CheckboxLabeled("TKUtils.VersionedModList.Label".Localize(), ref TkSettings.VersionedModList);
-            listing.DrawDescription("TKUtils.VersionedModList.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.VersionedModList.Label".TranslateSimple(), ref TkSettings.VersionedModList);
+            listing.DrawDescription("TKUtils.VersionedModList.Description".TranslateSimple());
 
             listing.End();
         }

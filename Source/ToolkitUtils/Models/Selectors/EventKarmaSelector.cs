@@ -21,9 +21,10 @@
 // SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
@@ -36,41 +37,35 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         private string _karmaLabel;
         private KarmaType _karmaType = KarmaType.Neutral;
+        private List<FloatMenuOption> _karmaTypes;
 
         public ObservableProperty<bool> Dirty { get; set; }
 
         public void Prepare()
         {
-            _karmaLabel = "TKUtils.Fields.KarmaType".TranslateSimple();
+            _karmaLabel = Label;
+            _karmaTypes = Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => SetKarma(i))).ToList();
         }
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _karmaLabel);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _karmaLabel);
 
             if (Widgets.ButtonText(field, _karmaType.ToString()))
             {
-                Find.WindowStack.Add(
-                    new FloatMenu(
-                        Data.KarmaTypes.Select(
-                                i => new FloatMenuOption(
-                                    i.ToString(),
-                                    () =>
-                                    {
-                                        _karmaType = i;
-                                        Dirty.Set(true);
-                                    }
-                                )
-                            )
-                           .ToList()
-                    )
-                );
+                Find.WindowStack.Add(new FloatMenu(_karmaTypes));
             }
         }
 
         public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.KarmaType == _karmaType;
 
         public string Label => "TKUtils.Fields.KarmaType".TranslateSimple();
+
+        private void SetKarma(KarmaType karma)
+        {
+            _karmaType = karma;
+            Dirty.Set(true);
+        }
     }
 }

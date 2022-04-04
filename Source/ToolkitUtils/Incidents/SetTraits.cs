@@ -106,21 +106,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             return true;
         }
 
-        private IEnumerable<TraitItem> FindTraits(Viewer viewer, [NotNull] params string[] traits)
-        {
-            foreach (string query in traits)
-            {
-                if (!Data.TryGetTrait(query, out TraitItem trait))
-                {
-                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(query));
-
-                    yield break;
-                }
-
-                yield return trait;
-            }
-        }
-
         [ContractAnnotation("=> true,traitEvents:notnull; => false,traitEvents:notnull")]
         private bool TryProcessTraits([NotNull] Pawn subject, [NotNull] IEnumerable<TraitItem> traits, out List<TraitEvent> traitEvents)
         {
@@ -137,11 +122,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                             if (!trait.CanRemove)
                             {
-                                return new TraitEvent
-                                {
-                                    Type = EventType.Noop,
-                                    Error = "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(trait.Name)
-                                };
+                                return new TraitEvent { Type = EventType.Noop, Error = "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(trait.Name) };
                             }
 
                             return !IsTraitRemovable(trait, out string error)
@@ -158,13 +139,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                         {
                             if (!t.CanAdd)
                             {
-                                return new TraitEvent
-                                {
-                                    Type = EventType.Noop, Error = "TKUtils.Trait.Disabled".LocalizeKeyed(t.Name)
-                                };
+                                return new TraitEvent { Type = EventType.Noop, Error = "TKUtils.Trait.Disabled".LocalizeKeyed(t.Name) };
                             }
 
-                            return !IsTraitAddable(t, out string error) ? new TraitEvent { Type = EventType.Noop, Error = error, Item = t } : new TraitEvent { Type = EventType.Add, Item = t };
+                            return !IsTraitAddable(t, out string error)
+                                ? new TraitEvent { Type = EventType.Noop, Error = error, Item = t }
+                                : new TraitEvent { Type = EventType.Add, Item = t };
                         }
                     )
             );
@@ -216,7 +196,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         [ContractAnnotation("=> false,error:notnull; => true,error:null")]
         private bool IsTraitRemovable(TraitItem trait, out string error)
         {
-            if (AlienRace.Enabled && AlienRace.IsTraitForced(_pawn, trait.DefName, trait.Degree))
+            if (AlienRace.Active && AlienRace.IsTraitForced(_pawn, trait.DefName, trait.Degree))
             {
                 error = "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name);
 
@@ -273,15 +253,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private enum EventType { Remove, Add, Noop }
 
-        private class TraitEvent
+        private sealed class TraitEvent
         {
             public string Error { get; set; }
             public EventType Type { get; set; }
             public TraitItem Item { get; set; }
             public Trait Trait { get; set; }
 
-            public bool ContributesToLimit =>
-                (Type == EventType.Noop || Type == EventType.Add) && Item.TraitData?.CanBypassLimit != true;
+            public bool ContributesToLimit => (Type == EventType.Noop || Type == EventType.Add) && Item.TraitData?.CanBypassLimit != true;
 
             public void Execute(Pawn pawn)
             {

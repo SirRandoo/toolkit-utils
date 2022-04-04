@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _priceText = "TKUtils.Fields.Price".TranslateSimple();
+            _priceText = Label;
             _valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".TranslateSimple();
             _percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".TranslateSimple();
         }
@@ -46,16 +46,15 @@ namespace SirRandoo.ToolkitUtils.Models
         public void Mutate([NotNull] TableSettingsItem<T> item)
         {
             item.Data.Cost = _percentage ? Mathf.CeilToInt(item.Data.Cost * (_price / 100f)) : _price;
-            ;
         }
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _priceText);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _priceText);
             Widgets.TextFieldNumeric(field, ref _price, ref _priceBuffer, _percentage ? -100f : 1f);
 
-            if (SettingsHelper.DrawFieldButton(field, _percentage ? "%" : "#", _percentage ? _percentTooltip : _valueTooltip))
+            if (UiHelper.FieldButton(field, _percentage ? '%' : '#', _percentage ? _percentTooltip : _valueTooltip))
             {
                 _percentage = !_percentage;
             }

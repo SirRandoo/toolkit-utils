@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using SirRandoo.ToolkitUtils.Attributes;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Interfaces
 {
+    [UsedImplicitlyInherited]
     public interface ISelectorBase<T> where T : class, IShopItemBase
     {
         ObservableProperty<bool> Dirty { get; set; }

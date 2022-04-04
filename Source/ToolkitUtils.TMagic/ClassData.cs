@@ -31,23 +31,10 @@ namespace SirRandoo.ToolkitUtils
     [StaticConstructorOnStartup]
     public static class ClassData
     {
-        private static readonly List<Class> Classes;
-        private static readonly Dictionary<TraitDef, List<Ability>> BaseClassPowers;
+        private static readonly Dictionary<TraitDef, List<Ability>> BaseClassPowers = GetBaseClassPowerList().ToDictionary(p => p.Item1, p => p.Item2);
+        [UsedImplicitly] private static readonly List<Class> Classes = GenerateClassTrees().ToList();
 
-        static ClassData()
-        {
-            BaseClassPowers = new Dictionary<TraitDef, List<Ability>>();
-
-            foreach ((TraitDef @class, List<Ability> powers) in GetBaseClassPowerList())
-            {
-                BaseClassPowers.Add(@class, powers);
-            }
-
-            Classes = new List<Class>(GenerateClassTrees());
-        }
-
-        [NotNull]
-        private static Tuple<TraitDef, List<Ability>> PowerPair(TraitDef trait, List<Ability> abilities) => new Tuple<TraitDef, List<Ability>>(trait, abilities);
+        [NotNull] private static Tuple<TraitDef, List<Ability>> PowerPair(TraitDef trait, List<Ability> abilities) => new Tuple<TraitDef, List<Ability>>(trait, abilities);
 
         [NotNull]
         [ItemNotNull]
@@ -102,7 +89,10 @@ namespace SirRandoo.ToolkitUtils
             list.AddRange(GetDruidPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_RegrowLimb)));
 
             list.AddRange(
-                GetNecromancerPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_RaiseUndead) || !IsAbility(p, TorannMagicDefOf.TM_LichForm) || !IsAbility(p, TorannMagicDefOf.TM_DeathBolt))
+                GetNecromancerPowers()
+                   .Where(
+                        p => !IsAbility(p, TorannMagicDefOf.TM_RaiseUndead) || !IsAbility(p, TorannMagicDefOf.TM_LichForm) || !IsAbility(p, TorannMagicDefOf.TM_DeathBolt)
+                    )
             );
 
             list.AddRange(GetPriestPowers().Where(p => !IsAbility(p, TorannMagicDefOf.TM_Resurrection)));
@@ -110,20 +100,16 @@ namespace SirRandoo.ToolkitUtils
             list.AddRange(
                 GetBardPowers()
                    .Where(
-                        p => !IsAbility(p, TorannMagicDefOf.TM_BardTraining)
-                             || !IsAbility(p, TorannMagicDefOf.TM_Inspire)
-                             || !IsAbility(p, TorannMagicDefOf.TM_Entertain)
-                             || !IsAbility(p, TorannMagicDefOf.TM_BattleHymn)
+                        p => !IsAbility(p, TorannMagicDefOf.TM_BardTraining) || !IsAbility(p, TorannMagicDefOf.TM_Inspire) || !IsAbility(p, TorannMagicDefOf.TM_Entertain)
+                            || !IsAbility(p, TorannMagicDefOf.TM_BattleHymn)
                     )
             );
 
             list.AddRange(
                 GetWarlockPowers()
                    .Where(
-                        p => !IsAbility(p, TorannMagicDefOf.TM_SoulBond)
-                             || !IsAbility(p, TorannMagicDefOf.TM_ShadowBolt)
-                             || !IsAbility(p, TorannMagicDefOf.TM_Dominate)
-                             || !IsAbility(p, TorannMagicDefOf.TM_Scorn)
+                        p => !IsAbility(p, TorannMagicDefOf.TM_SoulBond) || !IsAbility(p, TorannMagicDefOf.TM_ShadowBolt) || !IsAbility(p, TorannMagicDefOf.TM_Dominate)
+                            || !IsAbility(p, TorannMagicDefOf.TM_Scorn)
                     )
             );
 

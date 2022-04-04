@@ -177,7 +177,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (AlienRace.Enabled && AlienRace.IsTraitForced(_pawn, _thisShop!.DefName, _thisShop.Degree))
+            if (AlienRace.Active && AlienRace.IsTraitForced(_pawn, _thisShop!.DefName, _thisShop.Degree))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, _thisShop.Name));
 

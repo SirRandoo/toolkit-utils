@@ -35,9 +35,11 @@ namespace SirRandoo.ToolkitUtils.Commands
         }
 
         [NotNull]
-        private static string FormatMod([NotNull] ModItem mod) => mod.Version.NullOrEmpty() && !TkSettings.VersionedModList ? DecorateMod(mod) : $"{DecorateMod(mod)} (v{mod.Version})";
+        private static string FormatMod([NotNull] ModItem mod) =>
+            mod.Version.NullOrEmpty() && !TkSettings.VersionedModList ? DecorateMod(mod) : $"{DecorateMod(mod)} (v{mod.Version})";
 
-        private static string DecorateMod([NotNull] ModItem mod) =>
-            !TkSettings.DecorateMods || !mod.Author.Equals("sirrandoo", StringComparison.InvariantCultureIgnoreCase) ? mod.Name : $"{"★".AltText("*")}{mod.Name}";
+        private static string DecorateMod([NotNull] ModItem mod) => !TkSettings.DecorateMods || !mod.Author.Equals("sirrandoo", StringComparison.InvariantCultureIgnoreCase)
+            ? mod.Name
+            : $"{"★".AltText("*")}{mod.Name}";
     }
 }

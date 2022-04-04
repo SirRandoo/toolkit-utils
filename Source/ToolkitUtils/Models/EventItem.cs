@@ -75,12 +75,9 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [DataMember(Name = "hasSettings")]
-        public bool HasSettings => (Variables?.customSettings ?? false) && Variables?.customSettingsHelper != null;
+        [DataMember(Name = "hasSettings")] public bool HasSettings => (Variables?.customSettings ?? false) && Variables?.customSettingsHelper != null;
 
-        [IgnoreDataMember]
-        public bool HasSettingsEmbed =>
-            _settingsEmbed != null || Variables?.GetModExtension<EventExtension>()?.SettingsEmbed != null;
+        [IgnoreDataMember] public bool HasSettingsEmbed => _settingsEmbed != null || Variables?.GetModExtension<EventExtension>()?.SettingsEmbed != null;
 
         [IgnoreDataMember]
         public IncidentHelperVariablesSettings Settings
@@ -147,8 +144,7 @@ namespace SirRandoo.ToolkitUtils.Models
             set => Variables!.maxWager = value;
         }
 
-        [DataMember(Name = "hasFixedCost")]
-        public bool CostEditable => EventType == EventTypes.Default || EventType == EventTypes.Variable;
+        [DataMember(Name = "hasFixedCost")] public bool CostEditable => EventType == EventTypes.Default || EventType == EventTypes.Variable;
 
         [DataMember(Name = "eventType")] public EventTypes EventType { get; set; } = EventTypes.Default;
 
@@ -161,11 +157,23 @@ namespace SirRandoo.ToolkitUtils.Models
 
         [IgnoreDataMember] public IShopDataBase Data { get; set; }
 
-        public void ResetName() { }
+        public void ResetName()
+        {
+            // Events should not be reset from here.
+            // This method only exists due to the interface it implements.
+        }
 
-        public void ResetPrice() { }
+        public void ResetPrice()
+        {
+            // Events should not be reset from here.
+            // This method only exists due to the interface it implements.
+        }
 
-        public void ResetData() { }
+        public void ResetData()
+        {
+            // Events should not be reset from here.
+            // This method only exists due to the interface it implements.
+        }
 
         [DataMember(Name = "defName")]
         public string DefName
@@ -193,17 +201,15 @@ namespace SirRandoo.ToolkitUtils.Models
         public string GetDefaultAbbreviation()
         {
             return (IsVariables ? Store_IncidentEditor.variableIncidentsBackup : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident)i))
-                  .FirstOrDefault(i => i.defName.Equals(DefName))
-                 ?.abbreviation
-                   ?? Name;
+               .FirstOrDefault(i => i.defName.Equals(DefName))
+              ?.abbreviation ?? Name;
         }
 
         private int GetDefaultPrice()
         {
             return (IsVariables ? Store_IncidentEditor.variableIncidentsBackup : Store_IncidentEditor.simpleIncidentsBackup.Select(i => (StoreIncident)i))
-                  .FirstOrDefault(i => i.defName.Equals(DefName))
-                 ?.cost
-                   ?? 50;
+               .FirstOrDefault(i => i.defName.Equals(DefName))
+              ?.cost ?? 50;
         }
     }
 }

@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -55,7 +56,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (apparel != null && apparel.Any())
                 {
-                    cache = apparel.Where(a => a.def.apparel.CoversBodyPart(part)).Select(a => Mathf.Clamp01(a.GetStatValue(stat) / 2f)).Aggregate(cache, (current, v) => current * (1f - v));
+                    cache = apparel.Where(a => a.def.apparel.CoversBodyPart(part))
+                       .Select(a => Mathf.Clamp01(a.GetStatValue(stat) / 2f))
+                       .Aggregate(cache, (current, v) => current * (1f - v));
                 }
 
                 rating += part.coverageAbs * (1f - cache);
@@ -96,7 +99,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             List<Apparel> apparel = a.WornApparel;
-            parts.Add($"{"Apparel".Localize()}: {apparel.Select(item => Unrichify.StripTags(item.LabelCap)).SectionJoin()}");
+            parts.Add($"{"Apparel".Localize()}: {apparel.Select(item => RichTextHelper.StripTags(item.LabelCap)).SectionJoin()}");
 
             return !parts.Any() ? "None".Localize() : parts.GroupedJoin();
         }
@@ -120,7 +123,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (e?.AllEquipmentListForReading?.Count > 0)
                 {
-                    IEnumerable<string> equip = e.AllEquipmentListForReading.Select(eq => Unrichify.StripTags(eq.LabelCap));
+                    IEnumerable<string> equip = e.AllEquipmentListForReading.Select(eq => RichTextHelper.StripTags(eq.LabelCap));
 
                     weapons.AddRange(equip);
                 }
@@ -147,7 +150,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         private static void GetSidearmData(
             [NotNull] ICollection<Thing> sidearms,
             int equipmentCount,
-            IReadOnlyCollection<ThingWithComps> equipment,
+            List<ThingWithComps> equipment,
             IList<string> weapons,
             IReadOnlyCollection<Thing> inventory,
             ICollection<Thing> usedInventory
@@ -178,7 +181,13 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private static void GetSidearms(ICollection<Thing> sidearms, ICollection<string> weapons, [NotNull] IEnumerable<Thing> inventory, ICollection<Thing> usedInventory, Thing sidearm)
+        private static void GetSidearms(
+            ICollection<Thing> sidearms,
+            ICollection<string> weapons,
+            [NotNull] IEnumerable<Thing> inventory,
+            ICollection<Thing> usedInventory,
+            Thing sidearm
+        )
         {
             foreach (Thing thing in inventory.Where(thing => sidearm.def.defName.Equals(thing.def.defName)))
             {
@@ -187,7 +196,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     continue;
                 }
 
-                weapons.Add(Unrichify.StripTags(thing.LabelCap));
+                weapons.Add(RichTextHelper.StripTags(thing.LabelCap));
                 usedInventory.Add(thing);
                 sidearms.Remove(sidearm);
 
@@ -195,16 +204,18 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
         }
 
-        private static bool GetEquipmentFromSidearmData([NotNull] IEnumerable<ThingWithComps> equipment, IList<string> weapons, Thing sidearm)
+        private static bool GetEquipmentFromSidearmData([NotNull] List<ThingWithComps> equipment, IList<string> weapons, Thing sidearm)
         {
-            foreach (ThingWithComps equip in equipment.Where(equip => sidearm.def.defName.Equals(equip.def.defName)))
-            {
-                weapons.Insert(0, Unrichify.StripTags(equip.LabelCap));
+            ThingWithComps equip = equipment.Find(e => string.Equals(sidearm.def.defName, e.def.defName));
 
-                return true;
+            if (equip == null)
+            {
+                return false;
             }
 
-            return false;
+            weapons.Insert(0, RichTextHelper.StripTags(equip.LabelCap));
+
+            return true;
         }
 
         private static void GetArmorValues([NotNull] Pawn pawn, ICollection<string> parts)

@@ -25,11 +25,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
     [StaticConstructorOnStartup]
     public static class Translator
     {
-        private static readonly ConcurrentDictionary<string, string> TranslationProxy;
+        private static readonly ConcurrentDictionary<string, string> TranslationProxy = new ConcurrentDictionary<string, string>();
 
         static Translator()
         {
-            TranslationProxy = new ConcurrentDictionary<string, string>();
             CopyKeys();
         }
 
@@ -65,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             builder.Insert(0, "Could not copy the following translations:");
             builder.AppendLine();
             builder.AppendLine("You may experience translation errors!");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         public static string Localize([NotNull] this string key) => TranslationProxy.TryGetValue(key, out string value) ? value : key;

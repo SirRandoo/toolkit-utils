@@ -44,6 +44,10 @@ namespace SirRandoo.ToolkitUtils.Models
             set => throw new ReadOnlyException();
         }
 
-        public void Reset() { }
+        public void Reset()
+        {
+            // Events should not be reset from here.
+            // This method only exists because of the interface it implements.
+        }
     }
 }

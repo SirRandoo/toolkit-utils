@@ -35,7 +35,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder().Where(p => !p.Dead))
             {
-                if (IncidentSettings.HealAll.FairFights && pawn.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
+                if (IncidentSettings.HealAll.FairFights && pawn.mindState.lastAttackTargetTick > 0
+                    && Find.TickManager.TicksGame < pawn.mindState.lastAttackTargetTick + 1800)
                 {
                     continue;
                 }

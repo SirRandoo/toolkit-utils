@@ -21,7 +21,6 @@ using System.Text;
 using System.Threading;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -39,39 +38,24 @@ namespace SirRandoo.ToolkitUtils
     {
         static RuntimeChecker()
         {
-            TkSettings.ValidateDynamicSettings();
             TkUtils.Context ??= SynchronizationContext.Current;
 
-            FieldInfo tickerField = AccessTools.Field(typeof(TwitchToolkit.TwitchToolkit), "ticker");
-
-            if (tickerField.GetValue(Toolkit.Mod) is Ticker ticker)
-            {
-                try
-                {
-                    (AccessTools.Field(typeof(Ticker), "_registerThread").GetValue(ticker) as Thread)?.Interrupt();
-
-                    LogHelper.Warn(
-                        new StringBuilder().Append("Successfully lanced Twitch Toolkit's ticker.\n")
-                           .Append("A message from RimWorld about discarding an unnamed def can be safely ignored.\n")
-                           .Append("An exception about aborting a thread can be safely ignored.")
-                           .ToString()
-                    );
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Error("Could not abort Toolkit's ticker thread", e);
-                }
-
-                ticker.timer?.Change(0, 0);
-                ticker.Discard(true);
-                tickerField.SetValue(Toolkit.Mod, null);
-            }
-
+            TkSettings.ValidateDynamicSettings();
+            TryLanceTicker();
+            ValidateExpandedEvents();
+        }
+        private static void ValidateExpandedEvents()
+        {
             var wereChanges = false;
+
+            // TODO: Check to see if this fixes the issue described below.
+            Store_IncidentEditor.LoadCopies();
 
             // We're not going to update this to use EventExtension
             // since it appears to wipe previous settings.
-            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs.Where(i => i.defName == "BuyPawn" || i.defName == "AddTrait" || i.defName == "RemoveTrait"))
+            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs.Where(
+                i => i.defName == "BuyPawn" || i.defName == "AddTrait" || i.defName == "RemoveTrait"
+            ))
             {
                 if (incident.cost <= 1)
                 {
@@ -86,6 +70,38 @@ namespace SirRandoo.ToolkitUtils
             {
                 Store_IncidentEditor.UpdatePriceSheet();
             }
+        }
+
+        private static void TryLanceTicker()
+        {
+            FieldInfo tickerField = AccessTools.Field(typeof(TwitchToolkit.TwitchToolkit), "ticker");
+
+            if (!(tickerField.GetValue(Toolkit.Mod) is Ticker ticker))
+            {
+                TkUtils.Logger.Warn($"Could not lance Toolkit's ticker; it was an unexpected value of {tickerField.GetValue(Toolkit.Mod).GetType().FullDescription()}");
+
+                return;
+            }
+
+            try
+            {
+                (AccessTools.Field(typeof(Ticker), "_registerThread").GetValue(ticker) as Thread)?.Interrupt();
+
+                TkUtils.Logger.Warn(
+                    new StringBuilder().Append("Successfully lanced Twitch Toolkit's ticker.\n")
+                       .Append("A message from RimWorld about discarding an unnamed def can be safely ignored.\n")
+                       .Append("An exception about aborting a thread can be safely ignored.")
+                       .ToString()
+                );
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Could not abort Toolkit's ticker thread", e);
+            }
+
+            ticker.timer?.Change(0, 0);
+            ticker.Discard(true);
+            tickerField.SetValue(Toolkit.Mod, null);
         }
 
         internal static void Execute(string command, [NotNull] Action func)

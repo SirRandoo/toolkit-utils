@@ -63,11 +63,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             _pawn.story.hairDef = PawnStyleItemChooser.RandomHairFor(_pawn);
 
             _pawn.story.bodyType = _pawn.story.adulthood == null
-                ? Rand.Value >= 0.5
-                    ? _pawn.gender != Gender.Female
-                        ? BodyTypeDefOf.Male
-                        : BodyTypeDefOf.Female
-                    : BodyTypeDefOf.Thin
+                ? RandomBodyType(_pawn)
                 : _pawn.story.adulthood.BodyTypeFor(_pawn.gender);
 
             Viewer.Charge(storeIncident);
@@ -80,6 +76,24 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 LetterDefOf.NeutralEvent,
                 _pawn
             );
+        }
+
+        private static BodyTypeDef BodyTypeForGender(Gender gender)
+        {
+            switch (gender)
+            {
+                case Gender.Female:
+                    return BodyTypeDefOf.Female;
+                case Gender.Male:
+                    return BodyTypeDefOf.Male;
+                default:
+                    return BodyTypeDefOf.Thin;
+            }
+        }
+
+        private static BodyTypeDef RandomBodyType(Pawn pawn)
+        {
+            return Rand.Value >= 0.5 ? BodyTypeForGender(pawn.gender) : BodyTypeDefOf.Thin;
         }
     }
 }

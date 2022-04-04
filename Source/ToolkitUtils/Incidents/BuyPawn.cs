@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!CellFinder.TryFindRandomEdgeCellWith(p => _map.reachability.CanReachColony(p) && !p.Fogged(_map), _map, CellFinder.EdgeRoadChance_Neutral, out _loc))
             {
-                LogHelper.Warn("No reachable location to spawn a viewer pawn!");
+                TkUtils.Logger.Warn("No reachable location to spawn a viewer pawn!");
 
                 return false;
             }
@@ -106,7 +106,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 if (!(pawn.Name is NameTriple name))
                 {
-                    LogHelper.Warn("Pawn name is not a name triple!");
+                    TkUtils.Logger.Warn("Pawn name is not a name triple!");
 
                     return;
                 }
@@ -130,7 +130,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                LogHelper.Error("Could not execute buy pawn", e);
+                TkUtils.Logger.Error("Could not execute buy pawn", e);
             }
         }
 
@@ -167,7 +167,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (randomKind == null)
             {
-                LogHelper.Warn("Could not get next enabled race!");
+                TkUtils.Logger.Warn("Could not get next enabled race!");
 
                 return;
             }

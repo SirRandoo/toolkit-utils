@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -41,7 +42,8 @@ namespace SirRandoo.ToolkitUtils.Commands
             twitchMessage.Reply(GetPawnBody(pawn!).WithHeader("HealthOverview".Localize()));
         }
 
-        private static float GetListPriority([CanBeNull] BodyPartRecord record) => record == null ? 9999999f : (float)record.height * 10000 + record.coverageAbsWithChildren;
+        private static float GetListPriority([CanBeNull] BodyPartRecord record) =>
+            record == null ? 9999999f : (float)record.height * 10000 + record.coverageAbsWithChildren;
 
         private static string GetPawnBody([NotNull] Pawn target)
         {
@@ -78,7 +80,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     Hediff affliction = group.First();
 
-                    if (group.Count(i => i.Bleeding) > 0)
+                    if (group.Any(i => i.Bleeding))
                     {
                         if (TkSettings.Emojis)
                         {
@@ -98,7 +100,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         builder.Append(ResponseHelper.BandageGlyph.AltText(""));
                     }
 
-                    builder.Append(Unrichify.StripTags(affliction.LabelCap));
+                    builder.Append(RichTextHelper.StripTags(affliction.LabelCap));
                     int gTotal = group.Count();
 
                     if (gTotal != 1)

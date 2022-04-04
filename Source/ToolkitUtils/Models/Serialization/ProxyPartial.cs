@@ -27,10 +27,25 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "price")] public int Cost { get; set; }
         [IgnoreDataMember] public IShopDataBase Data { get; set; }
 
-        public void ResetName() { }
+        public void ResetName()
+        {
+            // Partials can't be reset.
+            // This method exists solely because of the interface it implements.
+            // You should not call this on proxies.
+        }
 
-        public void ResetPrice() { }
+        public void ResetPrice()
+        {
+            // Partials can't be reset.
+            // This method exists solely because of the interface it implements.
+            // You should not call this on proxies.
+        }
 
-        public void ResetData() { }
+        public void ResetData()
+        {
+            // Partials can't be reset.
+            // This method exists solely because of the interface it implements.
+            // You should not call this on proxies.
+        }
     }
 }

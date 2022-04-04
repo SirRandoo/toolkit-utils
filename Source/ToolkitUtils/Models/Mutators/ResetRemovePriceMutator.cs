@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -31,12 +31,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _resetPriceText = "TKUtils.EditorMutator.ResetRemovePrice".TranslateSimple();
+            _resetPriceText = Label;
         }
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.DrawColoredLabel(canvas, _resetPriceText, new Color(1f, 0.53f, 0.76f));
+            UiHelper.Label(canvas, _resetPriceText, new Color(1f, 0.53f, 0.76f));
         }
 
         public void Mutate([NotNull] TableSettingsItem<TraitItem> item)

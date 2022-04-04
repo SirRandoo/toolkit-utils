@@ -48,18 +48,9 @@ namespace SirRandoo.ToolkitUtils.Commands
             { "abilities", Category.TMagic }
         };
 
-        private static readonly List<StatDef> WeaponStats = new List<StatDef>
-        {
-            StatDefOf.AccuracyLong,
-            StatDefOf.AccuracyMedium,
-            StatDefOf.AccuracyShort
-        };
+        private static readonly List<StatDef> WeaponStats = new List<StatDef> { StatDefOf.AccuracyLong, StatDefOf.AccuracyMedium, StatDefOf.AccuracyShort };
 
-        private static readonly List<StatDef> RangedWeaponStats = new List<StatDef>
-        {
-            StatDefOf.RangedWeapon_Cooldown,
-            StatDefOf.RangedWeapon_DamageMultiplier
-        };
+        private static readonly List<StatDef> RangedWeaponStats = new List<StatDef> { StatDefOf.RangedWeapon_Cooldown, StatDefOf.RangedWeapon_DamageMultiplier };
 
         private static readonly List<StatDef> MeleeWeaponStats = new List<StatDef>
         {

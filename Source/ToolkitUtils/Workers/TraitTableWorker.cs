@@ -18,8 +18,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CommonLib.Enums;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
@@ -61,13 +64,21 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public override void DrawHeaders(Rect canvas)
         {
-            if (SettingsHelper.DrawTableHeader(_addStateHeaderRect, _addStateHeaderInnerRect, _addStateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+            if (SettingsHelper.DrawTableHeader(
+                _addStateHeaderRect,
+                _addStateHeaderInnerRect,
+                _addStateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
+            ))
             {
                 _addStateKey = _addStateKey == StateKey.Enable ? StateKey.Disable : StateKey.Enable;
                 NotifyGlobalAddStateChanged(_addStateKey);
             }
 
-            if (SettingsHelper.DrawTableHeader(_removeStateHeaderRect, _removeStateHeaderInnerRect, _removeStateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+            if (SettingsHelper.DrawTableHeader(
+                _removeStateHeaderRect,
+                _removeStateHeaderInnerRect,
+                _removeStateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
+            ))
             {
                 _removeStateKey = _removeStateKey == StateKey.Enable ? StateKey.Disable : StateKey.Enable;
                 NotifyGlobalRemoveStateChanged(_removeStateKey);
@@ -88,15 +99,15 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (_sortKey)
             {
                 case SortKey.Name:
-                    SettingsHelper.DrawSortIndicator(NameHeaderRect, _sortOrder);
+                    UiHelper.SortIndicator(NameHeaderRect, _sortOrder);
 
                     return;
                 case SortKey.AddPrice:
-                    SettingsHelper.DrawSortIndicator(AddPriceHeaderRect, _sortOrder);
+                    UiHelper.SortIndicator(AddPriceHeaderRect, _sortOrder);
 
                     return;
                 case SortKey.RemovePrice:
-                    SettingsHelper.DrawSortIndicator(RemovePriceHeaderRect, _sortOrder);
+                    UiHelper.SortIndicator(RemovePriceHeaderRect, _sortOrder);
 
                     return;
                 default:
@@ -188,7 +199,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     RowLineHeight * (trait.SettingsVisible ? ExpandedLineSpan + 1f : 1f)
                 );
 
-                if (!lineRect.IsRegionVisible(canvas, _scrollPos))
+                if (!lineRect.IsVisible(canvas, _scrollPos))
                 {
                     index++;
                     alternate = !alternate;
@@ -225,18 +236,16 @@ namespace SirRandoo.ToolkitUtils.Workers
         {
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
-            Rect addCheckRect = SettingsHelper.RectForIcon(new Rect(_addStateHeaderRect.x + 2f, canvas.y + 2f, _addStateHeaderRect.width - 4f, RowLineHeight - 4f));
+            Rect addCheckRect = LayoutHelper.IconRect(_addStateHeaderRect.x + 2f, canvas.y + 2f, _addStateHeaderRect.width - 4f, RowLineHeight - 4f);
             var addPriceRect = new Rect(AddPriceHeaderTextRect.x, canvas.y, AddPriceHeaderTextRect.width, RowLineHeight);
-            Rect removeCheckRect = SettingsHelper.RectForIcon(new Rect(_removeStateHeaderRect.x + 2f, canvas.y + 2f, _removeStateHeaderRect.width - 4f, RowLineHeight - 4f));
+            Rect removeCheckRect = LayoutHelper.IconRect(_removeStateHeaderRect.x + 2f, canvas.y + 2f, _removeStateHeaderRect.width - 4f, RowLineHeight - 4f);
             var removePriceRect = new Rect(RemovePriceHeaderTextRect.x, canvas.y, RemovePriceHeaderTextRect.width, RowLineHeight);
 
-            Rect settingRect = SettingsHelper.RectForIcon(
-                new Rect(
-                    _expandedHeaderRect.x + 2f,
-                    canvas.y + Mathf.FloorToInt(Mathf.Abs(_expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
-                    _expandedHeaderRect.width - 4f,
-                    _expandedHeaderRect.width - 4f
-                )
+            Rect settingRect = LayoutHelper.IconRect(
+                _expandedHeaderRect.x + 2f,
+                canvas.y + Mathf.FloorToInt(Mathf.Abs(_expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
+                _expandedHeaderRect.width - 4f,
+                _expandedHeaderRect.width - 4f
             );
 
             DrawConfigurableTraitName(nameRect, trait);
@@ -281,7 +290,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            var expandedRect = new Rect(NameHeaderRect.x + 10f, canvas.y + RowLineHeight + 10f, canvas.width - settingRect.width * 2f - 20f, canvas.height - RowLineHeight - 20f);
+            var expandedRect = new Rect(
+                NameHeaderRect.x + 10f,
+                canvas.y + RowLineHeight + 10f,
+                canvas.width - settingRect.width * 2f - 20f,
+                canvas.height - RowLineHeight - 20f
+            );
 
             GUI.BeginGroup(expandedRect);
             DrawExpandedSettings(expandedRect.AtZero(), trait);
@@ -294,13 +308,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 var fieldRect = new Rect(canvas.x, canvas.y, canvas.width - canvas.height, canvas.height);
 
-                if (SettingsHelper.DrawTextField(fieldRect, trait.Data.Name, out string result))
+                if (UiHelper.TextField(fieldRect, trait.Data.Name, out string result))
                 {
                     trait.Data.Name = result.ToToolkit();
-                    trait.Data.TraitData.CustomName = true;
+                    trait.Data.TraitData!.CustomName = true;
                 }
 
-                if (trait.Data.TraitData.CustomName && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, _resetTraitNameTooltip))
+                if (trait.Data.TraitData!.CustomName && UiHelper.FieldButton(fieldRect, Textures.Reset, _resetTraitNameTooltip))
                 {
                     trait.Data.TraitData.CustomName = false;
                     trait.Data.Name = trait.Data.GetDefaultName();
@@ -308,12 +322,16 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
             else
             {
-                SettingsHelper.DrawLabel(canvas, trait.Data.Name);
+                UiHelper.Label(canvas, trait.Data.Name);
             }
 
             GUI.color = new Color(1f, 1f, 1f, 0.7f);
 
-            if (SettingsHelper.DrawFieldButton(canvas, trait.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, trait.EditingName ? _closeTraitNameTooltip : _editTraitNameTooltip))
+            if (UiHelper.FieldButton(
+                canvas,
+                trait.EditingName ? Widgets.CheckboxOffTex : Textures.Edit,
+                trait.EditingName ? _closeTraitNameTooltip : _editTraitNameTooltip
+            ))
             {
                 trait.EditingName = !trait.EditingName;
             }
@@ -329,7 +347,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             InternalData.AddRange(ToolkitUtils.Data.Traits.OrderBy(i => i.Name).Select(i => new TableSettingsItem<TraitItem> { Data = i }));
         }
 
-        private void DrawExpandedSettings(Rect canvas, TableSettingsItem<TraitItem> trait)
+        private void DrawExpandedSettings(Rect canvas, [NotNull] TableSettingsItem<TraitItem> trait)
         {
             float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 26f;
             var leftColumnRect = new Rect(canvas.x, canvas.y, columnWidth, canvas.height);
@@ -346,40 +364,47 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<TraitItem> trait)
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] ITableItem<TraitItem> trait)
         {
-            (Rect addKarmaLabel, Rect addKarmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm();
-            SettingsHelper.DrawLabel(addKarmaLabel, _addKarmaTypeText);
+            (Rect addKarmaLabel, Rect addKarmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).Split();
+            UiHelper.Label(addKarmaLabel, _addKarmaTypeText);
 
             if (Widgets.ButtonText(addKarmaField, trait.Data.Data.KarmaType == null ? _defaultKarmaTypeText : trait.Data.Data.KarmaType.ToString()))
             {
-                Find.WindowStack.Add(new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.Data.KarmaType = i)).ToList()));
+                Find.WindowStack.Add(
+                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.Data.KarmaType = i)).ToList())
+                );
             }
 
-            if (trait.Data.Data.KarmaType != null && SettingsHelper.DrawFieldButton(addKarmaLabel, Textures.Reset, _resetTraitKarmaTooltip))
+            if (trait.Data.Data.KarmaType != null && UiHelper.FieldButton(addKarmaLabel, Textures.Reset, _resetTraitKarmaTooltip))
             {
                 trait.Data.Data.KarmaType = null;
             }
 
-            (Rect removeKarmaLabel, Rect removeKarmaField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).ToForm();
-            SettingsHelper.DrawLabel(removeKarmaLabel, _removeKarmaTypeText);
+            (Rect removeKarmaLabel, Rect removeKarmaField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).Split();
+            UiHelper.Label(removeKarmaLabel, _removeKarmaTypeText);
 
-            if (Widgets.ButtonText(removeKarmaField, trait.Data.TraitData.KarmaTypeForRemoving == null ? _defaultKarmaTypeText : trait.Data.TraitData.KarmaTypeForRemoving.ToString()))
+            if (Widgets.ButtonText(
+                removeKarmaField,
+                trait.Data.TraitData!.KarmaTypeForRemoving == null ? _defaultKarmaTypeText : trait.Data.TraitData.KarmaTypeForRemoving.ToString()
+            ))
             {
-                Find.WindowStack.Add(new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.TraitData.KarmaTypeForRemoving = i)).ToList()));
+                Find.WindowStack.Add(
+                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.TraitData.KarmaTypeForRemoving = i)).ToList())
+                );
             }
 
-            if (trait.Data.TraitData.KarmaTypeForRemoving != null && SettingsHelper.DrawFieldButton(removeKarmaLabel, Textures.Reset, _resetTraitKarmaTooltip))
+            if (trait.Data.TraitData.KarmaTypeForRemoving != null && UiHelper.FieldButton(removeKarmaLabel, Textures.Reset, _resetTraitKarmaTooltip))
             {
                 trait.Data.TraitData.KarmaTypeForRemoving = null;
             }
         }
 
-        private void DrawRightExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<TraitItem> trait)
+        private void DrawRightExpandedSettingsColumn(Rect canvas, [NotNull] ITableItem<TraitItem> trait)
         {
-            bool proxy = trait.Data.TraitData.CanBypassLimit;
+            bool proxy = trait.Data.TraitData!.CanBypassLimit;
 
-            if (SettingsHelper.LabeledPaintableCheckbox(new Rect(0f, 0f, canvas.width, RowLineHeight), _bypassLimitText, ref proxy))
+            if (UiHelper.LabeledPaintableCheckbox(new Rect(0f, 0f, canvas.width, RowLineHeight), _bypassLimitText, ref proxy))
             {
                 trait.Data.TraitData.CanBypassLimit = proxy;
             }
@@ -399,7 +424,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             foreach (TraitItem item in ToolkitUtils.Data.Traits.Select(item => new { item, existing = InternalData.Find(i => i.Data.Equals(item)) })
                .Where(t => t.existing == null)
-               .Select(t => t.item))
+               .Select(t => t!.item))
             {
                 InternalData.Add(new TableSettingsItem<TraitItem> { Data = item });
                 wasDirty = true;
@@ -413,19 +438,19 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void LoadTranslations()
         {
-            _nameHeaderText = "TKUtils.Headers.Name".Localize();
-            _addPriceHeaderText = "TKUtils.Headers.AddPrice".Localize();
-            _removePriceHeaderText = "TKUtils.Headers.RemovePrice".Localize();
+            _nameHeaderText = "TKUtils.Headers.Name".TranslateSimple();
+            _addPriceHeaderText = "TKUtils.Headers.AddPrice".TranslateSimple();
+            _removePriceHeaderText = "TKUtils.Headers.RemovePrice".TranslateSimple();
 
-            _bypassLimitText = "TKUtils.Fields.BypassTraitLimit".Localize();
-            _defaultKarmaTypeText = "TKUtils.Fields.DefaultKarmaType".Localize();
-            _addKarmaTypeText = "TKUtils.Fields.AddKarmaType".Localize();
-            _removeKarmaTypeText = "TKUtils.Fields.RemoveKarmaType".Localize();
+            _bypassLimitText = "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
+            _defaultKarmaTypeText = "TKUtils.Fields.DefaultKarmaType".TranslateSimple();
+            _addKarmaTypeText = "TKUtils.Fields.AddKarmaType".TranslateSimple();
+            _removeKarmaTypeText = "TKUtils.Fields.RemoveKarmaType".TranslateSimple();
 
-            _editTraitNameTooltip = "TKUtils.TraitTableTooltips.EditTraitName".Localize();
-            _closeTraitNameTooltip = "TKUtils.TraitTableTooltips.CloseTraitName".Localize();
-            _resetTraitNameTooltip = "TKUtils.TraitTableTooltips.ResetTraitName".Localize();
-            _resetTraitKarmaTooltip = "TKUtils.TraitTableTooltips.ResetTraitKarma".Localize();
+            _editTraitNameTooltip = "TKUtils.TraitTableTooltips.EditTraitName".TranslateSimple();
+            _closeTraitNameTooltip = "TKUtils.TraitTableTooltips.CloseTraitName".TranslateSimple();
+            _resetTraitNameTooltip = "TKUtils.TraitTableTooltips.ResetTraitName".TranslateSimple();
+            _resetTraitKarmaTooltip = "TKUtils.TraitTableTooltips.ResetTraitKarma".TranslateSimple();
         }
 
         public override void NotifySortRequested()

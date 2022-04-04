@@ -17,8 +17,9 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
 using TwitchToolkit;
@@ -61,8 +62,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         protected override float Margin => 0f;
 
-        public override Vector2 InitialSize =>
-            new Vector2(_maximized ? UI.screenWidth : Mathf.Min(UI.screenWidth, 800f), _maximized ? UI.screenHeight : Mathf.FloorToInt(UI.screenHeight * 0.8f));
+        public override Vector2 InitialSize => new Vector2(
+            _maximized ? UI.screenWidth : Mathf.Min(UI.screenWidth, 800f),
+            _maximized ? UI.screenHeight : Mathf.FloorToInt(UI.screenHeight * 0.8f)
+        );
 
         public override void PreOpen()
         {
@@ -80,32 +83,20 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void FetchTranslations()
         {
-            _importPartialTooltip = "TKUtils.EditorTooltips.ImportPartial".Localize();
-            _exportPartialTooltip = "TKUtils.EditorTooltips.ExportPartial".Localize();
-            _helpTooltip = "TKUtils.EditorTooltips.GetHelp".Localize();
+            _importPartialTooltip = "TKUtils.EditorTooltips.ImportPartial".TranslateSimple();
+            _exportPartialTooltip = "TKUtils.EditorTooltips.ExportPartial".TranslateSimple();
+            _helpTooltip = "TKUtils.EditorTooltips.GetHelp".TranslateSimple();
         }
 
         private void InitializeTabs()
         {
-            _itemTab ??= new TabItem
-            {
-                Label = "TKUtils.EditorTabs.Items".Localize(), ContentDrawer = rect => _itemWorker.Draw()
-            };
+            _itemTab ??= new TabItem { Label = "TKUtils.EditorTabs.Items".TranslateSimple(), ContentDrawer = rect => _itemWorker.Draw() };
 
-            _pawnTab ??= new TabItem
-            {
-                Label = "TKUtils.EditorTabs.PawnKinds".Localize(), ContentDrawer = rect => _pawnWorker.Draw()
-            };
+            _pawnTab ??= new TabItem { Label = "TKUtils.EditorTabs.PawnKinds".TranslateSimple(), ContentDrawer = rect => _pawnWorker.Draw() };
 
-            _eventTab ??= new TabItem
-            {
-                Label = "TKUtils.EditorTabs.Events".Localize(), ContentDrawer = rect => _eventWorker.Draw()
-            };
+            _eventTab ??= new TabItem { Label = "TKUtils.EditorTabs.Events".TranslateSimple(), ContentDrawer = rect => _eventWorker.Draw() };
 
-            _traitTab ??= new TabItem
-            {
-                Label = "TKUtils.EditorTabs.Traits".Localize(), ContentDrawer = rect => _traitWorker.Draw()
-            };
+            _traitTab ??= new TabItem { Label = "TKUtils.EditorTabs.Traits".TranslateSimple(), ContentDrawer = rect => _traitWorker.Draw() };
 
 
             _tabWorker.AddTab(_itemTab);
@@ -152,7 +143,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 Close();
             }
 
-            butRect = butRect.ShiftLeft();
+            butRect = butRect.Shift(Direction8Way.West);
 
             if (Widgets.ButtonImage(butRect, _maximized ? Textures.RestoreWindow : Textures.MaximizeWindow))
             {
@@ -160,7 +151,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 SetInitialSizeAndPosition();
             }
 
-            butRect = butRect.ShiftLeft();
+            butRect = butRect.Shift(Direction8Way.West);
 
             if (Widgets.ButtonImage(butRect, Textures.QuestionMark))
             {
@@ -169,7 +160,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             butRect.TipRegion(_helpTooltip);
 
-            butRect = butRect.ShiftLeft();
+            butRect = butRect.Shift(Direction8Way.West);
 
             if (Widgets.ButtonImage(butRect, Textures.CopySettings))
             {
@@ -178,7 +169,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             butRect.TipRegion(_exportPartialTooltip);
 
-            butRect = butRect.ShiftLeft();
+            butRect = butRect.Shift(Direction8Way.West);
 
             if (Widgets.ButtonImage(butRect, Textures.PasteSettings))
             {
@@ -312,16 +303,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                         {
                             Data = _itemWorker.Data.Where(i => !i.IsHidden)
                                .Select(i => i.Data)
-                               .Select(
-                                    i => new ItemPartial
-                                    {
-                                        DefName = i.DefName,
-                                        Cost = i.Cost,
-                                        Enabled = i.Enabled,
-                                        Name = i.Name,
-                                        ItemData = i.ItemData
-                                    }
-                                )
+                               .Select(i => new ItemPartial { DefName = i.DefName, Cost = i.Cost, Enabled = i.Enabled, Name = i.Name, ItemData = i.ItemData })
                                .ToList(),
                             PartialType = PartialType.Items,
                             Description = data.Description

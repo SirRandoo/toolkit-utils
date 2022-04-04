@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
@@ -27,15 +28,16 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class RemovePriceSelector : ISelectorBase<TraitItem>
     {
+        private string _buffer = "0";
+        private bool _bufferValid = true;
         private ComparisonTypes _comparison = ComparisonTypes.Equal;
         private List<FloatMenuOption> _comparisonOptions;
-        private int _removePrice;
-        private string _removePriceBuffer = "0";
-        private string _removePriceText;
+        private string _label;
+        private int _price;
 
         public void Prepare()
         {
-            _removePriceText = "TKUtils.Fields.RemovePrice".TranslateSimple();
+            _label = Label;
 
             _comparisonOptions = Data.ComparisonTypes.Select(
                     i => new FloatMenuOption(
@@ -52,24 +54,20 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _removePriceText);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _label);
 
-            (Rect button, Rect input) = field.ToForm(0.3f);
+            (Rect button, Rect input) = field.Split(0.3f);
 
             if (Widgets.ButtonText(button, _comparison.AsOperator()))
             {
                 Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
             }
 
-            if (!SettingsHelper.DrawNumberField(input, ref _removePrice, ref _removePriceBuffer, out int newCost))
+            if (UiHelper.NumberField(input, ref _buffer, ref _price, ref _bufferValid))
             {
-                return;
+                Dirty.Set(true);
             }
-
-            _removePrice = newCost;
-            _removePriceBuffer = newCost.ToString();
-            Dirty.Set(true);
         }
 
         public ObservableProperty<bool> Dirty { get; set; }
@@ -79,15 +77,15 @@ namespace SirRandoo.ToolkitUtils.Models
             switch (_comparison)
             {
                 case ComparisonTypes.Greater:
-                    return item.Data.CostToRemove > _removePrice;
+                    return item.Data.CostToRemove > _price;
                 case ComparisonTypes.Equal:
-                    return item.Data.CostToRemove == _removePrice;
+                    return item.Data.CostToRemove == _price;
                 case ComparisonTypes.Less:
-                    return item.Data.CostToRemove < _removePrice;
+                    return item.Data.CostToRemove < _price;
                 case ComparisonTypes.GreaterEqual:
-                    return item.Data.CostToRemove >= _removePrice;
+                    return item.Data.CostToRemove >= _price;
                 case ComparisonTypes.LessEqual:
-                    return item.Data.CostToRemove <= _removePrice;
+                    return item.Data.CostToRemove <= _price;
                 default:
                     return false;
             }

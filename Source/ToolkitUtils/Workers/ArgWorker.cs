@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -41,14 +42,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             _rawArguments = new Queue<string>(rawArguments.Select(a => a.ToToolkit()));
         }
 
-        [NotNull]
-        public static ArgWorker CreateInstance([NotNull] params string[] rawArguments) => new ArgWorker(rawArguments);
+        [NotNull] public static ArgWorker CreateInstance([NotNull] params string[] rawArguments) => new ArgWorker(rawArguments);
 
-        [NotNull]
-        public static ArgWorker CreateInstance([NotNull] IEnumerable<string> rawArguments) => new ArgWorker(rawArguments);
+        [NotNull] public static ArgWorker CreateInstance([NotNull] IEnumerable<string> rawArguments) => new ArgWorker(rawArguments);
 
-        [NotNull]
-        public static ArgWorker CreateInstance([NotNull] string input) => new ArgWorker(CommandFilter.Parse(input));
+        [NotNull] public static ArgWorker CreateInstance([NotNull] string input) => new ArgWorker(CommandFilter.Parse(input));
 
         public string GetNext()
         {
@@ -171,7 +169,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             return DefDatabase<Command>.AllDefs.FirstOrDefault(
-                c => TkSettings.ToolkitStyleCommands ? c.command.StartsWith(next, true, CultureInfo.InvariantCulture) : c.command.Equals(next, StringComparison.InvariantCultureIgnoreCase)
+                c => TkSettings.ToolkitStyleCommands
+                    ? c.command.StartsWith(next, true, CultureInfo.InvariantCulture)
+                    : c.command.Equals(next, StringComparison.InvariantCultureIgnoreCase)
             );
         }
 
@@ -207,9 +207,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             return DefDatabase<SkillDef>.AllDefs.FirstOrDefault(
-                s => (s.label?.ToToolkit().Equals(next) ?? false)
-                     || (s.skillLabel?.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase) ?? false)
-                     || s.defName.Equals(next, StringComparison.InvariantCulture)
+                s => (s.label?.ToToolkit().Equals(next) ?? false) || (s.skillLabel?.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase) ?? false)
+                    || s.defName.Equals(next, StringComparison.InvariantCulture)
             );
         }
 
@@ -236,7 +235,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private static ThingItem GetItemRaw(string input)
         {
-            return Data.Items.Find(i => i.DefName.Equals(input) || i.Name.Equals(input, StringComparison.InvariantCultureIgnoreCase));
+            return Data.Items.Find(i => string.Equals(i.DefName, input) || i.Name.Equals(input, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [CanBeNull]
@@ -257,6 +256,18 @@ namespace SirRandoo.ToolkitUtils.Workers
             return new ItemProxy { Thing = GetItemRaw(next) };
         }
 
+        [CanBeNull]
+        public ItemProxy GetNextAsItem(Action<string> errorCallback)
+        {
+            ItemProxy item = GetNextAsItem();
+
+            if (item == null)
+            {
+                errorCallback.Invoke(_lastArgument);
+            }
+
+            return item;
+        }
         [NotNull]
         private static ItemProxy ProcessMetadata([NotNull] string next)
         {
@@ -327,18 +338,6 @@ namespace SirRandoo.ToolkitUtils.Workers
             return true;
         }
 
-        [CanBeNull]
-        public ItemProxy GetNextAsItem(Action<string> errorCallback)
-        {
-            ItemProxy item = GetNextAsItem();
-
-            if (item == null)
-            {
-                errorCallback.Invoke(_lastArgument);
-            }
-
-            return item;
-        }
 
         [ContractAnnotation("=> true,item:notnull; => false,item:null")]
         public bool TryGetNextAsItem(out ItemProxy item)
@@ -358,7 +357,9 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return null;
             }
 
-            return DefDatabase<PawnCapacityDef>.AllDefs.FirstOrDefault(c => c.defName.Equals(next) || c.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase));
+            return DefDatabase<PawnCapacityDef>.AllDefs.FirstOrDefault(
+                c => c.defName.Equals(next) || c.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase)
+            );
         }
 
         [CanBeNull]
@@ -434,7 +435,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
 
             return DefDatabase<StatDef>.AllDefs.Where(s => s.showOnHumanlikes && s.showOnPawns)
-               .FirstOrDefault(s => s.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase) || s.defName.Equals(next, StringComparison.InvariantCulture));
+               .FirstOrDefault(
+                    s => s.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase) || s.defName.Equals(next, StringComparison.InvariantCulture)
+                );
         }
 
         [CanBeNull]
@@ -494,6 +497,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             return !(project is null);
         }
 
+        [ItemNotNull]
         public IEnumerable<TraitItem> GetAllAsTrait()
         {
             while (HasNext())
@@ -509,6 +513,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        [ItemNotNull]
         public IEnumerable<TraitItem> GetAllAsTrait(Action<string> errorCallback)
         {
             while (HasNext())
@@ -526,6 +531,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        [ItemNotNull]
         public IEnumerable<ItemProxy> GetAllAsItem()
         {
             while (HasNext())
@@ -541,6 +547,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        [ItemNotNull]
         public IEnumerable<ItemProxy> GetAllAsItem(Action<string> errorCallback)
         {
             while (HasNext())
@@ -652,14 +659,14 @@ namespace SirRandoo.ToolkitUtils.Workers
                 }
 
 
-                return (Quality.HasValue ? $"{stuff} {name} ({Unrichify.StripTags(Quality.Value.ToString().ToLowerInvariant())})" : $"{stuff} {name}").Trim();
+                return (Quality.HasValue ? $"{stuff} {name} ({RichTextHelper.StripTags(Quality.Value.ToString().ToLowerInvariant())})" : $"{stuff} {name}").Trim();
             }
 
             public bool TryGetError([CanBeNull] out string error)
             {
                 if (TryGetInvalidSelector(out ThingItem item))
                 {
-                    LogHelper.Debug("Found an invalid selector");
+                    TkUtils.Logger.Debug("Found an invalid selector");
 
                     if (item == Thing)
                     {

@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -30,19 +30,19 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             listing.Begin(region);
 
-            (Rect labelRect, Rect fieldRect) = listing.GetRectAsForm();
-            SettingsHelper.DrawLabel(labelRect, "TKUtils.Abandon.Method.Label".Localize());
-            listing.DrawDescription("TKUtils.Abandon.Method.Description".Localize());
+            (Rect labelRect, Rect fieldRect) = listing.Split();
+            UiHelper.Label(labelRect, "TKUtils.Abandon.Method.Label".TranslateSimple());
+            listing.DrawDescription("TKUtils.Abandon.Method.Description".TranslateSimple());
 
-            if (Widgets.ButtonText(fieldRect, $"TKUtils.Abandon.Method.{TkSettings.LeaveMethod}".Localize()))
+            if (Widgets.ButtonText(fieldRect, $"TKUtils.Abandon.Method.{TkSettings.LeaveMethod}".TranslateSimple()))
             {
                 Find.WindowStack.Add(new FloatMenu(TkSettings.LeaveMenuOptions));
             }
 
             if (!TkSettings.LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethod.Thanos)))
             {
-                listing.CheckboxLabeled("TKUtils.Abandon.Gear.Label".Localize(), ref TkSettings.DropInventory);
-                listing.DrawDescription("TKUtils.Abandon.Gear.Description".Localize());
+                listing.CheckboxLabeled("TKUtils.Abandon.Gear.Label".TranslateSimple(), ref TkSettings.DropInventory);
+                listing.DrawDescription("TKUtils.Abandon.Gear.Description".TranslateSimple());
             }
 
             listing.End();

@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Text;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -26,6 +27,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 {
     public static class ForcedInteractionWorker
     {
+        [CanBeNull]
         public static string InteractWith(Pawn pawn, Pawn recipient, InteractionDef interaction)
         {
             if (pawn == recipient)
@@ -57,7 +59,13 @@ namespace SirRandoo.ToolkitUtils.Workers
                 interaction.Worker.Interacted(pawn, recipient, extraSentencePacks, out letterText, out letterLabel, out letterDef, out lookTargets);
             }
 
-            MoteMaker.MakeInteractionBubble(pawn, recipient, interaction.interactionMote, interaction.GetSymbol(pawn.Faction, pawn.Ideo), interaction.GetSymbolColor(pawn.Faction));
+            MoteMaker.MakeInteractionBubble(
+                pawn,
+                recipient,
+                interaction.interactionMote,
+                interaction.GetSymbol(pawn.Faction, pawn.Ideo),
+                interaction.GetSymbolColor(pawn.Faction)
+            );
 
             if (isSocialFight)
             {
@@ -67,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             var entry = new PlayLogEntry_Interaction(interaction, pawn, recipient, extraSentencePacks);
             Find.PlayLog.Add(entry);
 
-            string text = Unrichify.StripTags(entry.ToGameStringFromPOV(pawn));
+            string text = RichTextHelper.StripTags(entry.ToGameStringFromPOV(pawn));
 
             if (letterDef == null)
             {
@@ -76,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (!letterText.NullOrEmpty())
             {
-                text = text + "\n\n" + Unrichify.StripTags(letterText);
+                text = text + "\n\n" + RichTextHelper.StripTags(letterText);
             }
 
             Find.LetterStack.ReceiveLetter(letterLabel, text, letterDef, lookTargets ?? pawn);

@@ -17,7 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using CommonLib.Helpers;
+using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
 using Verse;
 
@@ -32,7 +37,6 @@ namespace SirRandoo.ToolkitUtils
     [StaticConstructorOnStartup]
     public class TkSettings : ModSettings
     {
-        private static string _modVersion;
         public static bool TrueNeutral;
         public static bool ForceFullItem;
         public static bool Commands = true;
@@ -76,7 +80,7 @@ namespace SirRandoo.ToolkitUtils
         private static List<FloatMenuOption> _dumpStyleOptions;
         private static List<FloatMenuOption> _coinUserTypeOptions;
 
-        private static WorkTypeDef[] _workTypeDefs;
+        private static WorkTypeDef[] _workTypeDefs = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToArray();
 
         private static Vector2 _workScrollPos = Vector2.zero;
         private static Vector2 _commandTweaksPos = Vector2.zero;
@@ -85,12 +89,11 @@ namespace SirRandoo.ToolkitUtils
         public static bool CommandRouter = true;
         public static bool TransparentColors;
 
+        private static readonly TabWorker TabWorker = new TabWorker();
+
         static TkSettings()
         {
-            if (_workTypeDefs.NullOrEmpty())
-            {
-                _workTypeDefs = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToArray();
-            }
+            TabWorker.AddTab(new TabItem { Label = "" });
         }
 
         public static void DoWindowContents(Rect inRect)
@@ -108,7 +111,6 @@ namespace SirRandoo.ToolkitUtils
             var tabBarRect = new Rect(0f, 0f, inRect.width, Text.LineHeight * 2f);
             var tabPanelRect = new Rect(0f, tabBarRect.height, inRect.width, inRect.height - tabBarRect.height);
             Rect contentRect = tabPanelRect.ContractedBy(20f);
-            var trueContentRect = new Rect(0f, 0f, contentRect.width, contentRect.height);
 
 
             GUI.BeginGroup(tabBarRect);
@@ -123,16 +125,17 @@ namespace SirRandoo.ToolkitUtils
             GUI.EndGroup();
         }
 
+        [UsedImplicitly]
         private static void DrawModCompatTab(Rect canvas)
         {
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            listing.DrawModGroupHeader("Humanoid Alien Races", 839005762, false);
+            listing.ModGroupHeader("Humanoid Alien Races", 839005762, false);
             listing.CheckboxLabeled("TKUtils.HAR.PawnKinds.Label".TranslateSimple(), ref PurchasePawnKinds);
             listing.DrawDescription("TKUtils.HAR.PawnKinds.Description".TranslateSimple());
 
-            listing.DrawModGroupHeader("A RimWorld of Magic", 1201382956);
+            listing.ModGroupHeader("A RimWorld of Magic", 1201382956);
             listing.CheckboxLabeled("TKUtils.TMagic.Classes.Label".TranslateSimple(), ref ClassChanges);
             listing.DrawDescription("TKUtils.TMagic.Classes.Description".TranslateSimple());
             listing.DrawExperimentalNotice();
@@ -144,7 +147,7 @@ namespace SirRandoo.ToolkitUtils
                 listing.DrawExperimentalNotice();
             }
 
-            listing.DrawModGroupHeader("Visual Exceptions", 2538411704);
+            listing.ModGroupHeader("Visual Exceptions", 2538411704);
             listing.CheckboxLabeled("TKUtils.VisualExceptions.SendErrors.Label".TranslateSimple(), ref VisualExceptions);
             listing.DrawDescription("TKUtils.VisualExceptions.SendErrors.Description".TranslateSimple());
             listing.DrawExperimentalNotice();
@@ -152,6 +155,7 @@ namespace SirRandoo.ToolkitUtils
             listing.End();
         }
 
+        [UsedImplicitly]
         private static void DrawDataTab(Rect canvas)
         {
             var view = new Rect(0f, 0f, canvas.width - 16f, Text.LineHeight * 32f);
@@ -160,10 +164,10 @@ namespace SirRandoo.ToolkitUtils
             Widgets.BeginScrollView(canvas.AtZero(), ref _dataScrollPos, view);
             listing.Begin(view);
 
-            listing.DrawGroupHeader("TKUtils.Data.Files".Localize(), false);
+            listing.GroupHeader("TKUtils.Data.Files".Localize(), false);
 
-            (Rect dumpLabel, Rect dumpBtn) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(dumpLabel, "TKUtils.DumpStyle.Label".Translate());
+            (Rect dumpLabel, Rect dumpBtn) = listing.Split();
+            UiHelper.Label(dumpLabel, "TKUtils.DumpStyle.Label".Translate());
             listing.DrawDescription("TKUtils.DumpStyle.Description".Translate());
 
             if (Widgets.ButtonText(dumpBtn, $"TKUtils.DumpStyle.{DumpStyle}".Translate()))
@@ -186,8 +190,8 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawDescription("TKUtils.TrueNeutral.Description".Translate());
             listing.DrawExperimentalNotice();
 
-            (Rect coinTypeLabel, Rect coinTypeField) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(coinTypeLabel, "TKUtils.BroadcasterUserType.Label".Translate());
+            (Rect coinTypeLabel, Rect coinTypeField) = listing.Split();
+            UiHelper.Label(coinTypeLabel, "TKUtils.BroadcasterUserType.Label".Translate());
             listing.DrawDescription("TKUtils.BroadcasterUserType.Description".Translate());
             listing.DrawExperimentalNotice();
 
@@ -197,10 +201,10 @@ namespace SirRandoo.ToolkitUtils
             }
 
 
-            listing.DrawGroupHeader("TKUtils.Data.LazyProcess".Translate());
+            listing.GroupHeader("TKUtils.Data.LazyProcess".Translate());
 
-            (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(storeLabel, "TKUtils.StoreRate.Label".Translate());
+            (Rect storeLabel, Rect storeField) = listing.Split();
+            UiHelper.Label(storeLabel, "TKUtils.StoreRate.Label".Translate());
             listing.DrawDescription("TKUtils.StoreRate.Description".Translate());
 
             var storeBuffer = StoreBuildRate.ToString();
@@ -235,31 +239,33 @@ namespace SirRandoo.ToolkitUtils
             };
         }
 
+        [UsedImplicitly]
         private static void DrawGeneralTab(Rect canvas)
         {
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            listing.DrawGroupHeader("TKUtils.General.Emojis".Translate(), false);
+            listing.GroupHeader("TKUtils.General.Emojis".Translate(), false);
             listing.CheckboxLabeled("TKUtils.Emojis.Label".Translate(), ref Emojis);
             listing.DrawDescription("TKUtils.Emojis.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.General.Viewer".Translate());
+            listing.GroupHeader("TKUtils.General.Viewer".Translate());
             listing.CheckboxLabeled("TKUtils.HairColor.Label".Translate(), ref HairColor);
             listing.DrawDescription("TKUtils.HairColor.Description".Translate());
 
-            listing.DrawGroupHeader("TKUtils.General.Gateway".Translate());
+            listing.GroupHeader("TKUtils.General.Gateway".Translate());
             listing.CheckboxLabeled("TKUtils.GatewayPuff.Label".Translate(), ref GatewayPuff);
             listing.DrawDescription("TKUtils.GatewayPuff.Description".Translate());
 
-            listing.DrawGroupHeader("TKUtils.General.Basket".Translate());
+            listing.GroupHeader("TKUtils.General.Basket".Translate());
             listing.CheckboxLabeled("TKUtils.EasterEggs.Label".Translate(), ref EasterEggs);
             listing.DrawDescription("TKUtils.EasterEggs.Description".Translate());
 
             listing.End();
         }
 
+        [UsedImplicitly]
         private static void DrawCommandTweaksTab(Rect canvas)
         {
             var listing = new Listing_Standard();
@@ -269,22 +275,22 @@ namespace SirRandoo.ToolkitUtils
             Widgets.BeginScrollView(canvas.AtZero(), ref _commandTweaksPos, viewPort);
             listing.Begin(viewPort);
 
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.Balance".Translate(), false);
+            listing.GroupHeader("TKUtils.CommandTweaks.Balance".Translate(), false);
             listing.CheckboxLabeled("TKUtils.CoinRate.Label".Translate(), ref ShowCoinRate);
             listing.DrawDescription("TKUtils.CoinRate.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.Handler".Translate());
+            listing.GroupHeader("TKUtils.CommandTweaks.Handler".Translate());
 
             if (Commands)
             {
-                (Rect prefixLabel, Rect prefixField) = listing.GetRect(Text.LineHeight).ToForm();
-                SettingsHelper.DrawLabel(prefixLabel, "TKUtils.CommandPrefix.Label".Translate());
+                (Rect prefixLabel, Rect prefixField) = listing.Split();
+                UiHelper.Label(prefixLabel, "TKUtils.CommandPrefix.Label".Translate());
                 listing.DrawDescription("TKUtils.CommandPrefix.Description".Translate());
                 Prefix = CommandHelper.ValidatePrefix(Widgets.TextField(prefixField, Prefix));
 
-                (Rect buyPrefixLabel, Rect buyPrefixField) = listing.GetRect(Text.LineHeight).ToForm();
-                SettingsHelper.DrawLabel(buyPrefixLabel, "TKUtils.PurchasePrefix.Label".Translate());
+                (Rect buyPrefixLabel, Rect buyPrefixField) = listing.Split();
+                UiHelper.Label(buyPrefixLabel, "TKUtils.PurchasePrefix.Label".Translate());
                 listing.DrawDescription("TKUtils.PurchasePrefix.Description".Translate());
                 BuyPrefix = CommandHelper.ValidatePrefix(Widgets.TextField(buyPrefixField, BuyPrefix));
             }
@@ -303,7 +309,7 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawExperimentalNotice();
 
 
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.InstalledMods".Translate());
+            listing.GroupHeader("TKUtils.CommandTweaks.InstalledMods".Translate());
             listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".Translate(), ref DecorateMods);
             listing.DrawDescription("TKUtils.DecorateUtils.Description".Translate());
 
@@ -311,19 +317,19 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawDescription("TKUtils.VersionedModList.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.BuyItem".Translate());
+            listing.GroupHeader("TKUtils.CommandTweaks.BuyItem".Translate());
             listing.CheckboxLabeled("TKUtils.BuyItemBalance.Label".Translate(), ref BuyItemBalance);
             listing.DrawDescription("TKUtils.BuyItemBalance.Description".Translate());
             listing.CheckboxLabeled("TKUtils.BuyItemFullSyntax.Label".Translate(), ref ForceFullItem);
             listing.DrawDescription("TKUtils.BuyItemFullSyntax.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.CommandTweaks.Lookup".Translate());
+            listing.GroupHeader("TKUtils.CommandTweaks.Lookup".Translate());
 
-            (Rect lookupLimitLabel, Rect lookupLimitField) = listing.GetRect(Text.LineHeight).ToForm();
+            (Rect lookupLimitLabel, Rect lookupLimitField) = listing.Split();
             var buffer = LookupLimit.ToString();
 
-            SettingsHelper.DrawLabel(lookupLimitLabel, "TKUtils.LookupLimit.Label".Translate());
+            UiHelper.Label(lookupLimitLabel, "TKUtils.LookupLimit.Label".Translate());
             Widgets.TextFieldNumeric(lookupLimitField, ref LookupLimit, ref buffer);
             listing.DrawDescription("TKUtils.LookupLimit.Description".Translate());
 
@@ -332,6 +338,7 @@ namespace SirRandoo.ToolkitUtils
             listing.End();
         }
 
+        [UsedImplicitly]
         private static void DrawPawnCommandsTab(Rect canvas)
         {
             var listing = new Listing_Standard();
@@ -341,10 +348,10 @@ namespace SirRandoo.ToolkitUtils
             Widgets.BeginScrollView(canvas.AtZero(), ref _commandTweaksPos, viewPort);
             listing.Begin(viewPort);
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Abandon".Translate(), false);
+            listing.GroupHeader("TKUtils.PawnCommands.Abandon".Translate(), false);
 
-            (Rect leaveLabelRect, Rect leaveRect) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(leaveLabelRect, "TKUtils.Abandon.Method.Label".Translate());
+            (Rect leaveLabelRect, Rect leaveRect) = listing.Split();
+            UiHelper.Label(leaveLabelRect, "TKUtils.Abandon.Method.Label".Translate());
             listing.DrawDescription("TKUtils.Abandon.Method.Description".Translate());
 
             if (Widgets.ButtonText(leaveRect, $"TKUtils.Abandon.Method.{LeaveMethod}".Translate()))
@@ -358,7 +365,7 @@ namespace SirRandoo.ToolkitUtils
                 listing.DrawDescription("TKUtils.Abandon.Gear.Description".Translate());
             }
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Gear".Translate());
+            listing.GroupHeader("TKUtils.PawnCommands.Gear".Translate());
             listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".Translate(), ref TempInGear);
             listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".Translate());
             listing.CheckboxLabeled("TKUtils.PawnGear.Apparel.Label".Translate(), ref ShowApparel);
@@ -369,18 +376,18 @@ namespace SirRandoo.ToolkitUtils
             listing.DrawDescription("TKUtils.PawnGear.Weapon.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Health".Translate());
+            listing.GroupHeader("TKUtils.PawnCommands.Health".Translate());
             listing.CheckboxLabeled("TKUtils.PawnHealth.Surgeries.Label".Translate(), ref ShowSurgeries);
             listing.DrawDescription("TKUtils.PawnHealth.Surgeries.Description".Translate());
 
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Relations".Translate());
-            (Rect opinionLabel, Rect opinionField) = listing.GetRect(Text.LineHeight).ToForm();
+            listing.GroupHeader("TKUtils.PawnCommands.Relations".Translate());
+            (Rect opinionLabel, Rect opinionField) = listing.Split();
             var buffer = OpinionMinimum.ToString();
 
             if (!MinimalRelations)
             {
-                SettingsHelper.DrawLabel(opinionLabel, "TKUtils.PawnRelations.OpinionThreshold.Label".Translate());
+                UiHelper.Label(opinionLabel, "TKUtils.PawnRelations.OpinionThreshold.Label".Translate());
                 Widgets.TextFieldNumeric(opinionField, ref OpinionMinimum, ref buffer);
                 listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".Translate());
             }
@@ -388,7 +395,7 @@ namespace SirRandoo.ToolkitUtils
             listing.CheckboxLabeled("TKUtils.PawnRelations.MinimalRelations.Label".Translate(), ref MinimalRelations);
             listing.DrawDescription("TKUtils.PawnRelations.MinimalRelations.Description".Translate());
 
-            listing.DrawGroupHeader("TKUtils.PawnCommands.Work".Translate());
+            listing.GroupHeader("TKUtils.PawnCommands.Work".Translate());
             listing.CheckboxLabeled("TKUtils.PawnWork.Sort.Label".Translate(), ref SortWorkPriorities);
             listing.DrawDescription("TKUtils.PawnWork.Sort.Description".Translate());
             listing.CheckboxLabeled("TKUtils.PawnWork.Filter.Label".Translate(), ref FilterWorkPriorities);
@@ -399,6 +406,7 @@ namespace SirRandoo.ToolkitUtils
             listing.End();
         }
 
+        [UsedImplicitly]
         private static void DrawPawnWorkTab(Rect canvas)
         {
             GUI.BeginGroup(canvas);
@@ -424,7 +432,7 @@ namespace SirRandoo.ToolkitUtils
 
                 Rect line = listing.GetRect(Text.LineHeight);
 
-                if (!line.IsRegionVisible(content, _workScrollPos))
+                if (!line.IsVisible(content, _workScrollPos))
                 {
                     continue;
                 }
@@ -504,11 +512,11 @@ namespace SirRandoo.ToolkitUtils
 
         public class WorkSetting : IExposable
         {
+            // ReSharper disable once StringLiteralTypo
             [Description("Whether or not the work priority will be shown in !mypawnwork")]
             public bool Enabled;
 
-            [Description("The def name of the work type instance.")]
-            public string WorkTypeDef;
+            [Description("The def name of the work type instance.")] public string WorkTypeDef;
 
             public void ExposeData()
             {

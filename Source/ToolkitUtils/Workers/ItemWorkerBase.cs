@@ -17,7 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
@@ -36,15 +38,15 @@ namespace SirRandoo.ToolkitUtils.Workers
         private string _applyText;
         private Vector2 _applyTextSize;
         private Rect _modifierRect = Rect.zero;
+        private List<FloatMenuOption> _mutateAdders;
         private List<IMutatorBase<TU>> _mutators;
         private Vector2 _mutatorScrollPos = Vector2.zero;
+        private List<FloatMenuOption> _selectorAdders;
         private Rect _selectorRect = Rect.zero;
         private List<ISelectorBase<TU>> _selectors;
         private Vector2 _selectorScrollPos = Vector2.zero;
 
         private Rect _tableRect = Rect.zero;
-        protected List<FloatMenuOption> MutateAdders;
-        protected List<FloatMenuOption> SelectorAdders;
         private protected T Worker;
 
         public IEnumerable<TableSettingsItem<TU>> Data => Worker.Data;
@@ -61,6 +63,8 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             _selectors = new List<ISelectorBase<TU>>();
             _mutators = new List<IMutatorBase<TU>>();
+            _mutateAdders = new List<FloatMenuOption>();
+            _selectorAdders = new List<FloatMenuOption>();
         }
 
         public void Draw()
@@ -105,7 +109,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (Widgets.ButtonText(addRect, _addSelectorText))
             {
-                Find.WindowStack.Add(new FloatMenu(SelectorAdders));
+                Find.WindowStack.Add(new FloatMenu(_selectorAdders));
             }
 
             _selectorScrollPos = GUI.BeginScrollView(selectorsRect, _selectorScrollPos, viewPort);
@@ -116,7 +120,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 ISelectorBase<TU> selector = _selectors[i];
                 var lineRect = new Rect(0f, Text.LineHeight * i, selectorsRect.width, Text.LineHeight);
 
-                if (!lineRect.IsRegionVisible(selectorsRect, _selectorScrollPos))
+                if (!lineRect.IsVisible(selectorsRect, _selectorScrollPos))
                 {
                     continue;
                 }
@@ -126,10 +130,10 @@ namespace SirRandoo.ToolkitUtils.Workers
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                Rect sRect = lineRect.WithWidth(lineRect.width - Text.LineHeight - 2f);
+                Rect sRect = lineRect.Trim(Direction8Way.East, lineRect.width - Text.LineHeight - 2f);
                 selector.Draw(sRect);
 
-                if (SettingsHelper.DrawFieldButton(lineRect, Widgets.CheckboxOffTex))
+                if (UiHelper.FieldButton(lineRect, Widgets.CheckboxOffTex))
                 {
                     toRemove = selector;
                 }
@@ -155,7 +159,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (Widgets.ButtonText(addRect, _addMutatorText))
             {
-                Find.WindowStack.Add(new FloatMenu(MutateAdders));
+                Find.WindowStack.Add(new FloatMenu(_mutateAdders));
             }
 
             if (Widgets.ButtonText(applyRect, _applyText))
@@ -171,7 +175,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 IMutatorBase<TU> mutator = _mutators[i];
                 var lineRect = new Rect(0f, Text.LineHeight * i, mutatorsRect.width, Text.LineHeight);
 
-                if (!lineRect.IsRegionVisible(mutatorsRect, _mutatorScrollPos))
+                if (!lineRect.IsVisible(mutatorsRect, _mutatorScrollPos))
                 {
                     continue;
                 }
@@ -181,10 +185,10 @@ namespace SirRandoo.ToolkitUtils.Workers
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                Rect mutatorRect = lineRect.WithWidth(lineRect.width - Text.LineHeight - 2f);
+                Rect mutatorRect = lineRect.Trim(Direction8Way.East, lineRect.width - Text.LineHeight - 2f);
                 mutator.Draw(mutatorRect);
 
-                if (SettingsHelper.DrawFieldButton(lineRect, Widgets.CheckboxOffTex))
+                if (UiHelper.FieldButton(lineRect, Widgets.CheckboxOffTex))
                 {
                     toRemove = mutator;
                 }
@@ -217,7 +221,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        protected void AddSelector([NotNull] ISelectorBase<TU> selector)
+        private void AddSelector([NotNull] ISelectorBase<TU> selector)
         {
             selector.Prepare();
             selector.Dirty ??= new ObservableProperty<bool>(false);
@@ -226,7 +230,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             UpdateView(true);
         }
 
-        protected void AddMutator([NotNull] IMutatorBase<TU> mutator)
+        private void AddMutator([NotNull] IMutatorBase<TU> mutator)
         {
             mutator.Prepare();
             _mutators.Add(mutator);
@@ -248,7 +252,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     continue;
                 }
 
-                AddMutator(mutator);
+                _mutateAdders.Add(new FloatMenuOption(mutator.Label, () => AddMutator(mutator)));
             }
         }
 
@@ -268,7 +272,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     continue;
                 }
 
-                AddSelector(selector);
+                _selectorAdders.Add(new FloatMenuOption(selector.Label, () => AddSelector(selector)));
             }
         }
 
@@ -282,7 +286,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private void UpdateView(bool state)
         {
-            if (state == false)
+            if (!state)
             {
                 return;
             }

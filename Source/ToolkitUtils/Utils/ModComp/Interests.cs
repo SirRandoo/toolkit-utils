@@ -17,7 +17,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using RimWorld;
@@ -29,54 +28,53 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
     [StaticConstructorOnStartup]
     public static class Interests
     {
-        public static readonly bool Active;
+        public static readonly bool Active = ModLister.GetActiveModWithIdentifier("dame.InterestsFramework") != null;
         private static readonly List<Def> UsableInterestList = new List<Def>();
 
         private static readonly Dictionary<string, string> InterestIndex = new Dictionary<string, string>
         {
-            { "DMinorPassion", "🔥" },
-            { "DMajorPassion", "🔥🔥" },
-            { "DMinorAversion", "❄" },
-            { "DMajorAversion", "❄❄" },
-            { "DCompulsion", "🎲" },
-            { "DInvigorating", "☕" },
-            { "DInspiring", "💡" },
-            { "DStagnant", "🔒" },
-            { "DForgetful", "💭" },
-            { "DVocalHatred", "📢" },
-            { "DNaturalGenius", "🧠" },
-            { "DBored", "💤" },
-            { "DAllergic", "🤧" }
+            { "DMinorPassion", "\uD83D\uDD25" },
+            { "DMajorPassion", "\uD83D\uDD25\uD83D\uDD25" },
+            { "DMinorAversion", "\u2744" },
+            { "DMajorAversion", "\u2744\u2744" },
+            { "DCompulsion", "\uD83C\uDFB2" },
+            { "DInvigorating", "\u2615" },
+            { "DInspiring", "\uD83D\uDCA1" },
+            { "DStagnant", "\uD83D\uDD12" },
+            { "DForgetful", "\uD83D\uDCAD" },
+            { "DVocalHatred", "\uD83D\uDCE2" },
+            { "DNaturalGenius", "\uD83E\uDDE0" },
+            { "DBored", "\uD83D\uDCA4" },
+            { "DAllergic", "\uD83E\uDD27" }
         };
 
         static Interests()
         {
-            foreach (Mod handle in LoadedModManager.ModHandles.Where(h => h.Content.PackageId.EqualsIgnoreCase("dame.InterestsFramework")))
+            if (!Active)
             {
-                try
+                return;
+            }
+
+            try
+            {
+                Type interestsClass = AccessTools.TypeByName("DInterests.InterestBase");
+                FieldInfo interestsList = AccessTools.Field("DInterests.InterestBase:interestList");
+                var interestListInstance = interestsList.GetValue(interestsClass) as IList;
+
+                // ReSharper disable once PossibleNullReferenceException
+                foreach (object def in interestListInstance)
                 {
-                    Type interestsClass = handle.GetType().Assembly.GetType("DInterests.InterestBase");
-
-                    FieldInfo interestsList = AccessTools.Field(interestsClass, "interestList");
-                    var interestListInstance = interestsList.GetValue(interestsClass) as IList;
-
-                    // ReSharper disable once PossibleNullReferenceException
-                    foreach (object def in interestListInstance)
+                    if (!(def is Def instance))
                     {
-                        if (!(def is Def instance))
-                        {
-                            continue;
-                        }
-
-                        UsableInterestList.Add(instance);
+                        continue;
                     }
 
-                    Active = true;
+                    UsableInterestList.Add(instance);
                 }
-                catch (Exception e)
-                {
-                    LogHelper.Error("Compatibility class for Interests failed!", e);
-                }
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Compatibility class for Interests failed!", e);
             }
         }
 

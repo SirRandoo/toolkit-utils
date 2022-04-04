@@ -28,9 +28,7 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class CommandItem : IUsageItemBase
     {
-        [CanBeNull]
-        [DataMember(Name = "data")]
-        public CommandData Data { get; set; }
+        [CanBeNull] [DataMember(Name = "data")] public CommandData Data { get; set; }
 
         [DataMember(Name = "description")] public string Description { get; set; }
         [DataMember(Name = "name")] public string Name { get; set; }
@@ -66,10 +64,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         public static CommandItem FromToolkitCore([NotNull] ToolkitChatCommand command)
         {
-            var result = new CommandItem
-            {
-                Name = command.LabelCap.RawText ?? command.commandText, Usage = $"!{command.commandText}"
-            };
+            var result = new CommandItem { Name = command.LabelCap.RawText ?? command.commandText, Usage = $"!{command.commandText}" };
 
             result.PullFromExtension(command);
 

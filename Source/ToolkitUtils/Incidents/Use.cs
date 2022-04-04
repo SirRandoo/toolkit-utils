@@ -125,7 +125,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             if (!_pawn.Spawned)
             {
-                LogHelper.Warn("Tried to use an item on an unspawned pawn.");
+                TkUtils.Logger.Warn("Tried to use an item on an unspawned pawn.");
 
                 return;
             }
@@ -135,7 +135,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!(thing is ThingWithComps))
             {
                 MessageHelper.ReplyToUser(Viewer.username, "TKUtils.Use.Unusable".LocalizeKeyed(_buyableItem.Name));
-                LogHelper.Warn("Tried to use an item that can't have comps!");
+                TkUtils.Logger.Warn("Tried to use an item that can't have comps!");
 
                 return;
             }
@@ -149,7 +149,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                LogHelper.Error($@"The usability handler ""{_handler.GetType().Name}"" did not complete successfully", e);
+                TkUtils.Logger.Error($@"The usability handler ""{_handler.GetType().Name}"" did not complete successfully", e);
 
                 return;
             }

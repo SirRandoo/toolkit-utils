@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -34,8 +34,8 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.AlphaFavoriteColor.Label".Localize(), ref TkSettings.TransparentColors);
-            listing.DrawDescription("TKUtils.AlphaFavoriteColor.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.AlphaFavoriteColor.Label".TranslateSimple(), ref TkSettings.TransparentColors);
+            listing.DrawDescription("TKUtils.AlphaFavoriteColor.Description".TranslateSimple());
 
             listing.End();
         }

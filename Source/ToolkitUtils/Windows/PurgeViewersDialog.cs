@@ -16,8 +16,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using UnityEngine;
@@ -58,9 +59,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             _constraintOptions = new List<FloatMenuOption>
             {
-                new FloatMenuOption("TKUtils.PurgeMenu.Coins".Localize().CapitalizeFirst(), () => _constraints.Add(new CoinConstraint())),
-                new FloatMenuOption("TKUtils.PurgeMenu.Karma".Localize().CapitalizeFirst(), () => _constraints.Add(new KarmaConstraint())),
-                new FloatMenuOption("TKUtils.PurgeMenu.Name".Localize().CapitalizeFirst(), () => _constraints.Add(new NameConstraint()))
+                new FloatMenuOption("TKUtils.PurgeMenu.Coins".TranslateSimple().CapitalizeFirst(), () => _constraints.Add(new CoinConstraint())),
+                new FloatMenuOption("TKUtils.PurgeMenu.Karma".TranslateSimple().CapitalizeFirst(), () => _constraints.Add(new KarmaConstraint())),
+                new FloatMenuOption("TKUtils.PurgeMenu.Name".TranslateSimple().CapitalizeFirst(), () => _constraints.Add(new NameConstraint()))
             };
         }
 
@@ -72,14 +73,14 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             base.PreOpen();
 
-            _confirmText = "TKUtils.Buttons.Confirm".Localize();
-            _showAffectedText = "TKUtils.Buttons.ViewAffected".Localize();
-            _exemptText = "TKUtils.Buttons.Exempt".Localize();
-            _removeText = "TKUtils.Buttons.Remove".Localize();
-            _backText = "TKUtils.Buttons.Back".Localize();
-            _affectedText = "TKUtils.Purge.Affected".Localize();
-            _addConstraintText = "TKUtils.Buttons.AddConstraint".Localize();
-            _clearConstraintsText = "TKUtils.Buttons.ClearConstraints".Localize();
+            _confirmText = "TKUtils.Buttons.Confirm".TranslateSimple();
+            _showAffectedText = "TKUtils.Buttons.ViewAffected".TranslateSimple();
+            _exemptText = "TKUtils.Buttons.Exempt".TranslateSimple();
+            _removeText = "TKUtils.Buttons.Remove".TranslateSimple();
+            _backText = "TKUtils.Buttons.Back".TranslateSimple();
+            _affectedText = "TKUtils.Purge.Affected".TranslateSimple();
+            _addConstraintText = "TKUtils.Buttons.AddConstraint".TranslateSimple();
+            _clearConstraintsText = "TKUtils.Buttons.ClearConstraints".TranslateSimple();
 
 
             _headerButtonWidth = Mathf.Max(Text.CalcSize(_addConstraintText).x, Text.CalcSize(_backText).x, Text.CalcSize(_clearConstraintsText).x) + 16f;
@@ -109,7 +110,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 {
                     _showingAffected = true;
                     _affectedViewers = GetAffectedViewers();
-                    _affectedViewersCount = _affectedViewers.Length;
+                    _affectedViewersCount = _affectedViewers?.Length ?? 0;
                 }
             }
 
@@ -151,7 +152,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 ConstraintBase constraint = _constraints[i];
                 Rect lineRect = listing.GetRect(LineHeight);
 
-                if (!lineRect.IsRegionVisible(viewRect, _constraintsScrollPos))
+                if (!lineRect.IsVisible(viewRect, _constraintsScrollPos))
                 {
                     continue;
                 }
@@ -198,7 +199,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 Rect lineRect = listing.GetRect(LineHeight);
 
-                if (!lineRect.IsRegionVisible(viewRect, _affectedScrollPos))
+                if (!lineRect.IsVisible(viewRect, _affectedScrollPos))
                 {
                     continue;
                 }
@@ -213,7 +214,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var exemptRect = new Rect(lineRect.x + (lineRect.width - _exemptButtonWidth), lineRect.y, _exemptButtonWidth, lineRect.height);
                 var labelRect = new Rect(lineRect.x, lineRect.y, lineRect.width - _exemptButtonWidth - 10f, lineRect.height);
 
-                SettingsHelper.DrawLabel(labelRect, viewer.username);
+                UiHelper.Label(labelRect, viewer.username);
 
                 if (!Widgets.ButtonText(exemptRect, _exemptText))
                 {
@@ -222,7 +223,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 _constraints.Add(new NameConstraint { Username = viewer.username, NameStrategy = NameStrategies.Not });
                 _affectedViewers = GetAffectedViewers();
-                _affectedViewersCount = _affectedViewers.Length;
+                _affectedViewersCount = _affectedViewers?.Length ?? 0;
             }
 
             listing.End();
@@ -251,7 +252,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     Find.WindowStack.Add(new FloatMenu(_constraintOptions));
                 }
 
-                buttonRect = buttonRect.ShiftRight();
+                buttonRect = buttonRect.Shift(Direction8Way.East);
 
                 if (Widgets.ButtonText(buttonRect, _clearConstraintsText))
                 {
@@ -270,7 +271,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             int count = _affectedViewers.Count(viewer => Viewers.All.Remove(viewer));
 
-            LogHelper.Warn($"Purged {count:N0} viewers out of the requested {_affectedViewersCount:N0}!");
+            TkUtils.Logger.Warn($"Purged {count:N0} viewers out of the requested {_affectedViewersCount:N0}!");
             ResetState();
         }
 

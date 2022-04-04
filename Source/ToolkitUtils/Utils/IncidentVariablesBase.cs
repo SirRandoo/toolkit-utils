@@ -22,7 +22,6 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using TwitchToolkit.Store;
 
@@ -37,14 +36,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public override void TryExecute()
         {
-            try
-            {
-                Execute();
-            }
-            catch (Exception e)
-            {
-                LogHelper.Error($@"The incident ""{storeIncident.abbreviation}"" didn't execute successfully.", e);
-            }
+            Execute();
         }
 
         public abstract bool CanHappen(string msg, Viewer viewer);

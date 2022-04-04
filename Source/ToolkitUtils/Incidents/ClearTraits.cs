@@ -95,7 +95,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             MessageHelper.SendConfirmation(message, "TKUtils.ClearTraits.Complete".LocalizeKeyed(_traits.Count.ToString("N0")));
 
-            Find.LetterStack.ReceiveLetter("TKUtils.TraitLetter.Title".Localize(), "TKUtils.TraitLetter.ClearDescription".LocalizeKeyed(Viewer.username), LetterDefOf.NeutralEvent, _pawn);
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.TraitLetter.Title".Localize(),
+                "TKUtils.TraitLetter.ClearDescription".LocalizeKeyed(Viewer.username),
+                LetterDefOf.NeutralEvent,
+                _pawn
+            );
         }
 
         private bool CanRemove(TraitItem trait)
@@ -107,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (AlienRace.Enabled && AlienRace.IsTraitForced(_pawn, trait.DefName, trait.Degree))
+            if (AlienRace.Active && AlienRace.IsTraitForced(_pawn, trait.DefName, trait.Degree))
             {
                 MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name));
 

@@ -66,7 +66,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (PurchaseHelper.TryGetUnfinishedPrerequisites(proxy.Thing.Thing, out List<ResearchProjectDef> projects))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.ResearchRequired".LocalizeKeyed(proxy.Thing.Thing!.LabelCap.RawText, projects.Select(p => p.LabelCap.RawText).SectionJoin()));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.ResearchRequired".LocalizeKeyed(proxy.Thing.Thing!.LabelCap.RawText, projects.Select(p => p.LabelCap.RawText).SectionJoin())
+                );
 
                 return false;
             }
@@ -81,10 +84,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = Mathf.Clamp(amount, 1, proxy.Thing.ItemData.QuantityLimit);
             }
 
-            _purchaseRequest = new PurchaseBackpackRequest
-            {
-                Proxy = proxy, Quantity = amount, Purchaser = viewer, Pawn = pawn
-            };
+            _purchaseRequest = new PurchaseBackpackRequest { Proxy = proxy, Quantity = amount, Purchaser = viewer, Pawn = pawn };
 
             if (_purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
             {
@@ -108,7 +108,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return _purchaseRequest.Map != null;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_purchaseRequest.Price.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.InsufficientBalance".LocalizeKeyed(_purchaseRequest.Price.ToString("N0"), viewer.GetViewerCoins().ToString("N0"))
+            );
 
             return false;
         }
@@ -122,11 +125,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                LogHelper.Warn($"Backpack failed to execute with error message: {e.Message}");
+                TkUtils.Logger.Warn($"Backpack failed to execute with error message: {e.Message}");
             }
         }
 
-        private class PurchaseBackpackRequest
+        private sealed class PurchaseBackpackRequest
         {
             private Pawn _pawn;
 
@@ -166,7 +169,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 ThingDef result = Proxy.Stuff?.Thing;
 
-                if (Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff?.Thing) != true)
+                if (!Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff?.Thing))
                 {
                     result = GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing);
                 }
@@ -231,7 +234,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 {
                     MessageHelper.SendConfirmation(
                         Purchaser.username,
-                        "TKUtils.Item.CompleteMinimal".LocalizeKeyed(Quantity.ToString("N0"), Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name, Price.ToString("N0"))
+                        "TKUtils.Item.CompleteMinimal".LocalizeKeyed(
+                            Quantity.ToString("N0"),
+                            Quantity > 1 ? Proxy.Thing.Name.Pluralize() : Proxy.Thing.Name,
+                            Price.ToString("N0")
+                        )
                     );
                 }
             }

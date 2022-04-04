@@ -66,8 +66,13 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static void ForceLeave([NotNull] ITwitchMessage twitchMessage, [NotNull] Pawn pawn)
         {
-            if (TkSettings.LeaveMethod.EqualsIgnoreCase("Thanos")
-                && FilthMaker.TryMakeFilth(pawn.Position, pawn.Map, ThingDefOf.Filth_Ash, pawn.LabelShortCap, Mathf.CeilToInt(pawn.BodySize * 0.6f)))
+            if (TkSettings.LeaveMethod.EqualsIgnoreCase("Thanos") && FilthMaker.TryMakeFilth(
+                pawn.Position,
+                pawn.Map,
+                ThingDefOf.Filth_Ash,
+                pawn.LabelShortCap,
+                Mathf.CeilToInt(pawn.BodySize * 0.6f)
+            ))
             {
                 twitchMessage.Reply("TKUtils.Leave.Thanos".Localize());
 

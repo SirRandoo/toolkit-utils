@@ -18,8 +18,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CommonLib.Enums;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
@@ -77,11 +80,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             switch (_sortKey)
             {
                 case SortKey.Name:
-                    SettingsHelper.DrawSortIndicator(NameHeaderRect, _sortOrder);
+                    UiHelper.SortIndicator(NameHeaderRect, _sortOrder);
 
                     return;
                 case SortKey.Price:
-                    SettingsHelper.DrawSortIndicator(PriceHeaderRect, _sortOrder);
+                    UiHelper.SortIndicator(PriceHeaderRect, _sortOrder);
 
                     return;
                 default:
@@ -159,7 +162,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     RowLineHeight * (item.SettingsVisible ? ExpandedLineSpan + 1f : 1f)
                 );
 
-                if (!lineRect.IsRegionVisible(canvas, _scrollPos))
+                if (!lineRect.IsVisible(canvas, _scrollPos))
                 {
                     index++;
                     alternate = !alternate;
@@ -194,23 +197,21 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         protected virtual void DrawKind(Rect canvas, [NotNull] TableSettingsItem<PawnKindItem> item)
         {
-            Rect checkboxRect = SettingsHelper.RectForIcon(new Rect(_stateHeaderRect.x + 2f, canvas.y + 2f, _stateHeaderRect.width - 4f, RowLineHeight - 4f));
+            Rect checkboxRect = LayoutHelper.IconRect(_stateHeaderRect.x + 2f, canvas.y + 2f, _stateHeaderRect.width - 4f, RowLineHeight - 4f);
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
 
-            Rect settingRect = SettingsHelper.RectForIcon(
-                new Rect(
-                    _expandedHeaderRect.x + 2f,
-                    canvas.y + Mathf.FloorToInt(Mathf.Abs(_expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
-                    _expandedHeaderRect.width - 4f,
-                    _expandedHeaderRect.width - 4f
-                )
+            Rect settingRect = LayoutHelper.IconRect(
+                _expandedHeaderRect.x + 2f,
+                canvas.y + Mathf.FloorToInt(Mathf.Abs(_expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
+                _expandedHeaderRect.width - 4f,
+                _expandedHeaderRect.width - 4f
             );
 
             bool proxy = item.Data.Enabled;
 
-            if (SettingsHelper.DrawCheckbox(checkboxRect, ref proxy))
+            if (UiHelper.DrawCheckbox(checkboxRect, ref proxy))
             {
                 item.Data.Enabled = proxy;
             }
@@ -254,7 +255,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            var expandedRect = new Rect(NameHeaderRect.x + 10f, canvas.y + RowLineHeight + 10f, canvas.width - checkboxRect.width - settingRect.width - 20f, canvas.height - RowLineHeight - 20f);
+            var expandedRect = new Rect(
+                NameHeaderRect.x + 10f,
+                canvas.y + RowLineHeight + 10f,
+                canvas.width - checkboxRect.width - settingRect.width - 20f,
+                canvas.height - RowLineHeight - 20f
+            );
 
             GUI.BeginGroup(expandedRect);
             DrawExpandedSettings(expandedRect.AtZero(), item);
@@ -267,25 +273,25 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 var fieldRect = new Rect(canvas.x, canvas.y, canvas.width - canvas.height, canvas.height);
 
-                if (SettingsHelper.DrawTextField(fieldRect, item.Data.Name, out string result))
+                if (UiHelper.TextField(fieldRect, item.Data.Name, out string result))
                 {
                     item.Data.Name = result.ToToolkit();
                     item.Data.PawnData.CustomName = true;
                 }
 
-                if (item.Data.PawnData.CustomName && SettingsHelper.DrawFieldButton(fieldRect, Textures.Reset, _resetPawnNameTooltip))
+                if (item.Data.PawnData.CustomName && UiHelper.FieldButton(fieldRect, Textures.Reset, _resetPawnNameTooltip))
                 {
                     item.Data.PawnData.CustomName = false;
                 }
             }
             else
             {
-                SettingsHelper.DrawLabel(canvas, item.Data.Name);
+                UiHelper.Label(canvas, item.Data.Name);
             }
 
             GUI.color = new Color(1f, 1f, 1f, 0.7f);
 
-            if (SettingsHelper.DrawFieldButton(canvas, item.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, item.EditingName ? _closePawnNameTooltip : _editPawnNameTooltip))
+            if (UiHelper.FieldButton(canvas, item.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, item.EditingName ? _closePawnNameTooltip : _editPawnNameTooltip))
             {
                 item.EditingName = !item.EditingName;
             }
@@ -301,7 +307,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             InternalData.AddRange(ToolkitUtils.Data.PawnKinds.OrderBy(i => i.Name).Select(i => new TableSettingsItem<PawnKindItem> { Data = i }));
         }
 
-        private void DrawExpandedSettings(Rect canvas, TableSettingsItem<PawnKindItem> item)
+        private void DrawExpandedSettings(Rect canvas, [NotNull] TableSettingsItem<PawnKindItem> item)
         {
             float columnWidth = Mathf.FloorToInt(canvas.width / 2f) - 26f;
             var leftColumnRect = new Rect(canvas.x, canvas.y, columnWidth, canvas.height);
@@ -318,17 +324,19 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] TableSettingsItem<PawnKindItem> item)
+        private void DrawLeftExpandedSettingsColumn(Rect canvas, [NotNull] ITableItem<PawnKindItem> item)
         {
-            (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).ToForm(0.6f);
-            SettingsHelper.DrawLabel(karmaLabel, _karmaTypeText);
+            (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).Split(0.6f);
+            UiHelper.Label(karmaLabel, _karmaTypeText);
 
             if (Widgets.ButtonText(karmaField, item.Data.Data.KarmaType == null ? _defaultKarmaTypeText : item.Data.Data.KarmaType.ToString()))
             {
-                Find.WindowStack.Add(new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => item.Data.Data.KarmaType = i)).ToList()));
+                Find.WindowStack.Add(
+                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => item.Data.Data.KarmaType = i)).ToList())
+                );
             }
 
-            if (item.Data.Data.KarmaType != null && SettingsHelper.DrawFieldButton(karmaLabel, Textures.Reset, _resetPawnKarmaTooltip))
+            if (item.Data.Data.KarmaType != null && UiHelper.FieldButton(karmaLabel, Textures.Reset, _resetPawnKarmaTooltip))
             {
                 item.Data.Data.KarmaType = null;
             }
@@ -353,7 +361,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             foreach (PawnKindItem item in ToolkitUtils.Data.PawnKinds.Select(item => new { item, existing = InternalData.Find(i => i.Data.Equals(item)) })
                .Where(t => t.existing == null)
-               .Select(t => t.item))
+               .Select(t => t!.item))
             {
                 InternalData.Add(new TableSettingsItem<PawnKindItem> { Data = item });
                 wasDirty = true;

@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Utils;
@@ -26,11 +27,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class GameHelper
     {
-        [CanBeNull]
-        public static string SanitizedLabel([NotNull] this Def def) => def.label == null ? null : Unrichify.StripTags(def.label);
+        [CanBeNull] public static string SanitizedLabel([NotNull] this Def def) => def.label == null ? null : RichTextHelper.StripTags(def.label);
 
-        [CanBeNull]
-        public static string SanitizedLabel([NotNull] this Thing thing) => thing.def?.label == null ? null : Unrichify.StripTags(thing.def.label);
+        [CanBeNull] public static string SanitizedLabel([NotNull] this Thing thing) => thing.def?.label == null ? null : RichTextHelper.StripTags(thing.def.label);
 
         [NotNull]
         public static string TryGetModName([CanBeNull] this ModContentPack content)
@@ -43,8 +42,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return content?.Name ?? "Unknown";
         }
 
-        [NotNull]
-        public static string TryGetModName([CanBeNull] this Def def) => def?.modContentPack?.TryGetModName() ?? "Unknown";
+        [NotNull] public static string TryGetModName([CanBeNull] this Def def) => def?.modContentPack?.TryGetModName() ?? "Unknown";
 
         // https://stackoverflow.com/a/42246387
         [NotNull]
@@ -56,6 +54,17 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => IsGenericType(t, genericType, false, genericParameters));
+        }
+        
+        [NotNull]
+        public static IEnumerable<Type> GetAllTypes([NotNull] Type @interface)
+        {
+            if (!@interface.IsInterface)
+            {
+                throw new ArgumentException("Specified type must be an interface definition", nameof(@interface));
+            }
+
+            return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsClass && @interface.IsAssignableFrom(t));
         }
 
         internal static bool IsGenericTypeDeep([NotNull] Type type, Type genericType, bool fuzzy = false, params Type[] genericParams)
@@ -159,17 +168,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
 
             return rarity >= 0.85f;
-        }
-
-        [NotNull]
-        public static IEnumerable<Type> GetAllTypes([NotNull] Type @interface)
-        {
-            if (!@interface.IsInterface)
-            {
-                throw new ArgumentException("Specified type must be an interface definition", nameof(@interface));
-            }
-
-            return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsClass && @interface.IsAssignableFrom(t));
         }
     }
 }

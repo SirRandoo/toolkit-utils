@@ -33,7 +33,22 @@ namespace SirRandoo.ToolkitUtils
 
         private static readonly string[] FilteredNamespaceRoots =
         {
-            "System", "Unity", "Steamworks", "Verse", "RimWorld", "Utf8Json", "Mono", "RestSharp", "SimpleJSON", "MoonSharp", "TwitchLib", "Newtonsoft", "HugsLib", "HarmonyLib", "MS", "NAudio",
+            "System",
+            "Unity",
+            "Steamworks",
+            "Verse",
+            "RimWorld",
+            "Utf8Json",
+            "Mono",
+            "RestSharp",
+            "SimpleJSON",
+            "MoonSharp",
+            "TwitchLib",
+            "Newtonsoft",
+            "HugsLib",
+            "HarmonyLib",
+            "MS",
+            "NAudio",
             "TMPro"
         };
 
@@ -42,7 +57,10 @@ namespace SirRandoo.ToolkitUtils
             var mutatorEntries = new List<MutatorEntry>();
             var selectorEntries = new List<SelectorEntry>();
 
-            foreach (Type type in AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.GlobalAssemblyCache).SelectMany(a => a.GetTypes()).Where(t => !t.IsInterface && !t.IsAbstract))
+            foreach (Type type in AppDomain.CurrentDomain.GetAssemblies()
+               .Where(a => !a.GlobalAssemblyCache)
+               .SelectMany(a => a.GetTypes())
+               .Where(t => !t.IsInterface && !t.IsAbstract))
             {
                 if (FilteredNamespaceRoots.Any(r => type.Namespace?.StartsWith(r) == true))
                 {

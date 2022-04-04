@@ -58,7 +58,12 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             if (TkSettings.Offload)
             {
-                Task.Run(async () => { await Data.SaveEventDataAsync(Paths.EventDataFilePath); });
+                Task.Run(
+                    async () =>
+                    {
+                        await Data.SaveEventDataAsync(Paths.EventDataFilePath);
+                    }
+                );
             }
             else
             {

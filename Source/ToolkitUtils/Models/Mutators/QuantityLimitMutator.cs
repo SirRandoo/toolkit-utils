@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _quantityLimitText = "TKUtils.Fields.QuantityLimit".TranslateSimple();
+            _quantityLimitText = Label;
             _toLimitTooltip = "TKUtils.MutatorTooltips.StackMode".TranslateSimple();
             _toValueTooltip = "TKUtils.MutatorTooltips.ValueMode".TranslateSimple();
         }
@@ -53,11 +53,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _quantityLimitText);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _quantityLimitText);
             Widgets.TextFieldNumeric(field, ref _limit, ref _limitBuffer, 1f);
 
-            if (SettingsHelper.DrawFieldButton(field, _toLimit ? "S" : "#", _toLimit ? _toLimitTooltip : _toValueTooltip))
+            if (UiHelper.FieldButton(field, _toLimit ? 'S' : '#', _toLimit ? _toLimitTooltip : _toValueTooltip))
             {
                 _toLimit = !_toLimit;
             }

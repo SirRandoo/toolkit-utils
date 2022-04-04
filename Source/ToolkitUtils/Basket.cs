@@ -23,25 +23,16 @@ namespace SirRandoo.ToolkitUtils
 {
     public static class Basket
     {
-        private static readonly Dictionary<string, IEasterEgg> Eggs;
-
-        static Basket()
+        private static readonly Dictionary<string, IEasterEgg> Eggs = new Dictionary<string, IEasterEgg>
         {
-            Eggs = new Dictionary<string, IEasterEgg>
-            {
-                { "scavenging_mechanic", new MechanicalEgg() },
-                { "crystalroseeve", new CrystallizedEgg() },
-                { "merl_fox", new MerlEgg() },
-                { "ericcode", new CodedEgg() }
-            };
-        }
+            { "scavenging_mechanic", new MechanicalEgg() }, { "crystalroseeve", new CrystallizedEgg() }, { "merl_fox", new MerlEgg() }, { "ericcode", new CodedEgg() }
+        };
 
         public static bool RegisterEggFor([NotNull] string user, [NotNull] IEasterEgg egg) => Eggs.TryAdd(user.ToLowerInvariant(), egg);
 
         public static bool UnregisterEggFor([NotNull] string user) => Eggs.Remove(user);
 
-        [CanBeNull]
-        public static IEasterEgg GetEggFor([NotNull] string user) => !Eggs.TryGetValue(user.ToLowerInvariant(), out IEasterEgg egg) ? null : egg;
+        [CanBeNull] public static IEasterEgg GetEggFor([NotNull] string user) => !Eggs.TryGetValue(user.ToLowerInvariant(), out IEasterEgg egg) ? null : egg;
 
         [ContractAnnotation("=> false,egg:null; => true,egg:notnull")]
         public static bool TryGetEggFor([NotNull] string user, out IEasterEgg egg)

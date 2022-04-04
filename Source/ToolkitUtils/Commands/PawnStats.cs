@@ -64,7 +64,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            CommandRouter.MainThreadCommands.Enqueue(() => { MessageHelper.ReplyToUser(msg.Username, container.Select(s => FormatStat(pawn, s)).SectionJoin()); });
+            CommandRouter.MainThreadCommands.Enqueue(
+                () =>
+                {
+                    MessageHelper.ReplyToUser(msg.Username, container.Select(s => FormatStat(pawn, s)).SectionJoin());
+                }
+            );
         }
 
         [CanBeNull]
@@ -76,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         private static bool IsValidStat([NotNull] StatDef stat) => stat.showOnHumanlikes && stat.showOnPawns;
 
         private static bool IsStat([NotNull] Def stat, string query) => stat.label.ToToolkit().Equals(query, StringComparison.InvariantCultureIgnoreCase)
-                                                                        || stat.defName.Equals(query, StringComparison.InvariantCultureIgnoreCase);
+            || stat.defName.Equals(query, StringComparison.InvariantCultureIgnoreCase);
 
         [NotNull]
         private static string FormatStat(Thing pawn, [NotNull] StatDef stat)

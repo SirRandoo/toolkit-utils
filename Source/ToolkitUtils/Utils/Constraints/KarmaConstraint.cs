@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -31,40 +31,19 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public KarmaConstraint()
         {
-            _labelText = "TKUtils.PurgeMenu.Karma".Localize().CapitalizeFirst();
+            _labelText = "TKUtils.PurgeMenu.Karma".TranslateSimple().CapitalizeFirst();
             _buffer = "0";
             _valid = true;
         }
 
         public override void Draw(Rect canvas)
         {
-            (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
-            (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
+            (Rect labelRect, Rect fieldRect) = canvas.Split(0.7f);
+            (Rect buttonRect, Rect inputRect) = fieldRect.Split(0.25f);
 
-            SettingsHelper.DrawLabel(labelRect, _labelText);
+            UiHelper.Label(labelRect, _labelText);
             DrawButton(buttonRect);
-
-            GUI.backgroundColor = _valid ? Color.white : Color.red;
-
-            if (!SettingsHelper.DrawTextField(inputRect, _buffer, out string result))
-            {
-                GUI.backgroundColor = Color.white;
-
-                return;
-            }
-
-            GUI.backgroundColor = Color.white;
-            _buffer = result;
-
-            if (int.TryParse(result, out int parsed))
-            {
-                _karma = parsed;
-                _valid = true;
-            }
-            else
-            {
-                _valid = false;
-            }
+            UiHelper.NumberField(inputRect, ref _buffer, ref _karma, ref _valid);
         }
 
         public override bool ShouldPurge(Viewer viewer)

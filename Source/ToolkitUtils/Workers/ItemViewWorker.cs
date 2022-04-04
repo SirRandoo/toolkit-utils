@@ -14,7 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
@@ -39,15 +40,15 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (item.Data.Thing != null && hasIcon)
             {
-                SettingsHelper.DrawThing(infoRect, item.Data.Thing, item.Data.Name, !item.EditingName);
+                UiHelper.DrawThing(infoRect, item.Data.Thing, item.Data.Name, !item.EditingName);
             }
 
             if (item.Data.Cost > 0)
             {
-                SettingsHelper.DrawLabel(priceRect, item.Data.Cost.ToString("N0"));
+                UiHelper.Label(priceRect, item.Data.Cost.ToString("N0"));
             }
 
-            SettingsHelper.DrawLabel(categoryRect, item.Data.Category);
+            UiHelper.Label(categoryRect, item.Data.Category);
         }
 
         public override void NotifyResolutionChanged(Rect canvas)
@@ -55,9 +56,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             float distributedWidth = Mathf.FloorToInt((canvas.width - 16f) * 0.333f);
             NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
             NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
-            PriceHeaderRect = NameHeaderRect.ShiftRight(1f);
+            PriceHeaderRect = NameHeaderRect.Shift(Direction8Way.East, 1f);
             PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
-            CategoryHeaderRect = PriceHeaderRect.ShiftRight(1f);
+            CategoryHeaderRect = PriceHeaderRect.Shift(Direction8Way.East, 1f);
             CategoryHeaderTextRect = new Rect(CategoryHeaderRect.x + 4f, CategoryHeaderRect.y, CategoryHeaderRect.width - 8f, CategoryHeaderRect.height);
         }
     }

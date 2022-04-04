@@ -26,8 +26,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 {
     public static class HealHelper
     {
-        public static float HandCoverageAbsWithChildren =>
-            ThingDefOf.Human.race.body.GetPartsWithDef(BodyPartDefOf.Hand).First().coverageAbsWithChildren;
+        private static float HandCoverageAbsWithChildren => ThingDefOf.Human.race.body.GetPartsWithDef(BodyPartDefOf.Hand).First().coverageAbsWithChildren;
 
         private static bool CanEverKill([NotNull] Hediff hediff)
         {
@@ -52,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
                 if (num > 10000)
                 {
-                    LogHelper.Warn("HealHelper iterated too many times.");
+                    TkUtils.Logger.Warn("HealHelper iterated too many times.");
 
                     break;
                 }
@@ -69,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [CanBeNull]
-        public static Hediff_Addiction FindAddiction([NotNull] Pawn pawn)
+        private static Hediff_Addiction FindAddiction([NotNull] Pawn pawn)
         {
             List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
@@ -85,14 +84,13 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [CanBeNull]
-        public static BodyPartRecord FindBiggestMissingBodyPart([NotNull] Pawn pawn, float minCoverage = 0f)
+        private static BodyPartRecord FindBiggestMissingBodyPart([NotNull] Pawn pawn, float minCoverage = 0f)
         {
             BodyPartRecord record = null;
 
             foreach (Hediff_MissingPart missing in pawn.health.hediffSet.GetMissingPartsCommonAncestors())
             {
-                if (!(missing.Part.coverageAbsWithChildren < minCoverage)
-                    && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(missing.Part)
+                if (missing.Part.coverageAbsWithChildren >= minCoverage && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(missing.Part)
                     && (record == null || missing.Part.coverageAbsWithChildren > record.coverageAbsWithChildren)
                     && CompatRegistry.AllHealHandlers.All(h => h.CanHeal(missing)))
                 {
@@ -104,7 +102,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [CanBeNull]
-        public static Hediff FindImmunizableHediffWhichCanKill([NotNull] Pawn pawn)
+        private static Hediff FindImmunizableHediffWhichCanKill([NotNull] Pawn pawn)
         {
             Hediff hediff = null;
             float num = -1f;
@@ -112,11 +110,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (!h.Visible
-                    || !h.def.everCurableByItem
-                    || h.TryGetComp<HediffComp_Immunizable>() == null
-                    || h.FullyImmune()
-                    || !CanEverKill(h)
+                if (!h.Visible || !h.def.everCurableByItem || h.TryGetComp<HediffComp_Immunizable>() == null || h.FullyImmune() || !CanEverKill(h)
                     || !CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
                 {
                     continue;
@@ -124,7 +118,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
                 float severity = h.Severity;
 
-                if (hediff != null && !(severity > num))
+                if (hediff != null && severity <= num)
                 {
                     continue;
                 }
@@ -137,18 +131,15 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [CanBeNull]
-        public static Hediff_Injury FindInjury([NotNull] Pawn pawn, [CanBeNull] IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
+        private static Hediff_Injury FindInjury([NotNull] Pawn pawn, [CanBeNull] IReadOnlyCollection<BodyPartRecord> allowedBodyParts = null)
         {
             Hediff_Injury injury = null;
             List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 
             foreach (Hediff h in hediffs)
             {
-                if (h is Hediff_Injury { Visible: true } h2
-                    && h2.def.everCurableByItem
-                    && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))
-                    && (injury == null || h2.Severity > injury.Severity)
-                    && CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
+                if (h is Hediff_Injury { Visible: true } h2 && h2.def.everCurableByItem && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))
+                    && (injury == null || h2.Severity > injury.Severity) && CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
                 {
                     injury = h2;
                 }
@@ -158,7 +149,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [CanBeNull]
-        public static Hediff FindLifeThreateningHediff([NotNull] Pawn pawn)
+        private static Hediff FindLifeThreateningHediff([NotNull] Pawn pawn)
         {
             Hediff hediff = null;
             float num = -1f;
@@ -181,7 +172,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
                 float coverage = h.Part?.coverageAbsWithChildren ?? 999f;
 
-                if (hediff != null && !(coverage > num))
+                if (hediff != null && coverage <= num)
                 {
                     continue;
                 }
@@ -194,7 +185,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [CanBeNull]
-        public static Hediff FindMostBleedingHediff([NotNull] Pawn pawn)
+        private static Hediff FindMostBleedingHediff([NotNull] Pawn pawn)
         {
             var num = 0f;
             Hediff hediff = null;
@@ -209,7 +200,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
                 float bleedRate = h.BleedRate;
 
-                if (!(bleedRate > 0f) || (!(bleedRate > num) && hediff != null))
+                if (bleedRate <= 0f || (bleedRate <= num && hediff != null))
                 {
                     continue;
                 }
@@ -222,7 +213,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [CanBeNull]
-        public static Hediff FindNonInjuryMiscBadHediff([NotNull] Pawn pawn, bool onlyIfCanKill)
+        private static Hediff FindNonInjuryMiscBadHediff([NotNull] Pawn pawn, bool onlyIfCanKill)
         {
             Hediff hediff = null;
             var num = 1f;
@@ -230,15 +221,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (!h.Visible
-                    || !h.def.isBad
-                    || !h.def.everCurableByItem
-                    || h is Hediff_Injury
-                    || h is Hediff_MissingPart
-                    || h is Hediff_Addiction
-                    || h is Hediff_AddedPart
-                    || (onlyIfCanKill && !CanEverKill(h))
-                    || !CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
+                if (!h.Visible || !h.def.isBad || !h.def.everCurableByItem || h is Hediff_Injury || h is Hediff_MissingPart || h is Hediff_Addiction
+                    || h is Hediff_AddedPart || (onlyIfCanKill && !CanEverKill(h)) || !CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
                 {
                     continue;
                 }
@@ -250,7 +234,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
                 float coverage = h.Part?.coverageAbsWithChildren ?? 999f;
 
-                if (hediff != null && !(coverage > num))
+                if (hediff != null && coverage <= num)
                 {
                     continue;
                 }
@@ -270,11 +254,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (h is Hediff_Injury { Visible: true } h2
-                    && h2.IsPermanent()
-                    && h2.def.everCurableByItem
-                    && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))
-                    && (injury == null || h2.Severity > injury.Severity)
+                if (h is Hediff_Injury { Visible: true } h2 && h2.IsPermanent() && h2.def.everCurableByItem
+                    && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part)) && (injury == null || h2.Severity > injury.Severity)
                     && CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
                 {
                     injury = h2;
@@ -337,7 +318,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return bodyPartRecord;
             }
 
-            Hediff_Injury injury2 = FindPermanentInjury(pawn, pawn.health.hediffSet.GetNotMissingParts().Where(p => p.def == BodyPartDefOf.Eye) as IReadOnlyCollection<BodyPartRecord>);
+            Hediff_Injury injury2 = FindPermanentInjury(
+                pawn,
+                pawn.health.hediffSet.GetNotMissingParts().Where(p => p.def == BodyPartDefOf.Eye) as IReadOnlyCollection<BodyPartRecord>
+            );
 
             if (injury2 != null)
             {
@@ -394,7 +378,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return injury4 ?? FindInjury(pawn);
         }
 
-        public static void Resurrect(this Pawn pawn)
+        private static void Resurrect(this Pawn pawn)
         {
             try
             {
@@ -402,7 +386,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
             catch (NullReferenceException)
             {
-                LogHelper.Warn("Failed to revive with side effects -- falling back to a regular revive");
+                TkUtils.Logger.Warn("Failed to revive with side effects -- falling back to a regular revive");
                 ResurrectionUtility.Resurrect(pawn);
             }
 
@@ -415,9 +399,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 Pawn val;
 
-                if (pawn.SpawnedParentOrMe != pawn.Corpse && (val = pawn.SpawnedParentOrMe as Pawn) != null && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode)1, out Thing _))
+                if (pawn.SpawnedParentOrMe != pawn.Corpse && (val = pawn.SpawnedParentOrMe as Pawn) != null
+                    && !val.carryTracker.TryDropCarriedThing(val.Position, (ThingPlaceMode)1, out Thing _))
                 {
-                    LogHelper.Warn($"Could not drop {pawn} at {val.Position.ToString()} from {val.LabelShort}");
+                    TkUtils.Logger.Warn($"Could not drop {pawn} at {val.Position.ToString()} from {val.LabelShort}");
 
                     return false;
                 }
@@ -429,7 +414,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             }
             catch (Exception e)
             {
-                LogHelper.Error($"Could not revive {pawn.LabelShort}", e);
+                TkUtils.Logger.Error($"Could not revive {pawn.LabelShort}", e);
 
                 return false;
             }

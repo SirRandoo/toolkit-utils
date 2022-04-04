@@ -37,7 +37,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (IncidentSettings.FullHeal.FairFights && _pawn!.mindState.lastAttackTargetTick > 0 && Find.TickManager.TicksGame < _pawn.mindState.lastAttackTargetTick + 1800)
+            if (IncidentSettings.FullHeal.FairFights && _pawn!.mindState.lastAttackTargetTick > 0
+                && Find.TickManager.TicksGame < _pawn.mindState.lastAttackTargetTick + 1800)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
 
@@ -81,12 +82,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                LogHelper.Warn("Exceeded the maximum number of iterations during full heal.");
+                TkUtils.Logger.Warn("Exceeded the maximum number of iterations during full heal.");
 
                 break;
             }
 
-            MessageHelper.SendConfirmation(Viewer.username, healed > 1 ? "TKUtils.FullHeal.CompletePlural".LocalizeKeyed(healed.ToString("N0")) : "TKUtils.FullHeal.Complete".Localize());
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                healed > 1 ? "TKUtils.FullHeal.CompletePlural".LocalizeKeyed(healed.ToString("N0")) : "TKUtils.FullHeal.Complete".Localize()
+            );
 
             Current.Game.letterStack.ReceiveLetter(
                 "TKUtils.FullHealLetter.Title".Localize(),

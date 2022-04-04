@@ -78,7 +78,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     UpdateStats();
                 }
 
-                return TraitData?.Stats ?? new string[0];
+                return TraitData?.Stats ?? Array.Empty<string>();
             }
         }
 
@@ -93,16 +93,13 @@ namespace SirRandoo.ToolkitUtils.Models
                     UpdateConflicts();
                 }
 
-                return TraitData?.Conflicts ?? new string[0];
+                return TraitData?.Conflicts ?? Array.Empty<string>();
             }
         }
 
         [DataMember(Name = "bypassLimit")] public bool BypassLimit => TraitData?.CanBypassLimit ?? false;
 
-        [CanBeNull]
-        [IgnoreDataMember]
-        public TraitDef TraitDef =>
-            _traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
+        [CanBeNull] [IgnoreDataMember] public TraitDef TraitDef => _traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
 
         [CanBeNull]
         [DataMember(Name = "data")]
@@ -196,13 +193,14 @@ namespace SirRandoo.ToolkitUtils.Models
             if (builder.Length > 0)
             {
                 builder.Insert(0, $@"Could not obtain all data for the trait ""{Name}"" -- Below are the errors encountered:\n");
-                LogHelper.Warn(builder.ToString());
+                TkUtils.Logger.Warn(builder.ToString());
             }
 
             TraitData.Stats = container.ToArray();
         }
 
         [NotNull]
+        [ItemCanBeNull]
         private static IEnumerable<string> GetDisallowedInspirations([NotNull] TraitDegreeData data)
         {
             if (data.disallowedInspirations == null)
@@ -237,10 +235,11 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             builder.Insert(0, $@"The following inspirations could not be processed for ""{data.label}"":\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         [NotNull]
+        [ItemCanBeNull]
         private static IEnumerable<string> GetDisallowedMentalStates([NotNull] TraitDegreeData data)
         {
             if (data.disallowedMentalStates == null)
@@ -275,9 +274,10 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             builder.Insert(0, $@"The following mental states could not be processed for ""{data.label}"":\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
+        [ItemCanBeNull]
         private static IEnumerable<string> GetDisallowedMeditationTypes(TraitDegreeData data)
         {
             if (!ModLister.RoyaltyInstalled || data.disallowedMeditationFocusTypes.NullOrEmpty())
@@ -312,9 +312,10 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             builder.Insert(0, $@"The following disallowed meditation types could not be processed for ""{data.label}"":\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
+        [ItemCanBeNull]
         private static IEnumerable<string> GetAllowedMeditationTypes(TraitDegreeData data)
         {
             if (!ModLister.RoyaltyInstalled || data.allowedMeditationFocusTypes.NullOrEmpty())
@@ -349,10 +350,11 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             builder.Insert(0, $@"The following allowed meditation types could not be processed for ""{data.label}"":\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         [NotNull]
+        [ItemCanBeNull]
         private static IEnumerable<string> GetOnlyAllowedMentalBreaks([NotNull] TraitDegreeData data)
         {
             if (data.theOnlyAllowedMentalBreaks == null)
@@ -387,10 +389,11 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             builder.Insert(0, $@"The following mental breaks could not be processed for ""{data.label}"":\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         [NotNull]
+        [ItemCanBeNull]
         private static IEnumerable<string> GetSkillGains([NotNull] TraitDegreeData data)
         {
             if (data.skillGains == null)
@@ -425,9 +428,10 @@ namespace SirRandoo.ToolkitUtils.Models
             }
 
             builder.Insert(0, $@"The following stats could not be processed for ""{data.label}"":\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
+        [ItemNotNull]
         private static IEnumerable<string> GetStatOffsets([NotNull] TraitDegreeData data, StringBuilder messages)
         {
             if (data.statOffsets.NullOrEmpty())
@@ -455,6 +459,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
+        [ItemNotNull]
         private static IEnumerable<string> GetStatFactors([NotNull] TraitDegreeData data, StringBuilder messages)
         {
             if (data.statFactors.NullOrEmpty())

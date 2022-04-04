@@ -56,9 +56,9 @@ namespace SirRandoo.ToolkitUtils.Helpers
                     }
                     catch (Exception e)
                     {
-                        LogHelper.Error($@"Command ""{command.command}"" threw an exception!", e);
+                        TkUtils.Logger.Error($@"Command ""{command.command}"" threw an exception!", e);
 
-                        Data.HealthReports.Add(
+                        Data.RegisterHealthReport(
                             new HealthReport
                             {
                                 Message = $@"Command ""{message.Message} ({command.command})"" didn't execute successfully. Reason: {e.GetType().Name}({e.Message})",

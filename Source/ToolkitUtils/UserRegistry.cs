@@ -69,11 +69,12 @@ namespace SirRandoo.ToolkitUtils
 
             if (data == null)
             {
-                UserData.Add(data = new UserData { Id = message.ChatMessage?.UserId ?? message.WhisperMessage?.UserId });
+                data = new UserData { Id = message.ChatMessage?.UserId ?? message.WhisperMessage?.UserId };
+                UserData.Add(data);
 
                 if (data.Id.NullOrEmpty())
                 {
-                    LogHelper.Warn($"Could not get the user id for {message.Username}. Things will not work as excepted.");
+                    TkUtils.Logger.Warn($"Could not get the user id for {message.Username}. Things will not work as excepted.");
                 }
             }
 

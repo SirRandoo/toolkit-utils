@@ -17,8 +17,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using UnityEngine;
 using Verse;
 
@@ -109,14 +109,20 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 Rect lineRect = listing.GetRect(Text.LineHeight);
 
-                if (!lineRect.IsRegionVisible(viewPort, _scrollPos) && !category.Expanded)
+                if (!lineRect.IsVisible(viewPort, _scrollPos) && !category.Expanded)
                 {
                     continue;
                 }
 
                 Rect arrowIconRect = new Rect(lineRect.x, lineRect.y, lineRect.height, lineRect.height).ContractedBy(4f);
                 Rect checkStateRect = new Rect(arrowIconRect.x + arrowIconRect.width, lineRect.y, lineRect.height, lineRect.height).ContractedBy(4f);
-                var categoryTextRect = new Rect(checkStateRect.x + checkStateRect.width + 5f, lineRect.y, lineRect.width - 5f - arrowIconRect.width - checkStateRect.width, lineRect.height);
+
+                var categoryTextRect = new Rect(
+                    checkStateRect.x + checkStateRect.width + 5f,
+                    lineRect.y,
+                    lineRect.width - 5f - arrowIconRect.width - checkStateRect.width,
+                    lineRect.height
+                );
 
                 GUI.DrawTexture(arrowIconRect.ContractedBy(2f), category.Expanded ? Textures.ExpandedArrow : Textures.CollapsedArrow);
 
@@ -142,7 +148,7 @@ namespace SirRandoo.ToolkitUtils.Models
                     }
                 }
 
-                SettingsHelper.DrawLabel(categoryTextRect, $"TKUtils.FilterTypes.{category.FilterType}".Localize());
+                UiHelper.Label(categoryTextRect, $"TKUtils.FilterTypes.{category.FilterType}".TranslateSimple());
 
                 if (Widgets.ButtonInvisible(arrowIconRect))
                 {
@@ -166,7 +172,7 @@ namespace SirRandoo.ToolkitUtils.Models
             {
                 Rect lineRect = listing.GetRect(Text.LineHeight);
 
-                if (!lineRect.IsRegionVisible(viewPort, _scrollPos))
+                if (!lineRect.IsVisible(viewPort, _scrollPos))
                 {
                     continue;
                 }
@@ -179,11 +185,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 if (textRect.width < filter.LabelWidth)
                 {
-                    SettingsHelper.DrawLabel(textRect, filter.Label, fontScale: GameFont.Tiny);
+                    UiHelper.Label(textRect, filter.Label, fontScale: GameFont.Tiny);
                 }
                 else
                 {
-                    SettingsHelper.DrawLabel(textRect, filter.Label);
+                    UiHelper.Label(textRect, filter.Label);
                 }
 
                 if (Widgets.ButtonInvisible(canvas))

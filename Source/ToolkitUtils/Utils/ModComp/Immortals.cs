@@ -15,9 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using System.Linq;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
@@ -25,28 +23,16 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
     [StaticConstructorOnStartup]
     public static class Immortals
     {
-        public static readonly bool Active;
-        internal static readonly HediffDef ImmortalHediffDef;
-
-        static Immortals()
-        {
-            foreach (Mod _ in LoadedModManager.ModHandles.Where(h => h.Content.PackageId.EqualsIgnoreCase("fridgeBaron.Immortals")))
-            {
-                try
-                {
-                    ImmortalHediffDef = DefDatabase<HediffDef>.AllDefs.FirstOrDefault(h => h.defName.Equals("IH_Immortal"));
-
-                    Active = ImmortalHediffDef != null;
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Error("Compatibility class for Immortals failed!", e);
-                }
-            }
-        }
+        public static readonly bool Active = ModLister.GetActiveModWithIdentifier("fridgeBaron.Immortals") != null;
+        internal static readonly HediffDef ImmortalHediffDef = DefDatabase<HediffDef>.GetNamed("IH_Immortal", false);
 
         public static bool TryGrantImmortality([NotNull] Pawn pawn)
         {
+            if (!Active)
+            {
+                return false;
+            }
+
             try
             {
                 pawn.health.AddHediff(ImmortalHediffDef);
@@ -55,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
             catch (Exception e)
             {
-                LogHelper.Error($"Could not grant immortality to {pawn.LabelCap}", e);
+                TkUtils.Logger.Error($"Could not grant immortality to {pawn.LabelCap}", e);
 
                 return false;
             }

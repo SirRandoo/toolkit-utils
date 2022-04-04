@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
 using UnityEngine;
@@ -33,11 +34,10 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         private NameStrategies _nameStrategy = NameStrategies.Is;
         private string _nameStrategyButtonText;
-        private string _nameStrategyText = nameof(NameStrategies.Is);
 
         public NameConstraint()
         {
-            _labelText = "TKUtils.PurgeMenu.Name".Localize().CapitalizeFirst();
+            _labelText = "TKUtils.PurgeMenu.Name".TranslateSimple().CapitalizeFirst();
             _nameStrategyButtonText = $"TKUtils.PurgeMenu.{nameof(NameStrategies.Is)}".Localize();
 
             _strategyOptions = Enum.GetNames(typeof(NameStrategies))
@@ -52,8 +52,8 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 if (_nameStrategy != value)
                 {
-                    _nameStrategyText = Enum.GetName(typeof(NameStrategies), value);
-                    _nameStrategyButtonText = $"TKUtils.PurgeMenu.{_nameStrategyText}".Localize();
+                    string nameStrategyText = Enum.GetName(typeof(NameStrategies), value);
+                    _nameStrategyButtonText = $"TKUtils.PurgeMenu.{nameStrategyText}".TranslateSimple();
                 }
 
                 _nameStrategy = value;
@@ -64,10 +64,10 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public override void Draw(Rect canvas)
         {
-            (Rect labelRect, Rect fieldRect) = canvas.ToForm(0.7f);
-            (Rect buttonRect, Rect inputRect) = fieldRect.ToForm(0.25f);
+            (Rect labelRect, Rect fieldRect) = canvas.Split(0.7f);
+            (Rect buttonRect, Rect inputRect) = fieldRect.Split(0.25f);
 
-            SettingsHelper.DrawLabel(labelRect, _labelText);
+            UiHelper.Label(labelRect, _labelText);
 
             if (Widgets.ButtonText(buttonRect, _nameStrategyButtonText))
             {

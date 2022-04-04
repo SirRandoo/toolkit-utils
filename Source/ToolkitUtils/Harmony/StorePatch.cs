@@ -46,6 +46,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(Settings_Store), "DoWindowContents");
         }
 
+        [ItemNotNull]
         public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             var markerFound = false;
@@ -67,34 +68,35 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
         }
 
+        [UsedImplicitly]
         private static void DrawUtilsContents([CanBeNull] Listing_Standard optionsListing)
         {
             if (optionsListing == null)
             {
-                LogHelper.Warn("Could not inject Utils' shop buttons into Toolkit's store.  You should report this.");
+                TkUtils.Logger.Warn("Could not inject Utils' shop buttons into Toolkit's store.  You should report this.");
 
                 return;
             }
 
-            string openText = "TKUtils.Buttons.Open".Localize();
+            string openText = "TKUtils.Buttons.Open".TranslateSimple();
 
             DoButtonSeparator(optionsListing);
 
-            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Traits".Localize()}", openText))
+            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Traits".TranslateSimple()}", openText))
             {
                 Find.WindowStack.Add(new TraitConfigDialog());
             }
 
             DoButtonSeparator(optionsListing);
 
-            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Race".Localize().Pluralize()}", openText))
+            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"Race".TranslateSimple().Pluralize()}", openText))
             {
                 Find.WindowStack.Add(new PawnKindConfigDialog());
             }
 
             DoButtonSeparator(optionsListing);
 
-            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"TKUtils.Editor.Title".Localize()}", openText))
+            if (optionsListing.ButtonTextLabeled($"[ToolkitUtils] {"TKUtils.Editor.Title".TranslateSimple()}", openText))
             {
                 Find.WindowStack.Add(new Editor());
             }

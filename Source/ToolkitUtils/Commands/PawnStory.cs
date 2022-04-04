@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -37,10 +38,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            var parts = new List<string>
-            {
-                $"{"Backstory".Localize()}: {pawn!.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).SectionJoin()}"
-            };
+            var parts = new List<string> { $"{"Backstory".Localize()}: {pawn!.story.AllBackstories.Select(b => b.title.CapitalizeFirst()).SectionJoin()}" };
 
             if (!pawn.story.title.NullOrEmpty())
             {
@@ -87,7 +85,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (traits.Count > 0)
             {
-                parts.Add($"{"Traits".Localize()}: {traits.Select(t => Unrichify.StripTags(t.LabelCap)).SectionJoin()}");
+                parts.Add($"{"Traits".Localize()}: {traits.Select(t => RichTextHelper.StripTags(t.LabelCap)).SectionJoin()}");
             }
 
             msg.Reply(parts.GroupedJoin().WithHeader("TabCharacter".Localize()));

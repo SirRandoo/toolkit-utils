@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -29,10 +29,10 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.PawnWork.Sort.Label".Localize(), ref TkSettings.SortWorkPriorities);
-            listing.DrawDescription("TKUtils.PawnWork.Sort.Description".Localize());
-            listing.CheckboxLabeled("TKUtils.PawnWork.Filter.Label".Localize(), ref TkSettings.FilterWorkPriorities);
-            listing.DrawDescription("TKUtils.PawnWork.Filter.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnWork.Sort.Label".TranslateSimple(), ref TkSettings.SortWorkPriorities);
+            listing.DrawDescription("TKUtils.PawnWork.Sort.Description".TranslateSimple());
+            listing.CheckboxLabeled("TKUtils.PawnWork.Filter.Label".TranslateSimple(), ref TkSettings.FilterWorkPriorities);
+            listing.DrawDescription("TKUtils.PawnWork.Filter.Description".TranslateSimple());
 
             listing.End();
         }

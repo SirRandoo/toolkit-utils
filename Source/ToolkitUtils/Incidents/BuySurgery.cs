@@ -75,7 +75,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!viewer.CanAfford(_appointment.Cost))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_appointment.Cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(_appointment.Cost.ToString("N0"), viewer.GetViewerCoins().ToString("N0"))
+                );
 
                 return false;
             }
@@ -143,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
 
-        private class Appointment
+        private sealed class Appointment
         {
             private Pawn Patient { get; set; }
             public RecipeDef Surgery { get; private set; }
@@ -202,7 +205,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             private void ParseThingDef(string input)
             {
-                Item = Data.Items.Where(i => i.Cost > 0).FirstOrDefault(t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit()) || t.DefName.ToToolkit().EqualsIgnoreCase(input.ToToolkit()));
+                Item = Data.Items.Where(i => i.Cost > 0)
+                   .FirstOrDefault(t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit()) || t.DefName.ToToolkit().EqualsIgnoreCase(input.ToToolkit()));
 
                 ThingDef = Item?.Thing;
             }

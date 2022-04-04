@@ -51,9 +51,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             _target = _pawn!.skills.skills.Where(s => !s.TotallyDisabled)
                .FirstOrDefault(
-                    s => s.def.defName.EqualsIgnoreCase(query!.ToToolkit())
-                         || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
-                         || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
+                    s => s.def.defName.EqualsIgnoreCase(query!.ToToolkit()) || (s.def.skillLabel?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
+                        || (s.def.label?.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) ?? false)
                 );
 
             if (_target == null)

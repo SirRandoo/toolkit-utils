@@ -21,13 +21,7 @@ namespace SirRandoo.ToolkitUtils
 {
     public static class UsageService
     {
-        private static readonly Dictionary<string, List<UsageRecord<EventItem>>> Events;
-        private static readonly Dictionary<string, List<UsageRecord<CommandItem>>> Commands;
-
-        static UsageService()
-        {
-            Events = new Dictionary<string, List<UsageRecord<EventItem>>>();
-            Commands = new Dictionary<string, List<UsageRecord<CommandItem>>>();
-        }
+        private static readonly Dictionary<string, List<UsageRecord<EventItem>>> Events = new Dictionary<string, List<UsageRecord<EventItem>>>();
+        private static readonly Dictionary<string, List<UsageRecord<CommandItem>>> Commands = new Dictionary<string, List<UsageRecord<CommandItem>>>();
     }
 }

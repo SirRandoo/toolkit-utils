@@ -38,7 +38,8 @@ namespace SirRandoo.ToolkitUtils.Models
                 return false;
             }
 
-            return !UsageData.HasLocalCooldown || !LastUserUse.TryGetValue(user.ToLowerInvariant(), out DateTime value) || !((now - value).TotalMinutes < UsageData.LocalCooldown);
+            return !UsageData.HasLocalCooldown || !LastUserUse.TryGetValue(user.ToLowerInvariant(), out DateTime value)
+                || (now - value).TotalMinutes >= UsageData.LocalCooldown;
         }
 
         public void LogUsage(string user)

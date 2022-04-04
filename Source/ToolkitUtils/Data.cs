@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils
            .Select(i => (ComparisonTypes)Enum.Parse(typeof(ComparisonTypes), i))
            .ToList();
 
-        public static readonly List<HealthReport> HealthReports = new List<HealthReport>();
+        private static readonly List<HealthReport> HealthReports = new List<HealthReport>();
 
         static Data()
         {
@@ -98,6 +98,8 @@ namespace SirRandoo.ToolkitUtils
         public static List<ThingItem> Items { get; set; }
         public static List<SurgeryItem> Surgeries { get; private set; }
         public static List<EventItem> Events { get; private set; }
+
+        public static IEnumerable<HealthReport> AllHealthReports => HealthReports;
 
         private static void LoadShopData()
         {
@@ -159,7 +161,7 @@ namespace SirRandoo.ToolkitUtils
         {
             if (!File.Exists(path) && !ignoreErrors)
             {
-                LogHelper.Warn($"Could not load file at {path} -- Does not exist!");
+                TkUtils.Logger.Warn($"Could not load file at {path} -- Does not exist!");
 
                 return null;
             }
@@ -175,7 +177,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 if (!ignoreErrors)
                 {
-                    LogHelper.Error($"Could not load file at {path}", e);
+                    TkUtils.Logger.Error($"Could not load file at {path}", e);
                 }
 
                 return null;
@@ -186,7 +188,7 @@ namespace SirRandoo.ToolkitUtils
         {
             if (!File.Exists(path) && !ignoreErrors)
             {
-                LogHelper.Warn($"Could not load file at {path} -- Does not exist!");
+                TkUtils.Logger.Warn($"Could not load file at {path} -- Does not exist!");
 
                 return null;
             }
@@ -202,7 +204,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 if (!ignoreErrors)
                 {
-                    LogHelper.Error($"Could not load file at {path}", e);
+                    TkUtils.Logger.Error($"Could not load file at {path}", e);
                 }
 
                 return null;
@@ -213,7 +215,7 @@ namespace SirRandoo.ToolkitUtils
         {
             if (!File.Exists(path) && !ignoreErrors)
             {
-                LogHelper.Warn($"Could not load file at {path} -- Does not exist!");
+                TkUtils.Logger.Warn($"Could not load file at {path} -- Does not exist!");
 
                 return null;
             }
@@ -232,7 +234,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 if (!ignoreErrors)
                 {
-                    LogHelper.Error($"Could not load file at {path}", e);
+                    TkUtils.Logger.Error($"Could not load file at {path}", e);
                 }
 
                 return null;
@@ -248,7 +250,7 @@ namespace SirRandoo.ToolkitUtils
                 Directory.CreateDirectory(directory!);
             }
 
-            string tempPath = Path.GetTempFileName();
+            string tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             try
             {
@@ -269,7 +271,7 @@ namespace SirRandoo.ToolkitUtils
             }
             catch (IOException e)
             {
-                LogHelper.Error($"Could not save json to temporary file @ {tempPath}", e);
+                TkUtils.Logger.Error($"Could not save json to temporary file @ {tempPath}", e);
             }
 
             if (TryReplaceFile(tempPath, path))
@@ -302,7 +304,7 @@ namespace SirRandoo.ToolkitUtils
                 Directory.CreateDirectory(directory!);
             }
 
-            string tempPath = Path.GetTempFileName();
+            string tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             try
             {
@@ -323,7 +325,7 @@ namespace SirRandoo.ToolkitUtils
             }
             catch (IOException e)
             {
-                LogHelper.Error($"Could not save json to temporary file @ {tempPath}", e);
+                TkUtils.Logger.Error($"Could not save json to temporary file @ {tempPath}", e);
             }
 
             if (!TryReplaceFile(tempPath, path))
@@ -354,7 +356,7 @@ namespace SirRandoo.ToolkitUtils
                 Directory.CreateDirectory(directory!);
             }
 
-            string tempPath = Path.GetTempFileName();
+            string tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             try
             {
@@ -368,7 +370,7 @@ namespace SirRandoo.ToolkitUtils
             }
             catch (IOException e)
             {
-                LogHelper.Error($"Could not save json to temporary file @ {tempPath}", e);
+                TkUtils.Logger.Error($"Could not save json to temporary file @ {tempPath}", e);
             }
 
             if (TryReplaceFile(tempPath, path))
@@ -504,7 +506,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             builder.Insert(0, "The following traits could not be processed:\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         private static void ValidatePawnKinds()
@@ -522,13 +524,7 @@ namespace SirRandoo.ToolkitUtils
                 }
 
                 PawnKinds.Add(
-                    new PawnKindItem
-                    {
-                        DefName = def.race.defName,
-                        Enabled = true,
-                        Name = def.race.label ?? def.race.defName,
-                        Cost = def.race.CalculateStorePrice()
-                    }
+                    new PawnKindItem { DefName = def.race.defName, Enabled = true, Name = def.race.label ?? def.race.defName, Cost = def.race.CalculateStorePrice() }
                 );
             }
         }
@@ -558,7 +554,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             builder.Insert(0, "The following pawn kinds could not be processed:\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         private static void ValidateItemData()
@@ -626,7 +622,9 @@ namespace SirRandoo.ToolkitUtils
             var list = new List<ModItem>();
             var builder = new StringBuilder();
 
-            foreach (ModMetaData metaData in running.Where(m => m.Active).Where(mod => !mod.Official).Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt"))))
+            foreach (ModMetaData metaData in running.Where(m => m.Active)
+               .Where(mod => !mod.Official)
+               .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt"))))
             {
                 ModItem item;
 
@@ -647,7 +645,7 @@ namespace SirRandoo.ToolkitUtils
             if (builder.Length > 0)
             {
                 builder.Insert(0, "The following mods could not be processed:\n");
-                LogHelper.Warn(builder.ToString());
+                TkUtils.Logger.Warn(builder.ToString());
             }
 
             Mods = list.ToArray();
@@ -701,7 +699,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             builder.Insert(0, "The following events could not be processed:\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         public static void SaveLegacyShop(string path)
@@ -799,17 +797,17 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [ContractAnnotation("input:notnull => true,kind:notnull; input:notnull => false,kind:null")]
-        public static bool TryGetPawnKind(string input, out PawnKindItem kind)
+        public static bool TryGetPawnKind(string input, out PawnKindItem kind, bool defName = false)
         {
-            if (input.StartsWith("$"))
+            if (defName)
             {
                 input = input.Substring(1);
 
-                kind = PawnKinds.FirstOrDefault(t => t.DefName.Equals(input));
+                kind = PawnKinds.Find(t => t.DefName.Equals(input));
             }
             else
             {
-                kind = PawnKinds.FirstOrDefault(t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit()));
+                kind = PawnKinds.Find(t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit()));
             }
 
             return kind != null;
@@ -858,12 +856,16 @@ namespace SirRandoo.ToolkitUtils
         {
             return DefDatabase<Command>.AllDefs.Where(c => c.enabled)
                .Where(c => c.command.EqualsIgnoreCase(input))
-               .Where(c => viewer != null && Viewers.GetViewer(viewer.ToLowerInvariant()) is { } v && ((v.mod && c.requiresMod) || (v.username == ToolkitSettings.Channel && c.requiresAdmin)))
+               .Where(
+                    c => viewer != null && Viewers.GetViewer(viewer.ToLowerInvariant()) is { } v
+                        && ((v.mod && c.requiresMod) || (v.username == ToolkitSettings.Channel && c.requiresAdmin))
+                )
                .Select(c => c.command);
         }
 
         [CanBeNull]
-        public static string GetViewerColorCode([NotNull] string viewer) => !ToolkitSettings.ViewerColorCodes.TryGetValue(viewer.ToLowerInvariant(), out string color) ? null : color;
+        public static string GetViewerColorCode([NotNull] string viewer) =>
+            !ToolkitSettings.ViewerColorCodes.TryGetValue(viewer.ToLowerInvariant(), out string color) ? null : color;
 
         public static void LoadItemPartial([NotNull] IEnumerable<ItemPartial> partialData)
         {
@@ -910,7 +912,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             builder.Insert(0, "The following items could not be loaded from the partial data provided:\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         public static void LoadEventPartial([NotNull] IEnumerable<EventPartial> partialData)
@@ -932,14 +934,7 @@ namespace SirRandoo.ToolkitUtils
                         continue;
                     }
 
-                    var e = new EventItem
-                    {
-                        Incident = incident,
-                        Name = partial.Name,
-                        Cost = partial.Cost,
-                        EventCap = partial.EventCap,
-                        KarmaType = partial.KarmaType
-                    };
+                    var e = new EventItem { Incident = incident, Name = partial.Name, Cost = partial.Cost, EventCap = partial.EventCap, KarmaType = partial.KarmaType };
 
                     if (e.IsVariables)
                     {
@@ -971,7 +966,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             builder.Insert(0, "The following events could not be loaded from the partial data provided:\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         public static void LoadTraitPartial([NotNull] IEnumerable<TraitItem> partialData)
@@ -1010,7 +1005,7 @@ namespace SirRandoo.ToolkitUtils
             }
 
             builder.Insert(0, "The following traits could not be loaded from the partial data provided:\n");
-            LogHelper.Warn(builder.ToString());
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
         public static void LoadPawnPartial([NotNull] IEnumerable<PawnKindItem> partialData)
@@ -1088,7 +1083,7 @@ namespace SirRandoo.ToolkitUtils
             }
             catch (IOException e1)
             {
-                LogHelper.Error($"Could not replace {dest} with {source}. Trying a different method...", e1);
+                TkUtils.Logger.Error($"Could not replace {dest} with {source}. Trying a different method...", e1);
             }
 
             try
@@ -1101,7 +1096,7 @@ namespace SirRandoo.ToolkitUtils
             }
             catch (IOException e2)
             {
-                LogHelper.Error($"Could not aggressively replace {dest} with {source}", e2);
+                TkUtils.Logger.Error($"Could not aggressively replace {dest} with {source}", e2);
                 TkUtils.Context?.Post(s => Messages.Message($"{Path.GetFileName(dest)} could not be updated", MessageTypeDefOf.TaskCompletion, false), null);
 
                 return false;
@@ -1115,5 +1110,12 @@ namespace SirRandoo.ToolkitUtils
                 File.Delete(path);
             }
         }
+
+        internal static void RegisterHealthReport(HealthReport report)
+        {
+            HealthReports.Add(report);
+        }
+
+        internal static bool RemoveHealthReport(HealthReport report) => HealthReports.Remove(report);
     }
 }

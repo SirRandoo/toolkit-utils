@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Utils.ModComp
@@ -61,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
             catch (Exception e)
             {
-                LogHelper.Error("Compatibility class for Simple Sidearms failed!", e);
+                TkUtils.Logger.Error("Compatibility class for Simple Sidearms failed!", e);
             }
         }
 
@@ -75,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
 
             if (!Active || !TryGetSidearmMemory(pawn, out IList weapons))
             {
-                return null;
+                return Array.Empty<Thing>();
             }
 
             try
@@ -96,7 +95,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             }
             catch (Exception)
             {
-                return null;
+                return Array.Empty<Thing>();
             }
         }
 

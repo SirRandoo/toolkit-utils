@@ -27,13 +27,11 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "isBuy")] public bool IsBuy { get; set; }
         [DataMember(Name = "isBalance")] public bool IsBalance { get; set; }
 
-        [DataMember(Name = "hasGlobalCooldown")]
-        public bool HasGlobalCooldown { get; set; }
+        [DataMember(Name = "hasGlobalCooldown")] public bool HasGlobalCooldown { get; set; }
 
         [DataMember(Name = "globalCooldown")] public int GlobalCooldown { get; set; }
 
-        [DataMember(Name = "hasLocalCooldown")]
-        public bool HasLocalCooldown { get; set; }
+        [DataMember(Name = "hasLocalCooldown")] public bool HasLocalCooldown { get; set; }
 
         [DataMember(Name = "localCooldown")] public int LocalCooldown { get; set; }
         [DataMember(Name = "mod")] public string Mod { get; set; }

@@ -22,13 +22,18 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class ClassPower : PawnPower
     {
-        public ClassPower() { }
-        public ClassPower(Def def, int minimumLevel) : base(def, minimumLevel) { }
-        public ClassPower(string name, int minimumLevel) : base(name, minimumLevel) { }
+        public ClassPower()
+        {
+        }
+        public ClassPower(Def def, int minimumLevel) : base(def, minimumLevel)
+        {
+        }
+        public ClassPower(string name, int minimumLevel) : base(name, minimumLevel)
+        {
+        }
 
         public TMAbilityDef AbilityDef { get; private set; }
 
-        [NotNull]
-        public static ClassPower From(TMAbilityDef def, int minimumLevel) => new ClassPower(def, minimumLevel) { AbilityDef = def };
+        [NotNull] public static ClassPower From(TMAbilityDef def, int minimumLevel) => new ClassPower(def, minimumLevel) { AbilityDef = def };
     }
 }

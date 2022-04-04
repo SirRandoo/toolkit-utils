@@ -61,7 +61,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (BuyItemSettings.mustResearchFirst && projects.Count > 0)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.ResearchRequired".LocalizeKeyed(product.Thing.Thing.LabelCap.RawText, projects.Select(p => p.LabelCap.RawText).SectionJoin()));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.ResearchRequired".LocalizeKeyed(product.Thing.Thing.LabelCap.RawText, projects.Select(p => p.LabelCap.RawText).SectionJoin())
+                );
 
                 return false;
             }
@@ -71,10 +74,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = viewer.GetMaximumPurchaseAmount(product.Thing.Cost);
             }
 
-            _purchaseRequest = new PurchaseRequest
-            {
-                Proxy = product, Quantity = amount, Purchaser = viewer, Map = Helper.AnyPlayerMap
-            };
+            _purchaseRequest = new PurchaseRequest { Proxy = product, Quantity = amount, Purchaser = viewer, Map = Helper.AnyPlayerMap };
 
             if (_purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
             {
@@ -98,7 +98,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return _purchaseRequest.Map != null;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_purchaseRequest.Price.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                "TKUtils.InsufficientBalance".LocalizeKeyed(_purchaseRequest.Price.ToString("N0"), viewer.GetViewerCoins().ToString("N0"))
+            );
 
             return false;
         }
@@ -112,12 +115,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
             catch (Exception e)
             {
-                LogHelper.Warn($"Buy item failed to execute with error message: {e.Message}");
+                TkUtils.Logger.Warn($"Buy item failed to execute with error message: {e.Message}");
             }
         }
     }
 
-    internal class PurchaseRequest
+    public sealed class PurchaseRequest
     {
         private readonly List<Pawn> _animalsForLetter = new List<Pawn>();
         private bool _sendAnimalLetter;
@@ -162,7 +165,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (Proxy.Thing.Thing.race.Humanlike)
             {
                 // ReSharper disable once StringLiteralTypo
-                LogHelper.Warn("Tried to spawn a humanlike -- Humanlikes should be spawned via !buy pawn");
+                TkUtils.Logger.Warn("Tried to spawn a humanlike -- Humanlikes should be spawned via !buy pawn");
 
                 return;
             }
@@ -212,7 +215,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             ThingDef result = Proxy.Stuff?.Thing;
 
-            if (Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff?.Thing) != true)
+            if (!Proxy.Thing.Thing.CanBeStuff(Proxy.Stuff?.Thing))
             {
                 var stuffs = new List<ThingDef>();
 
@@ -226,7 +229,9 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     stuffs.Add(possible);
                 }
 
-                result = !stuffs.TryRandomElementByWeight(s => s.stuffProps.commonality, out ThingDef stuff) ? GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing) : stuff;
+                result = !stuffs.TryRandomElementByWeight(s => s.stuffProps.commonality, out ThingDef stuff)
+                    ? GenStuff.RandomStuffByCommonalityFor(Proxy.Thing.Thing)
+                    : stuff;
             }
 
             Thing thing = PurchaseHelper.MakeThing(Proxy.Thing.Thing, result, Proxy.Quality);
@@ -286,14 +291,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 MessageHelper.SendConfirmation(
                     Purchaser.username,
-                    "TKUtils.Item.CompleteMinimal".LocalizeKeyed(Quantity.ToString("N0"), Quantity > 1 ? Proxy.Thing.Thing.label.Pluralize() : Proxy.Thing.Thing.label, Price.ToString("N0"))
+                    "TKUtils.Item.CompleteMinimal".LocalizeKeyed(
+                        Quantity.ToString("N0"),
+                        Quantity > 1 ? Proxy.Thing.Thing.label.Pluralize() : Proxy.Thing.Thing.label,
+                        Price.ToString("N0")
+                    )
                 );
             }
 
             if (_sendAnimalLetter)
             {
                 Find.LetterStack.ReceiveLetter(
-                    "TKUtils.ItemLetter.Animal".LocalizeKeyed(Quantity > 1 ? Proxy.Thing.Thing.label.CapitalizeFirst().Pluralize() : Proxy.Thing.Thing.label.CapitalizeFirst()),
+                    "TKUtils.ItemLetter.Animal".LocalizeKeyed(
+                        Quantity > 1 ? Proxy.Thing.Thing.label.CapitalizeFirst().Pluralize() : Proxy.Thing.Thing.label.CapitalizeFirst()
+                    ),
                     "LetterFarmAnimalsWanderIn".LocalizeKeyed(Proxy.Thing.Thing.label.Pluralize()),
                     LetterDefOf.NeutralEvent,
                     new LookTargets(_animalsForLetter)
@@ -303,17 +314,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private void NotifyItemPurchaseComplete()
         {
-            if (TkSettings.BuyItemBalance)
-            {
-                MessageHelper.SendConfirmation(
-                    Purchaser.username,
-                    "TKUtils.Item.Complete".LocalizeKeyed(Quantity.ToString("N0"), Proxy.AsString(Quantity > 1), Price.ToString("N0"), Purchaser.GetViewerCoins().ToString("N0"))
-                );
-            }
-            else
-            {
-                MessageHelper.SendConfirmation(Purchaser.username, "TKUtils.Item.CompleteMinimal".LocalizeKeyed(Quantity.ToString("N0"), Proxy.AsString(Quantity > 1), Price.ToString("N0")));
-            }
+            MessageHelper.SendConfirmation(
+                Purchaser.username,
+                TkSettings.BuyItemBalance
+                    ? "TKUtils.Item.Complete".LocalizeKeyed(
+                        Quantity.ToString("N0"),
+                        Proxy.AsString(Quantity > 1),
+                        Price.ToString("N0"),
+                        Purchaser.GetViewerCoins().ToString("N0")
+                    )
+                    : "TKUtils.Item.CompleteMinimal".LocalizeKeyed(Quantity.ToString("N0"), Proxy.AsString(Quantity > 1), Price.ToString("N0"))
+            );
         }
     }
 }

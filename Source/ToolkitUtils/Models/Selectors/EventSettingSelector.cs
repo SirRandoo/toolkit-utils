@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -37,12 +37,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _label = "TKUtils.Fields.HasSettings".TranslateSimple();
+            _label = Label;
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _label, ref _state))
+            if (UiHelper.LabeledPaintableCheckbox(canvas, _label, ref _state))
             {
                 Dirty.Set(true);
             }

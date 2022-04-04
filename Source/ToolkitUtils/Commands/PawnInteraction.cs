@@ -32,24 +32,19 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class PawnInteraction : CommandBase
     {
-        private static readonly Dictionary<string, InteractionProxy> InteractionIndex;
-
-        static PawnInteraction()
+        private static readonly Dictionary<string, InteractionProxy> InteractionIndex = new Dictionary<string, InteractionProxy>
         {
-            InteractionIndex = new Dictionary<string, InteractionProxy>
-            {
-                { "Insult", new InteractionProxy { Interaction = InteractionDefOf.Insult, IsBad = true } },
-                { "Chat", new InteractionProxy { Interaction = InteractionDefOf.Chitchat } },
-                { "Flirt", new InteractionProxy { Interaction = InteractionDefOf.RomanceAttempt } },
-                { "DeepChat", new InteractionProxy { Interaction = InteractionDefOf.DeepTalk } }
-            };
-        }
+            { "Insult", new InteractionProxy { Interaction = InteractionDefOf.Insult, IsBad = true } },
+            { "Chat", new InteractionProxy { Interaction = InteractionDefOf.Chitchat } },
+            { "Flirt", new InteractionProxy { Interaction = InteractionDefOf.RomanceAttempt } },
+            { "DeepChat", new InteractionProxy { Interaction = InteractionDefOf.DeepTalk } }
+        };
 
         public override void RunCommand([NotNull] ITwitchMessage msg)
         {
             if (!InteractionIndex.TryGetValue(command.defName, out InteractionProxy interaction))
             {
-                LogHelper.Warn($@"{command.label}({command.defName}) is bound to the {nameof(PawnInteraction)} class, but has no interaction registered.");
+                TkUtils.Logger.Warn($@"{command.label}({command.defName}) is bound to the {nameof(PawnInteraction)} class, but has no interaction registered.");
 
                 return;
             }
@@ -107,7 +102,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             );
         }
 
-        private class InteractionProxy
+        private struct InteractionProxy
         {
             public bool IsBad { get; set; }
             public InteractionDef Interaction { get; set; }

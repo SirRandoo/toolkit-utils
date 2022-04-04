@@ -47,7 +47,9 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 container += ResponseHelper.JoinPair(skill.def.LabelCap, skill.TotallyDisabled ? ResponseHelper.ForbiddenGlyph.AltText("-") : skill.levelInt.ToString());
 
-                container += !Interests.Active ? string.Concat(Enumerable.Repeat(ResponseHelper.FireGlyph.AltText("+"), (int)skill.passion)) : Interests.GetIconForPassion(skill);
+                container += !Interests.Active
+                    ? string.Concat(Enumerable.Repeat(ResponseHelper.FireGlyph.AltText("+"), (int)skill.passion))
+                    : Interests.GetIconForPassion(skill);
 
                 parts.Add(container);
             }

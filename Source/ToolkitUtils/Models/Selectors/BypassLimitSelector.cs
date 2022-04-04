@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -30,12 +30,12 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _bypassText = "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
+            _bypassText = Label;
         }
 
         public void Draw(Rect canvas)
         {
-            if (SettingsHelper.LabeledPaintableCheckbox(canvas, _bypassText, ref _state))
+            if (UiHelper.LabeledPaintableCheckbox(canvas, _bypassText, ref _state))
             {
                 Dirty.Set(true);
             }

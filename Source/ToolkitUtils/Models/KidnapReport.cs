@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using Verse;
 
@@ -31,26 +32,26 @@ namespace SirRandoo.ToolkitUtils.Models
         [CanBeNull]
         public static KidnapReport KidnapReportFor(string username)
         {
-            if (CommandBase.GetOrFindPawn(username) is { } linkedPawn)
+            if (PurchaseHelper.TryGetPawn(username, out Pawn linkedPawn))
             {
                 return new KidnapReport { Viewer = username, PawnIds = new List<string> { linkedPawn.ThingID } };
             }
 
-            if (Find.FactionManager == null || Find.FactionManager.AllFactionsListForReading.NullOrEmpty())
+            if (!Find.FactionManager?.AllFactions.Any() != true)
             {
                 return null;
             }
 
             var report = new KidnapReport { Viewer = username, PawnIds = new List<string>() };
 
-            foreach (List<Pawn> kidnapped in Find.FactionManager.AllFactions.Select(f => f.kidnapped?.KidnappedPawnsListForReading))
+            foreach (Pawn pawn in Find.FactionManager.AllFactions.SelectMany(f => f.kidnapped.KidnappedPawnsListForReading))
             {
-                if (kidnapped == null)
+                if (pawn.Dead || !(pawn.Name is NameTriple name) || !name.Nick.EqualsIgnoreCase(username))
                 {
                     continue;
                 }
 
-                report.PawnIds.AddRange(kidnapped.Where(p => !p.Dead).Where(p => p.Name is NameTriple name && name.Nick.EqualsIgnoreCase(username)).Select(p => p.ThingID));
+                report.PawnIds.Add(pawn.ThingID);
             }
 
             foreach (Pawn pawn in Find.WorldPawns.AllPawnsAlive)

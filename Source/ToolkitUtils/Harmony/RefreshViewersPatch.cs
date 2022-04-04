@@ -19,7 +19,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore;
 using TwitchToolkit;
@@ -64,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                         }
 
                         Viewers.jsonallviewers = result;
-                        LogHelper.Info(result);
+                        TkUtils.Logger.Info(result);
                     }
                 )
                .ConfigureAwait(false);

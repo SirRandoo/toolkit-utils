@@ -23,7 +23,9 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class DefaultUsabilityHandler : UsabilityHandlerBase<CompUseEffect>
     {
-        public DefaultUsabilityHandler() : base(typeof(CompUseEffect_DestroySelf), typeof(CompUseEffect_StartWick), typeof(CompUseEffect_PlaySound)) { }
+        public DefaultUsabilityHandler() : base(typeof(CompUseEffect_DestroySelf), typeof(CompUseEffect_StartWick), typeof(CompUseEffect_PlaySound))
+        {
+        }
 
         protected override bool IsUsable([NotNull] CompUseEffect comp, Pawn pawn, ThingDef thing, out string failReason) => comp.CanBeUsedBy(pawn, out failReason);
 

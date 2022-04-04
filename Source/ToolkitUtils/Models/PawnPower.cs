@@ -22,7 +22,9 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class PawnPower : IPawnPower
     {
-        public PawnPower() { }
+        public PawnPower()
+        {
+        }
 
         public PawnPower([NotNull] Def def, int minimumLevel)
         {
@@ -40,10 +42,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public virtual int MinimumLevel { get; }
 
-        [NotNull]
-        public static PawnPower From(string name, int minimumLevel) => new PawnPower(name, minimumLevel);
+        [NotNull] public static PawnPower From(string name, int minimumLevel) => new PawnPower(name, minimumLevel);
 
-        [NotNull]
-        public static IPawnPower From([NotNull] Def def, int minimumLevel) => new PawnPower(def, minimumLevel);
+        [NotNull] public static IPawnPower From([NotNull] Def def, int minimumLevel) => new PawnPower(def, minimumLevel);
     }
 }

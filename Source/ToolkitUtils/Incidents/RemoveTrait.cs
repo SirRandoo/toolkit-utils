@@ -72,7 +72,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!viewer.CanAfford(_buyable.CostToRemove))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_buyable.CostToRemove.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(_buyable.CostToRemove.ToString("N0"), viewer.GetViewerCoins().ToString("N0"))
+                );
 
                 return false;
             }
@@ -105,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (AlienRace.Enabled && AlienRace.IsTraitForced(_pawn, target.def.defName, target.Degree))
+            if (AlienRace.Active && AlienRace.IsTraitForced(_pawn, target.def.defName, target.Degree))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, _buyable.Name));
 

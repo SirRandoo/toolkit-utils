@@ -112,7 +112,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             HideDisabledWork(priorities);
 
-            List<string> container = priorities.ToList()
+            List<string> container = priorities
                .Select(priority => new { priority, p = pawn.workSettings.GetPriority(priority) })
                .Where(t => !TkSettings.FilterWorkPriorities || t.p > 0)
                .Select(t => ResponseHelper.JoinPair(t.priority.LabelCap.NullOrEmpty() ? t.priority.defName.CapitalizeFirst() : t.priority.LabelCap.RawText, t.p.ToString()))
@@ -142,7 +142,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                 {
                     priorities.RemoveAt(index);
                 }
-                catch (IndexOutOfRangeException) { }
+                catch (IndexOutOfRangeException)
+                {
+                    // While this shouldn't happen as we're going backwards in the
+                    // list, we'll keep this here to ensure the command doesn't
+                    // throw an exception.
+                }
             }
         }
 

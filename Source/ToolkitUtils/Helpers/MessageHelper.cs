@@ -130,13 +130,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return false;
         }
 
-        [NotNull]
-        public static string Append(this string s, string text) => $"{s}{text}";
+        [NotNull] public static string Append(this string s, string text) => $"{s}{text}";
 
-        [NotNull]
-        public static string AppendWithSpace(this string s, string text) => $"{s} {text}";
+        [NotNull] public static string AppendWithSpace(this string s, string text) => $"{s} {text}";
 
-        [NotNull]
-        public static string Insert(this string s, int index, string text) => new StringBuilder().Append(s).Insert(index, text).ToString();
+        [NotNull] public static string Insert(this string s, int index, string text) => new StringBuilder().Append(s).Insert(index, text).ToString();
     }
 }

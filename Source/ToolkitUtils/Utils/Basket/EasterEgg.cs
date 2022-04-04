@@ -29,8 +29,12 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public virtual bool IsPossible(StoreIncident incident, Viewer viewer) => false;
 
-        public virtual void Execute(Viewer viewer) { }
+        public virtual void Execute(Viewer viewer)
+        {
+        }
 
-        public virtual void Execute(Viewer viewer, Pawn pawn) { }
+        public virtual void Execute(Viewer viewer, Pawn pawn)
+        {
+        }
     }
 }

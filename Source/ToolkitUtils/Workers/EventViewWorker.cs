@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 
@@ -40,14 +40,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
             var karmaRect = new Rect(KarmaHeaderTextRect.x, canvas.y, KarmaHeaderTextRect.width, RowLineHeight);
 
-            SettingsHelper.DrawLabel(nameRect, ev.Data.Name);
+            UiHelper.Label(nameRect, ev.Data.Name);
 
             if (ev.Data.Enabled)
             {
-                SettingsHelper.DrawLabel(priceRect, ev.Data.Cost.ToString("N0"));
+                UiHelper.Label(priceRect, ev.Data.Cost.ToString("N0"));
             }
 
-            SettingsHelper.DrawLabel(karmaRect, ev.Data.KarmaType.ToString());
+            UiHelper.Label(karmaRect, ev.Data.KarmaType.ToString());
         }
 
         public override void NotifyResolutionChanged(Rect canvas)

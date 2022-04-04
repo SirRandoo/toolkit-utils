@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -32,10 +32,10 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             listing.Begin(region);
 
-            (Rect limitLabel, Rect limitField) = listing.GetRectAsForm();
-            SettingsHelper.DrawLabel(limitLabel, "TKUtils.LookupLimit.Label".Localize());
+            (Rect limitLabel, Rect limitField) = listing.Split();
+            UiHelper.Label(limitLabel, "TKUtils.LookupLimit.Label".TranslateSimple());
             Widgets.TextFieldNumeric(limitField, ref TkSettings.LookupLimit, ref _buffer);
-            listing.DrawDescription("TKUtils.LookupLimit.Description".Localize());
+            listing.DrawDescription("TKUtils.LookupLimit.Description".TranslateSimple());
 
             listing.End();
         }

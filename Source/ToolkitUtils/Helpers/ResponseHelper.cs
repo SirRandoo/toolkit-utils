@@ -58,17 +58,13 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public const string NotEqualGlyph = "\u2260";
         public const string ArrowGlyph = "\u2192";
 
-        [NotNull]
-        public static string JoinPair(string key, string value) => $"{key}: {value}";
+        [NotNull] public static string JoinPair(string key, string value) => $"{key}: {value}";
 
-        [NotNull]
-        public static string Join([NotNull] this IEnumerable<string> l, string separator) => string.Join(separator, l);
+        [NotNull] public static string Join([NotNull] this IEnumerable<string> l, string separator) => string.Join(separator, l);
 
-        [NotNull]
-        public static string GroupedJoin([NotNull] this IEnumerable<string> l) => string.Join(OuterGroupSeparator.AltText(OuterGroupSeparatorAlt), l);
+        [NotNull] public static string GroupedJoin([NotNull] this IEnumerable<string> l) => string.Join(OuterGroupSeparator.AltText(OuterGroupSeparatorAlt), l);
 
-        [NotNull]
-        public static string SectionJoin([NotNull] this IEnumerable<string> l) => string.Join(", ", l);
+        [NotNull] public static string SectionJoin([NotNull] this IEnumerable<string> l) => string.Join(", ", l);
 
         public static string Pluralize(this string s) => Find.ActiveLanguageWorker?.Pluralize(s) ?? s;
 

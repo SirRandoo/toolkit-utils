@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -29,8 +29,8 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.CoinRate.Label".Localize(), ref TkSettings.ShowCoinRate);
-            listing.DrawDescription("TKUtils.CoinRate.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.CoinRate.Label".TranslateSimple(), ref TkSettings.ShowCoinRate);
+            listing.DrawDescription("TKUtils.CoinRate.Description".TranslateSimple());
 
             listing.End();
         }

@@ -42,7 +42,9 @@ namespace SirRandoo.ToolkitUtils
         private int _lastRefreshMinute;
         private int _rewardPeriodTracker;
 
-        public Coordinator(Game game) { }
+        public Coordinator(Game game)
+        {
+        }
 
         internal bool HasActivePortals => _portals.Count > 0;
 
@@ -184,7 +186,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 Viewers.RefreshViewers();
                 _lastRefreshMinute = currentMinute;
-                LogHelper.Debug($"Refreshed viewers @ {DateTime.Now:T}");
+                TkUtils.Logger.Debug($"Refreshed viewers @ {DateTime.Now:T}");
             }
 
             if (currentMinute <= _lastMinute || currentMinute < 1)
@@ -202,7 +204,7 @@ namespace SirRandoo.ToolkitUtils
 
             Task.Run(() => Viewers.AwardViewersCoins());
             _rewardPeriodTracker = 0;
-            LogHelper.Debug($"Awarded viewers coins @ {DateTime.Now:T}");
+            TkUtils.Logger.Debug($"Awarded viewers coins @ {DateTime.Now:T}");
         }
 
         public override void GameComponentTick()
@@ -264,7 +266,7 @@ namespace SirRandoo.ToolkitUtils
             }
             catch (Exception e)
             {
-                LogHelper.Error($@"The incident ""{incident.def.defName}"" raised an exception", e);
+                TkUtils.Logger.Error($@"The incident ""{incident.def.defName}"" raised an exception", e);
             }
         }
 

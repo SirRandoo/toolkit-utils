@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -25,8 +26,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var magic = pawn.TryGetComp<CompAbilityUserMagic>();
             var might = pawn.TryGetComp<CompAbilityUserMight>();
-            bool isMightUser = might?.IsMightUser == true;
-            bool isMagicUser = magic?.IsMagicUser == true;
+            bool isMightUser = might is { IsMightUser: true };
+            bool isMagicUser = magic is { IsMagicUser: true };
 
             if (!isMightUser && !isMagicUser)
             {
@@ -127,15 +128,17 @@ namespace SirRandoo.ToolkitUtils.Commands
         [CanBeNull]
         private string ExtractClassName(Pawn pawn)
         {
-            foreach (TraitDef trait in TM_Data.AllClassTraits.Where(trait => pawn.story.traits.HasTrait(trait)))
+            TraitDef classTrait = TM_Data.AllClassTraits.Find(t => pawn.story.traits.HasTrait(t));
+            
+            if (classTrait != null)
             {
-                return GetClassName(trait);
+                return GetClassName(classTrait);
             }
 
             return pawn.story.traits.HasTrait(TorannMagicDefOf.DeathKnight) ? GetClassName(TorannMagicDefOf.DeathKnight) : "";
         }
 
         [CanBeNull]
-        private string GetClassName([NotNull] TraitDef trait) => Unrichify.StripTags(trait.degreeDatas.Count > 0 ? trait.degreeDatas.First().label : trait.label);
+        private string GetClassName([NotNull] TraitDef trait) => RichTextHelper.StripTags(trait.degreeDatas.Count > 0 ? trait.degreeDatas.First().label : trait.label);
     }
 }

@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             var worker = ArgWorker.CreateInstance(CommandFilter.Parse(msg).Skip(2));
 
-            if (!worker.TryGetNextAsTrait(out _buyableTrait) || _buyableTrait.CanAdd == false || _buyableTrait.TraitDef == null)
+            if (!worker.TryGetNextAsTrait(out _buyableTrait) || !_buyableTrait.CanAdd || _buyableTrait.TraitDef == null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.InvalidTraitQuery".LocalizeKeyed(worker.GetLast()));
 
@@ -55,7 +55,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             if (!viewer.CanAfford(_buyableTrait!.CostToAdd))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(_buyableTrait.CostToAdd.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+                MessageHelper.ReplyToUser(
+                    viewer.username,
+                    "TKUtils.InsufficientBalance".LocalizeKeyed(_buyableTrait.CostToAdd.ToString("N0"), viewer.GetViewerCoins().ToString("N0"))
+                );
 
                 return false;
             }
@@ -96,26 +99,23 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool PassesValidationChecks(Viewer viewer)
         {
-            if (_pawn.story.traits.allTraits != null)
-            {
-                foreach (Trait t in _pawn.story.traits.allTraits.Where(t => t.def.ConflictsWith(_trait) || _buyableTrait.TraitDef!.ConflictsWith(t)))
-                {
-                    MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Conflict".LocalizeKeyed(t.LabelCap, _trait.LabelCap));
+            Trait conflicting = _pawn.story.traits.allTraits?.Find(t => t.def.ConflictsWith(_trait) || _buyableTrait.TraitDef!.ConflictsWith(t));
 
-                    return false;
-                }
+            if (conflicting != null)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Conflict".LocalizeKeyed(conflicting.LabelCap, _trait.LabelCap));
             }
 
             Trait duplicateTrait = _pawn.story.traits.allTraits?.FirstOrDefault(t => t.def.defName.Equals(_buyableTrait.TraitDef!.defName));
 
-            if (duplicateTrait != null)
+            if (duplicateTrait == null)
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".LocalizeKeyed(duplicateTrait.Label, _trait.Label));
-
-                return false;
+                return true;
             }
 
-            return true;
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".LocalizeKeyed(duplicateTrait.Label, _trait.Label));
+
+            return false;
         }
 
         private bool PassesCharacterChecks(Viewer viewer, ArgWorker worker)

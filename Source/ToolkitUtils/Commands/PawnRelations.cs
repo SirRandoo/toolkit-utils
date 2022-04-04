@@ -62,8 +62,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 var container = new List<string>
                 {
-                    $"{myOpinion.ToStringWithSign()} ({msg.Username!.ToLowerInvariant()})",
-                    $"{theirOpinion.ToStringWithSign()} ({viewer.ToLowerInvariant()})"
+                    $"{myOpinion.ToStringWithSign()} ({msg.Username!.ToLowerInvariant()})", $"{theirOpinion.ToStringWithSign()} ({viewer.ToLowerInvariant()})"
                 };
 
                 msg.Reply(new[] { relationship, container.SectionJoin() }.GroupedJoin());

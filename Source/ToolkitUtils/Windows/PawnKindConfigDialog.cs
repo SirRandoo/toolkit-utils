@@ -16,6 +16,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
@@ -62,9 +63,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslations()
         {
-            _titleText = "TKUtils.PawnKindStore.Title".Localize();
-            _searchText = "TKUtils.Buttons.Search".Localize();
-            _resetText = "TKUtils.Buttons.ResetAll".Localize();
+            _titleText = "TKUtils.PawnKindStore.Title".TranslateSimple();
+            _searchText = "TKUtils.Buttons.Search".TranslateSimple();
+            _resetText = "TKUtils.Buttons.ResetAll".TranslateSimple();
 
             _searchTextSize = Text.CalcSize(_searchText);
         }
@@ -77,15 +78,15 @@ namespace SirRandoo.ToolkitUtils.Windows
             var searchLabel = new Rect(searchRect.x, searchRect.y, _searchTextSize.x, searchRect.height);
             var searchField = new Rect(searchLabel.x + searchLabel.width + 5f, searchRect.y, searchRect.width - searchLabel.width - 5f, searchRect.height);
 
-            SettingsHelper.DrawLabel(searchLabel, _searchText);
+            UiHelper.Label(searchLabel, _searchText);
 
-            if (SettingsHelper.DrawTextField(searchField, _query, out string input))
+            if (UiHelper.TextField(searchField, _query, out string input))
             {
                 _query = input;
                 NotifySearchRequested();
             }
 
-            if (_query.Length > 0 && SettingsHelper.DrawClearButton(searchField))
+            if (_query.Length > 0 && UiHelper.ClearButton(searchField))
             {
                 _query = "";
                 NotifySearchRequested();

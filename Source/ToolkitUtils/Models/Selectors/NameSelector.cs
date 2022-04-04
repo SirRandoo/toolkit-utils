@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
@@ -33,23 +33,23 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _nameText = "TKUtils.Fields.Name".TranslateSimple();
+            _nameText = Label;
             _excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
             _includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
         }
 
         public void Draw(Rect canvas)
         {
-            (Rect label, Rect field) = canvas.ToForm(0.75f);
-            SettingsHelper.DrawLabel(label, _nameText);
+            (Rect label, Rect field) = canvas.Split(0.75f);
+            UiHelper.Label(label, _nameText);
 
-            if (SettingsHelper.DrawTextField(field, _name, out string input))
+            if (UiHelper.TextField(field, _name, out string input))
             {
                 _name = input;
                 Dirty.Set(true);
             }
 
-            if (!SettingsHelper.DrawFieldButton(field, _exclude ? ResponseHelper.NotEqualGlyph : "=", _exclude ? _includeTooltip : _excludeTooltip))
+            if (!UiHelper.FieldButton(field, _exclude ? '!' : '=', _exclude ? _includeTooltip : _excludeTooltip))
             {
                 return;
             }

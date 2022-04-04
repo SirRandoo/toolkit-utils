@@ -16,10 +16,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using Verse;
 
@@ -39,13 +39,13 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return trait.Equals(TraitDefOf.Gay) || trait.Equals(TraitDefOf.Bisexual) || trait.Equals(TraitDefOf.Asexual);
         }
 
-        public static bool CompareToInput([NotNull] TraitItem trait, [NotNull] string input) => Unrichify.StripTags(trait.Name)
+        public static bool CompareToInput([NotNull] TraitItem trait, [NotNull] string input) => RichTextHelper.StripTags(trait.Name)
            .ToToolkit()
-           .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
+           .EqualsIgnoreCase(RichTextHelper.StripTags(input).ToToolkit());
 
-        public static bool CompareToInput([NotNull] string traitName, [NotNull] string input) => Unrichify.StripTags(traitName)
+        public static bool CompareToInput([NotNull] string traitName, [NotNull] string input) => RichTextHelper.StripTags(traitName)
            .ToToolkit()
-           .EqualsIgnoreCase(Unrichify.StripTags(input).StripTags().ToToolkit());
+           .EqualsIgnoreCase(RichTextHelper.StripTags(input).ToToolkit());
 
         [NotNull]
         public static IEnumerable<TraitItem> ToTraitItems([NotNull] this TraitDef trait)
@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                         Degree = 0,
                         CanAdd = true,
                         CanRemove = true,
-                        Name = trait.label.StripTags().ToToolkit(),
+                        Name = ColoredText.StripTags(trait.label).ToToolkit(),
                         CostToAdd = 3500,
                         CostToRemove = 5500
                     }
@@ -76,7 +76,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                         CostToRemove = 5500,
                         CanAdd = true,
                         CanRemove = true,
-                        Name = t.label.StripTags().ToToolkit()
+                        Name = ColoredText.StripTags(t.label).ToToolkit()
                     }
                 )
                .ToArray();
@@ -187,9 +187,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [ContractAnnotation("trait:notnull,pawn:notnull => true,backstory:notnull; trait:notnull,pawn:notnull => false,backstory:null")]
-        public static bool IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree, out Backstory backstory) => IsDisallowedByBackstory(trait.def, pawn, degree, out backstory);
+        public static bool IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree, out Backstory backstory) =>
+            IsDisallowedByBackstory(trait.def, pawn, degree, out backstory);
 
-        public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree) => AlienRace.Enabled && !AlienRace.IsTraitAllowed(pawn, trait, degree);
+        public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree) => AlienRace.Active && !AlienRace.IsTraitAllowed(pawn, trait, degree);
 
         public static int GetTotalTraits([NotNull] Pawn pawn)
         {

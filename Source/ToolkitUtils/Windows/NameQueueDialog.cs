@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit;
@@ -86,25 +87,25 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void GetTranslations()
         {
-            _emptyQueueText = "TKUtils.NameQueue.None".Localize();
-            _assignedText = "TKUtils.NameQueue.Assigned".Localize();
-            _unassignedText = "TKUtils.NameQueue.Unassigned".Localize();
-            _applyText = "TKUtils.Buttons.Apply".Localize();
-            _countText = "TKUtils.NameQueue.Count".Localize();
-            _viewerTooltip = "TKUtils.NameQueueTooltips.ViewerName".Localize();
-            _unassignedTooltip = "TKUtils.NameQueueTooltips.Unassigned".Localize();
-            _assignedTooltip = "TKUtils.NameQueueTooltips.Assigned".Localize();
-            _nextTooltip = "TKUtils.NameQueueTooltips.Next".Localize();
-            _previousTooltip = "TKUtils.NameQueueTooltips.Previous".Localize();
-            _pawnTooltip = "TKUtils.NameQueueTooltips.Pawn".Localize();
-            _randomTooltip = "TKUtils.NameQueueTooltips.Random".Localize();
-            _assignedToText = "TKUtils.NameQueue.AssignedTo".Localize();
-            _notifyText = "TKUtils.Buttons.Notify".Localize();
-            _notSeenText = "TKUtils.NameQueue.NotSeen".Localize();
-            _viewerDrawnText = "TKUtils.ViewerDrawn".Localize();
-            _banViewerTooltip = "TKUtils.NameQueueTooltips.Ban".Localize();
-            _removeViewerTooltip = "TKUtils.NameQueueTooltips.Remove".Localize();
-            _configureViewerTooltip = "TKUtils.NameQueueTooltips.Configure".Localize();
+            _emptyQueueText = "TKUtils.NameQueue.None".TranslateSimple();
+            _assignedText = "TKUtils.NameQueue.Assigned".TranslateSimple();
+            _unassignedText = "TKUtils.NameQueue.Unassigned".TranslateSimple();
+            _applyText = "TKUtils.Buttons.Apply".TranslateSimple();
+            _countText = "TKUtils.NameQueue.Count".TranslateSimple();
+            _viewerTooltip = "TKUtils.NameQueueTooltips.ViewerName".TranslateSimple();
+            _unassignedTooltip = "TKUtils.NameQueueTooltips.Unassigned".TranslateSimple();
+            _assignedTooltip = "TKUtils.NameQueueTooltips.Assigned".TranslateSimple();
+            _nextTooltip = "TKUtils.NameQueueTooltips.Next".TranslateSimple();
+            _previousTooltip = "TKUtils.NameQueueTooltips.Previous".TranslateSimple();
+            _pawnTooltip = "TKUtils.NameQueueTooltips.Pawn".TranslateSimple();
+            _randomTooltip = "TKUtils.NameQueueTooltips.Random".TranslateSimple();
+            _assignedToText = "TKUtils.NameQueue.AssignedTo".TranslateSimple();
+            _notifyText = "TKUtils.Buttons.Notify".TranslateSimple();
+            _notSeenText = "TKUtils.NameQueue.NotSeen".TranslateSimple();
+            _viewerDrawnText = "TKUtils.ViewerDrawn".TranslateSimple();
+            _banViewerTooltip = "TKUtils.NameQueueTooltips.Ban".TranslateSimple();
+            _removeViewerTooltip = "TKUtils.NameQueueTooltips.Remove".TranslateSimple();
+            _configureViewerTooltip = "TKUtils.NameQueueTooltips.Configure".TranslateSimple();
 
             _applyTextWidth = Text.CalcSize(_applyText).x + 16f;
             _notifyTextWidth = Text.CalcSize(_notifyText).x + 16f;
@@ -193,7 +194,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 _lastSeenText = _notSeenText;
             }
 
-            _lastSeenText = "TKUtils.NameQueue.LastSeen".LocalizeKeyed(diff.TotalMinutes.ToString("N2"));
+            _lastSeenText = "TKUtils.NameQueue.LastSeen".Translate(diff.TotalMinutes.ToString("N2"));
         }
 
         private void DrawContent(Rect contentRect)
@@ -202,13 +203,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.Begin(contentRect);
 
             Rect usernameRect = listing.GetRect(Text.LineHeight);
-            (Rect usernameLabel, Rect usernameFieldHalf) = usernameRect.ToForm(_assignedToTextWidth / usernameRect.width);
-            SettingsHelper.DrawLabel(usernameLabel, _assignedToText);
+            (Rect usernameLabel, Rect usernameFieldHalf) = usernameRect.Split(_assignedToTextWidth / usernameRect.width);
+            UiHelper.Label(usernameLabel, _assignedToText);
 
             _usernameFieldPosition = new Rect(usernameFieldHalf.x, usernameFieldHalf.y, usernameFieldHalf.width - _applyTextWidth - 5f, usernameFieldHalf.height);
             _username = Widgets.TextField(_usernameFieldPosition, _username).ToToolkit();
 
-            if (_username.Length > 0 && SettingsHelper.DrawClearButton(_usernameFieldPosition))
+            if (_username.Length > 0 && UiHelper.ClearButton(_usernameFieldPosition))
             {
                 _username = "";
                 _userFromButton = false;
@@ -239,9 +240,9 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.GapLine(36f);
             Rect seenAtLine = listing.GetRect(Text.LineHeight * 2f);
-            seenAtLine = seenAtLine.WithWidth(seenAtLine.width - 5f - _notifyTextWidth);
+            seenAtLine = seenAtLine.Trim(Direction8Way.East, seenAtLine.width - 5f - _notifyTextWidth);
             var notifyButton = new Rect(seenAtLine.x + seenAtLine.width + 5f, seenAtLine.y, _notifyTextWidth, Mathf.FloorToInt(seenAtLine.height / 2f));
-            SettingsHelper.DrawLabel(seenAtLine, _lastSeenText);
+            UiHelper.Label(seenAtLine, _lastSeenText);
 
             if (Widgets.ButtonText(notifyButton, _notifyText))
             {
@@ -292,7 +293,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             buttonTemplateRect.TipRegion(_configureViewerTooltip);
-            buttonTemplateRect = buttonTemplateRect.ShiftRight(0f);
+            buttonTemplateRect = buttonTemplateRect.Shift(Direction8Way.East, 0f);
 
             var remove = false;
 
@@ -304,7 +305,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             buttonTemplateRect.TipRegion(_banViewerTooltip);
 
-            buttonTemplateRect = buttonTemplateRect.ShiftRight(0f);
+            buttonTemplateRect = buttonTemplateRect.Shift(Direction8Way.East, 0f);
 
             if (Widgets.ButtonImage(buttonTemplateRect, Widgets.CheckboxOffTex))
             {
@@ -313,13 +314,18 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             buttonTemplateRect.TipRegion(_removeViewerTooltip);
 
-            if (remove)
+            if (!remove)
             {
-                try
-                {
-                    _pawnComponent.ViewerNameQueue.RemoveAt(index);
-                }
-                catch (IndexOutOfRangeException) { }
+                return;
+            }
+
+            try
+            {
+                _pawnComponent.ViewerNameQueue.RemoveAt(index);
+            }
+            catch (IndexOutOfRangeException)
+            {
+                // Shouldn't happen, but we'll handle it anyway.
             }
         }
 
@@ -361,19 +367,11 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-        #if RW12
             GUI.DrawTexture(
                 colonistRect,
-                PortraitsCache.Get(
-                    current,
-                    ColonistBarColonistDrawer.PawnTextureSize,
-                    ColonistBarColonistDrawer.PawnTextureCameraOffset,
-                    1.28205f
-                )
+                PortraitsCache.Get(_current, ColonistBarColonistDrawer.PawnTextureSize, Rot4.South, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f)
             );
-        #else
-            GUI.DrawTexture(colonistRect, PortraitsCache.Get(_current, ColonistBarColonistDrawer.PawnTextureSize, Rot4.South, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
-        #endif
+
             Widgets.DrawHighlightIfMouseover(colonistRect);
 
             if (Widgets.ButtonInvisible(colonistRect))
@@ -387,8 +385,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             bool viewerAssigned = _pawnComponent.pawnHistory.Any(pair => pair.Key.Equals(name.Nick, StringComparison.InvariantCultureIgnoreCase) && pair.Value == _current);
-            SettingsHelper.DrawFittedLabel(nameRect, $"{name.First} {name.Last}", TextAnchor.MiddleCenter);
-            SettingsHelper.DrawFittedLabel(viewerRect, name.Nick?.CapitalizeFirst(), TextAnchor.MiddleCenter);
+            UiHelper.Label(nameRect, $"{name.First} {name.Last}", TextAnchor.MiddleCenter);
+            UiHelper.Label(viewerRect, name.Nick?.CapitalizeFirst(), TextAnchor.MiddleCenter);
 
             DoStateMouseActions(stateRect, viewerAssigned, name.Nick);
             TooltipHandler.TipRegion(viewerRect, _viewerTooltip);
@@ -403,9 +401,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void OpenInfoDialog()
         {
             var infoCard = new Dialog_InfoCard(_current);
-        #if RW12
-            infoCard.SetTab(Dialog_InfoCard.InfoCardTab.Character);
-        #endif
             Find.WindowStack.Add(infoCard);
         }
 
@@ -416,7 +411,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            SettingsHelper.DrawFittedLabel(canvas, (assigned ? _assignedText : _unassignedText).CapitalizeFirst(), TextAnchor.MiddleCenter);
+            UiHelper.Label(canvas, (assigned ? _assignedText : _unassignedText).CapitalizeFirst(), TextAnchor.MiddleCenter);
             Widgets.DrawHighlightIfMouseover(canvas);
             TooltipHandler.TipRegion(canvas, assigned ? _assignedTooltip : _unassignedTooltip);
 
@@ -526,7 +521,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void NextUnnamedColonist()
         {
-            _current = _allPawns.Where(p => CompatRegistry.Magic?.IsUndead(p) != true).FirstOrDefault(p => _pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != _current);
+            _current = _allPawns.Where(p => CompatRegistry.Magic?.IsUndead(p) != true)
+               .FirstOrDefault(p => _pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != _current);
 
             if (_current == null)
             {
@@ -538,7 +534,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void PreviousUnnamedColonist()
         {
-            _current = _allPawns.Where(p => !CompatRegistry.Magic?.IsUndead(p) ?? false).LastOrDefault(p => _pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != _current);
+            _current = _allPawns.Where(p => !CompatRegistry.Magic?.IsUndead(p) ?? false)
+               .LastOrDefault(p => _pawnComponent.pawnHistory.All(pair => pair.Value != p) && p != _current);
 
             if (_current == null)
             {
@@ -581,7 +578,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 return;
             }
 
-            LogHelper.Warn("Pawn game component was null!");
+            TkUtils.Logger.Warn("Pawn game component was null!");
             Close();
         }
 

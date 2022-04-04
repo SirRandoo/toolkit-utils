@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.ToolkitUtils.Helpers;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -29,17 +29,17 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".Localize(), ref TkSettings.TempInGear);
-            listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".TranslateSimple(), ref TkSettings.TempInGear);
+            listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".TranslateSimple());
 
-            listing.CheckboxLabeled("TKUtils.PawnGear.Apparel.Label".Localize(), ref TkSettings.ShowApparel);
-            listing.DrawDescription("TKUtils.PawnGear.Apparel.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Apparel.Label".TranslateSimple(), ref TkSettings.ShowApparel);
+            listing.DrawDescription("TKUtils.PawnGear.Apparel.Description".TranslateSimple());
 
-            listing.CheckboxLabeled("TKUtils.PawnGear.Armor.Label".Localize(), ref TkSettings.ShowArmor);
-            listing.DrawDescription("TKUtils.PawnGear.Armor.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Armor.Label".TranslateSimple(), ref TkSettings.ShowArmor);
+            listing.DrawDescription("TKUtils.PawnGear.Armor.Description".TranslateSimple());
 
-            listing.CheckboxLabeled("TKUtils.PawnGear.Weapon.Label".Localize(), ref TkSettings.ShowWeapon);
-            listing.DrawDescription("TKUtils.PawnGear.Weapon.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.PawnGear.Weapon.Label".TranslateSimple(), ref TkSettings.ShowWeapon);
+            listing.DrawDescription("TKUtils.PawnGear.Weapon.Description".TranslateSimple());
 
             listing.End();
         }

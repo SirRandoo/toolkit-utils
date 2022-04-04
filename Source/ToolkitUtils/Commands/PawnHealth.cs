@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -97,9 +98,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return ResponseHelper.NeutralGlyph.AltText($"({"Mood_Neutral".Localize()})");
             }
 
-            return moodLevel < 0.899999976158142 ? ResponseHelper.ContentGlyph.AltText($"({"Mood_Content".Localize()})") : ResponseHelper.HappyGlyph.AltText($"({"Mood_Happy".Localize()})");
+            return moodLevel < 0.899999976158142
+                ? ResponseHelper.ContentGlyph.AltText($"({"Mood_Content".Localize()})")
+                : ResponseHelper.HappyGlyph.AltText($"({"Mood_Happy".Localize()})");
         }
 
+        [NotNull]
         private static string HealthCapacityReport([NotNull] Pawn pawn, [NotNull] PawnCapacityDef capacity)
         {
             if (!PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
@@ -111,7 +115,10 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             var segments = new List<string>
             {
-                ResponseHelper.JoinPair(Unrichify.StripTags(capacity.LabelCap), PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors).ToStringPercent()),
+                ResponseHelper.JoinPair(
+                    RichTextHelper.StripTags(capacity.LabelCap),
+                    PawnCapacityUtility.CalculateCapacityLevel(pawn.health.hediffSet, capacity, impactors).ToStringPercent()
+                ),
                 impactors.Any()
                     ? ResponseHelper.JoinPair("TKUtils.PawnHealth.AffectedBy".Localize(), GetImpactorsForPawn(pawn, impactors).SectionJoin())
                     : "NoHealthConditions".Localize().CapitalizeFirst()
@@ -168,7 +175,12 @@ namespace SirRandoo.ToolkitUtils.Commands
                 source = source.OrderBy(d => d.listOrder).ToList();
 
                 string[] capacities = source.Where(capacity => PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, capacity))
-                   .Select(capacity => ResponseHelper.JoinPair(Unrichify.StripTags(capacity.GetLabelFor(pawn)).CapitalizeFirst(), HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First))
+                   .Select(
+                        capacity => ResponseHelper.JoinPair(
+                            RichTextHelper.StripTags(capacity.GetLabelFor(pawn)).CapitalizeFirst(),
+                            HealthCardUtility.GetEfficiencyLabel(pawn, capacity).First
+                        )
+                    )
                    .ToArray();
 
                 segments.Add(capacities.SectionJoin());
@@ -190,7 +202,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return segments.GroupedJoin();
             }
 
-            string[] queued = surgeries!.Bills.Select(item => Unrichify.StripTags(item.LabelCap)).ToArray();
+            string[] queued = surgeries!.Bills.Select(item => RichTextHelper.StripTags(item.LabelCap)).ToArray();
 
             segments.Add(ResponseHelper.JoinPair("TKUtils.PawnHealth.QueuedSurgeries".Localize(), queued.SectionJoin()));
 

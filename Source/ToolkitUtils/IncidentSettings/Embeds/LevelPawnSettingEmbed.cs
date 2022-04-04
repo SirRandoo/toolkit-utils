@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using System;
+using CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
@@ -31,17 +32,14 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Embeds
     public class LevelPawnSettingEmbed : IEventSettings
     {
         private string _buffer;
+        private bool _bufferValid = true;
         public int LineSpan => 1;
 
         public void Draw(Rect canvas, float preferredHeight)
         {
-            (Rect label, Rect field) = new Rect(canvas.x, canvas.y, canvas.width, preferredHeight).ToForm(0.65f);
-            SettingsHelper.DrawLabel(label, "TKUtils.Fields.LevelSkillMultiplier".Localize());
-
-            if (SettingsHelper.DrawNumberField(field, ref LevelPawnSettings.xpMultiplier, ref _buffer, out float newValue, 0.5f, 5f))
-            {
-                LevelPawnSettings.xpMultiplier = newValue;
-            }
+            (Rect label, Rect field) = new Rect(canvas.x, canvas.y, canvas.width, preferredHeight).Split(0.65f);
+            UiHelper.Label(label, "TKUtils.Fields.LevelSkillMultiplier".Localize());
+            UiHelper.NumberField(field, ref _buffer, ref LevelPawnSettings.xpMultiplier, ref _bufferValid, 0.5f, 5f);
         }
     }
 }

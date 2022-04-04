@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using ToolkitCore.Utilities;
 using Verse;
@@ -25,8 +26,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 {
     public static class CommandParser
     {
-        [NotNull]
-        public static List<KeyValuePair<string, string>> ParseKeyed(string input) => ParseKeyed(CommandFilter.Parse(input));
+        [NotNull] public static List<KeyValuePair<string, string>> ParseKeyed(string input) => ParseKeyed(CommandFilter.Parse(input));
 
         [NotNull]
         public static List<KeyValuePair<string, string>> ParseKeyed([NotNull] IEnumerable<string> input)
@@ -40,8 +40,8 @@ namespace SirRandoo.ToolkitUtils.Utils
                     continue;
                 }
 
-                var key = "";
-                var value = "";
+                var key = new StringBuilder();
+                var value = new StringBuilder();
                 var sep = false;
                 var escaped = false;
 
@@ -61,11 +61,11 @@ namespace SirRandoo.ToolkitUtils.Utils
                         {
                             if (!sep)
                             {
-                                key += c.ToString();
+                                key.Append(c.ToString());
                             }
                             else
                             {
-                                value += c.ToString();
+                                value.Append(c.ToString());
                             }
 
                             break;
@@ -73,7 +73,9 @@ namespace SirRandoo.ToolkitUtils.Utils
                     }
                 }
 
-                cache.Add(new KeyValuePair<string, string>(key, value));
+                cache.Add(new KeyValuePair<string, string>(key.ToString(), value.ToString()));
+                key.Clear();
+                value.Clear();
             }
 
             return cache;

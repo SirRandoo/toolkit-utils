@@ -31,12 +31,16 @@ namespace SirRandoo.ToolkitUtils
         ///     to the event.
         /// </summary>
         /// <example>
-        ///     Utils' trait events are a good example of what this type refers to.
+        ///     Utils' trait events are a good example of what this type refers
+        ///     to.
         ///     The cost a viewer will pay for the event depends on what item the
-        ///     user supplies to the event. If a user requests the trait "brawler"
+        ///     user supplies to the event. If a user requests the trait
+        ///     "brawler"
         ///     be added to their pawn, and brawler costs 3,500 coins to add, the
-        ///     viewer would be charged 3,500 coins at some point before the event
-        ///     completes. The same can be said about removing the trait "brawler".
+        ///     viewer would be charged 3,500 coins at some point before the
+        ///     event
+        ///     completes. The same can be said about removing the trait
+        ///     "brawler".
         /// </example>
         Trait,
 
@@ -62,7 +66,8 @@ namespace SirRandoo.ToolkitUtils
         ///     to. The cost a viewer will pay for the event depends on what item
         ///     the user supplies to the command. If a user requests an archotech
         ///     arm to be installed with said event, and the archotech arm costs
-        ///     5,000 coins, the viewer would be charged 5,000 coins at some point
+        ///     5,000 coins, the viewer would be charged 5,000 coins at some
+        ///     point
         ///     before the event completes.
         /// </example>
         Item,
@@ -73,8 +78,10 @@ namespace SirRandoo.ToolkitUtils
         ///     Toolkit's.
         /// </summary>
         /// <remarks>
-        ///     Any misc events will not have their price displayed on ToolkitUtils'
-        ///     default item list. Developers will have to convey this information
+        ///     Any misc events will not have their price displayed on
+        ///     ToolkitUtils'
+        ///     default item list. Developers will have to convey this
+        ///     information
         ///     in another form.
         /// </remarks>
         Misc,

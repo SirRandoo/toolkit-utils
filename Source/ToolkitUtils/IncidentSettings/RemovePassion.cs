@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Incidents;
@@ -43,22 +43,22 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            listing.CheckboxLabeled("TKUtils.Passion.Randomness.Label".Localize(), ref Randomness, "TKUtils.Passion.Randomness.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.Passion.Randomness.Label".TranslateSimple(), ref Randomness, "TKUtils.Passion.Randomness.Description".TranslateSimple());
 
-            (Rect failLabel, Rect failField) = listing.GetRect(preferredHeight).ToForm();
-            SettingsHelper.DrawLabel(failLabel, "TKUtils.Passion.FailChance.Label".Localize());
+            (Rect failLabel, Rect failField) = listing.Split(preferredHeight);
+            UiHelper.Label(failLabel, "TKUtils.Passion.FailChance.Label".TranslateSimple());
             Widgets.TextFieldNumeric(failField, ref ChanceToFail, ref _failChanceBuffer, max: 100f);
-            failField.TipRegion("TKUtils.Passion.FailChance.Description".Localize());
+            failField.TipRegion("TKUtils.Passion.FailChance.Description".TranslateSimple());
 
-            (Rect hopLabel, Rect hopField) = listing.GetRect(preferredHeight).ToForm();
-            SettingsHelper.DrawLabel(hopLabel, "TKUtils.Passion.HopChance.Label".Localize());
+            (Rect hopLabel, Rect hopField) = listing.Split(preferredHeight);
+            UiHelper.Label(hopLabel, "TKUtils.Passion.HopChance.Label".TranslateSimple());
             Widgets.TextFieldNumeric(hopField, ref ChanceToHop, ref _hopChanceBuffer, max: 100f);
-            hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".Localize());
+            hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".TranslateSimple());
 
-            (Rect increaseLabel, Rect increaseField) = listing.GetRect(preferredHeight).ToForm();
-            SettingsHelper.DrawLabel(increaseLabel, "TKUtils.Passion.DecreaseChance.Label".Localize());
+            (Rect increaseLabel, Rect increaseField) = listing.Split(preferredHeight);
+            UiHelper.Label(increaseLabel, "TKUtils.Passion.DecreaseChance.Label".TranslateSimple());
             Widgets.TextFieldNumeric(increaseField, ref ChanceToIncrease, ref _increaseChanceBuffer, max: 100f);
-            increaseLabel.TipRegion("TKUtils.Passion.IncreaseChance.Description".Localize());
+            increaseLabel.TipRegion("TKUtils.Passion.IncreaseChance.Description".TranslateSimple());
 
             listing.End();
         }

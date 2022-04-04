@@ -17,7 +17,6 @@
 using System;
 using System.Threading.Tasks;
 using RestSharp;
-using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore;
 # if !RW12
 using JetBrains.Annotations;
@@ -29,9 +28,7 @@ namespace SirRandoo.ToolkitUtils.Workers
     {
         private static RestClient _client;
 
-    #if !RW12
         [ItemCanBeNull]
-    #endif
         public static async Task<string> GetChatters()
         {
             _client ??= new RestClient("https://tmi.twitch.tv/group/user");
@@ -46,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
             catch (Exception e)
             {
-                LogHelper.Error("Could not refresh viewer list", e);
+                TkUtils.Logger.Error("Could not refresh viewer list", e);
             }
 
             return response;

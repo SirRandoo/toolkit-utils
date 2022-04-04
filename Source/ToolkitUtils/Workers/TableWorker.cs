@@ -19,8 +19,6 @@ using System.Collections.Generic;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
-    public enum SortOrder { Ascending, Descending }
-
     public abstract class TableWorker<T> : TableWorkerBase
     {
         private protected List<T> InternalData;

@@ -17,8 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
+using RimWorld;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -31,7 +32,12 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private readonly EventTypes _eventType;
         private readonly List<FloatMenuOption> _karmaTypeOptions;
+        private string _capBuffer;
+        private bool _capBufferValid = true;
         private string _codeText;
+
+        private string _costBuffer;
+        private bool _costBufferValid = true;
 
         private string _disableText;
         private string _editItemsText;
@@ -45,13 +51,17 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _settingsText;
         private string _timesText;
         private float _titleWidth;
+        private string _wagerBuffer;
+        private bool _wagerBufferValid = true;
         private string _wagerText;
 
         public StoreIncidentEditor([NotNull] StoreIncident storeIncident) : base(storeIncident)
         {
             onlyOneOfTypeAllowed = true;
             _eventType = storeIncident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
-
+            _costBuffer = storeIncident.cost.ToString();
+            _capBuffer = storeIncident.eventCap.ToString();
+            _wagerBuffer = (storeIncidentVariables?.maxWager ?? 0).ToString();
             _karmaTypeOptions = Data.KarmaTypes.Select(t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)).ToList();
         }
 
@@ -64,17 +74,17 @@ namespace SirRandoo.ToolkitUtils.Windows
                 MakeSureSaveExists();
             }
 
-            _disableText = "TKUtils.Buttons.Disable".Localize();
-            _resetText = "TKUtils.Buttons.Reset".Localize();
-            _settingsText = "TKUtils.Buttons.Settings".Localize();
-            _codeText = "TKUtils.Fields.PurchaseCode".Localize();
-            _priceText = "TKUtils.Fields.Price".Localize();
-            _wagerText = "TKUtils.Fields.Wager".Localize();
-            _karmaText = "TKUtils.Fields.KarmaType".Localize();
-            _timesText = "TKUtils.Fields.IncidentTimes".LocalizeKeyed(ToolkitSettings.EventCooldownInterval);
-            _editItemsText = "TKUtils.Buttons.EditItems".Localize();
-            _editTraitsText = "TKUtils.Buttons.EditTraits".Localize();
-            _editPawnsText = "TKUtils.Buttons.EditPawns".Localize();
+            _disableText = "TKUtils.Buttons.Disable".TranslateSimple();
+            _resetText = "TKUtils.Buttons.Reset".TranslateSimple();
+            _settingsText = "TKUtils.Buttons.Settings".TranslateSimple();
+            _codeText = "TKUtils.Fields.PurchaseCode".TranslateSimple();
+            _priceText = "TKUtils.Fields.Price".TranslateSimple();
+            _wagerText = "TKUtils.Fields.Wager".TranslateSimple();
+            _karmaText = "TKUtils.Fields.KarmaType".TranslateSimple();
+            _timesText = "TKUtils.Fields.IncidentTimes".Translate(ToolkitSettings.EventCooldownInterval);
+            _editItemsText = "TKUtils.Buttons.EditItems".TranslateSimple();
+            _editTraitsText = "TKUtils.Buttons.EditTraits".TranslateSimple();
+            _editPawnsText = "TKUtils.Buttons.EditPawns".TranslateSimple();
 
             _headerButtonWidth = Mathf.Max(Text.CalcSize(_disableText).x, Text.CalcSize(_resetText).x, Text.CalcSize(_settingsText).x) + 16f;
 
@@ -86,7 +96,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var listing = new Listing_Standard { maxOneColumn = true };
             listing.Begin(inRect);
 
-            (Rect titleRect, Rect buttonHeaderRect) = listing.GetRect(Text.LineHeight).ToForm(_titleWidth / inRect.width);
+            (Rect titleRect, Rect buttonHeaderRect) = listing.Split(_titleWidth / inRect.width);
 
             Widgets.Label(titleRect, storeIncident.LabelCap);
             DrawButtonHeader(buttonHeaderRect.Rounded());
@@ -104,7 +114,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 case EventTypes.Item:
                 case EventTypes.PawnKind:
                 case EventTypes.Trait:
-                    (Rect _, Rect buttonRect) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
+                    (Rect _, Rect buttonRect) = listing.Split(0.6f);
                     DrawEditButtonFor(_eventType, buttonRect);
 
                     break;
@@ -115,61 +125,48 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawGeneralSettings([NotNull] Listing listing)
         {
-            (Rect abbrLabel, Rect abbrField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
+            (Rect abbrLabel, Rect abbrField) = listing.GetRect(Text.LineHeight).Split(0.6f);
 
-            Widgets.Label(abbrLabel, _codeText);
-            storeIncident.abbreviation = Widgets.TextField(abbrField, storeIncident.abbreviation);
+            UiHelper.Label(abbrLabel, _codeText);
+
+            if (UiHelper.TextField(abbrField, storeIncident.abbreviation, out string newAbbr))
+            {
+                storeIncident.abbreviation = newAbbr;
+            }
 
             if (_eventType == EventTypes.Default || _eventType == EventTypes.Variable)
             {
-                (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
+                (Rect costLabel, Rect costField) = listing.GetRect(Text.LineHeight).Split(0.6f);
 
                 listing.Gap();
                 Widgets.Label(costLabel, _priceText);
-                SettingsHelper.DrawPriceField(costField, ref storeIncident.cost);
-
-                if (storeIncident.cost == 0)
-                {
-                    storeIncident.cost = 1;
-                }
+                UiHelper.NumberField(costField, ref _costBuffer, ref storeIncident.cost, ref _costBufferValid, 1);
             }
 
             if (!storeIncident.defName.Equals("Sanctuary"))
             {
-                (Rect timesLabel, Rect timesField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
-                var timesBuffer = storeIncident.eventCap.ToString();
+                (Rect capLabel, Rect capField) = listing.Split(0.6f);
 
                 listing.Gap();
-                Widgets.Label(timesLabel, _timesText);
-                Widgets.TextFieldNumeric(timesField, ref storeIncident.eventCap, ref timesBuffer, max: 200f);
+                Widgets.Label(capLabel, _timesText);
+                UiHelper.NumberField(capField, ref _capBuffer, ref storeIncident.eventCap, ref _capBufferValid, maximum: 200);
             }
 
             if (storeIncidentVariables?.maxWager > 0)
             {
                 listing.Gap();
 
-                (Rect wagerLabel, Rect wagerField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
+                (Rect wagerLabel, Rect wagerField) = listing.Split(0.6f);
                 Widgets.Label(wagerLabel, _wagerText);
-                SettingsHelper.DrawPriceField(wagerField, ref storeIncidentVariables.maxWager);
 
-                if (storeIncidentVariables.maxWager > 20000)
-                {
-                    storeIncidentVariables.maxWager = 20000;
-                }
-
-                if (storeIncidentVariables.maxWager < storeIncidentVariables.cost)
-                {
-                    storeIncidentVariables.maxWager = storeIncidentVariables.cost * 2;
-                }
+                UiHelper.NumberField(wagerField, ref _wagerBuffer, ref storeIncidentVariables.maxWager, ref _wagerBufferValid, storeIncidentVariables.cost, 20000);
             }
 
             listing.Gap();
-            (Rect karmaLabel, Rect karmaField) = listing.GetRect(Text.LineHeight).ToForm(0.6f);
-            var karmaType = storeIncident.karmaType.ToString();
-
+            (Rect karmaLabel, Rect karmaField) = listing.Split(0.6f);
             Widgets.Label(karmaLabel, _karmaText);
 
-            if (Widgets.ButtonText(karmaField, karmaType))
+            if (Widgets.ButtonText(karmaField, storeIncident.karmaType.ToString()))
             {
                 Find.WindowStack.Add(new FloatMenu(_karmaTypeOptions));
             }
@@ -188,7 +185,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     storeIncident.cost = -10;
                 }
 
-                buttonRect = buttonRect.ShiftLeft(0f);
+                buttonRect = buttonRect.Shift(Direction8Way.West, 0f);
             }
 
             if (!storeIncident.defName.Equals("Item"))
@@ -205,15 +202,12 @@ namespace SirRandoo.ToolkitUtils.Windows
                     MakeSureSaveExists();
                 }
 
-                buttonRect = buttonRect.ShiftLeft(0f);
+                buttonRect = buttonRect.Shift(Direction8Way.West, 0f);
             }
 
-            if (storeIncidentVariables?.customSettings == true)
+            if (storeIncidentVariables?.customSettings == true && Widgets.ButtonText(buttonRect, _settingsText))
             {
-                if (Widgets.ButtonText(buttonRect, _settingsText))
-                {
-                    storeIncidentVariables.settings.EditSettings();
-                }
+                storeIncidentVariables.settings.EditSettings();
             }
 
             GUI.EndGroup();

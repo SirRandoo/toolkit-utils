@@ -82,7 +82,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public static bool IsModRelevant([NotNull] TableSettingsItem<ThingItem> subject, string mod) => subject.Data.Mod.Equals(mod);
 
-        public static bool IsTechLevelRelevant([NotNull] TableSettingsItem<ThingItem> subject, TechLevel techLevel) => subject.Data.Thing != null && subject.Data.Thing.techLevel == techLevel;
+        public static bool IsTechLevelRelevant([NotNull] TableSettingsItem<ThingItem> subject, TechLevel techLevel) =>
+            subject.Data.Thing != null && subject.Data.Thing.techLevel == techLevel;
 
         public static bool FilterByStuff([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.IsStuff;
 
@@ -93,12 +94,10 @@ namespace SirRandoo.ToolkitUtils.Models
         public static bool FilterByNonStackable([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.stackLimit == 1;
 
         public static bool FilterByResearched(TableSettingsItem<ThingItem> subject) => Current.Game != null
-                                                                                       && subject.Data.Thing != null
-                                                                                       && subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
+            && subject.Data.Thing != null && subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
 
         public static bool FilterByNotResearched(TableSettingsItem<ThingItem> subject) => Current.Game != null
-                                                                                          && subject.Data.Thing != null
-                                                                                          && !subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
+            && subject.Data.Thing != null && !subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
 
         public static bool FilterByEnabled([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Cost > 0;
 

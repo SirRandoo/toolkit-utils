@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using CommonLib.Helpers;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Prepare()
         {
-            _stateText = "TKUtils.Fields.State".TranslateSimple();
+            _stateText = Label;
         }
 
         public void Mutate([NotNull] TableSettingsItem<T> item)
@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public void Draw(Rect canvas)
         {
-            SettingsHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state);
+            UiHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state);
         }
     }
 }

@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (VariablesIncident != null)
             {
-                Purchase_Handler.viewerNamesDoingVariableCommands.Remove(VariablesIncident.Viewer.username.ToLowerInvariant());
+                Purchase_Handler.viewerNamesDoingVariableCommands.Remove(VariablesIncident.Viewer.username);
             }
 
             Helper.playerMessages.Clear();

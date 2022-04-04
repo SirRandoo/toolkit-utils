@@ -45,7 +45,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     continue;
                 }
 
-                MessageHelper.SendConfirmation(Viewer.username, "TKUtils.RandomInspire.Complete".LocalizeKeyed(pawn.LabelShort?.CapitalizeFirst() ?? pawn.LabelCap, def.label));
+                MessageHelper.SendConfirmation(
+                    Viewer.username,
+                    "TKUtils.RandomInspire.Complete".LocalizeKeyed(pawn.LabelShort?.CapitalizeFirst() ?? pawn.LabelCap, def.label)
+                );
+
                 Viewer.Charge(storeIncident);
 
                 return;

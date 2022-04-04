@@ -38,38 +38,35 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
         {
-            Pawn pawn = CommandBase.GetOrFindPawn(viewer.username, true);
-            bool? isKidnapped = pawn?.IsKidnapped();
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn, true))
+            {
+                try
+                {
+                    _report = KidnapReport.KidnapReportFor(viewer.username);
+                }
+                catch (Exception e)
+                {
+                    TkUtils.Logger.Error($"An error was thrown while trying to find {viewer.username}'s pawn in the kidnapped pawn list! Try again later.", e);
 
-            if (!isKidnapped ?? false)
+                    return false;
+                }
+
+                return !_report?.PawnIds.NullOrEmpty() ?? false;
+            }
+
+            if (!pawn.IsKidnapped())
             {
                 return false;
             }
 
-            if (pawn?.IsBorrowedByAnyFaction() == true)
+            if (pawn.IsBorrowedByAnyFaction())
             {
                 return false;
             }
 
-            if (isKidnapped ?? false)
-            {
-                _report = new KidnapReport { Viewer = viewer.username, PawnIds = new List<string> { pawn.ThingID } };
+            _report = new KidnapReport { Viewer = viewer.username, PawnIds = new List<string> { pawn.ThingID } };
 
-                return true;
-            }
-
-            try
-            {
-                _report = KidnapReport.KidnapReportFor(viewer.username);
-            }
-            catch (Exception e)
-            {
-                LogHelper.Error($"An error was thrown while trying to find {viewer.username}'s pawn in the kidnapped pawn list! Try again later.", e);
-
-                return false;
-            }
-
-            return !_report?.PawnIds.NullOrEmpty() ?? false;
+            return true;
         }
 
         public override void Execute()

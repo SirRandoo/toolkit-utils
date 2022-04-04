@@ -54,7 +54,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
             Viewer.Charge(storeIncident);
             MessageHelper.SendConfirmation(Viewer.username, "TKUtils.ReviveMe.Complete".Localize());
 
-            Find.LetterStack.ReceiveLetter("TKUtils.RevivalLetter.Title".Localize(), "TKUtils.RevivalLetter.Description".LocalizeKeyed(Viewer.username), LetterDefOf.PositiveEvent, _pawn);
+            Find.LetterStack.ReceiveLetter(
+                "TKUtils.RevivalLetter.Title".Localize(),
+                "TKUtils.RevivalLetter.Description".LocalizeKeyed(Viewer.username),
+                LetterDefOf.PositiveEvent,
+                _pawn
+            );
         }
     }
 }

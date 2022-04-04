@@ -16,6 +16,8 @@
 
 using System;
 using System.Collections.Generic;
+using CommonLib.Helpers;
+using CommonLib.Windows;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
@@ -24,7 +26,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
-    public class UtilsSettingsWindow : FakeSettingsWindow
+    public class UtilsSettingsWindow : ProxySettingsWindow
     {
         private readonly TabWorker _tabWorker;
         private string _asapPurchasesDescription;
@@ -101,14 +103,32 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         public override void PreOpen()
         {
-            _tabWorker.AddTab(new TabItem { ContentDrawer = DrawGeneralSettings, Label = "TKUtils.General.Label".TranslateSimple(), Tooltip = "TKUtils.General.Tooltip".TranslateSimple() });
-            _tabWorker.AddTab(new TabItem { ContentDrawer = DrawDataSettings, Label = "TKUtils.Data.Label".TranslateSimple(), Tooltip = "TKUtils.Data.Tooltip".TranslateSimple() });
-
             _tabWorker.AddTab(
-                new TabItem { ContentDrawer = DrawCommandTweakSettings, Label = "TKUtils.CommandTweaks.Label".TranslateSimple(), Tooltip = "TKUtils.CommandTweaks.Tooltip".TranslateSimple() }
+                new TabItem
+                {
+                    ContentDrawer = DrawGeneralSettings, Label = "TKUtils.General.Label".TranslateSimple(), Tooltip = "TKUtils.General.Tooltip".TranslateSimple()
+                }
             );
 
-            _tabWorker.AddTab(new TabItem { ContentDrawer = DrawModCompatSettings, Label = "TKUtils.ModCompat.Label".TranslateSimple(), Tooltip = "TKUtils.ModCompat.Tooltip".TranslateSimple() });
+            _tabWorker.AddTab(
+                new TabItem { ContentDrawer = DrawDataSettings, Label = "TKUtils.Data.Label".TranslateSimple(), Tooltip = "TKUtils.Data.Tooltip".TranslateSimple() }
+            );
+
+            _tabWorker.AddTab(
+                new TabItem
+                {
+                    ContentDrawer = DrawCommandTweakSettings,
+                    Label = "TKUtils.CommandTweaks.Label".TranslateSimple(),
+                    Tooltip = "TKUtils.CommandTweaks.Tooltip".TranslateSimple()
+                }
+            );
+
+            _tabWorker.AddTab(
+                new TabItem
+                {
+                    ContentDrawer = DrawModCompatSettings, Label = "TKUtils.ModCompat.Label".TranslateSimple(), Tooltip = "TKUtils.ModCompat.Tooltip".TranslateSimple()
+                }
+            );
 
             base.PreOpen();
         }
@@ -128,10 +148,19 @@ namespace SirRandoo.ToolkitUtils.Windows
             _broadcasterUserTypeMenu = new FloatMenu(
                 new List<FloatMenuOption>
                 {
-                    new FloatMenuOption("TKUtils.BroadcasterUserType.Broadcaster".TranslateSimple(), () => TkSettings.BroadcasterCoinType = nameof(UserCoinType.Broadcaster)),
-                    new FloatMenuOption("TKUtils.BroadcasterUserType.Subscriber".TranslateSimple(), () => TkSettings.BroadcasterCoinType = nameof(UserCoinType.Subscriber)),
+                    new FloatMenuOption(
+                        "TKUtils.BroadcasterUserType.Broadcaster".TranslateSimple(),
+                        () => TkSettings.BroadcasterCoinType = nameof(UserCoinType.Broadcaster)
+                    ),
+                    new FloatMenuOption(
+                        "TKUtils.BroadcasterUserType.Subscriber".TranslateSimple(),
+                        () => TkSettings.BroadcasterCoinType = nameof(UserCoinType.Subscriber)
+                    ),
                     new FloatMenuOption("TKUtils.BroadcasterUserType.Vip".TranslateSimple(), () => TkSettings.BroadcasterCoinType = nameof(UserCoinType.Vip)),
-                    new FloatMenuOption("TKUtils.BroadcasterUserType.Moderator".TranslateSimple(), () => TkSettings.BroadcasterCoinType = nameof(UserCoinType.Moderator)),
+                    new FloatMenuOption(
+                        "TKUtils.BroadcasterUserType.Moderator".TranslateSimple(),
+                        () => TkSettings.BroadcasterCoinType = nameof(UserCoinType.Moderator)
+                    ),
                     new FloatMenuOption("None".TranslateSimple().CapitalizeFirst(), () => TkSettings.BroadcasterCoinType = nameof(UserCoinType.None))
                 }
             );
@@ -198,27 +227,30 @@ namespace SirRandoo.ToolkitUtils.Windows
             _lookupLimitDescription = "TKUtils.LookupLimit.Description".TranslateSimple();
         }
 
-        protected override void DrawSettings(Rect region) { }
+        protected override void DrawSettings(Rect region)
+        {
+            // TODO
+        }
 
         private void DrawGeneralSettings(Rect region)
         {
             var listing = new Listing_Standard();
             listing.Begin(region);
 
-            listing.DrawGroupHeader(_emojisGroupHeader, false);
+            listing.GroupHeader(_emojisGroupHeader, false);
             listing.CheckboxLabeled(_emojisLabel, ref TkSettings.Emojis);
             listing.DrawDescription(_emojisDescription);
 
 
-            listing.DrawGroupHeader(_viewerGroupHeader);
+            listing.GroupHeader(_viewerGroupHeader);
             listing.CheckboxLabeled(_hairColorLabel, ref TkSettings.HairColor);
             listing.DrawDescription(_hairColorDescription);
 
-            listing.DrawGroupHeader(_gatewayGroupHeader);
+            listing.GroupHeader(_gatewayGroupHeader);
             listing.CheckboxLabeled(_gatewayPuffLabel, ref TkSettings.GatewayPuff);
             listing.DrawDescription(_gatewayPuffDescription);
 
-            listing.DrawGroupHeader(_basketGroupHeader);
+            listing.GroupHeader(_basketGroupHeader);
             listing.CheckboxLabeled(_easterEggsLabel, ref TkSettings.EasterEggs);
             listing.DrawDescription(_easterEggsDescription);
 
@@ -233,10 +265,10 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.BeginScrollView(region.AtZero(), ref _dataScrollPos, view);
             listing.Begin(view);
 
-            listing.DrawGroupHeader(_filesGroupHeader, false);
+            listing.GroupHeader(_filesGroupHeader, false);
 
-            (Rect dumpLabel, Rect dumpBtn) = listing.GetRectAsForm();
-            SettingsHelper.DrawLabel(dumpLabel, _dumpStyleLabel);
+            (Rect dumpLabel, Rect dumpBtn) = listing.Split();
+            UiHelper.Label(dumpLabel, _dumpStyleLabel);
             listing.DrawDescription(_dumpStyleDescription);
 
             if (Widgets.ButtonText(dumpBtn, $"TKUtils.DumpStyle.{TkSettings.DumpStyle}".Translate()))
@@ -259,8 +291,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.DrawDescription(_trueNeutralDescription);
             listing.DrawExperimentalNotice();
 
-            (Rect coinTypeLabel, Rect coinTypeField) = listing.GetRectAsForm();
-            SettingsHelper.DrawLabel(coinTypeLabel, _broadcasterTypeLabel);
+            (Rect coinTypeLabel, Rect coinTypeField) = listing.Split();
+            UiHelper.Label(coinTypeLabel, _broadcasterTypeLabel);
             listing.DrawDescription(_broadcasterTypeDescription);
             listing.DrawExperimentalNotice();
 
@@ -270,12 +302,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
 
-            listing.DrawGroupHeader(_lazyProcessGroupHeader);
+            listing.GroupHeader(_lazyProcessGroupHeader);
 
-            (Rect storeLabel, Rect storeField) = listing.GetRect(Text.LineHeight).ToForm();
-            SettingsHelper.DrawLabel(storeLabel, _storeRateLabel);
+            (Rect storeLabel, Rect storeField) = listing.Split();
+            UiHelper.Label(storeLabel, _storeRateLabel);
             listing.DrawDescription(_storeRateDescription);
-            SettingsHelper.DrawAugmentedNumberEntry(storeField, ref _buildRateBuffer, ref TkSettings.StoreBuildRate, ref _buildRateBufferValid);
+            UiHelper.NumberField(storeField, ref _buildRateBuffer, ref TkSettings.StoreBuildRate, ref _buildRateBufferValid);
 
             _dataTabHeight = listing.CurHeight;
             listing.End();
@@ -292,22 +324,22 @@ namespace SirRandoo.ToolkitUtils.Windows
             Widgets.BeginScrollView(region.AtZero(), ref _commandTweakPos, viewPort);
             listing.Begin(viewPort);
 
-            listing.DrawGroupHeader(_balanceGroupHeader, false);
+            listing.GroupHeader(_balanceGroupHeader, false);
             listing.CheckboxLabeled(_coinRateLabel, ref TkSettings.ShowCoinRate);
             listing.DrawDescription(_coinRateDescription);
 
 
-            listing.DrawGroupHeader(_commandHandlerGroupHeader);
+            listing.GroupHeader(_commandHandlerGroupHeader);
 
             if (TkSettings.Commands)
             {
-                (Rect prefixLabel, Rect prefixField) = listing.GetRectAsForm();
-                SettingsHelper.DrawLabel(prefixLabel, _commandPrefixLabel);
+                (Rect prefixLabel, Rect prefixField) = listing.Split();
+                UiHelper.Label(prefixLabel, _commandPrefixLabel);
                 listing.DrawDescription(_commandPrefixDescription);
                 TkSettings.Prefix = CommandHelper.ValidatePrefix(Widgets.TextField(prefixField, TkSettings.Prefix));
 
-                (Rect buyPrefixLabel, Rect buyPrefixField) = listing.GetRectAsForm();
-                SettingsHelper.DrawLabel(buyPrefixLabel, _purchasePrefixLabel);
+                (Rect buyPrefixLabel, Rect buyPrefixField) = listing.Split();
+                UiHelper.Label(buyPrefixLabel, _purchasePrefixLabel);
                 listing.DrawDescription(_purchasePrefixDescription);
                 TkSettings.BuyPrefix = CommandHelper.ValidatePrefix(Widgets.TextField(buyPrefixField, TkSettings.BuyPrefix));
             }
@@ -326,7 +358,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.DrawExperimentalNotice();
 
 
-            listing.DrawGroupHeader(_installedModsGroupHeader);
+            listing.GroupHeader(_installedModsGroupHeader);
             listing.CheckboxLabeled(_decorateUtilsLabel, ref TkSettings.DecorateMods);
             listing.DrawDescription(_decorateUtilsDescription);
 
@@ -334,19 +366,19 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.DrawDescription(_versionedModListDescription);
 
 
-            listing.DrawGroupHeader(_buyItemGroupHeader);
+            listing.GroupHeader(_buyItemGroupHeader);
             listing.CheckboxLabeled(_buyItemBalanceLabel, ref TkSettings.BuyItemBalance);
             listing.DrawDescription(_buyItemBalanceDescription);
             listing.CheckboxLabeled(_itemSyntaxLabel, ref TkSettings.ForceFullItem);
             listing.DrawDescription(_itemSyntaxDescription);
 
 
-            listing.DrawGroupHeader(_lookupGroupHeader);
+            listing.GroupHeader(_lookupGroupHeader);
 
-            (Rect limitLabel, Rect limitField) = listing.GetRectAsForm();
+            (Rect limitLabel, Rect limitField) = listing.Split();
             var buffer = TkSettings.LookupLimit.ToString();
 
-            SettingsHelper.DrawLabel(limitLabel, _lookupLimitLabel);
+            UiHelper.Label(limitLabel, _lookupLimitLabel);
             Widgets.TextFieldNumeric(limitField, ref TkSettings.LookupLimit, ref buffer);
             listing.DrawDescription(_lookupLimitDescription);
 
@@ -360,11 +392,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             var listing = new Listing_Standard();
             listing.Begin(region);
 
-            listing.DrawModGroupHeader("Humanoid Alien Races", 839005762, false);
+            listing.ModGroupHeader("Humanoid Alien Races", 839005762, false);
             listing.CheckboxLabeled("TKUtils.HAR.PawnKinds.Label".TranslateSimple(), ref TkSettings.PurchasePawnKinds);
             listing.DrawDescription("TKUtils.HAR.PawnKinds.Description".TranslateSimple());
 
-            listing.DrawModGroupHeader("A RimWorld of Magic", 1201382956);
+            listing.ModGroupHeader("A RimWorld of Magic", 1201382956);
             listing.CheckboxLabeled("TKUtils.TMagic.Classes.Label".TranslateSimple(), ref TkSettings.ClassChanges);
             listing.DrawDescription("TKUtils.TMagic.Classes.Description".TranslateSimple());
             listing.DrawExperimentalNotice();
@@ -376,7 +408,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 listing.DrawExperimentalNotice();
             }
 
-            listing.DrawModGroupHeader("Visual Exceptions", 2538411704);
+            listing.ModGroupHeader("Visual Exceptions", 2538411704);
             listing.CheckboxLabeled("TKUtils.VisualExceptions.SendErrors.Label".TranslateSimple(), ref TkSettings.VisualExceptions);
             listing.DrawDescription("TKUtils.VisualExceptions.SendErrors.Description".TranslateSimple());
             listing.DrawExperimentalNotice();
