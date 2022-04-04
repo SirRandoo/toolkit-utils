@@ -69,6 +69,7 @@
         <Compile Include="CommandSettings\PawnWork.cs" />
         <Compile Include="Commands\Balance.cs" />
         <Compile Include="Commands\Database.cs" />
+        <Compile Include="Commands\Divorce.cs" />
         <Compile Include="Commands\Factions.cs" />
         <Compile Include="Commands\GiveAll.cs" />
         <Compile Include="Commands\GiveCoins.cs" />
