@@ -108,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (AlienRace.Active && AlienRace.IsTraitForced(_pawn, target.def.defName, target.Degree))
+            if (CompatRegistry.Alien != null && CompatRegistry.Alien.IsTraitForced(_pawn, target.def.defName, target.Degree))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, _buyable.Name));
 

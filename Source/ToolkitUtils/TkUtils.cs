@@ -16,10 +16,11 @@
 
 using System;
 using System.Threading;
-using CommonLib;
-using CommonLib.Entities;
-using CommonLib.Windows;
 using JetBrains.Annotations;
+using SirRandoo.CommonLib;
+using SirRandoo.CommonLib.Entities;
+using SirRandoo.CommonLib.Interfaces;
+using SirRandoo.CommonLib.Windows;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using SirRandoo.ToolkitUtils.Windows;
@@ -36,13 +37,21 @@ namespace SirRandoo.ToolkitUtils
         {
             Instance = this;
             Settings = GetSettings<TkSettings>();
-            Logger = new RimThreadedLogger(Content.Name);
+
+            try
+            {
+                Logger = new RimThreadedLogger(Content.Name);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+            }
             Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(TkUtilsWindow)));
         }
 
         internal static TkUtils Instance { get; private set; }
         internal static SynchronizationContext Context { get; set; }
-        public static RimLogger Logger { get; private set; }
+        public static IRimLogger Logger { get; private set; }
         public TkSettings Settings { get; }
 
         /// <inheritdoc/>

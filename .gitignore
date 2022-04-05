@@ -404,12 +404,11 @@ MigrationBackup/
 .ionide/
 /ToolkitUtils.sln.DotSettings
 /.idea/*
-/[0-9].[0-9]/Assemblies/
+/[0-9].[0-9]*/Assemblies/
 /*.zip
 /About/* - Testing.*
 /About/* - Stable.*
 /_PublisherPlus.xml
 /Scripts/
 /Source/ToolkitUtils/ToolkitUtils\.csproj.DotSettings
-/Compatibility/TMagic/[0-9].[0-9]/Assemblies/
-/Compatibility/Ideology/[0-9].[0-9]/Assemblies/
+/Compatibility/**/[0-9].[0-9]*/Assemblies/

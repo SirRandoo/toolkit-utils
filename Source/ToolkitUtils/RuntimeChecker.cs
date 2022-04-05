@@ -115,7 +115,7 @@ namespace SirRandoo.ToolkitUtils
 
         #if DEBUG
             stopwatch.Stop();
-            LogHelper.Debug($"Command {command} finished in {stopwatch.ElapsedMilliseconds:0.000}ms");
+            TkUtils.Logger.Debug($"Command {command} finished in {stopwatch.ElapsedMilliseconds:0.000}ms");
         #endif
         }
     }

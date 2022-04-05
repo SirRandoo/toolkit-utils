@@ -37,6 +37,7 @@ namespace SirRandoo.ToolkitUtils
         private static readonly List<IPawnPowerHandler> PawnPowerHandlers = new List<IPawnPowerHandler>();
 
         public static IMagicCompatibilityProvider Magic { get; private set; }
+        public static IAlienCompatibilityProvider Alien { get; private set; }
         public static IEnumerable<ISurgeryHandler> AllSurgeryHandlers => SurgeryHandlers;
         public static IEnumerable<IUsabilityHandler> AllUsabilityHandlers => UsabilityHandlers;
         public static IEnumerable<IHealHandler> AllHealHandlers => HealHandlers;
@@ -77,6 +78,10 @@ namespace SirRandoo.ToolkitUtils
                     break;
                 case IMagicCompatibilityProvider magic:
                     Magic = magic;
+
+                    break;
+                case IAlienCompatibilityProvider alien:
+                    Alien = alien;
 
                     break;
             }

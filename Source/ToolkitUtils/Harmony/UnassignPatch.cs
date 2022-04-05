@@ -1,4 +1,4 @@
-﻿// ToolkitUtils
+// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -39,17 +39,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
             ViewerComponentField = AccessTools.Field(typeof(Window_Viewers), "component");
             RenameAndRemoveMethod = AccessTools.Method(typeof(UnassignPatch), nameof(RenameAndRemove));
             PawnHistoryField = AccessTools.Field(typeof(GameComponentPawns), nameof(GameComponentPawns.pawnHistory));
-            PawnHistoryRemove = AccessTools.Method(
-                typeof(Dictionary<string, Pawn>),
-                nameof(Dictionary<string, Pawn>.Remove),
-                new[] {typeof(string)}
-            );
+            PawnHistoryRemove = AccessTools.Method(typeof(Dictionary<string, Pawn>), nameof(Dictionary<string, Pawn>.Remove), new[] { typeof(string) });
         }
 
         public static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
         {
             var methodFound = false;
             var componentFound = false;
+
             foreach (CodeInstruction instruction in instructions)
             {
                 if (instruction.opcode == OpCodes.Ldfld && instruction.OperandIs(ViewerComponentField))

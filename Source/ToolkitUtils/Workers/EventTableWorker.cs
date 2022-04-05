@@ -23,9 +23,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommonLib.Enums;
-using CommonLib.Helpers;
 using JetBrains.Annotations;
+using SirRandoo.CommonLib.Enums;
+using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit.Store;

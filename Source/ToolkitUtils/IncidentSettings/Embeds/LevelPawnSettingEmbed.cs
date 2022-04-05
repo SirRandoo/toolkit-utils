@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 using System;
-using CommonLib.Helpers;
+using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;

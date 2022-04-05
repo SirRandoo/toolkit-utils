@@ -16,7 +16,7 @@
 
 using System;
 using System.Collections.Generic;
-using CommonLib.Helpers;
+using SirRandoo.CommonLib.Helpers;
 using TwitchToolkit;
 using TwitchToolkit.Storytellers.StorytellerPackWindows;
 using TwitchToolkit.Votes;

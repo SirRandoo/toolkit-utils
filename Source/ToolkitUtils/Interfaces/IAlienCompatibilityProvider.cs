@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2021 SirRandoo
+// Copyright (c) 2022 SirRandoo
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,36 +21,16 @@
 // SOFTWARE.
 
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
-using SirRandoo.ToolkitUtils.Interfaces;
-using SirRandoo.ToolkitUtils.Utils;
-using UnityEngine;
+using RimWorld;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Interfaces
 {
-    public class EventSettingEmbedSelector : ISelectorBase<EventItem>
+    public interface IAlienCompatibilityProvider : ICompatibilityProvider
     {
-        private string _label;
-        private bool _state = true;
-
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public void Prepare()
-        {
-            _label = Label;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            if (UiHelper.LabeledPaintableCheckbox(canvas, _label, ref _state))
-            {
-                Dirty.Set(true);
-            }
-        }
-
-        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.HasSettingsEmbed == _state;
-
-        public string Label => "TKUtils.Fields.SettingEmbed".TranslateSimple();
+        bool TryReassignBody([NotNull] Pawn pawn);
+        bool IsTraitForced([NotNull] Pawn pawn, string defName, int degree);
+        bool IsTraitDisallowed([NotNull] Pawn pawn, string defName, int degree);
+        bool IsTraitAllowed([NotNull] Pawn pawn, TraitDef traitDef, int degree = -10);
     }
 }

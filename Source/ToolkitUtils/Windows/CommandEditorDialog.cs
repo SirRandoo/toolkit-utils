@@ -1,4 +1,4 @@
-﻿// ToolkitUtils
+// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,10 +18,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using CommonLib.Helpers;
 using HarmonyLib;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;

@@ -41,13 +41,19 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         public static CommandItem FromToolkit([NotNull] Command command)
         {
+            TkUtils.Logger.Info("Pulling from Toolkit...");
             var result = new CommandItem { Name = command.LabelCap.RawText, Usage = $"!{command.command}", DefName = command.defName };
+            TkUtils.Logger.Info("Created initial command data...");
             result.PullFromExtension(command);
+            TkUtils.Logger.Info("Pulled extension data from command...");
+            TkUtils.Logger.Info("Updating usage permissions...");
 
             if (command.requiresAdmin || command.requiresMod)
             {
                 result.UserLevel = UserLevels.Moderator;
             }
+
+            TkUtils.Logger.Info("Creating command data...");
 
             result.Data = new CommandData
             {
@@ -56,6 +62,8 @@ namespace SirRandoo.ToolkitUtils.Models
                 IsBalance = command == CommandDefOf.CheckBalance,
                 IsBuy = command == CommandDefOf.Buy
             };
+
+            TkUtils.Logger.Info("Returning result...");
 
             return result;
         }

@@ -1,4 +1,4 @@
-﻿// ToolkitUtils
+// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -57,8 +57,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             List<Pawn> container = colonistsSpawned.Where(c => !pawnHistory.ContainsKey(c.Name.ToStringShort))
+
                 // Questing
                .Where(pawn => !pawn.IsBorrowedByAnyFaction())
+
                 // RimWorld of Magic
                .Where(pawn => !CompatRegistry.Magic?.IsUndead(pawn) ?? true)
                .ToList();

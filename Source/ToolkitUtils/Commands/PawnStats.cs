@@ -90,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             {
                 return ResponseHelper.JoinPair(stat.LabelCap, stat.ValueToString(pawn.GetStatValue(stat)));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return ResponseHelper.JoinPair(stat.LabelCap, "ERR");
             }

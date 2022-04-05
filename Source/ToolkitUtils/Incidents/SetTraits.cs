@@ -196,7 +196,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         [ContractAnnotation("=> false,error:notnull; => true,error:null")]
         private bool IsTraitRemovable(TraitItem trait, out string error)
         {
-            if (AlienRace.Active && AlienRace.IsTraitForced(_pawn, trait.DefName, trait.Degree))
+            if (CompatRegistry.Alien != null && CompatRegistry.Alien.IsTraitForced(_pawn, trait.DefName, trait.Degree))
             {
                 error = "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name);
 

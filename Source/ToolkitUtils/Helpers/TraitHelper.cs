@@ -16,11 +16,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils.ModComp;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers
@@ -192,7 +191,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
         public static bool IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree, out Backstory backstory) =>
             IsDisallowedByBackstory(trait.def, pawn, degree, out backstory);
 
-        public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree) => AlienRace.Active && !AlienRace.IsTraitAllowed(pawn, trait, degree);
+        public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree) =>
+            CompatRegistry.Alien != null && !CompatRegistry.Alien.IsTraitAllowed(pawn, trait, degree);
 
         public static int GetTotalTraits([NotNull] Pawn pawn)
         {
