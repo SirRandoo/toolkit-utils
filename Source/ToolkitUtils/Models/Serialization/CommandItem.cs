@@ -34,15 +34,14 @@ namespace SirRandoo.ToolkitUtils.Models
         [DataMember(Name = "name")] public string Name { get; set; }
         [DataMember(Name = "usage")] public string Usage { get; set; }
         [DataMember(Name = "userLevel")] public UserLevels UserLevel { get; set; }
-
         [DataMember(Name = "shortcut")] public bool Shortcut => Data?.IsShortcut ?? false;
-
+        [DataMember(Name = "defName")] public string DefName { get; set; }
         [IgnoreDataMember] [CanBeNull] public IConfigurableUsageData UsageData => Data;
 
         [NotNull]
         public static CommandItem FromToolkit([NotNull] Command command)
         {
-            var result = new CommandItem { Name = command.LabelCap.RawText, Usage = $"!{command.command}" };
+            var result = new CommandItem { Name = command.LabelCap.RawText, Usage = $"!{command.command}", DefName = command.defName };
             result.PullFromExtension(command);
 
             if (command.requiresAdmin || command.requiresMod)
@@ -64,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         public static CommandItem FromToolkitCore([NotNull] ToolkitChatCommand command)
         {
-            var result = new CommandItem { Name = command.LabelCap.RawText ?? command.commandText, Usage = $"!{command.commandText}" };
+            var result = new CommandItem { Name = command.LabelCap.RawText ?? command.commandText, Usage = $"!{command.commandText}", DefName = command.defName };
 
             result.PullFromExtension(command);
 
