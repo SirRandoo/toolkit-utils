@@ -98,6 +98,7 @@ namespace SirRandoo.ToolkitUtils
         public static List<ThingItem> Items { get; set; }
         public static List<SurgeryItem> Surgeries { get; private set; }
         public static List<EventItem> Events { get; private set; }
+        public static List<CommandItem> Commands { get; private set; }
 
         public static IEnumerable<HealthReport> AllHealthReports => HealthReports;
 
@@ -753,9 +754,10 @@ namespace SirRandoo.ToolkitUtils
 
         public static void DumpCommands()
         {
-            List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled).Where(c => !c.command.NullOrEmpty()).Select(CommandItem.FromToolkit).ToList();
+            List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled && !string.IsNullOrEmpty(c.command)).Select(CommandItem.FromToolkit).ToList();
 
             container.AddRange(DefDatabase<ToolkitChatCommand>.AllDefsListForReading.Where(c => c.enabled).Select(CommandItem.FromToolkitCore));
+            Commands = container;
 
             SaveJson(container, Paths.CommandListFilePath);
         }
@@ -765,6 +767,7 @@ namespace SirRandoo.ToolkitUtils
             List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled).Where(c => !c.command.NullOrEmpty()).Select(CommandItem.FromToolkit).ToList();
 
             container.AddRange(DefDatabase<ToolkitChatCommand>.AllDefs.Where(c => c.enabled).Select(CommandItem.FromToolkitCore));
+            Commands = container;
 
             await SaveJsonAsync(container, Paths.CommandListFilePath);
         }

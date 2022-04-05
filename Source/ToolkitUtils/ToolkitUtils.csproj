@@ -347,7 +347,7 @@
         <Compile Include="TkUtils.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="ToolkitAddonMenu.cs" />
-        <Compile Include="UsageService.cs" />
+        <Compile Include="GlobalUsageService.cs" />
         <Compile Include="UserRegistry.cs" />
         <Compile Include="UtilsAddonMenu.cs" />
         <Compile Include="Utils\Basket\CodedEgg.cs" />
@@ -407,11 +407,12 @@
         <Compile Include="Workers\TraitTableWorker.cs" />
         <Compile Include="Workers\TraitViewWorker.cs" />
         <Compile Include="Workers\TraitWorker.cs" />
+        <Compile Include="Workers\UsageWorker.cs" />
         <Compile Include="Workers\ViewerListWorker.cs" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime" />
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3311-beta" />
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3325-beta" />
         <PackageReference Include="Lib.Harmony" Version="2.2.1" ExcludeAssets="runtime" />
         <PackageReference Include="MoonSharp" Version="2.0.0" ExcludeAssets="runtime" />
         <PackageReference Include="RestSharp" Version="106.15.0" />

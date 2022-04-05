@@ -22,39 +22,19 @@ namespace SirRandoo.ToolkitUtils.Models
 {
     public class UsageRecord<T> where T : class, IUsageItemBase
     {
+        private DateTime _lastUsed = DateTime.MinValue;
+        
         public T Item { get; set; }
         public string DefName { get; set; }
-        public DateTime LastUsed { get; set; } = DateTime.MinValue;
-        public Dictionary<string, DateTime> LastUserUse { get; set; } = new Dictionary<string, DateTime>();
 
-        private IConfigurableUsageData UsageData => Item.UsageData;
-
-        public bool IsUsable(string user)
+        public bool IsOnCooldown(double minutes)
         {
-            DateTime now = DateTime.Now;
-
-            if (UsageData.HasGlobalCooldown && (now - LastUsed).TotalMinutes < UsageData.GlobalCooldown)
-            {
-                return false;
-            }
-
-            return !UsageData.HasLocalCooldown || !LastUserUse.TryGetValue(user.ToLowerInvariant(), out DateTime value)
-                || (now - value).TotalMinutes >= UsageData.LocalCooldown;
+            return (DateTime.Now - _lastUsed).TotalMinutes < minutes;
         }
 
-        public void LogUsage(string user)
+        public void LogUsage()
         {
-            DateTime now = DateTime.Now;
-
-            if (UsageData.HasGlobalCooldown)
-            {
-                LastUsed = now;
-            }
-
-            if (UsageData.HasLocalCooldown)
-            {
-                LastUserUse[user.ToLowerInvariant()] = now;
-            }
+            _lastUsed = DateTime.Now;
         }
     }
 }

@@ -30,5 +30,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public string DisplayName { get; set; }
 
         public List<KeyValuePair<string, string>> LastKnownBadges { get; set; } = new List<KeyValuePair<string, string>>();
+        
+        public Dictionary<string, UsageRecord<EventItem>> UsedEvents { get; set; }
     }
 }
