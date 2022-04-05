@@ -30,14 +30,14 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class ScarificationHealHandler : IHealHandler
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [NotNull]
         public string ModId => "Ludeon.Ideology";
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool CanHeal(Hediff hediff) => Find.FactionManager.OfPlayer.ideos.AnyPreceptWithRequiredScars() && hediff.def != HediffDefOf.Scarification;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool CanHeal(BodyPartRecord bodyPart) => true;
     }
 }

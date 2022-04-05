@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static class Data
     {
-        internal static readonly Dictionary<string, Color> ColorIndex = new Dictionary<string, Color>(GetSomeNamedColors());
+        internal static readonly Dictionary<string, Color> ColorIndex = GetDefaultColors();
 
         internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType)).Select(i => (KarmaType)Enum.Parse(typeof(KarmaType), i)).ToList();
 
@@ -605,8 +605,11 @@ namespace SirRandoo.ToolkitUtils
                 }
             }
 
-            foreach ((string defName, ItemData data) in ItemData.Where(data => data.Value.Version < Models.ItemData.CurrentVersion))
+            foreach (KeyValuePair<string, ItemData> pair in ItemData.Where(data => data.Value.Version < Models.ItemData.CurrentVersion))
             {
+                string defName = pair.Key;
+                ItemData data = pair.Value;
+
                 ThingItem item = Items.Find(i => i.DefName?.Equals(defName) == true);
 
                 data.IsUsable = item?.Thing == null || GameHelper.GetDefaultUsability(item.Thing);
@@ -1040,19 +1043,21 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        private static IEnumerable<KeyValuePair<string, Color>> GetSomeNamedColors()
+        private static Dictionary<string, Color> GetDefaultColors()
         {
-            yield return KeyValuePair.Create("red", Color.red);
-            yield return KeyValuePair.Create("blue", Color.blue);
-            yield return KeyValuePair.Create("lime", Color.green);
-            yield return KeyValuePair.Create("limegreen", Color.green);
-            yield return KeyValuePair.Create("black", Color.black);
-            yield return KeyValuePair.Create("white", Color.white);
-            yield return KeyValuePair.Create("yellow", Color.yellow);
-            yield return KeyValuePair.Create("cyan", Color.cyan);
-            yield return KeyValuePair.Create("gray", Color.gray);
-            yield return KeyValuePair.Create("grey", Color.grey);
-            yield return KeyValuePair.Create("magenta", Color.magenta);
+            var container = new Dictionary<string, Color>
+            {
+                { "red", Color.red },
+                { "blue", Color.blue },
+                { "lime", Color.green },
+                { "black", Color.black },
+                { "white", Color.white },
+                { "yellow", Color.yellow },
+                { "cyan", Color.cyan },
+                { "grey", Color.grey },
+                { "gray", Color.gray },
+                { "magenta", Color.magenta }
+            };
 
             foreach (FieldInfo field in typeof(ColorLibrary).GetFields(BindingFlags.Static))
             {
@@ -1070,8 +1075,10 @@ namespace SirRandoo.ToolkitUtils
                     continue;
                 }
 
-                yield return new KeyValuePair<string, Color>(name.ToLowerInvariant(), color);
+                container[name.ToLowerInvariant()] = color;
             }
+
+            return container;
         }
 
         private static bool TryReplaceFile(string source, string dest)

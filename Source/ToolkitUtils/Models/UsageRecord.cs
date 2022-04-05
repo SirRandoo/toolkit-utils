@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using SirRandoo.ToolkitUtils.Interfaces;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -23,14 +22,11 @@ namespace SirRandoo.ToolkitUtils.Models
     public class UsageRecord<T> where T : class, IUsageItemBase
     {
         private DateTime _lastUsed = DateTime.MinValue;
-        
+
         public T Item { get; set; }
         public string DefName { get; set; }
 
-        public bool IsOnCooldown(double minutes)
-        {
-            return (DateTime.Now - _lastUsed).TotalMinutes < minutes;
-        }
+        public bool IsOnCooldown(double minutes) => (DateTime.Now - _lastUsed).TotalMinutes < minutes;
 
         public void LogUsage()
         {

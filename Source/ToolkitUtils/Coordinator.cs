@@ -235,14 +235,14 @@ namespace SirRandoo.ToolkitUtils
 
         private static bool TryProcessNextVoteIncident()
         {
-            if (Ticker.IncidentHelpers.Count <= 0 || !Ticker.IncidentHelpers.TryDequeue(out IncidentHelper incident))
+            if (Ticker.IncidentHelpers.Count <= 0)
             {
                 return false;
             }
 
             try
             {
-                incident.TryExecute();
+                Ticker.IncidentHelpers.Dequeue()?.TryExecute();
 
                 return true;
             }
@@ -255,10 +255,12 @@ namespace SirRandoo.ToolkitUtils
 
         private static void ProcessNextIncident()
         {
-            if (!Ticker.FiringIncidents.TryDequeue(out FiringIncident incident))
+            if (Ticker.FiringIncidents.Count <= 0)
             {
                 return;
             }
+
+            FiringIncident incident = Ticker.FiringIncidents.Dequeue();
 
             try
             {

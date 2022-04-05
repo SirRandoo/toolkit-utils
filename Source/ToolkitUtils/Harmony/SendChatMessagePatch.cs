@@ -21,7 +21,6 @@ using System.Text;
 using CommonLib.Helpers;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore;
 using TwitchLib.Client.Models;
 using Verse;
@@ -67,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 yield break;
             }
-            
+
             string[] words = RichTextHelper.StripTags(message).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var builder = new StringBuilder();
             var chars = 0;

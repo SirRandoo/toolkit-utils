@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
 using Verse;
@@ -48,8 +49,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             var builder = new StringBuilder();
 
-            foreach ((string key, LoadedLanguage.KeyedReplacement value) in active.keyedReplacements)
+            foreach (KeyValuePair<string, LoadedLanguage.KeyedReplacement> pair in active.keyedReplacements)
             {
+                string key = pair.Key;
+                LoadedLanguage.KeyedReplacement value = pair.Value;
+
                 if (!TranslationProxy.TryAdd(key, value.value))
                 {
                     builder.AppendLine($"- {key}");

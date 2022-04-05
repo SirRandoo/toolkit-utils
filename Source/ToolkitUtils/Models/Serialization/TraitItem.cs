@@ -403,8 +403,11 @@ namespace SirRandoo.ToolkitUtils.Models
 
             var builder = new StringBuilder();
 
-            foreach ((SkillDef skill, int value) in data.skillGains)
+            foreach (KeyValuePair<SkillDef, int> pair in data.skillGains)
             {
+                SkillDef skill = pair.Key;
+                int value = pair.Value;
+
                 string result = null;
 
                 try

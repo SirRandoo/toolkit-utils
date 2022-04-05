@@ -24,7 +24,6 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using Verse;
@@ -50,11 +49,12 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public string GetNext()
         {
-            if (!_rawArguments.TryDequeue(out string next))
+            if (_rawArguments.Count <= 0)
             {
                 return null;
             }
 
+            string next = _rawArguments.Dequeue();
             _lastArgument = next;
 
             return next;

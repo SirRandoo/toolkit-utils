@@ -20,7 +20,6 @@ using System.Linq;
 using CommonLib.Helpers;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Utils;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers
@@ -29,12 +28,16 @@ namespace SirRandoo.ToolkitUtils.Helpers
     {
         private static readonly PreceptDef[] MarriagePrecepts =
         {
-            PreceptDefOf.SpouseCount_Male_MaxTwo, PreceptDefOf.SpouseCount_Female_MaxTwo,
-            PreceptDefOf.SpouseCount_Male_MaxThree, PreceptDefOf.SpouseCount_Female_MaxThree,
-            PreceptDefOf.SpouseCount_Male_MaxFour, PreceptDefOf.SpouseCount_Female_MaxFour,
-            PreceptDefOf.SpouseCount_Male_Unlimited, PreceptDefOf.SpouseCount_Female_Unlimited
+            PreceptDefOf.SpouseCount_Male_MaxTwo,
+            PreceptDefOf.SpouseCount_Female_MaxTwo,
+            PreceptDefOf.SpouseCount_Male_MaxThree,
+            PreceptDefOf.SpouseCount_Female_MaxThree,
+            PreceptDefOf.SpouseCount_Male_MaxFour,
+            PreceptDefOf.SpouseCount_Female_MaxFour,
+            PreceptDefOf.SpouseCount_Male_Unlimited,
+            PreceptDefOf.SpouseCount_Female_Unlimited
         };
-    
+
         [CanBeNull] public static string SanitizedLabel([NotNull] this Def def) => def.label == null ? null : RichTextHelper.StripTags(def.label);
 
         [CanBeNull] public static string SanitizedLabel([NotNull] this Thing thing) => thing.def?.label == null ? null : RichTextHelper.StripTags(thing.def.label);
@@ -63,7 +66,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => IsGenericType(t, genericType, false, genericParameters));
         }
-        
+
         [NotNull]
         public static IEnumerable<Type> GetAllTypes([NotNull] Type @interface)
         {
@@ -189,7 +192,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 return false;
             }
-            
+
             return HasOpenSpouseSlot(asker) && HasOpenSpouseSlot(askee);
         }
 
@@ -209,7 +212,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             return pawn.GetSpouseCount(false) <= 0;
         }
-        
+
         private static Gender GetGenderForPrecept([NotNull] PreceptDef precept)
         {
             var comp = precept.comps.Find(c => c is PreceptComp_UnwillingToDo_Gendered) as PreceptComp_UnwillingToDo_Gendered;

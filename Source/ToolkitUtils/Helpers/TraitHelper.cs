@@ -151,8 +151,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
-            foreach ((SkillDef skillDef, int value) in val.skillGains)
+            foreach (KeyValuePair<SkillDef, int> pair in val.skillGains)
             {
+                SkillDef skillDef = pair.Key;
+                int value = pair.Value;
                 SkillRecord skill = pawn.skills.GetSkill(skillDef);
 
                 if (skill.TotallyDisabled)

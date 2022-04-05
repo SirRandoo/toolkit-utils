@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 {
     public class Divorce : ConsensualCommand
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void ProcessAcceptInternal(string asker, string askee)
         {
             if (!PurchaseHelper.TryGetPawn(asker, out Pawn askerPawn))

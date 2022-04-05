@@ -1,36 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{D0B7C9CD-F49D-413D-8EDC-32989742F3C3}</ProjectGuid>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <OutputType>Library</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
-        <AssemblyName>ToolkitUtils.TMagic</AssemblyName>
-        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
         <LangVersion>8</LangVersion>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
         <OutputPath>..\..\Compatibility\TMagic\1.2\Assemblies</OutputPath>
         <DefineConstants>DEBUG;TRACE:RW12</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
         <OutputPath>..\..\Compatibility\TMagic\1.2\Assemblies</OutputPath>
         <DefineConstants>TRACE;RW12</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == '1.3 debug|AnyCPU' ">
         <OutputPath>..\..\Compatibility\TMagic\1.3\Assemblies\</OutputPath>
@@ -49,13 +31,6 @@
             <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.3\Assemblies\AbilityUser.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="SirRandoo.CommonLib">
-            <HintPath>..\..\..\..\..\..\..\..\..\Users\aarons\.nuget\packages\sirrandoo.commonlib\1.4.1\lib\netstandard2.0\SirRandoo.CommonLib.dll</HintPath>
-        </Reference>
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Xml" />
         <Reference Include="TorannMagic, Version=2.5.7.0, Culture=neutral, PublicKeyToken=null" Condition="$(DefineConstants.Contains('RW13'))">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\1201382956\v1.3\Assemblies\TorannMagic.dll</HintPath>
             <Private>False</Private>
@@ -66,26 +41,6 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="ClassData.cs" />
-        <Compile Include="ClassSelector.cs" />
-        <Compile Include="Commands\PawnClass.cs" />
-        <Compile Include="Commands\PawnSkillLevel.cs" />
-        <Compile Include="MagicCompat.cs" />
-        <Compile Include="Models\Ability.cs" />
-        <Compile Include="Models\ClassPower.cs" />
-        <Compile Include="Models\Class.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
+        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Exclude="RestSharp.dll" />
     </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" ExcludeAssets="all" Exclude="RestSharp.dll">
-            <Project>{03518130-ce79-47fd-9273-36b2c61cd05c}</Project>
-            <Name>ToolkitUtils</Name>
-        </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="HodlHodl.Rimworld.Toolkit.Core" Version="1.1.11" ExcludeAssets="runtime" />
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.3.3325-beta" />
-        <PackageReference Include="SirRandoo.CommonLib" Version="1.4.1" />
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

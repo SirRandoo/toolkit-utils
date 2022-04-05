@@ -20,22 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Linq;
-using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
-using SirRandoo.ToolkitUtils.Workers;
-using ToolkitCore.Utilities;
-using TwitchLib.Client.Models.Interfaces;
-using TwitchToolkit;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
     public class Marriage : ConsensualCommand
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void ProcessAcceptInternal(string asker, string askee)
         {
             if (!PurchaseHelper.TryGetPawn(asker, out Pawn askerPawn))

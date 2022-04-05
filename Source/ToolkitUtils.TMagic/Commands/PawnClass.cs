@@ -129,7 +129,7 @@ namespace SirRandoo.ToolkitUtils.Commands
         private string ExtractClassName(Pawn pawn)
         {
             TraitDef classTrait = TM_Data.AllClassTraits.Find(t => pawn.story.traits.HasTrait(t));
-            
+
             if (classTrait != null)
             {
                 return GetClassName(classTrait);

@@ -50,8 +50,11 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         public IEnumerable<string> GetAllOffersFor(string username)
         {
-            foreach ((string asker, ConsentContext context) in _consentData)
+            foreach (KeyValuePair<string, ConsentContext> pair in _consentData)
             {
+                string asker = pair.Key;
+                ConsentContext context = pair.Value;
+
                 if (string.Equals(username, context.User, StringComparison.InvariantCultureIgnoreCase))
                 {
                     yield return asker;

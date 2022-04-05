@@ -83,8 +83,10 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             List<WorkTypeDef> workTypes = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.Where(w => !pawn.WorkTypeIsDisabled(w)).ToList();
 
-            foreach ((string key, string value) in rawChanges)
+            foreach (KeyValuePair<string, string> pair in rawChanges)
             {
+                string key = pair.Key;
+                string value = pair.Value;
                 WorkTypeDef workType = workTypes.Find(w => w.label.EqualsIgnoreCase(key) || w.defName.EqualsIgnoreCase(key));
 
                 if (workType == null || !int.TryParse(value, out int parsed))
@@ -112,8 +114,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             HideDisabledWork(priorities);
 
-            List<string> container = priorities
-               .Select(priority => new { priority, p = pawn.workSettings.GetPriority(priority) })
+            List<string> container = priorities.Select(priority => new { priority, p = pawn.workSettings.GetPriority(priority) })
                .Where(t => !TkSettings.FilterWorkPriorities || t.p > 0)
                .Select(t => ResponseHelper.JoinPair(t.priority.LabelCap.NullOrEmpty() ? t.priority.defName.CapitalizeFirst() : t.priority.LabelCap.RawText, t.p.ToString()))
                .ToList();

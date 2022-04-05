@@ -77,8 +77,11 @@ namespace SirRandoo.ToolkitUtils.Commands
         {
             List<Apparel> apparel = _pawn.apparel.WornApparel;
 
-            foreach ((string nameOrDef, string colorCode) in pairs)
+            foreach (KeyValuePair<string, string> pair in pairs)
             {
+                string nameOrDef = pair.Key;
+                string colorCode = pair.Value;
+
                 string colorCodeTransformed = colorCode.ToToolkit();
 
                 Color? color;

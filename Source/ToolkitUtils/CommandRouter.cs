@@ -39,7 +39,13 @@ namespace SirRandoo.ToolkitUtils
 
         public override void LoadedGame()
         {
-            CommandQueue.Clear();
+            while (!CommandQueue.IsEmpty)
+            {
+                if (CommandQueue.TryDequeue(out ITwitchMessage _))
+                {
+                    break;
+                }
+            }
         }
 
         public override void GameComponentUpdate()

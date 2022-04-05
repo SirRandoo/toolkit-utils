@@ -41,7 +41,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         public static bool Prefix()
         {
             List<Item> inventory = StoreInventory.items;
-            HashSet<ThingDef> tradeables = StoreDialog.GetTradeables().ToHashSet();
+            var tradeables = new HashSet<ThingDef>(StoreDialog.GetTradeables());
 
             if (Data.PawnKinds != null)
             {
