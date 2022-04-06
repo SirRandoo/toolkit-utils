@@ -58,11 +58,6 @@ namespace SirRandoo.ToolkitUtils
         [NotNull]
         protected override ProxySettingsWindow SettingsWindow => new UtilsSettingsWindow();
 
-        public override void DoSettingsWindowContents(Rect inRect)
-        {
-            TkSettings.DoWindowContents(inRect);
-        }
-
         [NotNull] public override string SettingsCategory() => Content.Name;
 
         internal static void HandleException([NotNull] Exception exception, [CanBeNull] string reporter = null)
