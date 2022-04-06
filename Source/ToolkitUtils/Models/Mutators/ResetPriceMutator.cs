@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private string _resetPriceText;
         public int Priority => 10;
 
-        public string Label => "TKUtils.Fields.ResetPrice".TranslateSimple();
+        public string Label => "TKUtils.EditorMutator.ResetPrice".TranslateSimple();
 
         public void Prepare()
         {

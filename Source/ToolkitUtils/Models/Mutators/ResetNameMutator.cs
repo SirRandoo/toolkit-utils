@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private string _resetNameText;
         public int Priority => 10;
 
-        public string Label => "TKUtils.Fields.ResetName".TranslateSimple();
+        public string Label => "TKUtils.EditorMutator.ResetName".TranslateSimple();
 
         public void Prepare()
         {

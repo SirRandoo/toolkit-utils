@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public int Priority => 1;
 
-        public string Label => "TKUtils.Fields.CamBeStuff".TranslateSimple();
+        public string Label => "TKUtils.Fields.CanBeStuff".TranslateSimple();
 
         public void Prepare()
         {
