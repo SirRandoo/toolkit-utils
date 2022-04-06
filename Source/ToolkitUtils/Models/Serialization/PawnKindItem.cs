@@ -110,8 +110,7 @@ namespace SirRandoo.ToolkitUtils.Models
             PawnData.Stats = container.ToArray();
         }
 
-        [OnDeserialized]
-        private void LoadGameData(StreamingContext context)
+        internal void LoadGameData()
         {
             KindDefData? colonist = null;
             var container = new List<KindDefData>();

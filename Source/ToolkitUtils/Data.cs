@@ -545,6 +545,7 @@ namespace SirRandoo.ToolkitUtils
                 try
                 {
                     pawn.PawnData.Mod = pawn.ColonistKindDef.TryGetModName();
+                    pawn.LoadGameData();
                     pawn.UpdateStats();
                 }
                 catch (Exception)
