@@ -81,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             var client = new RestClient("https://id.twitch.tv/");
             var request = new RestRequest("oauth2/validate", Method.GET);
-            request.AddHeader("Authorization", $"Bearer: {ToolkitCoreSettings.oauth_token.Replace("oauth:", "")}");
+            request.AddHeader("Authorization", $"Bearer {ToolkitCoreSettings.oauth_token.Replace("oauth:", "")}");
             IRestResponse<TokenValidateResponse> response = await client.ExecuteAsync<TokenValidateResponse>(request);
 
             if (!response.IsSuccessful)
