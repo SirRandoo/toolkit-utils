@@ -306,7 +306,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(canvas);
             var line = new Rect(canvas.x, canvas.y, canvas.width, Text.LineHeight);
             Rect searchRect = new Rect(line.x, line.y, line.width * 0.18f, line.height).Rounded();
-            Rect searchTextRect = searchRect.Trim(Direction8Way.East, _searchTextSize.x);
+
+            Rect searchTextRect = searchRect.Trim(Direction8Way.East, searchRect.width - _searchTextSize.x);
 
             var searchFieldRect = new Rect(
                 searchTextRect.x + searchTextRect.width + 5f,
