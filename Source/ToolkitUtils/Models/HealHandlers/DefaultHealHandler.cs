@@ -23,9 +23,19 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class DefaultHealHandler : IHealHandler
     {
-        public bool CanHeal([NotNull] Hediff hediff) => hediff.def.GetModExtension<HealExtension>()?.ShouldHeal == true;
+        public bool CanHeal([NotNull] Hediff hediff)
+        {
+            var extension = hediff.def.GetModExtension<HealExtension>();
 
-        public bool CanHeal([NotNull] BodyPartRecord bodyPart) => bodyPart.def.GetModExtension<HealExtension>()?.ShouldHeal == true;
+            return !(extension is { ShouldHeal: true });
+        }
+
+        public bool CanHeal([NotNull] BodyPartRecord bodyPart)
+        {
+            var extension = bodyPart.def.GetModExtension<HealExtension>();
+
+            return !(extension is { ShouldHeal: true });
+        }
 
         [NotNull] public string ModId => "sirrandoo.tku";
     }

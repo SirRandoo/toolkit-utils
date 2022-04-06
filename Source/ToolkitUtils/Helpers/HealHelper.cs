@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff hediff in hediffs)
             {
-                if (hediff is Hediff_Addiction { Visible: true } a && a.def.everCurableByItem && CompatRegistry.AllHealHandlers.All(h => h.CanHeal(hediff)))
+                if (hediff is Hediff_Addiction { Visible: true } a && a.def.everCurableByItem && CompatRegistry.IsHealable(hediff))
                 {
                     return a;
                 }
@@ -92,7 +92,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 if (missing.Part.coverageAbsWithChildren >= minCoverage && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(missing.Part)
                     && (record == null || missing.Part.coverageAbsWithChildren > record.coverageAbsWithChildren)
-                    && CompatRegistry.AllHealHandlers.All(h => h.CanHeal(missing)))
+                    && CompatRegistry.IsHealable(missing))
                 {
                     record = missing.Part;
                 }
@@ -111,7 +111,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             foreach (Hediff h in hediffs)
             {
                 if (!h.Visible || !h.def.everCurableByItem || h.TryGetComp<HediffComp_Immunizable>() == null || h.FullyImmune() || !CanEverKill(h)
-                    || !CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
+                    || !CompatRegistry.IsHealable(h))
                 {
                     continue;
                 }
@@ -139,7 +139,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             foreach (Hediff h in hediffs)
             {
                 if (h is Hediff_Injury { Visible: true } h2 && h2.def.everCurableByItem && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))
-                    && (injury == null || h2.Severity > injury.Severity) && CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
+                    && (injury == null || h2.Severity > injury.Severity) && CompatRegistry.IsHealable(h))
                 {
                     injury = h2;
                 }
@@ -157,7 +157,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (!h.Visible || !h.def.everCurableByItem || h.FullyImmune() || !CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
+                if (!h.Visible || !h.def.everCurableByItem || h.FullyImmune() || !CompatRegistry.IsHealable(h))
                 {
                     continue;
                 }
@@ -193,7 +193,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Hediff h in hediffs)
             {
-                if (!h.Visible || !h.def.everCurableByItem || !CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
+                if (!h.Visible || !h.def.everCurableByItem || !CompatRegistry.IsHealable(h))
                 {
                     continue;
                 }
@@ -222,7 +222,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             foreach (Hediff h in hediffs)
             {
                 if (!h.Visible || !h.def.isBad || !h.def.everCurableByItem || h is Hediff_Injury || h is Hediff_MissingPart || h is Hediff_Addiction
-                    || h is Hediff_AddedPart || (onlyIfCanKill && !CanEverKill(h)) || !CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
+                    || h is Hediff_AddedPart || (onlyIfCanKill && !CanEverKill(h)) || !CompatRegistry.IsHealable(h))
                 {
                     continue;
                 }
@@ -256,7 +256,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 if (h is Hediff_Injury { Visible: true } h2 && h2.IsPermanent() && h2.def.everCurableByItem
                     && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part)) && (injury == null || h2.Severity > injury.Severity)
-                    && CompatRegistry.AllHealHandlers.All(hh => hh.CanHeal(h)))
+                    && CompatRegistry.IsHealable(h))
                 {
                     injury = h2;
                 }

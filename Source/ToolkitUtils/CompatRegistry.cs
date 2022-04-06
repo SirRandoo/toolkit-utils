@@ -22,7 +22,9 @@
 
 using System;
 using System.Collections.Generic;
+using HarmonyLib;
 using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
@@ -46,12 +48,21 @@ namespace SirRandoo.ToolkitUtils
 
         internal static void ProcessType([NotNull] Type type)
         {
-            if (!(Activator.CreateInstance(type) is ICompatibilityProvider provider) || ModLister.GetActiveModWithIdentifier(provider.ModId) == null)
+            if (!(Activator.CreateInstance(type) is ICompatibilityProvider provider))
             {
                 return;
             }
 
-            RegisterAndCatalogue(provider);
+            bool dependencyLoaded = provider.ModId.StartsWith("Ludeon")
+                ? ModLister.GetExpansionWithIdentifier(provider.ModId)?.Status == ExpansionStatus.Active
+                : ModLister.GetActiveModWithIdentifier(provider.ModId) != null;
+            
+            if (!dependencyLoaded)
+            {
+                return;
+            }
+
+            RegisterAndCatalogue((ICompatibilityProvider) Activator.CreateInstance(type));
         }
 
         private static void RegisterAndCatalogue([NotNull] ICompatibilityProvider provider)
@@ -85,6 +96,34 @@ namespace SirRandoo.ToolkitUtils
 
                     break;
             }
+        }
+
+        public static bool IsHealable(Hediff hediff)
+        {
+            foreach (IHealHandler handler in HealHandlers)
+            {
+                if (!handler.CanHeal(hediff))
+                {
+                    TkUtils.Logger.Info($"The handler {handler.GetType().FullDescription()} requested that the hediff {hediff.def.defName} not be healed.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool IsHealable(BodyPartRecord record)
+        {
+            foreach (IHealHandler handler in HealHandlers)
+            {
+                if (!handler.CanHeal(record))
+                {
+                    TkUtils.Logger.Info($"The handler {handler.GetType().FullDescription()} requested that the body part {record.def.defName} not be healed.");
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
