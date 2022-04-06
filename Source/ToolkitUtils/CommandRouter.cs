@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils
                 return;
             }
 
-            if (_interfaceTask.Exception != null)
+            if (_interfaceTask?.Exception != null)
             {
                 foreach (Exception exception in _interfaceTask.Exception.Flatten().InnerExceptions)
                 {
