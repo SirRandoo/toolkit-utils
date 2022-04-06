@@ -58,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
             try
             {
                 Type interestsClass = AccessTools.TypeByName("DInterests.InterestBase");
-                FieldInfo interestsList = AccessTools.Field("DInterests.InterestBase:interestList");
+                FieldInfo interestsList = AccessTools.Field(interestsClass, "interestList");
                 var interestListInstance = interestsList.GetValue(interestsClass) as IList;
 
                 // ReSharper disable once PossibleNullReferenceException
