@@ -17,6 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
@@ -60,7 +62,7 @@ namespace SirRandoo.ToolkitUtils
             foreach (Type type in AppDomain.CurrentDomain.GetAssemblies()
                .Where(a => !a.GlobalAssemblyCache)
                .SelectMany(a => a.GetTypes())
-               .Where(t => !t.IsInterface && !t.IsAbstract))
+               .Where(t => !t.IsInterface && !t.IsAbstract && !t.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), true)))
             {
                 if (FilteredNamespaceRoots.Any(r => type.Namespace?.StartsWith(r) == true))
                 {
@@ -78,11 +80,11 @@ namespace SirRandoo.ToolkitUtils
                 {
                     switch (isGeneric)
                     {
-                        case true when GameHelper.IsGenericTypeDeep(type, typeof(ISelectorBase<>)):
+                        case true when GameHelper.IsGenericTypeDeep(type, typeof(ISelectorBase<>), false, typeof(IShopItemBase)):
                             selectorEntries.Add(ProcessSelector(type));
 
                             break;
-                        case true when GameHelper.IsGenericTypeDeep(type, typeof(IMutatorBase<>)):
+                        case true when GameHelper.IsGenericTypeDeep(type, typeof(IMutatorBase<>), false, typeof(IShopItemBase)):
                             mutatorEntries.Add(ProcessMutator(type));
 
                             break;
@@ -100,19 +102,19 @@ namespace SirRandoo.ToolkitUtils
             Type selectorBase = typeof(ISelectorBase<>);
             var entry = new SelectorEntry { Type = selector };
 
-            if (GameHelper.IsGenericType(selector, selectorBase, false, typeof(ThingItem)))
+            if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(ThingItem)))
             {
                 entry.Target = EditorTarget.Item;
             }
-            else if (GameHelper.IsGenericType(selector, selectorBase, false, typeof(TraitItem)))
+            else if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(TraitItem)))
             {
                 entry.Target = EditorTarget.Trait;
             }
-            else if (GameHelper.IsGenericType(selector, selectorBase, false, typeof(PawnKindItem)))
+            else if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(PawnKindItem)))
             {
                 entry.Target = EditorTarget.Pawn;
             }
-            else if (GameHelper.IsGenericType(selector, selectorBase, false, typeof(EventItem)))
+            else if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(EventItem)))
             {
                 entry.Target = EditorTarget.Event;
             }

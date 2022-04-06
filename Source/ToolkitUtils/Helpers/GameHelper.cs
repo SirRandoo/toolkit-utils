@@ -98,24 +98,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         internal static bool IsGenericType([NotNull] Type type, Type genericType, bool fuzzy = false, params Type[] genericParams)
         {
-            if (type.IsGenericType && genericType.IsAssignableFrom(type.GetGenericTypeDefinition()))
-            {
-                return true;
-            }
-
-            if (type.GetInterfaces().Any(i => i.IsGenericType && genericType.IsAssignableFrom(i.GetGenericTypeDefinition())))
-            {
-                return true;
-            }
-
-            if (fuzzy)
+            if (!type.IsGenericType || !genericType.IsAssignableFrom(type.GetGenericTypeDefinition()))
             {
                 return false;
             }
 
             Type[] args = type.GetGenericArguments();
 
-            return args.Length == genericParams.Length && args.Zip(genericParams, (f, s) => s.IsAssignableFrom(f)).All(c => c);
+            return fuzzy || (args.Length == genericParams.Length && args.Zip(genericParams, (f, s) => s.IsAssignableFrom(f)).All(c => c));
         }
 
         public static bool GetDefaultUsability([NotNull] ThingDef thing)
