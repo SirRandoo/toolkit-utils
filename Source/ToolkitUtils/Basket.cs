@@ -28,7 +28,17 @@ namespace SirRandoo.ToolkitUtils
             { "scavenging_mechanic", new MechanicalEgg() }, { "crystalroseeve", new CrystallizedEgg() }, { "merl_fox", new MerlEgg() }, { "ericcode", new CodedEgg() }
         };
 
-        public static void RegisterEggFor([NotNull] string user, [NotNull] IEasterEgg egg) => Eggs.Add(user.ToLowerInvariant(), egg);
+        public static bool RegisterEggFor([NotNull] string user, [NotNull] IEasterEgg egg)
+        {
+            if (!Eggs.ContainsKey(user.ToLowerInvariant()))
+            {
+                Eggs.Add(user.ToLowerInvariant(), egg);
+
+                return true;
+            }
+
+            return false;
+        }
 
         public static bool UnregisterEggFor([NotNull] string user) => Eggs.Remove(user);
 
