@@ -726,7 +726,15 @@ namespace SirRandoo.ToolkitUtils
         }
 
         [CanBeNull]
-        private static List<Ability> GetRawPowersForBaseClass([NotNull] TraitDef trait) => !BaseClassPowers.TryGetValue(trait, out List<Ability> powers) ? null : powers;
+        private static List<Ability> GetRawPowersForBaseClass([NotNull] TraitDef trait)
+        {
+            if (BaseClassPowers == null)
+            {
+                return null;
+            }
+            
+            return !BaseClassPowers.TryGetValue(trait, out List<Ability> powers) ? null : powers;
+        }
 
         private static bool IsAbility([NotNull] Ability ability, [NotNull] Def def) => ability.Name == (def.label ?? def.defName);
     }
