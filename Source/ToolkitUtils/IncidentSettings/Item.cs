@@ -63,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            (Rect awfulLabel, Rect awfulField) = listing.Split(preferredHeight);
+            (Rect awfulLabel, Rect awfulField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(awfulLabel, "TKUtils.Item.AwfulMultiplier".TranslateSimple());
             Widgets.TextFieldNumeric(awfulField, ref AwfulMultiplier, ref AwfulMultiplierBuffer);
 
@@ -72,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
                 AwfulQuality = !AwfulQuality;
             }
 
-            (Rect poorLabel, Rect poorField) = listing.Split(preferredHeight);
+            (Rect poorLabel, Rect poorField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(poorLabel, "TKUtils.Item.PoorMultiplier".TranslateSimple());
             Widgets.TextFieldNumeric(poorField, ref PoorMultiplier, ref PoorMultiplierBuffer);
 
@@ -81,7 +81,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
                 PoorQuality = !PoorQuality;
             }
 
-            (Rect normalLabel, Rect normalField) = listing.Split(preferredHeight);
+            (Rect normalLabel, Rect normalField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(normalLabel, "TKUtils.Item.NormalMultiplier".TranslateSimple());
             Widgets.TextFieldNumeric(normalField, ref NormalMultiplier, ref NormalMultiplierBuffer);
 
@@ -90,7 +90,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
                 NormalQuality = !NormalQuality;
             }
 
-            (Rect goodLabel, Rect goodField) = listing.Split(preferredHeight);
+            (Rect goodLabel, Rect goodField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(goodLabel, "TKUtils.Item.GoodMultiplier".TranslateSimple());
             Widgets.TextFieldNumeric(goodField, ref GoodMultiplier, ref GoodMultiplierBuffer);
 
@@ -99,7 +99,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
                 GoodQuality = !GoodQuality;
             }
 
-            (Rect excLabel, Rect excField) = listing.Split(preferredHeight);
+            (Rect excLabel, Rect excField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(excLabel, "TKUtils.Item.ExcellentMultiplier".TranslateSimple());
             Widgets.TextFieldNumeric(excField, ref ExcellentMultiplier, ref ExcellentMultiplierBuffer);
 
@@ -109,7 +109,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
                 ExcellentQuality = !ExcellentQuality;
             }
 
-            (Rect mWorkLabel, Rect mWorkField) = listing.Split(preferredHeight);
+            (Rect mWorkLabel, Rect mWorkField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(mWorkLabel, "TKUtils.Item.MasterworkMultiplier".TranslateSimple());
             Widgets.TextFieldNumeric(mWorkField, ref MasterworkMultiplier, ref MasterworkMultiplierBuffer);
 
@@ -119,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
                 MasterworkQuality = !MasterworkQuality;
             }
 
-            (Rect legLabel, Rect legField) = listing.Split(preferredHeight);
+            (Rect legLabel, Rect legField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(legLabel, "TKUtils.Item.LegendaryMultiplier".TranslateSimple());
             Widgets.TextFieldNumeric(legField, ref LegendaryMultiplier, ref LegendaryMultiplierBuffer);
 

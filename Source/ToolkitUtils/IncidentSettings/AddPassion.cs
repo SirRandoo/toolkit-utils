@@ -47,17 +47,17 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
 
             listing.CheckboxLabeled("TKUtils.Passion.Randomness.Label".TranslateSimple(), ref Randomness, "TKUtils.Passion.Randomness.Description".TranslateSimple());
 
-            (Rect failLabel, Rect failField) = listing.Split(preferredHeight);
+            (Rect failLabel, Rect failField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(failLabel, "TKUtils.Passion.FailChance.Label".TranslateSimple());
             Widgets.TextFieldNumeric(failField, ref ChanceToFail, ref _failChanceBuffer, max: 100f);
             failLabel.TipRegion("TKUtils.Passion.FailChance.Description".TranslateSimple());
 
-            (Rect hopLabel, Rect hopField) = listing.Split(preferredHeight);
+            (Rect hopLabel, Rect hopField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(hopLabel, "TKUtils.Passion.HopChance.Label".TranslateSimple());
             Widgets.TextFieldNumeric(hopField, ref ChanceToHop, ref _hopChanceBuffer, max: 100f);
             hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".TranslateSimple());
 
-            (Rect decreaseLabel, Rect decreaseField) = listing.Split(preferredHeight);
+            (Rect decreaseLabel, Rect decreaseField) = listing.GetRect(preferredHeight).Split();
             UiHelper.Label(decreaseLabel, "TKUtils.Passion.DecreaseChance.Label".TranslateSimple());
             Widgets.TextFieldNumeric(decreaseField, ref ChanceToDecrease, ref _decreaseChanceBuffer, max: 100f);
             decreaseLabel.TipRegion("TKUtils.Passion.DecreaseChance.Description".TranslateSimple());
