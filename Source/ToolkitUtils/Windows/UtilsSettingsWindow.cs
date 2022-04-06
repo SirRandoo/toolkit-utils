@@ -55,7 +55,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private Vector2 _dataScrollPos = Vector2.zero;
 
-        private float _dataTabHeight;
         private string _decorateUtilsDescription;
         private string _decorateUtilsLabel;
         private string _dumpStyleDescription;
@@ -188,7 +187,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _emojisGroupHeader = "TKUtils.General.Emojis".TranslateSimple();
             _emojisLabel = "TKUtils.Emojis.Label".TranslateSimple();
             _emojisDescription = "TKUtils.Emojis.Description".TranslateSimple();
-            _viewerGroupHeader = "TKUtils.General.Viewers".TranslateSimple();
+            _viewerGroupHeader = "TKUtils.General.Viewer".TranslateSimple();
             _hairColorLabel = "TKUtils.HairColor.Label".TranslateSimple();
             _hairColorDescription = "TKUtils.HairColor.Description".TranslateSimple();
             _gatewayGroupHeader = "TKUtils.General.Gateway".TranslateSimple();
@@ -229,7 +228,20 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         protected override void DrawSettings(Rect region)
         {
-            // TODO
+            GUI.BeginGroup(region);
+
+            var tabBarRect = new Rect(0f, 0f, region.width, Text.LineHeight * 2f);
+            var tabPanelRect = new Rect(0f, tabBarRect.height, region.width, region.height - tabBarRect.height);
+
+            GUI.BeginGroup(tabBarRect);
+            _tabWorker.Draw(tabBarRect.AtZero(), paneled: true);
+            GUI.EndGroup();
+
+            GUI.BeginGroup(tabPanelRect);
+            _tabWorker.SelectedTab?.Draw(tabPanelRect.AtZero());
+            GUI.EndGroup();
+            
+            GUI.EndGroup();
         }
 
         private void DrawGeneralSettings(Rect region)
@@ -259,7 +271,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawDataSettings(Rect region)
         {
-            var view = new Rect(0f, 0f, region.width - 16f, Text.LineHeight * _dataTabHeight);
+            var view = new Rect(0f, 0f, region.width - 16f, Text.LineHeight * 32f);
             var listing = new Listing_Standard();
             GUI.BeginGroup(region);
             Widgets.BeginScrollView(region.AtZero(), ref _dataScrollPos, view);
@@ -309,7 +321,6 @@ namespace SirRandoo.ToolkitUtils.Windows
             listing.DrawDescription(_storeRateDescription);
             UiHelper.NumberField(storeField, ref _buildRateBuffer, ref TkSettings.StoreBuildRate, ref _buildRateBufferValid);
 
-            _dataTabHeight = listing.CurHeight;
             listing.End();
             Widgets.EndScrollView();
             GUI.EndGroup();
@@ -354,7 +365,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             listing.CheckboxLabeled(_commandRouterLabel, ref TkSettings.CommandRouter);
-            listing.DrawDescription(_commandRouterDescription.Translate());
+            listing.DrawDescription(_commandRouterDescription);
             listing.DrawExperimentalNotice();
 
 

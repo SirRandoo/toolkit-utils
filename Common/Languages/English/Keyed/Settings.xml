@@ -20,17 +20,23 @@
 
 <LanguageData>
     <!-- Groups -->
-    <TKUtils.General>General</TKUtils.General>
+    <TKUtils.General.Label>General</TKUtils.General.Label>
+    <TKUtils.General.Tooltip>A general dumping ground for settings that don't fit into other setting categories. You'll generally find settings for features that change how you and viewers see various Twitch Toolkit related things, like a pawn's hair color or emojis for chat messages.</TKUtils.General.Tooltip>
+    
     <TKUtils.General.Emojis>Emojis</TKUtils.General.Emojis>
     <TKUtils.General.Viewer>Viewer Pawn Tweaks</TKUtils.General.Viewer>
     <TKUtils.General.Gateway>Toolkit Gateway</TKUtils.General.Gateway>
     <TKUtils.General.Basket>Easter Eggs</TKUtils.General.Basket>
 
-    <TKUtils.Data>Data</TKUtils.Data>
+    <TKUtils.Data.Label>Data</TKUtils.Data.Label>
+    <TKUtils.Data.Tooltip>Settings in this category affect how the mod reads, writes, and processes the various data required to run the mod.</TKUtils.Data.Tooltip>
+    
     <TKUtils.Data.LazyProcess>Item Store Processing</TKUtils.Data.LazyProcess>
     <TKUtils.Data.Files>Toolkit Data</TKUtils.Data.Files>
 
-    <TKUtils.CommandTweaks>Command Tweaks</TKUtils.CommandTweaks>
+    <TKUtils.CommandTweaks.Label>Command Tweaks</TKUtils.CommandTweaks.Label>
+    <TKUtils.CommandTweaks.Tooltip>Settings in this category affect how the mod processes chat commands. Here you can change what the bot looks for command wise, adjust the responses for certain commands, and even change how commands are handled internally.</TKUtils.CommandTweaks.Tooltip>
+    
     <TKUtils.CommandTweaks.Balance>Balance Command</TKUtils.CommandTweaks.Balance>
     <TKUtils.CommandTweaks.Handler>Commands Handler</TKUtils.CommandTweaks.Handler>
     <TKUtils.CommandTweaks.InstalledMods>Installed Mods Command</TKUtils.CommandTweaks.InstalledMods>
@@ -38,7 +44,9 @@
     <TKUtils.CommandTweaks.Lookup>Lookup Command</TKUtils.CommandTweaks.Lookup>
     <TKUtils.CommandTweaks.BuyPawn>Pawn Purchases</TKUtils.CommandTweaks.BuyPawn>
 
-    <TKUtils.PawnCommands>Pawn Commands</TKUtils.PawnCommands>
+    <TKUtils.PawnCommands.Label>Pawn Commands</TKUtils.PawnCommands.Label>
+    <TKUtils.PawnCommands.Tooltip>Settings in this category change how the pawn related commands function internally, as well as adjust the responses for the respective commands.</TKUtils.PawnCommands.Tooltip>
+    
     <TKUtils.PawnCommands.Abandon>Leave Command</TKUtils.PawnCommands.Abandon>
     <TKUtils.PawnCommands.Gear>Pawn Gear Command</TKUtils.PawnCommands.Gear>
     <TKUtils.PawnCommands.Health>Pawn Health Command</TKUtils.PawnCommands.Health>
@@ -48,13 +56,14 @@
     <TKUtils.PawnWork>Work Priorities</TKUtils.PawnWork>
     <TKUtils.PawnStats>Stats</TKUtils.PawnStats>
 
-    <TKUtils.ModCompat>Mod Compatibility</TKUtils.ModCompat>
+    <TKUtils.ModCompat.Label>Mod Compatibility</TKUtils.ModCompat.Label>
+    <TKUtils.ModCompat.Tooltip>Settings in this category toggle compatibility code for other mods. While most of these settings are used to toggle compatibility entirely, you may find some other settings that change how commands and events function when a given mod is present.</TKUtils.ModCompat.Tooltip>
 
 
     <!-- Notices -->
-    <TKUtils.Experimental>This setting is experimental and may change, or be removed, at any time.</TKUtils.Experimental>
+    <ExperimentalContent>This setting is experimental and may change, or be removed, at any time.</ExperimentalContent>
     <TKUtils.TMagic.Warning>A RimWorld of Magic does not support class changes. Lifting this restriction may lead to unexpected side-effects.</TKUtils.TMagic.Warning>
-    <TKUtils.ModRequirement>Requires {0}</TKUtils.ModRequirement>
+    <ContentRequiresMod>Requires {0}</ContentRequiresMod>
 
 
     <!-- General Tab -->
