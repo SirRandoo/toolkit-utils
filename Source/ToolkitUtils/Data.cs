@@ -68,6 +68,10 @@ namespace SirRandoo.ToolkitUtils
 
         static Data()
         {
+            // Just something to ensure the DomainIndexer's static constructor runs before
+            // this ones.... as gross as that is.
+            int _ = DomainIndexer.Mutators.Length;
+
             LoadShopData();
             LoadItemData(Paths.ItemDataFilePath);
             ValidateModList();
