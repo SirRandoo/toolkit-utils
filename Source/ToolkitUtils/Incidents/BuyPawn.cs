@@ -101,7 +101,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
         {
             try
             {
-                var request = new PawnGenerationRequest(_kindDef, Faction.OfPlayer, tile: _map.Tile, allowFood: false, mustBeCapableOfViolence: true);
+                var request = new PawnGenerationRequest(
+                    _kindDef,
+                    Faction.OfPlayer,
+                    allowFood: false,
+                    mustBeCapableOfViolence: true,
+                    fixedIdeo: Find.FactionManager.OfPlayer.ideos.GetRandomIdeoForNewPawn()
+                );
+                
                 Pawn pawn = PawnGenerator.GeneratePawn(request);
 
                 if (!(pawn.Name is NameTriple name))
