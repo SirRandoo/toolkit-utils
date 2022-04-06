@@ -142,7 +142,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                     PerformWeaponLookup(query);
 
                     return;
-                case Category.TMagic:
+                case Category.TMagic when CompatRegistry.Magic != null:
                     PerformTMagicLookup(query);
 
                     return;
