@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils
         public string ModId => "Ludeon.Ideology";
 
         /// <inheritdoc/>
-        public bool CanHeal(Hediff hediff) => Find.FactionManager.OfPlayer.ideos.AnyPreceptWithRequiredScars() && hediff.def != HediffDefOf.Scarification;
+        public bool CanHeal(Hediff hediff) => !Find.FactionManager.OfPlayer.ideos.AnyPreceptWithRequiredScars() && hediff.def != HediffDefOf.Scarification;
 
         /// <inheritdoc/>
         public bool CanHeal(BodyPartRecord bodyPart) => true;
