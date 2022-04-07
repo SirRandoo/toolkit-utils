@@ -1090,21 +1090,29 @@ namespace SirRandoo.ToolkitUtils
         {
             string backupPath = Path.ChangeExtension(dest, ".bak");
 
-            try
+            if (File.Exists(dest))
             {
-                File.Replace(source, dest, backupPath);
+                try
+                {
+                    File.Replace(source, dest, backupPath);
 
-                return true;
-            }
-            catch (IOException e1)
-            {
-                TkUtils.Logger.Error($"Could not replace {dest} with {source}. Trying a different method...", e1);
+                    return true;
+                }
+                catch (IOException e1)
+                {
+                    TkUtils.Logger.Error($"Could not replace {dest} with {source}. Trying a different method...", e1);
+                }
             }
 
             try
             {
                 DeleteIfExists(backupPath);
-                File.Move(dest, backupPath);
+                
+                if (File.Exists(dest))
+                {
+                    File.Move(dest, backupPath);
+                }
+
                 File.Move(source, dest);
 
                 return true;
