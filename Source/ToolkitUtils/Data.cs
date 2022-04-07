@@ -288,14 +288,14 @@ namespace SirRandoo.ToolkitUtils
             {
                 if (TkSettings.MinifyData)
                 {
-                    JsonSerializer.SerializeAsync(f, obj);
+                    JsonSerializer.Serialize(f, obj);
 
                     return;
                 }
 
                 using (var writer = new StreamWriter(f))
                 {
-                    writer.WriteAsync(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
+                    writer.Write(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
                 }
             }
         }
