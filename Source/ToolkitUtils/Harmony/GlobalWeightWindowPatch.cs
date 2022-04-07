@@ -14,9 +14,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using HarmonyLib;
+using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Windows;
+using TwitchToolkit.Storytellers.StorytellerPackWindows;
+
 namespace SirRandoo.ToolkitUtils.Harmony
 {
-#if RW13
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public static class GlobalWeightWindowPatch
@@ -60,5 +68,4 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
         }
     }
-#endif
 }

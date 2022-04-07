@@ -46,12 +46,12 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             _nullDictText = "TKUtils.GlobalWeights.Null".TranslateSimple();
 
-            float width = windowRect.width - Margin * 2f;
+            float width = windowRect.width - Margin * 2f - 16f;
             float entryWidth = Mathf.FloorToInt(width * 0.7f);
 
             foreach (VotingIncident incident in DefDatabase<VotingIncident>.AllDefs)
             {
-                var entry = new IncidentEntry { Incident = incident, Height = Text.CalcHeight($"{incident.defName} - 100.00 %", entryWidth) };
+                var entry = new IncidentEntry { Incident = incident, Height = Text.CalcHeight($"{incident.defName} - 1000.00 %", entryWidth) };
                 _height += entry.Height;
                 _entries.Add(entry);
             }
@@ -125,6 +125,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     _bufferCache[entry.Incident.defName] = buffer;
                 }
 
+                usedHeight += entry.Height;
                 total += entry.Incident.voteWeight;
             }
 
