@@ -74,16 +74,8 @@ namespace SirRandoo.ToolkitUtils
 
             LoadShopData();
             LoadItemData(Paths.ItemDataFilePath);
-            ValidateModList();
-            ValidateItems();
-            ValidateItemData();
-            ValidatePawnKinds();
-            ValidatePawnKindData();
-            ValidateTraits();
-            ValidateTraitData();
-            ValidateSurgeryList();
-            ValidateEventList();
-            ValidateEventData();
+
+            ValidateData();
 
             if (TkSettings.Offload)
             {
@@ -92,6 +84,72 @@ namespace SirRandoo.ToolkitUtils
             else
             {
                 DumpAllData();
+            }
+        }
+        
+        private static void ValidateData()
+        {
+            try
+            {
+                ValidateModList();
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Could not serialize active mod list", e);
+            }
+
+            try
+            {
+                ValidateSurgeryList();
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Could not validate surgery list", e);
+            }
+
+            ValidateShopData();
+        }
+        
+        private static void ValidateShopData()
+        {
+            try
+            {
+                ValidateItems();
+                ValidateItemData();
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Could not validate item shop data", e);
+            }
+
+            try
+            {
+                ValidatePawnKinds();
+                ValidatePawnKindData();
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Could not validate pawn shop data", e);
+            }
+
+            try
+            {
+                ValidateTraits();
+                ValidateTraitData();
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Could not validate trait shop data", e);
+            }
+
+            try
+            {
+                ValidateEventList();
+                ValidateEventData();
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Could not validate event shop data", e);
             }
         }
 
