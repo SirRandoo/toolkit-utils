@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 Dirty.Set(true);
             }
 
-            if (!UiHelper.FieldButton(field, Exclude ? '!' : '=', Exclude ? _includeTooltip : _excludeTooltip))
+            if (!UiHelper.FieldButton(field, Exclude ? "!=" : "=", Exclude ? _includeTooltip : _excludeTooltip))
             {
                 return;
             }

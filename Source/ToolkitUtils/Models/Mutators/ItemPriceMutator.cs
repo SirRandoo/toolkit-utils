@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.Models
             UiHelper.Label(label, _priceText);
             Widgets.TextFieldNumeric(field, ref _price, ref _priceBuffer, _percentage ? -100f : 1f);
 
-            if (UiHelper.FieldButton(field, _percentage ? '%' : '#', _percentage ? _percentTooltip : _valueTooltip))
+            if (UiHelper.FieldButton(field, _percentage ? "%" : "#", _percentage ? _percentTooltip : _valueTooltip))
             {
                 _percentage = !_percentage;
             }

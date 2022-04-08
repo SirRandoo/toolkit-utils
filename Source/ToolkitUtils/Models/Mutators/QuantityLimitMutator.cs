@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Models
             UiHelper.Label(label, _quantityLimitText);
             Widgets.TextFieldNumeric(field, ref _limit, ref _limitBuffer, 1f);
 
-            if (UiHelper.FieldButton(field, _toLimit ? 'S' : '#', _toLimit ? _toLimitTooltip : _toValueTooltip))
+            if (UiHelper.FieldButton(field, _toLimit ? "S" : "#", _toLimit ? _toLimitTooltip : _toValueTooltip))
             {
                 _toLimit = !_toLimit;
             }
