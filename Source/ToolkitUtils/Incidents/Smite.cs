@@ -33,9 +33,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override bool CanHappen([NotNull] string msg, [NotNull] Viewer viewer)
         {
-            UserData data = UserRegistry.GetData(viewer.username);
-
-            if (!(data is { IsModerator: true }) || !data.Username.EqualsIgnoreCase(ToolkitCoreSettings.channel_username))
+            if (!viewer.mod || !viewer.username.EqualsIgnoreCase(ToolkitCoreSettings.channel_username))
             {
                 return false;
             }

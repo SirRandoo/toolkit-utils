@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -60,18 +61,9 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 }
             }
 
-            UserData data = UserRegistry.UpdateData(twitchMessage);
-
-            if (data.IsBroadcaster)
-            {
-                UpdateBroadcasterData(viewer);
-            }
-            else
-            {
-                viewer.mod = data.IsModerator;
-                viewer.subscriber = data.IsSubscriber;
-                viewer.vip = data.IsVip;
-            }
+            viewer.mod = twitchMessage.HasBadges("moderator", "broadcaster", "global_mod", "staff");
+            viewer.subscriber = twitchMessage.HasBadges("subscriber", "founder");
+            viewer.vip = twitchMessage.HasBadges("vip");
 
             return false;
         }

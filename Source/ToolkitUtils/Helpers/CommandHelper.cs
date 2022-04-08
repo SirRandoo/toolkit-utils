@@ -27,14 +27,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
     {
         public static void Execute([NotNull] this Command command, [NotNull] ITwitchMessage message, bool emojiOverride = false)
         {
-            UserData data = UserRegistry.GetData(message.Username);
-
-            if (command.requiresAdmin && data?.IsBroadcaster != true)
+            if (command.requiresAdmin && message.HasBadges("broadcaster"))
             {
                 return;
             }
 
-            if (command.requiresMod && data?.IsModerator != true)
+            if (command.requiresMod && message.HasBadges("broadcaster", "moderator", "global_mod", "staff"))
             {
                 return;
             }

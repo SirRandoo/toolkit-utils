@@ -46,8 +46,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             {
                 return !TkSettings.Commands;
             }
-
-            UserRegistry.UpdateData(twitchMessage);
             Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
             viewer.last_seen = DateTime.Now;
 

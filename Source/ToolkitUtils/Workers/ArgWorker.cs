@@ -398,9 +398,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 next = next.Substring(1);
             }
 
-            return UserRegistry.TryGetData(next, out UserData data)
-                ? Viewers.All.Find(v => v.username.Equals(data.Username, StringComparison.InvariantCultureIgnoreCase))
-                : Viewers.All.Find(v => v.username.Equals(next, StringComparison.InvariantCultureIgnoreCase));
+            return Viewers.All.Find(v => v.username.Equals(next, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [CanBeNull]
