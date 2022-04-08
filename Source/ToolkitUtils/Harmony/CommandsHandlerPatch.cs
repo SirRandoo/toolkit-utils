@@ -47,8 +47,8 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return !TkSettings.Commands;
             }
 
-            UserData data = UserRegistry.UpdateData(twitchMessage);
-            Viewer viewer = Viewers.GetViewer(data.Username);
+            UserRegistry.UpdateData(twitchMessage);
+            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
             viewer.last_seen = DateTime.Now;
 
             if (viewer.IsBanned)
