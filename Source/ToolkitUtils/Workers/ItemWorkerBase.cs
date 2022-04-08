@@ -130,7 +130,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                Rect sRect = lineRect.Trim(Direction8Way.East, lineRect.width - Text.LineHeight - 2f);
+                Rect sRect = lineRect.Trim(Direction8Way.East, Text.LineHeight - 2f);
                 selector.Draw(sRect);
 
                 if (UiHelper.FieldButton(lineRect, Widgets.CheckboxOffTex))
@@ -185,7 +185,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                     Widgets.DrawLightHighlight(lineRect);
                 }
 
-                Rect mutatorRect = lineRect.Trim(Direction8Way.East, lineRect.width - Text.LineHeight - 2f);
+                Rect mutatorRect = lineRect.Trim(Direction8Way.East, Text.LineHeight - 2f);
                 mutator.Draw(mutatorRect);
 
                 if (UiHelper.FieldButton(lineRect, Widgets.CheckboxOffTex))
