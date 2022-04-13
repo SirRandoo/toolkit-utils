@@ -104,6 +104,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (conflicting != null)
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Conflict".LocalizeKeyed(conflicting.LabelCap, _trait.LabelCap));
+
+                return false;
             }
 
             Trait duplicateTrait = _pawn.story.traits.allTraits?.FirstOrDefault(t => t.def.defName.Equals(_buyableTrait.TraitDef!.defName));
