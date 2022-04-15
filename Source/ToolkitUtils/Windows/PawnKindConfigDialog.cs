@@ -103,11 +103,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawGlobalResetButton(Rect resetRect)
         {
-            if (!Widgets.ButtonText(resetRect, _resetText))
+            if (Widgets.ButtonText(resetRect, _resetText))
             {
-                return;
+                ConfirmationDialog.Open("TKUtils.PawnKindStore.ConfirmReset".TranslateSimple(), PerformGlobalReset);
             }
-
+        }
+        private void PerformGlobalReset()
+        {
             foreach (TableSettingsItem<PawnKindItem> item in _worker.Data.Where(i => !i.IsHidden).Where(i => i.Data.ColonistKindDef != null))
             {
                 item.Data.Cost = item.Data.ColonistKindDef.race.CalculateStorePrice();
