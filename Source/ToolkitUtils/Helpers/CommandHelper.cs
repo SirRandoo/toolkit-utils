@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
     {
         public static void Execute([NotNull] this Command command, [NotNull] ITwitchMessage message, bool emojiOverride = false)
         {
-            if (command.requiresAdmin && message.HasBadges("broadcaster"))
+            if (command.requiresAdmin && !message.HasBadges("broadcaster"))
             {
                 return;
             }
