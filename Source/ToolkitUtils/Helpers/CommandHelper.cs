@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
-            if (command.requiresMod && message.HasBadges("broadcaster", "moderator", "global_mod", "staff"))
+            if (command.requiresMod && !message.HasBadges("broadcaster", "moderator", "global_mod", "staff"))
             {
                 return;
             }
