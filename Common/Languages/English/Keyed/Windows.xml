@@ -41,6 +41,7 @@
 
     <!-- Item Store -->
     <TKUtils.ItemStore.Title>Store Inventory</TKUtils.ItemStore.Title>
+    <TKUtils.ItemStore.ConfirmReset>Are you sure you want to reset all your items back to their default values?</TKUtils.ItemStore.ConfirmReset>
 
     <TKUtils.FilterTypes.Mod>Mods</TKUtils.FilterTypes.Mod>
     <TKUtils.FilterTypes.Category>Categories</TKUtils.FilterTypes.Category>

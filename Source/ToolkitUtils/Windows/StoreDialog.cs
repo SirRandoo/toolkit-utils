@@ -374,11 +374,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawGlobalResetButton(Rect canvas)
         {
-            if (!Widgets.ButtonText(canvas, _resetAllText))
+            if (Widgets.ButtonText(canvas, _resetAllText))
             {
-                return;
+                ConfirmationDialog.Open("TKUtils.ItemStore.ConfirmReset".TranslateSimple(), PerformGlobalReset);
             }
-
+        }
+        
+        private void PerformGlobalReset()
+        {
             foreach (TableSettingsItem<ThingItem> item in _worker.Data.Where(i => !i.IsHidden))
             {
                 item.Data.Item!.abr = item.Data.Thing.label.ToToolkit();
