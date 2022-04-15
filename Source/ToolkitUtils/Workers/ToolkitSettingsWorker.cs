@@ -468,6 +468,15 @@ namespace SirRandoo.ToolkitUtils.Workers
                     continue;
                 }
 
+                if (ext.mod is TkUtils)
+                {
+                    TkUtils.Instance.DoSettingsWindowContents(region);
+                    listing.End();
+                    Widgets.EndScrollView();
+
+                    return;
+                }
+                
                 SettingsWindow window = null;
 
                 try
