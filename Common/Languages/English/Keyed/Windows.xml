@@ -66,10 +66,12 @@
 
     <!-- Trait Store -->
     <TKUtils.TraitStore.Title>Trait Inventory</TKUtils.TraitStore.Title>
+    <TKUtils.TraitStore.ConfirmReset>Are you sure you want to reset all your traits back to their default values?</TKUtils.TraitStore.ConfirmReset>
 
 
     <!-- Pawn Kind Store -->
     <TKUtils.PawnKindStore.Title>Pawn Kind Inventory</TKUtils.PawnKindStore.Title>
+    <TKUtils.PawnKindStore.ConfirmReset>Are you sure you want to reset all your pawn kinds back to their default values?</TKUtils.PawnKindStore.ConfirmReset>
 
 
     <!-- Partial Manager -->
