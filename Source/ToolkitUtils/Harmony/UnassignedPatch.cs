@@ -83,6 +83,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
         }
 
+        [UsedImplicitly]
         private static void RenameAndRemove([CanBeNull] GameComponentPawns component, [CanBeNull] string username)
         {
             if (username == null || component == null)
