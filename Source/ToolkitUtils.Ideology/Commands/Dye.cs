@@ -63,7 +63,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             string s = hexcode!.ToToolkit();
 
-            if (!Data.ColorIndex.TryGetValue(s, out Color color) || !ColorUtility.TryParseHtmlString(s, out color))
+            if (!Data.ColorIndex.TryGetValue(s, out Color color) && !ColorUtility.TryParseHtmlString(s, out color))
             {
                 message.Reply("TKUtils.NotAColor".LocalizeKeyed(s));
 
