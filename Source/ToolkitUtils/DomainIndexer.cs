@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
@@ -56,44 +57,81 @@ namespace SirRandoo.ToolkitUtils
 
         static DomainIndexer()
         {
-            var mutatorEntries = new List<MutatorEntry>();
-            var selectorEntries = new List<SelectorEntry>();
+            var builder = new StringBuilder();
+            var mutators = new List<MutatorEntry>();
+            var selectors = new List<SelectorEntry>();
 
-            foreach (Type type in AppDomain.CurrentDomain.GetAssemblies()
-               .Where(a => !a.GlobalAssemblyCache)
-               .SelectMany(a => a.GetTypes())
-               .Where(t => !t.IsInterface && !t.IsAbstract && !t.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), true)))
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if (FilteredNamespaceRoots.Any(r => type.Namespace?.StartsWith(r) == true))
+                if (assembly.GlobalAssemblyCache)
                 {
                     continue;
                 }
 
-                bool isGeneric = type.IsGenericType || type.GetInterfaces().Any(i => i.IsGenericType);
-
-
-                if (typeof(ICompatibilityProvider).IsAssignableFrom(type))
+                try
                 {
-                    CompatRegistry.ProcessType(type);
+                    ProcessAssembly(assembly, mutators, selectors);
                 }
-                else
+                catch (Exception e)
                 {
-                    switch (isGeneric)
-                    {
-                        case true when GameHelper.IsGenericTypeDeep(type, typeof(ISelectorBase<>), false, typeof(IShopItemBase)):
-                            selectorEntries.Add(ProcessSelector(type));
-
-                            break;
-                        case true when GameHelper.IsGenericTypeDeep(type, typeof(IMutatorBase<>), false, typeof(IShopItemBase)):
-                            mutatorEntries.Add(ProcessMutator(type));
-
-                            break;
-                    }
+                    builder.Append($"  - {assembly.FullName}  |  Reason: {e.GetType().Name}({e.Message})\n");
                 }
             }
 
-            Mutators = mutatorEntries.ToArray();
-            Selectors = selectorEntries.ToArray();
+            if (builder.Length > 0)
+            {
+                builder.Insert(0, "The following assemblies could not be processed:\n");
+                TkUtils.Logger.Warn(builder.ToString());
+            }
+
+            Mutators = mutators.ToArray();
+            Selectors = selectors.ToArray();
+        }
+        
+        private static void ProcessAssembly([NotNull] Assembly assembly, ICollection<MutatorEntry> mutators, ICollection<SelectorEntry> selectors)
+        {
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (type.IsInterface || type.IsAbstract || type.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), true) || FilteredNamespaceRoots.Any(r => type.Namespace?.StartsWith(r) == true))
+                {
+                    continue;
+                }
+
+                try
+                {
+                    ProcessType(type, mutators, selectors);
+                }
+                catch (Exception)
+                {
+                    // We'll ignore an erroring type as it may just be a one-off thing.
+                    // We won't report the exception a type threw since it's likely a reflection
+                    // error that may not hold any valuable information.
+                }
+            }
+        }
+        private static void ProcessType([NotNull] Type type, ICollection<MutatorEntry> mutators, ICollection<SelectorEntry> selectors)
+        {
+            bool isGeneric = type.IsGenericType || type.GetInterfaces().Any(i => i.IsGenericType);
+
+
+            if (typeof(ICompatibilityProvider).IsAssignableFrom(type))
+            {
+                CompatRegistry.ProcessType(type);
+            }
+            else
+            {
+                switch (isGeneric)
+                {
+                    case true when GameHelper.IsGenericTypeDeep(type, typeof(ISelectorBase<>), false, typeof(IShopItemBase)):
+                        selectors.Add(ProcessSelector(type));
+
+                        break;
+                    case true when GameHelper.IsGenericTypeDeep(type, typeof(IMutatorBase<>), false, typeof(IShopItemBase)):
+                        mutators.Add(ProcessMutator(type));
+
+                        break;
+                }
+            }
         }
 
         [NotNull]
