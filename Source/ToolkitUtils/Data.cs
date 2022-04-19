@@ -70,7 +70,14 @@ namespace SirRandoo.ToolkitUtils
         {
             // Just something to ensure the DomainIndexer's static constructor runs before
             // this ones.... as gross as that is.
-            int _ = DomainIndexer.Mutators.Length;
+            try
+            {
+                int _ = DomainIndexer.Mutators.Length;
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Could not index current game environment. Things will not work properly, if at all, you should report this immediately.", e);
+            }
 
             LoadShopData();
             LoadItemData(Paths.ItemDataFilePath);
