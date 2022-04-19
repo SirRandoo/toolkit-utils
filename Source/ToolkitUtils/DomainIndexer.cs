@@ -198,14 +198,14 @@ namespace SirRandoo.ToolkitUtils
 
         internal class SelectorEntry
         {
-            public Type Type { get; set; }
-            public EditorTarget Target { get; set; }
+            internal Type Type { get; set; }
+            internal EditorTarget Target { get; set; }
         }
 
         internal class MutatorEntry
         {
-            public Type Type { get; set; }
-            public EditorTarget Target { get; set; }
+            internal Type Type { get; set; }
+            internal EditorTarget Target { get; set; }
         }
     }
 }
