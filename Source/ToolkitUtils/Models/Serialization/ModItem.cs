@@ -37,13 +37,7 @@ namespace SirRandoo.ToolkitUtils.Models
         [NotNull]
         public static ModItem FromMetadata([NotNull] ModMetaData mod)
         {
-            var item = new ModItem { Name = mod.Name };
-
-        #if RW12
-            item.Author = mod.Author;
-        #else
-            item.Author = mod.AuthorsString;
-        #endif
+            var item = new ModItem { Name = mod.Name, Author = mod.AuthorsString };
 
             Mod handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
 
