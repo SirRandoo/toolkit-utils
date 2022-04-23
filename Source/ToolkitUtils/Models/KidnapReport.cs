@@ -45,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             foreach (Pawn pawn in Find.FactionManager.AllFactions.SelectMany(f => f.kidnapped.KidnappedPawnsListForReading))
             {
-                if (pawn.Dead || !(pawn.Name is NameTriple name) || !name.Nick.EqualsIgnoreCase(username))
+                if (!(pawn.Name is NameTriple name) || !name.Nick.EqualsIgnoreCase(username))
                 {
                     continue;
                 }
