@@ -94,7 +94,20 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void PostDestroy([NotNull] SitePart sitePart)
         {
-            (sitePart.things.FirstOrFallback() as Pawn)?.mindState.JoinColonyBecauseRescuedBy(sitePart.site.Map.PlayerPawnsForStoryteller.RandomElementWithFallback());
+            if (!(sitePart.things.FirstOrFallback() is Pawn prisoner))
+            {
+                return;
+            }
+
+            Pawn rescuer = sitePart.site.Map?.PlayerPawnsForStoryteller.RandomElementWithFallback();
+
+            if (rescuer == null)
+            {
+                TkUtils.Logger.Warn("Could not set prisoner's rescuer.");
+                return;
+            }
+
+            prisoner.mindState.JoinColonyBecauseRescuedBy(rescuer);
         }
 
         public override void Notify_GeneratedByQuestGen(
