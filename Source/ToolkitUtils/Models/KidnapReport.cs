@@ -36,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return new KidnapReport { Viewer = username, PawnIds = new List<string> { linkedPawn.ThingID } };
             }
 
-            if (!Find.FactionManager?.AllFactions.Any() != true)
+            if (Find.FactionManager?.AllFactions.Any() != true)
             {
                 return null;
             }
