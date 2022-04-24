@@ -31,6 +31,9 @@ using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for parsing text arguments into concrete objects.
+    /// </summary>
     public class ArgWorker
     {
         private readonly Queue<string> _rawArguments;
@@ -41,12 +44,33 @@ namespace SirRandoo.ToolkitUtils.Workers
             _rawArguments = new Queue<string>(rawArguments.Select(a => a.ToToolkit()));
         }
 
-        [NotNull] public static ArgWorker CreateInstance([NotNull] params string[] rawArguments) => new ArgWorker(rawArguments);
+        /// <summary>
+        ///     Creates a new <see cref="ArgWorker"/> instance.
+        /// </summary>
+        /// <param name="rawArguments">The arguments to be parsed</param>
+        /// <returns>The <see cref="ArgWorker"/> instance</returns>
+        [NotNull]
+        public static ArgWorker CreateInstance([NotNull] params string[] rawArguments) => new ArgWorker(rawArguments);
 
-        [NotNull] public static ArgWorker CreateInstance([NotNull] IEnumerable<string> rawArguments) => new ArgWorker(rawArguments);
+        /// <summary>
+        ///     Creates a new <see cref="ArgWorker"/> instance.
+        /// </summary>
+        /// <param name="rawArguments">The arguments to be parsed</param>
+        /// <returns>The <see cref="ArgWorker"/> instance</returns>
+        [NotNull]
+        public static ArgWorker CreateInstance([NotNull] IEnumerable<string> rawArguments) => new ArgWorker(rawArguments);
 
-        [NotNull] public static ArgWorker CreateInstance([NotNull] string input) => new ArgWorker(CommandFilter.Parse(input));
+        /// <summary>
+        ///     Creates a new <see cref="ArgWorker"/> instance.
+        /// </summary>
+        /// <param name="input">The raw input to be parsed</param>
+        /// <returns>The <see cref="ArgWorker"/> instance</returns>
+        [NotNull]
+        public static ArgWorker CreateInstance([NotNull] string input) => new ArgWorker(CommandFilter.Parse(input));
 
+        /// <summary>
+        ///     Gets the next argument to be parsed.
+        /// </summary>
         public string GetNext()
         {
             if (_rawArguments.Count <= 0)
@@ -60,10 +84,22 @@ namespace SirRandoo.ToolkitUtils.Workers
             return next;
         }
 
+        /// <summary>
+        ///     The previous argument parsed.
+        /// </summary>
         public string GetLast() => _lastArgument;
 
+        /// <summary>
+        ///     Whether there's another argument that can be parsed.
+        /// </summary>
         public bool HasNext() => _rawArguments.Count > 0;
 
+        /// <summary>
+        ///     Returns the next argument as an integer.
+        /// </summary>
+        /// <param name="minimum">The minimum value the integer can be</param>
+        /// <param name="maximum">The maximum value the integer can be</param>
+        /// <returns>The parsed integer clamped to the specified range</returns>
         public int GetNextAsInt(int minimum = 0, int maximum = int.MaxValue)
         {
             string next = GetNext();
@@ -76,6 +112,13 @@ namespace SirRandoo.ToolkitUtils.Workers
             return Math.Max(minimum, Math.Min(value, maximum));
         }
 
+        /// <summary>
+        ///     Attempts to get the next argument as an integer.
+        /// </summary>
+        /// <param name="value">The parsed integer clamped to the specified range</param>
+        /// <param name="minimum">The minimum value the integer can be</param>
+        /// <param name="maximum">The maximum value the integer can be</param>
+        /// <returns>Whether the argument could be parsed as an integer</returns>
         public bool TryGetNextAsInt(out int value, int minimum = 0, int maximum = int.MaxValue)
         {
             string next = GetNext();
@@ -90,6 +133,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             return false;
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="TraitItem"/>.
+        /// </summary>
         [CanBeNull]
         public TraitItem GetNextAsTrait()
         {
@@ -103,6 +149,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             return trait;
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="TraitItem"/>
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if the argument could
+        ///     not be parsed as a <see cref="TraitItem"/>. Its sole argument is
+        ///     the argument that couldn't be parsed.
+        /// </param>
         [CanBeNull]
         public TraitItem GetNextAsTrait(Action<string> errorCallback)
         {
@@ -116,6 +170,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             return trait;
         }
 
+        /// <summary>
+        ///     Attempts to get the next argument as a <see cref="TraitItem"/>
+        /// </summary>
+        /// <param name="trait">The parsed <see cref="TraitItem"/></param>
+        /// <returns>
+        ///     Whether the argument could be parsed as a
+        ///     <see cref="TraitItem"/>
+        /// </returns>
         [ContractAnnotation("=> true,trait:notnull; => false,trait:null")]
         public bool TryGetNextAsTrait(out TraitItem trait)
         {
@@ -124,6 +186,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             return !(trait is null);
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="PawnKindItem"/>.
+        /// </summary>
         [CanBeNull]
         public PawnKindItem GetNextAsPawn()
         {
@@ -137,6 +202,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             return pawn;
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="PawnKindItem"/>.
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if the argument could
+        ///     not be parsed as a <see cref="PawnKindItem"/>. Its sole argument
+        ///     is the argument that couldn't be parsed.
+        /// </param>
         [CanBeNull]
         public PawnKindItem GetNextAsPawn(Action<string> errorCallback)
         {
@@ -150,6 +223,15 @@ namespace SirRandoo.ToolkitUtils.Workers
             return pawn;
         }
 
+        /// <summary>
+        ///     Attempts to parse the next argument as a
+        ///     <see cref="PawnKindItem"/>.
+        /// </summary>
+        /// <param name="pawn">The parsed <see cref="PawnKindItem"/></param>
+        /// <returns>
+        ///     Whether the argument could be parsed as a
+        ///     <see cref="PawnKindItem"/>
+        /// </returns>
         [ContractAnnotation("=> true,pawn:notnull; => false,pawn:null")]
         public bool TryGetNextAsPawn(out PawnKindItem pawn)
         {
@@ -158,6 +240,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             return !(pawn is null);
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="Command"/>.
+        /// </summary>
         [CanBeNull]
         public Command GetNextAsCommand()
         {
@@ -175,6 +260,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="Command"/>
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if the argument could
+        ///     not be parsed as a <see cref="Command"/>. Its sole argument is
+        ///     the argument that couldn't be parsed.
+        /// </param>
         [CanBeNull]
         public Command GetNextAsCommand(Action<string> errorCallback)
         {
@@ -188,6 +281,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             return command;
         }
 
+        /// <summary>
+        ///     Attempts to parse the next argument as a <see cref="Command"/>.
+        /// </summary>
+        /// <param name="command">The parsed <see cref="Command"/></param>
+        /// <returns>
+        ///     Whether the argument could be parsed as a
+        ///     <see cref="Command"/>
+        /// </returns>
         [ContractAnnotation("=> true,command:notnull; => false,command:null")]
         public bool TryGetNextAsCommand(out Command command)
         {
@@ -196,6 +297,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             return !(command is null);
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="SkillDef"/>.
+        /// </summary>
         [CanBeNull]
         public SkillDef GetNextAsSkill()
         {
@@ -212,6 +316,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="SkillDef"/>.
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if the argument could
+        ///     not be parsed as a <see cref="SkillDef"/>. Its sole argument is
+        ///     the argument that couldn't be parsed.
+        /// </param>
         [CanBeNull]
         public SkillDef GetNextAsSkill(Action<string> errorCallback)
         {
@@ -225,6 +337,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             return skill;
         }
 
+        /// <summary>
+        ///     Attempts to parse the next argument as a <see cref="SkillDef"/>.
+        /// </summary>
+        /// <param name="def">The parsed <see cref="SkillDef"/></param>
+        /// <returns>
+        ///     Whether the argument could be parsed as a
+        ///     <see cref="SkillDef"/>
+        /// </returns>
         [ContractAnnotation("=> true,def:notnull; => false,def:null")]
         public bool TryGetNextAsSkill(out SkillDef def)
         {
@@ -238,6 +358,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             return Data.Items.Find(i => string.Equals(i.DefName, input) || i.Name.Equals(input, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="ItemProxy"/>, a
+        ///     container containing the main item, the requested quality of the
+        ///     item, as well as the requested material of the item.
+        /// </summary>
         [CanBeNull]
         public ItemProxy GetNextAsItem()
         {
@@ -256,6 +381,16 @@ namespace SirRandoo.ToolkitUtils.Workers
             return new ItemProxy { Thing = GetItemRaw(next) };
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="ItemProxy"/>, a
+        ///     container containing the main item, the requested quality of the
+        ///     item, as well as the requested material of the item.
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if the argument could
+        ///     not be parsed as a <see cref="ItemProxy"/>. Its sole argument is
+        ///     the argument that couldn't be parsed.
+        /// </param>
         [CanBeNull]
         public ItemProxy GetNextAsItem(Action<string> errorCallback)
         {
@@ -268,6 +403,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             return item;
         }
+
         [NotNull]
         private static ItemProxy ProcessMetadata([NotNull] string next)
         {
@@ -338,7 +474,16 @@ namespace SirRandoo.ToolkitUtils.Workers
             return true;
         }
 
-
+        /// <summary>
+        ///     Attempts to parse the next argument as a <see cref="ItemProxy"/>,
+        ///     a container containing the main item, the requested quality of
+        ///     the item, as well as the requested material of the item.
+        /// </summary>
+        /// <param name="item">The parsed <see cref="ItemProxy"/></param>
+        /// <returns>
+        ///     Whether the argument could be parsed as a
+        ///     <see cref="ItemProxy"/>
+        /// </returns>
         [ContractAnnotation("=> true,item:notnull; => false,item:null")]
         public bool TryGetNextAsItem(out ItemProxy item)
         {
@@ -347,6 +492,10 @@ namespace SirRandoo.ToolkitUtils.Workers
             return !(item is null);
         }
 
+        /// <summary>
+        ///     Returns the next argument parsed as a
+        ///     <see cref="PawnCapacityDef"/>.
+        /// </summary>
         [CanBeNull]
         public PawnCapacityDef GetNextAsCapacity()
         {
@@ -362,6 +511,15 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
         }
 
+        /// <summary>
+        ///     Returns the next argument parsed as a
+        ///     <see cref="PawnCapacityDef"/>.
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if the argument could
+        ///     not be parsed as a <see cref="PawnCapacityDef"/>. Its sole
+        ///     argument is the argument that couldn't be parsed.
+        /// </param>
         [CanBeNull]
         public PawnCapacityDef GetNextAsCapacity(Action<string> errorCallback)
         {
@@ -375,6 +533,17 @@ namespace SirRandoo.ToolkitUtils.Workers
             return capacityDef;
         }
 
+        /// <summary>
+        ///     Attempts to parse the next argument as a
+        ///     <see cref="PawnCapacityDef"/>.
+        /// </summary>
+        /// <param name="capacity">
+        ///     The parsed <see cref="PawnCapacityDef"/>
+        /// </param>
+        /// <returns>
+        ///     Whether the argument could be parsed as a
+        ///     <see cref="PawnCapacityDef"/>
+        /// </returns>
         [ContractAnnotation("=> true,capacity:notnull; => false,capacity:null")]
         public bool TryGetNextAsCapacity(out PawnCapacityDef capacity)
         {
@@ -383,6 +552,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             return !(capacity is null);
         }
 
+        /// <summary>
+        ///     Returns the next argument parsed as a <see cref="Viewer"/>.
+        /// </summary>
         [CanBeNull]
         public Viewer GetNextAsViewer()
         {
@@ -401,6 +573,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             return Viewers.All.Find(v => v.username.Equals(next, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        /// <summary>
+        ///     Returns the next argument parsed as a <see cref="Viewer"/>.
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if the argument could
+        ///     not be parsed as a <see cref="Viewer"/>. Its sole argument is the
+        ///     argument that couldn't be parsed.
+        /// </param>
         [CanBeNull]
         public Viewer GetNextAsViewer(Action<string> errorCallback)
         {
@@ -414,6 +594,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             return viewer;
         }
 
+        /// <summary>
+        ///     Attempts to parse the next argument as a <see cref="Viewer"/>.
+        /// </summary>
+        /// <param name="viewer">The parsed <see cref="Viewer"/></param>
+        /// <returns>
+        ///     Whether the argument could be parsed as a
+        ///     <see cref="Viewer"/>
+        /// </returns>
         [ContractAnnotation("=> true,viewer:notnull; => false,viewer:null")]
         public bool TryGetNextAsViewer(out Viewer viewer)
         {
@@ -422,6 +610,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             return viewer != null;
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="StatDef"/>.
+        /// </summary>
         [CanBeNull]
         public StatDef GetNextAsStat()
         {
@@ -438,6 +629,14 @@ namespace SirRandoo.ToolkitUtils.Workers
                 );
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="StatDef"/>.
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if the argument could
+        ///     not be parsed as a <see cref="StatDef"/>. Its sole argument is
+        ///     the argument that couldn't be parsed.
+        /// </param>
         [CanBeNull]
         public StatDef GetNextAsStat(Action<string> errorCallback)
         {
@@ -451,6 +650,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             return stat;
         }
 
+        /// <summary>
+        ///     Attempts to parse the next argument as a <see cref="StatDef"/>.
+        /// </summary>
+        /// <param name="stat">The parsed <see cref="StatDef"/></param>
+        /// <returns>
+        ///     Whether the argument could be parsed as a
+        ///     <see cref="StatDef"/>
+        /// </returns>
         [ContractAnnotation("=> true,stat:notnull; => false,stat:null")]
         public bool TryGetNextAsStat(out StatDef stat)
         {
@@ -459,6 +666,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             return !(stat is null);
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="ResearchProjectDef"/>.
+        /// </summary>
         [CanBeNull]
         public ResearchProjectDef GetNextAsResearch()
         {
@@ -474,6 +684,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             );
         }
 
+        /// <summary>
+        ///     Returns the next argument as a <see cref="ResearchProjectDef"/>.
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if the argument could
+        ///     not be parsed as a <see cref="ResearchProjectDef"/>. Its sole
+        ///     argument is the argument that couldn't be parsed.
+        /// </param>
         [CanBeNull]
         public ResearchProjectDef GetNextAsResearch(Action<string> errorCallback)
         {
@@ -487,6 +705,17 @@ namespace SirRandoo.ToolkitUtils.Workers
             return proj;
         }
 
+        /// <summary>
+        ///     Attempts to parse the next argument as a
+        ///     <see cref="ResearchProjectDef"/>.
+        /// </summary>
+        /// <param name="project">
+        ///     The parsed <see cref="ResearchProjectDef"/>
+        /// </param>
+        /// <returns>
+        ///     Whether the argument could be parsed as a
+        ///     <see cref="ResearchProjectDef"/>
+        /// </returns>
         [ContractAnnotation("=> true,project:notnull; => false,project:null")]
         public bool TryGetNextAsResearch(out ResearchProjectDef project)
         {
@@ -495,6 +724,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             return !(project is null);
         }
 
+        /// <summary>
+        ///     Returns all arguments parsed as <see cref="TraitItem"/>s.
+        /// </summary>
         [ItemNotNull]
         public IEnumerable<TraitItem> GetAllAsTrait()
         {
@@ -511,6 +743,15 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <summary>
+        ///     Returns all arguments parsed as <see cref="TraitItem"/>s.
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if an argument could not
+        ///     be parsed as a <see cref="TraitItem"/>. Its sole argument is the
+        ///     argument that couldn't be parsed.
+        /// </param>
+        /// <returns></returns>
         [ItemNotNull]
         public IEnumerable<TraitItem> GetAllAsTrait(Action<string> errorCallback)
         {
@@ -529,6 +770,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <summary>
+        ///     Returns all arguments parsed as <see cref="ItemProxy"/>s, a
+        ///     container containing the main item, the requested quality of the
+        ///     item, as well as the requested material of the item.
+        /// </summary>
         [ItemNotNull]
         public IEnumerable<ItemProxy> GetAllAsItem()
         {
@@ -545,6 +791,16 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <summary>
+        ///     Returns all arguments parsed as <see cref="ItemProxy"/>, a
+        ///     container containing the main item, the requested quality of the
+        ///     item, as well as the requested material of the item.
+        /// </summary>
+        /// <param name="errorCallback">
+        ///     A method to call if an argument could not
+        ///     be parsed as a <see cref="ItemProxy"/>. Its sole argument is the
+        ///     argument that couldn't be parsed.
+        /// </param>
         [ItemNotNull]
         public IEnumerable<ItemProxy> GetAllAsItem(Action<string> errorCallback)
         {
@@ -563,14 +819,32 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <summary>
+        ///     A class for containing metadata about an item.
+        /// </summary>
         public class ItemProxy
         {
             private QualityCategory? _quality;
 
+            /// <summary>
+            ///     The main item a viewer specified.
+            /// </summary>
             public ThingItem Thing { get; set; }
+
+            /// <summary>
+            ///     The material of <see cref="Thing"/>.
+            /// </summary>
             public ThingItem Stuff { get; set; }
+
+            /// <summary>
+            ///     Whether a specified metadata was invalid for the given item (
+            ///     <see cref="Thing"/>).
+            /// </summary>
             public bool ProcessError { get; set; }
 
+            /// <summary>
+            ///     The optional <see cref="QualityCategory"/> of the item.
+            /// </summary>
             public QualityCategory? Quality
             {
                 get => _quality;
@@ -596,8 +870,17 @@ namespace SirRandoo.ToolkitUtils.Workers
                 }
             }
 
+            /// <summary>
+            ///     The optional <see cref="Gender"/> of the animal, if the item is
+            ///     an animal.
+            /// </summary>
             public Gender? Gender { get; set; }
 
+            /// <summary>
+            ///     Returns whether or not the specified metadata is valid for the
+            ///     specified item.
+            /// </summary>
+            /// <returns></returns>
             public bool IsValid()
             {
                 if (Thing == null || ProcessError)
@@ -645,6 +928,12 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return false;
             }
 
+            /// <summary>
+            ///     Transforms the <see cref="ItemProxy"/> into a form displayed in
+            ///     RimWorld.
+            /// </summary>
+            /// <param name="plural">Whether <see cref="Thing"/> should be pluralized</param>
+            /// <returns>A <see cref="ItemProxy"/> in a form as displayed by RimWorld</returns>
             [NotNull]
             public string AsString(bool plural = false)
             {
@@ -660,6 +949,11 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return (Quality.HasValue ? $"{stuff} {name} ({RichTextHelper.StripTags(Quality.Value.ToString().ToLowerInvariant())})" : $"{stuff} {name}").Trim();
             }
 
+            /// <summary>
+            ///     Attempts to get an error from the specified configuration.
+            /// </summary>
+            /// <param name="error">The error string from the specified configuration</param>
+            /// <returns>Whether there was an error with the configuration</returns>
             public bool TryGetError([CanBeNull] out string error)
             {
                 if (TryGetInvalidSelector(out ThingItem item))

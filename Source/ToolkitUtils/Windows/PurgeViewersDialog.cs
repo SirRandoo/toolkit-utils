@@ -26,6 +26,10 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog that allows users to purge viewer data according to
+    ///     various constraints they've set.
+    /// </summary>
     public class PurgeViewersDialog : Window
     {
         private readonly List<FloatMenuOption> _constraintOptions;
@@ -65,10 +69,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             };
         }
 
+        /// <inheritdoc cref="Window.InitialSize"/>
         public override Vector2 InitialSize => new Vector2(900f, 740f);
 
         private static float LineHeight => Text.LineHeight * 1.5f;
 
+        /// <inheritdoc cref="Window.PreOpen"/>
         public override void PreOpen()
         {
             base.PreOpen();
@@ -89,6 +95,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _removeButtonWidth = Text.CalcSize(_removeText).x + 16f;
         }
 
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect inRect)
         {
             GUI.BeginGroup(inRect);
@@ -210,7 +217,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
 
 
-                Viewer viewer = _affectedViewers[i];
+                Viewer viewer = _affectedViewers![i];
                 var exemptRect = new Rect(lineRect.x + (lineRect.width - _exemptButtonWidth), lineRect.y, _exemptButtonWidth, lineRect.height);
                 var labelRect = new Rect(lineRect.x, lineRect.y, lineRect.width - _exemptButtonWidth - 10f, lineRect.height);
 

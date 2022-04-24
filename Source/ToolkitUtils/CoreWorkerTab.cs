@@ -23,6 +23,11 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
+    /// <summary>
+    ///     A <see cref="RimWorld.MainButtonWorker"/> responsible for
+    ///     displaying a status icon over <see cref="CoreMainTab"/> to inform
+    ///     users of any errors that may appear.
+    /// </summary>
     [UsedImplicitly]
     public class CoreWorkerTab : MainButtonWorker_ToggleTab
     {

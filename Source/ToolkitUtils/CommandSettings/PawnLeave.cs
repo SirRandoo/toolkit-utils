@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
@@ -24,6 +25,29 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 {
     public class PawnLeave : ICommandSettings
     {
+        private readonly FloatMenu _leaveMethods;
+        private string _currentLeaveMethodText;
+
+        public PawnLeave()
+        {
+            _leaveMethods = new FloatMenu(
+                Enum.GetNames(typeof(LeaveMethod))
+                   .Select(
+                        n => new FloatMenuOption(
+                            $"TKUtils.Abandon.Method.{n}".TranslateSimple(),
+                            () =>
+                            {
+                                TkSettings.LeaveMethod = n;
+                                _currentLeaveMethodText = $"TKUtils.Abandon.Method.{TkSettings.LeaveMethod}".TranslateSimple();
+                            }
+                        )
+                    )
+                   .ToList()
+            );
+
+            _currentLeaveMethodText = $"TKUtils.Abandon.Method.{TkSettings.LeaveMethod}".TranslateSimple();
+        }
+
         public void Draw(Rect region)
         {
             var listing = new Listing_Standard();
@@ -34,9 +58,9 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
             UiHelper.Label(labelRect, "TKUtils.Abandon.Method.Label".TranslateSimple());
             listing.DrawDescription("TKUtils.Abandon.Method.Description".TranslateSimple());
 
-            if (Widgets.ButtonText(fieldRect, $"TKUtils.Abandon.Method.{TkSettings.LeaveMethod}".TranslateSimple()))
+            if (Widgets.ButtonText(fieldRect, _currentLeaveMethodText))
             {
-                Find.WindowStack.Add(new FloatMenu(TkSettings.LeaveMenuOptions));
+                Find.WindowStack.Add(_leaveMethods);
             }
 
             if (!TkSettings.LeaveMethod.EqualsIgnoreCase(nameof(LeaveMethod.Thanos)))

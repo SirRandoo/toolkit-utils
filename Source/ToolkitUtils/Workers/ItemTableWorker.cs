@@ -69,7 +69,8 @@ namespace SirRandoo.ToolkitUtils.Workers
         private protected Rect PriceHeaderRect = Rect.zero;
         private protected Rect PriceHeaderTextRect = Rect.zero;
 
-        public override void DrawHeaders(Rect canvas)
+        /// <inheritdoc cref="TableWorkerBase.DrawHeaders"/>
+        protected override void DrawHeaders(Rect region)
         {
             if (SettingsHelper.DrawTableHeader(_stateHeaderRect, _stateHeaderInnerRect, _stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
             {
@@ -165,27 +166,28 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        public override void DrawTableContents(Rect canvas)
+        /// <inheritdoc cref="TableWorkerBase.DrawTableContents"/>
+        protected override void DrawTableContents(Rect region)
         {
             float expectedLines = Data.Where(i => !i.IsHidden).Sum(i => i.SettingsVisible ? ExpandedLineSpan + 1f : 1f);
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, RowLineHeight * expectedLines);
+            var viewPort = new Rect(0f, 0f, region.width - 16f, RowLineHeight * expectedLines);
 
             var index = 0;
             var expanded = 0;
             var alternate = false;
-            GUI.BeginGroup(canvas);
-            _scrollPos = GUI.BeginScrollView(canvas, _scrollPos, viewPort);
+            GUI.BeginGroup(region);
+            _scrollPos = GUI.BeginScrollView(region, _scrollPos, viewPort);
 
             foreach (TableSettingsItem<ThingItem> item in Data.Where(i => !i.IsHidden))
             {
                 var lineRect = new Rect(
                     0f,
                     index * RowLineHeight + RowLineHeight * ExpandedLineSpan * expanded,
-                    canvas.width - 16f,
+                    region.width - 16f,
                     RowLineHeight * (item.SettingsVisible ? ExpandedLineSpan + 1f : 1f)
                 );
 
-                if (!lineRect.IsVisible(canvas, _scrollPos))
+                if (!lineRect.IsVisible(region, _scrollPos))
                 {
                     index++;
                     alternate = !alternate;
@@ -218,33 +220,38 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        protected virtual void DrawItem(Rect canvas, [NotNull] TableSettingsItem<ThingItem> item)
+        /// <summary>
+        ///     Draws the given <see cref="ThingItem"/> at the given region.
+        /// </summary>
+        /// <param name="region">The region to draw the <see cref="ThingItem"/> in</param>
+        /// <param name="item">The <see cref="ThingItem"/> to draw</param>
+        protected virtual void DrawItem(Rect region, [NotNull] TableSettingsItem<ThingItem> item)
         {
             bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
 
-            Rect checkboxRect = LayoutHelper.IconRect(_stateHeaderRect.x + 2f, canvas.y + 2f, _stateHeaderRect.width - 4f, RowLineHeight - 4f);
-            var iconRect = new Rect(NameHeaderRect.x + 4f, canvas.y + 4f, RowLineHeight - 8f, RowLineHeight - 8f);
+            Rect checkboxRect = LayoutHelper.IconRect(_stateHeaderRect.x + 2f, region.y + 2f, _stateHeaderRect.width - 4f, RowLineHeight - 4f);
+            var iconRect = new Rect(NameHeaderRect.x + 4f, region.y + 4f, RowLineHeight - 8f, RowLineHeight - 8f);
 
             var nameRect = new Rect(
                 hasIcon ? NameHeaderRect.x + RowLineHeight : NameHeaderTextRect.x,
-                canvas.y,
+                region.y,
                 hasIcon ? NameHeaderRect.width - RowLineHeight - 4f : NameHeaderTextRect.width,
                 RowLineHeight
             );
 
             var thingRect = new Rect(
                 hasIcon ? NameHeaderRect.x : NameHeaderTextRect.x,
-                canvas.y,
+                region.y,
                 hasIcon ? NameHeaderRect.width - nameRect.height - 4f : NameHeaderTextRect.width,
                 nameRect.height
             );
 
-            var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
-            var categoryRect = new Rect(CategoryHeaderTextRect.x, canvas.y, CategoryHeaderTextRect.width, RowLineHeight);
+            var priceRect = new Rect(PriceHeaderTextRect.x, region.y, PriceHeaderTextRect.width, RowLineHeight);
+            var categoryRect = new Rect(CategoryHeaderTextRect.x, region.y, CategoryHeaderTextRect.width, RowLineHeight);
 
             Rect settingRect = LayoutHelper.IconRect(
                 _expandedHeaderRect.x + 2f,
-                canvas.y + Mathf.FloorToInt(Mathf.Abs(_expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
+                region.y + Mathf.FloorToInt(Mathf.Abs(_expandedHeaderRect.width - RowLineHeight) / 2f) + 2f,
                 _expandedHeaderRect.width - 4f,
                 _expandedHeaderRect.width - 4f
             );
@@ -293,9 +300,9 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             var expandedRect = new Rect(
                 NameHeaderRect.x + 10f,
-                canvas.y + RowLineHeight + 10f,
-                canvas.width - checkboxRect.width - settingRect.width - 20f,
-                canvas.height - RowLineHeight - 20f
+                region.y + RowLineHeight + 10f,
+                region.width - checkboxRect.width - settingRect.width - 20f,
+                region.height - RowLineHeight - 20f
             );
 
             GUI.BeginGroup(expandedRect);
@@ -334,6 +341,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.color = Color.white;
         }
 
+        /// <inheritdoc cref="TableWorkerBase.Prepare"/>
         public override void Prepare()
         {
             LoadTranslations();
@@ -516,6 +524,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorker{T}.EnsureExists"/>
         public override void EnsureExists(TableSettingsItem<ThingItem> data)
         {
             if (!InternalData.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
@@ -524,6 +533,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged"/>
         public override void NotifyGlobalDataChanged()
         {
             var wasDirty = false;
@@ -567,6 +577,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             _resetItemKarmaTooltip = "TKUtils.ItemTableTooltips.ResetItemKarma".Localize();
         }
 
+        /// <inheritdoc cref="TableWorkerBase.NotifySortRequested"/>
         public override void NotifySortRequested()
         {
             switch (_sortOrder)
@@ -622,14 +633,16 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested"/>
         public override void NotifySearchRequested(string query)
         {
             FilterDataBySearch(query);
         }
 
-        public override void NotifyResolutionChanged(Rect canvas)
+        /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged"/>
+        public override void NotifyResolutionChanged(Rect region)
         {
-            float consumedWidth = canvas.width - 18f - LineHeight * 2f; // Icon buttons
+            float consumedWidth = region.width - 18f - LineHeight * 2f; // Icon buttons
             float distributedWidth = Mathf.FloorToInt(consumedWidth * 0.36f);
             float remainingWidth = consumedWidth - distributedWidth * 2f;
             _stateHeaderRect = new Rect(0f, 0f, LineHeight, LineHeight);
@@ -644,6 +657,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             _expandedHeaderInnerRect = _expandedHeaderRect.ContractedBy(2f);
         }
 
+        /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested"/>
         public override void NotifyCustomSearchRequested(Func<TableSettingsItem<ThingItem>, bool> worker)
         {
             foreach (TableSettingsItem<ThingItem> item in Data)
@@ -652,7 +666,8 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        protected override void FilterDataBySearch(string query)
+        /// <inheritdoc cref="TableWorkerBase.FilterDataBySearch"/>
+        private protected override void FilterDataBySearch(string query)
         {
             foreach (TableSettingsItem<ThingItem> item in Data)
             {

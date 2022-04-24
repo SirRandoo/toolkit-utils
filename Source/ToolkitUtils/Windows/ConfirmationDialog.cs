@@ -28,19 +28,23 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog for prompting users for actions that require
+    ///     confirmation.
+    /// </summary>
     public class ConfirmationDialog : Window
     {
-        private string _confirmText;
-        private string _cancelText;
-        private readonly string _prompt;
-        private readonly Action _confirmAction;
         private readonly Action _cancelAction;
+        private readonly Action _confirmAction;
+        private readonly string _prompt;
+        private string _cancelText;
+        private string _confirmText;
 
         public ConfirmationDialog(string title, string prompt, Action onConfirm, [CanBeNull] Action onCancel = null) : this(prompt, onConfirm, onCancel)
         {
             optionalTitle = title;
         }
-        
+
         public ConfirmationDialog(string prompt, Action onConfirm, [CanBeNull] Action onCancel = null)
         {
             doCloseX = false;
@@ -58,16 +62,19 @@ namespace SirRandoo.ToolkitUtils.Windows
             _cancelAction = onCancel;
         }
 
+        /// <inheritdoc cref="Window.InitialSize"/>
+        public override Vector2 InitialSize => new Vector2(300, Text.CalcHeight(_prompt, 264f) + 102f);
+
+        /// <inheritdoc cref="Window.PostOpen"/>
         public override void PostOpen()
         {
             _confirmText = "TKUtils.Buttons.Confirm".TranslateSimple();
             _cancelText = "TKUtils.Buttons.Cancel".TranslateSimple();
-        
+
             base.PostOpen();
         }
 
-        public override Vector2 InitialSize => new Vector2(300, Text.CalcHeight(_prompt, 264f) + 102f);
-
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect region)
         {
             GUI.BeginGroup(region);
@@ -83,14 +90,15 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(buttonGroupRect);
             DrawButtons(buttonGroupRect.AtZero());
             GUI.EndGroup();
-            
+
             GUI.EndGroup();
         }
+
         private void DrawPrompt(Rect region)
         {
             UiHelper.Label(region, _prompt, TextAnchor.MiddleCenter);
         }
-        
+
         private void DrawButtons(Rect region)
         {
             var confirmRect = new Rect(0f, 0f, Mathf.FloorToInt(region.width / 2f) - 2f, region.height);
@@ -109,11 +117,36 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <summary>
+        ///     Opens a new confirmation dialog with the given actions.
+        /// </summary>
+        /// <param name="title">The title of the dialog</param>
+        /// <param name="prompt">The body of the dialog</param>
+        /// <param name="onConfirm">
+        ///     The action to do when the user confirms their
+        ///     decision
+        /// </param>
+        /// <param name="onCancel">
+        ///     The action to do when the user abandons their
+        ///     decision
+        /// </param>
         public static void Open(string title, string prompt, Action onConfirm, [CanBeNull] Action onCancel = null)
         {
             Find.WindowStack.Add(new ConfirmationDialog(title, prompt, onConfirm, onCancel));
         }
 
+        /// <summary>
+        ///     Opens a new confirmation dialog with the given actions.
+        /// </summary>
+        /// <param name="prompt">The body of the dialog</param>
+        /// <param name="onConfirm">
+        ///     The action to do when the user confirms their
+        ///     decision
+        /// </param>
+        /// <param name="onCancel">
+        ///     The action to do when the user abandons their
+        ///     decision
+        /// </param>
         public static void Open(string prompt, Action onConfirm, [CanBeNull] Action onCancel = null)
         {
             Find.WindowStack.Add(new ConfirmationDialog(prompt, onConfirm, onCancel));

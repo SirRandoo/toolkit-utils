@@ -23,14 +23,20 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for displaying the trait store's data without any means
+    ///     of configuring said data.
+    /// </summary>
     public class TraitViewWorker : TraitTableWorker
     {
-        public override void DrawHeaders(Rect canvas)
+        /// <inheritdoc cref="TraitTableWorker.DrawHeaders"/>
+        protected override void DrawHeaders(Rect region)
         {
             DrawSortableHeaders();
             DrawSortableHeaderIcon();
         }
 
+        /// <inheritdoc cref="TraitTableWorker.DrawTrait"/>
         protected override void DrawTrait(Rect canvas, TableSettingsItem<TraitItem> trait)
         {
             var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
@@ -67,9 +73,10 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        public override void NotifyResolutionChanged(Rect canvas)
+        /// <inheritdoc cref="TraitTableWorker.NotifyResolutionChanged"/>
+        public override void NotifyResolutionChanged(Rect region)
         {
-            float distributedWidth = Mathf.FloorToInt((canvas.width - 16f) * 0.3333f);
+            float distributedWidth = Mathf.FloorToInt((region.width - 16f) * 0.3333f);
             NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
             NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
             AddPriceHeaderRect = NameHeaderRect.Shift(Direction8Way.East, 1f);

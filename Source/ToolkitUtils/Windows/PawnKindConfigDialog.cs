@@ -25,6 +25,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog that allows users to configure the pawn kind store data.
+    /// </summary>
     public class PawnKindConfigDialog : Window
     {
         private readonly PawnTableWorker _worker;
@@ -37,7 +40,6 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private string _titleText;
 
-
         public PawnKindConfigDialog()
         {
             doCloseX = true;
@@ -45,7 +47,10 @@ namespace SirRandoo.ToolkitUtils.Windows
             _worker = new PawnTableWorker();
         }
 
+        /// <inheritdoc cref="Window.InitialSize"/>
         public override Vector2 InitialSize => new Vector2(640f, 740f);
+        
+        /// <inheritdoc cref="Window.Margin"/>
         protected override float Margin => 22f;
 
         private void NotifySearchRequested()
@@ -53,6 +58,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _lastSearchTick = 10f;
         }
 
+        /// <inheritdoc cref="Window.PreOpen"/>
         public override void PreOpen()
         {
             base.PreOpen();
@@ -108,6 +114,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 ConfirmationDialog.Open("TKUtils.PawnKindStore.ConfirmReset".TranslateSimple(), PerformGlobalReset);
             }
         }
+        
         private void PerformGlobalReset()
         {
             foreach (TableSettingsItem<PawnKindItem> item in _worker.Data.Where(i => !i.IsHidden).Where(i => i.Data.ColonistKindDef != null))
@@ -120,6 +127,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect canvas)
         {
             if (Event.current.type == EventType.Layout)
@@ -153,6 +161,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Text.WordWrap = wrapped;
         }
 
+        /// <inheritdoc cref="Window.WindowUpdate"/>
         public override void WindowUpdate()
         {
             base.WindowUpdate();
@@ -168,6 +177,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.PreClose"/>
         public override void PreClose()
         {
             if (TkSettings.Offload)

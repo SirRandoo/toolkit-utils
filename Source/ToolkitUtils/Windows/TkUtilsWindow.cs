@@ -15,11 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using TwitchToolkit.Settings;
+using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A required class for being registered within Twitch Toolkit as an
+    ///     addon.
+    /// </summary>
     public class TkUtilsWindow : ToolkitWindow
     {
         public TkUtilsWindow(Mod mod) : base(mod)
@@ -27,6 +32,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Mod = mod;
         }
 
+        /// <inheritdoc cref="SettingsWindow.DoWindowContents"/>
         public override void DoWindowContents(Rect inRect)
         {
             Mod.DoSettingsWindowContents(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 40f - CloseButSize.y));

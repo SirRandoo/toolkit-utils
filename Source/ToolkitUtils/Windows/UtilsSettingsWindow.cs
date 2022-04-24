@@ -26,8 +26,15 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog for drawing Utils' settings in a stateful, consistent way.
+    /// </summary>
     public class UtilsSettingsWindow : ProxySettingsWindow
     {
+        private const uint VisualExceptionsModId = 2538411704;
+        private const int MagicModId = 1201382956;
+        private const int HarModId = 839005762;
+        
         private readonly TabWorker _tabWorker;
         private string _asapPurchasesDescription;
         private string _asapPurchasesLabel;
@@ -100,6 +107,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _tabWorker = new TabWorker();
         }
 
+        /// <inheritdoc cref="Window.PreOpen"/>
         public override void PreOpen()
         {
             _tabWorker.AddTab(
@@ -132,6 +140,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PreOpen();
         }
 
+        /// <inheritdoc cref="Window.PostOpen"/>
         public override void PostOpen()
         {
             base.PostOpen();
@@ -165,6 +174,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             );
         }
 
+        /// <inheritdoc cref="ProxySettingsWindow.GetTranslations"/>
         protected override void GetTranslations()
         {
             _filesGroupHeader = "TKUtils.Data.Files".TranslateSimple();
@@ -226,6 +236,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _lookupLimitDescription = "TKUtils.LookupLimit.Description".TranslateSimple();
         }
 
+        /// <inheritdoc cref="ProxySettingsWindow.DrawSettings"/>
         protected override void DrawSettings(Rect region)
         {
             GUI.BeginGroup(region);
@@ -403,11 +414,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             var listing = new Listing_Standard();
             listing.Begin(region);
 
-            listing.ModGroupHeader("Humanoid Alien Races", 839005762, false);
+            listing.ModGroupHeader("Humanoid Alien Races", HarModId, false);
             listing.CheckboxLabeled("TKUtils.HAR.PawnKinds.Label".TranslateSimple(), ref TkSettings.PurchasePawnKinds);
             listing.DrawDescription("TKUtils.HAR.PawnKinds.Description".TranslateSimple());
 
-            listing.ModGroupHeader("A RimWorld of Magic", 1201382956);
+            listing.ModGroupHeader("A RimWorld of Magic", MagicModId);
             listing.CheckboxLabeled("TKUtils.TMagic.Classes.Label".TranslateSimple(), ref TkSettings.ClassChanges);
             listing.DrawDescription("TKUtils.TMagic.Classes.Description".TranslateSimple());
             listing.DrawExperimentalNotice();
@@ -419,7 +430,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 listing.DrawExperimentalNotice();
             }
 
-            listing.ModGroupHeader("Visual Exceptions", 2538411704);
+            listing.ModGroupHeader("Visual Exceptions", VisualExceptionsModId);
             listing.CheckboxLabeled("TKUtils.VisualExceptions.SendErrors.Label".TranslateSimple(), ref TkSettings.VisualExceptions);
             listing.DrawDescription("TKUtils.VisualExceptions.SendErrors.Description".TranslateSimple());
             listing.DrawExperimentalNotice();

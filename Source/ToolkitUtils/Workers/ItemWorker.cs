@@ -18,8 +18,12 @@ using SirRandoo.ToolkitUtils.Models;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A portable way of drawing an item editor page.
+    /// </summary>
     public class ItemWorker : ItemWorkerBase<TableWorker<TableSettingsItem<ThingItem>>, ThingItem>
     {
+        /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
         public override void Prepare()
         {
             base.Prepare();

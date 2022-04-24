@@ -30,6 +30,10 @@ using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 
 namespace SirRandoo.ToolkitUtils
 {
+    /// <summary>
+    ///     An <see cref="IAddonMenu"/> used by ToolkitCore to display a set
+    ///     of "quick menu options" for users.
+    /// </summary>
     [UsedImplicitly]
     public class ToolkitAddonMenu : IAddonMenu
     {

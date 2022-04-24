@@ -25,14 +25,29 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for handling tabular content.
+    /// </summary>
     public class TabWorker
     {
         private readonly List<TabItem> _tabItems = new List<TabItem>();
 
+        /// <summary>
+        ///     The currently selected tab.
+        /// </summary>
         public TabItem SelectedTab { get; set; }
 
-        [NotNull] public static TabWorker CreateInstance() => new TabWorker();
+        /// <summary>
+        ///     Creates a new empty instance of a <see cref="TabWorker"/>.
+        /// </summary>
+        [NotNull]
+        public static TabWorker CreateInstance() => new TabWorker();
 
+        /// <summary>
+        ///     Creates a new instance of a <see cref="TabWorker"/> with the
+        ///     given tabs.
+        /// </summary>
+        /// <param name="tabs">The tabs to display</param>
         [NotNull]
         public static TabWorker CreateInstance([NotNull] params TabItem[] tabs)
         {
@@ -42,12 +57,20 @@ namespace SirRandoo.ToolkitUtils.Workers
             return worker;
         }
 
+        /// <summary>
+        ///     Adds a tab to the worker's internal list.
+        /// </summary>
+        /// <param name="tab"></param>
         public void AddTab(TabItem tab)
         {
             _tabItems.Add(tab);
             SelectedTab ??= tab;
         }
 
+        /// <summary>
+        ///     Removes a tab from the worker's internal list.
+        /// </summary>
+        /// <param name="label"></param>
         public void RemoveTab(string label)
         {
             TabItem tab = GetTab(label);
@@ -58,12 +81,26 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <summary>
+        ///     Returns the tab that matches the label given.
+        /// </summary>
+        /// <param name="label">The tab label to get</param>
         [CanBeNull]
         public TabItem GetTab(string label)
         {
             return _tabItems.FirstOrDefault(t => t.Label.Equals(label, StringComparison.InvariantCulture));
         }
 
+        /// <summary>
+        ///     Draws the tab header according to the current tabs within the
+        ///     worker.
+        /// </summary>
+        /// <param name="region">The region to draw the header in</param>
+        /// <param name="vertical">Whether the header should be drawn vertically</param>
+        /// <param name="paneled">
+        ///     Whether the header should be drawn paneled,
+        ///     like old Windows software
+        /// </param>
         public void Draw(Rect region, bool vertical = false, bool paneled = false)
         {
             float offset = 0;

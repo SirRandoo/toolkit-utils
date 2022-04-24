@@ -26,14 +26,20 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for displaying <see cref="EventItem"/> data, without the
+    ///     ability to modify the contents of the table, in a portable way.
+    /// </summary>
     public class EventViewWorker : EventTableWorker
     {
-        public override void DrawHeaders(Rect canvas)
+        /// <inheritdoc cref="EventTableWorker.DrawHeaders"/>
+        protected override void DrawHeaders(Rect region)
         {
             DrawSortableHeaders();
             DrawSortableHeaderIcon();
         }
 
+        /// <inheritdoc cref="EventTableWorker.DrawEvent"/>
         protected override void DrawEvent(Rect canvas, TableSettingsItem<EventItem> ev)
         {
             var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
@@ -50,9 +56,10 @@ namespace SirRandoo.ToolkitUtils.Workers
             UiHelper.Label(karmaRect, ev.Data.KarmaType.ToString());
         }
 
-        public override void NotifyResolutionChanged(Rect canvas)
+        /// <inheritdoc cref="EventTableWorker.NotifyResolutionChanged"/>
+        public override void NotifyResolutionChanged(Rect region)
         {
-            float consumedWidth = canvas.width - 10f; // Icon buttons
+            float consumedWidth = region.width - 10f; // Icon buttons
             float labelWidth = Mathf.FloorToInt(consumedWidth * 0.4f);
             float remainingWidth = consumedWidth - labelWidth;
             float distributedWidth = Mathf.FloorToInt(remainingWidth / 2f);

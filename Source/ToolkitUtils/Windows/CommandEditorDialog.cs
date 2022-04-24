@@ -32,6 +32,9 @@ using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A window for editing Twitch Toolkit commands.
+    /// </summary>
     [StaticConstructorOnStartup]
     public class CommandEditorDialog : Window_CommandEditor
     {
@@ -79,6 +82,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.PostOpen"/>
         public override void PostOpen()
         {
             base.PostOpen();
@@ -95,6 +99,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _invalidId = _command.command.NullOrEmpty() || _command.command?.TrimStart(TkSettings.Prefix.ToCharArray()).NullOrEmpty() == true;
         }
 
+        /// <inheritdoc cref="Window_CommandEditor.DoWindowContents"/>
         public override void DoWindowContents(Rect region)
         {
             if (Event.current.type == EventType.Layout)
@@ -186,6 +191,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.EndGroup();
         }
 
+        /// <inheritdoc cref="Window.OnAcceptKeyPressed"/>
         public override void OnAcceptKeyPressed()
         {
             if (GUIUtility.keyboardControl <= 0 || _editor == null)
@@ -200,6 +206,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Event.current.Use();
         }
 
+        /// <inheritdoc cref="Window.OnCancelKeyPressed"/>
         public override void OnCancelKeyPressed()
         {
             if (GUIUtility.keyboardControl <= 0 || _editor == null)
@@ -213,6 +220,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Event.current.Use();
         }
 
+        /// <inheritdoc cref="Window.Close"/>
         public override void Close(bool doCloseSound = true)
         {
             if (_showingSettings)
@@ -225,6 +233,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.Close(doCloseSound);
         }
 
+        /// <inheritdoc cref="Window_CommandEditor.PostClose"/>
         public override void PostClose()
         {
             base.PostClose();

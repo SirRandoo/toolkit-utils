@@ -26,6 +26,11 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
+    /// <summary>
+    ///     A <see cref="GameComponent"/> responsible for scheduling commands
+    ///     out of the Twitch thread, as well as executing any actions that
+    ///     may need to be run on the Unity thread.
+    /// </summary>
     [UsedImplicitly]
     public class CommandRouter : GameComponent
     {

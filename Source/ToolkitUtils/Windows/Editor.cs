@@ -29,6 +29,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A window for editing Twitch Toolkit's store in bulk.
+    /// </summary>
     public class Editor : Window
     {
         private readonly EventWorker _eventWorker;
@@ -62,11 +65,13 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         protected override float Margin => 0f;
 
+        /// <inheritdoc cref="Window.InitialSize"/>
         public override Vector2 InitialSize => new Vector2(
             _maximized ? UI.screenWidth : Mathf.Min(UI.screenWidth, 800f),
             _maximized ? UI.screenHeight : Mathf.FloorToInt(UI.screenHeight * 0.8f)
         );
 
+        /// <inheritdoc cref="Window.PreOpen"/>
         public override void PreOpen()
         {
             base.PreOpen();
@@ -105,6 +110,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _tabWorker.AddTab(_pawnTab);
         }
 
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect canvas)
         {
             Rect tabRect = new Rect(0f, 0f, canvas.width, Text.LineHeight * 2f).Rounded();
@@ -243,6 +249,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.PreClose"/>
         public override void PreClose()
         {
             base.PreClose();
@@ -287,6 +294,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _eventWorker.NotifyResolutionChanged(contentRect);
         }
 
+        /// <inheritdoc cref="Window.Notify_ResolutionChanged"/>
         public override void Notify_ResolutionChanged()
         {
             base.Notify_ResolutionChanged();

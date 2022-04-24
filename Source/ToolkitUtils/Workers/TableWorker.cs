@@ -19,14 +19,40 @@ using System.Collections.Generic;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A base class for drawing store data in a portable way.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class TableWorker<T> : TableWorkerBase
     {
         private protected List<T> InternalData;
 
+        /// <summary>
+        ///     The internal store data the worker is drawing.
+        /// </summary>
         public IEnumerable<T> Data => InternalData;
 
+        /// <summary>
+        ///     Called to ensure the given data exists within the worker's
+        ///     internal datastore.
+        /// </summary>
+        /// <param name="data">The data to verify</param>
         public abstract void EnsureExists(T data);
+
+        /// <summary>
+        ///     Informs the worker that the global store data changed externally.
+        /// </summary>
         public abstract void NotifyGlobalDataChanged();
+
+        /// <summary>
+        ///     Informs the worker to filter its contents according to the
+        ///     callable passed.
+        /// </summary>
+        /// <param name="worker">
+        ///     A callable whose sole argument is the item to
+        ///     filter, with its return value being whether the item should be
+        ///     displayed
+        /// </param>
         public abstract void NotifyCustomSearchRequested(Func<T, bool> worker);
 
         protected enum StateKey { Enable, Disable }

@@ -38,10 +38,13 @@ using UnityEngine;
 using Utf8Json;
 using Verse;
 using Command = TwitchToolkit.Command;
-using Viewers = TwitchToolkit.Viewers;
 
 namespace SirRandoo.ToolkitUtils
 {
+    /// <summary>
+    ///     The main class responsible for loaded, saving, and indexing
+    ///     various kinds of data within the mod, and game.
+    /// </summary>
     [StaticConstructorOnStartup]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static class Data
@@ -93,7 +96,55 @@ namespace SirRandoo.ToolkitUtils
                 DumpAllData();
             }
         }
+
+        /// <summary>
+        ///     The traits available for purchase within the mod's store.
+        /// </summary>
+        public static List<TraitItem> Traits { get; private set; }
         
+        /// <summary>
+        ///     The pawns available for purchase within the mod's store.
+        /// </summary>
+        public static List<PawnKindItem> PawnKinds { get; private set; }
+        
+        /// <summary>
+        ///     The associated data for items within Twitch Toolkit.
+        /// </summary>
+        /// <remarks>
+        ///     Item data serves as a means of including additional data with every item in a way Utils can manage independently of Twitch Toolkit.
+        /// </remarks>
+        public static Dictionary<string, ItemData> ItemData { get; private set; }
+        
+        /// <summary>
+        ///     The various mods loaded within the game, as well as their accompanying data.
+        /// </summary>
+        public static ModItem[] Mods { get; private set; }
+        
+        /// <summary>
+        ///     A list of encapsulated <see cref="Item"/>s with Utils data attached to them.
+        /// </summary>
+        public static List<ThingItem> Items { get; set; }
+        
+        /// <summary>
+        ///     The various surgeries available for purchase through the mod's surgery store.
+        /// </summary>
+        public static List<SurgeryItem> Surgeries { get; private set; }
+        
+        /// <summary>
+        ///     A list of encapsulated <see cref="StoreIncident"/>s with Utils data attached to them.
+        /// </summary>
+        public static List<EventItem> Events { get; private set; }
+        
+        /// <summary>
+        ///     The various commands loaded within the game, as well as their accompanying data.
+        /// </summary>
+        public static List<CommandItem> Commands { get; private set; }
+
+        /// <summary>
+        ///     The currently active health reports raised from internal processes within the mod.
+        /// </summary>
+        public static IEnumerable<HealthReport> AllHealthReports => HealthReports;
+
         private static void ValidateData()
         {
             try
@@ -116,7 +167,7 @@ namespace SirRandoo.ToolkitUtils
 
             ValidateShopData();
         }
-        
+
         private static void ValidateShopData()
         {
             try
@@ -159,17 +210,6 @@ namespace SirRandoo.ToolkitUtils
                 TkUtils.Logger.Error("Could not validate event shop data", e);
             }
         }
-
-        public static List<TraitItem> Traits { get; private set; }
-        public static List<PawnKindItem> PawnKinds { get; private set; }
-        public static Dictionary<string, ItemData> ItemData { get; private set; }
-        public static ModItem[] Mods { get; private set; }
-        public static List<ThingItem> Items { get; set; }
-        public static List<SurgeryItem> Surgeries { get; private set; }
-        public static List<EventItem> Events { get; private set; }
-        public static List<CommandItem> Commands { get; private set; }
-
-        public static IEnumerable<HealthReport> AllHealthReports => HealthReports;
 
         private static void LoadShopData()
         {
@@ -457,71 +497,131 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
+        /// <summary>
+        ///     Loads a list of traits at the given file path.
+        /// </summary>
+        /// <param name="path">The file to load traits from</param>
+        /// <param name="ignoreErrors">Whether loading errors should be ignored</param>
         public static void LoadTraits(string path, bool ignoreErrors = false)
         {
             Traits = LoadJson<List<TraitItem>>(path, ignoreErrors) ?? new List<TraitItem>();
         }
 
+        /// <summary>
+        ///     Loads a list of traits at the given file path.
+        /// </summary>
+        /// <param name="path">The file to load traits from</param>
+        /// <param name="ignoreErrors">Whether loading errors should be ignored</param>
         public static async Task LoadTraitsAsync(string path, bool ignoreErrors = false)
         {
             Traits = await LoadJsonAsync<List<TraitItem>>(path, ignoreErrors) ?? new List<TraitItem>();
         }
 
+        /// <summary>
+        ///     Saves the current list of traits at the given file path.
+        /// </summary>
+        /// <param name="path">The file to save the traits to</param>
         public static void SaveTraits(string path)
         {
             SaveJson(Traits, path);
         }
 
+        /// <summary>
+        ///     Saves the current list of traits at the given file path.
+        /// </summary>
+        /// <param name="path">The file to save the traits to</param>
         public static async Task SaveTraitsAsync(string path)
         {
             await SaveJsonAsync(Traits, path);
         }
 
+        /// <summary>
+        ///     Loads a list of pawns from the given file path.
+        /// </summary>
+        /// <param name="path">The file to load pawns from</param>
+        /// <param name="ignoreErrors">Whether loading errors should be ignored</param>
         public static void LoadPawnKinds(string path, bool ignoreErrors = false)
         {
             PawnKinds = LoadJson<List<PawnKindItem>>(path, ignoreErrors) ?? new List<PawnKindItem>();
         }
 
+        /// <summary>
+        ///     Loads a list of pawns from the given file path.
+        /// </summary>
+        /// <param name="path">The file to load pawns from</param>
+        /// <param name="ignoreErrors">Whether loading errors should be ignored</param>
         public static async Task LoadPawnKindsAsync(string path, bool ignoreErrors = false)
         {
             PawnKinds = await LoadJsonAsync<List<PawnKindItem>>(path, ignoreErrors) ?? new List<PawnKindItem>();
         }
 
+        /// <summary>
+        ///     Saves a list of pawns at the given file path.
+        /// </summary>
+        /// <param name="path">The file to save pawns to</param>
         public static void SavePawnKinds(string path)
         {
             SaveJson(PawnKinds, path);
         }
 
+        /// <summary>
+        ///     Saves a list of pawns at the given file path.
+        /// </summary>
+        /// <param name="path">The file to save pawns to</param>
         public static async Task SavePawnKindsAsync(string path)
         {
             await SaveJsonAsync(PawnKinds, path);
         }
 
+        /// <summary>
+        ///     Loads item data from the given file path.
+        /// </summary>
+        /// <param name="path">The file to load item data from</param>
         public static void LoadItemData(string path)
         {
             ItemData = LoadJson<Dictionary<string, ItemData>>(path, true) ?? new Dictionary<string, ItemData>();
         }
 
+        /// <summary>
+        ///     Loads item data from the given file path.
+        /// </summary>
+        /// <param name="path">The file to load item data from</param>
         public static async Task LoadItemDataAsync(string path)
         {
             ItemData = await LoadJsonAsync<Dictionary<string, ItemData>>(path, true) ?? new Dictionary<string, ItemData>();
         }
 
+        /// <summary>
+        ///     Saves item data to the given file.
+        /// </summary>
+        /// <param name="path">The file to save item data to</param>
         public static void SaveItemData(string path)
         {
             SaveJson(ItemData, path);
         }
 
+        /// <summary>
+        ///     Saves item data to the given file.
+        /// </summary>
+        /// <param name="path">The file to save item data to</param>
         public static async Task SaveItemDataAsync(string path)
         {
             await SaveJsonAsync(ItemData, path);
         }
 
+        /// <summary>
+        ///     Saves event data to the given file.
+        /// </summary>
+        /// <param name="path">The file to save event data to</param>
         public static void SaveEventData(string path)
         {
             SaveJson(Events.ToDictionary(e => e.Name, e => e.EventData), path);
         }
 
+        /// <summary>
+        ///     Saves event data to the given file.
+        /// </summary>
+        /// <param name="path">The file to save event data to</param>
         public static async Task SaveEventDataAsync(string path)
         {
             await SaveJsonAsync(Events.ToDictionary(e => e.Name, e => e.EventData), path);
@@ -776,16 +876,27 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Logger.Warn(builder.ToString());
         }
 
+        /// <summary>
+        ///     Saves shop data to the given file in the legacy format.
+        /// </summary>
+        /// <param name="path">The file to save shop data to</param>
         public static void SaveLegacyShop(string path)
         {
             SaveJson(new ShopLegacy { Races = PawnKinds, Traits = Traits }, path);
         }
-
+        
+        /// <summary>
+        ///     Saves shop data to the given file in the legacy format.
+        /// </summary>
+        /// <param name="path">The file to save shop data to</param>
         public static async Task SaveLegacyShopAsync(string path)
         {
             await SaveJsonAsync(new ShopLegacy { Races = PawnKinds, Traits = Traits }, path);
         }
 
+        /// <summary>
+        ///     Saves all data within the mod to their associated files.
+        /// </summary>
         public static void DumpAllData()
         {
             SaveItemData(Paths.ItemDataFilePath);
@@ -804,6 +915,9 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
+        /// <summary>
+        ///     Saves all data within the mod to their associated files.
+        /// </summary>
         public static async Task DumpAllDataAsync()
         {
             await SaveItemDataAsync(Paths.ItemDataFilePath);
@@ -825,6 +939,9 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
+        /// <summary>
+        ///     Saves all commands indexed by the mod to its associated file.
+        /// </summary>
         public static void DumpCommands()
         {
             List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled && !string.IsNullOrEmpty(c.command)).Select(CommandItem.FromToolkit).ToList();
@@ -835,6 +952,9 @@ namespace SirRandoo.ToolkitUtils
             SaveJson(container, Paths.CommandListFilePath);
         }
 
+        /// <summary>
+        ///     Saves all commands indexed by the mod to its associated file.
+        /// </summary>
         public static async Task DumpCommandsAsync()
         {
             List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled).Where(c => !c.command.NullOrEmpty()).Select(CommandItem.FromToolkit).ToList();
@@ -845,16 +965,28 @@ namespace SirRandoo.ToolkitUtils
             await SaveJsonAsync(container, Paths.CommandListFilePath);
         }
 
+        /// <summary>
+        ///     Saves all mods indexed by the mod to its associated file.
+        /// </summary>
         public static void SaveModList()
         {
             SaveJson(Mods, Paths.ModListFilePath);
         }
 
+        /// <summary>
+        ///     Saves all mods indexed by the mod to its associated file.
+        /// </summary>
         public static async Task SaveModListAsync()
         {
             await SaveJsonAsync(Mods, Paths.ModListFilePath);
         }
 
+        /// <summary>
+        ///     Attempts to get a trait from the input passed.
+        /// </summary>
+        /// <param name="input">The input to check against</param>
+        /// <param name="trait">The <see cref="TraitItem"/> found from the given input</param>
+        /// <returns>Whether a trait was found from the given input</returns>
         [ContractAnnotation("input:notnull => true,trait:notnull; input:notnull => false,trait:null")]
         public static bool TryGetTrait(string input, out TraitItem trait)
         {
@@ -872,6 +1004,13 @@ namespace SirRandoo.ToolkitUtils
             return trait != null;
         }
 
+        /// <summary>
+        ///     Attempts to get a pawn from the input passed.
+        /// </summary>
+        /// <param name="input">The input to check against</param>
+        /// <param name="kind">The <see cref="PawnKindItem"/> found from the given input</param>
+        /// <param name="defName">Whether the method should compare the input to the trait's def name instead</param>
+        /// <returns>Whether a pawn was found from the given input</returns>
         [ContractAnnotation("input:notnull => true,kind:notnull; input:notnull => false,kind:null")]
         public static bool TryGetPawnKind(string input, out PawnKindItem kind, bool defName = false)
         {
@@ -889,60 +1028,10 @@ namespace SirRandoo.ToolkitUtils
             return kind != null;
         }
 
-        [NotNull]
-        public static IEnumerable<string> GetTraitResults(string input)
-        {
-            return Traits.Where(t => t.Name.StripTags().StartsWith(input.StripTags(), StringComparison.InvariantCultureIgnoreCase))
-               .Where(t => t.CanAdd || t.CanRemove)
-               .Select(t => t.Name.StripTags().ToToolkit());
-        }
-
-        [NotNull]
-        public static IEnumerable<string> GetKindResults(string input)
-        {
-            return PawnKinds.Where(k => k.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase)).Where(k => k.Enabled).Select(k => k.Name.ToToolkit());
-        }
-
-        [NotNull]
-        public static IEnumerable<string> GetItemResults(string input)
-        {
-            return Items.Where(i => i.Name.StartsWith(input, StringComparison.InvariantCultureIgnoreCase)).Where(i => i.Cost > 0).Select(i => i.Name.ToToolkit());
-        }
-
-        [ItemNotNull]
-        public static IEnumerable<string> GetEventResults(string input)
-        {
-            foreach (string simpleIncidentName in Purchase_Handler.allStoreIncidentsSimple.Where(i => i.cost > 0)
-               .Where(i => i.abbreviation.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
-               .Select(i => i.abbreviation))
-            {
-                yield return simpleIncidentName;
-            }
-
-            foreach (string variablesIncidentName in Purchase_Handler.allStoreIncidentsVariables.Where(i => i.cost > 0 || (i.defName.Equals("Item") && i.cost >= 0))
-               .Where(i => i.abbreviation.StartsWith(input, StringComparison.InvariantCultureIgnoreCase))
-               .Select(i => i.abbreviation))
-            {
-                yield return variablesIncidentName;
-            }
-        }
-
-        [NotNull]
-        public static IEnumerable<string> GetCommandResults(string input, [CanBeNull] string viewer = null)
-        {
-            return DefDatabase<Command>.AllDefs.Where(c => c.enabled)
-               .Where(c => c.command.EqualsIgnoreCase(input))
-               .Where(
-                    c => viewer != null && Viewers.GetViewer(viewer.ToLowerInvariant()) is { } v
-                        && ((v.mod && c.requiresMod) || (v.username == ToolkitSettings.Channel && c.requiresAdmin))
-                )
-               .Select(c => c.command);
-        }
-
-        [CanBeNull]
-        public static string GetViewerColorCode([NotNull] string viewer) =>
-            !ToolkitSettings.ViewerColorCodes.TryGetValue(viewer.ToLowerInvariant(), out string color) ? null : color;
-
+        /// <summary>
+        ///     Loads items from the given partial data.
+        /// </summary>
+        /// <param name="partialData">A collection of partial data to load</param>
         public static void LoadItemPartial([NotNull] IEnumerable<ItemPartial> partialData)
         {
             var builder = new StringBuilder();
@@ -991,6 +1080,10 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Logger.Warn(builder.ToString());
         }
 
+        /// <summary>
+        ///     Loads events from the given partial data.
+        /// </summary>
+        /// <param name="partialData">A collection of partial data to load</param>
         public static void LoadEventPartial([NotNull] IEnumerable<EventPartial> partialData)
         {
             var builder = new StringBuilder();
@@ -1045,6 +1138,10 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Logger.Warn(builder.ToString());
         }
 
+        /// <summary>
+        ///     Loads traits from the given partial data.
+        /// </summary>
+        /// <param name="partialData">A collection of partial data to load</param>
         public static void LoadTraitPartial([NotNull] IEnumerable<TraitItem> partialData)
         {
             var builder = new StringBuilder();
@@ -1084,6 +1181,10 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Logger.Warn(builder.ToString());
         }
 
+        /// <summary>
+        ///     Loads pawns from the given partial data.
+        /// </summary>
+        /// <param name="partialData">A collection of partial data to load</param>
         public static void LoadPawnPartial([NotNull] IEnumerable<PawnKindItem> partialData)
         {
             var builder = new StringBuilder();
@@ -1113,6 +1214,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
+        [NotNull]
         private static Dictionary<string, Color> GetDefaultColors()
         {
             var container = new Dictionary<string, Color>
@@ -1172,7 +1274,7 @@ namespace SirRandoo.ToolkitUtils
             try
             {
                 DeleteIfExists(backupPath);
-                
+
                 if (File.Exists(dest))
                 {
                     File.Move(dest, backupPath);

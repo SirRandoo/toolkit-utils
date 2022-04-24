@@ -29,6 +29,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for drawing the trait store in a portable, reusable way.
+    /// </summary>
     public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
     {
         private const float ExpandedLineSpan = 3f;
@@ -62,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private protected Rect RemovePriceHeaderRect = Rect.zero;
         private protected Rect RemovePriceHeaderTextRect = Rect.zero;
 
-        public override void DrawHeaders(Rect canvas)
+        protected override void DrawHeaders(Rect region)
         {
             if (SettingsHelper.DrawTableHeader(
                 _addStateHeaderRect,
@@ -179,27 +182,27 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        public override void DrawTableContents(Rect canvas)
+        protected override void DrawTableContents(Rect region)
         {
             float expectedLines = Data.Where(i => !i.IsHidden).Sum(i => i.SettingsVisible ? ExpandedLineSpan + 1f : 1f);
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, RowLineHeight * expectedLines);
+            var viewPort = new Rect(0f, 0f, region.width - 16f, RowLineHeight * expectedLines);
 
             var index = 0;
             var expanded = 0;
             var alternate = false;
-            GUI.BeginGroup(canvas);
-            _scrollPos = GUI.BeginScrollView(canvas, _scrollPos, viewPort);
+            GUI.BeginGroup(region);
+            _scrollPos = GUI.BeginScrollView(region, _scrollPos, viewPort);
 
             foreach (TableSettingsItem<TraitItem> trait in Data.Where(i => !i.IsHidden))
             {
                 var lineRect = new Rect(
                     0f,
                     index * RowLineHeight + RowLineHeight * ExpandedLineSpan * expanded,
-                    canvas.width - 16f,
+                    region.width - 16f,
                     RowLineHeight * (trait.SettingsVisible ? ExpandedLineSpan + 1f : 1f)
                 );
 
-                if (!lineRect.IsVisible(canvas, _scrollPos))
+                if (!lineRect.IsVisible(region, _scrollPos))
                 {
                     index++;
                     alternate = !alternate;
@@ -339,6 +342,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.color = Color.white;
         }
 
+        /// <inheritdoc cref="TableWorkerBase.Prepare"/>
         public override void Prepare()
         {
             LoadTranslations();
@@ -410,6 +414,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorker{T}.EnsureExists"/>
         public override void EnsureExists(TableSettingsItem<TraitItem> data)
         {
             if (!InternalData.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
@@ -418,6 +423,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged"/>
         public override void NotifyGlobalDataChanged()
         {
             var wasDirty = false;
@@ -453,6 +459,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             _resetTraitKarmaTooltip = "TKUtils.TraitTableTooltips.ResetTraitKarma".TranslateSimple();
         }
 
+        /// <inheritdoc cref="TableWorkerBase.NotifySortRequested"/>
         public override void NotifySortRequested()
         {
             switch (_sortOrder)
@@ -508,14 +515,16 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested"/>
         public override void NotifySearchRequested(string query)
         {
             FilterDataBySearch(query);
         }
 
-        public override void NotifyResolutionChanged(Rect canvas)
+        /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged"/>
+        public override void NotifyResolutionChanged(Rect region)
         {
-            float consumedWidth = canvas.width - 18f - LineHeight * 3f; // Icon buttons
+            float consumedWidth = region.width - 18f - LineHeight * 3f; // Icon buttons
             float nameWidth = Mathf.FloorToInt(consumedWidth * 0.45f);
             float distributedWidth = Mathf.FloorToInt((consumedWidth - nameWidth) * 0.5f);
             NameHeaderRect = new Rect(0f, 0f, nameWidth, LineHeight);
@@ -532,6 +541,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             _expandedHeaderInnerRect = _expandedHeaderRect.ContractedBy(2f);
         }
 
+        /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested"/>
         public override void NotifyCustomSearchRequested(Func<TableSettingsItem<TraitItem>, bool> worker)
         {
             foreach (TableSettingsItem<TraitItem> item in Data)
@@ -540,7 +550,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        protected override void FilterDataBySearch(string query)
+        private protected override void FilterDataBySearch(string query)
         {
             foreach (TableSettingsItem<TraitItem> item in Data)
             {

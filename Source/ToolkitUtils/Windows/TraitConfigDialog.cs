@@ -25,6 +25,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog that allows users to edit their trait store data.
+    /// </summary>
     public class TraitConfigDialog : Window
     {
         private readonly TraitTableWorker _worker;
@@ -47,7 +50,10 @@ namespace SirRandoo.ToolkitUtils.Windows
             _worker = new TraitTableWorker();
         }
 
+        /// <inheritdoc cref="Window.InitialSize"/>
         public override Vector2 InitialSize => new Vector2(900f, UI.screenHeight * 0.9f);
+        
+        /// <inheritdoc cref="Window.Margin"/>
         protected override float Margin => 22f;
 
         private void NotifySearchRequested()
@@ -55,6 +61,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _lastSearchTick = 10f;
         }
 
+        /// <inheritdoc cref="Window.PreOpen"/>
         public override void PreOpen()
         {
             base.PreOpen();
@@ -112,6 +119,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 ConfirmationDialog.Open("TKUtils.TraitStore.ConfirmReset".TranslateSimple(), PerformGlobalReset);
             }
         }
+        
         private void PerformGlobalReset()
         {
             foreach (TableSettingsItem<TraitItem> trait in _worker.Data.Where(i => !i.IsHidden))
@@ -162,6 +170,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect canvas)
         {
             if (Event.current.type == EventType.Layout)
@@ -195,6 +204,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Text.WordWrap = wrapped;
         }
 
+        /// <inheritdoc cref="Window.WindowUpdate"/>
         public override void WindowUpdate()
         {
             base.WindowUpdate();
@@ -210,6 +220,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.PreClose"/>
         public override void PreClose()
         {
             if (TkSettings.Offload)
@@ -248,6 +259,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.Notify_ResolutionChanged"/>
         public override void Notify_ResolutionChanged()
         {
             base.Notify_ResolutionChanged();

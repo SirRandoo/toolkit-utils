@@ -32,6 +32,15 @@ using System.Diagnostics;
 
 namespace SirRandoo.ToolkitUtils
 {
+    /// <summary>
+    ///     The main class responsible for ensuring the environment the mod
+    ///     is running it is valid.
+    /// </summary>
+    /// <remarks>
+    ///     The main validation that takes place is ensuring overridden
+    ///     events aren't set to their Twitch Toolkit defaults. Its secondary
+    ///     validation is ensuring Twitch Toolkit's ticker is stopped.
+    /// </remarks>
     [UsedImplicitly]
     [StaticConstructorOnStartup]
     public static class RuntimeChecker
@@ -44,6 +53,7 @@ namespace SirRandoo.ToolkitUtils
             TryLanceTicker();
             ValidateExpandedEvents();
         }
+
         private static void ValidateExpandedEvents()
         {
             var wereChanges = false;

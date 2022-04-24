@@ -21,18 +21,24 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     Draws the data within the pawn kind store in a portable way
+    ///     without the ability to edit their contents.
+    /// </summary>
     public class PawnViewWorker : PawnTableWorker
     {
-        public override void DrawHeaders(Rect canvas)
+        /// <inheritdoc cref="PawnTableWorker.DrawHeaders"/>
+        protected override void DrawHeaders(Rect region)
         {
             DrawSortableHeaders();
             DrawSortableHeaderIcon();
         }
 
-        protected override void DrawKind(Rect canvas, TableSettingsItem<PawnKindItem> item)
+        /// <inheritdoc cref="PawnTableWorker.DrawKind"/>
+        protected override void DrawKind(Rect region, TableSettingsItem<PawnKindItem> item)
         {
-            var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
-            var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
+            var nameRect = new Rect(NameHeaderTextRect.x, region.y, NameHeaderTextRect.width, RowLineHeight);
+            var priceRect = new Rect(PriceHeaderTextRect.x, region.y, PriceHeaderTextRect.width, RowLineHeight);
 
             UiHelper.Label(nameRect, item.Data.Name);
 
@@ -42,9 +48,10 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        public override void NotifyResolutionChanged(Rect canvas)
+        /// <inheritdoc cref="PawnTableWorker.NotifyResolutionChanged"/>
+        public override void NotifyResolutionChanged(Rect region)
         {
-            float distributedWidth = Mathf.FloorToInt((canvas.width - 16f) * 0.3333f);
+            float distributedWidth = Mathf.FloorToInt((region.width - 16f) * 0.3333f);
             NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
             NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
             PriceHeaderRect = NameHeaderRect.Shift(Direction8Way.East, 1f);

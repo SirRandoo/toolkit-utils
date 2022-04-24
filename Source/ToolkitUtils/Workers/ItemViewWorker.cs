@@ -22,21 +22,28 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for drawing <see cref="ThingItem"/>s in a portable way
+    ///     without any means of editing the contents within through the
+    ///     table's UI.
+    /// </summary>
     public class ItemViewWorker : ItemTableWorker
     {
-        public override void DrawHeaders(Rect canvas)
+        /// <inheritdoc cref="ItemTableWorker.DrawHeaders"/>
+        protected override void DrawHeaders(Rect region)
         {
             DrawSortableHeaders();
             DrawSortableHeaderIcon();
         }
 
-        protected override void DrawItem(Rect canvas, TableSettingsItem<ThingItem> item)
+        /// <inheritdoc cref="ItemTableWorker.DrawItem"/>
+        protected override void DrawItem(Rect region, TableSettingsItem<ThingItem> item)
         {
             bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
 
-            var infoRect = new Rect(hasIcon ? NameHeaderRect.x : NameHeaderTextRect.x, canvas.y, hasIcon ? NameHeaderRect.width : NameHeaderTextRect.width, canvas.height);
-            var priceRect = new Rect(PriceHeaderRect.x, canvas.y, PriceHeaderRect.width, RowLineHeight);
-            var categoryRect = new Rect(CategoryHeaderRect.x, canvas.y, CategoryHeaderRect.width, RowLineHeight);
+            var infoRect = new Rect(hasIcon ? NameHeaderRect.x : NameHeaderTextRect.x, region.y, hasIcon ? NameHeaderRect.width : NameHeaderTextRect.width, region.height);
+            var priceRect = new Rect(PriceHeaderRect.x, region.y, PriceHeaderRect.width, RowLineHeight);
+            var categoryRect = new Rect(CategoryHeaderRect.x, region.y, CategoryHeaderRect.width, RowLineHeight);
 
             if (item.Data.Thing != null && hasIcon)
             {
@@ -51,9 +58,10 @@ namespace SirRandoo.ToolkitUtils.Workers
             UiHelper.Label(categoryRect, item.Data.Category);
         }
 
-        public override void NotifyResolutionChanged(Rect canvas)
+        /// <inheritdoc cref="ItemTableWorker.NotifyResolutionChanged"/>
+        public override void NotifyResolutionChanged(Rect region)
         {
-            float distributedWidth = Mathf.FloorToInt((canvas.width - 16f) * 0.333f);
+            float distributedWidth = Mathf.FloorToInt((region.width - 16f) * 0.333f);
             NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
             NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
             PriceHeaderRect = NameHeaderRect.Shift(Direction8Way.East, 1f);

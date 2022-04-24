@@ -29,6 +29,11 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A portable way of drawing an editor page for a given shop group.
+    /// </summary>
+    /// <typeparam name="T">The internal table worker for the editor page</typeparam>
+    /// <typeparam name="TU">The <see cref="IShopItemBase"/> the editor is for</typeparam>
     public abstract class ItemWorkerBase<T, TU> where T : TableWorker<TableSettingsItem<TU>> where TU : class, IShopItemBase
     {
         private string _addMutatorText;
@@ -49,8 +54,15 @@ namespace SirRandoo.ToolkitUtils.Workers
         private Rect _tableRect = Rect.zero;
         private protected T Worker;
 
+        /// <summary>
+        ///     Returns the internal data for this table worker.
+        /// </summary>
         public IEnumerable<TableSettingsItem<TU>> Data => Worker.Data;
 
+        /// <summary>
+        ///     Requests the table prepare its internal state prior to drawing
+        ///     its <see cref="Data"/>.
+        /// </summary>
         public virtual void Prepare()
         {
             _addMutatorText = "TKUtils.Buttons.AddMutator".Localize();
@@ -67,6 +79,14 @@ namespace SirRandoo.ToolkitUtils.Workers
             _selectorAdders = new List<FloatMenuOption>();
         }
 
+        /// <summary>
+        ///     Draws the table according to the internal state of the worker.
+        /// </summary>
+        /// <remarks>
+        ///     There is no <see cref="Rect"/> parameter as this class stitches
+        ///     its state together from "events" implementors must call when
+        ///     relevant.
+        /// </remarks>
         public void Draw()
         {
             GUI.color = new Color(1f, 1f, 1f, 0.15f);
@@ -86,13 +106,21 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
-        public void NotifyResolutionChanged(Rect canvas)
+        /// <summary>
+        ///     Notifies the worker that the table's drawing region was changed
+        ///     by an external source.
+        /// </summary>
+        /// <param name="region">
+        ///     The new region to derive its internal
+        ///     <see cref="Rect"/>s from
+        /// </param>
+        public void NotifyResolutionChanged(Rect region)
         {
-            var userRect = new Rect(0f, 0f, canvas.width, Mathf.FloorToInt(canvas.height / 2f) - 4f);
+            var userRect = new Rect(0f, 0f, region.width, Mathf.FloorToInt(region.height / 2f) - 4f);
             _selectorRect = new Rect(0f, 0f, Mathf.FloorToInt(userRect.width / 2f) - 8f, userRect.height);
             _modifierRect = new Rect(_selectorRect.x + _selectorRect.width + 16f, 0f, _selectorRect.width, userRect.height);
 
-            _tableRect = new Rect(0f, userRect.height + 8f, canvas.width, canvas.height - userRect.height - 8f);
+            _tableRect = new Rect(0f, userRect.height + 8f, region.width, region.height - userRect.height - 8f);
             Worker?.NotifyResolutionChanged(_tableRect);
         }
 

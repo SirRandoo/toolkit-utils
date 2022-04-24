@@ -30,13 +30,15 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
+    /// <summary>
+    ///     The mod class for the mod.
+    /// </summary>
     [UsedImplicitly]
     public class TkUtils : ModPlus
     {
         public TkUtils(ModContentPack content) : base(content)
         {
             Instance = this;
-            Settings = GetSettings<TkSettings>();
 
             try
             {
@@ -46,13 +48,13 @@ namespace SirRandoo.ToolkitUtils
             {
                 Log.Error(e.ToString());
             }
+
             Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(TkUtilsWindow)));
         }
 
         internal static TkUtils Instance { get; private set; }
         internal static SynchronizationContext Context { get; set; }
-        public static IRimLogger Logger { get; private set; }
-        public TkSettings Settings { get; }
+        internal static IRimLogger Logger { get; private set; }
 
         /// <inheritdoc/>
         [NotNull]

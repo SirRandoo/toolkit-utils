@@ -24,8 +24,28 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A somewhat similar worker to RimWorld's
+    ///     <see cref="InteractionWorker"/>, but without RimWorld's internal
+    ///     limiters.
+    /// </summary>
     public static class ForcedInteractionWorker
     {
+        /// <summary>
+        ///     Instructs a <see cref="Pawn"/> to interact with another
+        ///     <see cref="Pawn"/> according to the given
+        ///     <see cref="InteractionDef"/>.
+        /// </summary>
+        /// <param name="pawn">The pawn to do the interaction</param>
+        /// <param name="recipient">The pawn being interacted with</param>
+        /// <param name="interaction">
+        ///     The <see cref="InteractionDef"/> of the
+        ///     interaction that will take place
+        /// </param>
+        /// <returns>
+        ///     The interaction string returned by RimWorld's interaction
+        ///     worker.
+        /// </returns>
         [CanBeNull]
         public static string InteractWith(Pawn pawn, Pawn recipient, InteractionDef interaction)
         {

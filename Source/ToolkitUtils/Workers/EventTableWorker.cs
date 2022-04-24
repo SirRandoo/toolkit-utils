@@ -34,6 +34,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for displaying event shop data in a portable way.
+    /// </summary>
     public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
     {
         private const float BaseExpandedLineSpan = 3f;
@@ -65,7 +68,8 @@ namespace SirRandoo.ToolkitUtils.Workers
         private protected Rect PriceHeaderRect = Rect.zero;
         private protected Rect PriceHeaderTextRect = Rect.zero;
 
-        public override void DrawHeaders(Rect canvas)
+        /// <inheritdoc cref="TableWorkerBase.DrawHeaders"/>
+        protected override void DrawHeaders(Rect region)
         {
             if (SettingsHelper.DrawTableHeader(_stateHeaderRect, _stateHeaderInnerRect, _stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
             {
@@ -160,21 +164,22 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
-        public override void DrawTableContents(Rect canvas)
+        /// <inheritdoc cref="TableWorkerBase.DrawTableContents"/>
+        protected override void DrawTableContents(Rect region)
         {
             float expectedLine = Data.Where(i => !i.IsHidden).Sum(GetLineSpan);
-            var viewPort = new Rect(0f, 0f, canvas.width - 16f, RowLineHeight * expectedLine);
+            var viewPort = new Rect(0f, 0f, region.width - 16f, RowLineHeight * expectedLine);
 
             var alternate = false;
             var expandedLineSpan = 0;
-            GUI.BeginGroup(canvas);
-            _scrollPos = GUI.BeginScrollView(canvas, _scrollPos, viewPort);
+            GUI.BeginGroup(region);
+            _scrollPos = GUI.BeginScrollView(region, _scrollPos, viewPort);
 
             foreach (TableSettingsItem<EventItem> ev in Data.Where(i => !i.IsHidden))
             {
-                var lineRect = new Rect(0f, RowLineHeight * expandedLineSpan, canvas.width - 16f, RowLineHeight * (ev.SettingsVisible ? GetLineSpan(ev) : 1f));
+                var lineRect = new Rect(0f, RowLineHeight * expandedLineSpan, region.width - 16f, RowLineHeight * (ev.SettingsVisible ? GetLineSpan(ev) : 1f));
 
-                if (!lineRect.IsVisible(canvas, _scrollPos))
+                if (!lineRect.IsVisible(region, _scrollPos))
                 {
                     alternate = !alternate;
                     expandedLineSpan += GetLineSpan(ev);
@@ -201,6 +206,15 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.EndGroup();
         }
 
+        /// <summary>
+        ///     Draws the given <see cref="EventItem"/> in the pre-defined row
+        ///     space.
+        /// </summary>
+        /// <param name="canvas">
+        ///     The region to draw the <see cref="EventItem"/>
+        ///     in
+        /// </param>
+        /// <param name="ev">The <see cref="EventItem"/> to draw</param>
         protected virtual void DrawEvent(Rect canvas, [NotNull] TableSettingsItem<EventItem> ev)
         {
             Rect checkboxRect = LayoutHelper.IconRect(_stateHeaderRect.x + 2f, canvas.y + 2f, _stateHeaderRect.width - 4f, RowLineHeight - 4f);
@@ -389,6 +403,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             GUI.color = Color.white;
         }
 
+        /// <inheritdoc cref="TableWorkerBase.Prepare"/>
         public override void Prepare()
         {
             LoadTranslations();
@@ -414,6 +429,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             _karmaTypeText = "TKUtils.Fields.KarmaType".Localize();
         }
 
+        /// <inheritdoc cref="TableWorkerBase.NotifySortRequested"/>
         public override void NotifySortRequested()
         {
             switch (_sortOrder)
@@ -469,14 +485,16 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested"/>
         public override void NotifySearchRequested(string query)
         {
             FilterDataBySearch(query);
         }
 
-        public override void NotifyResolutionChanged(Rect canvas)
+        /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged"/>
+        public override void NotifyResolutionChanged(Rect region)
         {
-            float consumedWidth = canvas.width - 20f - LineHeight * 2f; // Icon buttons
+            float consumedWidth = region.width - 20f - LineHeight * 2f; // Icon buttons
             float labelWidth = Mathf.FloorToInt(consumedWidth * 0.4f);
             float remainingWidth = consumedWidth - labelWidth;
             float distributedWidth = Mathf.FloorToInt(remainingWidth / 2f);
@@ -492,7 +510,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             _expandedHeaderInnerRect = _expandedHeaderRect.ContractedBy(2f);
         }
 
-        protected override void FilterDataBySearch(string query)
+        private protected override void FilterDataBySearch(string query)
         {
             foreach (TableSettingsItem<EventItem> ev in Data)
             {
@@ -500,6 +518,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorker{T}.EnsureExists"/>
         public override void EnsureExists(TableSettingsItem<EventItem> data)
         {
             if (!InternalData.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
@@ -508,6 +527,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged"/>
         public override void NotifyGlobalDataChanged()
         {
             var wasDirty = false;
@@ -526,6 +546,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
         }
 
+        /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested"/>
         public override void NotifyCustomSearchRequested(Func<TableSettingsItem<EventItem>, bool> worker)
         {
             foreach (TableSettingsItem<EventItem> ev in Data)

@@ -31,6 +31,10 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
+    /// <summary>
+    ///     A <see cref="GameComponent"/> used to coordinate various actions
+    ///     throughout the mod, like item purchases and event processing.
+    /// </summary>
     [UsedImplicitly]
     public class Coordinator : GameComponent
     {

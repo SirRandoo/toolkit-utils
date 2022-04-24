@@ -28,6 +28,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     An augmented version of Twitch Toolkit's.
+    /// </summary>
     public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
     {
         private readonly EventTypes _eventType;
@@ -65,6 +68,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _karmaTypeOptions = Data.KarmaTypes.Select(t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)).ToList();
         }
 
+        /// <inheritdoc cref="Window.PreOpen"/>
         public override void PreOpen()
         {
             base.PreOpen();
@@ -91,6 +95,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _titleWidth = Text.CalcSize(storeIncident.LabelCap).x + 16f;
         }
 
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect inRect)
         {
             var listing = new Listing_Standard { maxOneColumn = true };

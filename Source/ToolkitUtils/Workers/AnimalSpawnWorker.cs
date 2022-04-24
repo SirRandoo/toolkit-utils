@@ -23,16 +23,60 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
-    public class AnimalSpawnWorker : IncidentWorker_SpecificAnimalsWanderIn
+    /// <summary>
+    ///     A special incident worker that allows for more granular control
+    ///     over the animals being spawned.
+    /// </summary>
+    public sealed class AnimalSpawnWorker : IncidentWorker_SpecificAnimalsWanderIn
     {
+        /// <summary>
+        ///     The label to be displayed on the subsequent <see cref="Letter"/>
+        ///     created by this incident worker.
+        /// </summary>
         public string Label { get; set; }
+
+        /// <summary>
+        ///     The <see cref="PawnKindDef"/> to spawn with this worker. This
+        ///     should never be a human-like.
+        /// </summary>
         public PawnKindDef AnimalDef { get; set; }
+
+        /// <summary>
+        ///     Whether the animals spawned through this incident worker should
+        ///     be tamed.
+        /// </summary>
         public bool SpawnTamed { get; set; }
+
+        /// <summary>
+        ///     Whether the animals spawned through this incident worker should
+        ///     be manhunter.
+        /// </summary>
         public bool SpawnManhunter { get; set; }
+
+        /// <summary>
+        ///     The amount of animals to spawn.
+        /// </summary>
         public int Quantity { get; set; }
+
+        /// <summary>
+        ///     The optional fixed gender of the animals.
+        /// </summary>
         public Gender? Gender { get; set; }
+
+        /// <summary>
+        ///     The text to display within the <see cref="Letter"/> created by
+        ///     this incident worker.
+        /// </summary>
+        /// <remarks>
+        ///     Whereas <see cref="Label"/> is what the letter will be title,
+        ///     this is the "body" of the letter.
+        /// </remarks>
         public string Text { get; set; }
 
+        /// <summary>
+        ///     A hacky override to ensure this incident worker isn't used by
+        ///     RimWorld.
+        /// </summary>
         public override float BaseChanceThisGame => 0f;
 
         protected override bool TryExecuteWorker(IncidentParms parms)
@@ -85,7 +129,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             return true;
         }
 
-        protected virtual Pawn GeneratePawn()
+        private Pawn GeneratePawn()
         {
             var request = PawnGenerationRequest.MakeDefault();
             request.KindDef = AnimalDef;

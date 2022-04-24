@@ -24,8 +24,12 @@ using SirRandoo.ToolkitUtils.Models;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for drawing a trait editor page in a portable, reusable way.
+    /// </summary>
     public class TraitWorker : ItemWorkerBase<TableWorker<TableSettingsItem<TraitItem>>, TraitItem>
     {
+        /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
         public override void Prepare()
         {
             base.Prepare();

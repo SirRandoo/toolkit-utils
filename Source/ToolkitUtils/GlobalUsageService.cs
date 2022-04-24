@@ -21,6 +21,11 @@ using TwitchToolkit.Incidents;
 
 namespace SirRandoo.ToolkitUtils
 {
+    /// <summary>
+    ///     The main class responsible for cataloguing command and event
+    ///     usage, as well as determining if they're on a cooldown for the
+    ///     given user, or globally.
+    /// </summary>
     public static class GlobalUsageService
     {
         private static readonly UsageWorker<EventItem> EventWorker = new UsageWorker<EventItem>();

@@ -31,6 +31,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog that allows users to configure their item store data.
+    /// </summary>
     [StaticConstructorOnStartup]
     public class StoreDialog : Window
     {
@@ -77,7 +80,10 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.InitialSize"/>
         public override Vector2 InitialSize => new Vector2(900f, Mathf.FloorToInt(UI.screenHeight * 0.9f));
+
+        /// <inheritdoc cref="Window.Margin"/>
         protected override float Margin => 22f;
 
         private void NotifySearchRequested()
@@ -105,6 +111,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.PreOpen"/>
         public override void PreOpen()
         {
             base.PreOpen();
@@ -233,6 +240,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect inRect)
         {
             if (Event.current.type == EventType.Layout)
@@ -379,7 +387,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 ConfirmationDialog.Open("TKUtils.ItemStore.ConfirmReset".TranslateSimple(), PerformGlobalReset);
             }
         }
-        
+
         private void PerformGlobalReset()
         {
             foreach (TableSettingsItem<ThingItem> item in _worker.Data.Where(i => !i.IsHidden))
@@ -395,6 +403,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.WindowUpdate"/>
         public override void WindowUpdate()
         {
             base.WindowUpdate();
@@ -454,12 +463,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             _worker.NotifySortRequested();
         }
 
+        /// <inheritdoc cref="Window.Notify_ResolutionChanged"/>
         public override void Notify_ResolutionChanged()
         {
             base.Notify_ResolutionChanged();
             _shouldResizeTable = true;
         }
 
+        /// <inheritdoc cref="Window.PreClose"/>
         public override void PreClose()
         {
             foreach (ThingItem c in Data.Items.Where(c => c.Item == null && c.Thing != null))
@@ -472,6 +483,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PreClose();
         }
 
+        /// <inheritdoc cref="Window.PostClose"/>
         public override void PostClose()
         {
             Store_ItemEditor.UpdateStoreItemList();
@@ -479,6 +491,10 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.PostClose();
         }
 
+        /// <summary>
+        ///     Returns a set of <see cref="ThingDef"/>s traders may have in
+        ///     their inventory.
+        /// </summary>
         [NotNull]
         public static IEnumerable<ThingDef> GetTradeables()
         {
@@ -517,6 +533,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             return t.defName != "Human";
         }
 
+        /// <inheritdoc cref="Window.OnCancelKeyPressed"/>
         public override void OnCancelKeyPressed()
         {
             if (FilterMenuActive)
@@ -531,6 +548,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.OnCancelKeyPressed();
         }
 
+        /// <inheritdoc cref="Window.OnAcceptKeyPressed"/>
         public override void OnAcceptKeyPressed()
         {
             if (FilterMenuActive)
@@ -558,6 +576,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             _categorySearchTextSize = Text.CalcSize(_categorySearchText);
         }
 
+        /// <summary>
+        ///     Polyfills the <see cref="ThingItem"/> containers to ensure they
+        ///     encompass all of Twitch Toolkit's <see cref="Item"/> dataclasses,
+        ///     as well as any <see cref="ThingDef"/>s that may not have been
+        ///     caught by Twitch Toolkit, i.e. mods that dynamically create items
+        ///     at runtime.
+        /// </summary>
+        /// <returns></returns>
         [ItemNotNull]
         internal static IEnumerable<ThingItem> ValidateContainers()
         {

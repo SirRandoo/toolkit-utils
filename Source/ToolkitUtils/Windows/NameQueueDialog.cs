@@ -28,6 +28,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog for assigning viewers to the pawns that may appear in-game.
+    /// </summary>
     public class NameQueueDialog : Window
     {
         private readonly List<Pawn> _allPawns;
@@ -82,8 +85,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             Notify__CurrentPawnChanged();
         }
 
+        /// <inheritdoc cref="Window.InitialSize"/>
         public override Vector2 InitialSize => new Vector2(500, 450);
-
 
         private void GetTranslations()
         {
@@ -112,6 +115,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _assignedToTextWidth = Text.CalcSize(_assignedToText).x + 16f;
         }
 
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect inRect)
         {
             if (Event.current.type == EventType.Layout)
@@ -545,6 +549,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Notify__CurrentPawnChanged();
         }
 
+        /// <inheritdoc cref="Window.WindowUpdate"/>
         public override void WindowUpdate()
         {
             base.WindowUpdate();
@@ -567,6 +572,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             UpdateLastSeenText();
         }
 
+        /// <inheritdoc cref="Window.PreOpen"/>
         public override void PreOpen()
         {
             base.PreOpen();
@@ -618,6 +624,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window.OnAcceptKeyPressed"/>
         public override void OnAcceptKeyPressed()
         {
             if (GUIUtility.keyboardControl == GUIUtility.GetControlID(FocusType.Keyboard, _usernameFieldPosition))
@@ -632,6 +639,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             base.OnAcceptKeyPressed();
         }
 
+        /// <inheritdoc cref="Window.OnCancelKeyPressed"/>
         public override void OnCancelKeyPressed()
         {
             if (GUIUtility.keyboardControl == GUIUtility.GetControlID(FocusType.Keyboard, _usernameFieldPosition))

@@ -36,6 +36,11 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog for saving and loading partials -- snapshots of the
+    ///     user's store data.
+    /// </summary>
+    /// <typeparam name="T">The type the partial is storing/loading</typeparam>
     public class PartialManager<T> : Window where T : class, IShopItemBase
     {
         private readonly PartialType _filter;
@@ -75,6 +80,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             SetWindowParams();
         }
 
+        /// <inheritdoc cref="Window.InitialSize"/>
         public override Vector2 InitialSize
         {
             get
@@ -121,10 +127,21 @@ namespace SirRandoo.ToolkitUtils.Windows
             return clazz == typeof(TraitItem) ? PartialType.Traits : PartialType.Items;
         }
 
-        [NotNull] public static PartialManager<T> CreateLoadInstance(Action<PartialData<T>> callback) => new PartialManager<T>(callback);
+        /// <summary>
+        ///     Creates a new instance for loading partial data.
+        /// </summary>
+        /// <param name="callback">An action to call when partial data is loaded</param>
+        [NotNull]
+        public static PartialManager<T> CreateLoadInstance(Action<PartialData<T>> callback) => new PartialManager<T>(callback);
 
-        [NotNull] public static PartialManager<T> CreateSaveInstance(Action<PartialUgc> callback) => new PartialManager<T>(callback);
+        /// <summary>
+        ///     Creates a new instance for saving partial data.
+        /// </summary>
+        /// <param name="callback">An action to call when partial data is saved</param>
+        [NotNull]
+        public static PartialManager<T> CreateSaveInstance(Action<PartialUgc> callback) => new PartialManager<T>(callback);
 
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect canvas)
         {
             GUI.BeginGroup(canvas);
@@ -257,12 +274,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             return Path.GetInvalidPathChars().Aggregate(name, (current, c) => current.Replace(c, '_'));
         }
 
+        /// <inheritdoc cref="Window.OnCancelKeyPressed"/>
         public override void OnCancelKeyPressed()
         {
             _cancelled = true;
             base.OnCancelKeyPressed();
         }
 
+        /// <inheritdoc cref="Window.PostOpen"/>
         public override void PostOpen()
         {
             base.PostOpen();
@@ -330,6 +349,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             return container;
         }
 
+        /// <inheritdoc cref="Window.PostClose"/>
         public override void PostClose()
         {
             if (_cancelled)
@@ -356,11 +376,18 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private enum InstanceType { Load, Save }
 
+        /// <summary>
+        ///     A manifest-like dataclass representing the data stored within a
+        ///     partial.
+        /// </summary>
         public class PartialUgc
         {
             private string _description;
             private string _name;
 
+            /// <summary>
+            ///     The name the user gave the partial.
+            /// </summary>
             [NotNull]
             public string Name
             {
@@ -368,8 +395,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                 set => _name = value.NullOrEmpty() ? DefaultFileName : value;
             }
 
+            /// <summary>
+            ///     The type of data this manifest describes.
+            /// </summary>
             public PartialType Type { get; set; }
 
+            /// <summary>
+            ///     The description the user gave the partial.
+            /// </summary>
             public string Description
             {
                 get => _description.NullOrEmpty() ? DefaultDescription : _description;

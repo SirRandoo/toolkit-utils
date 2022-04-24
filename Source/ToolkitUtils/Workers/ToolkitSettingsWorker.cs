@@ -30,7 +30,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
-    public static class ToolkitSettingsWorker
+    internal static class ToolkitSettingsWorker
     {
         private static readonly float LineHeight = Mathf.FloorToInt(Text.SmallFontHeight * 1.25f);
         private static TabWorker _tabWorker;
@@ -86,7 +86,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private static Vector2 _coinsScrollPos = Vector2.zero;
         private static Vector2 _patchesScrollPos = Vector2.zero;
 
-        public static void Draw(Rect region)
+        internal static void Draw(Rect region)
         {
             GUI.BeginGroup(region);
             Rect wikiRect = LayoutHelper.IconRect(region.width - Text.SmallFontHeight, 0f, Text.SmallFontHeight - 4f, Text.SmallFontHeight - 4f);
@@ -476,7 +476,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
                     return;
                 }
-                
+
                 SettingsWindow window = null;
 
                 try
@@ -507,11 +507,11 @@ namespace SirRandoo.ToolkitUtils.Workers
             (Rect listLabel, Rect listField) = listing.Split(0.85f);
             UiHelper.Label(listLabel, "TKUtils.PurchaseList.Label".Localize());
             listing.DrawDescription("TKUtils.PurchaseList.Description".LocalizeKeyed(CommandDefOf.PurchaseList.command));
-            
+
             Rect listHelpBtn = LayoutHelper.IconRect(listField.x + listField.width - listField.height, listField.y, listField.height, listField.height);
             listField = listField.Trim(Direction8Way.East, listHelpBtn.width + 7f);
             ToolkitSettings.CustomPricingSheetLink = Widgets.TextField(listField, ToolkitSettings.CustomPricingSheetLink);
-            
+
             if (Widgets.ButtonText(listHelpBtn, "?", false))
             {
                 Application.OpenURL("https://sirrandoo.github.io/toolkit-utils/itemlist");

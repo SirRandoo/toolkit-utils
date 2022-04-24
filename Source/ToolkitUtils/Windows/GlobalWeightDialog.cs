@@ -25,6 +25,10 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog for editing the event weights Twitch Toolkit's
+    ///     storyteller uses for its polls.
+    /// </summary>
     public class GlobalWeightDialog : Window_GlobalVoteWeights
     {
         private readonly Dictionary<string, string> _bufferCache = new Dictionary<string, string>();
@@ -42,6 +46,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             optionalTitle = "TKUtils.Headers.GlobalWeights".TranslateSimple();
         }
 
+        /// <inheritdoc cref="Window.PostOpen"/>
         public override void PostOpen()
         {
             _nullDictText = "TKUtils.GlobalWeights.Null".TranslateSimple();
@@ -57,6 +62,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
         }
 
+        /// <inheritdoc cref="Window_GlobalVoteWeights.DoWindowContents"/>
         public override void DoWindowContents(Rect region)
         {
             GUI.BeginGroup(region);

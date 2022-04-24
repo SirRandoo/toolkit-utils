@@ -30,6 +30,17 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
+    /// <summary>
+    ///     A <see cref="RimWorld.MainTabWindow"/> used by RimWorld to
+    ///     display an in-game menu, as well as a button, at the bottom of
+    ///     the in-game screen.
+    /// </summary>
+    /// <remarks>
+    ///     This class' responsibility is to cache
+    ///     <see cref="ToolkitCore.Interfaces.IAddonMenu"/>s, as well as
+    ///     displaying any errors raised during command and/or event
+    ///     execution.
+    /// </remarks>
     [UsedImplicitly]
     public class CoreMainTab : MainTabWindow_ToolkitCore
     {

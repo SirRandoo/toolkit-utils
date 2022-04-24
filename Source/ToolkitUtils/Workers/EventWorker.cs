@@ -24,8 +24,12 @@ using SirRandoo.ToolkitUtils.Models;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for drawing an event editor page in a portable way.
+    /// </summary>
     public class EventWorker : ItemWorkerBase<TableWorker<TableSettingsItem<EventItem>>, EventItem>
     {
+        /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
         public override void Prepare()
         {
             base.Prepare();

@@ -20,6 +20,9 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
 {
+    /// <summary>
+    ///     A dialog for drawing <see cref="IEventSettings"/>s.
+    /// </summary>
     public class EventSettingsDialog : Window
     {
         private readonly IEventSettings _settings;
@@ -30,6 +33,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             doCloseButton = true;
         }
 
+        /// <inheritdoc cref="Window.DoWindowContents"/>
         public override void DoWindowContents(Rect region)
         {
             _settings.Draw(region, Text.LineHeight);

@@ -18,16 +18,20 @@ using System;
 using System.Threading.Tasks;
 using RestSharp;
 using ToolkitCore;
-# if !RW12
 using JetBrains.Annotations;
-#endif
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A class for updating the internal Twitch Toolkit viewer list.
+    /// </summary>
     public static class ViewerListWorker
     {
         private static RestClient _client;
 
+        /// <summary>
+        ///     Gets the latest chatters list.
+        /// </summary>
         [ItemCanBeNull]
         public static async Task<string> GetChatters()
         {
