@@ -39,3 +39,4 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("ToolkitUtils.Ideology")]
 [assembly: InternalsVisibleTo("ToolkitUtils.TMagic")]
+[assembly: InternalsVisibleTo("ToolkitUtils.Patches")]
