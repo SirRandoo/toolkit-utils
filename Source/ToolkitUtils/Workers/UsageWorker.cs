@@ -27,21 +27,54 @@ using SirRandoo.ToolkitUtils.Models;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
+    /// <summary>
+    ///     A generic class for managing ratelimited items.
+    /// </summary>
+    /// <typeparam name="T">The item class the records are for</typeparam>
     public class UsageWorker<T> where T : class, IUsageItemBase
     {
-        private readonly Dictionary<string, UsageRecord<T>> _data = new Dictionary<string, UsageRecord<T>>();
+        private readonly Dictionary<string, UsageRecord<T>> _records = new Dictionary<string, UsageRecord<T>>();
 
-        public void RecordUsage([NotNull] T item)
+        private UsageRecord<T> GetRecord([NotNull] T item)
         {
-            if (_data.TryGetValue(item.DefName, out UsageRecord<T> record))
+            if (!_records.TryGetValue(item.DefName, out UsageRecord<T> record))
             {
-                record.LogUsage();
-
-                return;
+                _records[item.DefName] = record = new UsageRecord<T> { Item = item };
             }
 
-            UsageRecord<T> usageRecord = _data[item.DefName] = new UsageRecord<T> { DefName = item.DefName, Item = item };
-            usageRecord.LogUsage();
+            return record;
+        }
+
+        /// <summary>
+        ///     Whether the given item is on a global cooldown.
+        /// </summary>
+        /// <param name="item">The item to check</param>
+        public bool IsOnCooldown([NotNull] T item) => _records.TryGetValue(item.DefName, out UsageRecord<T> record) && record.IsOnCooldown();
+
+        /// <summary>
+        ///     Whether the given item is on cooldown for the user.
+        /// </summary>
+        /// <param name="item">The item to check</param>
+        /// <param name="user">The user to check</param>
+        public bool IsOnCooldown([NotNull] T item, string user) => _records.TryGetValue(item.DefName, out UsageRecord<T> record) && record.IsOnCooldown(user);
+
+        /// <summary>
+        ///     Records a usage for the given item.
+        /// </summary>
+        /// <param name="item">The item to record a usage for</param>
+        public void RecordUsage([NotNull] T item)
+        {
+            GetRecord(item).RecordUsage();
+        }
+
+        /// <summary>
+        ///     Records a usage for the given user on the given item.
+        /// </summary>
+        /// <param name="item">The item to record a usage for</param>
+        /// <param name="user">The user to record a usage for</param>
+        public void RecordUsage([NotNull] T item, string user)
+        {
+            GetRecord(item).RecordUsage(user);
         }
     }
 }

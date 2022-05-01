@@ -37,6 +37,13 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
+            CommandItem item = Data.Commands.Find(c => string.Equals(c.DefName, command.defName));
+
+            if (item != null && UsageService.IsOnCooldown(item, message.Username))
+            {
+                return;
+            }
+
             RuntimeChecker.Execute(
                 $"{command.command}[{message.Message}]",
                 delegate
@@ -70,6 +77,11 @@ namespace SirRandoo.ToolkitUtils.Helpers
                     finally
                     {
                         TkSettings.Emojis = emojis;
+
+                        if (item != null)
+                        {
+                            UsageService.RecordUsage(item, message.Username);
+                        }
                     }
                 }
             );
