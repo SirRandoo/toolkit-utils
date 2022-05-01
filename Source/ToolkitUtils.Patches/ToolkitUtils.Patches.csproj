@@ -1,9 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>
-        <RootNamespace>SirRandoo.ToolkitUtils.Harmony</RootNamespace>
+        <TargetFramework>net472</TargetFramework>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <RootNamespace>SirRandoo.ToolkitUtils.Harmony</RootNamespace>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <OutputPath>..\..\$(RimWorldVersion)\Assemblies</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <OutputPath>..\..\$(RimWorldVersion)\Assemblies\</OutputPath>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj"/>
