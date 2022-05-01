@@ -22,7 +22,7 @@
     <!-- Groups -->
     <TKUtils.General.Label>General</TKUtils.General.Label>
     <TKUtils.General.Tooltip>A general dumping ground for settings that don't fit into other setting categories. You'll generally find settings for features that change how you and viewers see various Twitch Toolkit related things, like a pawn's hair color or emojis for chat messages.</TKUtils.General.Tooltip>
-    
+
     <TKUtils.General.Emojis>Emojis</TKUtils.General.Emojis>
     <TKUtils.General.Viewer>Viewer Pawn Tweaks</TKUtils.General.Viewer>
     <TKUtils.General.Gateway>Toolkit Gateway</TKUtils.General.Gateway>
@@ -30,13 +30,13 @@
 
     <TKUtils.Data.Label>Data</TKUtils.Data.Label>
     <TKUtils.Data.Tooltip>Settings in this category affect how the mod reads, writes, and processes the various data required to run the mod.</TKUtils.Data.Tooltip>
-    
+
     <TKUtils.Data.LazyProcess>Item Store Processing</TKUtils.Data.LazyProcess>
     <TKUtils.Data.Files>Toolkit Data</TKUtils.Data.Files>
 
     <TKUtils.CommandTweaks.Label>Command Tweaks</TKUtils.CommandTweaks.Label>
     <TKUtils.CommandTweaks.Tooltip>Settings in this category affect how the mod processes chat commands. Here you can change what the bot looks for command wise, adjust the responses for certain commands, and even change how commands are handled internally.</TKUtils.CommandTweaks.Tooltip>
-    
+
     <TKUtils.CommandTweaks.Balance>Balance Command</TKUtils.CommandTweaks.Balance>
     <TKUtils.CommandTweaks.Handler>Commands Handler</TKUtils.CommandTweaks.Handler>
     <TKUtils.CommandTweaks.InstalledMods>Installed Mods Command</TKUtils.CommandTweaks.InstalledMods>
@@ -46,7 +46,7 @@
 
     <TKUtils.PawnCommands.Label>Pawn Commands</TKUtils.PawnCommands.Label>
     <TKUtils.PawnCommands.Tooltip>Settings in this category change how the pawn related commands function internally, as well as adjust the responses for the respective commands.</TKUtils.PawnCommands.Tooltip>
-    
+
     <TKUtils.PawnCommands.Abandon>Leave Command</TKUtils.PawnCommands.Abandon>
     <TKUtils.PawnCommands.Gear>Pawn Gear Command</TKUtils.PawnCommands.Gear>
     <TKUtils.PawnCommands.Health>Pawn Health Command</TKUtils.PawnCommands.Health>

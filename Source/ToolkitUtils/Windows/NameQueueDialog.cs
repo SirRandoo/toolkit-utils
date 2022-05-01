@@ -29,7 +29,8 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Windows
 {
     /// <summary>
-    ///     A dialog for assigning viewers to the pawns that may appear in-game.
+    ///     A dialog for assigning viewers to the pawns that may appear
+    ///     in-game.
     /// </summary>
     public class NameQueueDialog : Window
     {

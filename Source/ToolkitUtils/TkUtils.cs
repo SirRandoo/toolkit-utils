@@ -31,7 +31,9 @@ using Verse;
 namespace SirRandoo.ToolkitUtils
 {
     /// <summary>
-    ///     The mod class for the mod.
+    ///     A <see cref="ModPlus"/> implementation that outlines the core mod
+    ///     class for ToolkitUtils. This class is created and stored by
+    ///     RimWorld itself.
     /// </summary>
     [UsedImplicitly]
     public class TkUtils : ModPlus
@@ -56,11 +58,13 @@ namespace SirRandoo.ToolkitUtils
         internal static SynchronizationContext Context { get; set; }
         internal static IRimLogger Logger { get; private set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ModPlus.SettingsWindow"/>
         [NotNull]
         protected override ProxySettingsWindow SettingsWindow => new UtilsSettingsWindow();
 
-        [NotNull] public override string SettingsCategory() => Content.Name;
+        /// <inheritdoc cref="Mod.SettingsCategory"/>
+        [NotNull]
+        public override string SettingsCategory() => Content.Name;
 
         internal static void HandleException([NotNull] Exception exception, [CanBeNull] string reporter = null)
         {

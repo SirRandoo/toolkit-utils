@@ -42,11 +42,13 @@ namespace SirRandoo.ToolkitUtils
         {
         }
 
+        /// <inheritdoc cref="GameComponent.LoadedGame"/>
         public override void LoadedGame()
         {
             CommandQueue.Clear();
         }
 
+        /// <inheritdoc cref="GameComponent.GameComponentUpdate"/>
         public override void GameComponentUpdate()
         {
             ProcessCommands();

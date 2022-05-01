@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Harmony

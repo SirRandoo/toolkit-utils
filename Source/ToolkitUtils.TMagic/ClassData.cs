@@ -730,9 +730,9 @@ namespace SirRandoo.ToolkitUtils
         {
             if (BaseClassPowers == null)
             {
-                return null;
+                return new List<Ability>();
             }
-            
+
             return !BaseClassPowers.TryGetValue(trait, out List<Ability> powers) ? null : powers;
         }
 

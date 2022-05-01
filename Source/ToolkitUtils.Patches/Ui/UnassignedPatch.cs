@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.Is(OpCodes.Ldfld ,_viewerComponentField))
+                if (instruction.Is(OpCodes.Ldfld, _viewerComponentField))
                 {
                     componentFound = true;
                 }

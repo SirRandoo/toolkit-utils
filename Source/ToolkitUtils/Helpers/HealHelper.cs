@@ -91,8 +91,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             foreach (Hediff_MissingPart missing in pawn.health.hediffSet.GetMissingPartsCommonAncestors())
             {
                 if (missing.Part.coverageAbsWithChildren >= minCoverage && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(missing.Part)
-                    && (record == null || missing.Part.coverageAbsWithChildren > record.coverageAbsWithChildren)
-                    && CompatRegistry.IsHealable(missing))
+                    && (record == null || missing.Part.coverageAbsWithChildren > record.coverageAbsWithChildren) && CompatRegistry.IsHealable(missing))
                 {
                     record = missing.Part;
                 }

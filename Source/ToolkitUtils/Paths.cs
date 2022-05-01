@@ -21,7 +21,8 @@ using TwitchToolkit.Utilities;
 namespace SirRandoo.ToolkitUtils
 {
     /// <summary>
-    ///     A class containing the various file paths used throughout the mod for storing and loading data.
+    ///     A class containing the various file paths used throughout the mod
+    ///     for storing and loading data.
     /// </summary>
     public static class Paths
     {

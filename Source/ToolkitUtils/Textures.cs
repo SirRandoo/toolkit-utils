@@ -68,25 +68,23 @@ namespace SirRandoo.ToolkitUtils
         internal static readonly Texture2D PasteSettings = ContentFinder<Texture2D>.Get("UI/Commands/PasteSettings");
         internal static readonly Texture2D CloseGateway = ContentFinder<Texture2D>.Get("UI/Icons/CloseGateway");
         internal static readonly Texture2D Snowman = ContentFinder<Texture2D>.Get("Things/Building/Art/Snowman/Snowman_D");
-        internal static readonly Texture2D HumanMeat;
+        internal static readonly Texture2D HumanMeat = GetHumanMeatTexture();
         internal static readonly Texture2D Info = ContentFinder<Texture2D>.Get("UI/Icons/Info");
         internal static readonly Texture2D Warning = ContentFinder<Texture2D>.Get("UI/Icons/Warning");
         internal static readonly Texture2D Debug = ContentFinder<Texture2D>.Get("UI/Icons/Debug");
         internal static readonly Texture2D UtilsEdition = ContentFinder<Texture2D>.Get("UI/Icons/UtilsEdition");
         internal static readonly Texture2D StandardEdition = ContentFinder<Texture2D>.Get("UI/Icons/StandardEdition");
 
-        static Textures()
+        private static Texture2D GetHumanMeatTexture()
         {
             ThingDef humanMeat = DefDatabase<ThingDef>.GetNamed("Meat_Human");
 
             if (humanMeat.graphic is Graphic_Appearances graphic)
             {
-                HumanMeat = graphic.SubGraphicFor(GenStuff.DefaultStuffFor(humanMeat)).MatAt(humanMeat.defaultPlacingRot).GetMaskTexture();
+                return graphic.SubGraphicFor(GenStuff.DefaultStuffFor(humanMeat)).MatAt(humanMeat.defaultPlacingRot).GetMaskTexture();
             }
-            else
-            {
-                HumanMeat = humanMeat.uiIcon;
-            }
+
+            return humanMeat.uiIcon;
         }
     }
 }

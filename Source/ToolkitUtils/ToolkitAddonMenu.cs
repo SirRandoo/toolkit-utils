@@ -31,8 +31,8 @@ using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 namespace SirRandoo.ToolkitUtils
 {
     /// <summary>
-    ///     An <see cref="IAddonMenu"/> used by ToolkitCore to display a set
-    ///     of "quick menu options" for users.
+    ///     A <see cref="IAddonMenu"/> implementation full of quick menu
+    ///     options for Twitch Toolkit related content.
     /// </summary>
     [UsedImplicitly]
     public class ToolkitAddonMenu : IAddonMenu
@@ -78,6 +78,7 @@ namespace SirRandoo.ToolkitUtils
             new FloatMenuOption("TKUtils.AddonMenu.EditTraitLimit".TranslateSimple(), OpenTraitSettings)
         };
 
+        /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
         public List<FloatMenuOption> MenuOptions() => Options;
 
 

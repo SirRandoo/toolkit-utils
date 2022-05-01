@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2021 SirRandoo
+// Copyright (c) 2022 SirRandoo
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using SirRandoo.ToolkitUtils.Models;
+#if !DEBUG
 
-namespace SirRandoo.ToolkitUtils.Workers
+using System;
+using JetBrains.Annotations;
+
+namespace SirRandoo.ToolkitUtils
 {
-    /// <summary>
-    ///     A class for drawing an editor page for pawn kinds in a portable
-    ///     way.
-    /// </summary>
-    public class PawnWorker : ItemWorkerBase<TableWorker<TableSettingsItem<PawnKindItem>>, PawnKindItem>
+    internal partial class RuntimeChecker
     {
-        /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
-        public override void Prepare()
+        internal static void Execute(string command, [NotNull] Action func)
         {
-            base.Prepare();
-            Worker = new PawnTableWorker();
-            Worker.Prepare();
-
-            DiscoverMutators(DomainIndexer.EditorTarget.Any);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Any);
-            DiscoverMutators(DomainIndexer.EditorTarget.Pawn);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Pawn);
+            func();
         }
     }
 }
+
+#endif

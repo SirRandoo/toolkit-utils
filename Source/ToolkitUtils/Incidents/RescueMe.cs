@@ -80,7 +80,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 component.pawnHistory.Remove(Viewer.username.ToLower());
             }
-            
+
             ViewerRescue.QueuedViewers.Enqueue(_report);
             QuestUtility.SendLetterQuestAvailable(QuestUtility.GenerateQuestAndMakeAvailable(scriptDef, threatPoints));
             Viewer.Charge(storeIncident);
@@ -104,6 +104,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (rescuer == null)
             {
                 TkUtils.Logger.Warn("Could not set prisoner's rescuer.");
+
                 return;
             }
 

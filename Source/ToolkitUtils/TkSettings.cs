@@ -14,106 +14,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
-using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
 {
     /// <summary>
-    ///     The various methods a pawn can leave the colony if a viewer uses
-    ///     the "leave" command.
-    /// </summary>
-    public enum LeaveMethod
-    {
-        /// <summary>
-        ///     If the current active leave method, the pawn will turn into a
-        ///     pile of ash when a viewer users the "leave" command.
-        /// </summary>
-        Thanos,
-
-        /// <summary>
-        ///     If the current active leave method, the pawn will leave the
-        ///     colony by having their faction unassigned to them.
-        /// </summary>
-        /// <remarks>
-        ///     This leave method's name does not actually apply a mental break
-        ///     anymore. This was done to try to prevent users from recapturing
-        ///     pawns that their assigned viewer would otherwise not want.
-        /// </remarks>
-        MentalBreak
-    }
-
-    /// <summary>
-    ///     The various dump styles supported by the mod.
-    /// </summary>
-    public enum DumpStyle
-    {
-        /// <summary>
-        ///     If the current active dump style, the mod's shop data will be
-        ///     written to a single file called "ShopExt".
-        /// </summary>
-        SingleFile,
-
-        /// <summary>
-        ///     If the current active dump style, the mod's shop data will be
-        ///     written to multiple separate files for each shop "category".
-        /// </summary>
-        MultiFile
-    }
-
-    /// <summary>
-    ///     The various coin types a broadcaster can be within the mod.
-    /// </summary>
-    public enum UserCoinType
-    {
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     receive every bonus and coin rate available through Twitch
-        ///     Toolkit.
-        /// </summary>
-        Broadcaster,
-
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     receive only the subscriber bonus and coin rate available in
-        ///     Twitch Toolkit.
-        /// </summary>
-        Subscriber,
-
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     receive only the vip bonus and coin rate available in Twitch
-        ///     Toolkit.
-        /// </summary>
-        Vip,
-
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     receive only the moderator bonus and coin rate available in
-        ///     Twitch Toolkit.
-        /// </summary>
-        Moderator,
-
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     not receive any bonus or coin rate available through Twitch
-        ///     Toolkit.
-        /// </summary>
-        None
-    }
-
-    /// <summary>
     ///     A class for housing the various settings within the mod.
     /// </summary>
     [StaticConstructorOnStartup]
+    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
     public class TkSettings : ModSettings
     {
         /// <summary>
@@ -433,8 +347,25 @@ namespace SirRandoo.ToolkitUtils
         private static WorkTypeDef[] _workTypeDefs = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToArray();
 
         private static Vector2 _workScrollPos = Vector2.zero;
+
+        /// <summary>
+        ///     Whether the mod's easter eggs can occur. Disabling this removes
+        ///     the random rats that spawn from the gateway, as well as disable
+        ///     user-specific easter eggs.
+        /// </summary>
         public static bool EasterEggs = true;
+
+        /// <summary>
+        ///     Whether the mod's command router is enabled. The mod's command
+        ///     router is responsible for executing commands on threads separate
+        ///     from TwitchLib's.
+        /// </summary>
         public static bool CommandRouter = true;
+
+        /// <summary>
+        ///     Whether commands and events that accept custom colors can accept
+        ///     a transparency value.
+        /// </summary>
         public static bool TransparentColors;
 
         [UsedImplicitly]
@@ -541,13 +472,23 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        public class WorkSetting : IExposable
+        /// <summary>
+        ///     A mini class for holding specific work settings. Said settings
+        ///     are used by the !mypawnwork command to filter out work types from
+        ///     its response.
+        /// </summary>
+        public sealed class WorkSetting : IExposable
         {
-            // ReSharper disable once StringLiteralTypo
-            [Description("Whether or not the work priority will be shown in !mypawnwork")]
+            /// <summary>
+            ///     Whether the work priority will be shown in the !mypawnwork
+            ///     command.
+            /// </summary>
             public bool Enabled;
 
-            [Description("The def name of the work type instance.")] public string WorkTypeDef;
+            /// <summary>
+            ///     The def name of the work type instance.
+            /// </summary>
+            public string WorkTypeDef;
 
             public void ExposeData()
             {

@@ -33,7 +33,10 @@ namespace SirRandoo.ToolkitUtils.Workers
     ///     A portable way of drawing an editor page for a given shop group.
     /// </summary>
     /// <typeparam name="T">The internal table worker for the editor page</typeparam>
-    /// <typeparam name="TU">The <see cref="IShopItemBase"/> the editor is for</typeparam>
+    /// <typeparam name="TU">
+    ///     The <see cref="IShopItemBase"/> the editor is
+    ///     for
+    /// </typeparam>
     public abstract class ItemWorkerBase<T, TU> where T : TableWorker<TableSettingsItem<TU>> where TU : class, IShopItemBase
     {
         private string _addMutatorText;

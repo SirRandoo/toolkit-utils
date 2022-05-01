@@ -223,7 +223,10 @@ namespace SirRandoo.ToolkitUtils.Workers
         /// <summary>
         ///     Draws the given <see cref="ThingItem"/> at the given region.
         /// </summary>
-        /// <param name="region">The region to draw the <see cref="ThingItem"/> in</param>
+        /// <param name="region">
+        ///     The region to draw the <see cref="ThingItem"/>
+        ///     in
+        /// </param>
         /// <param name="item">The <see cref="ThingItem"/> to draw</param>
         protected virtual void DrawItem(Rect region, [NotNull] TableSettingsItem<ThingItem> item)
         {

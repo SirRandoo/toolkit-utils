@@ -108,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     mustBeCapableOfViolence: true,
                     fixedIdeo: Find.FactionManager.OfPlayer.ideos.GetRandomIdeoForNewPawn()
                 );
-                
+
                 Pawn pawn = PawnGenerator.GeneratePawn(request);
 
                 if (!(pawn.Name is NameTriple name))

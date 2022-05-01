@@ -52,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         /// <inheritdoc cref="Window.InitialSize"/>
         public override Vector2 InitialSize => new Vector2(900f, UI.screenHeight * 0.9f);
-        
+
         /// <inheritdoc cref="Window.Margin"/>
         protected override float Margin => 22f;
 
@@ -119,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 ConfirmationDialog.Open("TKUtils.TraitStore.ConfirmReset".TranslateSimple(), PerformGlobalReset);
             }
         }
-        
+
         private void PerformGlobalReset()
         {
             foreach (TableSettingsItem<TraitItem> trait in _worker.Data.Where(i => !i.IsHidden))
@@ -171,20 +171,20 @@ namespace SirRandoo.ToolkitUtils.Windows
         }
 
         /// <inheritdoc cref="Window.DoWindowContents"/>
-        public override void DoWindowContents(Rect canvas)
+        public override void DoWindowContents(Rect inRect)
         {
             if (Event.current.type == EventType.Layout)
             {
                 return;
             }
 
-            GUI.BeginGroup(canvas);
+            GUI.BeginGroup(inRect);
 
-            var headerRect = new Rect(0f, 0f, canvas.width, Text.LineHeight * 2f);
-            var contentArea = new Rect(canvas.x, Text.LineHeight * 4f, canvas.width, canvas.height - Text.LineHeight * 4f);
+            var headerRect = new Rect(0f, 0f, inRect.width, Text.LineHeight * 2f);
+            var contentArea = new Rect(inRect.x, Text.LineHeight * 4f, inRect.width, inRect.height - Text.LineHeight * 4f);
 
             DrawHeader(headerRect);
-            Widgets.DrawLineHorizontal(canvas.x, Text.LineHeight * 3f, canvas.width);
+            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 3f, inRect.width);
 
             bool wrapped = Text.WordWrap;
             Text.WordWrap = false;

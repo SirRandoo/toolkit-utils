@@ -24,8 +24,8 @@ using Verse;
 namespace SirRandoo.ToolkitUtils
 {
     /// <summary>
-    ///     An <see cref="IAddonMenu"/> used by ToolkitCore to display a set
-    ///     of "quick menu options" for users.
+    ///     A <see cref="IAddonMenu"/> full of quick menu options for Utils
+    ///     related content.
     /// </summary>
     [UsedImplicitly]
     public class UtilsAddonMenu : IAddonMenu
@@ -40,6 +40,7 @@ namespace SirRandoo.ToolkitUtils
             new FloatMenuOption("Wiki".TranslateSimple(), () => Application.OpenURL("https://sirrandoo.github.io/toolkit-utils"))
         };
 
+        /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
         public List<FloatMenuOption> MenuOptions() => Options;
     }
 }

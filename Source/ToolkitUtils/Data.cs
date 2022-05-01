@@ -101,47 +101,55 @@ namespace SirRandoo.ToolkitUtils
         ///     The traits available for purchase within the mod's store.
         /// </summary>
         public static List<TraitItem> Traits { get; private set; }
-        
+
         /// <summary>
         ///     The pawns available for purchase within the mod's store.
         /// </summary>
         public static List<PawnKindItem> PawnKinds { get; private set; }
-        
+
         /// <summary>
         ///     The associated data for items within Twitch Toolkit.
         /// </summary>
         /// <remarks>
-        ///     Item data serves as a means of including additional data with every item in a way Utils can manage independently of Twitch Toolkit.
+        ///     Item data serves as a means of including additional data with
+        ///     every item in a way Utils can manage independently of Twitch
+        ///     Toolkit.
         /// </remarks>
         public static Dictionary<string, ItemData> ItemData { get; private set; }
-        
+
         /// <summary>
-        ///     The various mods loaded within the game, as well as their accompanying data.
+        ///     The various mods loaded within the game, as well as their
+        ///     accompanying data.
         /// </summary>
         public static ModItem[] Mods { get; private set; }
-        
+
         /// <summary>
-        ///     A list of encapsulated <see cref="Item"/>s with Utils data attached to them.
+        ///     A list of encapsulated <see cref="Item"/>s with Utils data
+        ///     attached to them.
         /// </summary>
         public static List<ThingItem> Items { get; set; }
-        
+
         /// <summary>
-        ///     The various surgeries available for purchase through the mod's surgery store.
+        ///     The various surgeries available for purchase through the mod's
+        ///     surgery store.
         /// </summary>
         public static List<SurgeryItem> Surgeries { get; private set; }
-        
+
         /// <summary>
-        ///     A list of encapsulated <see cref="StoreIncident"/>s with Utils data attached to them.
+        ///     A list of encapsulated <see cref="StoreIncident"/>s with Utils
+        ///     data attached to them.
         /// </summary>
         public static List<EventItem> Events { get; private set; }
-        
+
         /// <summary>
-        ///     The various commands loaded within the game, as well as their accompanying data.
+        ///     The various commands loaded within the game, as well as their
+        ///     accompanying data.
         /// </summary>
         public static List<CommandItem> Commands { get; private set; }
 
         /// <summary>
-        ///     The currently active health reports raised from internal processes within the mod.
+        ///     The currently active health reports raised from internal
+        ///     processes within the mod.
         /// </summary>
         public static IEnumerable<HealthReport> AllHealthReports => HealthReports;
 
@@ -884,7 +892,7 @@ namespace SirRandoo.ToolkitUtils
         {
             SaveJson(new ShopLegacy { Races = PawnKinds, Traits = Traits }, path);
         }
-        
+
         /// <summary>
         ///     Saves shop data to the given file in the legacy format.
         /// </summary>
@@ -985,7 +993,10 @@ namespace SirRandoo.ToolkitUtils
         ///     Attempts to get a trait from the input passed.
         /// </summary>
         /// <param name="input">The input to check against</param>
-        /// <param name="trait">The <see cref="TraitItem"/> found from the given input</param>
+        /// <param name="trait">
+        ///     The <see cref="TraitItem"/> found from the given
+        ///     input
+        /// </param>
         /// <returns>Whether a trait was found from the given input</returns>
         [ContractAnnotation("input:notnull => true,trait:notnull; input:notnull => false,trait:null")]
         public static bool TryGetTrait(string input, out TraitItem trait)
@@ -1008,8 +1019,14 @@ namespace SirRandoo.ToolkitUtils
         ///     Attempts to get a pawn from the input passed.
         /// </summary>
         /// <param name="input">The input to check against</param>
-        /// <param name="kind">The <see cref="PawnKindItem"/> found from the given input</param>
-        /// <param name="defName">Whether the method should compare the input to the trait's def name instead</param>
+        /// <param name="kind">
+        ///     The <see cref="PawnKindItem"/> found from the
+        ///     given input
+        /// </param>
+        /// <param name="defName">
+        ///     Whether the method should compare the input to
+        ///     the trait's def name instead
+        /// </param>
         /// <returns>Whether a pawn was found from the given input</returns>
         [ContractAnnotation("input:notnull => true,kind:notnull; input:notnull => false,kind:null")]
         public static bool TryGetPawnKind(string input, out PawnKindItem kind, bool defName = false)

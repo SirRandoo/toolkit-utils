@@ -87,12 +87,13 @@ namespace SirRandoo.ToolkitUtils
             Mutators = mutators.ToArray();
             Selectors = selectors.ToArray();
         }
-        
+
         private static void ProcessAssembly([NotNull] Assembly assembly, ICollection<MutatorEntry> mutators, ICollection<SelectorEntry> selectors)
         {
             foreach (Type type in assembly.GetTypes())
             {
-                if (type.IsInterface || type.IsAbstract || type.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), true) || FilteredNamespaceRoots.Any(r => type.Namespace?.StartsWith(r) == true))
+                if (type.IsInterface || type.IsAbstract || type.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), true)
+                    || FilteredNamespaceRoots.Any(r => type.Namespace?.StartsWith(r) == true))
                 {
                     continue;
                 }
@@ -109,6 +110,7 @@ namespace SirRandoo.ToolkitUtils
                 }
             }
         }
+
         private static void ProcessType([NotNull] Type type, ICollection<MutatorEntry> mutators, ICollection<SelectorEntry> selectors)
         {
             bool isGeneric = type.IsGenericType || type.GetInterfaces().Any(i => i.IsGenericType);

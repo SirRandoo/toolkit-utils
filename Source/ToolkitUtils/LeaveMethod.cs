@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2021 SirRandoo
+// Copyright (c) 2022 SirRandoo
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using SirRandoo.ToolkitUtils.Models;
-
-namespace SirRandoo.ToolkitUtils.Workers
+namespace SirRandoo.ToolkitUtils
 {
     /// <summary>
-    ///     A class for drawing an editor page for pawn kinds in a portable
-    ///     way.
+    ///     The various methods a pawn can leave the colony if a viewer uses
+    ///     the "leave" command.
     /// </summary>
-    public class PawnWorker : ItemWorkerBase<TableWorker<TableSettingsItem<PawnKindItem>>, PawnKindItem>
+    public enum LeaveMethod
     {
-        /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
-        public override void Prepare()
-        {
-            base.Prepare();
-            Worker = new PawnTableWorker();
-            Worker.Prepare();
+        /// <summary>
+        ///     If the current active leave method, the pawn will turn into a
+        ///     pile of ash when a viewer users the "leave" command.
+        /// </summary>
+        Thanos,
 
-            DiscoverMutators(DomainIndexer.EditorTarget.Any);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Any);
-            DiscoverMutators(DomainIndexer.EditorTarget.Pawn);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Pawn);
-        }
+        /// <summary>
+        ///     If the current active leave method, the pawn will leave the
+        ///     colony by having their faction unassigned to them.
+        /// </summary>
+        /// <remarks>
+        ///     This leave method's name does not actually apply a mental break
+        ///     anymore. This was done to try to prevent users from recapturing
+        ///     pawns that their assigned viewer would otherwise not want.
+        /// </remarks>
+        MentalBreak
     }
 }

@@ -27,14 +27,15 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Windows
 {
     /// <summary>
-    ///     A dialog for drawing Utils' settings in a stateful, consistent way.
+    ///     A dialog for drawing Utils' settings in a stateful, consistent
+    ///     way.
     /// </summary>
     public class UtilsSettingsWindow : ProxySettingsWindow
     {
         private const uint VisualExceptionsModId = 2538411704;
         private const int MagicModId = 1201382956;
         private const int HarModId = 839005762;
-        
+
         private readonly TabWorker _tabWorker;
         private string _asapPurchasesDescription;
         private string _asapPurchasesLabel;
@@ -251,7 +252,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(tabPanelRect);
             _tabWorker.SelectedTab?.Draw(tabPanelRect.AtZero());
             GUI.EndGroup();
-            
+
             GUI.EndGroup();
         }
 

@@ -31,21 +31,21 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class CoreWorkerTab : MainButtonWorker_ToggleTab
     {
-        public override void DoButton(Rect region)
+        public override void DoButton(Rect rect)
         {
-            base.DoButton(region);
+            base.DoButton(rect);
 
             Rect iconRect;
 
             if (def.Icon == null)
             {
-                iconRect = new Rect(region.x + region.width - 20f, region.y + 3f, 16f, 16f);
+                iconRect = new Rect(rect.x + rect.width - 20f, rect.y + 3f, 16f, 16f);
             }
             else
             {
-                Vector2 center = region.center;
+                Vector2 center = rect.center;
 
-                bool isOver = Mouse.IsOver(region);
+                bool isOver = Mouse.IsOver(rect);
                 iconRect = new Rect(center.x + (isOver ? 6f : 4f), center.y - (isOver ? 14f : 12f), 16f, 16f);
             }
 

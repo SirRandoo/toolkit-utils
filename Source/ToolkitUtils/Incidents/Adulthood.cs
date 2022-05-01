@@ -59,7 +59,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Find.LetterStack.ReceiveLetter(
                 "TKUtils.BackstoryLetter.Title".Localize(),
-                "TKUtils.BackstoryLetter.AdulthoodDescription".LocalizeKeyed(Viewer.username, previous?.TitleCapFor(_pawn.gender).ToStringSafe(), _backstory.TitleCapFor(_pawn.gender)),
+                "TKUtils.BackstoryLetter.AdulthoodDescription".LocalizeKeyed(
+                    Viewer.username,
+                    previous?.TitleCapFor(_pawn.gender).ToStringSafe(),
+                    _backstory.TitleCapFor(_pawn.gender)
+                ),
                 LetterDefOf.NeutralEvent,
                 _pawn
             );

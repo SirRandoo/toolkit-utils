@@ -25,10 +25,6 @@ using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
-#if DEBUG
-using System.Diagnostics;
-
-#endif
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -43,7 +39,7 @@ namespace SirRandoo.ToolkitUtils
     /// </remarks>
     [UsedImplicitly]
     [StaticConstructorOnStartup]
-    public static class RuntimeChecker
+    internal static partial class RuntimeChecker
     {
         static RuntimeChecker()
         {
@@ -112,21 +108,6 @@ namespace SirRandoo.ToolkitUtils
             ticker.timer?.Change(0, 0);
             ticker.Discard(true);
             tickerField.SetValue(Toolkit.Mod, null);
-        }
-
-        internal static void Execute(string command, [NotNull] Action func)
-        {
-        #if DEBUG
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-        #endif
-
-            func();
-
-        #if DEBUG
-            stopwatch.Stop();
-            TkUtils.Logger.Debug($"Command {command} finished in {stopwatch.ElapsedMilliseconds:0.000}ms");
-        #endif
         }
     }
 }

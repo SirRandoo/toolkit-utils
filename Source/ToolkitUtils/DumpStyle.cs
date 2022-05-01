@@ -1,6 +1,6 @@
 ﻿// MIT License
 // 
-// Copyright (c) 2021 SirRandoo
+// Copyright (c) 2022 SirRandoo
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using SirRandoo.ToolkitUtils.Models;
-
-namespace SirRandoo.ToolkitUtils.Workers
+namespace SirRandoo.ToolkitUtils
 {
     /// <summary>
-    ///     A class for drawing an editor page for pawn kinds in a portable
-    ///     way.
+    ///     The various dump styles supported by the mod.
     /// </summary>
-    public class PawnWorker : ItemWorkerBase<TableWorker<TableSettingsItem<PawnKindItem>>, PawnKindItem>
+    public enum DumpStyle
     {
-        /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
-        public override void Prepare()
-        {
-            base.Prepare();
-            Worker = new PawnTableWorker();
-            Worker.Prepare();
+        /// <summary>
+        ///     If the current active dump style, the mod's shop data will be
+        ///     written to a single file called "ShopExt".
+        /// </summary>
+        SingleFile,
 
-            DiscoverMutators(DomainIndexer.EditorTarget.Any);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Any);
-            DiscoverMutators(DomainIndexer.EditorTarget.Pawn);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Pawn);
-        }
+        /// <summary>
+        ///     If the current active dump style, the mod's shop data will be
+        ///     written to multiple separate files for each shop "category".
+        /// </summary>
+        MultiFile
     }
 }

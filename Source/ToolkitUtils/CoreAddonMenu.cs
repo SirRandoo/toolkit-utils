@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
-using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore;
 using ToolkitCore.Interfaces;
 using ToolkitCore.Windows;
@@ -37,8 +36,8 @@ namespace SirRandoo.ToolkitUtils
     {
         private static readonly List<FloatMenuOption> BaseOptions = new List<FloatMenuOption>
         {
-            new FloatMenuOption("TKUtils.AddonMenu.Settings".Localize(), () => LoadedModManager.GetMod<ToolkitCore.ToolkitCore>().OpenSettings()),
-            new FloatMenuOption("Message Log".Localize(), () => Find.WindowStack.Add(new Window_MessageLog())),
+            new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => LoadedModManager.GetMod<ToolkitCore.ToolkitCore>().OpenSettings()),
+            new FloatMenuOption("Message Log", () => Find.WindowStack.Add(new Window_MessageLog())),
             new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki"))
         };
         private static readonly List<FloatMenuOption> DisconnectedOptions = new List<FloatMenuOption>(BaseOptions)
@@ -68,6 +67,7 @@ namespace SirRandoo.ToolkitUtils
             new FloatMenuOption("TKUtils.AddonMenu.Disconnect".TranslateSimple(), () => Task.Run(() => TwitchWrapper.Client.Disconnect()))
         };
 
+        /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
         public List<FloatMenuOption> MenuOptions() => TwitchWrapper.Client?.IsConnected == true ? ConnectedOptions : DisconnectedOptions;
     }
 }

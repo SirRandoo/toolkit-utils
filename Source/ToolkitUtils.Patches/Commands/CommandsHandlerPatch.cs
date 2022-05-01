@@ -22,7 +22,6 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
@@ -46,7 +45,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             {
                 return !TkSettings.Commands;
             }
-            
+
             Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
             viewer.last_seen = DateTime.Now;
 

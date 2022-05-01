@@ -158,6 +158,7 @@ namespace SirRandoo.ToolkitUtils
             _pendingSolvent.Enqueue(username);
         }
 
+        /// <inheritdoc cref="GameComponent.GameComponentUpdate"/>
         public override void GameComponentUpdate()
         {
             VoteHandler.CheckForQueuedVotes();
@@ -211,6 +212,7 @@ namespace SirRandoo.ToolkitUtils
             TkUtils.Logger.Debug($"Awarded viewers coins @ {DateTime.Now:T}");
         }
 
+        /// <inheritdoc cref="GameComponent.GameComponentTick"/>
         public override void GameComponentTick()
         {
             if (!TryProcessNextVoteIncident())
@@ -286,6 +288,7 @@ namespace SirRandoo.ToolkitUtils
             incident.TryExecute();
         }
 
+        /// <inheritdoc cref="GameComponent.ExposeData"/>
         public override void ExposeData()
         {
             Scribe_Values.Look(ref _rewardPeriodTracker, "rewardPeriod", GetCurrentMinute());

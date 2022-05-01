@@ -110,15 +110,15 @@ namespace SirRandoo.ToolkitUtils
             _errorTooltip = "TKUtils.MainTabTooltips.Error".Localize();
         }
 
-        public override void DoWindowContents(Rect region)
+        public override void DoWindowContents(Rect inRect)
         {
             GameFont cache = Text.Font;
             Text.Font = GameFont.Small;
 
-            GUI.BeginGroup(region);
+            GUI.BeginGroup(inRect);
 
-            var leftColumn = new Rect(0f, 0f, Mathf.FloorToInt((region.width - 10f) * 0.65f), region.height);
-            var rightColumn = new Rect(leftColumn.x + leftColumn.width + 10f, 0f, region.width - 10f - leftColumn.width, region.height);
+            var leftColumn = new Rect(0f, 0f, Mathf.FloorToInt((inRect.width - 10f) * 0.65f), inRect.height);
+            var rightColumn = new Rect(leftColumn.x + leftColumn.width + 10f, 0f, inRect.width - 10f - leftColumn.width, inRect.height);
 
             GUI.BeginGroup(leftColumn);
             DrawLeftColumn(leftColumn.AtZero());
@@ -128,7 +128,7 @@ namespace SirRandoo.ToolkitUtils
             DrawRightColumn(rightColumn.AtZero());
             GUI.EndGroup();
 
-            Widgets.DrawLineVertical(leftColumn.x + leftColumn.width + 5f, 3f, region.height - 6f);
+            Widgets.DrawLineVertical(leftColumn.x + leftColumn.width + 5f, 3f, inRect.height - 6f);
 
             GUI.EndGroup();
 
@@ -218,41 +218,9 @@ namespace SirRandoo.ToolkitUtils
 
             Widgets.DrawLightHighlight(iconRect);
 
-            Texture2D texture;
-            Color color = Color.white;
-            var iconTooltip = "";
-
-            switch (report.Type)
-            {
-                case HealthReport.ReportType.Info:
-                    texture = Textures.Info;
-                    color = ColorLibrary.PaleGreen;
-                    iconTooltip = _infoTooltip;
-
-                    break;
-                case HealthReport.ReportType.Warning:
-                    texture = Textures.Warning;
-                    color = ColorLibrary.Yellow;
-                    iconTooltip = _warningTooltip;
-
-                    break;
-                case HealthReport.ReportType.Error:
-                    texture = Textures.Warning;
-                    color = ColorLibrary.Salmon;
-                    iconTooltip = _errorTooltip;
-
-                    break;
-                case HealthReport.ReportType.Debug:
-                    texture = Textures.Debug;
-                    color = ColorLibrary.LightPink;
-                    iconTooltip = _debugTooltip;
-
-                    break;
-                default:
-                    texture = Textures.QuestionMark;
-
-                    break;
-            }
+            Texture2D texture = GetTextureFor(report.Type);
+            Color color = GetColorFor(report.Type);
+            string iconTooltip = GetTooltipFor(report.Type);
 
             if (texture != null)
             {
@@ -280,6 +248,56 @@ namespace SirRandoo.ToolkitUtils
             if (closeRect.LeftClicked())
             {
                 Data.RemoveHealthReport(report);
+            }
+        }
+
+        private static Texture2D GetTextureFor(HealthReport.ReportType reportType)
+        {
+            switch (reportType)
+            {
+                case HealthReport.ReportType.Info:
+                    return Textures.Info;
+                case HealthReport.ReportType.Warning:
+                    return Textures.Warning;
+                case HealthReport.ReportType.Error:
+                case HealthReport.ReportType.Debug:
+                    return Textures.Debug;
+                default:
+                    return Textures.QuestionMark;
+            }
+        }
+
+        private static Color GetColorFor(HealthReport.ReportType reportType)
+        {
+            switch (reportType)
+            {
+                case HealthReport.ReportType.Info:
+                    return ColorLibrary.PaleGreen;
+                case HealthReport.ReportType.Warning:
+                    return ColorLibrary.Yellow;
+                case HealthReport.ReportType.Error:
+                    return ColorLibrary.Salmon;
+                case HealthReport.ReportType.Debug:
+                    return ColorLibrary.LightPink;
+                default:
+                    return Color.white;
+            }
+        }
+
+        private string GetTooltipFor(HealthReport.ReportType reportType)
+        {
+            switch (reportType)
+            {
+                case HealthReport.ReportType.Info:
+                    return _infoTooltip;
+                case HealthReport.ReportType.Warning:
+                    return _warningTooltip;
+                case HealthReport.ReportType.Error:
+                    return _errorTooltip;
+                case HealthReport.ReportType.Debug:
+                    return _debugTooltip;
+                default:
+                    return null;
             }
         }
 
