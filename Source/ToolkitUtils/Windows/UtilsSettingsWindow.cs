@@ -376,10 +376,13 @@ namespace SirRandoo.ToolkitUtils.Windows
                 listing.DrawDescription(_toolkitStyleDescription);
             }
 
-            listing.CheckboxLabeled(_commandRouterLabel, ref TkSettings.CommandRouter);
+            if (UiHelper.LabeledPaintableCheckbox(listing.GetRect(Text.LineHeight), _commandRouterLabel, ref TkSettings.CommandRouter))
+            {
+                RuntimeChecker.ValidateTicker();
+            }
+            
             listing.DrawDescription(_commandRouterDescription);
             listing.DrawExperimentalNotice();
-
 
             listing.GroupHeader(_installedModsGroupHeader);
             listing.CheckboxLabeled(_decorateUtilsLabel, ref TkSettings.DecorateMods);

@@ -39,14 +39,14 @@ namespace SirRandoo.ToolkitUtils
     /// </remarks>
     [UsedImplicitly]
     [StaticConstructorOnStartup]
-    internal static partial class RuntimeChecker
+    internal static class RuntimeChecker
     {
         static RuntimeChecker()
         {
             TkUtils.Context ??= SynchronizationContext.Current;
 
             TkSettings.ValidateDynamicSettings();
-            TryLanceTicker();
+            ValidateTicker();
             ValidateExpandedEvents();
         }
 
@@ -108,6 +108,38 @@ namespace SirRandoo.ToolkitUtils
             ticker.timer?.Change(0, 0);
             ticker.Discard(true);
             tickerField.SetValue(Toolkit.Mod, null);
+        }
+
+        public static void ValidateTicker()
+        {
+            if (TkSettings.CommandRouter)
+            {
+                TryLanceTicker();
+            }
+            else
+            {
+                ValidateToolkitTicker();
+            }
+        }
+
+        private static void ValidateToolkitTicker()
+        {
+            try
+            {
+                FieldInfo field = AccessTools.Field("TwitchToolkit.TwitchToolkit:ticker");
+
+                if (field.GetValue(Toolkit.Mod) is Ticker _)
+                {
+                    return;
+                }
+
+                AccessTools.StaticFieldRefAccess<Ticker>("TwitchToolkit.Ticker:_instance") = null;
+                Toolkit.Mod.RegisterTicker();
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error("Could not instantiate Toolkit's ticker. Restart your game, or re-enabling Utils' command router.", e);
+            }
         }
     }
 }
