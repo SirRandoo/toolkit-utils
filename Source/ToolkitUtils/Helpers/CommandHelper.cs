@@ -44,47 +44,46 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return;
             }
 
-            RuntimeChecker.Execute(
-                $"{command.command}[{message.Message}]",
-                delegate
-                {
-                    bool emojis = TkSettings.Emojis;
+            if (emojiOverride)
+            {
+                bool emojis = TkSettings.Emojis;
+                
+                TkSettings.Emojis = false;
+                ExecuteInternal(command, message);
+                TkSettings.Emojis = emojis;
+            }
+            else
+            {
+                ExecuteInternal(command, message);
+            }
 
-                    try
+            if (item != null)
+            {
+                UsageService.RecordUsage(item, message.Username);
+            }
+        }
+
+        private static void ExecuteInternal([NotNull] Command command, ITwitchMessage message)
+        {
+            try
+            {
+                command.RunCommand(message);
+            }
+            catch (Exception e)
+            {
+                TkUtils.Logger.Error($@"Command ""{command.command}"" threw an exception!", e);
+
+                Data.RegisterHealthReport(
+                    new HealthReport
                     {
-                        if (emojiOverride)
-                        {
-                            TkSettings.Emojis = false;
-                        }
-
-                        command.RunCommand(message);
+                        Message = $@"Command ""{message.Message} ({command.command})"" didn't execute successfully. Reason: {e.GetType().Name}({e.Message})",
+                        OccurredAt = DateTime.Now,
+                        Reporter = "ToolkitUtils - Command Handler",
+                        Type = HealthReport.ReportType.Error,
+                        Stacktrace = StackTraceUtility.ExtractStringFromException(e)
                     }
-                    catch (Exception e)
-                    {
-                        TkUtils.Logger.Error($@"Command ""{command.command}"" threw an exception!", e);
-
-                        Data.RegisterHealthReport(
-                            new HealthReport
-                            {
-                                Message = $@"Command ""{message.Message} ({command.command})"" didn't execute successfully. Reason: {e.GetType().Name}({e.Message})",
-                                OccurredAt = DateTime.Now,
-                                Reporter = "ToolkitUtils - Command Handler",
-                                Type = HealthReport.ReportType.Error,
-                                Stacktrace = StackTraceUtility.ExtractStringFromException(e)
-                            }
-                        );
-                    }
-                    finally
-                    {
-                        TkSettings.Emojis = emojis;
-
-                        if (item != null)
-                        {
-                            UsageService.RecordUsage(item, message.Username);
-                        }
-                    }
-                }
-            );
+                );
+            }
         }
 
         [NotNull]
