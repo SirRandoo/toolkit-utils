@@ -8,4 +8,12 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnClass</commandDriver>
         <description>Shows information about your current RimWorld of Magic class. This command will only be usable when RimWorld of Magic is installed.</description>
     </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>AbilityLevel</defName>
+        <label>ability level</label>
+        <command>abilitylevel</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.PawnSkillLevel</commandDriver>
+        <description>Allows viewers to assign points to their RimWorld of Magic class abilities. This command will only be usable when RimWorld of Magic is installed.</description>
+    </TwitchToolkit.Command>
 </Defs>

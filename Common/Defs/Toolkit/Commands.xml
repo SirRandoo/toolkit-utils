@@ -574,4 +574,20 @@
         <commandDriver>SirRandoo.ToolkitUtils.Commands.UnstickMe</commandDriver>
         <description>It's like unstick, but safer for viewers to use.</description>
     </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>Marriage</defName>
+        <label>marriage</label>
+        <command>marry</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.Marriage</commandDriver>
+        <description>Lets viewers marry each other.</description>
+    </TwitchToolkit.Command>
+    
+    <TwitchToolkit.Command>
+        <defName>Divorce</defName>
+        <label>divorce</label>
+        <command>divorce</command>
+        <commandDriver>SirRandoo.ToolkitUtils.Commands.Divorce</commandDriver>
+        <description>Lets a viewer divorce their spouse.</description>
+    </TwitchToolkit.Command>
 </Defs>
