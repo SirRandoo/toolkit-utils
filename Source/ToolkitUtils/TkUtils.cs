@@ -73,7 +73,7 @@ namespace SirRandoo.ToolkitUtils
 
         internal static void HandleException(string message, Exception exception, [CanBeNull] string reporter = null)
         {
-            if (TkSettings.VisualExceptions && VisualExceptions.Active)
+            if (UnityData.IsInMainThread && TkSettings.VisualExceptions && VisualExceptions.Active)
             {
                 VisualExceptions.HandleException(exception);
 
