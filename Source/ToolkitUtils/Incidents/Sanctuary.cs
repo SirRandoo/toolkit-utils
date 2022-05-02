@@ -25,7 +25,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class Sanctuary : IncidentVariablesBase
     {
         public override bool CanHappen(string msg, [NotNull] Viewer viewer)
@@ -37,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (Current.Game.Maps.Count(m => m.IsPlayerHome) > 0)
+            if (Current.Game.Maps.Any(m => m.IsPlayerHome))
             {
                 return Current.Game.Maps.All(map => !map.GameConditionManager.ConditionIsActive(GameConditionDefOf.Sanctuary));
             }

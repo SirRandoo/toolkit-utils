@@ -31,7 +31,6 @@ using Verse.Grammar;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class RescueMe : IncidentVariablesBase
     {
         private KidnapReport _report;

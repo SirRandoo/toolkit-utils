@@ -27,7 +27,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class ClearTraits : IncidentVariablesBase
     {
         private Pawn _pawn;
@@ -60,14 +59,14 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             int total = _traits.Sum(t => t.item.CostToRemove);
 
-            if (!viewer.CanAfford(total))
+            if (viewer.CanAfford(total))
             {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(total.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
-
-                return false;
+                return _traits.Count > 0;
             }
 
-            return _traits.Count > 0;
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".LocalizeKeyed(total.ToString("N0"), viewer.GetViewerCoins().ToString("N0")));
+
+            return false;
         }
 
         public override void Execute()

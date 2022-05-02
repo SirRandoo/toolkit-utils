@@ -28,7 +28,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class AddTrait : IncidentVariablesBase
     {
         private TraitItem _buyableTrait;

@@ -23,7 +23,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class FullHeal : IncidentVariablesBase
     {
         private Pawn _pawn;

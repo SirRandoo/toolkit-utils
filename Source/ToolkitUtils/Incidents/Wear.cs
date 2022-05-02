@@ -28,7 +28,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class Wear : IncidentVariablesBase
     {
         private int _cost;

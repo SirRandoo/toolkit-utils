@@ -32,7 +32,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class BuyItem : IncidentVariablesBase
     {
         private PurchaseRequest _purchaseRequest;

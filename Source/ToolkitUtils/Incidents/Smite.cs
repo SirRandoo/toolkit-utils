@@ -25,7 +25,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class Smite : IncidentVariablesBase
     {
         private Pawn _pawn;

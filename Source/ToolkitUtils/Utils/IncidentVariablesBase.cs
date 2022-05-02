@@ -15,11 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Diagnostics.CodeAnalysis;
+using SirRandoo.ToolkitUtils.Attributes;
 using TwitchToolkit;
 using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Utils
 {
+    [UsedImplicitlyInherited]
     public abstract class IncidentVariablesBase : IncidentHelperVariables
     {
         public override Viewer Viewer { get; set; }

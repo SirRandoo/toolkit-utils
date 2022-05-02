@@ -27,7 +27,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class PassionShuffle : IncidentVariablesBase
     {
         private Pawn _pawn;

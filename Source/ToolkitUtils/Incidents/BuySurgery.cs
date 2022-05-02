@@ -29,7 +29,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class BuySurgery : IncidentVariablesBase
     {
         private Appointment _appointment;
@@ -206,7 +205,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             private void ParseThingDef(string input)
             {
                 Item = Data.Items.Where(i => i.Cost > 0)
-                   .FirstOrDefault(t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit()) || t.DefName.ToToolkit().EqualsIgnoreCase(input.ToToolkit()));
+                   .FirstOrDefault(t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit()) || t.DefName!.ToToolkit().EqualsIgnoreCase(input.ToToolkit()));
 
                 ThingDef = Item?.Thing;
             }

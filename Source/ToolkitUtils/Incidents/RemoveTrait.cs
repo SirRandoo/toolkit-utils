@@ -29,7 +29,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class RemoveTrait : IncidentVariablesBase
     {
         private TraitItem _buyable;

@@ -30,30 +30,24 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class WageredIncident : IncidentVariablesBase
     {
-        private static readonly Dictionary<string, IWageredIncidentData> Data;
+        private static readonly Dictionary<string, IWageredIncidentData> Data = new Dictionary<string, IWageredIncidentData>
+        {
+            { "Raid", new RaidIncidentData() },
+            { "DropRaid", new DropRaidIncidentData() },
+            { "SapperRaid", new SapperRaidIncidentData() },
+            { "SiegeRaid", new SiegeRaidIncidentData() },
+            { "MechanoidRaid", new MechanoidRaidIncidentData() },
+            { "Infestation", new InfestationIncidentData() },
+            { "ManhunterPack", new ManhunterPackIncidentData() },
+            { "Predators", new PredatorsIncidentData() },
+            { "RandomDisease", new RandomDiseaseIncidentData() }
+        };
         private IWageredIncidentData _data;
-        private IncidentParms _parms;
+        private IncidentParms _params;
         private int _wager;
         private IncidentWorker _worker;
-
-        static WageredIncident()
-        {
-            Data = new Dictionary<string, IWageredIncidentData>
-            {
-                { "Raid", new RaidIncidentData() },
-                { "DropRaid", new DropRaidIncidentData() },
-                { "SapperRaid", new SapperRaidIncidentData() },
-                { "SiegeRaid", new SiegeRaidIncidentData() },
-                { "MechanoidRaid", new MechanoidRaidIncidentData() },
-                { "Infestation", new InfestationIncidentData() },
-                { "ManhunterPack", new ManhunterPackIncidentData() },
-                { "Predators", new PredatorsIncidentData() },
-                { "RandomDisease", new RandomDiseaseIncidentData() }
-            };
-        }
 
         public override bool CanHappen(string msg, Viewer viewer)
         {
@@ -80,28 +74,28 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            _parms = StorytellerUtility.DefaultParmsNow(_data.ResolveCategory(_worker, storeIncident), map);
+            _params = StorytellerUtility.DefaultParmsNow(_data.ResolveCategory(_worker, storeIncident), map);
 
             if (!_data.UseStoryteller)
             {
-                _parms.points = IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, _wager, _parms.points);
+                _params.points = IncidentHelper_PointsHelper.RollProportionalGamePoints(storeIncident, _wager, _params.points);
             }
 
-            _parms.forced = true;
-            _data.DoExtraSetup(_worker, _parms, storeIncident);
+            _params.forced = true;
+            _data.DoExtraSetup(_worker, _params, storeIncident);
 
-            return _worker.CanFireNow(_parms);
+            return _worker.CanFireNow(_params);
         }
 
         public override void Execute()
         {
-            if (_worker.TryExecute(_parms))
+            if (_worker.TryExecute(_params))
             {
                 Viewer.TakeViewerCoins(_data.UseStoryteller ? storeIncident.cost : _wager);
                 Viewer.CalculateNewKarma(storeIncident.karmaType, _wager);
 
                 string name = storeIncident.label ?? storeIncident.abbreviation;
-                var points = _parms.points.ToString("N3");
+                var points = _params.points.ToString("N3");
 
                 MessageHelper.ReplyToUser(
                     Viewer.username,

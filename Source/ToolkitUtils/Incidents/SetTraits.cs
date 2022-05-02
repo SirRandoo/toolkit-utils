@@ -30,7 +30,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class SetTraits : IncidentVariablesBase
     {
         private List<TraitEvent> _events;

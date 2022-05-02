@@ -28,17 +28,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
     [UsedImplicitly]
     public class Incident : IncidentHelper
     {
-        private static readonly Dictionary<string, IIncidentData> Data;
-        private IncidentParms _parms;
-        private IncidentWorker _worker;
-
-        static Incident()
+        private static readonly Dictionary<string, IIncidentData> Data = new Dictionary<string, IIncidentData>
         {
-            Data = new Dictionary<string, IIncidentData>
-            {
-                { "TraderCaravanArrival", new TraderCaravanIncidentData() }, { "OrbitalTraderArrival", new OrbitalTraderIncidentData() }
-            };
-        }
+            { "TraderCaravanArrival", new TraderCaravanIncidentData() }, { "OrbitalTraderArrival", new OrbitalTraderIncidentData() }
+        };
+        private IncidentParms _params;
+        private IncidentWorker _worker;
 
         public override bool IsPossible()
         {
@@ -55,17 +50,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            _parms = StorytellerUtility.DefaultParmsNow(data.ResolveCategory(_worker, storeIncident), map);
-            _parms.forced = true;
+            _params = StorytellerUtility.DefaultParmsNow(data.ResolveCategory(_worker, storeIncident), map);
+            _params.forced = true;
 
-            data.DoExtraSetup(_worker, _parms, storeIncident);
+            data.DoExtraSetup(_worker, _params, storeIncident);
 
-            return _worker.CanFireNow(_parms);
+            return _worker.CanFireNow(_params);
         }
 
         public override void TryExecute()
         {
-            _worker.TryExecute(_parms);
+            _worker.TryExecute(_params);
         }
     }
 }

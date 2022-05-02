@@ -24,7 +24,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class ReviveMe : IncidentVariablesBase
     {
         private Pawn _pawn;

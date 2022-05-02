@@ -25,7 +25,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class HealAll : IncidentVariablesBase
     {
         private readonly List<Hediff> _healQueue = new List<Hediff>();

@@ -29,7 +29,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class ReplaceTrait : IncidentVariablesBase
     {
         private Pawn _pawn;

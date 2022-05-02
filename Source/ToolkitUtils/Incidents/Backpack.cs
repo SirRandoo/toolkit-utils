@@ -31,7 +31,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class Backpack : IncidentVariablesBase
     {
         private PurchaseBackpackRequest _purchaseRequest;

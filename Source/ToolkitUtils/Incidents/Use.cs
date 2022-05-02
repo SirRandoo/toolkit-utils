@@ -31,7 +31,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class Use : IncidentVariablesBase
     {
         private int _amount = 1;

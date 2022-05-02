@@ -30,7 +30,6 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
 {
-    [UsedImplicitly]
     public class BuyPawn : IncidentVariablesBase
     {
         private PawnKindDef _kindDef = RimWorld.PawnKindDefOf.Colonist;
