@@ -41,16 +41,16 @@ namespace SirRandoo.ToolkitUtils.Commands
             "IncomingDamageFactor"
         };
 
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
-                msg.Reply("TKUtils.NoPawn".Localize());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
 
                 return;
             }
 
-            List<string> queries = CommandFilter.Parse(msg.Message).Skip(1).Select(PurchaseHelper.ToToolkit).ToList();
+            List<string> queries = CommandFilter.Parse(twitchMessage.Message).Skip(1).Select(PurchaseHelper.ToToolkit).ToList();
 
             if (queries.Count <= 0)
             {
@@ -67,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             CommandRouter.MainThreadCommands.Enqueue(
                 () =>
                 {
-                    MessageHelper.ReplyToUser(msg.Username, container.Select(s => FormatStat(pawn, s)).SectionJoin());
+                    MessageHelper.ReplyToUser(twitchMessage.Username, container.Select(s => FormatStat(pawn, s)).SectionJoin());
                 }
             );
         }

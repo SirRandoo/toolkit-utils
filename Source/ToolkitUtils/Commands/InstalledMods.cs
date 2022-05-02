@@ -29,9 +29,9 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class InstalledMods : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            msg.Reply(Data.Mods.Select(FormatMod).SectionJoin().WithHeader($"Toolkit v{Toolkit.Mod.Version}"));
+            twitchMessage.Reply(Data.Mods.Select(FormatMod).SectionJoin().WithHeader($"Toolkit v{Toolkit.Mod.Version}"));
         }
 
         [NotNull]

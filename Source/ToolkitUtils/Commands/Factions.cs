@@ -27,13 +27,13 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class Factions : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             List<string> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.Where(f => !f.IsPlayer)
                .Select(f => ResponseHelper.JoinPair(f.GetCallLabel(), f.PlayerGoodwill.ToStringWithSign()))
                .ToList();
 
-            msg.Reply((factions.Count <= 0 ? "TKUtils.Factions.None".Localize() : factions.SectionJoin()).WithHeader("WorldFactionsTab".Localize()));
+            twitchMessage.Reply((factions.Count <= 0 ? "TKUtils.Factions.None".Localize() : factions.SectionJoin()).WithHeader("WorldFactionsTab".Localize()));
         }
     }
 }

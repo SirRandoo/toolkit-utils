@@ -29,11 +29,11 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class PawnSkills : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
-                msg.Reply("TKUtils.NoPawn".Localize());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
 
                 return;
             }
@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 parts.Add(container);
             }
 
-            msg.Reply(parts.SectionJoin().WithHeader("StatsReport_Skills".Localize()));
+            twitchMessage.Reply(parts.SectionJoin().WithHeader("StatsReport_Skills".Localize()));
         }
     }
 }

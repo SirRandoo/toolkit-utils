@@ -24,6 +24,6 @@ namespace SirRandoo.ToolkitUtils.Interfaces
     {
         Type WorkerClass { get; }
         IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident);
-        void DoExtraSetup(IncidentWorker worker, IncidentParms parms, StoreIncident incident);
+        void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident);
     }
 }

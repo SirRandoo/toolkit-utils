@@ -26,11 +26,11 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class ColonistCount : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             List<Pawn> colonists = Find.ColonistBar?.GetColonistsInOrder();
 
-            msg.Reply(
+            twitchMessage.Reply(
                 colonists == null || colonists.Count <= 0
                     ? "TKUtils.ColonistCount.None".Localize()
                     : "TKUtils.ColonistCount.Any".LocalizeKeyed(colonists.Count.ToString("N0"))

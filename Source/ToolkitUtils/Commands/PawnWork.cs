@@ -31,23 +31,23 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class PawnWork : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
-                msg.Reply("TKUtils.NoPawn".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
+                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
 
                 return;
             }
 
             if (pawn!.workSettings?.EverWork == false)
             {
-                msg.Reply("TKUtils.PawnWork.None".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
+                twitchMessage.Reply("TKUtils.PawnWork.None".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
 
                 return;
             }
 
-            List<KeyValuePair<string, string>> newPriorities = CommandParser.ParseKeyed(msg.Message);
+            List<KeyValuePair<string, string>> newPriorities = CommandParser.ParseKeyed(twitchMessage.Message);
 
             if (!newPriorities.NullOrEmpty())
             {
@@ -62,7 +62,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 if (builder.Length > 0)
                 {
                     builder.Remove(builder.Length - 2, 2);
-                    msg.Reply("TKUtils.PawnWork.Changed".LocalizeKeyed(builder.ToString()));
+                    twitchMessage.Reply("TKUtils.PawnWork.Changed".LocalizeKeyed(builder.ToString()));
 
                     return;
                 }
@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            msg.Reply(summary.WithHeader("TKUtils.PawnWork.Header".Localize()));
+            twitchMessage.Reply(summary.WithHeader("TKUtils.PawnWork.Header".Localize()));
         }
 
         [ItemNotNull]

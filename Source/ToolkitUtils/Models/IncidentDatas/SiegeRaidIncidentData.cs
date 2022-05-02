@@ -25,11 +25,11 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         public override bool UseStoryteller => SiegeRaid.Storyteller;
 
-        public override void DoExtraSetup(IncidentWorker worker, IncidentParms parms, StoreIncident incident)
+        public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
         {
-            base.DoExtraSetup(worker, parms, incident);
-            parms.raidStrategy = DefDatabase<RaidStrategyDef>.GetNamed("Siege");
-            parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
+            base.DoExtraSetup(worker, @params, incident);
+            @params.raidStrategy = DefDatabase<RaidStrategyDef>.GetNamed("Siege");
+            @params.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
         }
     }
 }

@@ -41,10 +41,10 @@ namespace SirRandoo.ToolkitUtils.Commands
         private static bool AreTraitsDisabled => IncidentDefOf.AddTrait.cost <= 0 && IncidentDefOf.RemoveTrait.cost <= 0 && IncidentDefOf.ReplaceTrait.cost <= 0
             && IncidentDefOf.ClearTraits.cost <= 0 && IncidentDefOf.SetTraits.cost <= 0;
 
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            _invoker = msg.Username;
-            string[] segments = CommandFilter.Parse(msg.Message).Skip(1).ToArray();
+            _invoker = twitchMessage.Username;
+            string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
             string category = segments.FirstOrFallback("");
             string query = segments.Skip(1).FirstOrFallback("");
             string quantity = segments.Skip(2).FirstOrFallback("1");

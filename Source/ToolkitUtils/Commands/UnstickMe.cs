@@ -26,18 +26,18 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class UnstickMe : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            if (!Purchase_Handler.viewerNamesDoingVariableCommands.Contains(msg.Username))
+            if (!Purchase_Handler.viewerNamesDoingVariableCommands.Contains(twitchMessage.Username))
             {
                 return;
             }
 
-            Current.Game?.GetComponent<Coordinator>()?.NotifySolventRequested(msg.Username.ToLower());
+            Current.Game?.GetComponent<Coordinator>()?.NotifySolventRequested(twitchMessage.Username.ToLower());
 
             if (Find.TickManager?.Paused != false)
             {
-                msg.Reply("TKUtils.UnstickMe.Queued".Localize());
+                twitchMessage.Reply("TKUtils.UnstickMe.Queued".Localize());
             }
         }
     }

@@ -26,23 +26,23 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class PawnNeeds : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
-                msg.Reply("TKUtils.NoPawn".Localize());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
 
                 return;
             }
 
             if (pawn!.needs?.AllNeeds == null)
             {
-                msg.Reply("TKUtils.PawnNeeds.None".Localize().WithHeader("TabNeeds".Localize()));
+                twitchMessage.Reply("TKUtils.PawnNeeds.None".Localize().WithHeader("TabNeeds".Localize()));
 
                 return;
             }
 
-            msg.Reply(
+            twitchMessage.Reply(
                 pawn.needs.AllNeeds.Select(n => ResponseHelper.JoinPair(n.LabelCap, n.CurLevelPercentage.ToStringPercent())).SectionJoin().WithHeader("TabNeeds".Localize())
             );
         }

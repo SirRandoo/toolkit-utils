@@ -29,18 +29,18 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class PawnLeave : CommandBase
     {
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
-                msg.Reply("TKUtils.NoPawn".Localize());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
 
                 return;
             }
 
             if (pawn!.IsCaravanMember())
             {
-                msg.Reply("TKUtils.Leave.Caravan".Localize());
+                twitchMessage.Reply("TKUtils.Leave.Caravan".Localize());
 
                 return;
             }
@@ -49,8 +49,8 @@ namespace SirRandoo.ToolkitUtils.Commands
 
             if (CompatRegistry.Magic?.IsUndead(pawn) ?? false)
             {
-                msg.Reply("TKUtils.Leave.Undead".Localize());
-                component?.pawnHistory.Remove(msg.Username);
+                twitchMessage.Reply("TKUtils.Leave.Undead".Localize());
+                component?.pawnHistory.Remove(twitchMessage.Username);
 
                 if (pawn.Name is NameTriple name)
                 {
@@ -60,8 +60,8 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            ForceLeave(msg, pawn);
-            component.pawnHistory.Remove(msg.Username);
+            ForceLeave(twitchMessage, pawn);
+            component.pawnHistory.Remove(twitchMessage.Username);
         }
 
         private static void ForceLeave([NotNull] ITwitchMessage twitchMessage, [NotNull] Pawn pawn)

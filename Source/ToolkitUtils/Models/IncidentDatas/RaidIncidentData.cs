@@ -32,13 +32,13 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public virtual IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
 
-        public virtual void DoExtraSetup([NotNull] IncidentWorker worker, [NotNull] IncidentParms parms, StoreIncident incident)
+        public virtual void DoExtraSetup([NotNull] IncidentWorker worker, [NotNull] IncidentParms @params, StoreIncident incident)
         {
-            parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
+            @params.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
             worker.def = RimWorld.IncidentDefOf.RaidEnemy;
-            parms.faction = Find.FactionManager.RandomEnemyFaction(minTechLevel: TechLevel.Industrial, allowNonHumanlike: false);
-            parms.forced = true;
-            parms.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
+            @params.faction = Find.FactionManager.RandomEnemyFaction(minTechLevel: TechLevel.Industrial, allowNonHumanlike: false);
+            @params.forced = true;
+            @params.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
         }
     }
 }

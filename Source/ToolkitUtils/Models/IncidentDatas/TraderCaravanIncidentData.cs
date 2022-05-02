@@ -28,7 +28,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.Misc;
 
-        public void DoExtraSetup([NotNull] IncidentWorker worker, IncidentParms parms, StoreIncident incident)
+        public void DoExtraSetup([NotNull] IncidentWorker worker, IncidentParms @params, StoreIncident incident)
         {
             worker.def = RimWorld.IncidentDefOf.TraderCaravanArrival;
         }

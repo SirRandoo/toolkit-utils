@@ -24,11 +24,11 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         public override bool UseStoryteller => MechanoidRaid.Storyteller;
 
-        public override void DoExtraSetup(IncidentWorker worker, IncidentParms parms, StoreIncident incident)
+        public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
         {
-            base.DoExtraSetup(worker, parms, incident);
-            parms.raidArrivalMode = PawnsArrivalModeDefOf.RandomDrop;
-            parms.faction = Faction.OfMechanoids;
+            base.DoExtraSetup(worker, @params, incident);
+            @params.raidArrivalMode = PawnsArrivalModeDefOf.RandomDrop;
+            @params.faction = Faction.OfMechanoids;
         }
     }
 }

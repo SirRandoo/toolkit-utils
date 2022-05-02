@@ -50,7 +50,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
         public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
 
-        public void DoExtraSetup(IncidentWorker worker, IncidentParms parms, StoreIncident incident)
+        public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
         {
             if (!(worker is AnimalSpawnWorker spawnWorker))
             {

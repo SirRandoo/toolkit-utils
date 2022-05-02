@@ -25,14 +25,14 @@ namespace SirRandoo.ToolkitUtils.Commands
     [UsedImplicitly]
     public class Wealth : CommandBase
     {
-        public override void RunCommand(ITwitchMessage msg)
+        public override void RunCommand(ITwitchMessage twitchMessage)
         {
             if (Current.Game?.CurrentMap == null)
             {
                 return;
             }
 
-            msg.Reply(ResponseHelper.JoinPair("ThisMapColonyWealthTotal".Localize(), Current.Game.CurrentMap.wealthWatcher.WealthTotal.ToString("N0")));
+            twitchMessage.Reply(ResponseHelper.JoinPair("ThisMapColonyWealthTotal".Localize(), Current.Game.CurrentMap.wealthWatcher.WealthTotal.ToString("N0")));
         }
     }
 }

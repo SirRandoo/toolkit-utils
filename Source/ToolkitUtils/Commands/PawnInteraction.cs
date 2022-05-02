@@ -40,7 +40,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             { "DeepChat", new InteractionProxy { Interaction = InteractionDefOf.DeepTalk } }
         };
 
-        public override void RunCommand([NotNull] ITwitchMessage msg)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
             if (!InteractionIndex.TryGetValue(command.defName, out InteractionProxy interaction))
             {
@@ -49,16 +49,16 @@ namespace SirRandoo.ToolkitUtils.Commands
                 return;
             }
 
-            Viewer data = Viewers.GetViewer(msg.Username);
+            Viewer data = Viewers.GetViewer(twitchMessage.Username);
 
-            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
-                msg.Reply("TKUtils.NoPawn".Localize());
+                twitchMessage.Reply("TKUtils.NoPawn".Localize());
 
                 return;
             }
 
-            string query = CommandFilter.Parse(msg.Message).Skip(1).FirstOrFallback("");
+            string query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
             Pawn target = null;
 
             if (!query.NullOrEmpty())
@@ -79,7 +79,7 @@ namespace SirRandoo.ToolkitUtils.Commands
 
                 if (target == null)
                 {
-                    msg.Reply("TKUtils.PawnNotFound".LocalizeKeyed(query));
+                    twitchMessage.Reply("TKUtils.PawnNotFound".LocalizeKeyed(query));
 
                     return;
                 }
@@ -97,7 +97,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                         data.SetViewerKarma(Mathf.Max(data.karma - (int)Mathf.Ceil(data.karma * 0.1f), ToolkitSettings.KarmaMinimum));
                     }
 
-                    msg.Reply(result);
+                    twitchMessage.Reply(result);
                 }
             );
         }

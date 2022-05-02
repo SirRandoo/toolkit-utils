@@ -104,7 +104,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Where(
                     i =>
                     {
-                        if (i.DefName == null || i.Name == null)
+                        if (i.DefName == null)
                         {
                             return false;
                         }
@@ -160,7 +160,7 @@ namespace SirRandoo.ToolkitUtils.Commands
                .Where(
                     i =>
                     {
-                        if (i.Name == null || i.DefName == null)
+                        if (i.DefName == null)
                         {
                             return false;
                         }
