@@ -5,7 +5,7 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
-namespace ToolkitUtils.HAR
+namespace SirRandoo.ToolkitUtils
 {
     public class AlienCompatibilityProvider : IAlienCompatibilityProvider
     {
