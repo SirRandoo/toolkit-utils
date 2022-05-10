@@ -24,5 +24,11 @@
       <Compile Update="Events\PurchaseHandlerPatch.ResolveSimple.cs">
         <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
       </Compile>
+      <Compile Update="Events\PurchaseHandlerPatch.ItemCooldown.cs">
+        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Events\PurchaseHandlerPatch.EventCooldown.cs">
+        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>
