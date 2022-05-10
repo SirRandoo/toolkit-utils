@@ -12,9 +12,17 @@
         <OutputPath>..\..\$(RimWorldVersion)\Assemblies\</OutputPath>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj"/>
+        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Lib.Harmony" Version="2.2.1" ExcludeAssets="runtime"/>
+        <PackageReference Include="Lib.Harmony" Version="2.2.1" ExcludeAssets="runtime" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Events\PurchaseHandlerPatch.ResolveVariables.cs">
+        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Events\PurchaseHandlerPatch.ResolveSimple.cs">
+        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>

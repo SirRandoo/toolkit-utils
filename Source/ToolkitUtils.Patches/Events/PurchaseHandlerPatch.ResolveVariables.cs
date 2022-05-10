@@ -64,6 +64,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             return false;
         }
+        
         private static bool IsOnCooldown(StoreIncidentVariables incident, [NotNull] Viewer viewer)
         {
             if (incident == StoreIncidentDefOf.Item)
