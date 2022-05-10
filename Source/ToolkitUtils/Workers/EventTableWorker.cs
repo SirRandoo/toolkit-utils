@@ -329,7 +329,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (Widgets.ButtonText(karmaField, ev.Data.KarmaType.ToString()))
             {
-                Find.WindowStack.Add(new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => ev.Data.KarmaType = i)).ToList()));
+                Find.WindowStack.Add(new FloatMenu(ToolkitUtils.Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => ev.Data.KarmaType = i)).ToList()));
             }
         }
 

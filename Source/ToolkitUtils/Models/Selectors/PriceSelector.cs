@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             _priceText = Label;
 
-            _comparisonOptions = Data.ComparisonTypes.Select(
+            _comparisonOptions = Data.ComparisonTypes.Values.Select(
                     i => new FloatMenuOption(
                         i.AsOperator(),
                         () =>

@@ -42,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             _techLevelText = Label;
 
-            _techLevelOptions = Data.TechLevels.Where(i => i != TechLevel.Undefined)
+            _techLevelOptions = Data.TechLevels.Values.Where(i => i != TechLevel.Undefined)
                .Select(
                     i => new FloatMenuOption(
                         $"TechLevel_{i}".TranslateSimple(),
@@ -55,7 +55,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 )
                .ToList();
 
-            _comparisonOptions = Data.ComparisonTypes.Select(
+            _comparisonOptions = Data.ComparisonTypes.Values.Select(
                     i => new FloatMenuOption(
                         i.AsOperator(),
                         () =>

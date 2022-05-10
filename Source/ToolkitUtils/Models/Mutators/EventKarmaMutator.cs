@@ -46,7 +46,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
             if (Widgets.ButtonText(field, _karmaType.ToString()))
             {
-                Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => _karmaType = i)).ToList()));
+                Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => _karmaType = i)).ToList()));
             }
         }
 

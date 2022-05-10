@@ -238,6 +238,8 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             base.PostClose();
 
+            _settings?.Save();
+
             if (TkSettings.Offload)
             {
                 Task.Run(async () => await Data.DumpCommandsAsync()).ConfigureAwait(false);

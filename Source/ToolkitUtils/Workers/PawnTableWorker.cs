@@ -350,7 +350,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             if (Widgets.ButtonText(karmaField, item.Data.Data.KarmaType == null ? _defaultKarmaTypeText : item.Data.Data.KarmaType.ToString()))
             {
                 Find.WindowStack.Add(
-                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => item.Data.Data.KarmaType = i)).ToList())
+                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => item.Data.Data.KarmaType = i)).ToList())
                 );
             }
 

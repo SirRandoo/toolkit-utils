@@ -65,7 +65,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _costBuffer = storeIncident.cost.ToString();
             _capBuffer = storeIncident.eventCap.ToString();
             _wagerBuffer = (storeIncidentVariables?.maxWager ?? 0).ToString();
-            _karmaTypeOptions = Data.KarmaTypes.Select(t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)).ToList();
+            _karmaTypeOptions = Data.KarmaTypes.Values.Select(t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)).ToList();
         }
 
         /// <inheritdoc cref="Window.PreOpen"/>

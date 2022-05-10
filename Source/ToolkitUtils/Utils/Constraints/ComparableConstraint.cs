@@ -35,7 +35,7 @@ namespace SirRandoo.ToolkitUtils.Utils
         protected ComparableConstraint()
         {
             Comparison = ComparisonTypes.Equal;
-            _comparisonOptions = Data.ComparisonTypes.Select(t => new FloatMenuOption($"TKUtils.PurgeMenu.{t.ToString()}".Localize(), () => Comparison = t)).ToList();
+            _comparisonOptions = Data.ComparisonTypes.Values.Select(t => new FloatMenuOption($"TKUtils.PurgeMenu.{t.ToString()}".Localize(), () => Comparison = t)).ToList();
         }
 
         protected ComparisonTypes Comparison

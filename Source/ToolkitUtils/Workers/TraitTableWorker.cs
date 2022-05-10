@@ -376,7 +376,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             if (Widgets.ButtonText(addKarmaField, trait.Data.Data.KarmaType == null ? _defaultKarmaTypeText : trait.Data.Data.KarmaType.ToString()))
             {
                 Find.WindowStack.Add(
-                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.Data.KarmaType = i)).ToList())
+                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.Data.KarmaType = i)).ToList())
                 );
             }
 
@@ -394,7 +394,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             ))
             {
                 Find.WindowStack.Add(
-                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.TraitData.KarmaTypeForRemoving = i)).ToList())
+                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.TraitData.KarmaTypeForRemoving = i)).ToList())
                 );
             }
 

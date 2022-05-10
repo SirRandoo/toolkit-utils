@@ -38,7 +38,7 @@ namespace SirRandoo.ToolkitUtils.Models
         public void Prepare()
         {
             _karmaLabel = Label;
-            _karmaTypes = Data.KarmaTypes.Select(i => new FloatMenuOption(i.ToString(), () => SetKarma(i))).ToList();
+            _karmaTypes = Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => SetKarma(i))).ToList();
         }
 
         public void Draw(Rect canvas)
