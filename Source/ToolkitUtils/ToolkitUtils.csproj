@@ -44,6 +44,24 @@
       <Compile Update="Data.PawnKinds.cs">
         <DependentUpon>Data.cs</DependentUpon>
       </Compile>
+      <Compile Update="Data.Items.cs">
+        <DependentUpon>Data.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Data.Events.cs">
+        <DependentUpon>Data.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Data.Mods.cs">
+        <DependentUpon>Data.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Data.Surgeries.cs">
+        <DependentUpon>Data.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Data.Commands.cs">
+        <DependentUpon>Data.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Data.Reports.cs">
+        <DependentUpon>Data.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
     <Target Name="CustomAfterBuild" AfterTargets="Build">
         <ItemGroup>
