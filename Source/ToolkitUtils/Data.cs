@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using Ionic.Zlib;
 using JetBrains.Annotations;
 using RimWorld;
+using SirRandoo.CommonLib.Entities;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
@@ -47,25 +48,15 @@ namespace SirRandoo.ToolkitUtils
     /// </summary>
     [StaticConstructorOnStartup]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public static class Data
+    public static partial class Data
     {
         internal static readonly Dictionary<string, Color> ColorIndex = GetDefaultColors();
 
-        internal static readonly List<KarmaType> KarmaTypes = Enum.GetNames(typeof(KarmaType)).Select(i => (KarmaType)Enum.Parse(typeof(KarmaType), i)).ToList();
-
-        internal static readonly Dictionary<string, QualityCategory> Qualities = Enum.GetNames(typeof(QualityCategory))
-           .Select(q => (q.ToLowerInvariant(), (QualityCategory)Enum.Parse(typeof(QualityCategory), q)))
-           .ToDictionary(p => p.Item1, q => q.Item2);
-
-        internal static readonly Dictionary<string, Gender> Genders = Enum.GetNames(typeof(Gender))
-           .Select(g => (g.ToLowerInvariant(), (Gender)Enum.Parse(typeof(Gender), g)))
-           .ToDictionary(p => p.Item1, p => p.Item2);
-
-        internal static readonly List<TechLevel> TechLevels = Enum.GetNames(typeof(TechLevel)).Select(t => (TechLevel)Enum.Parse(typeof(TechLevel), t)).ToList();
-
-        internal static readonly IEnumerable<ComparisonTypes> ComparisonTypes = Enum.GetNames(typeof(ComparisonTypes))
-           .Select(i => (ComparisonTypes)Enum.Parse(typeof(ComparisonTypes), i))
-           .ToList();
+        internal static readonly EnumRegistrar<KarmaType> KarmaTypes = new EnumRegistrar<KarmaType>();
+        internal static readonly EnumRegistrar<QualityCategory> Qualities = new EnumRegistrar<QualityCategory>();
+        internal static readonly EnumRegistrar<Gender> Genders = new EnumRegistrar<Gender>();
+        internal static readonly EnumRegistrar<TechLevel> TechLevels = new EnumRegistrar<TechLevel>();
+        internal static readonly EnumRegistrar<ComparisonTypes> ComparisonTypes = new EnumRegistrar<ComparisonTypes>();
 
         private static readonly List<HealthReport> HealthReports = new List<HealthReport>();
 
@@ -96,16 +87,6 @@ namespace SirRandoo.ToolkitUtils
                 DumpAllData();
             }
         }
-
-        /// <summary>
-        ///     The traits available for purchase within the mod's store.
-        /// </summary>
-        public static List<TraitItem> Traits { get; private set; }
-
-        /// <summary>
-        ///     The pawns available for purchase within the mod's store.
-        /// </summary>
-        public static List<PawnKindItem> PawnKinds { get; private set; }
 
         /// <summary>
         ///     The associated data for items within Twitch Toolkit.
@@ -506,82 +487,6 @@ namespace SirRandoo.ToolkitUtils
         }
 
         /// <summary>
-        ///     Loads a list of traits at the given file path.
-        /// </summary>
-        /// <param name="path">The file to load traits from</param>
-        /// <param name="ignoreErrors">Whether loading errors should be ignored</param>
-        public static void LoadTraits(string path, bool ignoreErrors = false)
-        {
-            Traits = LoadJson<List<TraitItem>>(path, ignoreErrors) ?? new List<TraitItem>();
-        }
-
-        /// <summary>
-        ///     Loads a list of traits at the given file path.
-        /// </summary>
-        /// <param name="path">The file to load traits from</param>
-        /// <param name="ignoreErrors">Whether loading errors should be ignored</param>
-        public static async Task LoadTraitsAsync(string path, bool ignoreErrors = false)
-        {
-            Traits = await LoadJsonAsync<List<TraitItem>>(path, ignoreErrors) ?? new List<TraitItem>();
-        }
-
-        /// <summary>
-        ///     Saves the current list of traits at the given file path.
-        /// </summary>
-        /// <param name="path">The file to save the traits to</param>
-        public static void SaveTraits(string path)
-        {
-            SaveJson(Traits, path);
-        }
-
-        /// <summary>
-        ///     Saves the current list of traits at the given file path.
-        /// </summary>
-        /// <param name="path">The file to save the traits to</param>
-        public static async Task SaveTraitsAsync(string path)
-        {
-            await SaveJsonAsync(Traits, path);
-        }
-
-        /// <summary>
-        ///     Loads a list of pawns from the given file path.
-        /// </summary>
-        /// <param name="path">The file to load pawns from</param>
-        /// <param name="ignoreErrors">Whether loading errors should be ignored</param>
-        public static void LoadPawnKinds(string path, bool ignoreErrors = false)
-        {
-            PawnKinds = LoadJson<List<PawnKindItem>>(path, ignoreErrors) ?? new List<PawnKindItem>();
-        }
-
-        /// <summary>
-        ///     Loads a list of pawns from the given file path.
-        /// </summary>
-        /// <param name="path">The file to load pawns from</param>
-        /// <param name="ignoreErrors">Whether loading errors should be ignored</param>
-        public static async Task LoadPawnKindsAsync(string path, bool ignoreErrors = false)
-        {
-            PawnKinds = await LoadJsonAsync<List<PawnKindItem>>(path, ignoreErrors) ?? new List<PawnKindItem>();
-        }
-
-        /// <summary>
-        ///     Saves a list of pawns at the given file path.
-        /// </summary>
-        /// <param name="path">The file to save pawns to</param>
-        public static void SavePawnKinds(string path)
-        {
-            SaveJson(PawnKinds, path);
-        }
-
-        /// <summary>
-        ///     Saves a list of pawns at the given file path.
-        /// </summary>
-        /// <param name="path">The file to save pawns to</param>
-        public static async Task SavePawnKindsAsync(string path)
-        {
-            await SaveJsonAsync(PawnKinds, path);
-        }
-
-        /// <summary>
         ///     Loads item data from the given file path.
         /// </summary>
         /// <param name="path">The file to load item data from</param>
@@ -633,107 +538,6 @@ namespace SirRandoo.ToolkitUtils
         public static async Task SaveEventDataAsync(string path)
         {
             await SaveJsonAsync(Events.ToDictionary(e => e.Name, e => e.EventData), path);
-        }
-
-        private static void ValidateTraits()
-        {
-            List<TraitDef> traitDefs = DefDatabase<TraitDef>.AllDefsListForReading;
-            Traits.RemoveAll(t => traitDefs.Find(d => d.defName.Equals(t.DefName)) == null);
-
-            foreach (TraitDef def in traitDefs)
-            {
-                List<TraitItem> existing = Traits.FindAll(t => t.DefName.Equals(def.defName));
-
-                if (existing.NullOrEmpty())
-                {
-                    Traits.AddRange(def.ToTraitItems());
-
-                    continue;
-                }
-
-                TraitItem[] traitItems = def.ToTraitItems().Where(t => !existing.Any(e => e.Degree == t.Degree)).ToArray();
-
-                if (traitItems.Length > 0)
-                {
-                    Traits.AddRange(traitItems);
-                }
-            }
-        }
-
-        private static void ValidateTraitData()
-        {
-            var builder = new StringBuilder();
-
-            foreach (TraitItem trait in Traits)
-            {
-                trait.TraitData ??= new TraitData();
-
-                try
-                {
-                    trait.TraitData.Mod = trait.TraitDef.TryGetModName();
-                }
-                catch (Exception)
-                {
-                    builder.AppendLine($" - {trait.Name ?? trait.DefName}");
-                }
-            }
-
-            if (builder.Length <= 0)
-            {
-                return;
-            }
-
-            builder.Insert(0, "The following traits could not be processed:\n");
-            TkUtils.Logger.Warn(builder.ToString());
-        }
-
-        private static void ValidatePawnKinds()
-        {
-            List<PawnKindDef> kindDefs = DefDatabase<PawnKindDef>.AllDefs.Where(k => k.RaceProps.Humanlike).ToList();
-            PawnKinds.RemoveAll(k => kindDefs.Find(d => d.race.defName.Equals(k.DefName)) == null);
-
-            foreach (PawnKindDef def in kindDefs)
-            {
-                List<PawnKindItem> item = PawnKinds.FindAll(k => k.DefName.Equals(def.race.defName));
-
-                if (item.Count > 0)
-                {
-                    continue;
-                }
-
-                PawnKinds.Add(
-                    new PawnKindItem { DefName = def.race.defName, Enabled = true, Name = def.race.label ?? def.race.defName, Cost = def.race.CalculateStorePrice() }
-                );
-            }
-        }
-
-        private static void ValidatePawnKindData()
-        {
-            var builder = new StringBuilder();
-
-            foreach (PawnKindItem pawn in PawnKinds)
-            {
-                pawn.PawnData ??= new PawnKindData();
-
-                try
-                {
-                    pawn.PawnData.Mod = pawn.ColonistKindDef.TryGetModName();
-                    pawn.LoadGameData();
-                    pawn.UpdateStats();
-                }
-                catch (Exception)
-                {
-                    builder.AppendLine($" - {pawn.Name ?? pawn.DefName}");
-                }
-            }
-
-            if (builder.Length <= 0)
-            {
-                return;
-            }
-
-            builder.Insert(0, "The following pawn kinds could not be processed:\n");
-            TkUtils.Logger.Warn(builder.ToString());
         }
 
         private static void ValidateItemData()
@@ -990,62 +794,6 @@ namespace SirRandoo.ToolkitUtils
         }
 
         /// <summary>
-        ///     Attempts to get a trait from the input passed.
-        /// </summary>
-        /// <param name="input">The input to check against</param>
-        /// <param name="trait">
-        ///     The <see cref="TraitItem"/> found from the given
-        ///     input
-        /// </param>
-        /// <returns>Whether a trait was found from the given input</returns>
-        [ContractAnnotation("input:notnull => true,trait:notnull; input:notnull => false,trait:null")]
-        public static bool TryGetTrait(string input, out TraitItem trait)
-        {
-            if (input.StartsWith("$"))
-            {
-                input = input.Substring(1);
-
-                trait = Traits.FirstOrDefault(t => t.DefName.Equals(input));
-            }
-            else
-            {
-                trait = Traits.FirstOrDefault(t => t.Name.ToToolkit().StripTags().EqualsIgnoreCase(input.ToToolkit().StripTags()));
-            }
-
-            return trait != null;
-        }
-
-        /// <summary>
-        ///     Attempts to get a pawn from the input passed.
-        /// </summary>
-        /// <param name="input">The input to check against</param>
-        /// <param name="kind">
-        ///     The <see cref="PawnKindItem"/> found from the
-        ///     given input
-        /// </param>
-        /// <param name="defName">
-        ///     Whether the method should compare the input to
-        ///     the trait's def name instead
-        /// </param>
-        /// <returns>Whether a pawn was found from the given input</returns>
-        [ContractAnnotation("input:notnull => true,kind:notnull; input:notnull => false,kind:null")]
-        public static bool TryGetPawnKind(string input, out PawnKindItem kind, bool defName = false)
-        {
-            if (defName)
-            {
-                input = input.Substring(1);
-
-                kind = PawnKinds.Find(t => t.DefName.Equals(input));
-            }
-            else
-            {
-                kind = PawnKinds.Find(t => t.Name.ToToolkit().EqualsIgnoreCase(input.ToToolkit()));
-            }
-
-            return kind != null;
-        }
-
-        /// <summary>
         ///     Loads items from the given partial data.
         /// </summary>
         /// <param name="partialData">A collection of partial data to load</param>
@@ -1153,82 +901,6 @@ namespace SirRandoo.ToolkitUtils
 
             builder.Insert(0, "The following events could not be loaded from the partial data provided:\n");
             TkUtils.Logger.Warn(builder.ToString());
-        }
-
-        /// <summary>
-        ///     Loads traits from the given partial data.
-        /// </summary>
-        /// <param name="partialData">A collection of partial data to load</param>
-        public static void LoadTraitPartial([NotNull] IEnumerable<TraitItem> partialData)
-        {
-            var builder = new StringBuilder();
-
-            foreach (TraitItem partial in partialData)
-            {
-                TraitItem existing = Traits.Find(i => i.DefName.Equals(partial.DefName) && i.Degree == partial.Degree);
-
-                if (existing == null)
-                {
-                    if (partial.TraitDef == null)
-                    {
-                        builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}:{partial.Degree}\n");
-
-                        continue;
-                    }
-
-                    Traits.Add(partial);
-
-                    continue;
-                }
-
-                existing.Name = partial.Name;
-                existing.CanAdd = partial.CanAdd;
-                existing.CostToAdd = partial.CostToAdd;
-                existing.CanRemove = partial.CanRemove;
-                existing.CostToRemove = partial.CostToRemove;
-                existing.Data = partial.Data;
-            }
-
-            if (builder.Length <= 0)
-            {
-                return;
-            }
-
-            builder.Insert(0, "The following traits could not be loaded from the partial data provided:\n");
-            TkUtils.Logger.Warn(builder.ToString());
-        }
-
-        /// <summary>
-        ///     Loads pawns from the given partial data.
-        /// </summary>
-        /// <param name="partialData">A collection of partial data to load</param>
-        public static void LoadPawnPartial([NotNull] IEnumerable<PawnKindItem> partialData)
-        {
-            var builder = new StringBuilder();
-
-            foreach (PawnKindItem partial in partialData)
-            {
-                PawnKindItem existing = PawnKinds.Find(i => i.DefName.Equals(partial.DefName));
-
-                if (existing == null)
-                {
-                    if (partial.ColonistKindDef == null)
-                    {
-                        builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
-
-                        continue;
-                    }
-
-                    PawnKinds.Add(partial);
-
-                    continue;
-                }
-
-                existing.Name = partial.Name;
-                existing.Cost = partial.Cost;
-                existing.Enabled = partial.Enabled;
-                existing.Data = partial.Data;
-            }
         }
 
         [NotNull]

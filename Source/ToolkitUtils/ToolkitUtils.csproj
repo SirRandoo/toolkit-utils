@@ -37,6 +37,14 @@
             <Link>README.md</Link>
         </Content>
     </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Data.Traits.cs">
+        <DependentUpon>Data.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Data.PawnKinds.cs">
+        <DependentUpon>Data.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
     <Target Name="CustomAfterBuild" AfterTargets="Build">
         <ItemGroup>
             <_FilesToMove Include="$(OutputPath)$(AssemblyName).*" />

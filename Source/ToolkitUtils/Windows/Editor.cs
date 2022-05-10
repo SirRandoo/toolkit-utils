@@ -219,7 +219,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void LoadPartialTraitData([NotNull] PartialData<TraitItem> data)
         {
-            Data.LoadTraitPartial(data.Data);
+            Data.ProcessTraitPartial(data.Data);
             _traitWorker.NotifyGlobalDataChanged();
         }
 
