@@ -53,13 +53,14 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             List<Item> inventory = StoreInventory.items;
             var tradeables = new HashSet<ThingDef>(StoreDialog.GetTradeables());
+            List<string> tradeableIds = tradeables.Select(t => t.defName).ToList();
 
             if (Data.PawnKinds != null)
             {
                 DisableKinds(inventory);
             }
 
-            StoreInventory.items = inventory.Where(i => !i.defname.NullOrEmpty()).Where(i => tradeables.Any(t => t.defName.Equals(i.defname))).ToList();
+            StoreInventory.items = inventory.Where(i => !string.IsNullOrEmpty(i.defname)).Where(i => tradeableIds.Contains(i.defname)).ToList();
 
             RemoveDanglingItems();
             FixNullItemNames(tradeables);
