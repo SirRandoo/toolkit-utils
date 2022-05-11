@@ -22,6 +22,10 @@ using TwitchToolkit.PawnQueue;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch to disable Twitch Toolkit's pawn commands in
+    ///     favor of Utils'.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class PawnCommandsPatch

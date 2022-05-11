@@ -25,6 +25,10 @@ using TwitchToolkit.Storytellers.StorytellerPackWindows;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch to replace Twitch Toolkit's global weights dialog
+    ///     with Utils'.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class GlobalWeightWindowPatch

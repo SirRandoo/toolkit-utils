@@ -27,6 +27,10 @@ using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for ensuring shortcut commands are properly
+    ///     executed.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class BuyPatch

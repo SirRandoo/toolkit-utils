@@ -24,6 +24,13 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     internal static partial class PurchaseHandlerPatch
     {
+        /// <summary>
+        ///     A Harmony patch for changing how Twitch Toolkit compares users
+        ///     within the "variables command list", a list containing the
+        ///     usernames of viewers that purchased a
+        ///     <see cref="TwitchToolkit.Incidents.StoreIncidentVariables"/>, to
+        ///     be case-insensitive.
+        /// </summary>
         [HarmonyPrefix]
         [HarmonyPatch("CheckIfViewerIsInVariableCommandList")]
         [SuppressMessage("ReSharper", "InconsistentNaming")]

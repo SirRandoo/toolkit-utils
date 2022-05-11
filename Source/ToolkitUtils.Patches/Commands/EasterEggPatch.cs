@@ -27,6 +27,10 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch to fix SirRandoo's easter egg erroring out when
+    ///     it selects an animal instead of an item.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class EasterEggPatch

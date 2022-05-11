@@ -25,6 +25,14 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for removing a viewer's name from a pawn when the
+    ///     streamer unassigns their pawn from the viewers dialog.
+    /// </summary>
+    /// <remarks>
+    ///     Prior to this, Utils would automatically reassign the pawn to the
+    ///     viewer as the pawn was still named after the viewer.
+    /// </remarks>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class UnassignedPatch

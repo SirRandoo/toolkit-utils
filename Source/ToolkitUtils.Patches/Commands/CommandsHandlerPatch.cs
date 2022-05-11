@@ -30,6 +30,12 @@ using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for adjusting how Twitch Toolkit's command
+    ///     parsing code is performed. This patch is responsible for
+    ///     performing case insensitive comparisons against command names, as
+    ///     well as powering the <see cref="TkSettings.BuyPrefix"/> code.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class CommandsHandlerPatch

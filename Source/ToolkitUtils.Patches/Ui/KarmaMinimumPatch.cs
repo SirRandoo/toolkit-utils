@@ -24,6 +24,10 @@ using TwitchToolkit.Settings;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for removing the lower limit on Twitch Toolkit's
+    ///     karma minimum.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class KarmaMinimumPatch

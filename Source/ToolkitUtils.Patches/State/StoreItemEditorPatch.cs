@@ -29,6 +29,17 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch to clean the item list before Twitch Toolkit
+    ///     saves it to disk.
+    /// </summary>
+    /// <remarks>
+    ///     This patch is responsible for removing items that don't have a
+    ///     proper name or def name, as well as mismatching items between
+    ///     Utils and Twitch Toolkit's internal item lists, then transforms
+    ///     the Utils containers into a form compatible with Twitch Toolkit's
+    ///     item list file.
+    /// </remarks>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class StoreItemEditorPatch

@@ -26,6 +26,11 @@ using TwitchToolkit.Windows;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for replacing Twitch Toolkit's command editor
+    ///     dialog with Utils', which offers first class support for its own
+    ///     command-related features.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class CommandEditorPatch

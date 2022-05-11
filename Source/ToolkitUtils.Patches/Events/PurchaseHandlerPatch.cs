@@ -29,6 +29,16 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for adjusting how Twitch Toolkit's purchase
+    ///     handler processes events to support the various changes Utils'
+    ///     requires.
+    /// </summary>
+    /// <remarks>
+    ///     Originally, this patch was created to support the
+    ///     <see cref="Coordinator"/>, but more recently it was extended to
+    ///     support Utils' cooldown system.
+    /// </remarks>
     [HarmonyPatch(typeof(Purchase_Handler))]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static partial class PurchaseHandlerPatch

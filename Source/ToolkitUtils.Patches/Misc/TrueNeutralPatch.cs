@@ -22,6 +22,11 @@ using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for disabling the karma bump from
+    ///     <see cref="KarmaType.Neutral"/> karma type purchases, if the
+    ///     relevant setting is enabled.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class TrueNeutralPatch

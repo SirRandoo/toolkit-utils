@@ -35,6 +35,18 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(Alert_UnnamedColonist), nameof(Alert_UnnamedColonist.GetReport));
         }
 
+        /// <summary>
+        ///     A Harmony patch for adjusting how the "Colonists need names"
+        ///     in-game alert determines candidates. By default, the alert
+        ///     selects all pawns that don't have a viewer assigned to them,
+        ///     including borrowed pawns. This patch changes that functionality
+        ///     to only select pawns that meet the following criteria: <br/>
+        ///     <ul>
+        ///         <li>The pawn isn't borrowed from any faction</li>
+        ///         <li>The pawn isn't undead, if A RimWorld of Magic is active</li>
+        ///         <li>The pawn isn't currently assigned to someone else</li>
+        ///     </ul>
+        /// </summary>
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         [SuppressMessage("ReSharper", "RedundantAssignment")]
         private static bool Prefix(ref AlertReport __result)

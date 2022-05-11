@@ -27,6 +27,10 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for breaking chat messages sent by the mod, or
+    ///     addons, into chunks if it'd exceed the message limit.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class SendChatMessagePatch

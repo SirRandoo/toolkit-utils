@@ -25,6 +25,18 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for ensuring special events
+    ///     (<see cref="EventTypes"/>) have their cost set to <c>1</c>.
+    /// </summary>
+    /// <remarks>
+    ///     Internally, Twitch Toolkit requires viewers to have the amount of
+    ///     coins an event costs prior to executing the event. This means
+    ///     that if event A costs <c>500</c> coins, viewers are required to
+    ///     have <c>500</c> coins before the event A's code will run, even if
+    ///     the event's code determined the viewer only required <c>200</c>
+    ///     coins.
+    /// </remarks>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class StoreIncidentEditorPatch

@@ -25,6 +25,11 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for inserting a "Purge" button in the Viewers
+    ///     dialog. The purge button is responsible for opening the
+    ///     <see cref="PurgeViewersDialog"/>.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class ViewerWindowPatch

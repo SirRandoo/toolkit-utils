@@ -24,6 +24,14 @@ using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for ensuring Utils' items match Twitch Toolkit's
+    ///     items.
+    /// </summary>
+    /// <remarks>
+    ///     Prior to this, a weird oddity would occur where Utils would have
+    ///     more, or less, items than Twitch Toolkit.
+    /// </remarks>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class ItemEditorPatch

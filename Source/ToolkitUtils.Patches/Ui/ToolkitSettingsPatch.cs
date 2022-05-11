@@ -23,6 +23,10 @@ using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for changing Twitch Toolkit's settings menu to be
+    ///     its old, classic style.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class ToolkitSettingsPatch

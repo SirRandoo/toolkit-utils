@@ -26,6 +26,11 @@ using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for replacing Twitch Toolkit's incident editor
+    ///     dialog with Utils', which offers first class support to its
+    ///     event-related features, like event setting embeds.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class StoreIncidentsWindowPatch

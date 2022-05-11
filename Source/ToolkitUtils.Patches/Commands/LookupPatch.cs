@@ -22,6 +22,9 @@ using TwitchToolkit.Store;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch to disable Twitch Toolkit's lookup command in favor of Utils'.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class LookupPatch

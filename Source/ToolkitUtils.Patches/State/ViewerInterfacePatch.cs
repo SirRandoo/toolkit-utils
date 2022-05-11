@@ -25,6 +25,10 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for fixing ToolkitCore's viewer database being
+    ///     nulled occasionally.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class ViewerInterfacePatch

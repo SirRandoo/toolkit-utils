@@ -24,6 +24,16 @@ using Translator = SirRandoo.ToolkitUtils.Helpers.Translator;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for filling Utils' translation service with the
+    ///     game's current language data.
+    /// </summary>
+    /// <remarks>
+    ///     Prior to this, responses from Utils' commands and events would
+    ///     occasionally encounter a race condition that would result in
+    ///     messages being garbled, and/or text being display in-game appearing
+    ///     in chat.
+    /// </remarks>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class LanguageProxyPatch

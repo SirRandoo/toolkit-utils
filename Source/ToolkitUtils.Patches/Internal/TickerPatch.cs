@@ -21,6 +21,11 @@ using JetBrains.Annotations;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for disabling Twitch Toolkit's ticker from
+    ///     running and re-registering if the
+    ///     <see cref="TkSettings.CommandRouter"/> setting is enabled.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     internal static class TickerPatch

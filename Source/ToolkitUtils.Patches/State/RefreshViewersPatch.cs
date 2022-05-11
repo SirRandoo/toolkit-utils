@@ -26,6 +26,15 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for refreshing Twitch Toolkit's internal viewer
+    ///     list.
+    /// </summary>
+    /// <remarks>
+    ///     This patch also fixes a "hanging" situation with Twitch Toolkit,
+    ///     where if ToolkitCore wasn't properly set up, the game would
+    ///     freeze for a period of time.
+    /// </remarks>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class RefreshViewersPatch

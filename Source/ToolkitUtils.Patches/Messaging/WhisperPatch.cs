@@ -25,6 +25,10 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Harmony
 {
+    /// <summary>
+    ///     A Harmony patch for ensuring whisper messages received from chat
+    ///     are redirected to the <see cref="CommandRouter"/>.
+    /// </summary>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class WhisperPatch
