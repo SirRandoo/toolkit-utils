@@ -100,19 +100,19 @@ namespace SirRandoo.ToolkitUtils.Windows
         }
 
         /// <inheritdoc cref="Window_CommandEditor.DoWindowContents"/>
-        public override void DoWindowContents(Rect region)
+        public override void DoWindowContents(Rect inRect)
         {
             if (Event.current.type == EventType.Layout)
             {
                 return;
             }
 
-            GUI.BeginGroup(region);
+            GUI.BeginGroup(inRect);
 
             if (!_showingSettings)
             {
-                var buttonBar = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-                Rect content = new Rect(0f, Text.SmallFontHeight * 2, region.width, region.height - Text.SmallFontHeight).ContractedBy(20f);
+                var buttonBar = new Rect(0f, 0f, inRect.width, Text.SmallFontHeight);
+                Rect content = new Rect(0f, Text.SmallFontHeight * 2, inRect.width, inRect.height - Text.SmallFontHeight).ContractedBy(20f);
 
                 GUI.BeginGroup(buttonBar);
                 DrawButtonBar(buttonBar.AtZero());
@@ -124,7 +124,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
             else
             {
-                _settings?.Draw(region);
+                _settings?.Draw(inRect);
             }
 
             GUI.EndGroup();
