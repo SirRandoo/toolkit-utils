@@ -41,6 +41,7 @@ namespace SirRandoo.ToolkitUtils
         public TkUtils(ModContentPack content) : base(content)
         {
             Instance = this;
+            GetSettings<TkSettings>();
 
             try
             {
