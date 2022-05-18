@@ -192,7 +192,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 Gender preceptAffects = GetGenderForPrecept(precept);
 
-                if (preceptAffects != pawn.gender && pawn.ideo.Ideo.HasPrecept(precept))
+                if (!pawn.ideo.Ideo.HasPrecept(precept) || preceptAffects != pawn.gender)
                 {
                     continue;
                 }
