@@ -14,33 +14,41 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Linq;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Workers;
+using ToolkitCore.Utilities;
+using TwitchLib.Client.Models.Interfaces;
+using TwitchToolkit;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
 {
-    public class Divorce : ConsensualCommand
+    public class Divorce : CommandBase
     {
         /// <inheritdoc/>
-        protected override void ProcessAcceptInternal(string asker, string askee)
+        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
         {
-            if (!PurchaseHelper.TryGetPawn(asker, out Pawn askerPawn))
+            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
             {
-                MessageHelper.ReplyToUser(asker, "TKUtils.NoPawn".LocalizeKeyed(asker));
+                MessageHelper.ReplyToUser(twitchMessage.Username, "TKUtils.NoPawn".Localize());
 
                 return;
             }
 
-            if (!PurchaseHelper.TryGetPawn(askee, out Pawn askeePawn))
+            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
+
+            if (!worker.TryGetNextAsViewer(out Viewer viewer) || !PurchaseHelper.TryGetPawn(viewer.username, out Pawn target))
             {
-                MessageHelper.ReplyToUser(asker, "TKUtils.PawnNotFound".LocalizeKeyed(askee));
+                MessageHelper.ReplyToUser(twitchMessage.Username, "TKUtils.PawnNotFound".LocalizeKeyed(worker.GetLast()));
 
                 return;
             }
 
-            TkUtils.Context.Post(c => PerformDivorce(askerPawn, askeePawn), null);
+            TkUtils.Context.Post(c => PerformDivorce(pawn, target), null);
         }
 
         private static void PerformDivorce(Pawn askerPawn, Pawn askeePawn)
