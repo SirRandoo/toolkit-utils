@@ -18,6 +18,7 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
+using PreceptDefOf = SirRandoo.ToolkitUtils.Defs.PreceptDefOf;
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -29,7 +30,29 @@ namespace SirRandoo.ToolkitUtils
         public string ModId => "Ludeon.Ideology";
 
         /// <inheritdoc/>
-        public bool CanHeal(Hediff hediff) => !Find.FactionManager.OfPlayer.ideos.AnyPreceptWithRequiredScars() && hediff.def != HediffDefOf.Scarification;
+        public bool CanHeal([NotNull] Hediff hediff)
+        {
+            bool isScarification = hediff.def == HediffDefOf.Scarification;
+
+            Ideo ideo = hediff.pawn.Ideo;
+
+            if (ideo.HasPrecept(PreceptDefOf.Scarification_Minor))
+            {
+                return !isScarification;
+            }
+
+            if (ideo.HasPrecept(PreceptDefOf.Scarification_Heavy))
+            {
+                return !isScarification;
+            }
+
+            if (ideo.HasPrecept(PreceptDefOf.Scarification_Extreme))
+            {
+                return !isScarification;
+            }
+
+            return true;
+        }
 
         /// <inheritdoc/>
         public bool CanHeal(BodyPartRecord bodyPart) => true;

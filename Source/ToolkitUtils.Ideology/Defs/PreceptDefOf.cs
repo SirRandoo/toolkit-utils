@@ -18,7 +18,7 @@ using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Defs
 {
     [DefOf]
     [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
@@ -33,5 +33,8 @@ namespace SirRandoo.ToolkitUtils
         public static PreceptDef SpouseCount_Female_MaxFour;
         public static PreceptDef SpouseCount_Male_Unlimited;
         public static PreceptDef SpouseCount_Female_Unlimited;
+        public static PreceptDef Scarification_Extreme;
+        public static PreceptDef Scarification_Heavy;
+        public static PreceptDef Scarification_Minor;
     }
 }

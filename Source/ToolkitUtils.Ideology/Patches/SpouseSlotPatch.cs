@@ -28,6 +28,7 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
+using PreceptDefOf = SirRandoo.ToolkitUtils.Defs.PreceptDefOf;
 
 namespace SirRandoo.ToolkitUtils.Patches
 {
