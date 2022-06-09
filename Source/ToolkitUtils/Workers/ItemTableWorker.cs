@@ -331,7 +331,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             }
             else
             {
-                UiHelper.Label(canvas, item.Data.Name, item.Data.Thing == null ? Color.yellow : Color.white);
+                UiHelper.Label(canvas, item.Data.Name, item.Data.Thing == null ? Color.yellow : Color.white, TextAnchor.MiddleLeft, GameFont.Small);
             }
 
             GUI.color = new Color(1f, 1f, 1f, 0.7f);

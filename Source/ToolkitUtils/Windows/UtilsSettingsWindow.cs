@@ -331,7 +331,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             (Rect storeLabel, Rect storeField) = listing.Split();
             UiHelper.Label(storeLabel, _storeRateLabel);
             listing.DrawDescription(_storeRateDescription);
-            UiHelper.NumberField(storeField, ref _buildRateBuffer, ref TkSettings.StoreBuildRate, ref _buildRateBufferValid);
+            
+            if (UiHelper.NumberField(storeField, out int value, ref _buildRateBuffer, ref _buildRateBufferValid))
+            {
+                TkSettings.StoreBuildRate = value;
+            }
 
             listing.End();
             Widgets.EndScrollView();

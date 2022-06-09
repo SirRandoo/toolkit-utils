@@ -145,7 +145,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 listing.Gap();
                 Widgets.Label(costLabel, _priceText);
-                UiHelper.NumberField(costField, ref _costBuffer, ref storeIncident.cost, ref _costBufferValid, 1);
+                
+                if (UiHelper.NumberField(costField, out int value, ref _costBuffer, ref _costBufferValid, 1, int.MaxValue))
+                {
+                    storeIncident.cost = value;
+                }
             }
 
             if (!storeIncident.defName.Equals("Sanctuary"))
@@ -154,7 +158,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 listing.Gap();
                 Widgets.Label(capLabel, _timesText);
-                UiHelper.NumberField(capField, ref _capBuffer, ref storeIncident.eventCap, ref _capBufferValid, maximum: 200);
+                
+                if (UiHelper.NumberField(capField, out int value, ref _capBuffer, ref _capBufferValid, 1, 200))
+                {
+                    storeIncident.eventCap = value;
+                }
             }
 
             if (storeIncidentVariables?.maxWager > 0)
@@ -164,7 +172,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 (Rect wagerLabel, Rect wagerField) = listing.Split(0.6f);
                 Widgets.Label(wagerLabel, _wagerText);
 
-                UiHelper.NumberField(wagerField, ref _wagerBuffer, ref storeIncidentVariables.maxWager, ref _wagerBufferValid, storeIncidentVariables.cost, 20000);
+                if (UiHelper.NumberField(wagerField, out int wager, ref _wagerBuffer, ref _wagerBufferValid, storeIncidentVariables.minPointsToFire, 20000))
+                {
+                    storeIncidentVariables.maxWager = wager;
+                }
             }
 
             listing.Gap();

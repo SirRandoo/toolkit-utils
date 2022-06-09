@@ -64,10 +64,13 @@ namespace SirRandoo.ToolkitUtils.Models
                 Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
             }
 
-            if (UiHelper.NumberField(input, ref _weightBuffer, ref _weight, ref _weightValid))
+            if (!UiHelper.NumberField(input, out int value, ref _weightBuffer, ref _weightValid))
             {
-                Dirty.Set(true);
+                return;
             }
+
+            _weight = value;
+            Dirty.Set(true);
         }
 
         public ObservableProperty<bool> Dirty { get; set; }

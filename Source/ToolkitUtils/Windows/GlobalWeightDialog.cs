@@ -63,17 +63,17 @@ namespace SirRandoo.ToolkitUtils.Windows
         }
 
         /// <inheritdoc cref="Window_GlobalVoteWeights.DoWindowContents"/>
-        public override void DoWindowContents(Rect region)
+        public override void DoWindowContents(Rect inRect)
         {
-            GUI.BeginGroup(region);
+            GUI.BeginGroup(inRect);
 
-            var weightsRect = new Rect(0f, 0f, region.width, region.height);
+            var weightsRect = new Rect(0f, 0f, inRect.width, inRect.height);
 
             GUI.BeginGroup(weightsRect);
 
             if (ToolkitSettings.VoteWeights == null)
             {
-                UiHelper.Label(weightsRect.AtZero(), _nullDictText, ColorLibrary.Lavender, TextAnchor.MiddleCenter);
+                UiHelper.Label(weightsRect.AtZero(), _nullDictText, ColorLibrary.Lavender, TextAnchor.MiddleCenter, GameFont.Small);
                 ToolkitSettings.VoteWeights ??= new Dictionary<string, int>();
             }
             else

@@ -298,7 +298,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (_confirmed)
             {
-                UiHelper.Label(buttonRect, _deletedText, new Color(1f, 0.53f, 0.76f));
+                UiHelper.Label(buttonRect, _deletedText, new Color(1f, 0.53f, 0.76f), TextAnchor.MiddleLeft, GameFont.Small);
             }
         }
 

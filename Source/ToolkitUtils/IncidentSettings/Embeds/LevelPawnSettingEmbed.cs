@@ -33,7 +33,11 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings.Embeds
         {
             (Rect label, Rect field) = new Rect(canvas.x, canvas.y, canvas.width, preferredHeight).Split(0.65f);
             UiHelper.Label(label, "TKUtils.Fields.LevelSkillMultiplier".Localize());
-            UiHelper.NumberField(field, ref _buffer, ref LevelPawnSettings.xpMultiplier, ref _bufferValid, 0.5f, 5f);
+
+            if (UiHelper.NumberField(field, out float value, ref _buffer, ref _bufferValid, 0.5f, 5f))
+            {
+                LevelPawnSettings.xpMultiplier = value;
+            }
         }
     }
 }

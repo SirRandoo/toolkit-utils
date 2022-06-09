@@ -43,7 +43,11 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             UiHelper.Label(labelRect, _labelText);
             DrawButton(buttonRect);
-            UiHelper.NumberField(inputRect, ref _buffer, ref _karma, ref _valid);
+
+            if (UiHelper.NumberField(inputRect, out int value, ref _buffer, ref _valid))
+            {
+                _karma = value;
+            }
         }
 
         public override bool ShouldPurge(Viewer viewer)

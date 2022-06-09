@@ -185,7 +185,7 @@ namespace SirRandoo.ToolkitUtils.Models
 
                 if (textRect.width < filter.LabelWidth)
                 {
-                    UiHelper.Label(textRect, filter.Label, fontScale: GameFont.Tiny);
+                    UiHelper.Label(textRect, filter.Label, TextAnchor.MiddleLeft, GameFont.Tiny);
                 }
                 else
                 {

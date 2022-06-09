@@ -61,11 +61,7 @@ namespace SirRandoo.ToolkitUtils
 
         /// <inheritdoc cref="ModPlus.SettingsWindow"/>
         [NotNull]
-        protected override ProxySettingsWindow SettingsWindow => new UtilsSettingsWindow();
-
-        /// <inheritdoc cref="Mod.SettingsCategory"/>
-        [NotNull]
-        public override string SettingsCategory() => Content.Name;
+        public override ProxySettingsWindow SettingsWindow => new UtilsSettingsWindow();
 
         internal static void HandleException([NotNull] Exception exception, [CanBeNull] string reporter = null)
         {

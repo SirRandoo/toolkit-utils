@@ -138,7 +138,7 @@ namespace SirRandoo.ToolkitUtils
         private void DrawLeftColumn(Rect region)
         {
             var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-            UiHelper.Label(titleRect, _healthReportText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
+            UiHelper.Label(titleRect, _healthReportText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter, GameFont.Small);
 
             var contentRect = new Rect(0f, Text.SmallFontHeight, region.width, region.height - Text.SmallFontHeight);
 
@@ -146,7 +146,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (!Data.AllHealthReports.Any())
             {
-                UiHelper.Label(contentRect.AtZero(), _noReportsText, new Color(0.39f, 0.39f, 0.39f), TextAnchor.MiddleCenter);
+                UiHelper.Label(contentRect.AtZero(), _noReportsText, new Color(0.39f, 0.39f, 0.39f), TextAnchor.MiddleCenter, GameFont.Small);
                 GUI.EndGroup();
 
                 return;
@@ -228,7 +228,7 @@ namespace SirRandoo.ToolkitUtils
                 iconRect.TipRegion(iconTooltip);
             }
 
-            UiHelper.Label(messageRect, report.Message, color);
+            UiHelper.Label(messageRect, report.Message, color, TextAnchor.MiddleLeft, GameFont.Small);
 
             if (!Mouse.IsOver(messageRect))
             {
@@ -304,7 +304,7 @@ namespace SirRandoo.ToolkitUtils
         private void DrawRightColumn(Rect region)
         {
             var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-            UiHelper.Label(titleRect, _quickActionsText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
+            UiHelper.Label(titleRect, _quickActionsText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter, GameFont.Small);
 
             var contentRect = new Rect(0f, Text.SmallFontHeight, region.width, region.height - Text.SmallFontHeight);
 
