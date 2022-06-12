@@ -52,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            List<string> segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToList();
+            List<string> segments = CommandFilter.Parse(twitchMessage.Message).ToList();
             var worker = ArgWorker.CreateInstance(segments);
 
             if (!worker.HasNext())
@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
-            string query = segments.FirstOrFallback("");
+            string query = segments.Skip(1).FirstOrFallback("");
 
             if (TryProcessIncident(viewer, twitchMessage, query))
             {
@@ -68,12 +68,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             Helper.Log($"abr: {query} ");
-
-            if (!worker.TryGetNextAsItem(out ArgWorker.ItemProxy _))
-            {
-                return false;
-            }
-
+            
             segments.Insert(1, "item");
 
             if (segments.Count < 4)

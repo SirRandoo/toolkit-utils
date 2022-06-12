@@ -58,7 +58,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             }
 
             Store_Logger.LogPurchase(viewer.username, twitchMessage.Message);
-
             Current.Game.GetComponent<Coordinator>()?.QueueIncident(new IncidentProxy { VariablesIncident = inc });
             Current.Game.GetComponent<Store_Component>()?.LogIncident(incident);
 
