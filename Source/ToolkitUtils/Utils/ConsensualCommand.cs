@@ -163,6 +163,12 @@ namespace SirRandoo.ToolkitUtils.Utils
             {
                 ConsentWorker.Create(username, viewer.username!);
             }
+
+            ProcessRequestPost(username, viewer);
+        }
+
+        protected virtual void ProcessRequestPost([NotNull] string username, [NotNull] Viewer viewer)
+        {
         }
     }
 }
