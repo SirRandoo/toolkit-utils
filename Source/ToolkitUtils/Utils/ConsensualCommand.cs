@@ -46,7 +46,9 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                     return;
                 default:
-                    if (worker.TryGetNextAsViewer(out Viewer viewer))
+                    Viewer viewer = Viewers.All.Find(v => string.Equals(v.username, argument, StringComparison.InvariantCultureIgnoreCase));
+
+                    if (viewer != null)
                     {
                         ProcessRequest(twitchMessage.Username, viewer);
                     }
