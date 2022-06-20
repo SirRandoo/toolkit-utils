@@ -17,6 +17,7 @@
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
+using TwitchToolkit;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Commands
@@ -48,6 +49,15 @@ namespace SirRandoo.ToolkitUtils.Commands
             }
 
             TkUtils.Context.Post(c => PerformMarriage(askerPawn, askeePawn), null);
+        }
+
+        /// <inheritdoc />
+        protected override void ProcessRequestPost(string username, Viewer viewer)
+        {
+            MessageHelper.ReplyToUser(
+                viewer.username,
+                $"{username} wants to marry you. You can accept it with {TkSettings.Prefix}{command.command} accept {username}, or decline it with {TkSettings.Prefix}{command.command} decline {username}."
+            );
         }
 
         private static void PerformMarriage(Pawn askerPawn, Pawn askeePawn)
