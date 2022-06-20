@@ -53,7 +53,17 @@ namespace SirRandoo.ToolkitUtils.Commands
 
         private static void PerformDivorce(Pawn askerPawn, Pawn askeePawn)
         {
-            SpouseRelationUtility.DoDivorce(askerPawn, askeePawn);
+            foreach (Pawn spouse in askerPawn.GetSpouses(false))
+            {
+                if (spouse != askeePawn)
+                {
+                    continue;
+                }
+
+                SpouseRelationUtility.DoDivorce(askerPawn, askeePawn);
+
+                break;
+            }
         }
     }
 }
