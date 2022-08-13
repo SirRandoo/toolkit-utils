@@ -119,11 +119,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                         {
                             TraitItem trait = Data.Traits.Find(i => i.DefName.Equals(t.def.defName) && i.Degree == t.Degree);
 
-                            if (!trait.CanRemove)
-                            {
-                                return new TraitEvent { Type = EventType.Noop, Error = "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(trait.Name) };
-                            }
-
                             return !IsTraitRemovable(trait, out string error)
                                 ? new TraitEvent { Type = EventType.Noop, Error = error, Item = trait }
                                 : new TraitEvent { Type = EventType.Remove, Trait = t, Item = trait };
@@ -156,6 +151,16 @@ namespace SirRandoo.ToolkitUtils.Incidents
             var final = new List<TraitEvent>(container.Where(e => e.Type == EventType.Remove));
             final.AddRange(container.Where(t => t.Type != EventType.Remove).GroupBy(t => t.Item.DefName).Select(e => e.First()));
 
+            foreach (TraitEvent traitEvent in final.Where(f => f.Type == EventType.Add || f.Type == EventType.Noop))
+            {
+                TraitEvent conflictsWith = final.Where(f => f != traitEvent && (f.Type == EventType.Add || f.Type == EventType.Noop))
+                   .FirstOrDefault(f => f.Trait.def.ConflictsWith(traitEvent.Trait));
+
+                if (conflictsWith != null && string.IsNullOrEmpty(traitEvent.Error))
+                {
+                    traitEvent.Error = "TKUtils.Trait.Conflict".LocalizeKeyed(traitEvent.Trait.CurrentData.label, conflictsWith.Trait.CurrentData.label);
+                }
+            }
 
             traitEvents = final;
 
@@ -216,6 +221,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (!trait.CanRemove)
+            {
+                error = "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(trait.Name);
+                
+                return false;
+            }
+
             error = null;
 
             return true;
@@ -241,6 +253,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (trait.TraitDef.IsDisallowedByKind(_pawn, trait.Degree))
             {
                 error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name);
+
+                return false;
+            }
+
+            if (!trait.CanAdd)
+            {
+                error = "TKUtils.Trait.Disabled".LocalizeKeyed(trait.Name);
 
                 return false;
             }
