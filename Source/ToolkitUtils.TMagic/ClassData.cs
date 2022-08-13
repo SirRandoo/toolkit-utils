@@ -695,7 +695,7 @@ namespace SirRandoo.ToolkitUtils
                 }
             }
 
-            TM_CustomClass @class = TM_ClassUtility.CustomClasses().Find(c => c.classTrait == trait);
+            TM_CustomClass @class = TM_ClassUtility.CustomClasses.Find(c => c.classTrait == trait);
 
             if (@class == null)
             {
