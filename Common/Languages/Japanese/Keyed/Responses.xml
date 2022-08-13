@@ -25,6 +25,10 @@
     <TKUtils.GiftCoinsEnabled>Gift coins has been enabled</TKUtils.GiftCoinsEnabled>
     <TKUtils.GiftCoinsDisabled>Gift coins has been disabled</TKUtils.GiftCoinsDisabled>
 
+    <!-- Consent Commands -->
+    <TKUtils.RequestApproved>{0} accepted your request.</TKUtils.RequestApproved>
+    <TKUtils.RequestDeclined>{0} declined your request.</TKUtils.RequestDeclined>
+
     <!-- Name Queue -->
     <TKUtils.ViewerDrawn>You've been picked from the name queue! Respond in chat so you can claim the current pawn.</TKUtils.ViewerDrawn>
 </LanguageData>

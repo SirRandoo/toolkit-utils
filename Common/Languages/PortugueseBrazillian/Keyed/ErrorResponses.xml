@@ -36,6 +36,7 @@
     <TKUtils.InvalidTraitQuery>Nenhuma característica de nome "{0}" foi encontrada.</TKUtils.InvalidTraitQuery>
     <TKUtils.InvalidSkillQuery>Nenhuma habilidade de nome "{0}" foi encontrada.</TKUtils.InvalidSkillQuery>
     <TKUtils.InvalidKindQuery>Nenhum tipo de colono de nome "{0}" foi encontrado.</TKUtils.InvalidKindQuery>
+    <TKUtils.InvalidViewerQuery>No viewer by the name of "{0}" could be found.</TKUtils.InvalidViewerQuery>
     <TKUtils.InformativeDisabledItem>O item requisitado ({0}) está desativado.</TKUtils.InformativeDisabledItem>
     <TKUtils.WagerRequired>O seu balanço de {0} não é suficiente para o mínimo requerido de {1}.</TKUtils.WagerRequired>
     <TKUtils.InsufficientBalance>O item requisitado custa {0} moedas, mas você só tem {1} moedas.</TKUtils.InsufficientBalance>

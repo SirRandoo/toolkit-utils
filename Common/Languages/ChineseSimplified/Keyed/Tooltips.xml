@@ -69,4 +69,6 @@
     <TKUtils.MainTabTooltips.Debug>Debug message</TKUtils.MainTabTooltips.Debug>
     <TKUtils.MainTabTooltips.Error>Error message</TKUtils.MainTabTooltips.Error>
     <TKUtils.MainTabTooltips.Info>Info message</TKUtils.MainTabTooltips.Info>
+
+    <TKUtils.Persona.Linked>Linked to {0}</TKUtils.Persona.Linked>
 </LanguageData>

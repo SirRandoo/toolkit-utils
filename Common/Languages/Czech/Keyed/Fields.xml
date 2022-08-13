@@ -59,6 +59,7 @@
     <TKUtils.Fields.CategorySearch>Category search</TKUtils.Fields.CategorySearch>
     <TKUtils.Fields.HasSettings>Has settings?</TKUtils.Fields.HasSettings>
     <TKUtils.Fields.Class>Is class?</TKUtils.Fields.Class>
+    <TKUtils.Fields.Animal>Is animal?</TKUtils.Fields.Animal>
     <TKUtils.Fields.RequiresResearch>Should items be researched before being buyable?</TKUtils.Fields.RequiresResearch>
     <TKUtils.Fields.TraitLimit>Maximum traits</TKUtils.Fields.TraitLimit>
     <TKUtils.Fields.LevelSkillMultiplier>XP multiplier</TKUtils.Fields.LevelSkillMultiplier>

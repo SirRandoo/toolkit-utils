@@ -123,4 +123,7 @@
 
     <!-- Interactions -->
     <TKUtils.Interaction.You>you</TKUtils.Interaction.You>
+
+    <!-- Marriage -->
+    <TKUtils.Marriage.NoSlots>The marriage would violate a pawn's beliefs.</TKUtils.Marriage.NoSlots>
 </LanguageData>
