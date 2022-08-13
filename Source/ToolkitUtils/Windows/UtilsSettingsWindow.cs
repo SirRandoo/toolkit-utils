@@ -380,9 +380,14 @@ namespace SirRandoo.ToolkitUtils.Windows
                 listing.DrawDescription(_toolkitStyleDescription);
             }
 
-            if (UiHelper.LabeledPaintableCheckbox(listing.GetRect(Text.LineHeight), _commandRouterLabel, ref TkSettings.CommandRouter))
+            bool commandRouter = TkSettings.CommandRouter;
+            listing.CheckboxLabeled(_commandRouterLabel, ref commandRouter);
+            
+            if (commandRouter != TkSettings.CommandRouter)
             {
                 RuntimeChecker.ValidateTicker();
+
+                TkSettings.CommandRouter = commandRouter;
             }
             
             listing.DrawDescription(_commandRouterDescription);
