@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 TraitItem item = Data.Traits.Find(t => t.DefName.Equals(trait.def.defName) && t.Degree == trait.Degree);
 
-                if (item == null || !CanRemove(item))
+                if (!(item is { CanRemove: true }) || !CanRemove(item))
                 {
                     continue;
                 }
