@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -26,6 +27,7 @@ using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
@@ -60,6 +62,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 return false;
             }
+
 
             if (!TryProcessTraits(_pawn!, items, out _events))
             {
@@ -154,11 +157,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
             foreach (TraitEvent traitEvent in final.Where(f => f.Type == EventType.Add || f.Type == EventType.Noop))
             {
                 TraitEvent conflictsWith = final.Where(f => f != traitEvent && (f.Type == EventType.Add || f.Type == EventType.Noop))
-                   .FirstOrDefault(f => f.Trait.def.ConflictsWith(traitEvent.Trait));
+                   .FirstOrDefault(f => f.Item.TraitDef!.ConflictsWith(traitEvent.Item.TraitDef));
 
                 if (conflictsWith != null && string.IsNullOrEmpty(traitEvent.Error))
                 {
-                    traitEvent.Error = "TKUtils.Trait.Conflict".LocalizeKeyed(traitEvent.Trait.CurrentData.label, conflictsWith.Trait.CurrentData.label);
+                    traitEvent.Error = "TKUtils.Trait.Conflict".LocalizeKeyed(traitEvent.Item.Name, conflictsWith.Item.Name);
+
+                    traitEvents = final;
+
+                    return false;
                 }
             }
 
@@ -169,6 +176,8 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
+            TkUtils.Logger.Info("Executing...");
+
             foreach (TraitEvent ev in _events)
             {
                 ev.Execute(_pawn);
@@ -224,7 +233,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!trait.CanRemove)
             {
                 error = "TKUtils.RemoveTrait.Disabled".LocalizeKeyed(trait.Name);
-                
+
                 return false;
             }
 
