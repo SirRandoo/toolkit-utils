@@ -21,7 +21,7 @@
 <Patch>
     <Operation Class="PatchOperationFindMod">
         <mods>
-            <li>Android Tiers</li>
+            <li>Android tiers</li>
         </mods>
         <match Class="PatchOperationSequence">
             <success>Always</success>

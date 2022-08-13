@@ -27,14 +27,14 @@ namespace SirRandoo.ToolkitUtils.Models
         {
             var extension = hediff.def.GetModExtension<HealExtension>();
 
-            return !(extension is { ShouldHeal: true });
+            return extension is { ShouldHeal: true };
         }
 
         public bool CanHeal([NotNull] BodyPartRecord bodyPart)
         {
             var extension = bodyPart.def.GetModExtension<HealExtension>();
 
-            return !(extension is { ShouldHeal: true });
+            return extension is { ShouldHeal: true };
         }
 
         [NotNull] public string ModId => "sirrandoo.tku";
