@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Windows;
@@ -34,7 +35,8 @@ namespace SirRandoo.ToolkitUtils.IncidentSettings
             var listing = new Listing_Standard();
             listing.Begin(canvas);
 
-            listing.CheckboxLabeled("TKUtils.WageredIncident.Storyteller.Label".Localize(), ref Storyteller, "TKUtils.WageredIncident.Storyteller.Description".Localize());
+            listing.CheckboxLabeled("TKUtils.WageredIncident.Storyteller.Label".TranslateSimple(), ref Storyteller);
+            listing.DrawDescription("TKUtils.WageredIncident.Storyteller.Description".TranslateSimple());
 
             listing.End();
         }
