@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Text;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
@@ -50,7 +51,17 @@ namespace SirRandoo.ToolkitUtils.Workers
         /// </summary>
         /// <param name="item">The item to check</param>
         /// <param name="user">The user to check</param>
-        public bool IsOnCooldown([NotNull] T item, string user) => _records.TryGetValue(item.DefName, out UsageRecord<T> record) && record.IsOnCooldown(user);
+        public bool IsOnCooldown([NotNull] T item, string user)
+        {
+            bool isOnCooldown = _records.TryGetValue(item.DefName, out UsageRecord<T> record) && record.IsOnCooldown(user);
+
+            if (isOnCooldown)
+            {
+                TkUtils.Logger.Info($"{item.DefName} is on cooldown for {user}");
+            }
+            
+            return isOnCooldown;
+        }
 
         /// <summary>
         ///     Records a usage for the given item.

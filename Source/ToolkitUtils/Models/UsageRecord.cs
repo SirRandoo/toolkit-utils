@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Models
         /// <summary>
         ///     Whether <see cref="Item"/> is on cooldown.
         /// </summary>
-        public bool IsOnCooldown() => (DateTime.UtcNow - _lastUsage).TotalSeconds >= 5 * 60;
+        public bool IsOnCooldown() => Item.UsageData.HasGlobalCooldown && (DateTime.UtcNow - _lastUsage).TotalSeconds >= Item.UsageData.GlobalCooldown;
 
         /// <summary>
         ///     Whether <see cref="Item"/> is on cooldown for the given user.
