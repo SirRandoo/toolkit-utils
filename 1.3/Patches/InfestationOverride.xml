@@ -1,10 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Patch>
-    <Operation Class="PatchOperationReplace">
-        <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Infestation"]/incidentHelper</xpath>
-        <value>
-            <incidentHelper>SirRandoo.ToolkitUtils.Incidents.WageredIncident</incidentHelper>
-        </value>
+    <Operation Class="PatchOperationSequence">
+        <operations>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Infestation"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.WageredIncident</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationConditional">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Infestation"]/customSettingsHelper</xpath>
+                <nomatch Class="PatchOperationAdd">
+                    <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Infestation"]</xpath>
+                    <value>
+                        <customSettings>true</customSettings>
+                        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.Infestation</customSettingsHelper>
+                    </value>
+                </nomatch>
+                <match Class="PatchOperationReplace">
+                    <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="Infestation"]/customSettingsHelper</xpath>
+                    <value>
+                        <customSettings>true</customSettings>
+                        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.Infestation</customSettingsHelper>
+                    </value>
+                </match>
+            </li>
+        </operations>
     </Operation>
 </Patch>
