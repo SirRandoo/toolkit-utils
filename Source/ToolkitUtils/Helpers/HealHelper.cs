@@ -322,7 +322,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
         [CanBeNull]
         public static object GetPawnHealable([NotNull] Pawn pawn)
         {
-            TkUtils.Logger.Info("Finding life threatening hediff...");
             Hediff hediff = FindLifeThreateningHediff(pawn);
 
             if (hediff != null)
@@ -332,7 +331,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             if (HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 2500)
             {
-                TkUtils.Logger.Info("Finding most bleeding hediff...");
                 Hediff hediff2 = FindMostBleedingHediff(pawn);
 
                 if (hediff2 != null)
@@ -343,7 +341,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             if (pawn.health.hediffSet.GetBrain() != null)
             {
-                TkUtils.Logger.Info("Finding permanent injury...");
                 Hediff_Injury injury = FindPermanentInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>);
 
                 if (injury != null)
@@ -352,7 +349,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 }
             }
 
-            TkUtils.Logger.Info("Finding biggest missing body part...");
             BodyPartRecord bodyPartRecord = FindBiggestMissingBodyPart(pawn, HandCoverageAbsWithChildren);
 
             if (bodyPartRecord != null)
@@ -360,7 +356,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return bodyPartRecord;
             }
 
-            TkUtils.Logger.Info("Finding permanent injury...");
             Hediff_Injury injury2 = FindPermanentInjury(
                 pawn,
                 pawn.health.hediffSet.GetNotMissingParts().Where(p => p.def == BodyPartDefOf.Eye) as IReadOnlyCollection<BodyPartRecord>
@@ -371,7 +366,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return injury2;
             }
 
-            TkUtils.Logger.Info("Finding immunizable hediff which can kill...");
             Hediff hediff3 = FindImmunizableHediffWhichCanKill(pawn);
 
             if (hediff3 != null)
@@ -379,7 +373,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return hediff3;
             }
 
-            TkUtils.Logger.Info("Finding non injury misc bad hediff (kill)...");
             Hediff hediff4 = FindNonInjuryMiscBadHediff(pawn, true);
 
             if (hediff4 != null)
@@ -387,7 +380,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return hediff4;
             }
 
-            TkUtils.Logger.Info("Finding non injury misc bad hediff (not kill)...");
             Hediff hediff5 = FindNonInjuryMiscBadHediff(pawn, false);
 
             if (hediff5 != null)
@@ -397,7 +389,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             if (pawn.health.hediffSet.GetBrain() != null)
             {
-                TkUtils.Logger.Info("Finding brain injury...");
                 Hediff_Injury injury3 = FindInjury(pawn, Gen.YieldSingle(pawn.health.hediffSet.GetBrain()) as IReadOnlyCollection<BodyPartRecord>);
 
                 if (injury3 != null)
@@ -406,7 +397,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 }
             }
 
-            TkUtils.Logger.Info("Finding biggest missing body part...");
             BodyPartRecord bodyPartRecord2 = FindBiggestMissingBodyPart(pawn);
 
             if (bodyPartRecord2 != null)
@@ -414,7 +404,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return bodyPartRecord2;
             }
 
-            TkUtils.Logger.Info("Finding addiction...");
             Hediff_Addiction addiction = FindAddiction(pawn);
 
             if (addiction != null)
@@ -422,10 +411,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 return addiction;
             }
 
-            TkUtils.Logger.Info("Finding permanent injury...");
             Hediff_Injury injury4 = FindPermanentInjury(pawn);
 
-            TkUtils.Logger.Info("Finding injury...");
             return injury4 ?? FindInjury(pawn);
         }
 
