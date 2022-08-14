@@ -34,23 +34,23 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class CoreAddonMenu : IAddonMenu
     {
-        private static readonly List<FloatMenuOption> BaseOptions = new List<FloatMenuOption>
+        private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
         {
             new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => LoadedModManager.GetMod<ToolkitCore.ToolkitCore>().OpenSettings()),
             new FloatMenuOption("Message Log", () => Find.WindowStack.Add(new Window_MessageLog())),
-            new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki"))
-        };
-        private static readonly List<FloatMenuOption> DisconnectedOptions = new List<FloatMenuOption>(BaseOptions)
-        {
-            new FloatMenuOption("TKUtils.AddonMenu.Connect".TranslateSimple(), () => Task.Run(TwitchWrapper.StartAsync))
-        };
-        private static readonly List<FloatMenuOption> ConnectedOptions = new List<FloatMenuOption>(BaseOptions)
-        {
+            new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki")),
             new FloatMenuOption(
                 "TKUtils.AddonMenu.Reconnect".TranslateSimple(),
                 () => Task.Run(
                     () =>
                     {
+                        if (TwitchWrapper.Client == null || !TwitchWrapper.Client.IsConnected)
+                        {
+                            TwitchWrapper.StartAsync();
+
+                            return;
+                        }
+
                         try
                         {
                             TwitchWrapper.Client.Disconnect();
@@ -63,11 +63,10 @@ namespace SirRandoo.ToolkitUtils
                         TwitchWrapper.StartAsync();
                     }
                 )
-            ),
-            new FloatMenuOption("TKUtils.AddonMenu.Disconnect".TranslateSimple(), () => Task.Run(() => TwitchWrapper.Client.Disconnect()))
+            )
         };
 
         /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
-        public List<FloatMenuOption> MenuOptions() => TwitchWrapper.Client?.IsConnected == true ? ConnectedOptions : DisconnectedOptions;
+        public List<FloatMenuOption> MenuOptions() => Options;
     }
 }
