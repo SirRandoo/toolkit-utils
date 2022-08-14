@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Models
         /// <summary>
         ///     Whether <see cref="Item"/> is on cooldown.
         /// </summary>
-        public bool IsOnCooldown() => Item.UsageData.HasGlobalCooldown && (DateTime.UtcNow - _lastUsage).TotalSeconds >= Item.UsageData.GlobalCooldown;
+        public bool IsOnCooldown() => Item.UsageData.HasGlobalCooldown && (DateTime.UtcNow - _lastUsage).TotalSeconds < Item.UsageData.GlobalCooldown;
 
         /// <summary>
         ///     Whether <see cref="Item"/> is on cooldown for the given user.
@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Models
                 return false;
             }
 
-            return (DateTime.UtcNow - lastUsage).TotalSeconds >= Item.UsageData.LocalCooldown;
+            return (DateTime.UtcNow - lastUsage).TotalSeconds <= Item.UsageData.LocalCooldown;
         }
     }
 }
