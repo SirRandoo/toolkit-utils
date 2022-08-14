@@ -25,16 +25,16 @@ namespace SirRandoo.ToolkitUtils.Models
     {
         public bool CanHeal([NotNull] Hediff hediff)
         {
-            var extension = hediff.def.GetModExtension<HealExtension>();
-
-            return extension is { ShouldHeal: true };
+            var @override = hediff.def.GetModExtension<HealExtension>();
+            
+            return @override == null || @override.ShouldHeal;
         }
 
         public bool CanHeal([NotNull] BodyPartRecord bodyPart)
         {
-            var extension = bodyPart.def.GetModExtension<HealExtension>();
-
-            return extension is { ShouldHeal: true };
+            var @override = bodyPart.def.GetModExtension<HealExtension>();
+            
+            return @override == null || @override.ShouldHeal;
         }
 
         [NotNull] public string ModId => "sirrandoo.tku";
