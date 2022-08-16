@@ -24,6 +24,7 @@ using RimWorld;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit;
 using TwitchToolkit.Windows;
 using UnityEngine;
@@ -41,6 +42,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private static readonly MethodInfo RemoveMethod = AccessTools.Method(typeof(DefDatabase<Command>), "Remove");
 
         private readonly Command _command;
+        private readonly CommandItem _commandItem;
         private readonly ICommandSettings _settings;
         private string _adminText;
         private string _anyoneText;
@@ -69,12 +71,26 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _tagTooltip;
         private List<FloatMenuOption> _userLevelOptions;
         private string _userLevelText;
+        private string _globalCooldownBuffer;
+        private bool _globalCooldownValid;
+        private bool _localCooldownValid;
+        private string _localCooldownBuffer;
+        private string _globalCooldownText;
+        private string _localCooldownText;
 
         public CommandEditorDialog([NotNull] Command command) : base(command)
         {
             _command = command;
-
+            _commandItem = Data.Commands.Find(c => string.Equals(c.DefName, command.defName));
             var ext = command.GetModExtension<CommandExtension>();
+
+            if (_commandItem.Data != null)
+            {
+                _localCooldownValid = true;
+                _globalCooldownValid = true;
+                _localCooldownBuffer = _commandItem.Data.LocalCooldown.ToString();
+                _globalCooldownBuffer = _commandItem.Data.GlobalCooldown.ToString();
+            }
 
             if (ext?.SettingsHandler != null)
             {
@@ -155,6 +171,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                 }
             }
 
+            DrawCooldownFields(listing);
+
             GUI.color = Color.white;
 
             if (_command.isCustomMessage)
@@ -164,6 +182,52 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             listing.End();
             GUI.EndGroup();
+        }
+
+        private void DrawCooldownFields([NotNull] Listing listing)
+        {
+            if (_commandItem.Data == null)
+            {
+                return;
+            }
+
+            (Rect globalLabel, Rect globalField) = listing.Split(0.6f);
+            var globalLine = new Rect(globalLabel.x, globalLabel.y, globalLabel.width + globalField.width, globalLabel.height);
+            bool hasGlobalCooldown = _commandItem.Data.HasGlobalCooldown;
+            
+            Widgets.CheckboxLabeled(hasGlobalCooldown ? globalLabel : globalLine, _globalCooldownText, ref hasGlobalCooldown);
+
+            if (hasGlobalCooldown != _commandItem.Data.HasGlobalCooldown)
+            {
+                _commandItem.Data.HasGlobalCooldown = hasGlobalCooldown;
+            }
+
+            if (hasGlobalCooldown && UiHelper.FieldButton(globalLabel, Widgets.CheckboxOnTex))
+            {
+                _commandItem.Data.HasGlobalCooldown = !_commandItem.Data.HasGlobalCooldown;
+            }
+
+            if (hasGlobalCooldown && UiHelper.NumberField(globalField, out int globalCooldown, ref _globalCooldownBuffer, ref _globalCooldownValid))
+            {
+                _commandItem.Data.GlobalCooldown = globalCooldown;
+            }
+
+
+            (Rect localLabel, Rect localField) = listing.Split(0.6f);
+            var localLine = new Rect(localLabel.x, localLabel.y, localLabel.width + localField.width, localLabel.height);
+            bool hasLocalCooldown = _commandItem.Data.HasLocalCooldown;
+
+            Widgets.CheckboxLabeled(hasLocalCooldown ? localLabel : localLine, _localCooldownText, ref hasLocalCooldown);
+
+            if (hasLocalCooldown != _commandItem.Data.HasLocalCooldown)
+            {
+                _commandItem.Data.HasLocalCooldown = hasLocalCooldown;
+            }
+
+            if (hasLocalCooldown && UiHelper.NumberField(localField, out int localCooldown, ref _localCooldownBuffer, ref _localCooldownValid))
+            {
+                _commandItem.Data.LocalCooldown = localCooldown;
+            }
         }
 
         private void DrawCustomFields([NotNull] Listing listing)
@@ -242,7 +306,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (TkSettings.Offload)
             {
-                Task.Run(async () => await Data.DumpCommandsAsync()).ConfigureAwait(false);
+                Task.Run(async () => await Data.SaveCommandsAsync()).ConfigureAwait(false);
             }
             else
             {
@@ -333,6 +397,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             _userLevelText = "TKUtils.Fields.UserLevel".TranslateSimple();
             _tagTooltip = "TKUtils.CommandEditorTooltips.Tags".TranslateSimple();
             _settingsText = "TKUtils.Buttons.Settings".TranslateSimple();
+            _localCooldownText = "TKUtils.Fields.LocalCooldown".TranslateSimple();
+            _globalCooldownText = "TKUtils.Fields.GlobalCooldown".TranslateSimple();
 
             GameFont cache = Text.Font;
             Text.Font = GameFont.Small;

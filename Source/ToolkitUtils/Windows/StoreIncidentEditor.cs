@@ -20,6 +20,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.CommonLib.Helpers;
+using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -57,6 +58,13 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _wagerBuffer;
         private bool _wagerBufferValid = true;
         private string _wagerText;
+        private readonly EventItem _item;
+        private string _globalCooldownText;
+        private string _localCooldownText;
+        private string _globalCooldownBuffer;
+        private string _localCooldownBuffer;
+        private bool _globalCooldownValid;
+        private bool _localCooldownValid;
 
         public StoreIncidentEditor([NotNull] StoreIncident storeIncident) : base(storeIncident)
         {
@@ -66,6 +74,19 @@ namespace SirRandoo.ToolkitUtils.Windows
             _capBuffer = storeIncident.eventCap.ToString();
             _wagerBuffer = (storeIncidentVariables?.maxWager ?? 0).ToString();
             _karmaTypeOptions = Data.KarmaTypes.Values.Select(t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)).ToList();
+            _item = Data.Events.Find(e => string.Equals(e.DefName, storeIncident.defName));
+            
+            TkUtils.Logger.Info($"Event data null? {(_item.Data == null).ToStringYesNo()}");
+
+            if (_item.Data == null)
+            {
+                return;
+            }
+
+            _localCooldownValid = true;
+            _globalCooldownValid = true;
+            _localCooldownBuffer = _item.EventData.LocalCooldown.ToString();
+            _globalCooldownBuffer = _item.EventData.GlobalCooldown.ToString();
         }
 
         /// <inheritdoc cref="Window.PreOpen"/>
@@ -89,6 +110,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             _editItemsText = "TKUtils.Buttons.EditItems".TranslateSimple();
             _editTraitsText = "TKUtils.Buttons.EditTraits".TranslateSimple();
             _editPawnsText = "TKUtils.Buttons.EditPawns".TranslateSimple();
+            _globalCooldownText = "TKUtils.Fields.GlobalCooldown".TranslateSimple();
+            _localCooldownText = "TKUtils.Fields.LocalCooldown".TranslateSimple();
 
             _headerButtonWidth = Mathf.Max(Text.CalcSize(_disableText).x, Text.CalcSize(_resetText).x, Text.CalcSize(_settingsText).x) + 16f;
 
@@ -177,6 +200,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                     storeIncidentVariables.maxWager = wager;
                 }
             }
+            
+            DrawCooldownFields(listing);
 
             listing.Gap();
             (Rect karmaLabel, Rect karmaField) = listing.Split(0.6f);
@@ -227,6 +252,52 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             GUI.EndGroup();
+        }
+        
+        private void DrawCooldownFields([NotNull] Listing listing)
+        {
+            if (_item.Data == null)
+            {
+                return;
+            }
+
+            (Rect globalLabel, Rect globalField) = listing.Split(0.6f);
+            var globalLine = new Rect(globalLabel.x, globalLabel.y, globalLabel.width + globalField.width, globalLabel.height);
+            bool hasGlobalCooldown = _item.EventData.HasGlobalCooldown;
+            
+            Widgets.CheckboxLabeled(hasGlobalCooldown ? globalLabel : globalLine, _globalCooldownText, ref hasGlobalCooldown);
+
+            if (hasGlobalCooldown != _item.EventData.HasGlobalCooldown)
+            {
+                _item.EventData.HasGlobalCooldown = hasGlobalCooldown;
+            }
+
+            if (hasGlobalCooldown && UiHelper.FieldButton(globalLabel, Widgets.CheckboxOnTex))
+            {
+                _item.EventData.HasGlobalCooldown = !_item.EventData.HasGlobalCooldown;
+            }
+
+            if (hasGlobalCooldown && UiHelper.NumberField(globalField, out int globalCooldown, ref _globalCooldownBuffer, ref _globalCooldownValid))
+            {
+                _item.EventData.GlobalCooldown = globalCooldown;
+            }
+
+
+            (Rect localLabel, Rect localField) = listing.Split(0.6f);
+            var localLine = new Rect(localLabel.x, localLabel.y, localLabel.width + localField.width, localLabel.height);
+            bool hasLocalCooldown = _item.EventData.HasLocalCooldown;
+
+            Widgets.CheckboxLabeled(hasLocalCooldown ? localLabel : localLine, _localCooldownText, ref hasLocalCooldown);
+
+            if (hasLocalCooldown != _item.EventData.HasLocalCooldown)
+            {
+                _item.EventData.HasLocalCooldown = hasLocalCooldown;
+            }
+
+            if (hasLocalCooldown && UiHelper.NumberField(localField, out int localCooldown, ref _localCooldownBuffer, ref _localCooldownValid))
+            {
+                _item.EventData.LocalCooldown = localCooldown;
+            }
         }
 
         private void DrawEditButtonFor(EventTypes type, Rect buttonRect)

@@ -43,27 +43,82 @@ namespace SirRandoo.ToolkitUtils
         /// </summary>
         public static void DumpCommands()
         {
-            List<CommandItem> container = Verse.DefDatabase<Command>.AllDefs.Where(c => c.enabled && !string.IsNullOrEmpty(c.command))
-               .Select(CommandItem.FromToolkit)
-               .ToList();
-
-            container.AddRange(DefDatabase<ToolkitChatCommand>.AllDefsListForReading.Where(c => c.enabled).Select(CommandItem.FromToolkitCore));
-            Commands = container;
-
-            SaveJson(container, Paths.CommandListFilePath);
+            SaveJson(Commands, Paths.CommandListFilePath);
         }
         
         /// <summary>
         ///     Saves all commands indexed by the mod to its associated file.
         /// </summary>
-        public static async Task DumpCommandsAsync()
+        public static async Task SaveCommandsAsync()
         {
-            List<CommandItem> container = DefDatabase<Command>.AllDefs.Where(c => c.enabled).Where(c => !c.command.NullOrEmpty()).Select(CommandItem.FromToolkit).ToList();
+            await SaveJsonAsync(Commands, Paths.CommandListFilePath);
+        }
 
-            container.AddRange(DefDatabase<ToolkitChatCommand>.AllDefs.Where(c => c.enabled).Select(CommandItem.FromToolkitCore));
-            Commands = container;
+        public static void LoadCommands(string filePath, bool ignoreErrors = false)
+        {
+            Commands = LoadJson<List<CommandItem>>(filePath, ignoreErrors) ?? new List<CommandItem>();
+        }
 
-            await SaveJsonAsync(container, Paths.CommandListFilePath);
+        public static void ValidateCommands()
+        {
+            RemoveInvalidCommands();
+            TranscribeFromCore();
+            TranscribeFromToolkit();
+        }
+
+        private static void TranscribeFromCore()
+        {
+            foreach (ToolkitChatCommand command in DefDatabase<ToolkitChatCommand>.AllDefs)
+            {
+                CommandItem extracted = CommandItem.FromToolkitCore(command);
+                CommandItem existing = Commands.Find(c => string.Equals(c.DefName, extracted.DefName) && string.Equals(c.Data!.Mod, extracted.Data!.Mod));
+
+                if (existing != null)
+                {
+                    Commands.Remove(existing);
+                }
+                
+                Commands.Add(CommandItem.FromToolkitCore(command));
+            }
+        }
+        
+        private static void TranscribeFromToolkit()
+        {
+            foreach (Command command in DefDatabase<Command>.AllDefs)
+            {
+                CommandItem extracted = CommandItem.FromToolkit(command);
+                CommandItem item = Commands.Find(c => string.Equals(c.DefName, command.defName) && string.Equals(c.Data!.Mod, extracted.Data!.Mod));
+
+                if (item == null)
+                {
+                    Commands.Add(extracted);
+
+                    continue;
+                }
+
+                item.Description = extracted.Description;
+                item.Name = extracted.Name;
+                item.Usage = extracted.Usage;
+                item.UserLevel = extracted.UserLevel;
+
+                item.Data!.Mod = extracted.Data!.Mod;
+                item.Data.IsBalance = extracted.Data.IsBalance;
+                item.Data.IsBuy = extracted.Data.IsBuy;
+                item.Data.IsShortcut = extracted.Data.IsShortcut;
+            }
+        }
+
+        private static void RemoveInvalidCommands()
+        {
+            for (int i = Commands.Count - 1; i >= 0; i--)
+            {
+                CommandItem command = Commands[i];
+
+                if (DefDatabase<Command>.GetNamedSilentFail(command.DefName) == null)
+                {
+                    Commands.RemoveAt(i);
+                }
+            }
         }
     }
 }

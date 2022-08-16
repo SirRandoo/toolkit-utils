@@ -77,12 +77,12 @@ namespace SirRandoo.ToolkitUtils.Models
                 return true;
             }
 
-            if (!(Item.UsageData is { HasLocalCooldown: true }) || !_userUsages.TryGetValue(user, out DateTime lastUsage))
+            if (Item.UsageData == null || !Item.UsageData.HasLocalCooldown || !_userUsages.TryGetValue(user, out DateTime lastUsage))
             {
                 return false;
             }
 
-            return (DateTime.UtcNow - lastUsage).TotalSeconds <= Item.UsageData.LocalCooldown;
+            return (DateTime.UtcNow - lastUsage).TotalSeconds < Item.UsageData.LocalCooldown;
         }
     }
 }

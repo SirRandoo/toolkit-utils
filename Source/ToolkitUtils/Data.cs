@@ -73,6 +73,8 @@ namespace SirRandoo.ToolkitUtils
 
             LoadShopData();
             LoadItemData(Paths.ItemDataFilePath);
+            LoadEventData(Paths.EventDataFilePath);
+            LoadCommands(Paths.CommandListFilePath);
 
             ValidateData();
 
@@ -105,7 +107,9 @@ namespace SirRandoo.ToolkitUtils
             {
                 TkUtils.Logger.Error("Could not validate surgery list", e);
             }
-
+            
+            ValidateCommands();
+            ValidateEventList();
             ValidateShopData();
         }
 
@@ -144,7 +148,6 @@ namespace SirRandoo.ToolkitUtils
             try
             {
                 ValidateEventList();
-                ValidateEventData();
             }
             catch (Exception e)
             {
@@ -480,7 +483,7 @@ namespace SirRandoo.ToolkitUtils
             await SaveItemDataAsync(Paths.ItemDataFilePath);
             await SaveEventDataAsync(Paths.EventDataFilePath);
             await SaveModListAsync();
-            await DumpCommandsAsync();
+            await SaveCommandsAsync();
 
             switch (TkSettings.DumpStyle)
             {

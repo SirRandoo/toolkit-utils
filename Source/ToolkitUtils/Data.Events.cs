@@ -26,10 +26,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using SimpleJSON;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
+using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
@@ -63,35 +65,87 @@ namespace SirRandoo.ToolkitUtils
         private static void ValidateEventList()
         {
             Store_IncidentEditor.LoadCopies(); // Just to ensure the actual incidents are loaded.
-            Events = DefDatabase<StoreIncident>.AllDefs.Select(i => new EventItem { Incident = i }).ToList();
+            RemoveInvalidEvents();
+            
+            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
+            {
+                EventItem item = Events.Find(e => string.Equals(incident.defName, e.DefName));
+                TkUtils.Logger.Info(string.Join(", ", Events.Select(e => e.DefName)));
+
+                if (item == null)
+                {
+                    TkUtils.Logger.Info($"{incident.defName} didn't exist; resetting to defaults...");
+                    Events.Add(new EventItem { Incident = incident, EventData = PullEventData(incident) });
+
+                    continue;
+                }
+
+                EventData data = PullEventData(incident);
+
+                if (item.EventData == null)
+                {
+                    item.EventData = data;
+
+                    continue;
+                }
+
+                item.EventData.Mod = data.Mod;
+                item.EventData.EventType = data.EventType;
+            }
         }
 
-        private static void ValidateEventData()
+        private static void LoadEventData(string filePath, bool ignoreErrors = false)
         {
-            var builder = new StringBuilder();
+            Store_IncidentEditor.LoadCopies();
+            Dictionary<string, EventData> e = LoadJson<Dictionary<string, EventData>>(filePath, ignoreErrors) ?? new Dictionary<string, EventData>();
+            Events ??= new List<EventItem>();
+            List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
 
-            foreach (EventItem ev in Events)
+            foreach ((string key, EventData value) in e)
             {
-                ev.EventData ??= new EventData();
+                StoreIncident incident = incidents.Find(i => string.Equals(i.abbreviation, key, StringComparison.InvariantCultureIgnoreCase));
 
-                try
+                if (incident == null)
                 {
-                    ev.EventData.Mod = ev.Incident.TryGetModName();
-                    ev.EventData.EventType = ev.Incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
+                    TkUtils.Logger.Info($"{key} was not a StoreIncident");
+                    continue;
                 }
-                catch (Exception)
+
+                TkUtils.Logger.Info($"Adding {key} to incidents list");
+                Events.Add(new EventItem { Incident = incident, EventData = value });
+            }
+        }
+
+        private static void RemoveInvalidEvents()
+        {
+            for (int i = Events.Count - 1; i >= 0; i--)
+            {
+                EventItem @event = Events[i];
+
+                if (DefDatabase<StoreIncident>.GetNamedSilentFail(@event.DefName) == null)
                 {
-                    builder.AppendLine($" - {ev.Name ?? ev.DefName}");
+                    Events.RemoveAt(i);
                 }
             }
+        }
 
-            if (builder.Length <= 0)
+        [NotNull]
+        private static EventData PullEventData(StoreIncident incident)
+        {
+            var data = new EventData();
+
+            try
             {
-                return;
+                data.Mod = incident.TryGetModName();
+                data.KarmaType = incident.karmaType;
+                data.EventType = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
+            }
+            catch (Exception)
+            {
+                // Ignored
             }
 
-            builder.Insert(0, "The following events could not be processed:\n");
-            TkUtils.Logger.Warn(builder.ToString());
+            return data;
         }
 
         /// <summary>
