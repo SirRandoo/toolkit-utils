@@ -48,6 +48,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return false;
             }
 
+            if (Purchase_Handler.CheckIfIncidentIsOnCooldown(incident, viewer.username))
+            {
+                return false;
+            }
+
             if (!TryMakeIncident(incident, viewer, formattedMessage, out IncidentHelper inc))
             {
                 TkUtils.Logger.Warn(@$"The incident ""{incident.defName}"" does not define an incident helper");
