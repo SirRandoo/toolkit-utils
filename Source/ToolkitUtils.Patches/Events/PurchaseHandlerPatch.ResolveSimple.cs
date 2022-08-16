@@ -73,6 +73,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
             Current.Game.GetComponent<Store_Component>()?.LogIncident(incident);
 
             Store_Logger.LogPurchase(viewer.username, twitchMessage.Message);
+            UsageService.RecordUsage(Data.Events.Find(e => string.Equals(e.DefName, incident.defName)), viewer.username);
 
             if (!ToolkitSettings.PurchaseConfirmations)
             {
