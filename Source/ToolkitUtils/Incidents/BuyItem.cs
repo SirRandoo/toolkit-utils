@@ -68,7 +68,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (worker.GetLast()?.Equals("*") ?? false)
+            if (string.Equals(worker.GetLast(), "*"))
             {
                 amount = viewer.GetMaximumPurchaseAmount(product.Thing.Cost);
             }

@@ -78,7 +78,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
             if (!int.TryParse(segments[3], out int _))
             {
-                segments.Insert(3, "1");
+                segments.Insert(3, string.Equals(segments[3], "*") ? "*" : "1");
             }
 
             try
