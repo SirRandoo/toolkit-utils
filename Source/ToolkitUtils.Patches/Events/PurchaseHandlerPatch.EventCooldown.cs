@@ -41,11 +41,10 @@ namespace SirRandoo.ToolkitUtils.Harmony
                 return;
             }
 
-            EventItem itemEvent = Data.Events.Find(e => string.Equals(e.DefName, incident.defName));
+            EventItem eventItem = Data.Events.Find(e => string.Equals(e.DefName, incident.defName));
+            bool isOnCooldown = eventItem != null && UsageService.IsOnCooldown(eventItem, username);
 
-            __result = itemEvent == null || UsageService.IsOnCooldown(itemEvent, username);
-
-            return false;
+            __result = isOnCooldown;
         }
     }
 }
