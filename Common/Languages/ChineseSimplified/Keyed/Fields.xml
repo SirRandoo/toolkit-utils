@@ -70,5 +70,7 @@
     <TKUtils.Fields.Seconds>second(s)</TKUtils.Fields.Seconds>
     <TKUtils.Fields.Minutes>minute(s)</TKUtils.Fields.Minutes>
     <TKUtils.Fields.Hours>hour(s)</TKUtils.Fields.Hours>
+    <TKUtils.Fields.GlobalCooldown>Command cooldown (seconds)</TKUtils.Fields.GlobalCooldown>
+    <TKUtils.Fields.LocalCooldown>Per-user cooldown (seconds)</TKUtils.Fields.LocalCooldown>
     <TKUtils.Fields.DefaultValue>&lt;b&gt;&lt;i&gt;Default: {0}&lt;/i&gt;&lt;/b&gt;</TKUtils.Fields.DefaultValue>
 </LanguageData>
