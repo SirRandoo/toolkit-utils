@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using JetBrains.Annotations;
@@ -28,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Workers
     /// <typeparam name="T">The item class the records are for</typeparam>
     public class UsageWorker<T> where T : class, IUsageItemBase
     {
-        private readonly Dictionary<string, UsageRecord<T>> _records = new Dictionary<string, UsageRecord<T>>();
+        private readonly ConcurrentDictionary<string, UsageRecord<T>> _records = new ConcurrentDictionary<string, UsageRecord<T>>();
 
         private UsageRecord<T> GetRecord([NotNull] T item)
         {
