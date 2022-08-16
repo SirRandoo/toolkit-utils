@@ -16,6 +16,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.CommonLib.Windows;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -103,9 +105,23 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _versionedModListLabel;
         private string _viewerGroupHeader;
 
+        private string _versionString;
+
         public UtilsSettingsWindow() : base(TkUtils.Instance)
         {
             _tabWorker = new TabWorker();
+
+            foreach (ModItem mod in Data.Mods)
+            {
+                if (!string.Equals(mod.Name, TkUtils.Instance.Content?.Name))
+                {
+                    continue;
+                }
+
+                _versionString = $"v{mod.Version}";
+
+                break;
+            }
         }
 
         /// <inheritdoc cref="Window.PreOpen"/>
@@ -247,6 +263,8 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.BeginGroup(tabBarRect);
             _tabWorker.Draw(tabBarRect.AtZero(), paneled: true);
+
+            UiHelper.Label(tabBarRect, _versionString, Color.grey, TextAnchor.MiddleRight, GameFont.Small);
             GUI.EndGroup();
 
             GUI.BeginGroup(tabPanelRect);
