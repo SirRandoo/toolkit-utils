@@ -29,12 +29,17 @@ namespace SirRandoo.ToolkitUtils.Harmony
 {
     internal partial class PurchaseHandlerPatch
     {
-        [HarmonyPrefix]
+        [HarmonyPostfix]
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         [SuppressMessage("ReSharper", "RedundantAssignment")]
         [HarmonyPatch(typeof(Purchase_Handler), nameof(Purchase_Handler.CheckIfCarePackageIsOnCooldown))]
-        private static bool CheckIfCarePackageIsOnCooldownPrefix(string username, ref bool __result)
+        private static void CheckIfCarePackageIsOnCooldownPostfix(string username, ref bool __result)
         {
+            if (__result)
+            {
+                return;
+            }
+            
             EventItem itemEvent = Data.Events.Find(e => string.Equals(e.DefName, IncidentDefOf.Item.defName));
 
             __result = itemEvent != null && UsageService.IsOnCooldown(itemEvent, username);
