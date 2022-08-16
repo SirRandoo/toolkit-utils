@@ -43,8 +43,6 @@ namespace SirRandoo.ToolkitUtils.Harmony
             EventItem itemEvent = Data.Events.Find(e => string.Equals(e.DefName, IncidentDefOf.Item.defName));
 
             __result = itemEvent != null && UsageService.IsOnCooldown(itemEvent, username);
-
-            return false;
         }
     }
 }
