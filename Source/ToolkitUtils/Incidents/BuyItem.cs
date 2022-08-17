@@ -73,6 +73,11 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 amount = viewer.GetMaximumPurchaseAmount(product.Thing.Cost);
             }
 
+            if (product.Thing.ItemData?.HasQuantityLimit == true)
+            {
+                amount = Math.Min(amount, product.Thing.ItemData.QuantityLimit);
+            }
+
             _purchaseRequest = new PurchaseRequest { Proxy = product, Quantity = amount, Purchaser = viewer, Map = Helper.AnyPlayerMap };
 
             if (_purchaseRequest.Price < ToolkitSettings.MinimumPurchasePrice)
