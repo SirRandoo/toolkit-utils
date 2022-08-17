@@ -46,7 +46,9 @@ namespace SirRandoo.ToolkitUtils.Utils
 
                     return;
                 default:
-                    Viewer viewer = Viewers.All.Find(v => string.Equals(v.username, argument, StringComparison.InvariantCultureIgnoreCase));
+                    string username = argument.StartsWith("@") ? argument.Substring(1) : argument;
+                    
+                    Viewer viewer = Viewers.All.Find(v => string.Equals(v.username, username, StringComparison.InvariantCultureIgnoreCase));
 
                     if (viewer != null)
                     {
