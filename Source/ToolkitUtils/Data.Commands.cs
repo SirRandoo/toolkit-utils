@@ -114,7 +114,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 CommandItem command = Commands[i];
 
-                if (DefDatabase<Command>.GetNamedSilentFail(command.DefName) == null)
+                if (!string.IsNullOrEmpty(command.DefName) && DefDatabase<Command>.GetNamedSilentFail(command.DefName) == null)
                 {
                     Commands.RemoveAt(i);
                 }
