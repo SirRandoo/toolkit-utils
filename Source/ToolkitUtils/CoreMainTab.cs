@@ -75,8 +75,6 @@ namespace SirRandoo.ToolkitUtils
 
                 MenuCaches.Add(cache);
             }
-            
-            Data.RegisterHealthReport(new HealthReport {Message = "Hello world! How is it going today? Good I hope!", OccurredAt = DateTime.Now, Reporter = "debug", Stacktrace = "", Type = HealthReport.ReportType.Debug});
 
             if (builder.Length <= 0)
             {
