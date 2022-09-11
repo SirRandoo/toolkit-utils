@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
         public override void Execute([NotNull] Viewer viewer, Pawn pawn)
         {
-            if (!viewer.username.Equals("merl_fox", StringComparison.InvariantCultureIgnoreCase))
+            if (!viewer.username.Equals("merlfox", StringComparison.InvariantCultureIgnoreCase))
             {
                 return;
             }
