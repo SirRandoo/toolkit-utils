@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("6.0.0.0")]
 [assembly: AssemblyFileVersion("6.0.0.0")]
-[assembly: AssemblyInformationalVersion("6.2.1.2")]
+[assembly: AssemblyInformationalVersion("6.2.1.3")]
 
 
 [assembly: InternalsVisibleTo("ToolkitUtils.Ideology")]
