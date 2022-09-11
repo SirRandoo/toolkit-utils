@@ -35,7 +35,10 @@ namespace SirRandoo.ToolkitUtils.Utils
                 return;
             }
 
-            Pawn pet = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDef.Named("Husky"), Faction.OfPlayer));
+            Pawn pet = PawnGenerator.GeneratePawn(
+                new PawnGenerationRequest(PawnKindDef.Named("Husky"), Faction.OfPlayer, fixedBirthName: "Scav", fixedGender: Gender.Male)
+            );
+
             pet.training.Train(TrainableDefOf.Tameness, pawn, true);
             pawn.relations.AddDirectRelation(PawnRelationDefOf.Bond, pet);
 
