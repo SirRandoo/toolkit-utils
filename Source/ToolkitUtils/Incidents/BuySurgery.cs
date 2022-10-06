@@ -268,7 +268,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             [NotNull]
             private IEnumerable<Bill_Medical> GenerateSurgeries()
             {
-                return BodyParts.Select(p => new Bill_Medical(Surgery) { Part = p });
+                return BodyParts.Select(p => new Bill_Medical(Surgery, null) { Part = p });
             }
 
             public void BookSurgeries()

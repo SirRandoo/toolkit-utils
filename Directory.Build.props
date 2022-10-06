@@ -1,6 +1,6 @@
 ﻿<Project>
     <PropertyGroup>
-        <RimWorldVersion>1.3</RimWorldVersion>
+        <RimWorldVersion>1.4</RimWorldVersion>
         <_OutputDirectory>..\..\$(RimWorldVersion)\Assemblies\</_OutputDirectory>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>

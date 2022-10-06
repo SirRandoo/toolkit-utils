@@ -245,7 +245,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         [ContractAnnotation("=> true,error:null; => false,error:notnull")]
         private bool IsTraitAddable([NotNull] TraitItem trait, out string error)
         {
-            if (trait.TraitDef.IsDisallowedByBackstory(_pawn, trait.Degree, out Backstory backstory))
+            if (trait.TraitDef.IsDisallowedByBackstory(_pawn, trait.Degree, out BackstoryDef backstory))
             {
                 error = "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, trait.Name);
 

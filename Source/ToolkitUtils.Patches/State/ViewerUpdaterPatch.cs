@@ -60,7 +60,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
 
                 if (pawn?.story != null)
                 {
-                    pawn.story.hairColor = hairColor;
+                    pawn.story.HairColor = hairColor;
                 }
             }
 

@@ -143,7 +143,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool PassesCharacterCheck(Viewer viewer)
         {
-            if (_thatShop!.TraitDef.IsDisallowedByBackstory(_pawn, _thatShop.Degree, out Backstory backstory))
+            if (_thatShop!.TraitDef.IsDisallowedByBackstory(_pawn, _thatShop.Degree, out BackstoryDef backstory))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, _thisShop!.Name));
 

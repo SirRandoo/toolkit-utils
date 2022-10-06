@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         public override void Execute()
         {
             _pawn.gender = _pawn.gender == Gender.Female ? Gender.Male : Gender.Female;
-            _pawn.story.hairColor = PawnHairColors.RandomHairColor(_pawn.story.SkinColor, _pawn.ageTracker.AgeBiologicalYears);
+            _pawn.story.HairColor = PawnHairColors.RandomHairColor(_pawn, _pawn.story.SkinColor, _pawn.ageTracker.AgeBiologicalYears);
 
             if (_pawn.style.HasUnwantedBeard)
             {
@@ -61,7 +61,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             _pawn.story.hairDef = PawnStyleItemChooser.RandomHairFor(_pawn);
 
-            _pawn.story.bodyType = _pawn.story.adulthood == null ? RandomBodyType(_pawn) : _pawn.story.adulthood.BodyTypeFor(_pawn.gender);
+            _pawn.story.bodyType = _pawn.story.Adulthood == null ? RandomBodyType(_pawn) : _pawn.story.Adulthood.BodyTypeFor(_pawn.gender);
 
             Viewer.Charge(storeIncident);
 

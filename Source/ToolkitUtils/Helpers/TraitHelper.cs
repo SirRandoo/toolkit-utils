@@ -180,7 +180,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [ContractAnnotation("trait:notnull,pawn:notnull => true,backstory:notnull; trait:notnull,pawn:notnull => false,backstory:null")]
-        public static bool IsDisallowedByBackstory(this TraitDef trait, Pawn pawn, int degree, out Backstory backstory)
+        public static bool IsDisallowedByBackstory(this TraitDef trait, Pawn pawn, int degree, out BackstoryDef backstory)
         {
             backstory = pawn.story.AllBackstories.FirstOrFallback(s => s.DisallowsTrait(trait, degree));
 
@@ -188,7 +188,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [ContractAnnotation("trait:notnull,pawn:notnull => true,backstory:notnull; trait:notnull,pawn:notnull => false,backstory:null")]
-        public static bool IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree, out Backstory backstory) =>
+        public static bool IsDisallowedByBackstory(this Trait trait, Pawn pawn, int degree, out BackstoryDef backstory) =>
             IsDisallowedByBackstory(trait.def, pawn, degree, out backstory);
 
         public static bool IsDisallowedByKind(this TraitDef trait, Pawn pawn, int degree) =>

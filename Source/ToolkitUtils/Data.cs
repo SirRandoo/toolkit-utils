@@ -51,6 +51,7 @@ namespace SirRandoo.ToolkitUtils
     public static partial class Data
     {
         internal static readonly Dictionary<string, Color> ColorIndex = GetDefaultColors();
+        internal static readonly Dictionary<BackstorySlot, List<BackstoryDef>> Backstories = GetBackstories();
 
         internal static readonly EnumRegistrar<KarmaType> KarmaTypes = new EnumRegistrar<KarmaType>();
         internal static readonly EnumRegistrar<QualityCategory> Qualities = new EnumRegistrar<QualityCategory>();
@@ -533,6 +534,18 @@ namespace SirRandoo.ToolkitUtils
                 }
 
                 container[name.ToLowerInvariant()] = color;
+            }
+
+            return container;
+        }
+
+        private static Dictionary<BackstorySlot, List<BackstoryDef>> GetBackstories()
+        {
+            var container = new Dictionary<BackstorySlot, List<BackstoryDef>>();
+
+            foreach (IGrouping<BackstorySlot, BackstoryDef> backstoryDefs in DefDatabase<BackstoryDef>.AllDefsListForReading.GroupBy(b => b.slot))
+            {
+                container.Add(backstoryDefs.Key, backstoryDefs.ToList());
             }
 
             return container;
