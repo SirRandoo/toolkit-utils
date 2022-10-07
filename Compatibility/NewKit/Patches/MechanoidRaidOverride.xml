@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+    <Operation Class="PatchOperationSequence">
+        <operations>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="MechanoidRaid"]/incidentHelper</xpath>
+                <value>
+                    <incidentHelper>SirRandoo.ToolkitUtils.Incidents.WageredIncident</incidentHelper>
+                </value>
+            </li>
+            <li Class="PatchOperationConditional">
+                <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="MechanoidRaid"]/customSettingsHelper</xpath>
+                <nomatch Class="PatchOperationAdd">
+                    <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="MechanoidRaid"]</xpath>
+                    <value>
+                        <customSettings>true</customSettings>
+                        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.MechanoidRaid</customSettingsHelper>
+                    </value>
+                </nomatch>
+                <match Class="PatchOperationReplace">
+                    <xpath>/Defs/TwitchToolkit.Incidents.StoreIncidentVariables[defName="MechanoidRaid"]/customSettingsHelper</xpath>
+                    <value>
+                        <customSettings>true</customSettings>
+                        <customSettingsHelper>SirRandoo.ToolkitUtils.IncidentSettings.MechanoidRaid</customSettingsHelper>
+                    </value>
+                </match>
+            </li>
+        </operations>
+    </Operation>
+</Patch>

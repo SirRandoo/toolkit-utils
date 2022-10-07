@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+    <Operation Class="PatchOperationSequence">
+<!--        <success>Always</success>-->
+        <operations>
+            <li Class="PatchOperationReplace">
+                <xpath>/Defs/MainButtonDef[defName="ToolkitCore"]/tabWindowClass</xpath>
+                <value>
+                    <tabWindowClass>SirRandoo.ToolkitUtils.CoreMainTab</tabWindowClass>
+                </value>
+            </li>
+            <li Class="PatchOperationAdd">
+                <xpath>/Defs/MainButtonDef[defName="ToolkitCore"]</xpath>
+                <value>
+                    <workerClass>SirRandoo.ToolkitUtils.CoreWorkerTab</workerClass>
+                </value>
+            </li>
+        </operations>
+    </Operation>
+</Patch>
