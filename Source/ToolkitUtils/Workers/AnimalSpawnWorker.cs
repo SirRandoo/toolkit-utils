@@ -131,10 +131,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
         private Pawn GeneratePawn()
         {
-            var request = PawnGenerationRequest.MakeDefault();
-            request.KindDef = AnimalDef;
-            request.FixedGender = Gender;
-            request.Faction = SpawnTamed && !SpawnManhunter ? Faction.OfPlayer : null;
+            var request = new PawnGenerationRequest { KindDef = AnimalDef, FixedGender = Gender, Faction = SpawnTamed && !SpawnManhunter ? Faction.OfPlayer : null };
 
             Pawn pawn = PawnGenerator.GeneratePawn(request);
 

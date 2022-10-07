@@ -534,7 +534,15 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (Widgets.ButtonText(eventsEditField, openText))
             {
-                Find.WindowStack.Add(new StoreIncidentsWindow());
+                Find.WindowStack.Add(new IncidentCategoryWindow());
+            }
+
+            (Rect commandsLabel, Rect commandsField) = listing.Split(0.85f);
+            UiHelper.Label(commandsLabel, "Commands Edit");
+
+            if (Widgets.ButtonText(commandsField, openText))
+            {
+                Find.WindowStack.Add(new CommandCategoryWindow());
             }
 
             (Rect traitsEditLabel, Rect traitsEditField) = listing.Split(0.85f);
