@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Workers;
@@ -43,6 +44,19 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static partial class PurchaseHandlerPatch
     {
+        [CanBeNull]
+        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
+        {
+            if (exception == null)
+            {
+                return null;
+            }
+
+            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+            return null;
+        }
+
         [HarmonyPrefix]
         [HarmonyPatch(nameof(Purchase_Handler.ResolvePurchase))]
         private static bool ResolvePurchasePrefix([NotNull] Viewer viewer, [NotNull] ITwitchMessage twitchMessage)

@@ -49,6 +49,19 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(Store_ItemEditor), nameof(Store_ItemEditor.UpdateStoreItemList));
         }
 
+        [CanBeNull]
+        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
+        {
+            if (exception == null)
+            {
+                return null;
+            }
+
+            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+            return null;
+        }
+
         private static bool Prefix()
         {
             List<Item> inventory = StoreInventory.items;

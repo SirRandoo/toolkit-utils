@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -45,6 +46,19 @@ namespace SirRandoo.ToolkitUtils.Harmony
             _languageChangeMethod ??= AccessTools.Method(typeof(LanguageDatabase), nameof(LanguageDatabase.SelectLanguage));
 
             return _languageChangeMethod != null;
+        }
+
+        [CanBeNull]
+        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
+        {
+            if (exception == null)
+            {
+                return null;
+            }
+
+            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+            return null;
         }
 
         private static IEnumerable<MethodBase> TargetMethods()

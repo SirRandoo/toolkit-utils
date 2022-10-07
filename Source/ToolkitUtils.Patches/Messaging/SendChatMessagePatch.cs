@@ -42,6 +42,19 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(TwitchWrapper), nameof(TwitchWrapper.SendChatMessage));
         }
 
+        [CanBeNull]
+        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
+        {
+            if (exception == null)
+            {
+                return null;
+            }
+
+            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+            return null;
+        }
+
         private static bool Prefix(string message)
         {
             if (message.NullOrEmpty())

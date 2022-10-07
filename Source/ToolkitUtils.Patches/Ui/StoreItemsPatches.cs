@@ -50,6 +50,19 @@ namespace SirRandoo.ToolkitUtils.Harmony
             return true;
         }
 
+        [CanBeNull]
+        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
+        {
+            if (exception == null)
+            {
+                return null;
+            }
+
+            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+            return null;
+        }
+
         private static IEnumerable<MethodBase> TargetMethods()
         {
             yield return AccessTools.Method(typeof(Settings_Store), nameof(Settings_Store.DoWindowContents));

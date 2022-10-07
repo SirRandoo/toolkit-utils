@@ -45,6 +45,19 @@ namespace SirRandoo.ToolkitUtils.Harmony
             yield return AccessTools.Method(typeof(CommandsHandler), nameof(CommandsHandler.CheckCommand));
         }
 
+        [CanBeNull]
+        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
+        {
+            if (exception == null)
+            {
+                return null;
+            }
+
+            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+            return null;
+        }
+
         private static bool Prefix([CanBeNull] ITwitchMessage twitchMessage)
         {
             if (!TkSettings.Commands || twitchMessage?.Message == null)
