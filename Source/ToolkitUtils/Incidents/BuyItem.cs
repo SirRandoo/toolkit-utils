@@ -187,10 +187,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 for (var _ = 0; _ < Quantity; _++)
                 {
-                    var request = PawnGenerationRequest.MakeDefault();
-                    request.KindDef = PawnKindDef.Named(Proxy.Thing.Thing.defName);
-                    request.FixedGender = Proxy.Gender;
-                    request.Faction = Faction.OfPlayer;
+                    var request = new PawnGenerationRequest
+                    {
+                        KindDef = PawnKindDef.Named(Proxy.Thing.Thing.defName), FixedGender = Proxy.Gender, Faction = Faction.OfPlayer
+                    };
                     Pawn pawn = PawnGenerator.GeneratePawn(request);
                     coordinator.TrySpawnAnimal(Map, pawn);
 
