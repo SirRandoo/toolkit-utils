@@ -70,7 +70,6 @@ namespace SirRandoo.ToolkitUtils
             foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
             {
                 EventItem item = Events.Find(e => string.Equals(incident.defName, e.DefName));
-                TkUtils.Logger.Info(string.Join(", ", Events.Select(e => e.DefName)));
 
                 if (item == null)
                 {
