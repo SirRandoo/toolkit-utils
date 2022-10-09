@@ -20,12 +20,12 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using RimWorld;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
-using Utf8Json;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Windows
@@ -55,6 +55,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _loadPartialTooltip;
         private Vector2 _scrollPos = Vector2.zero;
         private FileData<T> _selectedFile;
+        private static readonly JsonSerializer JsonSerializer = new JsonSerializer();
 
         private PartialManager(Action<PartialData<T>> loadCallback)
         {
@@ -325,7 +326,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                     try
                     {
-                        var partial = await JsonSerializer.DeserializeAsync<PartialData<T>>(stream);
+                        var partial = await Json.DeserializeAsync<PartialData<T>>(stream);
+
+                        if (partial == null)
+                        {
+                            TkUtils.Logger.Error(@$"Could not deserialize partial at ""{path}""; is it malformed?");
+
+                            continue;
+                        }
 
                         data.IsPartial = true;
                         data.Description = partial.Description;

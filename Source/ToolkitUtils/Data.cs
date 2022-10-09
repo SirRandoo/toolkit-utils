@@ -26,19 +26,11 @@ using Ionic.Zlib;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.CommonLib.Entities;
-using SirRandoo.ToolkitUtils.Helpers;
-using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils;
-using SirRandoo.ToolkitUtils.Windows;
-using ToolkitCore.Models;
 using TwitchToolkit;
-using TwitchToolkit.Incidents;
-using TwitchToolkit.Store;
 using UnityEngine;
-using Utf8Json;
 using Verse;
-using Command = TwitchToolkit.Command;
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -108,7 +100,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 TkUtils.Logger.Error("Could not validate surgery list", e);
             }
-            
+
             ValidateCommands();
             ValidateEventList();
             ValidateShopData();
@@ -220,7 +212,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 using (FileStream file = File.Open(path, FileMode.Open, FileAccess.Read))
                 {
-                    return JsonSerializer.Deserialize<T>(file);
+                    return Json.Deserialize<T>(file);
                 }
             }
             catch (Exception e)
@@ -234,6 +226,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
+        [ItemCanBeNull]
         internal static async Task<T> LoadJsonAsync<T>(string path, bool ignoreErrors = false) where T : class
         {
             if (!File.Exists(path) && !ignoreErrors)
@@ -247,7 +240,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 using (FileStream file = File.Open(path, FileMode.Open, FileAccess.Read))
                 {
-                    return await JsonSerializer.DeserializeAsync<T>(file);
+                    return await Json.DeserializeAsync<T>(file);
                 }
             }
             catch (Exception e)
@@ -261,6 +254,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
+        [ItemCanBeNull]
         internal static async Task<T> LoadCompressedJsonAsync<T>(string path, bool ignoreErrors = false) where T : class
         {
             if (!File.Exists(path) && !ignoreErrors)
@@ -276,7 +270,7 @@ namespace SirRandoo.ToolkitUtils
                 {
                     using (var zipStream = new GZipStream(file, CompressionMode.Decompress))
                     {
-                        return await JsonSerializer.DeserializeAsync<T>(zipStream);
+                        return await Json.DeserializeAsync<T>(zipStream);
                     }
                 }
             }
@@ -304,19 +298,9 @@ namespace SirRandoo.ToolkitUtils
 
             try
             {
-                using (FileStream writer = File.Open(tempPath, FileMode.Create, FileAccess.Write))
+                using (FileStream stream = File.Open(tempPath, FileMode.Create, FileAccess.Write))
                 {
-                    if (!TkSettings.MinifyData)
-                    {
-                        using (var sWriter = new StreamWriter(writer, Encoding.UTF8))
-                        {
-                            sWriter.Write(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
-                        }
-                    }
-                    else
-                    {
-                        JsonSerializer.Serialize(writer, obj);
-                    }
+                    Json.Serialize(stream, obj, !TkSettings.MinifyData);
                 }
             }
             catch (IOException e)
@@ -329,19 +313,9 @@ namespace SirRandoo.ToolkitUtils
                 return;
             }
 
-            using (FileStream f = File.Open(Path.ChangeExtension(path, $"-{DateTime.Now.ToFileTime()}.json"), FileMode.Create, FileAccess.Write))
+            using (FileStream stream = File.Open(Path.ChangeExtension(path, $"-{DateTime.Now.ToFileTime()}.json"), FileMode.Create, FileAccess.Write))
             {
-                if (TkSettings.MinifyData)
-                {
-                    JsonSerializer.Serialize(f, obj);
-
-                    return;
-                }
-
-                using (var writer = new StreamWriter(f))
-                {
-                    writer.Write(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
-                }
+                Json.Serialize(stream, obj, !TkSettings.MinifyData);
             }
         }
 
@@ -358,19 +332,9 @@ namespace SirRandoo.ToolkitUtils
 
             try
             {
-                using (FileStream file = File.Open(tempPath, FileMode.Create, FileAccess.Write))
+                using (FileStream stream = File.Open(tempPath, FileMode.Create, FileAccess.Write))
                 {
-                    using (var writer = new StreamWriter(file))
-                    {
-                        if (!TkSettings.MinifyData)
-                        {
-                            await writer.WriteAsync(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
-                        }
-                        else
-                        {
-                            await JsonSerializer.SerializeAsync(file, obj);
-                        }
-                    }
+                    await Json.SerializeAsync(stream, obj, !TkSettings.MinifyData);
                 }
             }
             catch (IOException e)
@@ -380,19 +344,9 @@ namespace SirRandoo.ToolkitUtils
 
             if (!TryReplaceFile(tempPath, path))
             {
-                using (FileStream f = File.Open(Path.ChangeExtension(path, $"-{DateTime.Now.ToFileTime()}.json"), FileMode.Create, FileAccess.Write))
+                using (FileStream stream = File.Open(Path.ChangeExtension(path, $"-{DateTime.Now.ToFileTime()}.json"), FileMode.Create, FileAccess.Write))
                 {
-                    if (TkSettings.MinifyData)
-                    {
-                        await JsonSerializer.SerializeAsync(f, obj);
-
-                        return;
-                    }
-
-                    using (var writer = new StreamWriter(f))
-                    {
-                        await writer.WriteAsync(JsonSerializer.PrettyPrint(JsonSerializer.ToJsonString(obj)));
-                    }
+                    await Json.SerializeAsync(stream, obj, !TkSettings.MinifyData);
                 }
             }
         }
@@ -414,7 +368,7 @@ namespace SirRandoo.ToolkitUtils
                 {
                     using (var zipStream = new GZipStream(file, CompressionMode.Compress))
                     {
-                        await JsonSerializer.SerializeAsync(zipStream, obj);
+                        await Json.SerializeAsync(zipStream, obj, !TkSettings.MinifyData);
                     }
                 }
             }
@@ -432,7 +386,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 using (var zipStream = new GZipStream(f, CompressionMode.Compress))
                 {
-                    await JsonSerializer.SerializeAsync(zipStream, obj);
+                    await Json.SerializeAsync(zipStream, obj, !TkSettings.MinifyData);
                 }
             }
         }
@@ -539,6 +493,7 @@ namespace SirRandoo.ToolkitUtils
             return container;
         }
 
+        [NotNull]
         private static Dictionary<BackstorySlot, List<BackstoryDef>> GetBackstories()
         {
             var container = new Dictionary<BackstorySlot, List<BackstoryDef>>();
