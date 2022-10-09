@@ -110,7 +110,6 @@ namespace SirRandoo.ToolkitUtils
                     continue;
                 }
 
-                TkUtils.Logger.Info($"Adding {key} to incidents list");
                 Events.Add(new EventItem { Incident = incident, EventData = value });
             }
         }
