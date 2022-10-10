@@ -224,7 +224,7 @@ namespace SirRandoo.ToolkitUtils
 
             if (texture != null)
             {
-                Icon(iconRect, texture, color);
+                UiHelper.Icon(iconRect, texture, color);
                 iconRect.TipRegion(iconTooltip);
             }
 
@@ -242,7 +242,7 @@ namespace SirRandoo.ToolkitUtils
                 GUIUtility.systemCopyBuffer = report.Stacktrace;
             }
 
-            Icon(closeRect, Widgets.CheckboxOffTex, Color.red);
+            UiHelper.Icon(closeRect, Widgets.CheckboxOffTex, Color.red);
             closeRect.TipRegion(_closeTooltip);
 
             if (Widgets.ButtonInvisible(closeRect))
@@ -337,30 +337,6 @@ namespace SirRandoo.ToolkitUtils
             }
 
             return span.Minutes > 0 ? $"{span.TotalMinutes:N2} {_minutesText}" : $"{span.TotalSeconds:N2} {_secondsText}";
-        }
-        
-        private static Rect IconRect(float x, float y, float width, float height, float margin)
-        {
-            float shortest = Mathf.Min(width, height);
-            float halfShortest = Mathf.FloorToInt(shortest / 2f);
-            float halfWidth = Mathf.FloorToInt(width / 2f);
-            float halfHeight = Mathf.FloorToInt(height / 2f);
-
-            return new Rect(
-                Mathf.Clamp(halfWidth - halfShortest, x, x + width) + margin,
-                Mathf.Clamp(halfHeight - halfShortest, y, y + height) + margin,
-                shortest - margin * 2f,
-                shortest - margin * 2f
-            );
-        }
-        
-        public static void Icon(Rect region, Texture2D icon, Color? color)
-        {
-            region = IconRect(region.x, region.y, region.width, region.height, 2f);
-            Color color1 = GUI.color;
-            GUI.color = color ?? Color.white;
-            GUI.DrawTexture(region, icon);
-            GUI.color = color1;
         }
 
         private sealed class MenuEntry
