@@ -362,10 +362,19 @@ namespace SirRandoo.ToolkitUtils
                     {
                         cache.Options.Add(option);
 
-                        if (option.Label.EqualsIgnoreCase("settings") || option.Label.EqualsIgnoreCase(settingsTranslated) || option.Label.EqualsIgnoreCase("options")
-                            || option.Label.EqualsIgnoreCase(optionsTranslated))
+                        if (!option.Label.EqualsIgnoreCase("settings") && !option.Label.EqualsIgnoreCase(settingsTranslated) && !option.Label.EqualsIgnoreCase("options")
+                            && !option.Label.EqualsIgnoreCase(optionsTranslated))
                         {
-                            hasSettings = true;
+                            continue;
+                        }
+
+                        hasSettings = true;
+
+                        Mod modHandle = LoadedModManager.ModHandles.FirstOrDefault(e => e.Content.AllDefs.Any(d => d == addon));
+
+                        if (modHandle != null)
+                        {
+                            option.action = modHandle.OpenSettings;
                         }
                     }
                 }
