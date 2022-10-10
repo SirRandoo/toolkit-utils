@@ -40,9 +40,9 @@ namespace SirRandoo.ToolkitUtils
         private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
         {
             new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>().OpenSettings()),
-            new FloatMenuOption("TKUtils.AddonMenu.Events".TranslateSimple(), () => Find.WindowStack.Add(new StoreIncidentsWindow())),
+            new FloatMenuOption("TKUtils.AddonMenu.Events".TranslateSimple(), () => Find.WindowStack.Add(new IncidentCategoryWindow())),
             new FloatMenuOption("TKUtils.AddonMenu.Items".TranslateSimple(), () => Find.WindowStack.Add(new StoreDialog())),
-            new FloatMenuOption("TKUtils.AddonMenu.Commands".TranslateSimple(), () => Find.WindowStack.Add(new Window_Commands())),
+            new FloatMenuOption("TKUtils.AddonMenu.Commands".TranslateSimple(), () => Find.WindowStack.Add(new CommandCategoryWindow())),
             new FloatMenuOption("TKUtils.AddonMenu.Viewers".TranslateSimple(), () => Find.WindowStack.Add(new Window_Viewers())),
             new FloatMenuOption("TKUtils.AddonMenu.NameQueue".TranslateSimple(), () => Find.WindowStack.Add(new NameQueueDialog())),
             new FloatMenuOption("TKUtils.AddonMenu.Tracker".TranslateSimple(), () => Find.WindowStack.Add(new Window_Trackers())),
