@@ -4,7 +4,7 @@
         <TargetFramework>net472</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="SirRandoo.CommonLib" Version="1.9.0" Condition="'$(Configuration)' == 'Release'"/>
+        <PackageReference Include="0SirRandoo.CommonLib" Version="1.10.0" Condition="'$(Configuration)' == 'Release'"/>
         <Reference Include="SirRandoo.CommonLib" Condition="'$(Configuration)' == 'Debug'">
             <HintPath>..\Libs\0SirRandoo.CommonLib.dll</HintPath>
         </Reference>
