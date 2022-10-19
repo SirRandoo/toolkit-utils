@@ -92,6 +92,11 @@ namespace SirRandoo.ToolkitUtils
                 return true;
             }
 
+            if (pawn.Faction != Faction.OfPlayer)
+            {
+                return false;
+            }
+
             if (pawn.Dead)
             {
                 pawn.TryResurrect();
