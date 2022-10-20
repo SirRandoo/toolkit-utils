@@ -619,7 +619,7 @@ namespace SirRandoo.ToolkitUtils.Workers
                 return;
             }
 
-            Find.WindowStack.Add(new Window_StorytellerPacks());
+            Find.WindowStack.Add(new StorytellerPackDialog());
             listing.End();
         }
 

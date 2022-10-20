@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+    <Operation Class="PatchOperationSequence">
+        <success>Always</success>
+        <operations>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Storytellers.StorytellerPack[defName="ToryTalker"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.StorytellerPackExtension">
+                        <settingsEmbed>SirRandoo.ToolkitUtils.StorytellerPackSettings.TorytalkerPackSettings</settingsEmbed>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Storytellers.StorytellerPack[defName="HodlBot"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.StorytellerPackExtension">
+                        <settingsEmbed>SirRandoo.ToolkitUtils.StorytellerPackSettings.HodlPackSettings</settingsEmbed>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Storytellers.StorytellerPack[defName="UristBot"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.StorytellerPackExtension">
+                        <settingsEmbed>SirRandoo.ToolkitUtils.StorytellerPackSettings.UristPackSettings</settingsEmbed>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Storytellers.StorytellerPack[defName="Milasandra"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.StorytellerPackExtension">
+                        <settingsEmbed>SirRandoo.ToolkitUtils.StorytellerPackSettings.MilasandraPackSettings</settingsEmbed>
+                    </li>
+                </value>
+            </li>
+            <li Class="PatchOperationAddModExtension">
+                <xpath>Defs/TwitchToolkit.Storytellers.StorytellerPack[defName="Mercurius"]</xpath>
+                <value>
+                    <li Class="SirRandoo.ToolkitUtils.StorytellerPackExtension">
+                        <settingsEmbed>SirRandoo.ToolkitUtils.StorytellerPackSettings.MercuriusPackSettings</settingsEmbed>
+                    </li>
+                </value>
+            </li>
+        </operations>
+    </Operation>
+</Patch>

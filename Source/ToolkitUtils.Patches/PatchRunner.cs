@@ -24,9 +24,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
     [StaticConstructorOnStartup]
     internal static class PatchRunner
     {
+        internal static readonly HarmonyLib.Harmony Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
+        
         static PatchRunner()
         {
-            new HarmonyLib.Harmony("com.sirrandoo.tkutils").PatchAll(Assembly.GetExecutingAssembly());
+            Harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
 }
