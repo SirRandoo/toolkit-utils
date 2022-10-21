@@ -33,6 +33,8 @@ namespace SirRandoo.ToolkitUtils.Windows
         private int _tmpValue;
         private string _buffer = "0";
         private bool _bufferValid;
+        private string _applyText;
+        private string _cancelText;
 
         public IntegerEntryDialog([CanBeNull] string title)
         {
@@ -49,6 +51,15 @@ namespace SirRandoo.ToolkitUtils.Windows
         public Action OnCancel { get; set; }
         public int Maximum { get; set; } = int.MaxValue;
         public int Minimum { get; set; }
+
+        /// <inheritdoc />
+        public override void PreOpen()
+        {
+            base.PreOpen();
+
+            _cancelText = "TKUtils.Buttons.Cancel".TranslateSimple();
+            _applyText = "TKUtils.Buttons.Apply".TranslateSimple();
+        }
 
         /// <inheritdoc/>
         public override void DoWindowContents(Rect inRect)
@@ -79,14 +90,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             var applyRegion = new Rect(0f, 0f, Mathf.FloorToInt(region.width * 0.5f) - 10f, region.height);
             var cancelRegion = new Rect(applyRegion.width + 20f, 0f, applyRegion.width, region.height);
 
-            if (Widgets.ButtonText(applyRegion, "Apply"))
+            if (Widgets.ButtonText(applyRegion, _applyText))
             {
                 OnAccept?.Invoke(_tmpValue);
                 
                 Close();
             }
 
-            if (Widgets.ButtonText(cancelRegion, "Cancel"))
+            if (Widgets.ButtonText(cancelRegion, _cancelText))
             {
                 OnCancel?.Invoke();
                 
