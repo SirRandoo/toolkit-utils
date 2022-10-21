@@ -27,8 +27,6 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Windows;
-using TwitchToolkit;
-using TwitchToolkit.Storytellers.StorytellerPackWindows;
 using UnityEngine;
 using Verse;
 
@@ -44,7 +42,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
         {
             DrawMethod = AccessTools.Method(typeof(StorytellerUI), nameof(StorytellerUI.DrawStorytellerSelectionInterface));
         }
-    
+
         private static bool Prepare()
         {
             if (CompatRegistry.ToolkitCompatible)
