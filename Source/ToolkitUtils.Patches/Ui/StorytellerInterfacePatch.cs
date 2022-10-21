@@ -47,9 +47,7 @@ namespace SirRandoo.ToolkitUtils.Harmony
     
         private static bool Prepare()
         {
-            bool toolkitCompatible = Toolkit.Mod.Content.ModMetaData.VersionCompatible;
-
-            if (toolkitCompatible)
+            if (CompatRegistry.ToolkitCompatible)
             {
                 return false;
             }

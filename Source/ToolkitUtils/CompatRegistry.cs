@@ -20,6 +20,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Interfaces;
+using TwitchToolkit;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
@@ -40,6 +41,12 @@ namespace SirRandoo.ToolkitUtils
         ///     The main compatibility provider for A RimWorld of Magic.
         /// </summary>
         public static IMagicCompatibilityProvider Magic { get; private set; }
+
+        /// <summary>
+        ///     Whether Twitch Toolkit is compatible with the current version of
+        ///     RimWorld.
+        /// </summary>
+        public static bool ToolkitCompatible { get; } = Toolkit.Mod.Content.ModMetaData.VersionCompatible;
 
         /// <summary>
         ///     The main compatibility provider for Humanoid Alien Races.
