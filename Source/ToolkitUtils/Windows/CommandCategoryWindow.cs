@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     public class CommandCategoryWindow : CategoricalEditorWindow<Command>
     {
         /// <inheritdoc/>
-        public CommandCategoryWindow() : base("All Commands")
+        public CommandCategoryWindow() : base("TKUtils.Headers.AllCommands".TranslateSimple())
         {
         }
 

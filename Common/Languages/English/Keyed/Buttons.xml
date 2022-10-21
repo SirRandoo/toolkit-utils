@@ -50,5 +50,6 @@
     <TKUtils.Buttons.AreYouSure>Are you sure?</TKUtils.Buttons.AreYouSure>
     <TKUtils.Buttons.EditStorytellerPacks>Storyteller packs</TKUtils.Buttons.EditStorytellerPacks>
     <TKUtils.Buttons.NewToken>New token</TKUtils.Buttons.NewToken>
+    <TKUtils.Buttons.Edit>Edit</TKUtils.Buttons.Edit>
     <TKUtils.Buttons.SameAsChannel>Same as channel</TKUtils.Buttons.SameAsChannel>
 </LanguageData>

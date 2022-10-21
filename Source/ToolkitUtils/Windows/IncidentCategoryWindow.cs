@@ -31,7 +31,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     public class IncidentCategoryWindow : CategoricalEditorWindow<StoreIncident>
     {
         /// <inheritdoc/>
-        public IncidentCategoryWindow() : base("Store Incidents")
+        public IncidentCategoryWindow() : base("TKUtils.Headers.AllIncidents".TranslateSimple())
         {
         }
 

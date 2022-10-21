@@ -25,4 +25,6 @@
     <TKUtils.Headers.Category>Category</TKUtils.Headers.Category>
     <TKUtils.Headers.AddPrice>Add Price</TKUtils.Headers.AddPrice>
     <TKUtils.Headers.RemovePrice>Remove Price</TKUtils.Headers.RemovePrice>
+    <TKUtils.Headers.AllCommands>All Commands</TKUtils.Headers.AllCommands>
+    <TKUtils.Headers.AllIncidents>Store Incidents</TKUtils.Headers.AllIncidents>
 </LanguageData>

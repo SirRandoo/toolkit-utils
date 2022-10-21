@@ -37,6 +37,10 @@ namespace SirRandoo.ToolkitUtils.Windows
         protected readonly QuickSearchWidget SearchWidget = new QuickSearchWidget();
         private Vector2 _scrollPos = Vector2.zero;
 
+        private string _editText;
+        private string _resetAllText;
+        private string _disableAllText;
+
         protected CategoricalEditorWindow(string header)
         {
             _header = header;
@@ -57,7 +61,15 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             _defEntries.SortBy(s => s.Def.label);
 
+            GetTranslations();
             base.PreOpen();
+        }
+
+        private void GetTranslations()
+        {
+            _editText = "TKUtils.Buttons.Edit".TranslateSimple();
+            _resetAllText = "TKUtils.Buttons.ResetAll".TranslateSimple();
+            _disableAllText = "TKUtils.Buttons.DisableAll".TranslateSimple();
         }
 
         /// <inheritdoc/>
@@ -106,12 +118,12 @@ namespace SirRandoo.ToolkitUtils.Windows
             var disableAllRegion = new Rect(searchRegion.width, 0f, buttonWidths, region.height);
             var resetAllRegion = new Rect(searchRegion.width + buttonWidths, 0f, buttonWidths, region.height);
 
-            if (Widgets.ButtonText(disableAllRegion, "Disable All"))
+            if (Widgets.ButtonText(disableAllRegion, _disableAllText))
             {
                 DisableAllEntries();
             }
 
-            if (Widgets.ButtonText(resetAllRegion, "Reset All"))
+            if (Widgets.ButtonText(resetAllRegion, _resetAllText))
             {
                 ResetAllEntries();
             }
@@ -163,7 +175,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     UiHelper.Label(textRegion, entry.Def.label.CapitalizeFirst(), TextAnchor.MiddleLeft, GameFont.Small);
                 }
 
-                if (Widgets.ButtonText(editButtonRegion, "Edit"))
+                if (Widgets.ButtonText(editButtonRegion, _editText))
                 {
                     OpenEditorFor(entry.Def);
                 }
