@@ -722,7 +722,7 @@ namespace SirRandoo.ToolkitUtils.Workers
 
             if (Widgets.ButtonText(editViewers, "Edit Viewers"))
             {
-                Find.WindowStack.Add(new Window_Viewers());
+                Find.WindowStack.Add(new ViewersDialog());
             }
 
             GUI.EndGroup();

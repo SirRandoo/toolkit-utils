@@ -96,5 +96,25 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             return prefix.Replace(" ", "");
         }
+
+        internal static bool IsModerator([NotNull] this Viewer viewer)
+        {
+            if (viewer.mod)
+            {
+                return true;
+            }
+
+            if (ToolkitSettings.ViewerModerators == null)
+            {
+                return false;
+            }
+
+            if (ToolkitSettings.ViewerModerators.TryGetValue(viewer.username, out bool state))
+            {
+                return state;
+            }
+            
+            return false;
+        }
     }
 }

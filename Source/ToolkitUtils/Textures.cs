@@ -41,6 +41,7 @@ namespace SirRandoo.ToolkitUtils
         internal static readonly Texture2D Stack = ContentFinder<Texture2D>.Get("UI/Icons/Stack");
         internal static readonly Texture2D Reset = ContentFinder<Texture2D>.Get("UI/Icons/Reset");
         internal static readonly Texture2D QuestionMark = ContentFinder<Texture2D>.Get("UI/Icons/QuestionMark");
+        internal static readonly Texture2D Group = ContentFinder<Texture2D>.Get("UI/Icons/Group");
         internal static readonly Texture2D Filter = ContentFinder<Texture2D>.Get("UI/Icons/Filter");
         internal static readonly Texture2D CollapsedArrow = ContentFinder<Texture2D>.Get("UI/Icons/CollapsedArrow");
         internal static readonly Texture2D ExpandedArrow = ContentFinder<Texture2D>.Get("UI/Icons/ExpandedArrow");
@@ -72,8 +73,9 @@ namespace SirRandoo.ToolkitUtils
         internal static readonly Texture2D Info = ContentFinder<Texture2D>.Get("UI/Icons/Info");
         internal static readonly Texture2D Warning = ContentFinder<Texture2D>.Get("UI/Icons/Warning");
         internal static readonly Texture2D Debug = ContentFinder<Texture2D>.Get("UI/Icons/Debug");
-        internal static readonly Texture2D UtilsEdition = ContentFinder<Texture2D>.Get("UI/Icons/UtilsEdition");
-        internal static readonly Texture2D StandardEdition = ContentFinder<Texture2D>.Get("UI/Icons/StandardEdition");
+        internal static readonly Texture2D Sword = ContentFinder<Texture2D>.Get("UI/Icons/Sword");
+        internal static readonly Texture2D SlashedCircle = ContentFinder<Texture2D>.Get("UI/Icons/SlashedCircle");
+        internal static readonly Texture2D ArrowGhost = ContentFinder<Texture2D>.Get("UI/Overlays/ArrowGhost");
 
         private static Texture2D GetHumanMeatTexture()
         {
