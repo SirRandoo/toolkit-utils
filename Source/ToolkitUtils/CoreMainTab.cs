@@ -372,7 +372,7 @@ namespace SirRandoo.ToolkitUtils
 
                         Mod modHandle = LoadedModManager.ModHandles.FirstOrDefault(e => e.Content.AllDefs.Any(d => d == addon));
 
-                        if (modHandle != null)
+                        if (modHandle != null && modHandle != ToolkitCore.ToolkitCore.settings.Mod)
                         {
                             option.action = modHandle.OpenSettings;
                         }

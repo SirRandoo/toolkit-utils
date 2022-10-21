@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
+using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore;
 using ToolkitCore.Interfaces;
 using ToolkitCore.Windows;
@@ -36,7 +36,7 @@ namespace SirRandoo.ToolkitUtils
     {
         private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
         {
-            new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), LoadedModManager.GetMod<ToolkitCore.ToolkitCore>().OpenSettings),
+            new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => Find.WindowStack.Add(new CoreSettingsWindow())),
             new FloatMenuOption("Message Log", () => Find.WindowStack.Add(new Window_MessageLog())),
             new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki")),
             new FloatMenuOption(
