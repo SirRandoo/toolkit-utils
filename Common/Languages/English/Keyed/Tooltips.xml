@@ -83,4 +83,10 @@
     <TKUtils.CoreTooltips.AllowWhispers>When enabled, viewers can whisper commands to the mod's bot on Twitch instead of sending them in chat.\n\nNote: This does not disable comands in chat. It only allows viewers to whisper the bot.</TKUtils.CoreTooltips.AllowWhispers>
     <TKUtils.CoreTooltips.ForcedWhispers>When enabled, viewers must whisper commands to the mod's bot on Twitch in order to use commands.\n\nNote: If this setting is enabled and whispers are disabled, the mod will not process any commands. You must have whispers enabled to use this setting.</TKUtils.CoreTooltips.ForcedWhispers>
     <TKUtils.CoreTooltips.SendMessage>When enabled, the mod will send a "Connected!" message in chat when it connects to your channel on Twitch.</TKUtils.CoreTooltips.SendMessage>
+    
+    <TKUtils.ViewerTooltips.UnmodViewer>When clicked, {0} will be removed from the list of Toolkit moderators.</TKUtils.ViewerTooltips.UnmodViewer>
+    <TKUtils.ViewerTooltips.ModViewer>When clicked, {0} will be added to the list of Toolkit moderators. Toolkit moderators are granted access to mod only commands, like giving coins.</TKUtils.ViewerTooltips.ModViewer>
+    <TKUtils.ViewerTooltips.UnbanViewer>When clicked, {0} will be removed from the list of banned viewers.</TKUtils.ViewerTooltips.UnbanViewer>
+    <TKUtils.ViewerTooltips.BanViewer>When clicked, {0} will be added to the list of banned viewers.</TKUtils.ViewerTooltips.BanViewer>
+    <TKUtils.ViewerTooltips.ResetViewer>When clicked, the data for {0} will be reset to the starting values you've set in Twitch Toolkit's settings.</TKUtils.ViewerTooltips.ResetViewer>
 </LanguageData>

@@ -45,6 +45,12 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _karmaBuffer;
         private bool _karmaBufferValid;
         private Vector2 _listScrollPos = Vector2.zero;
+
+        private string _purgeText;
+        private string _resetAllText;
+        private string _coinsText;
+        private string _karmaText;
+        
         private int _viewerCount;
 
         public ViewersDialog()
@@ -52,6 +58,23 @@ namespace SirRandoo.ToolkitUtils.Windows
             doCloseX = true;
             closeOnAccept = false;
             closeOnCancel = false;
+        }
+
+        /// <inheritdoc/>
+        public override void PreOpen()
+        {
+            GetTranslations();
+
+            base.PreOpen();
+        }
+
+        private void GetTranslations()
+        {
+            _purgeText = "TKUtils.Buttons.Purge".TranslateSimple();
+            _resetAllText = "TKUtils.Buttons.ResetAll".TranslateSimple();
+
+            _karmaText = "TKUtils.PurgeMenu.Karma".TranslateSimple().CapitalizeFirst();
+            _coinsText = "TKUtils.PurgeMenu.Coins".TranslateSimple().CapitalizeFirst();
         }
 
         /// <inheritdoc/>
@@ -90,7 +113,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             GUI.BeginGroup(inRect);
 
-            var listRegion = new Rect(0f, 0f, Mathf.FloorToInt(inRect.width * 0.4f) - StandardMargin, inRect.height - (Text.LineHeight * 2f) - StandardMargin);
+            var listRegion = new Rect(0f, 0f, Mathf.FloorToInt(inRect.width * 0.4f) - StandardMargin, inRect.height - Text.LineHeight * 2f - StandardMargin);
             Rect innerListRegion = listRegion.ContractedBy(4f);
             var editorRegion = new Rect(listRegion.width + 10f, 0f, inRect.width - listRegion.width - 10f, inRect.height);
             Rect innerEditorRegion = editorRegion.ContractedBy(8f);
@@ -111,14 +134,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.EndGroup();
 
-            if (Widgets.ButtonText(purgeRegion, "Purge"))
+            if (Widgets.ButtonText(purgeRegion, _purgeText))
             {
                 Find.WindowStack.Add(new PurgeViewersDialog());
             }
 
-            if (Widgets.ButtonText(purgeRegion.Shift(Direction8Way.North, 0f), "Reset All"))
+            if (Widgets.ButtonText(purgeRegion.Shift(Direction8Way.North, 0f), _resetAllText))
             {
-                Find.WindowStack.Add(new ConfirmationDialog("Are you sure you want to reset everyone's data?", ResetViewers));
+                Find.WindowStack.Add(new ConfirmationDialog("TKUtils.ViewerDialog.ResetConfirmation".TranslateSimple(), ResetViewers));
             }
 
             GUI.EndGroup();
@@ -171,7 +194,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 entry.IsBanned = !entry.IsBanned;
             }
 
-            TooltipHandler.TipRegion(actionBtnRegion, entry.IsBanned ? $"Click to unban {entry.Viewer.username}" : $"Click to ban {entry.Viewer.username}");
+            TooltipHandler.TipRegion(
+                actionBtnRegion,
+                (entry.IsBanned ? "TKUtils.ViewerTooltips.UnbanViewer" : "TKUtils.ViewerTooltips.BanViewer").Translate(entry.Viewer.username)
+            );
 
             actionBtnRegion = actionBtnRegion.Shift(Direction8Way.West, 2f);
 
@@ -180,7 +206,10 @@ namespace SirRandoo.ToolkitUtils.Windows
                 entry.IsModerator = !entry.IsModerator;
             }
 
-            TooltipHandler.TipRegion(actionBtnRegion, entry.IsModerator ? $"Click to unmod {entry.Viewer.username}" : $"Click to mod {entry.Viewer.username}");
+            TooltipHandler.TipRegion(
+                actionBtnRegion,
+                (entry.IsModerator ? "TKUtils.ViewerTooltips.UnmodViewer" : "TKUtils.ViewerTooltips.ModViewer").Translate(entry.Viewer.username)
+            );
 
             actionBtnRegion = actionBtnRegion.Shift(Direction8Way.West, 2f);
 
@@ -188,8 +217,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 ResetViewer(entry.Viewer);
             }
-            
-            TooltipHandler.TipRegion(actionBtnRegion, $"Click to reset the data for {entry.Viewer.username}");
+
+            TooltipHandler.TipRegion(actionBtnRegion, "TKUtils.ViewerTooltips.ResetViewer".Translate(entry.Viewer.username));
         }
 
         private void DrawCoinsEditor(Rect region)
@@ -203,7 +232,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Rect addBtnRegion = editBtnRegion.Shift(Direction8Way.East, 2f);
             Rect removeBtnRegion = addBtnRegion.Shift(Direction8Way.East, 2f);
 
-            UiHelper.Label(labelRegion, "Coins:");
+            UiHelper.Label(labelRegion, _coinsText);
 
             if (Widgets.ButtonImage(editBtnRegion, _editingCoins ? Widgets.CheckboxOnTex : Textures.Edit))
             {
@@ -230,12 +259,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonImage(addBtnRegion, TexButton.Add))
             {
-                Find.WindowStack.Add(new IntegerEntryDialog($"Adding to {_editor.EditingUser}'s balance") { OnAccept = AddCoins });
+                Find.WindowStack.Add(new IntegerEntryDialog("TKUtils.ViewerDialog.AddCoins".Translate(_editor.EditingUser)) { OnAccept = AddCoins });
             }
 
             if (Widgets.ButtonImage(removeBtnRegion, TexButton.Minus))
             {
-                Find.WindowStack.Add(new IntegerEntryDialog($"Removing from {_editor.EditingUser}'s balance") { OnAccept = SubtractCoins });
+                Find.WindowStack.Add(new IntegerEntryDialog("TKUtils.ViewerDialog.RemoveCoins".Translate(_editor.EditingUser)) { OnAccept = SubtractCoins });
             }
         }
 
@@ -250,7 +279,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Rect addBtnRegion = editBtnRegion.Shift(Direction8Way.East, 2f);
             Rect removeBtnRegion = addBtnRegion.Shift(Direction8Way.East, 2f);
 
-            UiHelper.Label(labelRegion, "Karma:");
+            UiHelper.Label(labelRegion, _karmaText);
 
             if (Widgets.ButtonImage(editBtnRegion, _editingKarma ? Widgets.CheckboxOnTex : Textures.Edit))
             {
@@ -276,12 +305,12 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonImage(addBtnRegion, TexButton.Add))
             {
-                Find.WindowStack.Add(new IntegerEntryDialog($"Adding to {_editor.EditingUser}'s karma") { OnAccept = AddKarma });
+                Find.WindowStack.Add(new IntegerEntryDialog("TKUtils.ViewerDialog.AddKarma".Translate(_editor.EditingUser)) { OnAccept = AddKarma });
             }
 
             if (Widgets.ButtonImage(removeBtnRegion, TexButton.Minus))
             {
-                Find.WindowStack.Add(new IntegerEntryDialog($"Removing from {_editor.EditingUser}'s karma") { OnAccept = SubtractKarma });
+                Find.WindowStack.Add(new IntegerEntryDialog("TKUtils.ViewerDialog.RemoveKarma".Translate(_editor.EditingUser)) { OnAccept = SubtractKarma });
             }
         }
 
@@ -292,7 +321,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             var groupActiveRegion = new Rect(lineHeight - 16f, lineHeight - 16f, 16f, 16f);
             var searchRegion = new Rect(lineHeight, 0f, region.width - lineHeight, lineHeight);
             var listRegion = new Rect(0f, lineHeight + 7f, region.width, region.height - lineHeight - 7f);
-            
+
             float lineSpan = lineHeight * _viewerCount;
             var listView = new Rect(0f, 0f, region.width - (lineHeight > listRegion.height ? 16f : 0f), lineSpan);
 
@@ -357,8 +386,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             UiHelper.Label(region, entry.Viewer!.username);
 
             if (Widgets.ButtonImage(buttonRegion, Widgets.CheckboxOffTex))
-            {   
-                Find.WindowStack.Add(new ConfirmationDialog($"Are you sure you wanted to delete {entry.Viewer.username}'s data?", () => DeleteViewerData(entry)));
+            {
+                Find.WindowStack.Add(new ConfirmationDialog("TKUtils.ViewerDialog.DeleteConfirmation".Translate(entry.Viewer.username), () => DeleteViewerData(entry)));
             }
 
             if (!Widgets.ButtonInvisible(region))
@@ -395,7 +424,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private void UpdateEveryoneStatus()
         {
             _searchWidget.filter.Text = "";
-                
+
             UpdateCoinBuffer();
             UpdateKarmaBuffer();
             OnSearchQueryChanged();

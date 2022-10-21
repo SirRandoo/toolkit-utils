@@ -101,4 +101,12 @@
     <TKUtils.CoreSettings.ChannelDetails>Channel Details</TKUtils.CoreSettings.ChannelDetails>
     <TKUtils.CoreSettings.Connection>Connection</TKUtils.CoreSettings.Connection>
     <TKUtils.CoreSettings.TmiConfirmation>Your browser will open to a 3rd party site ({0}) where you can generate a token the mod needs to function. Alternatively, you can generate your own if you have the technical know-how.</TKUtils.CoreSettings.TmiConfirmation>
+    
+    <!-- Viewer Dialog -->
+    <TKUtils.ViewerDialog.AddCoins>Adding coins to {0}'s balance</TKUtils.ViewerDialog.AddCoins>
+    <TKUtils.ViewerDialog.RemoveCoins>Removing coins from {0}'s balance</TKUtils.ViewerDialog.RemoveCoins>
+    <TKUtils.ViewerDialog.AddKarma>Adding karma to {0}</TKUtils.ViewerDialog.AddKarma>
+    <TKUtils.ViewerDialog.RemoveKarma>Removing karma from {0}</TKUtils.ViewerDialog.RemoveKarma>
+    <TKUtils.ViewerDialog.DeleteConfirmation>Are you sure you want to delete {0}'s data?</TKUtils.ViewerDialog.DeleteConfirmation>
+    <TKUtils.ViewerDialog.ResetConfimation>Are you sure you want to reset everyone's data?</TKUtils.ViewerDialog.ResetConfimation>
 </LanguageData>
