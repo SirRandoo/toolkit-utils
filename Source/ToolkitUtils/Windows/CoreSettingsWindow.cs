@@ -22,7 +22,7 @@
 
 using System;
 using System.Threading;
-using System.Threading.Tasks;
+using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.CommonLib.Windows;
@@ -34,35 +34,109 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class CoreSettingsWindow : ProxySettingsWindow
     {
+        private const string TokenUrl = "https://www.twitchapps.com/tmi/";
+        private const float LineHeight = 32f;
+        private const float LineSpacing = 10f;
+
         private readonly float _mediumFontHeight;
+        private string _allowWhispersTooltip;
+        private string _autoConnectTooltip;
+        private string _connectionMessageTooltip;
+        private string _forcedWhispersTooltip;
         private bool _showingToken;
+        private string _newTokenTooltip;
+        private string _channelTooltip;
+        private string _botUsernameTooltip;
+        private string _tokenTooltip;
+        private string _tokenVisibleTooltip;
+        private string _tokenHiddenTooltip;
+        private string _sameAsChannelTooltip;
+        private bool _tokenValid;
+
+        private string _connectedText;
+        private string _disconnectedText;
+        private string _statusText;
+        private string _channelDetailsHeader;
+        private string _connectionHeader;
+        private string _sendConnectionMessageText;
+        private string _allowWhispersText;
+        private string _tmiConfirmationText;
+        private string _forceWhispersText;
+        private string _autoConnectText;
+        private string _tokenText;
+        private string _botUsernameText;
+        private string _channelText;
+        private string _newTokenText;
+        private string _sameAsChannelText;
+        private string _connectText;
+        private string _disconnectText;
 
         /// <inheritdoc/>
         public CoreSettingsWindow() : base(LoadedModManager.GetMod<ToolkitCore.ToolkitCore>())
         {
             _mediumFontHeight = Text.LineHeightOf(GameFont.Medium);
+            _tokenValid = ToolkitCoreSettings.oauth_token.StartsWith("oauth:", StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <inheritdoc/>
+        protected override void GetTranslations()
+        {
+            _channelTooltip = "TKUtils.CoreTooltips.ChannelField".TranslateSimple();
+            _botUsernameTooltip = "TKUtils.CoreTooltips.BotUsernameField".TranslateSimple();
+            _tokenTooltip = "TKUtils.CoreTooltips.TokenField".TranslateSimple();
+            _tokenVisibleTooltip = "TKUtils.CoreTooltips.ToggleTokenHidden".TranslateSimple();
+            _tokenHiddenTooltip = "TKUtils.CoreTooltips.ToggleTokenVisible".TranslateSimple();
+            _sameAsChannelTooltip = "TKUtils.CoreTooltips.SameAsChannel".TranslateSimple();
+            _newTokenTooltip = "TKUtils.CoreTooltips.NewToken".TranslateSimple();
+
+            _connectText = "TKUtils.AddonMenu.Connect".TranslateSimple();
+            _disconnectText = "TKUtils.AddonMenu.Disconnect".TranslateSimple();
+
+            _newTokenText = "TKUtils.Buttons.NewToken".TranslateSimple();
+            _sameAsChannelText = "TKUtils.Buttons.SameAsChannel".TranslateSimple();
+
+            _channelText = "TKUtils.Fields.Channel".TranslateSimple();
+            _botUsernameText = "TKUtils.Fields.BotUsername".TranslateSimple();
+            _tokenText = "TKUtils.Fields.Token".TranslateSimple();
+            _autoConnectText = "TKUtils.Fields.AutoConnect".TranslateSimple();
+            _allowWhispersText = "TKUtils.Fields.AllowWhispers".TranslateSimple();
+            _forceWhispersText = "TKUtils.Fields.ForceWhispers".TranslateSimple();
+            _sendConnectionMessageText = "TKUtils.Fields.SendConnectionMessage".TranslateSimple();
+
+            _connectedText = "TKUtils.CoreSettings.Connected".TranslateSimple();
+            _disconnectedText = "TKUtils.CoreSettings.Disconnected".TranslateSimple();
+            _statusText = "TKUtils.CoreSettings.Status".TranslateSimple();
+            _channelDetailsHeader = "TKUtils.CoreSettings.ChannelDetails".TranslateSimple();
+            _connectionHeader = "TKUtils.CoreSettings.Connection".TranslateSimple();
+        
+            _autoConnectTooltip = "TKUtils.CoreTooltips.AutoConnect".TranslateSimple();
+            _allowWhispersTooltip = "TKUtils.CoreTooltips.AllowWhispers".TranslateSimple();
+            _forcedWhispersTooltip = "TKUtils.CoreTooltips.ForcedWhispers".TranslateSimple();
+            _connectionMessageTooltip = "TKUtils.CoreTooltips.SendMessage".TranslateSimple();
+
+            _tmiConfirmationText = "TKUtils.CoreSettings.TmiConfirmation".Translate(TokenUrl);
         }
 
         /// <inheritdoc/>
         protected override void DrawSettings(Rect region)
         {
-            var authSectionHeader = new Rect(0f, 0f, region.width, _mediumFontHeight);
-            var authSectionRegion = new Rect(0f, authSectionHeader.height, region.width, Text.SmallFontHeight * 3f);
+            var authSectionHeader = new Rect(0f, 0f, 550f, _mediumFontHeight);
+            var authSectionRegion = new Rect(0f, authSectionHeader.height, 550f, (LineSpacing + LineHeight) * 3f);
 
             float connectionY = authSectionRegion.y + authSectionRegion.height + StandardMargin * 4f;
-            var connectionSectionHeader = new Rect(0f, connectionY, region.width, _mediumFontHeight);
+            var connectionSectionHeader = new Rect(0f, connectionY, 550f, _mediumFontHeight);
 
             var connectionSectionRegion = new Rect(
                 0f,
                 connectionSectionHeader.y + connectionSectionHeader.height,
-                region.width,
+                550f,
                 region.height - connectionY - connectionSectionHeader.height
             );
 
             GUI.BeginGroup(region);
 
-            UiHelper.Label(authSectionHeader, "Channel Details", TextAnchor.MiddleLeft, GameFont.Medium);
-            UiHelper.Label(connectionSectionHeader, "Connection", TextAnchor.MiddleLeft, GameFont.Medium);
+            UiHelper.Label(authSectionHeader, _channelDetailsHeader, TextAnchor.MiddleLeft, GameFont.Medium);
+            UiHelper.Label(connectionSectionHeader, _connectionHeader, TextAnchor.MiddleLeft, GameFont.Medium);
 
             GUI.BeginGroup(authSectionRegion);
             DrawAuthSection(authSectionRegion.AtZero());
@@ -77,87 +151,89 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         private void DrawAuthSection(Rect region)
         {
-            var channelLabel = new Rect(0f, 0f, Mathf.FloorToInt(region.width * 0.2f), Text.SmallFontHeight);
-            var channelField = new Rect(channelLabel.width + 5f, 0f, Mathf.FloorToInt(region.width * 0.4f), Text.SmallFontHeight);
+            var listing = new Listing_Standard();
 
-            var usernameLabel = new Rect(0f, channelLabel.height, channelLabel.width, Text.SmallFontHeight);
-            var usernameField = new Rect(channelField.x, usernameLabel.y, channelField.width, Text.SmallFontHeight);
-            var sameAsChannelBtn = new Rect(usernameField.x + usernameField.width, usernameField.y, Mathf.FloorToInt(region.width * 0.2f), Text.SmallFontHeight);
+            listing.Begin(region);
 
-            var tokenLabel = new Rect(0f, usernameField.y + usernameField.height, usernameLabel.width, Text.SmallFontHeight);
-            var tokenField = new Rect(usernameField.x, tokenLabel.y, usernameField.width, Text.SmallFontHeight);
-            var newTokenBtn = new Rect(sameAsChannelBtn.x, tokenField.y, sameAsChannelBtn.width, Text.SmallFontHeight);
-            var fromClipboardBtn = new Rect(newTokenBtn.x + newTokenBtn.width, newTokenBtn.y, newTokenBtn.width, Text.SmallFontHeight);
+            var channelLabel = new Rect(0f, 0f, 200f, LineHeight);
+            var channelField = new Rect(channelLabel.width + 5f, 0f, 200f, LineHeight);
 
-            UiHelper.Label(channelLabel, "Channel:");
+            Rect usernameLabel = channelLabel.Shift(Direction8Way.South, LineSpacing);
+            Rect usernameField = channelField.Shift(Direction8Way.South, LineSpacing);
+
+            var sameAsChannelBtn = new Rect(usernameField.x + usernameField.width + 5f, usernameField.y, 150f, channelLabel.height);
+
+            Rect tokenLabel = usernameLabel.Shift(Direction8Way.South, LineSpacing);
+            Rect tokenField = usernameField.Shift(Direction8Way.South, LineSpacing);
+            Rect newTokenBtn = sameAsChannelBtn.Shift(Direction8Way.South, LineSpacing);
+
+            UiHelper.Label(channelLabel, _channelText);
+            TooltipHandler.TipRegion(channelLabel, _channelTooltip);
 
             if (UiHelper.TextField(channelField, ToolkitCoreSettings.channel_username, out string newUsername))
             {
                 ToolkitCoreSettings.channel_username = newUsername;
             }
 
-            UiHelper.Label(usernameLabel, "Bot username:");
+            UiHelper.Label(usernameLabel, _botUsernameText);
+            TooltipHandler.TipRegion(usernameLabel, _botUsernameTooltip);
 
             if (UiHelper.TextField(usernameField, ToolkitCoreSettings.bot_username, out string newBotUsername))
             {
                 ToolkitCoreSettings.bot_username = newBotUsername;
             }
 
-            UiHelper.Label(tokenLabel, "OAuth token:");
+            UiHelper.Label(tokenLabel, _tokenText);
+            TooltipHandler.TipRegion(tokenLabel, _tokenTooltip);
+            DrawTokenField(tokenField);
 
-            if (_showingToken && UiHelper.TextField(tokenField, ToolkitCoreSettings.oauth_token, out string newToken))
-            {
-                ToolkitCoreSettings.oauth_token = newToken;
-            }
-            else if (!_showingToken)
-            {
-                ToolkitCoreSettings.oauth_token = GUI.PasswordField(tokenField, ToolkitCoreSettings.oauth_token, '*');
-            }
-
-            if (UiHelper.FieldButton(tokenField, _showingToken ? Textures.Visible : Textures.Hidden, "Click to toggle token visibility."))
+            if (UiHelper.FieldButton(tokenLabel, _showingToken ? Textures.Visible : Textures.Hidden, _showingToken ? _tokenVisibleTooltip : _tokenHiddenTooltip))
             {
                 _showingToken = !_showingToken;
             }
-            
-            if (Widgets.ButtonText(sameAsChannelBtn, "Same as channel"))
+
+            if (Widgets.ButtonText(sameAsChannelBtn, _sameAsChannelText))
             {
                 ToolkitCoreSettings.bot_username = ToolkitCoreSettings.channel_username;
             }
+            
+            TooltipHandler.TipRegion(sameAsChannelBtn, _sameAsChannelTooltip);
 
-            if (Widgets.ButtonText(newTokenBtn, "New token"))
+            if (Widgets.ButtonText(newTokenBtn, _newTokenText))
             {
-                Application.OpenURL("https://www.twitchapps.com/tmi/");
+                Find.WindowStack.Add(new ConfirmationDialog(_tmiConfirmationText, () => Application.OpenURL(TokenUrl)));
             }
+            
+            TooltipHandler.TipRegion(newTokenBtn, _newTokenTooltip);
 
-            if (Widgets.ButtonText(fromClipboardBtn, "From clipboard"))
-            {
-                ToolkitCoreSettings.oauth_token = GUIUtility.systemCopyBuffer;
-            }
+            listing.End();
         }
 
         private void DrawConnectionSection(Rect region)
         {
+            GUI.BeginGroup(region);
+
             bool isConnected = TwitchWrapper.Client?.IsConnected == true;
-            var statusLabelRegion = new Rect(0f, 0f, Mathf.FloorToInt(region.width * 0.1f), Text.SmallFontHeight);
-            var statusRegion = new Rect(statusLabelRegion.width, 0f, Mathf.FloorToInt(region.width * 0.1f), Text.SmallFontHeight);
-            var statusBtnRegion = new Rect(statusRegion.x + statusRegion.width + 5f, 0f, Mathf.FloorToInt(region.width * 0.1f), Text.SmallFontHeight);
-            var autoConnectRegion = new Rect(0f, statusLabelRegion.height, Mathf.FloorToInt(region.width * 0.5f), Text.SmallFontHeight);
-            
+            var statusLabelRegion = new Rect(0f, 0f, 200f, LineHeight);
+            var statusRegion = new Rect(statusLabelRegion.width, 0f, statusLabelRegion.width, LineHeight);
+            var statusBtnRegion = new Rect(statusRegion.x + statusRegion.width + 5f, 0f, 150f, LineHeight);
+
+            var autoConnectRegion = new Rect(0f, statusLabelRegion.height, statusRegion.x + 24f, LineHeight);
             Rect whisperRegion = autoConnectRegion.Shift(Direction8Way.South, 0f);
             Rect forceWhisperRegion = whisperRegion.Shift(Direction8Way.South, 0f);
             Rect sendMessageRegion = forceWhisperRegion.Shift(Direction8Way.South, 0f);
 
-            UiHelper.Label(statusLabelRegion, "Status");
+            UiHelper.Label(statusLabelRegion, _statusText);
 
             UiHelper.Label(
                 statusRegion,
-                isConnected ? "Connected" : "Disconnected",
+                isConnected ? _connectedText : _disconnectedText,
                 isConnected ? Color.green : ColorLibrary.RedReadable,
                 TextAnchor.MiddleLeft,
                 GameFont.Small
             );
 
-            if (Widgets.ButtonText(statusBtnRegion, isConnected ? "Disconnect" : "Connect"))
+            if (Widgets.ButtonText(statusBtnRegion, isConnected ? _disconnectText : _connectText))
             {
                 try
                 {
@@ -168,11 +244,62 @@ namespace SirRandoo.ToolkitUtils.Windows
                     // Ignored
                 }
             }
-            
-            Widgets.CheckboxLabeled(autoConnectRegion, "Auto connect on startup", ref ToolkitCoreSettings.connectOnGameStartup);
-            Widgets.CheckboxLabeled(whisperRegion , "Allow viewers to whisper", ref ToolkitCoreSettings.allowWhispers);
-            Widgets.CheckboxLabeled(forceWhisperRegion, "Force viewers to whisper", ref ToolkitCoreSettings.forceWhispers);
-            Widgets.CheckboxLabeled(sendMessageRegion, "Send connection message", ref ToolkitCoreSettings.sendMessageToChatOnStartup);
+
+            Widgets.CheckboxLabeled(autoConnectRegion, _autoConnectText, ref ToolkitCoreSettings.connectOnGameStartup);
+            TooltipHandler.TipRegion(autoConnectRegion, _autoConnectTooltip);
+
+            Widgets.CheckboxLabeled(whisperRegion, _allowWhispersText, ref ToolkitCoreSettings.allowWhispers);
+            TooltipHandler.TipRegion(whisperRegion, _allowWhispersTooltip);
+
+            Widgets.CheckboxLabeled(forceWhisperRegion, _forceWhispersText, ref ToolkitCoreSettings.forceWhispers);
+            TooltipHandler.TipRegion(forceWhisperRegion, _forcedWhispersTooltip);
+
+            Widgets.CheckboxLabeled(sendMessageRegion, _sendConnectionMessageText, ref ToolkitCoreSettings.sendMessageToChatOnStartup);
+            TooltipHandler.TipRegion(sendMessageRegion, _connectionMessageTooltip);
+
+            GUI.EndGroup();
+        }
+
+        private void DrawTokenField(Rect region)
+        {
+            if (!_tokenValid)
+            {
+                GUI.color = Color.red;
+            }
+
+            if (!DrawTokenFieldInternal(region, out string newToken) || newToken == null)
+            {
+                GUI.color = Color.white;
+
+                return;
+            }
+
+            GUI.color = Color.white;
+            ToolkitCoreSettings.oauth_token = newToken;
+
+            if (newToken.StartsWith("oauth:", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            _tokenValid = false;
+        }
+
+        private bool DrawTokenFieldInternal(Rect region, [CanBeNull] out string newToken)
+        {
+            if (_showingToken)
+            {
+                return UiHelper.TextField(region, ToolkitCoreSettings.oauth_token, out newToken);
+            }
+
+            return DrawPasswordField(region, ToolkitCoreSettings.oauth_token, out newToken);
+        }
+
+        private static bool DrawPasswordField(Rect region, string text, [NotNull] out string newText)
+        {
+            newText = GUI.PasswordField(region, text, '*', Text.CurTextFieldStyle);
+
+            return !newText.Equals(text);
         }
 
         private static void ReconnectClient(object state)
@@ -181,7 +308,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 TwitchWrapper.Client.Disconnect();
             }
-            
+
             TwitchWrapper.StartAsync();
         }
     }

@@ -93,4 +93,12 @@
 
     <!-- Global Weights -->
     <TKUtils.GlobalWeights.Null>The vote weight dictionary doesn't exist. This shouldn't happen.</TKUtils.GlobalWeights.Null>
+    
+    <!-- ToolkitCore Settings -->
+    <TKUtils.CoreSettings.Connected>Connected</TKUtils.CoreSettings.Connected>
+    <TKUtils.CoreSettings.Disconnected>Disconnected</TKUtils.CoreSettings.Disconnected>
+    <TKUtils.CoreSettings.Status>Status</TKUtils.CoreSettings.Status>
+    <TKUtils.CoreSettings.ChannelDetails>Channel Details</TKUtils.CoreSettings.ChannelDetails>
+    <TKUtils.CoreSettings.Connection>Connection</TKUtils.CoreSettings.Connection>
+    <TKUtils.CoreSettings.TmiConfirmation>Your browser will open to a 3rd party site ({0}) where you can generate a token the mod needs to function. Alternatively, you can generate your own if you have the technical know-how.</TKUtils.CoreSettings.TmiConfirmation>
 </LanguageData>

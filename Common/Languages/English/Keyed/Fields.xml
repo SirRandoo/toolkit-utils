@@ -73,4 +73,12 @@
     <TKUtils.Fields.GlobalCooldown>Command cooldown (seconds)</TKUtils.Fields.GlobalCooldown>
     <TKUtils.Fields.LocalCooldown>Per-user cooldown (seconds)</TKUtils.Fields.LocalCooldown>
     <TKUtils.Fields.DefaultValue>&lt;b&gt;&lt;i&gt;Default: {0}&lt;/i&gt;&lt;/b&gt;</TKUtils.Fields.DefaultValue>
+    
+    <TKUtils.Fields.Token>OAuth token</TKUtils.Fields.Token>
+    <TKUtils.Fields.BotUsername>Bot username</TKUtils.Fields.BotUsername>
+    <TKUtils.Fields.Channel>Channel</TKUtils.Fields.Channel>
+    <TKUtils.Fields.AutoConnect>Auto connect on startup</TKUtils.Fields.AutoConnect>
+    <TKUtils.Fields.AllowWhispers>Allow viewers to whisper</TKUtils.Fields.AllowWhispers>
+    <TKUtils.Fields.ForceWhispers>Force viewers to whisper</TKUtils.Fields.ForceWhispers>
+    <TKUtils.Fields.SendConnectionMessage>Send connection message</TKUtils.Fields.SendConnectionMessage>
 </LanguageData>

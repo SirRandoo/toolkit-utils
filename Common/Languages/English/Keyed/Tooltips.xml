@@ -71,4 +71,16 @@
     <TKUtils.MainTabTooltips.Info>Info message</TKUtils.MainTabTooltips.Info>
 
     <TKUtils.Persona.Linked>Linked to {0}</TKUtils.Persona.Linked>
+    
+    <TKUtils.CoreTooltips.ChannelField>This field stores the channel the bot will connect to on Twitch.</TKUtils.CoreTooltips.ChannelField>
+    <TKUtils.CoreTooltips.BotUsernameField>This field stores the username the bot will use to connect to your channel with. If the account the token was generated for does not match the text in this field, the account the token is for will be used instead.</TKUtils.CoreTooltips.BotUsernameField>
+    <TKUtils.CoreTooltips.TokenField>This field stores the token used by the mod's bot to connect to your channel on Twitch. If you do not have a token, or otherwise lost it, you can click the relevant button to the right to create a new one.</TKUtils.CoreTooltips.TokenField>
+    <TKUtils.CoreTooltips.ToggleTokenVisible>When clicked, the text inside the "token" text field will be changed so it's masked with asterisks.</TKUtils.CoreTooltips.ToggleTokenVisible>
+    <TKUtils.CoreTooltips.ToggleTokenHidden>When clicked, the text inside the "token" text field will be changed so the actual token is visible instead of asterisks.</TKUtils.CoreTooltips.ToggleTokenHidden>
+    <TKUtils.CoreTooltips.SameAsChannel>When clicked, the text inside of the "channel" text field will be copied into this field.</TKUtils.CoreTooltips.SameAsChannel>
+    <TKUtils.CoreTooltips.NewToken>Opens your browser to a 3rd party website for generating a chat token.\n\nNote: The token generated will be for the account you are currently logged into on Twitch. If you wanted to use a different account for your bot, you must log into it before making the token.</TKUtils.CoreTooltips.NewToken>
+    <TKUtils.CoreTooltips.AutoConnect>When enabled, the mod's bot will automatically connect to your channel when the game starts up. If this is disabled, you will have to manually connect the bot through this menu, or through the addon menu.</TKUtils.CoreTooltips.AutoConnect>
+    <TKUtils.CoreTooltips.AllowWhispers>When enabled, viewers can whisper commands to the mod's bot on Twitch instead of sending them in chat.\n\nNote: This does not disable comands in chat. It only allows viewers to whisper the bot.</TKUtils.CoreTooltips.AllowWhispers>
+    <TKUtils.CoreTooltips.ForcedWhispers>When enabled, viewers must whisper commands to the mod's bot on Twitch in order to use commands.\n\nNote: If this setting is enabled and whispers are disabled, the mod will not process any commands. You must have whispers enabled to use this setting.</TKUtils.CoreTooltips.ForcedWhispers>
+    <TKUtils.CoreTooltips.SendMessage>When enabled, the mod will send a "Connected!" message in chat when it connects to your channel on Twitch.</TKUtils.CoreTooltips.SendMessage>
 </LanguageData>
