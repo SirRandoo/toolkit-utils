@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -27,7 +26,6 @@ using SirRandoo.ToolkitUtils.Workers;
 using ToolkitCore.Utilities;
 using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
-using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Incidents
@@ -122,7 +120,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                         {
                             TraitItem trait = Data.Traits.Find(i => i.DefName.Equals(t.def.defName) && i.Degree == t.Degree);
 
-                            return !IsTraitRemovable(trait, out string error)
+                            return !IsTraitRemovable(subject, trait, out string error)
                                 ? new TraitEvent { Type = EventType.Noop, Error = error, Item = trait }
                                 : new TraitEvent { Type = EventType.Remove, Trait = t, Item = trait };
                         }
@@ -207,8 +205,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
         }
 
         [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private bool IsTraitRemovable(TraitItem trait, out string error)
+        private bool IsTraitRemovable(Pawn pawn, TraitItem trait, out string error)
         {
+            if (IsTraitGeneLocked(pawn, trait))
+            {
+                error = "TKUtils.RemoveTrait.GeneLocked".LocalizeKeyed(trait.Name);
+
+                return false;
+            }
+
             if (CompatRegistry.Alien != null && CompatRegistry.Alien.IsTraitForced(_pawn, trait.DefName, trait.Degree))
             {
                 error = "TKUtils.RemoveTrait.Kind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name);
@@ -252,6 +257,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (IsTraitGeneSuppressed(_pawn, trait))
+            {
+                error = "TKUtils.Trait.GeneSuppressed".LocalizeKeyed(trait.Name);
+
+                return false;
+            }
+
             if (_pawn.kindDef.disallowedTraits?.Any(t => t.defName.Equals(trait.DefName)) == true)
             {
                 error = "TKUtils.Trait.RestrictedByKind".LocalizeKeyed(_pawn.kindDef.race.LabelCap, trait.Name);
@@ -276,6 +288,56 @@ namespace SirRandoo.ToolkitUtils.Incidents
             error = null;
 
             return true;
+        }
+
+        private static bool IsTraitGeneLocked(Pawn pawn, TraitItem trait)
+        {
+            if (!ModLister.BiotechInstalled)
+            {
+                return false;
+            }
+
+            foreach (Gene gene in pawn.genes.GenesListForReading)
+            {
+                if (!gene.Active)
+                {
+                    continue;
+                }
+
+                GeneticTraitData data = gene.def.forcedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
+
+                if (data != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool IsTraitGeneSuppressed(Pawn pawn, TraitItem trait)
+        {
+            if (!ModLister.BiotechInstalled)
+            {
+                return false;
+            }
+
+            foreach (Gene gene in pawn.genes.GenesListForReading)
+            {
+                if (!gene.Active)
+                {
+                    continue;
+                }
+
+                GeneticTraitData data = gene.def.suppressedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
+
+                if (data != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private enum EventType { Remove, Add, Noop }

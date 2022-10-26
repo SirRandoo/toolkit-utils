@@ -28,6 +28,7 @@
     <TKUtils.Trait.RestrictedByKind>Your pawn is a(n) {0}, which cannot have the trait "{1}".</TKUtils.Trait.RestrictedByKind>
     <TKUtils.Trait.RestrictedByBackstory>Your pawn has the backstory {0}, which forbids {1} from being added to your pawn.</TKUtils.Trait.RestrictedByBackstory>
     <TKUtils.Trait.Class>Your pawn cannot have more than one class.</TKUtils.Trait.Class>
+    <TKUtils.Trait.GeneSuppressed>The trait "{0}" is suppressed by one or more of your pawn's genes.</TKUtils.Trait.GeneSuppressed>
 
     <!-- Item -->
     <TKUtils.Item.MinimumViolation>Your requested purchase would cost {0} coin(s), which does not meet the required minimum of {1} coin(s).</TKUtils.Item.MinimumViolation>
@@ -103,6 +104,7 @@
     <TKUtils.RemoveTrait.Class>Class changes are forbidden.</TKUtils.RemoveTrait.Class>
     <TKUtils.RemoveTrait.Kind>Your pawn is a(n) {0}, which forcibly have the trait "{1}".</TKUtils.RemoveTrait.Kind>
     <TKUtils.RemoveTrait.RationalRomance>The trait "{0}" can only be replaced, not removed.</TKUtils.RemoveTrait.RationalRomance>
+    <TKUtils.RemoveTrait.GeneLocked>The trait "{0}" is gene locked and cannot be removed.</TKUtils.RemoveTrait.GeneLocked>
 
     <!-- Replace Trait -->
     <TKUtils.ReplaceTrait.Complete>Replaced {0} with {1}.</TKUtils.ReplaceTrait.Complete>

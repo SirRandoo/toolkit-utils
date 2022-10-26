@@ -109,14 +109,21 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
             Trait duplicateTrait = _pawn.story.traits.allTraits?.FirstOrDefault(t => t.def.defName.Equals(_buyableTrait.TraitDef!.defName));
 
-            if (duplicateTrait == null)
+            if (duplicateTrait != null)
             {
-                return true;
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".LocalizeKeyed(duplicateTrait.Label, _trait.Label));
+
+                return false;
             }
 
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.Duplicate".LocalizeKeyed(duplicateTrait.Label, _trait.Label));
+            if (IsTraitGeneSuppressed(_pawn, _buyableTrait))
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.GeneSuppressed".LocalizeKeyed(_buyableTrait.Name));
 
-            return false;
+                return false;
+            }
+
+            return true;
         }
 
         private bool PassesCharacterChecks(Viewer viewer, ArgWorker worker)
@@ -157,6 +164,31 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 LetterDefOf.NeutralEvent,
                 new LookTargets(_pawn)
             );
+        }
+        
+        private static bool IsTraitGeneSuppressed(Pawn pawn, TraitItem trait)
+        {
+            if (!ModLister.BiotechInstalled)
+            {
+                return false;
+            }
+
+            foreach (Gene gene in pawn.genes.GenesListForReading)
+            {
+                if (!gene.Active)
+                {
+                    continue;
+                }
+
+                GeneticTraitData data = gene.def.suppressedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
+
+                if (data != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             {
                 TraitItem item = Data.Traits.Find(t => t.DefName.Equals(trait.def.defName) && t.Degree == trait.Degree);
 
-                if (!(item is { CanRemove: true }) || !CanRemove(item))
+                if (!(item is { CanRemove: true }) || !CanRemove(_pawn, item))
                 {
                     continue;
                 }
@@ -96,8 +96,15 @@ namespace SirRandoo.ToolkitUtils.Incidents
             );
         }
 
-        private bool CanRemove(TraitItem trait)
+        private bool CanRemove(Pawn pawn, TraitItem trait)
         {
+            if (IsTraitGeneLocked(pawn, trait))
+            {
+                MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.GeneLocked".LocalizeKeyed(trait.Name));
+                
+                return false;
+            }
+            
             if (RationalRomance.Active && RationalRomance.IsTraitDisabled(trait.TraitDef!))
             {
                 MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(trait.Name.CapitalizeFirst()));
@@ -118,6 +125,31 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Class".LocalizeKeyed(trait.Name));
+
+            return false;
+        }
+
+        private static bool IsTraitGeneLocked(Pawn pawn, TraitItem trait)
+        {
+            if (!ModLister.BiotechInstalled)
+            {
+                return false;
+            }
+
+            foreach (Gene gene in pawn.genes.GenesListForReading)
+            {
+                if (!gene.Active)
+                {
+                    continue;
+                }
+
+                GeneticTraitData data = gene.def.forcedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
+
+                if (data != null)
+                {
+                    return true;
+                }
+            }
 
             return false;
         }
