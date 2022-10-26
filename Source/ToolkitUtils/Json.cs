@@ -25,6 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace SirRandoo.ToolkitUtils
 {
@@ -33,8 +34,8 @@ namespace SirRandoo.ToolkitUtils
     /// </summary>
     public static class Json
     {
-        private static readonly JsonSerializer Serializer = new JsonSerializer();
-        private static readonly JsonSerializer PrettySerializer = new JsonSerializer { Formatting = Formatting.Indented };
+        private static readonly JsonSerializer Serializer = new JsonSerializer { ContractResolver = new CamelCasePropertyNamesContractResolver()};
+        private static readonly JsonSerializer PrettySerializer = new JsonSerializer { Formatting = Formatting.Indented, ContractResolver = new CamelCasePropertyNamesContractResolver()};
 
         /// <summary>
         ///     Deserializes data from a <see cref="Stream"/> into the associated
