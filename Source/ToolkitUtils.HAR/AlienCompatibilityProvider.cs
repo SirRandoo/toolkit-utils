@@ -24,12 +24,12 @@ namespace SirRandoo.ToolkitUtils
             AlienPartGenerator generator = alienRace.alienRace.generalSettings.alienPartGenerator;
 
 
-            if (generator.alienbodytypes.NullOrEmpty() || generator.alienbodytypes.Contains(pawn.story.bodyType))
+            if (generator.bodyTypes.NullOrEmpty() || generator.bodyTypes.Contains(pawn.story.bodyType))
             {
                 return true;
             }
 
-            List<BodyTypeDef> bodyTypes = generator.alienbodytypes.ListFullCopy();
+            List<BodyTypeDef> bodyTypes = generator.bodyTypes.ListFullCopy();
 
             if (bodyTypes.Count > 0)
             {
