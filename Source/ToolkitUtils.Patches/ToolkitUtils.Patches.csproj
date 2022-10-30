@@ -15,9 +15,6 @@
         <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />
-    </ItemGroup>
-    <ItemGroup>
       <Compile Update="Events\PurchaseHandlerPatch.ResolveVariables.cs">
         <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
       </Compile>
