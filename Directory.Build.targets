@@ -12,31 +12,31 @@
         <PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3510-beta" ExcludeAssets="runtime"/>
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="TwitchToolkit, Version=2.0.10.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="TwitchToolkit">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.3\Assemblies\TwitchToolkit.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="ToolkitCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="ToolkitCore">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\ToolkitCore.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="Newtonsoft.Json">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\Newtonsoft.Json.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="TwitchLib.Client, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="TwitchLib.Client">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="TwitchLib.Client.Enums, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="TwitchLib.Client.Enums">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="TwitchLib.Client.Models, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="TwitchLib.Client.Models">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Models.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="TwitchLib.Communication, Version=3.1.4.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="TwitchLib.Communication">
             <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Communication.dll</HintPath>
             <Private>False</Private>
         </Reference>
