@@ -33,6 +33,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         /// <inheritdoc/>
         public IncidentCategoryWindow() : base("TKUtils.Headers.AllIncidents".TranslateSimple())
         {
+            Store_IncidentEditor.UpdatePriceSheet();
         }
 
         /// <inheritdoc/>
@@ -68,6 +69,13 @@ namespace SirRandoo.ToolkitUtils.Windows
         protected override void DisableEntry([NotNull] StoreIncident entry)
         {
             entry.cost = -10;
+        }
+
+        /// <inheritdoc />
+        public override void PostClose()
+        {
+            Store_IncidentEditor.UpdatePriceSheet();
+            base.PostClose();
         }
     }
 }
