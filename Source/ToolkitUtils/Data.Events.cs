@@ -95,7 +95,6 @@ namespace SirRandoo.ToolkitUtils
 
         private static void LoadEventData(string filePath, bool ignoreErrors = false)
         {
-            Store_IncidentEditor.LoadCopies();
             Dictionary<string, EventData> e = LoadJson<Dictionary<string, EventData>>(filePath, ignoreErrors) ?? new Dictionary<string, EventData>();
             Events ??= new List<EventItem>();
             List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
