@@ -370,9 +370,16 @@ namespace SirRandoo.ToolkitUtils
 
                         hasSettings = true;
 
-                        Mod modHandle = LoadedModManager.ModHandles.FirstOrDefault(e => e.Content.AllDefs.Any(d => d == addon));
+                        Mod modHandle = LoadedModManager.ModHandles.FirstOrDefault(
+                            e => e.Content.AllDefs.Any(d => d == addon) && !string.IsNullOrEmpty(e.SettingsCategory())
+                        );
 
-                        if (modHandle != null && modHandle != ToolkitCore.ToolkitCore.settings.Mod)
+                        if (modHandle == null)
+                        {
+                            continue;
+                        }
+
+                        if (modHandle != ToolkitCore.ToolkitCore.settings.Mod)
                         {
                             option.action = modHandle.OpenSettings;
                         }
