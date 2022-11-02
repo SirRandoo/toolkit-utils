@@ -16,8 +16,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
@@ -31,33 +31,24 @@ namespace SirRandoo.ToolkitUtils.Models
         internal const int CurrentVersion = 2;
         private readonly List<ResearchProjectDef> _researchProjects = new List<ResearchProjectDef>();
 
-        [DataMember(Name = "CustomName")] public string CustomName { get; set; }
-
-        [DataMember(Name = "HasQuantityLimit")] public bool HasQuantityLimit { get; set; }
-
-        [DataMember(Name = "IsMelee")] public bool IsMelee { get; set; }
-        [DataMember(Name = "IsRanged")] public bool IsRanged { get; set; }
-        [DataMember(Name = "IsStuffAllowed")] public bool IsStuffAllowed { get; set; }
-        [DataMember(Name = "IsWeapon")] public bool IsWeapon { get; set; }
-        [DataMember(Name = "QuantityLimit")] public int QuantityLimit { get; set; } = 1;
-        [DataMember(Name = "Weight")] public float Weight { get; set; } = 1f;
-
-        [DataMember(Name = "ResearchOverrides")] public List<string> ResearchOverrides { get; set; }
-
-        [DataMember(Name = "IsUsable")] public bool IsUsable { get; set; }
-        [DataMember(Name = "IsEquippable")] public bool IsEquippable { get; set; }
-        [DataMember(Name = "IsWearable")] public bool IsWearable { get; set; }
-
-        [DataMember(Name = "KarmaTypeForUsing")] public KarmaType? KarmaTypeForUsing { get; set; }
-
-        [DataMember(Name = "KarmaTypeForWearing")] public KarmaType? KarmaTypeForWearing { get; set; }
-
-        [DataMember(Name = "KarmaTypeForEquipping")] public KarmaType? KarmaTypeForEquipping { get; set; }
-
-        [DataMember(Name = "version")] public int Version { get; set; }
-
-        [DataMember(Name = "Mod")] public string Mod { get; set; }
-        [DataMember(Name = "KarmaType")] public KarmaType? KarmaType { get; set; }
+        [JsonProperty("CustomName")] public string CustomName { get; set; }
+        [JsonProperty("HasQuantityLimit")] public bool HasQuantityLimit { get; set; }
+        [JsonProperty("IsMelee")] public bool IsMelee { get; set; }
+        [JsonProperty("IsRanged")] public bool IsRanged { get; set; }
+        [JsonProperty("IsStuffAllowed")] public bool IsStuffAllowed { get; set; }
+        [JsonProperty("IsWeapon")] public bool IsWeapon { get; set; }
+        [JsonProperty("QuantityLimit")] public int QuantityLimit { get; set; } = 1;
+        [JsonProperty("Weight")] public float Weight { get; set; } = 1f;
+        [JsonProperty("ResearchOverrides")] public List<string> ResearchOverrides { get; set; }
+        [JsonProperty("IsUsable")] public bool IsUsable { get; set; }
+        [JsonProperty("IsEquippable")] public bool IsEquippable { get; set; }
+        [JsonProperty("IsWearable")] public bool IsWearable { get; set; }
+        [JsonProperty("KarmaTypeForUsing")] public KarmaType? KarmaTypeForUsing { get; set; }
+        [JsonProperty("KarmaTypeForWearing")] public KarmaType? KarmaTypeForWearing { get; set; }
+        [JsonProperty("KarmaTypeForEquipping")] public KarmaType? KarmaTypeForEquipping { get; set; }
+        [JsonProperty("version")] public int Version { get; set; }
+        [JsonProperty("Mod")] public string Mod { get; set; }
+        [JsonProperty("KarmaType")] public KarmaType? KarmaType { get; set; }
 
         public void Reset()
         {

@@ -15,15 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     [UsedImplicitly]
     public class ItemList
     {
-        [DataMember(Name = "items")] public List<ToolkitItem> Items { get; set; }
-        [DataMember(Name = "total")] public int Total => Items.Count;
+        [JsonProperty("items")] public List<ToolkitItem> Items { get; set; }
+        [JsonProperty("total")] public int Total => Items.Count;
     }
 }

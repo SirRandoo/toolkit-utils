@@ -33,15 +33,20 @@ namespace SirRandoo.ToolkitUtils.Helpers
         [NotNull]
         public static string TryGetModName([CanBeNull] this ModContentPack content)
         {
-            if (content?.IsCoreMod == true)
+            if (content == null)
+            {
+                return "Unknown";
+            }
+        
+            if (content.IsCoreMod)
             {
                 return "RimWorld";
             }
 
-            return content?.Name ?? "Unknown";
+            return content.Name ?? content.PackageId ?? "Unknown";
         }
 
-        [NotNull] public static string TryGetModName([CanBeNull] this Def def) => def?.modContentPack?.TryGetModName() ?? "Unknown";
+        [NotNull] public static string TryGetModName([CanBeNull] this Def def) => TryGetModName(def?.modContentPack);
 
         // https://stackoverflow.com/a/42246387
         [NotNull]

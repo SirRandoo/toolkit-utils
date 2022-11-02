@@ -17,6 +17,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Store;
@@ -35,7 +36,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private bool _usable;
 
         [CanBeNull]
-        [IgnoreDataMember]
+        [JsonIgnore]
         public Item Item
         {
             get
@@ -67,12 +68,12 @@ namespace SirRandoo.ToolkitUtils.Models
             set => _item = value;
         }
 
-        [NotNull] [DataMember(Name = "mod")] public string Mod => Data?.Mod ?? Thing.TryGetModName();
+        [NotNull] [JsonProperty("mod")] public string Mod => Data?.Mod ?? Thing.TryGetModName();
 
-        [IgnoreDataMember] public ThingDef Thing { get; set; }
+        [JsonIgnore] public ThingDef Thing { get; set; }
 
         [CanBeNull]
-        [IgnoreDataMember]
+        [JsonIgnore]
         public ThingDef ProducedAt
         {
             get
@@ -93,14 +94,14 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [CanBeNull]
-        [DataMember(Name = "data")]
+        [JsonProperty("data")]
         public ItemData ItemData
         {
             get => _data ??= (ItemData)Data;
             set => Data = _data = value;
         }
 
-        [DataMember(Name = "category")]
+        [JsonProperty("category")]
         public string Category
         {
             get
@@ -123,7 +124,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public bool IsUsable
         {
             get
@@ -141,7 +142,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [CanBeNull]
-        [DataMember(Name = "defName")]
+        [JsonProperty("defName")]
         public string DefName
         {
             get => Item?.defname ?? Thing?.defName;
@@ -156,10 +157,10 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [DataMember(Name = "enabled")] public bool Enabled { get; set; }
+        [JsonProperty("enabled")] public bool Enabled { get; set; }
 
         [NotNull]
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name
         {
             get => ItemData?.CustomName ?? Item?.abr ?? "Fetching...";
@@ -172,7 +173,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [DataMember(Name = "price")]
+        [JsonProperty("price")]
         public int Cost
         {
             get => Item?.price ?? -10;
@@ -186,7 +187,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [CanBeNull]
-        [IgnoreDataMember]
+        [JsonIgnore]
         public IShopDataBase Data
         {
             get

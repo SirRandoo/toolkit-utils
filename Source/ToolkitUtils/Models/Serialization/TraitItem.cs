@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
@@ -33,23 +33,22 @@ namespace SirRandoo.ToolkitUtils.Models
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class TraitItem : IShopItemBase
     {
-        [IgnoreDataMember] private int _cost;
-        [IgnoreDataMember] private TraitData _data;
-        [IgnoreDataMember] private string _defaultFeminineName;
-        [IgnoreDataMember] private string _defaultMasculineName;
-        [IgnoreDataMember] private string _defaultName;
-        [IgnoreDataMember] private string _finalDescription;
-        [IgnoreDataMember] private TraitDef _traitDef;
-        [DataMember(Name = "canAdd")] public bool CanAdd;
-        [DataMember(Name = "canRemove")] public bool CanRemove;
-        [DataMember(Name = "addPrice")] public int CostToAdd;
-        [DataMember(Name = "removePrice")] public int CostToRemove;
-
-        [DataMember(Name = "degree")] public int Degree;
+        [JsonIgnore] private int _cost;
+        [JsonIgnore] private TraitData _data;
+        [JsonIgnore] private string _defaultFeminineName;
+        [JsonIgnore] private string _defaultMasculineName;
+        [JsonIgnore] private string _defaultName;
+        [JsonIgnore] private string _finalDescription;
+        [JsonIgnore] private TraitDef _traitDef;
+        [JsonProperty("canAdd")] public bool CanAdd;
+        [JsonProperty("canRemove")] public bool CanRemove;
+        [JsonProperty("addPrice")] public int CostToAdd;
+        [JsonProperty("removePrice")] public int CostToRemove;
+        [JsonProperty("degree")] public int Degree;
 
         // Legacy support
         [CanBeNull]
-        [DataMember(Name = "description")]
+        [JsonProperty("description")]
         [SuppressMessage("ReSharper", "StringLiteralTypo")]
         public string Description
         {
@@ -68,7 +67,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [NotNull]
-        [DataMember(Name = "stats")]
+        [JsonProperty("stats")]
         public string[] Stats
         {
             get
@@ -83,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [NotNull]
-        [DataMember(Name = "conflicts")]
+        [JsonProperty("conflicts")]
         public string[] Conflicts
         {
             get
@@ -97,30 +96,30 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [DataMember(Name = "bypassLimit")] public bool BypassLimit => TraitData?.CanBypassLimit ?? false;
+        [JsonProperty("bypassLimit")] public bool BypassLimit => TraitData?.CanBypassLimit ?? false;
 
-        [CanBeNull] [IgnoreDataMember] public TraitDef TraitDef => _traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
+        [CanBeNull] [JsonIgnore] public TraitDef TraitDef => _traitDef ??= DefDatabase<TraitDef>.AllDefs.FirstOrDefault(t => t.defName.Equals(DefName));
 
         [CanBeNull]
-        [DataMember(Name = "data")]
+        [JsonProperty("data")]
         public TraitData TraitData
         {
             get => _data ??= new TraitData();
             set => _data = value;
         }
 
-        [DataMember(Name = "defName")] public string DefName { get; set; }
+        [JsonProperty("defName")] public string DefName { get; set; }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public bool Enabled
         {
             get => CanAdd || CanRemove;
             set => throw new ReadOnlyException();
         }
 
-        [DataMember(Name = "name")] public string Name { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public int Cost
         {
             get => _cost;
@@ -132,7 +131,7 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public IShopDataBase Data
         {
             get => _data;

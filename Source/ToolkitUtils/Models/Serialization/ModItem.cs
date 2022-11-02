@@ -18,9 +18,9 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Xml;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using Verse;
 using Verse.Steam;
 
@@ -29,10 +29,10 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class ModItem
     {
-        [DataMember(Name = "author")] public string Author { get; set; }
-        [DataMember(Name = "name")] public string Name { get; set; }
-        [DataMember(Name = "steamId")] public string SteamId { get; set; }
-        [DataMember(Name = "version")] public string Version { get; set; }
+        [JsonProperty("author")] public string Author { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("steamId")] public string SteamId { get; set; }
+        [JsonProperty("version")] public string Version { get; set; }
 
         [NotNull]
         public static ModItem FromMetadata([NotNull] ModMetaData mod)

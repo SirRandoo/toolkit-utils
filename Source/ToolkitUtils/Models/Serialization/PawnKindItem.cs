@@ -17,9 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
@@ -30,29 +30,29 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class PawnKindItem : IShopItemBase
     {
-        [IgnoreDataMember] private KindDefData _colonistDef;
-        [IgnoreDataMember] private PawnKindData _data;
-        [IgnoreDataMember] private KindDefData[] _kinds;
+        [JsonIgnore] private KindDefData _colonistDef;
+        [JsonIgnore] private PawnKindData _data;
+        [JsonIgnore] private KindDefData[] _kinds;
 
-        [NotNull] [IgnoreDataMember] public IEnumerable<PawnKindDef> Kinds => _kinds.Select(d => d.Def);
+        [NotNull] [JsonIgnore] public IEnumerable<PawnKindDef> Kinds => _kinds.Select(d => d.Def);
 
-        [IgnoreDataMember] public PawnKindDef ColonistKindDef => _colonistDef.Def;
+        [JsonIgnore] public PawnKindDef ColonistKindDef => _colonistDef.Def;
 
-        [DataMember(Name = "data")]
+        [JsonProperty("data")]
         public PawnKindData PawnData
         {
             get => _data ??= (PawnKindData)Data;
             set => Data = _data = value;
         }
 
-        [CanBeNull] [DataMember(Name = "description")] public string Description { get; private set; }
+        [CanBeNull] [JsonProperty("description")] public string Description { get; private set; }
 
-        [DataMember(Name = "defName")] public string DefName { get; set; }
-        [DataMember(Name = "enabled")] public bool Enabled { get; set; }
-        [DataMember(Name = "name")] public string Name { get; set; }
-        [DataMember(Name = "price")] public int Cost { get; set; }
+        [JsonProperty("defName")] public string DefName { get; set; }
+        [JsonProperty("enabled")] public bool Enabled { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("price")] public int Cost { get; set; }
 
-        [IgnoreDataMember] public IShopDataBase Data { get; set; }
+        [JsonIgnore] public IShopDataBase Data { get; set; }
 
         public void ResetName()
         {

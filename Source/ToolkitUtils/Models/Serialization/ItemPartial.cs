@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     public class ItemPartial : ProxyPartial
     {
-        [DataMember(Name = "data")]
+        [JsonProperty("data")]
         public ItemData ItemData
         {
             get => (ItemData)Data;

@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Linq;
-using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using ToolkitCore.Models;
@@ -28,15 +28,14 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class CommandItem : IUsageItemBase
     {
-        [CanBeNull] [DataMember(Name = "data")] public CommandData Data { get; set; }
-
-        [DataMember(Name = "description")] public string Description { get; set; }
-        [DataMember(Name = "name")] public string Name { get; set; }
-        [DataMember(Name = "usage")] public string Usage { get; set; }
-        [DataMember(Name = "userLevel")] public UserLevels UserLevel { get; set; }
-        [DataMember(Name = "shortcut")] public bool Shortcut => Data?.IsShortcut ?? false;
-        [DataMember(Name = "defName")] public string DefName { get; set; }
-        [IgnoreDataMember] [CanBeNull] public IConfigurableUsageData UsageData => Data;
+        [CanBeNull] [JsonProperty("data")] public CommandData Data { get; set; }
+        [JsonProperty("description")] public string Description { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("usage")] public string Usage { get; set; }
+        [JsonProperty("userLevel")] public UserLevels UserLevel { get; set; }
+        [JsonProperty("shortcut")] public bool Shortcut => Data?.IsShortcut ?? false;
+        [JsonProperty("defName")] public string DefName { get; set; }
+        [JsonIgnore] [CanBeNull] public IConfigurableUsageData UsageData => Data;
 
         [NotNull]
         public static CommandItem FromToolkit([NotNull] Command command)

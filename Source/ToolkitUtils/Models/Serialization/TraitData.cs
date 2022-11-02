@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 
@@ -26,16 +26,13 @@ namespace SirRandoo.ToolkitUtils.Models
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class TraitData : IShopDataBase
     {
-        [DataMember(Name = "conflicts")] public string[] Conflicts = { };
-        [DataMember(Name = "stats")] public string[] Stats = { };
-        [DataMember(Name = "canBypassLimit")] public bool CanBypassLimit { get; set; }
-        [DataMember(Name = "customName")] public bool CustomName { get; set; }
-
-        [DataMember(Name = "karmaTypeForRemoving")] public KarmaType? KarmaTypeForRemoving { get; set; }
-
-        [DataMember(Name = "mod")] public string Mod { get; set; }
-
-        [DataMember(Name = "karmaTypeForAdding")] public KarmaType? KarmaType { get; set; }
+        [JsonProperty("conflicts")] public string[] Conflicts = { };
+        [JsonProperty("stats")] public string[] Stats = { };
+        [JsonProperty("canBypassLimit")] public bool CanBypassLimit { get; set; }
+        [JsonProperty("customName")] public bool CustomName { get; set; }
+        [JsonProperty("karmaTypeForRemoving")] public KarmaType? KarmaTypeForRemoving { get; set; }
+        [JsonProperty("mod")] public string Mod { get; set; }
+        [JsonProperty("karmaTypeForAdding")] public KarmaType? KarmaType { get; set; }
 
         public void Reset()
         {

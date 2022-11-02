@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Interfaces;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     public abstract class ProxyPartial : IShopItemBase
     {
-        [DataMember(Name = "defName")] public string DefName { get; set; }
-        [DataMember(Name = "enabled")] public bool Enabled { get; set; }
-        [DataMember(Name = "name")] public string Name { get; set; }
-        [DataMember(Name = "price")] public int Cost { get; set; }
-        [IgnoreDataMember] public IShopDataBase Data { get; set; }
+        [JsonProperty("defName")] public string DefName { get; set; }
+        [JsonProperty("enabled")] public bool Enabled { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("price")] public int Cost { get; set; }
+        [JsonIgnore] public IShopDataBase Data { get; set; }
 
         public void ResetName()
         {

@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Interfaces;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -23,17 +23,13 @@ namespace SirRandoo.ToolkitUtils.Models
     [UsedImplicitly]
     public class CommandData : IRimData, IConfigurableUsageData
     {
-        [DataMember(Name = "isShortcut")] public bool IsShortcut { get; set; }
-        [DataMember(Name = "isBuy")] public bool IsBuy { get; set; }
-        [DataMember(Name = "isBalance")] public bool IsBalance { get; set; }
-
-        [DataMember(Name = "hasGlobalCooldown")] public bool HasGlobalCooldown { get; set; }
-
-        [DataMember(Name = "globalCooldown")] public int GlobalCooldown { get; set; }
-
-        [DataMember(Name = "hasLocalCooldown")] public bool HasLocalCooldown { get; set; }
-
-        [DataMember(Name = "localCooldown")] public int LocalCooldown { get; set; }
-        [DataMember(Name = "mod")] public string Mod { get; set; }
+        [JsonProperty("isShortcut")] public bool IsShortcut { get; set; }
+        [JsonProperty("isBuy")] public bool IsBuy { get; set; }
+        [JsonProperty("isBalance")] public bool IsBalance { get; set; }
+        [JsonProperty("hasGlobalCooldown")] public bool HasGlobalCooldown { get; set; }
+        [JsonProperty("globalCooldown")] public int GlobalCooldown { get; set; }
+        [JsonProperty("hasLocalCooldown")] public bool HasLocalCooldown { get; set; }
+        [JsonProperty("localCooldown")] public int LocalCooldown { get; set; }
+        [JsonProperty("mod")] public string Mod { get; set; }
     }
 }

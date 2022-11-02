@@ -16,15 +16,16 @@
 
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     public class TokenValidateResponse
     {
-        [DataMember(Name = "client_id")] public string ClientId { get; set; }
-        [DataMember(Name = "login")] public string Login { get; set; }
-        [DataMember(Name = "scopes")] public List<string> Scopes { get; set; }
-        [DataMember(Name = "user_id")] public string UserId { get; set; }
-        [DataMember(Name = "expires_in")] public int ExpiresIn { get; set; }
+        [JsonProperty("client_id")] public string ClientId { get; set; }
+        [JsonProperty("login")] public string Login { get; set; }
+        [JsonProperty("scopes")] public List<string> Scopes { get; set; }
+        [JsonProperty("user_id")] public string UserId { get; set; }
+        [JsonProperty("expires_in")] public int ExpiresIn { get; set; }
     }
 }

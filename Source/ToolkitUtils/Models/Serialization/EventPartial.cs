@@ -14,25 +14,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models
 {
     public class EventPartial : ProxyPartial
     {
-        [DataMember(Name = "data")]
+        [JsonProperty("data")]
         public EventData EventData
         {
             get => (EventData)Data;
             set => Data = value;
         }
 
-        [DataMember(Name = "karmaType")] public KarmaType KarmaType { get; set; }
-        [DataMember(Name = "eventCap")] public int EventCap { get; set; }
-        [DataMember(Name = "maxWager")] public int MaxWager { get; set; }
-        [DataMember(Name = "eventType")] public EventTypes EventType { get; set; }
+        [JsonProperty("karmaType")] public KarmaType KarmaType { get; set; }
+        [JsonProperty("eventCap")] public int EventCap { get; set; }
+        [JsonProperty("maxWager")] public int MaxWager { get; set; }
+        [JsonProperty("eventType")] public EventTypes EventType { get; set; }
 
         [NotNull]
         public static EventPartial FromIncident([NotNull] EventItem ev)

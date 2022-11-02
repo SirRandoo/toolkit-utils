@@ -20,11 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace SirRandoo.ToolkitUtils
@@ -34,8 +37,19 @@ namespace SirRandoo.ToolkitUtils
     /// </summary>
     public static class Json
     {
-        private static readonly JsonSerializer Serializer = new JsonSerializer { ContractResolver = new CamelCasePropertyNamesContractResolver()};
-        private static readonly JsonSerializer PrettySerializer = new JsonSerializer { Formatting = Formatting.Indented, ContractResolver = new CamelCasePropertyNamesContractResolver()};
+        private static readonly JsonSerializer Serializer;
+        private static readonly JsonSerializer PrettySerializer;
+        private static readonly DefaultContractResolver DefaultContractResolver = new DictionaryContractResolver { NamingStrategy = new DefaultNamingStrategy() };
+
+        static Json()
+        {
+            Serializer = new JsonSerializer { ContractResolver = DefaultContractResolver, Converters = { new StringEnumConverter() } };
+
+            PrettySerializer = new JsonSerializer
+            {
+                Formatting = Formatting.Indented, ContractResolver = DefaultContractResolver, Converters = { new StringEnumConverter() }
+            };
+        }
 
         /// <summary>
         ///     Deserializes data from a <see cref="Stream"/> into the associated
@@ -183,6 +197,19 @@ namespace SirRandoo.ToolkitUtils
             }
 
             return builder.ToString();
+        }
+
+        private sealed class DictionaryContractResolver : DefaultContractResolver
+        {
+            /// <inheritdoc/>
+            [NotNull]
+            protected override JsonDictionaryContract CreateDictionaryContract([NotNull] Type objectType)
+            {
+                JsonDictionaryContract contract = base.CreateDictionaryContract(objectType);
+                contract.DictionaryKeyResolver = propertyName => propertyName;
+
+                return contract;
+            }
         }
     }
 }

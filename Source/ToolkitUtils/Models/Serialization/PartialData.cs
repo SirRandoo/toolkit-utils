@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Interfaces;
 
 namespace SirRandoo.ToolkitUtils.Models
@@ -24,8 +24,8 @@ namespace SirRandoo.ToolkitUtils.Models
 
     public class PartialData<T> where T : class, IShopItemBase
     {
-        [DataMember(Name = "type")] public PartialType PartialType { get; set; }
-        [DataMember(Name = "data")] public List<T> Data { get; set; }
-        [DataMember(Name = "description")] public string Description { get; set; }
+        [JsonProperty("type")] public PartialType PartialType { get; set; }
+        [JsonProperty("data")] public List<T> Data { get; set; }
+        [JsonProperty("description")] public string Description { get; set; }
     }
 }

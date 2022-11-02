@@ -97,11 +97,21 @@ namespace SirRandoo.ToolkitUtils
         {
             ItemData ??= new Dictionary<string, ItemData>();
             List<string> tradeables = StoreDialog.GetTradeables().Select(t => t.defName).ToList();
-            List<string> toCull = ItemData.Keys.Where(dataKey => !tradeables.Contains(dataKey.CapitalizeFirst())).ToList();
+            List<string> toCull = ItemData.Keys.Where(dataKey => !tradeables.Contains(dataKey, StringComparer.OrdinalIgnoreCase)).ToList();
 
             foreach (string defName in toCull)
             {
                 ItemData.Remove(defName);
+            }
+            
+            foreach (string key in ItemData.Keys.ToList())
+            {
+                string caseSensitiveName = tradeables.Find(k => string.Equals(k, key, StringComparison.OrdinalIgnoreCase));
+
+                if (!string.IsNullOrEmpty(caseSensitiveName) && ItemData.Remove(key, out ItemData data))
+                {
+                    ItemData[caseSensitiveName] = data;
+                }
             }
 
             var builder = new StringBuilder();

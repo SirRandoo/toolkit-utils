@@ -16,8 +16,8 @@
 
 using System;
 using System.Linq;
-using System.Runtime.Serialization;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
@@ -33,7 +33,7 @@ namespace SirRandoo.ToolkitUtils.Models
         private IEventSettings _settingsEmbed;
         private StoreIncidentVariables _variables;
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public StoreIncident Incident
         {
             get => _incident;
@@ -51,9 +51,9 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [CanBeNull] [IgnoreDataMember] public StoreIncidentVariables Variables => IsVariables ? _variables : null;
+        [CanBeNull] [JsonIgnore] public StoreIncidentVariables Variables => IsVariables ? _variables : null;
 
-        [DataMember(Name = "isVariables")]
+        [JsonProperty("isVariables")]
         public bool IsVariables
         {
             get
@@ -69,11 +69,11 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [DataMember(Name = "hasSettings")] public bool HasSettings => (Variables?.customSettings ?? false) && Variables?.customSettingsHelper != null;
+        [JsonProperty("hasSettings")] public bool HasSettings => (Variables?.customSettings ?? false) && Variables?.customSettingsHelper != null;
 
-        [IgnoreDataMember] public bool HasSettingsEmbed => _settingsEmbed != null || Variables?.GetModExtension<EventExtension>()?.SettingsEmbed != null;
+        [JsonIgnore] public bool HasSettingsEmbed => _settingsEmbed != null || Variables?.GetModExtension<EventExtension>()?.SettingsEmbed != null;
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public IncidentHelperVariablesSettings Settings
         {
             get
@@ -88,7 +88,7 @@ namespace SirRandoo.ToolkitUtils.Models
         }
 
         [CanBeNull]
-        [IgnoreDataMember]
+        [JsonIgnore]
         public IEventSettings SettingsEmbed
         {
             get
@@ -110,46 +110,46 @@ namespace SirRandoo.ToolkitUtils.Models
             }
         }
 
-        [DataMember(Name = "data")]
+        [JsonProperty("data")]
         public EventData EventData
         {
             get => _data ??= (EventData)Data;
             set => Data = _data = value;
         }
 
-        [DataMember(Name = "karmaType")]
+        [JsonProperty("karmaType")]
         public KarmaType KarmaType
         {
             get => Incident.karmaType;
             set => Incident.karmaType = value;
         }
 
-        [DataMember(Name = "eventCap")]
+        [JsonProperty("eventCap")]
         public int EventCap
         {
             get => Incident.eventCap;
             set => Incident.eventCap = value;
         }
 
-        [DataMember(Name = "maxWager")]
+        [JsonProperty("maxWager")]
         public int MaxWager
         {
             get => Variables!.maxWager;
             set => Variables!.maxWager = value;
         }
 
-        [DataMember(Name = "hasFixedCost")] public bool CostEditable => EventType == EventTypes.Default || EventType == EventTypes.Variable;
+        [JsonProperty("hasFixedCost")] public bool CostEditable => EventType == EventTypes.Default || EventType == EventTypes.Variable;
 
-        [DataMember(Name = "eventType")] public EventTypes EventType { get; set; } = EventTypes.Default;
+        [JsonProperty("eventType")] public EventTypes EventType { get; set; } = EventTypes.Default;
 
-        [DataMember(Name = "price")]
+        [JsonProperty("price")]
         public int Cost
         {
             get => Incident.cost;
             set => Incident.cost = value;
         }
 
-        [IgnoreDataMember] public IShopDataBase Data { get; set; }
+        [JsonIgnore] public IShopDataBase Data { get; set; }
 
         public void ResetName()
         {
@@ -169,28 +169,28 @@ namespace SirRandoo.ToolkitUtils.Models
             // This method only exists due to the interface it implements.
         }
 
-        [DataMember(Name = "defName")]
+        [JsonProperty("defName")]
         public string DefName
         {
             get => Incident.defName;
             set => Incident.defName = value;
         }
 
-        [DataMember(Name = "enabled")]
+        [JsonProperty("enabled")]
         public bool Enabled
         {
             get => Incident.defName.Equals("Item") ? Incident.cost >= 0 : Incident.cost > 0;
             set => Incident.cost = value ? GetDefaultPrice() : -10;
         }
 
-        [DataMember(Name = "abr")]
+        [JsonProperty("abr")]
         public string Name
         {
             get => Incident.abbreviation;
             set => Incident.abbreviation = value;
         }
 
-        [IgnoreDataMember] [CanBeNull] public IConfigurableUsageData UsageData => Data as IConfigurableUsageData;
+        [JsonIgnore] [CanBeNull] public IConfigurableUsageData UsageData => Data as IConfigurableUsageData;
 
         public string GetDefaultAbbreviation()
         {
