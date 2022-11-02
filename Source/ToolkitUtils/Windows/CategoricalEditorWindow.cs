@@ -125,7 +125,10 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             if (Widgets.ButtonText(resetAllRegion, _resetAllText))
             {
-                ResetAllEntries();
+                foreach (DefEntry entry in _defEntries)
+                {
+                    ResetEntry(entry.Def);
+                }
             }
 
             SearchWidget.OnGUI(searchRegion, OnSearchQueryChanged);
@@ -215,7 +218,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
         protected abstract void DisableEntry(TDef entry);
 
-        protected abstract void ResetAllEntries();
+        protected abstract void ResetEntry(TDef entry);
 
         private sealed class DefEntry
         {

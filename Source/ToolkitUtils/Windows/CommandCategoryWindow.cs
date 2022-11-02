@@ -59,12 +59,15 @@ namespace SirRandoo.ToolkitUtils.Windows
         protected override void DisableEntry([NotNull] Command entry)
         {
             entry.enabled = false;
+
+            CommandEditor.SaveCopy(entry);
         }
 
         /// <inheritdoc/>
-        protected override void ResetAllEntries()
+        protected override void ResetEntry(Command entry)
         {
-            CommandEditor.LoadBackups();
+            CommandEditor.LoadBackup(entry);
+            CommandEditor.SaveCopy(entry);
         }
     }
 }

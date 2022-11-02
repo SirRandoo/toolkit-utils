@@ -60,15 +60,24 @@ namespace SirRandoo.ToolkitUtils.Windows
         }
 
         /// <inheritdoc />
-        protected override void ResetAllEntries()
+        protected override void ResetEntry([NotNull] StoreIncident entry)
         {
-            Store_IncidentEditor.LoadBackups();
+            Store_IncidentEditor.LoadBackup(entry);
+
+            if (entry.cost < 1)
+            {
+                entry.cost = 50;
+            }
+
+            Store_IncidentEditor.SaveCopy(entry);
         }
 
         /// <inheritdoc />
         protected override void DisableEntry([NotNull] StoreIncident entry)
         {
             entry.cost = -10;
+
+            Store_IncidentEditor.SaveCopy(entry);
         }
 
         /// <inheritdoc />
