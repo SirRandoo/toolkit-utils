@@ -98,7 +98,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool CanRemove(Pawn pawn, TraitItem trait)
         {
-            if (IsTraitGeneLocked(pawn, trait))
+            if (!TraitHelper.IsRemovalAllowedByGenes(pawn, trait.TraitDef, trait.Degree))
             {
                 MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.GeneLocked".LocalizeKeyed(trait.Name));
                 
@@ -125,31 +125,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.Class".LocalizeKeyed(trait.Name));
-
-            return false;
-        }
-
-        private static bool IsTraitGeneLocked(Pawn pawn, TraitItem trait)
-        {
-            if (!ModLister.BiotechInstalled)
-            {
-                return false;
-            }
-
-            foreach (Gene gene in pawn.genes.GenesListForReading)
-            {
-                if (!gene.Active)
-                {
-                    continue;
-                }
-
-                GeneticTraitData data = gene.def.forcedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
-
-                if (data != null)
-                {
-                    return true;
-                }
-            }
 
             return false;
         }

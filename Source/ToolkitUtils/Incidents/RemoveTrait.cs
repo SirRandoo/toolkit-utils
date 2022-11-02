@@ -69,7 +69,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (IsTraitGeneLocked(_pawn, _buyable))
+            if (!TraitHelper.IsRemovalAllowedByGenes(_pawn, _buyable.TraitDef, _buyable.Degree))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.GeneLocked".LocalizeKeyed(_buyable.Name));
                 
@@ -149,31 +149,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 LetterDefOf.NeutralEvent,
                 new LookTargets(_pawn)
             );
-        }
-
-        private static bool IsTraitGeneLocked(Pawn pawn, TraitItem trait)
-        {
-            if (!ModLister.BiotechInstalled)
-            {
-                return false;
-            }
-
-            foreach (Gene gene in pawn.genes.GenesListForReading)
-            {
-                if (!gene.Active)
-                {
-                    continue;
-                }
-
-                GeneticTraitData data = gene.def.forcedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
-
-                if (data != null)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

@@ -129,10 +129,17 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 }
             }
 
-            if (ModLister.BiotechInstalled && IsTraitGeneLocked(_pawn, _thisShop))
+            if (!TraitHelper.IsRemovalAllowedByGenes(_pawn, _thisShop.TraitDef, _thisShop.Degree))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.GeneLocked".LocalizeKeyed(_thisShop.Name));
                 
+                return false;
+            }
+
+            if (!TraitHelper.IsAdditionAllowedByGenes(_pawn, _thatShop.TraitDef, _thatShop.Degree))
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.GeneSuppressed".LocalizeKeyed(_thatShop.Name));
+
                 return false;
             }
 
@@ -198,31 +205,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             }
 
             return true;
-        }
-
-        private static bool IsTraitGeneLocked(Pawn pawn, TraitItem trait)
-        {
-            if (!ModLister.BiotechInstalled)
-            {
-                return false;
-            }
-
-            foreach (Gene gene in pawn.genes.GenesListForReading)
-            {
-                if (!gene.Active)
-                {
-                    continue;
-                }
-
-                GeneticTraitData data = gene.def.forcedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
-
-                if (data != null)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public override void Execute()

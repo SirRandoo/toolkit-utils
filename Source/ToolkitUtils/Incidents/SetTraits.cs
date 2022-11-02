@@ -207,7 +207,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         [ContractAnnotation("=> false,error:notnull; => true,error:null")]
         private bool IsTraitRemovable(Pawn pawn, TraitItem trait, out string error)
         {
-            if (IsTraitGeneLocked(pawn, trait))
+            if (!TraitHelper.IsRemovalAllowedByGenes(pawn, trait.TraitDef, trait.Degree))
             {
                 error = "TKUtils.RemoveTrait.GeneLocked".LocalizeKeyed(trait.Name);
 
@@ -257,7 +257,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (IsTraitGeneSuppressed(_pawn, trait))
+            if (!TraitHelper.IsAdditionAllowedByGenes(_pawn, trait.TraitDef, trait.Degree))
             {
                 error = "TKUtils.Trait.GeneSuppressed".LocalizeKeyed(trait.Name);
 
@@ -288,56 +288,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
             error = null;
 
             return true;
-        }
-
-        private static bool IsTraitGeneLocked(Pawn pawn, TraitItem trait)
-        {
-            if (!ModLister.BiotechInstalled)
-            {
-                return false;
-            }
-
-            foreach (Gene gene in pawn.genes.GenesListForReading)
-            {
-                if (!gene.Active)
-                {
-                    continue;
-                }
-
-                GeneticTraitData data = gene.def.forcedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
-
-                if (data != null)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool IsTraitGeneSuppressed(Pawn pawn, TraitItem trait)
-        {
-            if (!ModLister.BiotechInstalled)
-            {
-                return false;
-            }
-
-            foreach (Gene gene in pawn.genes.GenesListForReading)
-            {
-                if (!gene.Active)
-                {
-                    continue;
-                }
-
-                GeneticTraitData data = gene.def.suppressedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
-
-                if (data != null)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         private enum EventType { Remove, Add, Noop }

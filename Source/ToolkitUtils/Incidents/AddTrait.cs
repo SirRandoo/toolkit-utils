@@ -116,7 +116,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (IsTraitGeneSuppressed(_pawn, _buyableTrait))
+            if (!TraitHelper.IsAdditionAllowedByGenes(_pawn, _buyableTrait.TraitDef, _buyableTrait.Degree))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.GeneSuppressed".LocalizeKeyed(_buyableTrait.Name));
 
@@ -164,31 +164,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 LetterDefOf.NeutralEvent,
                 new LookTargets(_pawn)
             );
-        }
-        
-        private static bool IsTraitGeneSuppressed(Pawn pawn, TraitItem trait)
-        {
-            if (!ModLister.BiotechInstalled)
-            {
-                return false;
-            }
-
-            foreach (Gene gene in pawn.genes.GenesListForReading)
-            {
-                if (!gene.Active)
-                {
-                    continue;
-                }
-
-                GeneticTraitData data = gene.def.suppressedTraits.Find(t => t.def == trait.TraitDef && t.degree == trait.Degree);
-
-                if (data != null)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

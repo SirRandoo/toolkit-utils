@@ -221,5 +221,55 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             return total;
         }
+
+        public static bool IsRemovalAllowedByGenes(Pawn pawn, TraitDef trait, int degree)
+        {
+            if (!ModLister.BiotechInstalled)
+            {
+                return true;
+            }
+
+            foreach (Gene gene in pawn.genes.GenesListForReading)
+            {
+                if (!gene.Active || gene.def.forcedTraits == null)
+                {
+                    continue;
+                }
+
+                GeneticTraitData geneTrait = gene.def.forcedTraits.Find(g => g.def == trait && g.degree == degree);
+
+                if (geneTrait != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool IsAdditionAllowedByGenes(Pawn pawn, TraitDef trait, int degree)
+        {
+            if (!ModLister.BiotechInstalled)
+            {
+                return true;
+            }
+
+            foreach (Gene gene in pawn.genes.GenesListForReading)
+            {
+                if (!gene.Active || gene.def.suppressedTraits == null)
+                {
+                    continue;
+                }
+
+                GeneticTraitData geneTrait = gene.def.suppressedTraits.Find(g => g.def == trait && g.degree == degree);
+
+                if (geneTrait != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
