@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils
     [UsedImplicitly]
     public class CommandRouter : GameComponent
     {
-        private static Task _interfaceTask;
+        private Task _interfaceTask;
         public static readonly ConcurrentQueue<ITwitchMessage> CommandQueue = new ConcurrentQueue<ITwitchMessage>();
         public static readonly ConcurrentQueue<Action> MainThreadCommands = new ConcurrentQueue<Action>();
 
@@ -71,7 +71,7 @@ namespace SirRandoo.ToolkitUtils
             ProcessCommandQueue();
         }
 
-        private static void ProcessCommandQueue()
+        private void ProcessCommandQueue()
         {
             List<TwitchInterfaceBase> interfaces = null;
             bool taskDone = _interfaceTask == null || _interfaceTask.IsCompleted;

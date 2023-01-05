@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             TwitchWrapper.SendChatMessage($"@{user} → {message}");
         }
 
-        internal static void SendConfirmation(string user, string message)
+        public static void SendConfirmation(string user, string message)
         {
             if (!ToolkitSettings.PurchaseConfirmations)
             {

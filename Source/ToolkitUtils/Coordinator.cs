@@ -50,7 +50,7 @@ namespace SirRandoo.ToolkitUtils
         {
         }
 
-        internal bool HasActivePortals => _portals.Count > 0;
+        public bool HasActivePortals => _portals.Count > 0;
 
         [ContractAnnotation("map:notnull => true,portal:notnull; map:notnull => false,portal:null")]
         internal bool TryGetRandomPortal(Map map, out ToolkitGateway portal)
@@ -126,7 +126,7 @@ namespace SirRandoo.ToolkitUtils
             return true;
         }
 
-        internal bool TrySpawnAnimal(Map map, Pawn pawn)
+        public bool TrySpawnAnimal(Map map, Pawn pawn)
         {
             if (!TryGetRandomAnimalPortal(map, out ToolkitGateway portal))
             {
@@ -153,7 +153,7 @@ namespace SirRandoo.ToolkitUtils
             _incidentQueue.Enqueue(incident);
         }
 
-        internal void NotifySolventRequested(string username)
+        public void NotifySolventRequested(string username)
         {
             _pendingSolvent.Enqueue(username);
         }

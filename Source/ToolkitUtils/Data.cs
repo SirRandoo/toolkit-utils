@@ -43,7 +43,7 @@ namespace SirRandoo.ToolkitUtils
     public static partial class Data
     {
         public static readonly Dictionary<string, Color> ColorIndex = GetDefaultColors();
-        internal static readonly Dictionary<BackstorySlot, List<BackstoryDef>> Backstories = GetBackstories();
+        public static readonly Dictionary<BackstorySlot, List<BackstoryDef>> Backstories = GetBackstories();
 
         internal static readonly EnumRegistrar<KarmaType> KarmaTypes = new EnumRegistrar<KarmaType>();
         internal static readonly EnumRegistrar<QualityCategory> Qualities = new EnumRegistrar<QualityCategory>();

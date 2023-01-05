@@ -24,7 +24,7 @@ namespace SirRandoo.ToolkitUtils.Utils.ModComp
     public static class Immortals
     {
         public static readonly bool Active = ModLister.GetActiveModWithIdentifier("fridgeBaron.Immortals") != null;
-        internal static readonly HediffDef ImmortalHediffDef = DefDatabase<HediffDef>.GetNamed("IH_Immortal", false);
+        public static readonly HediffDef ImmortalHediffDef = DefDatabase<HediffDef>.GetNamed("IH_Immortal", false);
 
         public static bool TryGrantImmortality([NotNull] Pawn pawn)
         {

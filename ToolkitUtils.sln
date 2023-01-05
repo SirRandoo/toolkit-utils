@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Patches", "Sou
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ToolkitUtils.Metadata", "Source\ToolkitUtils.Metadata\ToolkitUtils.Metadata.shproj", "{BC753D15-D5F6-43F5-96A9-B2E55A3FD2A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Commands", "Source\ToolkitUtils.Commands\ToolkitUtils.Commands.csproj", "{D76854A3-53BB-4B49-8E90-F4530BA73B4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Incidents", "Soucre\ToolkitUtils.Incidents\ToolkitUtils.Incidents.csproj", "{BDE86A08-4494-4109-A1A5-CAC5168E61EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,14 @@ Global
 		{5566955F-F100-40F7-8FCE-23B324B87DA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5566955F-F100-40F7-8FCE-23B324B87DA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5566955F-F100-40F7-8FCE-23B324B87DA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D76854A3-53BB-4B49-8E90-F4530BA73B4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D76854A3-53BB-4B49-8E90-F4530BA73B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D76854A3-53BB-4B49-8E90-F4530BA73B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D76854A3-53BB-4B49-8E90-F4530BA73B4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDE86A08-4494-4109-A1A5-CAC5168E61EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDE86A08-4494-4109-A1A5-CAC5168E61EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDE86A08-4494-4109-A1A5-CAC5168E61EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDE86A08-4494-4109-A1A5-CAC5168E61EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

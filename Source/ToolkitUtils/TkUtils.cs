@@ -56,7 +56,7 @@ namespace SirRandoo.ToolkitUtils
         }
 
         public static TkUtils Instance { get; private set; }
-        internal static SynchronizationContext Context { get; set; }
+        public static SynchronizationContext Context { get; set; }
         public static IRimLogger Logger { get; private set; }
 
         /// <inheritdoc cref="ModPlus.SettingsWindow"/>
