@@ -45,11 +45,11 @@
     
     <!-- NuGet dependencies -->
     <ItemGroup>
-        <PackageReference Include="0SirRandoo.CommonLib" Version="1.10.0" Condition="'$(Configuration)' == 'Release'"/>
+        <PackageReference Include="0SirRandoo.CommonLib" Version="1.12.0" Condition="'$(Configuration)' == 'Release'"/>
         <Reference Include="SirRandoo.CommonLib" Condition="'$(Configuration)' == 'Debug'">
             <HintPath>..\Libs\0SirRandoo.CommonLib.dll</HintPath>
         </Reference>
         <PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3510-beta" ExcludeAssets="runtime"/>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3580" ExcludeAssets="runtime"/>
     </ItemGroup>
 </Project>
