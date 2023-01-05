@@ -10,4 +10,46 @@
     <PropertyGroup>
         <RimWorldWorkshopRoot>C:\Program Files (x86)\Steam\steamapps\workshop\content\294100</RimWorldWorkshopRoot>
     </PropertyGroup>
+    
+    <!-- Local dependencies -->
+    <ItemGroup>
+        <Reference Include="TwitchToolkit">
+            <HintPath>$(RimWorldWorkshopRoot)\1718525787\v1.3\Assemblies\TwitchToolkit.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="ToolkitCore">
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\ToolkitCore.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\Newtonsoft.Json.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="TwitchLib.Client">
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\TwitchLib.Client.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="TwitchLib.Client.Enums">
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="TwitchLib.Client.Models">
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\TwitchLib.Client.Models.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="TwitchLib.Communication">
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\TwitchLib.Communication.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+    
+    <!-- NuGet dependencies -->
+    <ItemGroup>
+        <PackageReference Include="0SirRandoo.CommonLib" Version="1.10.0" Condition="'$(Configuration)' == 'Release'"/>
+        <Reference Include="SirRandoo.CommonLib" Condition="'$(Configuration)' == 'Debug'">
+            <HintPath>..\Libs\0SirRandoo.CommonLib.dll</HintPath>
+        </Reference>
+        <PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3510-beta" ExcludeAssets="runtime"/>
+    </ItemGroup>
 </Project>
