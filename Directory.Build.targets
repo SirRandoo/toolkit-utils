@@ -13,31 +13,31 @@
     </ItemGroup>
     <ItemGroup>
         <Reference Include="TwitchToolkit">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\1718525787\v1.3\Assemblies\TwitchToolkit.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\1718525787\v1.3\Assemblies\TwitchToolkit.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="ToolkitCore">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\ToolkitCore.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\ToolkitCore.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\Newtonsoft.Json.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\Newtonsoft.Json.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="TwitchLib.Client">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\TwitchLib.Client.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="TwitchLib.Client.Enums">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="TwitchLib.Client.Models">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Client.Models.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\TwitchLib.Client.Models.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="TwitchLib.Communication">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\2018368654\Assemblies\TwitchLib.Communication.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\2018368654\Assemblies\TwitchLib.Communication.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>

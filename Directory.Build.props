@@ -5,4 +5,9 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     </PropertyGroup>
+    
+    <!-- Steam paths -->
+    <PropertyGroup>
+        <RimWorldWorkshopRoot>C:\Program Files (x86)\Steam\steamapps\workshop\content\294100</RimWorldWorkshopRoot>
+    </PropertyGroup>
 </Project>
