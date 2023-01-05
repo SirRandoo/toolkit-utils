@@ -1,6 +1,10 @@
 ﻿<Project>
-    <PropertyGroup>
-        <LangVersion>8</LangVersion>
-        <TargetFramework>net472</TargetFramework>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <OutputPath Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)</OutputPath>
+        <OutputPath Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)$(CompatibilityFor)\$(RimWorldVersion)\Assemblies</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <OutputPath Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)</OutputPath>
+        <OutputPath Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)$(CompatibilityFor)\$(RimWorldVersion)\Assemblies</OutputPath>
     </PropertyGroup>
 </Project>

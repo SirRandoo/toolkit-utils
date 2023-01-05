@@ -26,7 +26,7 @@ using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     internal partial class PurchaseHandlerPatch
     {

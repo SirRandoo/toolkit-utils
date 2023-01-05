@@ -1,14 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>Library</OutputType>
-        <TargetFramework>net48</TargetFramework>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
-        <IsPackable>false</IsPackable>
+        <CompatibilityFor>AlienRace</CompatibilityFor>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="AlienRace">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\839005762\1.4\Assemblies\AlienRace.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\839005762\1.4\Assemblies\AlienRace.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>

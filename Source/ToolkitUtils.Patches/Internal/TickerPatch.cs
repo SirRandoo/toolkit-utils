@@ -20,7 +20,7 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for disabling Twitch Toolkit's ticker from

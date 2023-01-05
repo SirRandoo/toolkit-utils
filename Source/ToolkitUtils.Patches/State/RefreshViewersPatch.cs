@@ -25,7 +25,7 @@ using ToolkitCore;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for refreshing Twitch Toolkit's internal viewer

@@ -1,33 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>Library</OutputType>
-        <TargetFramework>net48</TargetFramework>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
-        <IsPackable>false</IsPackable>
+        <CompatibilityFor>TMagic</CompatibilityFor>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="0JecsTools">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.4\Assemblies\0JecsTools.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\932008009\1.4\Assemblies\0JecsTools.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="AbilityUser">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.4\Assemblies\AbilityUser.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\932008009\1.4\Assemblies\AbilityUser.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="TorannMagic">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\1201382956\v1.4\Assemblies\TorannMagic.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\1201382956\v1.4\Assemblies\TorannMagic.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" />
     </ItemGroup>
-    <Target Name="CustomAfterBuild" AfterTargets="Build">
-        <ItemGroup>
-            <_FilesToMove Include="$(OutputPath)$(AssemblyName).*" />
-        </ItemGroup>
-        <MakeDir Directories="$(MoveDestinationFolder)" />
-        <Move SourceFiles="@(_FilesToMove)" DestinationFolder="$(_OutputDirectory)..\..\Compatibility\TMagic\$(RimWorldVersion)\Assemblies" />
-    </Target>
 </Project>

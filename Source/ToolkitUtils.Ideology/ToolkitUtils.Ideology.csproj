@@ -1,11 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>Library</OutputType>
-        <TargetFramework>net472</TargetFramework>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
     <ItemGroup>
         <Content Include="..\..\Compatibility\Ideology\Common\**\*.*">
             <Link>Common\%(RecursiveDir)%(FileName)%(Extension)</Link>

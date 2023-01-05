@@ -25,7 +25,7 @@ using TwitchToolkit.Settings;
 using TwitchToolkit.Windows;
 using StoreIncidentEditor = TwitchToolkit.Windows.StoreIncidentEditor;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for replacing Twitch Toolkit's item store dialog

@@ -18,7 +18,7 @@ using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using RimWorld;
 
-namespace SirRandoo.ToolkitUtils.Defs
+namespace SirRandoo.ToolkitUtils.Ideology.Defs
 {
     [DefOf]
     [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]

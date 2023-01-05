@@ -25,7 +25,7 @@ using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]

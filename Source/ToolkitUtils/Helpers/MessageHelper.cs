@@ -34,7 +34,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
         public static string WithHeader(this string s, string header) => $"【{header}】 {s}".AltText($"[{header}] {s}");
 
-        internal static void ReplyToUser(string user, string message)
+        public static void ReplyToUser(string user, string message)
         {
             TwitchWrapper.SendChatMessage($"@{user} → {message}");
         }
@@ -49,7 +49,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             ReplyToUser(user, message);
         }
 
-        internal static string AltText(this string emoji, string alt = null)
+        public static string AltText(this string emoji, string alt = null)
         {
             alt ??= $"{emoji}.Text";
 
@@ -57,7 +57,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
         }
 
         [CanBeNull]
-        internal static ITwitchMessage WithMessage([NotNull] this ITwitchMessage m, string message)
+        public static ITwitchMessage WithMessage([NotNull] this ITwitchMessage m, string message)
         {
             if (m.WhisperMessage != null)
             {

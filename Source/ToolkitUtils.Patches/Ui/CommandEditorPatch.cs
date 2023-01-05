@@ -24,7 +24,7 @@ using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit;
 using TwitchToolkit.Windows;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for replacing Twitch Toolkit's command editor

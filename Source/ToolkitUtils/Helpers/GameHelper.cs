@@ -179,7 +179,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return HasOpenSpouseSlot(asker) && HasOpenSpouseSlot(askee);
         }
 
-        internal static bool HasOpenSpouseSlot(Pawn pawn)
+        public static bool HasOpenSpouseSlot(Pawn pawn)
         {
             return pawn.GetSpouseCount(false) <= 0;
         }

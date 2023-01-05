@@ -35,8 +35,8 @@ namespace SirRandoo.ToolkitUtils
     public class CommandRouter : GameComponent
     {
         private static Task _interfaceTask;
-        internal static readonly ConcurrentQueue<ITwitchMessage> CommandQueue = new ConcurrentQueue<ITwitchMessage>();
-        internal static readonly ConcurrentQueue<Action> MainThreadCommands = new ConcurrentQueue<Action>();
+        public static readonly ConcurrentQueue<ITwitchMessage> CommandQueue = new ConcurrentQueue<ITwitchMessage>();
+        public static readonly ConcurrentQueue<Action> MainThreadCommands = new ConcurrentQueue<Action>();
 
         public CommandRouter(Game game)
         {

@@ -1,10 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>Library</OutputType>
-        <TargetFramework>net472</TargetFramework>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <RootNamespace>SirRandoo.ToolkitUtils.Harmony</RootNamespace>
-    </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <OutputPath>..\..\$(RimWorldVersion)\Assemblies</OutputPath>
     </PropertyGroup>

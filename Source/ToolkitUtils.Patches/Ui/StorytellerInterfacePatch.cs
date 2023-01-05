@@ -30,7 +30,7 @@ using SirRandoo.ToolkitUtils.Windows;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]

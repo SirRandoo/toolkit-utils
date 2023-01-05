@@ -26,7 +26,7 @@ using TwitchToolkit;
 using TwitchToolkit.Commands.ViewerCommands;
 using TwitchToolkit.Store;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for ensuring shortcut commands are properly

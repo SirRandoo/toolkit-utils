@@ -23,7 +23,7 @@ using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     internal static partial class PurchaseHandlerPatch
     {

@@ -27,7 +27,7 @@ using JetBrains.Annotations;
 using SirRandoo.CommonLib.Windows;
 using SirRandoo.ToolkitUtils.Windows;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]

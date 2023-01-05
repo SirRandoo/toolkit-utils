@@ -23,7 +23,7 @@ using TwitchLib.Client.Models.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Ideology.Commands
 {
     public class SetFavoriteColor : CommandBase
     {

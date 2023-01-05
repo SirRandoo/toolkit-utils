@@ -23,7 +23,7 @@ using JetBrains.Annotations;
 using Verse;
 using Translator = SirRandoo.ToolkitUtils.Helpers.Translator;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for filling Utils' translation service with the

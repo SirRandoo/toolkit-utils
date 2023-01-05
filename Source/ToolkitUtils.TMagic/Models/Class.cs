@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using RimWorld;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.TMagic.Models
 {
     public class Class
     {

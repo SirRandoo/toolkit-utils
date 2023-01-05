@@ -25,7 +25,7 @@ using ToolkitCore;
 using TwitchLib.Client.Models;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for breaking chat messages sent by the mod, or

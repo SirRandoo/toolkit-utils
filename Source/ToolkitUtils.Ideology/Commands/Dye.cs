@@ -25,7 +25,7 @@ using TwitchLib.Client.Models.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Ideology.Commands
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class Dye : CommandBase

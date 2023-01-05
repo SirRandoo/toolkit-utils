@@ -24,7 +24,7 @@ using ToolkitCore.Models;
 using TwitchLib.Client.Events;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for ensuring whisper messages received from chat

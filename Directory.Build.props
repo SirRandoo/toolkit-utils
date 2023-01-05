@@ -1,12 +1,35 @@
 ﻿<Project>
+    <!-- Language Metadata -->
+    <PropertyGroup>
+        <LangVersion>8</LangVersion>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net472</TargetFramework>
+    </PropertyGroup>
+    
+    <!-- Assembly Metadata -->
+    <PropertyGroup>
+        <Authors>SirRandoo</Authors>
+        <Product>ToolkitUtils</Product>
+        <RepositoryType>git</RepositoryType>
+        <RootNamespace>SirRandoo.$(MsBuildProjectName)</RootNamespace>
+        <InformationalVersion>6.3.0.0.biotech.b5</InformationalVersion>
+        <RepositoryUrl>https://github.com/sirrandoo/toolkit-utils</RepositoryUrl>
+        <Copyright>AGPL3 Copyright (c) $([System.DateTime]::Now.ToString("yyyy")) SirRandoo</Copyright>
+    </PropertyGroup>
+    
+    <!-- Build Metadata -->
     <PropertyGroup>
         <RimWorldVersion>1.4</RimWorldVersion>
+        <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <_OutputDirectory>..\..\$(RimWorldVersion)\Assemblies\</_OutputDirectory>
+        <_CompatibilityOutputDirectory>..\..\Compatibility\</_CompatibilityOutputDirectory>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     </PropertyGroup>
     
-    <!-- Steam paths -->
+    <!-- Steam Paths -->
     <PropertyGroup>
         <RimWorldWorkshopRoot>C:\Program Files (x86)\Steam\steamapps\workshop\content\294100</RimWorldWorkshopRoot>
     </PropertyGroup>
@@ -50,6 +73,6 @@
             <HintPath>..\Libs\0SirRandoo.CommonLib.dll</HintPath>
         </Reference>
         <PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3580" ExcludeAssets="runtime"/>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="$(RimWorldVersion).*" ExcludeAssets="runtime"/>
     </ItemGroup>
 </Project>

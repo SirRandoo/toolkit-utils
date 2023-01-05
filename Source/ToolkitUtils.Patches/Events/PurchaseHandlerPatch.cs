@@ -28,7 +28,7 @@ using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for adjusting how Twitch Toolkit's purchase

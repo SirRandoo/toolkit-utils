@@ -26,7 +26,7 @@ using SirRandoo.ToolkitUtils.Workers;
 using TwitchToolkit.Utilities;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch to fix SirRandoo's easter egg erroring out when

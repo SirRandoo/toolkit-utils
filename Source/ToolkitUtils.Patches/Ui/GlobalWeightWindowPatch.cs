@@ -23,7 +23,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Storytellers.StorytellerPackWindows;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch to replace Twitch Toolkit's global weights dialog

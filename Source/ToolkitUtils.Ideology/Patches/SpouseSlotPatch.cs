@@ -28,9 +28,9 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
-using PreceptDefOf = SirRandoo.ToolkitUtils.Defs.PreceptDefOf;
+using PreceptDefOf = SirRandoo.ToolkitUtils.Ideology.Defs.PreceptDefOf;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Ideology.Patches
 {
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]

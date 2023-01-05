@@ -30,7 +30,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers
 {
-    internal static class ToolkitSettingsWorker
+    public static class ToolkitSettingsWorker
     {
         private static readonly float LineHeight = Mathf.FloorToInt(Text.SmallFontHeight * 1.25f);
         private static TabWorker _tabWorker;
@@ -86,7 +86,7 @@ namespace SirRandoo.ToolkitUtils.Workers
         private static Vector2 _coinsScrollPos = Vector2.zero;
         private static Vector2 _patchesScrollPos = Vector2.zero;
 
-        internal static void Draw(Rect region)
+        public static void Draw(Rect region)
         {
             GUI.BeginGroup(region);
             Rect wikiRect = LayoutHelper.IconRect(region.width - Text.SmallFontHeight, 0f, Text.SmallFontHeight - 4f, Text.SmallFontHeight - 4f);

@@ -23,7 +23,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Store;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for ensuring Utils' items match Twitch Toolkit's

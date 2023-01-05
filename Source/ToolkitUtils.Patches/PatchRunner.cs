@@ -18,7 +18,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     [UsedImplicitly]
     [StaticConstructorOnStartup]

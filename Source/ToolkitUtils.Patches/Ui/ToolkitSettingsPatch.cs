@@ -22,7 +22,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for changing Twitch Toolkit's settings menu to be

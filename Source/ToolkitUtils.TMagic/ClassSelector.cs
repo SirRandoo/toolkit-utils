@@ -24,7 +24,7 @@ using TorannMagic;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.TMagic
 {
     public class ClassSelector : ISelectorBase<TraitItem>
     {

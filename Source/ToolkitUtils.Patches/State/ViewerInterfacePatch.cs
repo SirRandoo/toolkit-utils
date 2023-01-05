@@ -24,7 +24,7 @@ using ToolkitCore.Database;
 using ToolkitCore.Models;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for fixing ToolkitCore's viewer database being

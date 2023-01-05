@@ -21,7 +21,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for disabling the karma bump from

@@ -24,7 +24,7 @@ using TwitchToolkit.PawnQueue;
 using TwitchToolkit.Windows;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for removing a viewer's name from a pawn when the

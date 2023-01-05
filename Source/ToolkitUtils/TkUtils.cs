@@ -55,9 +55,9 @@ namespace SirRandoo.ToolkitUtils
             Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(TkUtilsWindow)));
         }
 
-        internal static TkUtils Instance { get; private set; }
+        public static TkUtils Instance { get; private set; }
         internal static SynchronizationContext Context { get; set; }
-        internal static IRimLogger Logger { get; private set; }
+        public static IRimLogger Logger { get; private set; }
 
         /// <inheritdoc cref="ModPlus.SettingsWindow"/>
         [NotNull]

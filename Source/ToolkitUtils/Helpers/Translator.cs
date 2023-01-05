@@ -33,12 +33,12 @@ namespace SirRandoo.ToolkitUtils.Helpers
             CopyKeys();
         }
 
-        internal static void Invalidate()
+        public static void Invalidate()
         {
             TranslationProxy.Clear();
         }
 
-        internal static void CopyKeys()
+        public static void CopyKeys()
         {
             LoadedLanguage active = LanguageDatabase.activeLanguage;
 

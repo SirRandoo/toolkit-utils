@@ -42,7 +42,7 @@ namespace SirRandoo.ToolkitUtils
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public static partial class Data
     {
-        internal static readonly Dictionary<string, Color> ColorIndex = GetDefaultColors();
+        public static readonly Dictionary<string, Color> ColorIndex = GetDefaultColors();
         internal static readonly Dictionary<BackstorySlot, List<BackstoryDef>> Backstories = GetBackstories();
 
         internal static readonly EnumRegistrar<KarmaType> KarmaTypes = new EnumRegistrar<KarmaType>();
@@ -285,7 +285,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        internal static void SaveJson<T>(T obj, string path) where T : class
+        public static void SaveJson<T>(T obj, string path) where T : class
         {
             string directory = Path.GetDirectoryName(path);
 
@@ -319,7 +319,7 @@ namespace SirRandoo.ToolkitUtils
             }
         }
 
-        internal static async Task SaveJsonAsync<T>(T obj, string path) where T : class
+        public static async Task SaveJsonAsync<T>(T obj, string path) where T : class
         {
             string directory = Path.GetDirectoryName(path);
 

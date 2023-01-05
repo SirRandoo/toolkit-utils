@@ -27,7 +27,7 @@ using TwitchToolkit.Twitch;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for populating viewer data from messages sent in

@@ -20,7 +20,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     internal static partial class PurchaseHandlerPatch
     {

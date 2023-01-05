@@ -585,7 +585,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         /// </summary>
         /// <returns></returns>
         [ItemNotNull]
-        internal static IEnumerable<ThingItem> ValidateContainers()
+        public static IEnumerable<ThingItem> ValidateContainers()
         {
             var builder = new StringBuilder();
 

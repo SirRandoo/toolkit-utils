@@ -24,7 +24,7 @@ using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for inserting a "Purge" button in the Viewers

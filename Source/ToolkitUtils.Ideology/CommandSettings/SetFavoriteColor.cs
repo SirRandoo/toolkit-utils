@@ -19,7 +19,7 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.CommandSettings
+namespace SirRandoo.ToolkitUtils.Ideology.CommandSettings
 {
     public class SetFavoriteColor : ICommandSettings
     {

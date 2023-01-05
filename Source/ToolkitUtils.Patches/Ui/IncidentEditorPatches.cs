@@ -24,7 +24,7 @@ using TwitchToolkit.Incidents;
 using TwitchToolkit.Windows;
 using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch for replacing Twitch Toolkit's incident editor

@@ -27,7 +27,7 @@ using SirRandoo.ToolkitUtils.Windows;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch to clean the item list before Twitch Toolkit

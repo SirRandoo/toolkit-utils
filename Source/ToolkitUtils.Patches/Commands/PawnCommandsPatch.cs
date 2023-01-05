@@ -21,7 +21,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using TwitchToolkit.PawnQueue;
 
-namespace SirRandoo.ToolkitUtils.Harmony
+namespace SirRandoo.ToolkitUtils.Patches
 {
     /// <summary>
     ///     A Harmony patch to disable Twitch Toolkit's pawn commands in
