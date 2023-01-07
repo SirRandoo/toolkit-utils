@@ -148,7 +148,7 @@ namespace SirRandoo.ToolkitUtils
             _portals.Add(thing);
         }
 
-        internal void QueueIncident(IncidentProxy incident)
+        public void QueueIncident(IncidentProxy incident)
         {
             _incidentQueue.Enqueue(incident);
         }
