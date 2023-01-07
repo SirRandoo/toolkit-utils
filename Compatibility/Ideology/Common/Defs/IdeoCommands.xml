@@ -6,10 +6,10 @@
         <label>set favorite color</label>
         <description>Sets the user's pawn's favorite color to the color specified. The color can be a name or a hexcode.</description>
         <command>setfavoritecolor</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.SetFavoriteColor</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Ideology.Commands.SetFavoriteColor</commandDriver>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.SetFavoriteColor</SettingsHandler>
+                <SettingsHandler>SirRandoo.ToolkitUtils.Ideology.CommandSettings.SetFavoriteColor</SettingsHandler>
                 <Parameters>
                     <li>
                         <Name>Color</Name>
@@ -24,10 +24,10 @@
         <label>set favourite colour</label>
         <description>Sets the user's pawn's favourite colour to the colour specified. The colour can be a name or a hex code.</description>
         <command>setfavouritecolour</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.SetFavoriteColor</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Ideology.Commands.SetFavoriteColor</commandDriver>
         <modExtensions>
             <li Class="SirRandoo.ToolkitUtils.CommandExtension">
-                <SettingsHandler>SirRandoo.ToolkitUtils.CommandSettings.SetFavoriteColor</SettingsHandler>
+                <SettingsHandler>SirRandoo.ToolkitUtils.Ideology.CommandSettings.SetFavoriteColor</SettingsHandler>
                 <Parameters>
                     <li>
                         <Name>Color</Name>
@@ -42,6 +42,6 @@
         <label>dye apparel</label>
         <description>Sets the user's pawn's apparel to the color(s) specified. If no color is specified, the pawn's favorite color is used instead.</description>
         <command>dye</command>
-        <commandDriver>SirRandoo.ToolkitUtils.Commands.Dye</commandDriver>
+        <commandDriver>SirRandoo.ToolkitUtils.Ideology.Commands.Dye</commandDriver>
     </TwitchToolkit.Command>
 </Defs>
