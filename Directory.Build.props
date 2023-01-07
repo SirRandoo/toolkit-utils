@@ -20,8 +20,8 @@
     <!-- Build Metadata -->
     <PropertyGroup>
         <RimWorldVersion>1.4</RimWorldVersion>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <AssemblyName>$(MSBuildProjectName)</AssemblyName>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <_OutputDirectory>..\..\$(RimWorldVersion)\Assemblies\</_OutputDirectory>
         <_CompatibilityOutputDirectory>..\..\Compatibility\</_CompatibilityOutputDirectory>
