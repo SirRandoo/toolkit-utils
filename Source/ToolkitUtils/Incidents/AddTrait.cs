@@ -128,6 +128,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool PassesCharacterChecks(Viewer viewer, ArgWorker worker)
         {
+            if (_pawn!.ageTracker.CurLifeStage != LifeStageDefOf.HumanlikeAdult)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.TooYoung".Localize());
+
+                return false;
+            }
+            
             if (_buyableTrait.TraitDef.IsDisallowedByBackstory(_pawn!, _buyableTrait.Degree, out BackstoryDef backstory))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, worker.GetLast()));

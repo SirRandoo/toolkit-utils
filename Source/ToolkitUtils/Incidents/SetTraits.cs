@@ -61,6 +61,12 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
+            if (_pawn.ageTracker.CurLifeStage != LifeStageDefOf.HumanlikeAdult)
+            {
+                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.TooYoung".Localize());
+
+                return false;
+            }
 
             if (!TryProcessTraits(_pawn!, items, out _events))
             {
