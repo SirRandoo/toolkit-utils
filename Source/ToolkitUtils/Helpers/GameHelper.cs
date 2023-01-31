@@ -37,7 +37,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 return "Unknown";
             }
-        
+
             if (content.IsCoreMod)
             {
                 return "RimWorld";
@@ -179,9 +179,6 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return HasOpenSpouseSlot(asker) && HasOpenSpouseSlot(askee);
         }
 
-        public static bool HasOpenSpouseSlot(Pawn pawn)
-        {
-            return pawn.GetSpouseCount(false) <= 0;
-        }
+        public static bool HasOpenSpouseSlot(Pawn pawn) => pawn.GetSpouseCount(false) <= 0;
     }
 }

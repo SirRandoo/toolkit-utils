@@ -35,6 +35,7 @@ namespace SirRandoo.ToolkitUtils.Windows
     public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
     {
         private readonly EventTypes _eventType;
+        private readonly EventItem _item;
         private readonly List<FloatMenuOption> _karmaTypeOptions;
         private string _capBuffer;
         private bool _capBufferValid = true;
@@ -47,9 +48,15 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _editItemsText;
         private string _editPawnsText;
         private string _editTraitsText;
+        private string _globalCooldownBuffer;
+        private string _globalCooldownText;
+        private bool _globalCooldownValid;
 
         private float _headerButtonWidth;
         private string _karmaText;
+        private string _localCooldownBuffer;
+        private string _localCooldownText;
+        private bool _localCooldownValid;
         private string _priceText;
         private string _resetText;
         private string _settingsText;
@@ -58,13 +65,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _wagerBuffer;
         private bool _wagerBufferValid = true;
         private string _wagerText;
-        private readonly EventItem _item;
-        private string _globalCooldownText;
-        private string _localCooldownText;
-        private string _globalCooldownBuffer;
-        private string _localCooldownBuffer;
-        private bool _globalCooldownValid;
-        private bool _localCooldownValid;
 
         public StoreIncidentEditor([NotNull] StoreIncident storeIncident) : base(storeIncident)
         {
@@ -75,7 +75,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _wagerBuffer = (storeIncidentVariables?.maxWager ?? 0).ToString();
             _karmaTypeOptions = Data.KarmaTypes.Values.Select(t => new FloatMenuOption(t.ToString(), () => storeIncident.karmaType = t)).ToList();
             _item = Data.Events.Find(e => string.Equals(e.DefName, storeIncident.defName));
-            
+
             TkUtils.Logger.Info($"Event data null? {(_item.Data == null).ToStringYesNo()}");
 
             if (_item.Data == null)
@@ -168,7 +168,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 listing.Gap();
                 Widgets.Label(costLabel, _priceText);
-                
+
                 if (UiHelper.NumberField(costField, out int value, ref _costBuffer, ref _costBufferValid, 1, int.MaxValue))
                 {
                     storeIncident.cost = value;
@@ -181,7 +181,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 listing.Gap();
                 Widgets.Label(capLabel, _timesText);
-                
+
                 if (UiHelper.NumberField(capField, out int value, ref _capBuffer, ref _capBufferValid, 1, 200))
                 {
                     storeIncident.eventCap = value;
@@ -200,7 +200,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     storeIncidentVariables.maxWager = wager;
                 }
             }
-            
+
             DrawCooldownFields(listing);
 
             listing.Gap();
@@ -253,7 +253,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             GUI.EndGroup();
         }
-        
+
         private void DrawCooldownFields([NotNull] Listing listing)
         {
             if (_item.Data == null)
@@ -264,7 +264,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             (Rect globalLabel, Rect globalField) = listing.Split(0.6f);
             var globalLine = new Rect(globalLabel.x, globalLabel.y, globalLabel.width + globalField.width, globalLabel.height);
             bool hasGlobalCooldown = _item.EventData.HasGlobalCooldown;
-            
+
             Widgets.CheckboxLabeled(hasGlobalCooldown ? globalLabel : globalLine, _globalCooldownText, ref hasGlobalCooldown);
 
             if (hasGlobalCooldown != _item.EventData.HasGlobalCooldown)

@@ -21,13 +21,13 @@
 <LanguageData>
     <!-- Metadata -->
     <TKUtils.Editor.Title>Toolkit Editor</TKUtils.Editor.Title>
-
+    
     <!-- Editor Tabs -->
     <TKUtils.EditorTabs.Items>Items</TKUtils.EditorTabs.Items>
     <TKUtils.EditorTabs.Events>Events</TKUtils.EditorTabs.Events>
     <TKUtils.EditorTabs.Traits>Traits</TKUtils.EditorTabs.Traits>
     <TKUtils.EditorTabs.PawnKinds>Pawn Kinds</TKUtils.EditorTabs.PawnKinds>
-
+    
     <!-- Mutators -->
     <TKUtils.EditorMutator.ResetName>Reset name</TKUtils.EditorMutator.ResetName>
     <TKUtils.EditorMutator.ResetPrice>Reset price</TKUtils.EditorMutator.ResetPrice>

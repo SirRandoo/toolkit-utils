@@ -22,87 +22,87 @@
     <!-- Groups -->
     <TKUtils.General.Label>General</TKUtils.General.Label>
     <TKUtils.General.Tooltip>A general dumping ground for settings that don't fit into other setting categories. You'll generally find settings for features that change how you and viewers see various Twitch Toolkit related things, like a pawn's hair color or emojis for chat messages.</TKUtils.General.Tooltip>
-
+    
     <TKUtils.General.Emojis>Emojis</TKUtils.General.Emojis>
     <TKUtils.General.Viewer>Viewer Pawn Tweaks</TKUtils.General.Viewer>
     <TKUtils.General.Gateway>Toolkit Gateway</TKUtils.General.Gateway>
     <TKUtils.General.Basket>Easter Eggs</TKUtils.General.Basket>
-
+    
     <TKUtils.Data.Label>Data</TKUtils.Data.Label>
     <TKUtils.Data.Tooltip>Settings in this category affect how the mod reads, writes, and processes the various data required to run the mod.</TKUtils.Data.Tooltip>
-
+    
     <TKUtils.Data.LazyProcess>Item Store Processing</TKUtils.Data.LazyProcess>
     <TKUtils.Data.Files>Toolkit Data</TKUtils.Data.Files>
-
+    
     <TKUtils.CommandTweaks.Label>Command Tweaks</TKUtils.CommandTweaks.Label>
     <TKUtils.CommandTweaks.Tooltip>Settings in this category affect how the mod processes chat commands. Here you can change what the bot looks for command wise, adjust the responses for certain commands, and even change how commands are handled internally.</TKUtils.CommandTweaks.Tooltip>
-
+    
     <TKUtils.CommandTweaks.Balance>Balance Command</TKUtils.CommandTweaks.Balance>
     <TKUtils.CommandTweaks.Handler>Commands Handler</TKUtils.CommandTweaks.Handler>
     <TKUtils.CommandTweaks.InstalledMods>Installed Mods Command</TKUtils.CommandTweaks.InstalledMods>
     <TKUtils.CommandTweaks.BuyItem>Item Purchases</TKUtils.CommandTweaks.BuyItem>
     <TKUtils.CommandTweaks.Lookup>Lookup Command</TKUtils.CommandTweaks.Lookup>
     <TKUtils.CommandTweaks.BuyPawn>Pawn Purchases</TKUtils.CommandTweaks.BuyPawn>
-
+    
     <TKUtils.PawnCommands.Label>Pawn Commands</TKUtils.PawnCommands.Label>
     <TKUtils.PawnCommands.Tooltip>Settings in this category change how the pawn related commands function internally, as well as adjust the responses for the respective commands.</TKUtils.PawnCommands.Tooltip>
-
+    
     <TKUtils.PawnCommands.Abandon>Leave Command</TKUtils.PawnCommands.Abandon>
     <TKUtils.PawnCommands.Gear>Pawn Gear Command</TKUtils.PawnCommands.Gear>
     <TKUtils.PawnCommands.Health>Pawn Health Command</TKUtils.PawnCommands.Health>
     <TKUtils.PawnCommands.Relations>Pawn Relations Command</TKUtils.PawnCommands.Relations>
     <TKUtils.PawnCommands.Work>Pawn Work Command</TKUtils.PawnCommands.Work>
-
+    
     <TKUtils.PawnWork>Work Priorities</TKUtils.PawnWork>
     <TKUtils.PawnStats>Stats</TKUtils.PawnStats>
-
+    
     <TKUtils.ModCompat.Label>Mod Compatibility</TKUtils.ModCompat.Label>
     <TKUtils.ModCompat.Tooltip>Settings in this category toggle compatibility code for other mods. While most of these settings are used to toggle compatibility entirely, you may find some other settings that change how commands and events function when a given mod is present.</TKUtils.ModCompat.Tooltip>
-
-
+    
+    
     <!-- Notices -->
     <ExperimentalContent>This setting is experimental and may change, or be removed, at any time.</ExperimentalContent>
     <TKUtils.TMagic.Warning>A RimWorld of Magic does not support class changes. Lifting this restriction may lead to unexpected side-effects.</TKUtils.TMagic.Warning>
     <ContentRequiresMod>Requires {0}</ContentRequiresMod>
-
-
+    
+    
     <!-- General Tab -->
     <!-- Emoji Group -->
     <TKUtils.Emojis.Label>Use emojis in some commands.</TKUtils.Emojis.Label>
     <TKUtils.Emojis.Description>Emojis are used in place of text to help provide quick, easy, and compact information in dense commands, such as &lt;b&gt;!mypawnhealth&lt;/b&gt;.</TKUtils.Emojis.Description>
-
+    
     <!-- Viewer Group -->
     <TKUtils.HairColor.Label>Dye viewer's hair color to match their chat color.</TKUtils.HairColor.Label>
     <TKUtils.HairColor.Description>Twitch Toolkit, by default, dyes their pawn's hair color to match the color their username is. This setting allows you to disable this functionality in-case your viewers want a specific hair color.</TKUtils.HairColor.Description>
-
+    
     <!-- Gateway Group -->
     <TKUtils.GatewayPuff.Label>Create a small puff of smoke when something exits the gateway.</TKUtils.GatewayPuff.Label>
     <TKUtils.GatewayPuff.Description>If enabled, a puff of smoke will appear in-front of any new item stack when they appear out of the gateway.</TKUtils.GatewayPuff.Description>
-
+    
     <!-- Basket Group -->
     <TKUtils.EasterEggs.Label>Easter eggs</TKUtils.EasterEggs.Label>
     <TKUtils.EasterEggs.Description>If enabled, the mod will occasionally do certain actions when certain criteria are met. You probably already know what one of those actions are if you used the gateway before.</TKUtils.EasterEggs.Description>
-
-
+    
+    
     <!-- Data Tab -->
     <!-- Toolkit Data Group -->
     <TKUtils.DumpStyle.Label>Json output style</TKUtils.DumpStyle.Label>
     <TKUtils.DumpStyle.Description>How ToolkitUtils will store its data. When single file is selected, all data will be merged into one massive file originally known as &lt;b&gt;ShopExt.json&lt;/b&gt;. When multi-file is selected, all data will be stored in separate files for every unique set of data.</TKUtils.DumpStyle.Description>
     <TKUtils.DumpStyle.SingleFile>Single file</TKUtils.DumpStyle.SingleFile>
     <TKUtils.DumpStyle.MultiFile>Multi-file</TKUtils.DumpStyle.MultiFile>
-
+    
     <TKUtils.MinifyData.Label>Minify the shop data files.</TKUtils.MinifyData.Label>
     <TKUtils.MinifyData.Description>When enabled, the mod will save the shop data files with as little extra characters as possible. This typically means the file will be a single line, without any indentions.</TKUtils.MinifyData.Description>
-
+    
     <TKUtils.OffloadShop.Label>Offload saving shop data to a separate thread.</TKUtils.OffloadShop.Label>
     <TKUtils.OffloadShop.Description>By default, all data is saved on the game's thread. As a result, this tends to block the game's thread when large amounts of data needs to be written to disk. Enabling this setting instructs the mod to save all data using a separate thread.</TKUtils.OffloadShop.Description>
-
+    
     <TKUtils.DoPurchasesAsap.Label>Complete purchases even if the game is paused.</TKUtils.DoPurchasesAsap.Label>
     <TKUtils.DoPurchasesAsap.Description>When enabled, the mod will complete purchases even if the game is paused.</TKUtils.DoPurchasesAsap.Description>
-
+    
     <TKUtils.TrueNeutral.Label>Turn neutral karma into true neutral instead of a small positive</TKUtils.TrueNeutral.Label>
     <TKUtils.TrueNeutral.Description>When enabled, the mod will adjust how Toolkit treats neutral events. By default, neutral purchases are a small positive event, which means viewers will gain karma from using them. Enabling this setting will stop neutral events from giving viewers a karma bump when purchased. They'll essentially be a truly neutral purchase.</TKUtils.TrueNeutral.Description>
-
+    
     <TKUtils.BroadcasterUserType.Label>Broadcaster viewer type</TKUtils.BroadcasterUserType.Label>
     <TKUtils.BroadcasterUserType.Description>The type of viewer the broadcaster will count as. This setting only applies to coin gains. All other systems shouldn't be affected, and if they are, you can submit a bug report to the mod author that implemented the system.</TKUtils.BroadcasterUserType.Description>
     <TKUtils.BroadcasterUserType.Broadcaster>Broadcaster</TKUtils.BroadcasterUserType.Broadcaster>
@@ -110,55 +110,55 @@
     <TKUtils.BroadcasterUserType.Vip>Vip</TKUtils.BroadcasterUserType.Vip>
     <TKUtils.BroadcasterUserType.Moderator>Moderator</TKUtils.BroadcasterUserType.Moderator>
     <TKUtils.BroadcasterUserType.None>Viewer</TKUtils.BroadcasterUserType.None>
-
+    
     <!-- Item Store Processing Group -->
     <TKUtils.StoreRate.Label>The number of items the store will process per tick.</TKUtils.StoreRate.Label>
     <TKUtils.StoreRate.Description>With a previous update, Utils made Toolkit's store immediately visible. Utils runs a background task to ensure the store is up-to-date with the latest items in the game. This setting changes how many items it will process per tick until complete.</TKUtils.StoreRate.Description>
-
+    
     <!-- Command Tweaks Tab -->
     <!-- Balance Command Group -->
     <TKUtils.CoinRate.Label>Show a viewer's calculated coin rate in the balance command.</TKUtils.CoinRate.Label>
     <TKUtils.CoinRate.Description>When enabled, the balance command will include the viewer's income per coin reward cycle.</TKUtils.CoinRate.Description>
-
+    
     <!-- Command Handler Group -->
     <TKUtils.CommandParser.Label>Use Utils' flavor of command handling.</TKUtils.CommandParser.Label>
     <TKUtils.CommandParser.Description>Older users would remember this as its command parser.</TKUtils.CommandParser.Description>
-
+    
     <TKUtils.CommandPrefix.Label>Command prefix</TKUtils.CommandPrefix.Label>
     <TKUtils.CommandPrefix.Description>The prefix to use for all Twitch Toolkit commands.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.CommandPrefix.Description>
-
+    
     <TKUtils.PurchasePrefix.Label>Purchase prefix</TKUtils.PurchasePrefix.Label>
     <TKUtils.PurchasePrefix.Description>The prefix to use as a substitue for &lt;b&gt;!buy&lt;/b&gt;.\nPrefixes cannot start with a:\n - /\n - .\n - contain spaces</TKUtils.PurchasePrefix.Description>
-
+    
     <TKUtils.ToolkitStyleCommands.Label>Locate commands similar to how Twitch Toolkit does.</TKUtils.ToolkitStyleCommands.Label>
     <TKUtils.ToolkitStyleCommands.Description>Twitch Toolkit compares commands by checking to see if a message starts with a command, while ToolkitUtils checks to see if the first "word" is a command. If this is enabled, ToolkitUtils will mimic the old behavior, with the exception of case insensitivity. TL;DR: this lets !balloon be a valid form of the !bal command.</TKUtils.ToolkitStyleCommands.Description>
-
+    
     <TKUtils.CommandRouter.Label>Re-route messages away from Toolkit's thread</TKUtils.CommandRouter.Label>
     <TKUtils.CommandRouter.Description>When enabled, the mod will route message parsing off of Toolkit's thread. The general idea is to remove heavy code out of it to hopefully fix, or lessen, disconnects.</TKUtils.CommandRouter.Description>
-
+    
     <!-- Installed Mods Command Group -->
     <TKUtils.DecorateUtils.Label>Add a little star beside Utils in the mod list command.</TKUtils.DecorateUtils.Label>
     <TKUtils.DecorateUtils.Description>because why not?</TKUtils.DecorateUtils.Description>
-
+    
     <TKUtils.VersionedModList.Label>Include mod versions in the mod list command.</TKUtils.VersionedModList.Label>
     <TKUtils.VersionedModList.Description>Inserts mod versions, if Utils could find one, into the &lt;b&gt;!installedmods&lt;/b&gt; command's output.</TKUtils.VersionedModList.Description>
-
+    
     <!-- Item Purchases Group -->
     <TKUtils.BuyItemBalance.Label>Show a viewer's remaining balance after buying an item.</TKUtils.BuyItemBalance.Label>
     <TKUtils.BuyItemBalance.Description>Inserts the viewer's new balance after successfully buying an item. This does not work when the "confirmation messages" setting is disabled in Twitch Toolkit.</TKUtils.BuyItemBalance.Description>
     <TKUtils.BuyItemFullSyntax.Label>Require viewers to use the mod's full item syntax before they can purchase an item.</TKUtils.BuyItemFullSyntax.Label>
     <TKUtils.BuyItemFullSyntax.Description>If enabled, viewers will not be able to purchase items that require a material and/or quality unless both are specified (if applicable)</TKUtils.BuyItemFullSyntax.Description>
-
+    
     <!-- Lookup Command Group -->
     <TKUtils.LookupLimit.Label>Maximum number of results in the lookup command.</TKUtils.LookupLimit.Label>
     <TKUtils.LookupLimit.Description>The maximum number of results that can be displayed in the &lt;b&gt;!lookup&lt;/b&gt; command. Setting this to higher values may result in walls of text if a viewer uses with broad terms.</TKUtils.LookupLimit.Description>
-
-
+    
+    
     <!-- Pawn Commands Tab -->
     <!-- Favorite Color -->
     <TKUtils.AlphaFavoriteColor.Label>Allow the transparency values in the favorite color command</TKUtils.AlphaFavoriteColor.Label>
     <TKUtils.AlphaFavoriteColor.Description>When enabled, the mod won't adjust the color's transparency to opaque.</TKUtils.AlphaFavoriteColor.Description>
-
+    
     <!-- Leave Command Group -->
     <TKUtils.Abandon.Method.Label>How pawns should leave when the leave command is invoked.</TKUtils.Abandon.Method.Label>
     <TKUtils.Abandon.Method.Description>The type of leave method that'll be used when a viewer uses the &lt;b&gt;!leave&lt;/b&gt; command. The "Mental break" method will force the colonist to leave the colony, while the "Thanos" method will turn the colonist to dust.</TKUtils.Abandon.Method.Description>
@@ -166,7 +166,7 @@
     <TKUtils.Abandon.Method.MentalBreak>Mental break</TKUtils.Abandon.Method.MentalBreak>
     <TKUtils.Abandon.Gear.Label>Colonists that leave by the leave command drop their inventory.</TKUtils.Abandon.Gear.Label>
     <TKUtils.Abandon.Gear.Description>If a viewer chooses to leave the colony via the &lt;b&gt;!leave&lt;/b&gt; command, the mod will strip their equipment before they depart.</TKUtils.Abandon.Gear.Description>
-
+    
     <!-- Pawn Gear Command Group -->
     <TKUtils.PawnGear.Temperature.Label>Show temperature information in the pawn gear command.</TKUtils.PawnGear.Temperature.Label>
     <TKUtils.PawnGear.Temperature.Description>Include a pawn's temperature tolerance range in the &lt;b&gt;!mypawngear&lt;/b&gt; command. Enabling this removes temperature information from &lt;b&gt;!mypawnbody&lt;/b&gt;.</TKUtils.PawnGear.Temperature.Description>
@@ -176,40 +176,40 @@
     <TKUtils.PawnGear.Armor.Description>Include armor protection values in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Armor.Description>
     <TKUtils.PawnGear.Weapon.Label>Show currently equipped weapon in the pawn gear command.</TKUtils.PawnGear.Weapon.Label>
     <TKUtils.PawnGear.Weapon.Description>Includes the weapon a pawn is currently equipped with in the &lt;b&gt;!mypawngear&lt;/b&gt; command.</TKUtils.PawnGear.Weapon.Description>
-
+    
     <!-- Pawn Health Command Group -->
     <TKUtils.PawnHealth.Surgeries.Label>Show queued surgeries in the pawn health command.</TKUtils.PawnHealth.Surgeries.Label>
     <TKUtils.PawnHealth.Surgeries.Description>Includes currently queued surgeries in the &lt;b&gt;!mypawnhealth&lt;/b&gt; command.</TKUtils.PawnHealth.Surgeries.Description>
-
+    
     <!-- Pawn Relations Command Group -->
     <TKUtils.PawnRelations.OpinionThreshold.Label>Minimum opinion</TKUtils.PawnRelations.OpinionThreshold.Label>
     <TKUtils.PawnRelations.OpinionThreshold.Description>The minimum opinion a pawn has to have of another before they'll show up in the command. The value will be used for both the negative (absolute) and positive opinion values</TKUtils.PawnRelations.OpinionThreshold.Description>
     <TKUtils.PawnRelations.MinimalRelations.Label>Only show important relationships in the pawn relations command.</TKUtils.PawnRelations.MinimalRelations.Label>
     <TKUtils.PawnRelations.MinimalRelations.Description>When enabled, only direct relationships will be shown in the &lt;b&gt;!mypawnrelations&lt;/b&gt; command. Opinion based relationships will be hidden, like friends and acquaintances.</TKUtils.PawnRelations.MinimalRelations.Description>
-
+    
     <!-- Pawn Work Command Group -->
     <TKUtils.PawnWork.Sort.Label>Sort work priorities in the pawn work command.</TKUtils.PawnWork.Sort.Label>
     <TKUtils.PawnWork.Sort.Description>If enabled, work priorities will be sorted like the Work tab in the &lt;b&gt;!mypawnwork&lt;/b&gt; command. This means work will be displayed as the Work tab from left to right.</TKUtils.PawnWork.Sort.Description>
     <TKUtils.PawnWork.Filter.Label>Filter work priorities in the pawn work command.</TKUtils.PawnWork.Filter.Label>
     <TKUtils.PawnWork.Filter.Description>If enabled, disabled work priorities will be removed from the &lt;b&gt;!mypawnwork&lt;/b&gt; command's output. This means work priorities a pawn is incapable of doing, or is not assigned to, will be omitted from the command's response.</TKUtils.PawnWork.Filter.Description>
-
-
+    
+    
     <!-- Mod Compatibility Tab -->
     <!-- Humanoid Alien Races Group -->
     <TKUtils.HAR.PawnKinds.Label>Allow viewers to specify their pawn's kind when buying.</TKUtils.HAR.PawnKinds.Label>
     <TKUtils.HAR.PawnKinds.Description>Completely disables the ability to specify a viewer's pawn kind when purchasing a pawn. Any pawn purchases will default to Human, even if it's disabled in the pawn kind config.</TKUtils.HAR.PawnKinds.Description>
-
+    
     <!-- A RimWorld of Magic Group -->
     <TKUtils.TMagic.Classes.Label>Allow viewers to change their classes.</TKUtils.TMagic.Classes.Label>
     <TKUtils.TMagic.Classes.Description>If enabled, Utils will lift the restriction surrounding class changes in the trait events.</TKUtils.TMagic.Classes.Description>
     <TKUtils.TMagic.ResetClass.Label>Reset class abilities when changed</TKUtils.TMagic.ResetClass.Label>
     <TKUtils.TMagic.ResetClass.Description>If enabled, Utils will reset the viewer's abilities prior to giving them their new class. This means the mod will clear their old classes' abilities, then give their pawn the new class.</TKUtils.TMagic.ResetClass.Description>
-
+    
     <!-- Visual Exceptions Group -->
     <TKUtils.VisualExceptions.SendErrors.Label>Send Twitch Toolkit's exceptions to Visual Exceptions.</TKUtils.VisualExceptions.SendErrors.Label>
     <TKUtils.VisualExceptions.SendErrors.Description>If enabled, Utils will send any exceptions to Visual Exceptions instead of logging them to the health reports panel.</TKUtils.VisualExceptions.SendErrors.Description>
-
-
+    
+    
     <!-- Incident Settings -->
     <!-- Passion Incidents -->
     <TKUtils.Passion.Randomness.Label>Passion events</TKUtils.Passion.Randomness.Label>
@@ -221,15 +221,15 @@
     <TKUtils.Passion.DecreaseChance.Label>Catastrophic fail chance</TKUtils.Passion.DecreaseChance.Label>
     <TKUtils.Passion.DecreaseChance.Description>The percentage, from 0 to 100, that this event will decrease the pawn's current passion instead of increasing it. This event can also happen along side the "passion hop event".</TKUtils.Passion.DecreaseChance.Description>
     <TKUtils.Passion.IncreaseChance.Description>The percentage, from 0 to 100, that this event will increase the pawn's current passion instead of decreasing it. This event can also happen along side the "passion hop event".</TKUtils.Passion.IncreaseChance.Description>
-
+    
     <!-- Backpack Incident -->
     <TKUtils.Backpack.AutoEquip.Label>Auto-equip purchased gear</TKUtils.Backpack.AutoEquip.Label>
     <TKUtils.Backpack.AutoEquip.Description>Whether or not pawns will automatically swap out their current gear for the ones purchased.</TKUtils.Backpack.AutoEquip.Description>
-
+    
     <!-- Heal Incidents -->
     <TKUtils.Heal.FairFights.Label>Fair fights</TKUtils.Heal.FairFights.Label>
     <TKUtils.Heal.FairFights.Description>Whether or not viewers can use this heal event while in combat.</TKUtils.Heal.FairFights.Description>
-
+    
     <!-- Item Incident -->
     <TKUtils.Item.Gender.Label>Specify gender</TKUtils.Item.Gender.Label>
     <TKUtils.Item.Gender.Description>Whether or not viewers can specify the gender of animals they purchase, if applicable.</TKUtils.Item.Gender.Description>
@@ -246,12 +246,12 @@
     <TKUtils.Item.ExcellentMultiplier>Excellent quality multiplier</TKUtils.Item.ExcellentMultiplier>
     <TKUtils.Item.MasterworkMultiplier>Masterwork quality multiplier</TKUtils.Item.MasterworkMultiplier>
     <TKUtils.Item.LegendaryMultiplier>Legendary quality multiplier</TKUtils.Item.LegendaryMultiplier>
-
+    
     <!-- Wagered Incident -->
     <TKUtils.WageredIncident.Storyteller.Label>Disable coin wagering</TKUtils.WageredIncident.Storyteller.Label>
     <TKUtils.WageredIncident.Storyteller.Description>When enabled, the event will generate default storyteller threat. Viewers will only be charged the cost of the event itself.</TKUtils.WageredIncident.Storyteller.Description>
-
-
+    
+    
     <!-- Twitch Toolkit -->
     <TKUtils.Coins.Tooltip>This tab contains the settings that change how the mod distrbutes coins, and the requirements viewers have to meet to earn said coins.</TKUtils.Coins.Tooltip>
     <TKUtils.Cooldowns.Tooltip>This tab contains the settings that change how the cooldowns for the mod's events.</TKUtils.Cooldowns.Tooltip>
@@ -262,135 +262,135 @@
     <TKUtils.Storyteller>Storyteller</TKUtils.Storyteller>
     <TKUtils.Storyteller.Tooltip>This tab contains the settings that affect how the mod's polls work, plus a quick way to get to the mod's storyteller pack settings.</TKUtils.Storyteller.Tooltip>
     <TKUtils.Viewers.Tooltip>This tab contains the settings that affect the bonuses viewers receive when they certain requirements, settings for the pawn queue system, as well as a quick way to edit viewer data.</TKUtils.Viewers.Tooltip>
-
+    
     <!-- Coins Settings -->
     <TKUtils.EarningCoins.Label>Should viewers receive coins every {0} minutes?</TKUtils.EarningCoins.Label>
     <TKUtils.EarningCoins.Singular.Label>Should viewers receive coins every minute?</TKUtils.EarningCoins.Singular.Label>
     <TKUtils.EarningCoins.Description>Whether or not viewers will receive coins every {0} minutes. If disabled, viewers will not receive coins for watching the stream, but they may still purchase things from the store if it's enabled.</TKUtils.EarningCoins.Description>
     <TKUtils.EarningCoins.Singular.Description>Whether or not viewers will receive coins every minute. If disabled, viewers will not receive coins for watching the stream, but they may still purchase things from the store if it's enabled.</TKUtils.EarningCoins.Singular.Description>
-
+    
     <TKUtils.StartingBalance.Label>The number of coins viewers start with.</TKUtils.StartingBalance.Label>
     <TKUtils.StartingBalance.Description>When a viewer first uses the mod, or is freshly reset through the "Viewers" menu, this will be the amount of coins the viewer will have.</TKUtils.StartingBalance.Description>
-
+    
     <TKUtils.CoinInterval.Label>The number of minutes between each coin reward.</TKUtils.CoinInterval.Label>
     <TKUtils.CoinInterval.Description>The amount of time, in minutes, each coin reward cycle will be. While you can set this to whatever you want, it's advised to keep it within a reasonable amount of time, like 1-10 minutes.</TKUtils.CoinInterval.Description>
-
+    
     <TKUtils.CoinAmount.Label>The base amount of coins a viewer will receive each reward cycle.</TKUtils.CoinAmount.Label>
     <TKUtils.CoinAmount.Description>The amount of coins a viewer will receive every {0} minutes. This setting is just the &lt;b&gt;base&lt;/b&gt; amount of coins. Viewers also have certain multipliers that affect how much coins they'll obtain, as well as an additonal bonus to the base value depending on their viewer type.</TKUtils.CoinAmount.Description>
     <TKUtils.CoinAmount.Singular.Description>The amount of coins a viewer will receive every minute. This setting is just the &lt;b&gt;base&lt;/b&gt; amount of coins. Viewers also have certain multipliers that affect how much coins they'll obtain, as well as an additonal bonus to the base value depending on their viewer type.</TKUtils.CoinAmount.Singular.Description>
-
+    
     <TKUtils.MinimumPurchaseAmount.Label>The minimum amount of coins a viewer has to spend.</TKUtils.MinimumPurchaseAmount.Label>
     <TKUtils.MinimumPurchaseAmount.Description>The minimum amount of coins a viewer has to spend in order to purchase something through Toolkit's store. It's advised to keep this high enough to limit small purchase spam, but low enough to encourage small purchases.</TKUtils.MinimumPurchaseAmount.Description>
-
+    
     <TKUtils.UnlimitedCoins.Label>Should viewers have unlimited coins?</TKUtils.UnlimitedCoins.Label>
     <TKUtils.UnlimitedCoins.Description>Whether or not viewers should have unlimited coins. While this setting is active, viewers will be able to purchase items/events they normally can't afford, however depending on the event purchased, viewers may see a decrease in their coins. If you notice this, you can simply report the problem to the mod that added the event.</TKUtils.UnlimitedCoins.Description>
-
+    
     <TKUtils.RequireParticipation.Label>Require viewers to participate in chat to earn coins</TKUtils.RequireParticipation.Label>
     <TKUtils.RequireParticipation.Description>Whether or not viewers must actively talk in chat to earn the full amount of coins they'll normally earn. The period of time between each stage of decay can be configured below.</TKUtils.RequireParticipation.Description>
-
+    
     <TKUtils.HalfCoins.Label>The amount of minutes before viewers earn half their coins.</TKUtils.HalfCoins.Label>
     <TKUtils.HalfCoins.Description>The amount of time, in minutes, a viewer would have to be inactive for to earn half their full coins, multipliers and bonuses included.</TKUtils.HalfCoins.Description>
-
+    
     <TKUtils.NoCoins.Label>The amount of minutes before viewers earn no coins.</TKUtils.NoCoins.Label>
     <TKUtils.NoCoins.Description>The amount of time, in minutes, a viewer would have to be inactive for to earn 0 coins instead of the full coins, multipliers and bonuses included.</TKUtils.NoCoins.Description>
-
+    
     <!-- Cooldown Settings -->
     <TKUtils.CooldownPeriod.Label>The amount of days an event will be on cooldown for.</TKUtils.CooldownPeriod.Label>
     <TKUtils.CooldownPeriod.Description>When a viewer purchases an event, it'll accumulate a "use". Once the event hits its max number of uses, and the "events have cooldowns" setting is enabled, it'll go on cooldown for {0} days. Viewers won't be able to purchase that event again until it's off its cooldown.</TKUtils.CooldownPeriod.Description>
     <TKUtils.CooldownPeriod.Singular.Description>When a viewer purchases an event, it'll accumulate a "use". Once the event hits its max number of uses, and the "events have cooldowns" setting is enabled, it'll go on cooldown for day. Viewers won't be able to purchase that event again until it's off its cooldown.</TKUtils.CooldownPeriod.Singular.Description>
-
+    
     <TKUtils.MaxEvents.Label>Limit events by karma type?</TKUtils.MaxEvents.Label>
     <TKUtils.MaxEvents.Description>Karma type limits are the way of restricting how many events of a given karma type can be purchased within a given period of time. When an event is used, its karma type will gain a "use". When the karma type reaches the maximum, all events of that karma type won't be usable the karma type itself is off cooldown.</TKUtils.MaxEvents.Description>
-
+    
     <TKUtils.MaxBadEvents.Label>The maximum number of bad event purchases.</TKUtils.MaxBadEvents.Label>
     <TKUtils.MaxGoodEvents.Label>The maximum number of good event purchases.</TKUtils.MaxGoodEvents.Label>
     <TKUtils.MaxNeutralEvents.Label>The maximum number of neutral event purchases.</TKUtils.MaxNeutralEvents.Label>
     <TKUtils.MaxItemEvents.Label>The maximum number of item purchases.</TKUtils.MaxItemEvents.Label>
-
+    
     <TKUtils.EventCooldowns.Label>Should events have cooldowns?</TKUtils.EventCooldowns.Label>
     <TKUtils.EventCooldowns.Description>Whether or not events should have cooldowns</TKUtils.EventCooldowns.Description>
-
+    
     <!-- Karma Settings -->
     <TKUtils.StartingKarma.Label>The amount of karma viewers start with.</TKUtils.StartingKarma.Label>
     <TKUtils.StartingKarma.Description>When a viewer first uses the mod, or is freshly reset through the "Viewers" menu, this will be the amount of karma the viewer will have.</TKUtils.StartingKarma.Description>
-
+    
     <TKUtils.KarmaCap.Label>The maximum amount of karma a viewer can obtain.</TKUtils.KarmaCap.Label>
     <TKUtils.KarmaCap.Description>When a viewer purchases good events, they'll accumulate karma, until they hit this limit. It's recommended to set this value to something higher than a viewer's starting karma, and balanced around the amount of coins a viewer can gain every coin interval.</TKUtils.KarmaCap.Description>
-
+    
     <TKUtils.NegativeKarma.Label>Should the mod prevent viewers from reaching negative karma?</TKUtils.NegativeKarma.Label>
     <TKUtils.NegativeKarma.Description>When viewers purchase negative events, their karma drops by a certain percentage depending on the karma type and the event's cost. By default, the mod will prevent viewers from reaching negative karma as they start to lose coins, rather than gain them. Disabling this setting removes that safe guard.</TKUtils.NegativeKarma.Description>
-
+    
     <TKUtils.KarmaMinimum.Label>The minimum amount of karma a viewer can obtain.</TKUtils.KarmaMinimum.Label>
     <TKUtils.KarmaMinimum.Description>As mentioned above, a viewer's karma drops when purchasing negative events. Depending on your settings, the minimum amount of karma a viewer can have may be 1% or the value here. The former depends on whether or not the "negative karma protection" setting above is enabled.</TKUtils.KarmaMinimum.Description>
-
+    
     <TKUtils.GiftingRequiresKarma.Label>Giving and receiving coins requires a karma</TKUtils.GiftingRequiresKarma.Label>
     <TKUtils.GiftingRequiresKarma.Description>When enabled, giving and receiving karma requires the viewers on both sides to meet a certain level of karma before they can give coins through the gift coins command, and receive coins through the gift coins command.</TKUtils.GiftingRequiresKarma.Description>
-
+    
     <TKUtils.KarmaForGifting.Label>The minimum amount of karma a viewer must have to give coins</TKUtils.KarmaForGifting.Label>
     <TKUtils.KarmaForGifting.Description>The minimum amount of karma a viewer must have to give coins through the gift coins command. Viewers that don't meet this requirement won't be able to gift coins to anyone else in chat.</TKUtils.KarmaForGifting.Description>
-
+    
     <TKUtils.KarmaForReceiving.Label>The minimum amount of karma a viewer must have to receive coins</TKUtils.KarmaForReceiving.Label>
     <TKUtils.KarmaForReceiving.Description>The minimum amount of karma a viewer must have to receive coins through the gift coins command. Viewers that don't meet this requirement won't be able to be given coins from anyone else in chat.</TKUtils.KarmaForReceiving.Description>
-
+    
     <TKUtils.Karma.Description>The amount of karma {0} will receive, or lose, after purchasing an event or item. {1}, internally, are viewers with karma between {2} and {3}.</TKUtils.Karma.Description>
     <TKUtils.GoodKarma.Label>Good karma bonus for events and items</TKUtils.GoodKarma.Label>
     <TKUtils.NeutralKarma.Label>Neutral karma bonus for events and items</TKUtils.NeutralKarma.Label>
     <TKUtils.BadKarma.Label>Bad karma penalty for events and items</TKUtils.BadKarma.Label>
-
+    
     <!-- Store Settings -->
     <TKUtils.PurchaseList.Label>Link to purchase list</TKUtils.PurchaseList.Label>
     <TKUtils.PurchaseList.Description>A link to a website containing the prices of items and events in the mod. It'll be displayed in the &lt;b&gt;!{0}&lt;/b&gt; command.</TKUtils.PurchaseList.Description>
-
+    
     <TKUtils.PurchaseConfirmations.Label>Send feedback when a viewer purchases something</TKUtils.PurchaseConfirmations.Label>
     <TKUtils.PurchaseConfirmations.Description>When enabled, a confirmation message will be sent to the chat when a viewer purchases an item or event.</TKUtils.PurchaseConfirmations.Description>
-
+    
     <TKUtils.RaidersAreViewers.Label>Rename raiders after viewers in chat</TKUtils.RaidersAreViewers.Label>
     <TKUtils.RaidersAreViewers.Description>When enabled, the mod will rename any raid or military aid full of after viewers in chat.</TKUtils.RaidersAreViewers.Description>
-
+    
     <TKUtils.IncludeMinifiables.Label>Include minifiable items in the mod's store</TKUtils.IncludeMinifiables.Label>
     <TKUtils.IncludeMinifiables.Description>When enabled, the mod will include minifiable buildings inside of the mod's store.</TKUtils.IncludeMinifiables.Description>
-
+    
     <!-- Storyteller Settings -->
     <TKUtils.VoteTime.Label>Voting time</TKUtils.VoteTime.Label>
     <TKUtils.VoteTime.Description>The amount of time, in minutes, viewers have to vote for polls generated by Twitch Toolkit.</TKUtils.VoteTime.Description>
-
+    
     <TKUtils.MaximumOptions.Label>Maximum choices</TKUtils.MaximumOptions.Label>
     <TKUtils.MaximumOptions.Description>The maximum amount of choices Twitch Toolkit's polls are allowed to have.</TKUtils.MaximumOptions.Description>
-
+    
     <TKUtils.OptionsToChat.Label>Send polls to chat</TKUtils.OptionsToChat.Label>
     <TKUtils.OptionsToChat.Description>When enabled, the mod will send the poll, and its choices, to chat.</TKUtils.OptionsToChat.Description>
-
+    
     <TKUtils.ShowVoteWindow.Label>Display the poll in-game</TKUtils.ShowVoteWindow.Label>
     <TKUtils.ShowVoteWindow.Description>When enabled, the mod will open a window in-game displaying the poll, its choices, and its remaining time.</TKUtils.ShowVoteWindow.Description>
-
+    
     <TKUtils.EnlargeWindow.Label>Enlarge vote window</TKUtils.EnlargeWindow.Label>
     <TKUtils.EnlargeWindow.Description>When enabled, the mod will enlarge the text displayed on the vote window. This makes it easier for viewers to see the choices on stream without having to enable "send polls to chat".</TKUtils.EnlargeWindow.Description>
-
+    
     <TKUtils.EditStorytellerPacks.Label>Edit storyteller packs</TKUtils.EditStorytellerPacks.Label>
-
+    
     <!-- Viewer Settings -->
     <TKUtils.NameQueue.Label>Allow viewers to join the name queue?</TKUtils.NameQueue.Label>
     <TKUtils.NameQueue.Description>When enabled, viewers will be able to use &lt;b&gt;!{0}&lt;/b&gt; to join the name queue.</TKUtils.NameQueue.Description>
-
+    
     <TKUtils.UnnamedNotification.Description>When enabled, an "alert" message will be displayed when an unnamed colonist is detected. Alerts are messages that appear towards the top of the bottom-right notification area.</TKUtils.UnnamedNotification.Description>
-
+    
     <TKUtils.EnableQueueCost.Label>Charge viewers to join the name queue?</TKUtils.EnableQueueCost.Label>
     <TKUtils.EnableQueueCost.Description>When enabled, viewers will be charged {0} coin(s) to join the name queue. The cost can be configured below.</TKUtils.EnableQueueCost.Description>
-
+    
     <TKUtils.QueueCost.Label>Cost to join queue</TKUtils.QueueCost.Label>
     <TKUtils.QueueCost.Description>The amount of coins viewers will have to pay in order to join the name queue.</TKUtils.QueueCost.Description>
-
+    
     <TKUtils.SpecialViewer>Special Viewers - {0}</TKUtils.SpecialViewer>
     <TKUtils.SpecialViewer.Subscriber>Subscribers</TKUtils.SpecialViewer.Subscriber>
     <TKUtils.SpecialViewer.Vip>VIPs</TKUtils.SpecialViewer.Vip>
     <TKUtils.SpecialViewer.Moderator>Mods</TKUtils.SpecialViewer.Moderator>
-
+    
     <TKUtils.ExtraCoins.Label>Extra coins</TKUtils.ExtraCoins.Label>
     <TKUtils.ExtraCoins.Description>The amount of additional coins a viewer receives &lt;b&gt;after&lt;/b&gt; the mod multiplies the base amount of coins viewers receive by the viewer's karma percentage.</TKUtils.ExtraCoins.Description>
-
+    
     <TKUtils.CoinMultiplier.Label>Coin bonus multiplier</TKUtils.CoinMultiplier.Label>
     <TKUtils.CoinMultiplier.Description>A percentage indicating how much a viewer's coins will be multiplied by when awarding coins. This multiplier is applied &lt;b&gt;after&lt;/b&gt; the viewer's extra coins is applied.</TKUtils.CoinMultiplier.Description>
-
+    
     <TKUtils.ExtraVotes.Label>Extra votes</TKUtils.ExtraVotes.Label>
     <TKUtils.ExtraVotes.Description>The amount of extra votes a viewer has when voting on polls.</TKUtils.ExtraVotes.Description>
 </LanguageData>

@@ -23,7 +23,6 @@
 using System;
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
-using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -36,32 +35,33 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
         private string _mtbBuffer;
         private bool _mtbBufferValid;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool Enabled
         {
             get => ToolkitSettings.ToryTalkerEnabled;
             set => ToolkitSettings.ToryTalkerEnabled = value;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [NotNull]
-        public override string Tooltip => "The classic, and most balanced Toolkit experience. ToryTalker uses the global weights, and it's own weighting system based on events that have happened recently.";
+        public override string Tooltip =>
+            "The classic, and most balanced Toolkit experience. ToryTalker uses the global weights, and it's own weighting system based on events that have happened recently.";
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void ResetState()
         {
             _mtbBufferValid = true;
             _mtbBuffer = ToolkitSettings.ToryTalkerMTBDays.ToString("N2");
         }
-        
-        /// <inheritdoc />
+
+        /// <inheritdoc/>
         public override void Draw(Rect region)
         {
             var headerRegion = new Rect(0f, 0f, region.width, Text.SmallFontHeight * 5f);
             var contentRegion = new Rect(0f, headerRegion.height, region.width, region.height - headerRegion.height);
 
             GUI.BeginGroup(region);
-            
+
             GUI.BeginGroup(headerRegion);
             GUI.color = Color.grey;
             UiHelper.Label(headerRegion, "Tory Talker uses the global weights system, and its own weighting system based on events that have happened recently.");
@@ -77,9 +77,9 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
             {
                 ToolkitSettings.ToryTalkerMTBDays = newDays;
             }
-            
+
             GUI.EndGroup();
-            
+
             GUI.EndGroup();
         }
     }

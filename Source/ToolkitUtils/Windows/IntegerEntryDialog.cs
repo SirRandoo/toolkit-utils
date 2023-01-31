@@ -30,29 +30,29 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class IntegerEntryDialog : Window
     {
-        private int _tmpValue;
+        private string _applyText;
         private string _buffer = "0";
         private bool _bufferValid;
-        private string _applyText;
         private string _cancelText;
+        private int _tmpValue;
 
         public IntegerEntryDialog([CanBeNull] string title)
         {
             optionalTitle = title;
-            
+
             doCloseButton = false;
             doCloseX = false;
             closeOnClickedOutside = false;
             closeOnCancel = false;
             closeOnAccept = false;
         }
-        
+
         public Action<int> OnAccept { get; set; }
         public Action OnCancel { get; set; }
         public int Maximum { get; set; } = int.MaxValue;
         public int Minimum { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void PreOpen()
         {
             base.PreOpen();
@@ -75,13 +75,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 _tmpValue = newValue;
             }
-            
+
             GUI.EndGroup();
 
             GUI.BeginGroup(actionsRegion);
             DrawActions(actionsRegion.AtZero());
             GUI.EndGroup();
-            
+
             GUI.EndGroup();
         }
 
@@ -93,19 +93,19 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (Widgets.ButtonText(applyRegion, _applyText))
             {
                 OnAccept?.Invoke(_tmpValue);
-                
+
                 Close();
             }
 
             if (Widgets.ButtonText(cancelRegion, _cancelText))
             {
                 OnCancel?.Invoke();
-                
+
                 Close();
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void OnAcceptKeyPressed()
         {
             OnAccept?.Invoke(_tmpValue);
@@ -113,7 +113,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Close();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void OnCancelKeyPressed()
         {
             if (!string.IsNullOrEmpty(GUI.GetNameOfFocusedControl()))
@@ -123,7 +123,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             else
             {
                 OnCancel?.Invoke();
-            
+
                 Close();
             }
         }

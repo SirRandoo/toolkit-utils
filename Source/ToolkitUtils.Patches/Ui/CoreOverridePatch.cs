@@ -35,10 +35,7 @@ namespace SirRandoo.ToolkitUtils.Patches
     {
         private static readonly MethodInfo OpenProxyWindow = AccessTools.Method(typeof(ProxySettingsWindow), "Open", new[] { typeof(ProxySettingsWindow) });
 
-        private static bool Prepare()
-        {
-            return !CompatRegistry.ToolkitCompatible;
-        }
+        private static bool Prepare() => !CompatRegistry.ToolkitCompatible;
 
         private static IEnumerable<MethodBase> TargetMethods()
         {

@@ -232,7 +232,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             foreach (Gene gene in pawn.genes.GenesListForReading)
             {
                 Gene target = gene.Overridden ? gene.overriddenByGene : gene;
-                
+
                 if (!target.Active || target.def.forcedTraits == null)
                 {
                     continue;
@@ -259,7 +259,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             foreach (Gene gene in pawn.genes.GenesListForReading)
             {
                 Gene target = gene.Overridden ? gene.overriddenByGene : gene;
-                
+
                 if (!target.Active || target.def.suppressedTraits == null)
                 {
                     continue;

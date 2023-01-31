@@ -31,11 +31,11 @@ namespace SirRandoo.ToolkitUtils.Windows
 {
     public class StorytellerPackDialog : Window
     {
-        private PackEntry _selected;
         private readonly int _packCount;
         private readonly float _packLineSpan;
         private readonly List<PackEntry> _packs = new List<PackEntry>();
         private Vector2 _scrollPos = Vector2.zero;
+        private PackEntry _selected;
 
         public StorytellerPackDialog()
         {
@@ -52,7 +52,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _packLineSpan = _packCount * Text.SmallFontHeight;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void DoWindowContents(Rect inRect)
         {
             var listRegion = new Rect(0f, 0f, Mathf.FloorToInt(inRect.width * 0.39f), inRect.height - Text.SmallFontHeight - StandardMargin);
@@ -64,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(listRegion);
 
             Widgets.DrawMenuSection(listRegion);
-            
+
             DrawPackList(listRegion.ContractedBy(8f));
             GUI.EndGroup();
 
@@ -84,7 +84,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             }
 
             GUI.EndGroup();
-            
+
             GUI.EndGroup();
         }
 
@@ -119,7 +119,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                 Rect checkRegion = LayoutHelper.IconRect(lineRegion.x, lineRegion.y, Text.SmallFontHeight, Text.SmallFontHeight);
                 var labelRegion = new Rect(lineRegion.x + Text.SmallFontHeight, lineRegion.y, lineRegion.width - Text.SmallFontHeight, Text.SmallFontHeight);
-                
+
                 UiHelper.Label(labelRegion, pack.Name);
 
                 if (pack.Settings == null)
@@ -128,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.Windows
 
                     continue;
                 }
-                
+
                 Widgets.CheckboxDraw(checkRegion.x, checkRegion.y, pack.Settings.Enabled, false, checkRegion.height);
 
                 if (Widgets.ButtonInvisible(checkRegion))
@@ -141,7 +141,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                     _selected = pack;
                 }
             }
-            
+
             GUI.EndScrollView();
             GUI.EndGroup();
         }
@@ -157,7 +157,7 @@ namespace SirRandoo.ToolkitUtils.Windows
         private sealed class PackEntry
         {
             public string Name { get; set; }
-            public IStorytellerPackSettings Settings {get; set; }
+            public IStorytellerPackSettings Settings { get; set; }
         }
     }
 }

@@ -39,7 +39,7 @@ namespace SirRandoo.ToolkitUtils
         {
             HealthReports.Add(report);
         }
-        
+
         internal static bool RemoveHealthReport(HealthReport report) => HealthReports.Remove(report);
     }
 }

@@ -20,7 +20,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using RimWorld;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
@@ -55,7 +54,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _loadPartialTooltip;
         private Vector2 _scrollPos = Vector2.zero;
         private FileData<T> _selectedFile;
-        private static readonly JsonSerializer JsonSerializer = new JsonSerializer();
 
         private PartialManager(Action<PartialData<T>> loadCallback)
         {

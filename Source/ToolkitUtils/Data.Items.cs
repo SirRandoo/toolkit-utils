@@ -103,7 +103,7 @@ namespace SirRandoo.ToolkitUtils
             {
                 ItemData.Remove(defName);
             }
-            
+
             foreach (string key in ItemData.Keys.ToList())
             {
                 string caseSensitiveName = tradeables.Find(k => string.Equals(k, key, StringComparison.OrdinalIgnoreCase));

@@ -29,39 +29,39 @@
     <TKUtils.NameQueueTooltips.Ban>Click to ban this viewer from Twitch Toolkit</TKUtils.NameQueueTooltips.Ban>
     <TKUtils.NameQueueTooltips.Configure>Click to open this viewer's user data in a separate dialog</TKUtils.NameQueueTooltips.Configure>
     <TKUtils.NameQueueTooltips.Remove>Click to remove this viewer from the name queue</TKUtils.NameQueueTooltips.Remove>
-
+    
     <TKUtils.ItemTableTooltips.ToStackLimit>Set this item's quantity limit to the item's stack limit.</TKUtils.ItemTableTooltips.ToStackLimit>
     <TKUtils.ItemTableTooltips.EditItemName>Customize the name of this item.</TKUtils.ItemTableTooltips.EditItemName>
     <TKUtils.ItemTableTooltips.CloseItemName>Close the item name editor.</TKUtils.ItemTableTooltips.CloseItemName>
     <TKUtils.ItemTableTooltips.ResetItemName>Reset the item's name to its default value.</TKUtils.ItemTableTooltips.ResetItemName>
     <TKUtils.ItemTableTooltips.ResetItemKarma>Reset the item's karma type to its default value.</TKUtils.ItemTableTooltips.ResetItemKarma>
-
+    
     <TKUtils.TraitTableTooltips.EditTraitName>Customize the name of this trait.</TKUtils.TraitTableTooltips.EditTraitName>
     <TKUtils.TraitTableTooltips.CloseTraitName>Close the trait name editor.</TKUtils.TraitTableTooltips.CloseTraitName>
     <TKUtils.TraitTableTooltips.ResetTraitName>Reset the trait's name to its default value.</TKUtils.TraitTableTooltips.ResetTraitName>
     <TKUtils.TraitTableTooltips.ResetTraitKarma>Reset the trait's karma type to its default value.</TKUtils.TraitTableTooltips.ResetTraitKarma>
-
+    
     <TKUtils.EventTableTooltips.EditEventName>Customize the purchase code of this event.</TKUtils.EventTableTooltips.EditEventName>
     <TKUtils.EventTableTooltips.CloseEventName>Close the purchase code editor.</TKUtils.EventTableTooltips.CloseEventName>
     <TKUtils.EventTableTooltips.ResetEventName>Reset the event's purchase code to its default value.</TKUtils.EventTableTooltips.ResetEventName>
-
+    
     <TKUtils.SelectorTooltips.ExcludeItem>Click to make this selector exclude results containing this text.</TKUtils.SelectorTooltips.ExcludeItem>
     <TKUtils.SelectorTooltips.IncludeItem>Click to make this selector include results containing this text.</TKUtils.SelectorTooltips.IncludeItem>
-
+    
     <TKUtils.MutatorTooltips.StackMode>Click to make this mutator mutate all results to a fixed value.</TKUtils.MutatorTooltips.StackMode>
     <TKUtils.MutatorTooltips.ValueMode>Click to make this mutator mutate all results to their stack limit.</TKUtils.MutatorTooltips.ValueMode>
     <TKUtils.MutatorTooltips.PercentPrice>Click to make this mutator mutate all results to a fixed value.</TKUtils.MutatorTooltips.PercentPrice>
     <TKUtils.MutatorTooltips.ValuePrice>Click to make this mutator mutate all results with a percentage of its current value.</TKUtils.MutatorTooltips.ValuePrice>
-
+    
     <TKUtils.PartialTooltips.DeletePartial>Click to delete this partial.</TKUtils.PartialTooltips.DeletePartial>
     <TKUtils.PartialTooltips.LoadPartial>Click to load the data within this partial.</TKUtils.PartialTooltips.LoadPartial>
-
+    
     <TKUtils.EditorTooltips.ImportPartial>Import partial...</TKUtils.EditorTooltips.ImportPartial>
     <TKUtils.EditorTooltips.ExportPartial>Export partial...</TKUtils.EditorTooltips.ExportPartial>
     <TKUtils.EditorTooltips.GetHelp>Opens your browser to the help pages for the editor.</TKUtils.EditorTooltips.GetHelp>
-
+    
     <TKUtils.CommandEditorTooltips.Tags>Opens your browser to a list of placeholders you can use in custom commands.</TKUtils.CommandEditorTooltips.Tags>
-
+    
     <TKUtils.MainTabTooltips.Report>Reported by {0} {1} ago.\n\nClick to copy stacktrace.</TKUtils.MainTabTooltips.Report>
     <TKUtils.MainTabTooltips.VisualExceptions>Open in Visual Exceptions</TKUtils.MainTabTooltips.VisualExceptions>
     <TKUtils.MainTabTooltips.Close>Click to dismiss this message.</TKUtils.MainTabTooltips.Close>
@@ -69,7 +69,7 @@
     <TKUtils.MainTabTooltips.Debug>Debug message</TKUtils.MainTabTooltips.Debug>
     <TKUtils.MainTabTooltips.Error>Error message</TKUtils.MainTabTooltips.Error>
     <TKUtils.MainTabTooltips.Info>Info message</TKUtils.MainTabTooltips.Info>
-
+    
     <TKUtils.Persona.Linked>Linked to {0}</TKUtils.Persona.Linked>
     
     <TKUtils.CoreTooltips.ChannelField>This field stores the channel the bot will connect to on Twitch.</TKUtils.CoreTooltips.ChannelField>

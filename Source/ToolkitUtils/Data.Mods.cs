@@ -74,7 +74,7 @@ namespace SirRandoo.ToolkitUtils
 
             Mods = list.ToArray();
         }
-        
+
         /// <summary>
         ///     Saves all mods indexed by the mod to its associated file.
         /// </summary>
@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils
         {
             SaveJson(Mods, Paths.ModListFilePath);
         }
-        
+
         /// <summary>
         ///     Saves all mods indexed by the mod to its associated file.
         /// </summary>

@@ -33,13 +33,13 @@ namespace SirRandoo.ToolkitUtils.Windows
     {
         private readonly List<DefEntry> _defEntries = new List<DefEntry>();
         private readonly string _header;
-        private int _visibleEntries;
         protected readonly QuickSearchWidget SearchWidget = new QuickSearchWidget();
-        private Vector2 _scrollPos = Vector2.zero;
+        private string _disableAllText;
 
         private string _editText;
         private string _resetAllText;
-        private string _disableAllText;
+        private Vector2 _scrollPos = Vector2.zero;
+        private int _visibleEntries;
 
         protected CategoricalEditorWindow(string header)
         {
@@ -47,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             doCloseButton = true;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override Vector2 InitialSize => new Vector2(425, 500);
 
         /// <inheritdoc/>
@@ -78,7 +78,13 @@ namespace SirRandoo.ToolkitUtils.Windows
             GUI.BeginGroup(inRect);
 
             var headerRegion = new Rect(0f, 0f, inRect.width, Text.LineHeightOf(GameFont.Medium) + Text.SmallFontHeight + StandardMargin);
-            var contentsRegion = new Rect(0f, headerRegion.height + StandardMargin, inRect.width, inRect.height - headerRegion.height - CloseButSize.y - StandardMargin * 2f);
+
+            var contentsRegion = new Rect(
+                0f,
+                headerRegion.height + StandardMargin,
+                inRect.width,
+                inRect.height - headerRegion.height - CloseButSize.y - StandardMargin * 2f
+            );
 
             GUI.BeginGroup(headerRegion);
             DrawHeader(headerRegion.AtZero());
@@ -151,6 +157,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _scrollPos = GUI.BeginScrollView(region, _scrollPos, viewRect);
 
             var line = 0;
+
             foreach (DefEntry entry in _defEntries)
             {
                 if (!entry.Visible)
@@ -163,6 +170,7 @@ namespace SirRandoo.ToolkitUtils.Windows
                 if (!lineRegion.IsVisible(region, _scrollPos))
                 {
                     line++;
+
                     continue;
                 }
 

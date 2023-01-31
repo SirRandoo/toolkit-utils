@@ -28,14 +28,14 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
     [UsedImplicitly]
     public class MercuriusPackSettings : PackSettingsBase
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool Enabled
         {
             get => ToolkitSettings.MercuriusEnabled;
             set => ToolkitSettings.MercuriusEnabled = value;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [NotNull]
         public override string Tooltip =>
             "Mercurius generates events in intervals through a cycle generator. You will increasingly get more events the more days that pass.";

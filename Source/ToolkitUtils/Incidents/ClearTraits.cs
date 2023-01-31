@@ -101,10 +101,10 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!TraitHelper.IsRemovalAllowedByGenes(pawn, trait.TraitDef, trait.Degree))
             {
                 MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.GeneLocked".LocalizeKeyed(trait.Name));
-                
+
                 return false;
             }
-            
+
             if (RationalRomance.Active && RationalRomance.IsTraitDisabled(trait.TraitDef!))
             {
                 MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RemoveTrait.RationalRomance".LocalizeKeyed(trait.Name.CapitalizeFirst()));

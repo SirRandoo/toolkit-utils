@@ -32,8 +32,8 @@ namespace SirRandoo.ToolkitUtils.Patches
     /// <remarks>
     ///     Prior to this, responses from Utils' commands and events would
     ///     occasionally encounter a race condition that would result in
-    ///     messages being garbled, and/or text being display in-game appearing
-    ///     in chat.
+    ///     messages being garbled, and/or text being display in-game
+    ///     appearing in chat.
     /// </remarks>
     [HarmonyPatch]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]

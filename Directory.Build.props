@@ -72,7 +72,7 @@
         <Reference Include="SirRandoo.CommonLib" Condition="'$(Configuration)' == 'Debug'">
             <HintPath>..\Libs\0SirRandoo.CommonLib.dll</HintPath>
         </Reference>
-        <PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />
+        <PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime"/>
         <PackageReference Include="Krafs.Rimworld.Ref" Version="$(RimWorldVersion).*" ExcludeAssets="runtime"/>
     </ItemGroup>
 </Project>

@@ -15,8 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
@@ -60,7 +58,7 @@ namespace SirRandoo.ToolkitUtils.Workers
             {
                 TkUtils.Logger.Info($"{item.DefName} is on cooldown for {user}");
             }
-            
+
             return isOnCooldown;
         }
 

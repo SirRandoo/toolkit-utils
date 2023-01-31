@@ -394,7 +394,9 @@ namespace SirRandoo.ToolkitUtils.Workers
             ))
             {
                 Find.WindowStack.Add(
-                    new FloatMenu(ToolkitUtils.Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.TraitData.KarmaTypeForRemoving = i)).ToList())
+                    new FloatMenu(
+                        ToolkitUtils.Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => trait.Data.TraitData.KarmaTypeForRemoving = i)).ToList()
+                    )
                 );
             }
 

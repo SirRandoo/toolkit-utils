@@ -16,8 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.CommonLib.Windows;
 using SirRandoo.ToolkitUtils.Helpers;
@@ -103,9 +101,9 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _trueNeutralLabel;
         private string _versionedModListDescription;
         private string _versionedModListLabel;
-        private string _viewerGroupHeader;
 
-        private string _versionString;
+        private readonly string _versionString;
+        private string _viewerGroupHeader;
 
         public UtilsSettingsWindow() : base(TkUtils.Instance)
         {
@@ -349,7 +347,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             (Rect storeLabel, Rect storeField) = listing.Split();
             UiHelper.Label(storeLabel, _storeRateLabel);
             listing.DrawDescription(_storeRateDescription);
-            
+
             if (UiHelper.NumberField(storeField, out int value, ref _buildRateBuffer, ref _buildRateBufferValid))
             {
                 TkSettings.StoreBuildRate = value;
@@ -400,14 +398,14 @@ namespace SirRandoo.ToolkitUtils.Windows
 
             bool commandRouter = TkSettings.CommandRouter;
             listing.CheckboxLabeled(_commandRouterLabel, ref commandRouter);
-            
+
             if (commandRouter != TkSettings.CommandRouter)
             {
                 RuntimeChecker.ValidateTicker();
 
                 TkSettings.CommandRouter = commandRouter;
             }
-            
+
             listing.DrawDescription(_commandRouterDescription);
             listing.DrawExperimentalNotice();
 

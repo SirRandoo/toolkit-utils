@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore.Models;
@@ -45,7 +44,7 @@ namespace SirRandoo.ToolkitUtils
         {
             SaveJson(Commands, Paths.CommandListFilePath);
         }
-        
+
         /// <summary>
         ///     Saves all commands indexed by the mod to its associated file.
         /// </summary>
@@ -77,11 +76,11 @@ namespace SirRandoo.ToolkitUtils
                 {
                     Commands.Remove(existing);
                 }
-                
+
                 Commands.Add(CommandItem.FromToolkitCore(command));
             }
         }
-        
+
         private static void TranscribeFromToolkit()
         {
             foreach (Command command in DefDatabase<Command>.AllDefs)

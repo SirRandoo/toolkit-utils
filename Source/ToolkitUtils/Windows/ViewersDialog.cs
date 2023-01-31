@@ -40,17 +40,17 @@ namespace SirRandoo.ToolkitUtils.Windows
         private readonly Dictionary<string, ViewerEntry> _viewersKeyed = new Dictionary<string, ViewerEntry>();
         private string _coinBuffer;
         private bool _coinBufferValid;
+        private string _coinsText;
         private bool _editingCoins;
         private bool _editingKarma;
         private string _karmaBuffer;
         private bool _karmaBufferValid;
+        private string _karmaText;
         private Vector2 _listScrollPos = Vector2.zero;
 
         private string _purgeText;
         private string _resetAllText;
-        private string _coinsText;
-        private string _karmaText;
-        
+
         private int _viewerCount;
 
         public ViewersDialog()

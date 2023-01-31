@@ -47,7 +47,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             if (emojiOverride)
             {
                 bool emojis = TkSettings.Emojis;
-                
+
                 TkSettings.Emojis = false;
                 ExecuteInternal(command, message);
                 TkSettings.Emojis = emojis;
@@ -113,7 +113,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
             {
                 return state;
             }
-            
+
             return false;
         }
     }

@@ -191,6 +191,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
                     {
                         KindDef = PawnKindDef.Named(Proxy.Thing.Thing.defName), FixedGender = Proxy.Gender, Faction = Faction.OfPlayer
                     };
+
                     Pawn pawn = PawnGenerator.GeneratePawn(request);
                     coordinator.TrySpawnAnimal(Map, pawn);
 

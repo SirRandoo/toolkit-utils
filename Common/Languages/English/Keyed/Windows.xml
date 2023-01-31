@@ -24,12 +24,12 @@
     <TKUtils.Headers.FilterDialog>Editing item filters</TKUtils.Headers.FilterDialog>
     <TKUtils.Headers.RestartRequired>Restart required</TKUtils.Headers.RestartRequired>
     <TKUtils.Headers.GlobalWeights>Change the weights given to votes. Setting to 0% disables it.</TKUtils.Headers.GlobalWeights>
-
-
+    
+    
     <!-- Purge Dialog -->
     <TKUtils.Purge.Affected>viewers affected</TKUtils.Purge.Affected>
-
-
+    
+    
     <!-- Name Queue -->
     <TKUtils.NameQueue.None>The name queue is empty!</TKUtils.NameQueue.None>
     <TKUtils.NameQueue.Count>viewer(s) waiting in queue</TKUtils.NameQueue.Count>
@@ -38,11 +38,11 @@
     <TKUtils.NameQueue.AssignedTo>Assigned to</TKUtils.NameQueue.AssignedTo>
     <TKUtils.NameQueue.LastSeen>Last seen {0} minute(s) ago.</TKUtils.NameQueue.LastSeen>
     <TKUtils.NameQueue.NotSeen>Not seen recently.</TKUtils.NameQueue.NotSeen>
-
+    
     <!-- Item Store -->
     <TKUtils.ItemStore.Title>Store Inventory</TKUtils.ItemStore.Title>
     <TKUtils.ItemStore.ConfirmReset>Are you sure you want to reset all your items back to their default values?</TKUtils.ItemStore.ConfirmReset>
-
+    
     <TKUtils.FilterTypes.Mod>Mods</TKUtils.FilterTypes.Mod>
     <TKUtils.FilterTypes.Category>Categories</TKUtils.FilterTypes.Category>
     <TKUtils.FilterTypes.TechLevel>Technology Level</TKUtils.FilterTypes.TechLevel>
@@ -51,7 +51,7 @@
     <TKUtils.FilterTypes.State>State</TKUtils.FilterTypes.State>
     <TKUtils.FilterTypes.Stuff>Stuff</TKUtils.FilterTypes.Stuff>
     <TKUtils.FilterTypes.Manufacturable>Manufacturability</TKUtils.FilterTypes.Manufacturable>
-
+    
     <TKUtils.StoreFilters.Stackable>stackable</TKUtils.StoreFilters.Stackable>
     <TKUtils.StoreFilters.NonStackable>non-stackables</TKUtils.StoreFilters.NonStackable>
     <TKUtils.StoreFilters.Researched>researched</TKUtils.StoreFilters.Researched>
@@ -62,35 +62,35 @@
     <TKUtils.StoreFilters.NotStuff>is not stuff</TKUtils.StoreFilters.NotStuff>
     <TKUtils.StoreFilters.Manufactured>is manufacturable</TKUtils.StoreFilters.Manufactured>
     <TKUtils.StoreFilters.NonManufactured>is not manufacturable</TKUtils.StoreFilters.NonManufactured>
-
-
+    
+    
     <!-- Trait Store -->
     <TKUtils.TraitStore.Title>Trait Inventory</TKUtils.TraitStore.Title>
     <TKUtils.TraitStore.ConfirmReset>Are you sure you want to reset all your traits back to their default values?</TKUtils.TraitStore.ConfirmReset>
-
-
+    
+    
     <!-- Pawn Kind Store -->
     <TKUtils.PawnKindStore.Title>Pawn Kind Inventory</TKUtils.PawnKindStore.Title>
     <TKUtils.PawnKindStore.ConfirmReset>Are you sure you want to reset all your pawn kinds back to their default values?</TKUtils.PawnKindStore.ConfirmReset>
-
-
+    
+    
     <!-- Partial Manager -->
     <TKUtils.PartialManager.Indexing>Indexing...</TKUtils.PartialManager.Indexing>
-
-
+    
+    
     <!-- Command Editor -->
     <TKUtils.CommandEditor.Header>Editing command "{0}"</TKUtils.CommandEditor.Header>
     <TKUtils.CommandEditor.UserLevel.Anyone>Anyone</TKUtils.CommandEditor.UserLevel.Anyone>
     <TKUtils.CommandEditor.UserLevel.Moderator>Moderator</TKUtils.CommandEditor.UserLevel.Moderator>
     <TKUtils.CommandEditor.UserLevel.Admin>Admin</TKUtils.CommandEditor.UserLevel.Admin>
-
-
+    
+    
     <!-- Main Tab -->
     <TKUtils.MainTab.HealthReport>Health Report</TKUtils.MainTab.HealthReport>
     <TKUtils.MainTab.QuickActions>Quick Actions</TKUtils.MainTab.QuickActions>
     <TKUtils.MainTab.NoHealthReports>Nothing to report</TKUtils.MainTab.NoHealthReports>
-
-
+    
+    
     <!-- Global Weights -->
     <TKUtils.GlobalWeights.Null>The vote weight dictionary doesn't exist. This shouldn't happen.</TKUtils.GlobalWeights.Null>
     

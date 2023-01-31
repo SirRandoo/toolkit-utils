@@ -61,8 +61,14 @@ namespace SirRandoo.ToolkitUtils.Windows
         private TextEditor _editor;
         private string _enableText;
         private float _enableTextWidth;
+        private string _globalCooldownBuffer;
+        private string _globalCooldownText;
+        private bool _globalCooldownValid;
         private string _headerText;
         private bool _invalidId;
+        private string _localCooldownBuffer;
+        private string _localCooldownText;
+        private bool _localCooldownValid;
         private string _moderatorText;
         private Vector2 _scrollPos = Vector2.zero;
         private string _settingsText;
@@ -71,12 +77,6 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _tagTooltip;
         private List<FloatMenuOption> _userLevelOptions;
         private string _userLevelText;
-        private string _globalCooldownBuffer;
-        private bool _globalCooldownValid;
-        private bool _localCooldownValid;
-        private string _localCooldownBuffer;
-        private string _globalCooldownText;
-        private string _localCooldownText;
 
         public CommandEditorDialog([NotNull] Command command) : base(command)
         {
@@ -194,7 +194,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             (Rect globalLabel, Rect globalField) = listing.Split(0.6f);
             var globalLine = new Rect(globalLabel.x, globalLabel.y, globalLabel.width + globalField.width, globalLabel.height);
             bool hasGlobalCooldown = _commandItem.Data.HasGlobalCooldown;
-            
+
             Widgets.CheckboxLabeled(hasGlobalCooldown ? globalLabel : globalLine, _globalCooldownText, ref hasGlobalCooldown);
 
             if (hasGlobalCooldown != _commandItem.Data.HasGlobalCooldown)

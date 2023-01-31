@@ -44,7 +44,7 @@ namespace SirRandoo.ToolkitUtils.Utils
 
             UiHelper.Label(labelRect, _labelText);
             DrawButton(buttonRect);
-            
+
             if (UiHelper.NumberField(inputRect, out int value, ref _buffer, ref _valid))
             {
                 _coins = value;

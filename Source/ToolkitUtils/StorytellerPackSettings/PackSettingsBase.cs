@@ -33,6 +33,7 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
     {
         /// <inheritdoc/>
         public abstract bool Enabled { get; set; }
+
         public abstract string Tooltip { get; }
 
         /// <inheritdoc/>

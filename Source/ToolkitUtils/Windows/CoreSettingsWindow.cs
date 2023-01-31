@@ -39,37 +39,37 @@ namespace SirRandoo.ToolkitUtils.Windows
         private const float LineSpacing = 10f;
 
         private readonly float _mediumFontHeight;
+        private string _allowWhispersText;
         private string _allowWhispersTooltip;
+        private string _autoConnectText;
         private string _autoConnectTooltip;
-        private string _connectionMessageTooltip;
-        private string _forcedWhispersTooltip;
-        private bool _showingToken;
-        private string _newTokenTooltip;
-        private string _channelTooltip;
+        private string _botUsernameText;
         private string _botUsernameTooltip;
-        private string _tokenTooltip;
-        private string _tokenVisibleTooltip;
-        private string _tokenHiddenTooltip;
-        private string _sameAsChannelTooltip;
-        private bool _tokenValid;
+        private string _channelDetailsHeader;
+        private string _channelText;
+        private string _channelTooltip;
 
         private string _connectedText;
-        private string _disconnectedText;
-        private string _statusText;
-        private string _channelDetailsHeader;
         private string _connectionHeader;
-        private string _sendConnectionMessageText;
-        private string _allowWhispersText;
-        private string _tmiConfirmationText;
-        private string _forceWhispersText;
-        private string _autoConnectText;
-        private string _tokenText;
-        private string _botUsernameText;
-        private string _channelText;
-        private string _newTokenText;
-        private string _sameAsChannelText;
+        private string _connectionMessageTooltip;
         private string _connectText;
+        private string _disconnectedText;
         private string _disconnectText;
+        private string _forcedWhispersTooltip;
+        private string _forceWhispersText;
+        private string _newTokenText;
+        private string _newTokenTooltip;
+        private string _sameAsChannelText;
+        private string _sameAsChannelTooltip;
+        private string _sendConnectionMessageText;
+        private bool _showingToken;
+        private string _statusText;
+        private string _tmiConfirmationText;
+        private string _tokenHiddenTooltip;
+        private string _tokenText;
+        private string _tokenTooltip;
+        private bool _tokenValid;
+        private string _tokenVisibleTooltip;
 
         /// <inheritdoc/>
         public CoreSettingsWindow() : base(LoadedModManager.GetMod<ToolkitCore.ToolkitCore>())
@@ -108,7 +108,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             _statusText = "TKUtils.CoreSettings.Status".TranslateSimple();
             _channelDetailsHeader = "TKUtils.CoreSettings.ChannelDetails".TranslateSimple();
             _connectionHeader = "TKUtils.CoreSettings.Connection".TranslateSimple();
-        
+
             _autoConnectTooltip = "TKUtils.CoreTooltips.AutoConnect".TranslateSimple();
             _allowWhispersTooltip = "TKUtils.CoreTooltips.AllowWhispers".TranslateSimple();
             _forcedWhispersTooltip = "TKUtils.CoreTooltips.ForcedWhispers".TranslateSimple();
@@ -196,14 +196,14 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 ToolkitCoreSettings.bot_username = ToolkitCoreSettings.channel_username;
             }
-            
+
             TooltipHandler.TipRegion(sameAsChannelBtn, _sameAsChannelTooltip);
 
             if (Widgets.ButtonText(newTokenBtn, _newTokenText))
             {
                 Find.WindowStack.Add(new ConfirmationDialog(_tmiConfirmationText, () => Application.OpenURL(TokenUrl)));
             }
-            
+
             TooltipHandler.TipRegion(newTokenBtn, _newTokenTooltip);
 
             listing.End();

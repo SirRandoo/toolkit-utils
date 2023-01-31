@@ -82,7 +82,7 @@ namespace SirRandoo.ToolkitUtils.Patches
             }
 
             Helper.Log($"abr: {query} ");
-            
+
             segments.Insert(1, "item");
 
             if (segments.Count < 4)

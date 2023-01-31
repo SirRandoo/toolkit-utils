@@ -235,8 +235,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             if (Widgets.ButtonText(fieldRect, !karmaType.HasValue ? nullLabel : karmaType.Value.ToString()))
             {
-                Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Values
-                   .Select(i => new FloatMenuOption(i.ToString(), () => changedCallback(i))).ToList()));
+                Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => changedCallback(i))).ToList()));
             }
 
             if (doResetButton && karmaType.HasValue && UiHelper.FieldButton(labelRect, Textures.Reset, resetTooltip))

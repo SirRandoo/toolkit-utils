@@ -18,7 +18,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-
+    
     <TwitchToolkit.Command>
         <defName>SetFavouriteColour</defName>
         <label>set favourite colour</label>
@@ -36,7 +36,7 @@
             </li>
         </modExtensions>
     </TwitchToolkit.Command>
-
+    
     <TwitchToolkit.Command>
         <defName>DyeApparel</defName>
         <label>dye apparel</label>

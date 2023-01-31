@@ -26,14 +26,14 @@ namespace SirRandoo.ToolkitUtils.Models
         public bool CanHeal([NotNull] Hediff hediff)
         {
             var @override = hediff.def.GetModExtension<HealExtension>();
-            
+
             return @override == null || @override.ShouldHeal;
         }
 
         public bool CanHeal([NotNull] BodyPartRecord bodyPart)
         {
             var @override = bodyPart.def.GetModExtension<HealExtension>();
-            
+
             return @override == null || @override.ShouldHeal;
         }
 

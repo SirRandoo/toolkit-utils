@@ -34,13 +34,13 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
     public class HodlPackSettings : PackSettingsBase
     {
         private List<Entry> _categoryEntries;
-        private List<Entry> _typeEntries;
-        private int _weightLineSpan;
         private string _mtbBuffer;
         private bool _mtbBufferValid;
         private Vector2 _scrollPos;
         private int _totalCategoryWeight;
         private int _totalKarmaWeight;
+        private List<Entry> _typeEntries;
+        private int _weightLineSpan;
 
         /// <inheritdoc/>
         public override bool Enabled
@@ -49,10 +49,11 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
             set => ToolkitSettings.HodlBotEnabled = value;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [NotNull]
-        public override string Tooltip => "Random by category, or type. Hodlbot chooses events from a random category or type. The chance of one of these categories/types being picked is based the pack's weights.";
-        
+        public override string Tooltip =>
+            "Random by category, or type. Hodlbot chooses events from a random category or type. The chance of one of these categories/types being picked is based the pack's weights.";
+
         /// <inheritdoc/>
         public override void ResetState()
         {
@@ -63,7 +64,7 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
             if (_categoryEntries == null)
             {
                 _categoryEntries = new List<Entry>();
-            
+
                 foreach ((string key, float value) in ToolkitSettings.VoteCategoryWeights)
                 {
                     _categoryEntries.Add(new Entry { Name = key, Weight = Mathf.FloorToInt(value), Buffer = value.ToString("N2"), BufferValid = true });
@@ -76,7 +77,7 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
             if (_typeEntries == null)
             {
                 _typeEntries = new List<Entry>();
-            
+
                 foreach ((string key, float value) in ToolkitSettings.VoteTypeWeights)
                 {
                     _typeEntries.Add(new Entry { Name = key, Weight = Mathf.FloorToInt(value), Buffer = value.ToString("N2"), BufferValid = true });
@@ -145,7 +146,7 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
 
                 string buffer = entry.Buffer;
                 bool bufferValid = entry.BufferValid;
-                var relativeWeight = (float)Math.Round(((float)entry.Weight / _totalCategoryWeight) * 100f, 2);
+                var relativeWeight = (float)Math.Round((float)entry.Weight / _totalCategoryWeight * 100f, 2);
 
                 (Rect labelRegion, Rect fieldRegion) = lineRegion.Split(0.8f);
                 Widgets.LabelFit(labelRegion, $"{entry.Name} {relativeWeight:P}");
@@ -193,7 +194,7 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
         private int RecalculateTotalCategoryWeight()
         {
             var value = 0;
-            
+
             foreach (Entry entry in _categoryEntries)
             {
                 value += Mathf.FloorToInt(entry.Weight);

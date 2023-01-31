@@ -42,10 +42,11 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
             set => ToolkitSettings.UristBotEnabled = value;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [NotNull]
-        public override string Tooltip => "Raid strategies, and diseases. Uristbot is still be developed. At the moment, it will make a small raid and let the viewers choose the raid strategy.";
-        
+        public override string Tooltip =>
+            "Raid strategies, and diseases. Uristbot is still be developed. At the moment, it will make a small raid and let the viewers choose the raid strategy.";
+
         /// <inheritdoc/>
         public override void ResetState()
         {

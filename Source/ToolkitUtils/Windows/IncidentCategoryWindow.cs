@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using System;
-using System.Globalization;
 using JetBrains.Annotations;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -48,19 +47,16 @@ namespace SirRandoo.ToolkitUtils.Windows
             return entry.label.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        /// <inheritdoc />
-        protected override bool IsEntryDisabled([NotNull] StoreIncident entry)
-        {
-            return entry.cost < 1 && entry != StoreIncidentDefOf.Item;
-        }
+        /// <inheritdoc/>
+        protected override bool IsEntryDisabled([NotNull] StoreIncident entry) => entry.cost < 1 && entry != StoreIncidentDefOf.Item;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void OpenEditorFor([NotNull] StoreIncident entry)
         {
             Find.WindowStack.Add(new StoreIncidentEditor(entry));
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void ResetEntry([NotNull] StoreIncident entry)
         {
             Store_IncidentEditor.LoadBackup(entry);
@@ -73,7 +69,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Store_IncidentEditor.SaveCopy(entry);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void DisableEntry([NotNull] StoreIncident entry)
         {
             entry.cost = -10;
@@ -81,7 +77,7 @@ namespace SirRandoo.ToolkitUtils.Windows
             Store_IncidentEditor.SaveCopy(entry);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void PostClose()
         {
             Store_IncidentEditor.UpdatePriceSheet();

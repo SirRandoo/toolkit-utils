@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Reflection;
+using HarmonyLib;
 using JetBrains.Annotations;
 using Verse;
 
@@ -24,8 +25,8 @@ namespace SirRandoo.ToolkitUtils.Patches
     [StaticConstructorOnStartup]
     internal static class PatchRunner
     {
-        internal static readonly HarmonyLib.Harmony Harmony = new HarmonyLib.Harmony("com.sirrandoo.tkutils");
-        
+        internal static readonly Harmony Harmony = new Harmony("com.sirrandoo.tkutils");
+
         static PatchRunner()
         {
             Harmony.PatchAll(Assembly.GetExecutingAssembly());

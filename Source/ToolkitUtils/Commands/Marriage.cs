@@ -51,7 +51,7 @@ namespace SirRandoo.ToolkitUtils.Commands
             TkUtils.Context.Post(c => PerformMarriage(askerPawn, askeePawn), null);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void ProcessRequestPost(string username, Viewer viewer)
         {
             MessageHelper.ReplyToUser(

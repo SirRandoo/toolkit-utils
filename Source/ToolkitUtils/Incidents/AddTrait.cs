@@ -134,7 +134,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
                 return false;
             }
-            
+
             if (_buyableTrait.TraitDef.IsDisallowedByBackstory(_pawn!, _buyableTrait.Degree, out BackstoryDef backstory))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, worker.GetLast()));

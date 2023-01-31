@@ -6,20 +6,20 @@
         <OutputPath>..\..\$(RimWorldVersion)\Assemblies\</OutputPath>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" />
+        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj"/>
     </ItemGroup>
     <ItemGroup>
-      <Compile Update="Events\PurchaseHandlerPatch.ResolveVariables.cs">
-        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Events\PurchaseHandlerPatch.ResolveSimple.cs">
-        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Events\PurchaseHandlerPatch.ItemCooldown.cs">
-        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Events\PurchaseHandlerPatch.EventCooldown.cs">
-        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
-      </Compile>
+        <Compile Update="Events\PurchaseHandlerPatch.ResolveVariables.cs">
+            <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Events\PurchaseHandlerPatch.ResolveSimple.cs">
+            <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Events\PurchaseHandlerPatch.ItemCooldown.cs">
+            <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Events\PurchaseHandlerPatch.EventCooldown.cs">
+            <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 </Project>

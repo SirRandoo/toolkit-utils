@@ -72,7 +72,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
             if (!TraitHelper.IsRemovalAllowedByGenes(_pawn, _buyable.TraitDef, _buyable.Degree))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.RemoveTrait.GeneLocked".LocalizeKeyed(_buyable.Name));
-                
+
                 return false;
             }
 

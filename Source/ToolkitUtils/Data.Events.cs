@@ -26,12 +26,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using SimpleJSON;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
-using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils
@@ -66,7 +64,7 @@ namespace SirRandoo.ToolkitUtils
         {
             Store_IncidentEditor.LoadCopies(); // Just to ensure the actual incidents are loaded.
             RemoveInvalidEvents();
-            
+
             foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
             {
                 EventItem item = Events.Find(e => string.Equals(incident.defName, e.DefName));
@@ -106,6 +104,7 @@ namespace SirRandoo.ToolkitUtils
                 if (incident == null)
                 {
                     TkUtils.Logger.Info($"{key} was not a StoreIncident");
+
                     continue;
                 }
 

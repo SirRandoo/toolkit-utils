@@ -78,7 +78,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 {
                     continue;
                 }
-            
+
                 if (hediff is Hediff_Addiction { Visible: true } a && a.def.everCurableByItem)
                 {
                     return a;
@@ -99,7 +99,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 {
                     continue;
                 }
-                
+
                 if (missing.Part.coverageAbsWithChildren >= minCoverage && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(missing.Part)
                     && (record == null || missing.Part.coverageAbsWithChildren > record.coverageAbsWithChildren))
                 {
@@ -123,9 +123,8 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 {
                     continue;
                 }
-                
-                if (!h.Visible || !h.def.everCurableByItem || h.TryGetComp<HediffComp_Immunizable>() == null || h.FullyImmune()
-                    || !CanEverKill(h))
+
+                if (!h.Visible || !h.def.everCurableByItem || h.TryGetComp<HediffComp_Immunizable>() == null || h.FullyImmune() || !CanEverKill(h))
                 {
                     continue;
                 }
@@ -156,7 +155,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 {
                     continue;
                 }
-                
+
                 if (h is Hediff_Injury { Visible: true } h2 && h2.def.everCurableByItem && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part))
                     && (injury == null || h2.Severity > injury.Severity))
                 {
@@ -180,7 +179,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 {
                     continue;
                 }
-                
+
                 if (!h.Visible || !h.def.everCurableByItem || h.FullyImmune())
                 {
                     continue;
@@ -221,7 +220,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 {
                     continue;
                 }
-                
+
                 if (!h.Visible || !h.def.everCurableByItem)
                 {
                     continue;
@@ -254,7 +253,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 {
                     continue;
                 }
-                
+
                 if (!h.Visible || !h.def.isBad || !h.def.everCurableByItem || h is Hediff_Injury || h is Hediff_MissingPart || h is Hediff_Addiction
                     || h is Hediff_AddedPart || (onlyIfCanKill && !CanEverKill(h)))
                 {
@@ -292,7 +291,7 @@ namespace SirRandoo.ToolkitUtils.Helpers
                 {
                     continue;
                 }
-                
+
                 if (h is Hediff_Injury { Visible: true } h2 && h2.IsPermanent() && h2.def.everCurableByItem
                     && (allowedBodyParts == null || allowedBodyParts.Contains(h2.Part)) && (injury == null || h2.Severity > injury.Severity))
                 {
