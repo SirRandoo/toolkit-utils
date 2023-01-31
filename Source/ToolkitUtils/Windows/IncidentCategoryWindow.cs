@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 using System;
+using System.Globalization;
 using JetBrains.Annotations;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -39,12 +40,12 @@ namespace SirRandoo.ToolkitUtils.Windows
         /// <inheritdoc/>
         protected override bool VisibleInSearch([NotNull] StoreIncident entry)
         {
-            if (StringComparer.OrdinalIgnoreCase.Compare(entry.abbreviation, SearchWidget.filter.Text) >= 0)
+            if (entry.abbreviation.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return true;
             }
 
-            return StringComparer.OrdinalIgnoreCase.Compare(entry.label, SearchWidget.filter.Text) >= 0;
+            return entry.label.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         /// <inheritdoc />
