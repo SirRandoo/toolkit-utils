@@ -10,15 +10,6 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" />
+        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" ExcludeAssets="runtime"/>
     </ItemGroup>
-    <Target Name="CustomAfterBuild" AfterTargets="Build">
-        <Message Text="$(OutputPath)" />
-        <Message Text="$(OutDir)" />
-        <ItemGroup>
-            <_FilesToMove Include="$(OutputPath)$(AssemblyName).*" />
-        </ItemGroup>
-        <MakeDir Directories="$(MoveDestinationFolder)" />
-        <Move SourceFiles="@(_FilesToMove)" DestinationFolder="$(_OutputDirectory)..\..\Compatibility\AlienRace\$(RimWorldVersion)\Assemblies" />
-    </Target>
 </Project>
