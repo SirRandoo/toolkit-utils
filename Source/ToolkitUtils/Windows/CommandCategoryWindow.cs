@@ -38,12 +38,12 @@ namespace SirRandoo.ToolkitUtils.Windows
         /// <inheritdoc/>
         protected override bool VisibleInSearch([NotNull] Command entry)
         {
-            if (StringComparer.OrdinalIgnoreCase.Compare(entry.command, SearchWidget.filter.Text) >= 0)
+            if (entry.command.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 return true;
             }
 
-            return StringComparer.OrdinalIgnoreCase.Compare(entry.defName, SearchWidget.filter.Text) >= 0;
+            return entry.defName.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         /// <inheritdoc/>
