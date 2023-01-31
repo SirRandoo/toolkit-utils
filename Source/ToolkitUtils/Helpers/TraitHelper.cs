@@ -231,12 +231,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Gene gene in pawn.genes.GenesListForReading)
             {
-                if (!gene.Active || gene.def.forcedTraits == null)
+                Gene target = gene.Overridden ? gene.overriddenByGene : gene;
+                
+                if (!target.Active || target.def.forcedTraits == null)
                 {
                     continue;
                 }
 
-                GeneticTraitData geneTrait = gene.def.forcedTraits.Find(g => g.def == trait && g.degree == degree);
+                GeneticTraitData geneTrait = target.def.forcedTraits.Find(g => g.def == trait && g.degree == degree);
 
                 if (geneTrait != null)
                 {
@@ -256,12 +258,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             foreach (Gene gene in pawn.genes.GenesListForReading)
             {
-                if (!gene.Active || gene.def.suppressedTraits == null)
+                Gene target = gene.Overridden ? gene.overriddenByGene : gene;
+                
+                if (!target.Active || target.def.suppressedTraits == null)
                 {
                     continue;
                 }
 
-                GeneticTraitData geneTrait = gene.def.suppressedTraits.Find(g => g.def == trait && g.degree == degree);
+                GeneticTraitData geneTrait = target.def.suppressedTraits.Find(g => g.def == trait && g.degree == degree);
 
                 if (geneTrait != null)
                 {
