@@ -68,7 +68,9 @@
     
     <!-- NuGet dependencies -->
     <ItemGroup>
-        <PackageReference Include="0SirRandoo.CommonLib" Version="1.12.0" Condition="'$(Configuration)' == 'Release'"/>
+        <PackageReference Include="0SirRandoo.CommonLib" Version="1.12.1" Condition="'$(Configuration)' == 'Release'">
+            <ExcludeAssets Condition="'$(CompatibilityFor)' != ''">runtime</ExcludeAssets>
+        </PackageReference>
         <Reference Include="SirRandoo.CommonLib" Condition="'$(Configuration)' == 'Debug'">
             <HintPath>..\Libs\0SirRandoo.CommonLib.dll</HintPath>
         </Reference>
