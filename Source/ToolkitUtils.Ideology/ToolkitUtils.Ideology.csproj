@@ -1,4 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <CompatibilityFor>Ideology</CompatibilityFor>
+    </PropertyGroup>
     <ItemGroup>
         <Content Include="..\..\Compatibility\Ideology\Common\**\*.*">
             <Link>Common\%(RecursiveDir)%(FileName)%(Extension)</Link>
