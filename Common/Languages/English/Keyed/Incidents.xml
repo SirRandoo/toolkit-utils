@@ -29,6 +29,7 @@
     <TKUtils.Trait.RestrictedByBackstory>Your pawn has the backstory {0}, which forbids {1} from being added to your pawn.</TKUtils.Trait.RestrictedByBackstory>
     <TKUtils.Trait.Class>Your pawn cannot have more than one class.</TKUtils.Trait.Class>
     <TKUtils.Trait.GeneSuppressed>The trait "{0}" is suppressed by one or more of your pawn's genes.</TKUtils.Trait.GeneSuppressed>
+    <TKUtils.Trait.TooYoung>Your pawn isn't old enough to add new traits to.</TKUtils.Trait.TooYoung>
     
     <!-- Item -->
     <TKUtils.Item.MinimumViolation>Your requested purchase would cost {0} coin(s), which does not meet the required minimum of {1} coin(s).</TKUtils.Item.MinimumViolation>
