@@ -59,9 +59,9 @@ namespace SirRandoo.ToolkitUtils.Patches
             }
             catch (Exception e)
             {
-                TkUtils.HandleException(e, "ToolkitUtils - VPurchase Resolver");
+                TkUtils.Logger.Error("Incident errored while checking if it's possible", e);
             }
-            
+
             if (!wasPossible)
             {
                 Purchase_Handler.viewerNamesDoingVariableCommands.Remove(viewer.username.ToLowerInvariant());
