@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+using System;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Models;
@@ -50,7 +51,18 @@ namespace SirRandoo.ToolkitUtils.Patches
 
             Purchase_Handler.viewerNamesDoingVariableCommands.Add(viewer.username.ToLowerInvariant());
 
-            if (!inc.IsPossible(formattedMessage, viewer))
+            var wasPossible = false;
+
+            try
+            {
+                wasPossible = inc.IsPossible(formattedMessage, viewer);
+            }
+            catch (Exception e)
+            {
+                TkUtils.HandleException(e, "ToolkitUtils - VPurchase Resolver");
+            }
+            
+            if (!wasPossible)
             {
                 Purchase_Handler.viewerNamesDoingVariableCommands.Remove(viewer.username.ToLowerInvariant());
 

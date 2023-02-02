@@ -63,12 +63,12 @@ namespace SirRandoo.ToolkitUtils
         [NotNull]
         public override ProxySettingsWindow SettingsWindow => new UtilsSettingsWindow();
 
-        internal static void HandleException([NotNull] Exception exception, [CanBeNull] string reporter = null)
+        public static void HandleException([NotNull] Exception exception, [CanBeNull] string reporter = null)
         {
             HandleException(exception.Message ?? "An unhandled exception occurred", exception, reporter);
         }
 
-        internal static void HandleException(string message, Exception exception, [CanBeNull] string reporter = null)
+        public static void HandleException(string message, Exception exception, [CanBeNull] string reporter = null)
         {
             if (UnityData.IsInMainThread && TkSettings.VisualExceptions && VisualExceptions.Active)
             {
