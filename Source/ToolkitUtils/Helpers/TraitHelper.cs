@@ -275,5 +275,10 @@ namespace SirRandoo.ToolkitUtils.Helpers
 
             return true;
         }
+
+        public static bool HasGrowthStagesLeft([NotNull] Pawn pawn)
+        {
+            return pawn.ageTracker.AgeBiologicalYears <= GrowthUtility.GrowthMomentAges[GrowthUtility.GrowthMomentAges.Length - 1];
+        }
     }
 }

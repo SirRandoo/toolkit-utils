@@ -128,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool PassesCharacterChecks(Viewer viewer, ArgWorker worker)
         {
-            if (_pawn!.ageTracker.CurLifeStage != LifeStageDefOf.HumanlikeAdult)
+            if (TraitHelper.HasGrowthStagesLeft(_pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.TooYoung".Localize());
 

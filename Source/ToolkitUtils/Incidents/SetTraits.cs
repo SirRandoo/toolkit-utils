@@ -61,13 +61,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
                 return false;
             }
 
-            if (_pawn.ageTracker.CurLifeStage != LifeStageDefOf.HumanlikeAdult)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.TooYoung".Localize());
-
-                return false;
-            }
-
             if (!TryProcessTraits(_pawn!, items, out _events))
             {
                 TraitEvent errored = _events.FirstOrDefault(e => !e.Error.NullOrEmpty());
@@ -256,6 +249,13 @@ namespace SirRandoo.ToolkitUtils.Incidents
         [ContractAnnotation("=> true,error:null; => false,error:notnull")]
         private bool IsTraitAddable([NotNull] TraitItem trait, out string error)
         {
+            if (TraitHelper.HasGrowthStagesLeft(_pawn))
+            {
+                error = "TKUtils.Trait.TooYoung".Localize();
+
+                return false;
+            }
+        
             if (trait.TraitDef.IsDisallowedByBackstory(_pawn, trait.Degree, out BackstoryDef backstory))
             {
                 error = "TKUtils.Trait.RestrictedByBackstory".LocalizeKeyed(backstory.identifier, trait.Name);
