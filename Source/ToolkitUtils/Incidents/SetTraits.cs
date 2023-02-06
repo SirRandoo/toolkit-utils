@@ -249,7 +249,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
         [ContractAnnotation("=> true,error:null; => false,error:notnull")]
         private bool IsTraitAddable([NotNull] TraitItem trait, out string error)
         {
-            if (TraitHelper.HasGrowthStagesLeft(_pawn))
+            if (TraitHelper.IsOldEnoughForTraits(_pawn))
             {
                 error = "TKUtils.Trait.TooYoung".Localize();
 
