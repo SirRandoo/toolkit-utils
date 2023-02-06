@@ -133,6 +133,11 @@ namespace SirRandoo.ToolkitUtils.Windows
             {
                 foreach (DefEntry entry in _defEntries)
                 {
+                    if (!entry.Visible)
+                    {
+                        continue;
+                    }
+                    
                     ResetEntry(entry.Def);
                 }
             }
@@ -144,6 +149,11 @@ namespace SirRandoo.ToolkitUtils.Windows
         {
             foreach (DefEntry entry in _defEntries)
             {
+                if (!entry.Visible)
+                {
+                    continue;
+                }
+                
                 DisableEntry(entry.Def);
             }
         }
