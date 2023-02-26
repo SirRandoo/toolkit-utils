@@ -76,6 +76,8 @@
     
     <!-- Partial Manager -->
     <TKUtils.PartialManager.Indexing>Indexing...</TKUtils.PartialManager.Indexing>
+    <TKUtils.PartialManager.Empty>No partials exist.</TKUtils.PartialManager.Empty>
+    <TKUtils.PartialManager.Errored>Could not get list of partials. Check your error log for more information.</TKUtils.PartialManager.Errored>
     
     
     <!-- Command Editor -->

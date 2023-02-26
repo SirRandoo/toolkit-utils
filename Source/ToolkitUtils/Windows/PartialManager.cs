@@ -43,9 +43,13 @@ namespace SirRandoo.ToolkitUtils.Windows
         private string _cancelLabel;
         private bool _cancelled = true;
         private string _confirmLabel;
+        private string _emptyLabel;
+        private string _erroredLabel;
+        private bool _errored;
         private string _deletePartialTooltip;
         private string _descriptionLabel;
         private string _fileDescription;
+        private int _fileCount;
         private string _fileName;
         private string _fileNameLabel;
         private List<FileData<T>> _files = new List<FileData<T>>();
@@ -159,6 +163,20 @@ namespace SirRandoo.ToolkitUtils.Windows
             if (_isIndexing)
             {
                 UiHelper.Label(canvas, _indexingLabel, TextAnchor.MiddleCenter, GameFont.Medium);
+
+                return;
+            }
+
+            if (_errored)
+            {
+                UiHelper.Label(canvas, _erroredLabel, TextAnchor.MiddleCenter, GameFont.Medium);
+
+                return;
+            }
+
+            if (_fileCount <= 0)
+            {
+                UiHelper.Label(canvas, _emptyLabel, TextAnchor.MiddleCenter, GameFont.Medium);
 
                 return;
             }
@@ -284,8 +302,24 @@ namespace SirRandoo.ToolkitUtils.Windows
                 async () =>
                 {
                     _isIndexing = true;
-                    _files = await IndexPartialFiles();
-                    _files.RemoveAll(i => i.PartialData.PartialType != _filter);
+
+                    try
+                    {
+                        _files = await IndexPartialFiles();
+                    }
+                    catch (Exception e)
+                    {
+                        TkUtils.Logger.Error($"Could not index partials for {_filter.ToString()}", e);
+                        
+                        _errored = true;
+                    }
+                    
+                    if (_files != null)
+                    {
+                        _files.RemoveAll(i => i.PartialData.PartialType != _filter);
+                        _fileCount = _files.Count;
+                    }
+                    
                     _isIndexing = false;
                 }
             );
@@ -297,6 +331,8 @@ namespace SirRandoo.ToolkitUtils.Windows
             _descriptionLabel = "TKUtils.Fields.Description".TranslateSimple();
             _confirmLabel = "TKUtils.Buttons.Confirm".TranslateSimple();
             _cancelLabel = "TKUtils.Buttons.Cancel".TranslateSimple();
+            _emptyLabel = "TKUtils.PartialManager.Empty".TranslateSimple();
+            _erroredLabel = "TKUtils.PartialManager.Errored".TranslateSimple();
             _indexingLabel = "TKUtils.PartialManager.Indexing".TranslateSimple();
             _loadPartialTooltip = "TKUtils.PartialTooltips.LoadPartial".TranslateSimple();
             _deletePartialTooltip = "TKUtils.PartialTooltips.DeletePartial".TranslateSimple();
