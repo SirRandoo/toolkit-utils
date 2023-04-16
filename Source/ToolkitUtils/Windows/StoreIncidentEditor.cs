@@ -135,6 +135,8 @@ namespace SirRandoo.ToolkitUtils.Windows
                 DrawGeneralSettings(listing);
             }
 
+            DrawCooldownFields(listing);
+            
             listing.Gap();
 
             switch (_eventType)
@@ -200,8 +202,6 @@ namespace SirRandoo.ToolkitUtils.Windows
                     storeIncidentVariables.maxWager = wager;
                 }
             }
-
-            DrawCooldownFields(listing);
 
             listing.Gap();
             (Rect karmaLabel, Rect karmaField) = listing.Split(0.6f);
