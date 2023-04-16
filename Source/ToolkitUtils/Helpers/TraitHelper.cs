@@ -276,7 +276,14 @@ namespace SirRandoo.ToolkitUtils.Helpers
             return true;
         }
 
-        public static bool IsOldEnoughForTraits([NotNull] Pawn pawn) => pawn.story.Adulthood != null
-            && pawn.ageTracker.AgeBiologicalYears <= GrowthUtility.GrowthMomentAges[GrowthUtility.GrowthMomentAges.Length - 1];
+        public static bool IsOldEnoughForTraits([NotNull] Pawn pawn)
+        {
+            if (pawn.story.Adulthood != null)
+            {
+                return true;
+            }
+
+            return pawn.ageTracker.AgeBiologicalYears >= GrowthUtility.GrowthMomentAges[GrowthUtility.GrowthMomentAges.Length - 1];
+        }
     }
 }
