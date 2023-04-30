@@ -17,13 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Workers;
-using ToolkitCore;
 using TwitchToolkit;
-using Verse;
 
 namespace SirRandoo.ToolkitUtils.Patches
 {
@@ -40,8 +36,8 @@ namespace SirRandoo.ToolkitUtils.Patches
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal static class RefreshViewersPatch
     {
-        private const int ErrorId = 82938492;
-
+        private const string ViewerResponse =
+            @"{""_links"":{},""chatter_count"":0,""chatters"":{""broadcaster"":[],""vips"":[],""moderators"":[],""staff"":[],""admins"":[],""global_mods"":[],""viewers"":[]}}";
         private static IEnumerable<MethodBase> TargetMethods()
         {
             yield return AccessTools.Method(typeof(Viewers), nameof(Viewers.RefreshViewers));
@@ -62,34 +58,7 @@ namespace SirRandoo.ToolkitUtils.Patches
 
         private static bool Prefix()
         {
-            if (ToolkitCoreSettings.channel_username.NullOrEmpty())
-            {
-                Log.ErrorOnce(@"<color=""#ff6b00"">ToolkitUtils :: ToolkitCore isn't fully set up. Your viewer list won't be refreshed.</color>", ErrorId);
-
-                return false;
-            }
-
-            Task.Run(
-                    async () =>
-                    {
-                        if (Viewers.jsonallviewers.NullOrEmpty())
-                        {
-                            Viewers.jsonallviewers =
-                                @"{""_links"":{},""chatter_count"":0,""chatters"":{""broadcaster"":[],""vips"":[],""moderators"":[],""staff"":[],""admins"":[],""global_mods"":[],""viewers"":[]}}";
-                        }
-
-                        string result = await ViewerListWorker.GetChatters();
-
-                        if (result.NullOrEmpty())
-                        {
-                            return;
-                        }
-
-                        Viewers.jsonallviewers = result;
-                        TkUtils.Logger.Info(result);
-                    }
-                )
-               .ConfigureAwait(false);
+            Viewers.jsonallviewers = ViewerResponse;
 
             return false;
         }
