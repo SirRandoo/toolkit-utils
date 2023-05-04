@@ -121,14 +121,6 @@ namespace SirRandoo.ToolkitUtils.Windows
                 var labelRegion = new Rect(lineRegion.x + Text.SmallFontHeight, lineRegion.y, lineRegion.width - Text.SmallFontHeight, Text.SmallFontHeight);
 
                 UiHelper.Label(labelRegion, pack.Name);
-
-                if (pack.Settings == null)
-                {
-                    GUI.DrawTexture(checkRegion, Textures.QuestionMark);
-
-                    continue;
-                }
-
                 Widgets.CheckboxDraw(checkRegion.x, checkRegion.y, pack.Settings.Enabled, false, checkRegion.height);
 
                 if (Widgets.ButtonInvisible(checkRegion))
