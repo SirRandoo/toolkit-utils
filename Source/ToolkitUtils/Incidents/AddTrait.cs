@@ -128,7 +128,7 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         private bool PassesCharacterChecks(Viewer viewer, ArgWorker worker)
         {
-            if (TraitHelper.IsOldEnoughForTraits(_pawn))
+            if (!TraitHelper.IsOldEnoughForTraits(_pawn))
             {
                 MessageHelper.ReplyToUser(viewer.username, "TKUtils.Trait.TooYoung".Localize());
 
