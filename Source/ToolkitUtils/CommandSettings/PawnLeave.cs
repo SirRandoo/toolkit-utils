@@ -54,7 +54,7 @@ namespace SirRandoo.ToolkitUtils.CommandSettings
 
             listing.Begin(region);
 
-            (Rect labelRect, Rect fieldRect) = listing.Split();
+            (Rect labelRect, Rect fieldRect) = listing.GetRect(Text.LineHeight * 1.5f).Split();
             UiHelper.Label(labelRect, "TKUtils.Abandon.Method.Label".TranslateSimple());
             listing.DrawDescription("TKUtils.Abandon.Method.Description".TranslateSimple());
 
