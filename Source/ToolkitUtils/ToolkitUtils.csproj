@@ -28,5 +28,8 @@
         <Compile Update="Data.Reports.cs">
             <DependentUpon>Data.cs</DependentUpon>
         </Compile>
+        <Compile Update="Data.Viewers.cs">
+          <DependentUpon>Data.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 </Project>
