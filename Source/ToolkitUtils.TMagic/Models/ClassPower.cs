@@ -15,10 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Models;
 using TorannMagic;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.TMagic.Models
 {
     public class ClassPower : PawnPower
     {

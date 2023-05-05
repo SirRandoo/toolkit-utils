@@ -19,13 +19,13 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.TMagic.Models;
 using TorannMagic;
 using TorannMagic.TMDefs;
 using Verse;
-using Ability = SirRandoo.ToolkitUtils.Models.Ability;
+using Ability = SirRandoo.ToolkitUtils.TMagic.Models.Ability;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.TMagic
 {
     [UsedImplicitly]
     [StaticConstructorOnStartup]

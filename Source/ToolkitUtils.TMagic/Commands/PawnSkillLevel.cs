@@ -23,7 +23,7 @@ using TorannMagic;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.TMagic.Commands
 {
     [UsedImplicitly]
     public class PawnSkillLevel : CommandBase

@@ -18,9 +18,9 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
-using PreceptDefOf = SirRandoo.ToolkitUtils.Defs.PreceptDefOf;
+using PreceptDefOf = SirRandoo.ToolkitUtils.Ideology.Defs.PreceptDefOf;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Ideology
 {
     [UsedImplicitly]
     public class ScarificationHealHandler : IHealHandler

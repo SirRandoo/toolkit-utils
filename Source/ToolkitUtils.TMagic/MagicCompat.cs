@@ -24,7 +24,7 @@ using TorannMagic;
 using TorannMagic.ModOptions;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.TMagic
 {
     [UsedImplicitly]
     public class MagicCompat : IMagicCompatibilityProvider

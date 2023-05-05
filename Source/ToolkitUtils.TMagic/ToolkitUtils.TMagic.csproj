@@ -3,7 +3,7 @@
         <OutputType>Library</OutputType>
         <TargetFramework>net472</TargetFramework>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <RootNamespace>SirRandoo.ToolkitUtils</RootNamespace>
+        <RootNamespace>SirRandoo.ToolkitUtils.TMagic</RootNamespace>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
     <ItemGroup>
