@@ -68,6 +68,11 @@ namespace SirRandoo.ToolkitUtils.Harmony
             viewer.subscriber = twitchMessage.HasBadges("subscriber", "founder");
             viewer.vip = twitchMessage.HasBadges("vip");
 
+            if (!Data.RegisterViewer(viewer.username))
+            {
+                TkUtils.Logger.Warn($"Viewer {viewer.username} could not be added to the viewer list through participation.");
+            }
+
             return false;
         }
 
