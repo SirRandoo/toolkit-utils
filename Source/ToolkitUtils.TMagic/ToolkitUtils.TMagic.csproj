@@ -8,15 +8,15 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="0JecsTools, Version=1.3.0.2, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.3\Assemblies\0JecsTools.dll</HintPath>
+            <HintPath>$(WorkshopRoot)\932008009\1.3\Assemblies\0JecsTools.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="AbilityUser, Version=1.3.0.2, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\932008009\1.3\Assemblies\AbilityUser.dll</HintPath>
+            <HintPath>$(WorkshopRoot)\932008009\1.3\Assemblies\AbilityUser.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="TorannMagic, Version=2.5.8.7, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\..\..\workshop\content\294100\1201382956\v1.3\Assemblies\TorannMagic.dll</HintPath>
+        <Reference Include="TorannMagic, Version=2, Culture=neutral, PublicKeyToken=null">
+            <HintPath>$(WorkshopRoot)\1201382956\v1.3\Assemblies\TorannMagic.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
