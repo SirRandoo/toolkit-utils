@@ -22,4 +22,7 @@
             <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
         </Compile>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" />
+    </ItemGroup>
 </Project>
