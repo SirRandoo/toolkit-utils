@@ -173,8 +173,6 @@ namespace SirRandoo.ToolkitUtils.Incidents
 
         public override void Execute()
         {
-            TkUtils.Logger.Info("Executing...");
-
             foreach (TraitEvent ev in _events)
             {
                 ev.Execute(_pawn);
