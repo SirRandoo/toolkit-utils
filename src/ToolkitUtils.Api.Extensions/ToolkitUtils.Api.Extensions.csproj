@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Description>A library containing extension methods for various types within RimWorld.</Description>
+    </PropertyGroup>
+</Project>

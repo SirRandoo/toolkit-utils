@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Title>ToolkitUtils.UX</Title>
+        <Description>A library for housing UX classes, like gui element abstractions.</Description>
+    </PropertyGroup>
+</Project>

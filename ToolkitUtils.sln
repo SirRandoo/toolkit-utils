@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils", "Source\ToolkitUtils\ToolkitUtils.csproj", "{03518130-CE79-47FD-9273-36B2C61CD05C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils", "src\ToolkitUtils\ToolkitUtils.csproj", "{03518130-CE79-47FD-9273-36B2C61CD05C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.TMagic", "Source\ToolkitUtils.TMagic\ToolkitUtils.TMagic.csproj", "{D0B7C9CD-F49D-413D-8EDC-32989742F3C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.TMagic", "src\ToolkitUtils.TMagic\ToolkitUtils.TMagic.csproj", "{D0B7C9CD-F49D-413D-8EDC-32989742F3C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Ideology", "Source\ToolkitUtils.Ideology\ToolkitUtils.Ideology.csproj", "{54AAFC16-188A-44A2-AB87-601270F69D1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Ideology", "src\ToolkitUtils.Ideology\ToolkitUtils.Ideology.csproj", "{54AAFC16-188A-44A2-AB87-601270F69D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.HAR", "Source\ToolkitUtils.HAR\ToolkitUtils.HAR.csproj", "{737FFF7C-F038-4BAF-B6D4-AED03E1AB9B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.HAR", "src\ToolkitUtils.HAR\ToolkitUtils.HAR.csproj", "{737FFF7C-F038-4BAF-B6D4-AED03E1AB9B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{036FB87D-EE39-4A85-AA67-001B54377E00}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,13 +17,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Patches", "Source\ToolkitUtils.Patches\ToolkitUtils.Patches.csproj", "{5566955F-F100-40F7-8FCE-23B324B87DA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Patches", "src\ToolkitUtils.Patches\ToolkitUtils.Patches.csproj", "{5566955F-F100-40F7-8FCE-23B324B87DA7}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ToolkitUtils.Metadata", "src\ToolkitUtils.Metadata\ToolkitUtils.Metadata.shproj", "{BC753D15-D5F6-43F5-96A9-B2E55A3FD2A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Commands", "src\ToolkitUtils.Commands\ToolkitUtils.Commands.csproj", "{D76854A3-53BB-4B49-8E90-F4530BA73B4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Incidents", "src\ToolkitUtils.Incidents\ToolkitUtils.Incidents.csproj", "{BDE86A08-4494-4109-A1A5-CAC5168E61EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Wrappers.Async", "src\ToolkitUtils.Wrappers.Async\ToolkitUtils.Wrappers.Async.csproj", "{620920AC-C992-46D0-9AB2-3FF629B87368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Commands", "Source\ToolkitUtils.Commands\ToolkitUtils.Commands.csproj", "{D76854A3-53BB-4B49-8E90-F4530BA73B4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.UX", "src\ToolkitUtils.UX\ToolkitUtils.UX.csproj", "{62289B0C-458D-4F93-B57F-29DABD6F2AE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Incidents", "Soucre\ToolkitUtils.Incidents\ToolkitUtils.Incidents.csproj", "{BDE86A08-4494-4109-A1A5-CAC5168E61EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Api", "src\ToolkitUtils.Api\ToolkitUtils.Api.csproj", "{AB63B9B5-1B8B-4740-8590-6525111BC816}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Compatibility", "Compatibility", "{2598C066-D304-4344-92E0-6DFA0CDC290D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Data.Models", "src\ToolkitUtils.Data.Models\ToolkitUtils.Data.Models.csproj", "{6702FEE5-4EFA-4A1D-9560-D6A6C2190647}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Api.Extensions", "src\ToolkitUtils.Api.Extensions\ToolkitUtils.Api.Extensions.csproj", "{D18167DB-A37C-4E08-9A7C-4B60AB27F28A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,11 +71,36 @@ Global
 		{BDE86A08-4494-4109-A1A5-CAC5168E61EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDE86A08-4494-4109-A1A5-CAC5168E61EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDE86A08-4494-4109-A1A5-CAC5168E61EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{620920AC-C992-46D0-9AB2-3FF629B87368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{620920AC-C992-46D0-9AB2-3FF629B87368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{620920AC-C992-46D0-9AB2-3FF629B87368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{620920AC-C992-46D0-9AB2-3FF629B87368}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62289B0C-458D-4F93-B57F-29DABD6F2AE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62289B0C-458D-4F93-B57F-29DABD6F2AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62289B0C-458D-4F93-B57F-29DABD6F2AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62289B0C-458D-4F93-B57F-29DABD6F2AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB63B9B5-1B8B-4740-8590-6525111BC816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB63B9B5-1B8B-4740-8590-6525111BC816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB63B9B5-1B8B-4740-8590-6525111BC816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB63B9B5-1B8B-4740-8590-6525111BC816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6702FEE5-4EFA-4A1D-9560-D6A6C2190647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6702FEE5-4EFA-4A1D-9560-D6A6C2190647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6702FEE5-4EFA-4A1D-9560-D6A6C2190647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6702FEE5-4EFA-4A1D-9560-D6A6C2190647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D18167DB-A37C-4E08-9A7C-4B60AB27F28A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D18167DB-A37C-4E08-9A7C-4B60AB27F28A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D18167DB-A37C-4E08-9A7C-4B60AB27F28A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D18167DB-A37C-4E08-9A7C-4B60AB27F28A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD41FE2C-7849-4C1F-ACEA-CFF2B1F4692E}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{737FFF7C-F038-4BAF-B6D4-AED03E1AB9B6} = {2598C066-D304-4344-92E0-6DFA0CDC290D}
+		{54AAFC16-188A-44A2-AB87-601270F69D1C} = {2598C066-D304-4344-92E0-6DFA0CDC290D}
+		{D0B7C9CD-F49D-413D-8EDC-32989742F3C3} = {2598C066-D304-4344-92E0-6DFA0CDC290D}
 	EndGlobalSection
 EndGlobal

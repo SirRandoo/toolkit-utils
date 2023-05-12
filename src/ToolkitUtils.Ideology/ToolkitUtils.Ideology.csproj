@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <Content Include="..\..\Compatibility\Ideology\Common\**\*.*">
+            <Link>Common\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" />
+    </ItemGroup>
+    <Target Name="CustomAfterBuild" AfterTargets="Build">
+        <ItemGroup>
+            <_FilesToMove Include="$(OutputPath)$(AssemblyName).*" />
+        </ItemGroup>
+        <MakeDir Directories="$(MoveDestinationFolder)" />
+        <Move SourceFiles="@(_FilesToMove)" DestinationFolder="$(_OutputDirectory)..\..\Compatibility\Ideology\$(RimWorldVersion)\Assemblies" />
+    </Target>
+</Project>

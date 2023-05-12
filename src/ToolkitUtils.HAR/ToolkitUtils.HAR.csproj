@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <CompatibilityFor>AlienRace</CompatibilityFor>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="AlienRace">
+            <HintPath>$(RimWorldWorkshopRoot)\839005762\1.4\Assemblies\AlienRace.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" />
+    </ItemGroup>
+    <Target Name="CustomAfterBuild" AfterTargets="Build">
+        <Message Text="$(OutputPath)" />
+        <Message Text="$(OutDir)" />
+        <ItemGroup>
+            <_FilesToMove Include="$(OutputPath)$(AssemblyName).*" />
+        </ItemGroup>
+        <MakeDir Directories="$(MoveDestinationFolder)" />
+        <Move SourceFiles="@(_FilesToMove)" DestinationFolder="$(_OutputDirectory)..\..\Compatibility\AlienRace\$(RimWorldVersion)\Assemblies" />
+    </Target>
+</Project>

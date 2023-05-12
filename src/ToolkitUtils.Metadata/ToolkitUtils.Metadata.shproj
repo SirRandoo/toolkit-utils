@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Globals">
+        <ProjectGuid>{BC753D15-D5F6-43F5-96A9-B2E55A3FD2A8}</ProjectGuid>
+    </PropertyGroup>
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.Default.props"/>
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.props"/>
+    <Import Project="ToolkitUtils.Metadata.projitems" Label="Shared"/>
+    <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets"/>
+    
+    <ItemGroup>
+        <Content Include="..\..\About\*">
+            <Link>About\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        </Content>
+        <Content Include="..\..\Common\**\*.*">
+            <Link>Common\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        </Content>
+        <Content Include="..\..\LICENSE">
+            <Link>LICENSE</Link>
+        </Content>
+        <Content Include="..\..\LoadFolders.xml">
+            <Link>LoadFolders.xml</Link>
+        </Content>
+        <Content Include="..\..\README.md">
+            <Link>README.md</Link>
+        </Content>
+    </ItemGroup>
+</Project>

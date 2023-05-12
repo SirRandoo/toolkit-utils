@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Title>ToolkitUtils.Api</Title>
+        <Description>The api for ToolkitUtils, an addon for the RimWorld mod "Twitch Toolkit."</Description>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta06" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\ToolkitUtils.Api.Extensions\ToolkitUtils.Api.Extensions.csproj" />
+      <ProjectReference Include="..\ToolkitUtils.Data.Models\ToolkitUtils.Data.Models.csproj" />
+      <ProjectReference Include="..\ToolkitUtils.Wrappers.Async\ToolkitUtils.Wrappers.Async.csproj" />
+    </ItemGroup>
+</Project>

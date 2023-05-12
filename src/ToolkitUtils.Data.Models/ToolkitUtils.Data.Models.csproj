@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Title>ToolkitUtils.Data.Models</Title>
+        <Description>A library containing the data models for ToolkitUtils, a mod for the game RimWorld.</Description>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta06" />
+    </ItemGroup>
+</Project>
