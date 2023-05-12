@@ -1,0 +1,61 @@
+﻿// ToolkitUtils
+// Copyright (C) 2021  SirRandoo
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published
+// by the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+using JetBrains.Annotations;
+using Newtonsoft.Json;
+using ToolkitUtils.Defs;
+using TwitchToolkit;
+
+namespace ToolkitUtils.Models.Serialization
+{
+    public class EventPartial : ProxyPartial
+    {
+        [JsonProperty("data")]
+        public EventData EventData
+        {
+            get => (EventData)Data;
+            set => Data = value;
+        }
+
+        [JsonProperty("karmaType")] public KarmaType KarmaType { get; set; }
+        [JsonProperty("eventCap")] public int EventCap { get; set; }
+        [JsonProperty("maxWager")] public int MaxWager { get; set; }
+        [JsonProperty("eventType")] public EventTypes EventType { get; set; }
+
+        [NotNull]
+        public static EventPartial FromIncident([NotNull] EventItem ev)
+        {
+            var partial = new EventPartial
+            {
+                DefName = ev.DefName,
+                Name = ev.Name,
+                Cost = ev.Cost,
+                Enabled = ev.Enabled,
+                KarmaType = ev.KarmaType,
+                EventCap = ev.EventCap,
+                EventType = ev.EventType,
+                EventData = ev.EventData
+            };
+
+            if (ev.IsVariables)
+            {
+                partial.MaxWager = ev.MaxWager;
+            }
+
+            return partial;
+        }
+    }
+}

@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <PackageReference Include="RestSharp" Version="106.15.0" />
+        <PackageReference Include="Tomlyn" Version="0.16.2" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Compile Update="Data.Traits.cs">
+            <DependentUpon>Data.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Data.PawnKinds.cs">
+            <DependentUpon>Data.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Data.Items.cs">
+            <DependentUpon>Data.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Data.Events.cs">
+            <DependentUpon>Data.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Data.Mods.cs">
+            <DependentUpon>Data.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Data.Surgeries.cs">
+            <DependentUpon>Data.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Data.Commands.cs">
+            <DependentUpon>Data.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Data.Reports.cs">
+            <DependentUpon>Data.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\ToolkitUtils.Api\ToolkitUtils.Api.csproj" />
+        <ProjectReference Include="..\ToolkitUtils.Wrappers.Async\ToolkitUtils.Wrappers.Async.csproj" />
+    </ItemGroup>
+</Project>
