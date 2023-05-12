@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Patches", "Source\ToolkitUtils.Patches\ToolkitUtils.Patches.csproj", "{5566955F-F100-40F7-8FCE-23B324B87DA7}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ToolkitUtils.Metadata", "Source\ToolkitUtils.Metadata\ToolkitUtils.Metadata.shproj", "{BC753D15-D5F6-43F5-96A9-B2E55A3FD2A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Wrappers.Async", "src\ToolkitUtils.Wrappers.Async\ToolkitUtils.Wrappers.Async.csproj", "{620920AC-C992-46D0-9AB2-3FF629B87368}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Commands", "Source\ToolkitUtils.Commands\ToolkitUtils.Commands.csproj", "{D76854A3-53BB-4B49-8E90-F4530BA73B4F}"
 EndProject

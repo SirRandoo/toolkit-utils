@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <Title>Toolkit.Commands</Title>
-        <Description>Houses the commands provided by ToolkitUtils.</Description>
-    </PropertyGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" />
-    </ItemGroup>
-</Project>

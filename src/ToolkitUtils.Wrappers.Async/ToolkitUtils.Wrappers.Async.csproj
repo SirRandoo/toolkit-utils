@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Title>ToolkitUtils.Wrappers.Async</Title>
+        <Description>A library for providing an asyncronous wrapper around RimWorld's game code. This library simply uses thread sorcery to run the requested code in the game thread, then complete on the caller's thread.</Description>
+    </PropertyGroup>
+</Project>
