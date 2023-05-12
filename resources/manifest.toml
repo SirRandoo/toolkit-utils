@@ -1,0 +1,29 @@
+﻿[metadata]
+id = "sirrandoo.tku2"
+name = "ToolkitUtils 2"
+version = "0.1.0"
+workshop_id = -1
+description = """
+A reimagined version of ToolkitUtils complete with a whole new architecture.
+"""
+
+[[metadata.authors]]
+name = "sirrandoo"
+
+[[supported_versions]]
+version = "[1.4]"
+status = "SUPPORTED"
+
+[[dependencies]]
+id = "brrainz.harmony"
+name = "Harmony"
+workshop_id = 2009463077
+download_url = "https://github.com/pardeike/HarmonyRimWorld/releases/latest"
+
+[[load_folders]]
+version = "*"
+
+paths = [
+    "Releases/Common/",
+    "Releases/$(RimWorldMajor).$(RimWorldMinor)/Assemblies"
+]
