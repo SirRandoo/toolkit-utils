@@ -30,6 +30,12 @@ using Verse;
 
 namespace ToolkitUtils.Api.Extensions
 {
+    /// <summary>
+    ///     A collection of extension methods for reading information stored
+    ///     within <see cref="ModMetaData"/> instances that isn't normally
+    ///     accessible by conventional means. Additionally, this class also
+    ///     provides extensions for easily getting information in a safe way.
+    /// </summary>
     public static class ModMetaDataExtensions
     {
         private static readonly FieldInfo MetaInternalField = AccessTools.Field("Verse.ModMetaData:meta");
