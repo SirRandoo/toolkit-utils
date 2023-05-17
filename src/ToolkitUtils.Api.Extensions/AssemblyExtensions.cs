@@ -4,6 +4,10 @@ using JetBrains.Annotations;
 
 namespace ToolkitUtils.Api.Extensions
 {
+    /// <summary>
+    ///     A collection of extension methods for viewing information within assemblies.
+    /// </summary>
+    /// <seealso cref="Assembly"/>
     public static class AssemblyExtensions
     {
         /// <summary>
