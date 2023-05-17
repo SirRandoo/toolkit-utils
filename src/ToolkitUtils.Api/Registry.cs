@@ -72,14 +72,18 @@ namespace ToolkitUtils.Api
         /// <summary>
         ///     Gets a registered object by its name.
         /// </summary>
-        /// <param name="name">The name of the object being retrieved.</param>
+        /// <param name="predicate">
+        ///     A <see cref="Func{T1,TResult}"/> instance
+        ///     taking in the an object within the registry, and returning
+        ///     whether the object matches a set of conditions.
+        /// </param>
         /// <returns>
         ///     The object with the given name, or a
         ///     <see langword="default"/> instance of the class (typically
         ///     <see langword="null"/>).
         /// </returns>
         [CanBeNull]
-        public T GetNamed([NotNull] string name)
+        public T Get(Func<T, bool> predicate)
         {
             if (!_lock.TryEnterReadLock(300))
             {
@@ -90,7 +94,18 @@ namespace ToolkitUtils.Api
             {
                 foreach (T obj in _registry)
                 {
-                    if (!string.Equals(obj.Name, name, StringComparison.OrdinalIgnoreCase))
+                    var result = false;
+
+                    try
+                    {
+                        result = predicate(obj);
+                    }
+                    catch (Exception)
+                    {
+                        // Ignored.
+                    }
+
+                    if (!result)
                     {
                         continue;
                     }

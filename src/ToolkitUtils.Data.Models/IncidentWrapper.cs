@@ -20,40 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
-using Verse;
+using TwitchToolkit.Incidents;
 
 namespace ToolkitUtils.Data.Models
 {
     /// <summary>
-    ///     A compatibility wrapper used by <see cref="Verse.Def"/> objects. This
-    ///     wrapper exists as a way of porting RimWorld <see cref="Verse.Def"/>s
-    ///     into the mod's systems in a compatible way, like for use in
-    ///     registries.
+    ///     A wrapper for housing <see cref="StoreIncident"/>s. This wrapper
+    ///     serves as a compatibility layer between the new ToolkitUtils, and
+    ///     the old Twitch Toolkit.
     /// </summary>
-    /// <typeparam name="T">The type of def being wrapped.</typeparam>
-    public class DefWrapper<T> : IIdentifiable where T : Def
+    public class IncidentWrapper : DefWrapper<StoreIncident>
     {
-        private protected readonly T InnerDef;
-
-        public DefWrapper(T def)
-        {
-            InnerDef = def;
-        }
-
         /// <inheritdoc/>
-        public string Id => Def.defName;
-
-        /// <inheritdoc/>
-        public virtual string Name
+        public IncidentWrapper(StoreIncident def) : base(def)
         {
-            get => Def.label;
-            set => throw new NotSupportedException("Cannot rename defs from a wrapper.");
         }
 
         /// <summary>
-        ///     Returns the def that was being wrapped by this instance.
+        ///     The string a viewer must type in order to purchase the given
+        ///     incident.
         /// </summary>
-        public T Def => InnerDef;
+        /// <remarks>
+        ///     Implementors should ensure that the value of this property is
+        ///     compared case-insensitively to preserve the experience users have
+        ///     come to expect from Twitch Toolkit, and because case sensitivity
+        ///     is an awful experience on mobile.
+        /// </remarks>
+        public string Code
+        {
+            get => Def.abbreviation;
+            set => Def.abbreviation = value;
+        }
     }
 }
