@@ -30,6 +30,15 @@ using Mod = Verse.Mod;
 
 namespace ToolkitUtils.Api
 {
+    /// <summary>
+    ///     A registry for housing the user's current mod list with data
+    ///     pre-extracted.
+    /// </summary>
+    /// <remarks>
+    ///     It's important to note that this class does <b>not</b> feature
+    ///     thread safety. If you wish to modify the registry you should do
+    ///     it at startup, never after.
+    /// </remarks>
     public static class ModRegistry
     {
         private static readonly List<IMod> Registry = new List<IMod>();
