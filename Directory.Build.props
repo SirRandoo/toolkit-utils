@@ -5,7 +5,7 @@
         <OutputType>Library</OutputType>
         <TargetFramework>net48</TargetFramework>
     </PropertyGroup>
-    
+
     <!-- Assembly Metadata -->
     <PropertyGroup>
         <Authors>SirRandoo</Authors>
@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/sirrandoo/toolkit-utils</RepositoryUrl>
         <Copyright>AGPL3 Copyright (c) $([System.DateTime]::Now.ToString("yyyy")) SirRandoo</Copyright>
     </PropertyGroup>
-    
+
     <!-- Build Metadata -->
     <PropertyGroup>
         <RimWorldVersion>1.4</RimWorldVersion>
@@ -28,12 +28,16 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     </PropertyGroup>
-    
+
     <!-- Steam Paths -->
     <PropertyGroup>
-        <RimWorldWorkshopRoot>C:\Program Files (x86)\Steam\steamapps\workshop\content\294100</RimWorldWorkshopRoot>
+        <MainWorkshopRoot>C:\Program Files (x86)\Steam\steamapps\workshop\content\294100</MainWorkshopRoot>
+        <AltWorkshopRoot>D:\SteamLibrary\steamapps\workshop\content\294100</AltWorkshopRoot>
+
+        <RimWorldWorkshopRoot Condition="Exists('$(MainWorkshopRoot)')">$(MainWorkshopRoot)</RimWorldWorkshopRoot>
+        <RimWorldWorkshopRoot Condition="Exists('$(AltWorkshopRoot)')">$(AltWorkshopRoot)</RimWorldWorkshopRoot>
     </PropertyGroup>
-    
+
     <!-- Local dependencies -->
     <ItemGroup>
         <Reference Include="TwitchToolkit">
@@ -65,7 +69,7 @@
             <Private>False</Private>
         </Reference>
     </ItemGroup>
-    
+
     <!-- NuGet dependencies -->
     <ItemGroup>
         <PackageReference Include="0SirRandoo.CommonLib" Version="1.12.1" Condition="'$(Configuration)' == 'Release'">
