@@ -59,7 +59,7 @@ namespace SirRandoo.ToolkitUtils.HAR
                 return false;
             }
 
-            foreach (AlienTraitEntry entry in alienRace.alienRace.generalSettings.forcedRaceTraitEntries)
+            foreach (AlienChanceEntry<TraitDef> entry in alienRace.alienRace.generalSettings.forcedRaceTraitEntries)
             {
                 if (string.Equals(entry.defName.defName, defName) && entry.degree == degree)
                 {
@@ -78,7 +78,7 @@ namespace SirRandoo.ToolkitUtils.HAR
                 return false;
             }
 
-            foreach (AlienTraitEntry entry in alienRace.alienRace.generalSettings.disallowedTraits)
+            foreach (AlienChanceEntry<TraitDef> entry in alienRace.alienRace.generalSettings.disallowedTraits)
             {
                 if (string.Equals(entry.defName.defName, defName) && entry.degree == degree)
                 {
