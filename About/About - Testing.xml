@@ -5,17 +5,17 @@
     <author>SirRandoo</author>
     <description>A collection of command and tweaks for TwitchToolkit.</description>
     <url>https://sirrandoo.github.io/toolkit-utils</url>
-    
+
     <packageId>sirrandoo.tku.testing</packageId>
     <supportedVersions>
         <li>1.2</li>
         <li>1.3</li>
         <li>1.4</li>
     </supportedVersions>
-    
+
     <modDependencies>
         <li>
-            <packageId>hodlhodl.twitchtoolkit</packageId>
+            <packageId>nry.twitchtoolkit</packageId>
             <displayName>Twitch Toolkit</displayName>
             <steamWorkshopUrl>steam://url/CommunityFilePage/1718525787</steamWorkshopUrl>
         </li>
@@ -26,9 +26,10 @@
             <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
         </li>
     </modDependencies>
-    
+
     <loadAfter>
         <li>hodlhodl.twitchtoolkit</li>
+        <li>nry.twitchtoolkit</li>
         <li>Torann.ARimworldOfMagic</li>
     </loadAfter>
 </ModMetaData>
