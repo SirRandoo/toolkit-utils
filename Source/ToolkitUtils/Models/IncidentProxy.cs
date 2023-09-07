@@ -20,68 +20,67 @@ using TwitchToolkit;
 using TwitchToolkit.Store;
 using TwitchToolkit.Votes;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+public class IncidentProxy
 {
-    public class IncidentProxy
+    public IncidentHelper SimpleIncident { get; set; }
+    public IncidentHelperVariables VariablesIncident { get; set; }
+    public string DefName => SimpleIncident?.storeIncident.defName ?? VariablesIncident.storeIncident.defName;
+    public Viewer Viewer => SimpleIncident?.Viewer ?? VariablesIncident.Viewer;
+
+    public bool TryExecute()
     {
-        public IncidentHelper SimpleIncident { get; set; }
-        public IncidentHelperVariables VariablesIncident { get; set; }
-        public string DefName => SimpleIncident?.storeIncident.defName ?? VariablesIncident.storeIncident.defName;
-        public Viewer Viewer => SimpleIncident?.Viewer ?? VariablesIncident.Viewer;
+        ViewerState state = Viewer.GetState();
 
-        public bool TryExecute()
+        try
         {
-            ViewerState state = Viewer.GetState();
+            TryQueueNextMessage();
+            SimpleIncident?.TryExecute();
+            VariablesIncident?.TryExecute();
+        }
+        catch (Exception e)
+        {
+            string name = SimpleIncident?.storeIncident.label ?? VariablesIncident?.storeIncident.label ?? DefName;
+            TkUtils.HandleException($@"The incident ""{name}"" encountered an exception while executing", e, "ToolkitUtils - Event Handler");
 
-            try
-            {
-                TryQueueNextMessage();
-                SimpleIncident?.TryExecute();
-                VariablesIncident?.TryExecute();
-            }
-            catch (Exception e)
-            {
-                string name = SimpleIncident?.storeIncident.label ?? VariablesIncident?.storeIncident.label ?? DefName;
-                TkUtils.HandleException($@"The incident ""{name}"" encountered an exception while executing", e, "ToolkitUtils - Event Handler");
-
-                // Reset their coins and karma prior to the event executing as
-                // events shouldn't charge viewers until *after* the event
-                // executes successfully. This doesn't affect simple incidents
-                // as they're always taken from the viewer's balance before
-                // being queued.
-                Viewer.SetViewerCoins(state.Coins);
-                Viewer.SetViewerKarma(state.Karma);
-                Helper.playerMessages.Clear();
-
-                return false;
-            }
-
-            if (VariablesIncident != null)
-            {
-                Purchase_Handler.viewerNamesDoingVariableCommands.Remove(VariablesIncident.Viewer.username);
-            }
-
+            // Reset their coins and karma prior to the event executing as
+            // events shouldn't charge viewers until *after* the event
+            // executes successfully. This doesn't affect simple incidents
+            // as they're always taken from the viewer's balance before
+            // being queued.
+            Viewer.SetViewerCoins(state.Coins);
+            Viewer.SetViewerKarma(state.Karma);
             Helper.playerMessages.Clear();
 
-            return true;
+            return false;
         }
 
-        private void TryQueueNextMessage()
+        if (VariablesIncident != null)
         {
-            if (SimpleIncident is VotingHelper)
-            {
-                return;
-            }
+            Purchase_Handler.viewerNamesDoingVariableCommands.Remove(VariablesIncident.Viewer.username);
+        }
 
-            if (SimpleIncident != null)
-            {
-                Purchase_Handler.QueuePlayerMessage(SimpleIncident.Viewer, SimpleIncident.message);
-            }
+        Helper.playerMessages.Clear();
 
-            if (VariablesIncident != null)
-            {
-                Purchase_Handler.QueuePlayerMessage(VariablesIncident.Viewer, VariablesIncident.message, VariablesIncident.storeIncident.variables);
-            }
+        return true;
+    }
+
+    private void TryQueueNextMessage()
+    {
+        if (SimpleIncident is VotingHelper)
+        {
+            return;
+        }
+
+        if (SimpleIncident != null)
+        {
+            Purchase_Handler.QueuePlayerMessage(SimpleIncident.Viewer, SimpleIncident.message);
+        }
+
+        if (VariablesIncident != null)
+        {
+            Purchase_Handler.QueuePlayerMessage(VariablesIncident.Viewer, VariablesIncident.message, VariablesIncident.storeIncident.variables);
         }
     }
 }

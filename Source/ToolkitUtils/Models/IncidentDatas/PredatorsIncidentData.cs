@@ -26,57 +26,56 @@ using SirRandoo.ToolkitUtils.Workers;
 using TwitchToolkit.Incidents;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
+
+public class PredatorsIncidentData : IWageredIncidentData
 {
-    public class PredatorsIncidentData : IWageredIncidentData
+    private readonly List<string> _predators;
+
+    public PredatorsIncidentData()
     {
-        private readonly List<string> _predators;
-
-        public PredatorsIncidentData()
+        _predators = new List<string>
         {
-            _predators = new List<string>
-            {
-                "Bear_Grizzly",
-                "Bear_Polar",
-                "Rhinoceros",
-                "Elephant",
-                "Megasloth",
-                "Thrumbo"
-            };
+            "Bear_Grizzly",
+            "Bear_Polar",
+            "Rhinoceros",
+            "Elephant",
+            "Megasloth",
+            "Thrumbo"
+        };
+    }
+
+    public bool UseStoryteller => Predators.Storyteller;
+    public Type WorkerClass => typeof(AnimalSpawnWorker);
+
+    public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
+
+    public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
+    {
+        if (!(worker is AnimalSpawnWorker spawnWorker))
+        {
+            return;
         }
 
-        public bool UseStoryteller => Predators.Storyteller;
-        [NotNull] public Type WorkerClass => typeof(AnimalSpawnWorker);
-
-        public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
-
-        public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
+        if (!_predators.TryRandomElement(out string predator))
         {
-            if (!(worker is AnimalSpawnWorker spawnWorker))
-            {
-                return;
-            }
-
-            if (!_predators.TryRandomElement(out string predator))
-            {
-                predator = "Thrumbo";
-            }
-
-            ThingDef thing = ThingDef.Named(predator);
-            var power = 0.0f;
-
-            if (thing?.race != null)
-            {
-                power += thing.tools.Sum(t => t.power);
-                power /= thing.tools.Count;
-            }
-
-            spawnWorker.Quantity = power > 18f ? 2 : 3;
-            spawnWorker.SpawnManhunter = true;
-            spawnWorker.AnimalDef = PawnKindDef.Named(predator);
-            spawnWorker.def = IncidentDef.Named("HerdMigration");
-            spawnWorker.Label = "TwitchStoriesLetterLabelPredators".Localize();
-            spawnWorker.Text = "ManhunterPackArrived".LocalizeKeyed(spawnWorker.AnimalDef.GetLabelPlural());
+            predator = "Thrumbo";
         }
+
+        ThingDef thing = ThingDef.Named(predator);
+        var power = 0.0f;
+
+        if (thing?.race != null)
+        {
+            power += thing.tools.Sum(t => t.power);
+            power /= thing.tools.Count;
+        }
+
+        spawnWorker.Quantity = power > 18f ? 2 : 3;
+        spawnWorker.SpawnManhunter = true;
+        spawnWorker.AnimalDef = PawnKindDef.Named(predator);
+        spawnWorker.def = IncidentDef.Named("HerdMigration");
+        spawnWorker.Label = "TwitchStoriesLetterLabelPredators".Localize();
+        spawnWorker.Text = "ManhunterPackArrived".LocalizeKeyed(spawnWorker.AnimalDef.GetLabelPlural());
     }
 }

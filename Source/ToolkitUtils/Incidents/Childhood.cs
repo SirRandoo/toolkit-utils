@@ -23,69 +23,68 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Incidents
+namespace SirRandoo.ToolkitUtils.Incidents;
+
+public class Childhood : IncidentVariablesBase
 {
-    public class Childhood : IncidentVariablesBase
+    private BackstoryDef _backstory;
+    private Pawn _pawn;
+
+    public override bool CanHappen(string msg, Viewer viewer)
     {
-        private BackstoryDef _backstory;
-        private Pawn _pawn;
-
-        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
+        if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
-
-                return false;
-            }
-
-            if (!Data.Backstories.TryGetValue(BackstorySlot.Childhood, out List<BackstoryDef> backstories))
-            {
-                return false;
-            }
-
-            _backstory = backstories.Where(b => !WouldBeViolation(b)).InRandomOrder().FirstOrDefault();
-
-            return _backstory != null;
-        }
-
-        public override void Execute()
-        {
-            BackstoryDef previous = _pawn.story.Childhood;
-            _pawn.story.Childhood = _backstory;
-            _pawn.Notify_DisabledWorkTypesChanged();
-            _pawn.workSettings?.Notify_DisabledWorkTypesChanged();
-            _pawn.skills?.Notify_SkillDisablesChanged();
-
-            Viewer.Charge(storeIncident);
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Childhood.Complete".LocalizeKeyed(_backstory.TitleCapFor(_pawn.gender)));
-
-            Find.LetterStack.ReceiveLetter(
-                "TKUtils.BackstoryLetter.Title".Localize(),
-                "TKUtils.BackstoryLetter.ChildhoodDescription".LocalizeKeyed(Viewer.username, previous.TitleCapFor(_pawn.gender), _backstory.TitleCapFor(_pawn.gender)),
-                LetterDefOf.NeutralEvent,
-                _pawn
-            );
-        }
-
-        private bool WouldBeViolation([NotNull] BackstoryDef story)
-        {
-            if (story.disallowedTraits.NullOrEmpty())
-            {
-                return false;
-            }
-
-            foreach (BackstoryTrait entry in story.disallowedTraits)
-            {
-                Trait trait = _pawn.story.traits.allTraits.Find(t => t.def.Equals(entry.def) && t.Degree == entry.degree);
-
-                if (trait != null)
-                {
-                    return true;
-                }
-            }
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
             return false;
         }
+
+        if (!Data.Backstories.TryGetValue(BackstorySlot.Childhood, out List<BackstoryDef> backstories))
+        {
+            return false;
+        }
+
+        _backstory = backstories.Where(b => !WouldBeViolation(b)).InRandomOrder().FirstOrDefault();
+
+        return _backstory != null;
+    }
+
+    public override void Execute()
+    {
+        BackstoryDef previous = _pawn.story.Childhood;
+        _pawn.story.Childhood = _backstory;
+        _pawn.Notify_DisabledWorkTypesChanged();
+        _pawn.workSettings?.Notify_DisabledWorkTypesChanged();
+        _pawn.skills?.Notify_SkillDisablesChanged();
+
+        Viewer.Charge(storeIncident);
+        MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Childhood.Complete".LocalizeKeyed(_backstory.TitleCapFor(_pawn.gender)));
+
+        Find.LetterStack.ReceiveLetter(
+            "TKUtils.BackstoryLetter.Title".Localize(),
+            "TKUtils.BackstoryLetter.ChildhoodDescription".LocalizeKeyed(Viewer.username, previous.TitleCapFor(_pawn.gender), _backstory.TitleCapFor(_pawn.gender)),
+            LetterDefOf.NeutralEvent,
+            _pawn
+        );
+    }
+
+    private bool WouldBeViolation(BackstoryDef story)
+    {
+        if (story.disallowedTraits.NullOrEmpty())
+        {
+            return false;
+        }
+
+        foreach (BackstoryTrait entry in story.disallowedTraits)
+        {
+            Trait trait = _pawn.story.traits.allTraits.Find(t => t.def.Equals(entry.def) && t.Degree == entry.degree);
+
+            if (trait != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

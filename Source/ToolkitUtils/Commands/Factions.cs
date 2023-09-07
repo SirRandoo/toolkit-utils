@@ -22,18 +22,17 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
-{
-    [UsedImplicitly]
-    public class Factions : CommandBase
-    {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
-        {
-            List<string> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.Where(f => !f.IsPlayer)
-               .Select(f => ResponseHelper.JoinPair(f.GetCallLabel(), f.PlayerGoodwill.ToStringWithSign()))
-               .ToList();
+namespace SirRandoo.ToolkitUtils.Commands;
 
-            twitchMessage.Reply((factions.Count <= 0 ? "TKUtils.Factions.None".Localize() : factions.SectionJoin()).WithHeader("WorldFactionsTab".Localize()));
-        }
+[UsedImplicitly]
+public class Factions : CommandBase
+{
+    public override void RunCommand(ITwitchMessage twitchMessage)
+    {
+        List<string> factions = Current.Game.World.factionManager.AllFactionsVisibleInViewOrder.Where(f => !f.IsPlayer)
+           .Select(f => ResponseHelper.JoinPair(f.GetCallLabel(), f.PlayerGoodwill.ToStringWithSign()))
+           .ToList();
+
+        twitchMessage.Reply((factions.Count <= 0 ? "TKUtils.Factions.None".Localize() : factions.SectionJoin()).WithHeader("WorldFactionsTab".Localize()));
     }
 }

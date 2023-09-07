@@ -18,41 +18,41 @@ using System;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class PawnNameMutator : IMutatorBase<PawnKindItem>
 {
-    public class PawnNameMutator : IMutatorBase<PawnKindItem>
+    private string _name = "";
+    private string _nameText;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.Name".TranslateSimple();
+
+    public void Prepare()
     {
-        private string _name = "";
-        private string _nameText;
+        _nameText = Label;
+    }
 
-        public int Priority => 1;
-
-        public string Label => "TKUtils.Fields.Name".TranslateSimple();
-
-        public void Prepare()
+    public void Mutate(TableSettingsItem<PawnKindItem> item)
+    {
+        if (_name.NullOrEmpty())
         {
-            _nameText = Label;
+            return;
         }
 
-        public void Mutate(TableSettingsItem<PawnKindItem> item)
-        {
-            if (_name.NullOrEmpty())
-            {
-                return;
-            }
+        item.Data.PawnData.CustomName = true;
+        item.Data.Name = _name;
+    }
 
-            item.Data.PawnData.CustomName = true;
-            item.Data.Name = _name;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _nameText);
-            _name = Widgets.TextField(field, _name).ToToolkit();
-        }
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _nameText);
+        _name = Widgets.TextField(field, _name).ToToolkit();
     }
 }

@@ -17,18 +17,18 @@
 using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models.Tables;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class CategoriesSelector : CategorySelector
 {
-    public class CategoriesSelector : CategorySelector
+    public override string Label => base.Label.Pluralize();
+
+    public override bool IsVisible(TableSettingsItem<ThingItem> item)
     {
-        public override string Label => base.Label.Pluralize();
+        bool shouldShow = Category.Split(',').Select(i => i.Trim().ToLowerInvariant()).ToList().Contains(item.Data.Category.ToLowerInvariant());
 
-        public override bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            bool shouldShow = Category.Split(',').Select(i => i.Trim().ToLowerInvariant()).ToList().Contains(item.Data.Category.ToLowerInvariant());
-
-            return Exclude ? !shouldShow : shouldShow;
-        }
+        return Exclude ? !shouldShow : shouldShow;
     }
 }

@@ -18,16 +18,15 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.IncidentSettings;
 using TwitchToolkit.Incidents;
 
-namespace SirRandoo.ToolkitUtils.Models
-{
-    public class DropRaidIncidentData : RaidIncidentData
-    {
-        public override bool UseStoryteller => DropRaid.Storyteller;
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
 
-        public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
-        {
-            base.DoExtraSetup(worker, @params, incident);
-            @params.raidArrivalMode = PawnsArrivalModeDefOf.CenterDrop;
-        }
+public class DropRaidIncidentData : RaidIncidentData
+{
+    public override bool UseStoryteller => DropRaid.Storyteller;
+
+    public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
+    {
+        base.DoExtraSetup(worker, @params, incident);
+        @params.raidArrivalMode = PawnsArrivalModeDefOf.CenterDrop;
     }
 }

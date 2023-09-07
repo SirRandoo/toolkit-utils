@@ -21,105 +21,104 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Incidents
+namespace SirRandoo.ToolkitUtils.Incidents;
+
+public class FullHeal : IncidentVariablesBase
 {
-    public class FullHeal : IncidentVariablesBase
+    private Pawn _pawn;
+
+    public override bool CanHappen(string msg, Viewer viewer)
     {
-        private Pawn _pawn;
-
-        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
+        if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
         {
-            if (!PurchaseHelper.TryGetPawn(viewer.username, out _pawn))
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
-
-                return false;
-            }
-
-            if (IncidentSettings.FullHeal.FairFights && _pawn!.mindState.lastAttackTargetTick > 0
-                && Find.TickManager.TicksGame < _pawn.mindState.lastAttackTargetTick + 1800)
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
-
-                return false;
-            }
-
-            if (HealHelper.GetPawnHealable(_pawn!) != null)
-            {
-                return true;
-            }
-
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.NotInjured".Localize());
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoPawn".Localize());
 
             return false;
         }
 
-        public override void Execute()
+        if (IncidentSettings.FullHeal.FairFights && _pawn!.mindState.lastAttackTargetTick > 0
+            && Find.TickManager.TicksGame < _pawn.mindState.lastAttackTargetTick + 1800)
         {
-            var healed = 0;
-            var iterations = 0;
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InCombat".Localize());
 
-            while (true)
+            return false;
+        }
+
+        if (HealHelper.GetPawnHealable(_pawn!) != null)
+        {
+            return true;
+        }
+
+        MessageHelper.ReplyToUser(viewer.username, "TKUtils.NotInjured".Localize());
+
+        return false;
+    }
+
+    public override void Execute()
+    {
+        var healed = 0;
+        var iterations = 0;
+
+        while (true)
+        {
+            if (!Viewer.CanAfford(storeIncident.cost))
             {
-                if (!Viewer.CanAfford(storeIncident.cost))
-                {
-                    break;
-                }
-
-                object healable = HealHelper.GetPawnHealable(_pawn);
-
-                if (healable == null)
-                {
-                    break;
-                }
-
-                healed = Heal(healable, healed);
-                iterations += 1;
-
-                if (iterations < 500)
-                {
-                    continue;
-                }
-
-                TkUtils.Logger.Warn("Exceeded the maximum number of iterations during full heal.");
-
                 break;
             }
 
-            MessageHelper.SendConfirmation(
-                Viewer.username,
-                healed > 1 ? "TKUtils.FullHeal.CompletePlural".LocalizeKeyed(healed.ToString("N0")) : "TKUtils.FullHeal.Complete".Localize()
-            );
+            object healable = HealHelper.GetPawnHealable(_pawn);
 
-            Current.Game.letterStack.ReceiveLetter(
-                "TKUtils.FullHealLetter.Title".Localize(),
-                "TKUtils.FullHealLetter.Description".LocalizeKeyed(Viewer.username),
-                LetterDefOf.PositiveEvent,
-                _pawn
-            );
-        }
-
-        private int Heal(object injury, int healed)
-        {
-            switch (injury)
+            if (healable == null)
             {
-                case Hediff hediff:
-                    HealHelper.Cure(hediff);
-                    healed += 1;
-
-                    Viewer.Charge(storeIncident, healed);
-
-                    break;
-                case BodyPartRecord record:
-                    _pawn.health.RestorePart(record);
-                    healed += 1;
-
-                    Viewer.Charge(storeIncident, healed);
-
-                    break;
+                break;
             }
 
-            return healed;
+            healed = Heal(healable, healed);
+            iterations += 1;
+
+            if (iterations < 500)
+            {
+                continue;
+            }
+
+            TkUtils.Logger.Warn("Exceeded the maximum number of iterations during full heal.");
+
+            break;
         }
+
+        MessageHelper.SendConfirmation(
+            Viewer.username,
+            healed > 1 ? "TKUtils.FullHeal.CompletePlural".LocalizeKeyed(healed.ToString("N0")) : "TKUtils.FullHeal.Complete".Localize()
+        );
+
+        Current.Game.letterStack.ReceiveLetter(
+            "TKUtils.FullHealLetter.Title".Localize(),
+            "TKUtils.FullHealLetter.Description".LocalizeKeyed(Viewer.username),
+            LetterDefOf.PositiveEvent,
+            _pawn
+        );
+    }
+
+    private int Heal(object injury, int healed)
+    {
+        switch (injury)
+        {
+            case Hediff hediff:
+                HealHelper.Cure(hediff);
+                healed += 1;
+
+                Viewer.Charge(storeIncident, healed);
+
+                break;
+            case BodyPartRecord record:
+                _pawn.health.RestorePart(record);
+                healed += 1;
+
+                Viewer.Charge(storeIncident, healed);
+
+                break;
+        }
+
+        return healed;
     }
 }

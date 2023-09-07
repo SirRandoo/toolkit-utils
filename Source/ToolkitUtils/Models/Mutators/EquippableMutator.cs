@@ -17,37 +17,37 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class EquippableMutator : IMutatorBase<ThingItem>
 {
-    public class EquippableMutator : IMutatorBase<ThingItem>
+    private bool _state = true;
+    private string _usableText;
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.CanEquip".TranslateSimple();
+
+    public void Prepare()
     {
-        private bool _state = true;
-        private string _usableText;
-        public int Priority => 1;
+        _usableText = Label;
+    }
 
-        public string Label => "TKUtils.Fields.CanEquip".TranslateSimple();
+    public void Draw(Rect canvas)
+    {
+        UiHelper.LabeledPaintableCheckbox(canvas, _usableText, ref _state);
+    }
 
-        public void Prepare()
+    public void Mutate(TableSettingsItem<ThingItem> item)
+    {
+        if (item.Data.ItemData == null)
         {
-            _usableText = Label;
+            return;
         }
 
-        public void Draw(Rect canvas)
-        {
-            UiHelper.LabeledPaintableCheckbox(canvas, _usableText, ref _state);
-        }
-
-        public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            if (item.Data.ItemData == null)
-            {
-                return;
-            }
-
-            item.Data.ItemData!.IsEquippable = _state;
-        }
+        item.Data.ItemData!.IsEquippable = _state;
     }
 }

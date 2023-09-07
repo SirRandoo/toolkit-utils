@@ -24,159 +24,156 @@ using Newtonsoft.Json;
 using Verse;
 using Verse.Steam;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+[UsedImplicitly]
+public class ModItem
 {
-    [UsedImplicitly]
-    public class ModItem
+    [JsonProperty("author")] public string Author { get; set; }
+    [JsonProperty("name")] public string Name { get; set; }
+    [JsonProperty("steamId")] public string SteamId { get; set; }
+    [JsonProperty("version")] public string Version { get; set; }
+
+    public static ModItem FromMetadata(ModMetaData mod)
     {
-        [JsonProperty("author")] public string Author { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("steamId")] public string SteamId { get; set; }
-        [JsonProperty("version")] public string Version { get; set; }
+        var item = new ModItem { Name = mod.Name, Author = mod.AuthorsString };
 
-        [NotNull]
-        public static ModItem FromMetadata([NotNull] ModMetaData mod)
+        Mod handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
+
+        if (handle == null)
         {
-            var item = new ModItem { Name = mod.Name, Author = mod.AuthorsString };
-
-            Mod handle = LoadedModManager.ModHandles.FirstOrDefault(h => h.Content.PackageId.Equals(mod.PackageId));
-
-            if (handle == null)
-            {
-                return item;
-            }
-
-            item.Version = GetModVersion(handle);
-            item.SteamId = GetSteamId(mod, handle);
-
             return item;
         }
 
-        [NotNull]
-        private static string GetSteamId([NotNull] ModMetaData metaData, Mod handle)
+        item.Version = GetModVersion(handle);
+        item.SteamId = GetSteamId(mod, handle);
+
+        return item;
+    }
+
+    private static string GetSteamId(ModMetaData metaData, Mod handle)
+    {
+        if (metaData.SteamAppId > 0)
         {
-            if (metaData.SteamAppId > 0)
-            {
-                return metaData.SteamAppId.ToString();
-            }
-
-            WorkshopItemHook hook = metaData.GetWorkshopItemHook();
-
-            if (hook.PublishedFileId.m_PublishedFileId > 0)
-            {
-                return hook.PublishedFileId.ToString();
-            }
-
-            string steamIdFile = Path.Combine(metaData.RootDir.ToString(), "About/PublishedFileId.txt");
-
-            return File.Exists(steamIdFile) ? File.ReadAllText(steamIdFile) : string.Empty;
+            return metaData.SteamAppId.ToString();
         }
 
-        [CanBeNull]
-        private static string GetModVersion([NotNull] Mod handle)
+        WorkshopItemHook hook = metaData.GetWorkshopItemHook();
+
+        if (hook.PublishedFileId.m_PublishedFileId > 0)
         {
-            if (TryGetManifestVersion(handle.Content.RootDir, out string version))
-            {
-                return version;
-            }
-
-            var assembly = Assembly.GetAssembly(handle.GetType());
-
-            if (assembly == null)
-            {
-                return null;
-            }
-
-            if (TryGetInfoAssemblyVersion(assembly, out version))
-            {
-                return version;
-            }
-
-            if (TryGetAssemblyFileVersion(assembly, out version))
-            {
-                return version;
-            }
-
-            return TryGetAssemblyVersion(assembly, out version) ? version : handle.GetType().Module.Assembly.GetName().Version.ToString();
+            return hook.PublishedFileId.ToString();
         }
 
-        [ContractAnnotation("=> true,version:notnull; => false,version:null")]
-        private static bool TryGetManifestVersion([NotNull] string rootDir, out string version)
+        string steamIdFile = Path.Combine(metaData.RootDir.ToString(), "About/PublishedFileId.txt");
+
+        return File.Exists(steamIdFile) ? File.ReadAllText(steamIdFile) : string.Empty;
+    }
+
+    [CanBeNull]
+    private static string GetModVersion(Mod handle)
+    {
+        if (TryGetManifestVersion(handle.Content.RootDir, out string version))
         {
-            string manifestFile = Path.Combine(rootDir, "About/Manifest.xml");
-
-            if (!File.Exists(manifestFile))
-            {
-                version = null;
-
-                return false;
-            }
-
-            using var reader = new XmlTextReader(manifestFile);
-            reader.ReadToFollowing("version");
-
-            if (!reader.Name.Equals("version"))
-            {
-                version = null;
-
-                return false;
-            }
-
-            version = reader.ReadElementContentAsString();
-            reader.Close();
-
-            return true;
+            return version;
         }
 
-        [ContractAnnotation("=> true,version:notnull; => false,version:null")]
-        private static bool TryGetInfoAssemblyVersion([NotNull] Assembly assembly, out string version)
+        var assembly = Assembly.GetAssembly(handle.GetType());
+
+        if (assembly == null)
         {
-            var attribute = (AssemblyInformationalVersionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyInformationalVersionAttribute), false);
-
-            if (attribute == null)
-            {
-                version = null;
-
-                return false;
-            }
-
-            version = attribute.InformationalVersion;
-
-            return true;
+            return null;
         }
 
-        [ContractAnnotation("=> true,version:notnull; => false,version:null")]
-        private static bool TryGetAssemblyFileVersion([NotNull] Assembly assembly, out string version)
+        if (TryGetInfoAssemblyVersion(assembly, out version))
         {
-            var attribute = (AssemblyFileVersionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyFileVersionAttribute), false);
-
-            if (attribute == null)
-            {
-                version = null;
-
-                return false;
-            }
-
-            version = attribute.Version;
-
-            return true;
+            return version;
         }
 
-        [ContractAnnotation("=> true,version:notnull; => false,version:null")]
-        private static bool TryGetAssemblyVersion([NotNull] Assembly assembly, out string version)
+        if (TryGetAssemblyFileVersion(assembly, out version))
         {
-            var attribute = (AssemblyVersionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyVersionAttribute), false);
-
-            if (attribute == null)
-            {
-                version = null;
-
-                return false;
-            }
-
-            version = attribute.Version;
-
-            return true;
+            return version;
         }
+
+        return TryGetAssemblyVersion(assembly, out version) ? version : handle.GetType().Module.Assembly.GetName().Version.ToString();
+    }
+
+    [ContractAnnotation("=> true,version:notnull; => false,version:null")]
+    private static bool TryGetManifestVersion(string rootDir, out string version)
+    {
+        string manifestFile = Path.Combine(rootDir, "About/Manifest.xml");
+
+        if (!File.Exists(manifestFile))
+        {
+            version = null;
+
+            return false;
+        }
+
+        using var reader = new XmlTextReader(manifestFile);
+        reader.ReadToFollowing("version");
+
+        if (!reader.Name.Equals("version"))
+        {
+            version = null;
+
+            return false;
+        }
+
+        version = reader.ReadElementContentAsString();
+        reader.Close();
+
+        return true;
+    }
+
+    [ContractAnnotation("=> true,version:notnull; => false,version:null")]
+    private static bool TryGetInfoAssemblyVersion(Assembly assembly, out string version)
+    {
+        var attribute = (AssemblyInformationalVersionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyInformationalVersionAttribute), false);
+
+        if (attribute == null)
+        {
+            version = null;
+
+            return false;
+        }
+
+        version = attribute.InformationalVersion;
+
+        return true;
+    }
+
+    [ContractAnnotation("=> true,version:notnull; => false,version:null")]
+    private static bool TryGetAssemblyFileVersion(Assembly assembly, out string version)
+    {
+        var attribute = (AssemblyFileVersionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyFileVersionAttribute), false);
+
+        if (attribute == null)
+        {
+            version = null;
+
+            return false;
+        }
+
+        version = attribute.Version;
+
+        return true;
+    }
+
+    [ContractAnnotation("=> true,version:notnull; => false,version:null")]
+    private static bool TryGetAssemblyVersion(Assembly assembly, out string version)
+    {
+        var attribute = (AssemblyVersionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyVersionAttribute), false);
+
+        if (attribute == null)
+        {
+            version = null;
+
+            return false;
+        }
+
+        version = attribute.Version;
+
+        return true;
     }
 }

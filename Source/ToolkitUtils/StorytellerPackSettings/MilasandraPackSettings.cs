@@ -23,21 +23,19 @@
 using JetBrains.Annotations;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
-{
-    [UsedImplicitly]
-    public class MilasandraPackSettings : PackSettingsBase
-    {
-        /// <inheritdoc/>
-        public override bool Enabled
-        {
-            get => ToolkitSettings.MilasandraEnabled;
-            set => ToolkitSettings.MilasandraEnabled = value;
-        }
+namespace SirRandoo.ToolkitUtils.StorytellerPackSettings;
 
-        /// <inheritdoc/>
-        [NotNull]
-        public override string Tooltip =>
-            "Threats on/off cycle. Milasandra uses an on/off cycle to bring votes in waves, similar to Cassandra. This pack is the closest to the base game's forced raid cycle. You will experience lag generated these votes.";
+[UsedImplicitly]
+public class MilasandraPackSettings : PackSettingsBase
+{
+    /// <inheritdoc/>
+    public override bool Enabled
+    {
+        get => ToolkitSettings.MilasandraEnabled;
+        set => ToolkitSettings.MilasandraEnabled = value;
     }
+
+    /// <inheritdoc/>
+    public override string Tooltip =>
+        "Threats on/off cycle. Milasandra uses an on/off cycle to bring votes in waves, similar to Cassandra. This pack is the closest to the base game's forced raid cycle. You will experience lag generated these votes.";
 }

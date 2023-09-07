@@ -17,12 +17,11 @@
 using RimWorld;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Defs;
+
+[DefOf]
+public static class PawnKindDefOf
 {
-    [DefOf]
-    public static class PawnKindDefOf
-    {
-        public static PawnKindDef Rat;
-        public static PawnKindDef Boomrat;
-    }
+    public static PawnKindDef Rat;
+    public static PawnKindDef Boomrat;
 }

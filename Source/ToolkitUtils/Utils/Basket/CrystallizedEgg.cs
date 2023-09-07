@@ -20,26 +20,20 @@ using RimWorld;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using Verse;
+using IncidentDefOf = SirRandoo.ToolkitUtils.Defs.IncidentDefOf;
 
-namespace SirRandoo.ToolkitUtils.Utils
+namespace SirRandoo.ToolkitUtils.Utils.Basket;
+
+public record CrystallizedEgg(string? UserId = "crystalroseeve") : EasterEgg(UserId)
 {
-    public class CrystallizedEgg : EasterEgg
+    public override bool IsPossible(StoreIncident incident, Viewer viewer) => incident == IncidentDefOf.BuyPawn && base.IsPossible(incident, viewer);
+
+    public override void Execute(Viewer viewer, Pawn pawn)
     {
-        public override bool IsPossible(StoreIncident incident, Viewer viewer) =>
-            incident == IncidentDefOf.BuyPawn && viewer.username.Equals("crystalroseeve", StringComparison.InvariantCultureIgnoreCase);
+        Pawn pet = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDef.Named("Fox_Fennec"), Faction.OfPlayer));
+        pet.training.Train(TrainableDefOf.Tameness, pawn, true);
+        pawn.relations.AddDirectRelation(PawnRelationDefOf.Bond, pet);
 
-        public override void Execute([NotNull] Viewer viewer, Pawn pawn)
-        {
-            if (!viewer.username.Equals("crystalroseeve", StringComparison.InvariantCultureIgnoreCase))
-            {
-                return;
-            }
-
-            Pawn pet = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDef.Named("Fox_Fennec"), Faction.OfPlayer));
-            pet.training.Train(TrainableDefOf.Tameness, pawn, true);
-            pawn.relations.AddDirectRelation(PawnRelationDefOf.Bond, pet);
-
-            GenSpawn.Spawn(pet, pawn.Position, pawn.Map, pawn.Rotation);
-        }
+        GenSpawn.Spawn(pet, pawn.Position, pawn.Map, pawn.Rotation);
     }
 }

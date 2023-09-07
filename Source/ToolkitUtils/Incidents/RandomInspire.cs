@@ -20,42 +20,41 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Incidents
+namespace SirRandoo.ToolkitUtils.Incidents;
+
+public class RandomInspire : IncidentVariablesBase
 {
-    public class RandomInspire : IncidentVariablesBase
+    public override bool CanHappen(string msg, Viewer viewer) => true;
+
+    public override void Execute()
     {
-        public override bool CanHappen(string msg, Viewer viewer) => true;
-
-        public override void Execute()
+        foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder().InRandomOrder())
         {
-            foreach (Pawn pawn in Find.ColonistBar.GetColonistsInOrder().InRandomOrder())
+            if (pawn == null || pawn.Inspired)
             {
-                if (pawn == null || pawn.Inspired)
-                {
-                    continue;
-                }
-
-                if (!DefDatabase<InspirationDef>.AllDefs.TryRandomElementByWeight(i => i.Worker.CommonalityFor(pawn), out InspirationDef def))
-                {
-                    continue;
-                }
-
-                if (!pawn.mindState.inspirationHandler.TryStartInspiration(def))
-                {
-                    continue;
-                }
-
-                MessageHelper.SendConfirmation(
-                    Viewer.username,
-                    "TKUtils.RandomInspire.Complete".LocalizeKeyed(pawn.LabelShort?.CapitalizeFirst() ?? pawn.LabelCap, def.label)
-                );
-
-                Viewer.Charge(storeIncident);
-
-                return;
+                continue;
             }
 
-            MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RandomInspire.None".Localize());
+            if (!DefDatabase<InspirationDef>.AllDefs.TryRandomElementByWeight(i => i.Worker.CommonalityFor(pawn), out InspirationDef def))
+            {
+                continue;
+            }
+
+            if (!pawn.mindState.inspirationHandler.TryStartInspiration(def))
+            {
+                continue;
+            }
+
+            MessageHelper.SendConfirmation(
+                Viewer.username,
+                "TKUtils.RandomInspire.Complete".LocalizeKeyed(pawn.LabelShort?.CapitalizeFirst() ?? pawn.LabelCap, def.label)
+            );
+
+            Viewer.Charge(storeIncident);
+
+            return;
         }
+
+        MessageHelper.ReplyToUser(Viewer.username, "TKUtils.RandomInspire.None".Localize());
     }
 }

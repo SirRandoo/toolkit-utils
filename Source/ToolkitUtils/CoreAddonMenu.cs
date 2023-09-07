@@ -25,48 +25,47 @@ using ToolkitCore.Windows;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+/// <summary>
+///     An <see cref="IAddonMenu"/> used by ToolkitCore to display a set
+///     of "quick menu options" for users.
+/// </summary>
+[UsedImplicitly]
+public class CoreAddonMenu : IAddonMenu
 {
-    /// <summary>
-    ///     An <see cref="IAddonMenu"/> used by ToolkitCore to display a set
-    ///     of "quick menu options" for users.
-    /// </summary>
-    [UsedImplicitly]
-    public class CoreAddonMenu : IAddonMenu
+    private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
     {
-        private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
-        {
-            new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => Find.WindowStack.Add(new CoreSettingsWindow())),
-            new FloatMenuOption("Message Log", () => Find.WindowStack.Add(new Window_MessageLog())),
-            new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki")),
-            new FloatMenuOption(
-                "TKUtils.AddonMenu.Reconnect".TranslateSimple(),
-                () => Task.Run(
-                    () =>
+        new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => Find.WindowStack.Add(new CoreSettingsWindow())),
+        new FloatMenuOption("Message Log", () => Find.WindowStack.Add(new Window_MessageLog())),
+        new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki")),
+        new FloatMenuOption(
+            "TKUtils.AddonMenu.Reconnect".TranslateSimple(),
+            () => Task.Run(
+                () =>
+                {
+                    if (TwitchWrapper.Client == null || !TwitchWrapper.Client.IsConnected)
                     {
-                        if (TwitchWrapper.Client == null || !TwitchWrapper.Client.IsConnected)
-                        {
-                            TwitchWrapper.StartAsync();
-
-                            return;
-                        }
-
-                        try
-                        {
-                            TwitchWrapper.Client.Disconnect();
-                        }
-                        catch (Exception e)
-                        {
-                            TkUtils.Logger.Error("Encountered an error while disconnected from Twitch -- You can probably ignore this.", e);
-                        }
-
                         TwitchWrapper.StartAsync();
-                    }
-                )
-            )
-        };
 
-        /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
-        public List<FloatMenuOption> MenuOptions() => Options;
-    }
+                        return;
+                    }
+
+                    try
+                    {
+                        TwitchWrapper.Client.Disconnect();
+                    }
+                    catch (Exception e)
+                    {
+                        TkUtils.Logger.Error("Encountered an error while disconnected from Twitch -- You can probably ignore this.", e);
+                    }
+
+                    TwitchWrapper.StartAsync();
+                }
+            )
+        )
+    };
+
+    /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
+    public List<FloatMenuOption> MenuOptions() => Options;
 }

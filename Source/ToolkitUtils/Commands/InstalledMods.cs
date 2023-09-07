@@ -24,22 +24,20 @@ using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class InstalledMods : CommandBase
 {
-    [UsedImplicitly]
-    public class InstalledMods : CommandBase
+    public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
-        {
-            twitchMessage.Reply(Data.Mods.Select(FormatMod).SectionJoin().WithHeader($"Toolkit v{Toolkit.Mod.Version}"));
-        }
-
-        [NotNull]
-        private static string FormatMod([NotNull] ModItem mod) =>
-            mod.Version.NullOrEmpty() && !TkSettings.VersionedModList ? DecorateMod(mod) : $"{DecorateMod(mod)} (v{mod.Version})";
-
-        private static string DecorateMod([NotNull] ModItem mod) => !TkSettings.DecorateMods || !mod.Author.Equals("sirrandoo", StringComparison.InvariantCultureIgnoreCase)
-            ? mod.Name
-            : $"{"★".AltText("*")}{mod.Name}";
+        twitchMessage.Reply(Data.Mods.Select(FormatMod).SectionJoin().WithHeader($"Toolkit v{Toolkit.Mod.Version}"));
     }
+
+    private static string FormatMod(ModItem mod) =>
+        mod.Version.NullOrEmpty() && !TkSettings.VersionedModList ? DecorateMod(mod) : $"{DecorateMod(mod)} (v{mod.Version})";
+
+    private static string DecorateMod(ModItem mod) => !TkSettings.DecorateMods || !mod.Author.Equals("sirrandoo", StringComparison.InvariantCultureIgnoreCase)
+        ? mod.Name
+        : $"{"★".AltText("*")}{mod.Name}";
 }

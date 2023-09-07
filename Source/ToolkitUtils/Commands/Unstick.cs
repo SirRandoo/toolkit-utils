@@ -21,18 +21,17 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit.Store;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class Unstick : CommandBase
 {
-    [UsedImplicitly]
-    public class Unstick : CommandBase
+    public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
-        {
-            int stuck = Purchase_Handler.viewerNamesDoingVariableCommands.Count;
+        int stuck = Purchase_Handler.viewerNamesDoingVariableCommands.Count;
 
-            Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
+        Purchase_Handler.viewerNamesDoingVariableCommands = new List<string>();
 
-            twitchMessage.Reply("TKUtils.Unstick".LocalizeKeyed(stuck.ToString()));
-        }
+        twitchMessage.Reply("TKUtils.Unstick".LocalizeKeyed(stuck.ToString()));
     }
 }

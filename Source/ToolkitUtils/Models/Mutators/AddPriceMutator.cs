@@ -18,46 +18,46 @@ using System;
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class AddPriceMutator : IMutatorBase<TraitItem>
 {
-    public class AddPriceMutator : IMutatorBase<TraitItem>
+    private int _addPrice = 1;
+    private string _addPriceBuffer = "1";
+    private string _addPriceText;
+    private bool _percentage;
+    private string _percentTooltip;
+    private string _valueTooltip;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.AddPrice".TranslateSimple();
+
+    public void Prepare()
     {
-        private int _addPrice = 1;
-        private string _addPriceBuffer = "1";
-        private string _addPriceText;
-        private bool _percentage;
-        private string _percentTooltip;
-        private string _valueTooltip;
+        _addPriceText = Label;
+        _valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".TranslateSimple();
+        _percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".TranslateSimple();
+    }
 
-        public int Priority => 1;
+    public void Mutate(TableSettingsItem<TraitItem> item)
+    {
+        item.Data.CostToAdd = _percentage ? Mathf.CeilToInt(item.Data.CostToAdd * (_addPrice / 100f)) : _addPrice;
+    }
 
-        public string Label => "TKUtils.Fields.AddPrice".TranslateSimple();
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _addPriceText);
+        Widgets.TextFieldNumeric(field, ref _addPrice, ref _addPriceBuffer, _percentage ? -100f : 1f);
 
-        public void Prepare()
+        if (UiHelper.FieldButton(field, _percentage ? "%" : "#", _percentage ? _percentTooltip : _valueTooltip))
         {
-            _addPriceText = Label;
-            _valueTooltip = "TKUtils.MutatorTooltips.ValuePrice".TranslateSimple();
-            _percentTooltip = "TKUtils.MutatorTooltips.PercentPrice".TranslateSimple();
-        }
-
-        public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
-        {
-            item.Data.CostToAdd = _percentage ? Mathf.CeilToInt(item.Data.CostToAdd * (_addPrice / 100f)) : _addPrice;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _addPriceText);
-            Widgets.TextFieldNumeric(field, ref _addPrice, ref _addPriceBuffer, _percentage ? -100f : 1f);
-
-            if (UiHelper.FieldButton(field, _percentage ? "%" : "#", _percentage ? _percentTooltip : _valueTooltip))
-            {
-                _percentage = !_percentage;
-            }
+            _percentage = !_percentage;
         }
     }
 }

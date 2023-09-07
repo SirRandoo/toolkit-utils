@@ -16,11 +16,10 @@
 
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface ICommandSettings
 {
-    public interface ICommandSettings
-    {
-        void Save();
-        void Draw(Rect region);
-    }
+    void Save();
+    void Draw(Rect region);
 }

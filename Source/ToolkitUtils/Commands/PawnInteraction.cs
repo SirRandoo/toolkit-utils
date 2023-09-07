@@ -27,85 +27,84 @@ using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class PawnInteraction : CommandBase
 {
-    [UsedImplicitly]
-    public class PawnInteraction : CommandBase
+    private static readonly Dictionary<string, InteractionProxy> InteractionIndex = new Dictionary<string, InteractionProxy>
     {
-        private static readonly Dictionary<string, InteractionProxy> InteractionIndex = new Dictionary<string, InteractionProxy>
-        {
-            { "Insult", new InteractionProxy { Interaction = InteractionDefOf.Insult, IsBad = true } },
-            { "Chat", new InteractionProxy { Interaction = InteractionDefOf.Chitchat } },
-            { "Flirt", new InteractionProxy { Interaction = InteractionDefOf.RomanceAttempt } },
-            { "DeepChat", new InteractionProxy { Interaction = InteractionDefOf.DeepTalk } }
-        };
+        { "Insult", new InteractionProxy { Interaction = InteractionDefOf.Insult, IsBad = true } },
+        { "Chat", new InteractionProxy { Interaction = InteractionDefOf.Chitchat } },
+        { "Flirt", new InteractionProxy { Interaction = InteractionDefOf.RomanceAttempt } },
+        { "DeepChat", new InteractionProxy { Interaction = InteractionDefOf.DeepTalk } }
+    };
 
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+    public override void RunCommand(ITwitchMessage twitchMessage)
+    {
+        if (!InteractionIndex.TryGetValue(command.defName, out InteractionProxy interaction))
         {
-            if (!InteractionIndex.TryGetValue(command.defName, out InteractionProxy interaction))
+            TkUtils.Logger.Warn($@"{command.label}({command.defName}) is bound to the {nameof(PawnInteraction)} class, but has no interaction registered.");
+
+            return;
+        }
+
+        Viewer data = Viewers.GetViewer(twitchMessage.Username);
+
+        if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+        {
+            twitchMessage.Reply("TKUtils.NoPawn".Localize());
+
+            return;
+        }
+
+        string query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
+        Pawn target = null;
+
+        if (!query.NullOrEmpty())
+        {
+            if (query.StartsWith("@"))
             {
-                TkUtils.Logger.Warn($@"{command.label}({command.defName}) is bound to the {nameof(PawnInteraction)} class, but has no interaction registered.");
+                query = query.Substring(1);
+            }
 
+            Viewer viewer = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(query));
+
+            if (viewer == null)
+            {
                 return;
             }
 
-            Viewer data = Viewers.GetViewer(twitchMessage.Username);
+            target = GetOrFindPawn(viewer.username);
 
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+            if (target == null)
             {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize());
+                twitchMessage.Reply("TKUtils.PawnNotFound".LocalizeKeyed(query));
 
                 return;
             }
+        }
 
-            string query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
-            Pawn target = null;
+        target ??= Find.ColonistBar.Entries.Where(p => p.pawn != pawn).RandomElement().pawn;
 
-            if (!query.NullOrEmpty())
+        CommandRouter.MainThreadCommands.Enqueue(
+            () =>
             {
-                if (query.StartsWith("@"))
+                string result = ForcedInteractionWorker.InteractWith(pawn, target, interaction.Interaction);
+
+                if (interaction.IsBad)
                 {
-                    query = query.Substring(1);
+                    data.SetViewerKarma(Mathf.Max(data.karma - (int)Mathf.Ceil(data.karma * 0.1f), ToolkitSettings.KarmaMinimum));
                 }
 
-                Viewer viewer = Viewers.All.FirstOrDefault(v => v.username.EqualsIgnoreCase(query));
-
-                if (viewer == null)
-                {
-                    return;
-                }
-
-                target = GetOrFindPawn(viewer.username);
-
-                if (target == null)
-                {
-                    twitchMessage.Reply("TKUtils.PawnNotFound".LocalizeKeyed(query));
-
-                    return;
-                }
+                twitchMessage.Reply(result);
             }
+        );
+    }
 
-            target ??= Find.ColonistBar.Entries.Where(p => p.pawn != pawn).RandomElement().pawn;
-
-            CommandRouter.MainThreadCommands.Enqueue(
-                () =>
-                {
-                    string result = ForcedInteractionWorker.InteractWith(pawn, target, interaction.Interaction);
-
-                    if (interaction.IsBad)
-                    {
-                        data.SetViewerKarma(Mathf.Max(data.karma - (int)Mathf.Ceil(data.karma * 0.1f), ToolkitSettings.KarmaMinimum));
-                    }
-
-                    twitchMessage.Reply(result);
-                }
-            );
-        }
-
-        private struct InteractionProxy
-        {
-            public bool IsBad { get; set; }
-            public InteractionDef Interaction { get; set; }
-        }
+    private struct InteractionProxy
+    {
+        public bool IsBad { get; set; }
+        public InteractionDef Interaction { get; set; }
     }
 }

@@ -16,45 +16,44 @@
 
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using SirRandoo.ToolkitUtils.Defs;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+public class EventPartial : ProxyPartial
 {
-    public class EventPartial : ProxyPartial
+    [JsonProperty("data")]
+    public EventData EventData
     {
-        [JsonProperty("data")]
-        public EventData EventData
+        get => (EventData)Data;
+        set => Data = value;
+    }
+
+    [JsonProperty("karmaType")] public KarmaType KarmaType { get; set; }
+    [JsonProperty("eventCap")] public int EventCap { get; set; }
+    [JsonProperty("maxWager")] public int MaxWager { get; set; }
+    [JsonProperty("eventType")] public EventTypes EventType { get; set; }
+
+    public static EventPartial FromIncident(EventItem ev)
+    {
+        var partial = new EventPartial
         {
-            get => (EventData)Data;
-            set => Data = value;
+            DefName = ev.DefName,
+            Name = ev.Name,
+            Cost = ev.Cost,
+            Enabled = ev.Enabled,
+            KarmaType = ev.KarmaType,
+            EventCap = ev.EventCap,
+            EventType = ev.EventType,
+            EventData = ev.EventData
+        };
+
+        if (ev.IsVariables)
+        {
+            partial.MaxWager = ev.MaxWager;
         }
 
-        [JsonProperty("karmaType")] public KarmaType KarmaType { get; set; }
-        [JsonProperty("eventCap")] public int EventCap { get; set; }
-        [JsonProperty("maxWager")] public int MaxWager { get; set; }
-        [JsonProperty("eventType")] public EventTypes EventType { get; set; }
-
-        [NotNull]
-        public static EventPartial FromIncident([NotNull] EventItem ev)
-        {
-            var partial = new EventPartial
-            {
-                DefName = ev.DefName,
-                Name = ev.Name,
-                Cost = ev.Cost,
-                Enabled = ev.Enabled,
-                KarmaType = ev.KarmaType,
-                EventCap = ev.EventCap,
-                EventType = ev.EventType,
-                EventData = ev.EventData
-            };
-
-            if (ev.IsVariables)
-            {
-                partial.MaxWager = ev.MaxWager;
-            }
-
-            return partial;
-        }
+        return partial;
     }
 }

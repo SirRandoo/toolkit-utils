@@ -1,42 +1,40 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.HealHandlers;
+
+[UsedImplicitly]
+public record DefaultHealHandler(string ModId = "sirrandoo.tku") : IHealHandler
 {
-    [UsedImplicitly]
-    public class DefaultHealHandler : IHealHandler
+    public bool CanHeal(Hediff hediff)
     {
-        public bool CanHeal([NotNull] Hediff hediff)
-        {
-            var @override = hediff.def.GetModExtension<HealExtension>();
+        var @override = hediff.def.GetModExtension<HealExtension>();
 
-            return @override == null || @override.ShouldHeal;
-        }
+        return @override == null || @override.ShouldHeal;
+    }
 
-        public bool CanHeal([NotNull] BodyPartRecord bodyPart)
-        {
-            var @override = bodyPart.def.GetModExtension<HealExtension>();
+    public bool CanHeal(BodyPartRecord bodyPart)
+    {
+        var @override = bodyPart.def.GetModExtension<HealExtension>();
 
-            return @override == null || @override.ShouldHeal;
-        }
-
-        [NotNull] public string ModId => "sirrandoo.tku";
+        return @override == null || @override.ShouldHeal;
     }
 }

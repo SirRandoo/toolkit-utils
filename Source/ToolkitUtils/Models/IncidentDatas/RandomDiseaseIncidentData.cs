@@ -23,24 +23,23 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Incidents;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
+
+public class RandomDiseaseIncidentData : IWageredIncidentData
 {
-    public class RandomDiseaseIncidentData : IWageredIncidentData
+    public bool UseStoryteller => RandomDisease.Storyteller;
+    public Type WorkerClass => typeof(IncidentWorker_DiseaseHuman);
+
+    public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident)
     {
-        public bool UseStoryteller => RandomDisease.Storyteller;
-        [NotNull] public Type WorkerClass => typeof(IncidentWorker_DiseaseHuman);
+        worker.def = DefDatabase<IncidentDef>.AllDefs.Where(i => i.workerClass.IsAssignableFrom(typeof(IncidentWorker_DiseaseHuman))).RandomElement();
 
-        public IncidentCategoryDef ResolveCategory([NotNull] IncidentWorker worker, StoreIncident incident)
-        {
-            worker.def = DefDatabase<IncidentDef>.AllDefs.Where(i => i.workerClass.IsAssignableFrom(typeof(IncidentWorker_DiseaseHuman))).RandomElement();
+        return worker.def.category;
+    }
 
-            return worker.def.category;
-        }
-
-        public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
-        {
-            // A random disease incident doesn't need to do any extra setup.
-            // This method exists solely because of the interface it implements.
-        }
+    public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
+    {
+        // A random disease incident doesn't need to do any extra setup.
+        // This method exists solely because of the interface it implements.
     }
 }

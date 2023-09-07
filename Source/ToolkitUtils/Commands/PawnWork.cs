@@ -26,136 +26,133 @@ using TwitchLib.Client.Models.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class PawnWork : CommandBase
 {
-    [UsedImplicitly]
-    public class PawnWork : CommandBase
+    public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+            twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
+
+            return;
+        }
+
+        if (pawn!.workSettings?.EverWork == false)
+        {
+            twitchMessage.Reply("TKUtils.PawnWork.None".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
+
+            return;
+        }
+
+        List<KeyValuePair<string, string>> newPriorities = CommandParser.ParseKeyed(twitchMessage.Message);
+
+        if (!newPriorities.NullOrEmpty())
+        {
+            var builder = new StringBuilder();
+
+            foreach (string change in ProcessChangeRequests(pawn, newPriorities))
             {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
+                builder.Append(change);
+                builder.Append(", ");
+            }
+
+            if (builder.Length > 0)
+            {
+                builder.Remove(builder.Length - 2, 2);
+                twitchMessage.Reply("TKUtils.PawnWork.Changed".LocalizeKeyed(builder.ToString()));
 
                 return;
             }
-
-            if (pawn!.workSettings?.EverWork == false)
-            {
-                twitchMessage.Reply("TKUtils.PawnWork.None".Localize().WithHeader("TKUtils.PawnWork.Header".Localize()));
-
-                return;
-            }
-
-            List<KeyValuePair<string, string>> newPriorities = CommandParser.ParseKeyed(twitchMessage.Message);
-
-            if (!newPriorities.NullOrEmpty())
-            {
-                var builder = new StringBuilder();
-
-                foreach (string change in ProcessChangeRequests(pawn, newPriorities))
-                {
-                    builder.Append(change);
-                    builder.Append(", ");
-                }
-
-                if (builder.Length > 0)
-                {
-                    builder.Remove(builder.Length - 2, 2);
-                    twitchMessage.Reply("TKUtils.PawnWork.Changed".LocalizeKeyed(builder.ToString()));
-
-                    return;
-                }
-            }
-
-            string summary = GetWorkPrioritySummary(pawn);
-
-            if (summary.NullOrEmpty())
-            {
-                return;
-            }
-
-            twitchMessage.Reply(summary.WithHeader("TKUtils.PawnWork.Header".Localize()));
         }
 
-        [ItemNotNull]
-        private static IEnumerable<string> ProcessChangeRequests(Pawn pawn, [NotNull] IEnumerable<KeyValuePair<string, string>> rawChanges)
+        string summary = GetWorkPrioritySummary(pawn);
+
+        if (summary.NullOrEmpty())
         {
-            List<WorkTypeDef> workTypes = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.Where(w => !pawn.WorkTypeIsDisabled(w)).ToList();
-
-            foreach (KeyValuePair<string, string> pair in rawChanges)
-            {
-                string key = pair.Key;
-                string value = pair.Value;
-                WorkTypeDef workType = workTypes.Find(w => w.label.EqualsIgnoreCase(key) || w.defName.EqualsIgnoreCase(key));
-
-                if (workType == null || !int.TryParse(value, out int parsed))
-                {
-                    continue;
-                }
-
-                int old = pawn.workSettings.GetPriority(workType);
-                int @new = Mathf.Clamp(parsed, 0, Pawn_WorkSettings.LowestPriority);
-                pawn.workSettings.SetPriority(workType, @new);
-
-                yield return $"{workType.label ?? workType.defName}: {old} {ResponseHelper.ArrowGlyph.AltText("->")} {@new}";
-            }
+            return;
         }
 
-        [CanBeNull]
-        private static string GetWorkPrioritySummary(Pawn pawn)
-        {
-            List<WorkTypeDef> priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToList();
+        twitchMessage.Reply(summary.WithHeader("TKUtils.PawnWork.Header".Localize()));
+    }
 
-            if (TkSettings.SortWorkPriorities)
+    private static IEnumerable<string> ProcessChangeRequests(Pawn pawn, IEnumerable<KeyValuePair<string, string>> rawChanges)
+    {
+        List<WorkTypeDef> workTypes = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.Where(w => !pawn.WorkTypeIsDisabled(w)).ToList();
+
+        foreach (KeyValuePair<string, string> pair in rawChanges)
+        {
+            string key = pair.Key;
+            string value = pair.Value;
+            WorkTypeDef workType = workTypes.Find(w => w.label.EqualsIgnoreCase(key) || w.defName.EqualsIgnoreCase(key));
+
+            if (workType == null || !int.TryParse(value, out int parsed))
             {
-                priorities = SortPriorities(priorities, pawn);
+                continue;
             }
 
-            HideDisabledWork(priorities);
+            int old = pawn.workSettings.GetPriority(workType);
+            int @new = Mathf.Clamp(parsed, 0, Pawn_WorkSettings.LowestPriority);
+            pawn.workSettings.SetPriority(workType, @new);
 
-            List<string> container = priorities.Select(priority => new { priority, p = pawn.workSettings.GetPriority(priority) })
-               .Where(t => !TkSettings.FilterWorkPriorities || t.p > 0)
-               .Select(t => ResponseHelper.JoinPair(t.priority.LabelCap.NullOrEmpty() ? t.priority.defName.CapitalizeFirst() : t.priority.LabelCap.RawText, t.p.ToString()))
-               .ToList();
+            yield return $"{workType.label ?? workType.defName}: {old} {ResponseHelper.ArrowGlyph.AltText("->")} {@new}";
+        }
+    }
 
-            return container.Count > 0 ? container.SectionJoin() : null;
+    [CanBeNull]
+    private static string GetWorkPrioritySummary(Pawn pawn)
+    {
+        List<WorkTypeDef> priorities = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToList();
+
+        if (TkSettings.SortWorkPriorities)
+        {
+            priorities = SortPriorities(priorities, pawn);
         }
 
-        private static void HideDisabledWork([NotNull] IList<WorkTypeDef> priorities)
+        HideDisabledWork(priorities);
+
+        List<string> container = priorities.Select(priority => new { priority, p = pawn.workSettings.GetPriority(priority) })
+           .Where(t => !TkSettings.FilterWorkPriorities || t.p > 0)
+           .Select(t => ResponseHelper.JoinPair(t.priority.LabelCap.NullOrEmpty() ? t.priority.defName.CapitalizeFirst() : t.priority.LabelCap.RawText, t.p.ToString()))
+           .ToList();
+
+        return container.Count > 0 ? container.SectionJoin() : null;
+    }
+
+    private static void HideDisabledWork(IList<WorkTypeDef> priorities)
+    {
+        for (int index = priorities.Count - 1; index >= 0; index--)
         {
-            for (int index = priorities.Count - 1; index >= 0; index--)
+            WorkTypeDef priority = priorities[index];
+            TkSettings.WorkSetting setting = TkSettings.WorkSettings.FirstOrDefault(p => p.WorkTypeDef.EqualsIgnoreCase(priority.defName));
+
+            if (setting == null)
             {
-                WorkTypeDef priority = priorities[index];
-                TkSettings.WorkSetting setting = TkSettings.WorkSettings.FirstOrDefault(p => p.WorkTypeDef.EqualsIgnoreCase(priority.defName));
+                continue;
+            }
 
-                if (setting == null)
-                {
-                    continue;
-                }
+            if (setting.Enabled)
+            {
+                continue;
+            }
 
-                if (setting.Enabled)
-                {
-                    continue;
-                }
-
-                try
-                {
-                    priorities.RemoveAt(index);
-                }
-                catch (IndexOutOfRangeException)
-                {
-                    // While this shouldn't happen as we're going backwards in the
-                    // list, we'll keep this here to ensure the command doesn't
-                    // throw an exception.
-                }
+            try
+            {
+                priorities.RemoveAt(index);
+            }
+            catch (IndexOutOfRangeException)
+            {
+                // While this shouldn't happen as we're going backwards in the
+                // list, we'll keep this here to ensure the command doesn't
+                // throw an exception.
             }
         }
+    }
 
-        [NotNull]
-        private static List<WorkTypeDef> SortPriorities([NotNull] IEnumerable<WorkTypeDef> priorities, Pawn pawn)
-        {
-            return priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p)).ThenBy(p => p.naturalPriority).Reverse().ToList();
-        }
+    private static List<WorkTypeDef> SortPriorities(IEnumerable<WorkTypeDef> priorities, Pawn pawn)
+    {
+        return priorities.OrderByDescending(p => pawn.workSettings.GetPriority(p)).ThenBy(p => p.naturalPriority).Reverse().ToList();
     }
 }

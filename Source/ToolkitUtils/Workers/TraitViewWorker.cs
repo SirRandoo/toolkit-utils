@@ -18,71 +18,71 @@ using System.Text;
 using RimWorld;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Workers
+namespace SirRandoo.ToolkitUtils.Workers;
+
+/// <summary>
+///     A class for displaying the trait store's data without any means
+///     of configuring said data.
+/// </summary>
+public class TraitViewWorker : TraitTableWorker
 {
-    /// <summary>
-    ///     A class for displaying the trait store's data without any means
-    ///     of configuring said data.
-    /// </summary>
-    public class TraitViewWorker : TraitTableWorker
+    /// <inheritdoc cref="TraitTableWorker.DrawHeaders"/>
+    protected override void DrawHeaders(Rect region)
     {
-        /// <inheritdoc cref="TraitTableWorker.DrawHeaders"/>
-        protected override void DrawHeaders(Rect region)
+        DrawSortableHeaders();
+        DrawSortableHeaderIcon();
+    }
+
+    /// <inheritdoc cref="TraitTableWorker.DrawTrait"/>
+    protected override void DrawTrait(Rect canvas, TableSettingsItem<TraitItem> trait)
+    {
+        var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
+        var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
+        var addPriceRect = new Rect(AddPriceHeaderTextRect.x, canvas.y, AddPriceHeaderTextRect.width, RowLineHeight);
+        var removePriceRect = new Rect(RemovePriceHeaderTextRect.x, canvas.y, RemovePriceHeaderTextRect.width, RowLineHeight);
+
+        UiHelper.Label(nameRect, trait.Data.Name);
+
+        if (!trait.EditingName)
         {
-            DrawSortableHeaders();
-            DrawSortableHeaderIcon();
-        }
+            Widgets.DrawHighlightIfMouseover(nameMouseOverRect);
 
-        /// <inheritdoc cref="TraitTableWorker.DrawTrait"/>
-        protected override void DrawTrait(Rect canvas, TableSettingsItem<TraitItem> trait)
-        {
-            var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
-            var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
-            var addPriceRect = new Rect(AddPriceHeaderTextRect.x, canvas.y, AddPriceHeaderTextRect.width, RowLineHeight);
-            var removePriceRect = new Rect(RemovePriceHeaderTextRect.x, canvas.y, RemovePriceHeaderTextRect.width, RowLineHeight);
+            var builder = new StringBuilder();
+            builder.AppendLine(trait.Data.Description);
+            builder.AppendLine();
 
-            UiHelper.Label(nameRect, trait.Data.Name);
-
-            if (!trait.EditingName)
+            foreach (string i in trait.Data.Stats)
             {
-                Widgets.DrawHighlightIfMouseover(nameMouseOverRect);
-
-                var builder = new StringBuilder();
-                builder.AppendLine(trait.Data.Description);
-                builder.AppendLine();
-
-                foreach (string i in trait.Data.Stats)
-                {
-                    builder.AppendLine($"- {i}");
-                }
-
-                TooltipHandler.TipRegion(nameMouseOverRect, builder.ToString());
+                builder.AppendLine($"- {i}");
             }
 
-            if (trait.Data.CanAdd)
-            {
-                UiHelper.Label(addPriceRect, trait.Data.CostToAdd.ToString("N0"));
-            }
-
-            if (trait.Data.CanRemove)
-            {
-                UiHelper.Label(removePriceRect, trait.Data.CostToRemove.ToString("N0"));
-            }
+            TooltipHandler.TipRegion(nameMouseOverRect, builder.ToString());
         }
 
-        /// <inheritdoc cref="TraitTableWorker.NotifyResolutionChanged"/>
-        public override void NotifyResolutionChanged(Rect region)
+        if (trait.Data.CanAdd)
         {
-            float distributedWidth = Mathf.FloorToInt((region.width - 16f) * 0.3333f);
-            NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
-            NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
-            AddPriceHeaderRect = NameHeaderRect.Shift(Direction8Way.East, 1f);
-            AddPriceHeaderTextRect = new Rect(AddPriceHeaderRect.x + 4f, AddPriceHeaderRect.y, AddPriceHeaderRect.width - 8f, AddPriceHeaderRect.height);
-            RemovePriceHeaderRect = AddPriceHeaderRect.Shift(Direction8Way.East, 1f);
-            RemovePriceHeaderTextRect = new Rect(RemovePriceHeaderRect.x + 4f, RemovePriceHeaderRect.y, RemovePriceHeaderRect.width - 8f, RemovePriceHeaderRect.height);
+            UiHelper.Label(addPriceRect, trait.Data.CostToAdd.ToString("N0"));
         }
+
+        if (trait.Data.CanRemove)
+        {
+            UiHelper.Label(removePriceRect, trait.Data.CostToRemove.ToString("N0"));
+        }
+    }
+
+    /// <inheritdoc cref="TraitTableWorker.NotifyResolutionChanged"/>
+    public override void NotifyResolutionChanged(Rect region)
+    {
+        float distributedWidth = Mathf.FloorToInt((region.width - 16f) * 0.3333f);
+        NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
+        NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
+        AddPriceHeaderRect = NameHeaderRect.Shift(Direction8Way.East, 1f);
+        AddPriceHeaderTextRect = new Rect(AddPriceHeaderRect.x + 4f, AddPriceHeaderRect.y, AddPriceHeaderRect.width - 8f, AddPriceHeaderRect.height);
+        RemovePriceHeaderRect = AddPriceHeaderRect.Shift(Direction8Way.East, 1f);
+        RemovePriceHeaderTextRect = new Rect(RemovePriceHeaderRect.x + 4f, RemovePriceHeaderRect.y, RemovePriceHeaderRect.width - 8f, RemovePriceHeaderRect.height);
     }
 }

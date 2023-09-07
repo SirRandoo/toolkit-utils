@@ -19,34 +19,33 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.CommandSettings
+namespace SirRandoo.ToolkitUtils.CommandSettings;
+
+public class PawnGear : ICommandSettings
 {
-    public class PawnGear : ICommandSettings
+    public void Draw(Rect region)
     {
-        public void Draw(Rect region)
-        {
-            var listing = new Listing_Standard();
+        var listing = new Listing_Standard();
 
-            listing.Begin(region);
+        listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".TranslateSimple(), ref TkSettings.TempInGear);
-            listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".TranslateSimple());
+        listing.CheckboxLabeled("TKUtils.PawnGear.Temperature.Label".TranslateSimple(), ref TkSettings.TempInGear);
+        listing.DrawDescription("TKUtils.PawnGear.Temperature.Description".TranslateSimple());
 
-            listing.CheckboxLabeled("TKUtils.PawnGear.Apparel.Label".TranslateSimple(), ref TkSettings.ShowApparel);
-            listing.DrawDescription("TKUtils.PawnGear.Apparel.Description".TranslateSimple());
+        listing.CheckboxLabeled("TKUtils.PawnGear.Apparel.Label".TranslateSimple(), ref TkSettings.ShowApparel);
+        listing.DrawDescription("TKUtils.PawnGear.Apparel.Description".TranslateSimple());
 
-            listing.CheckboxLabeled("TKUtils.PawnGear.Armor.Label".TranslateSimple(), ref TkSettings.ShowArmor);
-            listing.DrawDescription("TKUtils.PawnGear.Armor.Description".TranslateSimple());
+        listing.CheckboxLabeled("TKUtils.PawnGear.Armor.Label".TranslateSimple(), ref TkSettings.ShowArmor);
+        listing.DrawDescription("TKUtils.PawnGear.Armor.Description".TranslateSimple());
 
-            listing.CheckboxLabeled("TKUtils.PawnGear.Weapon.Label".TranslateSimple(), ref TkSettings.ShowWeapon);
-            listing.DrawDescription("TKUtils.PawnGear.Weapon.Description".TranslateSimple());
+        listing.CheckboxLabeled("TKUtils.PawnGear.Weapon.Label".TranslateSimple(), ref TkSettings.ShowWeapon);
+        listing.DrawDescription("TKUtils.PawnGear.Weapon.Description".TranslateSimple());
 
-            listing.End();
-        }
+        listing.End();
+    }
 
-        public void Save()
-        {
-            TkUtils.Instance.WriteSettings();
-        }
+    public void Save()
+    {
+        TkUtils.Instance.WriteSettings();
     }
 }

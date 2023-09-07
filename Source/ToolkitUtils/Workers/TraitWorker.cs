@@ -15,26 +15,26 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Models.Tables;
 
-namespace SirRandoo.ToolkitUtils.Workers
+namespace SirRandoo.ToolkitUtils.Workers;
+
+/// <summary>
+///     A class for drawing a trait editor page in a portable, reusable
+///     way.
+/// </summary>
+public class TraitWorker : ItemWorkerBase<TableWorker<TableSettingsItem<TraitItem>>, TraitItem>
 {
-    /// <summary>
-    ///     A class for drawing a trait editor page in a portable, reusable
-    ///     way.
-    /// </summary>
-    public class TraitWorker : ItemWorkerBase<TableWorker<TableSettingsItem<TraitItem>>, TraitItem>
+    /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
+    public override void Prepare()
     {
-        /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
-        public override void Prepare()
-        {
-            base.Prepare();
-            Worker = new TraitTableWorker();
-            Worker.Prepare();
+        base.Prepare();
+        Worker = new TraitTableWorker();
+        Worker.Prepare();
 
-            DiscoverMutators(DomainIndexer.EditorTarget.Any);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Any);
-            DiscoverMutators(DomainIndexer.EditorTarget.Trait);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Trait);
-        }
+        DiscoverMutators(DomainIndexer.EditorTarget.Any);
+        DiscoverSelectors(DomainIndexer.EditorTarget.Any);
+        DiscoverMutators(DomainIndexer.EditorTarget.Trait);
+        DiscoverSelectors(DomainIndexer.EditorTarget.Trait);
     }
 }

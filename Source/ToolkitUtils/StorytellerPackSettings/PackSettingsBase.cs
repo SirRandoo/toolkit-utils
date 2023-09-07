@@ -26,26 +26,25 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
+namespace SirRandoo.ToolkitUtils.StorytellerPackSettings;
+
+[UsedImplicitly]
+public abstract class PackSettingsBase : IStorytellerPackSettings
 {
-    [UsedImplicitly]
-    public abstract class PackSettingsBase : IStorytellerPackSettings
+    /// <inheritdoc/>
+    public abstract bool Enabled { get; set; }
+
+    public abstract string Tooltip { get; }
+
+    /// <inheritdoc/>
+    public virtual void ResetState()
     {
-        /// <inheritdoc/>
-        public abstract bool Enabled { get; set; }
+        // Unused
+    }
 
-        public abstract string Tooltip { get; }
-
-        /// <inheritdoc/>
-        public virtual void ResetState()
-        {
-            // Unused
-        }
-
-        /// <inheritdoc/>
-        public virtual void Draw(Rect region)
-        {
-            UiHelper.Label(region, "This storyteller pack does not have settings.", Color.grey, TextAnchor.MiddleCenter, GameFont.Small);
-        }
+    /// <inheritdoc/>
+    public virtual void Draw(Rect region)
+    {
+        UiHelper.Label(region, "This storyteller pack does not have settings.", Color.grey, TextAnchor.MiddleCenter, GameFont.Small);
     }
 }

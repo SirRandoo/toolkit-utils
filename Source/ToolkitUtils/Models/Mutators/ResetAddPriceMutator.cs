@@ -17,31 +17,31 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class ResetAddPriceMutator : IMutatorBase<TraitItem>
 {
-    public class ResetAddPriceMutator : IMutatorBase<TraitItem>
+    private string _resetPriceText;
+    public int Priority => 10;
+
+    public string Label => "TKUtils.EditorMutator.ResetAddPrice".TranslateSimple();
+
+    public void Prepare()
     {
-        private string _resetPriceText;
-        public int Priority => 10;
+        _resetPriceText = Label;
+    }
 
-        public string Label => "TKUtils.EditorMutator.ResetAddPrice".TranslateSimple();
+    public void Draw(Rect canvas)
+    {
+        UiHelper.Label(canvas, _resetPriceText, new Color(1f, 0.53f, 0.76f), TextAnchor.MiddleLeft, GameFont.Small);
+    }
 
-        public void Prepare()
-        {
-            _resetPriceText = Label;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            UiHelper.Label(canvas, _resetPriceText, new Color(1f, 0.53f, 0.76f), TextAnchor.MiddleLeft, GameFont.Small);
-        }
-
-        public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
-        {
-            item.Data.ResetAddPrice();
-        }
+    public void Mutate(TableSettingsItem<TraitItem> item)
+    {
+        item.Data.ResetAddPrice();
     }
 }

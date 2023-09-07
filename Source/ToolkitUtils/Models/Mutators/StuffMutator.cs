@@ -17,41 +17,41 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class StuffMutator : IMutatorBase<ThingItem>
 {
-    public class StuffMutator : IMutatorBase<ThingItem>
+    private bool _state;
+    private string _stuffText;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.CanBeStuff".TranslateSimple();
+
+    public void Prepare()
     {
-        private bool _state;
-        private string _stuffText;
+        _stuffText = Label;
+    }
 
-        public int Priority => 1;
-
-        public string Label => "TKUtils.Fields.CanBeStuff".TranslateSimple();
-
-        public void Prepare()
+    public void Mutate(TableSettingsItem<ThingItem> item)
+    {
+        if (item.Data.Thing?.IsStuff != true)
         {
-            _stuffText = Label;
+            return;
         }
 
-        public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
+        if (item.Data.ItemData != null)
         {
-            if (item.Data.Thing?.IsStuff != true)
-            {
-                return;
-            }
-
-            if (item.Data.ItemData != null)
-            {
-                item.Data.ItemData.IsStuffAllowed = _state;
-            }
+            item.Data.ItemData.IsStuffAllowed = _state;
         }
+    }
 
-        public void Draw(Rect canvas)
-        {
-            UiHelper.LabeledPaintableCheckbox(canvas, _stuffText, ref _state);
-        }
+    public void Draw(Rect canvas)
+    {
+        UiHelper.LabeledPaintableCheckbox(canvas, _stuffText, ref _state);
     }
 }

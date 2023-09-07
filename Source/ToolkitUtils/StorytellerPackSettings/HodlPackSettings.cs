@@ -28,199 +28,197 @@ using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
+namespace SirRandoo.ToolkitUtils.StorytellerPackSettings;
+
+[UsedImplicitly]
+public class HodlPackSettings : PackSettingsBase
 {
-    [UsedImplicitly]
-    public class HodlPackSettings : PackSettingsBase
+    private List<Entry> _categoryEntries;
+    private string _mtbBuffer;
+    private bool _mtbBufferValid;
+    private Vector2 _scrollPos;
+    private int _totalCategoryWeight;
+    private int _totalKarmaWeight;
+    private List<Entry> _typeEntries;
+    private int _weightLineSpan;
+
+    /// <inheritdoc/>
+    public override bool Enabled
     {
-        private List<Entry> _categoryEntries;
-        private string _mtbBuffer;
-        private bool _mtbBufferValid;
-        private Vector2 _scrollPos;
-        private int _totalCategoryWeight;
-        private int _totalKarmaWeight;
-        private List<Entry> _typeEntries;
-        private int _weightLineSpan;
+        get => ToolkitSettings.HodlBotEnabled;
+        set => ToolkitSettings.HodlBotEnabled = value;
+    }
 
-        /// <inheritdoc/>
-        public override bool Enabled
+    /// <inheritdoc/>
+    public override string Tooltip =>
+        "Random by category, or type. Hodlbot chooses events from a random category or type. The chance of one of these categories/types being picked is based the pack's weights.";
+
+    /// <inheritdoc/>
+    public override void ResetState()
+    {
+        _mtbBufferValid = true;
+        _scrollPos = Vector2.zero;
+        _mtbBuffer = ToolkitSettings.HodlBotMTBDays.ToString("N2");
+
+        if (_categoryEntries == null)
         {
-            get => ToolkitSettings.HodlBotEnabled;
-            set => ToolkitSettings.HodlBotEnabled = value;
+            _categoryEntries = new List<Entry>();
+
+            foreach ((string key, float value) in ToolkitSettings.VoteCategoryWeights)
+            {
+                _categoryEntries.Add(new Entry { Name = key, Weight = Mathf.FloorToInt(value), Buffer = value.ToString("N2"), BufferValid = true });
+            }
+
+            _totalCategoryWeight = RecalculateTotalCategoryWeight();
+            _weightLineSpan = (_typeEntries?.Count ?? 0) + _categoryEntries.Count;
         }
 
-        /// <inheritdoc/>
-        [NotNull]
-        public override string Tooltip =>
-            "Random by category, or type. Hodlbot chooses events from a random category or type. The chance of one of these categories/types being picked is based the pack's weights.";
-
-        /// <inheritdoc/>
-        public override void ResetState()
+        if (_typeEntries == null)
         {
-            _mtbBufferValid = true;
-            _scrollPos = Vector2.zero;
-            _mtbBuffer = ToolkitSettings.HodlBotMTBDays.ToString("N2");
+            _typeEntries = new List<Entry>();
 
-            if (_categoryEntries == null)
+            foreach ((string key, float value) in ToolkitSettings.VoteTypeWeights)
             {
-                _categoryEntries = new List<Entry>();
+                _typeEntries.Add(new Entry { Name = key, Weight = Mathf.FloorToInt(value), Buffer = value.ToString("N2"), BufferValid = true });
+            }
 
-                foreach ((string key, float value) in ToolkitSettings.VoteCategoryWeights)
-                {
-                    _categoryEntries.Add(new Entry { Name = key, Weight = Mathf.FloorToInt(value), Buffer = value.ToString("N2"), BufferValid = true });
-                }
+            _totalKarmaWeight = RecalculateTotalKarmaWeight();
+            _weightLineSpan = _typeEntries.Count + _categoryEntries.Count;
+        }
+    }
 
+    /// <inheritdoc/>
+    public override void Draw(Rect region)
+    {
+        var headerRegion = new Rect(0f, 0f, region.width, Text.SmallFontHeight * 5f);
+        var settingsRegion = new Rect(0f, headerRegion.height, region.width, region.height - headerRegion.height);
+
+        GUI.BeginGroup(region);
+
+        GUI.BeginGroup(headerRegion);
+
+        UiHelper.Label(
+            headerRegion,
+            "HodlBot chooses events from a random category or type. The chance of one of these categories/types being picked is based on the weights below. Setting something to 0% will disable.",
+            Color.gray,
+            TextAnchor.MiddleCenter,
+            GameFont.Small
+        );
+
+        GUI.EndGroup();
+
+        GUI.BeginGroup(settingsRegion);
+
+        DrawSettings(settingsRegion.AtZero());
+
+        GUI.EndGroup();
+
+        GUI.EndGroup();
+    }
+
+    private void DrawSettings(Rect region)
+    {
+        var listing = new Listing_Standard();
+        var view = new Rect(0f, 0f, region.width - 16f, Text.SmallFontHeight * (_weightLineSpan + 1));
+
+        _scrollPos = GUI.BeginScrollView(region, _scrollPos, view);
+        listing.Begin(region);
+
+        (Rect mtbLabel, Rect mtbField) = listing.Split(0.8f);
+        UiHelper.Label(mtbLabel, "Average days between events");
+
+        if (UiHelper.NumberField(mtbField, out float newMtb, ref _mtbBuffer, ref _mtbBufferValid, 0.5f, 10f))
+        {
+            ToolkitSettings.HodlBotMTBDays = newMtb;
+        }
+
+        listing.GapLine();
+
+        foreach (Entry entry in _categoryEntries)
+        {
+            Rect lineRegion = listing.GetRect(Text.SmallFontHeight);
+
+            if (!lineRegion.IsVisible(region, _scrollPos))
+            {
+                continue;
+            }
+
+            string buffer = entry.Buffer;
+            bool bufferValid = entry.BufferValid;
+            var relativeWeight = (float)Math.Round((float)entry.Weight / _totalCategoryWeight * 100f, 2);
+
+            (Rect labelRegion, Rect fieldRegion) = lineRegion.Split(0.8f);
+            Widgets.LabelFit(labelRegion, $"{entry.Name} {relativeWeight:P}");
+
+            if (UiHelper.NumberField(fieldRegion, out int newWeight, ref buffer, ref bufferValid))
+            {
+                ToolkitSettings.VoteCategoryWeights[entry.Name] = entry.Weight = newWeight;
                 _totalCategoryWeight = RecalculateTotalCategoryWeight();
-                _weightLineSpan = (_typeEntries?.Count ?? 0) + _categoryEntries.Count;
             }
 
-            if (_typeEntries == null)
+            entry.Buffer = buffer;
+            entry.BufferValid = bufferValid;
+        }
+
+        foreach (Entry entry in _typeEntries)
+        {
+            Rect lineRegion = listing.GetRect(Text.SmallFontHeight);
+
+            if (!lineRegion.IsVisible(region, _scrollPos))
             {
-                _typeEntries = new List<Entry>();
+                continue;
+            }
 
-                foreach ((string key, float value) in ToolkitSettings.VoteTypeWeights)
-                {
-                    _typeEntries.Add(new Entry { Name = key, Weight = Mathf.FloorToInt(value), Buffer = value.ToString("N2"), BufferValid = true });
-                }
+            string buffer = entry.Buffer;
+            bool bufferValid = entry.BufferValid;
+            var relativeWeight = (float)Math.Round((float)entry.Weight / _totalKarmaWeight * 100f, 2);
 
+            (Rect labelRegion, Rect fieldRegion) = lineRegion.Split(0.8f);
+            Widgets.LabelFit(labelRegion, $"{entry.Name} {relativeWeight:P}");
+
+            if (UiHelper.NumberField(fieldRegion, out int newWeight, ref buffer, ref bufferValid))
+            {
+                ToolkitSettings.VoteTypeWeights[entry.Name] = entry.Weight = newWeight;
                 _totalKarmaWeight = RecalculateTotalKarmaWeight();
-                _weightLineSpan = _typeEntries.Count + _categoryEntries.Count;
             }
+
+            entry.Buffer = buffer;
+            entry.BufferValid = bufferValid;
         }
 
-        /// <inheritdoc/>
-        public override void Draw(Rect region)
+        listing.End();
+        GUI.EndScrollView();
+    }
+
+    private int RecalculateTotalCategoryWeight()
+    {
+        var value = 0;
+
+        foreach (Entry entry in _categoryEntries)
         {
-            var headerRegion = new Rect(0f, 0f, region.width, Text.SmallFontHeight * 5f);
-            var settingsRegion = new Rect(0f, headerRegion.height, region.width, region.height - headerRegion.height);
-
-            GUI.BeginGroup(region);
-
-            GUI.BeginGroup(headerRegion);
-
-            UiHelper.Label(
-                headerRegion,
-                "HodlBot chooses events from a random category or type. The chance of one of these categories/types being picked is based on the weights below. Setting something to 0% will disable.",
-                Color.gray,
-                TextAnchor.MiddleCenter,
-                GameFont.Small
-            );
-
-            GUI.EndGroup();
-
-            GUI.BeginGroup(settingsRegion);
-
-            DrawSettings(settingsRegion.AtZero());
-
-            GUI.EndGroup();
-
-            GUI.EndGroup();
+            value += Mathf.FloorToInt(entry.Weight);
         }
 
-        private void DrawSettings(Rect region)
+        return value;
+    }
+
+    private int RecalculateTotalKarmaWeight()
+    {
+        var value = 0;
+
+        foreach (Entry entry in _typeEntries)
         {
-            var listing = new Listing_Standard();
-            var view = new Rect(0f, 0f, region.width - 16f, Text.SmallFontHeight * (_weightLineSpan + 1));
-
-            _scrollPos = GUI.BeginScrollView(region, _scrollPos, view);
-            listing.Begin(region);
-
-            (Rect mtbLabel, Rect mtbField) = listing.Split(0.8f);
-            UiHelper.Label(mtbLabel, "Average days between events");
-
-            if (UiHelper.NumberField(mtbField, out float newMtb, ref _mtbBuffer, ref _mtbBufferValid, 0.5f, 10f))
-            {
-                ToolkitSettings.HodlBotMTBDays = newMtb;
-            }
-
-            listing.GapLine();
-
-            foreach (Entry entry in _categoryEntries)
-            {
-                Rect lineRegion = listing.GetRect(Text.SmallFontHeight);
-
-                if (!lineRegion.IsVisible(region, _scrollPos))
-                {
-                    continue;
-                }
-
-                string buffer = entry.Buffer;
-                bool bufferValid = entry.BufferValid;
-                var relativeWeight = (float)Math.Round((float)entry.Weight / _totalCategoryWeight * 100f, 2);
-
-                (Rect labelRegion, Rect fieldRegion) = lineRegion.Split(0.8f);
-                Widgets.LabelFit(labelRegion, $"{entry.Name} {relativeWeight:P}");
-
-                if (UiHelper.NumberField(fieldRegion, out int newWeight, ref buffer, ref bufferValid))
-                {
-                    ToolkitSettings.VoteCategoryWeights[entry.Name] = entry.Weight = newWeight;
-                    _totalCategoryWeight = RecalculateTotalCategoryWeight();
-                }
-
-                entry.Buffer = buffer;
-                entry.BufferValid = bufferValid;
-            }
-
-            foreach (Entry entry in _typeEntries)
-            {
-                Rect lineRegion = listing.GetRect(Text.SmallFontHeight);
-
-                if (!lineRegion.IsVisible(region, _scrollPos))
-                {
-                    continue;
-                }
-
-                string buffer = entry.Buffer;
-                bool bufferValid = entry.BufferValid;
-                var relativeWeight = (float)Math.Round((float)entry.Weight / _totalKarmaWeight * 100f, 2);
-
-                (Rect labelRegion, Rect fieldRegion) = lineRegion.Split(0.8f);
-                Widgets.LabelFit(labelRegion, $"{entry.Name} {relativeWeight:P}");
-
-                if (UiHelper.NumberField(fieldRegion, out int newWeight, ref buffer, ref bufferValid))
-                {
-                    ToolkitSettings.VoteTypeWeights[entry.Name] = entry.Weight = newWeight;
-                    _totalKarmaWeight = RecalculateTotalKarmaWeight();
-                }
-
-                entry.Buffer = buffer;
-                entry.BufferValid = bufferValid;
-            }
-
-            listing.End();
-            GUI.EndScrollView();
+            value += Mathf.FloorToInt(entry.Weight);
         }
 
-        private int RecalculateTotalCategoryWeight()
-        {
-            var value = 0;
+        return value;
+    }
 
-            foreach (Entry entry in _categoryEntries)
-            {
-                value += Mathf.FloorToInt(entry.Weight);
-            }
-
-            return value;
-        }
-
-        private int RecalculateTotalKarmaWeight()
-        {
-            var value = 0;
-
-            foreach (Entry entry in _typeEntries)
-            {
-                value += Mathf.FloorToInt(entry.Weight);
-            }
-
-            return value;
-        }
-
-        private sealed class Entry
-        {
-            public string Name { get; set; }
-            public int Weight { get; set; }
-            public string Buffer { get; set; }
-            public bool BufferValid { get; set; }
-        }
+    private sealed class Entry
+    {
+        public string Name { get; set; }
+        public int Weight { get; set; }
+        public string Buffer { get; set; }
+        public bool BufferValid { get; set; }
     }
 }

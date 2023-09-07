@@ -18,17 +18,16 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.IncidentSettings;
 using TwitchToolkit.Incidents;
 
-namespace SirRandoo.ToolkitUtils.Models
-{
-    public class MechanoidRaidIncidentData : RaidIncidentData
-    {
-        public override bool UseStoryteller => MechanoidRaid.Storyteller;
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
 
-        public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
-        {
-            base.DoExtraSetup(worker, @params, incident);
-            @params.raidArrivalMode = PawnsArrivalModeDefOf.RandomDrop;
-            @params.faction = Faction.OfMechanoids;
-        }
+public class MechanoidRaidIncidentData : RaidIncidentData
+{
+    public override bool UseStoryteller => MechanoidRaid.Storyteller;
+
+    public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
+    {
+        base.DoExtraSetup(worker, @params, incident);
+        @params.raidArrivalMode = PawnsArrivalModeDefOf.RandomDrop;
+        @params.faction = Faction.OfMechanoids;
     }
 }

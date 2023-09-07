@@ -17,33 +17,33 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class CanAddMutator : IMutatorBase<TraitItem>
 {
-    public class CanAddMutator : IMutatorBase<TraitItem>
+    private string _canAddText;
+    private bool _state;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.CanAdd".TranslateSimple();
+
+    public void Prepare()
     {
-        private string _canAddText;
-        private bool _state;
+        _canAddText = Label;
+    }
 
-        public int Priority => 1;
+    public void Mutate(TableSettingsItem<TraitItem> item)
+    {
+        item.Data.CanAdd = _state;
+    }
 
-        public string Label => "TKUtils.Fields.CanAdd".TranslateSimple();
-
-        public void Prepare()
-        {
-            _canAddText = Label;
-        }
-
-        public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
-        {
-            item.Data.CanAdd = _state;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            UiHelper.LabeledPaintableCheckbox(canvas, _canAddText, ref _state);
-        }
+    public void Draw(Rect canvas)
+    {
+        UiHelper.LabeledPaintableCheckbox(canvas, _canAddText, ref _state);
     }
 }

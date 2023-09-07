@@ -14,11 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+public class ViewerState
 {
-    public class ViewerState
-    {
-        public int Coins { get; set; }
-        public int Karma { get; set; }
-    }
+    public int Coins { get; set; }
+    public int Karma { get; set; }
 }

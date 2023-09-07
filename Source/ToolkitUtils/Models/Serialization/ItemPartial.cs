@@ -16,15 +16,14 @@
 
 using Newtonsoft.Json;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+public class ItemPartial : ProxyPartial
 {
-    public class ItemPartial : ProxyPartial
+    [JsonProperty("data")]
+    public ItemData ItemData
     {
-        [JsonProperty("data")]
-        public ItemData ItemData
-        {
-            get => (ItemData)Data;
-            set => Data = value;
-        }
+        get => (ItemData)Data;
+        set => Data = value;
     }
 }

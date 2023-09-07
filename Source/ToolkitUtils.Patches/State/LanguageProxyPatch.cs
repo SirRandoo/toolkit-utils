@@ -23,66 +23,64 @@ using JetBrains.Annotations;
 using Verse;
 using Translator = SirRandoo.ToolkitUtils.Helpers.Translator;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for filling Utils' translation service with the
+///     game's current language data.
+/// </summary>
+/// <remarks>
+///     Prior to this, responses from Utils' commands and events would
+///     occasionally encounter a race condition that would result in
+///     messages being garbled, and/or text being display in-game
+///     appearing in chat.
+/// </remarks>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class LanguageProxyPatch
 {
-    /// <summary>
-    ///     A Harmony patch for filling Utils' translation service with the
-    ///     game's current language data.
-    /// </summary>
-    /// <remarks>
-    ///     Prior to this, responses from Utils' commands and events would
-    ///     occasionally encounter a race condition that would result in
-    ///     messages being garbled, and/or text being display in-game
-    ///     appearing in chat.
-    /// </remarks>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class LanguageProxyPatch
+    private static MethodBase _languageChangeMethod = null!;
+
+    private static bool Prepare()
     {
-        private static MethodBase _languageChangeMethod;
+        _languageChangeMethod = AccessTools.Method(typeof(LanguageDatabase), nameof(LanguageDatabase.SelectLanguage));
 
-        private static bool Prepare()
+        return _languageChangeMethod != null;
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            _languageChangeMethod ??= AccessTools.Method(typeof(LanguageDatabase), nameof(LanguageDatabase.SelectLanguage));
-
-            return _languageChangeMethod != null;
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
 
-        private static IEnumerable<MethodBase> TargetMethods()
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
+    }
+
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        yield return _languageChangeMethod;
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    private static void Prefix(LoadedLanguage lang, out bool __state)
+    {
+        __state = lang != LanguageDatabase.activeLanguage;
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    private static void Postfix(bool __state)
+    {
+        if (!__state)
         {
-            yield return _languageChangeMethod;
+            // The language requested was the currently active language.
+            return;
         }
 
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private static void Prefix(LoadedLanguage lang, out bool __state)
-        {
-            __state = lang != LanguageDatabase.activeLanguage;
-        }
-
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private static void Postfix(bool __state)
-        {
-            if (!__state)
-            {
-                // The language requested was the currently active language.
-                return;
-            }
-
-            Translator.Invalidate();
-            Translator.CopyKeys();
-        }
+        Translator.Invalidate();
+        Translator.CopyKeys();
     }
 }

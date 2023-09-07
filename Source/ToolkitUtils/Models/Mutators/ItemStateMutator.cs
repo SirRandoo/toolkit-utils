@@ -18,50 +18,50 @@ using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class ItemStateMutator : IMutatorBase<ThingItem>
 {
-    public class ItemStateMutator : IMutatorBase<ThingItem>
+    private bool _state;
+    private string _stateText;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.State".TranslateSimple();
+
+    public void Prepare()
     {
-        private bool _state;
-        private string _stateText;
+        _stateText = Label;
+    }
 
-        public int Priority => 1;
+    public void Draw(Rect canvas)
+    {
+        UiHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state);
+    }
 
-        public string Label => "TKUtils.Fields.State".TranslateSimple();
-
-        public void Prepare()
+    public void Mutate(TableSettingsItem<ThingItem> item)
+    {
+        if (item.Data.Item == null)
         {
-            _stateText = Label;
+            return;
         }
 
-        public void Draw(Rect canvas)
+        switch (_state)
         {
-            UiHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state);
-        }
+            case true when !item.Data.Enabled:
+                item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
+                item.Data.Enabled = true;
 
-        public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            if (item.Data.Item == null)
-            {
-                return;
-            }
+                break;
+            case false when item.Data.Enabled:
+                item.Data.Item.price = -10;
+                item.Data.Enabled = false;
 
-            switch (_state)
-            {
-                case true when !item.Data.Enabled:
-                    item.Data.Item.price = item.Data.Thing.CalculateStorePrice();
-                    item.Data.Enabled = true;
-
-                    break;
-                case false when item.Data.Enabled:
-                    item.Data.Item.price = -10;
-                    item.Data.Enabled = false;
-
-                    break;
-            }
+                break;
         }
     }
 }

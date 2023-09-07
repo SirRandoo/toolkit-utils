@@ -1,8 +1,9 @@
 ﻿<Project>
     <!-- Language Metadata -->
     <PropertyGroup>
-        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
         <OutputType>Library</OutputType>
+        <LangVersion>latest</LangVersion>
         <TargetFramework>net48</TargetFramework>
     </PropertyGroup>
 
@@ -85,6 +86,7 @@
 
     <!-- NuGet dependencies -->
     <ItemGroup>
+        <PackageReference Include="PolySharp" Version="1.13.2"/>
         <PackageReference Include="0SirRandoo.CommonLib" Version="1.12.1">
             <ExcludeAssets Condition="'$(CompatibilityFor)' != ''">runtime</ExcludeAssets>
         </PackageReference>

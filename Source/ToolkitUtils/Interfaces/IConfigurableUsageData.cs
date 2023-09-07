@@ -14,14 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils.Interfaces
-{
-    public interface IConfigurableUsageData
-    {
-        bool HasGlobalCooldown { get; set; }
-        int GlobalCooldown { get; set; }
+namespace SirRandoo.ToolkitUtils.Interfaces;
 
-        bool HasLocalCooldown { get; set; }
-        int LocalCooldown { get; set; }
-    }
+public interface IConfigurableUsageData
+{
+    bool HasGlobalCooldown { get; set; }
+    int GlobalCooldown { get; set; }
+
+    bool HasLocalCooldown { get; set; }
+    int LocalCooldown { get; set; }
 }

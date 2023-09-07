@@ -22,94 +22,95 @@ using RimWorld;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.Constraints;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class TechnologySelector : ISelectorBase<ThingItem>
 {
-    public class TechnologySelector : ISelectorBase<ThingItem>
+    private ComparisonTypes _comparison = ComparisonTypes.LessEqual;
+    private List<FloatMenuOption> _comparisonOptions;
+    private TechLevel _techLevel = TechLevel.Industrial;
+    private List<FloatMenuOption> _techLevelOptions;
+    private string _techLevelText;
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public void Prepare()
     {
-        private ComparisonTypes _comparison = ComparisonTypes.LessEqual;
-        private List<FloatMenuOption> _comparisonOptions;
-        private TechLevel _techLevel = TechLevel.Industrial;
-        private List<FloatMenuOption> _techLevelOptions;
-        private string _techLevelText;
+        _techLevelText = Label;
 
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public void Prepare()
-        {
-            _techLevelText = Label;
-
-            _techLevelOptions = Data.TechLevels.Values.Where(i => i != TechLevel.Undefined)
-               .Select(
-                    i => new FloatMenuOption(
-                        $"TechLevel_{i}".TranslateSimple(),
-                        () =>
-                        {
-                            _techLevel = i;
-                            Dirty.Set(true);
-                        }
-                    )
+        _techLevelOptions = Data.TechLevels.Values.Where(i => i != TechLevel.Undefined)
+           .Select(
+                i => new FloatMenuOption(
+                    $"TechLevel_{i}".TranslateSimple(),
+                    () =>
+                    {
+                        _techLevel = i;
+                        Dirty.Set(true);
+                    }
                 )
-               .ToList();
+            )
+           .ToList();
 
-            _comparisonOptions = Data.ComparisonTypes.Values.Select(
-                    i => new FloatMenuOption(
-                        i.AsOperator(),
-                        () =>
-                        {
-                            _comparison = i;
-                            Dirty.Set(true);
-                        }
-                    )
+        _comparisonOptions = Data.ComparisonTypes.Values.Select(
+                i => new FloatMenuOption(
+                    i.AsOperator(),
+                    () =>
+                    {
+                        _comparison = i;
+                        Dirty.Set(true);
+                    }
                 )
-               .ToList();
-        }
-
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _techLevelText);
-
-            (Rect comp, Rect tech) = field.Split(0.3f);
-
-            if (Widgets.ButtonText(comp, _comparison.AsOperator()))
-            {
-                Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
-            }
-
-            if (Widgets.ButtonText(tech, $"TechLevel_{_techLevel}".TranslateSimple().CapitalizeFirst()))
-            {
-                Find.WindowStack.Add(new FloatMenu(_techLevelOptions));
-            }
-        }
-
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            if (item.Data.Thing?.techLevel == null)
-            {
-                return false;
-            }
-
-            switch (_comparison)
-            {
-                case ComparisonTypes.Greater:
-                    return (int)item.Data.Thing.techLevel > (int)_techLevel;
-                case ComparisonTypes.Equal:
-                    return (int)item.Data.Thing.techLevel == (int)_techLevel;
-                case ComparisonTypes.Less:
-                    return (int)item.Data.Thing.techLevel < (int)_techLevel;
-                case ComparisonTypes.GreaterEqual:
-                    return (int)item.Data.Thing.techLevel >= (int)_techLevel;
-                case ComparisonTypes.LessEqual:
-                    return (int)item.Data.Thing.techLevel <= (int)_techLevel;
-                default:
-                    return false;
-            }
-        }
-
-        public string Label => "TKUtils.Fields.Technology".TranslateSimple();
+            )
+           .ToList();
     }
+
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _techLevelText);
+
+        (Rect comp, Rect tech) = field.Split(0.3f);
+
+        if (Widgets.ButtonText(comp, _comparison.AsOperator()))
+        {
+            Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
+        }
+
+        if (Widgets.ButtonText(tech, $"TechLevel_{_techLevel}".TranslateSimple().CapitalizeFirst()))
+        {
+            Find.WindowStack.Add(new FloatMenu(_techLevelOptions));
+        }
+    }
+
+    public bool IsVisible(TableSettingsItem<ThingItem> item)
+    {
+        if (item.Data.Thing?.techLevel == null)
+        {
+            return false;
+        }
+
+        switch (_comparison)
+        {
+            case ComparisonTypes.Greater:
+                return (int)item.Data.Thing.techLevel > (int)_techLevel;
+            case ComparisonTypes.Equal:
+                return (int)item.Data.Thing.techLevel == (int)_techLevel;
+            case ComparisonTypes.Less:
+                return (int)item.Data.Thing.techLevel < (int)_techLevel;
+            case ComparisonTypes.GreaterEqual:
+                return (int)item.Data.Thing.techLevel >= (int)_techLevel;
+            case ComparisonTypes.LessEqual:
+                return (int)item.Data.Thing.techLevel <= (int)_techLevel;
+            default:
+                return false;
+        }
+    }
+
+    public string Label => "TKUtils.Fields.Technology".TranslateSimple();
 }

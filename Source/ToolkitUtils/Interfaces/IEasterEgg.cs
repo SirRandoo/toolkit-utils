@@ -18,14 +18,13 @@ using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IEasterEgg
 {
-    public interface IEasterEgg
-    {
-        float Chance { get; }
-        string UserId { get; }
-        bool IsPossible(StoreIncident incident, Viewer viewer);
-        void Execute(Viewer viewer);
-        void Execute(Viewer viewer, Pawn pawn);
-    }
+    float Chance { get; }
+    string? UserId { get; }
+    bool IsPossible(StoreIncident incident, Viewer viewer);
+    void Execute(Viewer viewer);
+    void Execute(Viewer viewer, Pawn pawn);
 }

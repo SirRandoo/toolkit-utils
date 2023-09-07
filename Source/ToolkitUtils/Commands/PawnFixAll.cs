@@ -21,29 +21,28 @@ using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class PawnFixAll : CommandBase
 {
-    [UsedImplicitly]
-    public class PawnFixAll : CommandBase
+    public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        foreach (Viewer viewer in Viewers.All)
         {
-            foreach (Viewer viewer in Viewers.All)
+            if (!PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn))
             {
-                if (!PurchaseHelper.TryGetPawn(viewer.username, out Pawn pawn))
-                {
-                    continue;
-                }
-
-                var name = pawn!.Name as NameTriple;
-
-                if (name?.Nick != viewer.username)
-                {
-                    pawn.Name = new NameTriple(name?.First ?? "", viewer.username, name?.Last ?? "");
-                }
+                continue;
             }
 
-            twitchMessage.Reply("TKUtils.FixAll".Localize());
+            var name = pawn!.Name as NameTriple;
+
+            if (name?.Nick != viewer.username)
+            {
+                pawn.Name = new NameTriple(name?.First ?? "", viewer.username, name?.Last ?? "");
+            }
         }
+
+        twitchMessage.Reply("TKUtils.FixAll".Localize());
     }
 }

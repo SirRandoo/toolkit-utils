@@ -21,18 +21,17 @@ using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Incidents;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
+
+public class ManhunterPackIncidentData : IWageredIncidentData
 {
-    public class ManhunterPackIncidentData : IWageredIncidentData
+    public bool UseStoryteller => ManhunterPack.Storyteller;
+    public Type WorkerClass => typeof(IncidentWorker_ManhunterPack);
+
+    public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
+
+    public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
     {
-        public bool UseStoryteller => ManhunterPack.Storyteller;
-        [NotNull] public Type WorkerClass => typeof(IncidentWorker_ManhunterPack);
-
-        public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
-
-        public void DoExtraSetup([NotNull] IncidentWorker worker, IncidentParms @params, StoreIncident incident)
-        {
-            worker.def = RimWorld.IncidentDefOf.RaidEnemy;
-        }
+        worker.def = RimWorld.IncidentDefOf.RaidEnemy;
     }
 }

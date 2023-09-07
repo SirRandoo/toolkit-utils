@@ -22,137 +22,135 @@ using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Workers
+namespace SirRandoo.ToolkitUtils.Workers;
+
+/// <summary>
+///     A somewhat similar worker to RimWorld's
+///     <see cref="InteractionWorker"/>, but without RimWorld's internal
+///     limiters.
+/// </summary>
+public static class ForcedInteractionWorker
 {
     /// <summary>
-    ///     A somewhat similar worker to RimWorld's
-    ///     <see cref="InteractionWorker"/>, but without RimWorld's internal
-    ///     limiters.
+    ///     Instructs a <see cref="Pawn"/> to interact with another
+    ///     <see cref="Pawn"/> according to the given
+    ///     <see cref="InteractionDef"/>.
     /// </summary>
-    public static class ForcedInteractionWorker
+    /// <param name="pawn">The pawn to do the interaction</param>
+    /// <param name="recipient">The pawn being interacted with</param>
+    /// <param name="interaction">
+    ///     The <see cref="InteractionDef"/> of the
+    ///     interaction that will take place
+    /// </param>
+    /// <returns>
+    ///     The interaction string returned by RimWorld's interaction
+    ///     worker.
+    /// </returns>
+    [CanBeNull]
+    public static string InteractWith(Pawn pawn, Pawn recipient, InteractionDef interaction)
     {
-        /// <summary>
-        ///     Instructs a <see cref="Pawn"/> to interact with another
-        ///     <see cref="Pawn"/> according to the given
-        ///     <see cref="InteractionDef"/>.
-        /// </summary>
-        /// <param name="pawn">The pawn to do the interaction</param>
-        /// <param name="recipient">The pawn being interacted with</param>
-        /// <param name="interaction">
-        ///     The <see cref="InteractionDef"/> of the
-        ///     interaction that will take place
-        /// </param>
-        /// <returns>
-        ///     The interaction string returned by RimWorld's interaction
-        ///     worker.
-        /// </returns>
-        [CanBeNull]
-        public static string InteractWith(Pawn pawn, Pawn recipient, InteractionDef interaction)
+        if (pawn == recipient)
         {
-            if (pawn == recipient)
-            {
-                return null;
-            }
-
-            var extraSentencePacks = new List<RulePackDef>();
-
-            if (interaction.initiatorThought != null)
-            {
-                Pawn_InteractionsTracker.AddInteractionThought(pawn, recipient, interaction.initiatorThought);
-            }
-
-            if (interaction.recipientThought != null && recipient.needs.mood != null)
-            {
-                Pawn_InteractionsTracker.AddInteractionThought(recipient, pawn, interaction.recipientThought);
-            }
-
-            bool isSocialFight = recipient.RaceProps.Humanlike && recipient.interactions.CheckSocialFightStart(interaction, pawn);
-
-            string letterText = null;
-            string letterLabel = null;
-            LetterDef letterDef = null;
-            LookTargets lookTargets = null;
-
-            if (!isSocialFight)
-            {
-                interaction.Worker.Interacted(pawn, recipient, extraSentencePacks, out letterText, out letterLabel, out letterDef, out lookTargets);
-            }
-
-            MoteMaker.MakeInteractionBubble(
-                pawn,
-                recipient,
-                interaction.interactionMote,
-                interaction.GetSymbol(pawn.Faction, pawn.Ideo),
-                interaction.GetSymbolColor(pawn.Faction)
-            );
-
-            if (isSocialFight)
-            {
-                extraSentencePacks.Add(RulePackDefOf.Sentence_SocialFightStarted);
-            }
-
-            var entry = new PlayLogEntry_Interaction(interaction, pawn, recipient, extraSentencePacks);
-            Find.PlayLog.Add(entry);
-
-            string text = RichTextHelper.StripTags(entry.ToGameStringFromPOV(pawn));
-
-            if (letterDef == null)
-            {
-                return MakeFirstPerson(pawn.LabelShort, text);
-            }
-
-            if (!letterText.NullOrEmpty())
-            {
-                text = text + "\n\n" + RichTextHelper.StripTags(letterText);
-            }
-
-            Find.LetterStack.ReceiveLetter(letterLabel, text, letterDef, lookTargets ?? pawn);
-
-            return MakeFirstPerson(pawn.LabelShort, text.Replace("\n\n", " "));
+            return null;
         }
 
-        [NotNull]
-        private static string MakeFirstPerson(string username, [NotNull] string text)
+        var extraSentencePacks = new List<RulePackDef>();
+
+        if (interaction.initiatorThought != null)
         {
-            var builder = new StringBuilder();
-            string you = "TKUtils.Interaction.You".Localize();
-            var shouldCapitalize = false;
+            Pawn_InteractionsTracker.AddInteractionThought(pawn, recipient, interaction.initiatorThought);
+        }
 
-            foreach (string word in text.Split(' '))
+        if (interaction.recipientThought != null && recipient.needs.mood != null)
+        {
+            Pawn_InteractionsTracker.AddInteractionThought(recipient, pawn, interaction.recipientThought);
+        }
+
+        bool isSocialFight = recipient.RaceProps.Humanlike && recipient.interactions.CheckSocialFightStart(interaction, pawn);
+
+        string letterText = null;
+        string letterLabel = null;
+        LetterDef letterDef = null;
+        LookTargets lookTargets = null;
+
+        if (!isSocialFight)
+        {
+            interaction.Worker.Interacted(pawn, recipient, extraSentencePacks, out letterText, out letterLabel, out letterDef, out lookTargets);
+        }
+
+        MoteMaker.MakeInteractionBubble(
+            pawn,
+            recipient,
+            interaction.interactionMote,
+            interaction.GetSymbol(pawn.Faction, pawn.Ideo),
+            interaction.GetSymbolColor(pawn.Faction)
+        );
+
+        if (isSocialFight)
+        {
+            extraSentencePacks.Add(RulePackDefOf.Sentence_SocialFightStarted);
+        }
+
+        var entry = new PlayLogEntry_Interaction(interaction, pawn, recipient, extraSentencePacks);
+        Find.PlayLog.Add(entry);
+
+        string text = RichTextHelper.StripTags(entry.ToGameStringFromPOV(pawn));
+
+        if (letterDef == null)
+        {
+            return MakeFirstPerson(pawn.LabelShort, text);
+        }
+
+        if (!letterText.NullOrEmpty())
+        {
+            text = text + "\n\n" + RichTextHelper.StripTags(letterText);
+        }
+
+        Find.LetterStack.ReceiveLetter(letterLabel, text, letterDef, lookTargets ?? pawn);
+
+        return MakeFirstPerson(pawn.LabelShort, text.Replace("\n\n", " "));
+    }
+
+    private static string MakeFirstPerson(string username, string text)
+    {
+        var builder = new StringBuilder();
+        string you = "TKUtils.Interaction.You".Localize();
+        var shouldCapitalize = false;
+
+        foreach (string word in text.Split(' '))
+        {
+            bool isUser = word.EqualsIgnoreCase(username);
+
+            if (!isUser)
             {
-                bool isUser = word.EqualsIgnoreCase(username);
+                builder.Append(word).Append(" ");
 
-                if (!isUser)
-                {
-                    builder.Append(word).Append(" ");
-
-                    if (word.EndsWith("!") || word.EndsWith("?") || word.EndsWith("."))
-                    {
-                        shouldCapitalize = true;
-                    }
-
-                    continue;
-                }
-
-                if (builder.Length <= 0)
+                if (word.EndsWith("!") || word.EndsWith("?") || word.EndsWith("."))
                 {
                     shouldCapitalize = true;
                 }
 
-                if (shouldCapitalize)
-                {
-                    builder.Append(you.CapitalizeFirst());
-                    shouldCapitalize = false;
-                }
-                else
-                {
-                    builder.Append(you);
-                }
-
-                builder.Append(" ");
+                continue;
             }
 
-            return builder.ToString();
+            if (builder.Length <= 0)
+            {
+                shouldCapitalize = true;
+            }
+
+            if (shouldCapitalize)
+            {
+                builder.Append(you.CapitalizeFirst());
+                shouldCapitalize = false;
+            }
+            else
+            {
+                builder.Append(you);
+            }
+
+            builder.Append(" ");
         }
+
+        return builder.ToString();
     }
 }

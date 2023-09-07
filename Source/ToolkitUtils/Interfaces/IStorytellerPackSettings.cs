@@ -22,14 +22,13 @@
 
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
-{
-    public interface IStorytellerPackSettings
-    {
-        bool Enabled { get; set; }
-        string Tooltip { get; }
+namespace SirRandoo.ToolkitUtils.Interfaces;
 
-        void ResetState();
-        void Draw(Rect region);
-    }
+public interface IStorytellerPackSettings
+{
+    bool Enabled { get; set; }
+    string Tooltip { get; }
+
+    void ResetState();
+    void Draw(Rect region);
 }

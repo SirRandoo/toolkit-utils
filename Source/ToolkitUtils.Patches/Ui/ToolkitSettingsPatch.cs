@@ -22,39 +22,37 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for changing Twitch Toolkit's settings menu to be
+///     its old, classic style.
+/// </summary>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class ToolkitSettingsPatch
 {
-    /// <summary>
-    ///     A Harmony patch for changing Twitch Toolkit's settings menu to be
-    ///     its old, classic style.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class ToolkitSettingsPatch
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(TwitchToolkit.TwitchToolkit), nameof(TwitchToolkit.TwitchToolkit.DoSettingsWindowContents));
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(TwitchToolkit.TwitchToolkit), nameof(TwitchToolkit.TwitchToolkit.DoSettingsWindowContents));
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
 
-        private static bool Prefix(Rect inRect)
-        {
-            ToolkitSettingsWorker.Draw(inRect);
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
 
-            return false;
-        }
+        return null;
+    }
+
+    private static bool Prefix(Rect inRect)
+    {
+        ToolkitSettingsWorker.Draw(inRect);
+
+        return false;
     }
 }

@@ -23,57 +23,56 @@ using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.IncidentSettings
+namespace SirRandoo.ToolkitUtils.IncidentSettings;
+
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
+public class RemovePassion : IncidentHelperVariablesSettings, IEventSettings
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
-    public class RemovePassion : IncidentHelperVariablesSettings, IEventSettings
+    public static bool Randomness = true;
+    public static int ChanceToFail = 20;
+    public static int ChanceToHop = 10;
+    public static int ChanceToIncrease = 5;
+    private string _failChanceBuffer;
+    private string _hopChanceBuffer;
+    private string _increaseChanceBuffer;
+
+    public int LineSpan => 4;
+
+    public void Draw(Rect canvas, float preferredHeight)
     {
-        public static bool Randomness = true;
-        public static int ChanceToFail = 20;
-        public static int ChanceToHop = 10;
-        public static int ChanceToIncrease = 5;
-        private string _failChanceBuffer;
-        private string _hopChanceBuffer;
-        private string _increaseChanceBuffer;
+        var listing = new Listing_Standard();
+        listing.Begin(canvas);
 
-        public int LineSpan => 4;
+        listing.CheckboxLabeled("TKUtils.Passion.Randomness.Label".TranslateSimple(), ref Randomness, "TKUtils.Passion.Randomness.Description".TranslateSimple());
 
-        public void Draw(Rect canvas, float preferredHeight)
-        {
-            var listing = new Listing_Standard();
-            listing.Begin(canvas);
+        (Rect failLabel, Rect failField) = listing.GetRect(preferredHeight).Split();
+        UiHelper.Label(failLabel, "TKUtils.Passion.FailChance.Label".TranslateSimple());
+        Widgets.TextFieldNumeric(failField, ref ChanceToFail, ref _failChanceBuffer, max: 100f);
+        failField.TipRegion("TKUtils.Passion.FailChance.Description".TranslateSimple());
 
-            listing.CheckboxLabeled("TKUtils.Passion.Randomness.Label".TranslateSimple(), ref Randomness, "TKUtils.Passion.Randomness.Description".TranslateSimple());
+        (Rect hopLabel, Rect hopField) = listing.GetRect(preferredHeight).Split();
+        UiHelper.Label(hopLabel, "TKUtils.Passion.HopChance.Label".TranslateSimple());
+        Widgets.TextFieldNumeric(hopField, ref ChanceToHop, ref _hopChanceBuffer, max: 100f);
+        hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".TranslateSimple());
 
-            (Rect failLabel, Rect failField) = listing.GetRect(preferredHeight).Split();
-            UiHelper.Label(failLabel, "TKUtils.Passion.FailChance.Label".TranslateSimple());
-            Widgets.TextFieldNumeric(failField, ref ChanceToFail, ref _failChanceBuffer, max: 100f);
-            failField.TipRegion("TKUtils.Passion.FailChance.Description".TranslateSimple());
+        (Rect increaseLabel, Rect increaseField) = listing.GetRect(preferredHeight).Split();
+        UiHelper.Label(increaseLabel, "TKUtils.Passion.DecreaseChance.Label".TranslateSimple());
+        Widgets.TextFieldNumeric(increaseField, ref ChanceToIncrease, ref _increaseChanceBuffer, max: 100f);
+        increaseLabel.TipRegion("TKUtils.Passion.IncreaseChance.Description".TranslateSimple());
 
-            (Rect hopLabel, Rect hopField) = listing.GetRect(preferredHeight).Split();
-            UiHelper.Label(hopLabel, "TKUtils.Passion.HopChance.Label".TranslateSimple());
-            Widgets.TextFieldNumeric(hopField, ref ChanceToHop, ref _hopChanceBuffer, max: 100f);
-            hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".TranslateSimple());
+        listing.End();
+    }
 
-            (Rect increaseLabel, Rect increaseField) = listing.GetRect(preferredHeight).Split();
-            UiHelper.Label(increaseLabel, "TKUtils.Passion.DecreaseChance.Label".TranslateSimple());
-            Widgets.TextFieldNumeric(increaseField, ref ChanceToIncrease, ref _increaseChanceBuffer, max: 100f);
-            increaseLabel.TipRegion("TKUtils.Passion.IncreaseChance.Description".TranslateSimple());
+    public override void ExposeData()
+    {
+        Scribe_Values.Look(ref Randomness, "removePassionRandomness", true);
+        Scribe_Values.Look(ref ChanceToFail, "removePassionFailChance", 20);
+        Scribe_Values.Look(ref ChanceToHop, "removePassionHopChance", 10);
+        Scribe_Values.Look(ref ChanceToIncrease, "removePassionIncreaseChance", 5);
+    }
 
-            listing.End();
-        }
-
-        public override void ExposeData()
-        {
-            Scribe_Values.Look(ref Randomness, "removePassionRandomness", true);
-            Scribe_Values.Look(ref ChanceToFail, "removePassionFailChance", 20);
-            Scribe_Values.Look(ref ChanceToHop, "removePassionHopChance", 10);
-            Scribe_Values.Look(ref ChanceToIncrease, "removePassionIncreaseChance", 5);
-        }
-
-        public override void EditSettings()
-        {
-            Find.WindowStack.Add(new EventSettingsDialog(this));
-        }
+    public override void EditSettings()
+    {
+        Find.WindowStack.Add(new EventSettingsDialog(this));
     }
 }

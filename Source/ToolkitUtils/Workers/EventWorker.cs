@@ -15,25 +15,25 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Models.Tables;
 
-namespace SirRandoo.ToolkitUtils.Workers
+namespace SirRandoo.ToolkitUtils.Workers;
+
+/// <summary>
+///     A class for drawing an event editor page in a portable way.
+/// </summary>
+public class EventWorker : ItemWorkerBase<TableWorker<TableSettingsItem<EventItem>>, EventItem>
 {
-    /// <summary>
-    ///     A class for drawing an event editor page in a portable way.
-    /// </summary>
-    public class EventWorker : ItemWorkerBase<TableWorker<TableSettingsItem<EventItem>>, EventItem>
+    /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
+    public override void Prepare()
     {
-        /// <inheritdoc cref="ItemWorkerBase{T,TU}.Prepare"/>
-        public override void Prepare()
-        {
-            base.Prepare();
-            Worker = new EventTableWorker();
-            Worker.Prepare();
+        base.Prepare();
+        Worker = new EventTableWorker();
+        Worker.Prepare();
 
-            DiscoverMutators(DomainIndexer.EditorTarget.Any);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Any);
-            DiscoverMutators(DomainIndexer.EditorTarget.Event);
-            DiscoverSelectors(DomainIndexer.EditorTarget.Event);
-        }
+        DiscoverMutators(DomainIndexer.EditorTarget.Any);
+        DiscoverSelectors(DomainIndexer.EditorTarget.Any);
+        DiscoverMutators(DomainIndexer.EditorTarget.Event);
+        DiscoverSelectors(DomainIndexer.EditorTarget.Event);
     }
 }

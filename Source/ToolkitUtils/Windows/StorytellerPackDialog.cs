@@ -22,134 +22,134 @@
 
 using System.Collections.Generic;
 using SirRandoo.CommonLib.Helpers;
+using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Storytellers;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Windows
+namespace SirRandoo.ToolkitUtils.Windows;
+
+public class StorytellerPackDialog : Window
 {
-    public class StorytellerPackDialog : Window
+    private readonly int _packCount;
+    private readonly float _packLineSpan;
+    private readonly List<PackEntry> _packs = new List<PackEntry>();
+    private Vector2 _scrollPos = Vector2.zero;
+    private PackEntry _selected;
+
+    public StorytellerPackDialog()
     {
-        private readonly int _packCount;
-        private readonly float _packLineSpan;
-        private readonly List<PackEntry> _packs = new List<PackEntry>();
-        private Vector2 _scrollPos = Vector2.zero;
-        private PackEntry _selected;
-
-        public StorytellerPackDialog()
+        foreach (StorytellerPack pack in DefDatabase<StorytellerPack>.AllDefs)
         {
-            foreach (StorytellerPack pack in DefDatabase<StorytellerPack>.AllDefs)
-            {
-                var extension = pack.GetModExtension<StorytellerPackExtension>();
-                extension?.settingsInstance?.ResetState();
+            var extension = pack.GetModExtension<StorytellerPackExtension>();
+            extension?.settingsInstance?.ResetState();
 
-                _packs.Add(new PackEntry { Name = pack.LabelCap, Settings = extension?.settingsInstance });
-            }
-
-            _selected = _packs.FirstOrFallback();
-            _packCount = _packs.Count;
-            _packLineSpan = _packCount * Text.SmallFontHeight;
+            _packs.Add(new PackEntry { Name = pack.LabelCap, Settings = extension?.settingsInstance });
         }
 
-        /// <inheritdoc/>
-        public override void DoWindowContents(Rect inRect)
+        _selected = _packs.FirstOrFallback();
+        _packCount = _packs.Count;
+        _packLineSpan = _packCount * Text.SmallFontHeight;
+    }
+
+    /// <inheritdoc/>
+    public override void DoWindowContents(Rect inRect)
+    {
+        var listRegion = new Rect(0f, 0f, Mathf.FloorToInt(inRect.width * 0.39f), inRect.height - Text.SmallFontHeight - StandardMargin);
+        var globalWeightsRegion = new Rect(0f, inRect.height - Text.SmallFontHeight, listRegion.width, Text.SmallFontHeight);
+        var settingsRegion = new Rect(listRegion.width + 10f, 0f, inRect.width - listRegion.width - 10f, inRect.height);
+
+        GUI.BeginGroup(inRect);
+
+        GUI.BeginGroup(listRegion);
+
+        Widgets.DrawMenuSection(listRegion);
+
+        DrawPackList(listRegion.ContractedBy(8f));
+        GUI.EndGroup();
+
+        GUI.BeginGroup(globalWeightsRegion);
+        DrawGlobalWeightsButton(globalWeightsRegion.AtZero());
+        GUI.EndGroup();
+
+        GUI.BeginGroup(settingsRegion);
+
+        if (_selected?.Settings == null)
         {
-            var listRegion = new Rect(0f, 0f, Mathf.FloorToInt(inRect.width * 0.39f), inRect.height - Text.SmallFontHeight - StandardMargin);
-            var globalWeightsRegion = new Rect(0f, inRect.height - Text.SmallFontHeight, listRegion.width, Text.SmallFontHeight);
-            var settingsRegion = new Rect(listRegion.width + 10f, 0f, inRect.width - listRegion.width - 10f, inRect.height);
-
-            GUI.BeginGroup(inRect);
-
-            GUI.BeginGroup(listRegion);
-
-            Widgets.DrawMenuSection(listRegion);
-
-            DrawPackList(listRegion.ContractedBy(8f));
-            GUI.EndGroup();
-
-            GUI.BeginGroup(globalWeightsRegion);
-            DrawGlobalWeightsButton(globalWeightsRegion.AtZero());
-            GUI.EndGroup();
-
-            GUI.BeginGroup(settingsRegion);
-
-            if (_selected?.Settings == null)
-            {
-                UiHelper.Label(settingsRegion.AtZero(), "This pack doesn't have any settings.", Color.grey, TextAnchor.MiddleCenter, GameFont.Small);
-            }
-            else
-            {
-                _selected.Settings.Draw(settingsRegion.AtZero());
-            }
-
-            GUI.EndGroup();
-
-            GUI.EndGroup();
+            UiHelper.Label(settingsRegion.AtZero(), "This pack doesn't have any settings.", Color.grey, TextAnchor.MiddleCenter, GameFont.Small);
+        }
+        else
+        {
+            _selected.Settings.Draw(settingsRegion.AtZero());
         }
 
-        private void DrawPackList(Rect region)
+        GUI.EndGroup();
+
+        GUI.EndGroup();
+    }
+
+    private void DrawPackList(Rect region)
+    {
+        float lineSpan = _packCount * Text.SmallFontHeight;
+        var view = new Rect(0f, 0f, lineSpan > region.height ? region.width - 16f : region.width, lineSpan);
+
+        GUI.BeginGroup(region);
+        _scrollPos = GUI.BeginScrollView(region.AtZero(), _scrollPos, view);
+
+        for (var index = 0; index < _packCount; index++)
         {
-            float lineSpan = _packCount * Text.SmallFontHeight;
-            var view = new Rect(0f, 0f, lineSpan > region.height ? region.width - 16f : region.width, lineSpan);
+            PackEntry pack = _packs[index];
 
-            GUI.BeginGroup(region);
-            _scrollPos = GUI.BeginScrollView(region.AtZero(), _scrollPos, view);
+            var lineRegion = new Rect(0f, index * Text.SmallFontHeight, region.width, Text.SmallFontHeight);
 
-            for (var index = 0; index < _packCount; index++)
+            if (!lineRegion.IsVisible(region, _scrollPos))
             {
-                PackEntry pack = _packs[index];
-
-                var lineRegion = new Rect(0f, index * Text.SmallFontHeight, region.width, Text.SmallFontHeight);
-
-                if (!lineRegion.IsVisible(region, _scrollPos))
-                {
-                    continue;
-                }
-
-                if (index % 2 == 0)
-                {
-                    Widgets.DrawLightHighlight(lineRegion);
-                }
-
-                if (_selected == pack)
-                {
-                    Widgets.DrawHighlightSelected(lineRegion);
-                }
-
-                Rect checkRegion = LayoutHelper.IconRect(lineRegion.x, lineRegion.y, Text.SmallFontHeight, Text.SmallFontHeight);
-                var labelRegion = new Rect(lineRegion.x + Text.SmallFontHeight, lineRegion.y, lineRegion.width - Text.SmallFontHeight, Text.SmallFontHeight);
-
-                UiHelper.Label(labelRegion, pack.Name);
-                Widgets.CheckboxDraw(checkRegion.x, checkRegion.y, pack.Settings.Enabled, false, checkRegion.height);
-
-                if (Widgets.ButtonInvisible(checkRegion))
-                {
-                    pack.Settings.Enabled = !pack.Settings.Enabled;
-                }
-
-                if (Widgets.ButtonInvisible(labelRegion))
-                {
-                    _selected = pack;
-                }
+                continue;
             }
 
-            GUI.EndScrollView();
-            GUI.EndGroup();
-        }
-
-        private void DrawGlobalWeightsButton(Rect region)
-        {
-            if (Widgets.ButtonText(region, "Edit Global Weights"))
+            if (index % 2 == 0)
             {
-                Find.WindowStack.Add(new GlobalWeightDialog());
+                Widgets.DrawLightHighlight(lineRegion);
+            }
+
+            if (_selected == pack)
+            {
+                Widgets.DrawHighlightSelected(lineRegion);
+            }
+
+            Rect checkRegion = LayoutHelper.IconRect(lineRegion.x, lineRegion.y, Text.SmallFontHeight, Text.SmallFontHeight);
+            var labelRegion = new Rect(lineRegion.x + Text.SmallFontHeight, lineRegion.y, lineRegion.width - Text.SmallFontHeight, Text.SmallFontHeight);
+
+            UiHelper.Label(labelRegion, pack.Name);
+            Widgets.CheckboxDraw(checkRegion.x, checkRegion.y, pack.Settings.Enabled, false, checkRegion.height);
+
+            if (Widgets.ButtonInvisible(checkRegion))
+            {
+                pack.Settings.Enabled = !pack.Settings.Enabled;
+            }
+
+            if (Widgets.ButtonInvisible(labelRegion))
+            {
+                _selected = pack;
             }
         }
 
-        private sealed class PackEntry
+        GUI.EndScrollView();
+        GUI.EndGroup();
+    }
+
+    private void DrawGlobalWeightsButton(Rect region)
+    {
+        if (Widgets.ButtonText(region, "Edit Global Weights"))
         {
-            public string Name { get; set; }
-            public IStorytellerPackSettings Settings { get; set; }
+            Find.WindowStack.Add(new GlobalWeightDialog());
         }
+    }
+
+    private sealed class PackEntry
+    {
+        public string Name { get; set; }
+        public IStorytellerPackSettings Settings { get; set; }
     }
 }

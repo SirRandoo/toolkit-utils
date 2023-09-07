@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -23,92 +23,94 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Utils.ModComp
+namespace SirRandoo.ToolkitUtils.Utils.ModComp;
+
+[StaticConstructorOnStartup]
+public static class Interests
 {
-    [StaticConstructorOnStartup]
-    public static class Interests
+    public static readonly bool Active = ModLister.GetActiveModWithIdentifier("dame.InterestsFramework") is not null;
+    private static readonly List<Def> UsableInterestList = new();
+
+    private static readonly Dictionary<string, string> InterestIndex = new()
     {
-        public static readonly bool Active = ModLister.GetActiveModWithIdentifier("dame.InterestsFramework") != null;
-        private static readonly List<Def> UsableInterestList = new List<Def>();
+        { "DMinorPassion", "\uD83D\uDD25" },
+        { "DMajorPassion", "\uD83D\uDD25\uD83D\uDD25" },
+        { "DMinorAversion", "\u2744" },
+        { "DMajorAversion", "\u2744\u2744" },
+        { "DCompulsion", "\uD83C\uDFB2" },
+        { "DInvigorating", "\u2615" },
+        { "DInspiring", "\uD83D\uDCA1" },
+        { "DStagnant", "\uD83D\uDD12" },
+        { "DForgetful", "\uD83D\uDCAD" },
+        { "DVocalHatred", "\uD83D\uDCE2" },
+        { "DNaturalGenius", "\uD83E\uDDE0" },
+        { "DBored", "\uD83D\uDCA4" },
+        { "DAllergic", "\uD83E\uDD27" }
+    };
 
-        private static readonly Dictionary<string, string> InterestIndex = new Dictionary<string, string>
+    static Interests()
+    {
+        if (!Active)
         {
-            { "DMinorPassion", "\uD83D\uDD25" },
-            { "DMajorPassion", "\uD83D\uDD25\uD83D\uDD25" },
-            { "DMinorAversion", "\u2744" },
-            { "DMajorAversion", "\u2744\u2744" },
-            { "DCompulsion", "\uD83C\uDFB2" },
-            { "DInvigorating", "\u2615" },
-            { "DInspiring", "\uD83D\uDCA1" },
-            { "DStagnant", "\uD83D\uDD12" },
-            { "DForgetful", "\uD83D\uDCAD" },
-            { "DVocalHatred", "\uD83D\uDCE2" },
-            { "DNaturalGenius", "\uD83E\uDDE0" },
-            { "DBored", "\uD83D\uDCA4" },
-            { "DAllergic", "\uD83E\uDD27" }
-        };
+            return;
+        }
 
-        static Interests()
+        try
         {
-            if (!Active)
+            Type interestsClass = AccessTools.TypeByName("DInterests.InterestBase");
+            FieldInfo interestsList = AccessTools.Field(interestsClass, "interestList");
+
+            if (interestsList.GetValue(interestsClass) is not IList interestListInstance)
             {
                 return;
             }
 
-            try
+            foreach (object def in interestListInstance)
             {
-                Type interestsClass = AccessTools.TypeByName("DInterests.InterestBase");
-                FieldInfo interestsList = AccessTools.Field(interestsClass, "interestList");
-                var interestListInstance = interestsList.GetValue(interestsClass) as IList;
-
-                // ReSharper disable once PossibleNullReferenceException
-                foreach (object def in interestListInstance)
+                if (def is not Def instance)
                 {
-                    if (!(def is Def instance))
-                    {
-                        continue;
-                    }
-
-                    UsableInterestList.Add(instance);
+                    continue;
                 }
-            }
-            catch (Exception e)
-            {
-                TkUtils.Logger.Error("Compatibility class for Interests failed!", e);
+
+                UsableInterestList.Add(instance);
             }
         }
-
-        public static string GetIconForPassion(SkillRecord skill)
+        catch (Exception e)
         {
-            if (!Active)
-            {
-                return null;
-            }
+            TkUtils.Logger.Error("Compatibility class for Interests failed!", e);
+        }
+    }
 
-            if (!UsableInterestList.Any())
-            {
-                return null;
-            }
+    public static string? GetIconForPassion(SkillRecord skill)
+    {
+        if (!Active)
+        {
+            return null;
+        }
+
+        if (!UsableInterestList.Any())
+        {
+            return null;
+        }
 
 
-            Passion passionValue = skill.passion;
-            Def interest;
+        Passion passionValue = skill.passion;
+        Def interest;
 
-            try
-            {
-                interest = UsableInterestList[(int)passionValue];
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-
-            if (interest != null)
-            {
-                return InterestIndex.TryGetValue(interest.defName, string.Empty).AltText($"{interest.LabelCap.RawText}");
-            }
-
+        try
+        {
+            interest = UsableInterestList[(int)passionValue];
+        }
+        catch (Exception)
+        {
             return string.Empty;
         }
+
+        if (interest is not null)
+        {
+            return InterestIndex.TryGetValue(interest.defName, string.Empty).AltText($"{interest.LabelCap.RawText}");
+        }
+
+        return string.Empty;
     }
 }

@@ -19,17 +19,16 @@ using SirRandoo.ToolkitUtils.IncidentSettings;
 using TwitchToolkit.Incidents;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
-{
-    public class SiegeRaidIncidentData : RaidIncidentData
-    {
-        public override bool UseStoryteller => SiegeRaid.Storyteller;
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
 
-        public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
-        {
-            base.DoExtraSetup(worker, @params, incident);
-            @params.raidStrategy = DefDatabase<RaidStrategyDef>.GetNamed("Siege");
-            @params.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
-        }
+public class SiegeRaidIncidentData : RaidIncidentData
+{
+    public override bool UseStoryteller => SiegeRaid.Storyteller;
+
+    public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
+    {
+        base.DoExtraSetup(worker, @params, incident);
+        @params.raidStrategy = DefDatabase<RaidStrategyDef>.GetNamed("Siege");
+        @params.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
     }
 }

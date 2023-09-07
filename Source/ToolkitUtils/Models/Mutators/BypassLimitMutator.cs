@@ -17,36 +17,36 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class BypassLimitMutator : IMutatorBase<TraitItem>
 {
-    public class BypassLimitMutator : IMutatorBase<TraitItem>
+    private string _bypassLimitText;
+    private bool _state;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
+
+    public void Prepare()
     {
-        private string _bypassLimitText;
-        private bool _state;
+        _bypassLimitText = Label;
+    }
 
-        public int Priority => 1;
-
-        public string Label => "TKUtils.Fields.BypassTraitLimit".TranslateSimple();
-
-        public void Prepare()
+    public void Mutate(TableSettingsItem<TraitItem> item)
+    {
+        if (item.Data.TraitData != null)
         {
-            _bypassLimitText = Label;
+            item.Data.TraitData.CanBypassLimit = _state;
         }
+    }
 
-        public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
-        {
-            if (item.Data.TraitData != null)
-            {
-                item.Data.TraitData.CanBypassLimit = _state;
-            }
-        }
-
-        public void Draw(Rect canvas)
-        {
-            UiHelper.LabeledPaintableCheckbox(canvas, _bypassLimitText, ref _state);
-        }
+    public void Draw(Rect canvas)
+    {
+        UiHelper.LabeledPaintableCheckbox(canvas, _bypassLimitText, ref _state);
     }
 }

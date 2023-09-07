@@ -18,45 +18,45 @@ using System;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class TraitNameMutator : IMutatorBase<TraitItem>
 {
-    public class TraitNameMutator : IMutatorBase<TraitItem>
+    private string _name = "";
+    private string _nameText;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.Name".TranslateSimple();
+
+    public void Prepare()
     {
-        private string _name = "";
-        private string _nameText;
+        _nameText = Label;
+    }
 
-        public int Priority => 1;
-
-        public string Label => "TKUtils.Fields.Name".TranslateSimple();
-
-        public void Prepare()
+    public void Mutate(TableSettingsItem<TraitItem> item)
+    {
+        if (_name.NullOrEmpty())
         {
-            _nameText = Label;
+            return;
         }
 
-        public void Mutate(TableSettingsItem<TraitItem> item)
+        if (item.Data.TraitData != null)
         {
-            if (_name.NullOrEmpty())
-            {
-                return;
-            }
-
-            if (item.Data.TraitData != null)
-            {
-                item.Data.TraitData.CustomName = true;
-            }
-
-            item.Data.Name = _name;
+            item.Data.TraitData.CustomName = true;
         }
 
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _nameText);
-            _name = Widgets.TextField(field, _name).ToToolkit();
-        }
+        item.Data.Name = _name;
+    }
+
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _nameText);
+        _name = Widgets.TextField(field, _name).ToToolkit();
     }
 }

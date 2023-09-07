@@ -26,31 +26,30 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+public static partial class Data
 {
-    public static partial class Data
+    /// <summary>
+    ///     The various surgeries available for purchase through the mod's
+    ///     surgery store.
+    /// </summary>
+    public static List<SurgeryItem> Surgeries { get; private set; }
+
+    private static void ValidateSurgeryList()
     {
-        /// <summary>
-        ///     The various surgeries available for purchase through the mod's
-        ///     surgery store.
-        /// </summary>
-        public static List<SurgeryItem> Surgeries { get; private set; }
+        Surgeries = new List<SurgeryItem>();
 
-        private static void ValidateSurgeryList()
+        foreach (RecipeDef recipe in DefDatabase<RecipeDef>.AllDefs)
         {
-            Surgeries = new List<SurgeryItem>();
+            ISurgeryHandler handler = CompatRegistry.AllSurgeryHandlers.FirstOrDefault(i => i.IsSurgery(recipe));
 
-            foreach (RecipeDef recipe in DefDatabase<RecipeDef>.AllDefs)
+            if (handler == null)
             {
-                ISurgeryHandler handler = CompatRegistry.AllSurgeryHandlers.FirstOrDefault(i => i.IsSurgery(recipe));
-
-                if (handler == null)
-                {
-                    continue;
-                }
-
-                Surgeries.Add(new SurgeryItem { Surgery = recipe, Handler = handler });
+                continue;
             }
+
+            Surgeries.Add(new SurgeryItem { Surgery = recipe, Handler = handler });
         }
     }
 }

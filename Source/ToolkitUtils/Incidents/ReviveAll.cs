@@ -23,52 +23,51 @@ using TwitchToolkit.IncidentHelpers.Special;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Incidents
+namespace SirRandoo.ToolkitUtils.Incidents;
+
+[UsedImplicitly]
+public class ReviveAll : IncidentHelper
 {
-    [UsedImplicitly]
-    public class ReviveAll : IncidentHelper
+    private List<Pawn> _pawns;
+
+    public override bool IsPossible()
     {
-        private List<Pawn> _pawns;
+        List<Pawn> list = Find.ColonistBar.GetColonistsInOrder().Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p)).ToList();
 
-        public override bool IsPossible()
+        if (!list.Any())
         {
-            List<Pawn> list = Find.ColonistBar.GetColonistsInOrder().Where(p => p.Dead && p.SpawnedOrAnyParentSpawned && !PawnTracker.pawnsToRevive.Contains(p)).ToList();
-
-            if (!list.Any())
-            {
-                return false;
-            }
-
-            _pawns = list;
-
-            foreach (Pawn p in list)
-            {
-                PawnTracker.pawnsToRevive.Add(p);
-            }
-
-            return true;
+            return false;
         }
 
-        public override void TryExecute()
+        _pawns = list;
+
+        foreach (Pawn p in list)
         {
-            var any = false;
-
-            foreach (Pawn pawn in _pawns)
-            {
-                if (!pawn.TryResurrect())
-                {
-                    continue;
-                }
-
-                any = true;
-            }
-
-            if (!any)
-            {
-                return;
-            }
-
-            Find.LetterStack.ReceiveLetter("TKUtils.MassRevivalLetter.Title".Localize(), "TKUtils.MassRevivalLetter.Description".Localize(), LetterDefOf.PositiveEvent);
+            PawnTracker.pawnsToRevive.Add(p);
         }
+
+        return true;
+    }
+
+    public override void TryExecute()
+    {
+        var any = false;
+
+        foreach (Pawn pawn in _pawns)
+        {
+            if (!pawn.TryResurrect())
+            {
+                continue;
+            }
+
+            any = true;
+        }
+
+        if (!any)
+        {
+            return;
+        }
+
+        Find.LetterStack.ReceiveLetter("TKUtils.MassRevivalLetter.Title".Localize(), "TKUtils.MassRevivalLetter.Description".Localize(), LetterDefOf.PositiveEvent);
     }
 }

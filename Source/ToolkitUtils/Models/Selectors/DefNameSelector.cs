@@ -17,61 +17,61 @@
 using System;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class DefNameSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
 {
-    public class DefNameSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
+    private string _defName = "";
+    private string _defNameText;
+    private bool _exclude = true;
+    private string _excludeTooltip;
+    private string _includeTooltip;
+
+    public void Prepare()
     {
-        private string _defName = "";
-        private string _defNameText;
-        private bool _exclude = true;
-        private string _excludeTooltip;
-        private string _includeTooltip;
+        _defNameText = Label;
+        _excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
+        _includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
+    }
 
-        public void Prepare()
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _defNameText);
+
+        if (UiHelper.TextField(field, _defName, out string input))
         {
-            _defNameText = Label;
-            _excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
-            _includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
-        }
-
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _defNameText);
-
-            if (UiHelper.TextField(field, _defName, out string input))
-            {
-                _defName = input;
-                Dirty.Set(true);
-            }
-
-            if (!UiHelper.FieldButton(field, _exclude ? "!=" : "=", _exclude ? _includeTooltip : _excludeTooltip))
-            {
-                return;
-            }
-
-            _exclude = !_exclude;
+            _defName = input;
             Dirty.Set(true);
         }
 
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public bool IsVisible(TableSettingsItem<T> item)
+        if (!UiHelper.FieldButton(field, _exclude ? "!=" : "=", _exclude ? _includeTooltip : _excludeTooltip))
         {
-            if (_defName.NullOrEmpty())
-            {
-                return false;
-            }
-
-            bool shouldShow = item.Data.DefName.Equals(_defName);
-
-            return _exclude ? !shouldShow : shouldShow;
+            return;
         }
 
-        public string Label => "TKUtils.Fields.DefName".TranslateSimple();
+        _exclude = !_exclude;
+        Dirty.Set(true);
     }
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public bool IsVisible(TableSettingsItem<T> item)
+    {
+        if (_defName.NullOrEmpty())
+        {
+            return false;
+        }
+
+        bool shouldShow = item.Data.DefName.Equals(_defName);
+
+        return _exclude ? !shouldShow : shouldShow;
+    }
+
+    public string Label => "TKUtils.Fields.DefName".TranslateSimple();
 }

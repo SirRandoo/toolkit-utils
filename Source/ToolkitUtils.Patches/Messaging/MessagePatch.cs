@@ -24,55 +24,53 @@ using ToolkitCore.Models;
 using TwitchLib.Client.Events;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for ensuring messages received from chat are
+///     redirected to the <see cref="CommandRouter"/>.
+/// </summary>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class MessagePatch
 {
-    /// <summary>
-    ///     A Harmony patch for ensuring messages received from chat are
-    ///     redirected to the <see cref="CommandRouter"/>.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class MessagePatch
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(TwitchWrapper), "OnMessageReceived");
+    }
+
+    private static bool Prefix(OnMessageReceivedArgs e)
+    {
+        if (!TkSettings.CommandRouter)
         {
-            yield return AccessTools.Method(typeof(TwitchWrapper), "OnMessageReceived");
+            return true;
         }
 
-        private static bool Prefix([NotNull] OnMessageReceivedArgs e)
+        if (e.ChatMessage.Bits > 0)
         {
-            if (!TkSettings.CommandRouter)
-            {
-                return true;
-            }
+            Log.Message($"Bits donated :: {e.ChatMessage.Bits.ToString()}");
+        }
 
-            if (e.ChatMessage.Bits > 0)
-            {
-                Log.Message($"Bits donated :: {e.ChatMessage.Bits.ToString()}");
-            }
-
-            if (Current.Game == null)
-            {
-                return false;
-            }
-
-            CommandRouter.CommandQueue.Enqueue(e.ChatMessage);
-            MessageLog.LogMessage(e.ChatMessage);
-
+        if (Current.Game == null)
+        {
             return false;
         }
 
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
+        CommandRouter.CommandQueue.Enqueue(e.ChatMessage);
+        MessageLog.LogMessage(e.ChatMessage);
+
+        return false;
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
+
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
     }
 }

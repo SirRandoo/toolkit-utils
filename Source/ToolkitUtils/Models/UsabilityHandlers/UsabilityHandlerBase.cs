@@ -17,60 +17,58 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.UsabilityHandlers;
+
+public abstract record UsabilityHandlerBase<T>(string ModId = "sirrandoo.tku") : IUsabilityHandler where T : ThingComp
 {
-    public abstract class UsabilityHandlerBase<T> : IUsabilityHandler where T : ThingComp
+    protected UsabilityHandlerBase(params Type[] excluded) : this()
     {
-        protected UsabilityHandlerBase([NotNull] params Type[] excluded)
-        {
-            ExcludedTypes = new HashSet<Type>(excluded);
-        }
-
-        protected HashSet<Type> ExcludedTypes { get; }
-
-        public virtual bool IsUsable([NotNull] ThingDef thing) => thing.HasAssignableCompFrom(typeof(T));
-
-        public virtual void Use([NotNull] Pawn pawn, ThingDef thingDef)
-        {
-            Thing t = ThingMaker.MakeThing(thingDef);
-
-            if (!(t is ThingWithComps withComps))
-            {
-                throw new InvalidOperationException($@"The thing ""{thingDef.defName}"" doesn't have any comps.");
-            }
-
-            T comp = withComps.GetComps<T>().FirstOrDefault(c => !ExcludedTypes.Any(i => i.IsInstanceOfType(c)));
-
-            string failReason = null;
-
-            if (comp == null || !IsUsable(comp, pawn, thingDef, out failReason))
-            {
-                throw new OperationCanceledException($@"The thing ""{thingDef.defName}"" could not be used by {pawn.LabelShort}. Fail reason: {failReason}");
-            }
-
-            try
-            {
-                GenSpawn.Spawn(t, pawn.Position, pawn.Map);
-                Use(comp, pawn, t);
-
-                if (t.Spawned)
-                {
-                    t.DeSpawn();
-                }
-            }
-            catch (Exception e)
-            {
-                throw new InvalidOperationException($@"The thing ""{thingDef.defName}"" could not be used by {pawn.LabelShort}.", e);
-            }
-        }
-
-        [NotNull] public virtual string ModId => "sirrandoo.tku";
-
-        protected abstract bool IsUsable(T comp, Pawn pawn, ThingDef thing, out string failReason);
-        protected abstract void Use(T comp, Pawn pawn, Thing thing);
+        ExcludedTypes = new HashSet<Type>(excluded);
     }
+
+    protected HashSet<Type> ExcludedTypes { get; } = null!;
+
+    public virtual bool IsUsable(ThingDef thing) => thing.HasAssignableCompFrom(typeof(T));
+
+    public virtual void Use(Pawn pawn, ThingDef thingDef)
+    {
+        Thing t = ThingMaker.MakeThing(thingDef);
+
+        if (t is not ThingWithComps withComps)
+        {
+            throw new InvalidOperationException($"""The thing "{thingDef.defName}" doesn't have any comps.""");
+        }
+
+        T? comp = withComps.GetComps<T>().FirstOrDefault(c => !ExcludedTypes.Any(i => i.IsInstanceOfType(c)));
+
+        string? failReason = null;
+
+        if (comp is null || !IsUsable(comp, pawn, thingDef, out failReason))
+        {
+            throw new OperationCanceledException($"""The thing "{thingDef.defName}" could not be used by {pawn.LabelShort}. Fail reason: {failReason}""");
+        }
+
+        try
+        {
+            GenSpawn.Spawn(t, pawn.Position, pawn.Map);
+            Use(comp, pawn, t);
+
+            if (t.Spawned)
+            {
+                t.DeSpawn();
+            }
+        }
+        catch (Exception e)
+        {
+            throw new InvalidOperationException($"""The thing "{thingDef.defName}" could not be used by {pawn.LabelShort}.""", e);
+        }
+    }
+
+    public virtual string ModId { get; init; } = ModId;
+
+    protected abstract bool IsUsable(T comp, Pawn pawn, ThingDef thing, out string failReason);
+    protected abstract void Use(T comp, Pawn pawn, Thing thing);
 }

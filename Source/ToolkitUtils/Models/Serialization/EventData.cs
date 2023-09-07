@@ -17,31 +17,31 @@
 using System;
 using System.Data;
 using System.Runtime.Serialization;
+using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+public class EventData : IShopDataBase, IConfigurableUsageData
 {
-    public class EventData : IShopDataBase, IConfigurableUsageData
+    public EventTypes EventType { get; set; }
+    public bool HasGlobalCooldown { get; set; }
+    public bool HasLocalCooldown { get; set; }
+    public int GlobalCooldown { get; set; }
+    public int LocalCooldown { get; set; }
+    public string Mod { get; set; }
+
+    [IgnoreDataMember]
+    public KarmaType? KarmaType
     {
-        public EventTypes EventType { get; set; }
-        public bool HasGlobalCooldown { get; set; }
-        public bool HasLocalCooldown { get; set; }
-        public int GlobalCooldown { get; set; }
-        public int LocalCooldown { get; set; }
-        public string Mod { get; set; }
+        get => throw new NotSupportedException();
+        set => throw new ReadOnlyException();
+    }
 
-        [IgnoreDataMember]
-        public KarmaType? KarmaType
-        {
-            get => throw new NotSupportedException();
-            set => throw new ReadOnlyException();
-        }
-
-        public void Reset()
-        {
-            // Events should not be reset from here.
-            // This method only exists because of the interface it implements.
-        }
+    public void Reset()
+    {
+        // Events should not be reset from here.
+        // This method only exists because of the interface it implements.
     }
 }

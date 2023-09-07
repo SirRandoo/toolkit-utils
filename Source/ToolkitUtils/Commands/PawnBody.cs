@@ -25,130 +25,128 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class PawnBody : CommandBase
 {
-    [UsedImplicitly]
-    public class PawnBody : CommandBase
+    public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
-            {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("HealthOverview".Localize()));
+            twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("HealthOverview".Localize()));
 
-                return;
-            }
-
-            twitchMessage.Reply(GetPawnBody(pawn!).WithHeader("HealthOverview".Localize()));
+            return;
         }
 
-        private static float GetListPriority([CanBeNull] BodyPartRecord record) =>
-            record == null ? 9999999f : (float)record.height * 10000 + record.coverageAbsWithChildren;
+        twitchMessage.Reply(GetPawnBody(pawn!).WithHeader("HealthOverview".Localize()));
+    }
 
-        private static string GetPawnBody([NotNull] Pawn target)
+    private static float GetListPriority([CanBeNull] BodyPartRecord record) =>
+        record == null ? 9999999f : (float)record.height * 10000 + record.coverageAbsWithChildren;
+
+    private static string GetPawnBody(Pawn target)
+    {
+        if (target.health?.hediffSet?.hediffs?.Count <= 0)
         {
-            if (target.health?.hediffSet?.hediffs?.Count <= 0)
+            return "NoHealthConditions".Localize().CapitalizeFirst();
+        }
+
+        List<IGrouping<BodyPartRecord, Hediff>> hediffsGrouped = GetVisibleHediffGroupsInOrder(target).ToList();
+        var builder = new StringBuilder();
+
+        if (!TkSettings.TempInGear)
+        {
+            builder.Append(ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize()));
+            builder.Append(" ");
+            builder.Append(target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature());
+            builder.Append("~");
+            builder.Append(target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature());
+            builder.Append(ResponseHelper.OuterGroupSeparator.AltText(ResponseHelper.OuterGroupSeparatorAlt));
+        }
+
+        var hediffIndex = 0;
+        int hediffTotal = hediffsGrouped.Count - 1;
+
+        foreach (IGrouping<BodyPartRecord, Hediff> item in hediffsGrouped)
+        {
+            builder.Append(item.Key?.LabelCap ?? "WholeBody".Localize());
+            builder.Append(": ");
+
+            var index = 0;
+            int total = item.Count() - 1;
+
+            foreach (IGrouping<int, Hediff> group in item.GroupBy(h => h.UIGroupKey))
             {
-                return "NoHealthConditions".Localize().CapitalizeFirst();
-            }
+                Hediff affliction = group.First();
 
-            List<IGrouping<BodyPartRecord, Hediff>> hediffsGrouped = GetVisibleHediffGroupsInOrder(target).ToList();
-            var builder = new StringBuilder();
-
-            if (!TkSettings.TempInGear)
-            {
-                builder.Append(ResponseHelper.TemperatureGlyph.AltText("ComfyTemperatureRange".Localize()));
-                builder.Append(" ");
-                builder.Append(target.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature());
-                builder.Append("~");
-                builder.Append(target.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature());
-                builder.Append(ResponseHelper.OuterGroupSeparator.AltText(ResponseHelper.OuterGroupSeparatorAlt));
-            }
-
-            var hediffIndex = 0;
-            int hediffTotal = hediffsGrouped.Count - 1;
-
-            foreach (IGrouping<BodyPartRecord, Hediff> item in hediffsGrouped)
-            {
-                builder.Append(item.Key?.LabelCap ?? "WholeBody".Localize());
-                builder.Append(": ");
-
-                var index = 0;
-                int total = item.Count() - 1;
-
-                foreach (IGrouping<int, Hediff> group in item.GroupBy(h => h.UIGroupKey))
+                if (group.Any(i => i.Bleeding))
                 {
-                    Hediff affliction = group.First();
-
-                    if (group.Any(i => i.Bleeding))
+                    if (TkSettings.Emojis)
                     {
-                        if (TkSettings.Emojis)
-                        {
-                            builder.Append(ResponseHelper.BleedingGlyph);
-                        }
-                        else
-                        {
-                            builder.Append("(");
-                            builder.Append("BleedingRate".Localize());
-                            builder.Append(" ");
-                            builder.Append(")");
-                        }
+                        builder.Append(ResponseHelper.BleedingGlyph);
                     }
-
-                    if (group.All(i => i.IsTended()))
+                    else
                     {
-                        builder.Append(ResponseHelper.BandageGlyph.AltText(""));
+                        builder.Append("(");
+                        builder.Append("BleedingRate".Localize());
+                        builder.Append(" ");
+                        builder.Append(")");
                     }
-
-                    builder.Append(RichTextHelper.StripTags(affliction.LabelCap));
-                    int gTotal = group.Count();
-
-                    if (gTotal != 1)
-                    {
-                        builder.Append(" x");
-                        builder.Append(gTotal.ToString());
-                    }
-
-                    if (index < total)
-                    {
-                        builder.Append(", ");
-                    }
-
-                    index++;
                 }
 
-                if (hediffIndex < hediffTotal)
+                if (group.All(i => i.IsTended()))
                 {
-                    builder.Append(ResponseHelper.OuterGroupSeparator.AltText($" {ResponseHelper.OuterGroupSeparatorAlt} "));
+                    builder.Append(ResponseHelper.BandageGlyph.AltText(""));
                 }
 
-                hediffIndex++;
+                builder.Append(RichTextHelper.StripTags(affliction.LabelCap));
+                int gTotal = group.Count();
+
+                if (gTotal != 1)
+                {
+                    builder.Append(" x");
+                    builder.Append(gTotal.ToString());
+                }
+
+                if (index < total)
+                {
+                    builder.Append(", ");
+                }
+
+                index++;
             }
 
-            return builder.ToString();
+            if (hediffIndex < hediffTotal)
+            {
+                builder.Append(ResponseHelper.OuterGroupSeparator.AltText($" {ResponseHelper.OuterGroupSeparatorAlt} "));
+            }
+
+            hediffIndex++;
         }
 
-        [NotNull]
-        private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder([NotNull] Pawn pawn)
+        return builder.ToString();
+    }
+
+    private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> GetVisibleHediffGroupsInOrder(Pawn pawn)
+    {
+        return GetVisibleHediffs(pawn).GroupBy(x => x.Part).OrderByDescending(x => GetListPriority(x.First().Part));
+    }
+
+    private static IEnumerable<Hediff> GetVisibleHediffs(Pawn pawn)
+    {
+        List<Hediff_MissingPart> missing = pawn.health.hediffSet.GetMissingPartsCommonAncestors();
+
+        foreach (Hediff_MissingPart part in missing)
         {
-            return GetVisibleHediffs(pawn).GroupBy(x => x.Part).OrderByDescending(x => GetListPriority(x.First().Part));
+            yield return part;
         }
 
-        private static IEnumerable<Hediff> GetVisibleHediffs([NotNull] Pawn pawn)
+        IEnumerable<Hediff> e = pawn.health.hediffSet.hediffs.Where(d => !(d is Hediff_MissingPart) && d.Visible);
+
+        foreach (Hediff item in e)
         {
-            List<Hediff_MissingPart> missing = pawn.health.hediffSet.GetMissingPartsCommonAncestors();
-
-            foreach (Hediff_MissingPart part in missing)
-            {
-                yield return part;
-            }
-
-            IEnumerable<Hediff> e = pawn.health.hediffSet.hediffs.Where(d => !(d is Hediff_MissingPart) && d.Visible);
-
-            foreach (Hediff item in e)
-            {
-                yield return item;
-            }
+            yield return item;
         }
     }
 }

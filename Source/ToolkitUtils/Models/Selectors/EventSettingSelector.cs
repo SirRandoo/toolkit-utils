@@ -17,33 +17,33 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class EventSettingSelector : ISelectorBase<EventItem>
 {
-    public class EventSettingSelector : ISelectorBase<EventItem>
+    private string _label;
+    private bool _state = true;
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public void Prepare()
     {
-        private string _label;
-        private bool _state = true;
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public void Prepare()
-        {
-            _label = Label;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            if (UiHelper.LabeledPaintableCheckbox(canvas, _label, ref _state))
-            {
-                Dirty.Set(true);
-            }
-        }
-
-        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.HasSettings == _state || item.Data.HasSettingsEmbed == _state;
-
-        public string Label => "TKUtils.Fields.HasSettings".TranslateSimple();
+        _label = Label;
     }
+
+    public void Draw(Rect canvas)
+    {
+        if (UiHelper.LabeledPaintableCheckbox(canvas, _label, ref _state))
+        {
+            Dirty.Set(true);
+        }
+    }
+
+    public bool IsVisible(TableSettingsItem<EventItem> item) => item.Data.HasSettings == _state || item.Data.HasSettingsEmbed == _state;
+
+    public string Label => "TKUtils.Fields.HasSettings".TranslateSimple();
 }

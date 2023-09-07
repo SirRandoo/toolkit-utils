@@ -21,23 +21,22 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.IncidentSettings.Embeds
+namespace SirRandoo.ToolkitUtils.IncidentSettings.Embeds;
+
+public class LevelPawnSettingEmbed : IEventSettings
 {
-    public class LevelPawnSettingEmbed : IEventSettings
+    private string _buffer;
+    private bool _bufferValid = true;
+    public int LineSpan => 1;
+
+    public void Draw(Rect canvas, float preferredHeight)
     {
-        private string _buffer;
-        private bool _bufferValid = true;
-        public int LineSpan => 1;
+        (Rect label, Rect field) = new Rect(canvas.x, canvas.y, canvas.width, preferredHeight).Split(0.65f);
+        UiHelper.Label(label, "TKUtils.Fields.LevelSkillMultiplier".Localize());
 
-        public void Draw(Rect canvas, float preferredHeight)
+        if (UiHelper.NumberField(field, out float value, ref _buffer, ref _bufferValid, 0.5f, 5f))
         {
-            (Rect label, Rect field) = new Rect(canvas.x, canvas.y, canvas.width, preferredHeight).Split(0.65f);
-            UiHelper.Label(label, "TKUtils.Fields.LevelSkillMultiplier".Localize());
-
-            if (UiHelper.NumberField(field, out float value, ref _buffer, ref _bufferValid, 0.5f, 5f))
-            {
-                LevelPawnSettings.xpMultiplier = value;
-            }
+            LevelPawnSettings.xpMultiplier = value;
         }
     }
 }

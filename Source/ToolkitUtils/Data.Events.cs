@@ -26,180 +26,179 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+public static partial class Data
 {
-    public static partial class Data
+    /// <summary>
+    ///     A list of encapsulated <see cref="StoreIncident"/>s with Utils
+    ///     data attached to them.
+    /// </summary>
+    public static List<EventItem> Events { get; private set; }
+
+    /// <summary>
+    ///     Saves event data to the given file.
+    /// </summary>
+    /// <param name="path">The file to save event data to</param>
+    public static void SaveEventData(string path)
     {
-        /// <summary>
-        ///     A list of encapsulated <see cref="StoreIncident"/>s with Utils
-        ///     data attached to them.
-        /// </summary>
-        public static List<EventItem> Events { get; private set; }
+        SaveJson(Events.ToDictionary(e => e.Name, e => e.EventData), path);
+    }
 
-        /// <summary>
-        ///     Saves event data to the given file.
-        /// </summary>
-        /// <param name="path">The file to save event data to</param>
-        public static void SaveEventData(string path)
+    /// <summary>
+    ///     Saves event data to the given file.
+    /// </summary>
+    /// <param name="path">The file to save event data to</param>
+    public static async Task SaveEventDataAsync(string path)
+    {
+        await SaveJsonAsync(Events.ToDictionary(e => e.Name, e => e.EventData), path);
+    }
+
+    private static void ValidateEventList()
+    {
+        Store_IncidentEditor.LoadCopies(); // Just to ensure the actual incidents are loaded.
+        RemoveInvalidEvents();
+
+        foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
         {
-            SaveJson(Events.ToDictionary(e => e.Name, e => e.EventData), path);
-        }
+            EventItem item = Events.Find(e => string.Equals(incident.defName, e.DefName));
 
-        /// <summary>
-        ///     Saves event data to the given file.
-        /// </summary>
-        /// <param name="path">The file to save event data to</param>
-        public static async Task SaveEventDataAsync(string path)
-        {
-            await SaveJsonAsync(Events.ToDictionary(e => e.Name, e => e.EventData), path);
-        }
-
-        private static void ValidateEventList()
-        {
-            Store_IncidentEditor.LoadCopies(); // Just to ensure the actual incidents are loaded.
-            RemoveInvalidEvents();
-
-            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
+            if (item == null)
             {
-                EventItem item = Events.Find(e => string.Equals(incident.defName, e.DefName));
+                TkUtils.Logger.Info($"{incident.defName} didn't exist; resetting to defaults...");
+                Events.Add(new EventItem { Incident = incident, EventData = PullEventData(incident) });
 
-                if (item == null)
-                {
-                    TkUtils.Logger.Info($"{incident.defName} didn't exist; resetting to defaults...");
-                    Events.Add(new EventItem { Incident = incident, EventData = PullEventData(incident) });
+                continue;
+            }
 
-                    continue;
-                }
+            EventData data = PullEventData(incident);
 
-                EventData data = PullEventData(incident);
+            if (item.EventData == null)
+            {
+                item.EventData = data;
 
-                if (item.EventData == null)
-                {
-                    item.EventData = data;
+                continue;
+            }
 
-                    continue;
-                }
+            item.EventData.Mod = data.Mod;
+            item.EventData.EventType = data.EventType;
+        }
+    }
 
-                item.EventData.Mod = data.Mod;
-                item.EventData.EventType = data.EventType;
+    private static void LoadEventData(string filePath, bool ignoreErrors = false)
+    {
+        Dictionary<string, EventData> e = LoadJson<Dictionary<string, EventData>>(filePath, ignoreErrors) ?? new Dictionary<string, EventData>();
+        Events ??= new List<EventItem>();
+        List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
+
+        foreach ((string key, EventData value) in e)
+        {
+            StoreIncident incident = incidents.Find(i => string.Equals(i.abbreviation, key, StringComparison.InvariantCultureIgnoreCase));
+
+            if (incident == null)
+            {
+                TkUtils.Logger.Info($"{key} was not a StoreIncident");
+
+                continue;
+            }
+
+            Events.Add(new EventItem { Incident = incident, EventData = value });
+        }
+    }
+
+    private static void RemoveInvalidEvents()
+    {
+        for (int i = Events.Count - 1; i >= 0; i--)
+        {
+            EventItem @event = Events[i];
+
+            if (DefDatabase<StoreIncident>.GetNamedSilentFail(@event.DefName) == null)
+            {
+                Events.RemoveAt(i);
             }
         }
+    }
 
-        private static void LoadEventData(string filePath, bool ignoreErrors = false)
+    private static EventData PullEventData(StoreIncident incident)
+    {
+        var data = new EventData();
+
+        try
         {
-            Dictionary<string, EventData> e = LoadJson<Dictionary<string, EventData>>(filePath, ignoreErrors) ?? new Dictionary<string, EventData>();
-            Events ??= new List<EventItem>();
-            List<StoreIncident> incidents = DefDatabase<StoreIncident>.AllDefsListForReading;
+            data.Mod = incident.TryGetModName();
+            data.KarmaType = incident.karmaType;
+            data.EventType = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
+        }
+        catch (Exception)
+        {
+            // Ignored
+        }
 
-            foreach ((string key, EventData value) in e)
+        return data;
+    }
+
+    /// <summary>
+    ///     Loads events from the given partial data.
+    /// </summary>
+    /// <param name="partialData">A collection of partial data to load</param>
+    public static void LoadEventPartial(IEnumerable<EventPartial> partialData)
+    {
+        var builder = new StringBuilder();
+
+        foreach (EventPartial partial in partialData)
+        {
+            EventItem existing = Events.Find(i => i.DefName.Equals(partial.DefName));
+
+            if (existing == null)
             {
-                StoreIncident incident = incidents.Find(i => string.Equals(i.abbreviation, key, StringComparison.InvariantCultureIgnoreCase));
+                StoreIncident incident = DefDatabase<StoreIncident>.GetNamed(partial.DefName, false);
 
                 if (incident == null)
                 {
-                    TkUtils.Logger.Info($"{key} was not a StoreIncident");
+                    builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
 
                     continue;
                 }
 
-                Events.Add(new EventItem { Incident = incident, EventData = value });
-            }
-        }
+                var e = new EventItem { Incident = incident, Name = partial.Name, Cost = partial.Cost, EventCap = partial.EventCap, KarmaType = partial.KarmaType };
 
-        private static void RemoveInvalidEvents()
-        {
-            for (int i = Events.Count - 1; i >= 0; i--)
-            {
-                EventItem @event = Events[i];
-
-                if (DefDatabase<StoreIncident>.GetNamedSilentFail(@event.DefName) == null)
+                if (e.IsVariables)
                 {
-                    Events.RemoveAt(i);
-                }
-            }
-        }
-
-        [NotNull]
-        private static EventData PullEventData(StoreIncident incident)
-        {
-            var data = new EventData();
-
-            try
-            {
-                data.Mod = incident.TryGetModName();
-                data.KarmaType = incident.karmaType;
-                data.EventType = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
-            }
-            catch (Exception)
-            {
-                // Ignored
-            }
-
-            return data;
-        }
-
-        /// <summary>
-        ///     Loads events from the given partial data.
-        /// </summary>
-        /// <param name="partialData">A collection of partial data to load</param>
-        public static void LoadEventPartial([NotNull] IEnumerable<EventPartial> partialData)
-        {
-            var builder = new StringBuilder();
-
-            foreach (EventPartial partial in partialData)
-            {
-                EventItem existing = Events.Find(i => i.DefName.Equals(partial.DefName));
-
-                if (existing == null)
-                {
-                    StoreIncident incident = DefDatabase<StoreIncident>.GetNamed(partial.DefName, false);
-
-                    if (incident == null)
-                    {
-                        builder.Append($"  - {partial.Data?.Mod ?? "UNKNOWN"}:{partial.DefName}\n");
-
-                        continue;
-                    }
-
-                    var e = new EventItem { Incident = incident, Name = partial.Name, Cost = partial.Cost, EventCap = partial.EventCap, KarmaType = partial.KarmaType };
-
-                    if (e.IsVariables)
-                    {
-                        e.MaxWager = partial.MaxWager;
-                    }
-
-                    e.EventData = partial.EventData;
-                    Events.Add(e);
-
-                    continue;
+                    e.MaxWager = partial.MaxWager;
                 }
 
-                existing.Name = partial.Name;
-                existing.Cost = partial.Cost;
-                existing.EventCap = partial.EventCap;
-                existing.KarmaType = partial.KarmaType;
+                e.EventData = partial.EventData;
+                Events.Add(e);
 
-                if (existing.IsVariables)
-                {
-                    existing.MaxWager = partial.MaxWager;
-                }
-
-                existing.EventData = partial.EventData;
+                continue;
             }
 
-            if (builder.Length <= 0)
+            existing.Name = partial.Name;
+            existing.Cost = partial.Cost;
+            existing.EventCap = partial.EventCap;
+            existing.KarmaType = partial.KarmaType;
+
+            if (existing.IsVariables)
             {
-                return;
+                existing.MaxWager = partial.MaxWager;
             }
 
-            builder.Insert(0, "The following events could not be loaded from the partial data provided:\n");
-            TkUtils.Logger.Warn(builder.ToString());
+            existing.EventData = partial.EventData;
         }
+
+        if (builder.Length <= 0)
+        {
+            return;
+        }
+
+        builder.Insert(0, "The following events could not be loaded from the partial data provided:\n");
+        TkUtils.Logger.Warn(builder.ToString());
     }
 }

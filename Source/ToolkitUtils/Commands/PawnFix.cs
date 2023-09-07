@@ -20,28 +20,27 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class PawnFix : CommandBase
 {
-    [UsedImplicitly]
-    public class PawnFix : CommandBase
+    public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
-            {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize());
+            twitchMessage.Reply("TKUtils.NoPawn".Localize());
 
-                return;
-            }
-
-            var name = pawn!.Name as NameTriple;
-
-            if (name?.Nick != twitchMessage.Username)
-            {
-                pawn.Name = new NameTriple(name?.First ?? "", twitchMessage.Username, name?.Last ?? "");
-            }
-
-            twitchMessage.Reply("TKUtils.PawnFix".Localize());
+            return;
         }
+
+        var name = pawn!.Name as NameTriple;
+
+        if (name?.Nick != twitchMessage.Username)
+        {
+            pawn.Name = new NameTriple(name?.First ?? "", twitchMessage.Username, name?.Last ?? "");
+        }
+
+        twitchMessage.Reply("TKUtils.PawnFix".Localize());
     }
 }

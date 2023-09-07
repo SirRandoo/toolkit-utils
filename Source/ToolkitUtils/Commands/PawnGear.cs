@@ -26,224 +26,223 @@ using TwitchLib.Client.Models.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class PawnGear : CommandBase
 {
-    [UsedImplicitly]
-    public class PawnGear : CommandBase
+    public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
-            {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TabGear".Localize()));
+            twitchMessage.Reply("TKUtils.NoPawn".Localize().WithHeader("TabGear".Localize()));
 
-                return;
-            }
-
-            twitchMessage.Reply(GetPawnGear(pawn).WithHeader("TabGear".Localize()));
+            return;
         }
 
-        private static float CalculateArmorRating([NotNull] Pawn pawn, StatDef stat)
+        twitchMessage.Reply(GetPawnGear(pawn).WithHeader("TabGear".Localize()));
+    }
+
+    private static float CalculateArmorRating(Pawn pawn, StatDef stat)
+    {
+        var rating = 0f;
+        float value = Mathf.Clamp01(pawn.GetStatValue(stat) / 2f);
+        List<BodyPartRecord> parts = pawn.RaceProps.body.AllParts;
+        List<Apparel> apparel = pawn.apparel?.WornApparel;
+
+        foreach (BodyPartRecord part in parts)
         {
-            var rating = 0f;
-            float value = Mathf.Clamp01(pawn.GetStatValue(stat) / 2f);
-            List<BodyPartRecord> parts = pawn.RaceProps.body.AllParts;
-            List<Apparel> apparel = pawn.apparel?.WornApparel;
+            float cache = 1f - value;
 
-            foreach (BodyPartRecord part in parts)
+            if (apparel != null && apparel.Any())
             {
-                float cache = 1f - value;
-
-                if (apparel != null && apparel.Any())
-                {
-                    cache = apparel.Where(a => a.def.apparel.CoversBodyPart(part))
-                       .Select(a => Mathf.Clamp01(a.GetStatValue(stat) / 2f))
-                       .Aggregate(cache, (current, v) => current * (1f - v));
-                }
-
-                rating += part.coverageAbs * (1f - cache);
+                cache = apparel.Where(a => a.def.apparel.CoversBodyPart(part))
+                   .Select(a => Mathf.Clamp01(a.GetStatValue(stat) / 2f))
+                   .Aggregate(cache, (current, v) => current * (1f - v));
             }
 
-            return Mathf.Clamp(rating * 2f, 0f, 2f);
+            rating += part.coverageAbs * (1f - cache);
         }
 
-        private static string GetPawnGear(Pawn pawn)
+        return Mathf.Clamp(rating * 2f, 0f, 2f);
+    }
+
+    private static string GetPawnGear(Pawn pawn)
+    {
+        var parts = new List<string>();
+
+        if (TkSettings.TempInGear)
         {
-            var parts = new List<string>();
-
-            if (TkSettings.TempInGear)
-            {
-                GetTemperatureValues(pawn, parts);
-            }
-
-            if (TkSettings.ShowArmor)
-            {
-                GetArmorValues(pawn, parts);
-            }
-
-            if (TkSettings.ShowWeapon)
-            {
-                GetWeaponData(pawn, parts);
-            }
-
-            if (!TkSettings.ShowApparel)
-            {
-                return parts.GroupedJoin();
-            }
-
-            Pawn_ApparelTracker a = pawn.apparel;
-
-            if (a == null || a.WornApparelCount <= 0)
-            {
-                return parts.GroupedJoin();
-            }
-
-            List<Apparel> apparel = a.WornApparel;
-            parts.Add($"{"Apparel".Localize()}: {apparel.Select(item => RichTextHelper.StripTags(item.LabelCap)).SectionJoin()}");
-
-            return !parts.Any() ? "None".Localize() : parts.GroupedJoin();
+            GetTemperatureValues(pawn, parts);
         }
 
-        private static void GetWeaponData([NotNull] Pawn pawn, ICollection<string> parts)
+        if (TkSettings.ShowArmor)
         {
-            List<Thing> sidearms = SimpleSidearms.GetSidearms(pawn)?.ToList();
-            var weapons = new List<string>();
-            List<ThingWithComps> equipment = pawn.equipment?.AllEquipmentListForReading ?? new List<ThingWithComps>();
-            int equipmentCount = equipment.Count;
-            List<Thing> inventory = pawn.inventory.innerContainer.InnerListForReading ?? new List<Thing>();
-            var usedInventory = new List<Thing>();
-
-            if (sidearms?.Count > 0)
-            {
-                GetSidearmData(sidearms, equipmentCount, equipment, weapons, inventory, usedInventory);
-            }
-            else
-            {
-                Pawn_EquipmentTracker e = pawn.equipment;
-
-                if (e?.AllEquipmentListForReading?.Count > 0)
-                {
-                    IEnumerable<string> equip = e.AllEquipmentListForReading.Select(eq => RichTextHelper.StripTags(eq.LabelCap));
-
-                    weapons.AddRange(equip);
-                }
-            }
-
-            if (weapons.Count <= 0)
-            {
-                return;
-            }
-
-            string section = "Stat_Weapon_Name".Localize();
-
-            parts.Add($"{(weapons.Count > 1 ? section.Pluralize() : section)}: {weapons.SectionJoin()}");
+            GetArmorValues(pawn, parts);
         }
 
-        private static void GetTemperatureValues(Thing pawn, [NotNull] ICollection<string> parts)
+        if (TkSettings.ShowWeapon)
         {
-            string tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
-            string tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
-
-            parts.Add($"{ResponseHelper.TemperatureGlyph.AltText($"{"ComfyTemperatureRange".Localize()} ")}{tempMin}~{tempMax}");
+            GetWeaponData(pawn, parts);
         }
 
-        private static void GetSidearmData(
-            [NotNull] ICollection<Thing> sidearms,
-            int equipmentCount,
-            List<ThingWithComps> equipment,
-            IList<string> weapons,
-            IReadOnlyCollection<Thing> inventory,
-            ICollection<Thing> usedInventory
-        )
+        if (!TkSettings.ShowApparel)
         {
-            var loops = 0;
-            var equipmentUsed = false;
+            return parts.GroupedJoin();
+        }
 
-            while (sidearms.Count > 0 && loops <= 50)
+        Pawn_ApparelTracker a = pawn.apparel;
+
+        if (a == null || a.WornApparelCount <= 0)
+        {
+            return parts.GroupedJoin();
+        }
+
+        List<Apparel> apparel = a.WornApparel;
+        parts.Add($"{"Apparel".Localize()}: {apparel.Select(item => RichTextHelper.StripTags(item.LabelCap)).SectionJoin()}");
+
+        return !parts.Any() ? "None".Localize() : parts.GroupedJoin();
+    }
+
+    private static void GetWeaponData(Pawn pawn, ICollection<string> parts)
+    {
+        List<Thing> sidearms = SimpleSidearms.GetSidearms(pawn)?.ToList();
+        var weapons = new List<string>();
+        List<ThingWithComps> equipment = pawn.equipment?.AllEquipmentListForReading ?? new List<ThingWithComps>();
+        int equipmentCount = equipment.Count;
+        List<Thing> inventory = pawn.inventory.innerContainer.InnerListForReading ?? new List<Thing>();
+        var usedInventory = new List<Thing>();
+
+        if (sidearms?.Count > 0)
+        {
+            GetSidearmData(sidearms, equipmentCount, equipment, weapons, inventory, usedInventory);
+        }
+        else
+        {
+            Pawn_EquipmentTracker e = pawn.equipment;
+
+            if (e?.AllEquipmentListForReading?.Count > 0)
             {
-                Thing sidearm = sidearms.Take(1).FirstOrDefault();
+                IEnumerable<string> equip = e.AllEquipmentListForReading.Select(eq => RichTextHelper.StripTags(eq.LabelCap));
 
-                if (sidearm == null)
-                {
-                    continue;
-                }
-
-                if (equipmentCount > 0 && !equipmentUsed && GetEquipmentFromSidearmData(equipment, weapons, sidearm))
-                {
-                    sidearms.Remove(sidearm);
-                    equipmentUsed = true;
-
-                    continue;
-                }
-
-                GetSidearms(sidearms, weapons, inventory, usedInventory, sidearm);
-                loops++;
+                weapons.AddRange(equip);
             }
         }
 
-        private static void GetSidearms(
-            ICollection<Thing> sidearms,
-            ICollection<string> weapons,
-            [NotNull] IEnumerable<Thing> inventory,
-            ICollection<Thing> usedInventory,
-            Thing sidearm
-        )
+        if (weapons.Count <= 0)
         {
-            foreach (Thing thing in inventory.Where(thing => sidearm.def.defName.Equals(thing.def.defName)))
-            {
-                if (usedInventory.Contains(thing))
-                {
-                    continue;
-                }
+            return;
+        }
 
-                weapons.Add(RichTextHelper.StripTags(thing.LabelCap));
-                usedInventory.Add(thing);
+        string section = "Stat_Weapon_Name".Localize();
+
+        parts.Add($"{(weapons.Count > 1 ? section.Pluralize() : section)}: {weapons.SectionJoin()}");
+    }
+
+    private static void GetTemperatureValues(Thing pawn, ICollection<string> parts)
+    {
+        string tempMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin).ToStringTemperature();
+        string tempMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax).ToStringTemperature();
+
+        parts.Add($"{ResponseHelper.TemperatureGlyph.AltText($"{"ComfyTemperatureRange".Localize()} ")}{tempMin}~{tempMax}");
+    }
+
+    private static void GetSidearmData(
+        ICollection<Thing> sidearms,
+        int equipmentCount,
+        List<ThingWithComps> equipment,
+        IList<string> weapons,
+        IReadOnlyCollection<Thing> inventory,
+        ICollection<Thing> usedInventory
+    )
+    {
+        var loops = 0;
+        var equipmentUsed = false;
+
+        while (sidearms.Count > 0 && loops <= 50)
+        {
+            Thing sidearm = sidearms.Take(1).FirstOrDefault();
+
+            if (sidearm == null)
+            {
+                continue;
+            }
+
+            if (equipmentCount > 0 && !equipmentUsed && GetEquipmentFromSidearmData(equipment, weapons, sidearm))
+            {
                 sidearms.Remove(sidearm);
+                equipmentUsed = true;
 
-                break;
+                continue;
             }
+
+            GetSidearms(sidearms, weapons, inventory, usedInventory, sidearm);
+            loops++;
+        }
+    }
+
+    private static void GetSidearms(
+        ICollection<Thing> sidearms,
+        ICollection<string> weapons,
+        IEnumerable<Thing> inventory,
+        ICollection<Thing> usedInventory,
+        Thing sidearm
+    )
+    {
+        foreach (Thing thing in inventory.Where(thing => sidearm.def.defName.Equals(thing.def.defName)))
+        {
+            if (usedInventory.Contains(thing))
+            {
+                continue;
+            }
+
+            weapons.Add(RichTextHelper.StripTags(thing.LabelCap));
+            usedInventory.Add(thing);
+            sidearms.Remove(sidearm);
+
+            break;
+        }
+    }
+
+    private static bool GetEquipmentFromSidearmData(List<ThingWithComps> equipment, IList<string> weapons, Thing sidearm)
+    {
+        ThingWithComps equip = equipment.Find(e => string.Equals(sidearm.def.defName, e.def.defName));
+
+        if (equip == null)
+        {
+            return false;
         }
 
-        private static bool GetEquipmentFromSidearmData([NotNull] List<ThingWithComps> equipment, IList<string> weapons, Thing sidearm)
+        weapons.Insert(0, RichTextHelper.StripTags(equip.LabelCap));
+
+        return true;
+    }
+
+    private static void GetArmorValues(Pawn pawn, ICollection<string> parts)
+    {
+        float sharp = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
+        float blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Blunt);
+        float heat = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Heat);
+        var stats = new List<string>();
+
+        if (sharp > 0)
         {
-            ThingWithComps equip = equipment.Find(e => string.Equals(sidearm.def.defName, e.def.defName));
-
-            if (equip == null)
-            {
-                return false;
-            }
-
-            weapons.Insert(0, RichTextHelper.StripTags(equip.LabelCap));
-
-            return true;
+            stats.Add($"{ResponseHelper.DaggerGlyph.AltText($"{"ArmorSharp".Localize()} ")}{sharp.ToStringPercent()}");
         }
 
-        private static void GetArmorValues([NotNull] Pawn pawn, ICollection<string> parts)
+        if (blunt > 0)
         {
-            float sharp = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Sharp);
-            float blunt = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Blunt);
-            float heat = CalculateArmorRating(pawn, StatDefOf.ArmorRating_Heat);
-            var stats = new List<string>();
+            stats.Add($"{ResponseHelper.PanGlyph.AltText($"{"ArmorBlunt".Localize()} ")}{blunt.ToStringPercent()}");
+        }
 
-            if (sharp > 0)
-            {
-                stats.Add($"{ResponseHelper.DaggerGlyph.AltText($"{"ArmorSharp".Localize()} ")}{sharp.ToStringPercent()}");
-            }
+        if (heat > 0)
+        {
+            stats.Add($"{ResponseHelper.FireGlyph.AltText($"{"ArmorHeat".Localize()} ")}{heat.ToStringPercent()}");
+        }
 
-            if (blunt > 0)
-            {
-                stats.Add($"{ResponseHelper.PanGlyph.AltText($"{"ArmorBlunt".Localize()} ")}{blunt.ToStringPercent()}");
-            }
-
-            if (heat > 0)
-            {
-                stats.Add($"{ResponseHelper.FireGlyph.AltText($"{"ArmorHeat".Localize()} ")}{heat.ToStringPercent()}");
-            }
-
-            if (stats.Any())
-            {
-                parts.Add($"{"OverallArmor".Localize()}: {stats.SectionJoin()}");
-            }
+        if (stats.Any())
+        {
+            parts.Add($"{"OverallArmor".Localize()}: {stats.SectionJoin()}");
         }
     }
 }

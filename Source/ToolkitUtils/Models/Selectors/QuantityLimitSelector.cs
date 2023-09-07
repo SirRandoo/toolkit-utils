@@ -20,80 +20,81 @@ using System.Linq;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.Constraints;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class QuantityLimitSelector : ISelectorBase<ThingItem>
 {
-    public class QuantityLimitSelector : ISelectorBase<ThingItem>
+    private string _buffer = "0";
+    private bool _bufferValid = true;
+    private ComparisonTypes _comparison = ComparisonTypes.Equal;
+    private List<FloatMenuOption> _comparisonOptions;
+    private string _label;
+    private int _limit;
+
+    public void Prepare()
     {
-        private string _buffer = "0";
-        private bool _bufferValid = true;
-        private ComparisonTypes _comparison = ComparisonTypes.Equal;
-        private List<FloatMenuOption> _comparisonOptions;
-        private string _label;
-        private int _limit;
+        _label = Label;
 
-        public void Prepare()
-        {
-            _label = Label;
-
-            _comparisonOptions = Data.ComparisonTypes.Values.Select(
-                    i => new FloatMenuOption(
-                        i.AsOperator(),
-                        () =>
-                        {
-                            _comparison = i;
-                            Dirty.Set(true);
-                        }
-                    )
+        _comparisonOptions = Data.ComparisonTypes.Values.Select(
+                i => new FloatMenuOption(
+                    i.AsOperator(),
+                    () =>
+                    {
+                        _comparison = i;
+                        Dirty.Set(true);
+                    }
                 )
-               .ToList();
-        }
-
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _label);
-
-            (Rect button, Rect input) = field.Split(0.3f);
-
-            if (Widgets.ButtonText(button, _comparison.AsOperator()))
-            {
-                Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
-            }
-
-            if (!UiHelper.NumberField(input, out int value, ref _buffer, ref _bufferValid))
-            {
-                return;
-            }
-
-            _limit = value;
-            Dirty.Set(true);
-        }
-
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public bool IsVisible(TableSettingsItem<ThingItem> item)
-        {
-            switch (_comparison)
-            {
-                case ComparisonTypes.Greater:
-                    return item.Data.ItemData?.QuantityLimit > _limit;
-                case ComparisonTypes.Equal:
-                    return item.Data.ItemData?.QuantityLimit == _limit;
-                case ComparisonTypes.Less:
-                    return item.Data.ItemData?.QuantityLimit < _limit;
-                case ComparisonTypes.GreaterEqual:
-                    return item.Data.ItemData?.QuantityLimit >= _limit;
-                case ComparisonTypes.LessEqual:
-                    return item.Data.ItemData?.QuantityLimit <= _limit;
-                default:
-                    return false;
-            }
-        }
-
-        public string Label => "TKUtils.Fields.QuantityLimit".TranslateSimple();
+            )
+           .ToList();
     }
+
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _label);
+
+        (Rect button, Rect input) = field.Split(0.3f);
+
+        if (Widgets.ButtonText(button, _comparison.AsOperator()))
+        {
+            Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
+        }
+
+        if (!UiHelper.NumberField(input, out int value, ref _buffer, ref _bufferValid))
+        {
+            return;
+        }
+
+        _limit = value;
+        Dirty.Set(true);
+    }
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public bool IsVisible(TableSettingsItem<ThingItem> item)
+    {
+        switch (_comparison)
+        {
+            case ComparisonTypes.Greater:
+                return item.Data.ItemData?.QuantityLimit > _limit;
+            case ComparisonTypes.Equal:
+                return item.Data.ItemData?.QuantityLimit == _limit;
+            case ComparisonTypes.Less:
+                return item.Data.ItemData?.QuantityLimit < _limit;
+            case ComparisonTypes.GreaterEqual:
+                return item.Data.ItemData?.QuantityLimit >= _limit;
+            case ComparisonTypes.LessEqual:
+                return item.Data.ItemData?.QuantityLimit <= _limit;
+            default:
+                return false;
+        }
+    }
+
+    public string Label => "TKUtils.Fields.QuantityLimit".TranslateSimple();
 }

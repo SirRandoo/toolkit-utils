@@ -26,48 +26,47 @@ using TwitchToolkit.Commands;
 using Verse;
 using Command = TwitchToolkit.Command;
 
-namespace SirRandoo.ToolkitUtils.Windows
+namespace SirRandoo.ToolkitUtils.Windows;
+
+public class CommandCategoryWindow : CategoricalEditorWindow<Command>
 {
-    public class CommandCategoryWindow : CategoricalEditorWindow<Command>
+    /// <inheritdoc/>
+    public CommandCategoryWindow() : base("TKUtils.Headers.AllCommands".TranslateSimple())
     {
-        /// <inheritdoc/>
-        public CommandCategoryWindow() : base("TKUtils.Headers.AllCommands".TranslateSimple())
+    }
+
+    /// <inheritdoc/>
+    protected override bool VisibleInSearch(Command entry)
+    {
+        if (entry.command.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0)
         {
+            return true;
         }
 
-        /// <inheritdoc/>
-        protected override bool VisibleInSearch([NotNull] Command entry)
-        {
-            if (entry.command.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                return true;
-            }
+        return entry.defName.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+    }
 
-            return entry.defName.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0;
-        }
+    /// <inheritdoc/>
+    protected override bool IsEntryDisabled(Command entry) => !entry.enabled;
 
-        /// <inheritdoc/>
-        protected override bool IsEntryDisabled([NotNull] Command entry) => !entry.enabled;
+    /// <inheritdoc/>
+    protected override void OpenEditorFor(Command entry)
+    {
+        Find.WindowStack.Add(new CommandEditorDialog(entry));
+    }
 
-        /// <inheritdoc/>
-        protected override void OpenEditorFor([NotNull] Command entry)
-        {
-            Find.WindowStack.Add(new CommandEditorDialog(entry));
-        }
+    /// <inheritdoc/>
+    protected override void DisableEntry(Command entry)
+    {
+        entry.enabled = false;
 
-        /// <inheritdoc/>
-        protected override void DisableEntry([NotNull] Command entry)
-        {
-            entry.enabled = false;
+        CommandEditor.SaveCopy(entry);
+    }
 
-            CommandEditor.SaveCopy(entry);
-        }
-
-        /// <inheritdoc/>
-        protected override void ResetEntry(Command entry)
-        {
-            CommandEditor.LoadBackup(entry);
-            CommandEditor.SaveCopy(entry);
-        }
+    /// <inheritdoc/>
+    protected override void ResetEntry(Command entry)
+    {
+        CommandEditor.LoadBackup(entry);
+        CommandEditor.SaveCopy(entry);
     }
 }

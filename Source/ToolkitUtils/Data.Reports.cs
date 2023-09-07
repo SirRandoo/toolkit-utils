@@ -23,23 +23,22 @@
 using System.Collections.Generic;
 using SirRandoo.ToolkitUtils.Models;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+public static partial class Data
 {
-    public static partial class Data
+    private static readonly List<HealthReport> HealthReports = new List<HealthReport>();
+
+    /// <summary>
+    ///     The currently active health reports raised from internal
+    ///     processes within the mod.
+    /// </summary>
+    public static IEnumerable<HealthReport> AllHealthReports => HealthReports;
+
+    internal static void RegisterHealthReport(HealthReport report)
     {
-        private static readonly List<HealthReport> HealthReports = new List<HealthReport>();
-
-        /// <summary>
-        ///     The currently active health reports raised from internal
-        ///     processes within the mod.
-        /// </summary>
-        public static IEnumerable<HealthReport> AllHealthReports => HealthReports;
-
-        internal static void RegisterHealthReport(HealthReport report)
-        {
-            HealthReports.Add(report);
-        }
-
-        internal static bool RemoveHealthReport(HealthReport report) => HealthReports.Remove(report);
+        HealthReports.Add(report);
     }
+
+    internal static bool RemoveHealthReport(HealthReport report) => HealthReports.Remove(report);
 }

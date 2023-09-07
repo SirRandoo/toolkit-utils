@@ -17,33 +17,33 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class CanRemoveMutator : IMutatorBase<TraitItem>
 {
-    public class CanRemoveMutator : IMutatorBase<TraitItem>
+    private string _canRemoveText;
+    private bool _state;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.CanRemove".TranslateSimple();
+
+    public void Prepare()
     {
-        private string _canRemoveText;
-        private bool _state;
+        _canRemoveText = Label;
+    }
 
-        public int Priority => 1;
+    public void Mutate(TableSettingsItem<TraitItem> item)
+    {
+        item.Data.CanRemove = _state;
+    }
 
-        public string Label => "TKUtils.Fields.CanRemove".TranslateSimple();
-
-        public void Prepare()
-        {
-            _canRemoveText = Label;
-        }
-
-        public void Mutate([NotNull] TableSettingsItem<TraitItem> item)
-        {
-            item.Data.CanRemove = _state;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            UiHelper.LabeledPaintableCheckbox(canvas, _canRemoveText, ref _state);
-        }
+    public void Draw(Rect canvas)
+    {
+        UiHelper.LabeledPaintableCheckbox(canvas, _canRemoveText, ref _state);
     }
 }

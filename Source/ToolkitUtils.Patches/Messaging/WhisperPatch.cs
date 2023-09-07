@@ -24,50 +24,48 @@ using ToolkitCore.Models;
 using TwitchLib.Client.Events;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for ensuring whisper messages received from chat
+///     are redirected to the <see cref="CommandRouter"/>.
+/// </summary>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class WhisperPatch
 {
-    /// <summary>
-    ///     A Harmony patch for ensuring whisper messages received from chat
-    ///     are redirected to the <see cref="CommandRouter"/>.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class WhisperPatch
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(TwitchWrapper), "OnWhisperReceived");
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(TwitchWrapper), "OnWhisperReceived");
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
 
-        private static bool Prefix([NotNull] OnWhisperReceivedArgs e)
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
+    }
+
+    private static bool Prefix(OnWhisperReceivedArgs e)
+    {
+        if (!TkSettings.CommandRouter)
         {
-            if (!TkSettings.CommandRouter)
-            {
-                return true;
-            }
+            return true;
+        }
 
-            if (!ToolkitCoreSettings.allowWhispers || Current.Game == null)
-            {
-                return false;
-            }
-
-            CommandRouter.CommandQueue.Enqueue(e.WhisperMessage);
-            MessageLog.LogMessage(e.WhisperMessage);
-
+        if (!ToolkitCoreSettings.allowWhispers || Current.Game == null)
+        {
             return false;
         }
+
+        CommandRouter.CommandQueue.Enqueue(e.WhisperMessage);
+        MessageLog.LogMessage(e.WhisperMessage);
+
+        return false;
     }
 }

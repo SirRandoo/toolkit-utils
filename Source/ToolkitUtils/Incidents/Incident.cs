@@ -20,47 +20,47 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Models.IncidentDatas;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Incidents
+namespace SirRandoo.ToolkitUtils.Incidents;
+
+[UsedImplicitly]
+public class Incident : IncidentHelper
 {
-    [UsedImplicitly]
-    public class Incident : IncidentHelper
+    private static readonly Dictionary<string, IIncidentData> Data = new Dictionary<string, IIncidentData>
     {
-        private static readonly Dictionary<string, IIncidentData> Data = new Dictionary<string, IIncidentData>
+        { "TraderCaravanArrival", new TraderCaravanIncidentData() }, { "OrbitalTraderArrival", new OrbitalTraderIncidentData() }
+    };
+    private IncidentParms _params;
+    private IncidentWorker _worker;
+
+    public override bool IsPossible()
+    {
+        if (!Data.TryGetValue(storeIncident.defName, out IIncidentData data))
         {
-            { "TraderCaravanArrival", new TraderCaravanIncidentData() }, { "OrbitalTraderArrival", new OrbitalTraderIncidentData() }
-        };
-        private IncidentParms _params;
-        private IncidentWorker _worker;
-
-        public override bool IsPossible()
-        {
-            if (!Data.TryGetValue(storeIncident.defName, out IIncidentData data))
-            {
-                return false;
-            }
-
-            _worker = Activator.CreateInstance(data.WorkerClass) as IncidentWorker;
-            Map map = Find.RandomPlayerHomeMap;
-
-            if (map == null || _worker == null)
-            {
-                return false;
-            }
-
-            _params = StorytellerUtility.DefaultParmsNow(data.ResolveCategory(_worker, storeIncident), map);
-            _params.forced = true;
-
-            data.DoExtraSetup(_worker, _params, storeIncident);
-
-            return _worker.CanFireNow(_params);
+            return false;
         }
 
-        public override void TryExecute()
+        _worker = Activator.CreateInstance(data.WorkerClass) as IncidentWorker;
+        Map map = Find.RandomPlayerHomeMap;
+
+        if (map == null || _worker == null)
         {
-            _worker.TryExecute(_params);
+            return false;
         }
+
+        _params = StorytellerUtility.DefaultParmsNow(data.ResolveCategory(_worker, storeIncident), map);
+        _params.forced = true;
+
+        data.DoExtraSetup(_worker, _params, storeIncident);
+
+        return _worker.CanFireNow(_params);
+    }
+
+    public override void TryExecute()
+    {
+        _worker.TryExecute(_params);
     }
 }

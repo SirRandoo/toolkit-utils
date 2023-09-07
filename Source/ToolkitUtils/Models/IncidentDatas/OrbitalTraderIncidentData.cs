@@ -20,17 +20,16 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Incidents;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
+
+public class OrbitalTraderIncidentData : IIncidentData
 {
-    public class OrbitalTraderIncidentData : IIncidentData
+    public Type WorkerClass => typeof(IncidentWorker_OrbitalTraderArrival);
+
+    public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.Misc;
+
+    public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
     {
-        [NotNull] public Type WorkerClass => typeof(IncidentWorker_OrbitalTraderArrival);
-
-        public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.Misc;
-
-        public void DoExtraSetup([NotNull] IncidentWorker worker, IncidentParms @params, StoreIncident incident)
-        {
-            worker.def = RimWorld.IncidentDefOf.OrbitalTraderArrival;
-        }
+        worker.def = RimWorld.IncidentDefOf.OrbitalTraderArrival;
     }
 }

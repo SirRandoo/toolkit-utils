@@ -20,46 +20,46 @@ using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class EventKarmaSelector : ISelectorBase<EventItem>
 {
-    public class EventKarmaSelector : ISelectorBase<EventItem>
+    private string _karmaLabel;
+    private KarmaType _karmaType = KarmaType.Neutral;
+    private List<FloatMenuOption> _karmaTypes;
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public void Prepare()
     {
-        private string _karmaLabel;
-        private KarmaType _karmaType = KarmaType.Neutral;
-        private List<FloatMenuOption> _karmaTypes;
+        _karmaLabel = Label;
+        _karmaTypes = Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => SetKarma(i))).ToList();
+    }
 
-        public ObservableProperty<bool> Dirty { get; set; }
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _karmaLabel);
 
-        public void Prepare()
+        if (Widgets.ButtonText(field, _karmaType.ToString()))
         {
-            _karmaLabel = Label;
-            _karmaTypes = Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => SetKarma(i))).ToList();
+            Find.WindowStack.Add(new FloatMenu(_karmaTypes));
         }
+    }
 
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _karmaLabel);
+    public bool IsVisible(TableSettingsItem<EventItem> item) => item.Data.KarmaType == _karmaType;
 
-            if (Widgets.ButtonText(field, _karmaType.ToString()))
-            {
-                Find.WindowStack.Add(new FloatMenu(_karmaTypes));
-            }
-        }
+    public string Label => "TKUtils.Fields.KarmaType".TranslateSimple();
 
-        public bool IsVisible([NotNull] TableSettingsItem<EventItem> item) => item.Data.KarmaType == _karmaType;
-
-        public string Label => "TKUtils.Fields.KarmaType".TranslateSimple();
-
-        private void SetKarma(KarmaType karma)
-        {
-            _karmaType = karma;
-            Dirty.Set(true);
-        }
+    private void SetKarma(KarmaType karma)
+    {
+        _karmaType = karma;
+        Dirty.Set(true);
     }
 }

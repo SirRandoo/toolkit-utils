@@ -17,35 +17,34 @@
 using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Interfaces;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+public abstract class ProxyPartial : IShopItemBase
 {
-    public abstract class ProxyPartial : IShopItemBase
+    [JsonProperty("defName")] public string DefName { get; set; }
+    [JsonProperty("enabled")] public bool Enabled { get; set; }
+    [JsonProperty("name")] public string Name { get; set; }
+    [JsonProperty("price")] public int Cost { get; set; }
+    [JsonIgnore] public IShopDataBase Data { get; set; }
+
+    public void ResetName()
     {
-        [JsonProperty("defName")] public string DefName { get; set; }
-        [JsonProperty("enabled")] public bool Enabled { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("price")] public int Cost { get; set; }
-        [JsonIgnore] public IShopDataBase Data { get; set; }
+        // Partials can't be reset.
+        // This method exists solely because of the interface it implements.
+        // You should not call this on proxies.
+    }
 
-        public void ResetName()
-        {
-            // Partials can't be reset.
-            // This method exists solely because of the interface it implements.
-            // You should not call this on proxies.
-        }
+    public void ResetPrice()
+    {
+        // Partials can't be reset.
+        // This method exists solely because of the interface it implements.
+        // You should not call this on proxies.
+    }
 
-        public void ResetPrice()
-        {
-            // Partials can't be reset.
-            // This method exists solely because of the interface it implements.
-            // You should not call this on proxies.
-        }
-
-        public void ResetData()
-        {
-            // Partials can't be reset.
-            // This method exists solely because of the interface it implements.
-            // You should not call this on proxies.
-        }
+    public void ResetData()
+    {
+        // Partials can't be reset.
+        // This method exists solely because of the interface it implements.
+        // You should not call this on proxies.
     }
 }

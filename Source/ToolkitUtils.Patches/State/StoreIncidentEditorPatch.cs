@@ -20,81 +20,80 @@ using System.Reflection;
 using System.Threading.Tasks;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Defs;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for ensuring special events
+///     (<see cref="EventTypes"/>) have their cost set to <c>1</c>.
+/// </summary>
+/// <remarks>
+///     Internally, Twitch Toolkit requires viewers to have the amount of
+///     coins an event costs prior to executing the event. This means
+///     that if event A costs <c>500</c> coins, viewers are required to
+///     have <c>500</c> coins before the event A's code will run, even if
+///     the event's code determined the viewer only required <c>200</c>
+///     coins.
+/// </remarks>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class StoreIncidentEditorPatch
 {
-    /// <summary>
-    ///     A Harmony patch for ensuring special events
-    ///     (<see cref="EventTypes"/>) have their cost set to <c>1</c>.
-    /// </summary>
-    /// <remarks>
-    ///     Internally, Twitch Toolkit requires viewers to have the amount of
-    ///     coins an event costs prior to executing the event. This means
-    ///     that if event A costs <c>500</c> coins, viewers are required to
-    ///     have <c>500</c> coins before the event A's code will run, even if
-    ///     the event's code determined the viewer only required <c>200</c>
-    ///     coins.
-    /// </remarks>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class StoreIncidentEditorPatch
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(Store_IncidentEditor), nameof(Store_IncidentEditor.UpdatePriceSheet));
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(Store_IncidentEditor), nameof(Store_IncidentEditor.UpdatePriceSheet));
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
 
-        private static void Prefix()
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
+    }
+
+    private static void Prefix()
+    {
+        foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
         {
-            foreach (StoreIncident incident in DefDatabase<StoreIncident>.AllDefs)
+            if (incident.cost <= 1)
             {
-                if (incident.cost <= 1)
-                {
-                    continue;
-                }
-
-                EventTypes type = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
-
-                if (type == EventTypes.Default || type == EventTypes.Variable)
-                {
-                    continue;
-                }
-
-                incident.cost = 1;
+                continue;
             }
+
+            EventTypes type = incident.GetModExtension<EventExtension>()?.EventType ?? EventTypes.Default;
+
+            if (type == EventTypes.Default || type == EventTypes.Variable)
+            {
+                continue;
+            }
+
+            incident.cost = 1;
         }
+    }
 
-        private static void Postfix()
+    private static void Postfix()
+    {
+        if (TkSettings.Offload)
         {
-            if (TkSettings.Offload)
-            {
-                Task.Run(
-                    async () =>
-                    {
-                        await Data.SaveEventDataAsync(Paths.EventDataFilePath);
-                    }
-                );
-            }
-            else
-            {
-                Data.SaveEventData(Paths.EventDataFilePath);
-            }
+            Task.Run(
+                async () =>
+                {
+                    await Data.SaveEventDataAsync(Paths.EventDataFilePath);
+                }
+            );
+        }
+        else
+        {
+            Data.SaveEventData(Paths.EventDataFilePath);
         }
     }
 }

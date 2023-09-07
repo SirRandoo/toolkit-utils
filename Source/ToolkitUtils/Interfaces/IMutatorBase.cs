@@ -15,16 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IMutatorBase<T> where T : class, IShopItemBase
 {
-    public interface IMutatorBase<T> where T : class, IShopItemBase
-    {
-        int Priority { get; }
-        string Label { get; }
-        void Prepare();
-        void Draw(Rect canvas);
-        void Mutate(TableSettingsItem<T> item);
-    }
+    int Priority { get; }
+    string Label { get; }
+    void Prepare();
+    void Draw(Rect canvas);
+    void Mutate(TableSettingsItem<T> item);
 }

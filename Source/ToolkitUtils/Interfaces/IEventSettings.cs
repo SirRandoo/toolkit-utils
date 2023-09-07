@@ -16,11 +16,10 @@
 
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IEventSettings
 {
-    public interface IEventSettings
-    {
-        int LineSpan { get; }
-        void Draw(Rect canvas, float preferredHeight);
-    }
+    int LineSpan { get; }
+    void Draw(Rect canvas, float preferredHeight);
 }

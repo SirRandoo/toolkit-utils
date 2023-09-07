@@ -17,61 +17,61 @@
 using System;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class CategorySelector : ISelectorBase<ThingItem>
 {
-    public class CategorySelector : ISelectorBase<ThingItem>
+    private string _categoryText;
+    private string _excludeTooltip;
+    private string _includeTooltip;
+    private protected string Category = "";
+    private protected bool Exclude = true;
+
+    public void Prepare()
     {
-        private string _categoryText;
-        private string _excludeTooltip;
-        private string _includeTooltip;
-        private protected string Category = "";
-        private protected bool Exclude = true;
+        _categoryText = Label;
+        _excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
+        _includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
+    }
 
-        public void Prepare()
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _categoryText);
+
+        if (UiHelper.TextField(field, Category, out string input))
         {
-            _categoryText = Label;
-            _excludeTooltip = "TKUtils.SelectorTooltips.ExcludeItem".TranslateSimple();
-            _includeTooltip = "TKUtils.SelectorTooltips.IncludeItem".TranslateSimple();
-        }
-
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _categoryText);
-
-            if (UiHelper.TextField(field, Category, out string input))
-            {
-                Category = input;
-                Dirty.Set(true);
-            }
-
-            if (!UiHelper.FieldButton(field, Exclude ? "!=" : "=", Exclude ? _includeTooltip : _excludeTooltip))
-            {
-                return;
-            }
-
-            Exclude = !Exclude;
+            Category = input;
             Dirty.Set(true);
         }
 
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public virtual bool IsVisible(TableSettingsItem<ThingItem> item)
+        if (!UiHelper.FieldButton(field, Exclude ? "!=" : "=", Exclude ? _includeTooltip : _excludeTooltip))
         {
-            if (Category.NullOrEmpty())
-            {
-                return false;
-            }
-
-            bool shouldShow = item.Data.Category.EqualsIgnoreCase(Category) || item.Data.Category.ToLower().Equals(Category.ToLower());
-
-            return Exclude ? !shouldShow : shouldShow;
+            return;
         }
 
-        public virtual string Label => "TKUtils.Fields.Category".TranslateSimple();
+        Exclude = !Exclude;
+        Dirty.Set(true);
     }
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public virtual bool IsVisible(TableSettingsItem<ThingItem> item)
+    {
+        if (Category.NullOrEmpty())
+        {
+            return false;
+        }
+
+        bool shouldShow = item.Data.Category.EqualsIgnoreCase(Category) || item.Data.Category.ToLower().Equals(Category.ToLower());
+
+        return Exclude ? !shouldShow : shouldShow;
+    }
+
+    public virtual string Label => "TKUtils.Fields.Category".TranslateSimple();
 }

@@ -17,36 +17,36 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class HasQuantityLimitMutator : IMutatorBase<ThingItem>
 {
-    public class HasQuantityLimitMutator : IMutatorBase<ThingItem>
+    private string _hasQuantityLimitText;
+    private bool _state;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.QuantityLimit".TranslateSimple();
+
+    public void Prepare()
     {
-        private string _hasQuantityLimitText;
-        private bool _state;
+        _hasQuantityLimitText = Label;
+    }
 
-        public int Priority => 1;
-
-        public string Label => "TKUtils.Fields.QuantityLimit".TranslateSimple();
-
-        public void Prepare()
+    public void Mutate(TableSettingsItem<ThingItem> item)
+    {
+        if (item.Data.ItemData != null)
         {
-            _hasQuantityLimitText = Label;
+            item.Data.ItemData.HasQuantityLimit = _state;
         }
+    }
 
-        public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
-        {
-            if (item.Data.ItemData != null)
-            {
-                item.Data.ItemData.HasQuantityLimit = _state;
-            }
-        }
-
-        public void Draw(Rect canvas)
-        {
-            UiHelper.LabeledPaintableCheckbox(canvas, _hasQuantityLimitText, ref _state);
-        }
+    public void Draw(Rect canvas)
+    {
+        UiHelper.LabeledPaintableCheckbox(canvas, _hasQuantityLimitText, ref _state);
     }
 }

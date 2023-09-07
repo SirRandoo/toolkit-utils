@@ -27,83 +27,81 @@ using TwitchToolkit.Twitch;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for populating viewer data from messages sent in
+///     chat.
+/// </summary>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class ViewerUpdaterPatch
 {
-    /// <summary>
-    ///     A Harmony patch for populating viewer data from messages sent in
-    ///     chat.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class ViewerUpdaterPatch
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(ViewerUpdater), nameof(ViewerUpdater.ParseMessage));
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(ViewerUpdater), nameof(ViewerUpdater.ParseMessage));
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
 
-        private static bool Prefix([CanBeNull] ITwitchMessage twitchMessage)
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
+    }
+
+    private static bool Prefix(ITwitchMessage? twitchMessage)
+    {
+        if (twitchMessage?.ChatMessage == null)
         {
-            if (twitchMessage?.ChatMessage == null)
-            {
-                return false;
-            }
-
-            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
-            var component = Current.Game.GetComponent<GameComponentPawns>();
-
-            ToolkitSettings.ViewerColorCodes[twitchMessage.Username.ToLowerInvariant()] = twitchMessage.ChatMessage.ColorHex;
-
-            if (TkSettings.HairColor && component.HasUserBeenNamed(twitchMessage.Username)
-                && ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
-            {
-                Pawn pawn = component.PawnAssignedToUser(twitchMessage.Username);
-
-                if (pawn?.story != null)
-                {
-                    pawn.story.HairColor = hairColor;
-                }
-            }
-
-            viewer.mod = twitchMessage.HasBadges("moderator", "broadcaster", "global_mod", "staff");
-            viewer.subscriber = twitchMessage.HasBadges("subscriber", "founder");
-            viewer.vip = twitchMessage.HasBadges("vip");
-
-            if (!Data.RegisterViewer(viewer.username))
-            {
-                TkUtils.Logger.Warn($"Viewer {viewer.username} could not be added to the viewer list through participation.");
-            }
-
             return false;
         }
 
-        private static void UpdateBroadcasterData([NotNull] Viewer viewer)
+        Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
+        var component = Current.Game.GetComponent<GameComponentPawns>();
+
+        ToolkitSettings.ViewerColorCodes[twitchMessage.Username.ToLowerInvariant()] = twitchMessage.ChatMessage.ColorHex;
+
+        if (TkSettings.HairColor && component.HasUserBeenNamed(twitchMessage.Username)
+            && ColorUtility.TryParseHtmlString(twitchMessage.ChatMessage.ColorHex, out Color hairColor))
         {
-            if (!TkSettings.BroadcasterCoinType.EqualsIgnoreCase("broadcaster"))
+            Pawn pawn = component.PawnAssignedToUser(twitchMessage.Username);
+
+            if (pawn?.story != null)
             {
-                viewer.subscriber = TkSettings.BroadcasterCoinType.EqualsIgnoreCase("subscriber");
-                viewer.mod = TkSettings.BroadcasterCoinType.EqualsIgnoreCase("moderator");
-                viewer.vip = TkSettings.BroadcasterCoinType.EqualsIgnoreCase("vip");
+                pawn.story.HairColor = hairColor;
             }
-            else
-            {
-                viewer.subscriber = true;
-                viewer.mod = true;
-                viewer.vip = true;
-            }
+        }
+
+        viewer.mod = twitchMessage.HasBadges("moderator", "broadcaster", "global_mod", "staff");
+        viewer.subscriber = twitchMessage.HasBadges("subscriber", "founder");
+        viewer.vip = twitchMessage.HasBadges("vip");
+
+        if (!Data.RegisterViewer(viewer.username))
+        {
+            TkUtils.Logger.Warn($"Viewer {viewer.username} could not be added to the viewer list through participation.");
+        }
+
+        return false;
+    }
+
+    private static void UpdateBroadcasterData(Viewer viewer)
+    {
+        if (!TkSettings.BroadcasterCoinType.EqualsIgnoreCase("broadcaster"))
+        {
+            viewer.subscriber = TkSettings.BroadcasterCoinType.EqualsIgnoreCase("subscriber");
+            viewer.mod = TkSettings.BroadcasterCoinType.EqualsIgnoreCase("moderator");
+            viewer.vip = TkSettings.BroadcasterCoinType.EqualsIgnoreCase("vip");
+        }
+        else
+        {
+            viewer.subscriber = true;
+            viewer.mod = true;
+            viewer.vip = true;
         }
     }
 }

@@ -17,14 +17,13 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+public class TokenValidateResponse
 {
-    public class TokenValidateResponse
-    {
-        [JsonProperty("client_id")] public string ClientId { get; set; }
-        [JsonProperty("login")] public string Login { get; set; }
-        [JsonProperty("scopes")] public List<string> Scopes { get; set; }
-        [JsonProperty("user_id")] public string UserId { get; set; }
-        [JsonProperty("expires_in")] public int ExpiresIn { get; set; }
-    }
+    [JsonProperty("client_id")] public string ClientId { get; set; }
+    [JsonProperty("login")] public string Login { get; set; }
+    [JsonProperty("scopes")] public List<string> Scopes { get; set; }
+    [JsonProperty("user_id")] public string UserId { get; set; }
+    [JsonProperty("expires_in")] public int ExpiresIn { get; set; }
 }

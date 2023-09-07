@@ -27,26 +27,25 @@ using JetBrains.Annotations;
 using SirRandoo.CommonLib.Windows;
 using SirRandoo.ToolkitUtils.Windows;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class CoreOverridePatch
 {
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class CoreOverridePatch
+    private static readonly MethodInfo OpenProxyWindow = AccessTools.Method(typeof(ProxySettingsWindow), "Open", new[] { typeof(ProxySettingsWindow) });
+
+    private static bool Prepare() => !CompatRegistry.ToolkitCompatible;
+
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static readonly MethodInfo OpenProxyWindow = AccessTools.Method(typeof(ProxySettingsWindow), "Open", new[] { typeof(ProxySettingsWindow) });
+        yield return AccessTools.Method(typeof(ToolkitCore.ToolkitCore), nameof(ToolkitCore.ToolkitCore.DoSettingsWindowContents));
+    }
 
-        private static bool Prepare() => !CompatRegistry.ToolkitCompatible;
+    private static bool Prefix()
+    {
+        OpenProxyWindow.Invoke(null, new object[] { new CoreSettingsWindow() });
 
-        private static IEnumerable<MethodBase> TargetMethods()
-        {
-            yield return AccessTools.Method(typeof(ToolkitCore.ToolkitCore), nameof(ToolkitCore.ToolkitCore.DoSettingsWindowContents));
-        }
-
-        private static bool Prefix()
-        {
-            OpenProxyWindow.Invoke(null, new object[] { new CoreSettingsWindow() });
-
-            return false;
-        }
+        return false;
     }
 }

@@ -18,12 +18,11 @@ using JetBrains.Annotations;
 using RimWorld;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Defs;
+
+[DefOf]
+[UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
+public static class GameConditionDefOf
 {
-    [DefOf]
-    [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
-    public static class GameConditionDefOf
-    {
-        public static GameConditionDef Sanctuary;
-    }
+    public static GameConditionDef Sanctuary;
 }

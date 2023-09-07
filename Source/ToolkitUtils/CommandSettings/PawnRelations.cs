@@ -20,35 +20,34 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.CommandSettings
+namespace SirRandoo.ToolkitUtils.CommandSettings;
+
+public class PawnRelations : ICommandSettings
 {
-    public class PawnRelations : ICommandSettings
+    private string _minimumBuffer = TkSettings.OpinionMinimum.ToString();
+
+    public void Draw(Rect region)
     {
-        private string _minimumBuffer = TkSettings.OpinionMinimum.ToString();
+        var listing = new Listing_Standard();
 
-        public void Draw(Rect region)
+        listing.Begin(region);
+
+        if (!TkSettings.MinimalRelations)
         {
-            var listing = new Listing_Standard();
-
-            listing.Begin(region);
-
-            if (!TkSettings.MinimalRelations)
-            {
-                (Rect labelRect, Rect fieldRect) = listing.Split();
-                UiHelper.Label(labelRect, "TKUtils.PawnRelations.OpinionThreshold.Label".TranslateSimple());
-                Widgets.TextFieldNumeric(fieldRect, ref TkSettings.OpinionMinimum, ref _minimumBuffer);
-                listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".TranslateSimple());
-            }
-
-            listing.CheckboxLabeled("TKUtils.PawnRelations.MinimalRelations.Label".TranslateSimple(), ref TkSettings.MinimalRelations);
-            listing.DrawDescription("TKUtils.PawnRelations.MinimalRelations.Description".TranslateSimple());
-
-            listing.End();
+            (Rect labelRect, Rect fieldRect) = listing.Split();
+            UiHelper.Label(labelRect, "TKUtils.PawnRelations.OpinionThreshold.Label".TranslateSimple());
+            Widgets.TextFieldNumeric(fieldRect, ref TkSettings.OpinionMinimum, ref _minimumBuffer);
+            listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".TranslateSimple());
         }
 
-        public void Save()
-        {
-            TkUtils.Instance.WriteSettings();
-        }
+        listing.CheckboxLabeled("TKUtils.PawnRelations.MinimalRelations.Label".TranslateSimple(), ref TkSettings.MinimalRelations);
+        listing.DrawDescription("TKUtils.PawnRelations.MinimalRelations.Description".TranslateSimple());
+
+        listing.End();
+    }
+
+    public void Save()
+    {
+        TkUtils.Instance.WriteSettings();
     }
 }

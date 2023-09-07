@@ -16,12 +16,11 @@
 
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
-{
-    public interface IShopDataBase : IRimData
-    {
-        KarmaType? KarmaType { get; set; }
+namespace SirRandoo.ToolkitUtils.Interfaces;
 
-        void Reset();
-    }
+public interface IShopDataBase : IRimData
+{
+    KarmaType? KarmaType { get; set; }
+
+    void Reset();
 }

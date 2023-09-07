@@ -18,25 +18,24 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Windows
+namespace SirRandoo.ToolkitUtils.Windows;
+
+/// <summary>
+///     A dialog for drawing <see cref="IEventSettings"/>s.
+/// </summary>
+public class EventSettingsDialog : Window
 {
-    /// <summary>
-    ///     A dialog for drawing <see cref="IEventSettings"/>s.
-    /// </summary>
-    public class EventSettingsDialog : Window
+    private readonly IEventSettings _settings;
+
+    public EventSettingsDialog(IEventSettings settings)
     {
-        private readonly IEventSettings _settings;
+        _settings = settings;
+        doCloseButton = true;
+    }
 
-        public EventSettingsDialog(IEventSettings settings)
-        {
-            _settings = settings;
-            doCloseButton = true;
-        }
-
-        /// <inheritdoc cref="Window.DoWindowContents"/>
-        public override void DoWindowContents(Rect region)
-        {
-            _settings.Draw(region, Text.LineHeight);
-        }
+    /// <inheritdoc cref="Window.DoWindowContents"/>
+    public override void DoWindowContents(Rect region)
+    {
+        _settings.Draw(region, Text.LineHeight);
     }
 }

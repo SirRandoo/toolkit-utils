@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2022  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -20,41 +20,36 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 using PreceptDefOf = SirRandoo.ToolkitUtils.Ideology.Defs.PreceptDefOf;
 
-namespace SirRandoo.ToolkitUtils.Ideology
+namespace SirRandoo.ToolkitUtils.Ideology;
+
+[UsedImplicitly]
+public record ScarificationHealHandler(string ModId = "Ludeon.Ideology") : IHealHandler
 {
-    [UsedImplicitly]
-    public class ScarificationHealHandler : IHealHandler
+    /// <inheritdoc/>
+    public bool CanHeal([NotNull] Hediff hediff)
     {
-        /// <inheritdoc/>
-        [NotNull]
-        public string ModId => "Ludeon.Ideology";
+        bool isScarification = hediff.def == HediffDefOf.Scarification;
 
-        /// <inheritdoc/>
-        public bool CanHeal([NotNull] Hediff hediff)
+        Ideo ideo = hediff.pawn.Ideo;
+
+        if (ideo.HasPrecept(PreceptDefOf.Scarification_Minor))
         {
-            bool isScarification = hediff.def == HediffDefOf.Scarification;
-
-            Ideo ideo = hediff.pawn.Ideo;
-
-            if (ideo.HasPrecept(PreceptDefOf.Scarification_Minor))
-            {
-                return !isScarification;
-            }
-
-            if (ideo.HasPrecept(PreceptDefOf.Scarification_Heavy))
-            {
-                return !isScarification;
-            }
-
-            if (ideo.HasPrecept(PreceptDefOf.Scarification_Extreme))
-            {
-                return !isScarification;
-            }
-
-            return true;
+            return !isScarification;
         }
 
-        /// <inheritdoc/>
-        public bool CanHeal(BodyPartRecord bodyPart) => true;
+        if (ideo.HasPrecept(PreceptDefOf.Scarification_Heavy))
+        {
+            return !isScarification;
+        }
+
+        if (ideo.HasPrecept(PreceptDefOf.Scarification_Extreme))
+        {
+            return !isScarification;
+        }
+
+        return true;
     }
+
+    /// <inheritdoc/>
+    public bool CanHeal(BodyPartRecord bodyPart) => true;
 }

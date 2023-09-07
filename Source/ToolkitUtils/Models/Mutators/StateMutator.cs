@@ -17,33 +17,33 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class StateMutator<T> : IMutatorBase<T> where T : class, IShopItemBase
 {
-    public class StateMutator<T> : IMutatorBase<T> where T : class, IShopItemBase
+    private bool _state;
+    private string _stateText;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.State".TranslateSimple();
+
+    public void Prepare()
     {
-        private bool _state;
-        private string _stateText;
+        _stateText = Label;
+    }
 
-        public int Priority => 1;
+    public void Mutate(TableSettingsItem<T> item)
+    {
+        item.Data.Enabled = _state;
+    }
 
-        public string Label => "TKUtils.Fields.State".TranslateSimple();
-
-        public void Prepare()
-        {
-            _stateText = Label;
-        }
-
-        public void Mutate([NotNull] TableSettingsItem<T> item)
-        {
-            item.Data.Enabled = _state;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            UiHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state);
-        }
+    public void Draw(Rect canvas)
+    {
+        UiHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state);
     }
 }

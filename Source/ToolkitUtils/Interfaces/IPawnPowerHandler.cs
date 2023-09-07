@@ -14,14 +14,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IPawnPowerHandler : ICompatibilityProvider
 {
-    public interface IPawnPowerHandler : ICompatibilityProvider
-    {
-        IPawnPower Power { get; set; }
-        bool HasLevel { get; set; }
-        bool HasExp { get; set; }
-        int Level { get; set; }
-        int Experience { get; set; }
-    }
+    IPawnPower Power { get; set; }
+    bool HasLevel { get; set; }
+    bool HasExp { get; set; }
+    int Level { get; set; }
+    int Experience { get; set; }
 }

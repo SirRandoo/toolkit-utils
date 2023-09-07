@@ -16,9 +16,8 @@
 
 using SirRandoo.ToolkitUtils.Utils;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+public class PawnPowers : CommandBase
 {
-    public class PawnPowers : CommandBase
-    {
-    }
 }

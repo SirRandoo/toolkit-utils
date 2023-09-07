@@ -17,34 +17,34 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class StateSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
 {
-    public class StateSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
+    private bool _state = true;
+    private string _stateText;
+
+    public void Prepare()
     {
-        private bool _state = true;
-        private string _stateText;
-
-        public void Prepare()
-        {
-            _stateText = Label;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            if (UiHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state))
-            {
-                Dirty.Set(true);
-            }
-        }
-
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public bool IsVisible([NotNull] TableSettingsItem<T> item) => item.Data.Enabled == _state;
-
-        public string Label => "TKUtils.Fields.State".TranslateSimple();
+        _stateText = Label;
     }
+
+    public void Draw(Rect canvas)
+    {
+        if (UiHelper.LabeledPaintableCheckbox(canvas, _stateText, ref _state))
+        {
+            Dirty.Set(true);
+        }
+    }
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public bool IsVisible(TableSettingsItem<T> item) => item.Data.Enabled == _state;
+
+    public string Label => "TKUtils.Fields.State".TranslateSimple();
 }

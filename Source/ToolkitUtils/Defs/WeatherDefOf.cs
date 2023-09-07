@@ -18,20 +18,19 @@ using JetBrains.Annotations;
 using RimWorld;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Defs;
+
+[DefOf]
+[UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
+public static class WeatherDefOf
 {
-    [DefOf]
-    [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
-    public static class WeatherDefOf
-    {
-        public static WeatherDef Clear;
-        public static WeatherDef Rain;
-        public static WeatherDef VomitRain;
-        public static WeatherDef FoggyRain;
-        public static WeatherDef RainyThunderstorm;
-        public static WeatherDef DryThunderstorm;
-        public static WeatherDef SnowGentle;
-        public static WeatherDef SnowHard;
-        public static WeatherDef Fog;
-    }
+    public static WeatherDef Clear;
+    public static WeatherDef Rain;
+    public static WeatherDef VomitRain;
+    public static WeatherDef FoggyRain;
+    public static WeatherDef RainyThunderstorm;
+    public static WeatherDef DryThunderstorm;
+    public static WeatherDef SnowGentle;
+    public static WeatherDef SnowHard;
+    public static WeatherDef Fog;
 }

@@ -25,83 +25,81 @@ using System.Collections.Generic;
 using System.Threading;
 using JetBrains.Annotations;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+public static partial class Data
 {
-    public static partial class Data
+    private static readonly List<string> Viewers = new List<string>();
+    private static readonly ReaderWriterLockSlim Lock = new ReaderWriterLockSlim();
+
+    public static List<string> AllViewers
     {
-        private static readonly List<string> Viewers = new List<string>();
-        private static readonly ReaderWriterLockSlim Lock = new ReaderWriterLockSlim();
-
-        [NotNull]
-        public static List<string> AllViewers
+        get
         {
-            get
+            if (!Lock.TryEnterReadLock(300))
             {
-                if (!Lock.TryEnterReadLock(300))
-                {
-                    return new List<string>(0);
-                }
-
-                var viewers = new List<string>(Viewers);
-                Lock.ExitReadLock();
-
-                return viewers;
+                return new List<string>(0);
             }
+
+            var viewers = new List<string>(Viewers);
+            Lock.ExitReadLock();
+
+            return viewers;
+        }
+    }
+
+    public static bool RegisterViewer(string username)
+    {
+        if (!Lock.TryEnterUpgradeableReadLock(300))
+        {
+            return false;
         }
 
-        public static bool RegisterViewer(string username)
+        bool exists = Viewers.Find(u => string.Equals(u, username, StringComparison.OrdinalIgnoreCase)) != null;
+
+        if (exists)
         {
-            if (!Lock.TryEnterUpgradeableReadLock(300))
-            {
-                return false;
-            }
-
-            bool exists = Viewers.Find(u => string.Equals(u, username, StringComparison.OrdinalIgnoreCase)) != null;
-
-            if (exists)
-            {
-                Lock.ExitUpgradeableReadLock();
-
-                return false;
-            }
-
-            if (Lock.TryEnterWriteLock(300))
-            {
-                Viewers.Add(username);
-
-                Lock.ExitWriteLock();
-                Lock.ExitUpgradeableReadLock();
-
-                return true;
-            }
-
             Lock.ExitUpgradeableReadLock();
 
             return false;
         }
 
-        public static bool UnregisterViewer(string username)
+        if (Lock.TryEnterWriteLock(300))
         {
-            if (!Lock.TryEnterUpgradeableReadLock(300))
-            {
-                return false;
-            }
+            Viewers.Add(username);
 
-            string viewer = Viewers.Find(u => string.Equals(u, username, StringComparison.OrdinalIgnoreCase));
+            Lock.ExitWriteLock();
+            Lock.ExitUpgradeableReadLock();
 
-            if (!string.IsNullOrEmpty(viewer) && Lock.TryEnterWriteLock(300))
-            {
-                Viewers.Remove(viewer);
+            return true;
+        }
+
+        Lock.ExitUpgradeableReadLock();
+
+        return false;
+    }
+
+    public static bool UnregisterViewer(string username)
+    {
+        if (!Lock.TryEnterUpgradeableReadLock(300))
+        {
+            return false;
+        }
+
+        string viewer = Viewers.Find(u => string.Equals(u, username, StringComparison.OrdinalIgnoreCase));
+
+        if (!string.IsNullOrEmpty(viewer) && Lock.TryEnterWriteLock(300))
+        {
+            Viewers.Remove(viewer);
                 
-                Lock.ExitWriteLock();
-                Lock.ExitUpgradeableReadLock();
-
-                return true;
-            }
-            
+            Lock.ExitWriteLock();
             Lock.ExitUpgradeableReadLock();
 
-            return false;
+            return true;
         }
+            
+        Lock.ExitUpgradeableReadLock();
+
+        return false;
     }
 }

@@ -19,25 +19,24 @@ using RimWorld;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Incidents
+namespace SirRandoo.ToolkitUtils.Incidents;
+
+[UsedImplicitly]
+public class Party : IncidentHelper
 {
-    [UsedImplicitly]
-    public class Party : IncidentHelper
+    private Map _map;
+    private GatheringWorker_Party _worker;
+
+    public override bool IsPossible()
     {
-        private Map _map;
-        private GatheringWorker_Party _worker;
+        _map = Find.RandomPlayerHomeMap;
+        _worker = new GatheringWorker_Party { def = GatheringDefOf.Party };
 
-        public override bool IsPossible()
-        {
-            _map = Find.RandomPlayerHomeMap;
-            _worker = new GatheringWorker_Party { def = GatheringDefOf.Party };
+        return _worker.CanExecute(_map);
+    }
 
-            return _worker.CanExecute(_map);
-        }
-
-        public override void TryExecute()
-        {
-            _worker.TryExecute(_map);
-        }
+    public override void TryExecute()
+    {
+        _worker.TryExecute(_map);
     }
 }

@@ -20,29 +20,28 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.CommandSettings
+namespace SirRandoo.ToolkitUtils.CommandSettings;
+
+public class Lookup : ICommandSettings
 {
-    public class Lookup : ICommandSettings
+    private string _buffer = TkSettings.LookupLimit.ToString();
+
+    public void Draw(Rect region)
     {
-        private string _buffer = TkSettings.LookupLimit.ToString();
+        var listing = new Listing_Standard();
 
-        public void Draw(Rect region)
-        {
-            var listing = new Listing_Standard();
+        listing.Begin(region);
 
-            listing.Begin(region);
+        (Rect limitLabel, Rect limitField) = listing.Split();
+        UiHelper.Label(limitLabel, "TKUtils.LookupLimit.Label".TranslateSimple());
+        Widgets.TextFieldNumeric(limitField, ref TkSettings.LookupLimit, ref _buffer);
+        listing.DrawDescription("TKUtils.LookupLimit.Description".TranslateSimple());
 
-            (Rect limitLabel, Rect limitField) = listing.Split();
-            UiHelper.Label(limitLabel, "TKUtils.LookupLimit.Label".TranslateSimple());
-            Widgets.TextFieldNumeric(limitField, ref TkSettings.LookupLimit, ref _buffer);
-            listing.DrawDescription("TKUtils.LookupLimit.Description".TranslateSimple());
+        listing.End();
+    }
 
-            listing.End();
-        }
-
-        public void Save()
-        {
-            TkUtils.Instance.WriteSettings();
-        }
+    public void Save()
+    {
+        TkUtils.Instance.WriteSettings();
     }
 }

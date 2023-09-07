@@ -24,36 +24,35 @@ using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class GiveAll : CommandBase
 {
-    [UsedImplicitly]
-    public class GiveAll : CommandBase
+    public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
+
+        if (!worker.TryGetNextAsInt(out int amount, 1))
         {
-            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
-
-            if (!worker.TryGetNextAsInt(out int amount, 1))
-            {
-                return;
-            }
-
-            List<string> viewers = Viewers.ParseViewersFromJsonAndFindActiveViewers();
-
-            if (viewers == null || viewers.Count <= 0)
-            {
-                return;
-            }
-
-            var count = 0;
-
-            foreach (string username in viewers)
-            {
-                Viewers.GetViewer(username).GiveViewerCoins(amount);
-                count++;
-            }
-
-            twitchMessage.Reply("TKUtils.GiveAll".LocalizeKeyed(amount.ToString("N0"), count.ToString("N0")));
+            return;
         }
+
+        List<string> viewers = Viewers.ParseViewersFromJsonAndFindActiveViewers();
+
+        if (viewers == null || viewers.Count <= 0)
+        {
+            return;
+        }
+
+        var count = 0;
+
+        foreach (string username in viewers)
+        {
+            Viewers.GetViewer(username).GiveViewerCoins(amount);
+            count++;
+        }
+
+        twitchMessage.Reply("TKUtils.GiveAll".LocalizeKeyed(amount.ToString("N0"), count.ToString("N0")));
     }
 }

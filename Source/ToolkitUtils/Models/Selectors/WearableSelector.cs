@@ -17,33 +17,33 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class WearableSelector : ISelectorBase<ThingItem>
 {
-    public class WearableSelector : ISelectorBase<ThingItem>
+    private bool _state = true;
+    private string _wearableText;
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public void Prepare()
     {
-        private bool _state = true;
-        private string _wearableText;
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public void Prepare()
-        {
-            _wearableText = Label;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            if (UiHelper.LabeledPaintableCheckbox(canvas, _wearableText, ref _state))
-            {
-                Dirty.Set(true);
-            }
-        }
-
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsApparel == _state;
-
-        public string Label => "TKUtils.Fields.CanWear".TranslateSimple();
+        _wearableText = Label;
     }
+
+    public void Draw(Rect canvas)
+    {
+        if (UiHelper.LabeledPaintableCheckbox(canvas, _wearableText, ref _state))
+        {
+            Dirty.Set(true);
+        }
+    }
+
+    public bool IsVisible(TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsApparel == _state;
+
+    public string Label => "TKUtils.Fields.CanWear".TranslateSimple();
 }

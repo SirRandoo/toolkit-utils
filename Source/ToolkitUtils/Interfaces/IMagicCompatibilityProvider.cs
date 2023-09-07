@@ -18,14 +18,13 @@ using JetBrains.Annotations;
 using RimWorld;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IMagicCompatibilityProvider : ICompatibilityProvider
 {
-    public interface IMagicCompatibilityProvider : ICompatibilityProvider
-    {
-        bool IsClassTrait([NotNull] TraitDef trait);
-        bool HasClass([NotNull] Pawn pawn);
-        void ResetClass([NotNull] Pawn pawn);
-        bool IsUndead([NotNull] Pawn pawn);
-        string GetSkillDescription(string invoker, string query);
-    }
+    bool IsClassTrait(TraitDef trait);
+    bool HasClass(Pawn pawn);
+    void ResetClass(Pawn pawn);
+    bool IsUndead(Pawn pawn);
+    string GetSkillDescription(string invoker, string query);
 }

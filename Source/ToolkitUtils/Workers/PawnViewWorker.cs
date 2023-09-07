@@ -17,45 +17,45 @@
 using RimWorld;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Workers
+namespace SirRandoo.ToolkitUtils.Workers;
+
+/// <summary>
+///     Draws the data within the pawn kind store in a portable way
+///     without the ability to edit their contents.
+/// </summary>
+public class PawnViewWorker : PawnTableWorker
 {
-    /// <summary>
-    ///     Draws the data within the pawn kind store in a portable way
-    ///     without the ability to edit their contents.
-    /// </summary>
-    public class PawnViewWorker : PawnTableWorker
+    /// <inheritdoc cref="PawnTableWorker.DrawHeaders"/>
+    protected override void DrawHeaders(Rect region)
     {
-        /// <inheritdoc cref="PawnTableWorker.DrawHeaders"/>
-        protected override void DrawHeaders(Rect region)
+        DrawSortableHeaders();
+        DrawSortableHeaderIcon();
+    }
+
+    /// <inheritdoc cref="PawnTableWorker.DrawKind"/>
+    protected override void DrawKind(Rect region, TableSettingsItem<PawnKindItem> item)
+    {
+        var nameRect = new Rect(NameHeaderTextRect.x, region.y, NameHeaderTextRect.width, RowLineHeight);
+        var priceRect = new Rect(PriceHeaderTextRect.x, region.y, PriceHeaderTextRect.width, RowLineHeight);
+
+        UiHelper.Label(nameRect, item.Data.Name);
+
+        if (item.Data.Enabled)
         {
-            DrawSortableHeaders();
-            DrawSortableHeaderIcon();
+            UiHelper.Label(priceRect, item.Data.Cost.ToString("N0"));
         }
+    }
 
-        /// <inheritdoc cref="PawnTableWorker.DrawKind"/>
-        protected override void DrawKind(Rect region, TableSettingsItem<PawnKindItem> item)
-        {
-            var nameRect = new Rect(NameHeaderTextRect.x, region.y, NameHeaderTextRect.width, RowLineHeight);
-            var priceRect = new Rect(PriceHeaderTextRect.x, region.y, PriceHeaderTextRect.width, RowLineHeight);
-
-            UiHelper.Label(nameRect, item.Data.Name);
-
-            if (item.Data.Enabled)
-            {
-                UiHelper.Label(priceRect, item.Data.Cost.ToString("N0"));
-            }
-        }
-
-        /// <inheritdoc cref="PawnTableWorker.NotifyResolutionChanged"/>
-        public override void NotifyResolutionChanged(Rect region)
-        {
-            float distributedWidth = Mathf.FloorToInt((region.width - 16f) * 0.3333f);
-            NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
-            NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
-            PriceHeaderRect = NameHeaderRect.Shift(Direction8Way.East, 1f);
-            PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
-        }
+    /// <inheritdoc cref="PawnTableWorker.NotifyResolutionChanged"/>
+    public override void NotifyResolutionChanged(Rect region)
+    {
+        float distributedWidth = Mathf.FloorToInt((region.width - 16f) * 0.3333f);
+        NameHeaderRect = new Rect(0f, 0f, distributedWidth, LineHeight);
+        NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
+        PriceHeaderRect = NameHeaderRect.Shift(Direction8Way.East, 1f);
+        PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
     }
 }

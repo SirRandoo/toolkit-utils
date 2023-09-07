@@ -23,37 +23,36 @@ using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.IncidentSettings
+namespace SirRandoo.ToolkitUtils.IncidentSettings;
+
+[UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
+public class Backpack : IncidentHelperVariablesSettings, IEventSettings
 {
-    [UsedImplicitly(ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature)]
-    public class Backpack : IncidentHelperVariablesSettings, IEventSettings
+    public static bool AutoEquip = true;
+
+    public int LineSpan => 1;
+
+    public void Draw(Rect canvas, float preferredHeight)
     {
-        public static bool AutoEquip = true;
+        var listing = new Listing_Standard();
 
-        public int LineSpan => 1;
+        listing.Begin(canvas);
 
-        public void Draw(Rect canvas, float preferredHeight)
-        {
-            var listing = new Listing_Standard();
+        listing.CheckboxLabeled("TKUtils.Item.Research.Label".Localize(), ref BuyItemSettings.mustResearchFirst, "TKUtils.Item.Research.Description".Localize());
 
-            listing.Begin(canvas);
+        listing.CheckboxLabeled("TKUtils.Backpack.AutoEquip.Label".Localize(), ref AutoEquip, "TKUtils.Backpack.AutoEquip.Description".Localize());
 
-            listing.CheckboxLabeled("TKUtils.Item.Research.Label".Localize(), ref BuyItemSettings.mustResearchFirst, "TKUtils.Item.Research.Description".Localize());
+        listing.End();
+    }
 
-            listing.CheckboxLabeled("TKUtils.Backpack.AutoEquip.Label".Localize(), ref AutoEquip, "TKUtils.Backpack.AutoEquip.Description".Localize());
+    public override void ExposeData()
+    {
+        Scribe_Values.Look(ref AutoEquip, "backpackAutoEquip", true);
+        Scribe_Values.Look(ref BuyItemSettings.mustResearchFirst, "BuyItemSettings.mustResearchFirst", true);
+    }
 
-            listing.End();
-        }
-
-        public override void ExposeData()
-        {
-            Scribe_Values.Look(ref AutoEquip, "backpackAutoEquip", true);
-            Scribe_Values.Look(ref BuyItemSettings.mustResearchFirst, "BuyItemSettings.mustResearchFirst", true);
-        }
-
-        public override void EditSettings()
-        {
-            Find.WindowStack.Add(new EventSettingsDialog(this));
-        }
+    public override void EditSettings()
+    {
+        Find.WindowStack.Add(new EventSettingsDialog(this));
     }
 }

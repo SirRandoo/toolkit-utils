@@ -19,20 +19,19 @@ using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.Models
-{
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public class PawnKindData : IShopDataBase
-    {
-        [JsonProperty("customName")] public bool CustomName;
-        [JsonProperty("stats")] public string[] Stats { get; set; } = { };
-        [JsonProperty("mod")] public string Mod { get; set; }
-        [JsonProperty("karmaType")] public KarmaType? KarmaType { get; set; }
+namespace SirRandoo.ToolkitUtils.Models;
 
-        public void Reset()
-        {
-            CustomName = false;
-            KarmaType = null;
-        }
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+public class PawnKindData : IShopDataBase
+{
+    [JsonProperty("customName")] public bool CustomName;
+    [JsonProperty("stats")] public string[] Stats { get; set; } = { };
+    [JsonProperty("mod")] public string Mod { get; set; }
+    [JsonProperty("karmaType")] public KarmaType? KarmaType { get; set; }
+
+    public void Reset()
+    {
+        CustomName = false;
+        KarmaType = null;
     }
 }

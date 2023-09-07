@@ -19,25 +19,24 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Ideology.CommandSettings
+namespace SirRandoo.ToolkitUtils.Ideology.CommandSettings;
+
+public class SetFavoriteColor : ICommandSettings
 {
-    public class SetFavoriteColor : ICommandSettings
+    public void Save()
     {
-        public void Save()
-        {
-            TkUtils.Instance.WriteSettings();
-        }
+        TkUtils.Instance.WriteSettings();
+    }
 
-        public void Draw(Rect region)
-        {
-            var listing = new Listing_Standard();
+    public void Draw(Rect region)
+    {
+        var listing = new Listing_Standard();
 
-            listing.Begin(region);
+        listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.AlphaFavoriteColor.Label".TranslateSimple(), ref TkSettings.TransparentColors);
-            listing.DrawDescription("TKUtils.AlphaFavoriteColor.Description".TranslateSimple());
+        listing.CheckboxLabeled("TKUtils.AlphaFavoriteColor.Label".TranslateSimple(), ref TkSettings.TransparentColors);
+        listing.DrawDescription("TKUtils.AlphaFavoriteColor.Description".TranslateSimple());
 
-            listing.End();
-        }
+        listing.End();
     }
 }

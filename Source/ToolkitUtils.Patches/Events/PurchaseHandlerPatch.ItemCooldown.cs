@@ -22,27 +22,27 @@
 
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
+using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit.Store;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+internal partial class PurchaseHandlerPatch
 {
-    internal partial class PurchaseHandlerPatch
+    [HarmonyPostfix]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "RedundantAssignment")]
+    [HarmonyPatch(typeof(Purchase_Handler), nameof(Purchase_Handler.CheckIfCarePackageIsOnCooldown))]
+    private static void CheckIfCarePackageIsOnCooldownPostfix(string username, ref bool __result)
     {
-        [HarmonyPostfix]
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        [SuppressMessage("ReSharper", "RedundantAssignment")]
-        [HarmonyPatch(typeof(Purchase_Handler), nameof(Purchase_Handler.CheckIfCarePackageIsOnCooldown))]
-        private static void CheckIfCarePackageIsOnCooldownPostfix(string username, ref bool __result)
+        if (__result)
         {
-            if (__result)
-            {
-                return;
-            }
-
-            EventItem itemEvent = Data.Events.Find(e => string.Equals(e.DefName, IncidentDefOf.Item.defName));
-
-            __result = itemEvent != null && UsageService.IsOnCooldown(itemEvent, username);
+            return;
         }
+
+        EventItem itemEvent = Data.Events.Find(e => string.Equals(e.DefName, IncidentDefOf.Item.defName));
+
+        __result = itemEvent != null && UsageService.IsOnCooldown(itemEvent, username);
     }
 }

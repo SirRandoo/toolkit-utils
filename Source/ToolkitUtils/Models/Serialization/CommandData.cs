@@ -18,18 +18,17 @@ using JetBrains.Annotations;
 using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Interfaces;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+[UsedImplicitly]
+public class CommandData : IRimData, IConfigurableUsageData
 {
-    [UsedImplicitly]
-    public class CommandData : IRimData, IConfigurableUsageData
-    {
-        [JsonProperty("isShortcut")] public bool IsShortcut { get; set; }
-        [JsonProperty("isBuy")] public bool IsBuy { get; set; }
-        [JsonProperty("isBalance")] public bool IsBalance { get; set; }
-        [JsonProperty("hasGlobalCooldown")] public bool HasGlobalCooldown { get; set; }
-        [JsonProperty("globalCooldown")] public int GlobalCooldown { get; set; }
-        [JsonProperty("hasLocalCooldown")] public bool HasLocalCooldown { get; set; }
-        [JsonProperty("localCooldown")] public int LocalCooldown { get; set; }
-        [JsonProperty("mod")] public string Mod { get; set; }
-    }
+    [JsonProperty("isShortcut")] public bool IsShortcut { get; set; }
+    [JsonProperty("isBuy")] public bool IsBuy { get; set; }
+    [JsonProperty("isBalance")] public bool IsBalance { get; set; }
+    [JsonProperty("hasGlobalCooldown")] public bool HasGlobalCooldown { get; set; }
+    [JsonProperty("globalCooldown")] public int GlobalCooldown { get; set; }
+    [JsonProperty("hasLocalCooldown")] public bool HasLocalCooldown { get; set; }
+    [JsonProperty("localCooldown")] public int LocalCooldown { get; set; }
+    [JsonProperty("mod")] public string Mod { get; set; }
 }

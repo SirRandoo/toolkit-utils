@@ -20,49 +20,48 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+public class Marriage : ConsensualCommand
 {
-    public class Marriage : ConsensualCommand
+    /// <inheritdoc/>
+    protected override void ProcessAcceptInternal(string asker, string askee)
     {
-        /// <inheritdoc/>
-        protected override void ProcessAcceptInternal(string asker, string askee)
+        if (!PurchaseHelper.TryGetPawn(asker, out Pawn askerPawn))
         {
-            if (!PurchaseHelper.TryGetPawn(asker, out Pawn askerPawn))
-            {
-                MessageHelper.ReplyToUser(asker, "TKUtils.NoPawn".LocalizeKeyed(asker));
+            MessageHelper.ReplyToUser(asker, "TKUtils.NoPawn".LocalizeKeyed(asker));
 
-                return;
-            }
-
-            if (!PurchaseHelper.TryGetPawn(askee, out Pawn askeePawn))
-            {
-                MessageHelper.ReplyToUser(asker, "TKUtils.PawnNotFound".LocalizeKeyed(askee));
-
-                return;
-            }
-
-            if (!GameHelper.CanPawnsMarry(askerPawn, askeePawn))
-            {
-                MessageHelper.ReplyToUser(asker, "TKUtils.Marriage.NoSlots".Localize());
-
-                return;
-            }
-
-            TkUtils.Context.Post(c => PerformMarriage(askerPawn, askeePawn), null);
+            return;
         }
 
-        /// <inheritdoc/>
-        protected override void ProcessRequestPost(string username, Viewer viewer)
+        if (!PurchaseHelper.TryGetPawn(askee, out Pawn askeePawn))
         {
-            MessageHelper.ReplyToUser(
-                viewer.username,
-                $"{username} wants to marry you. You can accept it with {TkSettings.Prefix}{command.command} accept {username}, or decline it with {TkSettings.Prefix}{command.command} decline {username}."
-            );
+            MessageHelper.ReplyToUser(asker, "TKUtils.PawnNotFound".LocalizeKeyed(askee));
+
+            return;
         }
 
-        private static void PerformMarriage(Pawn askerPawn, Pawn askeePawn)
+        if (!GameHelper.CanPawnsMarry(askerPawn, askeePawn))
         {
-            MarriageCeremonyUtility.Married(askerPawn, askeePawn);
+            MessageHelper.ReplyToUser(asker, "TKUtils.Marriage.NoSlots".Localize());
+
+            return;
         }
+
+        TkUtils.Context.Post(c => PerformMarriage(askerPawn, askeePawn), null);
+    }
+
+    /// <inheritdoc/>
+    protected override void ProcessRequestPost(string username, Viewer viewer)
+    {
+        MessageHelper.ReplyToUser(
+            viewer.username,
+            $"{username} wants to marry you. You can accept it with {TkSettings.Prefix}{command.command} accept {username}, or decline it with {TkSettings.Prefix}{command.command} decline {username}."
+        );
+    }
+
+    private static void PerformMarriage(Pawn askerPawn, Pawn askeePawn)
+    {
+        MarriageCeremonyUtility.Married(askerPawn, askeePawn);
     }
 }

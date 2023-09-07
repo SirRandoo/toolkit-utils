@@ -16,11 +16,10 @@
 
 using SirRandoo.ToolkitUtils.Interfaces;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Tables;
+
+public abstract class TableItem<T> : ITableItem<T> where T : class, IShopItemBase
 {
-    public abstract class TableItem<T> : ITableItem<T> where T : class, IShopItemBase
-    {
-        public T Data { get; set; }
-        public bool IsHidden { get; set; }
-    }
+    public T Data { get; set; }
+    public bool IsHidden { get; set; }
 }

@@ -16,15 +16,7 @@
 
 using System;
 
-namespace SirRandoo.ToolkitUtils.Models
-{
-    public class Transaction
-    {
-        public enum ActionType { Purchase, Transfer, Refund, Payment }
+namespace SirRandoo.ToolkitUtils.Models;
 
-        public int Amount { get; set; }
-        public ActionType Type { get; set; }
-        public string Recipient { get; set; }
-        public DateTime OccurredAt { get; set; }
-    }
-}
+public enum TransactionType { Purchase, Transfer, Refund, Payment }
+public record Transaction(TransactionType Type, string Recipient, int Amount, DateTime OccurredAt);

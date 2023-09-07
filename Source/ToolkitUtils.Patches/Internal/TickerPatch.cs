@@ -20,36 +20,34 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for disabling Twitch Toolkit's ticker from
+///     running and re-registering if the
+///     <see cref="TkSettings.CommandRouter"/> setting is enabled.
+/// </summary>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.Members)]
+internal static class TickerPatch
 {
-    /// <summary>
-    ///     A Harmony patch for disabling Twitch Toolkit's ticker from
-    ///     running and re-registering if the
-    ///     <see cref="TkSettings.CommandRouter"/> setting is enabled.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.Members)]
-    internal static class TickerPatch
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(TwitchToolkit.TwitchToolkit), nameof(TwitchToolkit.TwitchToolkit.Tick));
+        yield return AccessTools.Method(typeof(TwitchToolkit.TwitchToolkit), nameof(TwitchToolkit.TwitchToolkit.RegisterTicker));
+    }
+
+    private static bool Prefix() => !TkSettings.CommandRouter;
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(TwitchToolkit.TwitchToolkit), nameof(TwitchToolkit.TwitchToolkit.Tick));
-            yield return AccessTools.Method(typeof(TwitchToolkit.TwitchToolkit), nameof(TwitchToolkit.TwitchToolkit.RegisterTicker));
-        }
-
-        private static bool Prefix() => !TkSettings.CommandRouter;
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
+
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
     }
 }

@@ -14,22 +14,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Ideology
+namespace SirRandoo.ToolkitUtils.Ideology;
+
+public record BlindsightHealHandler(string ModId = "Ludeon.Ideology") : IHealHandler
 {
-    [UsedImplicitly]
-    public class BlindsightHealHandler : IHealHandler
-    {
-        public bool CanHeal([NotNull] BodyPartRecord bodyPart) =>
-            bodyPart.def != BodyPartDefOf.Eye || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
+    public bool CanHeal(BodyPartRecord bodyPart) => bodyPart.def != BodyPartDefOf.Eye || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
 
-        public bool CanHeal([NotNull] Hediff hediff) => hediff.def != HediffDefOf.MissingBodyPart || hediff.Part.def != BodyPartDefOf.Eye
-            || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
-
-        [NotNull] public string ModId => "Ludeon.Ideology";
-    }
+    public bool CanHeal(Hediff hediff) => hediff.def != HediffDefOf.MissingBodyPart || hediff.Part.def != BodyPartDefOf.Eye
+        || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
 }

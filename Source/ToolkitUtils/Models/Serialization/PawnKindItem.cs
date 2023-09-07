@@ -25,124 +25,123 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+public class PawnKindItem : IShopItemBase
 {
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public class PawnKindItem : IShopItemBase
+    [JsonIgnore] private KindDefData _colonistDef;
+    [JsonIgnore] private PawnKindData _data;
+    [JsonIgnore] private KindDefData[] _kinds;
+
+    [JsonIgnore] public IEnumerable<PawnKindDef> Kinds => _kinds.Select(d => d.Def);
+
+    [JsonIgnore] public PawnKindDef ColonistKindDef => _colonistDef.Def;
+
+    [JsonProperty("data")]
+    public PawnKindData PawnData
     {
-        [JsonIgnore] private KindDefData _colonistDef;
-        [JsonIgnore] private PawnKindData _data;
-        [JsonIgnore] private KindDefData[] _kinds;
+        get => _data ??= (PawnKindData)Data;
+        set => Data = _data = value;
+    }
 
-        [NotNull] [JsonIgnore] public IEnumerable<PawnKindDef> Kinds => _kinds.Select(d => d.Def);
+    [CanBeNull] [JsonProperty("description")] public string Description { get; private set; }
 
-        [JsonIgnore] public PawnKindDef ColonistKindDef => _colonistDef.Def;
+    [JsonProperty("defName")] public string DefName { get; set; }
+    [JsonProperty("enabled")] public bool Enabled { get; set; }
+    [JsonProperty("name")] public string Name { get; set; }
+    [JsonProperty("price")] public int Cost { get; set; }
 
-        [JsonProperty("data")]
-        public PawnKindData PawnData
+    [JsonIgnore] public IShopDataBase Data { get; set; }
+
+    public void ResetName()
+    {
+        if (ColonistKindDef != null)
         {
-            get => _data ??= (PawnKindData)Data;
-            set => Data = _data = value;
+            Name = ColonistKindDef.label.ToToolkit();
+        }
+    }
+
+    public void ResetPrice()
+    {
+        PawnKindDef def = ColonistKindDef;
+
+        if (def?.race != null)
+        {
+            Cost = def.race.CalculateStorePrice();
+        }
+    }
+
+    public void ResetData()
+    {
+        PawnData.Reset();
+    }
+
+    public void UpdateStats()
+    {
+        PawnKindDef def = ColonistKindDef;
+
+        if (def?.race?.statBases == null)
+        {
+            return;
         }
 
-        [CanBeNull] [JsonProperty("description")] public string Description { get; private set; }
+        var builder = new StringBuilder();
+        var container = new List<string>();
 
-        [JsonProperty("defName")] public string DefName { get; set; }
-        [JsonProperty("enabled")] public bool Enabled { get; set; }
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonProperty("price")] public int Cost { get; set; }
-
-        [JsonIgnore] public IShopDataBase Data { get; set; }
-
-        public void ResetName()
+        foreach (StatModifier stat in def.race.statBases)
         {
-            if (ColonistKindDef != null)
+            try
             {
-                Name = ColonistKindDef.label.ToToolkit();
+                container.Add($"{stat.ValueToStringAsOffset} {stat.stat.label?.CapitalizeFirst() ?? stat.stat.defName}");
+            }
+            catch (Exception)
+            {
+                builder.AppendLine($"- {stat?.stat?.label ?? stat?.stat?.defName ?? "UNPROCESSABLE"}");
             }
         }
 
-        public void ResetPrice()
+        if (builder.Length > 0)
         {
-            PawnKindDef def = ColonistKindDef;
+            builder.Insert(0, $@"The following stats could not be processed for ""{def.label ?? def.defName}"":\n");
+            TkUtils.Logger.Warn(builder.ToString());
+        }
 
-            if (def?.race != null)
+        PawnData.Stats = container.ToArray();
+    }
+
+    internal void LoadGameData()
+    {
+        KindDefData? colonist = null;
+        var container = new List<KindDefData>();
+
+        foreach (PawnKindDef kindDef in DefDatabase<PawnKindDef>.AllDefs)
+        {
+            if (!kindDef.race.defName.Equals(DefName))
             {
-                Cost = def.race.CalculateStorePrice();
+                continue;
+            }
+
+            var data = new KindDefData { Name = kindDef.race.label.ToToolkit().ToLower(), Def = kindDef };
+            container.Add(data);
+
+            if (kindDef.defaultFactionType == FactionDefOf.PlayerColony)
+            {
+                colonist = data;
             }
         }
 
-        public void ResetData()
-        {
-            PawnData.Reset();
-        }
+        colonist ??= container.First();
+        _colonistDef = colonist.Value;
+        Description = _colonistDef.Def.race.description;
+        _kinds = container.ToArray();
+    }
 
-        public void UpdateStats()
-        {
-            PawnKindDef def = ColonistKindDef;
+    public string GetDefaultName() => _colonistDef.Name ?? DefName;
 
-            if (def?.race?.statBases == null)
-            {
-                return;
-            }
-
-            var builder = new StringBuilder();
-            var container = new List<string>();
-
-            foreach (StatModifier stat in def.race.statBases)
-            {
-                try
-                {
-                    container.Add($"{stat.ValueToStringAsOffset} {stat.stat.label?.CapitalizeFirst() ?? stat.stat.defName}");
-                }
-                catch (Exception)
-                {
-                    builder.AppendLine($"- {stat?.stat?.label ?? stat?.stat?.defName ?? "UNPROCESSABLE"}");
-                }
-            }
-
-            if (builder.Length > 0)
-            {
-                builder.Insert(0, $@"The following stats could not be processed for ""{def.label ?? def.defName}"":\n");
-                TkUtils.Logger.Warn(builder.ToString());
-            }
-
-            PawnData.Stats = container.ToArray();
-        }
-
-        internal void LoadGameData()
-        {
-            KindDefData? colonist = null;
-            var container = new List<KindDefData>();
-
-            foreach (PawnKindDef kindDef in DefDatabase<PawnKindDef>.AllDefs)
-            {
-                if (!kindDef.race.defName.Equals(DefName))
-                {
-                    continue;
-                }
-
-                var data = new KindDefData { Name = kindDef.race.label.ToToolkit().ToLower(), Def = kindDef };
-                container.Add(data);
-
-                if (kindDef.defaultFactionType == FactionDefOf.PlayerColony)
-                {
-                    colonist = data;
-                }
-            }
-
-            colonist ??= container.First();
-            _colonistDef = colonist.Value;
-            Description = _colonistDef.Def.race.description;
-            _kinds = container.ToArray();
-        }
-
-        public string GetDefaultName() => _colonistDef.Name ?? DefName;
-
-        private struct KindDefData
-        {
-            public string Name { get; set; }
-            public PawnKindDef Def { get; set; }
-        }
+    private struct KindDefData
+    {
+        public string Name { get; set; }
+        public PawnKindDef Def { get; set; }
     }
 }

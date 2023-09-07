@@ -20,69 +20,68 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
+using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.Commands.ViewerCommands;
 using TwitchToolkit.Store;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for ensuring shortcut commands are properly
+///     executed.
+/// </summary>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class BuyPatch
 {
-    /// <summary>
-    ///     A Harmony patch for ensuring shortcut commands are properly
-    ///     executed.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class BuyPatch
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(Buy), nameof(Buy.RunCommand));
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(Buy), nameof(Buy.RunCommand));
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
 
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private static bool Prefix([CanBeNull] CommandDriver __instance, ITwitchMessage twitchMessage)
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    private static bool Prefix(CommandDriver? __instance, ITwitchMessage twitchMessage)
+    {
+        if (__instance == null)
         {
-            if (__instance == null)
-            {
-                return true;
-            }
+            return true;
+        }
 
-            if (!TkSettings.StoreState)
-            {
-                return false;
-            }
-
-            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
-            ITwitchMessage message = twitchMessage;
-
-            if (!__instance.command.defName.Equals("Buy"))
-            {
-                message = twitchMessage.WithMessage($"!{CommandDefOf.Buy.command} {twitchMessage.Message.Substring(1)}");
-            }
-
-            if (message!.Message.Split(' ').Length < 2)
-            {
-                return false;
-            }
-
-            Purchase_Handler.ResolvePurchase(viewer, message);
-
+        if (!TkSettings.StoreState)
+        {
             return false;
         }
+
+        Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
+        ITwitchMessage message = twitchMessage;
+
+        if (!__instance.command.defName.Equals("Buy"))
+        {
+            message = twitchMessage.WithMessage($"!{CommandDefOf.Buy.command} {twitchMessage.Message.Substring(1)}");
+        }
+
+        if (message!.Message.Split(' ').Length < 2)
+        {
+            return false;
+        }
+
+        Purchase_Handler.ResolvePurchase(viewer, message);
+
+        return false;
     }
 }

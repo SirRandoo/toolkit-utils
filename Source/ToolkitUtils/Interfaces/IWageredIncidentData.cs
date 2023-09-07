@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IWageredIncidentData : IIncidentData
 {
-    public interface IWageredIncidentData : IIncidentData
-    {
-        bool UseStoryteller { get; }
-    }
+    bool UseStoryteller { get; }
 }

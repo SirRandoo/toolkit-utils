@@ -14,11 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IUsageItemBase
 {
-    public interface IUsageItemBase
-    {
-        string DefName { get; set; }
-        IConfigurableUsageData UsageData { get; }
-    }
+    string DefName { get; set; }
+    IConfigurableUsageData UsageData { get; }
 }

@@ -16,30 +16,29 @@
 
 using System;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+public class HealthReport
 {
-    public class HealthReport
+    public enum ReportType { Info, Warning, Error, Debug }
+
+    private DateTime _occurredAt;
+
+    public string Message { get; set; }
+    public ReportType Type { get; set; }
+    public string Reporter { get; set; }
+    public float Height { get; internal set; }
+    public string Stacktrace { get; internal set; }
+
+    public DateTime OccurredAt
     {
-        public enum ReportType { Info, Warning, Error, Debug }
-
-        private DateTime _occurredAt;
-
-        public string Message { get; set; }
-        public ReportType Type { get; set; }
-        public string Reporter { get; set; }
-        public float Height { get; internal set; }
-        public string Stacktrace { get; internal set; }
-
-        public DateTime OccurredAt
+        get => _occurredAt;
+        set
         {
-            get => _occurredAt;
-            set
-            {
-                _occurredAt = value;
-                OccurredAtString = (DateTime.Now - _occurredAt).TotalMinutes.ToString("N2");
-            }
+            _occurredAt = value;
+            OccurredAtString = (DateTime.Now - _occurredAt).TotalMinutes.ToString("N2");
         }
-
-        public string OccurredAtString { get; set; }
     }
+
+    public string OccurredAtString { get; set; }
 }

@@ -27,61 +27,59 @@ using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
+namespace SirRandoo.ToolkitUtils.StorytellerPackSettings;
+
+[UsedImplicitly]
+public class UristPackSettings : PackSettingsBase
 {
-    [UsedImplicitly]
-    public class UristPackSettings : PackSettingsBase
+    private string _mtbBuffer;
+    private bool _mtbBufferValid;
+
+    /// <inheritdoc/>
+    public override bool Enabled
     {
-        private string _mtbBuffer;
-        private bool _mtbBufferValid;
+        get => ToolkitSettings.UristBotEnabled;
+        set => ToolkitSettings.UristBotEnabled = value;
+    }
 
-        /// <inheritdoc/>
-        public override bool Enabled
+    /// <inheritdoc/>
+    public override string Tooltip =>
+        "Raid strategies, and diseases. Uristbot is still be developed. At the moment, it will make a small raid and let the viewers choose the raid strategy.";
+
+    /// <inheritdoc/>
+    public override void ResetState()
+    {
+        _mtbBufferValid = true;
+        _mtbBuffer = ToolkitSettings.UristBotMTBDays.ToString("N0");
+    }
+
+    /// <inheritdoc/>
+    public override void Draw(Rect region)
+    {
+        var headerRegion = new Rect(0f, 0f, region.width, Text.SmallFontHeight * 3f);
+        var contentRegion = new Rect(0f, headerRegion.height, region.width, region.height - headerRegion.height);
+
+        GUI.BeginGroup(region);
+
+        GUI.BeginGroup(headerRegion);
+        GUI.color = Color.grey;
+
+        UiHelper.Label(headerRegion, "UristBot is still being developed. At the moment, it will make a small raid and let the viewers choose the raid strategy.");
+        GUI.color = Color.white;
+        GUI.EndGroup();
+
+        GUI.BeginGroup(contentRegion);
+
+        (Rect labelRegion, Rect fieldRegion) = new Rect(0f, 0f, region.width, Text.SmallFontHeight).Split(0.8f);
+        UiHelper.Label(labelRegion, "Average days between events");
+
+        if (UiHelper.NumberField(fieldRegion, out float newDays, ref _mtbBuffer, ref _mtbBufferValid, 0.5f, 10f))
         {
-            get => ToolkitSettings.UristBotEnabled;
-            set => ToolkitSettings.UristBotEnabled = value;
+            ToolkitSettings.UristBotMTBDays = newDays;
         }
 
-        /// <inheritdoc/>
-        [NotNull]
-        public override string Tooltip =>
-            "Raid strategies, and diseases. Uristbot is still be developed. At the moment, it will make a small raid and let the viewers choose the raid strategy.";
+        GUI.EndGroup();
 
-        /// <inheritdoc/>
-        public override void ResetState()
-        {
-            _mtbBufferValid = true;
-            _mtbBuffer = ToolkitSettings.UristBotMTBDays.ToString("N0");
-        }
-
-        /// <inheritdoc/>
-        public override void Draw(Rect region)
-        {
-            var headerRegion = new Rect(0f, 0f, region.width, Text.SmallFontHeight * 3f);
-            var contentRegion = new Rect(0f, headerRegion.height, region.width, region.height - headerRegion.height);
-
-            GUI.BeginGroup(region);
-
-            GUI.BeginGroup(headerRegion);
-            GUI.color = Color.grey;
-
-            UiHelper.Label(headerRegion, "UristBot is still being developed. At the moment, it will make a small raid and let the viewers choose the raid strategy.");
-            GUI.color = Color.white;
-            GUI.EndGroup();
-
-            GUI.BeginGroup(contentRegion);
-
-            (Rect labelRegion, Rect fieldRegion) = new Rect(0f, 0f, region.width, Text.SmallFontHeight).Split(0.8f);
-            UiHelper.Label(labelRegion, "Average days between events");
-
-            if (UiHelper.NumberField(fieldRegion, out float newDays, ref _mtbBuffer, ref _mtbBufferValid, 0.5f, 10f))
-            {
-                ToolkitSettings.UristBotMTBDays = newDays;
-            }
-
-            GUI.EndGroup();
-
-            GUI.EndGroup();
-        }
+        GUI.EndGroup();
     }
 }

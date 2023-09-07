@@ -17,168 +17,164 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.CommonLib.Helpers;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Helpers
+namespace SirRandoo.ToolkitUtils.Helpers;
+
+public static class GameHelper
 {
-    public static class GameHelper
+    public static string? SanitizedLabel(this Def def) => def.label is null ? null : RichTextHelper.StripTags(def.label);
+
+    public static string? SanitizedLabel(this Thing thing) => thing.def?.label is null ? null : RichTextHelper.StripTags(thing.def.label);
+
+    public static string TryGetModName(this ModContentPack? content)
     {
-        [CanBeNull] public static string SanitizedLabel([NotNull] this Def def) => def.label == null ? null : RichTextHelper.StripTags(def.label);
-
-        [CanBeNull] public static string SanitizedLabel([NotNull] this Thing thing) => thing.def?.label == null ? null : RichTextHelper.StripTags(thing.def.label);
-
-        [NotNull]
-        public static string TryGetModName([CanBeNull] this ModContentPack content)
+        if (content is null)
         {
-            if (content == null)
-            {
-                return "Unknown";
-            }
-
-            if (content.IsCoreMod)
-            {
-                return "RimWorld";
-            }
-
-            return content.Name ?? content.PackageId ?? "Unknown";
+            return "Unknown";
         }
 
-        [NotNull] public static string TryGetModName([CanBeNull] this Def def) => TryGetModName(def?.modContentPack);
-
-        // https://stackoverflow.com/a/42246387
-        [NotNull]
-        public static IEnumerable<Type> GetAllTypes([NotNull] Type genericType, params Type[] genericParameters)
+        if (content.IsCoreMod)
         {
-            if (!genericType.IsGenericTypeDefinition)
-            {
-                throw new ArgumentException("Specified type must be a generic type definition", nameof(genericType));
-            }
-
-            return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => IsGenericType(t, genericType, false, genericParameters));
+            return "RimWorld";
         }
 
-        [NotNull]
-        public static IEnumerable<Type> GetAllTypes([NotNull] Type @interface)
-        {
-            if (!@interface.IsInterface)
-            {
-                throw new ArgumentException("Specified type must be an interface definition", nameof(@interface));
-            }
+        return content.Name ?? content.PackageId ?? "Unknown";
+    }
 
-            return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsClass && @interface.IsAssignableFrom(t));
+    public static string TryGetModName(this Def? def) => TryGetModName(def?.modContentPack);
+
+    // https://stackoverflow.com/a/42246387
+    public static IEnumerable<Type> GetAllTypes(Type genericType, params Type[] genericParameters)
+    {
+        if (!genericType.IsGenericTypeDefinition)
+        {
+            throw new ArgumentException("Specified type must be a generic type definition", nameof(genericType));
         }
 
-        internal static bool IsGenericTypeDeep([NotNull] Type type, Type genericType, bool fuzzy = false, params Type[] genericParams)
+        return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => IsGenericType(t, genericType, false, genericParameters));
+    }
+
+    public static IEnumerable<Type> GetAllTypes(Type @interface)
+    {
+        if (!@interface.IsInterface)
         {
-            if (IsGenericType(type, genericType, fuzzy, genericParams))
-            {
-                return true;
-            }
-
-            foreach (Type @interface in type.GetInterfaces())
-            {
-                if (IsGenericTypeDeep(@interface, genericType, fuzzy, genericParams))
-                {
-                    return true;
-                }
-            }
-
-            return type.BaseType != null && IsGenericTypeDeep(type.BaseType, genericType, fuzzy, genericParams);
+            throw new ArgumentException("Specified type must be an interface definition", nameof(@interface));
         }
 
-        internal static bool IsGenericType([NotNull] Type type, Type genericType, bool fuzzy = false, params Type[] genericParams)
+        return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).Where(t => t.IsClass && @interface.IsAssignableFrom(t));
+    }
+
+    internal static bool IsGenericTypeDeep(Type type, Type genericType, bool fuzzy = false, params Type[] genericParams)
+    {
+        if (IsGenericType(type, genericType, fuzzy, genericParams))
         {
-            if (!type.IsGenericType || !genericType.IsAssignableFrom(type.GetGenericTypeDefinition()))
-            {
-                return false;
-            }
-
-            Type[] args = type.GetGenericArguments();
-
-            return fuzzy || (args.Length == genericParams.Length && args.Zip(genericParams, (f, s) => s.IsAssignableFrom(f)).All(c => c));
-        }
-
-        public static bool GetDefaultUsability([NotNull] ThingDef thing)
-        {
-            if (thing.tradeTags.NullOrEmpty())
-            {
-                return true;
-            }
-
-            foreach (string tag in thing.tradeTags)
-            {
-                if (tag.Equals("Artifact", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return false;
-                }
-
-                if (tag.Equals("ExoticMisc", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return false;
-                }
-            }
-
             return true;
         }
 
-        public static bool GetDefaultMaterialState([NotNull] ThingDef thing)
+        foreach (Type @interface in type.GetInterfaces())
         {
-            if (!thing.IsStuff)
+            if (IsGenericTypeDeep(@interface, genericType, fuzzy, genericParams))
+            {
+                return true;
+            }
+        }
+
+        return type.BaseType is not null && IsGenericTypeDeep(type.BaseType, genericType, fuzzy, genericParams);
+    }
+
+    internal static bool IsGenericType(Type type, Type genericType, bool fuzzy = false, params Type[] genericParams)
+    {
+        if (!type.IsGenericType || !genericType.IsAssignableFrom(type.GetGenericTypeDefinition()))
+        {
+            return false;
+        }
+
+        Type[] args = type.GetGenericArguments();
+
+        return fuzzy || (args.Length == genericParams.Length && args.Zip(genericParams, (f, s) => s.IsAssignableFrom(f)).All(c => c));
+    }
+
+    public static bool GetDefaultUsability(ThingDef thing)
+    {
+        if (thing.tradeTags.NullOrEmpty())
+        {
+            return true;
+        }
+
+        foreach (string tag in thing.tradeTags)
+        {
+            if (tag.Equals("Artifact", StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
 
-            var rarity = 1f;
-            float commonality = thing.stuffProps.commonality;
-
-            if (commonality < 1.0f)
+            if (tag.Equals("ExoticMisc", StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
+        }
 
-            if (thing.researchPrerequisites.NullOrEmpty())
-            {
-                return rarity >= 0.85f;
-            }
+        return true;
+    }
 
-            foreach (ResearchProjectDef project in thing.researchPrerequisites)
-            {
-                var tier = (int)project.techLevel;
+    public static bool GetDefaultMaterialState(ThingDef thing)
+    {
+        if (!thing.IsStuff)
+        {
+            return false;
+        }
 
-                if (tier <= 1)
-                {
-                    continue;
-                }
+        var rarity = 1f;
+        float commonality = thing.stuffProps.commonality;
 
-                rarity *= (float)(int)TechLevel.Neolithic / (int)project.techLevel;
+        if (commonality < 1.0f)
+        {
+            return false;
+        }
 
-                if (project.TechprintCount > 0)
-                {
-                    rarity *= project.TechprintCount / 25f * project.techprintCommonality;
-                }
-            }
-
+        if (thing.researchPrerequisites.NullOrEmpty())
+        {
             return rarity >= 0.85f;
         }
 
-        public static bool CanPawnsMarry(Pawn asker, Pawn askee)
+        for (var index = 0; index < thing.researchPrerequisites.Count; index++)
         {
-            if (asker.GetSpouses(false).Any(p => p.Equals(askee)))
+            ResearchProjectDef project = thing.researchPrerequisites[index];
+            var tier = (int)project.techLevel;
+
+            if (tier <= 1)
             {
-                return false;
+                continue;
             }
 
-            if (askee.GetSpouses(false).Any(p => p.Equals(asker)))
-            {
-                return false;
-            }
+            rarity *= (float)(int)TechLevel.Neolithic / (int)project.techLevel;
 
-            return HasOpenSpouseSlot(asker) && HasOpenSpouseSlot(askee);
+            if (project.TechprintCount > 0)
+            {
+                rarity *= project.TechprintCount / 25f * project.techprintCommonality;
+            }
         }
 
-        public static bool HasOpenSpouseSlot(Pawn pawn) => pawn.GetSpouseCount(false) <= 0;
+        return rarity >= 0.85f;
     }
+
+    public static bool CanPawnsMarry(Pawn asker, Pawn askee)
+    {
+        if (asker.GetSpouses(false).Any(p => p.Equals(askee)))
+        {
+            return false;
+        }
+
+        if (askee.GetSpouses(false).Any(p => p.Equals(asker)))
+        {
+            return false;
+        }
+
+        return HasOpenSpouseSlot(asker) && HasOpenSpouseSlot(askee);
+    }
+
+    public static bool HasOpenSpouseSlot(Pawn pawn) => pawn.GetSpouseCount(false) <= 0;
 }

@@ -23,35 +23,34 @@ using TwitchLib.Client.Models.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Ideology.Commands
+namespace SirRandoo.ToolkitUtils.Ideology.Commands;
+
+public class SetFavoriteColor : CommandBase
 {
-    public class SetFavoriteColor : CommandBase
+    public override void RunCommand([NotNull] ITwitchMessage message)
     {
-        public override void RunCommand([NotNull] ITwitchMessage message)
+        string code = CommandFilter.Parse(message.Message).Skip(1).FirstOrDefault();
+
+        if (code.NullOrEmpty())
         {
-            string code = CommandFilter.Parse(message.Message).Skip(1).FirstOrDefault();
-
-            if (code.NullOrEmpty())
-            {
-                return;
-            }
-
-            if (!Data.ColorIndex.TryGetValue(code!.ToLowerInvariant(), out Color color) && !ColorUtility.TryParseHtmlString(code, out color))
-            {
-                MessageHelper.ReplyToUser(message.Username, "TKUtils.NotAColor".LocalizeKeyed(code));
-
-                return;
-            }
-
-            if (!PurchaseHelper.TryGetPawn(message.Username, out Pawn pawn))
-            {
-                MessageHelper.ReplyToUser(message.Username, "TKUtils.NoPawn".Localize());
-
-                return;
-            }
-
-            pawn.story.favoriteColor = new Color(color.r, color.g, color.b, 1f);
-            message.Reply("TKUtils.FavoriteColor.Complete".Localize());
+            return;
         }
+
+        if (!Data.ColorIndex.TryGetValue(code!.ToLowerInvariant(), out Color color) && !ColorUtility.TryParseHtmlString(code, out color))
+        {
+            MessageHelper.ReplyToUser(message.Username, "TKUtils.NotAColor".LocalizeKeyed(code));
+
+            return;
+        }
+
+        if (!PurchaseHelper.TryGetPawn(message.Username, out Pawn pawn))
+        {
+            MessageHelper.ReplyToUser(message.Username, "TKUtils.NoPawn".Localize());
+
+            return;
+        }
+
+        pawn.story.favoriteColor = new Color(color.r, color.g, color.b, 1f);
+        message.Reply("TKUtils.FavoriteColor.Complete".Localize());
     }
 }

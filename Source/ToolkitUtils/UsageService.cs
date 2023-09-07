@@ -18,50 +18,49 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+/// <summary>
+///     The main class responsible for cataloguing command and event
+///     usage, as well as determining if they're on a cooldown for the
+///     given user, or globally.
+/// </summary>
+public static class UsageService
 {
+    private static readonly UsageWorker<EventItem> EventWorker = new UsageWorker<EventItem>();
+    private static readonly UsageWorker<CommandItem> CommandWorker = new UsageWorker<CommandItem>();
+
     /// <summary>
-    ///     The main class responsible for cataloguing command and event
-    ///     usage, as well as determining if they're on a cooldown for the
-    ///     given user, or globally.
+    ///     Records an event usage for the given user.
     /// </summary>
-    public static class UsageService
+    /// <param name="event">The event to record the usage of</param>
+    /// <param name="user">The user that used the event</param>
+    public static void RecordUsage(EventItem @event, string user)
     {
-        private static readonly UsageWorker<EventItem> EventWorker = new UsageWorker<EventItem>();
-        private static readonly UsageWorker<CommandItem> CommandWorker = new UsageWorker<CommandItem>();
-
-        /// <summary>
-        ///     Records an event usage for the given user.
-        /// </summary>
-        /// <param name="event">The event to record the usage of</param>
-        /// <param name="user">The user that used the event</param>
-        public static void RecordUsage([NotNull] EventItem @event, [NotNull] string user)
-        {
-            EventWorker.RecordUsage(@event, user);
-        }
-
-        /// <summary>
-        ///     Records a command usage for the given user.
-        /// </summary>
-        /// <param name="command">The command to record the usage of</param>
-        /// <param name="user">The user that used the command</param>
-        public static void RecordUsage([NotNull] CommandItem command, [NotNull] string user)
-        {
-            CommandWorker.RecordUsage(command, user);
-        }
-
-        /// <summary>
-        ///     Whether the given event is on cooldown for the user.
-        /// </summary>
-        /// <param name="event">The event to check</param>
-        /// <param name="user">The user to check</param>
-        public static bool IsOnCooldown([NotNull] EventItem @event, [NotNull] string user) => EventWorker.IsOnCooldown(@event, user);
-
-        /// <summary>
-        ///     Whether the given command is on cooldown for the user.
-        /// </summary>
-        /// <param name="command">The command to check</param>
-        /// <param name="user">The user to check</param>
-        public static bool IsOnCooldown([NotNull] CommandItem command, [NotNull] string user) => CommandWorker.IsOnCooldown(command, user);
+        EventWorker.RecordUsage(@event, user);
     }
+
+    /// <summary>
+    ///     Records a command usage for the given user.
+    /// </summary>
+    /// <param name="command">The command to record the usage of</param>
+    /// <param name="user">The user that used the command</param>
+    public static void RecordUsage(CommandItem command, string user)
+    {
+        CommandWorker.RecordUsage(command, user);
+    }
+
+    /// <summary>
+    ///     Whether the given event is on cooldown for the user.
+    /// </summary>
+    /// <param name="event">The event to check</param>
+    /// <param name="user">The user to check</param>
+    public static bool IsOnCooldown(EventItem @event, string user) => EventWorker.IsOnCooldown(@event, user);
+
+    /// <summary>
+    ///     Whether the given command is on cooldown for the user.
+    /// </summary>
+    /// <param name="command">The command to check</param>
+    /// <param name="user">The user to check</param>
+    public static bool IsOnCooldown(CommandItem command, string user) => CommandWorker.IsOnCooldown(command, user);
 }

@@ -14,23 +14,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+/// <summary>
+///     The various dump styles supported by the mod.
+/// </summary>
+public enum DumpStyle
 {
     /// <summary>
-    ///     The various dump styles supported by the mod.
+    ///     If the current active dump style, the mod's shop data will be
+    ///     written to a single file called "ShopExt".
     /// </summary>
-    public enum DumpStyle
-    {
-        /// <summary>
-        ///     If the current active dump style, the mod's shop data will be
-        ///     written to a single file called "ShopExt".
-        /// </summary>
-        SingleFile,
+    SingleFile,
 
-        /// <summary>
-        ///     If the current active dump style, the mod's shop data will be
-        ///     written to multiple separate files for each shop "category".
-        /// </summary>
-        MultiFile
-    }
+    /// <summary>
+    ///     If the current active dump style, the mod's shop data will be
+    ///     written to multiple separate files for each shop "category".
+    /// </summary>
+    MultiFile
 }

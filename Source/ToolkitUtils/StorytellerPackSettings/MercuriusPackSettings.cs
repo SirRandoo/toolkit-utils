@@ -23,21 +23,19 @@
 using JetBrains.Annotations;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.StorytellerPackSettings
-{
-    [UsedImplicitly]
-    public class MercuriusPackSettings : PackSettingsBase
-    {
-        /// <inheritdoc/>
-        public override bool Enabled
-        {
-            get => ToolkitSettings.MercuriusEnabled;
-            set => ToolkitSettings.MercuriusEnabled = value;
-        }
+namespace SirRandoo.ToolkitUtils.StorytellerPackSettings;
 
-        /// <inheritdoc/>
-        [NotNull]
-        public override string Tooltip =>
-            "Mercurius generates events in intervals through a cycle generator. You will increasingly get more events the more days that pass.";
+[UsedImplicitly]
+public class MercuriusPackSettings : PackSettingsBase
+{
+    /// <inheritdoc/>
+    public override bool Enabled
+    {
+        get => ToolkitSettings.MercuriusEnabled;
+        set => ToolkitSettings.MercuriusEnabled = value;
     }
+
+    /// <inheritdoc/>
+    public override string Tooltip =>
+        "Mercurius generates events in intervals through a cycle generator. You will increasingly get more events the more days that pass.";
 }

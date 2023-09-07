@@ -18,14 +18,13 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using SirRandoo.ToolkitUtils.Interfaces;
 
-namespace SirRandoo.ToolkitUtils.Models
-{
-    public enum PartialType { Items, Events, Traits, Pawns }
+namespace SirRandoo.ToolkitUtils.Models;
 
-    public class PartialData<T> where T : class, IShopItemBase
-    {
-        [JsonProperty("type")] public PartialType PartialType { get; set; }
-        [JsonProperty("data")] public List<T> Data { get; set; }
-        [JsonProperty("description")] public string Description { get; set; }
-    }
+public enum PartialType { Items, Events, Traits, Pawns }
+
+public class PartialData<T> where T : class, IShopItemBase
+{
+    [JsonProperty("type")] public PartialType PartialType { get; set; }
+    [JsonProperty("data")] public List<T> Data { get; set; }
+    [JsonProperty("description")] public string Description { get; set; }
 }

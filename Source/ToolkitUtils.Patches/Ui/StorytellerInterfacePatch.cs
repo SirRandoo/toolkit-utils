@@ -30,50 +30,49 @@ using SirRandoo.ToolkitUtils.Windows;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class StorytellerInterfacePatch
 {
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class StorytellerInterfacePatch
+    private static readonly MethodBase DrawMethod;
+
+    static StorytellerInterfacePatch()
     {
-        private static readonly MethodBase DrawMethod;
+        DrawMethod = AccessTools.Method(typeof(StorytellerUI), nameof(StorytellerUI.DrawStorytellerSelectionInterface));
+    }
 
-        static StorytellerInterfacePatch()
+    private static bool Prepare()
+    {
+        if (CompatRegistry.ToolkitCompatible)
         {
-            DrawMethod = AccessTools.Method(typeof(StorytellerUI), nameof(StorytellerUI.DrawStorytellerSelectionInterface));
+            return false;
         }
 
-        private static bool Prepare()
+        PatchRunner.Harmony.Unpatch(DrawMethod, HarmonyPatchType.Postfix, "com.github.harmony.rimworld.mod.twitchtoolkit");
+
+        return true;
+    }
+
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        yield return DrawMethod;
+    }
+
+    private static void Postfix(Rect rect, ref StorytellerDef? chosenStoryteller)
+    {
+        if (chosenStoryteller == null || !string.Equals(chosenStoryteller.defName, "StorytellerPacks", StringComparison.Ordinal))
         {
-            if (CompatRegistry.ToolkitCompatible)
-            {
-                return false;
-            }
-
-            PatchRunner.Harmony.Unpatch(DrawMethod, HarmonyPatchType.Postfix, "com.github.harmony.rimworld.mod.twitchtoolkit");
-
-            return true;
+            return;
         }
 
-        private static IEnumerable<MethodBase> TargetMethods()
+        int height = Mathf.FloorToInt(Text.SmallFontHeight * 1.25f);
+        var btnRegion = new Rect(Storyteller.PortraitSizeTiny.x + 24f, rect.height, 290f, height);
+
+        if (Widgets.ButtonText(btnRegion, "Storyteller Packs"))
         {
-            yield return DrawMethod;
-        }
-
-        private static void Postfix(Rect rect, [CanBeNull] ref StorytellerDef chosenStoryteller)
-        {
-            if (chosenStoryteller == null || !string.Equals(chosenStoryteller.defName, "StorytellerPacks", StringComparison.Ordinal))
-            {
-                return;
-            }
-
-            int height = Mathf.FloorToInt(Text.SmallFontHeight * 1.25f);
-            var btnRegion = new Rect(Storyteller.PortraitSizeTiny.x + 24f, rect.height, 290f, height);
-
-            if (Widgets.ButtonText(btnRegion, "Storyteller Packs"))
-            {
-                Find.WindowStack.Add(new StorytellerPackDialog());
-            }
+            Find.WindowStack.Add(new StorytellerPackDialog());
         }
     }
 }

@@ -24,108 +24,107 @@ using ToolkitCore;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+/// <summary>
+///     A <see cref="GameComponent"/> responsible for scheduling commands
+///     out of the Twitch thread, as well as executing any actions that
+///     may need to be run on the Unity thread.
+/// </summary>
+[UsedImplicitly]
+public class CommandRouter : GameComponent
 {
-    /// <summary>
-    ///     A <see cref="GameComponent"/> responsible for scheduling commands
-    ///     out of the Twitch thread, as well as executing any actions that
-    ///     may need to be run on the Unity thread.
-    /// </summary>
-    [UsedImplicitly]
-    public class CommandRouter : GameComponent
+    private static Task _interfaceTask;
+    public static readonly ConcurrentQueue<ITwitchMessage> CommandQueue = new ConcurrentQueue<ITwitchMessage>();
+    public static readonly ConcurrentQueue<Action> MainThreadCommands = new ConcurrentQueue<Action>();
+
+    public CommandRouter(Game game)
     {
-        private static Task _interfaceTask;
-        public static readonly ConcurrentQueue<ITwitchMessage> CommandQueue = new ConcurrentQueue<ITwitchMessage>();
-        public static readonly ConcurrentQueue<Action> MainThreadCommands = new ConcurrentQueue<Action>();
+    }
 
-        public CommandRouter(Game game)
+    /// <inheritdoc cref="GameComponent.LoadedGame"/>
+    public override void LoadedGame()
+    {
+        CommandQueue.Clear();
+    }
+
+    /// <inheritdoc cref="GameComponent.GameComponentUpdate"/>
+    public override void GameComponentUpdate()
+    {
+        ProcessCommands();
+
+        if (!TkSettings.CommandRouter || _interfaceTask is { IsCompleted: false })
         {
+            return;
         }
 
-        /// <inheritdoc cref="GameComponent.LoadedGame"/>
-        public override void LoadedGame()
+        if (_interfaceTask?.Exception != null)
         {
-            CommandQueue.Clear();
-        }
-
-        /// <inheritdoc cref="GameComponent.GameComponentUpdate"/>
-        public override void GameComponentUpdate()
-        {
-            ProcessCommands();
-
-            if (!TkSettings.CommandRouter || _interfaceTask is { IsCompleted: false })
+            foreach (Exception exception in _interfaceTask.Exception.Flatten().InnerExceptions)
             {
-                return;
+                TkUtils.HandleException("A message handler encountered an exception", exception, "ToolkitUtils - Command Router");
             }
 
-            if (_interfaceTask?.Exception != null)
-            {
-                foreach (Exception exception in _interfaceTask.Exception.Flatten().InnerExceptions)
-                {
-                    TkUtils.HandleException("A message handler encountered an exception", exception, "ToolkitUtils - Command Router");
-                }
-
-                _interfaceTask = null;
-            }
-
-            ProcessCommandQueue();
+            _interfaceTask = null;
         }
 
-        private static void ProcessCommandQueue()
+        ProcessCommandQueue();
+    }
+
+    private static void ProcessCommandQueue()
+    {
+        List<TwitchInterfaceBase> interfaces = null;
+        bool taskDone = _interfaceTask == null || _interfaceTask.IsCompleted;
+
+        while (taskDone && !CommandQueue.IsEmpty)
         {
-            List<TwitchInterfaceBase> interfaces = null;
-            bool taskDone = _interfaceTask == null || _interfaceTask.IsCompleted;
-
-            while (taskDone && !CommandQueue.IsEmpty)
+            if (!CommandQueue.TryDequeue(out ITwitchMessage message))
             {
-                if (!CommandQueue.TryDequeue(out ITwitchMessage message))
+                break;
+            }
+
+            interfaces ??= Current.Game.components.OfType<TwitchInterfaceBase>().ToList();
+
+            foreach (TwitchInterfaceBase @interface in interfaces)
+            {
+                if (_interfaceTask == null)
                 {
-                    break;
+                    _interfaceTask = Task.Run(
+                        () =>
+                        {
+                            @interface.ParseMessage(message);
+                        }
+                    );
                 }
-
-                interfaces ??= Current.Game.components.OfType<TwitchInterfaceBase>().ToList();
-
-                foreach (TwitchInterfaceBase @interface in interfaces)
+                else
                 {
-                    if (_interfaceTask == null)
-                    {
-                        _interfaceTask = Task.Run(
-                            () =>
-                            {
-                                @interface.ParseMessage(message);
-                            }
-                        );
-                    }
-                    else
-                    {
-                        _interfaceTask.ContinueWith(
-                            t =>
-                            {
-                                @interface.ParseMessage(message);
-                            }
-                        );
-                    }
+                    _interfaceTask.ContinueWith(
+                        t =>
+                        {
+                            @interface.ParseMessage(message);
+                        }
+                    );
                 }
             }
         }
+    }
 
-        private static void ProcessCommands()
+    private static void ProcessCommands()
+    {
+        while (!MainThreadCommands.IsEmpty)
         {
-            while (!MainThreadCommands.IsEmpty)
+            if (!MainThreadCommands.TryDequeue(out Action action))
             {
-                if (!MainThreadCommands.TryDequeue(out Action action))
-                {
-                    break;
-                }
+                break;
+            }
 
-                try
-                {
-                    action();
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
+            try
+            {
+                action();
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
     }

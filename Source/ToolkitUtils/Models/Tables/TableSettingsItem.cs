@@ -16,11 +16,10 @@
 
 using SirRandoo.ToolkitUtils.Interfaces;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Tables;
+
+public class TableSettingsItem<T> : TableItem<T>, IConfigurableTableItem<T> where T : class, IShopItemBase
 {
-    public class TableSettingsItem<T> : TableItem<T>, IConfigurableTableItem<T> where T : class, IShopItemBase
-    {
-        public bool EditingName { get; set; }
-        public bool SettingsVisible { get; set; }
-    }
+    public bool EditingName { get; set; }
+    public bool SettingsVisible { get; set; }
 }

@@ -22,49 +22,49 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using Verse;
+using GameConditionDefOf = SirRandoo.ToolkitUtils.Defs.GameConditionDefOf;
 
-namespace SirRandoo.ToolkitUtils.Incidents
+namespace SirRandoo.ToolkitUtils.Incidents;
+
+public class Sanctuary : IncidentVariablesBase
 {
-    public class Sanctuary : IncidentVariablesBase
+    public override bool CanHappen(string msg, Viewer viewer)
     {
-        public override bool CanHappen(string msg, [NotNull] Viewer viewer)
+        if (!viewer.CanAfford(storeIncident.cost))
         {
-            if (!viewer.CanAfford(storeIncident.cost))
-            {
-                MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".Localize());
-
-                return false;
-            }
-
-            if (Current.Game.Maps.Any(m => m.IsPlayerHome))
-            {
-                return Current.Game.Maps.All(map => !map.GameConditionManager.ConditionIsActive(GameConditionDefOf.Sanctuary));
-            }
-
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
+            MessageHelper.ReplyToUser(viewer.username, "TKUtils.InsufficientBalance".Localize());
 
             return false;
         }
 
-        public override void Execute()
+        if (Current.Game.Maps.Any(m => m.IsPlayerHome))
         {
-            List<Map> maps = Current.Game.Maps;
+            return Current.Game.Maps.All(map => !map.GameConditionManager.ConditionIsActive(GameConditionDefOf.Sanctuary));
+        }
 
-            foreach (Map map in maps)
+        MessageHelper.ReplyToUser(viewer.username, "TKUtils.NoMap".Localize());
+
+        return false;
+    }
+
+    public override void Execute()
+    {
+        List<Map> maps = Current.Game.Maps;
+
+        foreach (Map map in maps)
+        {
+            if (!map.IsPlayerHome || map.GameConditionManager.ConditionIsActive(GameConditionDefOf.Sanctuary))
             {
-                if (!map.IsPlayerHome || map.GameConditionManager.ConditionIsActive(GameConditionDefOf.Sanctuary))
-                {
-                    continue;
-                }
-
-                map.GameConditionManager.RegisterCondition(GameConditionMaker.MakeCondition(GameConditionDefOf.Sanctuary, Rand.Range(2, 6) * 60000));
+                continue;
             }
 
-            Viewer.Charge(storeIncident);
-
-            Find.LetterStack.ReceiveLetter("TKUtils.SanctuaryLetter.Title".Localize(), "TKUtils.SanctuaryLetter.Description".Localize(), LetterDefOf.PositiveEvent);
-
-            MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Sanctuary.Complete".Localize());
+            map.GameConditionManager.RegisterCondition(GameConditionMaker.MakeCondition(GameConditionDefOf.Sanctuary, Rand.Range(2, 6) * 60000));
         }
+
+        Viewer.Charge(storeIncident);
+
+        Find.LetterStack.ReceiveLetter("TKUtils.SanctuaryLetter.Title".Localize(), "TKUtils.SanctuaryLetter.Description".Localize(), LetterDefOf.PositiveEvent);
+
+        MessageHelper.SendConfirmation(Viewer.username, "TKUtils.Sanctuary.Complete".Localize());
     }
 }

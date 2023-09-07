@@ -16,10 +16,9 @@
 
 using System.Collections.Generic;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface ITieredPawnPower : IPawnPower
 {
-    public interface ITieredPawnPower : IPawnPower
-    {
-        List<IPawnPower> Tiers { get; }
-    }
+    List<IPawnPower> Tiers { get; }
 }

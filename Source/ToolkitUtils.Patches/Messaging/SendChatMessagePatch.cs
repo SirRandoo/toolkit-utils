@@ -25,92 +25,89 @@ using ToolkitCore;
 using TwitchLib.Client.Models;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for breaking chat messages sent by the mod, or
+///     addons, into chunks if it'd exceed the message limit.
+/// </summary>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class SendChatMessagePatch
 {
-    /// <summary>
-    ///     A Harmony patch for breaking chat messages sent by the mod, or
-    ///     addons, into chunks if it'd exceed the message limit.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class SendChatMessagePatch
+    private const int MessageLimit = 500;
+
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private const int MessageLimit = 500;
+        yield return AccessTools.Method(typeof(TwitchWrapper), nameof(TwitchWrapper.SendChatMessage));
+    }
 
-        private static IEnumerable<MethodBase> TargetMethods()
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(TwitchWrapper), nameof(TwitchWrapper.SendChatMessage));
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
 
-        private static bool Prefix(string message)
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
+    }
+
+    private static bool Prefix(string message)
+    {
+        if (message.NullOrEmpty())
         {
-            if (message.NullOrEmpty())
-            {
-                return false;
-            }
-
-            message = message.Replace("@", "");
-            JoinedChannel channel = TwitchWrapper.Client.GetJoinedChannel(ToolkitCoreSettings.channel_username);
-
-            foreach (string segment in SplitMessages(message))
-            {
-                TwitchWrapper.Client.SendMessage(channel, segment);
-            }
-
             return false;
         }
 
-        [ItemNotNull]
-        private static IEnumerable<string> SplitMessages([NotNull] string message)
+        message = message.Replace("@", "");
+        JoinedChannel channel = TwitchWrapper.Client.GetJoinedChannel(ToolkitCoreSettings.channel_username);
+
+        foreach (string segment in SplitMessages(message))
         {
-            if (message.Length < MessageLimit)
-            {
-                yield return RichTextHelper.StripTags(message);
-
-                yield break;
-            }
-
-            string[] words = RichTextHelper.StripTags(message).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var builder = new StringBuilder();
-            var chars = 0;
-
-            foreach (string word in words)
-            {
-                if (chars + word.Length <= MessageLimit - 3)
-                {
-                    builder.Append($"{word} ");
-                    chars += word.Length + 1;
-                }
-                else
-                {
-                    builder.Append("...");
-
-                    yield return builder.ToString();
-                    builder.Clear();
-                    chars = 0;
-                }
-            }
-
-            if (builder.Length <= 0)
-            {
-                yield break;
-            }
-
-            yield return builder.ToString();
-            builder.Clear();
+            TwitchWrapper.Client.SendMessage(channel, segment);
         }
+
+        return false;
+    }
+
+    private static IEnumerable<string> SplitMessages(string message)
+    {
+        if (message.Length < MessageLimit)
+        {
+            yield return RichTextHelper.StripTags(message);
+
+            yield break;
+        }
+
+        string[] words = RichTextHelper.StripTags(message).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        var builder = new StringBuilder();
+        var chars = 0;
+
+        foreach (string word in words)
+        {
+            if (chars + word.Length <= MessageLimit - 3)
+            {
+                builder.Append($"{word} ");
+                chars += word.Length + 1;
+            }
+            else
+            {
+                builder.Append("...");
+
+                yield return builder.ToString();
+                builder.Clear();
+                chars = 0;
+            }
+        }
+
+        if (builder.Length <= 0)
+        {
+            yield break;
+        }
+
+        yield return builder.ToString();
+        builder.Clear();
     }
 }

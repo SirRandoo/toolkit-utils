@@ -17,13 +17,12 @@
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
-{
-    public class SurgeryItem
-    {
-        public RecipeDef Surgery { get; set; }
-        public ISurgeryHandler Handler { get; set; }
+namespace SirRandoo.ToolkitUtils.Models;
 
-        public bool CanScheduleFor(Pawn pawn) => Handler.CanScheduleFor(Surgery, pawn);
-    }
+public class SurgeryItem
+{
+    public RecipeDef Surgery { get; set; }
+    public ISurgeryHandler Handler { get; set; }
+
+    public bool CanScheduleFor(Pawn pawn) => Handler.CanScheduleFor(Surgery, pawn);
 }

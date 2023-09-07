@@ -20,194 +20,188 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+[StaticConstructorOnStartup]
+internal static class DomainIndexer
 {
-    [StaticConstructorOnStartup]
-    internal static class DomainIndexer
+    internal static readonly MutatorEntry[] Mutators;
+    internal static readonly SelectorEntry[] Selectors;
+
+    private static readonly string[] FilteredNamespaceRoots =
     {
-        internal static readonly MutatorEntry[] Mutators;
-        internal static readonly SelectorEntry[] Selectors;
+        "System",
+        "Unity",
+        "Steamworks",
+        "Verse",
+        "RimWorld",
+        "Utf8Json",
+        "Mono",
+        "RestSharp",
+        "SimpleJSON",
+        "MoonSharp",
+        "TwitchLib",
+        "Newtonsoft",
+        "HugsLib",
+        "HarmonyLib",
+        "MS",
+        "NAudio",
+        "TMPro"
+    };
 
-        private static readonly string[] FilteredNamespaceRoots =
+    static DomainIndexer()
+    {
+        var builder = new StringBuilder();
+        var mutators = new List<MutatorEntry>();
+        var selectors = new List<SelectorEntry>();
+
+        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
-            "System",
-            "Unity",
-            "Steamworks",
-            "Verse",
-            "RimWorld",
-            "Utf8Json",
-            "Mono",
-            "RestSharp",
-            "SimpleJSON",
-            "MoonSharp",
-            "TwitchLib",
-            "Newtonsoft",
-            "HugsLib",
-            "HarmonyLib",
-            "MS",
-            "NAudio",
-            "TMPro"
-        };
-
-        static DomainIndexer()
-        {
-            var builder = new StringBuilder();
-            var mutators = new List<MutatorEntry>();
-            var selectors = new List<SelectorEntry>();
-
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            if (assembly.GlobalAssemblyCache)
             {
-                if (assembly.GlobalAssemblyCache)
-                {
-                    continue;
-                }
-
-                try
-                {
-                    ProcessAssembly(assembly, mutators, selectors);
-                }
-                catch (Exception e)
-                {
-                    builder.Append($"  - {assembly.FullName}  |  Reason: {e.GetType().Name}({e.Message})\n");
-                }
+                continue;
             }
 
-            if (builder.Length > 0)
+            try
             {
-                builder.Insert(0, "The following assemblies could not be processed:\n");
-                TkUtils.Logger.Warn(builder.ToString());
+                ProcessAssembly(assembly, mutators, selectors);
             }
-
-            Mutators = mutators.ToArray();
-            Selectors = selectors.ToArray();
-        }
-
-        private static void ProcessAssembly([NotNull] Assembly assembly, ICollection<MutatorEntry> mutators, ICollection<SelectorEntry> selectors)
-        {
-            foreach (Type type in assembly.GetTypes())
+            catch (Exception e)
             {
-                if (type.IsInterface || type.IsAbstract || type.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), true)
-                    || FilteredNamespaceRoots.Any(r => type.Namespace?.StartsWith(r) == true))
-                {
-                    continue;
-                }
-
-                try
-                {
-                    ProcessType(type, mutators, selectors);
-                }
-                catch (Exception)
-                {
-                    // We'll ignore an erroring type as it may just be a one-off thing.
-                    // We won't report the exception a type threw since it's likely a reflection
-                    // error that may not hold any valuable information.
-                }
+                builder.Append($"  - {assembly.FullName}  |  Reason: {e.GetType().Name}({e.Message})\n");
             }
         }
 
-        private static void ProcessType([NotNull] Type type, ICollection<MutatorEntry> mutators, ICollection<SelectorEntry> selectors)
+        if (builder.Length > 0)
         {
-            bool isGeneric = type.IsGenericType || type.GetInterfaces().Any(i => i.IsGenericType);
-
-
-            if (typeof(ICompatibilityProvider).IsAssignableFrom(type))
-            {
-                CompatRegistry.ProcessType(type);
-            }
-            else
-            {
-                switch (isGeneric)
-                {
-                    case true when GameHelper.IsGenericTypeDeep(type, typeof(ISelectorBase<>), false, typeof(IShopItemBase)):
-                        selectors.Add(ProcessSelector(type));
-
-                        break;
-                    case true when GameHelper.IsGenericTypeDeep(type, typeof(IMutatorBase<>), false, typeof(IShopItemBase)):
-                        mutators.Add(ProcessMutator(type));
-
-                        break;
-                }
-            }
+            builder.Insert(0, "The following assemblies could not be processed:\n");
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
-        [NotNull]
-        private static SelectorEntry ProcessSelector([NotNull] Type selector)
+        Mutators = mutators.ToArray();
+        Selectors = selectors.ToArray();
+    }
+
+    private static void ProcessAssembly(Assembly assembly, ICollection<MutatorEntry> mutators, ICollection<SelectorEntry> selectors)
+    {
+        foreach (Type type in assembly.GetTypes())
         {
-            Type selectorBase = typeof(ISelectorBase<>);
-            var entry = new SelectorEntry { Type = selector };
-
-            if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(ThingItem)))
+            if (type.IsInterface || type.IsAbstract || type.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute), true)
+                || FilteredNamespaceRoots.Any(r => type.Namespace?.StartsWith(r) == true))
             {
-                entry.Target = EditorTarget.Item;
-            }
-            else if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(TraitItem)))
-            {
-                entry.Target = EditorTarget.Trait;
-            }
-            else if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(PawnKindItem)))
-            {
-                entry.Target = EditorTarget.Pawn;
-            }
-            else if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(EventItem)))
-            {
-                entry.Target = EditorTarget.Event;
-            }
-            else
-            {
-                entry.Target = EditorTarget.Any;
+                continue;
             }
 
-            return entry;
+            try
+            {
+                ProcessType(type, mutators, selectors);
+            }
+            catch (Exception)
+            {
+                // We'll ignore an erroring type as it may just be a one-off thing.
+                // We won't report the exception a type threw since it's likely a reflection
+                // error that may not hold any valuable information.
+            }
+        }
+    }
+
+    private static void ProcessType(Type type, ICollection<MutatorEntry> mutators, ICollection<SelectorEntry> selectors)
+    {
+        bool isGeneric = type.IsGenericType || type.GetInterfaces().Any(i => i.IsGenericType);
+
+
+        if (typeof(ICompatibilityProvider).IsAssignableFrom(type))
+        {
+            CompatRegistry.ProcessType(type);
+        }
+        else
+        {
+            switch (isGeneric)
+            {
+                case true when GameHelper.IsGenericTypeDeep(type, typeof(ISelectorBase<>), false, typeof(IShopItemBase)):
+                    selectors.Add(ProcessSelector(type));
+
+                    break;
+                case true when GameHelper.IsGenericTypeDeep(type, typeof(IMutatorBase<>), false, typeof(IShopItemBase)):
+                    mutators.Add(ProcessMutator(type));
+
+                    break;
+            }
+        }
+    }
+
+    private static SelectorEntry ProcessSelector(Type selector)
+    {
+        Type selectorBase = typeof(ISelectorBase<>);
+        var entry = new SelectorEntry(selector);
+
+        if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(ThingItem)))
+        {
+            entry.Target = EditorTarget.Item;
+        }
+        else if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(TraitItem)))
+        {
+            entry.Target = EditorTarget.Trait;
+        }
+        else if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(PawnKindItem)))
+        {
+            entry.Target = EditorTarget.Pawn;
+        }
+        else if (GameHelper.IsGenericTypeDeep(selector, selectorBase, false, typeof(EventItem)))
+        {
+            entry.Target = EditorTarget.Event;
+        }
+        else
+        {
+            entry.Target = EditorTarget.Any;
         }
 
-        [NotNull]
-        private static MutatorEntry ProcessMutator([NotNull] Type mutator)
+        return entry;
+    }
+
+    private static MutatorEntry ProcessMutator(Type mutator)
+    {
+        Type mutatorBase = typeof(IMutatorBase<>);
+        var entry = new MutatorEntry(mutator);
+
+        if (GameHelper.IsGenericType(mutator, mutatorBase, false, typeof(ThingItem)))
         {
-            Type mutatorBase = typeof(IMutatorBase<>);
-            var entry = new MutatorEntry { Type = mutator };
-
-            if (GameHelper.IsGenericType(mutator, mutatorBase, false, typeof(ThingItem)))
-            {
-                entry.Target = EditorTarget.Item;
-            }
-            else if (GameHelper.IsGenericType(mutator, mutatorBase, false, typeof(TraitItem)))
-            {
-                entry.Target = EditorTarget.Trait;
-            }
-            else if (GameHelper.IsGenericType(mutator, mutatorBase, false, typeof(PawnKindItem)))
-            {
-                entry.Target = EditorTarget.Pawn;
-            }
-            else if (GameHelper.IsGenericType(mutator, mutatorBase, false, typeof(EventItem)))
-            {
-                entry.Target = EditorTarget.Event;
-            }
-            else
-            {
-                entry.Target = EditorTarget.Any;
-            }
-
-            return entry;
+            entry.Target = EditorTarget.Item;
+        }
+        else if (GameHelper.IsGenericType(mutator, mutatorBase, false, typeof(TraitItem)))
+        {
+            entry.Target = EditorTarget.Trait;
+        }
+        else if (GameHelper.IsGenericType(mutator, mutatorBase, false, typeof(PawnKindItem)))
+        {
+            entry.Target = EditorTarget.Pawn;
+        }
+        else if (GameHelper.IsGenericType(mutator, mutatorBase, false, typeof(EventItem)))
+        {
+            entry.Target = EditorTarget.Event;
+        }
+        else
+        {
+            entry.Target = EditorTarget.Any;
         }
 
-        internal enum EditorTarget { Any, Item, Trait, Pawn, Event }
+        return entry;
+    }
 
-        internal class SelectorEntry
-        {
-            internal Type Type { get; set; }
-            internal EditorTarget Target { get; set; }
-        }
+    internal enum EditorTarget { Any, Item, Trait, Pawn, Event }
 
-        internal class MutatorEntry
-        {
-            internal Type Type { get; set; }
-            internal EditorTarget Target { get; set; }
-        }
+    internal record SelectorEntry(Type Type)
+    {
+        internal EditorTarget Target { get; set; }
+    }
+
+    internal record MutatorEntry(Type Type)
+    {
+        internal EditorTarget Target { get; set; }
     }
 }

@@ -18,71 +18,70 @@ using JetBrains.Annotations;
 using RimWorld;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils
-{
-    [DefOf]
-    [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
-    public static class CommandDefOf
-    {
-        public static Command Buy;
-        public static Command ModInfo;
-        public static Command SetKarma;
-        public static Command CheckUser;
-        public static Command GiftCoins;
-        public static Command GiveCoins;
-        public static Command JoinQueue;
-        public static Command KarmaRound;
-        public static Command ModSettings;
-        public static Command ToggleCoins;
-        public static Command WhatIsKarma;
-        public static Command CheckBalance;
-        public static Command GiveAllCoins;
-        public static Command InstalledMods;
-        public static Command Instructions;
-        public static Command PurchaseList;
-        public static Command RefreshViewers;
-        public static Command AvailableCommands;
-        public static Command LevelSkillShortcut;
+namespace SirRandoo.ToolkitUtils.Defs;
 
-        public static Command Lookup;
-        public static Command Insult;
-        public static Command Wealth;
-        public static Command Factions;
-        public static Command Research;
-        public static Command FixMyPawn;
-        public static Command UnstickMe;
-        public static Command MyPawnBody;
-        public static Command MyPawnGear;
-        public static Command MyPawnWork;
-        public static Command PriceCheck;
-        public static Command UnstickAll;
-        public static Command AbandonPawn;
-        public static Command FixAllPawns;
-        public static Command MyPawnKills;
-        public static Command MyPawnNeeds;
-        public static Command MyPawnStats;
-        public static Command MyPawnStory;
-        public static Command RimDatabase;
-        public static Command ToggleStore;
-        public static Command MyPawnHealth;
-        public static Command MyPawnSkills;
-        public static Command ColonistCount;
-        public static Command PawnRelations;
-        public static Command TraitShortcut;
-        public static Command HealMeShortcut;
-        public static Command HealAllShortcut;
-        public static Command SurgeryShortcut;
-        public static Command BackpackShortcut;
-        public static Command FullHealShortcut;
-        public static Command RescueMeShortcut;
-        public static Command ReviveMeShortcut;
-        public static Command ReviveAllShortcut;
-        public static Command AddPassionShortcut;
-        public static Command HealAnyPawnShortcut;
-        public static Command RemoveTraitShortcut;
-        public static Command ReplaceTraitShortcut;
-        public static Command RemovePassionShortcut;
-        public static Command ReviveAnyPawnShortcut;
-        public static Command PassionShuffleShortcut;
-    }
+[DefOf]
+[UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
+public static class CommandDefOf
+{
+    public static Command Buy = null!;
+    public static Command ModInfo = null!;
+    public static Command SetKarma = null!;
+    public static Command CheckUser = null!;
+    public static Command GiftCoins = null!;
+    public static Command GiveCoins = null!;
+    public static Command JoinQueue = null!;
+    public static Command KarmaRound = null!;
+    public static Command ModSettings = null!;
+    public static Command ToggleCoins = null!;
+    public static Command WhatIsKarma = null!;
+    public static Command CheckBalance = null!;
+    public static Command GiveAllCoins = null!;
+    public static Command InstalledMods = null!;
+    public static Command Instructions = null!;
+    public static Command PurchaseList = null!;
+    public static Command RefreshViewers = null!;
+    public static Command AvailableCommands = null!;
+    public static Command LevelSkillShortcut = null!;
+
+    public static Command Lookup = null!;
+    public static Command Insult = null!;
+    public static Command Wealth = null!;
+    public static Command Factions = null!;
+    public static Command Research = null!;
+    public static Command FixMyPawn = null!;
+    public static Command UnstickMe = null!;
+    public static Command MyPawnBody = null!;
+    public static Command MyPawnGear = null!;
+    public static Command MyPawnWork = null!;
+    public static Command PriceCheck = null!;
+    public static Command UnstickAll = null!;
+    public static Command AbandonPawn = null!;
+    public static Command FixAllPawns = null!;
+    public static Command MyPawnKills = null!;
+    public static Command MyPawnNeeds = null!;
+    public static Command MyPawnStats = null!;
+    public static Command MyPawnStory = null!;
+    public static Command RimDatabase = null!;
+    public static Command ToggleStore = null!;
+    public static Command MyPawnHealth = null!;
+    public static Command MyPawnSkills = null!;
+    public static Command ColonistCount = null!;
+    public static Command PawnRelations = null!;
+    public static Command TraitShortcut = null!;
+    public static Command HealMeShortcut = null!;
+    public static Command HealAllShortcut = null!;
+    public static Command SurgeryShortcut = null!;
+    public static Command BackpackShortcut = null!;
+    public static Command FullHealShortcut = null!;
+    public static Command RescueMeShortcut = null!;
+    public static Command ReviveMeShortcut = null!;
+    public static Command ReviveAllShortcut = null!;
+    public static Command AddPassionShortcut = null!;
+    public static Command HealAnyPawnShortcut = null!;
+    public static Command RemoveTraitShortcut = null!;
+    public static Command ReplaceTraitShortcut = null!;
+    public static Command RemovePassionShortcut = null!;
+    public static Command ReviveAnyPawnShortcut = null!;
+    public static Command PassionShuffleShortcut = null!;
 }

@@ -16,11 +16,10 @@
 
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IUsabilityHandler : ICompatibilityProvider
 {
-    public interface IUsabilityHandler : ICompatibilityProvider
-    {
-        bool IsUsable(ThingDef thing);
-        void Use(Pawn pawn, ThingDef thingDef);
-    }
+    bool IsUsable(ThingDef thing);
+    void Use(Pawn pawn, ThingDef thingDef);
 }

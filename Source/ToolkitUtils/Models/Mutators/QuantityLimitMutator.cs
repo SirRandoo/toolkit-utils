@@ -18,49 +18,49 @@ using System;
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class QuantityLimitMutator : IMutatorBase<ThingItem>
 {
-    public class QuantityLimitMutator : IMutatorBase<ThingItem>
+    private int _limit = 1;
+    private string _limitBuffer = "1";
+    private string _quantityLimitText;
+    private bool _toLimit;
+    private string _toLimitTooltip;
+    private string _toValueTooltip;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.QuantityLimit".TranslateSimple();
+
+    public void Prepare()
     {
-        private int _limit = 1;
-        private string _limitBuffer = "1";
-        private string _quantityLimitText;
-        private bool _toLimit;
-        private string _toLimitTooltip;
-        private string _toValueTooltip;
+        _quantityLimitText = Label;
+        _toLimitTooltip = "TKUtils.MutatorTooltips.StackMode".TranslateSimple();
+        _toValueTooltip = "TKUtils.MutatorTooltips.ValueMode".TranslateSimple();
+    }
 
-        public int Priority => 1;
-
-        public string Label => "TKUtils.Fields.QuantityLimit".TranslateSimple();
-
-        public void Prepare()
+    public void Mutate(TableSettingsItem<ThingItem> item)
+    {
+        if (item.Data.ItemData != null)
         {
-            _quantityLimitText = Label;
-            _toLimitTooltip = "TKUtils.MutatorTooltips.StackMode".TranslateSimple();
-            _toValueTooltip = "TKUtils.MutatorTooltips.ValueMode".TranslateSimple();
+            item.Data.ItemData.QuantityLimit = _toLimit ? item.Data.Thing?.stackLimit ?? 1 : _limit;
         }
+    }
 
-        public void Mutate([NotNull] TableSettingsItem<ThingItem> item)
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _quantityLimitText);
+        Widgets.TextFieldNumeric(field, ref _limit, ref _limitBuffer, 1f);
+
+        if (UiHelper.FieldButton(field, _toLimit ? "S" : "#", _toLimit ? _toLimitTooltip : _toValueTooltip))
         {
-            if (item.Data.ItemData != null)
-            {
-                item.Data.ItemData.QuantityLimit = _toLimit ? item.Data.Thing?.stackLimit ?? 1 : _limit;
-            }
-        }
-
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _quantityLimitText);
-            Widgets.TextFieldNumeric(field, ref _limit, ref _limitBuffer, 1f);
-
-            if (UiHelper.FieldButton(field, _toLimit ? "S" : "#", _toLimit ? _toLimitTooltip : _toValueTooltip))
-            {
-                _toLimit = !_toLimit;
-            }
+            _toLimit = !_toLimit;
         }
     }
 }

@@ -19,25 +19,25 @@ using System.Reflection;
 using HarmonyLib;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Utils.ModComp
-{
-    [StaticConstructorOnStartup]
-    public static class VisualExceptions
-    {
-        public static readonly bool Active = ModLister.GetActiveModWithIdentifier("brrainz.visualexceptions") != null;
-        private static readonly Type ExceptionStateClass = AccessTools.TypeByName("VisualExceptions.ExceptionState");
-        private static readonly MethodInfo HandleExceptionMethod = AccessTools.Method("VisualExceptions.ExceptionState:Handle", new[] { typeof(Exception) });
+namespace SirRandoo.ToolkitUtils.Utils.ModComp;
 
-        public static void HandleException(Exception e)
+[StaticConstructorOnStartup]
+public static class VisualExceptions
+{
+    // ReSharper disable once StringLiteralTypo
+    public static readonly bool Active = ModLister.GetActiveModWithIdentifier("brrainz.visualexceptions") != null;
+    private static readonly Type ExceptionStateClass = AccessTools.TypeByName("VisualExceptions.ExceptionState");
+    private static readonly MethodInfo HandleExceptionMethod = AccessTools.Method("VisualExceptions.ExceptionState:Handle", new[] { typeof(Exception) });
+
+    public static void HandleException(Exception e)
+    {
+        try
         {
-            try
-            {
-                HandleExceptionMethod.Invoke(ExceptionStateClass, new object[] { e });
-            }
-            catch (Exception exception)
-            {
-                TkUtils.Logger.Error("Could not pass exception to VisualExceptions", exception);
-            }
+            HandleExceptionMethod.Invoke(ExceptionStateClass, new object[] { e });
+        }
+        catch (Exception exception)
+        {
+            TkUtils.Logger.Error("Could not pass exception to VisualExceptions", exception);
         }
     }
 }

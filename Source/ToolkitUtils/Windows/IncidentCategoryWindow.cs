@@ -26,62 +26,61 @@ using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Windows
+namespace SirRandoo.ToolkitUtils.Windows;
+
+public class IncidentCategoryWindow : CategoricalEditorWindow<StoreIncident>
 {
-    public class IncidentCategoryWindow : CategoricalEditorWindow<StoreIncident>
+    /// <inheritdoc/>
+    public IncidentCategoryWindow() : base("TKUtils.Headers.AllIncidents".TranslateSimple())
     {
-        /// <inheritdoc/>
-        public IncidentCategoryWindow() : base("TKUtils.Headers.AllIncidents".TranslateSimple())
+        Store_IncidentEditor.UpdatePriceSheet();
+    }
+
+    /// <inheritdoc/>
+    protected override bool VisibleInSearch(StoreIncident entry)
+    {
+        if (entry.abbreviation.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0)
         {
-            Store_IncidentEditor.UpdatePriceSheet();
+            return true;
         }
 
-        /// <inheritdoc/>
-        protected override bool VisibleInSearch([NotNull] StoreIncident entry)
-        {
-            if (entry.abbreviation.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                return true;
-            }
+        return entry.label.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+    }
 
-            return entry.label.IndexOf(SearchWidget.filter.Text, StringComparison.OrdinalIgnoreCase) >= 0;
+    /// <inheritdoc/>
+    protected override bool IsEntryDisabled(StoreIncident entry) => entry.cost < 1 && entry != StoreIncidentDefOf.Item;
+
+    /// <inheritdoc/>
+    protected override void OpenEditorFor(StoreIncident entry)
+    {
+        Find.WindowStack.Add(new StoreIncidentEditor(entry));
+    }
+
+    /// <inheritdoc/>
+    protected override void ResetEntry(StoreIncident entry)
+    {
+        Store_IncidentEditor.LoadBackup(entry);
+
+        if (entry.cost < 1)
+        {
+            entry.cost = 50;
         }
 
-        /// <inheritdoc/>
-        protected override bool IsEntryDisabled([NotNull] StoreIncident entry) => entry.cost < 1 && entry != StoreIncidentDefOf.Item;
+        Store_IncidentEditor.SaveCopy(entry);
+    }
 
-        /// <inheritdoc/>
-        protected override void OpenEditorFor([NotNull] StoreIncident entry)
-        {
-            Find.WindowStack.Add(new StoreIncidentEditor(entry));
-        }
+    /// <inheritdoc/>
+    protected override void DisableEntry(StoreIncident entry)
+    {
+        entry.cost = -10;
 
-        /// <inheritdoc/>
-        protected override void ResetEntry([NotNull] StoreIncident entry)
-        {
-            Store_IncidentEditor.LoadBackup(entry);
+        Store_IncidentEditor.SaveCopy(entry);
+    }
 
-            if (entry.cost < 1)
-            {
-                entry.cost = 50;
-            }
-
-            Store_IncidentEditor.SaveCopy(entry);
-        }
-
-        /// <inheritdoc/>
-        protected override void DisableEntry([NotNull] StoreIncident entry)
-        {
-            entry.cost = -10;
-
-            Store_IncidentEditor.SaveCopy(entry);
-        }
-
-        /// <inheritdoc/>
-        public override void PostClose()
-        {
-            Store_IncidentEditor.UpdatePriceSheet();
-            base.PostClose();
-        }
+    /// <inheritdoc/>
+    public override void PostClose()
+    {
+        Store_IncidentEditor.UpdatePriceSheet();
+        base.PostClose();
     }
 }

@@ -17,34 +17,34 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class RangedWeaponSelector : ISelectorBase<ThingItem>
 {
-    public class RangedWeaponSelector : ISelectorBase<ThingItem>
+    private string _rangedWeaponText;
+    private bool _state = true;
+
+    public void Prepare()
     {
-        private string _rangedWeaponText;
-        private bool _state = true;
-
-        public void Prepare()
-        {
-            _rangedWeaponText = Label;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            if (UiHelper.LabeledPaintableCheckbox(canvas, _rangedWeaponText, ref _state))
-            {
-                Dirty.Set(true);
-            }
-        }
-
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsRangedWeapon == _state;
-
-        public string Label => "TKUtils.Fields.IsRangedWeapon".TranslateSimple();
+        _rangedWeaponText = Label;
     }
+
+    public void Draw(Rect canvas)
+    {
+        if (UiHelper.LabeledPaintableCheckbox(canvas, _rangedWeaponText, ref _state))
+        {
+            Dirty.Set(true);
+        }
+    }
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public bool IsVisible(TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsRangedWeapon == _state;
+
+    public string Label => "TKUtils.Fields.IsRangedWeapon".TranslateSimple();
 }

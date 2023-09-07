@@ -19,40 +19,40 @@ using System.Linq;
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Mutators;
+
+public class EventKarmaMutator : IMutatorBase<EventItem>
 {
-    public class EventKarmaMutator : IMutatorBase<EventItem>
+    private KarmaType _karmaType = KarmaType.Neutral;
+    private string _karmaTypeLabel;
+
+    public int Priority => 1;
+
+    public string Label => "TKUtils.Fields.KarmaType".TranslateSimple();
+
+    public void Prepare()
     {
-        private KarmaType _karmaType = KarmaType.Neutral;
-        private string _karmaTypeLabel;
+        _karmaTypeLabel = Label;
+    }
 
-        public int Priority => 1;
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _karmaTypeLabel);
 
-        public string Label => "TKUtils.Fields.KarmaType".TranslateSimple();
-
-        public void Prepare()
+        if (Widgets.ButtonText(field, _karmaType.ToString()))
         {
-            _karmaTypeLabel = Label;
+            Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => _karmaType = i)).ToList()));
         }
+    }
 
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _karmaTypeLabel);
-
-            if (Widgets.ButtonText(field, _karmaType.ToString()))
-            {
-                Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => _karmaType = i)).ToList()));
-            }
-        }
-
-        public void Mutate([NotNull] TableSettingsItem<EventItem> item)
-        {
-            item.Data.KarmaType = _karmaType;
-        }
+    public void Mutate(TableSettingsItem<EventItem> item)
+    {
+        item.Data.KarmaType = _karmaType;
     }
 }

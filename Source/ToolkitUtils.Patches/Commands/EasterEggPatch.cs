@@ -26,108 +26,105 @@ using SirRandoo.ToolkitUtils.Workers;
 using TwitchToolkit.Utilities;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch to fix SirRandoo's easter egg erroring out when
+///     it selects an animal instead of an item.
+/// </summary>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class EasterEggPatch
 {
-    /// <summary>
-    ///     A Harmony patch to fix SirRandoo's easter egg erroring out when
-    ///     it selects an animal instead of an item.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class EasterEggPatch
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(EasterEgg), nameof(EasterEgg.ExecuteSirRandooEasterEgg));
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(EasterEgg), nameof(EasterEgg.ExecuteSirRandooEasterEgg));
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
 
-        private static bool Prefix()
-        {
-            CommandRouter.MainThreadCommands.Enqueue(
-                () =>
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
+    }
+
+    private static bool Prefix()
+    {
+        CommandRouter.MainThreadCommands.Enqueue(
+            () =>
+            {
+                ArgWorker.ItemProxy item = GenerateItem();
+
+                if (item == null)
                 {
-                    ArgWorker.ItemProxy item = GenerateItem();
-
-                    if (item == null)
-                    {
-                        return;
-                    }
-
-                    SpawnItem(item);
+                    return;
                 }
-            );
 
-            return false;
+                SpawnItem(item);
+            }
+        );
+
+        return false;
+    }
+
+    private static void SpawnItem(ArgWorker.ItemProxy item)
+    {
+        Map map = Current.Game.AnyPlayerHomeMap;
+
+        if (map == null)
+        {
+            return;
         }
 
-        private static void SpawnItem([NotNull] ArgWorker.ItemProxy item)
+        Thing thing = PurchaseHelper.MakeThing(item.Thing.Thing, item.Stuff?.Thing, item.Quality);
+        IntVec3 position = DropCellFinder.TradeDropSpot(map);
+
+        if (item.Thing.Thing.Minifiable)
         {
-            Map map = Current.Game.AnyPlayerHomeMap;
-
-            if (map == null)
-            {
-                return;
-            }
-
-            Thing thing = PurchaseHelper.MakeThing(item.Thing.Thing, item.Stuff?.Thing, item.Quality);
-            IntVec3 position = DropCellFinder.TradeDropSpot(map);
-
-            if (item.Thing.Thing.Minifiable)
-            {
-                ThingDef minifiedDef = item.Thing.Thing.minifiedDef;
-                var minifiedThing = (MinifiedThing)ThingMaker.MakeThing(minifiedDef);
-                minifiedThing.InnerThing = thing;
-                minifiedThing.stackCount = 1;
-                PurchaseHelper.SpawnItem(position, map, minifiedThing);
-            }
-            else
-            {
-                thing.stackCount = 1;
-                PurchaseHelper.SpawnItem(position, map, thing);
-            }
-
-            Find.LetterStack.ReceiveLetter("SirRandoo is here", @"SirRandoo has sent you a rare item! Enjoy!", LetterDefOf.PositiveEvent, thing);
+            ThingDef minifiedDef = item.Thing.Thing.minifiedDef;
+            var minifiedThing = (MinifiedThing)ThingMaker.MakeThing(minifiedDef);
+            minifiedThing.InnerThing = thing;
+            minifiedThing.stackCount = 1;
+            PurchaseHelper.SpawnItem(position, map, minifiedThing);
+        }
+        else
+        {
+            thing.stackCount = 1;
+            PurchaseHelper.SpawnItem(position, map, thing);
         }
 
-        [CanBeNull]
-        private static ArgWorker.ItemProxy GenerateItem()
+        Find.LetterStack.ReceiveLetter("SirRandoo is here", @"SirRandoo has sent you a rare item! Enjoy!", LetterDefOf.PositiveEvent, thing);
+    }
+
+    private static ArgWorker.ItemProxy? GenerateItem()
+    {
+        var proxy = new ArgWorker.ItemProxy
         {
-            var proxy = new ArgWorker.ItemProxy
-            {
-                Thing = Data.Items.Where(i => i.Thing != null)
-                   .Where(i => i.Thing.race == null)
-                   .Where(i => i.Cost > 200 && i.Cost < 2000)
-                   .InRandomOrder()
-                   .FirstOrDefault()
-            };
+            Thing = Data.Items.Where(i => i.Thing is not null)
+               .Where(i => i.Thing?.race is null)
+               .Where(i => i.Cost is > 200 and < 2000)
+               .InRandomOrder()
+               .FirstOrDefault()
+        };
 
-            if (proxy.Thing == null)
-            {
-                return null;
-            }
+        if (proxy.Thing is null)
+        {
+            return null;
+        }
 
-            if (!proxy.Thing.Thing.MadeFromStuff)
-            {
-                return proxy;
-            }
-
-            ThingDef stuff = GenStuff.RandomStuffByCommonalityFor(proxy.Thing.Thing);
-            proxy.Stuff = Data.Items.Find(i => string.Equals(i.DefName, stuff.defName));
-
+        if (!proxy.Thing!.Thing!.MadeFromStuff)
+        {
             return proxy;
         }
+
+        ThingDef stuff = GenStuff.RandomStuffByCommonalityFor(proxy.Thing.Thing);
+        proxy.Stuff = Data.Items.Find(i => string.Equals(i.DefName, stuff.defName));
+
+        return proxy;
     }
 }

@@ -16,53 +16,53 @@
 
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Workers
+namespace SirRandoo.ToolkitUtils.Workers;
+
+/// <summary>
+///     A class for displaying <see cref="EventItem"/> data, without the
+///     ability to modify the contents of the table, in a portable way.
+/// </summary>
+public class EventViewWorker : EventTableWorker
 {
-    /// <summary>
-    ///     A class for displaying <see cref="EventItem"/> data, without the
-    ///     ability to modify the contents of the table, in a portable way.
-    /// </summary>
-    public class EventViewWorker : EventTableWorker
+    /// <inheritdoc cref="EventTableWorker.DrawHeaders"/>
+    protected override void DrawHeaders(Rect region)
     {
-        /// <inheritdoc cref="EventTableWorker.DrawHeaders"/>
-        protected override void DrawHeaders(Rect region)
+        DrawSortableHeaders();
+        DrawSortableHeaderIcon();
+    }
+
+    /// <inheritdoc cref="EventTableWorker.DrawEvent"/>
+    protected override void DrawEvent(Rect canvas, TableSettingsItem<EventItem> ev)
+    {
+        var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
+        var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
+        var karmaRect = new Rect(KarmaHeaderTextRect.x, canvas.y, KarmaHeaderTextRect.width, RowLineHeight);
+
+        UiHelper.Label(nameRect, ev.Data.Name);
+
+        if (ev.Data.Enabled)
         {
-            DrawSortableHeaders();
-            DrawSortableHeaderIcon();
+            UiHelper.Label(priceRect, ev.Data.Cost.ToString("N0"));
         }
 
-        /// <inheritdoc cref="EventTableWorker.DrawEvent"/>
-        protected override void DrawEvent(Rect canvas, TableSettingsItem<EventItem> ev)
-        {
-            var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
-            var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
-            var karmaRect = new Rect(KarmaHeaderTextRect.x, canvas.y, KarmaHeaderTextRect.width, RowLineHeight);
+        UiHelper.Label(karmaRect, ev.Data.KarmaType.ToString());
+    }
 
-            UiHelper.Label(nameRect, ev.Data.Name);
-
-            if (ev.Data.Enabled)
-            {
-                UiHelper.Label(priceRect, ev.Data.Cost.ToString("N0"));
-            }
-
-            UiHelper.Label(karmaRect, ev.Data.KarmaType.ToString());
-        }
-
-        /// <inheritdoc cref="EventTableWorker.NotifyResolutionChanged"/>
-        public override void NotifyResolutionChanged(Rect region)
-        {
-            float consumedWidth = region.width - 10f; // Icon buttons
-            float labelWidth = Mathf.FloorToInt(consumedWidth * 0.4f);
-            float remainingWidth = consumedWidth - labelWidth;
-            float distributedWidth = Mathf.FloorToInt(remainingWidth / 2f);
-            NameHeaderRect = new Rect(0f, 0f, labelWidth, LineHeight);
-            NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
-            PriceHeaderRect = new Rect(NameHeaderRect.x + NameHeaderRect.width + 1f, 0f, distributedWidth, LineHeight);
-            PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
-            KarmaHeaderRect = new Rect(PriceHeaderRect.x + PriceHeaderRect.width + 1f, 0f, distributedWidth, LineHeight);
-            KarmaHeaderTextRect = new Rect(KarmaHeaderRect.x + 4f, KarmaHeaderRect.y, KarmaHeaderRect.width - 8f, KarmaHeaderRect.height);
-        }
+    /// <inheritdoc cref="EventTableWorker.NotifyResolutionChanged"/>
+    public override void NotifyResolutionChanged(Rect region)
+    {
+        float consumedWidth = region.width - 10f; // Icon buttons
+        float labelWidth = Mathf.FloorToInt(consumedWidth * 0.4f);
+        float remainingWidth = consumedWidth - labelWidth;
+        float distributedWidth = Mathf.FloorToInt(remainingWidth / 2f);
+        NameHeaderRect = new Rect(0f, 0f, labelWidth, LineHeight);
+        NameHeaderTextRect = new Rect(NameHeaderRect.x + 4f, NameHeaderRect.y, NameHeaderRect.width - 8f, NameHeaderRect.height);
+        PriceHeaderRect = new Rect(NameHeaderRect.x + NameHeaderRect.width + 1f, 0f, distributedWidth, LineHeight);
+        PriceHeaderTextRect = new Rect(PriceHeaderRect.x + 4f, PriceHeaderRect.y, PriceHeaderRect.width - 8f, PriceHeaderRect.height);
+        KarmaHeaderRect = new Rect(PriceHeaderRect.x + PriceHeaderRect.width + 1f, 0f, distributedWidth, LineHeight);
+        KarmaHeaderTextRect = new Rect(KarmaHeaderRect.x + 4f, KarmaHeaderRect.y, KarmaHeaderRect.width - 8f, KarmaHeaderRect.height);
     }
 }

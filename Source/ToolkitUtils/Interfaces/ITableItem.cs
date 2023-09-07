@@ -14,11 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface ITableItem<T>
 {
-    public interface ITableItem<T>
-    {
-        T Data { get; set; }
-        bool IsHidden { get; set; }
-    }
+    T Data { get; set; }
+    bool IsHidden { get; set; }
 }

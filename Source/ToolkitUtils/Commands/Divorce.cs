@@ -25,45 +25,44 @@ using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+public class Divorce : CommandBase
 {
-    public class Divorce : CommandBase
+    /// <inheritdoc/>
+    public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        /// <inheritdoc/>
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
+        if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
         {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
-            {
-                MessageHelper.ReplyToUser(twitchMessage.Username, "TKUtils.NoPawn".Localize());
+            MessageHelper.ReplyToUser(twitchMessage.Username, "TKUtils.NoPawn".Localize());
 
-                return;
-            }
-
-            var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
-
-            if (!worker.TryGetNextAsViewer(out Viewer viewer) || !PurchaseHelper.TryGetPawn(viewer.username, out Pawn target))
-            {
-                MessageHelper.ReplyToUser(twitchMessage.Username, "TKUtils.PawnNotFound".LocalizeKeyed(worker.GetLast()));
-
-                return;
-            }
-
-            TkUtils.Context.Post(c => PerformDivorce(pawn, target), null);
+            return;
         }
 
-        private static void PerformDivorce(Pawn askerPawn, Pawn askeePawn)
+        var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
+
+        if (!worker.TryGetNextAsViewer(out Viewer viewer) || !PurchaseHelper.TryGetPawn(viewer.username, out Pawn target))
         {
-            foreach (Pawn spouse in askerPawn.GetSpouses(false))
+            MessageHelper.ReplyToUser(twitchMessage.Username, "TKUtils.PawnNotFound".LocalizeKeyed(worker.GetLast()));
+
+            return;
+        }
+
+        TkUtils.Context.Post(c => PerformDivorce(pawn, target), null);
+    }
+
+    private static void PerformDivorce(Pawn askerPawn, Pawn askeePawn)
+    {
+        foreach (Pawn spouse in askerPawn.GetSpouses(false))
+        {
+            if (spouse != askeePawn)
             {
-                if (spouse != askeePawn)
-                {
-                    continue;
-                }
-
-                SpouseRelationUtility.DoDivorce(askerPawn, askeePawn);
-
-                break;
+                continue;
             }
+
+            SpouseRelationUtility.DoDivorce(askerPawn, askeePawn);
+
+            break;
         }
     }
 }

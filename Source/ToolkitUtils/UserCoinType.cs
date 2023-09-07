@@ -14,46 +14,45 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+/// <summary>
+///     The various coin types a broadcaster can be within the mod.
+/// </summary>
+public enum UserCoinType
 {
     /// <summary>
-    ///     The various coin types a broadcaster can be within the mod.
+    ///     If the current active broadcaster coin type, the broadcaster will
+    ///     receive every bonus and coin rate available through Twitch
+    ///     Toolkit.
     /// </summary>
-    public enum UserCoinType
-    {
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     receive every bonus and coin rate available through Twitch
-        ///     Toolkit.
-        /// </summary>
-        Broadcaster,
+    Broadcaster,
 
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     receive only the subscriber bonus and coin rate available in
-        ///     Twitch Toolkit.
-        /// </summary>
-        Subscriber,
+    /// <summary>
+    ///     If the current active broadcaster coin type, the broadcaster will
+    ///     receive only the subscriber bonus and coin rate available in
+    ///     Twitch Toolkit.
+    /// </summary>
+    Subscriber,
 
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     receive only the vip bonus and coin rate available in Twitch
-        ///     Toolkit.
-        /// </summary>
-        Vip,
+    /// <summary>
+    ///     If the current active broadcaster coin type, the broadcaster will
+    ///     receive only the vip bonus and coin rate available in Twitch
+    ///     Toolkit.
+    /// </summary>
+    Vip,
 
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     receive only the moderator bonus and coin rate available in
-        ///     Twitch Toolkit.
-        /// </summary>
-        Moderator,
+    /// <summary>
+    ///     If the current active broadcaster coin type, the broadcaster will
+    ///     receive only the moderator bonus and coin rate available in
+    ///     Twitch Toolkit.
+    /// </summary>
+    Moderator,
 
-        /// <summary>
-        ///     If the current active broadcaster coin type, the broadcaster will
-        ///     not receive any bonus or coin rate available through Twitch
-        ///     Toolkit.
-        /// </summary>
-        None
-    }
+    /// <summary>
+    ///     If the current active broadcaster coin type, the broadcaster will
+    ///     not receive any bonus or coin rate available through Twitch
+    ///     Toolkit.
+    /// </summary>
+    None
 }

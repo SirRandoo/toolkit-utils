@@ -21,18 +21,17 @@ using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.Incidents;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
+
+public class InfestationIncidentData : IWageredIncidentData
 {
-    public class InfestationIncidentData : IWageredIncidentData
+    public bool UseStoryteller => Infestation.Storyteller;
+    public Type WorkerClass => typeof(IncidentWorker_Infestation);
+
+    public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatBig;
+
+    public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
     {
-        public bool UseStoryteller => Infestation.Storyteller;
-        [NotNull] public Type WorkerClass => typeof(IncidentWorker_Infestation);
-
-        public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatBig;
-
-        public void DoExtraSetup([NotNull] IncidentWorker worker, IncidentParms @params, StoreIncident incident)
-        {
-            worker.def = IncidentDef.Named("Infestation");
-        }
+        worker.def = IncidentDef.Named("Infestation");
     }
 }

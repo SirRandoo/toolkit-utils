@@ -19,28 +19,27 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.CommandSettings
+namespace SirRandoo.ToolkitUtils.CommandSettings;
+
+public class InstalledMods : ICommandSettings
 {
-    public class InstalledMods : ICommandSettings
+    public void Draw(Rect region)
     {
-        public void Draw(Rect region)
-        {
-            var listing = new Listing_Standard();
+        var listing = new Listing_Standard();
 
-            listing.Begin(region);
+        listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".TranslateSimple(), ref TkSettings.DecorateMods);
-            listing.DrawDescription("TKUtils.DecorateUtils.Description".TranslateSimple());
+        listing.CheckboxLabeled("TKUtils.DecorateUtils.Label".TranslateSimple(), ref TkSettings.DecorateMods);
+        listing.DrawDescription("TKUtils.DecorateUtils.Description".TranslateSimple());
 
-            listing.CheckboxLabeled("TKUtils.VersionedModList.Label".TranslateSimple(), ref TkSettings.VersionedModList);
-            listing.DrawDescription("TKUtils.VersionedModList.Description".TranslateSimple());
+        listing.CheckboxLabeled("TKUtils.VersionedModList.Label".TranslateSimple(), ref TkSettings.VersionedModList);
+        listing.DrawDescription("TKUtils.VersionedModList.Description".TranslateSimple());
 
-            listing.End();
-        }
+        listing.End();
+    }
 
-        public void Save()
-        {
-            TkUtils.Instance.WriteSettings();
-        }
+    public void Save()
+    {
+        TkUtils.Instance.WriteSettings();
     }
 }

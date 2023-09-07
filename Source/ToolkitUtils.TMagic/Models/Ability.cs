@@ -20,17 +20,16 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 
-namespace SirRandoo.ToolkitUtils.TMagic.Models
+namespace SirRandoo.ToolkitUtils.TMagic.Models;
+
+public enum AbilityType { Power, Effect, Versatility }
+
+public class Ability : PawnPower, ITieredPawnPower
 {
-    public enum AbilityType { Power, Effect, Versatility }
+    public List<IPawnPower> Tiers { get; private init; } = new();
+    public override string? Name => Tiers?.FirstOrDefault()?.Name;
 
-    public class Ability : PawnPower, ITieredPawnPower
-    {
-        public List<IPawnPower> Tiers { get; private set; } = new List<IPawnPower>();
-        [CanBeNull] public override string Name => Tiers?.FirstOrDefault()?.Name;
+    public override int MinimumLevel => Tiers?.FirstOrDefault()?.MinimumLevel ?? 0;
 
-        public override int MinimumLevel => Tiers?.FirstOrDefault()?.MinimumLevel ?? 0;
-
-        [NotNull] public static Ability From([NotNull] params IPawnPower[] powers) => new Ability { Tiers = new List<IPawnPower>(powers) };
-    }
+    public static Ability From(params IPawnPower[] powers) => new() { Tiers = new List<IPawnPower>(powers) };
 }

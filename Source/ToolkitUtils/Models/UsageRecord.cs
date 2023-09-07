@@ -18,71 +18,70 @@ using System;
 using System.Collections.Generic;
 using SirRandoo.ToolkitUtils.Interfaces;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+/// <summary>
+///     An class for recording, and retrieving usage data on ratelimited
+///     mechanics.
+/// </summary>
+public class UsageRecord<T> where T : class, IUsageItemBase
 {
+    private readonly Dictionary<string, DateTime> _userUsages = new Dictionary<string, DateTime>();
+    private DateTime _lastUsage = DateTime.MinValue;
+
     /// <summary>
-    ///     An class for recording, and retrieving usage data on ratelimited
-    ///     mechanics.
+    ///     The item being ratelimited.
     /// </summary>
-    public class UsageRecord<T> where T : class, IUsageItemBase
+    public T Item { get; set; }
+
+    /// <summary>
+    ///     The def name of the item being ratelimited.
+    /// </summary>
+    public string DefName => Item.DefName;
+
+    /// <summary>
+    ///     Records a usage of the given <see cref="Item"/>.
+    /// </summary>
+    public void RecordUsage()
     {
-        private readonly Dictionary<string, DateTime> _userUsages = new Dictionary<string, DateTime>();
-        private DateTime _lastUsage = DateTime.MinValue;
+        _lastUsage = DateTime.UtcNow;
+    }
 
-        /// <summary>
-        ///     The item being ratelimited.
-        /// </summary>
-        public T Item { get; set; }
+    /// <summary>
+    ///     Records a usage of the given <see cref="Item"/> for the user.
+    /// </summary>
+    /// <param name="user">The user that used <see cref="Item"/></param>
+    public void RecordUsage(string user)
+    {
+        RecordUsage();
 
-        /// <summary>
-        ///     The def name of the item being ratelimited.
-        /// </summary>
-        public string DefName => Item.DefName;
-
-        /// <summary>
-        ///     Records a usage of the given <see cref="Item"/>.
-        /// </summary>
-        public void RecordUsage()
+        if (Item.UsageData?.HasLocalCooldown == true)
         {
-            _lastUsage = DateTime.UtcNow;
+            _userUsages[user] = DateTime.UtcNow;
+        }
+    }
+
+    /// <summary>
+    ///     Whether <see cref="Item"/> is on cooldown.
+    /// </summary>
+    public bool IsOnCooldown() => Item.UsageData.HasGlobalCooldown && (DateTime.UtcNow - _lastUsage).TotalSeconds < Item.UsageData.GlobalCooldown;
+
+    /// <summary>
+    ///     Whether <see cref="Item"/> is on cooldown for the given user.
+    /// </summary>
+    /// <param name="user">The user to check against</param>
+    public bool IsOnCooldown(string user)
+    {
+        if (IsOnCooldown())
+        {
+            return true;
         }
 
-        /// <summary>
-        ///     Records a usage of the given <see cref="Item"/> for the user.
-        /// </summary>
-        /// <param name="user">The user that used <see cref="Item"/></param>
-        public void RecordUsage(string user)
+        if (Item.UsageData == null || !Item.UsageData.HasLocalCooldown || !_userUsages.TryGetValue(user, out DateTime lastUsage))
         {
-            RecordUsage();
-
-            if (Item.UsageData?.HasLocalCooldown == true)
-            {
-                _userUsages[user] = DateTime.UtcNow;
-            }
+            return false;
         }
 
-        /// <summary>
-        ///     Whether <see cref="Item"/> is on cooldown.
-        /// </summary>
-        public bool IsOnCooldown() => Item.UsageData.HasGlobalCooldown && (DateTime.UtcNow - _lastUsage).TotalSeconds < Item.UsageData.GlobalCooldown;
-
-        /// <summary>
-        ///     Whether <see cref="Item"/> is on cooldown for the given user.
-        /// </summary>
-        /// <param name="user">The user to check against</param>
-        public bool IsOnCooldown(string user)
-        {
-            if (IsOnCooldown())
-            {
-                return true;
-            }
-
-            if (Item.UsageData == null || !Item.UsageData.HasLocalCooldown || !_userUsages.TryGetValue(user, out DateTime lastUsage))
-            {
-                return false;
-            }
-
-            return (DateTime.UtcNow - lastUsage).TotalSeconds < Item.UsageData.LocalCooldown;
-        }
+        return (DateTime.UtcNow - lastUsage).TotalSeconds < Item.UsageData.LocalCooldown;
     }
 }

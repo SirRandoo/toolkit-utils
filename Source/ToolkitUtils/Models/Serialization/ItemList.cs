@@ -18,12 +18,11 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+[UsedImplicitly]
+public class ItemList
 {
-    [UsedImplicitly]
-    public class ItemList
-    {
-        [JsonProperty("items")] public List<ToolkitItem> Items { get; set; }
-        [JsonProperty("total")] public int Total => Items.Count;
-    }
+    [JsonProperty("items")] public List<ToolkitItem> Items { get; set; }
+    [JsonProperty("total")] public int Total => Items.Count;
 }

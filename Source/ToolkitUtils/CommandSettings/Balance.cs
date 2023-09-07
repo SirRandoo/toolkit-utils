@@ -19,25 +19,24 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.CommandSettings
+namespace SirRandoo.ToolkitUtils.CommandSettings;
+
+public class Balance : ICommandSettings
 {
-    public class Balance : ICommandSettings
+    public void Draw(Rect region)
     {
-        public void Draw(Rect region)
-        {
-            var listing = new Listing_Standard();
+        var listing = new Listing_Standard();
 
-            listing.Begin(region);
+        listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.CoinRate.Label".TranslateSimple(), ref TkSettings.ShowCoinRate);
-            listing.DrawDescription("TKUtils.CoinRate.Description".TranslateSimple());
+        listing.CheckboxLabeled("TKUtils.CoinRate.Label".TranslateSimple(), ref TkSettings.ShowCoinRate);
+        listing.DrawDescription("TKUtils.CoinRate.Description".TranslateSimple());
 
-            listing.End();
-        }
+        listing.End();
+    }
 
-        public void Save()
-        {
-            TkUtils.Instance.WriteSettings();
-        }
+    public void Save()
+    {
+        TkUtils.Instance.WriteSettings();
     }
 }

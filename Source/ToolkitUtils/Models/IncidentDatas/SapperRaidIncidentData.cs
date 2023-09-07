@@ -19,17 +19,16 @@ using SirRandoo.ToolkitUtils.IncidentSettings;
 using TwitchToolkit.Incidents;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
-{
-    public class SapperRaidIncidentData : RaidIncidentData
-    {
-        public override bool UseStoryteller => SapperRaid.Storyteller;
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
 
-        public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
-        {
-            base.DoExtraSetup(worker, @params, incident);
-            @params.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
-            @params.raidStrategy = DefDatabase<RaidStrategyDef>.GetNamed("ImmediateAttackSapper");
-        }
+public class SapperRaidIncidentData : RaidIncidentData
+{
+    public override bool UseStoryteller => SapperRaid.Storyteller;
+
+    public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
+    {
+        base.DoExtraSetup(worker, @params, incident);
+        @params.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
+        @params.raidStrategy = DefDatabase<RaidStrategyDef>.GetNamed("ImmediateAttackSapper");
     }
 }

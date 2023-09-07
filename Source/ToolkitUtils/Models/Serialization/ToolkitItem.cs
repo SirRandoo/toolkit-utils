@@ -17,14 +17,13 @@
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+[UsedImplicitly]
+public class ToolkitItem
 {
-    [UsedImplicitly]
-    public class ToolkitItem
-    {
-        [JsonProperty("abr")] public string Abr;
-        [JsonProperty("category")] public string Category;
-        [JsonProperty("defname")] public string DefName;
-        [JsonProperty("price")] public int Price;
-    }
+    [JsonProperty("abr")] public string Abr;
+    [JsonProperty("category")] public string Category;
+    [JsonProperty("defname")] public string DefName;
+    [JsonProperty("price")] public int Price;
 }

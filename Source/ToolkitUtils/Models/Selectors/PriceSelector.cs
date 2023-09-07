@@ -20,80 +20,81 @@ using System.Linq;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
+using SirRandoo.ToolkitUtils.Utils.Constraints;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class PriceSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
 {
-    public class PriceSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
+    private ComparisonTypes _comparison = ComparisonTypes.Equal;
+    private List<FloatMenuOption> _comparisonOptions;
+    private int _price;
+    private string _priceBuffer = "0";
+    private bool _priceBufferValid = true;
+    private string _priceText;
+
+    public void Prepare()
     {
-        private ComparisonTypes _comparison = ComparisonTypes.Equal;
-        private List<FloatMenuOption> _comparisonOptions;
-        private int _price;
-        private string _priceBuffer = "0";
-        private bool _priceBufferValid = true;
-        private string _priceText;
+        _priceText = Label;
 
-        public void Prepare()
-        {
-            _priceText = Label;
-
-            _comparisonOptions = Data.ComparisonTypes.Values.Select(
-                    i => new FloatMenuOption(
-                        i.AsOperator(),
-                        () =>
-                        {
-                            _comparison = i;
-                            Dirty.Set(true);
-                        }
-                    )
+        _comparisonOptions = Data.ComparisonTypes.Values.Select(
+                i => new FloatMenuOption(
+                    i.AsOperator(),
+                    () =>
+                    {
+                        _comparison = i;
+                        Dirty.Set(true);
+                    }
                 )
-               .ToList();
-        }
-
-        public void Draw(Rect canvas)
-        {
-            (Rect label, Rect field) = canvas.Split(0.75f);
-            UiHelper.Label(label, _priceText);
-
-            (Rect button, Rect input) = field.Split(0.3f);
-
-            if (Widgets.ButtonText(button, _comparison.AsOperator()))
-            {
-                Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
-            }
-
-            if (!UiHelper.NumberField(input, out int value, ref _priceBuffer, ref _priceBufferValid))
-            {
-                return;
-            }
-
-            _price = value;
-            Dirty.Set(true);
-        }
-
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public bool IsVisible(TableSettingsItem<T> item)
-        {
-            switch (_comparison)
-            {
-                case ComparisonTypes.GreaterEqual:
-                    return item.Data.Cost >= _price;
-                case ComparisonTypes.Greater:
-                    return item.Data.Cost > _price;
-                case ComparisonTypes.Equal:
-                    return item.Data.Cost == _price;
-                case ComparisonTypes.Less:
-                    return item.Data.Cost < _price;
-                case ComparisonTypes.LessEqual:
-                    return item.Data.Cost <= _price;
-                default:
-                    return false;
-            }
-        }
-
-        public string Label => "TKUtils.Fields.Price".TranslateSimple();
+            )
+           .ToList();
     }
+
+    public void Draw(Rect canvas)
+    {
+        (Rect label, Rect field) = canvas.Split(0.75f);
+        UiHelper.Label(label, _priceText);
+
+        (Rect button, Rect input) = field.Split(0.3f);
+
+        if (Widgets.ButtonText(button, _comparison.AsOperator()))
+        {
+            Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
+        }
+
+        if (!UiHelper.NumberField(input, out int value, ref _priceBuffer, ref _priceBufferValid))
+        {
+            return;
+        }
+
+        _price = value;
+        Dirty.Set(true);
+    }
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public bool IsVisible(TableSettingsItem<T> item)
+    {
+        switch (_comparison)
+        {
+            case ComparisonTypes.GreaterEqual:
+                return item.Data.Cost >= _price;
+            case ComparisonTypes.Greater:
+                return item.Data.Cost > _price;
+            case ComparisonTypes.Equal:
+                return item.Data.Cost == _price;
+            case ComparisonTypes.Less:
+                return item.Data.Cost < _price;
+            case ComparisonTypes.LessEqual:
+                return item.Data.Cost <= _price;
+            default:
+                return false;
+        }
+    }
+
+    public string Label => "TKUtils.Fields.Price".TranslateSimple();
 }

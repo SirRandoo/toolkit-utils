@@ -29,186 +29,182 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+/// <summary>
+///     A static class that provides json (de)serialization.
+/// </summary>
+public static class Json
 {
-    /// <summary>
-    ///     A static class that provides json (de)serialization.
-    /// </summary>
-    public static class Json
+    private static readonly JsonSerializer Serializer;
+    private static readonly JsonSerializer PrettySerializer;
+    private static readonly DefaultContractResolver DefaultContractResolver = new DictionaryContractResolver { NamingStrategy = new DefaultNamingStrategy() };
+
+    static Json()
     {
-        private static readonly JsonSerializer Serializer;
-        private static readonly JsonSerializer PrettySerializer;
-        private static readonly DefaultContractResolver DefaultContractResolver = new DictionaryContractResolver { NamingStrategy = new DefaultNamingStrategy() };
+        Serializer = new JsonSerializer { ContractResolver = DefaultContractResolver, Converters = { new StringEnumConverter() } };
 
-        static Json()
+        PrettySerializer = new JsonSerializer
         {
-            Serializer = new JsonSerializer { ContractResolver = DefaultContractResolver, Converters = { new StringEnumConverter() } };
+            Formatting = Formatting.Indented, ContractResolver = DefaultContractResolver, Converters = { new StringEnumConverter() }
+        };
+    }
 
-            PrettySerializer = new JsonSerializer
-            {
-                Formatting = Formatting.Indented, ContractResolver = DefaultContractResolver, Converters = { new StringEnumConverter() }
-            };
+    /// <summary>
+    ///     Deserializes data from a <see cref="Stream"/> into the associated
+    ///     object <see cref="T"/>.
+    /// </summary>
+    /// <param name="stream">The stream to deserialize from</param>
+    /// <typeparam name="T">
+    ///     The <see cref="System.Type"/> that should contain the
+    ///     deserialized data
+    /// </typeparam>
+    /// <returns>
+    ///     The stream's contents deserialized as the type passed
+    ///     (<see cref="T"/>), or <c>null</c> if the object could not be
+    ///     serialized into the type
+    /// </returns>
+    [ItemCanBeNull]
+    public static async Task<T> DeserializeAsync<T>(Stream stream) where T : class
+    {
+        using (var reader = new StreamReader(stream))
+        {
+            return await Serializer.DeserializeAsync(reader, typeof(T)) as T;
+        }
+    }
+
+    /// <summary>
+    ///     Serializes data from <see cref="obj"/> into the associated
+    ///     <see cref="Stream"/>.
+    /// </summary>
+    /// <param name="stream">
+    ///     A <see cref="Stream"/> instance that will be written to
+    /// </param>
+    /// <param name="obj">An object to serialize into the given stream</param>
+    /// <param name="pretty">
+    ///     Whether the contents of returned value will be
+    ///     indented.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The <see cref="System.Type"/> that should contains the data to be
+    ///     serialized
+    /// </typeparam>
+    public static async Task SerializeAsync<T>(Stream stream, [NotNull] T obj, bool pretty)
+    {
+        using (var writer = new StreamWriter(stream))
+        {
+            await (pretty ? PrettySerializer : Serializer).SerializeAsync(writer, obj);
+        }
+    }
+
+    /// <summary>
+    ///     Serializes data from <see cref="obj"/> into a
+    ///     <see cref="string"/>.
+    /// </summary>
+    /// <param name="obj">An object to serialize into the given stream</param>
+    /// <param name="pretty">
+    ///     Whether the contents of returned value will be
+    ///     indented.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The <see cref="System.Type"/> that should contains the data to be
+    ///     serialized
+    /// </typeparam>
+    /// <returns>The object serialized into a string</returns>
+    public static async Task<string> SerializeAsync<T>([NotNull] T obj, bool pretty)
+    {
+        var builder = new StringBuilder();
+
+        using (var writer = new StringWriter(builder))
+        {
+            await (pretty ? PrettySerializer : Serializer).SerializeAsync(writer, obj);
         }
 
-        /// <summary>
-        ///     Deserializes data from a <see cref="Stream"/> into the associated
-        ///     object <see cref="T"/>.
-        /// </summary>
-        /// <param name="stream">The stream to deserialize from</param>
-        /// <typeparam name="T">
-        ///     The <see cref="System.Type"/> that should contain the
-        ///     deserialized data
-        /// </typeparam>
-        /// <returns>
-        ///     The stream's contents deserialized as the type passed
-        ///     (<see cref="T"/>), or <c>null</c> if the object could not be
-        ///     serialized into the type
-        /// </returns>
-        [ItemCanBeNull]
-        public static async Task<T> DeserializeAsync<T>([NotNull] Stream stream) where T : class
+        return builder.ToString();
+    }
+
+    /// <summary>
+    ///     Deserializes data from a <see cref="Stream"/> into the associated
+    ///     object <see cref="T"/>.
+    /// </summary>
+    /// <param name="stream">The stream to deserialize from</param>
+    /// <typeparam name="T">
+    ///     The <see cref="System.Type"/> that should contain the
+    ///     deserialized data
+    /// </typeparam>
+    /// <returns>
+    ///     The stream's contents deserialized as the type passed
+    ///     (<see cref="T"/>), or <c>null</c> if the object could not be
+    ///     serialized into the type
+    /// </returns>
+    [CanBeNull]
+    public static T Deserialize<T>(Stream stream) where T : class
+    {
+        using (var reader = new StreamReader(stream))
         {
-            using (var reader = new StreamReader(stream))
-            {
-                return await Serializer.DeserializeAsync(reader, typeof(T)) as T;
-            }
+            return Serializer.Deserialize(reader, typeof(T)) as T;
+        }
+    }
+
+    /// <summary>
+    ///     Serializes data from <see cref="obj"/> into the associated
+    ///     <see cref="Stream"/>.
+    /// </summary>
+    /// <param name="stream">
+    ///     A <see cref="Stream"/> instance that will be written to
+    /// </param>
+    /// <param name="obj">An object to serialize into the given stream</param>
+    /// <param name="pretty">
+    ///     Whether the contents of returned value will be
+    ///     indented.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The <see cref="System.Type"/> that should contains the data to be
+    ///     serialized
+    /// </typeparam>
+    public static void Serialize<T>(Stream stream, [NotNull] T obj, bool pretty)
+    {
+        using (var writer = new StreamWriter(stream))
+        {
+            (pretty ? PrettySerializer : Serializer).Serialize(writer, obj);
+        }
+    }
+
+    /// <summary>
+    ///     Serializes data from <see cref="obj"/> into a
+    ///     <see cref="string"/>.
+    /// </summary>
+    /// <param name="obj">An object to serialize into the given stream</param>
+    /// <param name="pretty">
+    ///     Whether the contents of returned value will be
+    ///     indented.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The <see cref="System.Type"/> that should contains the data to be
+    ///     serialized
+    /// </typeparam>
+    /// <returns>The object serialized into a string</returns>
+    public static string Serialize<T>([NotNull] T obj, bool pretty)
+    {
+        var builder = new StringBuilder();
+
+        using (var writer = new StringWriter(builder))
+        {
+            (pretty ? PrettySerializer : Serializer).Serialize(writer, obj);
         }
 
-        /// <summary>
-        ///     Serializes data from <see cref="obj"/> into the associated
-        ///     <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="stream">
-        ///     A <see cref="Stream"/> instance that will be written to
-        /// </param>
-        /// <param name="obj">An object to serialize into the given stream</param>
-        /// <param name="pretty">
-        ///     Whether the contents of returned value will be
-        ///     indented.
-        /// </param>
-        /// <typeparam name="T">
-        ///     The <see cref="System.Type"/> that should contains the data to be
-        ///     serialized
-        /// </typeparam>
-        public static async Task SerializeAsync<T>([NotNull] Stream stream, [NotNull] T obj, bool pretty)
+        return builder.ToString();
+    }
+
+    private sealed class DictionaryContractResolver : DefaultContractResolver
+    {
+        /// <inheritdoc/>
+        protected override JsonDictionaryContract CreateDictionaryContract(Type objectType)
         {
-            using (var writer = new StreamWriter(stream))
-            {
-                await (pretty ? PrettySerializer : Serializer).SerializeAsync(writer, obj);
-            }
-        }
+            JsonDictionaryContract contract = base.CreateDictionaryContract(objectType);
+            contract.DictionaryKeyResolver = propertyName => propertyName;
 
-        /// <summary>
-        ///     Serializes data from <see cref="obj"/> into a
-        ///     <see cref="string"/>.
-        /// </summary>
-        /// <param name="obj">An object to serialize into the given stream</param>
-        /// <param name="pretty">
-        ///     Whether the contents of returned value will be
-        ///     indented.
-        /// </param>
-        /// <typeparam name="T">
-        ///     The <see cref="System.Type"/> that should contains the data to be
-        ///     serialized
-        /// </typeparam>
-        /// <returns>The object serialized into a string</returns>
-        [ItemNotNull]
-        public static async Task<string> SerializeAsync<T>([NotNull] T obj, bool pretty)
-        {
-            var builder = new StringBuilder();
-
-            using (var writer = new StringWriter(builder))
-            {
-                await (pretty ? PrettySerializer : Serializer).SerializeAsync(writer, obj);
-            }
-
-            return builder.ToString();
-        }
-
-        /// <summary>
-        ///     Deserializes data from a <see cref="Stream"/> into the associated
-        ///     object <see cref="T"/>.
-        /// </summary>
-        /// <param name="stream">The stream to deserialize from</param>
-        /// <typeparam name="T">
-        ///     The <see cref="System.Type"/> that should contain the
-        ///     deserialized data
-        /// </typeparam>
-        /// <returns>
-        ///     The stream's contents deserialized as the type passed
-        ///     (<see cref="T"/>), or <c>null</c> if the object could not be
-        ///     serialized into the type
-        /// </returns>
-        [CanBeNull]
-        public static T Deserialize<T>([NotNull] Stream stream) where T : class
-        {
-            using (var reader = new StreamReader(stream))
-            {
-                return Serializer.Deserialize(reader, typeof(T)) as T;
-            }
-        }
-
-        /// <summary>
-        ///     Serializes data from <see cref="obj"/> into the associated
-        ///     <see cref="Stream"/>.
-        /// </summary>
-        /// <param name="stream">
-        ///     A <see cref="Stream"/> instance that will be written to
-        /// </param>
-        /// <param name="obj">An object to serialize into the given stream</param>
-        /// <param name="pretty">
-        ///     Whether the contents of returned value will be
-        ///     indented.
-        /// </param>
-        /// <typeparam name="T">
-        ///     The <see cref="System.Type"/> that should contains the data to be
-        ///     serialized
-        /// </typeparam>
-        public static void Serialize<T>([NotNull] Stream stream, [NotNull] T obj, bool pretty)
-        {
-            using (var writer = new StreamWriter(stream))
-            {
-                (pretty ? PrettySerializer : Serializer).Serialize(writer, obj);
-            }
-        }
-
-        /// <summary>
-        ///     Serializes data from <see cref="obj"/> into a
-        ///     <see cref="string"/>.
-        /// </summary>
-        /// <param name="obj">An object to serialize into the given stream</param>
-        /// <param name="pretty">
-        ///     Whether the contents of returned value will be
-        ///     indented.
-        /// </param>
-        /// <typeparam name="T">
-        ///     The <see cref="System.Type"/> that should contains the data to be
-        ///     serialized
-        /// </typeparam>
-        /// <returns>The object serialized into a string</returns>
-        [NotNull]
-        public static string Serialize<T>([NotNull] T obj, bool pretty)
-        {
-            var builder = new StringBuilder();
-
-            using (var writer = new StringWriter(builder))
-            {
-                (pretty ? PrettySerializer : Serializer).Serialize(writer, obj);
-            }
-
-            return builder.ToString();
-        }
-
-        private sealed class DictionaryContractResolver : DefaultContractResolver
-        {
-            /// <inheritdoc/>
-            [NotNull]
-            protected override JsonDictionaryContract CreateDictionaryContract([NotNull] Type objectType)
-            {
-                JsonDictionaryContract contract = base.CreateDictionaryContract(objectType);
-                contract.DictionaryKeyResolver = propertyName => propertyName;
-
-                return contract;
-            }
+            return contract;
         }
     }
 }

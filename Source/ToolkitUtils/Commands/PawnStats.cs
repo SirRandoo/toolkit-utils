@@ -25,75 +25,73 @@ using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
+namespace SirRandoo.ToolkitUtils.Commands;
+
+[UsedImplicitly]
+public class PawnStats : CommandBase
 {
-    [UsedImplicitly]
-    public class PawnStats : CommandBase
+    private static readonly List<string> DefaultStats = new List<string>
     {
-        private static readonly List<string> DefaultStats = new List<string>
+        "MeleeDPS",
+        "MeleeHitChance",
+        "MeleeArmorPenetration",
+        "MeleeDodgeChance",
+        "ShootingAccuracyPawn",
+        "AimingDelayFactor",
+        "IncomingDamageFactor"
+    };
+
+    public override void RunCommand(ITwitchMessage twitchMessage)
+    {
+        if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
         {
-            "MeleeDPS",
-            "MeleeHitChance",
-            "MeleeArmorPenetration",
-            "MeleeDodgeChance",
-            "ShootingAccuracyPawn",
-            "AimingDelayFactor",
-            "IncomingDamageFactor"
-        };
+            twitchMessage.Reply("TKUtils.NoPawn".Localize());
 
-        public override void RunCommand([NotNull] ITwitchMessage twitchMessage)
-        {
-            if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
-            {
-                twitchMessage.Reply("TKUtils.NoPawn".Localize());
-
-                return;
-            }
-
-            List<string> queries = CommandFilter.Parse(twitchMessage.Message).Skip(1).Select(PurchaseHelper.ToToolkit).ToList();
-
-            if (queries.Count <= 0)
-            {
-                queries.AddRange(DefaultStats);
-            }
-
-            List<StatDef> container = queries.Select(FindStat).Where(s => s != null).ToList();
-
-            if (container.Count <= 0)
-            {
-                return;
-            }
-
-            CommandRouter.MainThreadCommands.Enqueue(
-                () =>
-                {
-                    MessageHelper.ReplyToUser(twitchMessage.Username, container.Select(s => FormatStat(pawn, s)).SectionJoin());
-                }
-            );
+            return;
         }
 
-        [CanBeNull]
-        private static StatDef FindStat(string query)
+        List<string> queries = CommandFilter.Parse(twitchMessage.Message).Skip(1).Select(PurchaseHelper.ToToolkit).ToList();
+
+        if (queries.Count <= 0)
         {
-            return DefDatabase<StatDef>.AllDefs.FirstOrDefault(s => IsValidStat(s) && IsStat(s, query));
+            queries.AddRange(DefaultStats);
         }
 
-        private static bool IsValidStat([NotNull] StatDef stat) => stat.showOnHumanlikes && stat.showOnPawns;
+        List<StatDef> container = queries.Select(FindStat).Where(s => s != null).ToList();
 
-        private static bool IsStat([NotNull] Def stat, string query) => stat.label.ToToolkit().Equals(query, StringComparison.InvariantCultureIgnoreCase)
-            || stat.defName.Equals(query, StringComparison.InvariantCultureIgnoreCase);
-
-        [NotNull]
-        private static string FormatStat(Thing pawn, [NotNull] StatDef stat)
+        if (container.Count <= 0)
         {
-            try
+            return;
+        }
+
+        CommandRouter.MainThreadCommands.Enqueue(
+            () =>
             {
-                return ResponseHelper.JoinPair(stat.LabelCap, stat.ValueToString(pawn.GetStatValue(stat)));
+                MessageHelper.ReplyToUser(twitchMessage.Username, container.Select(s => FormatStat(pawn, s)).SectionJoin());
             }
-            catch (Exception)
-            {
-                return ResponseHelper.JoinPair(stat.LabelCap, "ERR");
-            }
+        );
+    }
+
+    [CanBeNull]
+    private static StatDef FindStat(string query)
+    {
+        return DefDatabase<StatDef>.AllDefs.FirstOrDefault(s => IsValidStat(s) && IsStat(s, query));
+    }
+
+    private static bool IsValidStat(StatDef stat) => stat.showOnHumanlikes && stat.showOnPawns;
+
+    private static bool IsStat(Def stat, string query) => stat.label.ToToolkit().Equals(query, StringComparison.InvariantCultureIgnoreCase)
+        || stat.defName.Equals(query, StringComparison.InvariantCultureIgnoreCase);
+
+    private static string FormatStat(Thing pawn, StatDef stat)
+    {
+        try
+        {
+            return ResponseHelper.JoinPair(stat.LabelCap, stat.ValueToString(pawn.GetStatValue(stat)));
+        }
+        catch (Exception)
+        {
+            return ResponseHelper.JoinPair(stat.LabelCap, "ERR");
         }
     }
 }

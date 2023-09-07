@@ -20,25 +20,24 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.CommandSettings
+namespace SirRandoo.ToolkitUtils.CommandSettings;
+
+public class PawnHealth : ICommandSettings
 {
-    public class PawnHealth : ICommandSettings
+    public void Draw(Rect region)
     {
-        public void Draw(Rect region)
-        {
-            var listing = new Listing_Standard();
+        var listing = new Listing_Standard();
 
-            listing.Begin(region);
+        listing.Begin(region);
 
-            listing.CheckboxLabeled("TKUtils.PawnHealth.Surgeries.Label".Localize(), ref TkSettings.ShowSurgeries);
-            listing.DrawDescription("TKUtils.PawnHealth.Surgeries.Description".Localize());
+        listing.CheckboxLabeled("TKUtils.PawnHealth.Surgeries.Label".Localize(), ref TkSettings.ShowSurgeries);
+        listing.DrawDescription("TKUtils.PawnHealth.Surgeries.Description".Localize());
 
-            listing.End();
-        }
+        listing.End();
+    }
 
-        public void Save()
-        {
-            TkUtils.Instance.WriteSettings();
-        }
+    public void Save()
+    {
+        TkUtils.Instance.WriteSettings();
     }
 }

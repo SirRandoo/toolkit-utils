@@ -16,11 +16,10 @@
 
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IHealHandler : ICompatibilityProvider
 {
-    public interface IHealHandler : ICompatibilityProvider
-    {
-        bool CanHeal(Hediff hediff);
-        bool CanHeal(BodyPartRecord bodyPart);
-    }
+    bool CanHeal(Hediff hediff);
+    bool CanHeal(BodyPartRecord bodyPart);
 }

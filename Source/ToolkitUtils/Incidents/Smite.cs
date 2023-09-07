@@ -23,35 +23,34 @@ using ToolkitCore;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Incidents
+namespace SirRandoo.ToolkitUtils.Incidents;
+
+public class Smite : IncidentVariablesBase
 {
-    public class Smite : IncidentVariablesBase
+    private Pawn _pawn;
+
+    public override bool CanHappen(string msg, Viewer viewer)
     {
-        private Pawn _pawn;
-
-        public override bool CanHappen([NotNull] string msg, [NotNull] Viewer viewer)
+        if (!viewer.mod || !viewer.username.EqualsIgnoreCase(ToolkitCoreSettings.channel_username))
         {
-            if (!viewer.mod || !viewer.username.EqualsIgnoreCase(ToolkitCoreSettings.channel_username))
-            {
-                return false;
-            }
-
-            string target = msg.Split(' ').Skip(2).FirstOrDefault();
-
-            if (PurchaseHelper.TryGetPawn(target, out _pawn))
-            {
-                return _pawn?.Spawned == true && _pawn?.Map != null;
-            }
-
-            MessageHelper.ReplyToUser(viewer.username, "TKUtils.PawnNotFound".LocalizeKeyed(target));
-
             return false;
         }
 
-        public override void Execute()
+        string target = msg.Split(' ').Skip(2).FirstOrDefault();
+
+        if (PurchaseHelper.TryGetPawn(target, out _pawn))
         {
-            _pawn.Map.weatherManager.eventHandler.AddEvent(new WeatherEvent_LightningStrike(_pawn.Map, _pawn.Position));
-            Viewer.Charge(storeIncident);
+            return _pawn?.Spawned == true && _pawn?.Map != null;
         }
+
+        MessageHelper.ReplyToUser(viewer.username, "TKUtils.PawnNotFound".LocalizeKeyed(target));
+
+        return false;
+    }
+
+    public override void Execute()
+    {
+        _pawn.Map.weatherManager.eventHandler.AddEvent(new WeatherEvent_LightningStrike(_pawn.Map, _pawn.Position));
+        Viewer.Charge(storeIncident);
     }
 }

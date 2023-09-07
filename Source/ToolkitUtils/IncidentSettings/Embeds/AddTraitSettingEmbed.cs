@@ -21,23 +21,22 @@ using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.IncidentSettings.Embeds
+namespace SirRandoo.ToolkitUtils.IncidentSettings.Embeds;
+
+public class AddTraitSettingEmbed : IEventSettings
 {
-    public class AddTraitSettingEmbed : IEventSettings
+    private string _buffer;
+    private bool _bufferValid = true;
+    public int LineSpan => 1;
+
+    public void Draw(Rect canvas, float preferredHeight)
     {
-        private string _buffer;
-        private bool _bufferValid = true;
-        public int LineSpan => 1;
+        (Rect label, Rect field) = new Rect(canvas.x, canvas.y, canvas.width, preferredHeight).Split(0.65f);
+        UiHelper.Label(label, "TKUtils.Fields.TraitLimit".Localize());
 
-        public void Draw(Rect canvas, float preferredHeight)
+        if (UiHelper.NumberField(field, out int value, ref _buffer, ref _bufferValid, 1, 100))
         {
-            (Rect label, Rect field) = new Rect(canvas.x, canvas.y, canvas.width, preferredHeight).Split(0.65f);
-            UiHelper.Label(label, "TKUtils.Fields.TraitLimit".Localize());
-
-            if (UiHelper.NumberField(field, out int value, ref _buffer, ref _bufferValid, 1, 100))
-            {
-                AddTraitSettings.maxTraits = value;
-            }
+            AddTraitSettings.maxTraits = value;
         }
     }
 }

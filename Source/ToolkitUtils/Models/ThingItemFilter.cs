@@ -18,93 +18,93 @@ using System;
 using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models;
+
+public enum FilterTypes
 {
-    public enum FilterTypes
+    Mod,
+    Category,
+    TechLevel,
+    Stackable,
+    Research,
+    State,
+    Stuff,
+    Manufacturable
+}
+
+public class ThingItemFilter
+{
+    private bool _active;
+    private string _label;
+    private float _labelWidth = -1;
+    public ThingItemFilterCategory Category { get; set; }
+
+    internal string Id { get; set; }
+
+    public string Label
     {
-        Mod,
-        Category,
-        TechLevel,
-        Stackable,
-        Research,
-        State,
-        Stuff,
-        Manufacturable
+        get => _label;
+        set
+        {
+            _label = $" {value}";
+            _labelWidth = Text.CalcSize(_label).x;
+        }
     }
 
-    public class ThingItemFilter
+    public float LabelWidth
     {
-        private bool _active;
-        private string _label;
-        private float _labelWidth = -1;
-        public ThingItemFilterCategory Category { get; set; }
-
-        internal string Id { get; set; }
-
-        public string Label
+        get
         {
-            get => _label;
-            set
+            if (_labelWidth <= -1)
             {
-                _label = $" {value}";
-                _labelWidth = Text.CalcSize(_label).x;
+                _labelWidth = Text.CalcSize(Label).x;
             }
+
+            return _labelWidth;
         }
-
-        public float LabelWidth
-        {
-            get
-            {
-                if (_labelWidth <= -1)
-                {
-                    _labelWidth = Text.CalcSize(Label).x;
-                }
-
-                return _labelWidth;
-            }
-        }
-
-        public bool Active
-        {
-            get => _active;
-            set
-            {
-                _active = value;
-                Category?.MarkDirty();
-            }
-        }
-
-        public Func<TableSettingsItem<ThingItem>, bool> IsUnfilteredFunc { get; set; }
-
-        public static bool IsCategoryRelevant([NotNull] TableSettingsItem<ThingItem> subject, string category) => subject.Data.Category.Equals(category);
-
-        public static bool IsModRelevant([NotNull] TableSettingsItem<ThingItem> subject, string mod) => subject.Data.Mod.Equals(mod);
-
-        public static bool IsTechLevelRelevant([NotNull] TableSettingsItem<ThingItem> subject, TechLevel techLevel) =>
-            subject.Data.Thing != null && subject.Data.Thing.techLevel == techLevel;
-
-        public static bool FilterByStuff([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.IsStuff;
-
-        public static bool FilterByNotStuff([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && !subject.Data.Thing.IsStuff;
-
-        public static bool FilterByStackable([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.stackLimit > 1;
-
-        public static bool FilterByNonStackable([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.stackLimit == 1;
-
-        public static bool FilterByResearched(TableSettingsItem<ThingItem> subject) => Current.Game != null
-            && subject.Data.Thing != null && subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
-
-        public static bool FilterByNotResearched(TableSettingsItem<ThingItem> subject) => Current.Game != null
-            && subject.Data.Thing != null && !subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
-
-        public static bool FilterByEnabled([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Cost > 0;
-
-        public static bool FilterByDisabled([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.Cost <= 0;
-
-        public static bool FilterByManufactured([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.ProducedAt != null;
-
-        public static bool FilterByNonManufactured([NotNull] TableSettingsItem<ThingItem> subject) => subject.Data.ProducedAt == null;
     }
+
+    public bool Active
+    {
+        get => _active;
+        set
+        {
+            _active = value;
+            Category?.MarkDirty();
+        }
+    }
+
+    public Func<TableSettingsItem<ThingItem>, bool> IsUnfilteredFunc { get; set; }
+
+    public static bool IsCategoryRelevant(TableSettingsItem<ThingItem> subject, string category) => subject.Data.Category.Equals(category);
+
+    public static bool IsModRelevant(TableSettingsItem<ThingItem> subject, string mod) => subject.Data.Mod.Equals(mod);
+
+    public static bool IsTechLevelRelevant(TableSettingsItem<ThingItem> subject, TechLevel techLevel) =>
+        subject.Data.Thing != null && subject.Data.Thing.techLevel == techLevel;
+
+    public static bool FilterByStuff(TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.IsStuff;
+
+    public static bool FilterByNotStuff(TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && !subject.Data.Thing.IsStuff;
+
+    public static bool FilterByStackable(TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.stackLimit > 1;
+
+    public static bool FilterByNonStackable(TableSettingsItem<ThingItem> subject) => subject.Data.Thing != null && subject.Data.Thing.stackLimit == 1;
+
+    public static bool FilterByResearched(TableSettingsItem<ThingItem> subject) => Current.Game != null
+        && subject.Data.Thing != null && subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
+
+    public static bool FilterByNotResearched(TableSettingsItem<ThingItem> subject) => Current.Game != null
+        && subject.Data.Thing != null && !subject.Data.Thing.GetUnfinishedPrerequisites().NullOrEmpty();
+
+    public static bool FilterByEnabled(TableSettingsItem<ThingItem> subject) => subject.Data.Cost > 0;
+
+    public static bool FilterByDisabled(TableSettingsItem<ThingItem> subject) => subject.Data.Cost <= 0;
+
+    public static bool FilterByManufactured(TableSettingsItem<ThingItem> subject) => subject.Data.ProducedAt != null;
+
+    public static bool FilterByNonManufactured(TableSettingsItem<ThingItem> subject) => subject.Data.ProducedAt == null;
 }

@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
+        <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta08" />
         <PackageReference Include="RestSharp" Version="106.15.0"/>
+        <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
     </ItemGroup>
     
     <ItemGroup>

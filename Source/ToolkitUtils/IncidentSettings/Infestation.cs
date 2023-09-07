@@ -21,33 +21,32 @@ using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.IncidentSettings
+namespace SirRandoo.ToolkitUtils.IncidentSettings;
+
+public class Infestation : IncidentHelperVariablesSettings, IEventSettings
 {
-    public class Infestation : IncidentHelperVariablesSettings, IEventSettings
+    public static bool Storyteller;
+
+    public int LineSpan => 1;
+
+    public void Draw(Rect canvas, float preferredHeight)
     {
-        public static bool Storyteller;
+        var listing = new Listing_Standard();
+        listing.Begin(canvas);
 
-        public int LineSpan => 1;
+        listing.CheckboxLabeled("TKUtils.WageredIncident.Storyteller.Label".TranslateSimple(), ref Storyteller);
+        listing.DrawDescription("TKUtils.WageredIncident.Storyteller.Description".TranslateSimple());
 
-        public void Draw(Rect canvas, float preferredHeight)
-        {
-            var listing = new Listing_Standard();
-            listing.Begin(canvas);
+        listing.End();
+    }
 
-            listing.CheckboxLabeled("TKUtils.WageredIncident.Storyteller.Label".TranslateSimple(), ref Storyteller);
-            listing.DrawDescription("TKUtils.WageredIncident.Storyteller.Description".TranslateSimple());
+    public override void ExposeData()
+    {
+        Scribe_Values.Look(ref Storyteller, "storytellerInfestations");
+    }
 
-            listing.End();
-        }
-
-        public override void ExposeData()
-        {
-            Scribe_Values.Look(ref Storyteller, "storytellerInfestations");
-        }
-
-        public override void EditSettings()
-        {
-            Find.WindowStack.Add(new EventSettingsDialog(this));
-        }
+    public override void EditSettings()
+    {
+        Find.WindowStack.Add(new EventSettingsDialog(this));
     }
 }

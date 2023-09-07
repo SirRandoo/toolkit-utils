@@ -19,30 +19,24 @@ using RimWorld;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using Verse;
+using IncidentDefOf = SirRandoo.ToolkitUtils.Defs.IncidentDefOf;
 
-namespace SirRandoo.ToolkitUtils.Utils
+namespace SirRandoo.ToolkitUtils.Utils.Basket;
+
+public record CodedEgg(string? UserId = "ericcode") : EasterEgg(UserId)
 {
-    public class CodedEgg : EasterEgg
+    public override bool IsPossible(StoreIncident incident, Viewer viewer) => incident == IncidentDefOf.BuyPawn && base.IsPossible(incident, viewer);
+
+    public override void Execute(Viewer viewer, Pawn pawn)
     {
-        public override bool IsPossible(StoreIncident incident, Viewer viewer) =>
-            incident == IncidentDefOf.BuyPawn && viewer.username.Equals("ericcode", StringComparison.InvariantCultureIgnoreCase);
+        Pawn pet = PawnGenerator.GeneratePawn(
+            new PawnGenerationRequest(PawnKindDef.Named("Thrumbo"), Faction.OfPlayer, fixedGender: Gender.Female, fixedBirthName: "Sis")
+        );
 
-        public override void Execute(Viewer viewer, Pawn pawn)
-        {
-            if (!viewer.username.Equals("ericcode", StringComparison.InvariantCultureIgnoreCase))
-            {
-                return;
-            }
+        pet.training.Train(TrainableDefOf.Tameness, pawn, true);
+        pawn.relations.AddDirectRelation(PawnRelationDefOf.Bond, pet);
+        pet.Name = new NameSingle("Sis");
 
-            Pawn pet = PawnGenerator.GeneratePawn(
-                new PawnGenerationRequest(PawnKindDef.Named("Thrumbo"), Faction.OfPlayer, fixedGender: Gender.Female, fixedBirthName: "Sis")
-            );
-
-            pet.training.Train(TrainableDefOf.Tameness, pawn, true);
-            pawn.relations.AddDirectRelation(PawnRelationDefOf.Bond, pet);
-            pet.Name = new NameSingle("Sis");
-
-            GenSpawn.Spawn(pet, pawn.Position, pawn.Map, pawn.Rotation);
-        }
+        GenSpawn.Spawn(pet, pawn.Position, pawn.Map, pawn.Rotation);
     }
 }

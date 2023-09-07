@@ -14,27 +14,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using JetBrains.Annotations;
+using System;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Utils
+namespace SirRandoo.ToolkitUtils.Utils.Basket;
+
+public record EasterEgg(string? UserId = EasterEgg.Wildcard, float Chance = 0.35f) : IEasterEgg
 {
-    public class EasterEgg : IEasterEgg
+    private const string Wildcard = "*";
+
+    public virtual bool IsPossible(StoreIncident incident, Viewer viewer) => string.Equals(UserId, Wildcard, StringComparison.Ordinal)
+        || string.Equals(viewer.username, UserId, StringComparison.OrdinalIgnoreCase);
+
+    public virtual void Execute(Viewer viewer)
     {
-        [CanBeNull] public string UserId => "*"; // Signifies this easter egg affects everyone
-        public virtual float Chance => 0.35f;
+    }
 
-        public virtual bool IsPossible(StoreIncident incident, Viewer viewer) => false;
-
-        public virtual void Execute(Viewer viewer)
-        {
-        }
-
-        public virtual void Execute(Viewer viewer, Pawn pawn)
-        {
-        }
+    public virtual void Execute(Viewer viewer, Pawn pawn)
+    {
     }
 }

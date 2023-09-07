@@ -17,13 +17,12 @@
 using JetBrains.Annotations;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils.Defs;
+
+[UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
+public class HealExtension : DefModExtension
 {
-    [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
-    public class HealExtension : DefModExtension
-    {
-        [Description("Whether or not Utils' heal events should heal this hediff.")]
-        [DefaultValue(true)]
-        public bool ShouldHeal = true;
-    }
+    [Description("Whether or not Utils' heal events should heal this hediff.")]
+    [DefaultValue(true)]
+    public bool ShouldHeal = true;
 }

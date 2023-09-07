@@ -21,46 +21,44 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for refreshing Twitch Toolkit's internal viewer
+///     list.
+/// </summary>
+/// <remarks>
+///     This patch also fixes a "hanging" situation with Twitch Toolkit,
+///     where if ToolkitCore wasn't properly set up, the game would
+///     freeze for a period of time.
+/// </remarks>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class RefreshViewersPatch
 {
-    /// <summary>
-    ///     A Harmony patch for refreshing Twitch Toolkit's internal viewer
-    ///     list.
-    /// </summary>
-    /// <remarks>
-    ///     This patch also fixes a "hanging" situation with Twitch Toolkit,
-    ///     where if ToolkitCore wasn't properly set up, the game would
-    ///     freeze for a period of time.
-    /// </remarks>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class RefreshViewersPatch
+    private const string ViewerResponse =
+        @"{""_links"":{},""chatter_count"":0,""chatters"":{""broadcaster"":[],""vips"":[],""moderators"":[],""staff"":[],""admins"":[],""global_mods"":[],""viewers"":[]}}";
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private const string ViewerResponse =
-            @"{""_links"":{},""chatter_count"":0,""chatters"":{""broadcaster"":[],""vips"":[],""moderators"":[],""staff"":[],""admins"":[],""global_mods"":[],""viewers"":[]}}";
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(Viewers), nameof(Viewers.RefreshViewers));
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(Viewers), nameof(Viewers.RefreshViewers));
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
 
-        private static bool Prefix()
-        {
-            Viewers.jsonallviewers = ViewerResponse;
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
 
-            return false;
-        }
+        return null;
+    }
+
+    private static bool Prefix()
+    {
+        Viewers.jsonallviewers = ViewerResponse;
+
+        return false;
     }
 }

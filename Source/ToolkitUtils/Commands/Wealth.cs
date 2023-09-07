@@ -20,19 +20,18 @@ using SirRandoo.ToolkitUtils.Utils;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Commands
-{
-    [UsedImplicitly]
-    public class Wealth : CommandBase
-    {
-        public override void RunCommand(ITwitchMessage twitchMessage)
-        {
-            if (Current.Game?.CurrentMap == null)
-            {
-                return;
-            }
+namespace SirRandoo.ToolkitUtils.Commands;
 
-            twitchMessage.Reply(ResponseHelper.JoinPair("ThisMapColonyWealthTotal".Localize(), Current.Game.CurrentMap.wealthWatcher.WealthTotal.ToString("N0")));
+[UsedImplicitly]
+public class Wealth : CommandBase
+{
+    public override void RunCommand(ITwitchMessage twitchMessage)
+    {
+        if (Current.Game?.CurrentMap == null)
+        {
+            return;
         }
+
+        twitchMessage.Reply(ResponseHelper.JoinPair("ThisMapColonyWealthTotal".Localize(), Current.Game.CurrentMap.wealthWatcher.WealthTotal.ToString("N0")));
     }
 }

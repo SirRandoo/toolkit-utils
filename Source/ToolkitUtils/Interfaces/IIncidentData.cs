@@ -18,12 +18,11 @@ using System;
 using RimWorld;
 using TwitchToolkit.Incidents;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IIncidentData
 {
-    public interface IIncidentData
-    {
-        Type WorkerClass { get; }
-        IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident);
-        void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident);
-    }
+    Type WorkerClass { get; }
+    IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident);
+    void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident);
 }

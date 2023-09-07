@@ -21,34 +21,32 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using TwitchToolkit.PawnQueue;
 
-namespace SirRandoo.ToolkitUtils.Patches
+namespace SirRandoo.ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch to disable Twitch Toolkit's pawn commands in
+///     favor of Utils'.
+/// </summary>
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class PawnCommandsPatch
 {
-    /// <summary>
-    ///     A Harmony patch to disable Twitch Toolkit's pawn commands in
-    ///     favor of Utils'.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class PawnCommandsPatch
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(PawnCommands), nameof(PawnCommands.ParseMessage));
+    }
+
+    private static bool Prefix() => false;
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null)
         {
-            yield return AccessTools.Method(typeof(PawnCommands), nameof(PawnCommands.ParseMessage));
-        }
-
-        private static bool Prefix() => false;
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
-
-            TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
             return null;
         }
+
+        TkUtils.Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
+
+        return null;
     }
 }

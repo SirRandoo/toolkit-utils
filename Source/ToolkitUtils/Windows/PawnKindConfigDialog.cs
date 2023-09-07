@@ -19,200 +19,200 @@ using System.Threading.Tasks;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Workers;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Windows
+namespace SirRandoo.ToolkitUtils.Windows;
+
+/// <summary>
+///     A dialog that allows users to configure the pawn kind store data.
+/// </summary>
+public class PawnKindConfigDialog : Window
 {
-    /// <summary>
-    ///     A dialog that allows users to configure the pawn kind store data.
-    /// </summary>
-    public class PawnKindConfigDialog : Window
+    private readonly PawnTableWorker _worker;
+    private float _lastSearchTick;
+    private string _query = "";
+    private string _resetText;
+    private string _searchText;
+    private Vector2 _searchTextSize;
+    private bool _shouldResizeTable = true;
+
+    private string _titleText;
+
+    public PawnKindConfigDialog()
     {
-        private readonly PawnTableWorker _worker;
-        private float _lastSearchTick;
-        private string _query = "";
-        private string _resetText;
-        private string _searchText;
-        private Vector2 _searchTextSize;
-        private bool _shouldResizeTable = true;
+        doCloseX = true;
+        forcePause = true;
+        _worker = new PawnTableWorker();
+    }
 
-        private string _titleText;
+    /// <inheritdoc cref="Window.InitialSize"/>
+    public override Vector2 InitialSize => new Vector2(640f, 740f);
 
-        public PawnKindConfigDialog()
+    /// <inheritdoc cref="Window.Margin"/>
+    protected override float Margin => 22f;
+
+    private void NotifySearchRequested()
+    {
+        _lastSearchTick = 10f;
+    }
+
+    /// <inheritdoc cref="Window.PreOpen"/>
+    public override void PreOpen()
+    {
+        base.PreOpen();
+        GetTranslations();
+        _worker.Prepare();
+        optionalTitle = _titleText;
+    }
+
+    private void GetTranslations()
+    {
+        _titleText = "TKUtils.PawnKindStore.Title".TranslateSimple();
+        _searchText = "TKUtils.Buttons.Search".TranslateSimple();
+        _resetText = "TKUtils.Buttons.ResetAll".TranslateSimple();
+
+        _searchTextSize = Text.CalcSize(_searchText);
+    }
+
+    private void DrawHeader(Rect canvas)
+    {
+        GUI.BeginGroup(canvas);
+
+        var searchRect = new Rect(canvas.x, canvas.y, Mathf.FloorToInt(canvas.width * 0.3f), Text.LineHeight);
+        var searchLabel = new Rect(searchRect.x, searchRect.y, _searchTextSize.x, searchRect.height);
+        var searchField = new Rect(searchLabel.x + searchLabel.width + 5f, searchRect.y, searchRect.width - searchLabel.width - 5f, searchRect.height);
+
+        UiHelper.Label(searchLabel, _searchText);
+
+        if (UiHelper.TextField(searchField, _query, out string input))
         {
-            doCloseX = true;
-            forcePause = true;
-            _worker = new PawnTableWorker();
+            _query = input;
+            NotifySearchRequested();
         }
 
-        /// <inheritdoc cref="Window.InitialSize"/>
-        public override Vector2 InitialSize => new Vector2(640f, 740f);
-
-        /// <inheritdoc cref="Window.Margin"/>
-        protected override float Margin => 22f;
-
-        private void NotifySearchRequested()
+        if (_query.Length > 0 && UiHelper.ClearButton(searchField))
         {
-            _lastSearchTick = 10f;
+            _query = "";
+            NotifySearchRequested();
         }
 
-        /// <inheritdoc cref="Window.PreOpen"/>
-        public override void PreOpen()
+
+        float resetWidth = Text.CalcSize(_resetText).x + 16f;
+        var resetRect = new Rect(canvas.width - resetWidth, canvas.y, resetWidth, Text.LineHeight);
+
+        DrawGlobalResetButton(resetRect);
+
+        GUI.EndGroup();
+    }
+
+    private void DrawGlobalResetButton(Rect resetRect)
+    {
+        if (Widgets.ButtonText(resetRect, _resetText))
         {
-            base.PreOpen();
-            GetTranslations();
-            _worker.Prepare();
-            optionalTitle = _titleText;
+            ConfirmationDialog.Open("TKUtils.PawnKindStore.ConfirmReset".TranslateSimple(), PerformGlobalReset);
+        }
+    }
+
+    private void PerformGlobalReset()
+    {
+        foreach (TableSettingsItem<PawnKindItem> item in _worker.Data.Where(i => !i.IsHidden).Where(i => i.Data.ColonistKindDef != null))
+        {
+            item.Data.Cost = item.Data.ColonistKindDef.race.CalculateStorePrice();
+            item.Data.Name = item.Data.GetDefaultName();
+            item.Data.Enabled = true;
+            item.Data.PawnData.CustomName = false;
+            item.Data.Data.KarmaType = null;
+        }
+    }
+
+    /// <inheritdoc cref="Window.DoWindowContents"/>
+    public override void DoWindowContents(Rect inRect)
+    {
+        if (Event.current.type == EventType.Layout)
+        {
+            return;
         }
 
-        private void GetTranslations()
-        {
-            _titleText = "TKUtils.PawnKindStore.Title".TranslateSimple();
-            _searchText = "TKUtils.Buttons.Search".TranslateSimple();
-            _resetText = "TKUtils.Buttons.ResetAll".TranslateSimple();
+        GUI.BeginGroup(inRect);
 
-            _searchTextSize = Text.CalcSize(_searchText);
+        var headerRect = new Rect(0f, 0f, inRect.width, Text.LineHeight);
+        var contentArea = new Rect(inRect.x, Text.LineHeight * 4f, inRect.width, inRect.height - Text.LineHeight * 4f);
+
+        DrawHeader(headerRect);
+        Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 2f, inRect.width);
+
+        bool wrapped = Text.WordWrap;
+        Text.WordWrap = false;
+
+        GUI.BeginGroup(contentArea);
+
+        if (_shouldResizeTable)
+        {
+            _worker.NotifyResolutionChanged(contentArea.AtZero());
+            _shouldResizeTable = false;
         }
 
-        private void DrawHeader(Rect canvas)
+        _worker.Draw(contentArea.AtZero());
+        GUI.EndGroup();
+        GUI.EndGroup();
+
+        Text.WordWrap = wrapped;
+    }
+
+    /// <inheritdoc cref="Window.WindowUpdate"/>
+    public override void WindowUpdate()
+    {
+        base.WindowUpdate();
+
+
+        if (_lastSearchTick <= 0)
         {
-            GUI.BeginGroup(canvas);
-
-            var searchRect = new Rect(canvas.x, canvas.y, Mathf.FloorToInt(canvas.width * 0.3f), Text.LineHeight);
-            var searchLabel = new Rect(searchRect.x, searchRect.y, _searchTextSize.x, searchRect.height);
-            var searchField = new Rect(searchLabel.x + searchLabel.width + 5f, searchRect.y, searchRect.width - searchLabel.width - 5f, searchRect.height);
-
-            UiHelper.Label(searchLabel, _searchText);
-
-            if (UiHelper.TextField(searchField, _query, out string input))
-            {
-                _query = input;
-                NotifySearchRequested();
-            }
-
-            if (_query.Length > 0 && UiHelper.ClearButton(searchField))
-            {
-                _query = "";
-                NotifySearchRequested();
-            }
-
-
-            float resetWidth = Text.CalcSize(_resetText).x + 16f;
-            var resetRect = new Rect(canvas.width - resetWidth, canvas.y, resetWidth, Text.LineHeight);
-
-            DrawGlobalResetButton(resetRect);
-
-            GUI.EndGroup();
+            _worker.NotifySearchRequested(_query);
         }
-
-        private void DrawGlobalResetButton(Rect resetRect)
+        else
         {
-            if (Widgets.ButtonText(resetRect, _resetText))
-            {
-                ConfirmationDialog.Open("TKUtils.PawnKindStore.ConfirmReset".TranslateSimple(), PerformGlobalReset);
-            }
+            _lastSearchTick -= Time.unscaledTime - _lastSearchTick;
         }
+    }
 
-        private void PerformGlobalReset()
+    /// <inheritdoc cref="Window.PreClose"/>
+    public override void PreClose()
+    {
+        if (TkSettings.Offload)
         {
-            foreach (TableSettingsItem<PawnKindItem> item in _worker.Data.Where(i => !i.IsHidden).Where(i => i.Data.ColonistKindDef != null))
-            {
-                item.Data.Cost = item.Data.ColonistKindDef.race.CalculateStorePrice();
-                item.Data.Name = item.Data.GetDefaultName();
-                item.Data.Enabled = true;
-                item.Data.PawnData.CustomName = false;
-                item.Data.Data.KarmaType = null;
-            }
-        }
-
-        /// <inheritdoc cref="Window.DoWindowContents"/>
-        public override void DoWindowContents(Rect inRect)
-        {
-            if (Event.current.type == EventType.Layout)
-            {
-                return;
-            }
-
-            GUI.BeginGroup(inRect);
-
-            var headerRect = new Rect(0f, 0f, inRect.width, Text.LineHeight);
-            var contentArea = new Rect(inRect.x, Text.LineHeight * 4f, inRect.width, inRect.height - Text.LineHeight * 4f);
-
-            DrawHeader(headerRect);
-            Widgets.DrawLineHorizontal(inRect.x, Text.LineHeight * 2f, inRect.width);
-
-            bool wrapped = Text.WordWrap;
-            Text.WordWrap = false;
-
-            GUI.BeginGroup(contentArea);
-
-            if (_shouldResizeTable)
-            {
-                _worker.NotifyResolutionChanged(contentArea.AtZero());
-                _shouldResizeTable = false;
-            }
-
-            _worker.Draw(contentArea.AtZero());
-            GUI.EndGroup();
-            GUI.EndGroup();
-
-            Text.WordWrap = wrapped;
-        }
-
-        /// <inheritdoc cref="Window.WindowUpdate"/>
-        public override void WindowUpdate()
-        {
-            base.WindowUpdate();
-
-
-            if (_lastSearchTick <= 0)
-            {
-                _worker.NotifySearchRequested(_query);
-            }
-            else
-            {
-                _lastSearchTick -= Time.unscaledTime - _lastSearchTick;
-            }
-        }
-
-        /// <inheritdoc cref="Window.PreClose"/>
-        public override void PreClose()
-        {
-            if (TkSettings.Offload)
-            {
-                Task.Run(
-                        async () =>
+            Task.Run(
+                    async () =>
+                    {
+                        switch (TkSettings.DumpStyle)
                         {
-                            switch (TkSettings.DumpStyle)
-                            {
-                                case "MultiFile":
-                                    await Data.SavePawnKindsAsync(Paths.PawnKindFilePath);
+                            case "MultiFile":
+                                await Data.SavePawnKindsAsync(Paths.PawnKindFilePath);
 
-                                    return;
-                                case "SingleFile":
-                                    await Data.SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
+                                return;
+                            case "SingleFile":
+                                await Data.SaveLegacyShopAsync(Paths.LegacyShopDumpFilePath);
 
-                                    return;
-                            }
+                                return;
                         }
-                    )
-                   .ConfigureAwait(false);
-            }
-            else
+                    }
+                )
+               .ConfigureAwait(false);
+        }
+        else
+        {
+            switch (TkSettings.DumpStyle)
             {
-                switch (TkSettings.DumpStyle)
-                {
-                    case "MultiFile":
-                        Data.SavePawnKinds(Paths.PawnKindFilePath);
+                case "MultiFile":
+                    Data.SavePawnKinds(Paths.PawnKindFilePath);
 
-                        return;
-                    case "SingleFile":
-                        Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
+                    return;
+                case "SingleFile":
+                    Data.SaveLegacyShop(Paths.LegacyShopDumpFilePath);
 
-                        return;
-                }
+                    return;
             }
         }
     }

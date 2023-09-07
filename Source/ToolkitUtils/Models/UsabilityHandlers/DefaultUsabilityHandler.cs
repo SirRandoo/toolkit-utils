@@ -18,20 +18,19 @@ using JetBrains.Annotations;
 using RimWorld;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.UsabilityHandlers;
+
+[UsedImplicitly]
+public record DefaultUsabilityHandler : UsabilityHandlerBase<CompUseEffect>
 {
-    [UsedImplicitly]
-    public class DefaultUsabilityHandler : UsabilityHandlerBase<CompUseEffect>
+    public DefaultUsabilityHandler() : base(typeof(CompUseEffect_DestroySelf), typeof(CompUseEffect_StartWick), typeof(CompUseEffect_PlaySound))
     {
-        public DefaultUsabilityHandler() : base(typeof(CompUseEffect_DestroySelf), typeof(CompUseEffect_StartWick), typeof(CompUseEffect_PlaySound))
-        {
-        }
+    }
 
-        protected override bool IsUsable([NotNull] CompUseEffect comp, Pawn pawn, ThingDef thing, out string failReason) => comp.CanBeUsedBy(pawn, out failReason);
+    protected override bool IsUsable(CompUseEffect comp, Pawn pawn, ThingDef thing, out string failReason) => comp.CanBeUsedBy(pawn, out failReason);
 
-        protected override void Use([NotNull] CompUseEffect comp, Pawn pawn, Thing thing)
-        {
-            comp.DoEffect(pawn);
-        }
+    protected override void Use(CompUseEffect comp, Pawn pawn, Thing thing)
+    {
+        comp.DoEffect(pawn);
     }
 }

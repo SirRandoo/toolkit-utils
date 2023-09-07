@@ -22,120 +22,117 @@ using SirRandoo.ToolkitUtils.Models;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Workers
+namespace SirRandoo.ToolkitUtils.Workers;
+
+/// <summary>
+///     A class for handling tabular content.
+/// </summary>
+public class TabWorker
 {
+    private readonly List<TabItem> _tabItems = new List<TabItem>();
+
     /// <summary>
-    ///     A class for handling tabular content.
+    ///     The currently selected tab.
     /// </summary>
-    public class TabWorker
+    public TabItem SelectedTab { get; set; }
+
+    /// <summary>
+    ///     Creates a new empty instance of a <see cref="TabWorker"/>.
+    /// </summary>
+    public static TabWorker CreateInstance() => new TabWorker();
+
+    /// <summary>
+    ///     Creates a new instance of a <see cref="TabWorker"/> with the
+    ///     given tabs.
+    /// </summary>
+    /// <param name="tabs">The tabs to display</param>
+    public static TabWorker CreateInstance(params TabItem[] tabs)
     {
-        private readonly List<TabItem> _tabItems = new List<TabItem>();
+        var worker = new TabWorker();
+        worker._tabItems.AddRange(tabs);
 
-        /// <summary>
-        ///     The currently selected tab.
-        /// </summary>
-        public TabItem SelectedTab { get; set; }
+        return worker;
+    }
 
-        /// <summary>
-        ///     Creates a new empty instance of a <see cref="TabWorker"/>.
-        /// </summary>
-        [NotNull]
-        public static TabWorker CreateInstance() => new TabWorker();
+    /// <summary>
+    ///     Adds a tab to the worker's internal list.
+    /// </summary>
+    /// <param name="tab"></param>
+    public void AddTab(TabItem tab)
+    {
+        _tabItems.Add(tab);
+        SelectedTab ??= tab;
+    }
 
-        /// <summary>
-        ///     Creates a new instance of a <see cref="TabWorker"/> with the
-        ///     given tabs.
-        /// </summary>
-        /// <param name="tabs">The tabs to display</param>
-        [NotNull]
-        public static TabWorker CreateInstance([NotNull] params TabItem[] tabs)
+    /// <summary>
+    ///     Removes a tab from the worker's internal list.
+    /// </summary>
+    /// <param name="label"></param>
+    public void RemoveTab(string label)
+    {
+        TabItem tab = GetTab(label);
+
+        if (tab != null)
         {
-            var worker = new TabWorker();
-            worker._tabItems.AddRange(tabs);
-
-            return worker;
+            _tabItems.Remove(tab);
         }
+    }
 
-        /// <summary>
-        ///     Adds a tab to the worker's internal list.
-        /// </summary>
-        /// <param name="tab"></param>
-        public void AddTab(TabItem tab)
+    /// <summary>
+    ///     Returns the tab that matches the label given.
+    /// </summary>
+    /// <param name="label">The tab label to get</param>
+    [CanBeNull]
+    public TabItem GetTab(string label)
+    {
+        return _tabItems.FirstOrDefault(t => t.Label.Equals(label, StringComparison.InvariantCulture));
+    }
+
+    /// <summary>
+    ///     Draws the tab header according to the current tabs within the
+    ///     worker.
+    /// </summary>
+    /// <param name="region">The region to draw the header in</param>
+    /// <param name="vertical">Whether the header should be drawn vertically</param>
+    /// <param name="paneled">
+    ///     Whether the header should be drawn paneled,
+    ///     like old Windows software
+    /// </param>
+    public void Draw(Rect region, bool vertical = false, bool paneled = false)
+    {
+        float offset = 0;
+
+        foreach (TabItem tab in _tabItems)
         {
-            _tabItems.Add(tab);
-            SelectedTab ??= tab;
-        }
+            var tabRegion = new Rect(region.x, region.y, tab.Width + 25f, region.height);
 
-        /// <summary>
-        ///     Removes a tab from the worker's internal list.
-        /// </summary>
-        /// <param name="label"></param>
-        public void RemoveTab(string label)
-        {
-            TabItem tab = GetTab(label);
-
-            if (tab != null)
+            if (vertical)
             {
-                _tabItems.Remove(tab);
+                tabRegion.y += offset;
             }
-        }
-
-        /// <summary>
-        ///     Returns the tab that matches the label given.
-        /// </summary>
-        /// <param name="label">The tab label to get</param>
-        [CanBeNull]
-        public TabItem GetTab(string label)
-        {
-            return _tabItems.FirstOrDefault(t => t.Label.Equals(label, StringComparison.InvariantCulture));
-        }
-
-        /// <summary>
-        ///     Draws the tab header according to the current tabs within the
-        ///     worker.
-        /// </summary>
-        /// <param name="region">The region to draw the header in</param>
-        /// <param name="vertical">Whether the header should be drawn vertically</param>
-        /// <param name="paneled">
-        ///     Whether the header should be drawn paneled,
-        ///     like old Windows software
-        /// </param>
-        public void Draw(Rect region, bool vertical = false, bool paneled = false)
-        {
-            float offset = 0;
-
-            foreach (TabItem tab in _tabItems)
+            else
             {
-                var tabRegion = new Rect(region.x, region.y, tab.Width + 25f, region.height);
-
-                if (vertical)
-                {
-                    tabRegion.y += offset;
-                }
-                else
-                {
-                    tabRegion.x += offset;
-                }
-
-                if (UiHelper.TabButton(tabRegion, tab.Label, TextAnchor.MiddleCenter, vertical: vertical, active: SelectedTab == tab)
-                    && (tab.Clicked == null || tab.Clicked()))
-                {
-                    SelectedTab = tab;
-                }
-
-                offset += tabRegion.width;
-
-                if (!paneled)
-                {
-                    continue;
-                }
-
-                GUI.color = Color.grey;
-                Widgets.DrawLineHorizontal(tabRegion.x, tabRegion.y, tabRegion.width);
-                GUI.color = Color.black;
-                Widgets.DrawLineVertical(tabRegion.x, tabRegion.y, tabRegion.height);
-                GUI.color = Color.white;
+                tabRegion.x += offset;
             }
+
+            if (UiHelper.TabButton(tabRegion, tab.Label, TextAnchor.MiddleCenter, vertical: vertical, active: SelectedTab == tab)
+                && (tab.Clicked == null || tab.Clicked()))
+            {
+                SelectedTab = tab;
+            }
+
+            offset += tabRegion.width;
+
+            if (!paneled)
+            {
+                continue;
+            }
+
+            GUI.color = Color.grey;
+            Widgets.DrawLineHorizontal(tabRegion.x, tabRegion.y, tabRegion.width);
+            GUI.color = Color.black;
+            Widgets.DrawLineVertical(tabRegion.x, tabRegion.y, tabRegion.height);
+            GUI.color = Color.white;
         }
     }
 }

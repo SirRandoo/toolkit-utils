@@ -27,27 +27,25 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
-{
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class StorytellerPackExtension : DefModExtension
-    {
-        public Type settingsEmbed;
-        public IStorytellerPackSettings settingsInstance;
+namespace SirRandoo.ToolkitUtils.Defs;
 
-        /// <inheritdoc/>
-        [ItemNotNull]
-        public override IEnumerable<string> ConfigErrors()
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+[SuppressMessage("ReSharper", "InconsistentNaming")]
+public class StorytellerPackExtension : DefModExtension
+{
+    public Type settingsEmbed;
+    public IStorytellerPackSettings settingsInstance;
+
+    /// <inheritdoc/>
+    public override IEnumerable<string> ConfigErrors()
+    {
+        if (!(Activator.CreateInstance(settingsEmbed) is IStorytellerPackSettings settings))
         {
-            if (!(Activator.CreateInstance(settingsEmbed) is IStorytellerPackSettings settings))
-            {
-                yield return $"{settingsEmbed.ToStringSafe()} must inherit from {nameof(IStorytellerPackSettings)}";
-            }
-            else
-            {
-                settingsInstance = settings;
-            }
+            yield return $"{settingsEmbed.ToStringSafe()} must inherit from {nameof(IStorytellerPackSettings)}";
+        }
+        else
+        {
+            settingsInstance = settings;
         }
     }
 }

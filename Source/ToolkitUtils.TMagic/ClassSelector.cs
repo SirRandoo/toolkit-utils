@@ -19,50 +19,50 @@ using RimWorld;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using TorannMagic;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.TMagic
+namespace SirRandoo.ToolkitUtils.TMagic;
+
+public class ClassSelector : ISelectorBase<TraitItem>
 {
-    public class ClassSelector : ISelectorBase<TraitItem>
+    private string _classText;
+    private bool _state = true;
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public void Prepare()
     {
-        private string _classText;
-        private bool _state = true;
-
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public void Prepare()
-        {
-            _classText = "TKUtils.Fields.Class".TranslateSimple();
-        }
-
-        public void Draw(Rect canvas)
-        {
-            if (UiHelper.LabeledPaintableCheckbox(canvas, _classText, ref _state))
-            {
-                Dirty.Set(true);
-            }
-        }
-
-        public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item)
-        {
-            TraitDef traitDef = item.Data.TraitDef;
-
-            if (traitDef == null)
-            {
-                return false;
-            }
-
-            if (traitDef.Equals(TorannMagicDefOf.DeathKnight))
-            {
-                return _state;
-            }
-
-            return TM_Data.AllClassTraits.Any(i => i.Equals(traitDef)) && _state;
-        }
-
-        public string Label => "TKUtils.Fields.Class".TranslateSimple();
+        _classText = "TKUtils.Fields.Class".TranslateSimple();
     }
+
+    public void Draw(Rect canvas)
+    {
+        if (UiHelper.LabeledPaintableCheckbox(canvas, _classText, ref _state))
+        {
+            Dirty.Set(true);
+        }
+    }
+
+    public bool IsVisible([NotNull] TableSettingsItem<TraitItem> item)
+    {
+        TraitDef traitDef = item.Data.TraitDef;
+
+        if (traitDef == null)
+        {
+            return false;
+        }
+
+        if (traitDef.Equals(TorannMagicDefOf.DeathKnight))
+        {
+            return _state;
+        }
+
+        return TM_Data.AllClassTraits.Any(i => i.Equals(traitDef)) && _state;
+    }
+
+    public string Label => "TKUtils.Fields.Class".TranslateSimple();
 }

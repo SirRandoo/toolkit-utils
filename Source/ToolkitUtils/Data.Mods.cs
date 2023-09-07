@@ -29,66 +29,65 @@ using System.Threading.Tasks;
 using SirRandoo.ToolkitUtils.Models;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+public static partial class Data
 {
-    public static partial class Data
+    /// <summary>
+    ///     The various mods loaded within the game, as well as their
+    ///     accompanying data.
+    /// </summary>
+    public static ModItem[] Mods { get; private set; }
+
+    private static void ValidateModList()
     {
-        /// <summary>
-        ///     The various mods loaded within the game, as well as their
-        ///     accompanying data.
-        /// </summary>
-        public static ModItem[] Mods { get; private set; }
+        List<ModMetaData> running = ModsConfig.ActiveModsInLoadOrder.ToList();
 
-        private static void ValidateModList()
+        var list = new List<ModItem>();
+        var builder = new StringBuilder();
+
+        foreach (ModMetaData metaData in running.Where(m => m.Active)
+           .Where(mod => !mod.Official)
+           .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt"))))
         {
-            List<ModMetaData> running = ModsConfig.ActiveModsInLoadOrder.ToList();
+            ModItem item;
 
-            var list = new List<ModItem>();
-            var builder = new StringBuilder();
-
-            foreach (ModMetaData metaData in running.Where(m => m.Active)
-               .Where(mod => !mod.Official)
-               .Where(mod => !File.Exists(Path.Combine(mod.RootDir.ToString(), "About/IgnoreMe.txt"))))
+            try
             {
-                ModItem item;
+                item = ModItem.FromMetadata(metaData);
+            }
+            catch (Exception)
+            {
+                builder.AppendLine($" - {metaData?.Name ?? metaData?.FolderName}");
 
-                try
-                {
-                    item = ModItem.FromMetadata(metaData);
-                }
-                catch (Exception)
-                {
-                    builder.AppendLine($" - {metaData?.Name ?? metaData?.FolderName}");
-
-                    continue;
-                }
-
-                list.Add(item);
+                continue;
             }
 
-            if (builder.Length > 0)
-            {
-                builder.Insert(0, "The following mods could not be processed:\n");
-                TkUtils.Logger.Warn(builder.ToString());
-            }
-
-            Mods = list.ToArray();
+            list.Add(item);
         }
 
-        /// <summary>
-        ///     Saves all mods indexed by the mod to its associated file.
-        /// </summary>
-        public static void SaveModList()
+        if (builder.Length > 0)
         {
-            SaveJson(Mods, Paths.ModListFilePath);
+            builder.Insert(0, "The following mods could not be processed:\n");
+            TkUtils.Logger.Warn(builder.ToString());
         }
 
-        /// <summary>
-        ///     Saves all mods indexed by the mod to its associated file.
-        /// </summary>
-        public static async Task SaveModListAsync()
-        {
-            await SaveJsonAsync(Mods, Paths.ModListFilePath);
-        }
+        Mods = list.ToArray();
+    }
+
+    /// <summary>
+    ///     Saves all mods indexed by the mod to its associated file.
+    /// </summary>
+    public static void SaveModList()
+    {
+        SaveJson(Mods, Paths.ModListFilePath);
+    }
+
+    /// <summary>
+    ///     Saves all mods indexed by the mod to its associated file.
+    /// </summary>
+    public static async Task SaveModListAsync()
+    {
+        await SaveJsonAsync(Mods, Paths.ModListFilePath);
     }
 }

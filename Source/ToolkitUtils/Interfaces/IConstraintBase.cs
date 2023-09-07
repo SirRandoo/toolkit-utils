@@ -17,11 +17,10 @@
 using TwitchToolkit;
 using UnityEngine;
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IConstraintBase
 {
-    public interface IConstraintBase
-    {
-        void Draw(Rect region);
-        bool ShouldPurge(Viewer viewer);
-    }
+    void Draw(Rect region);
+    bool ShouldPurge(Viewer viewer);
 }

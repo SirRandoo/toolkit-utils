@@ -26,72 +26,72 @@ using TwitchToolkit.Store;
 using TwitchToolkit.Windows;
 using Verse;
 using Command = TwitchToolkit.Command;
+using IncidentDefOf = SirRandoo.ToolkitUtils.Defs.IncidentDefOf;
 using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 
-namespace SirRandoo.ToolkitUtils
+namespace SirRandoo.ToolkitUtils;
+
+/// <summary>
+///     A <see cref="IAddonMenu"/> implementation full of quick menu
+///     options for Twitch Toolkit related content.
+/// </summary>
+[UsedImplicitly]
+public class ToolkitAddonMenu : IAddonMenu
 {
-    /// <summary>
-    ///     A <see cref="IAddonMenu"/> implementation full of quick menu
-    ///     options for Twitch Toolkit related content.
-    /// </summary>
-    [UsedImplicitly]
-    public class ToolkitAddonMenu : IAddonMenu
+    private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
     {
-        private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
-        {
-            new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>().OpenSettings()),
-            new FloatMenuOption("TKUtils.AddonMenu.Events".TranslateSimple(), () => Find.WindowStack.Add(new IncidentCategoryWindow())),
-            new FloatMenuOption("TKUtils.AddonMenu.Items".TranslateSimple(), () => Find.WindowStack.Add(new StoreDialog())),
-            new FloatMenuOption("TKUtils.AddonMenu.Commands".TranslateSimple(), () => Find.WindowStack.Add(new CommandCategoryWindow())),
-            new FloatMenuOption("TKUtils.AddonMenu.Viewers".TranslateSimple(), () => Find.WindowStack.Add(new Window_Viewers())),
-            new FloatMenuOption("TKUtils.AddonMenu.NameQueue".TranslateSimple(), () => Find.WindowStack.Add(new NameQueueDialog())),
-            new FloatMenuOption("TKUtils.AddonMenu.Tracker".TranslateSimple(), () => Find.WindowStack.Add(new Window_Trackers())),
-            new FloatMenuOption(
-                "TKUtils.AddonMenu.ToggleCoinEarning".TranslateSimple(),
-                () =>
-                {
-                    ToolkitSettings.EarningCoins = !ToolkitSettings.EarningCoins;
+        new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>().OpenSettings()),
+        new FloatMenuOption("TKUtils.AddonMenu.Events".TranslateSimple(), () => Find.WindowStack.Add(new IncidentCategoryWindow())),
+        new FloatMenuOption("TKUtils.AddonMenu.Items".TranslateSimple(), () => Find.WindowStack.Add(new StoreDialog())),
+        new FloatMenuOption("TKUtils.AddonMenu.Commands".TranslateSimple(), () => Find.WindowStack.Add(new CommandCategoryWindow())),
+        new FloatMenuOption("TKUtils.AddonMenu.Viewers".TranslateSimple(), () => Find.WindowStack.Add(new Window_Viewers())),
+        new FloatMenuOption("TKUtils.AddonMenu.NameQueue".TranslateSimple(), () => Find.WindowStack.Add(new NameQueueDialog())),
+        new FloatMenuOption("TKUtils.AddonMenu.Tracker".TranslateSimple(), () => Find.WindowStack.Add(new Window_Trackers())),
+        new FloatMenuOption(
+            "TKUtils.AddonMenu.ToggleCoinEarning".TranslateSimple(),
+            () =>
+            {
+                ToolkitSettings.EarningCoins = !ToolkitSettings.EarningCoins;
 
-                    Messages.Message($"TKUtils.CoinEarning{(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}".TranslateSimple(), MessageTypeDefOf.NeutralEvent);
-                }
-            ),
-            new FloatMenuOption(
-                "TKUtils.AddonMenu.GiftCoins".TranslateSimple(),
-                () =>
-                {
-                    Command giftCoins = DefDatabase<Command>.GetNamed("GiftCoins");
-                    giftCoins.enabled = !giftCoins.enabled;
-                    CommandEditor.SaveCopy(giftCoins);
+                Messages.Message($"TKUtils.CoinEarning{(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}".TranslateSimple(), MessageTypeDefOf.NeutralEvent);
+            }
+        ),
+        new FloatMenuOption(
+            "TKUtils.AddonMenu.GiftCoins".TranslateSimple(),
+            () =>
+            {
+                Command giftCoins = DefDatabase<Command>.GetNamed("GiftCoins");
+                giftCoins.enabled = !giftCoins.enabled;
+                CommandEditor.SaveCopy(giftCoins);
 
-                    Messages.Message($"TKUtils.GiftCoins{(giftCoins.enabled ? "Enabled" : "Disabled")}".TranslateSimple(), MessageTypeDefOf.NeutralEvent);
-                }
-            ),
-            new FloatMenuOption(
-                "TKUtils.AddonMenu.DebugFix".TranslateSimple(),
-                () =>
-                {
-                    Helper.playerMessages.Clear();
-                    Purchase_Handler.viewerNamesDoingVariableCommands.Clear();
-                }
-            ),
-            new FloatMenuOption("TKUtils.AddonMenu.EditItemSettings".TranslateSimple(), OpenItemSettings),
-            new FloatMenuOption("TKUtils.AddonMenu.EditTraitLimit".TranslateSimple(), OpenTraitSettings)
-        };
+                Messages.Message($"TKUtils.GiftCoins{(giftCoins.enabled ? "Enabled" : "Disabled")}".TranslateSimple(), MessageTypeDefOf.NeutralEvent);
+            }
+        ),
+        new FloatMenuOption(
+            "TKUtils.AddonMenu.DebugFix".TranslateSimple(),
+            () =>
+            {
+                Helper.playerMessages.Clear();
+                Purchase_Handler.viewerNamesDoingVariableCommands.Clear();
+            }
+        ),
+        new FloatMenuOption("TKUtils.AddonMenu.EditItemSettings".TranslateSimple(), OpenItemSettings),
+        new FloatMenuOption("TKUtils.AddonMenu.EditTraitLimit".TranslateSimple(), OpenTraitSettings)
+    };
 
-        /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
-        public List<FloatMenuOption> MenuOptions() => Options;
+    /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
+    public List<FloatMenuOption> MenuOptions() => Options;
 
 
-        private static void OpenItemSettings()
-        {
-            Find.WindowStack.Add(new StoreIncidentEditor(IncidentDefOf.Item));
-            IncidentDefOf.Item.settings.EditSettings();
-        }
+    private static void OpenItemSettings()
+    {
+        Find.WindowStack.Add(new StoreIncidentEditor(IncidentDefOf.Item));
+        IncidentDefOf.Item.settings.EditSettings();
+    }
 
-        private static void OpenTraitSettings()
-        {
-            Find.WindowStack.Add(new StoreIncidentEditor(IncidentDefOf.AddTrait));
-            IncidentDefOf.AddTrait.settings.EditSettings();
-        }
+    private static void OpenTraitSettings()
+    {
+        Find.WindowStack.Add(new StoreIncidentEditor(IncidentDefOf.AddTrait));
+        IncidentDefOf.AddTrait.settings.EditSettings();
     }
 }

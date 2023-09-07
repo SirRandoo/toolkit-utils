@@ -17,34 +17,34 @@
 using JetBrains.Annotations;
 using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using UnityEngine;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.Selectors;
+
+public class WeaponSelector : ISelectorBase<ThingItem>
 {
-    public class WeaponSelector : ISelectorBase<ThingItem>
+    private bool _state = true;
+    private string _weaponText;
+
+    public void Prepare()
     {
-        private bool _state = true;
-        private string _weaponText;
-
-        public void Prepare()
-        {
-            _weaponText = Label;
-        }
-
-        public void Draw(Rect canvas)
-        {
-            if (UiHelper.LabeledPaintableCheckbox(canvas, _weaponText, ref _state))
-            {
-                Dirty.Set(true);
-            }
-        }
-
-        public ObservableProperty<bool> Dirty { get; set; }
-
-        public bool IsVisible([NotNull] TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsWeapon == _state;
-
-        public string Label => "TKUtils.Fields.IsWeapon".TranslateSimple();
+        _weaponText = Label;
     }
+
+    public void Draw(Rect canvas)
+    {
+        if (UiHelper.LabeledPaintableCheckbox(canvas, _weaponText, ref _state))
+        {
+            Dirty.Set(true);
+        }
+    }
+
+    public ObservableProperty<bool> Dirty { get; set; }
+
+    public bool IsVisible(TableSettingsItem<ThingItem> item) => item.Data.Thing?.IsWeapon == _state;
+
+    public string Label => "TKUtils.Fields.IsWeapon".TranslateSimple();
 }

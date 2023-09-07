@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace SirRandoo.ToolkitUtils.Interfaces
+namespace SirRandoo.ToolkitUtils.Interfaces;
+
+public interface IPawnPowersHandler
 {
-    public interface IPawnPowersHandler
-    {
-        string Code { get; }
-    }
+    string Code { get; }
 }

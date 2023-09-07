@@ -23,22 +23,21 @@ using TwitchToolkit.Incidents;
 using Verse;
 using IncidentWorker_RaidEnemy = RimWorld.IncidentWorker_RaidEnemy;
 
-namespace SirRandoo.ToolkitUtils.Models
+namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
+
+public class RaidIncidentData : IWageredIncidentData
 {
-    public class RaidIncidentData : IWageredIncidentData
+    public virtual bool UseStoryteller => Raid.Storyteller;
+    public Type WorkerClass => typeof(IncidentWorker_RaidEnemy);
+
+    public virtual IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
+
+    public virtual void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
     {
-        public virtual bool UseStoryteller => Raid.Storyteller;
-        [NotNull] public Type WorkerClass => typeof(IncidentWorker_RaidEnemy);
-
-        public virtual IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
-
-        public virtual void DoExtraSetup([NotNull] IncidentWorker worker, [NotNull] IncidentParms @params, StoreIncident incident)
-        {
-            @params.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
-            worker.def = RimWorld.IncidentDefOf.RaidEnemy;
-            @params.faction = Find.FactionManager.RandomEnemyFaction(minTechLevel: TechLevel.Industrial, allowNonHumanlike: false);
-            @params.forced = true;
-            @params.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
-        }
+        @params.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
+        worker.def = RimWorld.IncidentDefOf.RaidEnemy;
+        @params.faction = Find.FactionManager.RandomEnemyFaction(minTechLevel: TechLevel.Industrial, allowNonHumanlike: false);
+        @params.forced = true;
+        @params.raidArrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn;
     }
 }
