@@ -19,4 +19,20 @@
     <PropertyGroup>
         <OutputPath>$(_OutputDirectory)</OutputPath>
     </PropertyGroup>
+
+    <PropertyGroup Condition="$([MSBuild]::VersionEquals('$(RimWorldVersion)', '1.4'))">
+        <DefineConstants>$(DefineConstants);RW14</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="$([MSBuild]::VersionEquals('$(RimWorldVersion)', '1.3'))">
+        <DefineConstants>$(DefineConstants);RW13</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="$([MSBuild]::VersionEquals('$(RimWorldVersion)', '1.2'))">
+        <DefineConstants>$(DefineConstants);RW12</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="$([MSBuild]::VersionEquals('$(RimWorldVersion)', '1.1'))">
+        <DefineConstants>$(DefineConstants);RW11</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="$([MSBuild]::VersionEquals('$(RimWorldVersion)', '1.0'))">
+        <DefineConstants>$(DefineConstants);RW10</DefineConstants>
+    </PropertyGroup>
 </Project>
