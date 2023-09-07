@@ -1,14 +1,22 @@
 ﻿<Project>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <OutputPath Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)</OutputPath>
-        <OutputPath Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)$(CompatibilityFor)\$(RimWorldVersion)\Assemblies</OutputPath>
-        <OutDir Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)</OutDir>
-        <OutDir Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)$(CompatibilityFor)\$(RimWorldVersion)\Assemblies\</OutDir>
+    <PropertyGroup>
+        <_CompatibilityOutputDirectory>..\..\Compatibility\</_CompatibilityOutputDirectory>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <OutputPath Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)</OutputPath>
-        <OutputPath Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)$(CompatibilityFor)\$(RimWorldVersion)\Assemblies</OutputPath>
-        <OutDir Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)</OutDir>
-        <OutDir Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)$(CompatibilityFor)\$(RimWorldVersion)\Assemblies\</OutDir>
+
+    <Choose>
+        <When Condition="'$(CompatibilityFor)' == ''">
+            <PropertyGroup>
+                <_OutputDirectory>..\..\$(RimWorldVersion)\Assemblies\</_OutputDirectory>
+            </PropertyGroup>
+        </When>
+        <When Condition="'$(CompatibilityFor)' != ''">
+            <PropertyGroup>
+                <_OutputDirectory>$(_CompatibilityOutputDirectory)$(CompatibilityFor)\$(RimWorldVersion)\Assemblies\</_OutputDirectory>
+            </PropertyGroup>
+        </When>
+    </Choose>
+
+    <PropertyGroup>
+        <OutputPath>$(_OutputDirectory)</OutputPath>
     </PropertyGroup>
 </Project>
