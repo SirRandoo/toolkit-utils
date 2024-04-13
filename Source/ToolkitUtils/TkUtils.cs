@@ -33,7 +33,6 @@ public class TkUtils : Mod
     {
         Instance = this;
         GetSettings<TkSettings>();
-        SettingsWindow = new UtilsSettingsWindow();
 
         try
         {
@@ -44,6 +43,7 @@ public class TkUtils : Mod
             Log.Error(e.ToString());
         }
 
+        SettingsWindow = new UtilsSettingsWindow();
         Settings_ToolkitExtensions.RegisterExtension(new ToolkitExtension(this, typeof(TkUtilsWindow)));
     }
 
