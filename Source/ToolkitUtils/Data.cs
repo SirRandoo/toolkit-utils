@@ -16,7 +16,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -27,7 +27,6 @@ using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.CommonLib.Entities;
 using SirRandoo.ToolkitUtils.Models;
-using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.Constraints;
 using TwitchToolkit;
 using UnityEngine;
@@ -43,7 +42,7 @@ namespace SirRandoo.ToolkitUtils;
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 public static partial class Data
 {
-    public static readonly ImmutableDictionary<string, Color> ColorIndex = GetDefaultColors();
+    public static readonly ReadOnlyDictionary<string, Color> ColorIndex = GetDefaultColors();
     internal static readonly Dictionary<BackstorySlot, List<BackstoryDef>> Backstories = GetBackstories();
 
     internal static readonly EnumRegistrar<KarmaType> KarmaTypes = new EnumRegistrar<KarmaType>();
@@ -455,7 +454,7 @@ public static partial class Data
         }
     }
 
-    private static ImmutableDictionary<string, Color> GetDefaultColors()
+    private static ReadOnlyDictionary<string, Color> GetDefaultColors()
     {
         var container = new Dictionary<string, Color>
         {
@@ -490,7 +489,7 @@ public static partial class Data
             container[name.ToLowerInvariant()] = color;
         }
 
-        return container.ToImmutableDictionary();
+        return new ReadOnlyDictionary<string, Color>(container);
     }
 
     private static Dictionary<BackstorySlot, List<BackstoryDef>> GetBackstories()
