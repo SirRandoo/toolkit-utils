@@ -25,12 +25,12 @@ namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
 public class ManhunterPackIncidentData : IWageredIncidentData
 {
     public bool UseStoryteller => ManhunterPack.Storyteller;
-    public Type WorkerClass => IncidentDefOf.ManhunterPack.workerClass;
+    public Type WorkerClass => RimWorld.IncidentDefOf.ManhunterPack.workerClass;
 
     public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
 
     public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
     {
-        worker.def = IncidentDefOf.RaidEnemy;
+        worker.def = RimWorld.IncidentDefOf.RaidEnemy;
     }
 }
