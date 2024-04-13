@@ -197,8 +197,7 @@ public static partial class Data
         }
     }
 
-    [CanBeNull]
-    internal static T LoadJson<T>(string path, bool ignoreErrors = false) where T : class
+    internal static T? LoadJson<T>(string path, bool ignoreErrors = false) where T : class
     {
         if (!File.Exists(path) && !ignoreErrors)
         {
