@@ -22,10 +22,9 @@
 
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -34,22 +33,22 @@ namespace SirRandoo.ToolkitUtils.Windows;
 
 public class ViewersDialog : Window
 {
-    private readonly ViewerEditorWorker _editor = new ViewerEditorWorker();
-    private readonly QuickSearchWidget _searchWidget = new QuickSearchWidget();
-    private readonly List<ViewerEntry> _viewers = new List<ViewerEntry>();
-    private readonly Dictionary<string, ViewerEntry> _viewersKeyed = new Dictionary<string, ViewerEntry>();
-    private string _coinBuffer;
+    private readonly ViewerEditorWorker _editor = new();
+    private readonly QuickSearchWidget _searchWidget = new();
+    private readonly List<ViewerEntry> _viewers = [];
+    private readonly Dictionary<string, ViewerEntry> _viewersKeyed = new();
+    private string _coinBuffer = null!;
     private bool _coinBufferValid;
-    private string _coinsText;
+    private string _coinsText = null!;
     private bool _editingCoins;
     private bool _editingKarma;
-    private string _karmaBuffer;
+    private string _karmaBuffer = null!;
     private bool _karmaBufferValid;
-    private string _karmaText;
+    private string _karmaText = null!;
     private Vector2 _listScrollPos = Vector2.zero;
 
-    private string _purgeText;
-    private string _resetAllText;
+    private string _purgeText = null!;
+    private string _resetAllText = null!;
 
     private int _viewerCount;
 
@@ -60,7 +59,7 @@ public class ViewersDialog : Window
         closeOnCancel = false;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void PreOpen()
     {
         GetTranslations();
@@ -77,7 +76,7 @@ public class ViewersDialog : Window
         _coinsText = "TKUtils.PurgeMenu.Coins".TranslateSimple().CapitalizeFirst();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void WindowUpdate()
     {
         if (Time.unscaledTime % 5 == 0 || _viewers.Count == Viewers.All.Count)
@@ -108,7 +107,7 @@ public class ViewersDialog : Window
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void DoWindowContents(Rect inRect)
     {
         GUI.BeginGroup(inRect);
@@ -173,14 +172,14 @@ public class ViewersDialog : Window
 
     private void DrawHeader(Rect region)
     {
-        UiHelper.Label(region, _editor.EditingUser, _editor.IsMulti ? ColorLibrary.RedReadable : Color.white, TextAnchor.MiddleLeft, GameFont.Small);
+        LabelDrawer.Draw(region, _editor.EditingUser, _editor.IsMulti ? ColorLibrary.RedReadable : Color.white);
 
         if (!_editor.IsSingle)
         {
             return;
         }
 
-        ViewerEntry entry = _editor.User;
+        ViewerEntry? entry = _editor.User;
 
         if (entry == null)
         {
@@ -232,7 +231,7 @@ public class ViewersDialog : Window
         Rect addBtnRegion = editBtnRegion.Shift(Direction8Way.East, 2f);
         Rect removeBtnRegion = addBtnRegion.Shift(Direction8Way.East, 2f);
 
-        UiHelper.Label(labelRegion, _coinsText);
+        LabelDrawer.Draw(labelRegion, _coinsText);
 
         if (Widgets.ButtonImage(editBtnRegion, _editingCoins ? Widgets.CheckboxOnTex : Textures.Edit))
         {
@@ -247,12 +246,12 @@ public class ViewersDialog : Window
 
         if (!_editingCoins || !_editor.HasViewers)
         {
-            UiHelper.Label(fieldRegion, _editor.Coins.ToString("N0"));
+            LabelDrawer.Draw(fieldRegion, _editor.Coins.ToString("N0"));
 
             return;
         }
 
-        if (UiHelper.NumberField(fieldRegion, out int newCoins, ref _coinBuffer, ref _coinBufferValid))
+        if (FieldDrawer.DrawNumberField(fieldRegion, out int newCoins, ref _coinBuffer, ref _coinBufferValid))
         {
             _editor.Coins = newCoins;
         }
@@ -279,7 +278,7 @@ public class ViewersDialog : Window
         Rect addBtnRegion = editBtnRegion.Shift(Direction8Way.East, 2f);
         Rect removeBtnRegion = addBtnRegion.Shift(Direction8Way.East, 2f);
 
-        UiHelper.Label(labelRegion, _karmaText);
+        LabelDrawer.Draw(labelRegion, _karmaText);
 
         if (Widgets.ButtonImage(editBtnRegion, _editingKarma ? Widgets.CheckboxOnTex : Textures.Edit))
         {
@@ -293,12 +292,12 @@ public class ViewersDialog : Window
 
         if (!_editingKarma || !_editor.HasViewers)
         {
-            UiHelper.Label(fieldRegion, _editor.Karma.ToString("N0"));
+            LabelDrawer.Draw(fieldRegion, _editor.Karma.ToString("N0"));
 
             return;
         }
 
-        if (UiHelper.NumberField(fieldRegion, out int newKarma, ref _karmaBuffer, ref _karmaBufferValid))
+        if (FieldDrawer.DrawNumberField(fieldRegion, out int newKarma, ref _karmaBuffer, ref _karmaBufferValid))
         {
             _editor.Karma = newKarma;
         }
@@ -334,7 +333,7 @@ public class ViewersDialog : Window
             UpdateEveryoneStatus();
         }
 
-        UiHelper.Icon(groupActiveRegion, _editor.IsMulti ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex, Color.white);
+        IconDrawer.DrawIcon(groupActiveRegion, _editor.IsMulti ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex, Color.white);
 
         GUI.BeginGroup(searchRegion);
         _searchWidget.OnGUI(searchRegion.AtZero(), OnSearchQueryChanged);
@@ -383,7 +382,7 @@ public class ViewersDialog : Window
     private void DrawViewerEntry(Rect region, ViewerEntry entry)
     {
         Rect buttonRegion = LayoutHelper.IconRect(region.width - region.height, 0f, region.height, region.height);
-        UiHelper.Label(region, entry.Viewer!.username);
+        LabelDrawer.Draw(region, entry.Viewer!.username);
 
         if (Widgets.ButtonImage(buttonRegion, Widgets.CheckboxOffTex))
         {
@@ -562,7 +561,7 @@ public class ViewersDialog : Window
 
     private sealed class ViewerEditorWorker
     {
-        private readonly List<ViewerEntry> _viewers = new List<ViewerEntry>();
+        private readonly List<ViewerEntry> _viewers = new();
         private int _coins;
         private int _karma;
         private int _viewerCount;
@@ -601,8 +600,8 @@ public class ViewersDialog : Window
 
         public string EditingUser { get; private set; }
 
-        [CanBeNull] public ViewerEntry User => _viewerCount <= 0 ? null : _viewers[0];
-        public List<ViewerEntry> Users => new List<ViewerEntry>(_viewers);
+        public ViewerEntry? User => _viewerCount <= 0 ? null : _viewers[0];
+        public List<ViewerEntry> Users => [.._viewers];
 
         public void AddViewers(params ViewerEntry[] viewers)
         {

@@ -23,7 +23,7 @@ namespace SirRandoo.ToolkitUtils.Models.Selectors;
 
 public class CategoriesSelector : CategorySelector
 {
-    public override string Label => base.Label.Pluralize();
+    public override string? Label => base.Label.Pluralize();
 
     public override bool IsVisible(TableSettingsItem<ThingItem> item)
     {

@@ -14,11 +14,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -37,7 +36,7 @@ public class AnimalSelector : ISelectorBase<ThingItem>
 
     public void Draw(Rect canvas)
     {
-        if (UiHelper.LabeledPaintableCheckbox(canvas, _animalText, ref _state))
+        if (CheckboxDrawer.DrawCheckbox(canvas, _animalText, ref _state))
         {
             Dirty.Set(true);
         }
@@ -45,5 +44,5 @@ public class AnimalSelector : ISelectorBase<ThingItem>
 
     public bool IsVisible(TableSettingsItem<ThingItem> item) => item.Data.Thing != null && item.Data.Thing.race.Animal;
 
-    public string Label => "TKUtils.Fields.Animal".TranslateSimple();
+    public string? Label => "TKUtils.Fields.Animal".TranslateSimple();
 }

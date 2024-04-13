@@ -59,14 +59,14 @@ public class Database : CommandBase
         StatDefOf.MeleeWeapon_DamageMultiplier
     };
 
-    private string _invoker;
+    private string? _invoker;
 
     public override void RunCommand(ITwitchMessage twitchMessage)
     {
         _invoker = twitchMessage.Username;
         string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
-        string category = segments.FirstOrFallback("");
-        string query = segments.Skip(1).FirstOrFallback("");
+        string? category = segments.FirstOrFallback("");
+        string? query = segments.Skip(1).FirstOrFallback("");
 
         if (!Index.TryGetValue(category.ToLowerInvariant(), out Category result))
         {
@@ -76,7 +76,7 @@ public class Database : CommandBase
         PerformLookup(result, query);
     }
 
-    private void NotifyLookupComplete(string result)
+    private void NotifyLookupComplete(string? result)
     {
         if (result.NullOrEmpty())
         {
@@ -86,7 +86,7 @@ public class Database : CommandBase
         MessageHelper.ReplyToUser(_invoker, result);
     }
 
-    private void PerformWeaponLookup(string query)
+    private void PerformWeaponLookup(string? query)
     {
         var worker = ArgWorker.CreateInstance(query);
 
@@ -97,7 +97,7 @@ public class Database : CommandBase
             return;
         }
 
-        if (item.TryGetError(out string error))
+        if (item.TryGetError(out string? error))
         {
             MessageHelper.ReplyToUser(_invoker, error);
 
@@ -128,12 +128,12 @@ public class Database : CommandBase
         );
     }
 
-    private void PerformTMagicLookup(string query)
+    private void PerformTMagicLookup(string? query)
     {
         CommandRouter.MainThreadCommands.Enqueue(() => NotifyLookupComplete(CompatRegistry.Magic?.GetSkillDescription(_invoker, query)));
     }
 
-    private void PerformLookup(Category category, string query)
+    private void PerformLookup(Category category, string? query)
     {
         switch (category)
         {

@@ -86,11 +86,8 @@
 
     <!-- NuGet dependencies -->
     <ItemGroup>
-        <PackageReference Include="PolySharp" Version="1.13.2"/>
-        <PackageReference Include="0SirRandoo.CommonLib" Version="1.12.1">
-            <ExcludeAssets Condition="'$(CompatibilityFor)' != ''">runtime</ExcludeAssets>
-        </PackageReference>
-        <PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime"/>
+        <PackageReference Include="PolySharp" Version="1.14.1"/>
+        <PackageReference Include="Lib.Harmony" Version="2.3.3" ExcludeAssets="runtime"/>
         <PackageReference Include="Krafs.Rimworld.Ref" Version="$(RimWorldVersion).*" ExcludeAssets="runtime"/>
     </ItemGroup>
 </Project>

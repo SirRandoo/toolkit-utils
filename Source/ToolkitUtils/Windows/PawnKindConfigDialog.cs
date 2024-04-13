@@ -1,26 +1,26 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Linq;
 using System.Threading.Tasks;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Workers;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -48,10 +48,10 @@ public class PawnKindConfigDialog : Window
         _worker = new PawnTableWorker();
     }
 
-    /// <inheritdoc cref="Window.InitialSize"/>
-    public override Vector2 InitialSize => new Vector2(640f, 740f);
+    /// <inheritdoc cref="Window.InitialSize" />
+    public override Vector2 InitialSize => new(640f, 740f);
 
-    /// <inheritdoc cref="Window.Margin"/>
+    /// <inheritdoc cref="Window.Margin" />
     protected override float Margin => 22f;
 
     private void NotifySearchRequested()
@@ -59,7 +59,7 @@ public class PawnKindConfigDialog : Window
         _lastSearchTick = 10f;
     }
 
-    /// <inheritdoc cref="Window.PreOpen"/>
+    /// <inheritdoc cref="Window.PreOpen" />
     public override void PreOpen()
     {
         base.PreOpen();
@@ -85,15 +85,15 @@ public class PawnKindConfigDialog : Window
         var searchLabel = new Rect(searchRect.x, searchRect.y, _searchTextSize.x, searchRect.height);
         var searchField = new Rect(searchLabel.x + searchLabel.width + 5f, searchRect.y, searchRect.width - searchLabel.width - 5f, searchRect.height);
 
-        UiHelper.Label(searchLabel, _searchText);
+        LabelDrawer.Draw(searchLabel, _searchText);
 
-        if (UiHelper.TextField(searchField, _query, out string input))
+        if (FieldDrawer.DrawTextField(searchField, _query, out string? input))
         {
             _query = input;
             NotifySearchRequested();
         }
 
-        if (_query.Length > 0 && UiHelper.ClearButton(searchField))
+        if (_query.Length > 0 && ButtonDrawer.ClearButton(searchField))
         {
             _query = "";
             NotifySearchRequested();
@@ -128,7 +128,7 @@ public class PawnKindConfigDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.DoWindowContents"/>
+    /// <inheritdoc cref="Window.DoWindowContents" />
     public override void DoWindowContents(Rect inRect)
     {
         if (Event.current.type == EventType.Layout)
@@ -162,7 +162,7 @@ public class PawnKindConfigDialog : Window
         Text.WordWrap = wrapped;
     }
 
-    /// <inheritdoc cref="Window.WindowUpdate"/>
+    /// <inheritdoc cref="Window.WindowUpdate" />
     public override void WindowUpdate()
     {
         base.WindowUpdate();
@@ -178,7 +178,7 @@ public class PawnKindConfigDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.PreClose"/>
+    /// <inheritdoc cref="Window.PreClose" />
     public override void PreClose()
     {
         if (TkSettings.Offload)

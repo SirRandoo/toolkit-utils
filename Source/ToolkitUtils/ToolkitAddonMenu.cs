@@ -1,23 +1,22 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Interfaces;
 using TwitchToolkit;
@@ -32,15 +31,22 @@ using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 namespace SirRandoo.ToolkitUtils;
 
 /// <summary>
-///     A <see cref="IAddonMenu"/> implementation full of quick menu
+///     A <see cref="IAddonMenu" /> implementation full of quick menu
 ///     options for Twitch Toolkit related content.
 /// </summary>
 [UsedImplicitly]
 public class ToolkitAddonMenu : IAddonMenu
 {
-    private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
-    {
-        new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>().OpenSettings()),
+    private static readonly List<FloatMenuOption> Options =
+    [
+        new FloatMenuOption(
+            "TKUtils.AddonMenu.Settings".TranslateSimple(),
+            () =>
+            {
+                ProxySettingsWindow.Open(new ProxySettingsWindow(LoadedModManager.GetMod<TwitchToolkit.TwitchToolkit>()));
+            }
+        ),
+
         new FloatMenuOption("TKUtils.AddonMenu.Events".TranslateSimple(), () => Find.WindowStack.Add(new IncidentCategoryWindow())),
         new FloatMenuOption("TKUtils.AddonMenu.Items".TranslateSimple(), () => Find.WindowStack.Add(new StoreDialog())),
         new FloatMenuOption("TKUtils.AddonMenu.Commands".TranslateSimple(), () => Find.WindowStack.Add(new CommandCategoryWindow())),
@@ -56,6 +62,7 @@ public class ToolkitAddonMenu : IAddonMenu
                 Messages.Message($"TKUtils.CoinEarning{(ToolkitSettings.EarningCoins ? "Enabled" : "Disabled")}".TranslateSimple(), MessageTypeDefOf.NeutralEvent);
             }
         ),
+
         new FloatMenuOption(
             "TKUtils.AddonMenu.GiftCoins".TranslateSimple(),
             () =>
@@ -67,6 +74,7 @@ public class ToolkitAddonMenu : IAddonMenu
                 Messages.Message($"TKUtils.GiftCoins{(giftCoins.enabled ? "Enabled" : "Disabled")}".TranslateSimple(), MessageTypeDefOf.NeutralEvent);
             }
         ),
+
         new FloatMenuOption(
             "TKUtils.AddonMenu.DebugFix".TranslateSimple(),
             () =>
@@ -75,11 +83,12 @@ public class ToolkitAddonMenu : IAddonMenu
                 Purchase_Handler.viewerNamesDoingVariableCommands.Clear();
             }
         ),
+
         new FloatMenuOption("TKUtils.AddonMenu.EditItemSettings".TranslateSimple(), OpenItemSettings),
         new FloatMenuOption("TKUtils.AddonMenu.EditTraitLimit".TranslateSimple(), OpenTraitSettings)
-    };
+    ];
 
-    /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
+    /// <inheritdoc cref="IAddonMenu.MenuOptions" />
     public List<FloatMenuOption> MenuOptions() => Options;
 
 

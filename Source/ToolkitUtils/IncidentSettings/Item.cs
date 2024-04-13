@@ -16,9 +16,9 @@
 
 using System;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Windows;
+using ToolkitUtils.UX;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.Incidents;
 using UnityEngine;
@@ -64,67 +64,67 @@ public class Item : IncidentHelperVariablesSettings, IEventSettings
         listing.Begin(canvas);
 
         (Rect awfulLabel, Rect awfulField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(awfulLabel, "TKUtils.Item.AwfulMultiplier".TranslateSimple());
+        LabelDrawer.Draw(awfulLabel, "TKUtils.Item.AwfulMultiplier".TranslateSimple());
         Widgets.TextFieldNumeric(awfulField, ref AwfulMultiplier, ref AwfulMultiplierBuffer);
 
-        if (UiHelper.FieldButton(awfulLabel, AwfulQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+        if (ButtonDrawer.DrawFieldButton(awfulLabel, AwfulQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
         {
             AwfulQuality = !AwfulQuality;
         }
 
         (Rect poorLabel, Rect poorField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(poorLabel, "TKUtils.Item.PoorMultiplier".TranslateSimple());
+        LabelDrawer.Draw(poorLabel, "TKUtils.Item.PoorMultiplier".TranslateSimple());
         Widgets.TextFieldNumeric(poorField, ref PoorMultiplier, ref PoorMultiplierBuffer);
 
-        if (UiHelper.FieldButton(poorLabel, PoorQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+        if (ButtonDrawer.DrawFieldButton(poorLabel, PoorQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
         {
             PoorQuality = !PoorQuality;
         }
 
         (Rect normalLabel, Rect normalField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(normalLabel, "TKUtils.Item.NormalMultiplier".TranslateSimple());
+        LabelDrawer.Draw(normalLabel, "TKUtils.Item.NormalMultiplier".TranslateSimple());
         Widgets.TextFieldNumeric(normalField, ref NormalMultiplier, ref NormalMultiplierBuffer);
 
-        if (UiHelper.FieldButton(normalLabel, NormalQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+        if (ButtonDrawer.DrawFieldButton(normalLabel, NormalQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
         {
             NormalQuality = !NormalQuality;
         }
 
         (Rect goodLabel, Rect goodField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(goodLabel, "TKUtils.Item.GoodMultiplier".TranslateSimple());
+        LabelDrawer.Draw(goodLabel, "TKUtils.Item.GoodMultiplier".TranslateSimple());
         Widgets.TextFieldNumeric(goodField, ref GoodMultiplier, ref GoodMultiplierBuffer);
 
-        if (UiHelper.FieldButton(goodLabel, GoodQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+        if (ButtonDrawer.DrawFieldButton(goodLabel, GoodQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
         {
             GoodQuality = !GoodQuality;
         }
 
         (Rect excLabel, Rect excField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(excLabel, "TKUtils.Item.ExcellentMultiplier".TranslateSimple());
+        LabelDrawer.Draw(excLabel, "TKUtils.Item.ExcellentMultiplier".TranslateSimple());
         Widgets.TextFieldNumeric(excField, ref ExcellentMultiplier, ref ExcellentMultiplierBuffer);
 
 
-        if (UiHelper.FieldButton(excLabel, ExcellentQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+        if (ButtonDrawer.DrawFieldButton(excLabel, ExcellentQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
         {
             ExcellentQuality = !ExcellentQuality;
         }
 
         (Rect mWorkLabel, Rect mWorkField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(mWorkLabel, "TKUtils.Item.MasterworkMultiplier".TranslateSimple());
+        LabelDrawer.Draw(mWorkLabel, "TKUtils.Item.MasterworkMultiplier".TranslateSimple());
         Widgets.TextFieldNumeric(mWorkField, ref MasterworkMultiplier, ref MasterworkMultiplierBuffer);
 
 
-        if (UiHelper.FieldButton(mWorkLabel, MasterworkQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+        if (ButtonDrawer.DrawFieldButton(mWorkLabel, MasterworkQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
         {
             MasterworkQuality = !MasterworkQuality;
         }
 
         (Rect legLabel, Rect legField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(legLabel, "TKUtils.Item.LegendaryMultiplier".TranslateSimple());
+        LabelDrawer.Draw(legLabel, "TKUtils.Item.LegendaryMultiplier".TranslateSimple());
         Widgets.TextFieldNumeric(legField, ref LegendaryMultiplier, ref LegendaryMultiplierBuffer);
 
 
-        if (UiHelper.FieldButton(legLabel, LegendaryQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
+        if (ButtonDrawer.DrawFieldButton(legLabel, LegendaryQuality ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
         {
             LegendaryQuality = !LegendaryQuality;
         }

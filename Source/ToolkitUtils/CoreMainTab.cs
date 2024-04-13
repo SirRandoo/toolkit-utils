@@ -16,49 +16,51 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using SirRandoo.ToolkitUtils.Windows;
 using ToolkitCore.Models;
 using ToolkitCore.Utilities;
 using ToolkitCore.Windows;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils;
 
 /// <summary>
-///     A <see cref="RimWorld.MainTabWindow"/> used by RimWorld to
+///     A <see cref="RimWorld.MainTabWindow" /> used by RimWorld to
 ///     display an in-game menu, as well as a button, at the bottom of
 ///     the in-game screen.
 /// </summary>
 /// <remarks>
 ///     This class' responsibility is to cache
-///     <see cref="ToolkitCore.Interfaces.IAddonMenu"/>s, as well as
+///     <see cref="ToolkitCore.Interfaces.IAddonMenu" />s, as well as
 ///     displaying any errors raised during command and/or event
 ///     execution.
 /// </remarks>
 [UsedImplicitly]
 public class CoreMainTab : MainTabWindow_ToolkitCore
 {
-    private static readonly List<MenuEntry> MenuCaches = new List<MenuEntry>();
+    private static readonly List<MenuEntry> MenuCaches = new();
     private float _buttonHeight;
-    private string _closeTooltip;
-    private string _debugTooltip;
-    private string _errorTooltip;
-    private string _healthReportText;
+    private string? _closeTooltip;
+    private string? _debugTooltip;
+    private string? _errorTooltip;
+    private string? _healthReportText;
     private Vector2 _healthScrollPos = Vector2.zero;
-    private string _hoursText;
-    private string _infoTooltip;
-    private string _minutesText;
-    private string _noReportsText;
-    private string _quickActionsText;
-    private string _secondsText;
+    private string? _hoursText;
+    private string? _infoTooltip;
+    private string? _minutesText;
+    private string? _noReportsText;
+    private string? _quickActionsText;
+    private string? _secondsText;
     private Vector2? _tabSize;
-    private string _warningTooltip;
+    private string? _warningTooltip;
 
     static CoreMainTab()
     {
@@ -66,7 +68,7 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
 
         foreach (ToolkitAddon addon in AddonRegistry.ToolkitAddons)
         {
-            var cache = MenuEntry.CreateInstance(addon, out string error);
+            var cache = MenuEntry.CreateInstance(addon, out string? error);
 
             if (!error.NullOrEmpty())
             {
@@ -102,8 +104,8 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
         _hoursText = "TKUtils.Fields.Hours".Localize();
         _noReportsText = "TKUtils.MainTab.NoHealthReports".Localize();
         _closeTooltip = "TKUtils.MainTabTooltips.Close".Localize();
-        _healthReportText = "TKUtils.MainTab.HealthReport".Localize();
-        _quickActionsText = "TKUtils.MainTab.QuickActions".Localize();
+        _healthReportText = string.Format("<b>{0}</b>", "TKUtils.MainTab.HealthReport".Localize());
+        _quickActionsText = string.Format("<b>{0}</b>", "TKUtils.MainTab.QuickActions".Localize());
         _infoTooltip = "TKUtils.MainTabTooltips.Info".Localize();
         _warningTooltip = "TKUtils.MainTabTooltips.Warning".Localize();
         _debugTooltip = "TKUtils.MainTabTooltips.Debug".Localize();
@@ -138,7 +140,7 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
     private void DrawLeftColumn(Rect region)
     {
         var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-        UiHelper.Label(titleRect, _healthReportText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter, GameFont.Small);
+        LabelDrawer.Draw(titleRect, _healthReportText, ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
 
         var contentRect = new Rect(0f, Text.SmallFontHeight, region.width, region.height - Text.SmallFontHeight);
 
@@ -146,7 +148,7 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
 
         if (!Data.AllHealthReports.Any())
         {
-            UiHelper.Label(contentRect.AtZero(), _noReportsText, new Color(0.39f, 0.39f, 0.39f), TextAnchor.MiddleCenter, GameFont.Small);
+            LabelDrawer.Draw(contentRect.AtZero(), _noReportsText, new Color(0.39f, 0.39f, 0.39f), TextAnchor.MiddleCenter);
             GUI.EndGroup();
 
             return;
@@ -220,30 +222,30 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
 
         Texture2D texture = GetTextureFor(report.Type);
         Color color = GetColorFor(report.Type);
-        string iconTooltip = GetTooltipFor(report.Type);
+        string? iconTooltip = GetTooltipFor(report.Type);
 
         if (texture != null)
         {
-            UiHelper.Icon(iconRect, texture, color);
-            iconRect.TipRegion(iconTooltip);
+            IconDrawer.DrawIcon(iconRect, texture, color);
+            TooltipHandler.TipRegion(iconRect, iconTooltip);
         }
 
-        UiHelper.Label(messageRect, report.Message, color, TextAnchor.MiddleLeft, GameFont.Small);
+        LabelDrawer.Draw(messageRect, report.Message, color);
 
         if (!Mouse.IsOver(messageRect))
         {
-            report.OccurredAtString = GetTextString(DateTime.Now - report.OccurredAt);
+            report.OccurredAtString = GetTextString(DateTime.UtcNow - report.OccurredAt);
         }
 
-        messageRect.TipRegion("TKUtils.MainTabTooltips.Report".LocalizeKeyed(report.Reporter, report.OccurredAtString));
+        TooltipHandler.TipRegion(messageRect, "TKUtils.MainTabTooltips.Report".LocalizeKeyed(report.Reporter, report.OccurredAtString));
 
         if (!report.Stacktrace.NullOrEmpty() && Widgets.ButtonInvisible(messageRect))
         {
             GUIUtility.systemCopyBuffer = report.Stacktrace;
         }
 
-        UiHelper.Icon(closeRect, Widgets.CheckboxOffTex, Color.red);
-        closeRect.TipRegion(_closeTooltip);
+        IconDrawer.DrawIcon(closeRect, Widgets.CheckboxOffTex, Color.red);
+        TooltipHandler.TipRegion(closeRect, _closeTooltip);
 
         if (Widgets.ButtonInvisible(closeRect))
         {
@@ -284,7 +286,7 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
         }
     }
 
-    private string GetTooltipFor(HealthReport.ReportType reportType)
+    private string? GetTooltipFor(HealthReport.ReportType reportType)
     {
         switch (reportType)
         {
@@ -304,7 +306,7 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
     private void DrawRightColumn(Rect region)
     {
         var titleRect = new Rect(0f, 0f, region.width, Text.SmallFontHeight);
-        UiHelper.Label(titleRect, _quickActionsText.Tagged("b"), ColorLibrary.LightBlue, TextAnchor.MiddleCenter, GameFont.Small);
+        LabelDrawer.Draw(titleRect, _quickActionsText, ColorLibrary.LightBlue, TextAnchor.MiddleCenter);
 
         var contentRect = new Rect(0f, Text.SmallFontHeight, region.width, region.height - Text.SmallFontHeight);
 
@@ -341,13 +343,13 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
     private sealed class MenuEntry
     {
         public string Label => (Addon.label ?? Addon.defName).CapitalizeFirst();
-        public ToolkitAddon Addon { get; set; }
-        public List<FloatMenuOption> Options { get; private set; }
+        public ToolkitAddon Addon { get; init; } = null!;
+        public List<FloatMenuOption> Options { get; private init; } = null!;
 
-        public static MenuEntry CreateInstance(ToolkitAddon addon, [CanBeNull] out string error)
+        public static MenuEntry CreateInstance(ToolkitAddon addon, [NotNullWhen(false)] out string? error)
         {
             error = null;
-            var cache = new MenuEntry { Addon = addon, Options = new List<FloatMenuOption>() };
+            var cache = new MenuEntry { Addon = addon, Options = [] };
 
             var hasSettings = false;
             string settingsTranslated = "TKUtils.AddonMenu.Settings".TranslateSimple();
@@ -368,9 +370,7 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
 
                     hasSettings = true;
 
-                    Mod modHandle = LoadedModManager.ModHandles.FirstOrDefault(
-                        e => e.Content.AllDefs.Any(d => d == addon) && !string.IsNullOrEmpty(e.SettingsCategory())
-                    );
+                    Mod? modHandle = LoadedModManager.ModHandles.FirstOrDefault(e => e.Content.AllDefs.Any(d => d == addon) && !string.IsNullOrEmpty(e.SettingsCategory()));
 
                     if (modHandle == null)
                     {
@@ -379,13 +379,13 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
 
                     if (modHandle != ToolkitCore.ToolkitCore.settings.Mod)
                     {
-                        option.action = modHandle.OpenSettings;
+                        option.action = () => ProxySettingsWindow.Open(new ProxySettingsWindow(modHandle));
                     }
                 }
             }
             catch (Exception e)
             {
-                error = $@"The addon menu for ""{cache.Label}"" couldn't open successfully -- Reason: {e.GetType().Name}({e.Message})";
+                error = $"""The addon menu for "{cache.Label}" couldn't open successfully -- Reason: {e.GetType().Name}({e.Message})""";
             }
 
             if (hasSettings)
@@ -393,14 +393,14 @@ public class CoreMainTab : MainTabWindow_ToolkitCore
                 return cache;
             }
 
-            Mod mod = LoadedModManager.ModHandles.FirstOrDefault(m => m.Content == addon.modContentPack);
+            Mod? mod = LoadedModManager.ModHandles.FirstOrDefault(m => m.Content == addon.modContentPack);
 
             if (mod?.SettingsCategory().NullOrEmpty() == true)
             {
                 return cache;
             }
 
-            cache.Options.Insert(0, new FloatMenuOption(settingsTranslated, mod.OpenSettings));
+            cache.Options.Insert(0, new FloatMenuOption(settingsTranslated, () => ProxySettingsWindow.Open(new ProxySettingsWindow(mod!))));
 
             return cache;
         }

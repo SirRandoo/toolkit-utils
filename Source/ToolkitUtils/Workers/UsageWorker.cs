@@ -27,7 +27,7 @@ namespace SirRandoo.ToolkitUtils.Workers;
 /// <typeparam name="T">The item class the records are for</typeparam>
 public class UsageWorker<T> where T : class, IUsageItemBase
 {
-    private readonly ConcurrentDictionary<string, UsageRecord<T>> _records = new ConcurrentDictionary<string, UsageRecord<T>>();
+    private readonly ConcurrentDictionary<string?, UsageRecord<T>> _records = new ConcurrentDictionary<string?, UsageRecord<T>>();
 
     private UsageRecord<T> GetRecord(T item)
     {

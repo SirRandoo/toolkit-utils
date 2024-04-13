@@ -47,9 +47,9 @@ public class PawnKindItem : IShopItemBase
 
     [CanBeNull] [JsonProperty("description")] public string Description { get; private set; }
 
-    [JsonProperty("defName")] public string DefName { get; set; }
+    [JsonProperty("defName")] public string? DefName { get; set; }
     [JsonProperty("enabled")] public bool Enabled { get; set; }
-    [JsonProperty("name")] public string Name { get; set; }
+    [JsonProperty("name")] public string? Name { get; set; }
     [JsonProperty("price")] public int Cost { get; set; }
 
     [JsonIgnore] public IShopDataBase Data { get; set; }
@@ -137,11 +137,11 @@ public class PawnKindItem : IShopItemBase
         _kinds = container.ToArray();
     }
 
-    public string GetDefaultName() => _colonistDef.Name ?? DefName;
+    public string? GetDefaultName() => _colonistDef.Name ?? DefName;
 
     private struct KindDefData
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public PawnKindDef Def { get; set; }
     }
 }

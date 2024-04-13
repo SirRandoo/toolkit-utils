@@ -47,7 +47,7 @@ public class PawnWork : CommandBase
             return;
         }
 
-        List<KeyValuePair<string, string>> newPriorities = CommandParser.ParseKeyed(twitchMessage.Message);
+        List<KeyValuePair<string, string?>> newPriorities = CommandParser.ParseKeyed(twitchMessage.Message);
 
         if (!newPriorities.NullOrEmpty())
         {
@@ -78,14 +78,14 @@ public class PawnWork : CommandBase
         twitchMessage.Reply(summary.WithHeader("TKUtils.PawnWork.Header".Localize()));
     }
 
-    private static IEnumerable<string> ProcessChangeRequests(Pawn pawn, IEnumerable<KeyValuePair<string, string>> rawChanges)
+    private static IEnumerable<string> ProcessChangeRequests(Pawn pawn, IEnumerable<KeyValuePair<string, string?>> rawChanges)
     {
         List<WorkTypeDef> workTypes = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.Where(w => !pawn.WorkTypeIsDisabled(w)).ToList();
 
-        foreach (KeyValuePair<string, string> pair in rawChanges)
+        foreach (KeyValuePair<string, string?> pair in rawChanges)
         {
             string key = pair.Key;
-            string value = pair.Value;
+            string? value = pair.Value;
             WorkTypeDef workType = workTypes.Find(w => w.label.EqualsIgnoreCase(key) || w.defName.EqualsIgnoreCase(key));
 
             if (workType == null || !int.TryParse(value, out int parsed))

@@ -63,13 +63,13 @@ public static class PurchaseHelper
 
     public static bool Stackable(this ThingDef thing) => thing.stackLimit > 1;
 
-    public static string ToToolkit(this string t) => t.Replace(" ", "").ToLower();
+    public static string? ToToolkit(this string? t) => t.Replace(" ", "").ToLower();
 
     public static int CalculateStorePrice(this ThingDef d) => Math.Max(1, Convert.ToInt32(d.BaseMarketValue * 10.0f / 6.0f));
 
     public static bool ToChance(this int value) => value > 0 && Rand.Chance(value / 100f);
 
-    public static bool TryGetPawn(string viewer, [NotNullWhen(true)] out Pawn? pawn, bool kidnapped = false)
+    public static bool TryGetPawn(string? viewer, [NotNullWhen(true)] out Pawn? pawn, bool kidnapped = false)
     {
         pawn = CommandBase.GetOrFindPawn(viewer.ToLowerInvariant(), kidnapped);
 

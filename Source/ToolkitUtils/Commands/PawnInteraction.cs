@@ -58,7 +58,7 @@ public class PawnInteraction : CommandBase
             return;
         }
 
-        string query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
+        string? query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrFallback("");
         Pawn target = null;
 
         if (!query.NullOrEmpty())
@@ -90,7 +90,7 @@ public class PawnInteraction : CommandBase
         CommandRouter.MainThreadCommands.Enqueue(
             () =>
             {
-                string result = ForcedInteractionWorker.InteractWith(pawn, target, interaction.Interaction);
+                string? result = ForcedInteractionWorker.InteractWith(pawn, target, interaction.Interaction);
 
                 if (interaction.IsBad)
                 {

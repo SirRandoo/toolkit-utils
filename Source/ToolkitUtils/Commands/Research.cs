@@ -30,7 +30,7 @@ public class Research : CommandBase
 {
     public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        string query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
+        string? query = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
         ResearchProjectDef project;
 
         if (query.NullOrEmpty())
@@ -64,7 +64,7 @@ public class Research : CommandBase
             return;
         }
 
-        var segments = new List<string> { ResponseHelper.JoinPair(project.LabelCap, project.ProgressPercent.ToStringPercent()) };
+        var segments = new List<string?> { ResponseHelper.JoinPair(project.LabelCap, project.ProgressPercent.ToStringPercent()) };
 
         if (project.prerequisites != null && !project.PrerequisitesCompleted)
         {

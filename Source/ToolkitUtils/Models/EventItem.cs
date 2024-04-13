@@ -171,7 +171,7 @@ public class EventItem : IShopItemBase, IUsageItemBase
     }
 
     [JsonProperty("defName")]
-    public string DefName
+    public string? DefName
     {
         get => Incident.defName;
         set => Incident.defName = value;
@@ -185,7 +185,7 @@ public class EventItem : IShopItemBase, IUsageItemBase
     }
 
     [JsonProperty("abr")]
-    public string Name
+    public string? Name
     {
         get => Incident.abbreviation;
         set => Incident.abbreviation = value;

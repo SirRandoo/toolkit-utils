@@ -1,22 +1,21 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2022  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -28,18 +27,18 @@ namespace SirRandoo.ToolkitUtils.Windows;
 /// </summary>
 public class ConfirmationDialog : Window
 {
-    private readonly Action _cancelAction;
+    private readonly Action? _cancelAction;
     private readonly Action _confirmAction;
     private readonly string _prompt;
     private string _cancelText;
     private string _confirmText;
 
-    public ConfirmationDialog(string title, string prompt, Action onConfirm, [CanBeNull] Action onCancel = null) : this(prompt, onConfirm, onCancel)
+    public ConfirmationDialog(string title, string prompt, Action onConfirm, Action? onCancel = null) : this(prompt, onConfirm, onCancel)
     {
         optionalTitle = title;
     }
 
-    public ConfirmationDialog(string prompt, Action onConfirm, [CanBeNull] Action onCancel = null)
+    public ConfirmationDialog(string prompt, Action onConfirm, Action? onCancel = null)
     {
         doCloseX = false;
         doCloseButton = false;
@@ -56,10 +55,10 @@ public class ConfirmationDialog : Window
         _cancelAction = onCancel;
     }
 
-    /// <inheritdoc cref="Window.InitialSize"/>
-    public override Vector2 InitialSize => new Vector2(300, Text.CalcHeight(_prompt, 264f) + 102f);
+    /// <inheritdoc cref="Window.InitialSize" />
+    public override Vector2 InitialSize => new(300, Text.CalcHeight(_prompt, 264f) + 102f);
 
-    /// <inheritdoc cref="Window.PostOpen"/>
+    /// <inheritdoc cref="Window.PostOpen" />
     public override void PostOpen()
     {
         _confirmText = "TKUtils.Buttons.Confirm".TranslateSimple();
@@ -68,7 +67,7 @@ public class ConfirmationDialog : Window
         base.PostOpen();
     }
 
-    /// <inheritdoc cref="Window.DoWindowContents"/>
+    /// <inheritdoc cref="Window.DoWindowContents" />
     public override void DoWindowContents(Rect region)
     {
         GUI.BeginGroup(region);
@@ -90,7 +89,7 @@ public class ConfirmationDialog : Window
 
     private void DrawPrompt(Rect region)
     {
-        UiHelper.Label(region, _prompt, TextAnchor.MiddleCenter);
+        LabelDrawer.Draw(region, _prompt, TextAnchor.MiddleCenter);
     }
 
     private void DrawButtons(Rect region)
@@ -124,7 +123,7 @@ public class ConfirmationDialog : Window
     ///     The action to do when the user abandons their
     ///     decision
     /// </param>
-    public static void Open(string title, string prompt, Action onConfirm, [CanBeNull] Action onCancel = null)
+    public static void Open(string title, string prompt, Action onConfirm, Action? onCancel = null)
     {
         Find.WindowStack.Add(new ConfirmationDialog(title, prompt, onConfirm, onCancel));
     }
@@ -141,7 +140,7 @@ public class ConfirmationDialog : Window
     ///     The action to do when the user abandons their
     ///     decision
     /// </param>
-    public static void Open(string prompt, Action onConfirm, [CanBeNull] Action onCancel = null)
+    public static void Open(string prompt, Action onConfirm, Action? onCancel = null)
     {
         Find.WindowStack.Add(new ConfirmationDialog(prompt, onConfirm, onCancel));
     }

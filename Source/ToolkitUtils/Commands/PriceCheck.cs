@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -32,7 +32,7 @@ namespace SirRandoo.ToolkitUtils.Commands;
 [UsedImplicitly]
 public class PriceCheck : CommandBase
 {
-    private string _invoker;
+    private string? _invoker;
 
     private static bool CanRemoveTrait => IncidentDefOf.RemoveTrait.cost > 0 || IncidentDefOf.ReplaceTrait.cost > 0 || IncidentDefOf.ClearTraits.cost > 0
         || IncidentDefOf.SetTraits.cost > 0;
@@ -46,9 +46,9 @@ public class PriceCheck : CommandBase
     {
         _invoker = twitchMessage.Username;
         string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
-        string category = segments.FirstOrFallback("");
-        string query = segments.Skip(1).FirstOrFallback("");
-        string quantity = segments.Skip(2).FirstOrFallback("1");
+        string? category = segments.FirstOrFallback("");
+        string? query = segments.Skip(1).FirstOrFallback("");
+        string? quantity = segments.Skip(2).FirstOrFallback("1");
 
         if (!Lookup.Index.TryGetValue(category.ToLowerInvariant(), out Lookup.Category result))
         {
@@ -65,7 +65,7 @@ public class PriceCheck : CommandBase
         PerformLookup(result, query, quantity);
     }
 
-    private void NotifyLookupComplete(string result)
+    private void NotifyLookupComplete(string? result)
     {
         if (result.NullOrEmpty())
         {
@@ -75,7 +75,7 @@ public class PriceCheck : CommandBase
         MessageHelper.ReplyToUser(_invoker, result);
     }
 
-    private void PerformAnimalLookup(string query, int quantity)
+    private void PerformAnimalLookup(string? query, int quantity)
     {
         PawnKindDef kindDef = DefDatabase<PawnKindDef>.AllDefs.FirstOrDefault(
             i => i.RaceProps.Animal && (i.label.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
@@ -103,7 +103,7 @@ public class PriceCheck : CommandBase
         NotifyLookupComplete("TKUtils.Price.Limited".LocalizeKeyed(kindDef.defName.CapitalizeFirst(), result.ToString("N0")));
     }
 
-    private void PerformEventLookup(string query)
+    private void PerformEventLookup(string? query)
     {
         StoreIncident result = DefDatabase<StoreIncident>.AllDefs.FirstOrDefault(
             i => i.cost > 0 && (i.abbreviation.ToToolkit().EqualsIgnoreCase(query.ToToolkit()) || i.defName.ToToolkit().EqualsIgnoreCase(query.ToToolkit()))
@@ -145,7 +145,7 @@ public class PriceCheck : CommandBase
         }
     }
 
-    private void PerformItemLookup(string query, int quantity)
+    private void PerformItemLookup(string? query, int quantity)
     {
         var worker = ArgWorker.CreateInstance(query);
 
@@ -154,7 +154,7 @@ public class PriceCheck : CommandBase
             return;
         }
 
-        if (item.TryGetError(out string error))
+        if (item.TryGetError(out string? error))
         {
             MessageHelper.ReplyToUser(_invoker, error);
 
@@ -173,7 +173,7 @@ public class PriceCheck : CommandBase
         NotifyLookupComplete("TKUtils.Price.Limited".LocalizeKeyed(item.AsString().CapitalizeFirst(), total.ToString("N0")));
     }
 
-    private void PerformLookup(Lookup.Category category, string query, string amount)
+    private void PerformLookup(Lookup.Category category, string? query, string? amount)
     {
         if (!int.TryParse(amount, out int quantity))
         {
@@ -205,7 +205,7 @@ public class PriceCheck : CommandBase
         }
     }
 
-    private void PerformKindLookup(string query)
+    private void PerformKindLookup(string? query)
     {
         if (IncidentDefOf.BuyPawn.cost <= 0 || !Data.TryGetPawnKind(query, out PawnKindItem result))
         {
@@ -215,14 +215,14 @@ public class PriceCheck : CommandBase
         NotifyLookupComplete("TKUtils.Price.Limited".LocalizeKeyed(result!.Name.ToToolkit().CapitalizeFirst(), result.Cost.ToString("N0")));
     }
 
-    private void PerformTraitLookup(string query)
+    private void PerformTraitLookup(string? query)
     {
         if (AreTraitsDisabled || !Data.TryGetTrait(query, out TraitItem result) || (!result.CanAdd && !result.CanRemove))
         {
             return;
         }
 
-        var parts = new List<string>();
+        var parts = new List<string?>();
 
         if (result.CanAdd && CanAddTrait)
         {

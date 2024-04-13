@@ -141,7 +141,7 @@ public class ThingItem : IShopItemBase
 
     [CanBeNull]
     [JsonProperty("defName")]
-    public string DefName
+    public string? DefName
     {
         get => Item?.defname ?? Thing?.defName;
         set
@@ -158,7 +158,7 @@ public class ThingItem : IShopItemBase
     [JsonProperty("enabled")] public bool Enabled { get; set; }
 
     [JsonProperty("name")]
-    public string Name
+    public string? Name
     {
         get => ItemData?.CustomName ?? Item?.abr ?? "Fetching...";
         set
@@ -265,7 +265,7 @@ public class ThingItem : IShopItemBase
         Enabled = Item.price > 0;
     }
 
-    public override string ToString()
+    public override string? ToString()
     {
         var container = "ThingItem(\n";
 

@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,13 +18,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Enums;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -36,25 +34,25 @@ namespace SirRandoo.ToolkitUtils.Workers;
 public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
 {
     private const float ExpandedLineSpan = 3f;
-    private string _addKarmaTypeText;
-    private string _addPriceHeaderText;
+    private string _addKarmaTypeText = null!;
+    private string? _addPriceHeaderText;
     private Rect _addStateHeaderInnerRect = Rect.zero;
     private Rect _addStateHeaderRect = Rect.zero;
     private StateKey _addStateKey = StateKey.Enable;
-    private string _bypassLimitText;
-    private string _closeTraitNameTooltip;
-    private string _defaultKarmaTypeText;
-    private string _editTraitNameTooltip;
+    private string _bypassLimitText = null!;
+    private string _closeTraitNameTooltip = null!;
+    private string _defaultKarmaTypeText = null!;
+    private string _editTraitNameTooltip = null!;
     private Rect _expandedHeaderInnerRect = Rect.zero;
     private Rect _expandedHeaderRect = Rect.zero;
-    private string _nameHeaderText;
-    private string _removeKarmaTypeText;
-    private string _removePriceHeaderText;
+    private string? _nameHeaderText;
+    private string _removeKarmaTypeText = null!;
+    private string? _removePriceHeaderText;
     private Rect _removeStateHeaderInnerRect = Rect.zero;
     private Rect _removeStateHeaderRect = Rect.zero;
     private StateKey _removeStateKey = StateKey.Enable;
-    private string _resetTraitKarmaTooltip;
-    private string _resetTraitNameTooltip;
+    private string _resetTraitKarmaTooltip = null!;
+    private string _resetTraitNameTooltip = null!;
     private Vector2 _scrollPos = Vector2.zero;
     private SettingsKey _settingsKey = SettingsKey.Collapse;
     private SortKey _sortKey = SortKey.Name;
@@ -68,11 +66,7 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
 
     protected override void DrawHeaders(Rect region)
     {
-        if (SettingsHelper.DrawTableHeader(
-            _addStateHeaderRect,
-            _addStateHeaderInnerRect,
-            _addStateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex
-        ))
+        if (SettingsHelper.DrawTableHeader(_addStateHeaderRect, _addStateHeaderInnerRect, _addStateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
         {
             _addStateKey = _addStateKey == StateKey.Enable ? StateKey.Disable : StateKey.Enable;
             NotifyGlobalAddStateChanged(_addStateKey);
@@ -105,17 +99,15 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
             case SortKey.Name:
                 UiHelper.SortIndicator(NameHeaderRect, _sortOrder);
 
-                return;
+                break;
             case SortKey.AddPrice:
                 UiHelper.SortIndicator(AddPriceHeaderRect, _sortOrder);
 
-                return;
+                break;
             case SortKey.RemovePrice:
                 UiHelper.SortIndicator(RemovePriceHeaderRect, _sortOrder);
 
-                return;
-            default:
-                return;
+                break;
         }
     }
 
@@ -312,13 +304,13 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
         {
             var fieldRect = new Rect(canvas.x, canvas.y, canvas.width - canvas.height, canvas.height);
 
-            if (UiHelper.TextField(fieldRect, trait.Data.Name, out string result))
+            if (FieldDrawer.DrawTextField(fieldRect, trait.Data.Name!, out string? result))
             {
                 trait.Data.Name = result.ToToolkit();
                 trait.Data.TraitData!.CustomName = true;
             }
 
-            if (trait.Data.TraitData!.CustomName && UiHelper.FieldButton(fieldRect, Textures.Reset, _resetTraitNameTooltip))
+            if (trait.Data.TraitData!.CustomName && ButtonDrawer.DrawFieldButton(fieldRect, Textures.Reset, _resetTraitNameTooltip))
             {
                 trait.Data.TraitData.CustomName = false;
                 trait.Data.Name = trait.Data.GetDefaultName();
@@ -326,16 +318,12 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
         }
         else
         {
-            UiHelper.Label(canvas, trait.Data.Name);
+            LabelDrawer.Draw(canvas, trait.Data.Name);
         }
 
         GUI.color = new Color(1f, 1f, 1f, 0.7f);
 
-        if (UiHelper.FieldButton(
-            canvas,
-            trait.EditingName ? Widgets.CheckboxOffTex : Textures.Edit,
-            trait.EditingName ? _closeTraitNameTooltip : _editTraitNameTooltip
-        ))
+        if (ButtonDrawer.DrawFieldButton(canvas, trait.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, trait.EditingName ? _closeTraitNameTooltip : _editTraitNameTooltip))
         {
             trait.EditingName = !trait.EditingName;
         }
@@ -343,7 +331,7 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
         GUI.color = Color.white;
     }
 
-    /// <inheritdoc cref="TableWorkerBase.Prepare"/>
+    /// <inheritdoc cref="TableWorkerBase.Prepare" />
     public override void Prepare()
     {
         LoadTranslations();
@@ -372,7 +360,7 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
     private void DrawLeftExpandedSettingsColumn(Rect canvas, ITableItem<TraitItem> trait)
     {
         (Rect addKarmaLabel, Rect addKarmaField) = new Rect(0f, 0f, canvas.width, RowLineHeight).Split();
-        UiHelper.Label(addKarmaLabel, _addKarmaTypeText);
+        LabelDrawer.Draw(addKarmaLabel, _addKarmaTypeText);
 
         if (Widgets.ButtonText(addKarmaField, trait.Data.Data.KarmaType == null ? _defaultKarmaTypeText : trait.Data.Data.KarmaType.ToString()))
         {
@@ -381,13 +369,13 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
             );
         }
 
-        if (trait.Data.Data.KarmaType != null && UiHelper.FieldButton(addKarmaLabel, Textures.Reset, _resetTraitKarmaTooltip))
+        if (trait.Data.Data.KarmaType != null && ButtonDrawer.DrawFieldButton(addKarmaLabel, Textures.Reset, _resetTraitKarmaTooltip))
         {
             trait.Data.Data.KarmaType = null;
         }
 
         (Rect removeKarmaLabel, Rect removeKarmaField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).Split();
-        UiHelper.Label(removeKarmaLabel, _removeKarmaTypeText);
+        LabelDrawer.Draw(removeKarmaLabel, _removeKarmaTypeText);
 
         if (Widgets.ButtonText(
             removeKarmaField,
@@ -401,7 +389,7 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
             );
         }
 
-        if (trait.Data.TraitData.KarmaTypeForRemoving != null && UiHelper.FieldButton(removeKarmaLabel, Textures.Reset, _resetTraitKarmaTooltip))
+        if (trait.Data.TraitData.KarmaTypeForRemoving != null && ButtonDrawer.DrawFieldButton(removeKarmaLabel, Textures.Reset, _resetTraitKarmaTooltip))
         {
             trait.Data.TraitData.KarmaTypeForRemoving = null;
         }
@@ -411,13 +399,13 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
     {
         bool proxy = trait.Data.TraitData!.CanBypassLimit;
 
-        if (UiHelper.LabeledPaintableCheckbox(new Rect(0f, 0f, canvas.width, RowLineHeight), _bypassLimitText, ref proxy))
+        if (CheckboxDrawer.DrawCheckbox(new Rect(0f, 0f, canvas.width, RowLineHeight), _bypassLimitText, ref proxy))
         {
             trait.Data.TraitData.CanBypassLimit = proxy;
         }
     }
 
-    /// <inheritdoc cref="TableWorker{T}.EnsureExists"/>
+    /// <inheritdoc cref="TableWorker{T}.EnsureExists" />
     public override void EnsureExists(TableSettingsItem<TraitItem> data)
     {
         if (!InternalData.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
@@ -426,7 +414,7 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged"/>
+    /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged" />
     public override void NotifyGlobalDataChanged()
     {
         var wasDirty = false;
@@ -462,7 +450,7 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
         _resetTraitKarmaTooltip = "TKUtils.TraitTableTooltips.ResetTraitKarma".TranslateSimple();
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifySortRequested"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifySortRequested" />
     public override void NotifySortRequested()
     {
         switch (_sortOrder)
@@ -518,13 +506,13 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested" />
     public override void NotifySearchRequested(string query)
     {
         FilterDataBySearch(query);
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged" />
     public override void NotifyResolutionChanged(Rect region)
     {
         float consumedWidth = region.width - 18f - LineHeight * 3f; // Icon buttons
@@ -544,7 +532,7 @@ public class TraitTableWorker : TableWorker<TableSettingsItem<TraitItem>>
         _expandedHeaderInnerRect = _expandedHeaderRect.ContractedBy(2f);
     }
 
-    /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested"/>
+    /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested" />
     public override void NotifyCustomSearchRequested(Func<TableSettingsItem<TraitItem>, bool> worker)
     {
         foreach (TableSettingsItem<TraitItem> item in Data)

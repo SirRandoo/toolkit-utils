@@ -18,8 +18,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using ToolkitUtils.UX;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers;

@@ -18,8 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NetEscapades.EnumGenerators;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -34,7 +34,7 @@ public class NameConstraint : ConstraintBase
     private readonly List<FloatMenuOption> _strategyOptions;
 
     private NameStrategies _nameStrategy = NameStrategies.Is;
-    private string _nameStrategyButtonText;
+    private string? _nameStrategyButtonText;
 
     public NameConstraint()
     {
@@ -68,7 +68,7 @@ public class NameConstraint : ConstraintBase
         (Rect labelRect, Rect fieldRect) = canvas.Split(0.7f);
         (Rect buttonRect, Rect inputRect) = fieldRect.Split(0.25f);
 
-        UiHelper.Label(labelRect, _labelText);
+        LabelDrawer.Draw(labelRect, _labelText);
 
         if (Widgets.ButtonText(buttonRect, _nameStrategyButtonText))
         {

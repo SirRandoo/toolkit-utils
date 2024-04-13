@@ -21,9 +21,9 @@ namespace SirRandoo.ToolkitUtils.Models;
 
 public abstract class ProxyPartial : IShopItemBase
 {
-    [JsonProperty("defName")] public string DefName { get; set; }
+    [JsonProperty("defName")] public string? DefName { get; set; }
     [JsonProperty("enabled")] public bool Enabled { get; set; }
-    [JsonProperty("name")] public string Name { get; set; }
+    [JsonProperty("name")] public string? Name { get; set; }
     [JsonProperty("price")] public int Cost { get; set; }
     [JsonIgnore] public IShopDataBase Data { get; set; }
 

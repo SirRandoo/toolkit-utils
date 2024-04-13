@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -19,12 +19,11 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
-using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -35,16 +34,16 @@ namespace SirRandoo.ToolkitUtils.Workers;
 /// </summary>
 /// <typeparam name="T">The internal table worker for the editor page</typeparam>
 /// <typeparam name="TU">
-///     The <see cref="IShopItemBase"/> the editor is
+///     The <see cref="IShopItemBase" /> the editor is
 ///     for
 /// </typeparam>
 public abstract class ItemWorkerBase<T, TU> where T : TableWorker<TableSettingsItem<TU>> where TU : class, IShopItemBase
 {
-    private string _addMutatorText;
+    private string? _addMutatorText;
     private Vector2 _addMutatorTextSize;
-    private string _addSelectorText;
+    private string? _addSelectorText;
     private Vector2 _addSelectorTextSize;
-    private string _applyText;
+    private string? _applyText;
     private Vector2 _applyTextSize;
     private Rect _modifierRect = Rect.zero;
     private List<FloatMenuOption> _mutateAdders;
@@ -65,7 +64,7 @@ public abstract class ItemWorkerBase<T, TU> where T : TableWorker<TableSettingsI
 
     /// <summary>
     ///     Requests the table prepare its internal state prior to drawing
-    ///     its <see cref="Data"/>.
+    ///     its <see cref="Data" />.
     /// </summary>
     public virtual void Prepare()
     {
@@ -87,7 +86,7 @@ public abstract class ItemWorkerBase<T, TU> where T : TableWorker<TableSettingsI
     ///     Draws the table according to the internal state of the worker.
     /// </summary>
     /// <remarks>
-    ///     There is no <see cref="Rect"/> parameter as this class stitches
+    ///     There is no <see cref="Rect" /> parameter as this class stitches
     ///     its state together from "events" implementors must call when
     ///     relevant.
     /// </remarks>
@@ -116,7 +115,7 @@ public abstract class ItemWorkerBase<T, TU> where T : TableWorker<TableSettingsI
     /// </summary>
     /// <param name="region">
     ///     The new region to derive its internal
-    ///     <see cref="Rect"/>s from
+    ///     <see cref="Rect" />s from
     /// </param>
     public void NotifyResolutionChanged(Rect region)
     {
@@ -165,7 +164,7 @@ public abstract class ItemWorkerBase<T, TU> where T : TableWorker<TableSettingsI
             Rect sRect = lineRect.Trim(Direction8Way.East, Text.LineHeight - 2f);
             selector.Draw(sRect);
 
-            if (UiHelper.FieldButton(lineRect, Widgets.CheckboxOffTex))
+            if (ButtonDrawer.DrawFieldButton(lineRect, Widgets.CheckboxOffTex))
             {
                 toRemove = selector;
             }
@@ -220,7 +219,7 @@ public abstract class ItemWorkerBase<T, TU> where T : TableWorker<TableSettingsI
             Rect mutatorRect = lineRect.Trim(Direction8Way.East, Text.LineHeight - 2f);
             mutator.Draw(mutatorRect);
 
-            if (UiHelper.FieldButton(lineRect, Widgets.CheckboxOffTex))
+            if (ButtonDrawer.DrawFieldButton(lineRect, Widgets.CheckboxOffTex))
             {
                 toRemove = mutator;
             }

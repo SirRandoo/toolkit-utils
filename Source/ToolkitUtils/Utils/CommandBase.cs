@@ -26,14 +26,14 @@ namespace SirRandoo.ToolkitUtils.Utils;
 
 public class CommandBase : CommandDriver
 {
-    private static Pawn? FindPawn(string username)
+    private static Pawn? FindPawn(string? username)
     {
         return Find.ColonistBar.GetColonistsInOrder()
            .Where(p => p.Faction == Faction.OfPlayer)
            .FirstOrDefault(c => ((NameTriple)c.Name)?.Nick.EqualsIgnoreCase(username) ?? false);
     }
 
-    public static Pawn? GetOrFindPawn(string username, bool allowKidnapped = false)
+    public static Pawn? GetOrFindPawn(string? username, bool allowKidnapped = false)
     {
         Pawn? safe = GetPawn(username);
 
@@ -62,7 +62,7 @@ public class CommandBase : CommandDriver
         return result;
     }
 
-    public static Pawn? GetPawn(string username)
+    public static Pawn? GetPawn(string? username)
     {
         var component = Current.Game.GetComponent<GameComponentPawns>();
         IEnumerable<Pawn> query = component.pawnHistory.Keys.Where(k => k.EqualsIgnoreCase(username)).Select(p => component.pawnHistory[p]);

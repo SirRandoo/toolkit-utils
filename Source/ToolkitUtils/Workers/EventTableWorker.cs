@@ -1,28 +1,25 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Enums;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
@@ -35,19 +32,19 @@ namespace SirRandoo.ToolkitUtils.Workers;
 public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
 {
     private const float BaseExpandedLineSpan = 3f;
-    private string _closeEventNameTooltip;
-    private string _editEventNameTooltip;
-    private string _eventCapText;
+    private string? _closeEventNameTooltip;
+    private string? _editEventNameTooltip;
+    private string? _eventCapText;
     private Rect _expandedHeaderInnerRect = Rect.zero;
     private Rect _expandedHeaderRect = Rect.zero;
-    private string _karmaHeaderText;
-    private string _karmaTypeText;
-    private string _maxWagerText;
+    private string? _karmaHeaderText;
+    private string? _karmaTypeText;
+    private string? _maxWagerText;
 
-    private string _nameHeaderText;
-    private string _openSettingsText;
-    private string _priceHeaderText;
-    private string _resetEventNameTooltip;
+    private string? _nameHeaderText;
+    private string? _openSettingsText;
+    private string? _priceHeaderText;
+    private string? _resetEventNameTooltip;
     private Vector2 _scrollPos = Vector2.zero;
     private SettingsKey _settingsKey = SettingsKey.Collapse;
     private SortKey _sortKey = SortKey.Name;
@@ -55,7 +52,7 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
     private Rect _stateHeaderInnerRect = Rect.zero;
     private Rect _stateHeaderRect = Rect.zero;
     private StateKey _stateKey = StateKey.Enable;
-    private string _wagerBuffer;
+    private string? _wagerBuffer;
     private protected Rect KarmaHeaderRect = Rect.zero;
     private protected Rect KarmaHeaderTextRect = Rect.zero;
     private protected Rect NameHeaderRect = Rect.zero;
@@ -63,7 +60,7 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
     private protected Rect PriceHeaderRect = Rect.zero;
     private protected Rect PriceHeaderTextRect = Rect.zero;
 
-    /// <inheritdoc cref="TableWorkerBase.DrawHeaders"/>
+    /// <inheritdoc cref="TableWorkerBase.DrawHeaders" />
     protected override void DrawHeaders(Rect region)
     {
         if (SettingsHelper.DrawTableHeader(_stateHeaderRect, _stateHeaderInnerRect, _stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
@@ -129,17 +126,15 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
             case SortKey.Name:
                 UiHelper.SortIndicator(NameHeaderRect, _sortOrder);
 
-                return;
+                break;
             case SortKey.Price:
                 UiHelper.SortIndicator(PriceHeaderRect, _sortOrder);
 
-                return;
+                break;
             case SortKey.KarmaType:
                 UiHelper.SortIndicator(KarmaHeaderRect, _sortOrder);
 
-                return;
-            default:
-                return;
+                break;
         }
     }
 
@@ -159,7 +154,7 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorkerBase.DrawTableContents"/>
+    /// <inheritdoc cref="TableWorkerBase.DrawTableContents" />
     protected override void DrawTableContents(Rect region)
     {
         float expectedLine = Data.Where(i => !i.IsHidden).Sum(GetLineSpan);
@@ -202,14 +197,14 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
     }
 
     /// <summary>
-    ///     Draws the given <see cref="EventItem"/> in the pre-defined row
+    ///     Draws the given <see cref="EventItem" /> in the pre-defined row
     ///     space.
     /// </summary>
     /// <param name="canvas">
-    ///     The region to draw the <see cref="EventItem"/>
+    ///     The region to draw the <see cref="EventItem" />
     ///     in
     /// </param>
-    /// <param name="ev">The <see cref="EventItem"/> to draw</param>
+    /// <param name="ev">The <see cref="EventItem" /> to draw</param>
     protected virtual void DrawEvent(Rect canvas, TableSettingsItem<EventItem> ev)
     {
         Rect checkboxRect = LayoutHelper.IconRect(_stateHeaderRect.x + 2f, canvas.y + 2f, _stateHeaderRect.width - 4f, RowLineHeight - 4f);
@@ -227,7 +222,7 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
 
         bool proxy = ev.Data.Enabled;
 
-        if (UiHelper.DrawCheckbox(checkboxRect, ref proxy))
+        if (CheckboxDrawer.DrawCheckbox(checkboxRect, ref proxy))
         {
             if (!ev.Data.Enabled && proxy)
             {
@@ -254,14 +249,14 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
             }
         }
 
-        if (ev.Data.Enabled && ev.Data.CostEditable)
+        if (ev.Data is { Enabled: true, CostEditable: true })
         {
             int cost = ev.Data.Cost;
             SettingsHelper.DrawPriceField(priceRect, ref cost);
             ev.Data.Cost = cost;
         }
 
-        UiHelper.Label(karmaRect, ev.Data.KarmaType.ToString());
+        LabelDrawer.Draw(karmaRect, ev.Data.KarmaType.ToString());
 
         if (Widgets.ButtonImage(settingRect, Textures.Gear))
         {
@@ -316,7 +311,7 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
     private void DrawLeftExpandedSettingsColumn(Rect canvas, TableItem<EventItem> ev)
     {
         (Rect capLabel, Rect capField) = new Rect(0f, 0f, canvas.width, RowLineHeight).Split(0.6f);
-        UiHelper.Label(capLabel, _eventCapText);
+        LabelDrawer.Draw(capLabel, _eventCapText);
         int capProxy = ev.Data.EventCap;
         var capBuffer = capProxy.ToString();
 
@@ -326,13 +321,11 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
         }
 
         (Rect karmaLabel, Rect karmaField) = new Rect(0f, RowLineHeight, canvas.width, RowLineHeight).Split(0.6f);
-        UiHelper.Label(karmaLabel, _karmaTypeText);
+        LabelDrawer.Draw(karmaLabel, _karmaTypeText);
 
         if (Widgets.ButtonText(karmaField, ev.Data.KarmaType.ToString()))
         {
-            Find.WindowStack.Add(
-                new FloatMenu(ToolkitUtils.Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => ev.Data.KarmaType = i)).ToList())
-            );
+            Find.WindowStack.Add(new FloatMenu(ToolkitUtils.Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => ev.Data.KarmaType = i)).ToList()));
         }
     }
 
@@ -340,27 +333,20 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
     {
         var wagerShown = false;
 
-        if (ev.Data.IsVariables && ev.Data.MaxWager > 0)
+        if (ev.Data is { IsVariables: true, MaxWager: > 0 })
         {
             wagerShown = true;
             (Rect wagerLabel, Rect wagerField) = new Rect(0f, 0f, canvas.width, RowLineHeight).Split(0.6f);
-            UiHelper.Label(wagerLabel, _maxWagerText);
+            LabelDrawer.Draw(wagerLabel, _maxWagerText);
             int wagerProxy = ev.Data.MaxWager;
 
-            if (SettingsHelper.DrawNumberField(
-                wagerField,
-                ref wagerProxy,
-                ref _wagerBuffer,
-                out int newWager,
-                ev.Data.Variables?.minPointsToFire ?? ev.Data.Cost,
-                20000f
-            ))
+            if (SettingsHelper.DrawNumberField(wagerField, ref wagerProxy, ref _wagerBuffer, out int newWager, ev.Data.Variables?.minPointsToFire ?? ev.Data.Cost, 20000f))
             {
                 ev.Data.MaxWager = newWager;
             }
         }
 
-        if (ev.Data.HasSettings && !ev.Data.HasSettingsEmbed && Widgets.ButtonText(
+        if (ev.Data is { HasSettings: true, HasSettingsEmbed: false } && Widgets.ButtonText(
             new Rect(0f, wagerShown ? RowLineHeight : 0f, canvas.width, RowLineHeight).Split(0.6f).Item2,
             _openSettingsText
         ))
@@ -375,24 +361,24 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
         {
             var fieldRect = new Rect(canvas.x, canvas.y, canvas.width - canvas.height, canvas.height);
 
-            if (UiHelper.TextField(fieldRect, ev.Data.Name, out string result))
+            if (FieldDrawer.DrawTextField(fieldRect, ev.Data.Name!, out string? result))
             {
-                ev.Data.Name = result!.ToToolkit();
+                ev.Data.Name = result.ToToolkit();
             }
 
-            if (!ev.Data.Name.NullOrEmpty() && UiHelper.FieldButton(fieldRect, Textures.Reset, _resetEventNameTooltip))
+            if (!ev.Data.Name.NullOrEmpty() && ButtonDrawer.DrawFieldButton(fieldRect, Textures.Reset, _resetEventNameTooltip))
             {
                 ev.Data.Incident.abbreviation = ev.Data.GetDefaultAbbreviation();
             }
         }
         else
         {
-            UiHelper.Label(canvas, ev.Data.Name);
+            LabelDrawer.Draw(canvas, ev.Data.Name);
         }
 
         GUI.color = new Color(1f, 1f, 1f, 0.7f);
 
-        if (UiHelper.FieldButton(canvas, ev.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, ev.EditingName ? _closeEventNameTooltip : _editEventNameTooltip))
+        if (ButtonDrawer.DrawFieldButton(canvas, ev.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, ev.EditingName ? _closeEventNameTooltip : _editEventNameTooltip))
         {
             ev.EditingName = !ev.EditingName;
         }
@@ -400,12 +386,12 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
         GUI.color = Color.white;
     }
 
-    /// <inheritdoc cref="TableWorkerBase.Prepare"/>
+    /// <inheritdoc cref="TableWorkerBase.Prepare" />
     public override void Prepare()
     {
         LoadTranslations();
 
-        InternalData ??= new List<TableSettingsItem<EventItem>>();
+        InternalData ??= [];
         InternalData.AddRange(ToolkitUtils.Data.Events.OrderBy(i => i.Name).Select(i => new TableSettingsItem<EventItem> { Data = i }));
     }
 
@@ -426,7 +412,7 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
         _karmaTypeText = "TKUtils.Fields.KarmaType".Localize();
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifySortRequested"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifySortRequested" />
     public override void NotifySortRequested()
     {
         switch (_sortOrder)
@@ -438,8 +424,6 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
             case SortOrder.Descending:
                 NotifyDescendingSortRequested();
 
-                return;
-            default:
                 return;
         }
     }
@@ -482,13 +466,13 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested" />
     public override void NotifySearchRequested(string query)
     {
         FilterDataBySearch(query);
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged" />
     public override void NotifyResolutionChanged(Rect region)
     {
         float consumedWidth = region.width - 20f - LineHeight * 2f; // Icon buttons
@@ -511,20 +495,20 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
     {
         foreach (TableSettingsItem<EventItem> ev in Data)
         {
-            ev.IsHidden = !query.NullOrEmpty() && !ev.Data.Name.ToLower().Contains(query.ToLower());
+            ev.IsHidden = !query.NullOrEmpty() && !ev.Data.Name!.ToLower().Contains(query.ToLower());
         }
     }
 
-    /// <inheritdoc cref="TableWorker{T}.EnsureExists"/>
+    /// <inheritdoc cref="TableWorker{T}.EnsureExists" />
     public override void EnsureExists(TableSettingsItem<EventItem> data)
     {
-        if (!InternalData.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
+        if (!InternalData.Any(i => i.Data.DefName!.Equals(data.Data.DefName)))
         {
             InternalData.Add(data);
         }
     }
 
-    /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged"/>
+    /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged" />
     public override void NotifyGlobalDataChanged()
     {
         var wasDirty = false;
@@ -543,7 +527,7 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested"/>
+    /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested" />
     public override void NotifyCustomSearchRequested(Func<TableSettingsItem<EventItem>, bool> worker)
     {
         foreach (TableSettingsItem<EventItem> ev in Data)
@@ -559,12 +543,12 @@ public class EventTableWorker : TableWorker<TableSettingsItem<EventItem>>
             return 1;
         }
 
-        if (!ev.Data.HasSettingsEmbed && ev.Data.HasSettings)
+        if (ev.Data is { HasSettingsEmbed: false, HasSettings: true })
         {
             return Mathf.RoundToInt(BaseExpandedLineSpan + 1);
         }
 
-        return ev.Data.HasSettingsEmbed ? Mathf.RoundToInt(ev.Data.SettingsEmbed!.LineSpan + BaseExpandedLineSpan + 1) : Mathf.RoundToInt(BaseExpandedLineSpan + 1);
+        return ev.Data.HasSettingsEmbed ? Mathf.RoundToInt(ev.Data.SettingsEmbed.LineSpan + BaseExpandedLineSpan + 1) : Mathf.RoundToInt(BaseExpandedLineSpan + 1);
     }
 
     private enum SortKey { Name, Price, KarmaType }

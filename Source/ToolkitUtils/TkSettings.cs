@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -44,14 +44,14 @@ public class TkSettings : ModSettings
     /// <remarks>
     ///     The extended item syntax is roughly as follows:
     ///     ITEM[MATERIAL,QUALITY]
-    ///     <br/>
-    ///     <br/>
+    ///     <br />
+    ///     <br />
     ///     In the above example, the placeholder "ITEM" is the item a viewer
     ///     wants to purchase, the placeholder "MATERIAL" is the material of
     ///     the item, if it can have a material, and the placeholder
     ///     "QUALITY" is the quality of the item, if it can have a quality.
-    ///     <br/>
-    ///     <br/>
+    ///     <br />
+    ///     <br />
     ///     Note: the placeholders "MATERIAL" and "QUALITY" are
     ///     interchangeable, and optional depending on the item being
     ///     purchased.
@@ -67,16 +67,16 @@ public class TkSettings : ModSettings
     ///     Twitch Toolkit's, more notably its case-sensitiveness, as well as
     ///     its lack of support for "shortcut" commands. Shortcut commands
     ///     are commands that reference the
-    ///     <see cref="TwitchToolkit.Commands.ViewerCommands.Buy"/> as its
+    ///     <see cref="TwitchToolkit.Commands.ViewerCommands.Buy" /> as its
     ///     command handler, but call an event with the same name. An example
     ///     of this within Twitch Toolkit would be the "levelskill" command.
-    ///     <br/>
-    ///     <br/>
+    ///     <br />
+    ///     <br />
     ///     In addition to the above, it allows users to change the prefix of
     ///     their commands, in case there's a conflict between an existing
     ///     bot within their channel, as well as opens the concept of
     ///     "shortcut" commands to every item and event available within the
-    ///     mod through the <see cref="BuyPrefix"/> setting.
+    ///     mod through the <see cref="BuyPrefix" /> setting.
     /// </remarks>
     public static bool Commands = true;
 
@@ -87,7 +87,7 @@ public class TkSettings : ModSettings
     /// </summary>
     /// <remarks>
     ///     The associated code for this setting is only active when the
-    ///     <see cref="Commands"/> setting is enabled.
+    ///     <see cref="Commands" /> setting is enabled.
     /// </remarks>
     public static string Prefix = "!";
 
@@ -98,7 +98,7 @@ public class TkSettings : ModSettings
     /// </summary>
     /// <remarks>
     ///     The associated code for this setting is only active when the
-    ///     <see cref="Commands"/> setting is enabled.
+    ///     <see cref="Commands" /> setting is enabled.
     /// </remarks>
     public static string BuyPrefix = "$";
 
@@ -109,7 +109,7 @@ public class TkSettings : ModSettings
     /// </summary>
     /// <remarks>
     ///     The associated code for this setting is only active when the
-    ///     <see cref="Commands"/> setting is enabled.
+    ///     <see cref="Commands" /> setting is enabled.
     /// </remarks>
     public static bool ToolkitStyleCommands = true;
 
@@ -137,38 +137,38 @@ public class TkSettings : ModSettings
     public static bool Emojis = true;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.PawnWork"/> command
+    ///     Whether the <see cref="ToolkitUtils.Commands.PawnWork" /> command
     ///     will filter work priorities disabled for the given pawn.
     /// </summary>
     public static bool FilterWorkPriorities;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear"/> command
+    ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear" /> command
     ///     will include a given pawn's current apparel.
     /// </summary>
     public static bool ShowApparel;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear"/> command
+    ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear" /> command
     ///     will include a given pawn's armor rating.
     /// </summary>
     public static bool ShowArmor = true;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.PawnHealth"/>
+    ///     Whether the <see cref="ToolkitUtils.Commands.PawnHealth" />
     ///     command will include any queued surgeries for a given pawn.
     /// </summary>
     public static bool ShowSurgeries = true;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear"/> command
+    ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear" /> command
     ///     will include a given pawn's currently equipped weapon, as well as
     ///     sidearms if the relevant mod is installed.
     /// </summary>
     public static bool ShowWeapon = true;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.PawnWork"/> command
+    ///     Whether the <see cref="ToolkitUtils.Commands.PawnWork" /> command
     ///     will sort the priorities to the order displayed in the in-game
     ///     work tab.
     /// </summary>
@@ -180,21 +180,21 @@ public class TkSettings : ModSettings
     public static bool PurchasePawnKinds = true;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear"/> command
+    ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear" /> command
     ///     will include a given pawn's temperature range instead of being
-    ///     included in the <see cref="ToolkitUtils.Commands.PawnBody"/>
+    ///     included in the <see cref="ToolkitUtils.Commands.PawnBody" />
     ///     command.
     /// </summary>
     public static bool TempInGear;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.PawnLeave"/> command
+    ///     Whether the <see cref="ToolkitUtils.Commands.PawnLeave" /> command
     ///     will drop the viewer's pawn inventory, gear, and weapons prior to
     ///     leaving.
     /// </summary>
     /// <remarks>
     ///     If the current leave method is
-    ///     <see cref="ToolkitUtils.LeaveMethod.Thanos"/>, this setting's
+    ///     <see cref="ToolkitUtils.LeaveMethod.Thanos" />, this setting's
     ///     associated code will never run; the items will disappear along
     ///     with the pawn.
     /// </remarks>
@@ -207,7 +207,7 @@ public class TkSettings : ModSettings
 
     /// <summary>
     ///     The current leave method for
-    ///     <see cref="ToolkitUtils.Commands.PawnLeave"/>.
+    ///     <see cref="ToolkitUtils.Commands.PawnLeave" />.
     /// </summary>
     public static string LeaveMethod = nameof(ToolkitUtils.LeaveMethod.MentalBreak);
 
@@ -219,19 +219,19 @@ public class TkSettings : ModSettings
     /// <summary>
     ///     The maximum number of entries that will be displayed in
     ///     lookup-style commands, mainly
-    ///     <see cref="ToolkitUtils.Commands.Lookup"/>.
+    ///     <see cref="ToolkitUtils.Commands.Lookup" />.
     /// </summary>
     public static int LookupLimit = 10;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.InstalledMods"/>
+    ///     Whether the <see cref="ToolkitUtils.Commands.InstalledMods" />
     ///     command will include the respective mod's version, if one could
     ///     be found.
     /// </summary>
     public static bool VersionedModList;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.Balance"/> command
+    ///     Whether the <see cref="ToolkitUtils.Commands.Balance" /> command
     ///     will include the amount of coins a viewer is earning every reward
     ///     cycle.
     /// </summary>
@@ -250,7 +250,7 @@ public class TkSettings : ModSettings
     /// <summary>
     ///     The minimum opinion a pawn must have with a given viewer's pawn
     ///     in order to be displayed within the
-    ///     <see cref="ToolkitUtils.Commands.PawnRelations"/> command.
+    ///     <see cref="ToolkitUtils.Commands.PawnRelations" /> command.
     /// </summary>
     /// <remarks>
     ///     This value is compared to the absolute value of a pawn's opinion
@@ -286,7 +286,7 @@ public class TkSettings : ModSettings
     /// </summary>
     /// <remarks>
     ///     This setting is set internally by the
-    ///     <see cref="ToolkitUtils.Commands.ShopToggle"/> command.
+    ///     <see cref="ToolkitUtils.Commands.ShopToggle" /> command.
     /// </remarks>
     public static bool StoreState = true;
 
@@ -320,7 +320,7 @@ public class TkSettings : ModSettings
     public static bool VisualExceptions;
 
     /// <summary>
-    ///     Whether the <see cref="ToolkitUtils.Commands.PawnRelations"/>
+    ///     Whether the <see cref="ToolkitUtils.Commands.PawnRelations" />
     ///     command will only show relationships with a concrete def
     ///     associated with them.
     /// </summary>
@@ -338,11 +338,11 @@ public class TkSettings : ModSettings
     public static bool GatewayPuff = true;
 
     /// <summary>
-    ///     The states for the <see cref="WorkTypeDef"/>s within the game.
+    ///     The states for the <see cref="WorkTypeDef" />s within the game.
     ///     Disabling a def within this list will remove it from the
-    ///     <see cref="ToolkitUtils.Commands.PawnWork"/> command's output.
+    ///     <see cref="ToolkitUtils.Commands.PawnWork" /> command's output.
     /// </summary>
-    public static List<WorkSetting> WorkSettings = new List<WorkSetting>();
+    public static List<WorkSetting> WorkSettings = new();
 
     private static WorkTypeDef[] _workTypeDefs = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToArray();
 

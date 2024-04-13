@@ -1,57 +1,57 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 
 namespace SirRandoo.ToolkitUtils.Workers;
 
 /// <summary>
-///     A class for displaying <see cref="EventItem"/> data, without the
+///     A class for displaying <see cref="EventItem" /> data, without the
 ///     ability to modify the contents of the table, in a portable way.
 /// </summary>
 public class EventViewWorker : EventTableWorker
 {
-    /// <inheritdoc cref="EventTableWorker.DrawHeaders"/>
+    /// <inheritdoc cref="EventTableWorker.DrawHeaders" />
     protected override void DrawHeaders(Rect region)
     {
         DrawSortableHeaders();
         DrawSortableHeaderIcon();
     }
 
-    /// <inheritdoc cref="EventTableWorker.DrawEvent"/>
+    /// <inheritdoc cref="EventTableWorker.DrawEvent" />
     protected override void DrawEvent(Rect canvas, TableSettingsItem<EventItem> ev)
     {
         var nameRect = new Rect(NameHeaderTextRect.x, canvas.y, NameHeaderTextRect.width, RowLineHeight);
         var priceRect = new Rect(PriceHeaderTextRect.x, canvas.y, PriceHeaderTextRect.width, RowLineHeight);
         var karmaRect = new Rect(KarmaHeaderTextRect.x, canvas.y, KarmaHeaderTextRect.width, RowLineHeight);
 
-        UiHelper.Label(nameRect, ev.Data.Name);
+        LabelDrawer.Draw(nameRect, ev.Data.Name);
 
         if (ev.Data.Enabled)
         {
-            UiHelper.Label(priceRect, ev.Data.Cost.ToString("N0"));
+            LabelDrawer.Draw(priceRect, ev.Data.Cost.ToString("N0"));
         }
 
-        UiHelper.Label(karmaRect, ev.Data.KarmaType.ToString());
+        LabelDrawer.Draw(karmaRect, ev.Data.KarmaType.ToString());
     }
 
-    /// <inheritdoc cref="EventTableWorker.NotifyResolutionChanged"/>
+    /// <inheritdoc cref="EventTableWorker.NotifyResolutionChanged" />
     public override void NotifyResolutionChanged(Rect region)
     {
         float consumedWidth = region.width - 10f; // Icon buttons

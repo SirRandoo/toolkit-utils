@@ -25,12 +25,12 @@ namespace SirRandoo.ToolkitUtils.Workers;
 /// <typeparam name="T"></typeparam>
 public abstract class TableWorker<T> : TableWorkerBase
 {
-    private protected List<T> InternalData;
+    private protected List<T>? InternalData;
 
     /// <summary>
     ///     The internal store data the worker is drawing.
     /// </summary>
-    public IEnumerable<T> Data => InternalData;
+    public IEnumerable<T> Data => InternalData!;
 
     /// <summary>
     ///     Called to ensure the given data exists within the worker's

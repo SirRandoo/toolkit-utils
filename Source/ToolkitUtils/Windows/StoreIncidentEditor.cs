@@ -1,27 +1,26 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Models;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;
 using TwitchToolkit.Store;
@@ -90,7 +89,7 @@ public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
         _globalCooldownBuffer = _item.EventData.GlobalCooldown.ToString();
     }
 
-    /// <inheritdoc cref="Window.PreOpen"/>
+    /// <inheritdoc cref="Window.PreOpen" />
     public override void PreOpen()
     {
         base.PreOpen();
@@ -119,7 +118,7 @@ public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
         _titleWidth = Text.CalcSize(storeIncident.LabelCap).x + 16f;
     }
 
-    /// <inheritdoc cref="Window.DoWindowContents"/>
+    /// <inheritdoc cref="Window.DoWindowContents" />
     public override void DoWindowContents(Rect inRect)
     {
         var listing = new Listing_Standard { maxOneColumn = true };
@@ -137,7 +136,7 @@ public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
         }
 
         DrawCooldownFields(listing);
-            
+
         listing.Gap();
 
         switch (_eventType)
@@ -158,9 +157,9 @@ public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
     {
         (Rect abbrLabel, Rect abbrField) = listing.GetRect(Text.LineHeight).Split(0.6f);
 
-        UiHelper.Label(abbrLabel, _codeText);
+        LabelDrawer.Draw(abbrLabel, _codeText);
 
-        if (UiHelper.TextField(abbrField, storeIncident.abbreviation, out string newAbbr))
+        if (FieldDrawer.DrawTextField(abbrField, storeIncident.abbreviation, out string newAbbr))
         {
             storeIncident.abbreviation = newAbbr;
         }
@@ -172,7 +171,7 @@ public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
             listing.Gap();
             Widgets.Label(costLabel, _priceText);
 
-            if (UiHelper.NumberField(costField, out int value, ref _costBuffer, ref _costBufferValid, 1, int.MaxValue))
+            if (FieldDrawer.DrawNumberField(costField, out int value, ref _costBuffer, ref _costBufferValid, 1))
             {
                 storeIncident.cost = value;
             }
@@ -185,7 +184,7 @@ public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
             listing.Gap();
             Widgets.Label(capLabel, _timesText);
 
-            if (UiHelper.NumberField(capField, out int value, ref _capBuffer, ref _capBufferValid, 1, 200))
+            if (FieldDrawer.DrawNumberField(capField, out int value, ref _capBuffer, ref _capBufferValid, 1, 200))
             {
                 storeIncident.eventCap = value;
             }
@@ -198,7 +197,7 @@ public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
             (Rect wagerLabel, Rect wagerField) = listing.Split(0.6f);
             Widgets.Label(wagerLabel, _wagerText);
 
-            if (UiHelper.NumberField(wagerField, out int wager, ref _wagerBuffer, ref _wagerBufferValid, storeIncidentVariables.minPointsToFire, 20000))
+            if (FieldDrawer.DrawNumberField(wagerField, out int wager, ref _wagerBuffer, ref _wagerBufferValid, storeIncidentVariables.minPointsToFire, 20000))
             {
                 storeIncidentVariables.maxWager = wager;
             }
@@ -273,12 +272,12 @@ public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
             _item.EventData.HasGlobalCooldown = hasGlobalCooldown;
         }
 
-        if (hasGlobalCooldown && UiHelper.FieldButton(globalLabel, Widgets.CheckboxOnTex))
+        if (hasGlobalCooldown && ButtonDrawer.DrawFieldButton(globalLabel, Widgets.CheckboxOnTex))
         {
             _item.EventData.HasGlobalCooldown = !_item.EventData.HasGlobalCooldown;
         }
 
-        if (hasGlobalCooldown && UiHelper.NumberField(globalField, out int globalCooldown, ref _globalCooldownBuffer, ref _globalCooldownValid))
+        if (hasGlobalCooldown && FieldDrawer.DrawNumberField(globalField, out int globalCooldown, ref _globalCooldownBuffer, ref _globalCooldownValid))
         {
             _item.EventData.GlobalCooldown = globalCooldown;
         }
@@ -295,7 +294,7 @@ public class StoreIncidentEditor : TwitchToolkit.Windows.StoreIncidentEditor
             _item.EventData.HasLocalCooldown = hasLocalCooldown;
         }
 
-        if (hasLocalCooldown && UiHelper.NumberField(localField, out int localCooldown, ref _localCooldownBuffer, ref _localCooldownValid))
+        if (hasLocalCooldown && FieldDrawer.DrawNumberField(localField, out int localCooldown, ref _localCooldownBuffer, ref _localCooldownValid))
         {
             _item.EventData.LocalCooldown = localCooldown;
         }

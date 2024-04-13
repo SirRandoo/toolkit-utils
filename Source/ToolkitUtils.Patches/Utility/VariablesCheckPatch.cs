@@ -35,7 +35,7 @@ internal static partial class PurchaseHandlerPatch
     [HarmonyPatch("CheckIfViewerIsInVariableCommandList")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "RedundantAssignment")]
-    private static bool CheckIfViewerIsInVariableCommandListPrefix(string username, ref bool __result)
+    private static bool CheckIfViewerIsInVariableCommandListPrefix(string? username, ref bool __result)
     {
         if (!Purchase_Handler.viewerNamesDoingVariableCommands.Contains(username.ToLower()))
         {

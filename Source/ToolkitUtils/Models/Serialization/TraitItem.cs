@@ -104,7 +104,7 @@ public class TraitItem : IShopItemBase
         set => _data = value;
     }
 
-    [JsonProperty("defName")] public string DefName { get; set; } = null!;
+    [JsonProperty("defName")] public string? DefName { get; set; } = null!;
 
     [JsonIgnore]
     public bool Enabled
@@ -113,7 +113,7 @@ public class TraitItem : IShopItemBase
         set => throw new ReadOnlyException();
     }
 
-    [JsonProperty("name")] public string Name { get; set; } = null!;
+    [JsonProperty("name")] public string? Name { get; set; } = null!;
 
     [JsonIgnore]
     public int Cost

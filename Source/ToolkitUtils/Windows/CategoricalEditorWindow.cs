@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Generic;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -47,10 +47,10 @@ public abstract class CategoricalEditorWindow<TDef> : Window where TDef : Def
         doCloseButton = true;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override Vector2 InitialSize => new(425, 500);
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void PreOpen()
     {
         foreach (TDef def in DefDatabase<TDef>.AllDefs)
@@ -72,7 +72,7 @@ public abstract class CategoricalEditorWindow<TDef> : Window where TDef : Def
         _disableAllText = "TKUtils.Buttons.DisableAll".TranslateSimple();
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void DoWindowContents(Rect inRect)
     {
         GUI.BeginGroup(inRect);
@@ -104,7 +104,7 @@ public abstract class CategoricalEditorWindow<TDef> : Window where TDef : Def
         var headerTextRegion = new Rect(0f, 0f, region.width, Text.LineHeightOf(GameFont.Medium));
         var globalActionsRegion = new Rect(0f, headerTextRegion.height + StandardMargin, region.width, region.height - headerTextRegion.height - StandardMargin);
 
-        UiHelper.Label(headerTextRegion, _header, TextAnchor.MiddleCenter, GameFont.Medium);
+        LabelDrawer.Draw(headerTextRegion, _header, TextAnchor.MiddleCenter, GameFont.Medium);
 
         GUI.BeginGroup(globalActionsRegion);
         DrawGlobalActions(globalActionsRegion.AtZero());
@@ -184,11 +184,11 @@ public abstract class CategoricalEditorWindow<TDef> : Window where TDef : Def
 
             if (IsEntryDisabled(entry.Def))
             {
-                UiHelper.Label(textRegion, entry.Def.label.Tagged("i").CapitalizeFirst(), Color.grey, TextAnchor.MiddleLeft, GameFont.Small);
+                LabelDrawer.Draw(textRegion, entry.Def.label.Tagged("i").CapitalizeFirst(), Color.grey);
             }
             else
             {
-                UiHelper.Label(textRegion, entry.Def.label.CapitalizeFirst(), TextAnchor.MiddleLeft, GameFont.Small);
+                LabelDrawer.Draw(textRegion, entry.Def.label.CapitalizeFirst());
             }
 
             if (Widgets.ButtonText(editButtonRegion, _editText))

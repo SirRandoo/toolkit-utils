@@ -107,7 +107,7 @@ public class HealRandom : IncidentVariablesBase
             return;
         }
 
-        string descriptionTranslated = description.LocalizeKeyed(_target.LabelShort.CapitalizeFirst(), affected);
+        string? descriptionTranslated = description.LocalizeKeyed(_target.LabelShort.CapitalizeFirst(), affected);
         MessageHelper.SendConfirmation(Viewer.username, descriptionTranslated);
 
         Current.Game.letterStack.ReceiveLetter("TKUtils.HealLetter.Title".Localize(), descriptionTranslated, LetterDefOf.PositiveEvent, _target);

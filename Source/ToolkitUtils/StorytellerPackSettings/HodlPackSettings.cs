@@ -1,17 +1,17 @@
 ﻿// MIT License
-// 
+//
 // Copyright (c) 2022 SirRandoo
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,7 +23,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -42,18 +42,18 @@ public class HodlPackSettings : PackSettingsBase
     private List<Entry> _typeEntries;
     private int _weightLineSpan;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override bool Enabled
     {
         get => ToolkitSettings.HodlBotEnabled;
         set => ToolkitSettings.HodlBotEnabled = value;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string Tooltip =>
         "Random by category, or type. Hodlbot chooses events from a random category or type. The chance of one of these categories/types being picked is based the pack's weights.";
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void ResetState()
     {
         _mtbBufferValid = true;
@@ -87,7 +87,7 @@ public class HodlPackSettings : PackSettingsBase
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Draw(Rect region)
     {
         var headerRegion = new Rect(0f, 0f, region.width, Text.SmallFontHeight * 5f);
@@ -97,12 +97,11 @@ public class HodlPackSettings : PackSettingsBase
 
         GUI.BeginGroup(headerRegion);
 
-        UiHelper.Label(
+        LabelDrawer.Draw(
             headerRegion,
             "HodlBot chooses events from a random category or type. The chance of one of these categories/types being picked is based on the weights below. Setting something to 0% will disable.",
             Color.gray,
-            TextAnchor.MiddleCenter,
-            GameFont.Small
+            TextAnchor.MiddleCenter
         );
 
         GUI.EndGroup();
@@ -125,9 +124,9 @@ public class HodlPackSettings : PackSettingsBase
         listing.Begin(region);
 
         (Rect mtbLabel, Rect mtbField) = listing.Split(0.8f);
-        UiHelper.Label(mtbLabel, "Average days between events");
+        LabelDrawer.Draw(mtbLabel, "Average days between events");
 
-        if (UiHelper.NumberField(mtbField, out float newMtb, ref _mtbBuffer, ref _mtbBufferValid, 0.5f, 10f))
+        if (FieldDrawer.DrawNumberField(mtbField, out float newMtb, ref _mtbBuffer, ref _mtbBufferValid, 0.5f, 10f))
         {
             ToolkitSettings.HodlBotMTBDays = newMtb;
         }
@@ -150,7 +149,7 @@ public class HodlPackSettings : PackSettingsBase
             (Rect labelRegion, Rect fieldRegion) = lineRegion.Split(0.8f);
             Widgets.LabelFit(labelRegion, $"{entry.Name} {relativeWeight:P}");
 
-            if (UiHelper.NumberField(fieldRegion, out int newWeight, ref buffer, ref bufferValid))
+            if (FieldDrawer.DrawNumberField(fieldRegion, out int newWeight, ref buffer, ref bufferValid))
             {
                 ToolkitSettings.VoteCategoryWeights[entry.Name] = entry.Weight = newWeight;
                 _totalCategoryWeight = RecalculateTotalCategoryWeight();
@@ -176,7 +175,7 @@ public class HodlPackSettings : PackSettingsBase
             (Rect labelRegion, Rect fieldRegion) = lineRegion.Split(0.8f);
             Widgets.LabelFit(labelRegion, $"{entry.Name} {relativeWeight:P}");
 
-            if (UiHelper.NumberField(fieldRegion, out int newWeight, ref buffer, ref bufferValid))
+            if (FieldDrawer.DrawNumberField(fieldRegion, out int newWeight, ref buffer, ref bufferValid))
             {
                 ToolkitSettings.VoteTypeWeights[entry.Name] = entry.Weight = newWeight;
                 _totalKarmaWeight = RecalculateTotalKarmaWeight();

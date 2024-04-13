@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>2329FF34-0709-400E-A44E-3290CD03E423</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ToolkitUtils.UX</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ButtonDrawer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CheckboxDrawer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DescriptionDrawer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FieldDrawer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IconDrawer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LabelDrawer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LayoutHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RichTextHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SortOrder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UiHelper.cs" />
+  </ItemGroup>
+</Project>

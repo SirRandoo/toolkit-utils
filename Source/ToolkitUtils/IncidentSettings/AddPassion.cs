@@ -1,24 +1,24 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Windows;
+using ToolkitUtils.UX;
 using TwitchToolkit.Incidents;
 using UnityEngine;
 using Verse;
@@ -48,19 +48,19 @@ public class AddPassion : IncidentHelperVariablesSettings, IEventSettings
         listing.CheckboxLabeled("TKUtils.Passion.Randomness.Label".TranslateSimple(), ref Randomness, "TKUtils.Passion.Randomness.Description".TranslateSimple());
 
         (Rect failLabel, Rect failField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(failLabel, "TKUtils.Passion.FailChance.Label".TranslateSimple());
+        LabelDrawer.Draw(failLabel, "TKUtils.Passion.FailChance.Label".TranslateSimple());
         Widgets.TextFieldNumeric(failField, ref ChanceToFail, ref _failChanceBuffer, max: 100f);
-        failLabel.TipRegion("TKUtils.Passion.FailChance.Description".TranslateSimple());
+        TooltipHandler.TipRegion(failLabel, "TKUtils.Passion.FailChance.Description".TranslateSimple());
 
         (Rect hopLabel, Rect hopField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(hopLabel, "TKUtils.Passion.HopChance.Label".TranslateSimple());
+        LabelDrawer.Draw(hopLabel, "TKUtils.Passion.HopChance.Label".TranslateSimple());
         Widgets.TextFieldNumeric(hopField, ref ChanceToHop, ref _hopChanceBuffer, max: 100f);
-        hopLabel.TipRegion("TKUtils.Passion.HopChance.Description".TranslateSimple());
+        TooltipHandler.TipRegion(hopLabel, "TKUtils.Passion.HopChance.Description".TranslateSimple());
 
         (Rect decreaseLabel, Rect decreaseField) = listing.GetRect(preferredHeight).Split();
-        UiHelper.Label(decreaseLabel, "TKUtils.Passion.DecreaseChance.Label".TranslateSimple());
+        LabelDrawer.Draw(decreaseLabel, "TKUtils.Passion.DecreaseChance.Label".TranslateSimple());
         Widgets.TextFieldNumeric(decreaseField, ref ChanceToDecrease, ref _decreaseChanceBuffer, max: 100f);
-        decreaseLabel.TipRegion("TKUtils.Passion.DecreaseChance.Description".TranslateSimple());
+        TooltipHandler.TipRegion(decreaseLabel, "TKUtils.Passion.DecreaseChance.Description".TranslateSimple());
 
         listing.End();
     }

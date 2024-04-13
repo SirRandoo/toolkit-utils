@@ -52,7 +52,7 @@ public class Equip : IncidentVariablesBase
             return false;
         }
 
-        if (_item.TryGetError(out string error))
+        if (_item.TryGetError(out string? error))
         {
             MessageHelper.ReplyToUser(viewer.username, error);
 

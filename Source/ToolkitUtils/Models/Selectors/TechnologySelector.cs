@@ -17,14 +17,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.Constraints;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -36,7 +35,7 @@ public class TechnologySelector : ISelectorBase<ThingItem>
     private List<FloatMenuOption> _comparisonOptions;
     private TechLevel _techLevel = TechLevel.Industrial;
     private List<FloatMenuOption> _techLevelOptions;
-    private string _techLevelText;
+    private string? _techLevelText;
 
     public ObservableProperty<bool> Dirty { get; set; }
 
@@ -73,7 +72,7 @@ public class TechnologySelector : ISelectorBase<ThingItem>
     public void Draw(Rect canvas)
     {
         (Rect label, Rect field) = canvas.Split(0.75f);
-        UiHelper.Label(label, _techLevelText);
+        LabelDrawer.Draw(label, _techLevelText);
 
         (Rect comp, Rect tech) = field.Split(0.3f);
 
@@ -112,5 +111,5 @@ public class TechnologySelector : ISelectorBase<ThingItem>
         }
     }
 
-    public string Label => "TKUtils.Fields.Technology".TranslateSimple();
+    public string? Label => "TKUtils.Fields.Technology".TranslateSimple();
 }

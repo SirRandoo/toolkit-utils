@@ -29,7 +29,7 @@ public class SetFavoriteColor : CommandBase
 {
     public override void RunCommand([NotNull] ITwitchMessage message)
     {
-        string code = CommandFilter.Parse(message.Message).Skip(1).FirstOrDefault();
+        string? code = CommandFilter.Parse(message.Message).Skip(1).FirstOrDefault();
 
         if (code.NullOrEmpty())
         {

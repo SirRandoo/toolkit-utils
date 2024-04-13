@@ -1,27 +1,26 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Workers;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
@@ -65,13 +64,13 @@ public class Editor : Window
 
     protected override float Margin => 0f;
 
-    /// <inheritdoc cref="Window.InitialSize"/>
-    public override Vector2 InitialSize => new Vector2(
+    /// <inheritdoc cref="Window.InitialSize" />
+    public override Vector2 InitialSize => new(
         _maximized ? UI.screenWidth : Mathf.Min(UI.screenWidth, 800f),
         _maximized ? UI.screenHeight : Mathf.FloorToInt(UI.screenHeight * 0.8f)
     );
 
-    /// <inheritdoc cref="Window.PreOpen"/>
+    /// <inheritdoc cref="Window.PreOpen" />
     public override void PreOpen()
     {
         base.PreOpen();
@@ -110,7 +109,7 @@ public class Editor : Window
         _tabWorker.AddTab(_pawnTab);
     }
 
-    /// <inheritdoc cref="Window.DoWindowContents"/>
+    /// <inheritdoc cref="Window.DoWindowContents" />
     public override void DoWindowContents(Rect canvas)
     {
         Rect tabRect = new Rect(0f, 0f, canvas.width, Text.LineHeight * 2f).Rounded();
@@ -164,7 +163,7 @@ public class Editor : Window
             Application.OpenURL("https://sirrandoo.github.io/toolkit-utils/editor");
         }
 
-        butRect.TipRegion(_helpTooltip);
+        TooltipHandler.TipRegion(butRect, _helpTooltip);
 
         butRect = butRect.Shift(Direction8Way.West);
 
@@ -173,7 +172,7 @@ public class Editor : Window
             SavePartial();
         }
 
-        butRect.TipRegion(_exportPartialTooltip);
+        TooltipHandler.TipRegion(butRect, _exportPartialTooltip);
 
         butRect = butRect.Shift(Direction8Way.West);
 
@@ -182,7 +181,7 @@ public class Editor : Window
             LoadPartial();
         }
 
-        butRect.TipRegion(_importPartialTooltip);
+        TooltipHandler.TipRegion(butRect, _importPartialTooltip);
     }
 
     private void LoadPartial()
@@ -249,7 +248,7 @@ public class Editor : Window
         }
     }
 
-    /// <inheritdoc cref="Window.PreClose"/>
+    /// <inheritdoc cref="Window.PreClose" />
     public override void PreClose()
     {
         base.PreClose();
@@ -294,7 +293,7 @@ public class Editor : Window
         _eventWorker.NotifyResolutionChanged(contentRect);
     }
 
-    /// <inheritdoc cref="Window.Notify_ResolutionChanged"/>
+    /// <inheritdoc cref="Window.Notify_ResolutionChanged" />
     public override void Notify_ResolutionChanged()
     {
         base.Notify_ResolutionChanged();
@@ -348,9 +347,7 @@ public class Editor : Window
                 await Data.SaveJsonAsync(
                     new PartialData<TraitItem>
                     {
-                        Data = _traitWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).ToList(),
-                        PartialType = PartialType.Traits,
-                        Description = data.Description
+                        Data = _traitWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).ToList(), PartialType = PartialType.Traits, Description = data.Description
                     },
                     Path.Combine(Paths.PartialPath, data.Name)
                 );
@@ -366,9 +363,7 @@ public class Editor : Window
                 await Data.SaveJsonAsync(
                     new PartialData<PawnKindItem>
                     {
-                        Data = _pawnWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).ToList(),
-                        PartialType = PartialType.Pawns,
-                        Description = data.Description
+                        Data = _pawnWorker.Data.Where(i => !i.IsHidden).Select(i => i.Data).ToList(), PartialType = PartialType.Pawns, Description = data.Description
                     },
                     Path.Combine(Paths.PartialPath, data.Name)
                 );

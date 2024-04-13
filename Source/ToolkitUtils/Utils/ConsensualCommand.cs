@@ -32,7 +32,7 @@ public abstract class ConsensualCommand : CommandBase
     public override void RunCommand(ITwitchMessage twitchMessage)
     {
         var worker = ArgWorker.CreateInstance(CommandFilter.Parse(twitchMessage.Message).Skip(1));
-        string argument = worker.GetNext();
+        string? argument = worker.GetNext();
 
         switch (argument.ToLowerInvariant())
         {
@@ -45,7 +45,7 @@ public abstract class ConsensualCommand : CommandBase
 
                 return;
             default:
-                string username = argument.StartsWith("@") ? argument.Substring(1) : argument;
+                string? username = argument.StartsWith("@") ? argument.Substring(1) : argument;
 
                 Viewer viewer = Viewers.All.Find(v => string.Equals(v.username, username, StringComparison.InvariantCultureIgnoreCase));
 
@@ -62,7 +62,7 @@ public abstract class ConsensualCommand : CommandBase
         }
     }
 
-    protected virtual void ProcessAccept(string username, Viewer? viewer)
+    protected virtual void ProcessAccept(string? username, Viewer? viewer)
     {
         lock (ConsentWorker)
         {
@@ -98,7 +98,7 @@ public abstract class ConsensualCommand : CommandBase
         }
     }
 
-    protected virtual void ProcessDecline(string username, Viewer? viewer)
+    protected virtual void ProcessDecline(string? username, Viewer? viewer)
     {
         lock (ConsentWorker)
         {
@@ -134,17 +134,17 @@ public abstract class ConsensualCommand : CommandBase
         }
     }
 
-    protected virtual void ProcessDeclineInternal(string asker, string askee)
+    protected virtual void ProcessDeclineInternal(string? asker, string? askee)
     {
         MessageHelper.ReplyToUser(asker, "TKUtils.RequestDeclined".LocalizeKeyed(askee));
     }
 
-    protected virtual void ProcessAcceptInternal(string asker, string askee)
+    protected virtual void ProcessAcceptInternal(string? asker, string? askee)
     {
         MessageHelper.ReplyToUser(asker, "TKUtils.RequestApproved".LocalizeKeyed(askee));
     }
 
-    protected virtual void ProcessRequest(string username, Viewer viewer)
+    protected virtual void ProcessRequest(string? username, Viewer viewer)
     {
         if (!PurchaseHelper.TryGetPawn(username, out Pawn _))
         {
@@ -168,7 +168,7 @@ public abstract class ConsensualCommand : CommandBase
         ProcessRequestPost(username, viewer);
     }
 
-    protected virtual void ProcessRequestPost(string username, Viewer viewer)
+    protected virtual void ProcessRequestPost(string? username, Viewer viewer)
     {
     }
 }

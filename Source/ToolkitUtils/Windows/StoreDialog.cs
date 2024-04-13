@@ -18,17 +18,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Workers;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using TwitchToolkit.Store;
 using UnityEngine;
 using Verse;
+using Text = Verse.Text;
 
 namespace SirRandoo.ToolkitUtils.Windows;
 
@@ -40,9 +40,9 @@ public class StoreDialog : Window
 {
     private const float LineScale = 1.25f;
     private static IEnumerator<ThingItem> _validator = ValidateContainers().GetEnumerator();
-    private static readonly Color OverlayBackgroundColor = new Color(0.13f, 0.16f, 0.17f);
+    private static readonly Color OverlayBackgroundColor = new(0.13f, 0.16f, 0.17f);
 
-    private readonly ThingItemFilterManager _filterManager = new ThingItemFilterManager();
+    private readonly ThingItemFilterManager _filterManager = new();
     private readonly ItemTableWorker _worker;
 
     private bool _categorySearch;
@@ -81,10 +81,10 @@ public class StoreDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.InitialSize"/>
-    public override Vector2 InitialSize => new Vector2(900f, Mathf.FloorToInt(UI.screenHeight * 0.9f));
+    /// <inheritdoc cref="Window.InitialSize" />
+    public override Vector2 InitialSize => new(900f, Mathf.FloorToInt(UI.screenHeight * 0.9f));
 
-    /// <inheritdoc cref="Window.Margin"/>
+    /// <inheritdoc cref="Window.Margin" />
     protected override float Margin => 22f;
 
     private void NotifySearchRequested()
@@ -112,7 +112,7 @@ public class StoreDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.PreOpen"/>
+    /// <inheritdoc cref="Window.PreOpen" />
     public override void PreOpen()
     {
         base.PreOpen();
@@ -146,9 +146,7 @@ public class StoreDialog : Window
             FilterTypes.Manufacturable,
             new ThingItemFilter
             {
-                Id = "Manufacturable",
-                IsUnfilteredFunc = ThingItemFilter.FilterByManufactured,
-                Label = "TKUtils.StoreFilters.Manufactured".Localize().CapitalizeFirst()
+                Id = "Manufacturable", IsUnfilteredFunc = ThingItemFilter.FilterByManufactured, Label = "TKUtils.StoreFilters.Manufactured".Localize().CapitalizeFirst()
             }
         );
 
@@ -184,9 +182,7 @@ public class StoreDialog : Window
             FilterTypes.Stackable,
             new ThingItemFilter
             {
-                Id = "NonStackable",
-                IsUnfilteredFunc = ThingItemFilter.FilterByNonStackable,
-                Label = "TKUtils.StoreFilters.NonStackable".Localize().CapitalizeFirst()
+                Id = "NonStackable", IsUnfilteredFunc = ThingItemFilter.FilterByNonStackable, Label = "TKUtils.StoreFilters.NonStackable".Localize().CapitalizeFirst()
             }
         );
 
@@ -200,10 +196,7 @@ public class StoreDialog : Window
 
         _filterManager.RegisterFilter(
             FilterTypes.State,
-            new ThingItemFilter
-            {
-                Id = "Enabled", IsUnfilteredFunc = ThingItemFilter.FilterByEnabled, Label = "TKUtils.StoreFilters.Enabled".Localize().CapitalizeFirst()
-            }
+            new ThingItemFilter { Id = "Enabled", IsUnfilteredFunc = ThingItemFilter.FilterByEnabled, Label = "TKUtils.StoreFilters.Enabled".Localize().CapitalizeFirst() }
         );
 
         foreach (TechLevel techLevel in Data.TechLevels)
@@ -241,7 +234,7 @@ public class StoreDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.DoWindowContents"/>
+    /// <inheritdoc cref="Window.DoWindowContents" />
     public override void DoWindowContents(Rect inRect)
     {
         if (Event.current.type == EventType.Layout)
@@ -290,8 +283,7 @@ public class StoreDialog : Window
         float filterWidth = canvas.width * 0.5f;
         Vector2 center = canvas.center;
 
-        Rect filterDialog = new Rect(center.x - filterWidth / 2f, center.y - canvas.height * 0.75f / 2f, filterWidth, canvas.height * 0.75f)
-           .ExpandedBy(StandardMargin * 2f)
+        Rect filterDialog = new Rect(center.x - filterWidth / 2f, center.y - canvas.height * 0.75f / 2f, filterWidth, canvas.height * 0.75f).ExpandedBy(StandardMargin * 2f)
            .Rounded();
 
         Widgets.DrawBoxSolid(filterDialog, OverlayBackgroundColor);
@@ -318,22 +310,17 @@ public class StoreDialog : Window
 
         Rect searchTextRect = searchRect.Trim(Direction8Way.East, searchRect.width - _searchTextSize.x);
 
-        var searchFieldRect = new Rect(
-            searchTextRect.x + searchTextRect.width + 5f,
-            searchTextRect.y,
-            searchRect.width - searchTextRect.width - 5f,
-            searchTextRect.height
-        );
+        var searchFieldRect = new Rect(searchTextRect.x + searchTextRect.width + 5f, searchTextRect.y, searchRect.width - searchTextRect.width - 5f, searchTextRect.height);
 
         Widgets.Label(searchTextRect, _searchText);
 
-        if (UiHelper.TextField(searchFieldRect, _query, out string input))
+        if (FieldDrawer.DrawTextField(searchFieldRect, _query, out string input))
         {
             _query = input;
             NotifySearchRequested();
         }
 
-        if (_query.Length > 0 && UiHelper.ClearButton(searchRect))
+        if (_query.Length > 0 && ButtonDrawer.ClearButton(searchRect))
         {
             _query = "";
             NotifySearchRequested();
@@ -358,7 +345,7 @@ public class StoreDialog : Window
         var categoryText = new Rect(categoryCheck.x + 16f, categoryLine.y, _categorySearchTextSize.x, categoryLine.height);
 
         GUI.DrawTexture(categoryCheck, _categorySearch ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
-        UiHelper.Label(categoryText, _categorySearchText, TextAnchor.UpperLeft, GameFont.Tiny);
+        LabelDrawer.Draw(categoryText, _categorySearchText, TextAnchor.UpperLeft, GameFont.Tiny);
 
         if (!Widgets.ButtonInvisible(categoryLine))
         {
@@ -404,7 +391,7 @@ public class StoreDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.WindowUpdate"/>
+    /// <inheritdoc cref="Window.WindowUpdate" />
     public override void WindowUpdate()
     {
         base.WindowUpdate();
@@ -464,14 +451,14 @@ public class StoreDialog : Window
         _worker.NotifySortRequested();
     }
 
-    /// <inheritdoc cref="Window.Notify_ResolutionChanged"/>
+    /// <inheritdoc cref="Window.Notify_ResolutionChanged" />
     public override void Notify_ResolutionChanged()
     {
         base.Notify_ResolutionChanged();
         _shouldResizeTable = true;
     }
 
-    /// <inheritdoc cref="Window.PreClose"/>
+    /// <inheritdoc cref="Window.PreClose" />
     public override void PreClose()
     {
         foreach (ThingItem c in Data.Items.Where(c => c.Item == null && c.Thing != null))
@@ -484,7 +471,7 @@ public class StoreDialog : Window
         base.PreClose();
     }
 
-    /// <inheritdoc cref="Window.PostClose"/>
+    /// <inheritdoc cref="Window.PostClose" />
     public override void PostClose()
     {
         Store_ItemEditor.UpdateStoreItemList();
@@ -493,7 +480,7 @@ public class StoreDialog : Window
     }
 
     /// <summary>
-    ///     Returns a set of <see cref="ThingDef"/>s traders may have in
+    ///     Returns a set of <see cref="ThingDef" />s traders may have in
     ///     their inventory.
     /// </summary>
     public static IEnumerable<ThingDef> GetTradeables()
@@ -533,7 +520,7 @@ public class StoreDialog : Window
         return t.defName != "Human";
     }
 
-    /// <inheritdoc cref="Window.OnCancelKeyPressed"/>
+    /// <inheritdoc cref="Window.OnCancelKeyPressed" />
     public override void OnCancelKeyPressed()
     {
         if (FilterMenuActive)
@@ -548,7 +535,7 @@ public class StoreDialog : Window
         base.OnCancelKeyPressed();
     }
 
-    /// <inheritdoc cref="Window.OnAcceptKeyPressed"/>
+    /// <inheritdoc cref="Window.OnAcceptKeyPressed" />
     public override void OnAcceptKeyPressed()
     {
         if (FilterMenuActive)
@@ -577,9 +564,9 @@ public class StoreDialog : Window
     }
 
     /// <summary>
-    ///     Polyfills the <see cref="ThingItem"/> containers to ensure they
-    ///     encompass all of Twitch Toolkit's <see cref="Item"/> dataclasses,
-    ///     as well as any <see cref="ThingDef"/>s that may not have been
+    ///     Polyfills the <see cref="ThingItem" /> containers to ensure they
+    ///     encompass all of Twitch Toolkit's <see cref="Item" /> dataclasses,
+    ///     as well as any <see cref="ThingDef" />s that may not have been
     ///     caught by Twitch Toolkit, i.e. mods that dynamically create items
     ///     at runtime.
     /// </summary>

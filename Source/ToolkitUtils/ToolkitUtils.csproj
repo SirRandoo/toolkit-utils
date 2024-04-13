@@ -32,4 +32,6 @@
           <DependentUpon>Data.cs</DependentUpon>
         </Compile>
     </ItemGroup>
+    
+    <Import Project="..\..\src\ToolkitUtils.UX\ToolkitUtils.UX.projitems" Label="Shared" />
 </Project>

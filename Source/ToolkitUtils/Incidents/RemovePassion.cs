@@ -41,7 +41,7 @@ public class RemovePassion : IncidentVariablesBase
             return false;
         }
 
-        string query = CommandFilter.Parse(msg).Skip(2).FirstOrDefault();
+        string? query = CommandFilter.Parse(msg).Skip(2).FirstOrDefault();
 
         if (query.NullOrEmpty())
         {

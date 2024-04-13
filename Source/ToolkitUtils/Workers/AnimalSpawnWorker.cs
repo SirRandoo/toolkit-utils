@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -33,7 +33,7 @@ public sealed class AnimalSpawnWorker : IncidentWorker_SpecificAnimalsWanderIn
     ///     The label to be displayed on the subsequent <see cref="Letter"/>
     ///     created by this incident worker.
     /// </summary>
-    public string Label { get; set; }
+    public string? Label { get; set; }
 
     /// <summary>
     ///     The <see cref="PawnKindDef"/> to spawn with this worker. This
@@ -71,7 +71,7 @@ public sealed class AnimalSpawnWorker : IncidentWorker_SpecificAnimalsWanderIn
     ///     Whereas <see cref="Label"/> is what the letter will be title,
     ///     this is the "body" of the letter.
     /// </remarks>
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     /// <summary>
     ///     A hacky override to ensure this incident worker isn't used by

@@ -34,8 +34,8 @@ namespace SirRandoo.ToolkitUtils;
 [UsedImplicitly]
 public class CoreAddonMenu : IAddonMenu
 {
-    private static readonly List<FloatMenuOption> Options = new List<FloatMenuOption>
-    {
+    private static readonly List<FloatMenuOption> Options =
+    [
         new FloatMenuOption("TKUtils.AddonMenu.Settings".TranslateSimple(), () => Find.WindowStack.Add(new CoreSettingsWindow())),
         new FloatMenuOption("Message Log", () => Find.WindowStack.Add(new Window_MessageLog())),
         new FloatMenuOption("Help", () => Application.OpenURL("https://github.com/hodldeeznuts/ToolkitCore/wiki")),
@@ -64,7 +64,7 @@ public class CoreAddonMenu : IAddonMenu
                 }
             )
         )
-    };
+    ];
 
     /// <inheritdoc cref="IAddonMenu.MenuOptions"/>
     public List<FloatMenuOption> MenuOptions() => Options;

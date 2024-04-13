@@ -38,7 +38,7 @@ public class PawnSkills : CommandBase
             return;
         }
 
-        var parts = new List<string>();
+        var parts = new List<string?>();
         List<SkillRecord> skills = pawn!.skills.skills;
 
         foreach (SkillRecord skill in skills)

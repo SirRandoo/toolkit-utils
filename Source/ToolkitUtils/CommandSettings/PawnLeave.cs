@@ -16,8 +16,8 @@
 
 using System;
 using System.Linq;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -55,7 +55,7 @@ public class PawnLeave : ICommandSettings
         listing.Begin(region);
 
         (Rect labelRect, Rect fieldRect) = listing.GetRect(Text.LineHeight * 1.5f).Split();
-        UiHelper.Label(labelRect, "TKUtils.Abandon.Method.Label".TranslateSimple());
+        LabelDrawer.Draw(labelRect, "TKUtils.Abandon.Method.Label".TranslateSimple());
         listing.DrawDescription("TKUtils.Abandon.Method.Description".TranslateSimple());
 
         if (Widgets.ButtonText(fieldRect, _currentLeaveMethodText))

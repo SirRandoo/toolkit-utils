@@ -1,43 +1,43 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers;
 
 /// <summary>
-///     A class for drawing <see cref="ThingItem"/>s in a portable way
+///     A class for drawing <see cref="ThingItem" />s in a portable way
 ///     without any means of editing the contents within through the
 ///     table's UI.
 /// </summary>
 public class ItemViewWorker : ItemTableWorker
 {
-    /// <inheritdoc cref="ItemTableWorker.DrawHeaders"/>
+    /// <inheritdoc cref="ItemTableWorker.DrawHeaders" />
     protected override void DrawHeaders(Rect region)
     {
         DrawSortableHeaders();
         DrawSortableHeaderIcon();
     }
 
-    /// <inheritdoc cref="ItemTableWorker.DrawItem"/>
+    /// <inheritdoc cref="ItemTableWorker.DrawItem" />
     protected override void DrawItem(Rect region, TableSettingsItem<ThingItem> item)
     {
         bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
@@ -53,13 +53,13 @@ public class ItemViewWorker : ItemTableWorker
 
         if (item.Data.Cost > 0)
         {
-            UiHelper.Label(priceRect, item.Data.Cost.ToString("N0"));
+            LabelDrawer.Draw(priceRect, item.Data.Cost.ToString("N0"));
         }
 
-        UiHelper.Label(categoryRect, item.Data.Category);
+        LabelDrawer.Draw(categoryRect, item.Data.Category);
     }
 
-    /// <inheritdoc cref="ItemTableWorker.NotifyResolutionChanged"/>
+    /// <inheritdoc cref="ItemTableWorker.NotifyResolutionChanged" />
     public override void NotifyResolutionChanged(Rect region)
     {
         float distributedWidth = Mathf.FloorToInt((region.width - 16f) * 0.333f);

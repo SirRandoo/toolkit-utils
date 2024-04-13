@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,8 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using TwitchToolkit.Windows;
@@ -65,10 +65,10 @@ public class NameQueueDialog : Window
     private string _unassignedText;
     private string _unassignedTooltip;
     private bool _userFromButton;
-    private string _username;
+    private string? _username;
     private Rect _usernameFieldPosition;
     private Viewer _viewer;
-    private string _viewerDrawnText;
+    private string? _viewerDrawnText;
     private string _viewerTooltip;
 
     public NameQueueDialog()
@@ -86,8 +86,8 @@ public class NameQueueDialog : Window
         Notify__CurrentPawnChanged();
     }
 
-    /// <inheritdoc cref="Window.InitialSize"/>
-    public override Vector2 InitialSize => new Vector2(500, 450);
+    /// <inheritdoc cref="Window.InitialSize" />
+    public override Vector2 InitialSize => new(500, 450);
 
     private void GetTranslations()
     {
@@ -116,7 +116,7 @@ public class NameQueueDialog : Window
         _assignedToTextWidth = Text.CalcSize(_assignedToText).x + 16f;
     }
 
-    /// <inheritdoc cref="Window.DoWindowContents"/>
+    /// <inheritdoc cref="Window.DoWindowContents" />
     public override void DoWindowContents(Rect inRect)
     {
         if (Event.current.type == EventType.Layout)
@@ -209,12 +209,12 @@ public class NameQueueDialog : Window
 
         Rect usernameRect = listing.GetRect(Text.LineHeight);
         (Rect usernameLabel, Rect usernameFieldHalf) = usernameRect.Split(_assignedToTextWidth / usernameRect.width);
-        UiHelper.Label(usernameLabel, _assignedToText);
+        LabelDrawer.Draw(usernameLabel, _assignedToText);
 
         _usernameFieldPosition = new Rect(usernameFieldHalf.x, usernameFieldHalf.y, usernameFieldHalf.width - _applyTextWidth - 5f, usernameFieldHalf.height);
         _username = Widgets.TextField(_usernameFieldPosition, _username).ToToolkit();
 
-        if (_username.Length > 0 && UiHelper.ClearButton(_usernameFieldPosition))
+        if (_username.Length > 0 && ButtonDrawer.ClearButton(_usernameFieldPosition))
         {
             _username = "";
             _userFromButton = false;
@@ -247,7 +247,7 @@ public class NameQueueDialog : Window
         Rect seenAtLine = listing.GetRect(Text.LineHeight * 2f);
         seenAtLine = seenAtLine.Trim(Direction8Way.East, seenAtLine.width - 5f - _notifyTextWidth);
         var notifyButton = new Rect(seenAtLine.x + seenAtLine.width + 5f, seenAtLine.y, _notifyTextWidth, Mathf.FloorToInt(seenAtLine.height / 2f));
-        UiHelper.Label(seenAtLine, _lastSeenText);
+        LabelDrawer.Draw(seenAtLine, _lastSeenText);
 
         if (Widgets.ButtonText(notifyButton, _notifyText))
         {
@@ -297,7 +297,7 @@ public class NameQueueDialog : Window
             OpenViewerDetailsFor(name);
         }
 
-        buttonTemplateRect.TipRegion(_configureViewerTooltip);
+        TooltipHandler.TipRegion(buttonTemplateRect, _configureViewerTooltip);
         buttonTemplateRect = buttonTemplateRect.Shift(Direction8Way.East, 0f);
 
         var remove = false;
@@ -308,7 +308,7 @@ public class NameQueueDialog : Window
             remove = true;
         }
 
-        buttonTemplateRect.TipRegion(_banViewerTooltip);
+        TooltipHandler.TipRegion(buttonTemplateRect, _banViewerTooltip);
 
         buttonTemplateRect = buttonTemplateRect.Shift(Direction8Way.East, 0f);
 
@@ -317,7 +317,7 @@ public class NameQueueDialog : Window
             remove = true;
         }
 
-        buttonTemplateRect.TipRegion(_removeViewerTooltip);
+        TooltipHandler.TipRegion(buttonTemplateRect, _removeViewerTooltip);
 
         if (!remove)
         {
@@ -390,8 +390,8 @@ public class NameQueueDialog : Window
         }
 
         bool viewerAssigned = _pawnComponent.pawnHistory.Any(pair => pair.Key.Equals(name.Nick, StringComparison.InvariantCultureIgnoreCase) && pair.Value == _current);
-        UiHelper.Label(nameRect, $"{name.First} {name.Last}", TextAnchor.MiddleCenter);
-        UiHelper.Label(viewerRect, name.Nick?.CapitalizeFirst(), TextAnchor.MiddleCenter);
+        LabelDrawer.Draw(nameRect, $"{name.First} {name.Last}", TextAnchor.MiddleCenter);
+        LabelDrawer.Draw(viewerRect, name.Nick?.CapitalizeFirst(), TextAnchor.MiddleCenter);
 
         DoStateMouseActions(stateRect, viewerAssigned, name.Nick);
         TooltipHandler.TipRegion(viewerRect, _viewerTooltip);
@@ -416,7 +416,7 @@ public class NameQueueDialog : Window
             return;
         }
 
-        UiHelper.Label(canvas, (assigned ? _assignedText : _unassignedText).CapitalizeFirst(), TextAnchor.MiddleCenter);
+        LabelDrawer.Draw(canvas, (assigned ? _assignedText : _unassignedText).CapitalizeFirst(), TextAnchor.MiddleCenter);
         Widgets.DrawHighlightIfMouseover(canvas);
         TooltipHandler.TipRegion(canvas, assigned ? _assignedTooltip : _unassignedTooltip);
 
@@ -495,7 +495,7 @@ public class NameQueueDialog : Window
 
     private void Notify__CurrentPawnChanged()
     {
-        string assigned = _pawnComponent.pawnHistory.Where(p => p.Value == _current).Select(p => p.Key).FirstOrDefault();
+        string? assigned = _pawnComponent.pawnHistory.Where(p => p.Value == _current).Select(p => p.Key).FirstOrDefault();
 
         _username = assigned ?? "";
     }
@@ -550,7 +550,7 @@ public class NameQueueDialog : Window
         Notify__CurrentPawnChanged();
     }
 
-    /// <inheritdoc cref="Window.WindowUpdate"/>
+    /// <inheritdoc cref="Window.WindowUpdate" />
     public override void WindowUpdate()
     {
         base.WindowUpdate();
@@ -573,7 +573,7 @@ public class NameQueueDialog : Window
         UpdateLastSeenText();
     }
 
-    /// <inheritdoc cref="Window.PreOpen"/>
+    /// <inheritdoc cref="Window.PreOpen" />
     public override void PreOpen()
     {
         base.PreOpen();
@@ -625,7 +625,7 @@ public class NameQueueDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.OnAcceptKeyPressed"/>
+    /// <inheritdoc cref="Window.OnAcceptKeyPressed" />
     public override void OnAcceptKeyPressed()
     {
         if (GUIUtility.keyboardControl == GUIUtility.GetControlID(FocusType.Keyboard, _usernameFieldPosition))
@@ -640,7 +640,7 @@ public class NameQueueDialog : Window
         base.OnAcceptKeyPressed();
     }
 
-    /// <inheritdoc cref="Window.OnCancelKeyPressed"/>
+    /// <inheritdoc cref="Window.OnCancelKeyPressed" />
     public override void OnCancelKeyPressed()
     {
         if (GUIUtility.keyboardControl == GUIUtility.GetControlID(FocusType.Keyboard, _usernameFieldPosition))

@@ -26,5 +26,5 @@ public interface IMagicCompatibilityProvider : ICompatibilityProvider
     bool HasClass(Pawn pawn);
     void ResetClass(Pawn pawn);
     bool IsUndead(Pawn pawn);
-    string GetSkillDescription(string invoker, string query);
+    string? GetSkillDescription(string? invoker, string? query);
 }

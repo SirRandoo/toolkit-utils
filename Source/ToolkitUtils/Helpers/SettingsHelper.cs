@@ -16,8 +16,7 @@
 
 using System;
 using System.Linq;
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -130,7 +129,7 @@ public static class SettingsHelper
     public static bool DrawTableHeader(
         Rect backgroundRect,
         Rect textRect,
-        string text,
+        string? text,
         TextAnchor anchor = TextAnchor.MiddleLeft,
         GameFont fontScale = GameFont.Small,
         bool vertical = false
@@ -222,23 +221,23 @@ public static class SettingsHelper
 
     public static void DrawKarmaField(
         Rect labelRect,
-        string label,
+        string? label,
         Rect fieldRect,
-        string nullLabel,
+        string? nullLabel,
         KarmaType? karmaType,
         Action<KarmaType?> changedCallback,
         bool doResetButton = false,
         string? resetTooltip = null
     )
     {
-        UiHelper.Label(labelRect, label);
+        LabelDrawer.Draw(labelRect, label);
 
         if (Widgets.ButtonText(fieldRect, !karmaType.HasValue ? nullLabel : karmaType.Value.ToString()))
         {
             Find.WindowStack.Add(new FloatMenu(Data.KarmaTypes.Values.Select(i => new FloatMenuOption(i.ToString(), () => changedCallback(i))).ToList()));
         }
 
-        if (doResetButton && karmaType.HasValue && UiHelper.FieldButton(labelRect, Textures.Reset, resetTooltip))
+        if (doResetButton && karmaType.HasValue && ButtonDrawer.DrawFieldButton(labelRect, Textures.Reset, resetTooltip))
         {
             changedCallback(null);
         }

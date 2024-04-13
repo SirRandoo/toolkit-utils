@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -53,7 +53,7 @@ public class PawnRelations : CommandBase
         {
             int theirOpinion = viewerPawn.relations.OpinionOf(pawn);
             int myOpinion = pawn!.relations.OpinionOf(viewerPawn);
-            string relationship = GetSocialString(pawn, viewerPawn, myOpinion, true);
+            string? relationship = GetSocialString(pawn, viewerPawn, myOpinion, true);
 
             if (relationship.NullOrEmpty())
             {
@@ -79,7 +79,7 @@ public class PawnRelations : CommandBase
            .Select(
                 pair =>
                 {
-                    string relationString = GetSocialString(pawn, pair.Value, pawn.relations.OpinionOf(pair.Value));
+                    string? relationString = GetSocialString(pawn, pair.Value, pawn.relations.OpinionOf(pair.Value));
 
                     return relationString == null ? null : ResponseHelper.JoinPair(pair.Key.CapitalizeFirst(), relationString);
                 }
@@ -90,7 +90,7 @@ public class PawnRelations : CommandBase
         twitchMessage.Reply(container.Count <= 0 ? "TKUtils.PawnRelations.None".Localize() : container.SectionJoin());
     }
 
-    private static string GetSocialString(Pawn pawn, Pawn otherPawn, int opinion, bool overrideSettings = false)
+    private static string? GetSocialString(Pawn pawn, Pawn otherPawn, int opinion, bool overrideSettings = false)
     {
         PawnRelationDef relations = pawn.GetMostImportantRelation(otherPawn);
 

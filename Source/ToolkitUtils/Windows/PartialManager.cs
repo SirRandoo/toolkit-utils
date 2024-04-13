@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -19,11 +19,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -43,16 +42,16 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
     private string _cancelLabel;
     private bool _cancelled = true;
     private string _confirmLabel;
-    private string _emptyLabel;
-    private string _erroredLabel;
-    private bool _errored;
     private string _deletePartialTooltip;
     private string _descriptionLabel;
-    private string _fileDescription;
+    private string _emptyLabel;
+    private bool _errored;
+    private string _erroredLabel;
     private int _fileCount;
+    private string _fileDescription;
     private string _fileName;
     private string _fileNameLabel;
-    private List<FileData<T>> _files = new List<FileData<T>>();
+    private List<FileData<T>> _files = new();
     private string _indexingLabel;
     private bool _isIndexing;
     private string _loadPartialTooltip;
@@ -77,7 +76,7 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
         SetWindowParams();
     }
 
-    /// <inheritdoc cref="Window.InitialSize"/>
+    /// <inheritdoc cref="Window.InitialSize" />
     public override Vector2 InitialSize
     {
         get
@@ -128,15 +127,15 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
     ///     Creates a new instance for loading partial data.
     /// </summary>
     /// <param name="callback">An action to call when partial data is loaded</param>
-    public static PartialManager<T> CreateLoadInstance(Action<PartialData<T>> callback) => new PartialManager<T>(callback);
+    public static PartialManager<T> CreateLoadInstance(Action<PartialData<T>> callback) => new(callback);
 
     /// <summary>
     ///     Creates a new instance for saving partial data.
     /// </summary>
     /// <param name="callback">An action to call when partial data is saved</param>
-    public static PartialManager<T> CreateSaveInstance(Action<PartialUgc> callback) => new PartialManager<T>(callback);
+    public static PartialManager<T> CreateSaveInstance(Action<PartialUgc> callback) => new(callback);
 
-    /// <inheritdoc cref="Window.DoWindowContents"/>
+    /// <inheritdoc cref="Window.DoWindowContents" />
     public override void DoWindowContents(Rect canvas)
     {
         GUI.BeginGroup(canvas);
@@ -160,21 +159,21 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
     {
         if (_isIndexing)
         {
-            UiHelper.Label(canvas, _indexingLabel, TextAnchor.MiddleCenter, GameFont.Medium);
+            LabelDrawer.Draw(canvas, _indexingLabel, TextAnchor.MiddleCenter, GameFont.Medium);
 
             return;
         }
 
         if (_errored)
         {
-            UiHelper.Label(canvas, _erroredLabel, TextAnchor.MiddleCenter, GameFont.Medium);
+            LabelDrawer.Draw(canvas, _erroredLabel, TextAnchor.MiddleCenter, GameFont.Medium);
 
             return;
         }
 
         if (_fileCount <= 0)
         {
-            UiHelper.Label(canvas, _emptyLabel, TextAnchor.MiddleCenter, GameFont.Medium);
+            LabelDrawer.Draw(canvas, _emptyLabel, TextAnchor.MiddleCenter, GameFont.Medium);
 
             return;
         }
@@ -185,7 +184,7 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
         GUI.BeginGroup(canvas);
         listing.Begin(canvas);
         Widgets.BeginScrollView(canvas, ref _scrollPos, viewport);
-        FileData<T> toDelete = null;
+        FileData<T>? toDelete = null;
 
         foreach (FileData<T> file in _files)
         {
@@ -200,7 +199,7 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
             var loadRect = new Rect(nameRect.x + nameRect.width, nameRect.y, lineRect.height, lineRect.height);
             var deleteRect = new Rect(loadRect.x + loadRect.width, nameRect.y, loadRect.width, loadRect.height);
 
-            UiHelper.Label(nameRect, file.Name);
+            LabelDrawer.Draw(nameRect, file.Name);
 
             if (Widgets.ButtonImage(loadRect, TexCommand.Install))
             {
@@ -214,9 +213,9 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
                 toDelete = file;
             }
 
-            nameRect.TipRegion(file.Description);
-            loadRect.TipRegion(_loadPartialTooltip);
-            deleteRect.TipRegion(_deletePartialTooltip);
+            TooltipHandler.TipRegion(nameRect, file.Description);
+            TooltipHandler.TipRegion(loadRect, _loadPartialTooltip);
+            TooltipHandler.TipRegion(deleteRect, _deletePartialTooltip);
         }
 
         Widgets.EndScrollView();
@@ -247,17 +246,17 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
         listing.Begin(canvas);
 
         (Rect nameLabel, Rect nameField) = listing.Split(0.55f);
-        UiHelper.Label(nameLabel, _fileNameLabel);
+        LabelDrawer.Draw(nameLabel, _fileNameLabel);
 
-        if (UiHelper.TextField(nameField, _fileName, out string newFileName))
+        if (FieldDrawer.DrawTextField(nameField, _fileName, out string? newFileName))
         {
             _fileName = newFileName;
         }
 
         (Rect descLabel, Rect descField) = listing.Split(0.55f);
-        UiHelper.Label(descLabel, _descriptionLabel);
+        LabelDrawer.Draw(descLabel, _descriptionLabel);
 
-        if (UiHelper.TextField(descField, _fileDescription, out string newFileDesc))
+        if (FieldDrawer.DrawTextField(descField, _fileDescription, out string? newFileDesc))
         {
             _fileDescription = newFileDesc;
         }
@@ -283,14 +282,14 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
         return Path.GetInvalidPathChars().Aggregate(name, (current, c) => current.Replace(c, '_'));
     }
 
-    /// <inheritdoc cref="Window.OnCancelKeyPressed"/>
+    /// <inheritdoc cref="Window.OnCancelKeyPressed" />
     public override void OnCancelKeyPressed()
     {
         _cancelled = true;
         base.OnCancelKeyPressed();
     }
 
-    /// <inheritdoc cref="Window.PostOpen"/>
+    /// <inheritdoc cref="Window.PostOpen" />
     public override void PostOpen()
     {
         base.PostOpen();
@@ -308,16 +307,16 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
                 catch (Exception e)
                 {
                     TkUtils.Logger.Error($"Could not index partials for {_filter.ToString()}", e);
-                        
+
                     _errored = true;
                 }
-                    
+
                 if (_files != null)
                 {
                     _files.RemoveAll(i => i.PartialData.PartialType != _filter);
                     _fileCount = _files.Count;
                 }
-                    
+
                 _isIndexing = false;
             }
         );
@@ -382,7 +381,7 @@ public class PartialManager<T> : Window where T : class, IShopItemBase
         return container;
     }
 
-    /// <inheritdoc cref="Window.PostClose"/>
+    /// <inheritdoc cref="Window.PostClose" />
     public override void PostClose()
     {
         if (_cancelled)

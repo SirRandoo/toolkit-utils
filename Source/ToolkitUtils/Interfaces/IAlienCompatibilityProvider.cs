@@ -22,7 +22,7 @@ namespace SirRandoo.ToolkitUtils.Interfaces;
 public interface IAlienCompatibilityProvider : ICompatibilityProvider
 {
     bool TryReassignBody(Pawn pawn);
-    bool IsTraitForced(Pawn pawn, string defName, int degree);
+    bool IsTraitForced(Pawn pawn, string? defName, int degree);
     bool IsTraitDisallowed(Pawn pawn, string defName, int degree);
     bool IsTraitAllowed(Pawn pawn, TraitDef traitDef, int degree = -10);
 }

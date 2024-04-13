@@ -1,17 +1,17 @@
 ﻿// MIT License
-// 
+//
 // Copyright (c) 2022 SirRandoo
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 using System.Collections.Generic;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Interfaces;
+using ToolkitUtils.UX;
 using TwitchToolkit.Storytellers;
 using UnityEngine;
 using Verse;
@@ -34,9 +34,9 @@ public class StorytellerPackDialog : Window
 {
     private readonly int _packCount;
     private readonly float _packLineSpan;
-    private readonly List<PackEntry> _packs = new List<PackEntry>();
+    private readonly List<PackEntry> _packs = [];
     private Vector2 _scrollPos = Vector2.zero;
-    private PackEntry _selected;
+    private PackEntry? _selected;
 
     public StorytellerPackDialog()
     {
@@ -53,7 +53,7 @@ public class StorytellerPackDialog : Window
         _packLineSpan = _packCount * Text.SmallFontHeight;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void DoWindowContents(Rect inRect)
     {
         var listRegion = new Rect(0f, 0f, Mathf.FloorToInt(inRect.width * 0.39f), inRect.height - Text.SmallFontHeight - StandardMargin);
@@ -77,7 +77,7 @@ public class StorytellerPackDialog : Window
 
         if (_selected?.Settings == null)
         {
-            UiHelper.Label(settingsRegion.AtZero(), "This pack doesn't have any settings.", Color.grey, TextAnchor.MiddleCenter, GameFont.Small);
+            LabelDrawer.Draw(settingsRegion.AtZero(), "This pack doesn't have any settings.", Color.grey, TextAnchor.MiddleCenter, GameFont.Small);
         }
         else
         {
@@ -121,7 +121,7 @@ public class StorytellerPackDialog : Window
             Rect checkRegion = LayoutHelper.IconRect(lineRegion.x, lineRegion.y, Text.SmallFontHeight, Text.SmallFontHeight);
             var labelRegion = new Rect(lineRegion.x + Text.SmallFontHeight, lineRegion.y, lineRegion.width - Text.SmallFontHeight, Text.SmallFontHeight);
 
-            UiHelper.Label(labelRegion, pack.Name);
+            LabelDrawer.Draw(labelRegion, pack.Name);
             Widgets.CheckboxDraw(checkRegion.x, checkRegion.y, pack.Settings.Enabled, false, checkRegion.height);
 
             if (Widgets.ButtonInvisible(checkRegion))

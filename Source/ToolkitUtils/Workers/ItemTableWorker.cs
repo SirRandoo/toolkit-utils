@@ -1,29 +1,27 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Enums;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -32,37 +30,37 @@ namespace SirRandoo.ToolkitUtils.Workers;
 public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
 {
     private const float ExpandedLineSpan = 5f;
-    private string _categoryHeaderText;
-    private string _closeItemNameTooltip;
-    private string _defaultKarmaTypeText;
-    private string _editItemNameTooltip;
-    private string _equipKarmaTypeText;
+    private string? _categoryHeaderText;
+    private string? _closeItemNameTooltip;
+    private string? _defaultKarmaTypeText;
+    private string? _editItemNameTooltip;
+    private string? _equipKarmaTypeText;
     private Rect _expandedHeaderInnerRect = Rect.zero;
     private Rect _expandedHeaderRect = Rect.zero;
-    private string _isEquippableText;
-    private string _isStuffText;
-    private string _isUsableText;
-    private string _isWearableText;
+    private string? _isEquippableText;
+    private string? _isStuffText;
+    private string? _isUsableText;
+    private string? _isWearableText;
 
-    private string _karmaTypeText;
-    private string _nameHeaderText;
-    private string _priceHeaderText;
-    private string _purchaseWeightText;
-    private string _quantityLimitText;
-    private string _resetItemKarmaTooltip;
-    private string _resetItemNameTooltip;
+    private string? _karmaTypeText;
+    private string? _nameHeaderText;
+    private string? _priceHeaderText;
+    private string? _purchaseWeightText;
+    private string? _quantityLimitText;
+    private string? _resetItemKarmaTooltip;
+    private string? _resetItemNameTooltip;
     private Vector2 _scrollPos = Vector2.zero;
 
     private SettingsKey _settingsKey = SettingsKey.Collapse;
     private SortKey _sortKey = SortKey.Name;
     private SortOrder _sortOrder = SortOrder.Descending;
-    private string _stackLimitTooltip;
+    private string? _stackLimitTooltip;
     private Rect _stateHeaderInnerRect = Rect.zero;
 
     private Rect _stateHeaderRect = Rect.zero;
     private StateKey _stateKey = StateKey.Enable;
-    private string _useKarmaTypeText;
-    private string _wearKarmaTypeText;
+    private string? _useKarmaTypeText;
+    private string? _wearKarmaTypeText;
     private protected Rect CategoryHeaderRect = Rect.zero;
     private protected Rect CategoryHeaderTextRect = Rect.zero;
     private protected Rect NameHeaderRect = Rect.zero;
@@ -70,7 +68,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
     private protected Rect PriceHeaderRect = Rect.zero;
     private protected Rect PriceHeaderTextRect = Rect.zero;
 
-    /// <inheritdoc cref="TableWorkerBase.DrawHeaders"/>
+    /// <inheritdoc cref="TableWorkerBase.DrawHeaders" />
     protected override void DrawHeaders(Rect region)
     {
         if (SettingsHelper.DrawTableHeader(_stateHeaderRect, _stateHeaderInnerRect, _stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
@@ -167,7 +165,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorkerBase.DrawTableContents"/>
+    /// <inheritdoc cref="TableWorkerBase.DrawTableContents" />
     protected override void DrawTableContents(Rect region)
     {
         float expectedLines = Data.Where(i => !i.IsHidden).Sum(i => i.SettingsVisible ? ExpandedLineSpan + 1f : 1f);
@@ -222,13 +220,13 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
     }
 
     /// <summary>
-    ///     Draws the given <see cref="ThingItem"/> at the given region.
+    ///     Draws the given <see cref="ThingItem" /> at the given region.
     /// </summary>
     /// <param name="region">
-    ///     The region to draw the <see cref="ThingItem"/>
+    ///     The region to draw the <see cref="ThingItem" />
     ///     in
     /// </param>
-    /// <param name="item">The <see cref="ThingItem"/> to draw</param>
+    /// <param name="item">The <see cref="ThingItem" /> to draw</param>
     protected virtual void DrawItem(Rect region, TableSettingsItem<ThingItem> item)
     {
         bool hasIcon = Widgets.CanDrawIconFor(item.Data.Thing);
@@ -262,7 +260,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
 
         bool proxy = item.Data.Enabled;
 
-        if (UiHelper.DrawCheckbox(checkboxRect, ref proxy))
+        if (CheckboxDrawer.DrawCheckbox(checkboxRect, ref proxy))
         {
             item.Data.Enabled = proxy;
             item.Data.Update();
@@ -275,7 +273,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
 
         DrawConfigurableItemName(nameRect, item);
 
-        if (!item.EditingName && item.Data.Thing != null && Current.Game != null)
+        if (item is { EditingName: false, Data.Thing: not null } && Current.Game != null)
         {
             Widgets.DrawHighlightIfMouseover(thingRect);
 
@@ -287,10 +285,10 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
 
         if (item.Data.Cost > 0)
         {
-            SettingsHelper.DrawPriceField(priceRect, ref item.Data.Item!.price);
+            SettingsHelper.DrawPriceField(priceRect, ref item.Data.Item.price);
         }
 
-        UiHelper.Label(categoryRect, item.Data.Category);
+        LabelDrawer.Draw(categoryRect, item.Data.Category);
 
         if (Widgets.ButtonImage(settingRect, Textures.Gear))
         {
@@ -320,24 +318,28 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
         {
             var fieldRect = new Rect(canvas.x, canvas.y, canvas.width - canvas.height, canvas.height);
 
-            if (UiHelper.TextField(fieldRect, item.Data.Name, out string result))
+            if (FieldDrawer.DrawTextField(fieldRect, item.Data.Name!, out string? result))
             {
-                item.Data.ItemData!.CustomName = result.ToToolkit();
+                item.Data.ItemData.CustomName = result.ToToolkit();
             }
 
-            if (item.Data.ItemData!.CustomName != null && UiHelper.FieldButton(fieldRect, Textures.Reset, _resetItemNameTooltip))
+            if (item.Data.ItemData.CustomName != null && ButtonDrawer.DrawFieldButton(fieldRect, Textures.Reset, _resetItemNameTooltip))
             {
                 item.Data.ItemData.CustomName = null;
             }
         }
         else
         {
-            UiHelper.Label(canvas, item.Data.Name, item.Data.Thing == null ? Color.yellow : Color.white, TextAnchor.MiddleLeft, GameFont.Small);
+            LabelDrawer.Draw(canvas, item.Data.Name, item.Data.Thing == null ? Color.yellow : Color.white);
         }
 
         GUI.color = new Color(1f, 1f, 1f, 0.7f);
 
-        if (UiHelper.FieldButton(canvas, item.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, item.EditingName ? _closeItemNameTooltip : _editItemNameTooltip))
+        if (ButtonDrawer.DrawFieldButton(
+            canvas,
+            item.EditingName ? Widgets.CheckboxOffTex : Textures.Edit,
+            item.EditingName ? _closeItemNameTooltip : _editItemNameTooltip
+        ))
         {
             item.EditingName = !item.EditingName;
         }
@@ -345,7 +347,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
         GUI.color = Color.white;
     }
 
-    /// <inheritdoc cref="TableWorkerBase.Prepare"/>
+    /// <inheritdoc cref="TableWorkerBase.Prepare" />
     public override void Prepare()
     {
         LoadTranslations();
@@ -371,7 +373,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
         GUI.EndGroup();
     }
 
-    private void DrawLeftExpandedSettingsColumn(Rect canvas, TableSettingsItem<ThingItem> item)
+    private void DrawLeftExpandedSettingsColumn(Rect canvas, ITableItem<ThingItem> item)
     {
         var row = 0;
         (Rect karmaLabel, Rect karmaField) = new Rect(0f, row, canvas.width, RowLineHeight).Split();
@@ -381,7 +383,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
             _karmaTypeText,
             karmaField,
             _defaultKarmaTypeText,
-            item.Data.Data!.KarmaType,
+            item.Data.Data.KarmaType,
             k => item.Data.Data.KarmaType = k,
             item.Data.Data.KarmaType != null,
             _resetItemKarmaTooltip
@@ -397,7 +399,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
                 _wearKarmaTypeText,
                 wearField,
                 _defaultKarmaTypeText,
-                item.Data.ItemData!.KarmaTypeForWearing,
+                item.Data.ItemData.KarmaTypeForWearing,
                 k => item.Data.ItemData.KarmaTypeForWearing = k,
                 item.Data.ItemData.KarmaTypeForWearing != null,
                 _resetItemKarmaTooltip
@@ -414,7 +416,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
                 _equipKarmaTypeText,
                 equipField,
                 _defaultKarmaTypeText,
-                item.Data.ItemData!.KarmaTypeForEquipping,
+                item.Data.ItemData.KarmaTypeForEquipping,
                 k => item.Data.ItemData.KarmaTypeForEquipping = k,
                 item.Data.ItemData.KarmaTypeForEquipping != null,
                 _resetItemKarmaTooltip
@@ -431,7 +433,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
                 _useKarmaTypeText,
                 usableField,
                 _defaultKarmaTypeText,
-                item.Data.ItemData!.KarmaTypeForUsing,
+                item.Data.ItemData.KarmaTypeForUsing,
                 k => item.Data.ItemData.KarmaTypeForUsing = k,
                 item.Data.ItemData.KarmaTypeForUsing != null,
                 _resetItemKarmaTooltip
@@ -439,9 +441,9 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
         }
 
         row += 1;
-        var weightBuffer = item.Data.ItemData!.Weight.ToString("N1");
+        var weightBuffer = item.Data.ItemData.Weight.ToString("N1");
         (Rect weightLabel, Rect weightField) = new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight).Split();
-        UiHelper.Label(weightLabel, _purchaseWeightText);
+        LabelDrawer.Draw(weightLabel, _purchaseWeightText);
 
         float proxy = item.Data.ItemData.Weight;
 
@@ -454,10 +456,10 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
     private void DrawRightExpandedSettingsColumn(Rect canvas, TableSettingsItem<ThingItem> item)
     {
         var row = 0;
-        bool proxy = item.Data.ItemData!.HasQuantityLimit;
+        bool proxy = item.Data.ItemData.HasQuantityLimit;
 
-        if (UiHelper.LabeledPaintableCheckbox(
-            new Rect(0f, 0f, canvas.width - (item.Data.ItemData!.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 2f : 0f), RowLineHeight),
+        if (CheckboxDrawer.DrawCheckbox(
+            new Rect(0f, 0f, canvas.width - (item.Data.ItemData.HasQuantityLimit ? Mathf.FloorToInt(canvas.width * 0.2f) + 2f : 0f), RowLineHeight),
             _quantityLimitText,
             ref proxy
         ))
@@ -477,7 +479,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
                 item.Data.ItemData.QuantityLimit = newValue;
             }
 
-            if (UiHelper.FieldButton(quantityField, Textures.Stack, _stackLimitTooltip))
+            if (ButtonDrawer.DrawFieldButton(quantityField, Textures.Stack, _stackLimitTooltip))
             {
                 item.Data.ItemData.QuantityLimit = item.Data.Thing?.stackLimit ?? item.Data.ItemData.QuantityLimit;
             }
@@ -488,7 +490,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
             row += 1;
             bool proxy3 = item.Data.ItemData.IsStuffAllowed;
 
-            if (UiHelper.LabeledPaintableCheckbox(new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight), _isStuffText, ref proxy3))
+            if (CheckboxDrawer.DrawCheckbox(new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight), _isStuffText, ref proxy3))
             {
                 item.Data.ItemData.IsStuffAllowed = proxy3;
             }
@@ -499,7 +501,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
             row += 1;
             bool proxy4 = item.Data.ItemData.IsWearable;
 
-            if (UiHelper.LabeledPaintableCheckbox(new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight), _isWearableText, ref proxy4))
+            if (CheckboxDrawer.DrawCheckbox(new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight), _isWearableText, ref proxy4))
             {
                 item.Data.ItemData.IsWearable = proxy4;
             }
@@ -510,7 +512,8 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
             row += 1;
             bool proxy5 = item.Data.ItemData.IsEquippable;
 
-            if (UiHelper.LabeledPaintableCheckbox(new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight), _isEquippableText, ref proxy5))
+            if (CheckboxDrawer.DrawCheckbox(new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight), _isEquippableText, ref proxy5))
+
             {
                 item.Data.ItemData.IsEquippable = proxy5;
             }
@@ -521,23 +524,23 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
             row += 1;
             bool proxy6 = item.Data.ItemData.IsUsable;
 
-            if (UiHelper.LabeledPaintableCheckbox(new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight), _isUsableText, ref proxy6))
+            if (CheckboxDrawer.DrawCheckbox(new Rect(0f, row * RowLineHeight, canvas.width, RowLineHeight), _isUsableText, ref proxy6))
             {
                 item.Data.ItemData.IsUsable = proxy6;
             }
         }
     }
 
-    /// <inheritdoc cref="TableWorker{T}.EnsureExists"/>
+    /// <inheritdoc cref="TableWorker{T}.EnsureExists" />
     public override void EnsureExists(TableSettingsItem<ThingItem> data)
     {
-        if (!InternalData.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
+        if (!InternalData.Any(i => i.Data.DefName!.Equals(data.Data.DefName)))
         {
             InternalData.Add(data);
         }
     }
 
-    /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged"/>
+    /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged" />
     public override void NotifyGlobalDataChanged()
     {
         var wasDirty = false;
@@ -581,7 +584,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
         _resetItemKarmaTooltip = "TKUtils.ItemTableTooltips.ResetItemKarma".Localize();
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifySortRequested"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifySortRequested" />
     public override void NotifySortRequested()
     {
         switch (_sortOrder)
@@ -637,13 +640,13 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested" />
     public override void NotifySearchRequested(string query)
     {
         FilterDataBySearch(query);
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged" />
     public override void NotifyResolutionChanged(Rect region)
     {
         float consumedWidth = region.width - 18f - LineHeight * 2f; // Icon buttons
@@ -661,7 +664,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
         _expandedHeaderInnerRect = _expandedHeaderRect.ContractedBy(2f);
     }
 
-    /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested"/>
+    /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested" />
     public override void NotifyCustomSearchRequested(Func<TableSettingsItem<ThingItem>, bool> worker)
     {
         foreach (TableSettingsItem<ThingItem> item in Data)
@@ -670,7 +673,7 @@ public class ItemTableWorker : TableWorker<TableSettingsItem<ThingItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorkerBase.FilterDataBySearch"/>
+    /// <inheritdoc cref="TableWorkerBase.FilterDataBySearch" />
     private protected override void FilterDataBySearch(string query)
     {
         foreach (TableSettingsItem<ThingItem> item in Data)

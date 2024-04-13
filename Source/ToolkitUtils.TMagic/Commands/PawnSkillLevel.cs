@@ -45,7 +45,7 @@ public class PawnSkillLevel : CommandBase
         CommandRouter.MainThreadCommands.Enqueue(
             () =>
             {
-                string error;
+                string? error;
                 var magicUser = pawn.TryGetComp<CompAbilityUserMagic>();
 
                 if (magicUser is { IsMagicUser: true })
@@ -82,7 +82,7 @@ public class PawnSkillLevel : CommandBase
     }
 
     [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-    private bool TryLevelMight([NotNull] CompAbilityUserMight mightUser, string query, out string error)
+    private bool TryLevelMight([NotNull] CompAbilityUserMight mightUser, string? query, out string? error)
     {
         if (mightUser.MightData.MightAbilityPoints <= 0)
         {
@@ -100,30 +100,30 @@ public class PawnSkillLevel : CommandBase
     }
 
     [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-    private static bool TryLevelGlobalMightSkill(CompAbilityUserMight mightUser, string query, out string error)
+    private static bool TryLevelGlobalMightSkill(CompAbilityUserMight mightUser, string? query, out string? error)
     {
-        string refresh = "TM_global_refresh_pwr".Localize("refresh").ToToolkit();
+        string? refresh = "TM_global_refresh_pwr".Localize("refresh").ToToolkit();
 
         if (query.EqualsIgnoreCase(refresh) || query.EqualsIgnoreCase("refresh"))
         {
             return TryLevelSkill(mightUser.MightData.MightPowerSkill_global_refresh.FirstOrDefault(), mightUser, out error);
         }
 
-        string efficiency = "TM_global_seff_pwr".Localize("efficiency").ToToolkit();
+        string? efficiency = "TM_global_seff_pwr".Localize("efficiency").ToToolkit();
 
         if (query.EqualsIgnoreCase(efficiency) || query.EqualsIgnoreCase("efficiency"))
         {
             return TryLevelSkill(mightUser.MightData.MightPowerSkill_global_seff.FirstOrDefault(), mightUser, out error);
         }
 
-        string strength = "TM_global_strength_pwr".Localize("strength").ToToolkit();
+        string? strength = "TM_global_strength_pwr".Localize("strength").ToToolkit();
 
         if (query.EqualsIgnoreCase(strength) || query.EqualsIgnoreCase("strength"))
         {
             return TryLevelSkill(mightUser.MightData.MightPowerSkill_global_strength.FirstOrDefault(), mightUser, out error);
         }
 
-        string endurance = "TM_global_endurance_pwr".Localize("endurance").ToToolkit();
+        string? endurance = "TM_global_endurance_pwr".Localize("endurance").ToToolkit();
 
         if (query.EqualsIgnoreCase(endurance) || query.EqualsIgnoreCase("endurance"))
         {
@@ -136,7 +136,7 @@ public class PawnSkillLevel : CommandBase
     }
 
     [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-    private bool TryLevelMightSkill([NotNull] CompAbilityUserMight mightUser, string query, out string error)
+    private bool TryLevelMightSkill([NotNull] CompAbilityUserMight mightUser, string? query, out string? error)
     {
         foreach (MightPower magicPower in mightUser.MightData.AllMightPowers)
         {
@@ -180,7 +180,7 @@ public class PawnSkillLevel : CommandBase
     }
 
     [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-    private static bool TryLevelMagic([NotNull] CompAbilityUserMagic magicUser, string query, out string error)
+    private static bool TryLevelMagic([NotNull] CompAbilityUserMagic magicUser, string? query, out string? error)
     {
         if (magicUser.MagicData.MagicAbilityPoints <= 0)
         {
@@ -198,23 +198,23 @@ public class PawnSkillLevel : CommandBase
     }
 
     [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-    private static bool TryLevelGlobalMagicSkill(CompAbilityUserMagic magicUser, string query, out string error)
+    private static bool TryLevelGlobalMagicSkill(CompAbilityUserMagic magicUser, string? query, out string? error)
     {
-        string regen = "TM_global_regen_pwr".Localize("regen").ToToolkit();
+        string? regen = "TM_global_regen_pwr".Localize("regen").ToToolkit();
 
         if (query.EqualsIgnoreCase(regen) || query.EqualsIgnoreCase("regen"))
         {
             return TryLevelSkill(magicUser.MagicData.MagicPowerSkill_global_regen.FirstOrDefault(), magicUser, out error);
         }
 
-        string efficiency = "TM_global_eff_pwr".Localize("efficiency").ToToolkit();
+        string? efficiency = "TM_global_eff_pwr".Localize("efficiency").ToToolkit();
 
         if (query.EqualsIgnoreCase(efficiency) || query.EqualsIgnoreCase("efficiency"))
         {
             return TryLevelSkill(magicUser.MagicData.MagicPowerSkill_global_eff.FirstOrDefault(), magicUser, out error);
         }
 
-        string spirit = "TM_global_spirit_pwr".Localize("versatility").ToToolkit();
+        string? spirit = "TM_global_spirit_pwr".Localize("versatility").ToToolkit();
 
         if (query.EqualsIgnoreCase(spirit) || query.EqualsIgnoreCase("versatility"))
         {
@@ -227,7 +227,7 @@ public class PawnSkillLevel : CommandBase
     }
 
     [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-    private static bool TryLevelMagicSkill([NotNull] CompAbilityUserMagic magicUser, string query, out string error)
+    private static bool TryLevelMagicSkill([NotNull] CompAbilityUserMagic magicUser, string? query, out string? error)
     {
         foreach (MagicPower magicPower in magicUser.MagicData.AllMagicPowers)
         {
@@ -271,7 +271,7 @@ public class PawnSkillLevel : CommandBase
     }
 
     [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-    private static bool TryLevelSkill([CanBeNull] MagicPowerSkill skill, [CanBeNull] CompAbilityUserMagic magicUser, out string error)
+    private static bool TryLevelSkill([CanBeNull] MagicPowerSkill skill, [CanBeNull] CompAbilityUserMagic magicUser, out string? error)
     {
         if (skill == null || magicUser == null)
         {
@@ -304,7 +304,7 @@ public class PawnSkillLevel : CommandBase
     }
 
     [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-    private static bool TryLevelSkill([CanBeNull] MightPowerSkill skill, [CanBeNull] CompAbilityUserMight mightUser, out string error)
+    private static bool TryLevelSkill([CanBeNull] MightPowerSkill skill, [CanBeNull] CompAbilityUserMight mightUser, out string? error)
     {
         if (skill == null || mightUser == null)
         {

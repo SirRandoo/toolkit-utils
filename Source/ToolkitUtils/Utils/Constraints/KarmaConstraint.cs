@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using SirRandoo.CommonLib.Helpers;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -34,10 +34,10 @@ public class KarmaConstraint : ComparableConstraint
         (Rect labelRect, Rect fieldRect) = canvas.Split(0.7f);
         (Rect buttonRect, Rect inputRect) = fieldRect.Split(0.25f);
 
-        UiHelper.Label(labelRect, _labelText);
+        LabelDrawer.Draw(labelRect, _labelText);
         DrawButton(buttonRect);
 
-        if (UiHelper.NumberField(inputRect, out int value, ref _buffer, ref _valid))
+        if (FieldDrawer.DrawNumberField(inputRect, out int value, ref _buffer, ref _valid))
         {
             _karma = value;
         }

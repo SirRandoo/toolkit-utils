@@ -40,7 +40,7 @@ namespace SirRandoo.ToolkitUtils;
 public class Coordinator : GameComponent
 {
     private readonly ConcurrentQueue<IncidentProxy> _incidentQueue = new ConcurrentQueue<IncidentProxy>();
-    private readonly ConcurrentQueue<string> _pendingSolvent = new ConcurrentQueue<string>();
+    private readonly ConcurrentQueue<string?> _pendingSolvent = new ConcurrentQueue<string?>();
     private readonly List<ToolkitGateway> _portals = new List<ToolkitGateway>();
 
     private int _lastMinute;
@@ -154,7 +154,7 @@ public class Coordinator : GameComponent
         _incidentQueue.Enqueue(incident);
     }
 
-    internal void NotifySolventRequested(string username)
+    internal void NotifySolventRequested(string? username)
     {
         _pendingSolvent.Enqueue(username);
     }
@@ -223,7 +223,7 @@ public class Coordinator : GameComponent
 
         while (!_pendingSolvent.IsEmpty)
         {
-            if (!_pendingSolvent.TryDequeue(out string username))
+            if (!_pendingSolvent.TryDequeue(out string? username))
             {
                 break;
             }

@@ -1,24 +1,24 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -29,7 +29,7 @@ namespace SirRandoo.ToolkitUtils.Workers;
 /// </summary>
 public class TabWorker
 {
-    private readonly List<TabItem> _tabItems = new List<TabItem>();
+    private readonly List<TabItem> _tabItems = new();
 
     /// <summary>
     ///     The currently selected tab.
@@ -37,12 +37,12 @@ public class TabWorker
     public TabItem SelectedTab { get; set; }
 
     /// <summary>
-    ///     Creates a new empty instance of a <see cref="TabWorker"/>.
+    ///     Creates a new empty instance of a <see cref="TabWorker" />.
     /// </summary>
-    public static TabWorker CreateInstance() => new TabWorker();
+    public static TabWorker CreateInstance() => new();
 
     /// <summary>
-    ///     Creates a new instance of a <see cref="TabWorker"/> with the
+    ///     Creates a new instance of a <see cref="TabWorker" /> with the
     ///     given tabs.
     /// </summary>
     /// <param name="tabs">The tabs to display</param>
@@ -82,8 +82,7 @@ public class TabWorker
     ///     Returns the tab that matches the label given.
     /// </summary>
     /// <param name="label">The tab label to get</param>
-    [CanBeNull]
-    public TabItem GetTab(string label)
+    public TabItem? GetTab(string label)
     {
         return _tabItems.FirstOrDefault(t => t.Label.Equals(label, StringComparison.InvariantCulture));
     }
@@ -115,8 +114,7 @@ public class TabWorker
                 tabRegion.x += offset;
             }
 
-            if (UiHelper.TabButton(tabRegion, tab.Label, TextAnchor.MiddleCenter, vertical: vertical, active: SelectedTab == tab)
-                && (tab.Clicked == null || tab.Clicked()))
+            if (UiHelper.TabButton(tabRegion, tab.Label, TextAnchor.MiddleCenter, vertical: vertical, active: SelectedTab == tab) && (tab.Clicked == null || tab.Clicked()))
             {
                 SelectedTab = tab;
             }

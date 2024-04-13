@@ -81,7 +81,7 @@ public class HealMe : IncidentVariablesBase
         NotifySuccess(_toRestore.Label);
     }
 
-    private void NotifySuccess(string target)
+    private void NotifySuccess(string? target)
     {
         if (ToolkitSettings.PurchaseConfirmations)
         {

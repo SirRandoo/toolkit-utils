@@ -37,7 +37,7 @@ public class UsageRecord<T> where T : class, IUsageItemBase
     /// <summary>
     ///     The def name of the item being ratelimited.
     /// </summary>
-    public string DefName => Item.DefName;
+    public string? DefName => Item.DefName;
 
     /// <summary>
     ///     Records a usage of the given <see cref="Item"/>.

@@ -36,7 +36,7 @@ public class Smite : IncidentVariablesBase
             return false;
         }
 
-        string target = msg.Split(' ').Skip(2).FirstOrDefault();
+        string? target = msg.Split(' ').Skip(2).FirstOrDefault();
 
         if (PurchaseHelper.TryGetPawn(target, out _pawn))
         {

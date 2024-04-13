@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,13 +18,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Enums;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -37,16 +35,16 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
 {
     private const float ExpandedLineSpan = 2f;
 
-    private string _closePawnNameTooltip;
-    private string _defaultKarmaTypeText;
-    private string _editPawnNameTooltip;
+    private string? _closePawnNameTooltip;
+    private string? _defaultKarmaTypeText;
+    private string? _editPawnNameTooltip;
     private Rect _expandedHeaderInnerRect = Rect.zero;
     private Rect _expandedHeaderRect = Rect.zero;
-    private string _karmaTypeText;
-    private string _nameHeaderText;
-    private string _priceHeaderText;
-    private string _resetPawnKarmaTooltip;
-    private string _resetPawnNameTooltip;
+    private string? _karmaTypeText;
+    private string? _nameHeaderText;
+    private string? _priceHeaderText;
+    private string? _resetPawnKarmaTooltip;
+    private string? _resetPawnNameTooltip;
     private Vector2 _scrollPos = Vector2.zero;
     private SettingsKey _settingsKey = SettingsKey.Collapse;
 
@@ -61,7 +59,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
     private protected Rect PriceHeaderRect = Rect.zero;
     private protected Rect PriceHeaderTextRect = Rect.zero;
 
-    /// <inheritdoc cref="TableWorkerBase.DrawHeaders"/>
+    /// <inheritdoc cref="TableWorkerBase.DrawHeaders" />
     protected override void DrawHeaders(Rect region)
     {
         if (SettingsHelper.DrawTableHeader(_stateHeaderRect, _stateHeaderInnerRect, _stateKey == StateKey.Enable ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex))
@@ -147,7 +145,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorkerBase.DrawTableContents"/>
+    /// <inheritdoc cref="TableWorkerBase.DrawTableContents" />
     protected override void DrawTableContents(Rect region)
     {
         float expectedLines = Data.Where(i => !i.IsHidden).Sum(i => i.SettingsVisible ? ExpandedLineSpan + 1f : 1f);
@@ -202,15 +200,15 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
     }
 
     /// <summary>
-    ///     Draws a <see cref="PawnKindItem"/> in a given row of the
-    ///     <see cref="PawnTableWorker"/> area.
+    ///     Draws a <see cref="PawnKindItem" /> in a given row of the
+    ///     <see cref="PawnTableWorker" /> area.
     /// </summary>
     /// <param name="region">
     ///     The region to draw the
-    ///     <see cref="PawnKindItem"/> in
+    ///     <see cref="PawnKindItem" /> in
     /// </param>
     /// <param name="item">
-    ///     The <see cref="PawnKindItem"/> to draw in the
+    ///     The <see cref="PawnKindItem" /> to draw in the
     ///     region
     /// </param>
     protected virtual void DrawKind(Rect region, TableSettingsItem<PawnKindItem> item)
@@ -229,7 +227,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
 
         bool proxy = item.Data.Enabled;
 
-        if (UiHelper.DrawCheckbox(checkboxRect, ref proxy))
+        if (CheckboxDrawer.DrawCheckbox(checkboxRect, ref proxy))
         {
             item.Data.Enabled = proxy;
         }
@@ -291,25 +289,29 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
         {
             var fieldRect = new Rect(region.x, region.y, region.width - region.height, region.height);
 
-            if (UiHelper.TextField(fieldRect, item.Data.Name, out string result))
+            if (FieldDrawer.DrawTextField(fieldRect, item.Data.Name, out string? result))
             {
                 item.Data.Name = result.ToToolkit();
                 item.Data.PawnData.CustomName = true;
             }
 
-            if (item.Data.PawnData.CustomName && UiHelper.FieldButton(fieldRect, Textures.Reset, _resetPawnNameTooltip))
+            if (item.Data.PawnData.CustomName && ButtonDrawer.DrawFieldButton(fieldRect, Textures.Reset, _resetPawnNameTooltip))
             {
                 item.Data.PawnData.CustomName = false;
             }
         }
         else
         {
-            UiHelper.Label(region, item.Data.Name);
+            LabelDrawer.Draw(region, item.Data.Name);
         }
 
         GUI.color = new Color(1f, 1f, 1f, 0.7f);
 
-        if (UiHelper.FieldButton(region, item.EditingName ? Widgets.CheckboxOffTex : Textures.Edit, item.EditingName ? _closePawnNameTooltip : _editPawnNameTooltip))
+        if (ButtonDrawer.DrawFieldButton(
+            region,
+            item.EditingName ? Widgets.CheckboxOffTex : Textures.Edit,
+            item.EditingName ? _closePawnNameTooltip : _editPawnNameTooltip
+        ))
         {
             item.EditingName = !item.EditingName;
         }
@@ -317,7 +319,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
         GUI.color = Color.white;
     }
 
-    /// <inheritdoc cref="TableWorkerBase.Prepare"/>
+    /// <inheritdoc cref="TableWorkerBase.Prepare" />
     public override void Prepare()
     {
         LoadTranslations();
@@ -346,7 +348,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
     private void DrawLeftExpandedSettingsColumn(Rect region, ITableItem<PawnKindItem> item)
     {
         (Rect karmaLabel, Rect karmaField) = new Rect(0f, 0f, region.width, RowLineHeight).Split(0.6f);
-        UiHelper.Label(karmaLabel, _karmaTypeText);
+        LabelDrawer.Draw(karmaLabel, _karmaTypeText);
 
         if (Widgets.ButtonText(karmaField, item.Data.Data.KarmaType == null ? _defaultKarmaTypeText : item.Data.Data.KarmaType.ToString()))
         {
@@ -355,7 +357,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
             );
         }
 
-        if (item.Data.Data.KarmaType != null && UiHelper.FieldButton(karmaLabel, Textures.Reset, _resetPawnKarmaTooltip))
+        if (item.Data.Data.KarmaType != null && ButtonDrawer.DrawFieldButton(karmaLabel, Textures.Reset, _resetPawnKarmaTooltip))
         {
             item.Data.Data.KarmaType = null;
         }
@@ -366,7 +368,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
         // unused
     }
 
-    /// <inheritdoc cref="TableWorker{T}.EnsureExists"/>
+    /// <inheritdoc cref="TableWorker{T}.EnsureExists" />
     public override void EnsureExists(TableSettingsItem<PawnKindItem> data)
     {
         if (!InternalData.Any(i => i.Data.DefName.Equals(data.Data.DefName)))
@@ -375,7 +377,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged"/>
+    /// <inheritdoc cref="TableWorker{T}.NotifyGlobalDataChanged" />
     public override void NotifyGlobalDataChanged()
     {
         var wasDirty = false;
@@ -408,7 +410,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
         _resetPawnKarmaTooltip = "TKUtils.PawnTableTooltips.ResetPawnKarma".Localize();
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifySortRequested"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifySortRequested" />
     public override void NotifySortRequested()
     {
         switch (_sortOrder)
@@ -456,13 +458,13 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifySearchRequested" />
     public override void NotifySearchRequested(string query)
     {
         FilterDataBySearch(query);
     }
 
-    /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged"/>
+    /// <inheritdoc cref="TableWorkerBase.NotifyResolutionChanged" />
     public override void NotifyResolutionChanged(Rect region)
     {
         float consumedWidth = region.width - 18f - LineHeight * 2f; // Icon buttons
@@ -476,7 +478,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
         _expandedHeaderInnerRect = _expandedHeaderRect.ContractedBy(2f);
     }
 
-    /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested"/>
+    /// <inheritdoc cref="TableWorker{T}.NotifyCustomSearchRequested" />
     public override void NotifyCustomSearchRequested(Func<TableSettingsItem<PawnKindItem>, bool> worker)
     {
         foreach (TableSettingsItem<PawnKindItem> item in Data)
@@ -485,7 +487,7 @@ public class PawnTableWorker : TableWorker<TableSettingsItem<PawnKindItem>>
         }
     }
 
-    /// <inheritdoc cref="TableWorkerBase.FilterDataBySearch"/>
+    /// <inheritdoc cref="TableWorkerBase.FilterDataBySearch" />
     private protected override void FilterDataBySearch(string query)
     {
         foreach (TableSettingsItem<PawnKindItem> item in Data)

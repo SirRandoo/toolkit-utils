@@ -47,7 +47,7 @@ public record AlienCompatibilityProvider(string ModId = "erdelf.HumanoidAlienRac
     }
 
     /// <inheritdoc/>
-    public bool IsTraitForced(Pawn pawn, string defName, int degree)
+    public bool IsTraitForced(Pawn pawn, string? defName, int degree)
     {
         if (pawn.def is not ThingDef_AlienRace alienRace || alienRace.alienRace.generalSettings.forcedRaceTraitEntries.NullOrEmpty())
         {

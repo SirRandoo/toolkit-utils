@@ -51,7 +51,7 @@ public class Backpack : IncidentVariablesBase
             return false;
         }
 
-        if (proxy.TryGetError(out string error))
+        if (proxy.TryGetError(out string? error))
         {
             MessageHelper.ReplyToUser(viewer.username, error);
 

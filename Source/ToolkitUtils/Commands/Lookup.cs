@@ -75,8 +75,8 @@ public class Lookup : CommandBase
     {
         _msg = twitchMessage;
         string[] segments = CommandFilter.Parse(twitchMessage.Message).Skip(1).ToArray();
-        string category = segments.FirstOrFallback("");
-        string query = segments.Skip(1).FirstOrFallback("");
+        string? category = segments.FirstOrFallback("");
+        string? query = segments.Skip(1).FirstOrFallback("");
 
         if (!Index.TryGetValue(category.ToLowerInvariant(), out Category c))
         {
@@ -87,7 +87,7 @@ public class Lookup : CommandBase
         PerformLookup(c, query);
     }
 
-    private void NotifyLookupComplete(string query, IReadOnlyCollection<string> results)
+    private void NotifyLookupComplete(string? query, IReadOnlyCollection<string> results)
     {
         if (results.Count <= 0)
         {
@@ -97,7 +97,7 @@ public class Lookup : CommandBase
         _msg.Reply("TKUtils.Lookup".LocalizeKeyed(query, results.Take(TkSettings.LookupLimit).SectionJoin()));
     }
 
-    private void PerformAnimalLookup(string query)
+    private void PerformAnimalLookup(string? query)
     {
         string[] results = Data.Items.Where(i => i.Thing.race.Animal)
            .Where(i => i.Cost > 0)
@@ -109,7 +109,7 @@ public class Lookup : CommandBase
                         return false;
                     }
 
-                    string q = query.ToToolkit();
+                    string? q = query.ToToolkit();
 
                     return i.Name.ToToolkit().Contains(q) || i.DefName.ToToolkit().Contains(q);
                 }
@@ -120,13 +120,13 @@ public class Lookup : CommandBase
         NotifyLookupComplete(query, results);
     }
 
-    private void PerformDiseaseLookup(string query)
+    private void PerformDiseaseLookup(string? query)
     {
         string[] results = DefDatabase<IncidentDef>.AllDefs.Where(i => i.category == IncidentCategoryDefOf.DiseaseHuman)
            .Where(
                 i =>
                 {
-                    string q = query.ToToolkit();
+                    string? q = query.ToToolkit();
 
                     return i.label.ToToolkit().Contains(q) || i.defName.ToToolkit().Contains(q);
                 }
@@ -137,13 +137,13 @@ public class Lookup : CommandBase
         NotifyLookupComplete(query, results);
     }
 
-    private void PerformEventLookup(string query)
+    private void PerformEventLookup(string? query)
     {
         string[] results = DefDatabase<StoreIncident>.AllDefs.Where(i => i.cost > 0)
            .Where(
                 i =>
                 {
-                    string q = query.ToToolkit();
+                    string? q = query.ToToolkit();
 
                     return i.abbreviation.ToToolkit().Contains(q) || i.defName.ToToolkit().Contains(q);
                 }
@@ -154,7 +154,7 @@ public class Lookup : CommandBase
         NotifyLookupComplete(query, results);
     }
 
-    private void PerformItemLookup(string query)
+    private void PerformItemLookup(string? query)
     {
         string[] results = Data.Items.Where(i => i.Cost > 0)
            .Where(
@@ -165,7 +165,7 @@ public class Lookup : CommandBase
                         return false;
                     }
 
-                    string q = query.ToToolkit();
+                    string? q = query.ToToolkit();
 
                     return i.Name.ToToolkit().Contains(q) || i.DefName!.ToToolkit().Contains(q);
                 }
@@ -176,7 +176,7 @@ public class Lookup : CommandBase
         NotifyLookupComplete(query, results);
     }
 
-    private void PerformLookup(Category category, string query)
+    private void PerformLookup(Category category, string? query)
     {
         switch (category)
         {
@@ -215,20 +215,20 @@ public class Lookup : CommandBase
         }
     }
 
-    private void PerformModLookup(string query)
+    private void PerformModLookup(string? query)
     {
         string[] results = Data.Mods.Where(m => m.Name.ToToolkit().Contains(query.ToToolkit())).Select(m => m.Name).ToArray();
 
         NotifyLookupComplete(query, results);
     }
 
-    private void PerformKindLookup(string query)
+    private void PerformKindLookup(string? query)
     {
         string[] results = Data.PawnKinds.Where(i => i.Enabled)
            .Where(
                 i =>
                 {
-                    string q = query.ToToolkit();
+                    string? q = query.ToToolkit();
 
                     return i.Name.ToToolkit().Contains(q) || i.DefName.ToToolkit().Contains(q);
                 }
@@ -239,12 +239,12 @@ public class Lookup : CommandBase
         NotifyLookupComplete(query, results);
     }
 
-    private void PerformSkillLookup(string query)
+    private void PerformSkillLookup(string? query)
     {
         string[] results = DefDatabase<SkillDef>.AllDefs.Where(
                 i =>
                 {
-                    string q = query.ToToolkit();
+                    string? q = query.ToToolkit();
 
                     return i.label.ToToolkit().Contains(q) || i.defName.ToToolkit().Contains(q);
                 }
@@ -255,13 +255,13 @@ public class Lookup : CommandBase
         NotifyLookupComplete(query, results);
     }
 
-    private void PerformTraitLookup(string query)
+    private void PerformTraitLookup(string? query)
     {
         string[] results = Data.Traits.Where(t => t.CanAdd || t.CanRemove)
            .Where(
                 i =>
                 {
-                    string q = query.ToToolkit();
+                    string? q = query.ToToolkit();
 
                     return i.Name.ToToolkit().Contains(q) || i.DefName.ToToolkit().Contains(q);
                 }

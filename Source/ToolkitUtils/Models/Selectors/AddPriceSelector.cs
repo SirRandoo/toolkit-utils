@@ -17,13 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.Constraints;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -33,7 +32,7 @@ public class AddPriceSelector : ISelectorBase<TraitItem>
 {
     private int _addPrice;
     private string _addPriceBuffer = "0";
-    private string _addPriceText;
+    private string? _addPriceText;
     private bool _bufferValid = true;
     private ComparisonTypes _comparison = ComparisonTypes.Equal;
     private List<FloatMenuOption> _comparisonOptions;
@@ -58,7 +57,7 @@ public class AddPriceSelector : ISelectorBase<TraitItem>
     public void Draw(Rect canvas)
     {
         (Rect label, Rect field) = canvas.Split(0.75f);
-        UiHelper.Label(label, _addPriceText);
+        LabelDrawer.Draw(label, _addPriceText);
 
         (Rect button, Rect input) = field.Split(0.3f);
 
@@ -67,7 +66,7 @@ public class AddPriceSelector : ISelectorBase<TraitItem>
             Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
         }
 
-        if (!UiHelper.NumberField(input, out int value, ref _addPriceBuffer, ref _bufferValid))
+        if (!FieldDrawer.DrawNumberField(input, out int value, ref _addPriceBuffer, ref _bufferValid))
         {
             return;
         }
@@ -102,5 +101,5 @@ public class AddPriceSelector : ISelectorBase<TraitItem>
         }
     }
 
-    public string Label => "TKUtils.Fields.AddPrice".TranslateSimple();
+    public string? Label => "TKUtils.Fields.AddPrice".TranslateSimple();
 }

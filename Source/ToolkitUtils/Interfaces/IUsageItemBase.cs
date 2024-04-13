@@ -18,6 +18,6 @@ namespace SirRandoo.ToolkitUtils.Interfaces;
 
 public interface IUsageItemBase
 {
-    string DefName { get; set; }
+    string? DefName { get; set; }
     IConfigurableUsageData UsageData { get; }
 }

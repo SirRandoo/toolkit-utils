@@ -119,7 +119,7 @@ public class SetTraits : IncidentVariablesBase
                     {
                         TraitItem trait = Data.Traits.Find(i => i.DefName.Equals(t.def.defName) && i.Degree == t.Degree);
 
-                        return !IsTraitRemovable(subject, trait, out string error)
+                        return !IsTraitRemovable(subject, trait, out string? error)
                             ? new TraitEvent { Type = EventType.Noop, Error = error, Item = trait }
                             : new TraitEvent { Type = EventType.Remove, Trait = t, Item = trait };
                     }
@@ -136,7 +136,7 @@ public class SetTraits : IncidentVariablesBase
                             return new TraitEvent { Type = EventType.Noop, Error = "TKUtils.Trait.Disabled".LocalizeKeyed(t.Name) };
                         }
 
-                        return !IsTraitAddable(t, out string error)
+                        return !IsTraitAddable(t, out string? error)
                             ? new TraitEvent { Type = EventType.Noop, Error = error, Item = t }
                             : new TraitEvent { Type = EventType.Add, Item = t };
                     }
@@ -190,7 +190,7 @@ public class SetTraits : IncidentVariablesBase
             }
         }
 
-        string traitString = _pawn.story.traits.allTraits.Select(t => t.Label ?? t.def.defName).ToCommaList(true);
+        string? traitString = _pawn.story.traits.allTraits.Select(t => t.Label ?? t.def.defName).ToCommaList(true);
         MessageHelper.SendConfirmation(Viewer.username, "TKUtils.SetTraits.Complete".LocalizeKeyed(traitString));
 
         Find.LetterStack.ReceiveLetter(
@@ -202,7 +202,7 @@ public class SetTraits : IncidentVariablesBase
     }
 
     [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-    private bool IsTraitRemovable(Pawn pawn, TraitItem trait, out string error)
+    private bool IsTraitRemovable(Pawn pawn, TraitItem trait, out string? error)
     {
         if (!TraitHelper.IsRemovalAllowedByGenes(pawn, trait.TraitDef, trait.Degree))
         {
@@ -245,7 +245,7 @@ public class SetTraits : IncidentVariablesBase
     }
 
     [ContractAnnotation("=> true,error:null; => false,error:notnull")]
-    private bool IsTraitAddable(TraitItem trait, out string error)
+    private bool IsTraitAddable(TraitItem trait, out string? error)
     {
         if (!TraitHelper.IsOldEnoughForTraits(_pawn))
         {
@@ -298,7 +298,7 @@ public class SetTraits : IncidentVariablesBase
 
     private sealed class TraitEvent
     {
-        public string Error { get; set; }
+        public string? Error { get; set; }
         public EventType Type { get; set; }
         public TraitItem Item { get; set; }
         public Trait Trait { get; set; }

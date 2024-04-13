@@ -15,10 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -30,7 +30,7 @@ public class ModSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     private string _excludeTooltip;
     private string _includeTooltip;
     private string _mod = "";
-    private string _modText;
+    private string? _modText;
 
     public void Prepare()
     {
@@ -42,15 +42,15 @@ public class ModSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     public void Draw(Rect canvas)
     {
         (Rect label, Rect field) = canvas.Split(0.75f);
-        UiHelper.Label(label, _modText);
+        LabelDrawer.Draw(label, _modText);
 
-        if (UiHelper.TextField(field, _mod, out string input))
+        if (FieldDrawer.DrawTextField(field, _mod, out string input))
         {
             _mod = input;
             Dirty.Set(true);
         }
 
-        if (!UiHelper.FieldButton(field, _exclude ? "!=" : "=", _exclude ? _includeTooltip : _excludeTooltip))
+        if (!ButtonDrawer.DrawFieldButton(field, _exclude ? "!=" : "=", _exclude ? _includeTooltip : _excludeTooltip))
         {
             return;
         }
@@ -73,5 +73,5 @@ public class ModSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
         return _exclude ? !shouldShow : shouldShow;
     }
 
-    public string Label => "TKUtils.Fields.Mod".TranslateSimple();
+    public string? Label => "TKUtils.Fields.Mod".TranslateSimple();
 }

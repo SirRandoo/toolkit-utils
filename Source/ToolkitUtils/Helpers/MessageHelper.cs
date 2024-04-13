@@ -26,19 +26,19 @@ namespace SirRandoo.ToolkitUtils.Helpers;
 
 public static class MessageHelper
 {
-    public static void Reply(this ITwitchMessage m, string message)
+    public static void Reply(this ITwitchMessage m, string? message)
     {
         ReplyToUser(m.Username, message);
     }
 
-    public static string WithHeader(this string s, string header) => $"【{header}】 {s}".AltText($"[{header}] {s}");
+    public static string? WithHeader(this string? s, string? header) => $"【{header}】 {s}".AltText($"[{header}] {s}");
 
-    public static void ReplyToUser(string user, string message)
+    public static void ReplyToUser(string? user, string? message)
     {
         TwitchWrapper.SendChatMessage($"@{user} → {message}");
     }
 
-    internal static void SendConfirmation(string user, string message)
+    internal static void SendConfirmation(string? user, string? message)
     {
         if (!ToolkitSettings.PurchaseConfirmations)
         {
@@ -48,7 +48,7 @@ public static class MessageHelper
         ReplyToUser(user, message);
     }
 
-    public static string AltText(this string emoji, string? alt = null)
+    public static string? AltText(this string? emoji, string? alt = null)
     {
         alt ??= $"{emoji}.Text";
 
@@ -132,7 +132,7 @@ public static class MessageHelper
 
     public static string Append(this string s, string text) => $"{s}{text}";
 
-    public static string AppendWithSpace(this string s, string text) => $"{s} {text}";
+    public static string AppendWithSpace(this string? s, string? text) => $"{s} {text}";
 
     public static string Insert(this string s, int index, string text) => new StringBuilder().Append(s).Insert(index, text).ToString();
 }

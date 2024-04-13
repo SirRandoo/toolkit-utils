@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
+using ToolkitUtils.UX;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Helpers;

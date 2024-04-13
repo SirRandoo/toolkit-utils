@@ -40,7 +40,7 @@ public class PawnKills : CommandBase
         int humanLikeKills = pawn.records.GetAsInt(RecordDefOf.KillsHumanlikes);
         int mechanoidKills = pawn.records.GetAsInt(RecordDefOf.KillsMechanoids);
 
-        string container = ResponseHelper.JoinPair("TKUtils.PawnKills.Total".Localize().CapitalizeFirst(), totalKills.ToString("N0"));
+        string? container = ResponseHelper.JoinPair("TKUtils.PawnKills.Total".Localize().CapitalizeFirst(), totalKills.ToString("N0"));
 
         container += ResponseHelper.OuterGroupSeparator;
 

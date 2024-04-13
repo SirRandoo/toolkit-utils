@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
+using ToolkitUtils.UX;
 using TorannMagic;
 using TwitchLib.Client.Models.Interfaces;
 using Verse;
@@ -17,7 +16,7 @@ public class PawnClass : CommandBase
 {
     public override void RunCommand(ITwitchMessage twitchMessage)
     {
-        if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn pawn))
+        if (!PurchaseHelper.TryGetPawn(twitchMessage.Username, out Pawn? pawn))
         {
             twitchMessage.Reply("TKUtils.NoPawn".Localize());
 
@@ -48,8 +47,8 @@ public class PawnClass : CommandBase
             container.Add(ExtractMagicData(magic));
         }
 
-        string className = ExtractClassName(pawn);
-        string joined = container.GroupedJoin();
+        string? className = ExtractClassName(pawn);
+        string? joined = container.GroupedJoin();
 
         twitchMessage.Reply(className.NullOrEmpty() ? joined : joined.WithHeader(className));
     }
@@ -123,7 +122,7 @@ public class PawnClass : CommandBase
         return builder.ToString();
     }
 
-    private string ExtractClassName(Pawn pawn)
+    private string? ExtractClassName(Pawn pawn)
     {
         TraitDef classTrait = TM_Data.AllClassTraits.Find(t => pawn.story.traits.HasTrait(t));
 
@@ -135,5 +134,5 @@ public class PawnClass : CommandBase
         return pawn.story.traits.HasTrait(TorannMagicDefOf.DeathKnight) ? GetClassName(TorannMagicDefOf.DeathKnight) : "";
     }
 
-    private string GetClassName(TraitDef trait) => RichTextHelper.StripTags(trait.degreeDatas.Count > 0 ? trait.degreeDatas[0].label : trait.label);
+    private string? GetClassName(TraitDef trait) => RichTextHelper.StripTags(trait.degreeDatas.Count > 0 ? trait.degreeDatas[0].label : trait.label);
 }

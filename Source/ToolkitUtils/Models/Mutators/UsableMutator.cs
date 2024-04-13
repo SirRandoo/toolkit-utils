@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -38,7 +37,7 @@ public class UsableMutator : IMutatorBase<ThingItem>
 
     public void Draw(Rect canvas)
     {
-        UiHelper.LabeledPaintableCheckbox(canvas, _usableText, ref _state);
+        CheckboxDrawer.DrawCheckbox(canvas, _usableText, ref _state);
     }
 
     public void Mutate(TableSettingsItem<ThingItem> item)

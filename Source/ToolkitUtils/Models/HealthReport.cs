@@ -24,9 +24,9 @@ public class HealthReport
 
     private DateTime _occurredAt;
 
-    public string Message { get; set; }
+    public string? Message { get; set; }
     public ReportType Type { get; set; }
-    public string Reporter { get; set; }
+    public string? Reporter { get; set; }
     public float Height { get; internal set; }
     public string Stacktrace { get; internal set; }
 

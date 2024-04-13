@@ -25,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Commands;
 public class Marriage : ConsensualCommand
 {
     /// <inheritdoc/>
-    protected override void ProcessAcceptInternal(string asker, string askee)
+    protected override void ProcessAcceptInternal(string? asker, string? askee)
     {
         if (!PurchaseHelper.TryGetPawn(asker, out Pawn askerPawn))
         {
@@ -52,7 +52,7 @@ public class Marriage : ConsensualCommand
     }
 
     /// <inheritdoc/>
-    protected override void ProcessRequestPost(string username, Viewer viewer)
+    protected override void ProcessRequestPost(string? username, Viewer viewer)
     {
         MessageHelper.ReplyToUser(
             viewer.username,

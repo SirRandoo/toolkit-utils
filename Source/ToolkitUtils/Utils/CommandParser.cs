@@ -25,11 +25,11 @@ namespace SirRandoo.ToolkitUtils.Utils;
 
 public static class CommandParser
 {
-    public static List<KeyValuePair<string, string>> ParseKeyed(string input) => ParseKeyed(CommandFilter.Parse(input));
+    public static List<KeyValuePair<string, string?>> ParseKeyed(string input) => ParseKeyed(CommandFilter.Parse(input));
 
-    public static List<KeyValuePair<string, string>> ParseKeyed(IEnumerable<string> input)
+    public static List<KeyValuePair<string, string?>> ParseKeyed(IEnumerable<string> input)
     {
-        var cache = new List<KeyValuePair<string, string>>();
+        var cache = new List<KeyValuePair<string, string?>>();
 
         foreach (string segment in input)
         {
@@ -71,7 +71,7 @@ public static class CommandParser
                 }
             }
 
-            cache.Add(new KeyValuePair<string, string>(key.ToString(), value.ToString()));
+            cache.Add(new KeyValuePair<string, string?>(key.ToString(), value.ToString()));
             key.Clear();
             value.Clear();
         }

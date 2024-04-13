@@ -94,7 +94,7 @@ public class WageredIncident : IncidentVariablesBase
             Viewer.TakeViewerCoins(_data.UseStoryteller ? storeIncident.cost : _wager);
             Viewer.CalculateNewKarma(storeIncident.karmaType, _wager);
 
-            string name = storeIncident.label ?? storeIncident.abbreviation;
+            string? name = storeIncident.label ?? storeIncident.abbreviation;
             var points = _params.points.ToString("N3");
 
             MessageHelper.ReplyToUser(

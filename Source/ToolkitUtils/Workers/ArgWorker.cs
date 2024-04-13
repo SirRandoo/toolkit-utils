@@ -16,15 +16,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Models;
 using ToolkitCore.Utilities;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using Verse;
 using Command = TwitchToolkit.Command;
@@ -36,46 +37,46 @@ namespace SirRandoo.ToolkitUtils.Workers;
 /// </summary>
 public class ArgWorker
 {
-    private readonly Queue<string> _rawArguments;
-    private string _lastArgument;
+    private readonly Queue<string?> _rawArguments;
+    private string? _lastArgument;
 
     private ArgWorker(IEnumerable<string> rawArguments)
     {
-        _rawArguments = new Queue<string>(rawArguments.Select(a => a.ToToolkit()));
+        _rawArguments = new Queue<string?>(rawArguments.Select(a => a.ToToolkit()));
     }
 
     /// <summary>
-    ///     Creates a new <see cref="ArgWorker"/> instance.
+    ///     Creates a new <see cref="ArgWorker" /> instance.
     /// </summary>
     /// <param name="rawArguments">The arguments to be parsed</param>
-    /// <returns>The <see cref="ArgWorker"/> instance</returns>
-    public static ArgWorker CreateInstance(params string[] rawArguments) => new ArgWorker(rawArguments);
+    /// <returns>The <see cref="ArgWorker" /> instance</returns>
+    public static ArgWorker CreateInstance(params string[] rawArguments) => new(rawArguments);
 
     /// <summary>
-    ///     Creates a new <see cref="ArgWorker"/> instance.
+    ///     Creates a new <see cref="ArgWorker" /> instance.
     /// </summary>
     /// <param name="rawArguments">The arguments to be parsed</param>
-    /// <returns>The <see cref="ArgWorker"/> instance</returns>
-    public static ArgWorker CreateInstance(IEnumerable<string> rawArguments) => new ArgWorker(rawArguments);
+    /// <returns>The <see cref="ArgWorker" /> instance</returns>
+    public static ArgWorker CreateInstance(IEnumerable<string> rawArguments) => new(rawArguments);
 
     /// <summary>
-    ///     Creates a new <see cref="ArgWorker"/> instance.
+    ///     Creates a new <see cref="ArgWorker" /> instance.
     /// </summary>
     /// <param name="input">The raw input to be parsed</param>
-    /// <returns>The <see cref="ArgWorker"/> instance</returns>
-    public static ArgWorker CreateInstance(string input) => new ArgWorker(CommandFilter.Parse(input));
+    /// <returns>The <see cref="ArgWorker" /> instance</returns>
+    public static ArgWorker CreateInstance(string? input) => new(CommandFilter.Parse(input));
 
     /// <summary>
     ///     Gets the next argument to be parsed.
     /// </summary>
-    public string GetNext()
+    public string? GetNext()
     {
         if (_rawArguments.Count <= 0)
         {
             return null;
         }
 
-        string next = _rawArguments.Dequeue();
+        string? next = _rawArguments.Dequeue();
         _lastArgument = next;
 
         return next;
@@ -84,7 +85,7 @@ public class ArgWorker
     /// <summary>
     ///     The previous argument parsed.
     /// </summary>
-    public string GetLast() => _lastArgument;
+    public string? GetLast() => _lastArgument;
 
     /// <summary>
     ///     Whether there's another argument that can be parsed.
@@ -99,11 +100,11 @@ public class ArgWorker
     /// <returns>The parsed integer clamped to the specified range</returns>
     public int GetNextAsInt(int minimum = 0, int maximum = int.MaxValue)
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null || !int.TryParse(next, out int value))
         {
-            return 0;
+            return minimum;
         }
 
         return Math.Max(minimum, Math.Min(value, maximum));
@@ -118,25 +119,26 @@ public class ArgWorker
     /// <returns>Whether the argument could be parsed as an integer</returns>
     public bool TryGetNextAsInt(out int value, int minimum = 0, int maximum = int.MaxValue)
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next != null && int.TryParse(next, out value))
         {
+            value = Math.Max(minimum, Math.Min(value, maximum));
+
             return true;
         }
 
-        value = 0;
+        value = minimum;
 
         return false;
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="TraitItem"/>.
+    ///     Returns the next argument as a <see cref="TraitItem" />.
     /// </summary>
-    [CanBeNull]
-    public TraitItem GetNextAsTrait()
+    public TraitItem? GetNextAsTrait()
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null || !Data.TryGetTrait(next, out TraitItem trait))
         {
@@ -147,17 +149,16 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="TraitItem"/>
+    ///     Returns the next argument as a <see cref="TraitItem" />
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if the argument could
-    ///     not be parsed as a <see cref="TraitItem"/>. Its sole argument is
+    ///     not be parsed as a <see cref="TraitItem" />. Its sole argument is
     ///     the argument that couldn't be parsed.
     /// </param>
-    [CanBeNull]
-    public TraitItem GetNextAsTrait(Action<string> errorCallback)
+    public TraitItem? GetNextAsTrait(Action<string?> errorCallback)
     {
-        TraitItem trait = GetNextAsTrait();
+        TraitItem? trait = GetNextAsTrait();
 
         if (trait == null)
         {
@@ -168,28 +169,26 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Attempts to get the next argument as a <see cref="TraitItem"/>
+    ///     Attempts to get the next argument as a <see cref="TraitItem" />
     /// </summary>
-    /// <param name="trait">The parsed <see cref="TraitItem"/></param>
+    /// <param name="trait">The parsed <see cref="TraitItem" /></param>
     /// <returns>
     ///     Whether the argument could be parsed as a
-    ///     <see cref="TraitItem"/>
+    ///     <see cref="TraitItem" />
     /// </returns>
-    [ContractAnnotation("=> true,trait:notnull; => false,trait:null")]
-    public bool TryGetNextAsTrait(out TraitItem trait)
+    public bool TryGetNextAsTrait([NotNullWhen(true)] out TraitItem? trait)
     {
         trait = GetNextAsTrait();
 
-        return !(trait is null);
+        return trait != null;
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="PawnKindItem"/>.
+    ///     Returns the next argument as a <see cref="PawnKindItem" />.
     /// </summary>
-    [CanBeNull]
-    public PawnKindItem GetNextAsPawn()
+    public PawnKindItem? GetNextAsPawn()
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null || !Data.TryGetPawnKind(next, out PawnKindItem pawn))
         {
@@ -200,17 +199,16 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="PawnKindItem"/>.
+    ///     Returns the next argument as a <see cref="PawnKindItem" />.
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if the argument could
-    ///     not be parsed as a <see cref="PawnKindItem"/>. Its sole argument
+    ///     not be parsed as a <see cref="PawnKindItem" />. Its sole argument
     ///     is the argument that couldn't be parsed.
     /// </param>
-    [CanBeNull]
-    public PawnKindItem GetNextAsPawn(Action<string> errorCallback)
+    public PawnKindItem? GetNextAsPawn(Action<string?> errorCallback)
     {
-        PawnKindItem pawn = GetNextAsPawn();
+        PawnKindItem? pawn = GetNextAsPawn();
 
         if (pawn == null)
         {
@@ -222,28 +220,26 @@ public class ArgWorker
 
     /// <summary>
     ///     Attempts to parse the next argument as a
-    ///     <see cref="PawnKindItem"/>.
+    ///     <see cref="PawnKindItem" />.
     /// </summary>
-    /// <param name="pawn">The parsed <see cref="PawnKindItem"/></param>
+    /// <param name="pawn">The parsed <see cref="PawnKindItem" /></param>
     /// <returns>
     ///     Whether the argument could be parsed as a
-    ///     <see cref="PawnKindItem"/>
+    ///     <see cref="PawnKindItem" />
     /// </returns>
-    [ContractAnnotation("=> true,pawn:notnull; => false,pawn:null")]
-    public bool TryGetNextAsPawn(out PawnKindItem pawn)
+    public bool TryGetNextAsPawn([NotNullWhen(true)] out PawnKindItem? pawn)
     {
         pawn = GetNextAsPawn();
 
-        return !(pawn is null);
+        return pawn != null;
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="Command"/>.
+    ///     Returns the next argument as a <see cref="Command" />.
     /// </summary>
-    [CanBeNull]
-    public Command GetNextAsCommand()
+    public Command? GetNextAsCommand()
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null)
         {
@@ -258,17 +254,16 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="Command"/>
+    ///     Returns the next argument as a <see cref="Command" />
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if the argument could
-    ///     not be parsed as a <see cref="Command"/>. Its sole argument is
+    ///     not be parsed as a <see cref="Command" />. Its sole argument is
     ///     the argument that couldn't be parsed.
     /// </param>
-    [CanBeNull]
-    public Command GetNextAsCommand(Action<string> errorCallback)
+    public Command? GetNextAsCommand(Action<string?> errorCallback)
     {
-        Command command = GetNextAsCommand();
+        Command? command = GetNextAsCommand();
 
         if (command == null)
         {
@@ -279,28 +274,26 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Attempts to parse the next argument as a <see cref="Command"/>.
+    ///     Attempts to parse the next argument as a <see cref="Command" />.
     /// </summary>
-    /// <param name="command">The parsed <see cref="Command"/></param>
+    /// <param name="command">The parsed <see cref="Command" /></param>
     /// <returns>
     ///     Whether the argument could be parsed as a
-    ///     <see cref="Command"/>
+    ///     <see cref="Command" />
     /// </returns>
-    [ContractAnnotation("=> true,command:notnull; => false,command:null")]
-    public bool TryGetNextAsCommand(out Command command)
+    public bool TryGetNextAsCommand([NotNullWhen(true)] out Command? command)
     {
         command = GetNextAsCommand();
 
-        return !(command is null);
+        return command != null;
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="SkillDef"/>.
+    ///     Returns the next argument as a <see cref="SkillDef" />.
     /// </summary>
-    [CanBeNull]
-    public SkillDef GetNextAsSkill()
+    public SkillDef? GetNextAsSkill()
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null)
         {
@@ -314,17 +307,16 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="SkillDef"/>.
+    ///     Returns the next argument as a <see cref="SkillDef" />.
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if the argument could
-    ///     not be parsed as a <see cref="SkillDef"/>. Its sole argument is
+    ///     not be parsed as a <see cref="SkillDef" />. Its sole argument is
     ///     the argument that couldn't be parsed.
     /// </param>
-    [CanBeNull]
-    public SkillDef GetNextAsSkill(Action<string> errorCallback)
+    public SkillDef? GetNextAsSkill(Action<string?> errorCallback)
     {
-        SkillDef skill = GetNextAsSkill();
+        SkillDef? skill = GetNextAsSkill();
 
         if (skill == null)
         {
@@ -335,35 +327,33 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Attempts to parse the next argument as a <see cref="SkillDef"/>.
+    ///     Attempts to parse the next argument as a <see cref="SkillDef" />.
     /// </summary>
-    /// <param name="def">The parsed <see cref="SkillDef"/></param>
+    /// <param name="def">The parsed <see cref="SkillDef" /></param>
     /// <returns>
     ///     Whether the argument could be parsed as a
-    ///     <see cref="SkillDef"/>
+    ///     <see cref="SkillDef" />
     /// </returns>
-    [ContractAnnotation("=> true,def:notnull; => false,def:null")]
-    public bool TryGetNextAsSkill(out SkillDef def)
+    public bool TryGetNextAsSkill([NotNullWhen(true)] out SkillDef? def)
     {
         def = GetNextAsSkill();
 
-        return !(def is null);
+        return def != null;
     }
 
-    private static ThingItem GetItemRaw(string input)
+    private static ThingItem GetItemRaw(string? input)
     {
         return Data.Items.Find(i => string.Equals(i.DefName, input) || i.Name.Equals(input, StringComparison.InvariantCultureIgnoreCase));
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="ItemProxy"/>, a
+    ///     Returns the next argument as a <see cref="ItemProxy" />, a
     ///     container containing the main item, the requested quality of the
     ///     item, as well as the requested material of the item.
     /// </summary>
-    [CanBeNull]
-    public ItemProxy GetNextAsItem()
+    public ItemProxy? GetNextAsItem()
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null)
         {
@@ -379,19 +369,18 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="ItemProxy"/>, a
+    ///     Returns the next argument as a <see cref="ItemProxy" />, a
     ///     container containing the main item, the requested quality of the
     ///     item, as well as the requested material of the item.
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if the argument could
-    ///     not be parsed as a <see cref="ItemProxy"/>. Its sole argument is
+    ///     not be parsed as a <see cref="ItemProxy" />. Its sole argument is
     ///     the argument that couldn't be parsed.
     /// </param>
-    [CanBeNull]
-    public ItemProxy GetNextAsItem(Action<string> errorCallback)
+    public ItemProxy? GetNextAsItem(Action<string?> errorCallback)
     {
-        ItemProxy item = GetNextAsItem();
+        ItemProxy? item = GetNextAsItem();
 
         if (item == null)
         {
@@ -405,8 +394,8 @@ public class ArgWorker
     {
         var proxy = new ItemProxy();
 
-        string details = next.Substring(next.LastIndexOf('[') + 1).TrimEnd(']');
-        string item = next.Replace($"[{details}]", "");
+        string details = next[(next.LastIndexOf('[') + 1)..].TrimEnd(']');
+        string? item = next.Replace($"[{details}]", "");
         proxy.Thing = GetItemRaw(item);
 
         if (proxy.Thing == null)
@@ -416,7 +405,7 @@ public class ArgWorker
             return proxy;
         }
 
-        foreach (string segment in details.Split(','))
+        foreach (string? segment in details.Split(','))
         {
             if (proxy.Thing.Thing?.race?.Animal == true && TryProcessAnimalMetadata(segment, proxy))
             {
@@ -434,7 +423,7 @@ public class ArgWorker
         return proxy;
     }
 
-    private static bool TryProcessItemMetadata(string segment, ItemProxy proxy)
+    private static bool TryProcessItemMetadata(string? segment, ItemProxy proxy)
     {
         if (Item.Quality && Data.Qualities.TryGetValue(segment, out QualityCategory quality))
         {
@@ -458,7 +447,7 @@ public class ArgWorker
         return false;
     }
 
-    private static bool TryProcessAnimalMetadata(string segment, ItemProxy proxy)
+    private static bool TryProcessAnimalMetadata(string? segment, ItemProxy proxy)
     {
         if (!Item.Gender || !Data.Genders.TryGetValue(segment, out Gender gender))
         {
@@ -471,31 +460,29 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Attempts to parse the next argument as a <see cref="ItemProxy"/>,
+    ///     Attempts to parse the next argument as a <see cref="ItemProxy" />,
     ///     a container containing the main item, the requested quality of
     ///     the item, as well as the requested material of the item.
     /// </summary>
-    /// <param name="item">The parsed <see cref="ItemProxy"/></param>
+    /// <param name="item">The parsed <see cref="ItemProxy" /></param>
     /// <returns>
     ///     Whether the argument could be parsed as a
-    ///     <see cref="ItemProxy"/>
+    ///     <see cref="ItemProxy" />
     /// </returns>
-    [ContractAnnotation("=> true,item:notnull; => false,item:null")]
-    public bool TryGetNextAsItem(out ItemProxy item)
+    public bool TryGetNextAsItem([NotNullWhen(true)] out ItemProxy? item)
     {
         item = GetNextAsItem();
 
-        return !(item is null);
+        return item != null;
     }
 
     /// <summary>
     ///     Returns the next argument parsed as a
-    ///     <see cref="PawnCapacityDef"/>.
+    ///     <see cref="PawnCapacityDef" />.
     /// </summary>
-    [CanBeNull]
-    public PawnCapacityDef GetNextAsCapacity()
+    public PawnCapacityDef? GetNextAsCapacity()
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null)
         {
@@ -509,17 +496,16 @@ public class ArgWorker
 
     /// <summary>
     ///     Returns the next argument parsed as a
-    ///     <see cref="PawnCapacityDef"/>.
+    ///     <see cref="PawnCapacityDef" />.
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if the argument could
-    ///     not be parsed as a <see cref="PawnCapacityDef"/>. Its sole
+    ///     not be parsed as a <see cref="PawnCapacityDef" />. Its sole
     ///     argument is the argument that couldn't be parsed.
     /// </param>
-    [CanBeNull]
-    public PawnCapacityDef GetNextAsCapacity(Action<string> errorCallback)
+    public PawnCapacityDef? GetNextAsCapacity(Action<string?> errorCallback)
     {
-        PawnCapacityDef capacityDef = GetNextAsCapacity();
+        PawnCapacityDef? capacityDef = GetNextAsCapacity();
 
         if (capacityDef == null)
         {
@@ -531,30 +517,28 @@ public class ArgWorker
 
     /// <summary>
     ///     Attempts to parse the next argument as a
-    ///     <see cref="PawnCapacityDef"/>.
+    ///     <see cref="PawnCapacityDef" />.
     /// </summary>
     /// <param name="capacity">
-    ///     The parsed <see cref="PawnCapacityDef"/>
+    ///     The parsed <see cref="PawnCapacityDef" />
     /// </param>
     /// <returns>
     ///     Whether the argument could be parsed as a
-    ///     <see cref="PawnCapacityDef"/>
+    ///     <see cref="PawnCapacityDef" />
     /// </returns>
-    [ContractAnnotation("=> true,capacity:notnull; => false,capacity:null")]
-    public bool TryGetNextAsCapacity(out PawnCapacityDef capacity)
+    public bool TryGetNextAsCapacity([NotNullWhen(true)] out PawnCapacityDef? capacity)
     {
         capacity = GetNextAsCapacity();
 
-        return !(capacity is null);
+        return capacity != null;
     }
 
     /// <summary>
-    ///     Returns the next argument parsed as a <see cref="Viewer"/>.
+    ///     Returns the next argument parsed as a <see cref="Viewer" />.
     /// </summary>
-    [CanBeNull]
-    public Viewer GetNextAsViewer()
+    public Viewer? GetNextAsViewer()
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null)
         {
@@ -563,24 +547,23 @@ public class ArgWorker
 
         if (next.StartsWith("@"))
         {
-            next = next.Substring(1);
+            next = next[1..];
         }
 
         return Viewers.All.Find(v => v.username.Equals(next, StringComparison.InvariantCultureIgnoreCase));
     }
 
     /// <summary>
-    ///     Returns the next argument parsed as a <see cref="Viewer"/>.
+    ///     Returns the next argument parsed as a <see cref="Viewer" />.
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if the argument could
-    ///     not be parsed as a <see cref="Viewer"/>. Its sole argument is the
+    ///     not be parsed as a <see cref="Viewer" />. Its sole argument is the
     ///     argument that couldn't be parsed.
     /// </param>
-    [CanBeNull]
-    public Viewer GetNextAsViewer(Action<string> errorCallback)
+    public Viewer? GetNextAsViewer(Action<string?> errorCallback)
     {
-        Viewer viewer = GetNextAsViewer();
+        Viewer? viewer = GetNextAsViewer();
 
         if (viewer == null)
         {
@@ -591,15 +574,14 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Attempts to parse the next argument as a <see cref="Viewer"/>.
+    ///     Attempts to parse the next argument as a <see cref="Viewer" />.
     /// </summary>
-    /// <param name="viewer">The parsed <see cref="Viewer"/></param>
+    /// <param name="viewer">The parsed <see cref="Viewer" /></param>
     /// <returns>
     ///     Whether the argument could be parsed as a
-    ///     <see cref="Viewer"/>
+    ///     <see cref="Viewer" />
     /// </returns>
-    [ContractAnnotation("=> true,viewer:notnull; => false,viewer:null")]
-    public bool TryGetNextAsViewer(out Viewer viewer)
+    public bool TryGetNextAsViewer([NotNullWhen(true)] out Viewer? viewer)
     {
         viewer = GetNextAsViewer();
 
@@ -607,12 +589,11 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="StatDef"/>.
+    ///     Returns the next argument as a <see cref="StatDef" />.
     /// </summary>
-    [CanBeNull]
-    public StatDef GetNextAsStat()
+    public StatDef? GetNextAsStat()
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null)
         {
@@ -620,23 +601,20 @@ public class ArgWorker
         }
 
         return DefDatabase<StatDef>.AllDefs.Where(s => s.showOnHumanlikes && s.showOnPawns)
-           .FirstOrDefault(
-                s => s.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase) || s.defName.Equals(next, StringComparison.InvariantCulture)
-            );
+           .FirstOrDefault(s => s.label.ToToolkit().Equals(next, StringComparison.InvariantCultureIgnoreCase) || s.defName.Equals(next, StringComparison.InvariantCulture));
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="StatDef"/>.
+    ///     Returns the next argument as a <see cref="StatDef" />.
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if the argument could
-    ///     not be parsed as a <see cref="StatDef"/>. Its sole argument is
+    ///     not be parsed as a <see cref="StatDef" />. Its sole argument is
     ///     the argument that couldn't be parsed.
     /// </param>
-    [CanBeNull]
-    public StatDef GetNextAsStat(Action<string> errorCallback)
+    public StatDef? GetNextAsStat(Action<string?> errorCallback)
     {
-        StatDef stat = GetNextAsStat();
+        StatDef? stat = GetNextAsStat();
 
         if (stat == null)
         {
@@ -647,28 +625,26 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Attempts to parse the next argument as a <see cref="StatDef"/>.
+    ///     Attempts to parse the next argument as a <see cref="StatDef" />.
     /// </summary>
-    /// <param name="stat">The parsed <see cref="StatDef"/></param>
+    /// <param name="stat">The parsed <see cref="StatDef" /></param>
     /// <returns>
     ///     Whether the argument could be parsed as a
-    ///     <see cref="StatDef"/>
+    ///     <see cref="StatDef" />
     /// </returns>
-    [ContractAnnotation("=> true,stat:notnull; => false,stat:null")]
-    public bool TryGetNextAsStat(out StatDef stat)
+    public bool TryGetNextAsStat([NotNullWhen(true)] out StatDef? stat)
     {
         stat = GetNextAsStat();
 
-        return !(stat is null);
+        return stat != null;
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="ResearchProjectDef"/>.
+    ///     Returns the next argument as a <see cref="ResearchProjectDef" />.
     /// </summary>
-    [CanBeNull]
-    public ResearchProjectDef GetNextAsResearch()
+    public ResearchProjectDef? GetNextAsResearch()
     {
-        string next = GetNext();
+        string? next = GetNext();
 
         if (next == null)
         {
@@ -681,17 +657,16 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns the next argument as a <see cref="ResearchProjectDef"/>.
+    ///     Returns the next argument as a <see cref="ResearchProjectDef" />.
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if the argument could
-    ///     not be parsed as a <see cref="ResearchProjectDef"/>. Its sole
+    ///     not be parsed as a <see cref="ResearchProjectDef" />. Its sole
     ///     argument is the argument that couldn't be parsed.
     /// </param>
-    [CanBeNull]
-    public ResearchProjectDef GetNextAsResearch(Action<string> errorCallback)
+    public ResearchProjectDef? GetNextAsResearch(Action<string?> errorCallback)
     {
-        ResearchProjectDef proj = GetNextAsResearch();
+        ResearchProjectDef? proj = GetNextAsResearch();
 
         if (proj == null)
         {
@@ -703,31 +678,30 @@ public class ArgWorker
 
     /// <summary>
     ///     Attempts to parse the next argument as a
-    ///     <see cref="ResearchProjectDef"/>.
+    ///     <see cref="ResearchProjectDef" />.
     /// </summary>
     /// <param name="project">
-    ///     The parsed <see cref="ResearchProjectDef"/>
+    ///     The parsed <see cref="ResearchProjectDef" />
     /// </param>
     /// <returns>
     ///     Whether the argument could be parsed as a
-    ///     <see cref="ResearchProjectDef"/>
+    ///     <see cref="ResearchProjectDef" />
     /// </returns>
-    [ContractAnnotation("=> true,project:notnull; => false,project:null")]
-    public bool TryGetNextAsResearch(out ResearchProjectDef project)
+    public bool TryGetNextAsResearch([NotNullWhen(true)] out ResearchProjectDef? project)
     {
         project = GetNextAsResearch();
 
-        return !(project is null);
+        return project != null;
     }
 
     /// <summary>
-    ///     Returns all arguments parsed as <see cref="TraitItem"/>s.
+    ///     Returns all arguments parsed as <see cref="TraitItem" />s.
     /// </summary>
     public IEnumerable<TraitItem> GetAllAsTrait()
     {
         while (HasNext())
         {
-            TraitItem trait = GetNextAsTrait();
+            TraitItem? trait = GetNextAsTrait();
 
             if (trait == null)
             {
@@ -739,19 +713,19 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns all arguments parsed as <see cref="TraitItem"/>s.
+    ///     Returns all arguments parsed as <see cref="TraitItem" />s.
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if an argument could not
-    ///     be parsed as a <see cref="TraitItem"/>. Its sole argument is the
+    ///     be parsed as a <see cref="TraitItem" />. Its sole argument is the
     ///     argument that couldn't be parsed.
     /// </param>
     /// <returns></returns>
-    public IEnumerable<TraitItem> GetAllAsTrait(Action<string> errorCallback)
+    public IEnumerable<TraitItem> GetAllAsTrait(Action<string?> errorCallback)
     {
         while (HasNext())
         {
-            TraitItem trait = GetNextAsTrait();
+            TraitItem? trait = GetNextAsTrait();
 
             if (trait == null)
             {
@@ -765,7 +739,7 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns all arguments parsed as <see cref="ItemProxy"/>s, a
+    ///     Returns all arguments parsed as <see cref="ItemProxy" />s, a
     ///     container containing the main item, the requested quality of the
     ///     item, as well as the requested material of the item.
     /// </summary>
@@ -773,7 +747,7 @@ public class ArgWorker
     {
         while (HasNext())
         {
-            ItemProxy item = GetNextAsItem();
+            ItemProxy? item = GetNextAsItem();
 
             if (item == null)
             {
@@ -785,20 +759,20 @@ public class ArgWorker
     }
 
     /// <summary>
-    ///     Returns all arguments parsed as <see cref="ItemProxy"/>, a
+    ///     Returns all arguments parsed as <see cref="ItemProxy" />, a
     ///     container containing the main item, the requested quality of the
     ///     item, as well as the requested material of the item.
     /// </summary>
     /// <param name="errorCallback">
     ///     A method to call if an argument could not
-    ///     be parsed as a <see cref="ItemProxy"/>. Its sole argument is the
+    ///     be parsed as a <see cref="ItemProxy" />. Its sole argument is the
     ///     argument that couldn't be parsed.
     /// </param>
-    public IEnumerable<ItemProxy> GetAllAsItem(Action<string> errorCallback)
+    public IEnumerable<ItemProxy> GetAllAsItem(Action<string?> errorCallback)
     {
         while (HasNext())
         {
-            ItemProxy item = GetNextAsItem();
+            ItemProxy? item = GetNextAsItem();
 
             if (item == null)
             {
@@ -824,18 +798,18 @@ public class ArgWorker
         public ThingItem? Thing { get; set; }
 
         /// <summary>
-        ///     The material of <see cref="Thing"/>.
+        ///     The material of <see cref="Thing" />.
         /// </summary>
         public ThingItem Stuff { get; set; }
 
         /// <summary>
         ///     Whether a specified metadata was invalid for the given item (
-        ///     <see cref="Thing"/>).
+        ///     <see cref="Thing" />).
         /// </summary>
         public bool ProcessError { get; set; }
 
         /// <summary>
-        ///     The optional <see cref="QualityCategory"/> of the item.
+        ///     The optional <see cref="QualityCategory" /> of the item.
         /// </summary>
         public QualityCategory? Quality
         {
@@ -863,7 +837,7 @@ public class ArgWorker
         }
 
         /// <summary>
-        ///     The optional <see cref="Gender"/> of the animal, if the item is
+        ///     The optional <see cref="Gender" /> of the animal, if the item is
         ///     an animal.
         /// </summary>
         public Gender? Gender { get; set; }
@@ -898,8 +872,7 @@ public class ArgWorker
             return true;
         }
 
-        [ContractAnnotation("=> false,item:null; => true,item:notnull")]
-        private bool TryGetInvalidSelector(out ThingItem item)
+        private bool TryGetInvalidSelector([NotNullWhen(true)] out ThingItem? item)
         {
             if (Thing.Cost <= 0 || Thing.Thing == null)
             {
@@ -921,14 +894,14 @@ public class ArgWorker
         }
 
         /// <summary>
-        ///     Transforms the <see cref="ItemProxy"/> into a form displayed in
+        ///     Transforms the <see cref="ItemProxy" /> into a form displayed in
         ///     RimWorld.
         /// </summary>
-        /// <param name="plural">Whether <see cref="Thing"/> should be pluralized</param>
-        /// <returns>A <see cref="ItemProxy"/> in a form as displayed by RimWorld</returns>
+        /// <param name="plural">Whether <see cref="Thing" /> should be pluralized</param>
+        /// <returns>A <see cref="ItemProxy" /> in a form as displayed by RimWorld</returns>
         public string AsString(bool plural = false)
         {
-            string name = (Thing.Thing?.label ?? Thing.Name).ToLowerInvariant();
+            string? name = (Thing.Thing?.label ?? Thing.Name).ToLowerInvariant();
             string stuff = (Stuff?.Thing?.LabelAsStuff ?? Stuff?.Name)?.ToLowerInvariant() ?? "";
 
             if (plural)
@@ -945,9 +918,9 @@ public class ArgWorker
         /// </summary>
         /// <param name="error">The error string from the specified configuration</param>
         /// <returns>Whether there was an error with the configuration</returns>
-        public bool TryGetError([CanBeNull] out string error)
+        public bool TryGetError([NotNullWhen(true)] out string? error)
         {
-            if (TryGetInvalidSelector(out ThingItem item))
+            if (TryGetInvalidSelector(out ThingItem? item))
             {
                 TkUtils.Logger.Debug("Found an invalid selector");
 
@@ -994,7 +967,7 @@ public class ArgWorker
         }
 
         [ContractAnnotation("=> true,error:notnull; => false,error:null")]
-        private bool TryGetThingError(out string error)
+        private bool TryGetThingError(out string? error)
         {
             if (Thing.Cost <= 0 || Thing.Thing == null)
             {
@@ -1009,7 +982,7 @@ public class ArgWorker
         }
 
         [ContractAnnotation("=> true,error:notnull; => false,error:null")]
-        private bool TryGetStuffError(out string error)
+        private bool TryGetStuffError(out string? error)
         {
             if (Stuff.Cost <= 0 || Stuff.Thing == null)
             {

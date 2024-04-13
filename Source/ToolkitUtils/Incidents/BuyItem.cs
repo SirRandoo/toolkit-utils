@@ -47,7 +47,7 @@ public class BuyItem : IncidentVariablesBase
             return false;
         }
 
-        if (product.TryGetError(out string error))
+        if (product.TryGetError(out string? error))
         {
             MessageHelper.ReplyToUser(viewer.username, error);
 
@@ -174,7 +174,7 @@ public sealed class PurchaseRequest
             return;
         }
 
-        string animal = Proxy.Thing.Thing.label.CapitalizeFirst();
+        string? animal = Proxy.Thing.Thing.label.CapitalizeFirst();
 
         if (Quantity > 1)
         {

@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -35,7 +35,7 @@ public class PawnRelations : ICommandSettings
         if (!TkSettings.MinimalRelations)
         {
             (Rect labelRect, Rect fieldRect) = listing.Split();
-            UiHelper.Label(labelRect, "TKUtils.PawnRelations.OpinionThreshold.Label".TranslateSimple());
+            LabelDrawer.Draw(labelRect, "TKUtils.PawnRelations.OpinionThreshold.Label".TranslateSimple());
             Widgets.TextFieldNumeric(fieldRect, ref TkSettings.OpinionMinimum, ref _minimumBuffer);
             listing.DrawDescription("TKUtils.PawnRelations.OpinionThreshold.Description".TranslateSimple());
         }

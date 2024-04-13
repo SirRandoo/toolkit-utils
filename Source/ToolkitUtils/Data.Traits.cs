@@ -146,7 +146,7 @@ public static partial class Data
     ///     <see cref="TraitItem.Name"/>s.
     /// </remarks>
     [ContractAnnotation("input:notnull => true,trait:notnull; input:notnull => false,trait:null")]
-    public static bool TryGetTrait(string input, out TraitItem trait)
+    public static bool TryGetTrait(string? input, out TraitItem trait)
     {
         if (input.StartsWith("$"))
         {

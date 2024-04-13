@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 using Verse;
 
@@ -24,7 +25,7 @@ namespace SirRandoo.ToolkitUtils.Helpers;
 [StaticConstructorOnStartup]
 public static class Translator
 {
-    private static readonly ConcurrentDictionary<string, string> TranslationProxy = new();
+    private static readonly ConcurrentDictionary<string, string?> TranslationProxy = new();
 
     static Translator()
     {
@@ -66,19 +67,19 @@ public static class Translator
         TkUtils.Logger.Warn(builder.ToString());
     }
 
-    public static string Localize(this string key) => TranslationProxy.TryGetValue(key, out string value) ? value : key;
+    public static string Localize(this string key) => TranslationProxy!.GetValueOrDefault(key, key);
 
     public static string Localize(this string key, string backup)
     {
-        if (TranslationProxy.TryGetValue(key, out string initial))
+        if (TranslationProxy.TryGetValue(key, out string? initial))
         {
-            return initial;
+            return initial!;
         }
 
-        return TranslationProxy.TryGetValue(backup, out string back) ? back : key;
+        return TranslationProxy.GetValueOrDefault(backup, key)!;
     }
 
-    public static string LocalizeKeyed(this string key, params object[] args)
+    public static string LocalizeKeyed(this string key, params object?[] args)
     {
         try
         {

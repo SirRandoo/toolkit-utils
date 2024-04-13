@@ -1,28 +1,28 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.Constraints;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -35,7 +35,7 @@ public class PriceSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     private int _price;
     private string _priceBuffer = "0";
     private bool _priceBufferValid = true;
-    private string _priceText;
+    private string? _priceText;
 
     public void Prepare()
     {
@@ -57,7 +57,7 @@ public class PriceSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
     public void Draw(Rect canvas)
     {
         (Rect label, Rect field) = canvas.Split(0.75f);
-        UiHelper.Label(label, _priceText);
+        LabelDrawer.Draw(label, _priceText);
 
         (Rect button, Rect input) = field.Split(0.3f);
 
@@ -66,7 +66,7 @@ public class PriceSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
             Find.WindowStack.Add(new FloatMenu(_comparisonOptions));
         }
 
-        if (!UiHelper.NumberField(input, out int value, ref _priceBuffer, ref _priceBufferValid))
+        if (!FieldDrawer.DrawNumberField(input, out int value, ref _priceBuffer, ref _priceBufferValid))
         {
             return;
         }
@@ -96,5 +96,5 @@ public class PriceSelector<T> : ISelectorBase<T> where T : class, IShopItemBase
         }
     }
 
-    public string Label => "TKUtils.Fields.Price".TranslateSimple();
+    public string? Label => "TKUtils.Fields.Price".TranslateSimple();
 }

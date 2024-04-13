@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -33,7 +33,7 @@ public class Lookup : ICommandSettings
         listing.Begin(region);
 
         (Rect limitLabel, Rect limitField) = listing.Split();
-        UiHelper.Label(limitLabel, "TKUtils.LookupLimit.Label".TranslateSimple());
+        LabelDrawer.Draw(limitLabel, "TKUtils.LookupLimit.Label".TranslateSimple());
         Widgets.TextFieldNumeric(limitField, ref TkSettings.LookupLimit, ref _buffer);
         listing.DrawDescription("TKUtils.LookupLimit.Description".TranslateSimple());
 

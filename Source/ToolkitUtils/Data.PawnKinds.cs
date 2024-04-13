@@ -176,7 +176,7 @@ public static partial class Data
     ///     <see cref="PawnKindItem.Name"/>s.
     /// </remarks>
     [ContractAnnotation("input:notnull => true,kind:notnull; input:notnull => false,kind:null")]
-    public static bool TryGetPawnKind(string input, out PawnKindItem kind)
+    public static bool TryGetPawnKind(string? input, out PawnKindItem kind)
     {
         if (input.StartsWith("$"))
         {

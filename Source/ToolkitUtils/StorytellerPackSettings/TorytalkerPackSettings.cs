@@ -22,7 +22,7 @@
 
 using System;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -35,25 +35,25 @@ public class TorytalkerPackSettings : PackSettingsBase
     private string _mtbBuffer;
     private bool _mtbBufferValid;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override bool Enabled
     {
         get => ToolkitSettings.ToryTalkerEnabled;
         set => ToolkitSettings.ToryTalkerEnabled = value;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string Tooltip =>
         "The classic, and most balanced Toolkit experience. ToryTalker uses the global weights, and it's own weighting system based on events that have happened recently.";
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void ResetState()
     {
         _mtbBufferValid = true;
         _mtbBuffer = ToolkitSettings.ToryTalkerMTBDays.ToString("N2");
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override void Draw(Rect region)
     {
         var headerRegion = new Rect(0f, 0f, region.width, Text.SmallFontHeight * 5f);
@@ -63,16 +63,16 @@ public class TorytalkerPackSettings : PackSettingsBase
 
         GUI.BeginGroup(headerRegion);
         GUI.color = Color.grey;
-        UiHelper.Label(headerRegion, "Tory Talker uses the global weights system, and its own weighting system based on events that have happened recently.");
+        LabelDrawer.Draw(headerRegion, "Tory Talker uses the global weights system, and its own weighting system based on events that have happened recently.");
         GUI.color = Color.white;
         GUI.EndGroup();
 
         GUI.BeginGroup(contentRegion);
 
         (Rect labelRegion, Rect fieldRegion) = new Rect(0f, 0f, region.width, Text.SmallFontHeight).Split(0.8f);
-        UiHelper.Label(labelRegion, "Average days between events");
+        LabelDrawer.Draw(labelRegion, "Average days between events");
 
-        if (UiHelper.NumberField(fieldRegion, out float newDays, ref _mtbBuffer, ref _mtbBufferValid, 0.5f, 10f))
+        if (FieldDrawer.DrawNumberField(fieldRegion, out float newDays, ref _mtbBuffer, ref _mtbBufferValid, 0.5f, 10f))
         {
             ToolkitSettings.ToryTalkerMTBDays = newDays;
         }

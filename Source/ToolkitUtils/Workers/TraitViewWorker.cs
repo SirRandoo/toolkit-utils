@@ -1,24 +1,24 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System.Text;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -30,14 +30,14 @@ namespace SirRandoo.ToolkitUtils.Workers;
 /// </summary>
 public class TraitViewWorker : TraitTableWorker
 {
-    /// <inheritdoc cref="TraitTableWorker.DrawHeaders"/>
+    /// <inheritdoc cref="TraitTableWorker.DrawHeaders" />
     protected override void DrawHeaders(Rect region)
     {
         DrawSortableHeaders();
         DrawSortableHeaderIcon();
     }
 
-    /// <inheritdoc cref="TraitTableWorker.DrawTrait"/>
+    /// <inheritdoc cref="TraitTableWorker.DrawTrait" />
     protected override void DrawTrait(Rect canvas, TableSettingsItem<TraitItem> trait)
     {
         var nameMouseOverRect = new Rect(NameHeaderRect.x, canvas.y, NameHeaderRect.width, RowLineHeight);
@@ -45,7 +45,7 @@ public class TraitViewWorker : TraitTableWorker
         var addPriceRect = new Rect(AddPriceHeaderTextRect.x, canvas.y, AddPriceHeaderTextRect.width, RowLineHeight);
         var removePriceRect = new Rect(RemovePriceHeaderTextRect.x, canvas.y, RemovePriceHeaderTextRect.width, RowLineHeight);
 
-        UiHelper.Label(nameRect, trait.Data.Name);
+        LabelDrawer.Draw(nameRect, trait.Data.Name);
 
         if (!trait.EditingName)
         {
@@ -65,16 +65,16 @@ public class TraitViewWorker : TraitTableWorker
 
         if (trait.Data.CanAdd)
         {
-            UiHelper.Label(addPriceRect, trait.Data.CostToAdd.ToString("N0"));
+            LabelDrawer.Draw(addPriceRect, trait.Data.CostToAdd.ToString("N0"));
         }
 
         if (trait.Data.CanRemove)
         {
-            UiHelper.Label(removePriceRect, trait.Data.CostToRemove.ToString("N0"));
+            LabelDrawer.Draw(removePriceRect, trait.Data.CostToRemove.ToString("N0"));
         }
     }
 
-    /// <inheritdoc cref="TraitTableWorker.NotifyResolutionChanged"/>
+    /// <inheritdoc cref="TraitTableWorker.NotifyResolutionChanged" />
     public override void NotifyResolutionChanged(Rect region)
     {
         float distributedWidth = Mathf.FloorToInt((region.width - 16f) * 0.3333f);

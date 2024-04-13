@@ -44,7 +44,7 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
 
     public bool IsUndead(Pawn pawn) => TM_Calc.IsUndead(pawn);
 
-    public string GetSkillDescription(string invoker, string query)
+    public string? GetSkillDescription(string? invoker, string? query)
     {
         if (!PurchaseHelper.TryGetPawn(invoker, out Pawn pawn))
         {
@@ -75,15 +75,15 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
         return builder.ToString();
     }
 
-    private static bool TryGetMagicDescription(CompAbilityUserMagic userMagic, string query, [NotNullWhen(true)] out string? s) =>
+    private static bool TryGetMagicDescription(CompAbilityUserMagic userMagic, string? query, [NotNullWhen(true)] out string? s) =>
         TryGetGlobalMagicDescription(userMagic, query, out s) || TryGetMagicSkillDescription(userMagic, query, out s);
 
-    private static bool TryGetMightDescription(CompAbilityUserMight userMight, string query, [NotNullWhen(true)] out string? s) =>
+    private static bool TryGetMightDescription(CompAbilityUserMight userMight, string? query, [NotNullWhen(true)] out string? s) =>
         TryGetGlobalMightDescription(userMight, query, out s) || TryGetMightSkillDescription(userMight, query, out s);
 
-    private static bool TryGetGlobalMagicDescription(CompAbilityUserMagic userMagic, string query, [NotNullWhen(true)] out string? s)
+    private static bool TryGetGlobalMagicDescription(CompAbilityUserMagic userMagic, string? query, [NotNullWhen(true)] out string? s)
     {
-        string regen = "TM_global_regen_pwr".Localize("regen").ToToolkit();
+        string? regen = "TM_global_regen_pwr".Localize("regen").ToToolkit();
 
         if (query.EqualsIgnoreCase(regen) || query.EqualsIgnoreCase("regen"))
         {
@@ -92,7 +92,7 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
             return s != null;
         }
 
-        string efficiency = "TM_global_eff_pwr".Localize("efficiency").ToToolkit();
+        string? efficiency = "TM_global_eff_pwr".Localize("efficiency").ToToolkit();
 
         if (query.EqualsIgnoreCase(efficiency) || query.EqualsIgnoreCase("efficiency"))
         {
@@ -101,7 +101,7 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
             return s != null;
         }
 
-        string spirit = "TM_global_spirit_pwr".Localize("versatility").ToToolkit();
+        string? spirit = "TM_global_spirit_pwr".Localize("versatility").ToToolkit();
 
         if (query.EqualsIgnoreCase(spirit) || query.EqualsIgnoreCase("versatility"))
         {
@@ -115,9 +115,9 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
         return false;
     }
 
-    private static bool TryGetGlobalMightDescription(CompAbilityUserMight userMight, string query, [NotNullWhen(true)] out string? s)
+    private static bool TryGetGlobalMightDescription(CompAbilityUserMight userMight, string? query, [NotNullWhen(true)] out string? s)
     {
-        string refresh = "TM_global_refresh_pwr".Localize("refresh").ToToolkit();
+        string? refresh = "TM_global_refresh_pwr".Localize("refresh").ToToolkit();
 
         if (query.EqualsIgnoreCase(refresh) || query.EqualsIgnoreCase("refresh"))
         {
@@ -126,7 +126,7 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
             return s != null;
         }
 
-        string efficiency = "TM_global_seff_pwr".Localize("efficiency").ToToolkit();
+        string? efficiency = "TM_global_seff_pwr".Localize("efficiency").ToToolkit();
 
         if (query.EqualsIgnoreCase(efficiency) || query.EqualsIgnoreCase("efficiency"))
         {
@@ -135,7 +135,7 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
             return s != null;
         }
 
-        string strength = "TM_global_strength_pwr".Localize("strength").ToToolkit();
+        string? strength = "TM_global_strength_pwr".Localize("strength").ToToolkit();
 
         if (query.EqualsIgnoreCase(strength) || query.EqualsIgnoreCase("strength"))
         {
@@ -144,7 +144,7 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
             return s != null;
         }
 
-        string endurance = "TM_global_endurance_pwr".Localize("endurance").ToToolkit();
+        string? endurance = "TM_global_endurance_pwr".Localize("endurance").ToToolkit();
 
         if (query.EqualsIgnoreCase(endurance) || query.EqualsIgnoreCase("endurance"))
         {
@@ -158,7 +158,7 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
         return false;
     }
 
-    private static bool TryGetMagicSkillDescription(CompAbilityUserMagic userMagic, string query, [NotNullWhen(true)] out string? s)
+    private static bool TryGetMagicSkillDescription(CompAbilityUserMagic userMagic, string? query, [NotNullWhen(true)] out string? s)
     {
         foreach (MagicPower magicPower in userMagic.MagicData.AllMagicPowers)
         {
@@ -209,7 +209,7 @@ public record MagicCompat(string ModId = "Torann.ARimworldOfMagic") : IMagicComp
         return false;
     }
 
-    private static bool TryGetMightSkillDescription(CompAbilityUserMight userMight, string query, [NotNullWhen(true)] out string? s)
+    private static bool TryGetMightSkillDescription(CompAbilityUserMight userMight, string? query, [NotNullWhen(true)] out string? s)
     {
         foreach (MightPower mightPower in userMight.MightData.AllMightPowers)
         {

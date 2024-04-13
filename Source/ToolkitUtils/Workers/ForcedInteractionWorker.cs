@@ -16,38 +16,36 @@
 
 using System.Collections.Generic;
 using System.Text;
-using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
+using ToolkitUtils.UX;
 using Verse;
 
 namespace SirRandoo.ToolkitUtils.Workers;
 
 /// <summary>
 ///     A somewhat similar worker to RimWorld's
-///     <see cref="InteractionWorker"/>, but without RimWorld's internal
+///     <see cref="InteractionWorker" />, but without RimWorld's internal
 ///     limiters.
 /// </summary>
 public static class ForcedInteractionWorker
 {
     /// <summary>
-    ///     Instructs a <see cref="Pawn"/> to interact with another
-    ///     <see cref="Pawn"/> according to the given
-    ///     <see cref="InteractionDef"/>.
+    ///     Instructs a <see cref="Pawn" /> to interact with another
+    ///     <see cref="Pawn" /> according to the given
+    ///     <see cref="InteractionDef" />.
     /// </summary>
     /// <param name="pawn">The pawn to do the interaction</param>
     /// <param name="recipient">The pawn being interacted with</param>
     /// <param name="interaction">
-    ///     The <see cref="InteractionDef"/> of the
+    ///     The <see cref="InteractionDef" /> of the
     ///     interaction that will take place
     /// </param>
     /// <returns>
     ///     The interaction string returned by RimWorld's interaction
     ///     worker.
     /// </returns>
-    [CanBeNull]
-    public static string InteractWith(Pawn pawn, Pawn recipient, InteractionDef interaction)
+    public static string? InteractWith(Pawn pawn, Pawn recipient, InteractionDef interaction)
     {
         if (pawn == recipient)
         {
@@ -103,7 +101,7 @@ public static class ForcedInteractionWorker
 
         if (!letterText.NullOrEmpty())
         {
-            text = text + "\n\n" + RichTextHelper.StripTags(letterText);
+            text = text + "\n\n" + RichTextHelper.StripTags(letterText!);
         }
 
         Find.LetterStack.ReceiveLetter(letterLabel, text, letterDef, lookTargets ?? pawn);
@@ -111,10 +109,10 @@ public static class ForcedInteractionWorker
         return MakeFirstPerson(pawn.LabelShort, text.Replace("\n\n", " "));
     }
 
-    private static string MakeFirstPerson(string username, string text)
+    private static string? MakeFirstPerson(string username, string text)
     {
         var builder = new StringBuilder();
-        string you = "TKUtils.Interaction.You".Localize();
+        string? you = "TKUtils.Interaction.You".Localize();
         var shouldCapitalize = false;
 
         foreach (string word in text.Split(' '))

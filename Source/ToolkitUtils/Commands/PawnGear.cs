@@ -1,16 +1,16 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -18,10 +18,10 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
+using ToolkitUtils.UX;
 using TwitchLib.Client.Models.Interfaces;
 using UnityEngine;
 using Verse;
@@ -67,7 +67,7 @@ public class PawnGear : CommandBase
         return Mathf.Clamp(rating * 2f, 0f, 2f);
     }
 
-    private static string GetPawnGear(Pawn pawn)
+    private static string? GetPawnGear(Pawn pawn)
     {
         var parts = new List<string>();
 
@@ -134,7 +134,7 @@ public class PawnGear : CommandBase
             return;
         }
 
-        string section = "Stat_Weapon_Name".Localize();
+        string? section = "Stat_Weapon_Name".Localize();
 
         parts.Add($"{(weapons.Count > 1 ? section.Pluralize() : section)}: {weapons.SectionJoin()}");
     }
@@ -181,13 +181,7 @@ public class PawnGear : CommandBase
         }
     }
 
-    private static void GetSidearms(
-        ICollection<Thing> sidearms,
-        ICollection<string> weapons,
-        IEnumerable<Thing> inventory,
-        ICollection<Thing> usedInventory,
-        Thing sidearm
-    )
+    private static void GetSidearms(ICollection<Thing> sidearms, ICollection<string> weapons, IEnumerable<Thing> inventory, ICollection<Thing> usedInventory, Thing sidearm)
     {
         foreach (Thing thing in inventory.Where(thing => sidearm.def.defName.Equals(thing.def.defName)))
         {

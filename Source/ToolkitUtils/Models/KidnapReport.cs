@@ -25,11 +25,11 @@ namespace SirRandoo.ToolkitUtils.Models;
 
 public class KidnapReport
 {
-    public string Viewer { get; set; }
+    public string? Viewer { get; set; }
     public List<string> PawnIds { get; set; }
 
     [CanBeNull]
-    public static KidnapReport KidnapReportFor(string username)
+    public static KidnapReport KidnapReportFor(string? username)
     {
         if (PurchaseHelper.TryGetPawn(username, out Pawn linkedPawn))
         {

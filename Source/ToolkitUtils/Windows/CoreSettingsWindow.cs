@@ -1,17 +1,17 @@
 ﻿// MIT License
-// 
+//
 // Copyright (c) 2022 SirRandoo
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,12 +21,11 @@
 // SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
-using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
-using SirRandoo.CommonLib.Windows;
 using ToolkitCore;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -39,46 +38,46 @@ public class CoreSettingsWindow : ProxySettingsWindow
     private const float LineSpacing = 10f;
 
     private readonly float _mediumFontHeight;
-    private string _allowWhispersText;
-    private string _allowWhispersTooltip;
-    private string _autoConnectText;
-    private string _autoConnectTooltip;
-    private string _botUsernameText;
-    private string _botUsernameTooltip;
-    private string _channelDetailsHeader;
-    private string _channelText;
-    private string _channelTooltip;
+    private string _allowWhispersText = null!;
+    private string _allowWhispersTooltip = null!;
+    private string _autoConnectText = null!;
+    private string _autoConnectTooltip = null!;
+    private string _botUsernameText = null!;
+    private string _botUsernameTooltip = null!;
+    private string _channelDetailsHeader = null!;
+    private string _channelText = null!;
+    private string _channelTooltip = null!;
 
-    private string _connectedText;
-    private string _connectionHeader;
-    private string _connectionMessageTooltip;
-    private string _connectText;
-    private string _disconnectedText;
-    private string _disconnectText;
-    private string _forcedWhispersTooltip;
-    private string _forceWhispersText;
-    private string _newTokenText;
-    private string _newTokenTooltip;
-    private string _sameAsChannelText;
-    private string _sameAsChannelTooltip;
-    private string _sendConnectionMessageText;
+    private string _connectedText = null!;
+    private string _connectionHeader = null!;
+    private string _connectionMessageTooltip = null!;
+    private string _connectText = null!;
+    private string _disconnectedText = null!;
+    private string _disconnectText = null!;
+    private string _forcedWhispersTooltip = null!;
+    private string _forceWhispersText = null!;
+    private string _newTokenText = null!;
+    private string _newTokenTooltip = null!;
+    private string _sameAsChannelText = null!;
+    private string _sameAsChannelTooltip = null!;
+    private string _sendConnectionMessageText = null!;
     private bool _showingToken;
-    private string _statusText;
-    private string _tmiConfirmationText;
-    private string _tokenHiddenTooltip;
-    private string _tokenText;
-    private string _tokenTooltip;
+    private string _statusText = null!;
+    private string _tmiConfirmationText = null!;
+    private string _tokenHiddenTooltip = null!;
+    private string _tokenText = null!;
+    private string _tokenTooltip = null!;
     private bool _tokenValid;
-    private string _tokenVisibleTooltip;
+    private string _tokenVisibleTooltip = null!;
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public CoreSettingsWindow() : base(LoadedModManager.GetMod<ToolkitCore.ToolkitCore>())
     {
         _mediumFontHeight = Text.LineHeightOf(GameFont.Medium);
         _tokenValid = ToolkitCoreSettings.oauth_token.StartsWith("oauth:", StringComparison.OrdinalIgnoreCase);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void GetTranslations()
     {
         _channelTooltip = "TKUtils.CoreTooltips.ChannelField".TranslateSimple();
@@ -117,7 +116,7 @@ public class CoreSettingsWindow : ProxySettingsWindow
         _tmiConfirmationText = "TKUtils.CoreSettings.TmiConfirmation".Translate(TokenUrl);
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     protected override void DrawSettings(Rect region)
     {
         var authSectionHeader = new Rect(0f, 0f, 550f, _mediumFontHeight);
@@ -135,8 +134,8 @@ public class CoreSettingsWindow : ProxySettingsWindow
 
         GUI.BeginGroup(region);
 
-        UiHelper.Label(authSectionHeader, _channelDetailsHeader, TextAnchor.MiddleLeft, GameFont.Medium);
-        UiHelper.Label(connectionSectionHeader, _connectionHeader, TextAnchor.MiddleLeft, GameFont.Medium);
+        LabelDrawer.Draw(authSectionHeader, _channelDetailsHeader, TextAnchor.MiddleLeft, GameFont.Medium);
+        LabelDrawer.Draw(connectionSectionHeader, _connectionHeader, TextAnchor.MiddleLeft, GameFont.Medium);
 
         GUI.BeginGroup(authSectionRegion);
         DrawAuthSection(authSectionRegion.AtZero());
@@ -167,27 +166,27 @@ public class CoreSettingsWindow : ProxySettingsWindow
         Rect tokenField = usernameField.Shift(Direction8Way.South, LineSpacing);
         Rect newTokenBtn = sameAsChannelBtn.Shift(Direction8Way.South, LineSpacing);
 
-        UiHelper.Label(channelLabel, _channelText);
+        LabelDrawer.Draw(channelLabel, _channelText);
         TooltipHandler.TipRegion(channelLabel, _channelTooltip);
 
-        if (UiHelper.TextField(channelField, ToolkitCoreSettings.channel_username, out string newUsername))
+        if (FieldDrawer.DrawTextField(channelField, ToolkitCoreSettings.channel_username, out string? newUsername))
         {
             ToolkitCoreSettings.channel_username = newUsername;
         }
 
-        UiHelper.Label(usernameLabel, _botUsernameText);
+        LabelDrawer.Draw(usernameLabel, _botUsernameText);
         TooltipHandler.TipRegion(usernameLabel, _botUsernameTooltip);
 
-        if (UiHelper.TextField(usernameField, ToolkitCoreSettings.bot_username, out string newBotUsername))
+        if (FieldDrawer.DrawTextField(usernameField, ToolkitCoreSettings.bot_username, out string? newBotUsername))
         {
             ToolkitCoreSettings.bot_username = newBotUsername;
         }
 
-        UiHelper.Label(tokenLabel, _tokenText);
+        LabelDrawer.Draw(tokenLabel, _tokenText);
         TooltipHandler.TipRegion(tokenLabel, _tokenTooltip);
         DrawTokenField(tokenField);
 
-        if (UiHelper.FieldButton(tokenLabel, _showingToken ? Textures.Visible : Textures.Hidden, _showingToken ? _tokenVisibleTooltip : _tokenHiddenTooltip))
+        if (ButtonDrawer.DrawFieldButton(tokenLabel, _showingToken ? Textures.Visible : Textures.Hidden, _showingToken ? _tokenVisibleTooltip : _tokenHiddenTooltip))
         {
             _showingToken = !_showingToken;
         }
@@ -223,15 +222,9 @@ public class CoreSettingsWindow : ProxySettingsWindow
         Rect forceWhisperRegion = whisperRegion.Shift(Direction8Way.South, 0f);
         Rect sendMessageRegion = forceWhisperRegion.Shift(Direction8Way.South, 0f);
 
-        UiHelper.Label(statusLabelRegion, _statusText);
+        LabelDrawer.Draw(statusLabelRegion, _statusText);
 
-        UiHelper.Label(
-            statusRegion,
-            isConnected ? _connectedText : _disconnectedText,
-            isConnected ? Color.green : ColorLibrary.RedReadable,
-            TextAnchor.MiddleLeft,
-            GameFont.Small
-        );
+        LabelDrawer.Draw(statusRegion, isConnected ? _connectedText : _disconnectedText, isConnected ? Color.green : ColorLibrary.RedReadable);
 
         if (Widgets.ButtonText(statusBtnRegion, isConnected ? _disconnectText : _connectText))
         {
@@ -267,7 +260,7 @@ public class CoreSettingsWindow : ProxySettingsWindow
             GUI.color = Color.red;
         }
 
-        if (!DrawTokenFieldInternal(region, out string newToken) || newToken == null)
+        if (!DrawTokenFieldInternal(region, out string? newToken))
         {
             GUI.color = Color.white;
 
@@ -285,11 +278,11 @@ public class CoreSettingsWindow : ProxySettingsWindow
         _tokenValid = false;
     }
 
-    private bool DrawTokenFieldInternal(Rect region, [CanBeNull] out string newToken)
+    private bool DrawTokenFieldInternal(Rect region, [NotNullWhen(true)] out string? newToken)
     {
         if (_showingToken)
         {
-            return UiHelper.TextField(region, ToolkitCoreSettings.oauth_token, out newToken);
+            return FieldDrawer.DrawTextField(region, ToolkitCoreSettings.oauth_token, out newToken);
         }
 
         return DrawPasswordField(region, ToolkitCoreSettings.oauth_token, out newToken);

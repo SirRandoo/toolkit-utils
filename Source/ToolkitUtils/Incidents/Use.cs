@@ -58,7 +58,7 @@ public class Use : IncidentVariablesBase
 
         _buyableItem = item.Thing;
 
-        if (item.TryGetError(out string error))
+        if (item.TryGetError(out string? error))
         {
             MessageHelper.ReplyToUser(viewer.username, error);
 

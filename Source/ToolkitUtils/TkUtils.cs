@@ -17,10 +17,6 @@
 using System;
 using System.Threading;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib;
-using SirRandoo.CommonLib.Entities;
-using SirRandoo.CommonLib.Interfaces;
-using SirRandoo.CommonLib.Windows;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Utils.ModComp;
 using SirRandoo.ToolkitUtils.Windows;
@@ -30,18 +26,14 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils;
 
-/// <summary>
-///     A <see cref="ModPlus"/> implementation that outlines the core mod
-///     class for ToolkitUtils. This class is created and stored by
-///     RimWorld itself.
-/// </summary>
 [UsedImplicitly]
-public class TkUtils : ModPlus
+public class TkUtils : Mod
 {
     public TkUtils(ModContentPack content) : base(content)
     {
         Instance = this;
         GetSettings<TkSettings>();
+        SettingsWindow = new UtilsSettingsWindow();
 
         try
         {
@@ -57,17 +49,15 @@ public class TkUtils : ModPlus
 
     public static TkUtils Instance { get; private set; }
     internal static SynchronizationContext Context { get; set; }
-    public static IRimLogger Logger { get; private set; }
+    public static RimLogger Logger { get; private set; }
+    internal UtilsSettingsWindow SettingsWindow { get; set; }
 
-    /// <inheritdoc cref="ModPlus.SettingsWindow"/>
-    public override ProxySettingsWindow SettingsWindow => new UtilsSettingsWindow();
-
-    public static void HandleException(Exception exception, [CanBeNull] string reporter = null)
+    public static void HandleException(Exception exception, string? reporter = null)
     {
         HandleException(exception.Message ?? "An unhandled exception occurred", exception, reporter);
     }
 
-    public static void HandleException(string message, Exception exception, [CanBeNull] string reporter = null)
+    public static void HandleException(string? message, Exception exception, string? reporter = null)
     {
         if (UnityData.IsInMainThread && TkSettings.VisualExceptions && VisualExceptions.Active)
         {
@@ -89,5 +79,11 @@ public class TkUtils : ModPlus
                 Reporter = reporter ?? "Unknown"
             }
         );
+    }
+
+    /// <inheritdoc />
+    public override void DoSettingsWindowContents(Rect inRect)
+    {
+        ProxySettingsWindow.Open(new UtilsSettingsWindow());
     }
 }

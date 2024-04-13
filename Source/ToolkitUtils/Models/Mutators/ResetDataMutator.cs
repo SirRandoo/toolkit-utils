@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -37,7 +36,7 @@ public class ResetDataMutator<T> : IMutatorBase<T> where T : class, IShopItemBas
 
     public void Draw(Rect canvas)
     {
-        UiHelper.Label(canvas, _resetDataText, new Color(1f, 0.53f, 0.76f), TextAnchor.MiddleLeft, GameFont.Small);
+        LabelDrawer.Draw(canvas, _resetDataText, new Color(1f, 0.53f, 0.76f));
     }
 
     public void Mutate(TableSettingsItem<T> item)

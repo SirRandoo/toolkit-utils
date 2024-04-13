@@ -35,7 +35,7 @@ public class CommandItem : IUsageItemBase
     [JsonProperty("usage")] public string Usage { get; set; }
     [JsonProperty("userLevel")] public UserLevels UserLevel { get; set; }
     [JsonProperty("shortcut")] public bool Shortcut => Data?.IsShortcut ?? false;
-    [JsonProperty("defName")] public string DefName { get; set; }
+    [JsonProperty("defName")] public string? DefName { get; set; }
     [JsonIgnore] [CanBeNull] public IConfigurableUsageData UsageData => Data;
 
     public static CommandItem FromToolkit(Command command)

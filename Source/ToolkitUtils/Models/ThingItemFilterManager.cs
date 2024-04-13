@@ -17,9 +17,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -27,13 +26,8 @@ namespace SirRandoo.ToolkitUtils.Models;
 
 public class ThingItemFilterManager
 {
-    private readonly List<ThingItemFilterCategory> _filters;
+    private readonly List<ThingItemFilterCategory> _filters = [];
     private Vector2 _scrollPos = Vector2.zero;
-
-    public ThingItemFilterManager()
-    {
-        _filters = new List<ThingItemFilterCategory>();
-    }
 
     public void FilterItems(IEnumerable<TableSettingsItem<ThingItem>> input)
     {
@@ -149,7 +143,7 @@ public class ThingItemFilterManager
                 }
             }
 
-            UiHelper.Label(categoryTextRect, $"TKUtils.FilterTypes.{category.FilterType}".TranslateSimple());
+            LabelDrawer.Draw(categoryTextRect, $"TKUtils.FilterTypes.{category.FilterType}".TranslateSimple());
 
             if (Widgets.ButtonInvisible(arrowIconRect))
             {
@@ -186,11 +180,11 @@ public class ThingItemFilterManager
 
             if (textRect.width < filter.LabelWidth)
             {
-                UiHelper.Label(textRect, filter.Label, TextAnchor.MiddleLeft, GameFont.Tiny);
+                LabelDrawer.Draw(textRect, filter.Label, TextAnchor.MiddleLeft, GameFont.Tiny);
             }
             else
             {
-                UiHelper.Label(textRect, filter.Label);
+                LabelDrawer.Draw(textRect, filter.Label);
             }
 
             if (Widgets.ButtonInvisible(canvas))

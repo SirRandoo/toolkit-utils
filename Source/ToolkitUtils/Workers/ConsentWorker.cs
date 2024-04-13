@@ -37,7 +37,7 @@ public class ConsentWorker
     ///     The person <see cref="askee"/> is asking consent
     ///     from
     /// </param>
-    public void Create(string asker, string askee)
+    public void Create(string? asker, string askee)
     {
         var askerContext = new ConsentContext { User = askee };
         var askeeContext = new ConsentContext { User = asker, Agreed = true };
@@ -55,7 +55,7 @@ public class ConsentWorker
     ///     consent
     /// </param>
     [CanBeNull]
-    public string GetAskee(string username) => !_consentData.TryGetValue(username.ToLowerInvariant(), out ConsentContext context) ? null : context.User;
+    public string GetAskee(string? username) => !_consentData.TryGetValue(username.ToLowerInvariant(), out ConsentContext context) ? null : context.User;
 
     /// <summary>
     ///     Returns whether the person asked for consent consented.
@@ -71,7 +71,7 @@ public class ConsentWorker
     /// </summary>
     /// <param name="username">The person that was asked for consent</param>
     [CanBeNull]
-    public string GetAsker(string username) => GetAskee(username);
+    public string GetAsker(string? username) => GetAskee(username);
 
     /// <summary>
     ///     Returns whether the person that triggered a consent action
@@ -87,7 +87,7 @@ public class ConsentWorker
     ///     The username of the person that triggered a
     ///     given consensual action
     /// </param>
-    public IEnumerable<string> GetAllOffersFor(string username)
+    public IEnumerable<string> GetAllOffersFor(string? username)
     {
         foreach (KeyValuePair<string, ConsentContext> pair in _consentData)
         {
@@ -105,11 +105,11 @@ public class ConsentWorker
     ///     Removes data associated with the given username.
     /// </summary>
     /// <param name="username">The username of the person to remove data for</param>
-    public bool ClearContext(string username) => _consentData.Remove(username.ToLowerInvariant());
+    public bool ClearContext(string? username) => _consentData.Remove(username.ToLowerInvariant());
 
     private struct ConsentContext
     {
-        public string User { get; set; }
+        public string? User { get; set; }
         public bool Agreed { get; set; }
     }
 }

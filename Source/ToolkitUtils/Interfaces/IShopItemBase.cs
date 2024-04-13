@@ -18,9 +18,9 @@ namespace SirRandoo.ToolkitUtils.Interfaces;
 
 public interface IShopItemBase
 {
-    string DefName { get; set; }
+    string? DefName { get; set; }
     bool Enabled { get; set; }
-    string Name { get; set; }
+    string? Name { get; set; }
     int Cost { get; set; }
     IShopDataBase? Data { get; set; }
 

@@ -1,26 +1,26 @@
 ﻿// ToolkitUtils
 // Copyright (C) 2021  SirRandoo
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Affero General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Models.Tables;
 using SirRandoo.ToolkitUtils.Workers;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -51,10 +51,10 @@ public class TraitConfigDialog : Window
         _worker = new TraitTableWorker();
     }
 
-    /// <inheritdoc cref="Window.InitialSize"/>
-    public override Vector2 InitialSize => new Vector2(900f, UI.screenHeight * 0.9f);
+    /// <inheritdoc cref="Window.InitialSize" />
+    public override Vector2 InitialSize => new(900f, UI.screenHeight * 0.9f);
 
-    /// <inheritdoc cref="Window.Margin"/>
+    /// <inheritdoc cref="Window.Margin" />
     protected override float Margin => 22f;
 
     private void NotifySearchRequested()
@@ -62,7 +62,7 @@ public class TraitConfigDialog : Window
         _lastSearchTick = 10f;
     }
 
-    /// <inheritdoc cref="Window.PreOpen"/>
+    /// <inheritdoc cref="Window.PreOpen" />
     public override void PreOpen()
     {
         base.PreOpen();
@@ -89,13 +89,13 @@ public class TraitConfigDialog : Window
 
         Widgets.Label(searchLabel, _searchText);
 
-        if (UiHelper.TextField(searchField, _query, out string input))
+        if (FieldDrawer.DrawTextField(searchField, _query, out string input))
         {
             _query = input;
             NotifySearchRequested();
         }
 
-        if (_query.Length > 0 && UiHelper.ClearButton(searchField))
+        if (_query.Length > 0 && ButtonDrawer.ClearButton(searchField))
         {
             _query = "";
             NotifySearchRequested();
@@ -143,7 +143,7 @@ public class TraitConfigDialog : Window
         Widgets.Label(canvas.LeftHalf(), _removeCostText);
         Widgets.TextFieldNumeric(canvas.RightHalf(), ref _globalRemoveCost, ref buffer);
 
-        if (!UiHelper.DoneButton(canvas.RightHalf()))
+        if (!ButtonDrawer.DoneButton(canvas.RightHalf()))
         {
             return;
         }
@@ -160,7 +160,7 @@ public class TraitConfigDialog : Window
         Widgets.Label(canvas.LeftHalf(), _addCostText);
         Widgets.TextFieldNumeric(canvas.RightHalf(), ref _globalAddCost, ref buffer);
 
-        if (!UiHelper.DoneButton(canvas.RightHalf()))
+        if (!ButtonDrawer.DoneButton(canvas.RightHalf()))
         {
             return;
         }
@@ -171,7 +171,7 @@ public class TraitConfigDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.DoWindowContents"/>
+    /// <inheritdoc cref="Window.DoWindowContents" />
     public override void DoWindowContents(Rect inRect)
     {
         if (Event.current.type == EventType.Layout)
@@ -205,7 +205,7 @@ public class TraitConfigDialog : Window
         Text.WordWrap = wrapped;
     }
 
-    /// <inheritdoc cref="Window.WindowUpdate"/>
+    /// <inheritdoc cref="Window.WindowUpdate" />
     public override void WindowUpdate()
     {
         base.WindowUpdate();
@@ -221,7 +221,7 @@ public class TraitConfigDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.PreClose"/>
+    /// <inheritdoc cref="Window.PreClose" />
     public override void PreClose()
     {
         if (TkSettings.Offload)
@@ -260,7 +260,7 @@ public class TraitConfigDialog : Window
         }
     }
 
-    /// <inheritdoc cref="Window.Notify_ResolutionChanged"/>
+    /// <inheritdoc cref="Window.Notify_ResolutionChanged" />
     public override void Notify_ResolutionChanged()
     {
         base.Notify_ResolutionChanged();

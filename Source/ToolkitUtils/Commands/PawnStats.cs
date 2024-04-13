@@ -83,7 +83,7 @@ public class PawnStats : CommandBase
     private static bool IsStat(Def stat, string query) => stat.label.ToToolkit().Equals(query, StringComparison.InvariantCultureIgnoreCase)
         || stat.defName.Equals(query, StringComparison.InvariantCultureIgnoreCase);
 
-    private static string FormatStat(Thing pawn, StatDef stat)
+    private static string? FormatStat(Thing pawn, StatDef stat)
     {
         try
         {

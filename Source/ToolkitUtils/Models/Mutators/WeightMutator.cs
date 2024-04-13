@@ -15,10 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using JetBrains.Annotations;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models.Tables;
+using ToolkitUtils.UX;
 using UnityEngine;
 using Verse;
 
@@ -55,10 +54,10 @@ public class WeightMutator : IMutatorBase<ThingItem>
     public void Draw(Rect canvas)
     {
         (Rect label, Rect field) = canvas.Split(0.75f);
-        UiHelper.Label(label, _weightText);
+        LabelDrawer.Draw(label, _weightText);
         Widgets.TextFieldNumeric(field, ref _weight, ref _weightBuffer);
 
-        if (UiHelper.FieldButton(field, _percentage ? "%" : "#", _percentage ? _percentTooltip : _valueTooltip))
+        if (ButtonDrawer.DrawFieldButton(field, _percentage ? "%" : "#", _percentage ? _percentTooltip : _valueTooltip))
         {
             _percentage = !_percentage;
         }

@@ -30,7 +30,7 @@ public class ComparableConstraint : ConstraintBase
 {
     private readonly List<FloatMenuOption> _comparisonOptions;
     private ComparisonTypes _comparison;
-    private string _comparisonButtonText = null!;
+    private string? _comparisonButtonText = null!;
 
     protected ComparableConstraint()
     {

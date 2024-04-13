@@ -30,7 +30,7 @@ namespace SirRandoo.ToolkitUtils.Ideology.Commands;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public class Dye : CommandBase
 {
-    private string _invoker;
+    private string? _invoker;
     private Pawn _pawn;
 
     public override void RunCommand(ITwitchMessage twitchMessage)
@@ -45,7 +45,7 @@ public class Dye : CommandBase
         }
 
         string? hexcode = CommandFilter.Parse(twitchMessage.Message).Skip(1).FirstOrDefault();
-        List<KeyValuePair<string, string>> apparelPairs = CommandParser.ParseKeyed(twitchMessage.Message);
+        List<KeyValuePair<string, string?>> apparelPairs = CommandParser.ParseKeyed(twitchMessage.Message);
 
         if (!apparelPairs.NullOrEmpty())
         {
@@ -61,7 +61,7 @@ public class Dye : CommandBase
             return;
         }
 
-        string s = hexcode!.ToToolkit();
+        string? s = hexcode!.ToToolkit();
 
         if (!Data.ColorIndex.TryGetValue(s, out Color color) && !ColorUtility.TryParseHtmlString(s, out color))
         {
@@ -73,13 +73,13 @@ public class Dye : CommandBase
         CommandRouter.MainThreadCommands.Enqueue(() => DyeAll(new Color(color.r, color.g, color.b, 1f)));
     }
 
-    private void DyeApparel(IEnumerable<KeyValuePair<string, string>> pairs)
+    private void DyeApparel(IEnumerable<KeyValuePair<string, string?>> pairs)
     {
         List<Apparel> apparel = _pawn.apparel.WornApparel;
 
-        foreach ((string? nameOrDef, string? colorCode) in pairs)
+        foreach ((string nameOrDef, string? colorCode) in pairs)
         {
-            string colorCodeTransformed = colorCode.ToToolkit();
+            string? colorCodeTransformed = colorCode.ToToolkit();
 
             Color? color;
 
@@ -107,7 +107,7 @@ public class Dye : CommandBase
             Apparel item = apparel.Find(
                 a =>
                 {
-                    string toolkit = nameOrDef.ToToolkit();
+                    string? toolkit = nameOrDef.ToToolkit();
 
                     return a.def.label.ToToolkit().EqualsIgnoreCase(toolkit) || a.def.defName.EqualsIgnoreCase(toolkit);
                 }

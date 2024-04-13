@@ -18,9 +18,8 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
-using SirRandoo.ToolkitUtils.Utils;
 using SirRandoo.ToolkitUtils.Utils.Constraints;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using UnityEngine;
 using Verse;
@@ -64,18 +63,18 @@ public class PurgeViewersDialog : Window
 
         _constraintOptions = new List<FloatMenuOption>
         {
-            new FloatMenuOption("TKUtils.PurgeMenu.Coins".TranslateSimple().CapitalizeFirst(), () => _constraints.Add(new CoinConstraint())),
-            new FloatMenuOption("TKUtils.PurgeMenu.Karma".TranslateSimple().CapitalizeFirst(), () => _constraints.Add(new KarmaConstraint())),
-            new FloatMenuOption("TKUtils.PurgeMenu.Name".TranslateSimple().CapitalizeFirst(), () => _constraints.Add(new NameConstraint()))
+            new("TKUtils.PurgeMenu.Coins".TranslateSimple().CapitalizeFirst(), () => _constraints.Add(new CoinConstraint())),
+            new("TKUtils.PurgeMenu.Karma".TranslateSimple().CapitalizeFirst(), () => _constraints.Add(new KarmaConstraint())),
+            new("TKUtils.PurgeMenu.Name".TranslateSimple().CapitalizeFirst(), () => _constraints.Add(new NameConstraint()))
         };
     }
 
-    /// <inheritdoc cref="Window.InitialSize"/>
-    public override Vector2 InitialSize => new Vector2(900f, 740f);
+    /// <inheritdoc cref="Window.InitialSize" />
+    public override Vector2 InitialSize => new(900f, 740f);
 
     private static float LineHeight => Text.LineHeight * 1.5f;
 
-    /// <inheritdoc cref="Window.PreOpen"/>
+    /// <inheritdoc cref="Window.PreOpen" />
     public override void PreOpen()
     {
         base.PreOpen();
@@ -96,7 +95,7 @@ public class PurgeViewersDialog : Window
         _removeButtonWidth = Text.CalcSize(_removeText).x + 16f;
     }
 
-    /// <inheritdoc cref="Window.DoWindowContents"/>
+    /// <inheritdoc cref="Window.DoWindowContents" />
     public override void DoWindowContents(Rect inRect)
     {
         GUI.BeginGroup(inRect);
@@ -147,7 +146,7 @@ public class PurgeViewersDialog : Window
 
     private void DrawConstraints(Rect inRect)
     {
-        ConstraintBase toRemove = null;
+        ConstraintBase? toRemove = null;
         var listing = new Listing_Standard();
         int totalConstraints = _constraints.Count;
         Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, LineHeight * totalConstraints).Rounded();
@@ -222,7 +221,7 @@ public class PurgeViewersDialog : Window
             var exemptRect = new Rect(lineRect.x + (lineRect.width - _exemptButtonWidth), lineRect.y, _exemptButtonWidth, lineRect.height);
             var labelRect = new Rect(lineRect.x, lineRect.y, lineRect.width - _exemptButtonWidth - 10f, lineRect.height);
 
-            UiHelper.Label(labelRect, viewer.username);
+            LabelDrawer.Draw(labelRect, viewer.username);
 
             if (!Widgets.ButtonText(exemptRect, _exemptText))
             {

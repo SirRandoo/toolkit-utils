@@ -19,18 +19,18 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using HarmonyLib;
-using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Helpers;
 using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
+using ToolkitUtils.UX;
 using TwitchToolkit;
 using TwitchToolkit.Windows;
 using UnityEngine;
 using Verse;
 using Command = TwitchToolkit.Command;
+using Text = Verse.Text;
 
 namespace SirRandoo.ToolkitUtils.Windows;
 
@@ -59,7 +59,7 @@ public class CommandEditorDialog : Window_CommandEditor
     private float _deleteTextWidth;
     private string _disableText = null!;
     private float _disableTextWidth;
-    private TextEditor _editor = null!;
+    private TextEditor? _editor;
     private string _enableText = null!;
     private float _enableTextWidth;
     private string _globalCooldownBuffer = null!;
@@ -99,7 +99,7 @@ public class CommandEditorDialog : Window_CommandEditor
         }
     }
 
-    /// <inheritdoc cref="Window.PostOpen"/>
+    /// <inheritdoc cref="Window.PostOpen" />
     public override void PostOpen()
     {
         base.PostOpen();
@@ -108,15 +108,15 @@ public class CommandEditorDialog : Window_CommandEditor
 
         _userLevelOptions ??= new List<FloatMenuOption>
         {
-            new FloatMenuOption(_anyoneText, () => ChangeUserLevel(UserLevel.Anyone)),
-            new FloatMenuOption(_moderatorText, () => ChangeUserLevel(UserLevel.Moderator)),
-            new FloatMenuOption(_adminText, () => ChangeUserLevel(UserLevel.Admin))
+            new(_anyoneText, () => ChangeUserLevel(UserLevel.Anyone)),
+            new(_moderatorText, () => ChangeUserLevel(UserLevel.Moderator)),
+            new(_adminText, () => ChangeUserLevel(UserLevel.Admin))
         };
 
         _invalidId = _command.command.NullOrEmpty() || _command.command?.TrimStart(TkSettings.Prefix.ToCharArray()).NullOrEmpty() == true;
     }
 
-    /// <inheritdoc cref="Window_CommandEditor.DoWindowContents"/>
+    /// <inheritdoc cref="Window_CommandEditor.DoWindowContents" />
     public override void DoWindowContents(Rect inRect)
     {
         if (Event.current.type == EventType.Layout)
@@ -155,11 +155,11 @@ public class CommandEditorDialog : Window_CommandEditor
         listing.Begin(region);
 
         (Rect labelRect, Rect fieldRect) = listing.Split(0.6f);
-        UiHelper.Label(labelRect, _commandLabel);
+        LabelDrawer.Draw(labelRect, _commandLabel);
 
         GUI.color = _invalidId ? new Color(1f, 0.53f, 0.76f) : Color.white;
 
-        if (UiHelper.TextField(fieldRect, $"{TkSettings.Prefix}{_command.command}", out string newContent))
+        if (FieldDrawer.DrawTextField(fieldRect, $"{TkSettings.Prefix}{_command.command}", out string newContent))
         {
             if (newContent.ToToolkit().Length - TkSettings.Prefix.Length < 0)
             {
@@ -203,12 +203,12 @@ public class CommandEditorDialog : Window_CommandEditor
             _commandItem.Data.HasGlobalCooldown = hasGlobalCooldown;
         }
 
-        if (hasGlobalCooldown && UiHelper.FieldButton(globalLabel, Widgets.CheckboxOnTex))
+        if (hasGlobalCooldown && ButtonDrawer.DrawFieldButton(globalLabel, Widgets.CheckboxOnTex))
         {
             _commandItem.Data.HasGlobalCooldown = !_commandItem.Data.HasGlobalCooldown;
         }
 
-        if (hasGlobalCooldown && UiHelper.NumberField(globalField, out int globalCooldown, ref _globalCooldownBuffer, ref _globalCooldownValid))
+        if (hasGlobalCooldown && FieldDrawer.DrawNumberField(globalField, out int globalCooldown, ref _globalCooldownBuffer, ref _globalCooldownValid))
         {
             _commandItem.Data.GlobalCooldown = globalCooldown;
         }
@@ -225,7 +225,7 @@ public class CommandEditorDialog : Window_CommandEditor
             _commandItem.Data.HasLocalCooldown = hasLocalCooldown;
         }
 
-        if (hasLocalCooldown && UiHelper.NumberField(localField, out int localCooldown, ref _localCooldownBuffer, ref _localCooldownValid))
+        if (hasLocalCooldown && FieldDrawer.DrawNumberField(localField, out int localCooldown, ref _localCooldownBuffer, ref _localCooldownValid))
         {
             _commandItem.Data.LocalCooldown = localCooldown;
         }
@@ -234,7 +234,7 @@ public class CommandEditorDialog : Window_CommandEditor
     private void DrawCustomFields(Listing listing)
     {
         (Rect levelLabel, Rect levelField) = listing.Split(0.6f);
-        UiHelper.Label(levelLabel, _userLevelText);
+        LabelDrawer.Draw(levelLabel, _userLevelText);
 
         if (Widgets.ButtonText(levelField, GetInferredUserLevelText()))
         {
@@ -243,7 +243,7 @@ public class CommandEditorDialog : Window_CommandEditor
 
         listing.Gap(24f);
 
-        if (UiHelper.FieldButton(listing.GetRect(Text.SmallFontHeight), Textures.QuestionMark, _tagTooltip))
+        if (ButtonDrawer.DrawFieldButton(listing.GetRect(Text.SmallFontHeight), Textures.QuestionMark, _tagTooltip))
         {
             Application.OpenURL("https://storytoolkit.fandom.com/wiki/Commands#Tags");
         }
@@ -256,7 +256,7 @@ public class CommandEditorDialog : Window_CommandEditor
         GUI.EndGroup();
     }
 
-    /// <inheritdoc cref="Window.OnAcceptKeyPressed"/>
+    /// <inheritdoc cref="Window.OnAcceptKeyPressed" />
     public override void OnAcceptKeyPressed()
     {
         if (GUIUtility.keyboardControl <= 0 || _editor == null)
@@ -271,7 +271,7 @@ public class CommandEditorDialog : Window_CommandEditor
         Event.current.Use();
     }
 
-    /// <inheritdoc cref="Window.OnCancelKeyPressed"/>
+    /// <inheritdoc cref="Window.OnCancelKeyPressed" />
     public override void OnCancelKeyPressed()
     {
         if (GUIUtility.keyboardControl <= 0 || _editor == null)
@@ -285,7 +285,7 @@ public class CommandEditorDialog : Window_CommandEditor
         Event.current.Use();
     }
 
-    /// <inheritdoc cref="Window.Close"/>
+    /// <inheritdoc cref="Window.Close" />
     public override void Close(bool doCloseSound = true)
     {
         if (_showingSettings)
@@ -298,7 +298,7 @@ public class CommandEditorDialog : Window_CommandEditor
         base.Close(doCloseSound);
     }
 
-    /// <inheritdoc cref="Window_CommandEditor.PostClose"/>
+    /// <inheritdoc cref="Window_CommandEditor.PostClose" />
     public override void PostClose()
     {
         base.PostClose();
@@ -344,7 +344,7 @@ public class CommandEditorDialog : Window_CommandEditor
         }
 
         var headerRect = new Rect(0f, 0f, region.width - buttonRect.width * 2 - 5f, Text.SmallFontHeight);
-        UiHelper.Label(headerRect, _headerText);
+        LabelDrawer.Draw(headerRect, _headerText);
     }
 
     private void DrawCustomCommandButtons(Rect buttonRect)
@@ -363,7 +363,7 @@ public class CommandEditorDialog : Window_CommandEditor
 
         if (_confirmed)
         {
-            UiHelper.Label(buttonRect, _deletedText, new Color(1f, 0.53f, 0.76f), TextAnchor.MiddleLeft, GameFont.Small);
+            LabelDrawer.Draw(buttonRect, _deletedText, new Color(1f, 0.53f, 0.76f));
         }
     }
 
