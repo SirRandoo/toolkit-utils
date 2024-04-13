@@ -52,6 +52,9 @@ public class TkUtils : Mod
     public static RimLogger Logger { get; private set; }
     internal UtilsSettingsWindow SettingsWindow { get; set; }
 
+    /// <inheritdoc />
+    public override string SettingsCategory() => Content.Name;
+
     public static void HandleException(Exception exception, string? reporter = null)
     {
         HandleException(exception.Message ?? "An unhandled exception occurred", exception, reporter);
