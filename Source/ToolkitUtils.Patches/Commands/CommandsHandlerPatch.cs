@@ -21,7 +21,6 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Helpers;
 using ToolkitCore.Utilities;
 using TwitchLib.Client.Models.Interfaces;

@@ -17,7 +17,6 @@
 using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using ToolkitCore.Models;

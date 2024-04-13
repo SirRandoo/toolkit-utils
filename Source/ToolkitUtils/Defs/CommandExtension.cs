@@ -20,7 +20,7 @@ using JetBrains.Annotations;
 using TwitchToolkit;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Defs;
+namespace SirRandoo.ToolkitUtils;
 
 public enum UserLevels { Anyone, Vip, Subscriber, Moderator }
 

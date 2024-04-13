@@ -18,7 +18,6 @@ using System;
 using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 using TwitchToolkit.Incidents;

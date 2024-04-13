@@ -20,8 +20,8 @@ using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using TwitchToolkit.Store;
 using Verse;
-using IncidentDefOf = SirRandoo.ToolkitUtils.Defs.IncidentDefOf;
-using WeatherDefOf = SirRandoo.ToolkitUtils.Defs.WeatherDefOf;
+using IncidentDefOf = SirRandoo.ToolkitUtils.IncidentDefOf;
+using WeatherDefOf = SirRandoo.ToolkitUtils.WeatherDefOf;
 
 namespace SirRandoo.ToolkitUtils.Incidents;
 

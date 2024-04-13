@@ -17,7 +17,6 @@
 using System;
 using System.Data;
 using System.Runtime.Serialization;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Interfaces;
 using TwitchToolkit;
 

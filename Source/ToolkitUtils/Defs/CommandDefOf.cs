@@ -18,7 +18,7 @@ using JetBrains.Annotations;
 using RimWorld;
 using TwitchToolkit;
 
-namespace SirRandoo.ToolkitUtils.Defs;
+namespace SirRandoo.ToolkitUtils;
 
 [DefOf]
 [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]

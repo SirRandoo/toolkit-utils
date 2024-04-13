@@ -27,7 +27,7 @@ using JetBrains.Annotations;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Defs;
+namespace SirRandoo.ToolkitUtils;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 [SuppressMessage("ReSharper", "InconsistentNaming")]

@@ -22,7 +22,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using TwitchToolkit;
 using Verse;
-using GameConditionDefOf = SirRandoo.ToolkitUtils.Defs.GameConditionDefOf;
+using GameConditionDefOf = SirRandoo.ToolkitUtils.GameConditionDefOf;
 
 namespace SirRandoo.ToolkitUtils.Incidents;
 

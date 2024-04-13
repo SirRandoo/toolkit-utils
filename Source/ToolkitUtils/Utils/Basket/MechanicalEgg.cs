@@ -21,7 +21,7 @@ using TwitchToolkit;
 using TwitchToolkit.IncidentHelpers.IncidentHelper_Settings;
 using TwitchToolkit.Incidents;
 using Verse;
-using IncidentDefOf = SirRandoo.ToolkitUtils.Defs.IncidentDefOf;
+using IncidentDefOf = SirRandoo.ToolkitUtils.IncidentDefOf;
 
 namespace SirRandoo.ToolkitUtils.Utils.Basket;
 

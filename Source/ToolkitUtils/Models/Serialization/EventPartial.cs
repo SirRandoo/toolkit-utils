@@ -16,7 +16,6 @@
 
 using JetBrains.Annotations;
 using Newtonsoft.Json;
-using SirRandoo.ToolkitUtils.Defs;
 using TwitchToolkit;
 
 namespace SirRandoo.ToolkitUtils.Models;

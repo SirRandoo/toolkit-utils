@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Defs;
+namespace SirRandoo.ToolkitUtils;
 
 [UsedImplicitly]
 public class ToolkitGateway : Building

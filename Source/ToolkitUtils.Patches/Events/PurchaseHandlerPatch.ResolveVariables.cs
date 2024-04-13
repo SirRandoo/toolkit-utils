@@ -18,7 +18,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;

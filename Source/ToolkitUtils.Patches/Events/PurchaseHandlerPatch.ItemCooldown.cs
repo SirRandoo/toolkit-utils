@@ -22,7 +22,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Models;
 using TwitchToolkit.Store;
 

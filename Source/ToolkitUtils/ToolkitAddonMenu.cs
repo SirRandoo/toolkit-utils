@@ -25,7 +25,7 @@ using TwitchToolkit.Store;
 using TwitchToolkit.Windows;
 using Verse;
 using Command = TwitchToolkit.Command;
-using IncidentDefOf = SirRandoo.ToolkitUtils.Defs.IncidentDefOf;
+using IncidentDefOf = SirRandoo.ToolkitUtils.IncidentDefOf;
 using StoreIncidentEditor = SirRandoo.ToolkitUtils.Windows.StoreIncidentEditor;
 
 namespace SirRandoo.ToolkitUtils;

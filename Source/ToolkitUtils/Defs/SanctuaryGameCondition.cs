@@ -21,7 +21,7 @@ using SirRandoo.ToolkitUtils.Helpers;
 using Verse;
 using Verse.AI.Group;
 
-namespace SirRandoo.ToolkitUtils.Defs;
+namespace SirRandoo.ToolkitUtils;
 
 [UsedImplicitly]
 public class SanctuaryGameCondition : GameCondition

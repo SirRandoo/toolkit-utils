@@ -17,7 +17,7 @@
 using JetBrains.Annotations;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Defs;
+namespace SirRandoo.ToolkitUtils;
 
 [UsedImplicitly(ImplicitUseKindFlags.Assign, ImplicitUseTargetFlags.WithMembers)]
 public class HealExtension : DefModExtension

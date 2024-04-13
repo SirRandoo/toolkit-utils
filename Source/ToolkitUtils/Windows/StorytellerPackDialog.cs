@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 using System.Collections.Generic;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Interfaces;
 using ToolkitUtils.UX;
 using TwitchToolkit.Storytellers;

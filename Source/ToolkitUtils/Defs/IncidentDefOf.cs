@@ -19,7 +19,7 @@ using JetBrains.Annotations;
 using RimWorld;
 using TwitchToolkit.Incidents;
 
-namespace SirRandoo.ToolkitUtils.Defs;
+namespace SirRandoo.ToolkitUtils;
 
 [DefOf]
 [SuppressMessage("ReSharper", "IdentifierTypo")]

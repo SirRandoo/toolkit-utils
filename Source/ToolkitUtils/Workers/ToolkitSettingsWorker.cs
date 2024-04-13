@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Models;
 using SirRandoo.ToolkitUtils.Windows;

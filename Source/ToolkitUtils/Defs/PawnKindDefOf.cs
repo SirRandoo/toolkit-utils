@@ -17,7 +17,7 @@
 using RimWorld;
 using Verse;
 
-namespace SirRandoo.ToolkitUtils.Defs;
+namespace SirRandoo.ToolkitUtils;
 
 [DefOf]
 public static class PawnKindDefOf

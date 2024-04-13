@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using JetBrains.Annotations;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Interfaces;
 using Verse;
 

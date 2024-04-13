@@ -20,7 +20,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using HarmonyLib;
 using RimWorld;
-using SirRandoo.ToolkitUtils.Defs;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Interfaces;
 using SirRandoo.ToolkitUtils.Models;
