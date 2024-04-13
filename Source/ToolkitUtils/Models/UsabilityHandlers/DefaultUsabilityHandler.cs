@@ -27,7 +27,7 @@ public record DefaultUsabilityHandler : UsabilityHandlerBase<CompUseEffect>
     {
     }
 
-    protected override bool IsUsable(CompUseEffect comp, Pawn pawn, ThingDef thing, out string failReason) => comp.CanBeUsedBy(pawn, out failReason);
+    protected override bool IsUsable(CompUseEffect comp, Pawn pawn, ThingDef thing) => comp.CanBeUsedBy(pawn);
 
     protected override void Use(CompUseEffect comp, Pawn pawn, Thing thing)
     {

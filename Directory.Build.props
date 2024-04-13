@@ -13,14 +13,14 @@
         <Product>ToolkitUtils</Product>
         <RepositoryType>git</RepositoryType>
         <RootNamespace>SirRandoo.$(MsBuildProjectName)</RootNamespace>
-        <InformationalVersion>6.3.0.1</InformationalVersion>
+        <InformationalVersion>6.4.0.0</InformationalVersion>
         <RepositoryUrl>https://github.com/sirrandoo/toolkit-utils</RepositoryUrl>
         <Copyright>AGPL3 Copyright (c) $([System.DateTime]::Now.ToString("yyyy")) SirRandoo</Copyright>
     </PropertyGroup>
 
     <!-- Build Metadata -->
     <PropertyGroup>
-        <RimWorldVersion>1.4</RimWorldVersion>
+        <RimWorldVersion>1.5</RimWorldVersion>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <AssemblyName>$(MSBuildProjectName)</AssemblyName>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -59,7 +59,7 @@
             <Private>False</Private>
         </Reference>
         <Reference Include="ToolkitCore">
-            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\Assemblies\ToolkitCore.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\v$(RimWorldVersion)\Assemblies\ToolkitCore.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json">

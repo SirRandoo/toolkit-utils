@@ -16,7 +16,6 @@
 
 using System;
 using System.Text;
-using JetBrains.Annotations;
 using ToolkitCore;
 using TwitchLib.Client.Models;
 using TwitchLib.Client.Models.Interfaces;

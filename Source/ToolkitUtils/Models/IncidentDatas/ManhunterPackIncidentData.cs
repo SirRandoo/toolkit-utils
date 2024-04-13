@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
-using JetBrains.Annotations;
 using RimWorld;
 using SirRandoo.ToolkitUtils.IncidentSettings;
 using SirRandoo.ToolkitUtils.Interfaces;
@@ -26,12 +25,12 @@ namespace SirRandoo.ToolkitUtils.Models.IncidentDatas;
 public class ManhunterPackIncidentData : IWageredIncidentData
 {
     public bool UseStoryteller => ManhunterPack.Storyteller;
-    public Type WorkerClass => typeof(IncidentWorker_ManhunterPack);
+    public Type WorkerClass => IncidentDefOf.ManhunterPack.workerClass;
 
     public IncidentCategoryDef ResolveCategory(IncidentWorker worker, StoreIncident incident) => IncidentCategoryDefOf.ThreatSmall;
 
     public void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
     {
-        worker.def = RimWorld.IncidentDefOf.RaidEnemy;
+        worker.def = IncidentDefOf.RaidEnemy;
     }
 }

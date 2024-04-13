@@ -111,16 +111,16 @@ public static class TraitHelper
             return;
         }
 
-        foreach (KeyValuePair<SkillDef, int> skillGain in val.skillGains)
+        foreach (SkillGain skillGain in val.skillGains)
         {
-            SkillRecord skill = pawn.skills.GetSkill(skillGain.Key);
+            SkillRecord skill = pawn.skills.GetSkill(skillGain.skill);
 
             if (skill.TotallyDisabled)
             {
                 continue;
             }
 
-            skill.Level += skillGain.Value;
+            skill.Level += skillGain.amount;
         }
 
         List<WorkTypeDef> disabledWorkTypes = trait.GetDisabledWorkTypes().ToList();
@@ -149,16 +149,16 @@ public static class TraitHelper
             return;
         }
 
-        foreach ((SkillDef? skillDef, int value) in val.skillGains)
+        foreach (SkillGain gain in val.skillGains)
         {
-            SkillRecord skill = pawn.skills.GetSkill(skillDef);
+            SkillRecord skill = pawn.skills.GetSkill(gain.skill);
 
             if (skill.TotallyDisabled)
             {
                 continue;
             }
 
-            skill.Level -= value;
+            skill.Level -= gain.amount;
         }
 
         List<WorkTypeDef> disabledWorkTypes = trait.GetDisabledWorkTypes().ToList();

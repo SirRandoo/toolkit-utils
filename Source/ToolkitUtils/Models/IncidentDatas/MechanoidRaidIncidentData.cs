@@ -27,7 +27,7 @@ public class MechanoidRaidIncidentData : RaidIncidentData
     public override void DoExtraSetup(IncidentWorker worker, IncidentParms @params, StoreIncident incident)
     {
         base.DoExtraSetup(worker, @params, incident);
-        @params.raidArrivalMode = PawnsArrivalModeDefOf.RandomDrop;
+        @params.raidArrivalMode = PawnsArrivalModeDefOf.EdgeDrop;
         @params.faction = Faction.OfMechanoids;
     }
 }

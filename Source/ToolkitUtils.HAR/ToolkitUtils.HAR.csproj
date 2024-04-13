@@ -5,7 +5,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="AlienRace">
-            <HintPath>$(RimWorldWorkshopRoot)\839005762\1.4\Assemblies\AlienRace.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\839005762\1.5\Assemblies\AlienRace.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>

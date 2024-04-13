@@ -45,7 +45,7 @@ public class SanctuaryGameCondition : GameCondition
 
     private static void ProcessMap(Map map)
     {
-        List<Pawn> pawns = map.mapPawns.AllPawnsSpawned;
+        IReadOnlyList<Pawn> pawns = map.mapPawns.AllPawnsSpawned;
 
         foreach (Pawn pawn in pawns.InRandomOrder())
         {

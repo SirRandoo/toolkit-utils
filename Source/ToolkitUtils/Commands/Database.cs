@@ -54,7 +54,6 @@ public class Database : CommandBase
 
     private static readonly List<StatDef> MeleeWeaponStats = new List<StatDef>
     {
-        StatDefOf.MeleeWeapon_AverageArmorPenetration,
         StatDefOf.MeleeWeapon_AverageDPS,
         StatDefOf.MeleeWeapon_CooldownMultiplier,
         StatDefOf.MeleeWeapon_DamageMultiplier

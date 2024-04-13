@@ -54,9 +54,9 @@ public record AlienCompatibilityProvider(string ModId = "erdelf.HumanoidAlienRac
             return false;
         }
 
-        foreach (AlienChanceEntry<TraitDef> entry in alienRace.alienRace.generalSettings.forcedRaceTraitEntries)
+        foreach (AlienChanceEntry<TraitWithDegree> entry in alienRace.alienRace.generalSettings.forcedRaceTraitEntries)
         {
-            if (string.Equals(entry.defName.defName, defName) && entry.degree == degree)
+            if (string.Equals(entry.entry.def.defName, defName) && entry.entry.degree == degree)
             {
                 return true;
             }
@@ -73,9 +73,9 @@ public record AlienCompatibilityProvider(string ModId = "erdelf.HumanoidAlienRac
             return false;
         }
 
-        foreach (AlienChanceEntry<TraitDef> entry in alienRace.alienRace.generalSettings.disallowedTraits)
+        foreach (AlienChanceEntry<TraitWithDegree> entry in alienRace.alienRace.generalSettings.disallowedTraits)
         {
-            if (string.Equals(entry.defName.defName, defName) && entry.degree == degree)
+            if (string.Equals(entry.entry.def.defName, defName) && entry.entry.degree == degree)
             {
                 return true;
             }

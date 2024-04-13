@@ -44,11 +44,9 @@ public abstract record UsabilityHandlerBase<T>(string ModId = "sirrandoo.tku") :
 
         T? comp = withComps.GetComps<T>().FirstOrDefault(c => !ExcludedTypes.Any(i => i.IsInstanceOfType(c)));
 
-        string? failReason = null;
-
-        if (comp is null || !IsUsable(comp, pawn, thingDef, out failReason))
+        if (comp is null || !IsUsable(comp, pawn, thingDef))
         {
-            throw new OperationCanceledException($"""The thing "{thingDef.defName}" could not be used by {pawn.LabelShort}. Fail reason: {failReason}""");
+            throw new OperationCanceledException($"""The thing "{thingDef.defName}" could not be used by {pawn.LabelShort}.""");
         }
 
         try
@@ -69,6 +67,6 @@ public abstract record UsabilityHandlerBase<T>(string ModId = "sirrandoo.tku") :
 
     public virtual string ModId { get; init; } = ModId;
 
-    protected abstract bool IsUsable(T comp, Pawn pawn, ThingDef thing, out string failReason);
+    protected abstract bool IsUsable(T comp, Pawn pawn, ThingDef thing);
     protected abstract void Use(T comp, Pawn pawn, Thing thing);
 }

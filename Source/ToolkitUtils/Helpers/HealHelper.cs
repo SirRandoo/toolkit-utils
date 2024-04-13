@@ -427,12 +427,12 @@ public static class HealHelper
     {
         try
         {
-            ResurrectionUtility.ResurrectWithSideEffects(pawn);
+            ResurrectionUtility.TryResurrectWithSideEffects(pawn);
         }
         catch (NullReferenceException)
         {
             TkUtils.Logger.Warn("Failed to revive with side effects -- falling back to a regular revive");
-            ResurrectionUtility.Resurrect(pawn);
+            ResurrectionUtility.TryResurrect(pawn);
         }
 
         PawnTracker.pawnsToRevive.Remove(pawn);

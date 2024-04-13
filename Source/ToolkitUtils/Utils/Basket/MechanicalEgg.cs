@@ -112,15 +112,15 @@ public record MechanicalEgg(string? UserId = "scavenging_mechanic") : EasterEgg(
         switch (bodyPart.defName)
         {
             case "Arm":
-                ApplyPart(pawn, HediffDefOf.BionicArm, bodyPart);
+                ApplyPart(pawn, HediffDef.Named("BionicArm"), bodyPart);
 
                 return;
             case "Leg":
-                ApplyPart(pawn, HediffDefOf.BionicLeg, bodyPart);
+                ApplyPart(pawn, HediffDef.Named("BionicLeg"), bodyPart);
 
                 return;
             case "Eye":
-                ApplyPart(pawn, HediffDefOf.BionicEye, bodyPart);
+                ApplyPart(pawn, HediffDef.Named("BionicEye"), bodyPart);
 
                 return;
             case "Ear":
@@ -147,11 +147,11 @@ public record MechanicalEgg(string? UserId = "scavenging_mechanic") : EasterEgg(
         switch (bodyPart.defName)
         {
             case "Arm":
-                ApplyPart(pawn, HediffDefOf.SimpleProstheticArm, bodyPart);
+                ApplyPart(pawn, HediffDef.Named("SimpleProstheticArm"), bodyPart);
 
                 return;
             case "Leg":
-                ApplyPart(pawn, HediffDefOf.SimpleProstheticLeg, bodyPart);
+                ApplyPart(pawn, HediffDef.Named("SimpleProstheticLeg"), bodyPart);
 
                 return;
             case "Heart":
@@ -166,11 +166,11 @@ public record MechanicalEgg(string? UserId = "scavenging_mechanic") : EasterEgg(
 
         if (bodyPart == BodyPartDefOf.Arm)
         {
-            ApplyPart(pawn, HediffDefOf.SimpleProstheticArm, bodyPart);
+            ApplyPart(pawn, HediffDef.Named("SimpleProstheticArm"), bodyPart);
         }
         else if (bodyPart == BodyPartDefOf.Leg)
         {
-            ApplyPart(pawn, HediffDefOf.SimpleProstheticLeg, bodyPart);
+            ApplyPart(pawn, HediffDef.Named("SimpleProstheticLeg"), bodyPart);
         }
     }
 
@@ -194,7 +194,7 @@ public record MechanicalEgg(string? UserId = "scavenging_mechanic") : EasterEgg(
 
         BodyPartRecord? part = pawn.RaceProps.body.GetPartsWithDef(bodyPart)
            .InRandomOrder()
-           .FirstOrDefault(p => !pawn.health.hediffSet.HasHediff(HediffDefOf.BionicArm, p));
+           .FirstOrDefault(p => !pawn.health.hediffSet.HasHediff(HediffDef.Named("BionicArm"), p));
 
         if (part is null)
         {

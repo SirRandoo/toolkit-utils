@@ -388,17 +388,17 @@ public class TraitItem : IShopItemBase
 
         var builder = new StringBuilder();
 
-        foreach ((SkillDef? skill, int value) in data.skillGains)
+        foreach (SkillGain gain in data.skillGains)
         {
             string? result = null;
 
             try
             {
-                result = $"{value.ToStringWithSign()} {skill.skillLabel ?? skill.defName}";
+                result = $"{gain.amount.ToStringWithSign()} {gain.skill.skillLabel ?? gain.skill.defName}";
             }
             catch (Exception)
             {
-                builder.AppendLine($" - {skill.skillLabel ?? skill.defName ?? "UNPROCESSABLE"}");
+                builder.AppendLine($" - {gain.skill.skillLabel ?? gain.skill.defName ?? "UNPROCESSABLE"}");
             }
 
             if (!result.NullOrEmpty())

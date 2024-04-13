@@ -22,8 +22,10 @@ namespace SirRandoo.ToolkitUtils.Ideology;
 
 public record BlindsightHealHandler(string ModId = "Ludeon.Ideology") : IHealHandler
 {
-    public bool CanHeal(BodyPartRecord bodyPart) => bodyPart.def != BodyPartDefOf.Eye || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
+    private readonly MemeDef _blindsightMemeDef = DefDatabase<MemeDef>.GetNamed("Blindsight");
+
+    public bool CanHeal(BodyPartRecord bodyPart) => bodyPart.def != BodyPartDefOf.Eye || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(_blindsightMemeDef);
 
     public bool CanHeal(Hediff hediff) => hediff.def != HediffDefOf.MissingBodyPart || hediff.Part.def != BodyPartDefOf.Eye
-        || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(MemeDefOf.Blindsight);
+        || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(_blindsightMemeDef);
 }

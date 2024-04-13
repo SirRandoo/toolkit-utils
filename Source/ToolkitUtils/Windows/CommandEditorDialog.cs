@@ -251,7 +251,7 @@ public class CommandEditorDialog : Window_CommandEditor
         Rect editorPosition = listing.GetRect(Text.SmallFontHeight * 11f);
 
         GUI.BeginGroup(editorPosition);
-        _command.outputMessage = Widgets.TextAreaScrollable(editorPosition.AtZero(), _command.outputMessage, ref _scrollPos);
+        _command.outputMessage = Widgets.TextArea(editorPosition.AtZero(), _command.outputMessage);
         _editor ??= GUIUtility.GetStateObject(typeof(TextEditor), GUIUtility.GetControlID(FocusType.Keyboard, editorPosition)) as TextEditor;
         GUI.EndGroup();
     }
