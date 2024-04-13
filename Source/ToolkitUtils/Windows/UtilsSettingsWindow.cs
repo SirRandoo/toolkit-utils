@@ -29,15 +29,15 @@ namespace SirRandoo.ToolkitUtils.Windows;
 ///     A dialog for drawing Utils' settings in a stateful, consistent
 ///     way.
 /// </summary>
-public class UtilsSettingsWindow : ProxySettingsWindow
+public class UtilsSettingsWindow() : ProxySettingsWindow(TkUtils.Instance)
 {
     private const uint VisualExceptionsModId = 2538411704;
     private const int MagicModId = 1201382956;
     private const int HarModId = 839005762;
 
-    private readonly TabWorker _tabWorker;
+    private readonly TabWorker _tabWorker = new();
 
-    private readonly string _versionString = null!;
+    private string _versionString = null!;
     private string _asapPurchasesDescription = null!;
     private string _asapPurchasesLabel = null!;
     private string _balanceGroupHeader = null!;
@@ -104,10 +104,9 @@ public class UtilsSettingsWindow : ProxySettingsWindow
     private string _versionedModListLabel = null!;
     private string _viewerGroupHeader = null!;
 
-    public UtilsSettingsWindow() : base(TkUtils.Instance)
+    /// <inheritdoc cref="Window.PreOpen" />
+    public override void PreOpen()
     {
-        _tabWorker = new TabWorker();
-
         foreach (ModItem mod in Data.Mods)
         {
             if (!string.Equals(mod.Name, TkUtils.Instance.Content?.Name))
@@ -119,11 +118,7 @@ public class UtilsSettingsWindow : ProxySettingsWindow
 
             break;
         }
-    }
 
-    /// <inheritdoc cref="Window.PreOpen" />
-    public override void PreOpen()
-    {
         _tabWorker.AddTab(
             new TabItem { ContentDrawer = DrawGeneralSettings, Label = "TKUtils.General.Label".TranslateSimple(), Tooltip = "TKUtils.General.Tooltip".TranslateSimple() }
         );
