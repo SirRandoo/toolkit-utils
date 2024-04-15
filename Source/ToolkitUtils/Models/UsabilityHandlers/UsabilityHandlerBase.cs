@@ -22,11 +22,11 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Models.UsabilityHandlers;
 
-public abstract record UsabilityHandlerBase<T>(string ModId = "sirrandoo.tku") : IUsabilityHandler where T : ThingComp
+public abstract record UsabilityHandlerBase<T> : IUsabilityHandler where T : ThingComp
 {
-    protected UsabilityHandlerBase(params Type[] excluded) : this()
+    protected UsabilityHandlerBase(params Type[] excluded)
     {
-        ExcludedTypes = new HashSet<Type>(excluded);
+        ExcludedTypes = [..excluded];
     }
 
     protected HashSet<Type> ExcludedTypes { get; } = null!;
@@ -65,7 +65,7 @@ public abstract record UsabilityHandlerBase<T>(string ModId = "sirrandoo.tku") :
         }
     }
 
-    public virtual string ModId { get; init; } = ModId;
+    public virtual string ModId { get; init; } = "sirrandoo.tku";
 
     protected abstract bool IsUsable(T comp, Pawn pawn, ThingDef thing);
     protected abstract void Use(T comp, Pawn pawn, Thing thing);

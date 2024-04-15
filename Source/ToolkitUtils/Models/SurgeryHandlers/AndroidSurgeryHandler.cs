@@ -22,8 +22,11 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Models.SurgeryHandlers;
 
 [UsedImplicitly]
-public record AndroidSurgeryHandler(string ModId = "atlas.androidtiers") : ISurgeryHandler
+public record AndroidSurgeryHandler : ISurgeryHandler
 {
+    /// <inheritdoc />
+    public string ModId { get; init; } = "atlas.androidtiers";
+
     public bool IsSurgery(RecipeDef recipe) => Androids.Active && Androids.IsAndroidSurgery(recipe);
 
     public bool CanScheduleFor(RecipeDef recipe, Pawn pawn) => Androids.Active && Androids.IsSurgeryUsable(pawn, recipe);

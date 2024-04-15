@@ -21,8 +21,11 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Models.HealHandlers;
 
 [UsedImplicitly]
-public record DefaultHealHandler(string ModId = "sirrandoo.tku") : IHealHandler
+public record DefaultHealHandler : IHealHandler
 {
+    /// <inheritdoc />
+    public string ModId { get; init; } = "sirrandoo.tku";
+
     public bool CanHeal(Hediff hediff)
     {
         var @override = hediff.def.GetModExtension<HealExtension>();

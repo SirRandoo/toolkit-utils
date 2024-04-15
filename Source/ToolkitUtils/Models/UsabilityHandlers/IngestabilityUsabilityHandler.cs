@@ -21,7 +21,7 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Models.UsabilityHandlers;
 
 [UsedImplicitly]
-public record IngestabilityUsabilityHandler(string ModId = "sirrandoo.tku") : IUsabilityHandler
+public record IngestabilityUsabilityHandler : IUsabilityHandler
 {
     public bool IsUsable(ThingDef thing) => thing.IsIngestible;
 
@@ -31,4 +31,6 @@ public record IngestabilityUsabilityHandler(string ModId = "sirrandoo.tku") : IU
 
         pawn.needs.food.CurLevel += thing.Ingested(pawn, pawn.needs.food.NutritionWanted);
     }
+
+    public string ModId { get; init; } = "sirrandoo.tku";
 }

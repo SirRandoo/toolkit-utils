@@ -21,8 +21,11 @@ using Verse;
 namespace SirRandoo.ToolkitUtils.Models.SurgeryHandlers;
 
 [UsedImplicitly]
-public record DefaultSurgeryHandler(string ModId = "sirrandoo.tku") : ISurgeryHandler
+public record DefaultSurgeryHandler : ISurgeryHandler
 {
+    /// <inheritdoc />
+    public string ModId { get; init; } = "sirrandoo.tku";
+
     public bool IsSurgery(RecipeDef recipe) => recipe.IsSurgery;
 
     public bool CanScheduleFor(RecipeDef recipe, Pawn pawn) => recipe.AvailableOnNow(pawn);
