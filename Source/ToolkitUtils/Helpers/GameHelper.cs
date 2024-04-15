@@ -99,11 +99,6 @@ public static class GameHelper
 
     public static bool GetDefaultUsability(ThingDef thing)
     {
-        if (thing.tradeTags.NullOrEmpty())
-        {
-            return true;
-        }
-
         foreach (string tag in thing.tradeTags)
         {
             if (tag.Equals("Artifact", StringComparison.InvariantCultureIgnoreCase))
@@ -117,7 +112,7 @@ public static class GameHelper
             }
         }
 
-        return true;
+        return thing.IsIngestible || thing.IsMedicine || thing.IsEgg || thing.IsMeat;
     }
 
     public static bool GetDefaultMaterialState(ThingDef thing)
