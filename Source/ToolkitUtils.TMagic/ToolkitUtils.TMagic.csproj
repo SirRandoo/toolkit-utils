@@ -5,11 +5,11 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="0JecsTools">
-            <HintPath>$(RimWorldWorkshopRoot)\932008009\1.4\Assemblies\0JecsTools.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\932008009\1.5\Assemblies\0JecsTools.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="AbilityUser">
-            <HintPath>$(RimWorldWorkshopRoot)\932008009\1.4\Assemblies\AbilityUser.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\932008009\1.5\Assemblies\AbilityUser.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="TorannMagic">
