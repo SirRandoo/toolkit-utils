@@ -101,11 +101,13 @@ internal static class DomainIndexer
             {
                 ProcessType(type, mutators, selectors);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // We'll ignore an erroring type as it may just be a one-off thing.
                 // We won't report the exception a type threw since it's likely a reflection
                 // error that may not hold any valuable information.
+
+                TkUtils.Logger.Error($"Could not process type {type.Name}", e);
             }
         }
     }
