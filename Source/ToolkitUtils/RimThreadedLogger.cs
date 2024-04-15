@@ -91,8 +91,6 @@ public class RimLogger(string name)
 [StaticConstructorOnStartup]
 internal sealed class RimThreadedLogger(string name) : RimLogger(name)
 {
-    private static readonly SynchronizationContext Context = SynchronizationContext.Current;
-
     /// <inheritdoc />
     public override void Log(string message)
     {
@@ -102,7 +100,7 @@ internal sealed class RimThreadedLogger(string name) : RimLogger(name)
         }
         else
         {
-            Context.Post(o => base.Log(message), null);
+            TkUtils.Context.Post(o => base.Log(message), null);
         }
     }
 
@@ -115,7 +113,7 @@ internal sealed class RimThreadedLogger(string name) : RimLogger(name)
         }
         else
         {
-            Context.Post(o => base.Error(message), null);
+            TkUtils.Context.Post(o => base.Error(message), null);
         }
     }
 }
