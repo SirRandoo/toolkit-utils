@@ -86,7 +86,7 @@ public static class CompatRegistry
 
     internal static void ProcessType(Type type)
     {
-        if (!(Activator.CreateInstance(type) is ICompatibilityProvider provider))
+        if (Activator.CreateInstance(type) is not ICompatibilityProvider provider)
         {
             return;
         }
@@ -100,7 +100,7 @@ public static class CompatRegistry
             return;
         }
 
-        RegisterAndCatalogue((ICompatibilityProvider)Activator.CreateInstance(type));
+        RegisterAndCatalogue(provider);
     }
 
     private static void RegisterAndCatalogue(ICompatibilityProvider provider)
