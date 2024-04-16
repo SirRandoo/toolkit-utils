@@ -26,7 +26,7 @@ namespace SirRandoo.ToolkitUtils.Ideology;
 public record ScarificationHealHandler : IHealHandler
 {
     /// <inheritdoc/>
-    public bool CanHeal([NotNull] Hediff hediff)
+    public bool CanHeal(Hediff hediff)
     {
         bool isScarification = hediff.def == HediffDefOf.Scarification;
 
