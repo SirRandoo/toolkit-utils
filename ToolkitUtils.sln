@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolkitUtils.Patches", "Sou
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ToolkitUtils.Metadata", "Source\ToolkitUtils.Metadata\ToolkitUtils.Metadata.shproj", "{BC753D15-D5F6-43F5-96A9-B2E55A3FD2A8}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ToolkitUtils.UX", "src\ToolkitUtils.UX\ToolkitUtils.UX.shproj", "{44F44F8A-0F9D-443F-8D34-5D29AAD0475B}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ToolkitUtils.UX", "Source\ToolkitUtils.UX\ToolkitUtils.UX.shproj", "{44F44F8A-0F9D-443F-8D34-5D29AAD0475B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
