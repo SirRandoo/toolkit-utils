@@ -20,7 +20,7 @@ using Verse;
 
 namespace SirRandoo.ToolkitUtils.Ideology;
 
-public record BlindsightHealHandler(string ModId = "Ludeon.Ideology") : IHealHandler
+public record BlindsightHealHandler : IHealHandler
 {
     private readonly MemeDef _blindsightMemeDef = DefDatabase<MemeDef>.GetNamed("Blindsight");
 
@@ -28,4 +28,7 @@ public record BlindsightHealHandler(string ModId = "Ludeon.Ideology") : IHealHan
 
     public bool CanHeal(Hediff hediff) => hediff.def != HediffDefOf.MissingBodyPart || hediff.Part.def != BodyPartDefOf.Eye
         || !Find.FactionManager.OfPlayer.ideos.HasAnyIdeoWithMeme(_blindsightMemeDef);
+
+    /// <inheritdoc />
+    public string ModId { get; init; } = "Ludeon.Ideology";
 }

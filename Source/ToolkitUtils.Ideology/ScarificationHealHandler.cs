@@ -23,7 +23,7 @@ using PreceptDefOf = SirRandoo.ToolkitUtils.Ideology.Defs.PreceptDefOf;
 namespace SirRandoo.ToolkitUtils.Ideology;
 
 [UsedImplicitly]
-public record ScarificationHealHandler(string ModId = "Ludeon.Ideology") : IHealHandler
+public record ScarificationHealHandler : IHealHandler
 {
     /// <inheritdoc/>
     public bool CanHeal([NotNull] Hediff hediff)
@@ -52,4 +52,7 @@ public record ScarificationHealHandler(string ModId = "Ludeon.Ideology") : IHeal
 
     /// <inheritdoc/>
     public bool CanHeal(BodyPartRecord bodyPart) => true;
+
+    /// <inheritdoc />
+    public string ModId { get; init; } = "Ludeon.Ideology";
 }
