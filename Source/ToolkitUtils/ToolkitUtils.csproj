@@ -2,7 +2,7 @@
     <ItemGroup>
         <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta08" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <Compile Update="Data.Traits.cs">
             <DependentUpon>Data.cs</DependentUpon>
@@ -32,6 +32,6 @@
           <DependentUpon>Data.cs</DependentUpon>
         </Compile>
     </ItemGroup>
-    
-    <Import Project="..\..\src\ToolkitUtils.UX\ToolkitUtils.UX.projitems" Label="Shared" />
+
+    <Import Project="..\ToolkitUtils.UX\ToolkitUtils.UX.projitems" Label="Shared" />
 </Project>
