@@ -101,9 +101,22 @@ public static class GameHelper
         return fuzzy || (args.Length == genericParams.Length && args.Zip(genericParams, (f, s) => s.IsAssignableFrom(f)).All(c => c));
     }
 
-    public static bool GetDefaultUsability(ThingDef thing)
+    public static bool TryGetDefaultUsability(ThingDef thing, out bool isUsable)
     {
-        return GetDefaultUsabilityFromTags(thing) && (thing.IsIngestible || thing.IsMedicine || thing.IsEgg || thing.IsMeat);
+        try
+        {
+            isUsable = GetDefaultUsabilityFromTags(thing) && (thing.IsIngestible || thing.IsMedicine || thing.IsEgg || thing.IsMeat);
+
+            return true;
+        }
+        catch (NullReferenceException)
+        {
+            TkUtils.Logger.Warn($"""Could not get a default usability for the item "{thing.defName}" -- Defaulting to 'no'""");
+
+            isUsable = false;
+
+            return false;
+        }
     }
 
     private static bool GetDefaultUsabilityFromTags(ThingDef thing)

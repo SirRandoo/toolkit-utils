@@ -125,7 +125,7 @@ public static partial class Data
                 Version = Models.ItemData.CurrentVersion,
                 QuantityLimit = -1,
                 IsStuffAllowed = true,
-                IsUsable = GameHelper.GetDefaultUsability(item),
+                IsUsable = GameHelper.TryGetDefaultUsability(item, out bool isUsable) && isUsable,
                 IsWearable = true,
                 IsEquippable = true
             };
@@ -157,7 +157,7 @@ public static partial class Data
 
             ThingItem item = Items.Find(i => i.DefName?.Equals(defName) == true);
 
-            data.IsUsable = item?.Thing != null && GameHelper.GetDefaultUsability(item.Thing);
+            data.IsUsable = item?.Thing != null && GameHelper.TryGetDefaultUsability(item.Thing, out bool isUsable) && isUsable;
             data.IsWearable = true;
             data.IsEquippable = true;
             data.Version = Models.ItemData.CurrentVersion;

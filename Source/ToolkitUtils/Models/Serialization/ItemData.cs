@@ -73,7 +73,7 @@ public class ItemData : IShopDataBase
             return;
         }
 
-        IsUsable = GameHelper.GetDefaultUsability(parent.Thing);
+        IsUsable = GameHelper.TryGetDefaultUsability(parent.Thing, out bool isUsable) && isUsable;
         IsStuffAllowed = GameHelper.GetDefaultMaterialState(parent.Thing);
         IsEquippable = parent.Thing.IsWeapon;
         IsWearable = parent.Thing.IsApparel;
