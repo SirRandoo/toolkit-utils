@@ -74,8 +74,12 @@ public static class GameHelper
             return true;
         }
 
-        foreach (Type @interface in type.GetInterfaces())
+        Type[] interfaces = type.GetInterfaces();
+
+        for (var index = 0; index < interfaces.Length; index++)
         {
+            Type @interface = interfaces[index];
+
             if (IsGenericTypeDeep(@interface, genericType, fuzzy, genericParams))
             {
                 return true;
@@ -99,20 +103,37 @@ public static class GameHelper
 
     public static bool GetDefaultUsability(ThingDef thing)
     {
-        foreach (string tag in thing.tradeTags)
+        return GetDefaultUsabilityFromTags(thing) && (thing.IsIngestible || thing.IsMedicine || thing.IsEgg || thing.IsMeat);
+    }
+
+    private static bool GetDefaultUsabilityFromTags(ThingDef thing)
+    {
+        if (thing.tradeTags == null)
         {
-            if (tag.Equals("Artifact", StringComparison.InvariantCultureIgnoreCase))
+            return true;
+        }
+
+        for (var index = 0; index < thing.tradeTags.Count; index++)
+        {
+            string? tag = thing.tradeTags[index];
+
+            if (string.IsNullOrEmpty(tag))
+            {
+                continue;
+            }
+
+            if (string.Equals(tag, "Artifact", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
 
-            if (tag.Equals("ExoticMisc", StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals(tag, "ExoticMisc", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
         }
 
-        return thing.IsIngestible || thing.IsMedicine || thing.IsEgg || thing.IsMeat;
+        return true;
     }
 
     public static bool GetDefaultMaterialState(ThingDef thing)
