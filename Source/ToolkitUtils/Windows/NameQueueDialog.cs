@@ -245,9 +245,9 @@ public class NameQueueDialog : Window
 
         listing.GapLine(36f);
         Rect seenAtLine = listing.GetRect(Text.LineHeight * 2f);
-        seenAtLine = seenAtLine.Trim(Direction8Way.East, seenAtLine.width - 5f - _notifyTextWidth);
+        seenAtLine = seenAtLine.Trim(Direction8Way.East, _notifyTextWidth);
         var notifyButton = new Rect(seenAtLine.x + seenAtLine.width + 5f, seenAtLine.y, _notifyTextWidth, Mathf.FloorToInt(seenAtLine.height / 2f));
-        LabelDrawer.Draw(seenAtLine, _lastSeenText);
+        LabelDrawer.Draw(seenAtLine, _lastSeenText, TextAnchor.UpperLeft);
 
         if (Widgets.ButtonText(notifyButton, _notifyText))
         {
