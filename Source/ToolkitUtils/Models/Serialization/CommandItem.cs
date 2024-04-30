@@ -49,7 +49,7 @@ public class CommandItem : IUsageItemBase
 
         result.Data = new CommandData
         {
-            IsShortcut = command.commandDriver.Name.Equals("Buy") && !command.defName.Equals("Buy"),
+            IsShortcut = command.commandDriver is { Name: "Buy" } && !command.defName.Equals("Buy"),
             Mod = command.TryGetModName(),
             IsBalance = command == CommandDefOf.CheckBalance,
             IsBuy = command == CommandDefOf.Buy
