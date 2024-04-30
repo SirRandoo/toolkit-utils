@@ -39,6 +39,11 @@ internal static partial class PurchaseHandlerPatch
         string formattedMessage
     )
     {
+        if (incident.cost <= 0)
+        {
+            return false;
+        }
+
         if (!Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, incident.cost))
         {
             return false;

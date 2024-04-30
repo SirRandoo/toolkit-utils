@@ -33,6 +33,11 @@ internal static partial class PurchaseHandlerPatch
     [HarmonyPatch("ResolvePurchaseVariables")]
     private static bool ResolvePurchaseVariablesPrefix(Viewer viewer, ITwitchMessage twitchMessage, StoreIncidentVariables incident, string formattedMessage)
     {
+        if (incident.cost <= 0 && !string.Equals(incident.defName, "Item", StringComparison.Ordinal))
+        {
+            return false;
+        }
+
         if (!Purchase_Handler.CheckIfViewerHasEnoughCoins(viewer, incident.cost) || IsOnCooldown(incident, viewer))
         {
             return false;
