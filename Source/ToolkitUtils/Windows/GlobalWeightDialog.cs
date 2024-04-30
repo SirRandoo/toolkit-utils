@@ -74,7 +74,7 @@ public class GlobalWeightDialog : Window_GlobalVoteWeights
         if (ToolkitSettings.VoteWeights == null)
         {
             LabelDrawer.Draw(weightsRect.AtZero(), _nullDictText, ColorLibrary.Lavender, TextAnchor.MiddleCenter);
-            ToolkitSettings.VoteWeights ??= new Dictionary<string, int>();
+            ToolkitSettings.VoteWeights = new Dictionary<string, int>();
         }
         else
         {
