@@ -33,13 +33,13 @@ namespace SirRandoo.ToolkitUtils.StorytellerPackSettings;
 [UsedImplicitly]
 public class HodlPackSettings : PackSettingsBase
 {
-    private List<Entry> _categoryEntries;
-    private string _mtbBuffer;
+    private readonly List<Entry> _categoryEntries = [];
+    private string? _mtbBuffer;
     private bool _mtbBufferValid;
     private Vector2 _scrollPos;
     private int _totalCategoryWeight;
     private int _totalKarmaWeight;
-    private List<Entry> _typeEntries;
+    private readonly List<Entry> _typeEntries = [];
     private int _weightLineSpan;
 
     /// <inheritdoc />
@@ -60,9 +60,9 @@ public class HodlPackSettings : PackSettingsBase
         _scrollPos = Vector2.zero;
         _mtbBuffer = ToolkitSettings.HodlBotMTBDays.ToString("N2");
 
-        if (_categoryEntries == null)
+        if (ToolkitSettings.VoteCategoryWeights != null)
         {
-            _categoryEntries = new List<Entry>();
+            _categoryEntries.Clear();
 
             foreach ((string key, float value) in ToolkitSettings.VoteCategoryWeights)
             {
@@ -70,12 +70,11 @@ public class HodlPackSettings : PackSettingsBase
             }
 
             _totalCategoryWeight = RecalculateTotalCategoryWeight();
-            _weightLineSpan = (_typeEntries?.Count ?? 0) + _categoryEntries.Count;
         }
 
-        if (_typeEntries == null)
+        if (ToolkitSettings.VoteTypeWeights != null)
         {
-            _typeEntries = new List<Entry>();
+            _typeEntries.Clear();
 
             foreach ((string key, float value) in ToolkitSettings.VoteTypeWeights)
             {
@@ -83,8 +82,9 @@ public class HodlPackSettings : PackSettingsBase
             }
 
             _totalKarmaWeight = RecalculateTotalKarmaWeight();
-            _weightLineSpan = _typeEntries.Count + _categoryEntries.Count;
         }
+
+        _weightLineSpan = _typeEntries.Count + _categoryEntries.Count;
     }
 
     /// <inheritdoc />
@@ -142,7 +142,7 @@ public class HodlPackSettings : PackSettingsBase
                 continue;
             }
 
-            string buffer = entry.Buffer;
+            string? buffer = entry.Buffer;
             bool bufferValid = entry.BufferValid;
             var relativeWeight = (float)Math.Round((float)entry.Weight / _totalCategoryWeight * 100f, 2);
 
@@ -168,7 +168,7 @@ public class HodlPackSettings : PackSettingsBase
                 continue;
             }
 
-            string buffer = entry.Buffer;
+            string? buffer = entry.Buffer;
             bool bufferValid = entry.BufferValid;
             var relativeWeight = (float)Math.Round((float)entry.Weight / _totalKarmaWeight * 100f, 2);
 
@@ -193,8 +193,9 @@ public class HodlPackSettings : PackSettingsBase
     {
         var value = 0;
 
-        foreach (Entry entry in _categoryEntries)
+        for (var index = 0; index < _categoryEntries.Count; index++)
         {
+            Entry entry = _categoryEntries[index];
             value += Mathf.FloorToInt(entry.Weight);
         }
 
@@ -205,8 +206,9 @@ public class HodlPackSettings : PackSettingsBase
     {
         var value = 0;
 
-        foreach (Entry entry in _typeEntries)
+        for (var index = 0; index < _typeEntries.Count; index++)
         {
+            Entry entry = _typeEntries[index];
             value += Mathf.FloorToInt(entry.Weight);
         }
 
@@ -215,9 +217,9 @@ public class HodlPackSettings : PackSettingsBase
 
     private sealed class Entry
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         public int Weight { get; set; }
-        public string Buffer { get; set; }
+        public string? Buffer { get; set; }
         public bool BufferValid { get; set; }
     }
 }

@@ -47,7 +47,7 @@ public static class FieldDrawer
     ///     modified the field's contents.
     /// </param>
     /// <returns>Whether the text within the text field was modified by the user.</returns>
-    public static bool DrawTextField(Rect region, string value, [NotNullWhen(true)] out string? newValue)
+    public static bool DrawTextField(Rect region, string? value, [NotNullWhen(true)] out string? newValue)
     {
         string content = Widgets.TextField(region, value);
         newValue = string.Equals(value, content, StringComparison.InvariantCulture) ? null : content;
@@ -75,7 +75,7 @@ public static class FieldDrawer
     /// <param name="minimum">The minimum integer <see cref="value" /> can be.</param>
     /// <param name="maximum">The maximum integer <see cref="value" /> can be.</param>
     /// <returns>Whether a number was successfully parsed from the input.</returns>
-    public static bool DrawNumberField(Rect region, out int value, ref string buffer, ref bool bufferValid, int minimum = int.MinValue, int maximum = int.MaxValue)
+    public static bool DrawNumberField(Rect region, out int value, ref string? buffer, ref bool bufferValid, int minimum = int.MinValue, int maximum = int.MaxValue)
     {
         GUI.backgroundColor = bufferValid ? Color.white : Color.red;
 
@@ -131,7 +131,7 @@ public static class FieldDrawer
     public static bool DrawNumberField(
         Rect region,
         out float value,
-        ref string buffer,
+        ref string? buffer,
         ref bool bufferValid,
         float minimum = float.MinValue,
         float maximum = float.MaxValue
