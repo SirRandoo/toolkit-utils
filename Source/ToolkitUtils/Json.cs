@@ -1,17 +1,17 @@
 ﻿// MIT License
-// 
+//
 // Copyright (c) 2022 SirRandoo
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,10 +21,9 @@
 // SOFTWARE.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -36,169 +35,208 @@ namespace SirRandoo.ToolkitUtils;
 /// </summary>
 public static class Json
 {
-    private static readonly JsonSerializer Serializer;
-    private static readonly JsonSerializer PrettySerializer;
-    private static readonly DefaultContractResolver DefaultContractResolver = new DictionaryContractResolver { NamingStrategy = new DefaultNamingStrategy() };
+    private static readonly JsonSerializer? Serializer;
+    private static readonly JsonSerializer? PrettySerializer;
+    private static readonly DefaultContractResolver? DefaultContractResolver;
+    private static readonly bool MinifyOverride;
+    private static readonly bool MinificationOverridden;
+    private static readonly bool SerializationDisabled;
 
     static Json()
     {
-        Serializer = new JsonSerializer { ContractResolver = DefaultContractResolver, Converters = { new StringEnumConverter() } };
+        DefaultContractResolver = CreateDefaultDictionaryContractResolver();
+        Serializer = CreateDefaultJsonSerializer();
+        PrettySerializer = CreateDefaultPrettySerializer();
 
-        PrettySerializer = new JsonSerializer
+        if (Serializer == null)
         {
-            Formatting = Formatting.Indented, ContractResolver = DefaultContractResolver, Converters = { new StringEnumConverter() }
-        };
+            TkUtils.Logger.Warn("Minified json serializer wasn't properly created. Switching to 'indented' may resolve this issue.");
+
+            MinifyOverride = true;
+            MinificationOverridden = true;
+        }
+
+        if (PrettySerializer == null)
+        {
+            TkUtils.Logger.Warn("Indented json serializer wasn't properly created. Switching to 'indented' may resolve this issue.");
+
+            MinifyOverride = false;
+            MinificationOverridden = true;
+        }
+
+        if (PrettySerializer == null && Serializer == null)
+        {
+            TkUtils.Logger.Error("Both serializers weren't properly created! Your settings won't be saved between sessions.");
+            SerializationDisabled = true;
+        }
+    }
+
+    private static JsonSerializer? CreateDefaultPrettySerializer()
+    {
+        try
+        {
+            return new JsonSerializer { Formatting = Formatting.Indented, ContractResolver = DefaultContractResolver!, Converters = { new StringEnumConverter() } };
+        }
+        catch (Exception e)
+        {
+            TkUtils.Logger.Error("Could not create indented json serializer :: Your settings will NOT be saved between sessions! Switching to 'minified' may help.", e);
+
+            return null;
+        }
+    }
+
+    private static JsonSerializer? CreateDefaultJsonSerializer()
+    {
+        try
+        {
+            return new JsonSerializer { ContractResolver = DefaultContractResolver!, Converters = { new StringEnumConverter() } };
+        }
+        catch (Exception e)
+        {
+            TkUtils.Logger.Error("Could not create minified json serializer :: Your settings will NOT be saved between sessions!", e);
+
+            return null;
+        }
+    }
+
+    private static DictionaryContractResolver? CreateDefaultDictionaryContractResolver()
+    {
+        try
+        {
+            return new DictionaryContractResolver { NamingStrategy = new DefaultNamingStrategy() };
+        }
+        catch (Exception e)
+        {
+            TkUtils.Logger.Error("Could not create dictionary contract resolver :: Command, event, and item settings may be lost between sessions.", e);
+
+            return null;
+        }
     }
 
     /// <summary>
-    ///     Deserializes data from a <see cref="Stream"/> into the associated
-    ///     object <see cref="T"/>.
+    ///     Deserializes data from a <see cref="Stream" /> into the associated
+    ///     object <see cref="T" />.
     /// </summary>
     /// <param name="stream">The stream to deserialize from</param>
-    /// <typeparam name="T">
-    ///     The <see cref="System.Type"/> that should contain the
-    ///     deserialized data
-    /// </typeparam>
+    /// <typeparam name="T">The <see cref="System.Type" /> that should contain the deserialized data</typeparam>
     /// <returns>
-    ///     The stream's contents deserialized as the type passed
-    ///     (<see cref="T"/>), or <c>null</c> if the object could not be
-    ///     serialized into the type
+    ///     The stream's contents deserialized as the type passed (<see cref="T" />), or <c>null</c> if the
+    ///     object could not be serialized into the type
     /// </returns>
-    [ItemCanBeNull]
-    public static async Task<T> DeserializeAsync<T>(Stream stream) where T : class
+    public static async Task<T?> DeserializeAsync<T>(Stream stream) where T : class
     {
+        if (SerializationDisabled)
+        {
+            return default;
+        }
+
         using (var reader = new StreamReader(stream))
         {
-            return await Serializer.DeserializeAsync(reader, typeof(T)) as T;
+            return await Serializer!.DeserializeAsync(reader, typeof(T)) as T;
         }
     }
 
     /// <summary>
-    ///     Serializes data from <see cref="obj"/> into the associated
-    ///     <see cref="Stream"/>.
+    ///     Serializes data from <see cref="obj" /> into the associated <see cref="Stream" />.
     /// </summary>
-    /// <param name="stream">
-    ///     A <see cref="Stream"/> instance that will be written to
-    /// </param>
+    /// <param name="stream">A <see cref="Stream" /> instance that will be written to</param>
     /// <param name="obj">An object to serialize into the given stream</param>
-    /// <param name="pretty">
-    ///     Whether the contents of returned value will be
-    ///     indented.
-    /// </param>
-    /// <typeparam name="T">
-    ///     The <see cref="System.Type"/> that should contains the data to be
-    ///     serialized
-    /// </typeparam>
-    public static async Task SerializeAsync<T>(Stream stream, [NotNull] T obj, bool pretty)
+    /// <param name="pretty">Whether the contents of returned value will be indented.</param>
+    /// <typeparam name="T">The <see cref="System.Type" /> that should contain the data to be serialized</typeparam>
+    public static async Task SerializeAsync<T>(Stream stream, [DisallowNull] T obj, bool pretty)
     {
+        if (SerializationDisabled)
+        {
+            return;
+        }
+
+        JsonSerializer? serializer = pretty ? PrettySerializer : Serializer;
+
+        if (MinificationOverridden)
+        {
+            serializer = MinifyOverride ? PrettySerializer : Serializer;
+        }
+
+        if (serializer == null)
+        {
+            return;
+        }
+
         using (var writer = new StreamWriter(stream))
         {
-            await (pretty ? PrettySerializer : Serializer).SerializeAsync(writer, obj);
+            await serializer.SerializeAsync(writer, obj);
         }
     }
 
     /// <summary>
-    ///     Serializes data from <see cref="obj"/> into a
-    ///     <see cref="string"/>.
-    /// </summary>
-    /// <param name="obj">An object to serialize into the given stream</param>
-    /// <param name="pretty">
-    ///     Whether the contents of returned value will be
-    ///     indented.
-    /// </param>
-    /// <typeparam name="T">
-    ///     The <see cref="System.Type"/> that should contains the data to be
-    ///     serialized
-    /// </typeparam>
-    /// <returns>The object serialized into a string</returns>
-    public static async Task<string> SerializeAsync<T>([NotNull] T obj, bool pretty)
-    {
-        var builder = new StringBuilder();
-
-        using (var writer = new StringWriter(builder))
-        {
-            await (pretty ? PrettySerializer : Serializer).SerializeAsync(writer, obj);
-        }
-
-        return builder.ToString();
-    }
-
-    /// <summary>
-    ///     Deserializes data from a <see cref="Stream"/> into the associated
-    ///     object <see cref="T"/>.
+    ///     Deserializes data from a <see cref="Stream" /> into the associated object <see cref="T" />.
     /// </summary>
     /// <param name="stream">The stream to deserialize from</param>
-    /// <typeparam name="T">
-    ///     The <see cref="System.Type"/> that should contain the
-    ///     deserialized data
-    /// </typeparam>
+    /// <typeparam name="T">The <see cref="System.Type" /> that should contain the deserialized data</typeparam>
     /// <returns>
-    ///     The stream's contents deserialized as the type passed
-    ///     (<see cref="T"/>), or <c>null</c> if the object could not be
-    ///     serialized into the type
+    ///     The stream's contents deserialized as the type passed (<see cref="T" />), or <c>null</c> if the
+    ///     object could not be serialized into the type
     /// </returns>
-    [CanBeNull]
-    public static T Deserialize<T>(Stream stream) where T : class
+    public static T? Deserialize<T>(Stream stream) where T : class
     {
+        if (SerializationDisabled)
+        {
+            return default;
+        }
+
+        JsonSerializer? serializer = Serializer;
+
+        if (MinificationOverridden)
+        {
+            serializer = MinifyOverride ? PrettySerializer : Serializer;
+        }
+
+        if (serializer == null)
+        {
+            return default;
+        }
+
         using (var reader = new StreamReader(stream))
         {
-            return Serializer.Deserialize(reader, typeof(T)) as T;
+            return serializer.Deserialize(reader, typeof(T)) as T;
         }
     }
 
     /// <summary>
-    ///     Serializes data from <see cref="obj"/> into the associated
-    ///     <see cref="Stream"/>.
+    ///     Serializes data from <see cref="obj" /> into the associated <see cref="Stream" />.
     /// </summary>
-    /// <param name="stream">
-    ///     A <see cref="Stream"/> instance that will be written to
-    /// </param>
+    /// <param name="stream">A <see cref="Stream" /> instance that will be written to</param>
     /// <param name="obj">An object to serialize into the given stream</param>
-    /// <param name="pretty">
-    ///     Whether the contents of returned value will be
-    ///     indented.
-    /// </param>
-    /// <typeparam name="T">
-    ///     The <see cref="System.Type"/> that should contains the data to be
-    ///     serialized
-    /// </typeparam>
-    public static void Serialize<T>(Stream stream, [NotNull] T obj, bool pretty)
+    /// <param name="pretty">Whether the contents of returned value will be indented.</param>
+    /// <typeparam name="T">The <see cref="System.Type" /> that should contain the data to be serialized</typeparam>
+    public static void Serialize<T>(Stream stream, [DisallowNull] T obj, bool pretty)
     {
+        if (SerializationDisabled)
+        {
+            return;
+        }
+
+        JsonSerializer? serializer = pretty ? PrettySerializer : Serializer;
+
+        if (MinificationOverridden)
+        {
+            serializer = MinifyOverride ? PrettySerializer : Serializer;
+        }
+
+        if (serializer == null)
+        {
+            return;
+        }
+
         using (var writer = new StreamWriter(stream))
         {
-            (pretty ? PrettySerializer : Serializer).Serialize(writer, obj);
+            serializer.Serialize(writer, obj);
         }
-    }
-
-    /// <summary>
-    ///     Serializes data from <see cref="obj"/> into a
-    ///     <see cref="string"/>.
-    /// </summary>
-    /// <param name="obj">An object to serialize into the given stream</param>
-    /// <param name="pretty">
-    ///     Whether the contents of returned value will be
-    ///     indented.
-    /// </param>
-    /// <typeparam name="T">
-    ///     The <see cref="System.Type"/> that should contains the data to be
-    ///     serialized
-    /// </typeparam>
-    /// <returns>The object serialized into a string</returns>
-    public static string Serialize<T>([NotNull] T obj, bool pretty)
-    {
-        var builder = new StringBuilder();
-
-        using (var writer = new StringWriter(builder))
-        {
-            (pretty ? PrettySerializer : Serializer).Serialize(writer, obj);
-        }
-
-        return builder.ToString();
     }
 
     private sealed class DictionaryContractResolver : DefaultContractResolver
     {
-        /// <inheritdoc/>
+        /// <inheritdoc />
         protected override JsonDictionaryContract CreateDictionaryContract(Type objectType)
         {
             JsonDictionaryContract contract = base.CreateDictionaryContract(objectType);
