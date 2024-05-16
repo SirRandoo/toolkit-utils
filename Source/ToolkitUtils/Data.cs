@@ -70,6 +70,15 @@ public static partial class Data
 
         ValidateData();
 
+        try
+        {
+            ValidateViewerData();
+        }
+        catch (Exception e)
+        {
+            TkUtils.Logger.Error("Could not validate viewer data. There may be some invalid viewer data.", e);
+        }
+
         if (TkSettings.Offload)
         {
             Task.Run(async () => await DumpAllDataAsync()).ConfigureAwait(false);
@@ -78,6 +87,28 @@ public static partial class Data
         {
             DumpAllData();
         }
+    }
+
+    private static void ValidateViewerData()
+    {
+        var toDelete = new List<Viewer>();
+
+        for (var i = 0; i < TwitchToolkit.Viewers.All.Count; i++)
+        {
+            Viewer viewer = TwitchToolkit.Viewers.All[i];
+
+            if (viewer == null)
+            {
+                continue;
+            }
+
+            if (string.IsNullOrEmpty(viewer.username))
+            {
+                toDelete.Add(viewer);
+            }
+        }
+
+        TwitchToolkit.Viewers.All.RemoveAll(v => v == null || toDelete.Contains(v));
     }
 
     private static void ValidateData()
