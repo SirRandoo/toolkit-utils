@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Patch>
+    <Operation Class="PatchOperationRemove">
+        <xpath>/Defs/WeatherDef[defName="VomitRaid"]/exposedThought</xpath>
+    </Operation>
+    <Operation Class="PatchOperationAdd">
+        <xpath>/Defs/WeatherDef[defName="VomitRaid"]</xpath>
+        <value>
+            <weatherThought>SoakingWet</weatherThought>
+        </value>
+    </Operation>
+</Patch>

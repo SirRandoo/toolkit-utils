@@ -28,6 +28,7 @@
         <li>Common</li>
         <li>1.5</li>
         <li>Compatibility/NewKit</li>
+        <li>Compatibility/NewNewKit</li>
         <li IfModActive="Ludeon.RimWorld.Ideology">Compatibility/Ideology/Common</li>
         <li IfModActive="Ludeon.RimWorld.Ideology">Compatibility/Ideology/1.5</li>
         <li IfModActive="Torann.ARimworldOfMagic">Compatibility/TMagic/Common</li>
