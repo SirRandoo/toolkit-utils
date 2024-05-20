@@ -2,10 +2,10 @@
 
 <Patch>
     <Operation Class="PatchOperationRemove">
-        <xpath>/Defs/WeatherDef[defName="VomitRaid"]/exposedThought</xpath>
+        <xpath>/Defs/WeatherDef[defName="VomitRain"]/exposedThought</xpath>
     </Operation>
     <Operation Class="PatchOperationAdd">
-        <xpath>/Defs/WeatherDef[defName="VomitRaid"]</xpath>
+        <xpath>/Defs/WeatherDef[defName="VomitRain"]</xpath>
         <value>
             <weatherThought>SoakingWet</weatherThought>
         </value>
