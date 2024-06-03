@@ -13,7 +13,7 @@
         <Product>ToolkitUtils</Product>
         <RepositoryType>git</RepositoryType>
         <RootNamespace>SirRandoo.$(MsBuildProjectName)</RootNamespace>
-        <InformationalVersion>7.0.5.0-RC1</InformationalVersion>
+        <InformationalVersion>7.0.6.0-RC1</InformationalVersion>
         <RepositoryUrl>https://github.com/sirrandoo/toolkit-utils</RepositoryUrl>
         <Copyright>AGPL3 Copyright (c) $([System.DateTime]::Now.ToString("yyyy")) SirRandoo</Copyright>
     </PropertyGroup>
