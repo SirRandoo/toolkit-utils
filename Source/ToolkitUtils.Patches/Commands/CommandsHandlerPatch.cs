@@ -59,7 +59,7 @@ internal static class CommandsHandlerPatch
 
     private static bool Prefix(ITwitchMessage? twitchMessage)
     {
-        if (!TkSettings.Commands || twitchMessage?.Message == null)
+        if (!TkSettings.Commands || twitchMessage == null || string.IsNullOrEmpty(twitchMessage.Message) || string.IsNullOrEmpty(twitchMessage.Username))
         {
             return !TkSettings.Commands;
         }

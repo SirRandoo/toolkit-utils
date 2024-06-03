@@ -83,6 +83,11 @@ public class CommandRouter : GameComponent
                 break;
             }
 
+            if (string.IsNullOrEmpty(message.Username) || string.IsNullOrEmpty(message.Message))
+            {
+                continue;
+            }
+
             interfaces ??= Current.Game.components.OfType<TwitchInterfaceBase>().ToList();
 
             foreach (TwitchInterfaceBase @interface in interfaces)
