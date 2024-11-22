@@ -76,7 +76,7 @@ need to navigate to the `Pages` section in the list of pages on the left.
 ![Pages settings in list]({{- "/assets/itemlist/pages_settings.png" | relative_url -}})
 
 Once we're in the pages settings, we can then look at the `Source` setting to ensure it's pulling from the
-`main` branch.
+`gh-pages` branch.
 
 ![Ensure the main branch is set]({{- "/assets/itemlist/page_source.png" | relative_url -}})
 
