@@ -75,10 +75,13 @@ Next we'll be ensuring the item list is pulling the right files for the site. In
 need to navigate to the `Pages` section in the list of pages on the left.
 ![Pages settings in list]({{- "/assets/itemlist/pages_settings.png" | relative_url -}})
 
-Once we're in the pages settings, we can then look at the `Source` setting to ensure it's pulling from the
-`gh-pages` branch.
+Once we're in the pages settings, we can then look at the `Source` setting to ensure it's changed to the
+"GitHub Actions" option. The reason being is that the site automatically publishes itself when you change
+something, but if it were set to "Deploy from a branch," GitHub would automatically build the site for
+you, which doesn't support some things the site requires. You will always get an error about the theme
+the site uses ("Type on Strap") being missing, but that's entirely because GitHub doesn't download it.
 
-![Ensure the main branch is set]({{- "/assets/itemlist/page_source.png" | relative_url -}})
+![Ensure source is set to "GitHub Actions"]({{- "/assets/itemlist/page_source.png" | relative_url -}})
 
 The item list provides its own theme. You do not need to change it in the theme settings, and changing it
 may not have any meaningful effect.
