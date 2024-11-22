@@ -29,7 +29,7 @@ repository: sirrandoo/toolkit-utils
 
 # Build settings
 # theme: ""
-remote_theme: sirrandoo/just-the-docs
+remote_theme: just-the-docs/just-the-docs
 plugins:
   - 
 
