@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -43,6 +44,8 @@ public static partial class Data
 {
     public static readonly ReadOnlyDictionary<string?, Color> ColorIndex = GetDefaultColors();
     internal static readonly Dictionary<BackstorySlot, List<BackstoryDef>> Backstories = GetBackstories();
+
+    public static readonly ConcurrentDictionary<string, ColorDef> GeneratedColors = new();
 
     internal static readonly EnumRegistrar<KarmaType> KarmaTypes = new EnumRegistrar<KarmaType>();
     internal static readonly EnumRegistrar<QualityCategory> Qualities = new EnumRegistrar<QualityCategory>();
@@ -579,5 +582,29 @@ public static partial class Data
         {
             File.Delete(path);
         }
+    }
+
+    public static ColorDef GetColorDef(Color color)
+    {
+        string colorHex = ColorUtility.ToHtmlStringRGBA(color);
+
+        if (GeneratedColors.TryGetValue(colorHex, out ColorDef colorDef)) return colorDef;
+
+        colorDef = new ColorDef
+        {
+            defName = $"TKU_Color_{colorHex[1..]}",
+            label = colorHex,
+            color = color,
+            colorType = ColorType.Misc,
+            generated = true,
+            description = $"A dynamically generated ColorDef of '{colorHex}'",
+            modContentPack = TkUtils.Instance.Content,
+            displayInStylingStationUI = false,
+            randomlyPickable = false,
+            displayOrder = -1
+        };
+
+        GeneratedColors.TryAdd(colorHex, colorDef);
+        return colorDef;
     }
 }

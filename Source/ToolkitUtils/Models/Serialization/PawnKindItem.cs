@@ -125,7 +125,7 @@ public class PawnKindItem : IShopItemBase
             var data = new KindDefData { Name = kindDef.race.label.ToToolkit().ToLower(), Def = kindDef };
             container.Add(data);
 
-            if (kindDef.defaultFactionType == FactionDefOf.PlayerColony)
+            if (kindDef.defaultFactionDef == FactionDefOf.PlayerColony)
             {
                 colonist = data;
             }

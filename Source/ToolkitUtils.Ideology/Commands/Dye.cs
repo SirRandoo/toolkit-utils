@@ -85,7 +85,7 @@ public class Dye : CommandBase
 
             if (colorCode.NullOrEmpty())
             {
-                color = _pawn.story.favoriteColor;
+                color = _pawn.story.favoriteColor.color;
             }
             else
             {
@@ -121,7 +121,7 @@ public class Dye : CommandBase
 
     private void DyeAll(Color? color)
     {
-        color ??= _pawn.story.favoriteColor;
+        color ??= _pawn.story.favoriteColor.color;
 
         if (!color.HasValue)
         {

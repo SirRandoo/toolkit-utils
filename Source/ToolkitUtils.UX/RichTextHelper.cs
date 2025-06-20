@@ -45,7 +45,7 @@ public static class RichTextHelper
         int tagStart = -1;
 
         // ReSharper disable once SuggestVarOrType_Elsewhere
-        var span = source.AsReadOnlySpan();
+        var span = source.AsSpan();
 
         for (var i = 0; i < span.Length; i++)
         {
@@ -84,7 +84,7 @@ public static class RichTextHelper
         var builder = new StringBuilder();
 
         // ReSharper disable once SuggestVarOrType_Elsewhere
-        var span = input.AsReadOnlySpan();
+        var span = input.AsSpan();
 
         for (var i = 0; i < span.Length; i++)
         {

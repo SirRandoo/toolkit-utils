@@ -20,7 +20,7 @@
 
     <!-- Build Metadata -->
     <PropertyGroup>
-        <RimWorldVersion>1.5</RimWorldVersion>
+        <RimWorldVersion>1.6</RimWorldVersion>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <AssemblyName>$(MSBuildProjectName)</AssemblyName>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -55,11 +55,11 @@
     <!-- Local dependencies -->
     <ItemGroup>
         <Reference Include="TwitchToolkit">
-            <HintPath>$(RimWorldWorkshopRoot)\$(TwitchToolkitId)\v$(RimWorldVersion)\Assemblies\TwitchToolkit.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\$(TwitchToolkitId)\v1.5\Assemblies\TwitchToolkit.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="ToolkitCore">
-            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\v$(RimWorldVersion)\Assemblies\ToolkitCore.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\v1.5\Assemblies\ToolkitCore.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="Newtonsoft.Json">
@@ -88,6 +88,6 @@
     <ItemGroup>
         <PackageReference Include="PolySharp" Version="1.14.1"/>
         <PackageReference Include="Lib.Harmony" Version="2.3.3" ExcludeAssets="runtime"/>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="$(RimWorldVersion).*" ExcludeAssets="runtime"/>
+        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4495-beta" ExcludeAssets="runtime"/>
     </ItemGroup>
 </Project>

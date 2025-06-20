@@ -16,6 +16,7 @@
 
 using System.Linq;
 using JetBrains.Annotations;
+using RimWorld;
 using SirRandoo.ToolkitUtils.Helpers;
 using SirRandoo.ToolkitUtils.Utils;
 using ToolkitCore.Utilities;
@@ -50,7 +51,7 @@ public class SetFavoriteColor : CommandBase
             return;
         }
 
-        pawn.story.favoriteColor = new Color(color.r, color.g, color.b, 1f);
+        pawn.story.favoriteColor = Data.GetColorDef(color);
         message.Reply("TKUtils.FavoriteColor.Complete".Localize());
     }
 }
