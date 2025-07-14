@@ -3,7 +3,7 @@
     <PropertyGroup>
         <Nullable>enable</Nullable>
         <OutputType>Library</OutputType>
-        <LangVersion>latest</LangVersion>
+        <LangVersion>preview</LangVersion>
         <TargetFramework>net48</TargetFramework>
     </PropertyGroup>
 
@@ -51,43 +51,4 @@
             </PropertyGroup>
         </Otherwise>
     </Choose>
-
-    <!-- Local dependencies -->
-    <ItemGroup>
-        <Reference Include="TwitchToolkit">
-            <HintPath>$(RimWorldWorkshopRoot)\$(TwitchToolkitId)\v$(RimWorldVersion)\Assemblies\TwitchToolkit.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="ToolkitCore">
-            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\v$(RimWorldVersion)\Assemblies\ToolkitCore.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Newtonsoft.Json">
-            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\Assemblies\Newtonsoft.Json.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="TwitchLib.Client">
-            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\Assemblies\TwitchLib.Client.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="TwitchLib.Client.Enums">
-            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\Assemblies\TwitchLib.Client.Enums.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="TwitchLib.Client.Models">
-            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\Assemblies\TwitchLib.Client.Models.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="TwitchLib.Communication">
-            <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\Assemblies\TwitchLib.Communication.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-    </ItemGroup>
-
-    <!-- NuGet dependencies -->
-    <ItemGroup>
-        <PackageReference Include="PolySharp" Version="1.14.1"/>
-        <PackageReference Include="Lib.Harmony" Version="2.3.3" ExcludeAssets="runtime"/>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="$(RimWorldVersion).*" ExcludeAssets="runtime"/>
-    </ItemGroup>
 </Project>

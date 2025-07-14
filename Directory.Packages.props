@@ -1,0 +1,33 @@
+﻿<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+    
+    <!-- Interceptor packages -->
+    <ItemGroup>
+        <PackageVersion Include="NetEscapades.EnumGenerators.Interceptors" Version="1.0.0-beta14"/>
+    </ItemGroup>
+    
+    <!-- Source generator packages -->
+    <ItemGroup>
+        <PackageVersion Include="PolySharp" Version="1.15.0"/>
+        <PackageVersion Include="NetEscapades.EnumGenerators" Version="1.0.0-beta14"/>
+    </ItemGroup>
+    
+    <!-- RimWorld packages -->
+    <ItemGroup>
+        <PackageVersion Include="Lib.Harmony" Version="2.3.6"/>
+        <PackageVersion Include="Krafs.Rimworld.Ref" Version="1.5.4409"/>
+    </ItemGroup>
+    
+    <!-- Twitch Toolkit packages -->
+    <ItemGroup>
+        <PackageVersion Include="com.sirrandoo.toolkitcore.ref" Version="24.7.27"/>
+        <PackageVersion Include="com.sirrandoo.twitchtoolkit.ref" Version="24.7.27"/>
+    </ItemGroup>
+    
+    <!-- Loggin packages -->
+    <ItemGroup>
+        <PackageVersion Include="NLog" Version="6.0.1"/>
+    </ItemGroup>
+</Project>

@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta08" PrivateAssets="all" ExcludeAssets="runtime" />
+        <PackageReference Include="PolySharp" />
+        <PackageReference Include="Lib.Harmony" />
+        <PackageReference Include="Krafs.Rimworld.Ref" />
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref" />
+        <PackageReference Include="NetEscapades.EnumGenerators" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
 
     <ItemGroup>
