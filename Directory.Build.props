@@ -3,7 +3,7 @@
     <PropertyGroup>
         <Nullable>enable</Nullable>
         <OutputType>Library</OutputType>
-        <LangVersion>latest</LangVersion>
+        <LangVersion>preview</LangVersion>
         <TargetFramework>net48</TargetFramework>
     </PropertyGroup>
 
@@ -82,12 +82,5 @@
             <HintPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\Assemblies\TwitchLib.Communication.dll</HintPath>
             <Private>False</Private>
         </Reference>
-    </ItemGroup>
-
-    <!-- NuGet dependencies -->
-    <ItemGroup>
-        <PackageReference Include="PolySharp" Version="1.14.1"/>
-        <PackageReference Include="Lib.Harmony" Version="2.3.3" ExcludeAssets="runtime"/>
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4495-beta" ExcludeAssets="runtime"/>
     </ItemGroup>
 </Project>
