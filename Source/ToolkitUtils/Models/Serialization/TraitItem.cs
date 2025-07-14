@@ -53,11 +53,16 @@ public class TraitItem : IShopItemBase
     {
         get
         {
-            return _finalDescription ??= TraitDef?.DataAtDegree(Degree)
-               .description.Replace("PAWN_nameDef", "Timmy")
-               .Replace("PAWN_pronoun", "Prohe".Localize())
-               .Replace("PAWN_objective", "ProhimObj".Localize())
-               .Replace("PAWN_possessive", "Prohis".Localize())
+            if (TraitDef == null) return field ??= string.Empty;
+
+            var degreeData = TraitDef.DataAtDegree(Degree);
+
+            if (degreeData == null || string.IsNullOrWhiteSpace(degreeData.description)) return field ??= string.Empty;
+
+            return field ??= degreeData.description.Replace(oldValue: "PAWN_nameDef", newValue: "Timmy")
+               .Replace("PAWN_pronoun", "Prohe".TranslateSimple())
+               .Replace("PAWN_objective", "ProhimObj".TranslateSimple())
+               .Replace("PAWN_possessive", "Prohis".TranslateSimple())
                .Replace("{", "")
                .Replace("}", "")
                .Replace("[", "")
