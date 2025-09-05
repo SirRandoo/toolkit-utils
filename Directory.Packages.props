@@ -17,7 +17,7 @@
     <!-- RimWorld packages -->
     <ItemGroup>
         <PackageVersion Include="Lib.Harmony" Version="2.3.6"/>
-        <PackageVersion Include="Krafs.Rimworld.Ref" Version="1.6.4503-beta"/>
+        <PackageVersion Include="Krafs.Rimworld.Ref" Version="1.6.4566"/>
     </ItemGroup>
     
     <!-- Twitch Toolkit packages -->

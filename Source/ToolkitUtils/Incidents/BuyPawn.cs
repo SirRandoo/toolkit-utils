@@ -55,13 +55,6 @@ public class BuyPawn : IncidentVariablesBase
             return false;
         }
 
-        if (!CellFinder.TryFindRandomEdgeCellWith(p => _map.reachability.CanReachColony(p) && !p.Fogged(_map), _map, CellFinder.EdgeRoadChance_Neutral, out _loc))
-        {
-            TkUtils.Logger.Warn("No reachable location to spawn a viewer pawn!");
-
-            return false;
-        }
-
         GetDefaultKind();
 
         if (!TkSettings.PurchasePawnKinds)
@@ -98,6 +91,13 @@ public class BuyPawn : IncidentVariablesBase
 
     public override void Execute()
     {
+        if (!CellFinder.TryFindRandomEdgeCellWith(p => _map.reachability.CanReachColony(p) && !p.Fogged(_map), _map, CellFinder.EdgeRoadChance_Neutral, out _loc))
+        {
+            TkUtils.Logger.Warn("Could not find a random edge cell; aborting...");
+
+            return;
+        }
+
         try
         {
             var request = new PawnGenerationRequest(
