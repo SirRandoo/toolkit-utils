@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Letters.PawnLeave.Generic.Title>Colonist left</TKUtils.Letters.PawnLeave.Generic.Title>
+    <TKUtils.Letters.PawnLeave.Generic.Description>{ViewerName} chose to leave the colony.</TKUtils.Letters.PawnLeave.Generic.Description>
+
+    <TKUtils.Letters.PawnLeave.Thanos.Title>Colonist vanished</TKUtils.Letters.PawnLeave.Thanos.Title>
+    <TKUtils.Letters.PawnLeave.Thanos.Description>{ViewerName} was snapped out of existence.</TKUtils.Letters.PawnLeave.Thanos.Description>
+</LanguageData>

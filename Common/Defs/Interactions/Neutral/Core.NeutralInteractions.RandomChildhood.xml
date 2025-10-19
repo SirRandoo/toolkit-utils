@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="GreaterNeutralInteractionDef">
+        <label>random childhood</label>
+        <defName>TKU_RandomChildhood</defName>
+        <interactionClass>ToolkitUtils.Interactions.Backstory</interactionClass>
+        <description>Changes a pawn’s childhood to a randomly selected one, using chat’s chaos magic.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

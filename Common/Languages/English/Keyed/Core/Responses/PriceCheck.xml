@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!--
+    This response is sent when a viewer looks up the price of an item.
+    -->
+    <TKUtils.Responses.ItemPriceCheck>x{Quantity} {ItemName}: {Price} coins</TKUtils.Responses.ItemPriceCheck>
+
+    <!--
+    This response is sent when a viewer looks up the price of a product
+    with a static price.
+    -->
+    <TKUtils.Responses.StaticPriceCheck>{ProductName}: {Price} coins</TKUtils.Responses.StaticPriceCheck>
+
+    <!--
+    This response is sent when a viewer looks up the price of a meta-product.
+    Meta-products are event products, which are gateways into other classes of
+    products, like the "item" event product is a gateway into purchasing and
+    querying the items.
+    -->
+    <TKUtils.Responses.MetaPriceCheck>Your can’t look up the price of a meta-product.</TKUtils.Responses.MetaPriceCheck>
+
+    <!--
+    This response is sent when a viewer looks up the price of a trait.
+    -->
+    <TKUtils.Responses.TraitPriceCheck.Full>{TraitName}: Add – {AcquisitionPrice} coins | Removal – {RelinquishmentPrice} coins</TKUtils.Responses.TraitPriceCheck.Full>
+    <TKUtils.Responses.TraitPriceCheck.OnlyAcquire>{TraitName}: Add – {AcquisitionPrice} coins</TKUtils.Responses.TraitPriceCheck.OnlyAcquire>
+    <TKUtils.Responses.TraitPriceCheck.OnlyRelinquish>{TraitName}: Removal – {RelinquishmentPrice} coins</TKUtils.Responses.TraitPriceCheck.OnlyRelinquish>
+
+    <!--
+    This response is sent when a viewer looks up the price of a product
+    that doesn't have a static price, like mass healing.
+    -->
+    <TKUtils.Responses.DryRunPriceCheck>{ProductName}: Currently {Price} coins</TKUtils.Responses.DryRunPriceCheck>
+</LanguageData>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef Name="AbstractInteractionDef" Abstract="true">
+        <costString>0</costString>
+        <karmaTypeString>unset</karmaTypeString>
+        <interactionClass>ToolkitUtils.Interactions.MisconfiguredInteraction</interactionClass>
+        <description>An interaction that supports ToolkitUtils’ new "interaction" framework.</description>
+
+        <!--
+        A <usageLimits> group defines rules for interaction cooldowns:
+        - <boundType>: Specifies whether timing is tracked in-game or IRL.
+        - <boundScale> & <period>: Define the "cooldown window."
+        - <limit>: Caps the number of allowed uses within a single window.
+        -->
+        <usageLimits>
+            <li>
+                <!--
+                Type of time measurement used for tracking usage limits. 
+        
+                Possible values:
+                - "ticks": Tracks based on in-game ticks.
+                - "time": Tracks based on real-life (IRL) time.
+                -->
+                <boundType>ticks</boundType>
+
+                <!--
+                The unit of time (or ticks) used for the cooldown/usage limit period. 
+        
+                Example values:
+                - "seconds", "minutes", "hours", or "days".
+                This works in conjunction with <period> to define the total duration of an interval.
+                -->
+                <boundScale>days</boundScale>
+
+                <!--
+                The maximum number of times this interaction can be used within the defined period.
+                
+                Example:
+                If <period> is "1" and <boundScale> is "days", the interaction may only be used 
+                up to this limit during a single day.
+                -->
+                <limit>15</limit>
+
+                <!--
+                The length of the time window for resetting the usage limit, based on the <boundScale>.
+        
+                Example:
+                - If <boundScale> is "days" and <period> is "1", the limit applies to 1 day.
+                - If <boundScale> is "hours" and <period> is "12", the limit applies to 12 hours.
+                -->
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

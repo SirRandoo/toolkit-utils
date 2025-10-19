@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>price check</label>
+        <defName>TKU_PriceCheck</defName>
+        <interactionClass>ToolkitUtils.Interactions.PriceCheck</interactionClass>
+        <description>Retrieves pricing information about a product.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

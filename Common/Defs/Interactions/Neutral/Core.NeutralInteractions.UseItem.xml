@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractNeutralInteractionDef">
+        <label>use item</label>
+        <costString>0</costString>
+        <defName>TKU_UseItem</defName>
+        <interactionClass>ToolkitUtils.Interactions.Item</interactionClass>
+        <description>Purchases an item and uses on a pawn, using chat’s chaos magic.</description>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>5</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

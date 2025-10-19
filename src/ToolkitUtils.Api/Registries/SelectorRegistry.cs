@@ -1,78 +1,55 @@
-﻿// MIT License
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// Copyright (c) 2023 SirRandoo
+// This file is part of ToolkitUtils.
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
 // 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Api. If not, see <https://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using ToolkitUtils.Data.Models;
+using ToolkitUtils.Mod.Presentation;
 using Verse;
 
-namespace ToolkitUtils.Api
+namespace ToolkitUtils.Api;
+
+/// <summary>
+///     A registry specifically designed to manage and organize selector instances. This registry provides a
+///     specialized environment for selectors that conform to <see cref="ISelector" />, enabling structured access and
+///     operations on the selectors universal to the mod's functionalities.
+/// </summary>
+[PublicAPI]
+[StaticConstructorOnStartup]
+public record SelectorRegistry(IReadOnlyList<ISelector> AllRegistrants) : FrozenRegistry<ISelector>(AllRegistrants)
 {
-    /// <summary>
-    ///     A registry for housing <see cref="ISelector"/> implementations
-    ///     for quick access.
-    /// </summary>
-    /// <remarks>
-    ///     It's important to note that this class does <b>not</b> feature
-    ///     thread safety. If you wish to modify the registry you should do
-    ///     it at startup, never after.
-    /// </remarks>
-    [StaticConstructorOnStartup]
-    public static class SelectorRegistry
+    private static readonly IReadOnlyList<ISelector> Selectors;
+
+    static SelectorRegistry()
     {
-        private static readonly List<ISelector> Registry = new List<ISelector>();
-        private static readonly Dictionary<string, ISelector> RegistryKeyed = new Dictionary<string, ISelector>();
+        var container = new List<ISelector>();
 
-        static SelectorRegistry()
+        foreach (Type type in typeof(ISelector).AllSubclassesNonAbstract())
         {
-            foreach (Type type in typeof(ISelector).AllSubclassesNonAbstract())
-            {
-                if (!(Activator.CreateInstance(type) is ISelector selector) || RegistryKeyed.ContainsKey(selector.Id))
-                {
-                    continue;
-                }
+            if (Activator.CreateInstance(type) is not ISelector selector) continue;
 
-                RegistryKeyed.TryAdd(selector.Id, selector);
-                Registry.Add(selector);
-            }
+            container.Add(selector);
         }
 
-        /// <summary>
-        ///     Returns an enumerable of all the selectors registered within the
-        ///     registry.
-        /// </summary>
-        public static IEnumerable<ISelector> AllSelectors => Registry;
-
-        /// <summary>
-        ///     Attempts to get a selector with the given id.
-        /// </summary>
-        /// <param name="id">The id of the selector being queried for.</param>
-        /// <param name="selector">
-        ///     A selector instance if a selector with the given id was found, or
-        ///     <see langword="null"/> if it wasn't found.
-        /// </param>
-        /// <returns>Whether a selector with the given was was found.</returns>
-        [ContractAnnotation("=> true, selector: notnull; => false, selector: null")]
-        public static bool TryGetSelector([NotNull] string id, out ISelector selector) => RegistryKeyed.TryGetValue(id, out selector);
+        Selectors = container;
     }
+
+    /// <summary>
+    ///     Creates a new instance of a selector registry preloaded with all registered <see cref="ISelector" />
+    ///     implementations.
+    /// </summary>
+    /// <returns>A <see cref="SelectorRegistry" /> instance containing all preloaded selectors.</returns>
+    public static SelectorRegistry CreateDefault() => new(Selectors);
 }

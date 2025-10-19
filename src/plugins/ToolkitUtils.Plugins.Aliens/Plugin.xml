@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Plugin Id="com.sirrandoo.tku2.aliens" Name="ToolkitUtils 2 - HAR Compatibility">
+    <RequiredMod Id="erdelf.HumanoidAlienRaces"/>
+</Plugin>

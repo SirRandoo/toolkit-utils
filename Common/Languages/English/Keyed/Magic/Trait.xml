@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!--
+    This error is sent when a viewer attempts to purchase a trait removal on a class from
+    A RimWorld of Magic. Additionally, this error is shown when the streamer disallows class
+    changes from the mod's settings for A RimWorld of Magic.
+    -->
+    <TKUtils.Errors.Trait.ClassRemovalForbidden>Your pawn's current class is "{ClassName}," which cannot be removed through this command.</TKUtils.Errors.Trait.ClassRemovalForbidden>
+
+    <!--
+    This error is sent when a viewer attempts to acquire a class trait while they
+    already have a class trait.
+    -->
+    <TKUtils.Errors.Trait.ClassLimitReached>Your pawn can only have one class, and your pawn chose "{ClassName}."</TKUtils.Errors.Trait.ClassLimitReached>
+</LanguageData>

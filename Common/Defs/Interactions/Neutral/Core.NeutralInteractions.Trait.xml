@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractNeutralInteractionDef">
+        <label>trait</label>
+        <defName>TKU_Trait</defName>
+        <costString>3,500</costString>
+        <interactionClass>ToolkitUtils.Interactions.Trait</interactionClass>
+        <description>Adds one trait to a pawn with chat’s chaos magic.</description>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>3</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

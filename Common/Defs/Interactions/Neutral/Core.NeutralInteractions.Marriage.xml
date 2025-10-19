@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>marriage</label>
+        <defName>TKU_Marriage</defName>
+        <description>Instructs a pawn to propose to another pawn.</description>
+        <interactionClass>ToolkitUtils.Interactions.Interactions</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

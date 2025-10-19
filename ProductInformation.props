@@ -1,0 +1,19 @@
+<Project>
+    <!-- Assembly metadata properties -->
+    <PropertyGroup>
+        <Authors>SirRandoo</Authors>
+        <Version>8.0.0.0-a1</Version>
+        <Product>ToolkitUtils</Product>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/sirrandoo/toolkit-utils</RepositoryUrl>
+        <Copyright>AGPL3 Copyright (c) $([System.DateTime]::Now.ToString("yyyy")) SirRandoo</Copyright>
+    </PropertyGroup>
+
+    <!-- Build metadata properties -->
+    <PropertyGroup>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
+</Project>

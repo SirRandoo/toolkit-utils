@@ -1,49 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<!--
-  ~ ToolkitUtils
-  ~ Copyright (C) 2021  SirRandoo
-  ~
-  ~ This program is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU Affero General Public License as published
-  ~ by the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU Affero General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Affero General Public License
-  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
-  -->
-
 <LanguageData>
-    <TKUtils.NameQueueTooltips.Random>Select a random viewer from the queue.\n\nShortcut: R</TKUtils.NameQueueTooltips.Random>
-    <TKUtils.NameQueueTooltips.Pawn>Show information about this pawn\n\nShortcut: F2</TKUtils.NameQueueTooltips.Pawn>
-    <TKUtils.NameQueueTooltips.Next>Next colonist\n\nShortcuts:\nRight Arrow - Next colonist\nControl + Right Arrow - Next unnamed colonist</TKUtils.NameQueueTooltips.Next>
-    <TKUtils.NameQueueTooltips.Previous>Previous colonist\n\nShortcuts:\nLeft Arrow - Previous colonist\nControl + Left Arrow - Previous unnamed colonist</TKUtils.NameQueueTooltips.Previous>
-    <TKUtils.NameQueueTooltips.ViewerName>Click to populate the username field on the right with this name</TKUtils.NameQueueTooltips.ViewerName>
-    <TKUtils.NameQueueTooltips.Unassigned>Click to assign</TKUtils.NameQueueTooltips.Unassigned>
-    <TKUtils.NameQueueTooltips.Assigned>Click to unassign</TKUtils.NameQueueTooltips.Assigned>
-    <TKUtils.NameQueueTooltips.Ban>Click to ban this viewer from Twitch Toolkit</TKUtils.NameQueueTooltips.Ban>
-    <TKUtils.NameQueueTooltips.Configure>Click to open this viewer's user data in a separate dialog</TKUtils.NameQueueTooltips.Configure>
-    <TKUtils.NameQueueTooltips.Remove>Click to remove this viewer from the name queue</TKUtils.NameQueueTooltips.Remove>
-
-    <TKUtils.ItemTableTooltips.ToStackLimit>Set this item's quantity limit to the item's stack limit.</TKUtils.ItemTableTooltips.ToStackLimit>
+    <TKUtils.ItemTableTooltips.ToStackLimit>Set this item’s quantity limit to the item’s stack limit.</TKUtils.ItemTableTooltips.ToStackLimit>
     <TKUtils.ItemTableTooltips.EditItemName>Customize the name of this item.</TKUtils.ItemTableTooltips.EditItemName>
     <TKUtils.ItemTableTooltips.CloseItemName>Close the item name editor.</TKUtils.ItemTableTooltips.CloseItemName>
-    <TKUtils.ItemTableTooltips.ResetItemName>Reset the item's name to its default value.</TKUtils.ItemTableTooltips.ResetItemName>
-    <TKUtils.ItemTableTooltips.ResetItemKarma>Reset the item's karma type to its default value.</TKUtils.ItemTableTooltips.ResetItemKarma>
+    <TKUtils.ItemTableTooltips.ResetItemName>Reset the item’s name to its default value.</TKUtils.ItemTableTooltips.ResetItemName>
+    <TKUtils.ItemTableTooltips.ResetItemKarma>Reset the item’s karma type to its default value.</TKUtils.ItemTableTooltips.ResetItemKarma>
 
     <TKUtils.TraitTableTooltips.EditTraitName>Customize the name of this trait.</TKUtils.TraitTableTooltips.EditTraitName>
     <TKUtils.TraitTableTooltips.CloseTraitName>Close the trait name editor.</TKUtils.TraitTableTooltips.CloseTraitName>
-    <TKUtils.TraitTableTooltips.ResetTraitName>Reset the trait's name to its default value.</TKUtils.TraitTableTooltips.ResetTraitName>
-    <TKUtils.TraitTableTooltips.ResetTraitKarma>Reset the trait's karma type to its default value.</TKUtils.TraitTableTooltips.ResetTraitKarma>
+    <TKUtils.TraitTableTooltips.ResetTraitName>Reset the trait’s name to its default value.</TKUtils.TraitTableTooltips.ResetTraitName>
+    <TKUtils.TraitTableTooltips.ResetTraitKarma>Reset the trait’s karma type to its default value.</TKUtils.TraitTableTooltips.ResetTraitKarma>
 
     <TKUtils.EventTableTooltips.EditEventName>Customize the purchase code of this event.</TKUtils.EventTableTooltips.EditEventName>
     <TKUtils.EventTableTooltips.CloseEventName>Close the purchase code editor.</TKUtils.EventTableTooltips.CloseEventName>
-    <TKUtils.EventTableTooltips.ResetEventName>Reset the event's purchase code to its default value.</TKUtils.EventTableTooltips.ResetEventName>
+    <TKUtils.EventTableTooltips.ResetEventName>Reset the event’s purchase code to its default value.</TKUtils.EventTableTooltips.ResetEventName>
 
     <TKUtils.SelectorTooltips.ExcludeItem>Click to make this selector exclude results containing this text.</TKUtils.SelectorTooltips.ExcludeItem>
     <TKUtils.SelectorTooltips.IncludeItem>Click to make this selector include results containing this text.</TKUtils.SelectorTooltips.IncludeItem>
@@ -71,22 +42,22 @@
     <TKUtils.MainTabTooltips.Info>Info message</TKUtils.MainTabTooltips.Info>
 
     <TKUtils.Persona.Linked>Linked to {0}</TKUtils.Persona.Linked>
-    
+
     <TKUtils.CoreTooltips.ChannelField>This field stores the channel the bot will connect to on Twitch.</TKUtils.CoreTooltips.ChannelField>
-    <TKUtils.CoreTooltips.BotUsernameField>This field stores the username the bot will use to connect to your channel with. If the account the token was generated for does not match the text in this field, the account the token is for will be used instead.</TKUtils.CoreTooltips.BotUsernameField>
-    <TKUtils.CoreTooltips.TokenField>This field stores the token used by the mod's bot to connect to your channel on Twitch. If you do not have a token, or otherwise lost it, you can click the relevant button to the right to create a new one.</TKUtils.CoreTooltips.TokenField>
-    <TKUtils.CoreTooltips.ToggleTokenVisible>When clicked, the text inside the "token" text field will be changed so it's masked with asterisks.</TKUtils.CoreTooltips.ToggleTokenVisible>
+    <TKUtils.CoreTooltips.BotUsernameField>This field stores the username the bot will use to connect to your channel with. If the account the token was generated for doesn’t match the text in this field, the account the token is for will be used instead.</TKUtils.CoreTooltips.BotUsernameField>
+    <TKUtils.CoreTooltips.TokenField>This field stores the token used by the mod’s bot to connect to your channel on Twitch. If you don’t have a token, or otherwise lost it, you can click the relevant button to the right to create a new one.</TKUtils.CoreTooltips.TokenField>
+    <TKUtils.CoreTooltips.ToggleTokenVisible>When clicked, the text inside the "token" text field will be changed so it’s masked with asterisks.</TKUtils.CoreTooltips.ToggleTokenVisible>
     <TKUtils.CoreTooltips.ToggleTokenHidden>When clicked, the text inside the "token" text field will be changed so the actual token is visible instead of asterisks.</TKUtils.CoreTooltips.ToggleTokenHidden>
-    <TKUtils.CoreTooltips.SameAsChannel>When clicked, the text inside of the "channel" text field will be copied into this field.</TKUtils.CoreTooltips.SameAsChannel>
-    <TKUtils.CoreTooltips.NewToken>Opens your browser to a 3rd party website for generating a chat token.\n\nNote: The token generated will be for the account you are currently logged into on Twitch. If you wanted to use a different account for your bot, you must log into it before making the token.</TKUtils.CoreTooltips.NewToken>
-    <TKUtils.CoreTooltips.AutoConnect>When enabled, the mod's bot will automatically connect to your channel when the game starts up. If this is disabled, you will have to manually connect the bot through this menu, or through the addon menu.</TKUtils.CoreTooltips.AutoConnect>
-    <TKUtils.CoreTooltips.AllowWhispers>When enabled, viewers can whisper commands to the mod's bot on Twitch instead of sending them in chat.\n\nNote: This does not disable comands in chat. It only allows viewers to whisper the bot.</TKUtils.CoreTooltips.AllowWhispers>
-    <TKUtils.CoreTooltips.ForcedWhispers>When enabled, viewers must whisper commands to the mod's bot on Twitch in order to use commands.\n\nNote: If this setting is enabled and whispers are disabled, the mod will not process any commands. You must have whispers enabled to use this setting.</TKUtils.CoreTooltips.ForcedWhispers>
+    <TKUtils.CoreTooltips.SameAsChannel>When clicked, the text inside the "channel" text field will be copied into this field.</TKUtils.CoreTooltips.SameAsChannel>
+    <TKUtils.CoreTooltips.NewToken>Opens your browser to a third party website for generating a chat token.\n\nNote: The token generated will be for the account you’re currently logged into on Twitch. If you wanted to use a different account for your bot, you must log into it before making the token.</TKUtils.CoreTooltips.NewToken>
+    <TKUtils.CoreTooltips.AutoConnect>When enabled, the mod’s bot will automatically connect to your channel when the game starts up. If this is disabled, you will have to manually connect the bot through this menu or through the addon menu.</TKUtils.CoreTooltips.AutoConnect>
+    <TKUtils.CoreTooltips.AllowWhispers>When enabled, viewers can whisper commands to the mod’s bot on Twitch instead of sending them in chat.\n\nNote: This doesn’t disable commands in chat. It only allows viewers to whisper the bot.</TKUtils.CoreTooltips.AllowWhispers>
+    <TKUtils.CoreTooltips.ForcedWhispers>When enabled, viewers must whisper commands to the mod’s bot on Twitch in order to use commands.\n\nNote: If this setting is enabled and whispers are disabled, the mod will not process any commands. You must have whispers enabled to use this setting.</TKUtils.CoreTooltips.ForcedWhispers>
     <TKUtils.CoreTooltips.SendMessage>When enabled, the mod will send a "Connected!" message in chat when it connects to your channel on Twitch.</TKUtils.CoreTooltips.SendMessage>
-    
+
     <TKUtils.ViewerTooltips.UnmodViewer>When clicked, {0} will be removed from the list of Toolkit moderators.</TKUtils.ViewerTooltips.UnmodViewer>
-    <TKUtils.ViewerTooltips.ModViewer>When clicked, {0} will be added to the list of Toolkit moderators. Toolkit moderators are granted access to mod only commands, like giving coins.</TKUtils.ViewerTooltips.ModViewer>
+    <TKUtils.ViewerTooltips.ModViewer>When clicked, {0} will be added to the list of Toolkit moderators. Toolkit moderators are granted access to mod-only commands, like giving coins.</TKUtils.ViewerTooltips.ModViewer>
     <TKUtils.ViewerTooltips.UnbanViewer>When clicked, {0} will be removed from the list of banned viewers.</TKUtils.ViewerTooltips.UnbanViewer>
     <TKUtils.ViewerTooltips.BanViewer>When clicked, {0} will be added to the list of banned viewers.</TKUtils.ViewerTooltips.BanViewer>
-    <TKUtils.ViewerTooltips.ResetViewer>When clicked, the data for {0} will be reset to the starting values you've set in Twitch Toolkit's settings.</TKUtils.ViewerTooltips.ResetViewer>
+    <TKUtils.ViewerTooltips.ResetViewer>When clicked, the data for {0} will be reset to the starting values you’ve set in Twitch Toolkit’s settings.</TKUtils.ViewerTooltips.ResetViewer>
 </LanguageData>

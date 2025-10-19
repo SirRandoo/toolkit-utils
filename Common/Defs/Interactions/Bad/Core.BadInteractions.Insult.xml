@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>insult</label>
+        <defName>TKU_Insult</defName>
+        <karmaString>bad</karmaString>
+        <description>Instructs a pawn to insult another pawn.</description>
+        <interactionClass>ToolkitUtils.Interactions.Interactions</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

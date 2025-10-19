@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Plugin Id="com.sirrandoo.tku2.odyssey" Name="ToolkitUtils 2 - Odyssey Compatibility">
+    <RequiredExpansion Id="ludeon.odyssey"/>
+</Plugin>

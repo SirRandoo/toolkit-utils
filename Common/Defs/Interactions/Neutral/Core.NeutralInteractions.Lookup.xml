@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>lookup</label>
+        <defName>TKU_Lookup</defName>
+        <interactionClass>ToolkitUtils.Interactions.Lookup</interactionClass>
+        <description>Retrieves information about the shop’s products.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

@@ -1,57 +1,57 @@
-﻿// ToolkitUtils
-// Copyright (C) 2021  SirRandoo
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-using System.Linq;
+﻿// Copyright (C) 2025 sirrandoo
+// 
+// This file is part of ToolkitUtils.
+// 
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
+// 
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Ideology. If not, see <https://www.gnu.org/licenses/>.
+using System.Threading.Tasks;
 using JetBrains.Annotations;
-using ToolkitCore.Utilities;
-using ToolkitUtils.Helpers;
-using ToolkitUtils.Utils;
-using TwitchLib.Client.Models.Interfaces;
+using Remora.Commands.Attributes;
+using Remora.Commands.Groups;
+using RimWorld;
+using ToolkitUtils.Api.Wrappers;
+using ToolkitUtils.Core;
+using ToolkitUtils.Mod;
+using ToolkitUtils.Mod.Extensions;
+using ToolkitUtils.Mod.Localization;
 using UnityEngine;
 using Verse;
 
-namespace ToolkitUtils.Ideology.Commands
+namespace ToolkitUtils.Ideology.Commands;
+
+/// <summary>Provides a command to set the favorite color for a user's associated pawn.</summary>
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+public sealed class SetFavoriteColor(ExecutionContext context, TranslationService translationService) : CommandGroup
 {
-    public class SetFavoriteColor : CommandBase
+    /// <summary>Sets the favorite color for the invoking user's associated pawn asynchronously.</summary>
+    /// <param name="color">The new favorite color to set for the pawn.</param>
+    /// <returns>A result indicating success or failure of the operation.</returns>
+    [Command("setfavoritecolor")]
+    public async Task<Result> SetFavoriteColorAsync(Color color)
     {
-        public override void RunCommand([NotNull] ITwitchMessage message)
+        Pawn? pawn = ViewerPawnRegistry.Get(context.Invoker.Id);
+
+        if (pawn == null) return Result.Fail(translationService.GetPawnRequiredError(context.Invoker));
+
+        await MainThreadExtensions.OnMainAsync(SetFavoriteColorInternal, pawn, color);
+
+        return await context.SendReplyAsync(translationService.GetTranslation("TKUtils.Responses.FavoriteColorChanged"));
+    }
+
+    private static void SetFavoriteColorInternal(Pawn pawn, Color color)
+    {
+        pawn.story.favoriteColor = new ColorDef
         {
-            string code = CommandFilter.Parse(message.Message).Skip(1).FirstOrDefault();
-
-            if (code.NullOrEmpty())
-            {
-                return;
-            }
-
-            if (!Data.ColorIndex.TryGetValue(code!.ToLowerInvariant(), out Color color) && !ColorUtility.TryParseHtmlString(code, out color))
-            {
-                MessageHelper.ReplyToUser(message.Username, "TKUtils.NotAColor".Translate(code));
-
-                return;
-            }
-
-            if (!PurchaseHelper.TryGetPawn(message.Username, out Pawn pawn))
-            {
-                MessageHelper.ReplyToUser(message.Username, "TKUtils.NoPawn".TranslateSimple());
-
-                return;
-            }
-
-            pawn.story.favoriteColor = new Color(color.r, color.g, color.b, 1f);
-            message.Reply("TKUtils.FavoriteColor.Complete".TranslateSimple());
-        }
+            defName = "Color_" + color, label = color.ToString(), color = color,
+        };
     }
 }

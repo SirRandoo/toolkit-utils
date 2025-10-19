@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <PackageReference Include="PolySharp"/>
+        <PackageReference Include="Lib.Harmony"/>
+        <PackageReference Include="Krafs.Rimworld.Ref"/>
+        <PackageReference Include="NetEscapades.EnumGenerators"/>
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Application/"/>
+        <Folder Include="Domain/"/>
+        <Folder Include="Infrastructure/"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../../ToolkitUtils.Mod/ToolkitUtils.Mod.csproj"/>
+    </ItemGroup>
+</Project>

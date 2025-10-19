@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Responses.GenderSwap.Complete>You swapped your pawn's gender from {PreviousGender} to {NewGender}.</TKUtils.Responses.GenderSwap.Complete>
+</LanguageData>

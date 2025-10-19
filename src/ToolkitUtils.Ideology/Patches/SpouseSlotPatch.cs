@@ -1,108 +1,87 @@
-﻿// MIT License
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// Copyright (c) 2022 SirRandoo
+// This file is part of ToolkitUtils.
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
 // 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Ideology. If not, see <https://www.gnu.org/licenses/>.
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using RimWorld;
-using ToolkitUtils.Helpers;
+using ToolkitUtils.Interactions.Commands;
 using Verse;
-using PreceptDefOf = ToolkitUtils.Ideology.Defs.PreceptDefOf;
 
-namespace ToolkitUtils.Ideology.Patches
+namespace ToolkitUtils.Ideology.Patches;
+
+[HarmonyPatch]
+[PublicAPI]
+internal static class SpouseSlotPatch
 {
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public static class SpouseSlotPatch1
+    private static readonly PreceptDef[] MarriagePrecepts =
+    [
+        IdeologyDefs.SpouseCount_Male_MaxTwo,
+        IdeologyDefs.SpouseCount_Female_MaxTwo,
+        IdeologyDefs.SpouseCount_Male_MaxThree,
+        IdeologyDefs.SpouseCount_Female_MaxThree,
+        IdeologyDefs.SpouseCount_Male_MaxFour,
+        IdeologyDefs.SpouseCount_Female_MaxFour,
+        IdeologyDefs.SpouseCount_Male_Unlimited,
+        IdeologyDefs.SpouseCount_Female_Unlimited,
+    ];
+
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static readonly PreceptDef[] MarriagePrecepts =
+        yield return AccessTools.Method(typeof(Marriage), name: "HasOpenSpouseSlot");
+    }
+
+    [SuppressMessage(category: "ReSharper", checkId: "InconsistentNaming")]
+    private static bool Prefix(Pawn pawn, ref bool __result)
+    {
+        foreach (PreceptDef precept in MarriagePrecepts)
         {
-            PreceptDefOf.SpouseCount_Male_MaxTwo,
-            PreceptDefOf.SpouseCount_Female_MaxTwo,
-            PreceptDefOf.SpouseCount_Male_MaxThree,
-            PreceptDefOf.SpouseCount_Female_MaxThree,
-            PreceptDefOf.SpouseCount_Male_MaxFour,
-            PreceptDefOf.SpouseCount_Female_MaxFour,
-            PreceptDefOf.SpouseCount_Male_Unlimited,
-            PreceptDefOf.SpouseCount_Female_Unlimited
+            Gender preceptAffects = GetGenderForPrecept(precept);
+
+            if (!pawn.ideo.Ideo.HasPrecept(precept) || preceptAffects != pawn.gender) continue;
+
+            __result = pawn.GetSpouseCount(false) < GetLimitForPrecept(precept);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private static Gender GetGenderForPrecept(PreceptDef precept)
+    {
+        var comp = precept.comps.Find(c => c is PreceptComp_UnwillingToDo_Gendered) as PreceptComp_UnwillingToDo_Gendered;
+
+        return comp?.gender ?? Gender.None;
+    }
+
+    internal static int GetLimitForPrecept(Def precept)
+    {
+        return precept.defName switch
+        {
+            nameof(IdeologyDefs.SpouseCount_Male_MaxTwo)      => 2,
+            nameof(IdeologyDefs.SpouseCount_Male_MaxThree)    => 3,
+            nameof(IdeologyDefs.SpouseCount_Male_MaxFour)     => 4,
+            nameof(IdeologyDefs.SpouseCount_Male_Unlimited)   => int.MaxValue,
+            nameof(IdeologyDefs.SpouseCount_Female_MaxTwo)    => 2,
+            nameof(IdeologyDefs.SpouseCount_Female_MaxThree)  => 3,
+            nameof(IdeologyDefs.SpouseCount_Female_MaxFour)   => 4,
+            nameof(IdeologyDefs.SpouseCount_Female_Unlimited) => int.MaxValue,
+            var _                                             => 1,
         };
-
-        private static IEnumerable<MethodBase> TargetMethods()
-        {
-            yield return AccessTools.Method(typeof(GameHelper), nameof(GameHelper.HasOpenSpouseSlot));
-        }
-
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private static bool Prefix(Pawn pawn, ref bool __result)
-        {
-            foreach (PreceptDef precept in MarriagePrecepts)
-            {
-                Gender preceptAffects = GetGenderForPrecept(precept);
-
-                if (!pawn.ideo.Ideo.HasPrecept(precept) || preceptAffects != pawn.gender)
-                {
-                    continue;
-                }
-
-                __result = pawn.GetSpouseCount(false) < GetLimitForPrecept(precept);
-
-                return false;
-            }
-
-            return true;
-        }
-
-        private static Gender GetGenderForPrecept([NotNull] PreceptDef precept)
-        {
-            var comp = precept.comps.Find(c => c is PreceptComp_UnwillingToDo_Gendered) as PreceptComp_UnwillingToDo_Gendered;
-
-            return comp?.gender ?? Gender.None;
-        }
-
-        internal static int GetLimitForPrecept([NotNull] Def precept)
-        {
-            switch (precept.defName)
-            {
-                case nameof(PreceptDefOf.SpouseCount_Male_MaxTwo):
-                    return 2;
-                case nameof(PreceptDefOf.SpouseCount_Male_MaxThree):
-                    return 3;
-                case nameof(PreceptDefOf.SpouseCount_Male_MaxFour):
-                    return 4;
-                case nameof(PreceptDefOf.SpouseCount_Male_Unlimited):
-                    return int.MaxValue;
-                case nameof(PreceptDefOf.SpouseCount_Female_MaxTwo):
-                    return 2;
-                case nameof(PreceptDefOf.SpouseCount_Female_MaxThree):
-                    return 3;
-                case nameof(PreceptDefOf.SpouseCount_Female_MaxFour):
-                    return 4;
-                case nameof(PreceptDefOf.SpouseCount_Female_Unlimited):
-                    return int.MaxValue;
-                default:
-                    return 1;
-            }
-        }
     }
 }

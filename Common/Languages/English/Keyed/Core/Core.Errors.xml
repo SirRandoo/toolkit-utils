@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!--
+    This error is sent when an interaction requires the person causing the
+    interaction to have a pawn assigned to them, but they do not.
+    -->
+    <TKUtils.Errors.PawnRequired.Self>You don’t have a pawn.</TKUtils.Errors.PawnRequired.Self>
+
+    <!-- 
+     This error is sent when an interaction requires a person with an assigned
+     pawn as the center of the interaction, like a proposal.
+     -->
+    <TKUtils.Errors.PawnRequired.Other>{ViewerName} doesn’t have a pawn.</TKUtils.Errors.PawnRequired.Other>
+
+    <!--
+    This error is sent when an interaction would cost the person causing the interaction
+    more coins than they currently have available.
+     -->
+    <TKUtils.Errors.InsufficentBalance>This interaction would cost you {RequiredAmount} coins, but you only have {Balance} coins.</TKUtils.Errors.InsufficentBalance>
+
+    <!--
+    This error is sent when an interaction requires a query, but the interaction yielded
+    no results from the query.
+    -->
+    <TKUtils.Errors.InvalidQuery>No results by the name of "{Query}" could be found.</TKUtils.Errors.InvalidQuery>
+
+    <!--
+    This error is sent when an interaction requires a research project to be completed
+    before the product specified can be purchased.
+    -->
+    <TKUtils.Errors.UnfulfilledResearchPrerequisite>The research project "{ResearchName}" must be completed before "{ProductName}" will be available for purchase.</TKUtils.Errors.UnfulfilledResearchPrerequisite>
+
+    <!--
+    This error is sent when a viewer attempts to purchase a product that's disabled,
+    which disallows them from purchasing said product by any means.
+    -->
+    <TKUtils.Errors.ProductDisabled>The product "{ProductName}" is disabled, and cannot be purchased.</TKUtils.Errors.ProductDisabled>
+
+    <!--
+    This error is sent when a viewer attempts to use an interaction that requires a
+    loaded player-owned map.
+    -->
+    <TKUtils.Errors.NoPlayerMapFound>This interaction requires a valid player-owned map to be loaded, but no such map exists.</TKUtils.Errors.NoPlayerMapFound>
+
+    <!--
+    This error is sent when a viewer attempts to use an interaction that requires a
+    loaded map.
+    -->
+    <TKUtils.Errors.NoMapFound>This interaction requires a valid map to be loaded, but there are no loaded maps.</TKUtils.Errors.NoMapFound>
+
+    <!--
+    This error is sent when a viewer attempts to use an interaction that requires a
+    loaded game to be running. This can either be a save file loaded by the streamer
+    or a brand new save to be active.
+    -->
+    <TKUtils.Errors.NoLoadedGame>This interaction requires an active play session.</TKUtils.Errors.NoLoadedGame>
+
+    <!--
+    This error is sent when a viewer specifies a color, either a hexadecimal code or
+    a name, that doesn't exist in the mod's database or is in an invalid format.
+    -->
+    <TKUtils.Errors.InvalidColor>The color "{Color}" wasn’t recognized.</TKUtils.Errors.InvalidColor>
+
+    <!--
+    This error is sent when a viewer attempts to acquire a trait that their pawn isn't
+    capable of acquiring due to one or more of the pawn's genes suppressing said trait.
+    -->
+    <TKUtils.Errors.TraitGeneSupressed>The trait "{TraitName}" cannot be added to your pawn as it’s suppressed by the gene "{GeneName}."</TKUtils.Errors.TraitGeneSupressed>
+
+    <!--
+    This error is sent when a viewer attempts to relinquish a trait that their pawn
+    isn't capable of relinquishing due to one or more of the pawn's genes adding the
+    trait to their pawn. Traits added by genes are considered "gene locked" and
+    cannot be removed until the gene that added them is removed or suppressed.
+    -->
+    <TKUtils.Errors.TraitGeneLocked>The trait "{TraitName}" cannot be removed from your pawn as it’s added by the gene "{GeneName}."</TKUtils.Errors.TraitGeneLocked>
+
+    <!--
+    This error is sent when a viewer attempts to acquire a trait that their pawn isn't
+    capable of acquiring due to one of the pawn's backstories forbidding the trait.
+    -->
+    <TKUtils.Errors.BackstoryRestrictedTrait>The trait "{TraitName}" cannot be added to your pawn as it’s forbidden by your backstory "{BackstoryName}."</TKUtils.Errors.BackstoryRestrictedTrait>
+
+    <!--
+    This error is sent when a viewer attempts to acquire a trait that their pawn isn't
+    capable of acquiring due to the pawn's kind forbidding the trait.
+    -->
+    <TKUtils.Errors.KindRestrictedAddTrait>The trait "{TraitName}" cannot be added to your pawn as it’s forbidden by your pawn’s kind "{KindName}."</TKUtils.Errors.KindRestrictedAddTrait>
+
+    <!--
+    This error is sent when a viewer attempts to relinquish a trait that their pawn isn't
+    capable of relinquishing due to the pawn's kind spawning with the trait.
+    -->
+    <TKUtils.Errors.KindRestrictedRemoveTrait>The trait "{TraitName}" cannot be removed from your pawn as it’s required by your pawn’s kind "{KindName}."</TKUtils.Errors.KindRestrictedRemoveTrait>
+
+    <!--
+    This error is sent when a viewer attempts to acquire a trait that would put their
+    pawn's total traits over the trait limit. Traits that are acquired organically
+    through genetics, or traits that bypass the limit (like sexuality traits), are
+    excluded from the total.
+    -->
+    <TKUtils.Errors.TraitLimitReached>The maximum number of traits a pawn can have is {TraitLimit}. Traits that bypass the limit, or traits that were added by your xenotype, are excluded.</TKUtils.Errors.TraitLimitReached>
+
+    <!--
+    This error is sent when a viewer attempts to acquire a trait that would conflict
+    with another trait the pawn has. A conflict would occur when the trait cannot
+    exist on a pawn with the other trait (e.g., Kind conflicts with Psychopath).
+    -->
+    <TKUtils.Errors.TraitConflict>The trait "{TraitName}" cannot be acquired as it conflicts with "{ConflictingTraitName}."</TKUtils.Errors.TraitConflict>
+
+    <!--
+    This error is sent when a viewer attempts to acquire a trait that would conflict
+    with another trait the pawn has. A conflict would occur when the trait is on the
+    same "spectrum" as the trait the viewer is attempting to add (e.g., Slowpoke would
+    conflict with Jogger as they're on the same spectrum).
+    -->
+    <TKUtils.Errors.TraitSpectrumConflict>The trait "{TraitName}" cannot be acquired as it’s on the same spectrum as "{OtherTraitName}."</TKUtils.Errors.TraitSpectrumConflict>
+
+    <!--
+    This error is sent when a viewer attempts to purchase one or more products whose total
+    would be less than the minimum required order total. For instance, if a viewer attempts
+    to purchase ten wood logs, each priced at two coins, the viewer would need to purchase
+    three more wood logs to meet the hypothetical minimum of twenty-five coins.
+    -->
+    <TKUtils.Errors.MinimumCartTotalNotReached>You must spend at least {MinimumCartTotal} coin(s) per purchase.</TKUtils.Errors.MinimumCartTotalNotReached>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an item made of a specific material,
+    but said item cannot be made of said material. For instance, if a viewer were to purchase
+    a club made of slate, the purchase would be invalid as clubs cannot be made from slate.
+    -->
+    <TKUtils.Errors.ItemMaterialInvalid>The item "{ItemName}" can’t be made of the material "{MaterialName}."</TKUtils.Errors.ItemMaterialInvalid>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an item of a specific quality, but
+    said item cannot have a quality associated with it. For instance, if a viewer were to
+    purchase a packaged survival meal, the purchase would be invalid as packaged survival meals
+    cannot have a quality associated with them.
+    -->
+    <TKUtils.Errors.ItemQualityInvalid>The item "{ItemName}" can’t have a quality associated with it.</TKUtils.Errors.ItemQualityInvalid>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an animal of a specific gender, but
+    said animal cannot have a gender associated with it.
+    -->
+    <TKUtils.Errors.AnimalGenderInvalid>The animal "{AnimalName}" can’t have a gender associated with it.</TKUtils.Errors.AnimalGenderInvalid>
+
+    <!--
+    This error is sent when a viewer attempts to purchase a "gender swap" on a pawn whose kind
+    doesn't support genders. In RimWorld, pawns can either be "Male," "Female," or "None." It's
+    pawns that are "None" that will cause this error to appear should a viewer attempt to swap
+    their pawn's gender.
+    -->
+    <TKUtils.Errors.GenderlessSwap>The pawn kind "{PawnKindName}" can’t have genders, so you can’t swap your gender.</TKUtils.Errors.GenderlessSwap>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an inspiration, either random or targeted,
+    but the ultimate target of the inspiration could not be inspired. This could be caused by several
+    things, like the pawn being incapable of inspirations, incapable of all skills, or by all pawns
+    being dead. Importantly, the underlying reason behind the failed attempt is unknown to the mod;
+    for more information about inspirations, or the lack thereof, refer to the game's wiki.
+    -->
+    <TKUtils.Errors.InspirationYieldedNone>No pawns could be inspired at the moment. Try again later.</TKUtils.Errors.InspirationYieldedNone>
+
+    <!--
+    This error is sent when a viewer attempts to purchase a surgery on their pawn on the same body
+    part, and the same item being surgically attached. For instance, if a viewer were to purchase 
+    the surgery "Install bionic arm (left)," which is a bionic arm that replaces the pawn's left
+    arm, queuing another bionic arm on the left arm would result in this error.
+    -->
+    <TKUtils.Errors.SimilarSurgeryQueued>A similar surgery on your pawn’s "{BodyPartName}" is already queued.</TKUtils.Errors.SimilarSurgeryQueued>
+
+    <!--
+    This error is sent when a viewer attempts to purchase a surgery on their pawn, but the item
+    they requested cannot be installed on the pawn. This is due to the item having no valid body
+    part it can replace, like a bionic wing cannot be installed on pawns without wings. Likewise,
+    the wings cannot be installed on pawns that don't have mod support that allows wings to be
+    installed on pawns that normally can't have wings.
+    -->
+    <TKUtils.Errors.NoSurgerySlot>The item "{ItemName}" can only be installed on the body part "{BodyPartName}," which your pawn doesn’t have..</TKUtils.Errors.NoSurgerySlot>
+
+    <!--
+    This error is sent when a viewer attempts to purchase a surgery on an item that has no valid
+    surgery associated with it. For example, attempting to surgically attach a long sword will
+    result in this error since there isn't a surgery in-game for attaching a long sword to a pawn.
+    Should a mod be added that adds support for such a thing, then this error wouldn't occur.
+    -->
+    <TKUtils.Errors.InvalidSurgeryCandidate>The item "{ItemName}" can’t be surgically attached.</TKUtils.Errors.InvalidSurgeryCandidate>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an item that can't be used by a pawn
+    normally. This is typically raised for items that have no associated `Comp_Usable` or
+    `Comp_Ingestable` associated with it.
+    -->
+    <TKUtils.Errors.Unusable>The item "{ItemName}" can’t be used by your pawn.</TKUtils.Errors.Unusable>
+
+    <!--
+    This error is sent when a viewer attempts to purchase a passion shuffle, but their pawn
+    doesn't have any passions.
+    -->
+    <TKUtils.Errors.NoPassions>Your pawn doesn’t have passions that can be shuffled.</TKUtils.Errors.NoPassions>
+
+    <!--
+    This error is sent when a viewer attempts to purchase a trait removal, but their pawn
+    doesn't have any traits can be removed. This can be either because their pawn doesn't
+    have any traits, or because the traits the pawn has been forced to be there due to the
+    pawn's xenotype, pawn kind, backstory, or some undisclosed reason.
+    -->
+    <TKUtils.Errors.NoTraitsForRemoval>Your pawn doesn’t have traits that can be removed.</TKUtils.Errors.NoTraitsForRemoval>
+
+    <!--
+    This error is sent when a viewer attempts to purchase a trait removal, but their pawn
+    doesn't have the trait they're trying to remove.
+    -->
+    <TKUtils.Errors.NoTraitFoundForRemoval>Your pawn doesn’t have the trait "{TraitName}."</TKUtils.Errors.NoTraitFoundForRemoval>
+
+    <!--
+    This error is sent when a viewer attempts to replace a trait on their pawn that
+    currently bypasses the trait limit, like a sexuality trait. Replacing the trait
+    with the viewer's requested trait, which doesn't bypass the trait limit, would
+    allow the viewer to have more traits than they'd be capable of having.
+    -->
+    <TKUtils.Errors.TraitReplaceWouldBypassLimit>Your pawn has the trait "{TraitName}," which bypasses the trait limit. Replacing it with "{ReplacementTraitName}" would’ve exceeded the trait limit of {TraitLimit} traits.</TKUtils.Errors.TraitReplaceWouldBypassLimit>
+
+    <!--
+    This error is sent when a viewer attempts to purchase one or more items that caused the
+    mod to overflow when calculating the price the viewer would have to pay.
+    -->
+    <TKUtils.Errors.Overflowed>The number of coins you would’ve been charged exceeded the mod’s limits. Break it into small purchases, or purchase a smaller quantity.</TKUtils.Errors.Overflowed>
+
+    <!--
+    This error is sent when a viewer attempts to purchase either a new colonist or an event
+    that would pawn a new colonist.
+    -->
+    <TKUtils.Errors.ViewerAlreadyHasPawn>You're not allowed to have more than one assigned colonist.</TKUtils.Errors.ViewerAlreadyHasPawn>
+
+    <!--
+    This error is sent when a viewer attempts to leave the colony through the leave command or
+    and event that would cause their pawn to leave the colony. This safety check that causes
+    this error exists to ensure viewers can't cause a caravan to be lost if their pawn were to
+    leave while they're the only healthy colonist in said caravan.
+    -->
+    <TKUtils.Errors.CannotLeaveWhileInCaravan>You're not allowed to leave the colony while you’re in a caravan.</TKUtils.Errors.CannotLeaveWhileInCaravan>
+
+    <!--
+    This error is sent when a viewer attempts to query information about their pawn's relationships,
+    but their pawn doesn't have any significant relationships with any other colonist. Significant
+    relationships are internally defined as a type of "Def" called "RelationDef." RelationDefs
+    define a significant relationship a viewer may have with another colonist, such as spouses, lovers,
+    or bitter rivals. Insignificant relationships are relationships inferred through logic within
+    RimWorld, such as "Acquaintance" or "Friend." These insignificant relationships aren't
+     concrete and rely on underlying logic that could be changed at any point.
+    -->
+    <TKUtils.Errors.NoRelationships>Your pawn doesn’t have any significant relationships with any other colonist.</TKUtils.Errors.NoRelationships>
+
+    <!--
+    This error is sent when a viewer attempts to query information about their pawn's health,
+    specifically about a certain "health capacity." Health capacities are categories of health
+    the game keeps track of and are unique amongst the pawn's underlying kind, and potentially
+    xenotype.
+    -->
+    <TKUtils.Errors.IncapableOfCapacity>Your pawn doesn’t have the health capacity for "{CapacityName}."</TKUtils.Errors.IncapableOfCapacity>
+
+    <!--
+    This error is sent when a viewer attempts to query information about their pawn's needs,
+    but their pawn doesn't have any needs.
+    -->
+    <TKUtils.Errors.NoPawnNeeds>Your pawn doesn’t have any needs.</TKUtils.Errors.NoPawnNeeds>
+
+    <!--
+    This error is sent when a viewer attempts to query information about the pawn's work
+    schedule, but their pawn is incapable of doing any work.
+    -->
+    <TKUtils.Errors.NoPawnWork>Your pawn can’t do any work.</TKUtils.Errors.NoPawnWork>
+
+    <!--
+    This error is sent when a viewer attempts to query information about a research project,
+    but no research project matches the query given.
+    -->
+    <TKUtils.Errors.InvalidQuery.ResearchProject>No research project by the name of "{Query}" could be found.</TKUtils.Errors.InvalidQuery.ResearchProject>
+
+    <!--
+    This error is sent when a viewer attempts to query an item, but no item matches the
+    query given.
+    -->
+    <TKUtils.Errors.InvalidQuery.Item>No item by the name of "{Query}" could be found.</TKUtils.Errors.InvalidQuery.Item>
+
+    <!--
+    This error is sent when a viewer attempts to query a skill, but no skill matches the
+    query given.
+    -->
+    <TKUtils.Errors.InvalidQuery.Skill>No skill by the name of "{Query}" could be found.</TKUtils.Errors.InvalidQuery.Skill>
+
+    <!--
+    This error is sent when a viewer attempts to query a pawn kind, but no kind matches 
+    the query given.
+    -->
+    <TKUtils.Errors.InvalidQuery.Kind>No kind by the name of "{Query}" could be found.</TKUtils.Errors.InvalidQuery.Kind>
+
+    <!--
+    This error is sent when a viewer attempts to query a viewer, but no viewer matches
+    the query given.
+    -->
+    <TKUtils.Error.InvalidQuery.Viewer>No viewer by the name of "{Query}" could be found.</TKUtils.Error.InvalidQuery.Viewer>
+
+    <!--
+    This error is sent when a viewer attempts to query information about the colony's research
+    endeavors, but the colony isn't actively researching anything.
+    -->
+    <TKUtils.Errors.NotResearching>The colony isn’t researching anything at the moment.</TKUtils.Errors.NotResearching>
+
+    <!--
+    This error is sent when a viewer attempts to marry another pawn, but either the viewer's
+    pawn or their betrothed's pawn believes the marriage is a violation of what their belief
+    system.
+    -->
+    <TKUtils.Errors.MarriageForbiddenByBeliefs>This marriage would violate the beliefs of {ViewerName}’s pawn.</TKUtils.Errors.MarriageForbiddenByBeliefs>
+
+    <!--
+    This error is sent when a viewer attempts to use an interaction that requires the game to
+    be unpaused. While the game is paused, the interaction may momentarily halt execution until
+    the game is resumed.
+    -->
+    <TKUtils.Errors.GamePaused>This interaction can’t be performed while the game is paused. If the game isn’t paused, consider using the unstick command.</TKUtils.Errors.GamePaused>
+
+    <!--
+    This error is sent when a viewer attempts to heal their pawn of a condition, but the pawn
+    doesn't have any conditions that can be healed. This can be either because the pawn doesn't
+    have any conditions, at all, or because the pawn only has conditions the mod isn't capable
+    of adequately healing.
+    -->
+    <TKUtils.Errors.NotInjured>Your pawn either isn’t injured, or has no conditions that can be healed.</TKUtils.Errors.NotInjured>
+
+    <!--
+    This error is sent when a viewer attempts to use an interaction that requires the viewer to
+    wager a certain number of coins. However, the viewer either didn't wager enough coins or never
+    wagered any coins in the first place.
+    -->
+    <TKUtils.Errors.WagerRequired>This interaction requires a wager anywhere between {MinimumWagerAmount} coins and {MaximumWagerAmount} coins.</TKUtils.Errors.WagerRequired>
+
+    <!--
+    This error is sent when a viewer attempts to use an interaction that doesn't allow the viewer's
+    pawn to be in combat. This combat check typically has a grace period of a couple of hours after 
+    the fight is through.
+    -->
+    <TKUtils.Errors.PawnInCombat>This interaction can’t be performed while in combat. Try again later.</TKUtils.Errors.PawnInCombat>
+
+    <!--
+    This error is sent when a viewer attempts to query, or otherwise set, their work priorities, but
+    the viewer is incapable of work.
+    -->
+    <TKUtils.Errors.IncapableOfWork>Your pawn is completely incapable of working,.</TKUtils.Errors.IncapableOfWork>
+
+    <!--
+    This error is sent when a viewer attempts to divorce a viewer's pawn, but the viewer initiating
+    the divorce doesn't have any spouses.
+    -->
+    <TKUtils.Errors.NoSpouses>Your pawn isn’t married to anyone.</TKUtils.Errors.NoSpouses>
+
+    <!--
+    This error is sent when a viewer attempts to divorce another viewer, but neither viewer is
+    married to one another.
+    -->
+    <TKUtils.Errors.NotMarried.Other>Your pawn isn’t married to {ViewerName}.</TKUtils.Errors.NotMarried.Other>
+
+    <!--
+    This error is sent when a viewer attempts to revive themselves, but their
+    pawn isn't dead.
+    -->
+    <TKUtils.Errors.NotDead.Self>Your pawn isn’t dead, so you can’t revive yourself.</TKUtils.Errors.NotDead.Self>
+
+    <!--
+    This error is sent when a viewer attempts to revive another viewer,
+    but the other viewer's pawn isn't dead.
+    -->
+    <TKUtils.Errors.NotDead.Other>The requested pawn isn’t dead, so you can’t revive them.</TKUtils.Errors.NotDead.Other>
+
+    <!--
+    This error is sent when a viewer attempts to revive a random pawn,
+    but there aren't any dead pawns to revive.
+    -->
+    <TKUtils.Errors.NotDead.Random>Everyone's alive, so you can’t revive anyone.</TKUtils.Errors.NotDead.Random>
+
+    <!--
+    This error is sent when a viewer attempts to perform an action on a pawn, but
+    said pawn is being garbage collected.
+    -->
+    <TKUtils.Errors.DiscardedPawn>The pawn is being removed.</TKUtils.Errors.DiscardedPawn>
+
+    <!--
+    This error is sent when a viewer attempts to revive an unnatural corpse, which
+    cannot be revived, period.
+    -->
+    <TKUtils.Errors.UnnaturalCorpseResurrection>No number of coins nor lengthy incantations will resurrect this void-sent.</TKUtils.Errors.UnnaturalCorpseResurrection>
+</LanguageData>

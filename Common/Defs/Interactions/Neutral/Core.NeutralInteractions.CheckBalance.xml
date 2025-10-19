@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>check balance</label>
+        <defName>TKU_CheckBalance</defName>
+        <interactionClass>ToolkitUtils.Interactions.CheckBalance</interactionClass>
+        <description>Retrieves information about a viewer’s balance, karma rate, and income.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

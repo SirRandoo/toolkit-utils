@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="GreaterNeutralInteractionDef">
+        <label>passion shuffle</label>
+        <defName>TKU_PassionShuffle</defName>
+        <interactionClass>ToolkitUtils.Interactions.Passion</interactionClass>
+        <description>Shuffles a pawn’s passions using chat’s chaos magic.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

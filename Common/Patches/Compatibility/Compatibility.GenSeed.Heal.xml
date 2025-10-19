@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+XML patches for the mod "[WarHammer 40k] GeneSeed."
+
+These patches target various hediffs added by the mod to prevent
+said hediffs from being healed by ToolkitUtils' healing events.
+
+The current list of hediffs patched includes: 
+• AwesomeOrgans_Biscopea
+• AwesomeOrgans_Haemastamen
+• AwesomeOrgans_LarramansOrgan
+• AwesomeOrgans_Catalepsean
+• AwesomeOrgans_Preomnor
+• AwesomeOrgans_Omophagea
+• AwesomeOrgans_MultiLung
+• AwesomeOrgans_Occulobe
+• AwesomeOrgans_LymanEar
+• AwesomeOrgans_SusanMembrane
+• AwesomeOrgans_Melanochrome
+• AwesomeOrgans_OoliticKidney
+• AwesomeOrgans_Neuroglottis
+• AwesomeOrgansMucranoid
+• AwesomeOrgans_BetchersGland
+• AwesomeOrgans_BlackCarapace
+-->
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>[WarHammer 40k] GeneSeed</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="AwesomeOrgans_Biscopea" or defName="AwesomeOrgans_Haemastamen" or defName="AwesomeOrgans_LarramansOrgan" or defName="AwesomeOrgans_Catalepsean" or defName="AwesomeOrgans_Preomnor" or defName="AwesomeOrgans_Omophagea" or defName="AwesomeOrgans_MultiLung" or defName="AwesomeOrgans_Occulobe" or defName="AwesomeOrgans_LymanEar" or defName="AwesomeOrgans_SusanMembrane" or defName="AwesomeOrgans_Melanochrome" or defName="AwesomeOrgans_OoliticKidney" or
+                        defName="AwesomeOrgans_Neuroglottis" or defName="AwesomeOrgansMucranoid" or defName="AwesomeOrgans_BetchersGland" or defName="AwesomeOrgans_BlackCarapace"]
+                    </xpath>
+                    <value>
+                        <li class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+            </operations>
+        </match>
+    </Operation>
+</Patch>

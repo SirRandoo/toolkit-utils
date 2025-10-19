@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>dye apparel</label>
+        <defName>TKU_Ideology_DyeApparel</defName>
+        <interactionClass>ToolkitUtils.Plugins.Ideology.Interactions.DyeApparel</interactionClass>
+        <description>Magically dyes a pawn’s apparel to either their favorite color or the specified color(s).</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

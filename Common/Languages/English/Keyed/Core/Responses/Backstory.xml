@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Responses.Backstory.Adulthood.Conflict>No other adulthood could be found that wouldn’t conflict with your pawn.</TKUtils.Responses.Backstory.Adulthood.Conflict>
+    <TKUtils.Responses.Backstory.Childhood.Conflict>No other childhood could be found that wouldn’t conflict with your pawn.</TKUtils.Responses.Backstory.Childhood.Conflict>
+
+    <TKUtils.Responses.Backstory.Adulthood.Randomized>You changed your adulthood from {PreviousBackstoryTitle} to {NewBackstoryTitle}.</TKUtils.Responses.Backstory.Adulthood.Randomized>
+    <TKUtils.Responses.Backstory.Childhood.Randomized>You changed your childhood from {PreviousBackstoryTitle} to {NewBackstoryTitle}.</TKUtils.Responses.Backstory.Childhood.Randomized>
+
+    <TKUtils.Letters.Backstory.Adulthood.Randomized.Title>Adulthood Randomized</TKUtils.Letters.Backstory.Adulthood.Randomized.Title>
+    <TKUtils.Letters.Backstory.Childhood.Randomized.Title>Childhood Randomized</TKUtils.Letters.Backstory.Childhood.Randomized.Title>
+    <TKUtils.Letters.Backstory.Adulthood.Randomized.Description>{ViewerName} swapped their adulthood from {PreviousBackstoryTitle} to {NewBackstoryTitle}.</TKUtils.Letters.Backstory.Adulthood.Randomized.Description>
+    <TKUtils.Letters.Backstory.Childhood.Randomized.Description>{ViewerName} swapped their childhood from {PreviousBackstoryTitle} to {NewBackstoryTitle}.</TKUtils.Letters.Backstory.Childhood.Randomized.Description>
+</LanguageData>

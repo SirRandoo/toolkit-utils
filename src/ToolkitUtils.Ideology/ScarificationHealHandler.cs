@@ -1,60 +1,76 @@
-﻿// ToolkitUtils
-// Copyright (C) 2022  SirRandoo
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// This file is part of ToolkitUtils.
 // 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Ideology. If not, see <https://www.gnu.org/licenses/>.
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using RimWorld;
-using ToolkitUtils.Interfaces;
+using ToolkitUtils.Api;
+using ToolkitUtils.Mod;
 using Verse;
-using PreceptDefOf = ToolkitUtils.Ideology.Defs.PreceptDefOf;
 
-namespace ToolkitUtils.Ideology
+namespace ToolkitUtils.Ideology;
+
+[UsedImplicitly]
+public class ScarificationHealHandler : IHealProvider
 {
-    [UsedImplicitly]
-    public class ScarificationHealHandler : IHealHandler
+    private const string ModId = "Ludeon.Ideology";
+
+    /// <inheritdoc />
+    public string Id { get; init; } = "sirrandoo.tku:compatibility.ideo.scarification";
+
+    /// <inheritdoc />
+    public string Name { get; init; } = "Scarification Compatibility Provider";
+
+    /// <inheritdoc />
+    public int Priority => 2;
+
+    /// <inheritdoc />
+    public string[] RequiredMods { get; } = [ModId,];
+
+    /// <inheritdoc />
+    public Task<Result> CanHealAsync(Hediff hediff)
     {
-        /// <inheritdoc/>
-        [NotNull]
-        public string ModId => "Ludeon.Ideology";
+        bool isScarification = hediff.def == HediffDefOf.Scarification;
 
-        /// <inheritdoc/>
-        public bool CanHeal([NotNull] Hediff hediff)
-        {
-            bool isScarification = hediff.def == HediffDefOf.Scarification;
+        if (!isScarification) return Task.FromResult(Result.Ok());
 
-            Ideo ideo = hediff.pawn.Ideo;
+        Ideo ideo = hediff.pawn.Ideo;
 
-            if (ideo.HasPrecept(PreceptDefOf.Scarification_Minor))
-            {
-                return !isScarification;
-            }
+        if (ideo.HasPrecept(IdeologyDefs.Scarification_Minor) || ideo.HasPrecept(IdeologyDefs.Scarification_Heavy) || ideo.HasPrecept(IdeologyDefs.Scarification_Extreme))
+            return Task.FromResult(Errors.InvalidTarget);
 
-            if (ideo.HasPrecept(PreceptDefOf.Scarification_Heavy))
-            {
-                return !isScarification;
-            }
+        return Task.FromResult(Result.Ok());
+    }
 
-            if (ideo.HasPrecept(PreceptDefOf.Scarification_Extreme))
-            {
-                return !isScarification;
-            }
+    /// <inheritdoc />
+    public Task<Result> CanHealAsync(Pawn pawn, BodyPartRecord record) => Task.FromResult(Errors.CannotHealBodyPart);
 
-            return true;
-        }
+    /// <inheritdoc />
+    public Task<Result> HealAsync(Hediff hediff) => Task.FromResult(Errors.CannotHeal);
 
-        /// <inheritdoc/>
-        public bool CanHeal(BodyPartRecord bodyPart) => true;
+    /// <inheritdoc />
+    public Task<Result> HealAsync(Pawn pawn, BodyPartRecord record) => Task.FromResult(Errors.CannotHealBodyPart);
+
+    /// <inheritdoc />
+    public Task<Result> TryResurrectAsync(Pawn pawn) => Task.FromResult(Errors.CannotResurrect);
+
+    private static class Errors
+    {
+        public static readonly Result CannotHeal = Result.Fail("The scarification compatibility provider doesn't support healing.");
+        public static readonly Result CannotResurrect = Result.Fail("The scarification compatibility provider doesn't support resurrecting.");
+        public static readonly Result CannotHealBodyPart = Result.Fail("The scarification compatibility provider doesn't support healing body parts.");
+        public static readonly Result InvalidTarget = Result.Fail("Pawn has no healable injuries, or the colony does not practice scarification.");
     }
 }

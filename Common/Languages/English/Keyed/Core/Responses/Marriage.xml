@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Responses.Marriage.Wedded>You married {SpouseName}.</TKUtils.Responses.Marriage.Wedded>
+    <TKUtils.Responses.Marriage.Proposal>{ProposerName} proposed to you. You can say yes with the command {CommandPrefix}{MarriageCommandText} {ProposerName}, or ignore it.</TKUtils.Responses.Marriage.Proposal>
+</LanguageData>

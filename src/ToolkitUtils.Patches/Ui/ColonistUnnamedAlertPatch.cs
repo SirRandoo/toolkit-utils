@@ -1,19 +1,18 @@
-﻿// ToolkitUtils
-// Copyright (C) 2021  SirRandoo
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// This file is part of ToolkitUtils.
 // 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Patches. If not, see <https://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -21,94 +20,107 @@ using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
 using RimWorld;
-using SirRandoo.CommonLib.Entities;
-using SirRandoo.CommonLib.Interfaces;
+using ToolkitUtils.Api;
 using TwitchToolkit;
 using TwitchToolkit.PawnQueue;
 using Verse;
+using Logger = NLog.Logger;
 
-namespace ToolkitUtils.Patches
+namespace ToolkitUtils.Patches;
+
+/// <summary>
+///     A harmony patch for adjusting how the "Colonist need names" in-game alert determines candidates. By default, the
+///     alert selects all pawns that don't have a viewer assigned to them, including borrowed pawns. This patch changes
+///     that behavior to only select pawns that meet the following criteria:
+///     <ul>
+///         <li>The pawn isn't borrowed from any faction.</li>
+///         <li>The pawn isn't reanimated, assuming A RimWorld of Magic is active.</li>
+///         <li>The pawn isn't currently assigned to someone else.</li>
+///     </ul>
+/// </summary>
+/// <inheritdoc cref="DisablerPatch" path="/remarks[@id='patch']" />
+[HarmonyPatch]
+[SuppressMessage(category: "csharpsquid", checkId: "S1144")]
+[SuppressMessage(category: "csharpsquid", checkId: "S3400")]
+[SuppressMessage(category: "ReSharper", checkId: "UnusedType.Global")]
+[SuppressMessage(category: "ReSharper", checkId: "InconsistentNaming")]
+internal static class ColonistUnnamedAlertPatch
 {
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class ColonistUnnamedAlertPatch
+    private static readonly List<Pawn> PawnContainer = [];
+    private static readonly HashSet<string> InvalidPawnCandidates = [];
+    private static readonly Logger Logger = ToolkitLogManager.GetLogger(typeof(ColonistUnnamedAlertPatch));
+
+    private static IPawnProvider? _pawnProvider;
+
+    [UsedImplicitly]
+    private static bool Prepare()
     {
-        private static readonly IRimLogger Logger = new RimLogger("TKU.Patches.ColonistUnnamedAlert");
-    
-        private static IEnumerable<MethodBase> TargetMethods()
+        _pawnProvider = Registries.Compatibilities.Get(id: "Torann.ARimWorldOfMagic") as IPawnProvider;
+
+        if (_pawnProvider != null) return true;
+
+        Logger.Warn(message: "Could not get compatibility provider for RimWorld of Magic. The 'Colonists need names' patch won't be enabled.");
+
+        return false;
+    }
+
+    [UsedImplicitly]
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        yield return AccessTools.Method(typeof(Alert_UnnamedColonist), nameof(Alert_UnnamedColonist.GetReport));
+    }
+
+    [UsedImplicitly]
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null) return null;
+
+        Logger.Error(exception, message: "Could not patch {Method} :: Some colonists will be included in the 'Colonists need names' alert in-game", original.FullDescription());
+
+        return null;
+    }
+
+    [UsedImplicitly]
+    [SuppressMessage(category: "ReSharper", checkId: "RedundantAssignment")]
+    private static bool Prefix(ref AlertReport __result)
+    {
+        __result = false;
+
+        if (!ToolkitSettings.ViewerNamedColonistQueue) return false;
+
+        Map currentMap = Find.CurrentMap;
+
+        if (currentMap == null) return false;
+
+        var component = Current.Game.GetComponent<GameComponentPawns>();
+
+        if (component == null) return false;
+
+        PawnContainer.Clear();
+        Dictionary<string, Pawn> pawnHistory = component.pawnHistory;
+        List<Pawn> colonistsSpawned = Find.CurrentMap.mapPawns.FreeColonistsSpawned;
+
+        if (colonistsSpawned is not { Count: > 0, }) return false;
+
+        for (var index = 0; index < colonistsSpawned.Count; index++)
         {
-            yield return AccessTools.Method(typeof(Alert_UnnamedColonist), nameof(Alert_UnnamedColonist.GetReport));
+            Pawn pawn = colonistsSpawned[index: index];
+            string uniquePawnId = pawn.GetUniqueLoadID();
+
+            if (InvalidPawnCandidates.Contains(item: uniquePawnId) || pawnHistory.ContainsKey(key: pawn.LabelShort)) continue;
+
+            if (pawn.IsBorrowedByAnyFaction() || !_pawnProvider!.IsValidPawnCandidate(pawn: pawn).IsSuccess)
+            {
+                InvalidPawnCandidates.Add(pawn.GetUniqueLoadID());
+
+                continue;
+            }
+
+            PawnContainer.Add(item: pawn);
         }
 
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
-            {
-                return null;
-            }
+        if (PawnContainer.Count > 0) __result = AlertReport.CulpritsAre(culprits: PawnContainer);
 
-            Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
-            return null;
-        }
-
-        /// <summary>
-        ///     A Harmony patch for adjusting how the "Colonists need names"
-        ///     in-game alert determines candidates. By default, the alert
-        ///     selects all pawns that don't have a viewer assigned to them,
-        ///     including borrowed pawns. This patch changes that functionality
-        ///     to only select pawns that meet the following criteria: <br/>
-        ///     <ul>
-        ///         <li>The pawn isn't borrowed from any faction</li>
-        ///         <li>The pawn isn't undead, if A RimWorld of Magic is active</li>
-        ///         <li>The pawn isn't currently assigned to someone else</li>
-        ///     </ul>
-        /// </summary>
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        [SuppressMessage("ReSharper", "RedundantAssignment")]
-        private static bool Prefix(ref AlertReport __result)
-        {
-            __result = false;
-
-            if (!ToolkitSettings.ViewerNamedColonistQueue)
-            {
-                return false;
-            }
-
-            var component = Current.Game.GetComponent<GameComponentPawns>();
-
-            if (component == null)
-            {
-                return false;
-            }
-
-            Dictionary<string, Pawn> pawnHistory = component.pawnHistory;
-            List<Pawn> colonistsSpawned = Find.CurrentMap?.mapPawns.FreeColonistsSpawned;
-
-            if (colonistsSpawned == null || colonistsSpawned.Count == pawnHistory.Count)
-            {
-                return false;
-            }
-
-            var container = new List<Pawn>();
-
-            foreach (Pawn pawn in colonistsSpawned)
-            {
-                if (pawnHistory.ContainsKey(pawn.LabelShort) || pawn.IsBorrowedByAnyFaction() || CompatRegistry.Magic?.IsUndead(pawn) == true)
-                {
-                    continue;
-                }
-
-                container.Add(pawn);
-            }
-
-            if (container.Count > 0)
-            {
-                __result = AlertReport.CulpritsAre(container);
-            }
-
-            return false;
-        }
+        return false;
     }
 }

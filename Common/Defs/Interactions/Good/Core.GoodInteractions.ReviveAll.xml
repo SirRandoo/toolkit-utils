@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="GreaterGoodInteractionDef">
+        <label>revive all</label>
+        <defName>TKU_ReviveAll</defName>
+        <interactionClass>ToolkitUtils.Interactions.Revive</interactionClass>
+        <description>Revives one or more pawns using chat’s chaos magic.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

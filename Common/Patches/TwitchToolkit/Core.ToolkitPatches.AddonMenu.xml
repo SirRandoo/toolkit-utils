@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+An XML patch for "Twitch Toolkit" that replaces its addon menu
+with ToolkitUtils' implementation.
+-->
+
+<Patch>
+    <Operation Class="PatchOperationReplace">
+        <xpath>/Defs/ToolkitCore.Models.ToolkitAddon[defName="TwitchToolkit"]/menuClass</xpath>
+        <value>
+            <menuClass>SirRandoo.ToolkitUtils.ToolkitAddonMenu</menuClass>
+        </value>
+    </Operation>
+</Patch>

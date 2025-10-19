@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="GreaterNeutralInteractionDef">
+        <label>rescue operation</label>
+        <defName>TKU_RescueOperation</defName>
+        <interactionClass>ToolkitUtils.Interactions.RescueOperation</interactionClass>
+        <description>Creates a rescue operation for a kidnapped pawn, reviving it if necessary, using chat’s chaos magic.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

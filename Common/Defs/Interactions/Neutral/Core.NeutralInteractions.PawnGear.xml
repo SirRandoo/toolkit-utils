@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>pawn gear</label>
+        <defName>TKU_PawnGear</defName>
+        <description>Retrieves a pawn’s gear.</description>
+        <interactionClass>ToolkitUtils.Interactions.Pawn</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

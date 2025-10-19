@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>set favorite color</label>
+        <defName>TKU_Ideology_SetFavoriteColor</defName>
+        <description>Sets a pawn’s favorite color.</description>
+        <interactionClass>ToolkitUtils.Plugins.Ideology.Interactions.SetFavoriteColor</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

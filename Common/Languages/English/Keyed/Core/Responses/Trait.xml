@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Responses.Trait.Add>You've added {TraitName} to your pawn.</TKUtils.Responses.Trait.Add>
+    <TKUtils.Responses.Trait.Remove>You've removed {TraitName} from your pawn.</TKUtils.Responses.Trait.Remove>
+    <TKUtils.Responses.Trait.Replace>You've replaced {PreviousTraitName} with {NewTraitName}.</TKUtils.Responses.Trait.Replace>
+    <TKUtils.Responses.Trait.Clear>You've cleared your pawn's traits.</TKUtils.Responses.Trait.Clear>
+    <TKUtils.Responses.Trait.Set>You've set your pawn’s traits to: {TraitNames}</TKUtils.Responses.Trait.Set>
+
+    <TKUtils.Errors.Trait.Add.Disabled>{TraitName} can’t be added to pawns.</TKUtils.Errors.Trait.Add.Disabled>
+    <TKUtils.Errors.Trait.Remove.Disabled>{TraitName} can’t be removed from pawns.</TKUtils.Errors.Trait.Remove.Disabled>
+    <TKUtile.Errors.Trait.Limited>Pawns can only have {Limit} traits, with some exceptions.</TKUtile.Errors.Trait.Limited>
+    <TKUtils.Errors.Trait.Backstory.Forced>Your pawn has {BackstoryName}, which prevents {TraitName} from being removed.</TKUtils.Errors.Trait.Backstory.Forced>
+    <TKUtils.Errors.Trait.Backstory.Disallowed>Your pawn has {BackstoryName}, which prevents {TraitName} from being added.</TKUtils.Errors.Trait.Backstory.Disallowed>
+    <TKUtils.Errors.Trait.Conflict>Adding {NewTraitName} would conflict with {OtherTraitName}</TKUtils.Errors.Trait.Conflict>
+    <TKUtils.Errors.Trait.Duplicate>Your pawn already has the trait "{TraitName}".</TKUtils.Errors.Trait.Duplicate>
+    <TKUtils.Errors.Trait.Gene.Forbidden>Your pawn has the gene "{GeneName}," which forbids the trait "{TraitName}" from being added to your pawn.</TKUtils.Errors.Trait.Gene.Forbidden>
+    <TKUtils.Errors.Trait.Gene.Forced>Your pawn has the gene "GeneName}," which forces the trait "{TraitName}" on your pawn.</TKUtils.Errors.Trait.Gene.Forced>
+    <TKUtils.Errors.Trait.None>Your pawn doesn’t have any traits to remove.</TKUtils.Errors.Trait.None>
+
+    <TKUtils.Letters.Trait.Title>Traits Changed</TKUtils.Letters.Trait.Title>
+    <TKUtils.Letters.Trait.Add.Description>{ViewerName} added {TraitName} to their pawn.</TKUtils.Letters.Trait.Add.Description>
+    <TKUtils.Letters.Trait.Clear.Description>{ViewerName} cleared their pawn’s traits.</TKUtils.Letters.Trait.Clear.Description>
+    <TKUtils.Letters.Trait.Remove.Description>{ViewerName} removed {TraitName} from their pawn.t</TKUtils.Letters.Trait.Remove.Description>
+</LanguageData>

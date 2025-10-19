@@ -2,13 +2,16 @@
     <PropertyGroup>
         <Title>ToolkitUtils.Api</Title>
         <Description>The api for ToolkitUtils, an addon for the RimWorld mod "Twitch Toolkit."</Description>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta06" />
+        <PackageReference Include="NLog"/>
+        <PackageReference Include="Lib.Harmony"/>
+        <PackageReference Include="Mono.Reflection"/>
+        <PackageReference Include="Samboy063.Tomlet"/>
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref"/>
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\ToolkitUtils.Api.Extensions\ToolkitUtils.Api.Extensions.csproj" />
-      <ProjectReference Include="..\ToolkitUtils.Data.Models\ToolkitUtils.Data.Models.csproj" />
-      <ProjectReference Include="..\ToolkitUtils.Wrappers.Async\ToolkitUtils.Wrappers.Async.csproj" />
+        <ProjectReference Include="..\ToolkitUtils.Mod\ToolkitUtils.Mod.csproj"/>
     </ItemGroup>
 </Project>

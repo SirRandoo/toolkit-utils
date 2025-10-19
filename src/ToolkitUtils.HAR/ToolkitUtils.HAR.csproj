@@ -1,23 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <CompatibilityFor>AlienRace</CompatibilityFor>
-    </PropertyGroup>
+    <!-- Local packages -->
     <ItemGroup>
         <Reference Include="AlienRace">
-            <HintPath>$(RimWorldWorkshopRoot)\839005762\1.4\Assemblies\AlienRace.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)/839005762/1.6/Assemblies/AlienRace.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
+
+    <!-- Project references -->
     <ItemGroup>
-        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" />
+        <ProjectReference Include="../ToolkitUtils.Api/ToolkitUtils.Api.csproj"/>
     </ItemGroup>
-    <Target Name="CustomAfterBuild" AfterTargets="Build">
-        <Message Text="$(OutputPath)" />
-        <Message Text="$(OutDir)" />
-        <ItemGroup>
-            <_FilesToMove Include="$(OutputPath)$(AssemblyName).*" />
-        </ItemGroup>
-        <MakeDir Directories="$(MoveDestinationFolder)" />
-        <Move SourceFiles="@(_FilesToMove)" DestinationFolder="$(_OutputDirectory)..\..\Compatibility\AlienRace\$(RimWorldVersion)\Assemblies" />
-    </Target>
+
+    <!-- NuGet references -->
+    <ItemGroup>
+        <PackageReference Include="Krafs.Rimworld.Ref"/>
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref"/>
+    </ItemGroup>
 </Project>

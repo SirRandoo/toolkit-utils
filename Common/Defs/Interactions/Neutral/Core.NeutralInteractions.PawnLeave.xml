@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>pawn leave</label>
+        <defName>TKU_PawnLeave</defName>
+        <interactionClass>ToolkitUtils.Interactions.Pawn</interactionClass>
+        <description>Forces a pawn to leave the colony, with chat’s chaos magic.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

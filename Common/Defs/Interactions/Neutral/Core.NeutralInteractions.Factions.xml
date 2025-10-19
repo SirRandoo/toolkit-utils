@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>factions</label>
+        <defName>TKU_Factions</defName>
+        <interactionClass>ToolkitUtils.Interactions.Factions</interactionClass>
+        <description>Retrieves the colony’s faction relationships.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

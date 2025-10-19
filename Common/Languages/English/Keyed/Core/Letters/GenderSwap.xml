@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Letters.GenderSwap.Title>Gender Swap</TKUtils.Letters.GenderSwap.Title>
+    <TKUtils.Letters.GenderSwap.Body>{ViewerName} swapped their gender from {PreviousGender} to {NewGender}.</TKUtils.Letters.GenderSwap.Body>
+</LanguageData>

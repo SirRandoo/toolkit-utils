@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- Labels -->
+    <TKUtils.UX.Items>Items</TKUtils.UX.Items>
+    <TKUtils.UX.Events>Events</TKUtils.UX.Events>
+    <TKUtils.UX.Traits>Traits</TKUtils.UX.Traits>
+    <TKUtils.UX.PawnKinds>Pawn kinds</TKUtils.UX.PawnKinds>
+
+    <!-- General tooltips -->
+    <TKUtils.UX.Tooltips.Shortcut>Shortcut: {ShortcutKeySequence}</TKUtils.UX.Tooltips.Shortcut>
+
+    <!-- Buttons -->
+    <TKUtils.UX.Buttons.Purge>Purge</TKUtils.UX.Buttons.Purge>
+    <TKUtils.UX.Buttons.Exempt>Exempt</TKUtils.UX.Buttons.Exempt>
+    <TKUtils.UX.Buttons.Search>Search</TKUtils.UX.Buttons.Search>
+    <TKUtils.UX.Buttons.Notify>Notify</TKUtils.UX.Buttons.Notify>
+    <TKUtils.UX.Buttons.ResetName>Reset name</TKUtils.UX.Buttons.ResetName>
+    <TKUtils.UX.Buttons.ResetPrice>Reset price</TKUtils.UX.Buttons.ResetPrice>
+    <TKUtils.UX.Buttons.ResetData>Reset data</TKUtils.UX.Buttons.ResetData>
+    <TKUtils.UX.Buttons.ResetAddPrice>Reset add price</TKUtils.UX.Buttons.ResetAddPrice>
+    <TKUtils.UX.Buttons.ResetRemovePrice>Reset remove price</TKUtils.UX.Buttons.ResetRemovePrice>
+    <TKUtils.UX.Buttons.EnableAll>Enable all</TKUtils.UX.Buttons.EnableAll>
+    <TKUtils.UX.Buttons.DisableAll>Disable all</TKUtils.UX.Buttons.DisableAll>
+    <TKUtils.UX.Buttons.AddMutator>Add mutator</TKUtils.UX.Buttons.AddMutator>
+    <TKUtils.UX.Buttons.EditItemPrices>Edit item prices...</TKUtils.UX.Buttons.EditItemPrices>
+    <TKUtils.UX.Buttons.EditTraitPrices>Edit trait prices...</TKUtils.UX.Buttons.EditTraitPrices>
+    <TKUtils.UX.Buttons.EditPawnPrices>Edit pawn prices...</TKUtils.UX.Buttons.EditPawnPrices>
+    <TKUtils.UX.Buttons.EditEventPrices>Edit event prices...</TKUtils.UX.Buttons.EditEventPrices>
+    <TKUtils.UX.Buttons.AddSelector>Add selector</TKUtils.UX.Buttons.AddSelector>
+    <TKUtils.UX.Buttons.ViewAffected>View affected</TKUtils.UX.Buttons.ViewAffected>
+    <TKUtils.UX.Buttons.PurgeViewers>Purge viewers</TKUtils.UX.Buttons.PurgeViewers>
+    <TKUtils.UX.Buttons.AddConstraint>Add constraint</TKUtils.UX.Buttons.AddConstraint>
+    <TKUtils.UX.Buttons.EditStorytellerPacks>Edit storyteller packs...</TKUtils.UX.Buttons.EditStorytellerPacks>
+</LanguageData>

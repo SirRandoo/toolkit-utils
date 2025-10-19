@@ -1,17 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <Content Include="..\..\Compatibility\Ideology\Common\**\*.*">
-            <Link>Common\%(RecursiveDir)%(FileName)%(Extension)</Link>
+        <Content Include="../../Compatibility/Ideology/Common/**/*.*">
+            <Link>Common/%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Content>
     </ItemGroup>
+
     <ItemGroup>
-        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" />
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref"/>
     </ItemGroup>
-    <Target Name="CustomAfterBuild" AfterTargets="Build">
-        <ItemGroup>
-            <_FilesToMove Include="$(OutputPath)$(AssemblyName).*" />
-        </ItemGroup>
-        <MakeDir Directories="$(MoveDestinationFolder)" />
-        <Move SourceFiles="@(_FilesToMove)" DestinationFolder="$(_OutputDirectory)..\..\Compatibility\Ideology\$(RimWorldVersion)\Assemblies" />
-    </Target>
+
+    <ItemGroup>
+        <ProjectReference Include="../ToolkitUtils.Api/ToolkitUtils.Api.csproj"/>
+        <ProjectReference Include="../ToolkitUtils.Core/ToolkitUtils.Core.csproj"/>
+        <ProjectReference Include="../ToolkitUtils.Interactions.Commands/ToolkitUtils.Interactions.Commands.csproj"/>
+        <ProjectReference Include="..\ToolkitUtils.Mod\ToolkitUtils.Mod.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+            <HintPath>..\Libs\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+        </Reference>
+        <Reference Include="Remora.Commands">
+            <HintPath>..\Libs\Remora.Commands.dll</HintPath>
+        </Reference>
+    </ItemGroup>
 </Project>

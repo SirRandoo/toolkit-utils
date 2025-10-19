@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="GreaterNeutralInteractionDef">
+        <label>passion</label>
+        <defName>TKU_Passion</defName>
+        <interactionClass>ToolkitUtils.Interactions.Passion</interactionClass>
+        <description>Adds one or more passions to a pawn using chat’s chaos magic.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

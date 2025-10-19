@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>wealth</label>
+        <defName>TKU_Wealth</defName>
+        <interactionClass>ToolkitUtils.Interactions.Wealth</interactionClass>
+        <description>Retrieves information about the colony’s wealth.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

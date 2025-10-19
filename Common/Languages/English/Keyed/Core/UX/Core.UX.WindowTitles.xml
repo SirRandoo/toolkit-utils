@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.UX.WindowTitles.ItemShop>Item shop</TKUtils.UX.WindowTitles.ItemShop>
+    <TKUtils.UX.WindowTitles.TraitShop>Trait shop</TKUtils.UX.WindowTitles.TraitShop>
+    <TKUtils.UX.WindowTitles.PawnKindShop>Pawn kind shop</TKUtils.UX.WindowTitles.PawnKindShop>
+    <TKUtils.UX.WindowTitles.ToolkitEditor>Toolkit Editor</TKUtils.UX.WindowTitles.ToolkitEditor>
+    <TKUtils.UX.WindowTitles.CommandCategoryEditor>Commands</TKUtils.UX.WindowTitles.CommandCategoryEditor>
+    <TKUtils.UX.WindowTitles.IncidentCategoryEditor>Store incidents</TKUtils.UX.WindowTitles.IncidentCategoryEditor>
+</LanguageData>

@@ -1,0 +1,34 @@
+﻿<Solution>
+    <Folder Name="/Compatibility/">
+        <Project Path="src\ToolkitUtils.HAR\ToolkitUtils.HAR.csproj"/>
+        <Project Path="src\ToolkitUtils.Ideology\ToolkitUtils.Ideology.csproj"/>
+        <Project Path="src\ToolkitUtils.TMagic\ToolkitUtils.TMagic.csproj"/>
+    </Folder>
+    <Folder Name="/Interactions/">
+        <Project Path="src\ToolkitUtils.Interactions.Commands\ToolkitUtils.Interactions.Commands.csproj"/>
+        <Project Path="src\ToolkitUtils.Interactions.Incidents\ToolkitUtils.Interactions.Incidents.csproj"/>
+    </Folder>
+    <Folder Name="/Resources/">
+        <File Path="Directory.Build.props"/>
+        <File Path="Directory.Build.targets"/>
+        <File Path="Directory.Packages.props"/>
+    </Folder>
+    <Folder Name="/ZNewStructure/">
+        <Project Path="src\ToolkitUtils.LocalFiles\ToolkitUtils.LocalFiles.csproj" Type="Classic C#"/>
+        <Project Path="src\ToolkitUtils.Mod\ToolkitUtils.Mod.csproj" Type="Classic C#"/>
+    </Folder>
+    <Folder Name="/ZNewStructure/Plugins/">
+        <Project Path="src\plugins\ToolkitUtils.Plugins.Aliens\ToolkitUtils.Plugins.Aliens.csproj" Type="Classic C#"/>
+        <Project Path="src\plugins\ToolkitUtils.Plugins.Androids\ToolkitUtils.Plugins.Androids.csproj" Type="Classic C#"/>
+        <Project Path="src\plugins\ToolkitUtils.Plugins.Anomaly\ToolkitUtils.Plugins.Anomaly.csproj" Type="Classic C#"/>
+        <Project Path="src\plugins\ToolkitUtils.Plugins.Biotech\ToolkitUtils.Plugins.Biotech.csproj" Type="Classic C#"/>
+        <Project Path="src\plugins\ToolkitUtils.Plugins.Ideology\ToolkitUtils.Plugins.Ideology.csproj" Type="Classic C#"/>
+        <Project Path="src\plugins\ToolkitUtils.Plugins.Magic\ToolkitUtils.Plugins.Magic.csproj" Type="Classic C#"/>
+        <Project Path="src\plugins\ToolkitUtils.Plugins.Odyssey\ToolkitUtils.Plugins.Odyssey.csproj" Type="Classic C#"/>
+        <Project Path="src\plugins\ToolkitUtils.Plugins.ToolkitCore\ToolkitUtils.Plugins.ToolkitCore.csproj" Type="Classic C#"/>
+        <Project Path="src\plugins\ToolkitUtils.Plugins.TwitchToolkit\ToolkitUtils.Plugins.TwitchToolkit.csproj" Type="Classic C#"/>
+    </Folder>
+    <Project Path="src\ToolkitUtils.Api\ToolkitUtils.Api.csproj"/>
+    <Project Path="src\ToolkitUtils.Core\ToolkitUtils.Core.csproj" Type="Classic C#"/>
+    <Project Path="src\ToolkitUtils.Patches\ToolkitUtils.Patches.csproj"/>
+</Solution>

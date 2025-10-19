@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <!-- Metadata properties -->
+    <PropertyGroup>
+        <Title>ToolkitUtils.Incidents</Title>
+        <Description>Houses the incidents for ToolkitUtils.</Description>
+    </PropertyGroup>
+
+    <!-- Project references -->
+    <ItemGroup>
+        <ProjectReference Include="../ToolkitUtils.Api/ToolkitUtils.Api.csproj"/>
+        <ProjectReference Include="../ToolkitUtils.Core/ToolkitUtils.Core.csproj"/>
+    </ItemGroup>
+
+    <!-- Local references -->
+    <ItemGroup>
+        <Reference Include="Remora.Commands">
+            <HintPath>../Libs/Remora.Commands.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+</Project>

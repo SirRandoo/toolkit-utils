@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>pawn class</label>
+        <defName>TKU_Magic_PawnClass</defName>
+        <description>Retrieves information about a pawn’s class or classes.</description>
+        <interactionClass>ToolkitUtils.Plugins.TMagic.Interactions.PawnClass</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

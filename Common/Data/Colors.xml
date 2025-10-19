@@ -1,0 +1,170 @@
+<ColorLibrary>
+    <Color Name="Red" Value="#ED0A3F"/>
+    <Color Name="Maroon" Value="#C32148"/>
+    <Color Name="Scarlet" Value="#FD0E35"/>
+    <Color Name="Brick Red" Value="#C62D42"/>
+    <Color Name="English Vermilion" Value="#CC474B"/>
+    <Color Name="Madder Lake" Value="#CC3336"/>
+    <Color Name="Permanent Geranium Lake" Value="#E12C2C"/>
+    <Color Name="Maximum Red" Value="#D92121"/>
+    <Color Name="Chestnut" Value="#B94E48"/>
+    <Color Name="Orange-Red" Value="#FF5349"/>
+    <Color Name="Sunset Orange" Value="#FE4C40"/>
+    <Color Name="Bittersweet" Value="#FE6F5E"/>
+    <Color Name="Dark Venetian Red" Value="#B33B24"/>
+    <Color Name="Venetian Red" Value="#CC553D"/>
+    <Color Name="Light Venetian Red" Value="#E6735C"/>
+    <Color Name="Vivid Tangerine" Value="#FF9980"/>
+    <Color Name="Middle Red" Value="#E58E73"/>
+    <Color Name="Burnt Orange" Value="#FF7034"/>
+    <Color Name="Red-Orange" Value="#FF681F"/>
+    <Color Name="Orange" Value="#FF8833"/>
+    <Color Name="Macaroni and Cheese" Value="#FFB97B"/>
+    <Color Name="Middle Yellow Red" Value="#ECAC76"/>
+    <Color Name="Mango Tango" Value="#E77200"/>
+    <Color Name="Yellow-Orange" Value="#FFAE42"/>
+    <Color Name="Maximum Yellow Red" Value="#F2BA49"/>
+    <Color Name="Banana Mania" Value="#FBE7B2"/>
+    <Color Name="Maize" Value="#F2C649"/>
+    <Color Name="Orange-Yellow" Value="#F8D568"/>
+    <Color Name="Goldenrod" Value="#FCD667"/>
+    <Color Name="Dandelion" Value="#FED85D"/>
+    <Color Name="Yellow" Value="#FBE870"/>
+    <Color Name="Green-Yellow" Value="#F1E788"/>
+    <Color Name="Middle Yellow" Value="#FFEB00"/>
+    <Color Name="Olive Green" Value="#B5B35C"/>
+    <Color Name="Spring Green" Value="#ECEBBD"/>
+    <Color Name="Maximum Yellow" Value="#FAFA37"/>
+    <Color Name="Canary" Value="#FFFF99"/>
+    <Color Name="Lemon Yellow" Value="#FFFF9F"/>
+    <Color Name="Maximum Green Yellow" Value="#D9E650"/>
+    <Color Name="Middle Green Yellow" Value="#ACBF60"/>
+    <Color Name="Inchworm" Value="#AFE313"/>
+    <Color Name="Light Chrome Green" Value="#BEE64B"/>
+    <Color Name="Yellow-Green" Value="#C5E17A"/>
+    <Color Name="Maximum Green" Value="#5E8C31"/>
+    <Color Name="Asparagus" Value="#7BA05B"/>
+    <Color Name="Granny Smith Apple" Value="#9DE093"/>
+    <Color Name="Fern" Value="#63B76C"/>
+    <Color Name="Middle Green" Value="#4D8C57"/>
+    <Color Name="Green" Value="#01A638"/>
+    <Color Name="Medium Chrome Green" Value="#6CA67C"/>
+    <Color Name="Forest Green" Value="#5FA777"/>
+    <Color Name="Sea Green" Value="#93DFB8"/>
+    <Color Name="Shamrock" Value="#33CC99"/>
+    <Color Name="Mountain Meadow" Value="#1AB385"/>
+    <Color Name="Jungle Green" Value="#29AB87"/>
+    <Color Name="Caribbean Green" Value="#00CC99"/>
+    <Color Name="Tropical Rain Forest" Value="#00755E"/>
+    <Color Name="Middle Blue Green" Value="#8DD9CC"/>
+    <Color Name="Pine Green" Value="#01796F"/>
+    <Color Name="Maximum Blue Green" Value="#30BFBF"/>
+    <Color Name="Robin's Egg Blue" Value="#00CCCC"/>
+    <Color Name="Teal Blue" Value="#008080"/>
+    <Color Name="Light Blue" Value="#8FD8D8"/>
+    <Color Name="Aquamarine" Value="#95E0E8"/>
+    <Color Name="Turquoise Blue" Value="#6CDAE7"/>
+    <Color Name="Outer Space" Value="#2D383A"/>
+    <Color Name="Sky Blue" Value="#76D7EA"/>
+    <Color Name="Middle Blue" Value="#7ED4E6"/>
+    <Color Name="Blue-Green" Value="#0095B7"/>
+    <Color Name="Pacific Blue" Value="#009DC4"/>
+    <Color Name="Cerulean" Value="#02A4D3"/>
+    <Color Name="Maximum Blue" Value="#47ABCC"/>
+    <Color Name="Blue (I)" Value="#2EB4E6"/>
+    <Color Name="Cerulean Blue" Value="#339ACC"/>
+    <Color Name="Cornflower" Value="#93CCEA"/>
+    <Color Name="Green-Blue" Value="#2887C8"/>
+    <Color Name="Midnight Blue" Value="#003366"/>
+    <Color Name="Navy Blue" Value="#0066CC"/>
+    <Color Name="Denim" Value="#1560BD"/>
+    <Color Name="Blue (III)" Value="#0066FF"/>
+    <Color Name="Cadet Blue" Value="#A9B2C3"/>
+    <Color Name="Periwinkle" Value="#C3CDE6"/>
+    <Color Name="Blue (II)" Value="#4570E6"/>
+    <Color Name="Bluetiful" Value="#3C69E7"/>
+    <Color Name="Wild Blue Yonder" Value="#7A89B8"/>
+    <Color Name="Indigo" Value="#4F69C6"/>
+    <Color Name="Manatee" Value="#8D90A1"/>
+    <Color Name="Cobalt Blue" Value="#8C90C8"/>
+    <Color Name="Celestial Blue" Value="#7070CC"/>
+    <Color Name="Blue Bell" Value="#9999CC"/>
+    <Color Name="Maximum Blue Purple" Value="#ACACE6"/>
+    <Color Name="Violet-Blue" Value="#766EC8"/>
+    <Color Name="Blue-Violet" Value="#6456B7"/>
+    <Color Name="Ultramarine Blue" Value="#3F26BF"/>
+    <Color Name="Middle Blue Purple" Value="#8B72BE"/>
+    <Color Name="Purple Heart" Value="#652DC1"/>
+    <Color Name="Royal Purple" Value="#6B3FA0"/>
+    <Color Name="Violet (II)" Value="#8359A3"/>
+    <Color Name="Medium Violet" Value="#8F47B3"/>
+    <Color Name="Wisteria" Value="#C9A0DC"/>
+    <Color Name="Lavender (I)" Value="#BF8FCC"/>
+    <Color Name="Vivid Violet" Value="#803790"/>
+    <Color Name="Maximum Purple" Value="#733380"/>
+    <Color Name="Purple Mountains' Majesty" Value="#D6AEDD"/>
+    <Color Name="Fuchsia" Value="#C154C1"/>
+    <Color Name="Pink Flamingo" Value="#FC74FD"/>
+    <Color Name="Violet (I)" Value="#732E6C"/>
+    <Color Name="Brilliant Rose" Value="#E667CE"/>
+    <Color Name="Orchid" Value="#E29CD2"/>
+    <Color Name="Plum" Value="#8E3179"/>
+    <Color Name="Medium Rose" Value="#D96CBE"/>
+    <Color Name="Thistle" Value="#D8BFD8"/>
+    <Color Name="Mulberry" Value="#C8509B"/>
+    <Color Name="Red-Violet" Value="#BB3385"/>
+    <Color Name="Middle Purple" Value="#D982B5"/>
+    <Color Name="Maximum Red Purple" Value="#A63A79"/>
+    <Color Name="Jazzberry Jam" Value="#A50B5E"/>
+    <Color Name="Eggplant" Value="#614051"/>
+    <Color Name="Magenta" Value="#F653A6"/>
+    <Color Name="Cerise" Value="#DA3287"/>
+    <Color Name="Wild Strawberry" Value="#FF3399"/>
+    <Color Name="Lavender (II)" Value="#FBAED2"/>
+    <Color Name="Cotton Candy" Value="#FFB7D5"/>
+    <Color Name="Carnation Pink" Value="#FFA6C9"/>
+    <Color Name="Violet-Red" Value="#F7468A"/>
+    <Color Name="Razzmatazz" Value="#E30B5C"/>
+    <Color Name="Piggy Pink" Value="#FDD7E4"/>
+    <Color Name="Carmine" Value="#E62E6B"/>
+    <Color Name="Blush" Value="#DB5079"/>
+    <Color Name="Tickle Me Pink" Value="#FC80A5"/>
+    <Color Name="Mauvelous" Value="#F091A9"/>
+    <Color Name="Salmon" Value="#FF91A4"/>
+    <Color Name="Middle Red Purple" Value="#A55353"/>
+    <Color Name="Mahogany" Value="#CA3435"/>
+    <Color Name="Melon" Value="#FEBAAD"/>
+    <Color Name="Pink Sherbert" Value="#F7A38E"/>
+    <Color Name="Burnt Sienna" Value="#E97451"/>
+    <Color Name="Brown" Value="#AF593E"/>
+    <Color Name="Sepia" Value="#9E5B40"/>
+    <Color Name="Fuzzy Wuzzy" Value="#87421F"/>
+    <Color Name="Beaver" Value="#926F5B"/>
+    <Color Name="Tumbleweed" Value="#DEA681"/>
+    <Color Name="Raw Sienna" Value="#D27D46"/>
+    <Color Name="Van Dyke Brown" Value="#664228"/>
+    <Color Name="Tan" Value="#FA9D5A"/>
+    <Color Name="Desert Sand" Value="#EDC9AF"/>
+    <Color Name="Peach" Value="#FFCBA4"/>
+    <Color Name="Burnt Umber" Value="#805533"/>
+    <Color Name="Apricot" Value="#FDD5B1"/>
+    <Color Name="Almond" Value="#EED9C4"/>
+    <Color Name="Raw Umber" Value="#665233"/>
+    <Color Name="Shadow" Value="#837050"/>
+    <Color Name="Raw Sienna (I)" Value="#E6BC5C"/>
+    <Color Name="Gold (I)" Value="#92926E"/>
+    <Color Name="Gold (II)" Value="#E6BE8A"/>
+    <Color Name="Silver" Value="#C9C0BB"/>
+    <Color Name="Copper" Value="#DA8A67"/>
+    <Color Name="Antique Brass" Value="#C88A65"/>
+    <Color Name="Black" Value="#000000"/>
+    <Color Name="Charcoal Gray" Value="#736A62"/>
+    <Color Name="Gray" Value="#8B8680"/>
+    <Color Name="Blue-Gray" Value="#C8C8CD"/>
+    <Color Name="Timberwolf" Value="#D9D6CF"/>
+    <Color Name="White" Value="#FFFFFF"/>
+    <Color Name="Crayellow" Value="#F1D651"/>
+    <Color Name="Cool Mint" Value="#DDEBEC"/>
+    <Color Name="Oatmeal" Value="#D9DAD2"/>
+    <Color Name="Powder Blue" Value="#C0D5F0"/>
+</ColorLibrary>

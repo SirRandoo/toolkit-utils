@@ -402,13 +402,10 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-/ToolkitUtils.sln.DotSettings
 /.idea/*
 /[0-9].[0-9]*/Assemblies/
 /*.zip
 /About/* - Testing.*
 /About/* - Stable.*
 /_PublisherPlus.xml
-/Scripts/
-/Source/ToolkitUtils/ToolkitUtils\.csproj.DotSettings
 /Compatibility/**/[0-9].[0-9]*/Assemblies/

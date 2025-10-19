@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>chat</label>
+        <defName>TKU_Chat</defName>
+        <description>Instructs a pawn to chat with another pawn.</description>
+        <interactionClass>ToolkitUtils.Interactions.Interactions</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!--
+    This error is sent when a viewer attempts to purchase an item that's disabled.
+    -->
+    <TKUtils.Errors.Item.Disabled.Item>The item "{ItemName}" is disabled, and cannot be purchased.</TKUtils.Errors.Item.Disabled.Item>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an animal that's disabled.
+    -->
+    <TKUtils.Errors.Item.Disabled.Animal>The animal "{AnimalName}" is disabled, and cannot be purchased.</TKUtils.Errors.Item.Disabled.Animal>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an item with a disabled quality.
+    -->
+    <TKUtils.Errors.Item.Disabled.Quality>The quality "{QualityName}" is disabled, and cannot be used as an item modifier.</TKUtils.Errors.Item.Disabled.Quality>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an item with a disabled material.
+    -->
+    <TKUtils.Errors.Item.Disabled.Material>The material "{MaterialName}" is disabled, and cannot be used as an item modifier.</TKUtils.Errors.Item.Disabled.Material>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an animal that doesn't have a gender.
+    A prime example of an instance where this would occur is artificial species, such as mechanical
+    organisms, like mechanoids.
+
+    Should a mechanoid be purchasable as a tameable animal, and a viewer attempts to purchase
+    them as a "male" or "female" mechanoid, this error would be sent.
+
+    While other mods may take creative liberties on their animals, the example above may not be the
+    only instance where this error is shown.
+
+    If a mod author were to add an animal that added an organic animal that doesn't have an observed
+    gender, this error would also be displayed.
+    -->
+    <TKUtils.Errors.Item.Animal.Genderless>The species "{SpeciesName}" don’t have a gender associated with them.</TKUtils.Errors.Item.Animal.Genderless>
+
+    <!--
+    This error is sent when a viewer attempts to use an item that their pawn can't use, such as an
+    item that's only usable by Androids from Android Tiers, but the viewer's pawn isn't an android.
+    -->
+    <TKUtils.Errors.Item.Unusable>The item "{ItemName}" can’t be used by your pawn.</TKUtils.Errors.Item.Unusable>
+
+    <!--
+    This error is sent when a viewer attempts to purchase an item that requires one or more research
+    projects to be completed before it's available for purchase.
+
+    For example, in order for viewers to purchase cataphract helmets, the colony would need to research
+    the aptly named research project "Cataphract Armor."
+    -->
+    <TKUtils.Errors.Item.ResearchRequired>The item "{ItemName}" requires the colony to research "{ProjectName}" before it’ll be available for purchase.</TKUtils.Errors.Item.ResearchRequired>
+
+    <!--
+    These errors are sent when a viewer attempts to purchase something from the *item* store, but the
+    total cost of the items they're purchasing doesn't meet the minimum order amount the streamer has
+    set.
+    -->
+    <TKUtils.Errors.Item.MinimumOrderAmount.Singular>You must spend at least one coin before your order will be processed.</TKUtils.Errors.Item.MinimumOrderAmount.Singular>
+    <TKUtils.Errors.Item.MinimumOrderAmount.Plural>You must spend at least {MinimumAmount} coins before your order will be processed.</TKUtils.Errors.Item.MinimumOrderAmount.Plural>
+
+    <TKUtils.Responses.Item.Backpack>x{Amount} {ItemName} appeared in your backpack, or spawned nearby, for a total cost of {TotalCost} coins.</TKUtils.Responses.Item.Backpack>
+    <TKUtils.Letters.Item.Backpack.Title>Backpack</TKUtils.Letters.Item.Backpack.Title>
+    <TKUtils.Letters.Item.Backpack.Body>{ViewerName} smuggled x{Amount} {ItemName} into the colony through their backpack. B</TKUtils.Letters.Item.Backpack.Body>
+
+    <TKUtils.Responses.Item.Equip>Your pawn equipped {WeaponName}.</TKUtils.Responses.Item.Equip>
+    <TKUtils.Responses.Item.Equip.Unequippable>Your pawn isn't capable of equipping {WeaponName}, so it was spawned nearby instead.</TKUtils.Responses.Item.Equip.Unequippable>
+    <TKUtils.Letters.Item.Equip.Title>Equip</TKUtils.Letters.Item.Equip.Title>
+    <TKUtils.Letters.Item.Equip.Complete>{ViewerName} equipped {WeaponName}.</TKUtils.Letters.Item.Equip.Complete>
+    <TKUtils.Letters.Item.Equip.Unequippable>{ViewerName} attempted to equip {WeaponName}, but their pawn isn't capable of equipping it, so it was spawned nearby instead.</TKUtils.Letters.Item.Equip.Unequippable>
+
+    <TKUtils.Responses.Item.Wear>Your pawn put on {ApparelName}.</TKUtils.Responses.Item.Wear>
+    <TKUtils.Letters.Item.Wear.Title>Wear</TKUtils.Letters.Item.Wear.Title>
+    <TKUtils.Letters.Item.Wear.Complete>{ViewerName} put on {ApparelName}.</TKUtils.Letters.Item.Wear.Complete>
+
+    <TKUtils.Responses.Item.Wear.Locked>One or more locked apparel prevented your pawn from wearing {ApparelName}, so it was placed in your backpack or spawned nearby.</TKUtils.Responses.Item.Wear.Locked>
+    <TKUtils.Letters.Item.Wear.Locked>{ViewerName} tried to put on {ApparelName}, but their pawn contained one or more locked articles of clothing, so it was placed in their backpack or spawned nearby.</TKUtils.Letters.Item.Wear.Locked>
+
+    <TKUtils.Responses.Item.Wear.NoParts>Your pawn doesn't have the body parts to wear {ApparelName}, so it was placed in your backpack or spawned nearby.</TKUtils.Responses.Item.Wear.NoParts>
+    <TKUtils.Letters.Item.Wear.NoParts>{ViewerName} tried to put on {ApparelName}, but their pawn doesn't have the body parts required to wear it, so it was placed in their backpack or spawned nearby.</TKUtils.Letters.Item.Wear.NoParts>
+
+    <TKUtils.Responses.Item.Wear.Unequippable>Your pawn isn't capable of wearing {ApparelName}, so it was placed in your backpack or spawned nearby.</TKUtils.Responses.Item.Wear.Unequippable>
+    <TKUtils.Letters.Item.Wear.Unequippable>{ViewerName} tried to put on {ApparelName}, but their pawn isn't capable of wearing it, so it was placed in their backpack or spawned nearby.</TKUtils.Letters.Item.Wear.Unequippable>
+
+    <TKUtils.Responses.Item.ItemPurchase>You purchased x{Amount} {ItemName} for {TotalCost} coins.</TKUtils.Responses.Item.ItemPurchase>
+    <TKUtils.Responses.Item.WearPurchase>You put a {ItemName} on your pawn for {TotalCost} coins.</TKUtils.Responses.Item.WearPurchase>
+    <TKUtils.Responses.Item.EquipPurchase>You armed your pawn with a {ItemName} for {TotalCost} coins.</TKUtils.Responses.Item.EquipPurchase>
+    <TKUtils.Responses.Item.UsePurchase>Your pawn used x{Amount} {ItemName} for {TotalCost} coins.</TKUtils.Responses.Item.UsePurchase>
+
+    <TKUtils.Letters.Item.ItemPurchase.Body>{ViewerName} purchased x{Amount} {ItemName}</TKUtils.Letters.Item.ItemPurchase.Body>
+</LanguageData>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Responses.Heal.Full.Self>You've healed a total of {TotalAfflictions} afflictions from your pawn.</TKUtils.Responses.Heal.Full.Self>
+    <TKUtils.Responses.Heal.Full.Other>{ViewerName}’s been fully healed of {TotalAfflictions} afflictions.</TKUtils.Responses.Heal.Full.Other>
+    <TKUtils.Responses.Heal.Self>You've healed from "{AfflictionName}."</TKUtils.Responses.Heal.Self>
+    <TKUtils.Responses.Heal.Other>{ViewerName} has healed from "{AfflictionName}."</TKUtils.Responses.Heal.Other>
+    <TKUtils.Responses.Heal.Colony>You've healed {TotalColonists} colonists of one affliction.</TKUtils.Responses.Heal.Colony>
+</LanguageData>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>pawn stats</label>
+        <defName>TKU_PawnStats</defName>
+        <description>Retrieves a pawn’s stat(s).</description>
+        <interactionClass>ToolkitUtils.Interactions.Pawn</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

@@ -1,119 +1,106 @@
-﻿// ToolkitUtils
-// Copyright (C) 2021  SirRandoo
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// This file is part of ToolkitUtils.
 // 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Patches. If not, see <https://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Entities;
-using SirRandoo.CommonLib.Helpers;
-using SirRandoo.CommonLib.Interfaces;
 using ToolkitCore;
+using ToolkitUtils.Api;
 using TwitchLib.Client.Models;
 using Verse;
+using Logger = NLog.Logger;
 
-namespace ToolkitUtils.Patches
+namespace ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for breaking chat messages sent by the mod, or addons, into chunks if it'd exceed the message
+///     limit.
+/// </summary>
+/// <inheritdoc cref="DisablerPatch" path="/remarks[@id='patch']" />
+[HarmonyPatch]
+[UsedImplicitly(targetFlags: ImplicitUseTargetFlags.WithMembers)]
+internal static class SendChatMessagePatch
 {
-    /// <summary>
-    ///     A Harmony patch for breaking chat messages sent by the mod, or
-    ///     addons, into chunks if it'd exceed the message limit.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class SendChatMessagePatch
+    private const int MessageLimit = 500;
+    private static readonly Logger Logger = ToolkitLogManager.GetLogger(typeof(SendChatMessagePatch));
+
+    [UsedImplicitly]
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private const int MessageLimit = 500;
-        private static readonly IRimLogger Logger = new RimLogger("TKU.Patches.SendChatMessage");
+        yield return AccessTools.Method(typeof(TwitchWrapper), nameof(TwitchWrapper.SendChatMessage));
+    }
 
-        private static IEnumerable<MethodBase> TargetMethods()
+    [UsedImplicitly]
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null) return null;
+
+        Logger.Error(exception, message: "Could not apply patch for 'long message splitting' :: Expect commands to be unresponsive when the message is too large.");
+
+        return null;
+    }
+
+    [UsedImplicitly]
+    private static bool Prefix(string? message)
+    {
+        if (message.NullOrEmpty()) return false;
+
+        message = message!.Replace(oldValue: "@", newValue: "");
+        JoinedChannel channel = TwitchWrapper.Client.GetJoinedChannel(channel: ToolkitCoreSettings.channel_username);
+
+        foreach (string segment in SplitMessages(message: message)) TwitchWrapper.Client.SendMessage(channel, segment);
+
+        return false;
+    }
+
+    private static IEnumerable<string> SplitMessages(string message)
+    {
+        if (message.Length < MessageLimit)
         {
-            yield return AccessTools.Method(typeof(TwitchWrapper), nameof(TwitchWrapper.SendChatMessage));
+            yield return message.StripTags();
+
+            yield break;
         }
 
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
+        string[] words = message.StripTags().Split([' ',], StringSplitOptions.RemoveEmptyEntries);
+        var builder = new StringBuilder();
+        var chars = 0;
+
+        foreach (string word in words)
         {
-            if (exception == null)
+            if (chars + word.Length <= MessageLimit - 3)
             {
-                return null;
+                builder.Append($"{word} ");
+                chars += word.Length + 1;
             }
+            else
+            {
+                builder.Append(value: "...");
 
-            Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
-            return null;
+                yield return builder.ToString();
+                builder.Clear();
+                chars = 0;
+            }
         }
 
-        private static bool Prefix(string message)
-        {
-            if (message.NullOrEmpty())
-            {
-                return false;
-            }
+        if (builder.Length <= 0) yield break;
 
-            message = message.Replace("@", "");
-            JoinedChannel channel = TwitchWrapper.Client.GetJoinedChannel(ToolkitCoreSettings.channel_username);
-
-            foreach (string segment in SplitMessages(message))
-            {
-                TwitchWrapper.Client.SendMessage(channel, segment);
-            }
-
-            return false;
-        }
-
-        [ItemNotNull]
-        private static IEnumerable<string> SplitMessages([NotNull] string message)
-        {
-            if (message.Length < MessageLimit)
-            {
-                yield return RichTextHelper.StripTags(message);
-
-                yield break;
-            }
-
-            string[] words = RichTextHelper.StripTags(message).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var builder = new StringBuilder();
-            var chars = 0;
-
-            foreach (string word in words)
-            {
-                if (chars + word.Length <= MessageLimit - 3)
-                {
-                    builder.Append($"{word} ");
-                    chars += word.Length + 1;
-                }
-                else
-                {
-                    builder.Append("...");
-
-                    yield return builder.ToString();
-                    builder.Clear();
-                    chars = 0;
-                }
-            }
-
-            if (builder.Length <= 0)
-            {
-                yield break;
-            }
-
-            yield return builder.ToString();
-            builder.Clear();
-        }
+        yield return builder.ToString();
+        builder.Clear();
     }
 }

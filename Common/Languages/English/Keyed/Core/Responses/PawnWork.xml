@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <TKUtils.Responses.PawnWork.NoWorkSummary>Your pawn is incapable of work.</TKUtils.Responses.PawnWork.NoWorkSummary>
+    <TKUtils.Responses.PawnWork.WorkSummaryResponse>[Pawn Work] {Summary}</TKUtils.Responses.PawnWork.WorkSummaryResponse>
+    <TKUtils.Responses.PawnWork.PrioritiesChanged>The following work priorities have been changed: {0}</TKUtils.Responses.PawnWork.PrioritiesChanged>
+</LanguageData>

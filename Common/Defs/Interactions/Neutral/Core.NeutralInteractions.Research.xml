@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>research</label>
+        <defName>TKU_Research</defName>
+        <interactionClass>ToolkitUtils.Interactions.Research</interactionClass>
+        <description>Retrieves information about the colony’s research endeavors.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

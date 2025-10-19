@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.Build.NoTargets/3.7.56">
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="../../LICENSE"/>
+        <Content Include="../../README.md"/>
+        <Content Include="../../LoadFolders.xml"/>
+        <Content Include="../../About/**/*" LinkBase="About"/>
+        <Content Include="../../Common/**/*" LinkBase="Common"/>
+        <Content Update="../../Common/Languages/English/Keyed/Core.UX.CoreSettingsDialog.xml">
+            <Link>Common/Languages/English/Keyed/Core.UX.CoreSettingsDialog.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core.UX.Titles.xml">
+            <Link>Common/Languages/English/Keyed/Core.UX.Titles.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core.UX.UtilsSettingsDialog.xml">
+            <Link>Common/Languages/English/Keyed/Core.UX.UtilsSettingsDialog.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/TMagic.Responses.AbilityLevel.xml">
+            <Link>Common/Languages/English/Keyed/TMagic.Responses.AbilityLevel.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/TMagic.Responses.Class.xml">
+            <Link>Common/Languages/English/Keyed/TMagic.Responses.Class.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core.Responses.Dye.xml">
+            <Link>Common/Languages/English/Keyed/Core.Responses.Dye.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Ideology.Responses.Dye.xml">
+            <Link>Common/Languages/English/Keyed/Ideology/Ideology.Responses.Dye.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Ideology.Responses.Dye.xml">
+            <LinkBase>Common/</LinkBase>
+            <Link>Common/Languages/English/Keyed/Ideology/Ideology.Responses.Dye.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Ideology.Responses.Dye.xml">
+            <LinkBase>Common/</LinkBase>
+            <Link>Common/Languages/English/Keyed/Ideology/Ideology.Responses.Dye.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core/Responses/Core.Responses.PawnWork.xml">
+            <Link>Common/Languages/English/Keyed/Core/Responses/Core.Responses.PawnWork.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core/Letters/Core.Letters.Passion.xml">
+            <Link>Common/Languages/English/Keyed/Core/Letters/Core.Letters.Passion.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core/Responses/Core.Responses.Passion.xml">
+            <Link>Common/Languages/English/Keyed/Core/Responses/Core.Responses.Passion.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core/Letters/Core.Letters.GenderSwap.xml">
+            <Link>Common/Languages/English/Keyed/Core/Letters/Core.Letters.GenderSwap.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core/Responses/Core.Responses.GenderSwap.xml">
+            <Link>Common/Languages/English/Keyed/Core/Responses/Core.Responses.GenderSwap.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core/Letters/Core.Letters.Trait.xml">
+            <Link>Common/Languages/English/Keyed/Core/Letters/Core.Letters.Trait.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core/Responses/Core.Responses.Trait.xml">
+            <Link>Common/Languages/English/Keyed/Core/Responses/Core.Responses.Trait.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Magic/Trait.xml">
+            <Link>Common/Languages/English/Keyed/Magic/Trait.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Magic/Leave.xml">
+            <Link>Common/Languages/English/Keyed/Magic/Leave.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core/Responses/Item.xml">
+            <Link>Common/Languages/English/Keyed/Core/Responses/Item.xml</Link>
+        </Content>
+        <Content Update="../../Common/Languages/English/Keyed/Core/Responses/Backstory.xml">
+            <Link>Common/Languages/English/Keyed/Core/Responses/Backstory.xml</Link>
+        </Content>
+        <Content Update="..\..\Common\Languages\English\Keyed\Core\Responses\RandomInspire.xml">
+            <Link>Common\Languages\English\Keyed\Core\Responses\RandomInspire.xml</Link>
+        </Content>
+        <Content Update="..\..\Common\Languages\English\Keyed\Core\Responses\Sanctuary.xml">
+            <Link>Common\Languages\English\Keyed\Core\Responses\Sanctuary.xml</Link>
+        </Content>
+    </ItemGroup>
+</Project>

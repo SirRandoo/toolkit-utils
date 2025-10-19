@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>unstick</label>
+        <defName>TKU_Unstick</defName>
+        <description>Removes a viewer from pause limbo.</description>
+        <interactionClass>ToolkitUtils.Interactions.Unstick</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!--
+    This error is sent when a viewer attempts to leave the colony when their pawn is an undead
+    colonist that was raised by a Necromancer from A RimWorld of Magic. Undead thralls are bound
+    to the Necromancer that summoned them, which may cause undefined behavior if they were allowed
+    to leave the colony.
+    -->
+    <TKUtils.Errors.PawnLeave.Necromancer>You're not allowed to lave the colony while your soul is controlled by a Necromancer.</TKUtils.Errors.PawnLeave.Necromancer>
+</LanguageData>

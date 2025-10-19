@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Responses.EchoProtocol.Complete>A faint echo is heard in the distance.</TKUtils.Responses.EchoProtocol.Complete>
+
+    <TKUtils.Letters.EchoProtocol.Title>Echo Protocol Initiated</TKUtils.Letters.EchoProtocol.Title>
+    <TKUtils.Letters.EchoProtocol.Body>A subtle shift passes through the region—barely perceptible, yet undeniable. The temperature drops without wind, the light softens without cloud, and an uncanny stillness blankets the land.
+
+        Colonists report inexplicable relief from chronic pain, closed wounds without treatment, and dreams not their own—visions of a place bathed in impossible light and silence.
+
+        No signal was sent. No device detected. Yet the signature resembles a degraded instance of the Sanctuary Protocol: a fragmented response, likely triggered by local conditions.
+
+        Its purpose is unclear. Its origin, older than memory.
+
+        This is not salvation. It is only an echo.
+    </TKUtils.Letters.EchoProtocol.Body>
+</LanguageData>

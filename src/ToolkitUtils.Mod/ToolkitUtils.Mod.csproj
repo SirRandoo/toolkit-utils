@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <!-- NuGet packages -->
+    <ItemGroup>
+        <PackageReference Include="NLog"/>
+        <PackageReference Include="PolySharp"/>
+        <PackageReference Include="FormatWith"/>
+        <PackageReference Include="RestSharp" />
+        <PackageReference Include="Lib.Harmony"/>
+        <PackageReference Include="Samboy063.Tomlet"/>
+        <PackageReference Include="ConcurrentHashSet"/>
+        <PackageReference Include="Krafs.Rimworld.Ref"/>
+        <PackageReference Include="NetEscapades.EnumGenerators"/>
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Presentation\Drawers\TableDrawer.Builder.cs">
+            <DependentUpon>TableDrawer.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Services\GatewayService.cs">
+            <DependentUpon>IGatewayService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Services\ClassicKarmaService.cs">
+            <DependentUpon>IKarmaService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Services\MomentumKarmaService.cs">
+            <DependentUpon>IKarmaService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Services\NoOpResurrectionService.cs">
+            <DependentUpon>IResurrectionService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Services\NoOpGatewayService.cs">
+            <DependentUpon>IGatewayService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Services\ResurrectionService.cs">
+            <DependentUpon>IResurrectionService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Services\SpawnService.cs">
+            <DependentUpon>ISpawnService.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serialization\JsonDataSerializer.cs">
+            <DependentUpon>IDataSerializer.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Serialization\TomlDataSerializer.cs">
+            <DependentUpon>IDataSerializer.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Messaging\InvalidateTranslationCacheEventArgs.cs">
+            <DependentUpon>GlobalEventSystem.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+</Project>

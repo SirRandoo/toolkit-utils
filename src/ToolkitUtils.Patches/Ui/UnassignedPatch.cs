@@ -1,130 +1,119 @@
-﻿// ToolkitUtils
-// Copyright (C) 2021  SirRandoo
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// This file is part of ToolkitUtils.
 // 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Patches. If not, see <https://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Entities;
-using SirRandoo.CommonLib.Interfaces;
+using NLog;
+using ToolkitUtils.Api;
 using TwitchToolkit.PawnQueue;
 using TwitchToolkit.Windows;
 using Verse;
 
-namespace ToolkitUtils.Patches
+namespace ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for removing a viewer's name from a pawn when the streamer unassigns their pawn from the
+///     viewers dialog.
+/// </summary>
+/// <remarks>
+///     Prior to this, Utils would automatically reassign the pawn to the viewer as the pawn was still named after the
+///     viewer.
+/// </remarks>
+[HarmonyPatch]
+[SuppressMessage(category: "csharpsquid", checkId: "S1144")]
+[SuppressMessage(category: "csharpsquid", checkId: "S3400")]
+[SuppressMessage(category: "ReSharper", checkId: "UnusedType.Global")]
+[SuppressMessage(category: "ReSharper", checkId: "InconsistentNaming")]
+internal static class UnassignedPatch
 {
-    /// <summary>
-    ///     A Harmony patch for removing a viewer's name from a pawn when the
-    ///     streamer unassigns their pawn from the viewers dialog.
-    /// </summary>
-    /// <remarks>
-    ///     Prior to this, Utils would automatically reassign the pawn to the
-    ///     viewer as the pawn was still named after the viewer.
-    /// </remarks>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class UnassignedPatch
+    private static readonly Logger Logger = ToolkitLogManager.GetLogger(typeof(UnassignedPatch));
+
+    private static readonly MethodInfo _pawnHistoryRemove = AccessTools.Method(typeof(Dictionary<string, Pawn>), nameof(Dictionary<string, Pawn>.Remove), [typeof(string),]);
+
+    private static readonly FieldInfo _pawnHistoryField = AccessTools.Field(typeof(GameComponentPawns), nameof(GameComponentPawns.pawnHistory));
+    private static readonly MethodInfo _renameAndRemoveMethod = AccessTools.Method(typeof(UnassignedPatch), nameof(RenameAndRemove));
+    private static readonly FieldInfo _viewerComponentField = AccessTools.Field(typeof(Window_Viewers), name: "component");
+
+    private static readonly MethodInfo ViewerWindowContentsMethod = AccessTools.Method(typeof(Window_Viewers), nameof(Window_Viewers.DoWindowContents));
+
+    [UsedImplicitly]
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static readonly IRimLogger Logger = new RimLogger("TKU.Patches.Unassigned");
-        private static MethodInfo _pawnHistoryRemove;
-        private static FieldInfo _pawnHistoryField;
-        private static MethodInfo _renameAndRemoveMethod;
-        private static FieldInfo _viewerComponentField;
+        yield return ViewerWindowContentsMethod;
+    }
 
-        private static IEnumerable<MethodBase> TargetMethods()
-        {
-            yield return AccessTools.Method(typeof(Window_Viewers), nameof(Window_Viewers.DoWindowContents));
-        }
+    [UsedImplicitly]
+    private static Exception? Cleanup(MethodBase original, Exception? exception = null)
+    {
+        if (exception == null) return null;
 
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
+        Logger.Error(
+            exception,
+            message: "Could not patch {Method} :: Unassigned pawns will still have the viewer's name, which will cause the pawn to be reassigned to the viewer",
+            original.FullDescription()
+        );
+
+        return null;
+    }
+
+    [UsedImplicitly]
+    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        var methodFound = false;
+        var componentFound = false;
+
+        foreach (CodeInstruction instruction in instructions)
         {
-            if (exception == null)
+            if (instruction.Is(OpCodes.Ldfld, _viewerComponentField)) componentFound = true;
+
+            if (instruction.Is(OpCodes.Ldfld, _pawnHistoryField) && componentFound)
             {
-                return null;
+                instruction.opcode = OpCodes.Nop;
+                componentFound = false;
             }
 
-            Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
-            return null;
-        }
-
-        private static bool Prepare()
-        {
-            _viewerComponentField = AccessTools.Field(typeof(Window_Viewers), "component");
-            _renameAndRemoveMethod = AccessTools.Method(typeof(UnassignedPatch), nameof(RenameAndRemove));
-            _pawnHistoryField = AccessTools.Field(typeof(GameComponentPawns), nameof(GameComponentPawns.pawnHistory));
-            _pawnHistoryRemove = AccessTools.Method(typeof(Dictionary<string, Pawn>), nameof(Dictionary<string, Pawn>.Remove), new[] { typeof(string) });
-
-            return true;
-        }
-
-        [ItemNotNull]
-        private static IEnumerable<CodeInstruction> Transpiler([NotNull] IEnumerable<CodeInstruction> instructions)
-        {
-            var methodFound = false;
-            var componentFound = false;
-
-            foreach (CodeInstruction instruction in instructions)
+            if (instruction.Is(OpCodes.Callvirt, _pawnHistoryRemove))
             {
-                if (instruction.Is(OpCodes.Ldfld, _viewerComponentField))
-                {
-                    componentFound = true;
-                }
-
-                if (instruction.Is(OpCodes.Ldfld, _pawnHistoryField) && componentFound)
-                {
-                    instruction.opcode = OpCodes.Nop;
-                    componentFound = false;
-                }
-
-                if (instruction.Is(OpCodes.Callvirt, _pawnHistoryRemove))
-                {
-                    instruction.operand = _renameAndRemoveMethod;
-                    methodFound = true;
-                }
-
-                if (instruction.opcode == OpCodes.Pop && methodFound)
-                {
-                    instruction.opcode = OpCodes.Nop;
-                    methodFound = false;
-                }
-
-                yield return instruction;
-            }
-        }
-
-        [UsedImplicitly]
-        private static void RenameAndRemove([CanBeNull] GameComponentPawns component, [CanBeNull] string username)
-        {
-            if (username == null || component == null)
-            {
-                return;
+                instruction.operand = _renameAndRemoveMethod;
+                methodFound = true;
             }
 
-            Pawn pawn = component.PawnAssignedToUser(username);
-
-            if (pawn?.Name is NameTriple name)
+            if (instruction.opcode == OpCodes.Pop && methodFound)
             {
-                pawn.Name = new NameTriple(name.First, name.Last, name.Last);
+                instruction.opcode = OpCodes.Nop;
+                methodFound = false;
             }
 
-            component.pawnHistory.Remove(username);
+            yield return instruction;
         }
+    }
+
+    [UsedImplicitly]
+    private static void RenameAndRemove(GameComponentPawns? component, string? username)
+    {
+        if (username == null || component == null) return;
+
+        Pawn pawn = component.PawnAssignedToUser(username);
+
+        if (pawn?.Name is NameTriple name) pawn.Name = new NameTriple(name.First, name.Last, name.Last);
+
+        component.pawnHistory.Remove(username);
     }
 }

@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef Name="BadInteractionDef" Abstract="true">
+        <karmaTypeString>bad</karmaTypeString>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>5</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="LesserBadInteractionDef" Abstract="true" ParentName="BadInteractionDef">
+        <cost>150</cost>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="MinorBadInteractionDef" Abstract="true" ParentName="BadInteractionDef">
+        <cost>300</cost>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="ModerateBadInteractionDef" Abstract="true" ParentName="BadInteractionDef">
+        <cost>600</cost>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>4</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="GreaterBadInteractionDef" Abstract="true" ParentName="BadInteractionDef">
+        <cost>1200</cost>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>3</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="SuperiorBadInteractionDef" Abstract="true" ParentName="BadInteractionDef">
+        <cost>6000</cost>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>2</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="PowerfulBadInteractionDef" Abstract="true" ParentName="BadInteractionDef">
+        <cost>12000</cost>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>2</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="UltimateBadInteractionDef" Abstract="true" ParentName="BadInteractionDef">
+        <cost>24000</cost>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>2</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="SupremeBadInteractionDef" Abstract="true" ParentName="BadInteractionDef">
+        <cost>48000</cost>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>1</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="TranscendentBadInteractionDef" Abstract="true" ParentName="BadInteractionDef">
+        <cost>96000</cost>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>1</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

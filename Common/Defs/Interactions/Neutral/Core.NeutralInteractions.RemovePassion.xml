@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="GreaterNeutralInteractionDef">
+        <label>remove passion</label>
+        <defName>TKU_RemovePassion</defName>
+        <interactionClass>ToolkitUtils.Interactions.Passion</interactionClass>
+        <description>Removes one or more passions from a pawn using chat’s chaos magic.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>pawn ability level</label>
+        <defName>TKU_Magic_PawnAbilityLevel</defName>
+        <description>Instructs a pawn to allocate an ability point to an ability.</description>
+        <interactionClass>ToolkitUtils.Plugins.TMagic.Interactions.PawnAbilityLevel</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

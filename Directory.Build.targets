@@ -1,14 +1,42 @@
-﻿<Project>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <OutputPath Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)</OutputPath>
-        <OutputPath Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)\$(CompatibilityFor)\$(RimWorldVersion)\Assemblies</OutputPath>
-        <OutDir Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)\</OutDir>
-        <OutDir Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)\$(CompatibilityFor)\$(RimWorldVersion)\Assemblies\</OutDir>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <OutputPath Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)</OutputPath>
-        <OutputPath Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)\$(CompatibilityFor)\$(RimWorldVersion)\Assemblies</OutputPath>
-        <OutDir Condition=" '$(CompatibilityFor)' == '' ">$(_OutputDirectory)\</OutDir>
-        <OutDir Condition=" '$(CompatibilityFor)' != '' ">$(_CompatibilityOutputDirectory)\$(CompatibilityFor)\$(RimWorldVersion)\Assemblies\</OutDir>
-    </PropertyGroup>
+﻿<Project InitialTargets="DetermineIfPlugin">
+    <Target Name="DetermineIfPlugin" BeforeTargets="FindRimWorldVersion">
+        <PropertyGroup>
+            <_PluginPrefix>$(SolutionName).Plugin.</_PluginPrefix>
+            <_PaddedPluginPrefix>_$(PluginPrefix)</_PaddedPluginPrefix>
+            <_IsPlugin>$(MSBuildProjectName.Contains('Plugin'))</_IsPlugin>
+            <_PluginName Condition="$(_IsPlugin)">$(MSBuildProjectName.Substring($(PaddedPluginPrefix.Length)))</_PluginName>
+        </PropertyGroup>
+
+        <Message Text="Building plugin '$(_PluginName)'" Importance="high" Condition="$(_IsPlugin)"/>
+        <Message Text="Building core component of $(SolutionName)" Importance="high" Condition="!$(_IsPlugin)"/>
+    </Target>
+
+    <Target Name="FindRimWorldVersion" AfterTargets="DetermineIfPlugin">
+        <ItemGroup>
+            <FilteredPackageName Include="@(PackageVersion)" Condition="'%(Identity)' == 'Krafs.Rimworld.Ref'"/>
+        </ItemGroup>
+
+        <PropertyGroup>
+            <RimWorldVersion>%(FilteredPackageName.Version)</RimWorldVersion>
+            <RimWorldVersionMajorMinor>$([System.Version]::Parse('$(RimWorldVersion)').ToString(2))</RimWorldVersionMajorMinor>
+        </PropertyGroup>
+
+        <Message Text="Building $(SolutionName) v$(Version) against RimWorld v$(RimWorldVersion)" Importance="high"/>
+    </Target>
+
+    <Target Name="ModifyOutputPath" AfterTargets="FindRimWorldVersion">
+        <PropertyGroup>
+            <_ReleasesDir>..\..\Releases</_ReleasesDir>
+        </PropertyGroup>
+
+        <PropertyGroup Condition="$(_IsPlugin)">
+            <OutputPath>$(_ReleasesDir)\$(PluginName)\$(RimWorldVersionMajorMinor)\Assemblies\</OutputPath>
+        </PropertyGroup>
+
+        <PropertyGroup Condition="!$(_IsPlugin)">
+            <OutputPath>$(_ReleasesDir)\Core\$(RimWorldVersionMajorMinor)\Assemblies\</OutputPath>
+        </PropertyGroup>
+
+        <Message Text="Modified output path to: $(OutputPath)" Importance="high"/>
+    </Target>
 </Project>

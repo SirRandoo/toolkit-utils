@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <GameConditionDef>
+        <label>Sanctuary Protocol</label>
+        <defName>SanctuaryProtocol</defName>
+        <letterDef>PositiveEvent</letterDef>
+        <conditionClass>SirRandoo.ToolkitUtils.SanctuaryProtocolGameCondition</conditionClass>
+        <description>&lt;i&gt;“When the world shudders and the void stirs, the Protocol awakens.”&lt;/i&gt;
+
+            An ancient archotech failsafe — a machine whose origin predates written memory — has activated in response to unimaginable tragedy. Throughout the world, pockets of serenity blossom: poisoned land becomes fertile, broken minds find clarity, the dead stir in memory.
+
+            Colonists whisper of a machine buried deep within the crust, a miracle engine of peace and recursion. Some call it salvation. Others call it a cage. The skies above ripple faintly, and psychic noise forms faint whispers at the edge of hearing.
+
+            The Sanctuary Protocol brings restoration — but it is not mercy. It is containment.
+
+            What will your people do with this revelation? • "Follow the Miracle across the land, seeking answers at hot spots and cold scars." • "Unravel the Seal, and risk what was kept behind it." • "Preserve the Machine, and protect peace… at any cost."
+
+            Your ideology shapes your perception. Your pawns will begin to dream. The world will start to change.
+        </description>
+        <startMessage>The Machines Stirs Again.</startMessage>
+        <endMessage>Protocol Terminated. Consequences Unknown.</endMessage>
+    </GameConditionDef>
+
+    <GameConditionDef>
+        <label>Echo Protocol</label>
+        <defName>EchoProtocol</defName>
+        <letterDef>PositiveEvent</letterDef>
+        <conditionClass>SirRandoo.ToolkitUtils.EchoProtocolGameCondition</conditionClass>
+        <description>A ghost of the past. A lesser flicker of the miracle system stirs—a faded echo, barely enough to hold back entropy. It does not remember why it intervenes, only that it must.
+
+            Colonists speak of warmth without fire, wounds closing as if time reversed itself, and a strange calm pressing down on the land. Animals gather quietly, predators cease their hunt, and even the most hardened raiders hesitate—if only for a breath.
+
+            This protocol is not the full sanctuary. It is a frayed process running long after its purpose was lost—triggered by localized suffering, triggered by unknown thresholds.
+
+            Some say these echoes are test pulses, remnants of a broken system still reaching out. Others believe they are warnings.
+        </description>
+        <startMessage>Something watches... and intervenes.</startMessage>
+        <endMessage>The flicker fades to silence.</endMessage>
+    </GameConditionDef>
+</Defs>

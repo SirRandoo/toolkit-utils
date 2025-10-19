@@ -1,142 +1,117 @@
-﻿// ToolkitUtils.Ideology
-// Copyright (C) 2021  SirRandoo
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// This file is part of ToolkitUtils.
 // 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Ideology. If not, see <https://www.gnu.org/licenses/>.
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Remora.Commands.Attributes;
+using Remora.Commands.Groups;
 using RimWorld;
-using ToolkitCore.Utilities;
-using ToolkitUtils.Helpers;
-using ToolkitUtils.Utils;
-using TwitchLib.Client.Models.Interfaces;
+using ToolkitUtils.Api.Wrappers;
+using ToolkitUtils.Core;
+using ToolkitUtils.Mod;
+using ToolkitUtils.Mod.Extensions;
+using ToolkitUtils.Mod.Localization;
 using UnityEngine;
 using Verse;
 
-namespace ToolkitUtils.Ideology.Commands
+namespace ToolkitUtils.Ideology.Commands;
+
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+public sealed class Dye(ExecutionContext context, TranslationService translationService) : CommandGroup
 {
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    public class Dye : CommandBase
+    /// <summary>Changes the color of apparel items for a specific pawn based on the given dye targets.</summary>
+    /// <param name="dyeTargets">An array of strings representing the apparel items and their respective colors to dye.</param>
+    /// <returns>A task returning an <see cref="Remora.Results.IResult" /> indicating the success or failure of the operation.</returns>
+    [Command("dye")]
+    public async Task<Result> DyeApparelAsync(params string[] dyeTargets)
     {
-        private string _invoker;
-        private Pawn _pawn;
+        Pawn? pawn = ViewerPawnRegistry.Get(context.Invoker.Id);
 
-        public override void RunCommand([NotNull] ITwitchMessage message)
+        if (pawn == null) return Result.Fail(translationService.GetPawnRequiredError(context.Invoker));
+
+        List<DyeTarget> targets = await ParseColorsAsync(pawn, dyeTargets);
+
+        for (var index = 0; index < targets.Count; index++)
         {
-            _invoker = message.Username;
+            DyeTarget? target = targets[index];
 
-            if (!PurchaseHelper.TryGetPawn(message.Username, out _pawn))
-            {
-                message.Reply("TKUtils.NoPawn".TranslateSimple());
+            if (target == null) continue;
 
-                return;
-            }
-
-            string hexcode = CommandFilter.Parse(message.Message).Skip(1).FirstOrDefault();
-            List<KeyValuePair<string, string>> apparelPairs = CommandParser.ParseKeyed(message.Message);
-
-            if (!apparelPairs.NullOrEmpty())
-            {
-                CommandRouter.MainThreadCommands.Enqueue(() => DyeApparel(apparelPairs));
-
-                return;
-            }
-
-            if (hexcode.NullOrEmpty())
-            {
-                CommandRouter.MainThreadCommands.Enqueue(() => DyeAll(null));
-
-                return;
-            }
-
-            string s = hexcode!.ToToolkit();
-
-            if (!Data.ColorIndex.TryGetValue(s, out Color color) && !ColorUtility.TryParseHtmlString(s, out color))
-            {
-                message.Reply("TKUtils.NotAColor".Translate(s));
-
-                return;
-            }
-
-            CommandRouter.MainThreadCommands.Enqueue(() => DyeAll(new Color(color.r, color.g, color.b, 1f)));
+            await MainThreadExtensions.OnMainAsync(DyeApparel, target.Apparel, target.Color);
         }
 
-        private void DyeApparel([NotNull] IEnumerable<KeyValuePair<string, string>> pairs)
-        {
-            List<Apparel> apparel = _pawn.apparel.WornApparel;
-
-            foreach (KeyValuePair<string, string> pair in pairs)
-            {
-                string nameOrDef = pair.Key;
-                string colorCode = pair.Value;
-
-                string colorCodeTransformed = colorCode.ToToolkit();
-
-                Color? color;
-
-                if (colorCode.NullOrEmpty())
-                {
-                    color = _pawn.story.favoriteColor;
-                }
-                else
-                {
-                    if (!Data.ColorIndex.TryGetValue(colorCodeTransformed, out Color color2) && !ColorUtility.TryParseHtmlString(colorCodeTransformed, out color2))
-                    {
-                        MessageHelper.ReplyToUser(_invoker, "TKUtils.NotAColor".Translate(colorCode));
-
-                        return;
-                    }
-
-                    color = new Color(color2.r, color2.g, color2.b, 1f);
-                }
-
-                if (!color.HasValue)
-                {
-                    continue;
-                }
-
-                Apparel item = apparel.Find(
-                    a =>
-                    {
-                        string toolkit = nameOrDef.ToToolkit();
-
-                        return a.def.label.ToToolkit().EqualsIgnoreCase(toolkit) || a.def.defName.EqualsIgnoreCase(toolkit);
-                    }
-                );
-
-                item?.TryGetComp<CompColorable>()?.SetColor(color.Value);
-            }
-
-            MessageHelper.ReplyToUser(_invoker, "TKUtils.Dye.Complete".TranslateSimple());
-        }
-
-        private void DyeAll(Color? color)
-        {
-            color ??= _pawn.story.favoriteColor;
-
-            if (!color.HasValue)
-            {
-                return;
-            }
-
-            foreach (Apparel apparel in _pawn.apparel.WornApparel)
-            {
-                apparel.TryGetComp<CompColorable>()?.SetColor(color.Value);
-            }
-
-            MessageHelper.ReplyToUser(_invoker, "TKUtils.Dye.Complete".TranslateSimple());
-        }
+        return await context.SendReplyAsync(translationService.GetTranslation("TKUtils.Responses.ApparelDyed"));
     }
+
+    private static async Task<List<DyeTarget>> ParseColorsAsync(Pawn? pawn, params string[] dyeTargets)
+    {
+        var container = new List<DyeTarget>();
+
+        if (pawn == null) return [];
+
+        for (var index = 0; index < dyeTargets.Length; index++)
+        {
+            string argument = dyeTargets[index];
+            int equalsIndex = argument.IndexOf('=');
+
+            if (argument.IndexOf('=') <= -1) continue;
+
+            string target = argument[..equalsIndex];
+            string color = argument[(equalsIndex + 1)..];
+
+            DyeTarget? dyeTarget = await ParseDyeTargetAsync(pawn, target, color);
+
+            if (dyeTarget == null) continue;
+
+            container.Add(dyeTarget);
+        }
+
+        return container;
+    }
+
+    private static ValueTask<DyeTarget?> ParseDyeTargetAsync(Pawn pawn, string target, string hexColor)
+    {
+        Color? color;
+        List<Apparel?> apparel = pawn.apparel.WornApparel;
+        Apparel? clothing = apparel.Find(a => string.Equals(a!.def.label, target, StringComparison.InvariantCultureIgnoreCase));
+
+        if (clothing is null) return new ValueTask<DyeTarget?>((DyeTarget?)null);
+
+        if (!ColorUtility.TryParseHtmlString(hexColor, out Color parsed))
+            color = null;
+        else
+            color = parsed;
+
+        return new ValueTask<DyeTarget?>(new DyeTarget(color, clothing));
+    }
+
+    private static void DyeApparel(Apparel apparel, Color? color)
+    {
+        if (color.HasValue)
+        {
+            apparel.TryGetComp<CompColorable>()?.SetColor(color.Value);
+
+            return;
+        }
+
+        if (apparel.Wearer?.story.favoriteColor == null) return;
+
+        apparel.TryGetComp<CompColorable>()?.SetColor(apparel.Wearer.story.favoriteColor.color);
+    }
+
+    private sealed record DyeTarget(Color? Color, Apparel Apparel);
 }

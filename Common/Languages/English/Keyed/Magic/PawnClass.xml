@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!--
+    This is a segment of the full response of the pawn class command. This
+    segment's sole responsibility is to display the pawn's current experience,
+    as well as the experience the pawn requires to level up.
+    -->
+    <TKUtils.Responses.PawnClass.Experience>EXP {CurrentLevelExperience}/{LevelExperienceCap}</TKUtils.Responses.PawnClass.Experience>
+
+    <!--
+    This error is sent when a viewer attempts to query information about their pawn's A
+    RimWorld of Magic class, but their pawn doesn't have a valid class.
+    -->
+    <TKUtils.Errors.PawnClass.None>Your pawn doesn't have a class from A RimWorld of Magic.</TKUtils.Errors.PawnClass.None>
+
+    <!--
+    This error is sent when a viewer attempts to query information about their pawn's magic
+    class, or otherwise invoke an interaction that requires their pawn to have a magic class,
+    but the viewer doesn't have a valid class.
+    -->
+    <TKUtils.Errors.PawnClass.NoMagicAffinity>Your pawn doesn't have an affinity for magic.</TKUtils.Errors.PawnClass.NoMagicAffinity>
+
+    <!--
+    This error is sent when a viewer attempts to query information about their pawn's might
+    class, or otherwise invoke an interaction that requires their pawn to have a might class,
+    but the viewer doesn't have a valid might class.
+    -->
+    <TKUtils.Errors.PawnClass.NoMightAffinity>Your pawn doesn't have an affinity for might.</TKUtils.Errors.PawnClass.NoMightAffinity>
+</LanguageData>

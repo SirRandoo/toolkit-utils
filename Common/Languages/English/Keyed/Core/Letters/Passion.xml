@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Letters.Passion.Title>Passion</TKUtils.Letters.Passion.Title>
+
+    <TKUtils.Letters.Passion.Failed.Body>After some deep soul-searching, {ViewerName} couldn't deepen their passion in {SkillName}.</TKUtils.Letters.Passion.Failed.Body>
+    <TKUtils.Letters.Passion.Decrease.Body>After some deep-soul searching, {ViewerName} discovered they hated their job in {SkillName}, and became less passionate about it as a result.</TKUtils.Letters.Passion.Decrease.Body>
+    <TKUtils.Letters.Passion.Increase.Body>After working on {SkillName}, {ViewerName} discovered a new way of doing things that allowed their passion to deepen.</TKUtils.Letters.Passion.Increase.Body>
+    <TKUtils.Letters.Passion.Shuffle.Body>After {ViewerName}'s soul was returned to them from a hungry wraith, they discovered their passions have been dramatically altered.</TKUtils.Letters.Passion.Shuffle.Body>
+</LanguageData>

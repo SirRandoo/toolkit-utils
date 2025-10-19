@@ -1,25 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <OutputPath>..\..\$(RimWorldVersion)\Assemblies</OutputPath>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <OutputPath>..\..\$(RimWorldVersion)\Assemblies\</OutputPath>
-    </PropertyGroup>
+    <!-- NuGet references -->
     <ItemGroup>
-        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" />
+        <PackageReference Include="NLog"/>
+        <PackageReference Include="Krafs.Rimworld.Ref"/>
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref"/>
     </ItemGroup>
     <ItemGroup>
-      <Compile Update="Events\PurchaseHandlerPatch.ResolveVariables.cs">
-        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Events\PurchaseHandlerPatch.ResolveSimple.cs">
-        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Events\PurchaseHandlerPatch.ItemCooldown.cs">
-        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Events\PurchaseHandlerPatch.EventCooldown.cs">
-        <DependentUpon>PurchaseHandlerPatch.cs</DependentUpon>
-      </Compile>
+        <ProjectReference Include="../ToolkitUtils.Api/ToolkitUtils.Api.csproj"/>
+        <ProjectReference Include="../ToolkitUtils.Core/ToolkitUtils.Core.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.Extensions.DependencyInjection">
+            <HintPath>..\Libs\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+        </Reference>
     </ItemGroup>
 </Project>

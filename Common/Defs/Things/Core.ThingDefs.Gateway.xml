@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ThingDef ParentName="BuildingBase">
+        <label>toolkit gateway</label>
+        <defName>ToolkitGateway</defName>
+        <description>A mystical portal that serves as a gateway between different worlds. This technologically advanced structure allows for the controlled passage of items, pawns, and animals. Its ethereal energy field occasionally shimmers, and according to local legends, wandering rats have been known to materialize through its mysterious veil.</description>
+        <thingClass>ToolkitUtils.Mod.Application.Defs.ToolkitGateway</thingClass>
+        <graphicData>
+            <texPath>Things/ToolkitGateway</texPath>
+            <graphicClass>Graphic_Multi</graphicClass>
+            <drawSize>(.7,1.7)</drawSize>
+        </graphicData>
+        <altitudeLayer>Building</altitudeLayer>
+        <statBases>
+            <WorkToBuild>0</WorkToBuild>
+        </statBases>
+        <scatterableOnMapGen>false</scatterableOnMapGen>
+        <tickerType>Long</tickerType>
+        <useHitPoints>false</useHitPoints>
+        <size>(1,1)</size>
+        <designationCategory>Misc</designationCategory>
+        <passability>Standable</passability>
+        <hasInteractionCell>false</hasInteractionCell>
+        <surfaceType>Item</surfaceType>
+        <building>
+            <isInert>true</isInert>
+            <claimable>false</claimable>
+            <canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
+            <ai_chillDestination>false</ai_chillDestination>
+            <ai_neverTrashThis>true</ai_neverTrashThis>
+            <artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+            <canPlaceOverWall>false</canPlaceOverWall>
+            <repairable>false</repairable>
+            <deconstructible>false</deconstructible>
+        </building>
+        <inspectorTabs/>
+    </ThingDef>
+</Defs>

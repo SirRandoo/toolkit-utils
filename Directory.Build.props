@@ -1,85 +1,26 @@
 ﻿<Project>
-    <!-- Language Metadata -->
+    <Import Project="ProductInformation.props" Condition="'$(UsingMicrosoftNoTargetsSdk)' != 'true'"/>
+
+    <!-- Language metadata properties -->
     <PropertyGroup>
-        <LangVersion>8</LangVersion>
+        <Nullable>enable</Nullable>
         <OutputType>Library</OutputType>
+        <LangVersion>preview</LangVersion>
         <TargetFramework>net48</TargetFramework>
     </PropertyGroup>
-    
-    <!-- Assembly Metadata -->
+
+    <!-- Plugin properties -->
     <PropertyGroup>
-        <Authors>SirRandoo</Authors>
-        <Product>ToolkitUtils</Product>
-        <RepositoryType>git</RepositoryType>
-        <InformationalVersion>7.0.0.0-a1</InformationalVersion>
-        <RootNamespace>$(MsBuildProjectName)</RootNamespace>
-        <RepositoryUrl>https://github.com/sirrandoo/toolkit-utils</RepositoryUrl>
-        <Copyright>AGPL3 Copyright (c) $([System.DateTime]::Now.ToString("yyyy")) SirRandoo</Copyright>
+        <PluginPrefix>$(SolutionName).Plugin.</PluginPrefix>
+        <PaddedPluginPrefix>_$(PluginPrefix)</PaddedPluginPrefix>
+        <IsCompatibilityPlugin>$(MSBuildProjectName.Contains('Plugin'))</IsCompatibilityPlugin>
+        <PluginName Condition="$(IsCompatibilityPlugin)">$(MSBuildProjectName.Substring($(PaddedPluginPrefix.Length)))</PluginName>
     </PropertyGroup>
-    
-    <!-- Build Metadata -->
-    <PropertyGroup>
-        <RimWorldVersion>1.4</RimWorldVersion>
-        <AssemblyName>$(MSBuildProjectName)</AssemblyName>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <_OutputDirectory>..\..\$(RimWorldVersion)\Assemblies</_OutputDirectory>
-        <_CompatibilityOutputDirectory>..\..\Compatibility</_CompatibilityOutputDirectory>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    </PropertyGroup>
-    
-    <!-- Workshop Ids -->
-    <PropertyGroup>
-        <ToolkitCoreId>2018368654</ToolkitCoreId>
-        <TwitchToolkitId>1718525787</TwitchToolkitId>
-    </PropertyGroup>
-    
+
     <!-- Steam Paths -->
     <PropertyGroup>
-        <RimWorldWorkshopRoot>C:\Program Files (x86)\Steam\steamapps\workshop\content\294100</RimWorldWorkshopRoot>
-        <TwitchToolkitWorkshopPath>$(RimWorldWorkshopRoot)\$(TwitchToolkitId)\v1.3\Assemblies</TwitchToolkitWorkshopPath>
-        <ToolkitCoreWorkshopPath>$(RimWorldWorkshopRoot)\$(ToolkitCoreId)\Assemblies</ToolkitCoreWorkshopPath>
+        <MainWorkshopRoot>C:/Program Files (x86)/Steam/steamapps/workshop/content/294100</MainWorkshopRoot>
+
+        <RimWorldWorkshopRoot Condition="Exists('$(MainWorkshopRoot)')">$(MainWorkshopRoot)</RimWorldWorkshopRoot>
     </PropertyGroup>
-    
-    <!-- Local dependencies -->
-    <ItemGroup>
-        <Reference Include="TwitchToolkit">
-            <HintPath>$(TwitchToolkitWorkshopPath)\TwitchToolkit.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="ToolkitCore">
-            <HintPath>$(ToolkitCoreWorkshopPath)\ToolkitCore.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="Newtonsoft.Json">
-            <HintPath>$(ToolkitCoreWorkshopPath)\Newtonsoft.Json.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="TwitchLib.Client">
-            <HintPath>$(ToolkitCoreWorkshopPath)\TwitchLib.Client.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="TwitchLib.Client.Enums">
-            <HintPath>$(ToolkitCoreWorkshopPath)\TwitchLib.Client.Enums.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="TwitchLib.Client.Models">
-            <HintPath>$(ToolkitCoreWorkshopPath)\TwitchLib.Client.Models.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="TwitchLib.Communication">
-            <HintPath>$(ToolkitCoreWorkshopPath)\TwitchLib.Communication.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-    </ItemGroup>
-    
-    <!-- NuGet dependencies -->
-    <ItemGroup>
-        <PackageReference Include="0SirRandoo.CommonLib" Version="1.12.1">
-            <ExcludeAssets Condition=" '$(CompatibilityFor)' != '' ">runtime</ExcludeAssets>
-        </PackageReference>
-        <PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />
-        <PackageReference Include="Krafs.Rimworld.Ref" Version="$(RimWorldVersion).*" ExcludeAssets="runtime"/>
-    </ItemGroup>
 </Project>

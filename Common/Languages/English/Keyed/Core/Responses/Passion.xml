@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Responses.Passion.Shuffled>Your passions have been shuffled.</TKUtils.Responses.Passion.Shuffled>
+    <TKUtils.Responses.Passion.Increased>Your passion in {SkillName} as grown.</TKUtils.Responses.Passion.Increased>
+    <TKUtils.Responses.Passion.Failed>Your passion in {SkillName} stayed the same.</TKUtils.Responses.Passion.Failed>
+    <TKUtils.Responses.Passion.Decreased>Your passion in {SkillName} has dwindled.</TKUtils.Responses.Passion.Decreased>
+</LanguageData>

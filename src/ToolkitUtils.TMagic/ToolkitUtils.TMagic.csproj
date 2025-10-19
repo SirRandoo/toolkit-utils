@@ -1,22 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <CompatibilityFor>TMagic</CompatibilityFor>
-    </PropertyGroup>
     <ItemGroup>
         <Reference Include="0JecsTools">
-            <HintPath>$(RimWorldWorkshopRoot)\932008009\1.4\Assemblies\0JecsTools.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)/3524247750/1.6/Assemblies/0JecsTools.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="AbilityUser">
-            <HintPath>$(RimWorldWorkshopRoot)\932008009\1.4\Assemblies\AbilityUser.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)/3524247750/1.6/Assemblies/AbilityUser.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="Remora.Commands">
+            <HintPath>..\Libs\Remora.Commands.dll</HintPath>
+        </Reference>
         <Reference Include="TorannMagic">
-            <HintPath>$(RimWorldWorkshopRoot)\1201382956\v1.4\Assemblies\TorannMagic.dll</HintPath>
+            <HintPath>$(RimWorldWorkshopRoot)/1201382956/v1.6/Assemblies/TorannMagic.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\ToolkitUtils\ToolkitUtils.csproj" Private="false" />
+        <ProjectReference Include="../ToolkitUtils.Api/ToolkitUtils.Api.csproj"/>
+        <ProjectReference Include="../ToolkitUtils.Core/ToolkitUtils.Core.csproj"/>
+        <ProjectReference Include="../ToolkitUtils.Mod/ToolkitUtils.Mod.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Krafs.Rimworld.Ref"/>
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref"/>
     </ItemGroup>
 </Project>

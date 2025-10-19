@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Letters.Trait.Title>Trait</TKUtils.Letters.Trait.Title>
+
+    <TKUtils.Letters.Trait.Added.Body>{ViewerName} added the trait "{TraitName}."</TKUtils.Letters.Trait.Added.Body>
+    <TKUtils.Letters.Trait.Removed.Body>{ViewerName} removed the trait "{TraitName}."</TKUtils.Letters.Trait.Removed.Body>
+    <TKUtils.Letters.Trait.Replaced.Body>{ViewerName} replaced the trait "{OldTraitName}" with "{NewTraitName}."</TKUtils.Letters.Trait.Replaced.Body>
+    <TKUtils.Letters.Trait.Set.Body>{ViewerName} set their traits to: {TraitNames}</TKUtils.Letters.Trait.Set.Body>
+    <TKUtils.Letters.Trait.Cleared.Body>{ViewerName} cleared their traits.</TKUtils.Letters.Trait.Cleared.Body>
+</LanguageData>

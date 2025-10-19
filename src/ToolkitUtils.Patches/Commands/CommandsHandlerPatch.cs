@@ -1,19 +1,18 @@
-﻿// ToolkitUtils
-// Copyright (C) 2021  SirRandoo
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// This file is part of ToolkitUtils.
 // 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Patches. If not, see <https://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -21,160 +20,123 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using JetBrains.Annotations;
-using SirRandoo.CommonLib.Entities;
-using SirRandoo.CommonLib.Interfaces;
+using NLog;
 using ToolkitCore.Utilities;
-using ToolkitUtils.Helpers;
+using ToolkitUtils.Api;
 using TwitchLib.Client.Models.Interfaces;
 using TwitchToolkit;
 using Verse;
 using Command = TwitchToolkit.Command;
 
-namespace ToolkitUtils.Patches
+namespace ToolkitUtils.Patches;
+
+/// <summary>
+///     A Harmony patch for adjusting how Twitch Toolkit's command parsing code is performed. This patch is
+///     responsible for performing case-insensitive comparisons against command names, as well as powering the
+///     <see cref="TkSettings.BuyPrefix" /> code.
+/// </summary>
+[PublicAPI]
+[HarmonyPatch]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+internal static class CommandsHandlerPatch
 {
-    /// <summary>
-    ///     A Harmony patch for adjusting how Twitch Toolkit's command
-    ///     parsing code is performed. This patch is responsible for
-    ///     performing case insensitive comparisons against command names, as
-    ///     well as powering the <see cref="TkSettings.BuyPrefix"/> code.
-    /// </summary>
-    [HarmonyPatch]
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal static class CommandsHandlerPatch
+    private static readonly Logger Logger = ToolkitLogManager.GetLogger(typeof(CommandsHandlerPatch));
+
+    private static IEnumerable<MethodBase> TargetMethods()
     {
-        private static readonly IRimLogger Logger = new RimThreadedLogger("TKU.Patches.CommandHandler");
-    
-        private static IEnumerable<MethodBase> TargetMethods()
+        yield return AccessTools.Method(typeof(CommandsHandler), nameof(CommandsHandler.CheckCommand));
+    }
+
+    private static Exception? Cleanup(MethodBase original, Exception? exception)
+    {
+        if (exception == null) return null;
+
+        Logger.Error(exception, message: "Could not patch {Method} :: A lot of 'shortcut' commands won't work properly", original.FullDescription());
+
+        return null;
+    }
+
+    private static bool Prefix(ITwitchMessage? twitchMessage)
+    {
+        if (twitchMessage?.Message == null) return false;
+
+        Viewer? viewer = Viewers.GetViewer(twitchMessage.Username);
+        viewer.last_seen = DateTime.UtcNow;
+
+        if (viewer.IsBanned) return false;
+
+        string? sanitized = GetCommandString(twitchMessage.Message);
+
+        if (sanitized == null) return false;
+
+        List<string> segments = CommandFilter.Parse(sanitized).ToList();
+        bool text = segments.Any(i => i.EqualsIgnoreCase("--text"));
+
+        if (segments.Count <= 0) return false;
+
+        if (text) segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToList();
+
+        // LocateCommand(segments.ToArray())?.Execute(twitchMessage.SetMessage("!" + CombineSegments(segments).Trim())!, text);
+
+        return false;
+    }
+
+    [SuppressMessage(category: "ReSharper", checkId: "InconsistentNaming")]
+    private static Exception? Finalizer(Exception? __exception)
+    {
+        if (__exception != null) Logger.Error(__exception, message: "Command parser encountered an error");
+
+        return null;
+    }
+
+    private static string CombineSegments(IEnumerable<string> segments)
+    {
+        return string.Join(separator: " ", segments.Select(s => s.Contains(' ') ? s.Replace(oldValue: "\"", newValue: "\\\"") : s).ToArray());
+    }
+
+    private static Command? LocateCommand(string[] query)
+    {
+        foreach (Command commandDef in DefDatabase<Command>.AllDefs.Where(c => c.enabled))
         {
-            yield return AccessTools.Method(typeof(CommandsHandler), nameof(CommandsHandler.CheckCommand));
-        }
-
-        [CanBeNull]
-        private static Exception Cleanup(MethodBase original, [CanBeNull] Exception exception)
-        {
-            if (exception == null)
+            if (commandDef.command.Contains(" "))
             {
-                return null;
-            }
+                int spaces = commandDef.command.Count(c => c.Equals(' '));
+                string joined = string.Join(separator: " ", query.Take(spaces));
 
-            Logger.Error($"Could not patch {original.FullDescription()} -- Things will not work properly!", exception.InnerException ?? exception);
-
-            return null;
-        }
-
-        private static bool Prefix([CanBeNull] ITwitchMessage twitchMessage)
-        {
-            if (!TkSettings.Commands || twitchMessage?.Message == null)
-            {
-                return !TkSettings.Commands;
-            }
-
-            Viewer viewer = Viewers.GetViewer(twitchMessage.Username);
-            viewer.last_seen = DateTime.Now;
-
-            if (viewer.IsBanned)
-            {
-                return false;
-            }
-
-            string sanitized = GetCommandString(twitchMessage.Message);
-
-            if (sanitized == null)
-            {
-                return false;
-            }
-
-            List<string> segments = CommandFilter.Parse(sanitized).ToList();
-            bool text = segments.Any(i => i.EqualsIgnoreCase("--text"));
-
-            if (segments.Count <= 0)
-            {
-                return false;
-            }
-
-            if (text)
-            {
-                segments = segments.Where(i => !i.EqualsIgnoreCase("--text")).ToList();
-            }
-
-            LocateCommand(segments.ToArray())?.Execute(twitchMessage.WithMessage("!" + CombineSegments(segments).Trim())!, text);
-
-            return false;
-        }
-
-        [CanBeNull]
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        private static Exception Finalizer([CanBeNull] Exception __exception)
-        {
-            if (__exception != null)
-            {
-                Logger.Error("Command parser encountered an error", __exception);
-            }
-
-            return null;
-        }
-
-        [NotNull]
-        private static string CombineSegments([NotNull] IEnumerable<string> segments)
-        {
-            return string.Join(" ", segments.Select(s => s.Contains(' ') ? $@"""{s.Replace("\"", "\\\"")}""" : s).ToArray());
-        }
-
-        [CanBeNull]
-        private static Command LocateCommand(string[] query)
-        {
-            foreach (Command commandDef in DefDatabase<Command>.AllDefs.Where(c => c.enabled))
-            {
-                if (commandDef.command.Contains(" "))
-                {
-                    int spaces = commandDef.command.Count(c => c.Equals(' '));
-                    string joined = string.Join(" ", query.Take(spaces));
-
-                    if (!IsCommand(commandDef.command, joined))
-                    {
-                        continue;
-                    }
-
-                    return commandDef;
-                }
-
-                if (!IsCommand(commandDef.command, query.Take(1).First()))
-                {
-                    continue;
-                }
+                if (!IsCommand(commandDef.command, joined)) continue;
 
                 return commandDef;
             }
 
-            return null;
+            if (!IsCommand(commandDef.command, query.Take(1).First())) continue;
+
+            return commandDef;
         }
 
-        private static bool IsCommand(string command, string input)
-        {
-            if (TkSettings.ToolkitStyleCommands && input.StartsWith(command, StringComparison.InvariantCultureIgnoreCase))
-            {
-                return true;
-            }
+        return null;
+    }
 
-            return input.EqualsIgnoreCase(command);
-        }
+    private static bool IsCommand(string command, string input) =>
+        // FIXME
+        // if (SettingsRegistry.Command.Settings.Classic && input.StartsWith(command, StringComparison.InvariantCultureIgnoreCase))
+        // {
+        // return true;
+        // }
+        input.EqualsIgnoreCase(command);
 
-        [CanBeNull]
-        private static string GetCommandString(string message)
-        {
-            if (message.StartsWith("/w"))
-            {
-                message = message.Substring(3);
-            }
+    private static string? GetCommandString(string message)
+    {
+        if (message.StartsWith("/w")) message = message[3..];
 
-            if (message.StartsWith(TkSettings.Prefix, StringComparison.InvariantCultureIgnoreCase))
-            {
-                return message.Substring(TkSettings.Prefix.Length);
-            }
+        // if (message.StartsWith(SettingsRegistry.Command.Settings.Prefix, StringComparison.InvariantCultureIgnoreCase))
+        // {
+        // return message[SettingsRegistry.Command.Settings.Prefix.Length..];
+        // }
 
-            return message.StartsWith(TkSettings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase)
-                ? $"{CommandDefOf.Buy.command} {message.Substring(TkSettings.BuyPrefix.Length)}"
-                : null;
-        }
+        return null; // FIXME
+
+        // return message.StartsWith(SettingsRegistry.Command.Settings.BuyPrefix, StringComparison.InvariantCultureIgnoreCase)
+        //     ? $"{CommandDefOfs.Buy.command} {message[SettingsRegistry.Command.Settings.BuyPrefix.Length..]}"
+        //     : null;
     }
 }

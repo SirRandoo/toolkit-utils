@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Responses.Revive.Self.Complete>You revived yourself.</TKUtils.Responses.Revive.Self.Complete>
+    <TKUtils.Responses.Revive.Colony.Complete>You revived {TotalRevived} out of {TotalCandidates} pawns.</TKUtils.Responses.Revive.Colony.Complete>
+    <TKUtils.Responses.Revive.Other.Complete>You revived {RevivedPerson}.</TKUtils.Responses.Revive.Other.Complete>
+
+    <TKUtils.Errors.Revive.Alive.Plural>There isn’t anyone dead at the moment.</TKUtils.Errors.Revive.Alive.Plural>
+    <TKUtils.Errors.Revive.Alive.Singular>That pawn isn’t dead at the moment.</TKUtils.Errors.Revive.Alive.Singular>
+    <TKUtils.Errors.Revive.None>After several rounds of incoherent chanting, the deceased remained cold and unresponsive.</TKUtils.Errors.Revive.None>
+
+    <TKUtils.Letters.Revive.Singular.Title>Pawn Revived</TKUtils.Letters.Revive.Singular.Title>
+    <TKUtils.Letters.Revive.Singular.Description>{ViewerName} revived {RevivedPawnName}.</TKUtils.Letters.Revive.Singular.Description>
+    <TKUtils.Letters.Revive.Self.Description>{ViewerName} revived themselves.</TKUtils.Letters.Revive.Self.Description>
+    <TKUtils.Letters.Revive.Plural.Title>Pawns Revived</TKUtils.Letters.Revive.Plural.Title>
+    <TKUtils.Letters.Revive.Plural.Description>{ViewerName} revived the following pawns: {RevivedPawnNames}</TKUtils.Letters.Revive.Plural.Description>
+</LanguageData>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>toggle store</label>
+        <defName>TKU_ToggleStore</defName>
+        <interactionClass>ToolkitUtils.Interactions.ToggleStore</interactionClass>
+        <description>Toggles whether viewers can purchase things from the store.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

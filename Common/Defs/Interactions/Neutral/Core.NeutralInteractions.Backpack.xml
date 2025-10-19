@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractNeutralInteractionDef">
+        <label>backpack</label>
+        <costString>0</costString>
+        <defName>TKU_Backpack</defName>
+        <interactionClass>ToolkitUtils.Interactions.Backpack</interactionClass>
+        <description>Purchases an item and places it in a pawn’s backpack, using chat’s chaos magic.</description>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>5</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

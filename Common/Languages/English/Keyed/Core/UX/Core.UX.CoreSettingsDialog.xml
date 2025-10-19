@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- Labels -->
+    <TKUtils.UX.CoreSettingsDialog.Status>Status</TKUtils.UX.CoreSettingsDialog.Status>
+    <TKUtils.UX.CoreSettingsDialog.Connected>Connected</TKUtils.UX.CoreSettingsDialog.Connected>
+    <TKUtils.UX.CoreSettingsDialog.Connection>Connection</TKUtils.UX.CoreSettingsDialog.Connection>
+    <TKUtils.UX.CoreSettingsDialog.Disconnected>Disconnected</TKUtils.UX.CoreSettingsDialog.Disconnected>
+    <TKUtils.UX.CoreSettingsDialog.ChannelDetails>Channel details</TKUtils.UX.CoreSettingsDialog.ChannelDetails>
+
+    <!-- Buttons -->
+    <TKUtils.UX.CoreSettingsDialog.NewToken>New token</TKUtils.UX.CoreSettingsDialog.NewToken>
+    <TKUtils.UX.CoreSettingsDialog.SameAsChannel>Same as channel</TKUtils.UX.CoreSettingsDialog.SameAsChannel>
+</LanguageData>

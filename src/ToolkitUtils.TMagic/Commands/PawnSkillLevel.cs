@@ -1,339 +1,195 @@
-﻿// ToolkitUtils.TMagic
-// Copyright (C) 2021  SirRandoo
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-using System.Linq;
+﻿// Copyright (C) 2025 sirrandoo
+// 
+// This file is part of ToolkitUtils.
+// 
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
+// 
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
+// 
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.TMagic. If not, see <https://www.gnu.org/licenses/>.
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using HarmonyLib;
 using JetBrains.Annotations;
-using ToolkitCore.Utilities;
-using ToolkitUtils.Helpers;
-using ToolkitUtils.Utils;
+using Mono.Reflection;
+using Remora.Commands.Attributes;
+using Remora.Commands.Groups;
+using ToolkitUtils.Core;
+using ToolkitUtils.Mod;
+using ToolkitUtils.Mod.Extensions;
+using ToolkitUtils.Mod.Localization;
+using ToolkitUtils.TMagic.Extensions;
 using TorannMagic;
-using TwitchLib.Client.Models.Interfaces;
 using Verse;
+using ExecutionContext = ToolkitUtils.Mod.ExecutionContext;
+using IResult = ToolkitUtils.Mod.IResult;
 
-namespace ToolkitUtils.TMagic.Commands
+namespace ToolkitUtils.TMagic.Commands;
+
+[Group("levelskills")]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+public class PawnSkillLevel(ExecutionContext context, TranslationService service) : CommandGroup
 {
-    [UsedImplicitly]
-    public class PawnSkillLevel : CommandBase
+    private static PropertyInfo _mightDataAbilityPointsProperty = AccessTools.Property(typeof(MightData), nameof(MightData.MightAbilityPoints));
+    private static FieldInfo _mightDataAbilityPointsBackingField = _mightDataAbilityPointsProperty.GetBackingField();
+    private static PropertyInfo _magicDataAbilityPointsProperty = AccessTools.Property(typeof(MagicData), nameof(MagicData.MagicAbilityPoints));
+    private static FieldInfo _magicDataAbilityPointsBackingField = _magicDataAbilityPointsProperty.GetBackingField();
+    private static AccessTools.FieldRef<MagicData, int> _magicDataAbilityPointsRef = AccessTools.FieldRefAccess<MagicData, int>(_magicDataAbilityPointsBackingField);
+    private static AccessTools.FieldRef<MightData, int> _mightDataAbilityPointsRef = AccessTools.FieldRefAccess<MightData, int>(_mightDataAbilityPointsBackingField);
+
+    /// <summary>
+    ///     Attempts to level up the specified might skill for the invoking player's pawn. The method checks various
+    ///     conditions such as the availability of the pawn, affinity for might, skill points, and whether the skill has
+    ///     already reached its maximum level. If all conditions are met, the skill is leveled up, and the appropriate skill
+    ///     points are deducted from the pawn.
+    /// </summary>
+    /// <param name="power">The target might power to level up.</param>
+    /// <returns>
+    ///     A task containing an <see cref="IResult" /> indicating whether the operation succeeded or the reason for
+    ///     failure. Potential failure results include: no pawn is associated with the invoker, the pawn lacks might affinity,
+    ///     insufficient skill points, or the skill is already at the maximum level.
+    /// </returns>
+    [Command("might")]
+    public async Task<Result> LevelMightSkillAsync(MightPower power)
     {
-        public override void RunCommand([NotNull] ITwitchMessage msg)
-        {
-            if (!PurchaseHelper.TryGetPawn(msg.Username, out Pawn pawn))
-            {
-                msg.Reply("TKUtils.NoPawn".TranslateSimple());
-            }
-
-            string skill = CommandFilter.Parse(msg.Message).Skip(1).FirstOrDefault();
-
-            if (skill == null)
-            {
-                return;
-            }
-
-            CommandRouter.MainThreadCommands.Enqueue(
-                () =>
-                {
-                    string error;
-                    var magicUser = pawn.TryGetComp<CompAbilityUserMagic>();
-
-                    if (magicUser is { IsMagicUser: true })
-                    {
-                        if (TryLevelMagic(magicUser, skill.ToToolkit(), out error))
-                        {
-                            msg.Reply("Done!");
-                        }
-                        else if (!error.NullOrEmpty())
-                        {
-                            msg.Reply(error);
-                        }
-
-                        return;
-                    }
-
-                    var mightUser = pawn.TryGetComp<CompAbilityUserMight>();
-
-                    if (!(mightUser is { IsMightUser: true }))
-                    {
-                        return;
-                    }
-
-                    if (TryLevelMight(mightUser, skill.ToToolkit(), out error))
-                    {
-                        msg.Reply("Done!");
-                    }
-                    else if (!error.NullOrEmpty())
-                    {
-                        msg.Reply(error);
-                    }
-                }
-            );
-        }
-
-        [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private bool TryLevelMight([NotNull] CompAbilityUserMight mightUser, string query, out string error)
-        {
-            if (mightUser.MightData.MightAbilityPoints <= 0)
-            {
-                error = "No points to spend!";
-
-                return false;
-            }
-
-            if (TryLevelGlobalMightSkill(mightUser, query, out error))
-            {
-                return true;
-            }
-
-            return error.NullOrEmpty() && TryLevelMightSkill(mightUser, query, out error);
-        }
-
-        [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private static bool TryLevelGlobalMightSkill(CompAbilityUserMight mightUser, string query, out string error)
-        {
-            string refresh = ((string) "TM_global_refresh_pwr".TranslateWithBackup("refresh")).ToToolkit();
-
-            if (query.EqualsIgnoreCase(refresh) || query.EqualsIgnoreCase("refresh"))
-            {
-                return TryLevelSkill(mightUser.MightData.MightPowerSkill_global_refresh.FirstOrDefault(), mightUser, out error);
-            }
-
-            string efficiency = ((string) "TM_global_seff_pwr".TranslateWithBackup("efficiency")).ToToolkit();
-
-            if (query.EqualsIgnoreCase(efficiency) || query.EqualsIgnoreCase("efficiency"))
-            {
-                return TryLevelSkill(mightUser.MightData.MightPowerSkill_global_seff.FirstOrDefault(), mightUser, out error);
-            }
-
-            string strength = ((string) "TM_global_strength_pwr".TranslateWithBackup("strength")).ToToolkit();
-
-            if (query.EqualsIgnoreCase(strength) || query.EqualsIgnoreCase("strength"))
-            {
-                return TryLevelSkill(mightUser.MightData.MightPowerSkill_global_strength.FirstOrDefault(), mightUser, out error);
-            }
-
-            string endurance = ((string) "TM_global_endurance_pwr".TranslateWithBackup("endurance")).ToToolkit();
-
-            if (query.EqualsIgnoreCase(endurance) || query.EqualsIgnoreCase("endurance"))
-            {
-                return TryLevelSkill(mightUser.MightData.MightPowerSkill_global_endurance.FirstOrDefault(), mightUser, out error);
-            }
-
-            error = "";
-
-            return false;
-        }
-
-        [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private bool TryLevelMightSkill([NotNull] CompAbilityUserMight mightUser, string query, out string error)
-        {
-            foreach (MightPower magicPower in mightUser.MightData.AllMightPowers)
-            {
-                if (magicPower.learned || !(magicPower.abilityDef is TMAbilityDef def))
-                {
-                    continue;
-                }
-
-                if ((query.EqualsIgnoreCase(def.label.ToToolkit()) || query.Equals(def.defName)) && magicPower.level < magicPower.maxLevel
-                    && mightUser.MightData.MightAbilityPoints >= magicPower.costToLevel)
-                {
-                    mightUser.MightData.MightAbilityPoints -= magicPower.costToLevel;
-                    magicPower.level++;
-                }
-
-                MightPowerSkill power = mightUser.MightData.GetSkill_Power(def);
-
-                if (query.EqualsIgnoreCase(power.label.ToToolkit()) || query.Equals($"{def.defName}_power"))
-                {
-                    return TryLevelSkill(power, mightUser, out error);
-                }
-
-                MightPowerSkill efficiency = mightUser.MightData.GetSkill_Efficiency(def);
-
-                if (query.EqualsIgnoreCase(efficiency.label.ToToolkit()) || query.Equals($"{def.defName}_efficiency"))
-                {
-                    return TryLevelSkill(efficiency, mightUser, out error);
-                }
-
-                MightPowerSkill versatility = mightUser.MightData.GetSkill_Versatility(def);
-
-                if (query.EqualsIgnoreCase(versatility.label.ToToolkit()) || query.Equals($"{def.defName}_versatility"))
-                {
-                    return TryLevelSkill(versatility, mightUser, out error);
-                }
-            }
-
-            error = "";
-
-            return false;
-        }
-
-        [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private static bool TryLevelMagic([NotNull] CompAbilityUserMagic magicUser, string query, out string error)
-        {
-            if (magicUser.MagicData.MagicAbilityPoints <= 0)
-            {
-                error = "No points to spend!";
-
-                return false;
-            }
-
-            if (TryLevelGlobalMagicSkill(magicUser, query, out error))
-            {
-                return true;
-            }
-
-            return error.NullOrEmpty() && TryLevelMagicSkill(magicUser, query, out error);
-        }
-
-        [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private static bool TryLevelGlobalMagicSkill(CompAbilityUserMagic magicUser, string query, out string error)
-        {
-            string regen = ((string) "TM_global_regen_pwr".TranslateWithBackup("regen")).ToToolkit();
-
-            if (query.EqualsIgnoreCase(regen) || query.EqualsIgnoreCase("regen"))
-            {
-                return TryLevelSkill(magicUser.MagicData.MagicPowerSkill_global_regen.FirstOrDefault(), magicUser, out error);
-            }
-
-            string efficiency = ((string) "TM_global_eff_pwr".TranslateWithBackup("efficiency")).ToToolkit();
-
-            if (query.EqualsIgnoreCase(efficiency) || query.EqualsIgnoreCase("efficiency"))
-            {
-                return TryLevelSkill(magicUser.MagicData.MagicPowerSkill_global_eff.FirstOrDefault(), magicUser, out error);
-            }
-
-            string spirit = ((string) "TM_global_spirit_pwr".TranslateWithBackup("versatility")).ToToolkit();
-
-            if (query.EqualsIgnoreCase(spirit) || query.EqualsIgnoreCase("versatility"))
-            {
-                return TryLevelSkill(magicUser.MagicData.MagicPowerSkill_global_spirit.FirstOrDefault(), magicUser, out error);
-            }
-
-            error = "";
-
-            return false;
-        }
-
-        [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private static bool TryLevelMagicSkill([NotNull] CompAbilityUserMagic magicUser, string query, out string error)
-        {
-            foreach (MagicPower magicPower in magicUser.MagicData.AllMagicPowers)
-            {
-                if (magicPower.learned || !(magicPower.abilityDef is TMAbilityDef def))
-                {
-                    continue;
-                }
-
-                if ((query.EqualsIgnoreCase(def.label.ToToolkit()) || query.Equals(def.defName)) && magicPower.level < magicPower.maxLevel
-                    && magicUser.MagicData.MagicAbilityPoints >= magicPower.costToLevel)
-                {
-                    magicUser.MagicData.MagicAbilityPoints -= magicPower.costToLevel;
-                    magicPower.level++;
-                }
-
-                MagicPowerSkill power = magicUser.MagicData.GetSkill_Power(def);
-
-                if (query.EqualsIgnoreCase(power.label.ToToolkit()) || query.Equals($"{def.defName}_power"))
-                {
-                    return TryLevelSkill(power, magicUser, out error);
-                }
-
-                MagicPowerSkill efficiency = magicUser.MagicData.GetSkill_Efficiency(def);
-
-                if (query.EqualsIgnoreCase(efficiency.label.ToToolkit()) || query.Equals($"{def.defName}_efficiency"))
-                {
-                    return TryLevelSkill(efficiency, magicUser, out error);
-                }
-
-                MagicPowerSkill versatility = magicUser.MagicData.GetSkill_Versatility(def);
-
-                if (query.EqualsIgnoreCase(versatility.label.ToToolkit()) || query.Equals($"{def.defName}_versatility"))
-                {
-                    return TryLevelSkill(versatility, magicUser, out error);
-                }
-            }
-
-            error = "";
-
-            return false;
-        }
-
-        [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private static bool TryLevelSkill([CanBeNull] MagicPowerSkill skill, [CanBeNull] CompAbilityUserMagic magicUser, out string error)
-        {
-            if (skill == null || magicUser == null)
-            {
-                error = "You shouldn't be seeing this error.";
-
-                return false;
-            }
-
-            if (skill.level >= skill.levelMax)
-            {
-                error = $"{skill.label} can't be leveled anymore.";
-
-                return false;
-            }
-
-            int points = magicUser.MagicData.MagicAbilityPoints;
-
-            if (skill.costToLevel > points)
-            {
-                error = $"{skill.label} requires {skill.costToLevel:N0} points, but you only have {points:N0}";
-
-                return false;
-            }
-
-            magicUser.MagicData.MagicAbilityPoints -= skill.costToLevel;
-            skill.level++;
-            error = null;
-
-            return true;
-        }
-
-        [ContractAnnotation("=> false,error:notnull; => true,error:null")]
-        private static bool TryLevelSkill([CanBeNull] MightPowerSkill skill, [CanBeNull] CompAbilityUserMight mightUser, out string error)
-        {
-            if (skill == null || mightUser == null)
-            {
-                error = "You shouldn't be seeing this error.";
-
-                return false;
-            }
-
-            if (skill.level >= skill.levelMax)
-            {
-                error = $"{skill.label} can't be leveled anymore.";
-
-                return false;
-            }
-
-            int points = mightUser.MightData.MightAbilityPoints;
-
-            if (skill.costToLevel > points)
-            {
-                error = $"{skill.label} requires {skill.costToLevel:N0} points, but you only have {points:N0}";
-
-                return false;
-            }
-
-            mightUser.MightData.MightAbilityPoints -= skill.costToLevel;
-            skill.level++;
-            error = null;
-
-            return true;
-        }
+        Pawn? pawn = ViewerPawnRegistry.Get(context.Invoker.Id);
+
+        if (pawn == null) return Result.Fail(service.GetPawnRequiredError(context.Invoker));
+
+        var comp = pawn.TryGetComp<CompAbilityUserMight>();
+
+        if (comp is not { IsMightUser: true, }) return Result.Fail(service.GetNoMightAffinityError());
+        if (comp.MightData.MightAbilityPoints <= 0) return Result.Fail(service.GetNoAbilityPointsError());
+        if (power.level >= power.maxLevel) return Result.Fail(service.GetAbilityMaxedError(power));
+        if (comp.MightData.MightAbilityPoints < power.costToLevel) return Result.Fail(service.GetInsufficientAbilityPointsError(power, comp.MightData.MightAbilityPoints));
+
+        int oldMightAbilityPoints = comp.MightData.MightAbilityPoints;
+        ref int mightAbilityPoints = ref _mightDataAbilityPointsRef(comp.MightData);
+
+        Interlocked.CompareExchange(ref mightAbilityPoints, oldMightAbilityPoints - power.costToLevel, oldMightAbilityPoints);
+        Interlocked.Increment(ref power.level);
+
+        return await context.SendReplyAsync(service.FormatAbilityPowerGrew(power));
+    }
+
+    /// <summary>
+    ///     Attempts to level up the specified might skill for the invoking player's pawn. This method verifies a series
+    ///     of prerequisites such as the presence of an associated pawn, the pawn's might affinity, availability of skill
+    ///     points, and whether the skill has reached its maximum level. If all conditions are satisfied, the skill is leveled
+    ///     up and the associated skill points are deducted.
+    /// </summary>
+    /// <param name="power">
+    ///     The might skill to be leveled up. Includes details such as the current level, maximum level, and
+    ///     the skill point cost required to level up.
+    /// </param>
+    /// <returns>
+    ///     A task that resolves to an <see cref="IResult" /> indicating the outcome of the operation. Possible failure
+    ///     scenarios include: the absence of an associated pawn, lack of might affinity, not having enough skill points to
+    ///     level up, or the skill already being at its maximum level.
+    /// </returns>
+    [Command("might")]
+    public async Task<Result> LevelMightSkillAsync(MightPowerSkill power)
+    {
+        Pawn? pawn = ViewerPawnRegistry.Get(context.Invoker.Id);
+
+        if (pawn == null) return Result.Fail(service.GetPawnRequiredError(context.Invoker));
+
+        var comp = pawn.TryGetComp<CompAbilityUserMight>();
+
+        if (comp is not { IsMightUser: true, }) return Result.Fail(service.GetNoMightAffinityError());
+        if (comp.MightData.MightAbilityPoints <= 0) return Result.Fail(service.GetNoAbilityPointsError());
+        if (power.level >= power.levelMax) return Result.Fail(service.GetAbilityMaxedError(power));
+        if (comp.MightData.MightAbilityPoints < power.costToLevel) return Result.Fail(service.GetInsufficientAbilityPointsError(power, comp.MightData.MightAbilityPoints));
+
+        int oldMightAbilityPoints = comp.MightData.MightAbilityPoints;
+        ref int mightAbilityPoints = ref _mightDataAbilityPointsRef(comp.MightData);
+
+        Interlocked.CompareExchange(ref mightAbilityPoints, oldMightAbilityPoints - power.costToLevel, oldMightAbilityPoints);
+        Interlocked.Increment(ref power.level);
+
+        await context.SendReplyAsync(service.FormatAbilityPowerGrew(power));
+
+        return Result.Ok();
+    }
+
+    /// <summary>
+    ///     Attempts to level up the specified magic skill for the invoking player's pawn. The method validates several
+    ///     conditions including the presence of the pawn, the pawn's affinity for magic, the availability of skill points, and
+    ///     whether the selected skill has reached its maximum level. If all conditions are satisfied, the skill is leveled up,
+    ///     and the appropriate skill points are deducted.
+    /// </summary>
+    /// <param name="power">The target magic power to level up.</param>
+    /// <returns>
+    ///     A task containing an <see cref="IResult" /> indicating the success or failure of the operation. Possible
+    ///     failure reasons include: the pawn is not associated with the invoker, the pawn lacks magic affinity, insufficient
+    ///     skill points, or the skill is already at its maximum level.
+    /// </returns>
+    [Command("magic")]
+    public async Task<IResult> LevelMagicSkillAsync(MagicPower power)
+    {
+        Pawn? pawn = ViewerPawnRegistry.Get(context.Invoker.Id);
+
+        if (pawn == null) return Result.Fail(service.GetPawnRequiredError(context.Invoker));
+
+        var comp = pawn.TryGetComp<CompAbilityUserMagic>();
+
+        if (comp is not { IsMagicUser: true, }) return Result.Fail(service.GetNoMagicAffinityError());
+        if (comp.MagicData.MagicAbilityPoints <= 0) return Result.Fail(service.GetNoAbilityPointsError());
+        if (power.level >= power.maxLevel) return Result.Fail(service.GetAbilityMaxedError(power));
+        if (comp.MagicData.MagicAbilityPoints < power.costToLevel) return Result.Fail(service.GetInsufficientAbilityPointsError(power, comp.MagicData.MagicAbilityPoints));
+
+        int oldMagicAbilityPoints = comp.MagicData.MagicAbilityPoints;
+        ref int magicAbilityPoints = ref _magicDataAbilityPointsRef(comp.MagicData);
+
+        Interlocked.CompareExchange(ref magicAbilityPoints, oldMagicAbilityPoints - power.costToLevel, oldMagicAbilityPoints);
+        Interlocked.Increment(ref power.level);
+
+        await context.SendReplyAsync(service.FormatAbilityPowerGrew(power));
+
+        return Result.Ok();
+    }
+
+    /// <summary>
+    ///     Attempts to level up the specified magic skill for the invoking player's pawn. The method evaluates several
+    ///     conditions, including the presence of the pawn, their affinity for magic, the number of available skill points, and
+    ///     whether the skill has already reached its maximum allowable level. If all requirements are satisfied, the skill is
+    ///     leveled up and the necessary skill points are deducted.
+    /// </summary>
+    /// <param name="power">The target magic power skill to level up.</param>
+    /// <returns>
+    ///     A task containing an <see cref="IResult" /> that indicates success or specifies the reason for failure.
+    ///     Possible failure cases include: no associated pawn for the invoker, lack of magic affinity, insufficient skill
+    ///     points, or the skill already being at its maximum level.
+    /// </returns>
+    [Command("magic")]
+    public async Task<IResult> LevelMagicSkillAsync(MagicPowerSkill power)
+    {
+        Pawn? pawn = ViewerPawnRegistry.Get(context.Invoker.Id);
+
+        if (pawn == null) return Result.Fail(service.GetPawnRequiredError(context.Invoker));
+
+        var comp = pawn.TryGetComp<CompAbilityUserMagic>();
+
+        if (comp is not { IsMagicUser: true, }) return Result.Fail(service.GetNoMagicAffinityError());
+        if (comp.MagicData.MagicAbilityPoints <= 0) return Result.Fail(service.GetNoAbilityPointsError());
+        if (power.level >= power.levelMax) return Result.Fail(service.GetAbilityMaxedError(power));
+        if (comp.MagicData.MagicAbilityPoints < power.costToLevel) return Result.Fail(service.GetInsufficientAbilityPointsError(power, comp.MagicData.MagicAbilityPoints));
+
+        int oldMagicAbilityPoints = comp.MagicData.MagicAbilityPoints;
+        ref int magicAbilityPoints = ref _magicDataAbilityPointsRef(comp.MagicData);
+
+        Interlocked.CompareExchange(ref magicAbilityPoints, oldMagicAbilityPoints - power.costToLevel, oldMagicAbilityPoints);
+        Interlocked.Increment(ref power.level);
+
+        await context.SendReplyAsync(service.FormatAbilityPowerGrew(power));
+
+        return Result.Ok();
     }
 }

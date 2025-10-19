@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Letters.Heal.Title>Heal</TKUtils.Letters.Heal.Title>
+    <TKUtils.Letters.Heal.Full.Description>{ViewerName} is fully healed.</TKUtils.Letters.Heal.Full.Description>
+    <TKUtils.Letters.Heal.Self.Description>{ViewerName} healed themselves of one affliction.</TKUtils.Letters.Heal.Self.Description>
+    <TKUtils.Letters.Heal.Colony.Description>{ViewerName} healed all permanent colonists in the colony of one affliction.</TKUtils.Letters.Heal.Colony.Description>
+    <TKUtils.Letters.Heal.Random.Description>{ViewerName} healed a random colonist ({RandomColonistName}) of one affliction.</TKUtils.Letters.Heal.Random.Description>
+</LanguageData>

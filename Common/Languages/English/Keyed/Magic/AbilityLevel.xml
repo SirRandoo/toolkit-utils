@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!--
+    This response is sent when a viewer successfully levels up an ability through
+    the "ability level" command provided by the mod.
+    -->
+    <TKUtils.Responses.AbilityLevel.PowerGrew>Your power in {AbilityName} has grown!</TKUtils.Responses.AbilityLevel.PowerGrew>
+
+    <!--
+    This error is sent when a viewer attempts to level up an ability through the mod, but
+    the ability requires more ability points than the viewer currently has available.
+    -->
+    <TKUtils.Errors.AbilityLevel.InsufficentAbilityPoints>The ability "{AbilityName}" requires {PointsToNextLevel} ability points to level up, but you currently have {CurrentAbilityPoints}.</TKUtils.Errors.AbilityLevel.InsufficentAbilityPoints>
+
+    <!--
+    This error is sent when a viewer attempts to level up an ability through the mod, but
+    the ability is maxed out, and cannot be leveled up anymore.
+    -->
+    <TKUtils.Errors.AbilityLevel.Maxed>The ability "{AbilityName}" is already at its maximum potential, and cannot be leveled up anymore.</TKUtils.Errors.AbilityLevel.Maxed>
+
+    <!--
+    This error is sent when a viewer attempts to use their ability points through the mod,
+    but their pawn doesn't currently have any ability points to use.
+    -->
+    <TKUtils.Errors.AbilityLevel.NoPoints>Your pawn doesn't have any skill points.</TKUtils.Errors.AbilityLevel.NoPoints>
+</LanguageData>

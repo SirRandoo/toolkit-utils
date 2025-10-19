@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="SupremeGoodInteractionDef">
+        <label>echo protocol</label>
+        <defName>TKU_EchoProtocol</defName>
+        <interactionClass>ToolkitUtils.Interactions.EchoProtocol</interactionClass>
+        <description>A ghost of the past. A lesser flicker of the miracle system stirs—a faded echo, barely enough to hold back entropy. It does not remember why it intervenes, only that it must.
+
+            Colonists speak of warmth without fire, wounds closing as if time reversed itself, and a strange calm pressing down on the land. Animals gather quietly, predators cease their hunt, and even the most hardened raiders hesitate—if only for a breath.
+
+            This protocol is not the full sanctuary. It is a frayed process running long after its purpose was lost—triggered by localized suffering, triggered by unknown thresholds.
+
+            Some say these echoes are test pulses, remnants of a broken system still reaching out. Others believe they are warnings.
+        </description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

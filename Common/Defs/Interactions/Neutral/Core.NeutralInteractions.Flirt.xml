@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>flirt</label>
+        <defName>TKU_Flirt</defName>
+        <description>Instructs a pawn to flirt with another pawn.</description>
+        <interactionClass>ToolkitUtils.Interactions.Interactions</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

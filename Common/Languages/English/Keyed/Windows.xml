@@ -1,23 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<!--
-  ~ ToolkitUtils
-  ~ Copyright (C) 2021  SirRandoo
-  ~
-  ~ This program is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU Affero General Public License as published
-  ~ by the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU Affero General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Affero General Public License
-  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
-  -->
-
 <LanguageData>
     <!-- General Headers -->
     <TKUtils.Headers.DataDialog>Editing data for "{0}"</TKUtils.Headers.DataDialog>
@@ -30,34 +12,20 @@
     <TKUtils.Purge.Affected>viewers affected</TKUtils.Purge.Affected>
 
 
-    <!-- Name Queue -->
-    <TKUtils.NameQueue.None>The name queue is empty!</TKUtils.NameQueue.None>
-    <TKUtils.NameQueue.Count>viewer(s) waiting in queue</TKUtils.NameQueue.Count>
-    <TKUtils.NameQueue.Unassigned>unassigned</TKUtils.NameQueue.Unassigned>
-    <TKUtils.NameQueue.Assigned>assigned</TKUtils.NameQueue.Assigned>
-    <TKUtils.NameQueue.AssignedTo>Assigned to</TKUtils.NameQueue.AssignedTo>
-    <TKUtils.NameQueue.LastSeen>Last seen {0} minute(s) ago.</TKUtils.NameQueue.LastSeen>
-    <TKUtils.NameQueue.NotSeen>Not seen recently.</TKUtils.NameQueue.NotSeen>
-
     <!-- Item Store -->
-    <TKUtils.ItemStore.Title>Store Inventory</TKUtils.ItemStore.Title>
     <TKUtils.ItemStore.ConfirmReset>Are you sure you want to reset all your items back to their default values?</TKUtils.ItemStore.ConfirmReset>
 
-    <TKUtils.FilterTypes.Mod>Mods</TKUtils.FilterTypes.Mod>
     <TKUtils.FilterTypes.Category>Categories</TKUtils.FilterTypes.Category>
     <TKUtils.FilterTypes.TechLevel>Technology Level</TKUtils.FilterTypes.TechLevel>
-    <TKUtils.FilterTypes.Stackable>Stackability</TKUtils.FilterTypes.Stackable>
+    <TKUtils.FilterTypes.Stackable>Stack-ability</TKUtils.FilterTypes.Stackable>
     <TKUtils.FilterTypes.Research>Research Status</TKUtils.FilterTypes.Research>
     <TKUtils.FilterTypes.State>State</TKUtils.FilterTypes.State>
-    <TKUtils.FilterTypes.Stuff>Stuff</TKUtils.FilterTypes.Stuff>
     <TKUtils.FilterTypes.Manufacturable>Manufacturability</TKUtils.FilterTypes.Manufacturable>
 
     <TKUtils.StoreFilters.Stackable>stackable</TKUtils.StoreFilters.Stackable>
-    <TKUtils.StoreFilters.NonStackable>non-stackables</TKUtils.StoreFilters.NonStackable>
+    <TKUtils.StoreFilters.NonStackable>non-stackable</TKUtils.StoreFilters.NonStackable>
     <TKUtils.StoreFilters.Researched>researched</TKUtils.StoreFilters.Researched>
     <TKUtils.StoreFilters.NotResearched>not researched</TKUtils.StoreFilters.NotResearched>
-    <TKUtils.StoreFilters.Enabled>enabled</TKUtils.StoreFilters.Enabled>
-    <TKUtils.StoreFilters.Disabled>disabled</TKUtils.StoreFilters.Disabled>
     <TKUtils.StoreFilters.Stuff>is stuff</TKUtils.StoreFilters.Stuff>
     <TKUtils.StoreFilters.NotStuff>is not stuff</TKUtils.StoreFilters.NotStuff>
     <TKUtils.StoreFilters.Manufactured>is manufacturable</TKUtils.StoreFilters.Manufactured>
@@ -65,12 +33,10 @@
 
 
     <!-- Trait Store -->
-    <TKUtils.TraitStore.Title>Trait Inventory</TKUtils.TraitStore.Title>
     <TKUtils.TraitStore.ConfirmReset>Are you sure you want to reset all your traits back to their default values?</TKUtils.TraitStore.ConfirmReset>
 
 
     <!-- Pawn Kind Store -->
-    <TKUtils.PawnKindStore.Title>Pawn Kind Inventory</TKUtils.PawnKindStore.Title>
     <TKUtils.PawnKindStore.ConfirmReset>Are you sure you want to reset all your pawn kinds back to their default values?</TKUtils.PawnKindStore.ConfirmReset>
 
 
@@ -92,21 +58,5 @@
 
 
     <!-- Global Weights -->
-    <TKUtils.GlobalWeights.Null>The vote weight dictionary doesn't exist. This shouldn't happen.</TKUtils.GlobalWeights.Null>
-    
-    <!-- ToolkitCore Settings -->
-    <TKUtils.CoreSettings.Connected>Connected</TKUtils.CoreSettings.Connected>
-    <TKUtils.CoreSettings.Disconnected>Disconnected</TKUtils.CoreSettings.Disconnected>
-    <TKUtils.CoreSettings.Status>Status</TKUtils.CoreSettings.Status>
-    <TKUtils.CoreSettings.ChannelDetails>Channel Details</TKUtils.CoreSettings.ChannelDetails>
-    <TKUtils.CoreSettings.Connection>Connection</TKUtils.CoreSettings.Connection>
-    <TKUtils.CoreSettings.TmiConfirmation>Your browser will open to a 3rd party site ({0}) where you can generate a token the mod needs to function. Alternatively, you can generate your own if you have the technical know-how.</TKUtils.CoreSettings.TmiConfirmation>
-    
-    <!-- Viewer Dialog -->
-    <TKUtils.ViewerDialog.AddCoins>Adding coins to {0}'s balance</TKUtils.ViewerDialog.AddCoins>
-    <TKUtils.ViewerDialog.RemoveCoins>Removing coins from {0}'s balance</TKUtils.ViewerDialog.RemoveCoins>
-    <TKUtils.ViewerDialog.AddKarma>Adding karma to {0}</TKUtils.ViewerDialog.AddKarma>
-    <TKUtils.ViewerDialog.RemoveKarma>Removing karma from {0}</TKUtils.ViewerDialog.RemoveKarma>
-    <TKUtils.ViewerDialog.DeleteConfirmation>Are you sure you want to delete {0}'s data?</TKUtils.ViewerDialog.DeleteConfirmation>
-    <TKUtils.ViewerDialog.ResetConfimation>Are you sure you want to reset everyone's data?</TKUtils.ViewerDialog.ResetConfimation>
+    <TKUtils.GlobalWeights.Null>The vote weight dictionary doesn’t exist. This shouldn’t happen.</TKUtils.GlobalWeights.Null>
 </LanguageData>

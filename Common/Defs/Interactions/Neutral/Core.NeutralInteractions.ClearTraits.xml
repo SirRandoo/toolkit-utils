@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractNeutralInteractionDef">
+        <label>clear traits</label>
+        <costString>5,500</costString>
+        <defName>TKU_ClearTraits</defName>
+        <interactionClass>ToolkitUtils.Interactions.Trait</interactionClass>
+        <description>Removes all traits from a pawn using chat's chaos magic.</description>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>3</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

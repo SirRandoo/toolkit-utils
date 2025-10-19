@@ -1,0 +1,9 @@
+[project]
+name = "toolkit-utils"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.13.4",
+    "click>=8.2.1",
+    "requests>=2.32.3",
+]

@@ -134,38 +134,38 @@ namespace ToolkitUtils
         public static bool Emojis = true;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.PawnWork"/> command
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.PawnWork"/> command
         ///     will filter work priorities disabled for the given pawn.
         /// </summary>
         public static bool FilterWorkPriorities;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear"/> command
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.PawnGear"/> command
         ///     will include a given pawn's current apparel.
         /// </summary>
         public static bool ShowApparel;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear"/> command
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.PawnGear"/> command
         ///     will include a given pawn's armor rating.
         /// </summary>
         public static bool ShowArmor = true;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.PawnHealth"/>
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.PawnHealth"/>
         ///     command will include any queued surgeries for a given pawn.
         /// </summary>
         public static bool ShowSurgeries = true;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear"/> command
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.PawnGear"/> command
         ///     will include a given pawn's currently equipped weapon, as well as
         ///     sidearms if the relevant mod is installed.
         /// </summary>
         public static bool ShowWeapon = true;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.PawnWork"/> command
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.PawnWork"/> command
         ///     will sort the priorities to the order displayed in the in-game
         ///     work tab.
         /// </summary>
@@ -177,15 +177,15 @@ namespace ToolkitUtils
         public static bool PurchasePawnKinds = true;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.PawnGear"/> command
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.PawnGear"/> command
         ///     will include a given pawn's temperature range instead of being
-        ///     included in the <see cref="ToolkitUtils.Commands.PawnBody"/>
+        ///     included in the <see cref="ToolkitUtils.Actions.Commands.PawnBody"/>
         ///     command.
         /// </summary>
         public static bool TempInGear;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.PawnLeave"/> command
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.PawnLeave"/> command
         ///     will drop the viewer's pawn inventory, gear, and weapons prior to
         ///     leaving.
         /// </summary>
@@ -204,7 +204,7 @@ namespace ToolkitUtils
 
         /// <summary>
         ///     The current leave method for
-        ///     <see cref="ToolkitUtils.Commands.PawnLeave"/>.
+        ///     <see cref="ToolkitUtils.Actions.Commands.PawnLeave"/>.
         /// </summary>
         public static string LeaveMethod = nameof(Api.LeaveMethod.Voluntarily);
 
@@ -216,19 +216,19 @@ namespace ToolkitUtils
         /// <summary>
         ///     The maximum number of entries that will be displayed in
         ///     lookup-style commands, mainly
-        ///     <see cref="ToolkitUtils.Commands.Lookup"/>.
+        ///     <see cref="ToolkitUtils.Actions.Commands.Lookup"/>.
         /// </summary>
         public static int LookupLimit = 10;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.InstalledMods"/>
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.InstalledMods"/>
         ///     command will include the respective mod's version, if one could
         ///     be found.
         /// </summary>
         public static bool VersionedModList;
 
         /// <summary>
-        ///     Whether the <see cref="ToolkitUtils.Commands.Balance"/> command
+        ///     Whether the <see cref="ToolkitUtils.Actions.Commands.Balance"/> command
         ///     will include the amount of coins a viewer is earning every reward
         ///     cycle.
         /// </summary>
@@ -247,7 +247,7 @@ namespace ToolkitUtils
         /// <summary>
         ///     The minimum opinion a pawn must have with a given viewer's pawn
         ///     in order to be displayed within the
-        ///     <see cref="ToolkitUtils.Commands.PawnRelations"/> command.
+        ///     <see cref="ToolkitUtils.Actions.Commands.PawnRelations"/> command.
         /// </summary>
         /// <remarks>
         ///     This value is compared to the absolute value of a pawn's opinion

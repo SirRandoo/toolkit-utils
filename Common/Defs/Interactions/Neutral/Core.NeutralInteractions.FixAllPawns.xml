@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>fix all pawns</label>
+        <defName>TKU_FixAllPawns</defName>
+        <interactionClass>ToolkitUtils.Interactions.PawnFixer</interactionClass>
+        <description>Re-links all pawns to the viewers they were assigned to.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

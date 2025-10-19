@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>deep chat</label>
+        <defName>TKU_DeepChat</defName>
+        <interactionClass>ToolkitUtils.Interactions.Interactions</interactionClass>
+        <description>Instructs a pawn to have a deeper conversation with another pawn.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

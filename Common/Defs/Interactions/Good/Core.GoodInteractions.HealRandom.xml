@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="GreaterGoodInteractionDef">
+        <label>heal random</label>
+        <defName>TKU_HealRandom</defName>
+        <interactionClass>ToolkitUtils.Interactions.Heal</interactionClass>
+        <description>Heals one random pawn of a single affliction using chat’s chaos magic.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

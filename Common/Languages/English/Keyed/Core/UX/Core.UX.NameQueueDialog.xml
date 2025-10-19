@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!-- Labels -->
+    <TKUtils.Ux.NameQueueDialog.QueueEmpty>The name queue is empty!</TKUtils.Ux.NameQueueDialog.QueueEmpty>
+    <TKUtils.UX.NameQueueDialog.ViewerNotSeenRecently>Not seen recently.</TKUtils.UX.NameQueueDialog.ViewerNotSeenRecently>
+    <TKUtils.UX.NameQueueDialog.ViewerLastSeen>Last seen {Minutes} minute(s) ago.</TKUtils.UX.NameQueueDialog.ViewerLastSeen>
+    <TKUtils.UX.NameQueueDialog.QueuedViewers>{ViewerCount} viewer(s) are waiting in queue!</TKUtils.UX.NameQueueDialog.QueuedViewers>
+
+    <!-- Tooltips -->
+    <TKUtils.UX.NameQueueDialog.NextColonistTooltip>Next colonist</TKUtils.UX.NameQueueDialog.NextColonistTooltip>
+    <TKUtils.UX.NameQueueDialog.PreviousColonistTooltip>Previous colonist</TKUtils.UX.NameQueueDialog.PreviousColonistTooltip>
+    <TKUtils.UX.NameQueueDialog.NextUnnamedColonistTooltip>Next unnamed colonist</TKUtils.UX.NameQueueDialog.NextUnnamedColonistTooltip>
+    <TKUtils.Ux.NameQueueDialog.BanViewerFromQueueTooltip>Ban viewer from the name queue</TKUtils.Ux.NameQueueDialog.BanViewerFromQueueTooltip>
+    <TKUtils.UX.NameQueueDialog.PreviousUnnamedColonistTooltip>Previous unnamed colonist</TKUtils.UX.NameQueueDialog.PreviousUnnamedColonistTooltip>
+    <TKUtils.UX.NameQueueDialog.AssignViewerToColonistTooltip>Assign viewer to this colonist</TKUtils.UX.NameQueueDialog.AssignViewerToColonistTooltip>
+    <TKUtils.UX.NameQueueDialog.OpenViewerDialogTooltip>Opens the viewer’s information in a new window</TKUtils.UX.NameQueueDialog.OpenViewerDialogTooltip>
+    <TKUtils.UX.NameQueueDialog.RemoveViewerFromQueueTooltip>Removes the viewer from the name queue</TKUtils.UX.NameQueueDialog.RemoveViewerFromQueueTooltip>
+    <TKUtils.UX.NameQueueDialog.RandomViewerInQueueTooltip>Select a random viewer from the name queue</TKUtils.UX.NameQueueDialog.RandomViewerInQueueTooltip>
+    <TKUtils.UX.NameQueueDialog.UnassignViewerFromColonistTooltip>Unassign viewer from this colonist</TKUtils.UX.NameQueueDialog.UnassignViewerFromColonistTooltip>
+    <TKUtils.UX.NameQueueDialog.PopulateViewerNameTooltip>Populates the username field on the right with this name</TKUtils.UX.NameQueueDialog.PopulateViewerNameTooltip>
+</LanguageData>

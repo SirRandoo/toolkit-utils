@@ -1,78 +1,47 @@
-﻿// MIT License
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// Copyright (c) 2023 SirRandoo
+// This file is part of ToolkitUtils.
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
 // 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Api. If not, see <https://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using ToolkitUtils.Data.Models;
+using ToolkitUtils.Mod.Presentation;
 using Verse;
 
-namespace ToolkitUtils.Api
+namespace ToolkitUtils.Api;
+
+/// <summary>A registry for housing mutators used by the mod to facilitate user interactions.</summary>
+[PublicAPI]
+[StaticConstructorOnStartup]
+public record MutatorRegistry(IReadOnlyList<IMutator> AllRegistrants) : FrozenRegistry<IMutator>(AllRegistrants)
 {
-    /// <summary>
-    ///     A registry for housing <see cref="IMutator"/> implementations
-    ///     for quick access.
-    /// </summary>
-    /// <remarks>
-    ///     It's important to note that this class does <b>not</b> feature
-    ///     thread safety. If you wish to modify the registry you should do
-    ///     it at startup, never after.
-    /// </remarks>
-    [StaticConstructorOnStartup]
-    public static class MutatorRegistry
+    private static readonly IReadOnlyList<IMutator> Mutators;
+
+    static MutatorRegistry()
     {
-        private static readonly List<IMutator> Registry = new List<IMutator>();
-        private static readonly Dictionary<string, IMutator> RegistryKeyed = new Dictionary<string, IMutator>();
+        var container = new List<IMutator>();
 
-        static MutatorRegistry()
+        foreach (Type type in typeof(IMutator).AllSubclassesNonAbstract())
         {
-            foreach (Type type in typeof(IMutator).AllSubclassesNonAbstract())
-            {
-                if (!(Activator.CreateInstance(type) is IMutator selector) || RegistryKeyed.ContainsKey(selector.Id))
-                {
-                    continue;
-                }
+            if (Activator.CreateInstance(type) is not IMutator selector) continue;
 
-                RegistryKeyed.TryAdd(selector.Id, selector);
-                Registry.Add(selector);
-            }
+            container.Add(selector);
         }
 
-        /// <summary>
-        ///     Returns an enumerable of all the mutators registered within the
-        ///     registry.
-        /// </summary>
-        public static IEnumerable<IMutator> AllMutators => Registry;
-
-        /// <summary>
-        ///     Attempts to get a mutator with the given id.
-        /// </summary>
-        /// <param name="id">The id of the mutator being queried for.</param>
-        /// <param name="mutator">
-        ///     A mutator instance if a mutator with the given id was found, or
-        ///     <see langword="null"/> if it wasn't found.
-        /// </param>
-        /// <returns>Whether a selector with the given was was found.</returns>
-        [ContractAnnotation("=> true, mutator: notnull; => false, mutator: null")]
-        public static bool TryGetMutators([NotNull] string id, out IMutator mutator) => RegistryKeyed.TryGetValue(id, out mutator);
+        Mutators = container;
     }
+
+    /// <summary>Creates a new instance of a mutator registry preloaded with all mutator implementations.</summary>
+    public static MutatorRegistry CreateDefault() => new(Mutators);
 }

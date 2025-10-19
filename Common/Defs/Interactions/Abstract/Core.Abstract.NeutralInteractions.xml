@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef Name="AbstractNeutralInteractionDef" Abstract="true" ParentName="AbstractInteractionDef">
+        <karmaTypeString>neutral</karmaTypeString>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>5</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="LesserNeutralInteractionDef" Abstract="true" ParentName="NeutralInteraction">
+        <costString>250</costString>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="MinorNeutralInteractionDef" Abstract="true" ParentName="NeutralInteraction">
+        <costString>500</costString>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="ModerateNeutralInteractionDef" Abstract="true" ParentName="NeutralInteraction">
+        <costString>1,000</costString>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>4</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="GreaterNeutralInteractionDef" Abstract="true" ParentName="NeutralInteraction">
+        <costString>2,000</costString>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>3</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="SuperiorNeutralInteractionDef" Abstract="true" ParentName="NeutralInteraction">
+        <costString>8,000</costString>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>2</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="PowerfulNeutralInteractionDef" Abstract="true" ParentName="NeutralInteraction">
+        <costString>20,000</costString>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>2</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="UltimateNeutralInteractionDef" Abstract="true" ParentName="NeutralInteraction">
+        <costString>35,000</costString>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>2</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="SupremeNeutralInteractionDef" Abstract="true" ParentName="NeutralInteraction">
+        <costString>75,000</costString>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>1</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+
+    <ToolkitUtils.Defs.InteractionDef Name="TranscendentNeutralInteractionDef" Abstract="true" ParentName="NeutralInteraction">
+        <costString>160,000</costString>
+        <usageLimits>
+            <li>
+                <boundType>ticks</boundType>
+                <boundScale>days</boundScale>
+                <limit>1</limit>
+                <period>1</period>
+            </li>
+        </usageLimits>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

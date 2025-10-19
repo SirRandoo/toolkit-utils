@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <PackageReference Include="PolySharp"/>
+        <PackageReference Include="Lib.Harmony"/>
+        <PackageReference Include="Krafs.Rimworld.Ref"/>
+        <PackageReference Include="NetEscapades.EnumGenerators"/>
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref"/>
+    </ItemGroup>
+</Project>

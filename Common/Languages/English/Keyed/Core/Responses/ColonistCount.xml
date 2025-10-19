@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <TKUtils.Responses.ColonistCount.None>It's a ghost town out there.</TKUtils.Responses.ColonistCount.None>
+    <TKUtils.Responses.ColonistCount.Single>There is one colonist left.</TKUtils.Responses.ColonistCount.Single>
+    <TKUtils.Responses.ColonistCount.Mulitple>There are {Count} colonists left.</TKUtils.Responses.ColonistCount.Mulitple>
+</LanguageData>

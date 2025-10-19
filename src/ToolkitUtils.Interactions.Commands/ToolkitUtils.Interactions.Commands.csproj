@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <!-- Metadata properties -->
+    <PropertyGroup>
+        <Title>Toolkit.Commands</Title>
+        <Description>Houses the commands provided by ToolkitUtils.</Description>
+    </PropertyGroup>
+
+    <!-- Project references -->
+    <ItemGroup>
+        <ProjectReference Include="../ToolkitUtils.Api/ToolkitUtils.Api.csproj"/>
+        <ProjectReference Include="../ToolkitUtils.Core/ToolkitUtils.Core.csproj"/>
+        <ProjectReference Include="..\ToolkitUtils.Mod\ToolkitUtils.Mod.csproj"/>
+    </ItemGroup>
+
+    <!-- Local packages -->
+    <ItemGroup>
+        <Reference Include="Remora.Commands">
+            <HintPath>../Libs/Remora.Commands.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+</Project>

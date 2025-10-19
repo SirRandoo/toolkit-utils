@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>colonist count</label>
+        <defName>TKU_ColonistCount</defName>
+        <interactionClass>ToolkitUtils.Interactions.ColonistCount</interactionClass>
+        <description>Retrieves information about the colony's colonist count.</description>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

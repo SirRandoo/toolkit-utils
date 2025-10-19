@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Defs>
+    <ToolkitUtils.Defs.InteractionDef ParentName="AbstractInteractionDef">
+        <label>database</label>
+        <defName>TKU_Database</defName>
+        <description>Retrieves information about in-game data.</description>
+        <interactionClass>ToolkitUtils.Interactions.Database</interactionClass>
+    </ToolkitUtils.Defs.InteractionDef>
+</Defs>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LanguageData>
+    <!--
+    This response is sent when a moderator gives the viewer coins.
+    This differs from "gifting" in that it gives viewers coins from
+    the "treasury" instead of the moderator's balance. 
+    -->
+    <TKUtils.Responses.GiveCoins>Gave {Amount} coins to {ViewerName}. Their new balance is {NewBalance} coins.</TKUtils.Responses.GiveCoins>
+</LanguageData>

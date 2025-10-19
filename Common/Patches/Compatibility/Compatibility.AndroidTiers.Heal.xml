@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+XML patches for the mod "Android Tiers."
+
+These patches target various hediffs added by the mod to prevent
+said hediffs from being healed by ToolkitUtils' healing events.
+
+The current list of hediffs patched includes:
+ • ATPP_ConsciousnessUpload
+ • ATPP_NoHost
+ • ATPP_InRemoteControlMode
+ • ATPP_BlankAndroid
+ • ATPP_RemotelyControlled
+ • ATPP_SolarFlareAndroidImpact
+ • ATPP_LowNetworkSignal
+ • ShutdownAndroid
+ • RebootingSequenceAT 
+-->
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Android tiers</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName="ATPP_ConsciousnessUpload" or defName="ATPP_NoHost" or defName="ATPP_InRemoteControlMode" or defName="ATPP_BlankAndroid" or defName="ATPP_RemotelyControlled" or defName="ATPP_SolarFlareAndroidImpact" or defName="ATPP_LowNetworkSignal" or defName="ShutdownAndroid" or defName="RebootingSequenceAT"]</xpath>
+                    <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                        <ShouldHeal>false</ShouldHeal>
+                    </li>
+                </li>
+            </operations>
+        </match>
+    </Operation>
+</Patch>

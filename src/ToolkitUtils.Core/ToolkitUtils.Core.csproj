@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RequiresRimWorld>true</RequiresRimWorld>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="../ToolkitUtils.Api/ToolkitUtils.Api.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="com.sirrandoo.twitchtoolkit.ref"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="PolySharp"/>
+    </ItemGroup>
+</Project>

@@ -1,51 +1,65 @@
-﻿// MIT License
+﻿// Copyright (C) 2025 sirrandoo
 // 
-// Copyright (c) 2023 SirRandoo
+// This file is part of ToolkitUtils.
 // 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+// ToolkitUtils is free software: you can redistribute it and/or modify it under
+// the terms of the GNU Lesser General Public License version 3 as published by the
+// Free Software Foundation.
 // 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// ToolkitUtils is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+// for more details.
 // 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
+// You should have received a copy of the GNU Lesser General Public License along
+// with ToolkitUtils.Api. If not, see <https://www.gnu.org/licenses/>.
 using System.Threading.Tasks;
 using RimWorld;
+using ToolkitUtils.Mod;
 using Verse;
 
-namespace ToolkitUtils.Api
-{
-    /// <inheritdoc cref="ICompatibilityProvider"/>
-    public interface ITraitProvider : ICompatibilityProvider
-    {
-        /// <summary>
-        ///     Returns whether the trait can be purchased by the viewer.
-        /// </summary>
-        /// <param name="pawn">The pawn assigned to the viewer.</param>
-        /// <param name="trait">The trait the viewer wants to buy.</param>
-        /// <param name="severity">
-        ///     The severity of the trait the viewer wants to
-        ///     buy.
-        /// </param>
-        Task<bool> CanPurchaseTraitAsync(Pawn pawn, TraitDef trait, int severity);
+namespace ToolkitUtils.Api;
 
-        /// <summary>
-        ///     Purchases the trait, and adds it to the viewer's pawn.
-        /// </summary>
-        /// <param name="pawn">The pawn the trait is being added to.</param>
-        /// <param name="trait">The trait the viewer purchased.</param>
-        /// <param name="severity">The severity the viewer purchased.</param>
-        Task<bool> PurchaseTraitAsync(Pawn pawn, TraitDef trait, int severity);
-    }
+/// <inheritdoc cref="ICompatibilityProvider" />
+public interface ITraitProvider : ICompatibilityProvider
+{
+    /// <summary>Returns whether the trait can be purchased by the viewer.</summary>
+    /// <param name="pawn">The pawn assigned to the viewer.</param>
+    /// <param name="trait">The trait the viewer wants to buy.</param>
+    /// <param name="severity">The severity of the trait the viewer wants to buy.</param>
+    /// <exception cref="System.NotSupportedException">
+    ///     Thrown to indicate that the implementation doesn't support this specific
+    ///     function of a compatibility provider.
+    /// </exception>
+    Task<Result> CanPurchaseTraitAsync(Pawn pawn, TraitDef trait, int severity);
+
+    /// <summary>Returns whether the trait can be removed by the viewer.</summary>
+    /// <param name="pawn">The pawn assigned to the viewer.</param>
+    /// <param name="trait">The trait the viewer wants to remove.</param>
+    /// <param name="severity">The severity of the trait the viewer wants to remove.</param>
+    /// <exception cref="System.NotSupportedException">
+    ///     Thrown to indicate that the implementation doesn't support this specific
+    ///     function of a compatibility provider.
+    /// </exception>
+    Task<Result> CanPurchaseTraitRemovalAsync(Pawn pawn, TraitDef trait, int severity);
+
+    /// <summary>Purchases the trait, and adds it to the viewer's pawn.</summary>
+    /// <param name="pawn">The pawn the trait is being added to.</param>
+    /// <param name="trait">The trait the viewer purchased.</param>
+    /// <param name="severity">The severity the viewer purchased.</param>
+    /// <exception cref="System.NotSupportedException">
+    ///     Thrown to indicate that the implementation doesn't support this specific
+    ///     function of a compatibility provider.
+    /// </exception>
+    Task<Result> PurchaseTraitAsync(Pawn pawn, TraitDef trait, int severity);
+
+    /// <summary>Removes the trait, and adds it to the viewer's pawn.</summary>
+    /// <param name="pawn">The pawn the trait is being removed from.</param>
+    /// <param name="trait">The trait the viewer removed.</param>
+    /// <param name="severity">The severity the viewer removed.</param>
+    /// <exception cref="System.NotSupportedException">
+    ///     Thrown to indicate that the implementation doesn't support this specific
+    ///     function of a compatibility provider.
+    /// </exception>
+    Task<Result> PurchaseTraitRemovalAsync(Pawn pawn, TraitDef trait, int severity);
 }

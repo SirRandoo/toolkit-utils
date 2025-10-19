@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+XML patches for the mod "Rim of Madness - Vampires."
+
+These patches target various hediffs added by the mod to prevent
+said hediffs from being healed by ToolkitUtils' healing events.
+
+The current list of hediffs patched includes: 
+• ROM_Generations_Caine
+• ROM_Generations_TheThree
+• ROM_Generations_Antediluvian
+• ROM_Generations_Methuselah
+• ROM_Generations_Elder
+• ROM_Generations_Ancillae
+• ROM_Generations_Neonate
+• ROM_Generations_Thinblood
+• ROM_GhoulHediff
+• ROM_Vampirism
+• ROM_VampirismRandom
+• ROM_VampirismTzimisce
+• ROM_VampirismLasombra
+• ROM_VampirismTremere
+• ROM_VampirismPijavica
+• ROM_VampirismGargoyle
+• ROM_VampirismVentrue
+• ROM_VampirismGangrel
+• ROM_VampirismNosferatu
+-->
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Rim of Madness - Vampires</li>
+        </mods>
+        <match Class="PatchOperationSequence">
+            <success>Always</success>
+            <operations>
+                <li Class="PatchOperationAddModExtension">
+                    <xpath>Defs/HediffDef[defName='ROM_Generations_Caine' or defName='ROM_Generations_TheThree' or defName='ROM_Generations_Antediluvian' or defName='ROM_Generations_Methuselah' or defName='ROM_Generations_Elder' or defName='ROM_Generations_Ancillae' or defName='ROM_Generations_Neonate' or defName='ROM_Generations_Thinblood' or defName='ROM_GhoulHediff' or defName='ROM_Vampirism' or defName='ROM_VampirismRandom' or defName='ROM_VampirismTzimisce' or defName='ROM_VampirismLasombra' or
+                        defName='ROM_VampirismTremere' or defName='ROM_VampirismPijavica' or defName='ROM_VampirismGargoyle' or defName='ROM_VampirismVentrue' or defName='ROM_VampirismGangrel' or defName='ROM_VampirismNosferatu' or defName='ROMV_TheBeast']
+                    </xpath>
+                    <value>
+                        <li Class="SirRandoo.ToolkitUtils.HealExtension">
+                            <ShouldHeal>false</ShouldHeal>
+                        </li>
+                    </value>
+                </li>
+            </operations>
+        </match>
+    </Operation>
+</Patch>
